@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1ff3f36f85d23410dad2d49fd6f53fbf6ccac151",
+  "generatedAtCommit": "c8bc1b1fdfa5500324f6be44e1592b10c5feddd5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1422,8 +1422,8 @@
       "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:45:11.778Z",
-      "releaseReason": "VF05 returned FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP in e487337a4"
+      "releasedAt": "2026-09-09T13:24:32.204Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -1435,10 +1435,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.504Z"
     },
     {
       "subjectType": "packet-family",
@@ -1602,7 +1602,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.014Z"
@@ -1648,7 +1648,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.118Z"
@@ -1757,8 +1757,8 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:45:11.478Z",
-      "releaseReason": "VF01 returned FAIL_REPAIR_REQUIRED on SELF_HELP_STOP in e487337a4"
+      "releasedAt": "2026-09-09T13:24:31.966Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -1787,9 +1787,9 @@
       "operation": "rapid-repair",
       "lane": "FIX14",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX02 holds no running worker; VF01 e487337a4 has since located the exact defect and the repair is consolidating on FIX14"
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.293Z",
+      "releaseReason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
     },
     {
       "subjectType": "packet-family",
@@ -2427,8 +2427,8 @@
       "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:45:11.380Z",
-      "releaseReason": "VF03 returned FAIL_REPAIR_REQUIRED on SOURCE_IDENTITY in e487337a4"
+      "releasedAt": "2026-09-09T13:24:32.320Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -2455,11 +2455,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX106 holds no running worker; VF03 e487337a4 has since located the exact defect and the repair is consolidating on FIX14"
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.625Z"
     },
     {
       "subjectType": "packet-family",
@@ -3148,7 +3147,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T17:55:10.866Z"
@@ -3828,8 +3827,8 @@
       "lane": "VF13",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:29:55.852Z",
-      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED in da781fd2f"
+      "releasedAt": "2026-09-09T13:24:32.766Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -3858,8 +3857,9 @@
       "operation": "rapid-repair",
       "lane": "FIX13",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.153Z",
+      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
     },
     {
       "subjectType": "packet-family",
@@ -4012,8 +4012,8 @@
       "lane": "VF13",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:29:55.959Z",
-      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED in da781fd2f"
+      "releasedAt": "2026-09-09T13:24:32.439Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -4042,8 +4042,9 @@
       "operation": "rapid-repair",
       "lane": "FIX13",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:39.822Z",
+      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
     },
     {
       "subjectType": "packet-family",
@@ -4134,8 +4135,8 @@
       "lane": "VF13",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:29:56.069Z",
-      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED in da781fd2f"
+      "releasedAt": "2026-09-09T13:24:32.548Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -4164,8 +4165,9 @@
       "operation": "rapid-repair",
       "lane": "FIX13",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:39.921Z",
+      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
     },
     {
       "subjectType": "packet-family",
@@ -4180,8 +4182,8 @@
       "lane": "VF13",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:29:56.181Z",
-      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED in da781fd2f"
+      "releasedAt": "2026-09-09T13:24:32.656Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -4210,8 +4212,9 @@
       "operation": "rapid-repair",
       "lane": "FIX13",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.035Z",
+      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
     },
     {
       "subjectType": "packet-family",
@@ -6921,8 +6924,8 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:45:11.678Z",
-      "releaseReason": "VF01 returned FAIL_REPAIR_REQUIRED on COMPONENT_SET, KNOWN_PREFILLS and PAGE_ORDER in e487337a4"
+      "releasedAt": "2026-09-09T13:24:32.090Z",
+      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
       "subjectType": "packet-family",
@@ -6951,8 +6954,9 @@
       "operation": "rapid-repair",
       "lane": "FIX14",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:21:40.396Z",
+      "releaseReason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
     },
     {
       "subjectType": "packet-family",
@@ -7709,7 +7713,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.762Z"
@@ -7770,7 +7774,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.868Z"
@@ -13863,7 +13867,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "885d08cd5e6024480510b9cf9e186ca3cf72a4e403711d8e97f9a8c7079a7a73",
+  "claimsDigest": "a833cf3e0fa78083c5841e4d3a3175b4d82a6ed4328a20b7747f00d202830550",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33876,6 +33880,150 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T12:49:22.062Z",
       "reason": "VF20 returned FAIL_REPAIR_REQUIRED in 05cde650f: 50 synthesised widget borders, visualDefects 50"
+    },
+    {
+      "lane": "FIX13",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:39.822Z",
+      "reason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+    },
+    {
+      "lane": "FIX13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:39.921Z",
+      "reason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+    },
+    {
+      "lane": "FIX13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.035Z",
+      "reason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+    },
+    {
+      "lane": "FIX13",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.153Z",
+      "reason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.293Z",
+      "reason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.396Z",
+      "reason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.504Z",
+      "reason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
+    },
+    {
+      "lane": "FIX14",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T13:21:40.625Z",
+      "reason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:31.966Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.090Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.204Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.320Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.439Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.548Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.656Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T13:24:32.766Z",
+      "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     }
   ],
   "reissues": [
@@ -42182,6 +42330,86 @@
       "previouslyReleasedAt": "2026-09-09T11:48:43.331Z",
       "reissuedAt": "2026-09-09T12:20:02.433Z",
       "reason": "Repaired at 10ef93ffd; the earlier VF20 verdict was measured on the pre-repair instructions"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:45:11.478Z",
+      "reissuedAt": "2026-09-09T13:22:51.021Z",
+      "reason": "post-repair reread: FIX14 b01cc697f moved these bytes after this lane's failure; the lane verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:45:11.678Z",
+      "reissuedAt": "2026-09-09T13:22:51.131Z",
+      "reason": "post-repair reread: FIX14 b01cc697f moved these bytes after this lane's failure; the lane verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:45:11.778Z",
+      "reissuedAt": "2026-09-09T13:22:51.238Z",
+      "reason": "post-repair reread: FIX14 b01cc697f moved these bytes after this lane's failure; the lane verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:45:11.380Z",
+      "reissuedAt": "2026-09-09T13:22:51.349Z",
+      "reason": "post-repair reread: FIX14 b01cc697f moved these bytes after this lane's failure; the lane verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:29:55.959Z",
+      "reissuedAt": "2026-09-09T13:22:51.464Z",
+      "reason": "post-repair reread: FIX13 674da4c5b moved these bytes after VF13's failure; VF13 verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:29:56.069Z",
+      "reissuedAt": "2026-09-09T13:22:51.572Z",
+      "reason": "post-repair reread: FIX13 674da4c5b moved these bytes after VF13's failure; VF13 verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:29:56.181Z",
+      "reissuedAt": "2026-09-09T13:22:51.682Z",
+      "reason": "post-repair reread: FIX13 674da4c5b moved these bytes after VF13's failure; VF13 verified and neither built nor repaired them"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T12:29:55.852Z",
+      "reissuedAt": "2026-09-09T13:22:51.795Z",
+      "reason": "post-repair reread: FIX13 674da4c5b moved these bytes after VF13's failure; VF13 verified and neither built nor repaired them"
     }
   ],
   "transfers": [

@@ -1716,6 +1716,85 @@ if (MUTATIONS) {
     if (!row) throw new Error("F29 mutations require a currently-failed family whose repair has not already released");
     return row.familyId;
   };
+  /*
+   * The SOURCE-WAIT family F29 actually evaluates.
+   *
+   * The same defect as failedFamilyF29Judges, one branch further in. Four cases
+   * -- one expectPass and three mutations -- chose their subject from MASTER
+   * state alone: the first SOURCE_BLOCKED family with unresolved obligations
+   * and failed obligation names. F29 judges no such thing. It judges families
+   * in its currently-selected failed set, and a family whose repair claim has
+   * released with none live is out of that set entirely.
+   *
+   * Today all three candidates -- the New Mexico trio -- carry a released
+   * repair claim and no live one. So every mutation to them was a no-op against
+   * F29 and reported MISSED: the check was right, the fixture was wrong, and
+   * the suite recorded a safeguard failure that had not happened. It read as
+   * MISSED only after an integration changed which families were live; before
+   * that it passed by luck, on a family that happened to be in both sets.
+   *
+   * So the subject is the intersection, computed by F29's own rule, and a case
+   * that cannot find one says NO SUBJECT rather than mutating something the
+   * check ignores.
+   */
+  const sourceWaitFamilyF29Judges = () => {
+    const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
+    const led = JSON.parse(fs.readFileSync(path.join(ROOT, LEDGER), "utf8"));
+    const master = read(MASTER);
+    const repairDone = new Set();
+    const repairLive = new Set();
+    for (const c of led.claims ?? []) {
+      if (c.laneKind !== "repair" && c.laneKind !== "shared-host-repair") continue;
+      for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : []))
+        (c.released === true ? repairDone : repairLive).add(fid);
+    }
+    const judged = (vr.rows ?? []).filter((r) => r.isIndependentVerification
+      && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
+      && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)))
+      .map((r) => r.familyId);
+    for (const familyId of judged) {
+      const f = master.families.find((x) => x.familyId === familyId);
+      if (!f) continue;
+      /* The same predicate F29's source-wait branch applies, not a looser one. */
+      if (f.state !== "SOURCE_BLOCKED" || f.sourceReadiness?.ready !== false) continue;
+      if (f.sourceReconciliation?.disposition !== "SOURCE_BLOCKED") continue;
+      const unresolved = f.sourceReconciliation.unresolvedObligations ?? [];
+      if (unresolved.length === 0) continue;
+      if (!unresolved.every((id) => f.sourceReadiness.unresolvedObligations?.includes(id))) continue;
+      if ((f.failedObligationNames ?? []).length === 0) continue;
+      return familyId;
+    }
+    return null;
+  };
+  /*
+   * The (family, released-claim) PAIR F34's cases need.
+   *
+   * Both cases took the FIRST COMPLETE_PACKET_PROVEN family with no lapse
+   * reason and then looked for a released verification claim covering exactly
+   * that family. When the first such family had no released claim -- which is
+   * what an ordinary day of releasing grants produces -- the case threw and
+   * killed the whole suite mid-run, leaving every later case unjudged and the
+   * mutated files restored only by the outer finally. The family was chosen by
+   * position and the claim by hope.
+   *
+   * The pair is searched together, so a subject exists whenever any proven
+   * family has one, and the case reports NO SUBJECT rather than crashing when
+   * none does.
+   */
+  const provenFamilyWithReleasedVerification = () => {
+    const master = read(MASTER);
+    const ledger = read(LEDGER);
+    const active = read(ACTIVE);
+    if (!(active.assignments ?? []).some((a) => a.lane === "independent-verification")) return null;
+    for (const f of master.families ?? []) {
+      if (f.state !== "COMPLETE_PACKET_PROVEN" || f.verificationLapsedBecause) continue;
+      const hasClaim = (ledger.claims ?? []).some((c) => c.laneKind === "independent-verification"
+        && c.released === true
+        && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(f.familyId));
+      if (hasClaim) return f.familyId;
+    }
+    return null;
+  };
   const captainFamilyF29Judges = () => {
     const master = read(MASTER);
     const ledger = read(LEDGER);
@@ -1946,25 +2025,23 @@ if (MUTATIONS) {
         family.failedObligationNames = []; family.failedObligations = [];
         return j;
       } },
-    { on: "master", id: "F29", expectPass: true, name: "an explicit source refusal retains its packet defects without executable repair", mutate: (j) => {
-        if (!j.families.some(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length))
-          throw new Error("No governed source-wait subject for F29");
-        return j;
+    { on: "master", id: "F29", expectPass: true, subject: sourceWaitFamilyF29Judges,
+      name: "an explicit source refusal retains its packet defects without executable repair",
+      mutate: (j) => j },
+    { on: "master", id: "F29", subject: sourceWaitFamilyF29Judges,
+      name: "source wait cannot discard a measured packet defect",
+      mutate: (j, familyId) => {
+        j.families.find((f) => f.familyId === familyId).failedObligationNames = []; return j;
       } },
-    { on: "master", id: "F29", name: "source wait cannot discard a measured packet defect", mutate: (j) => {
-        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
-        if (!f) throw new Error("No governed source-wait subject for F29");
-        f.failedObligationNames = []; return j;
+    { on: "master", id: "F29", subject: sourceWaitFamilyF29Judges,
+      name: "source wait cannot invent an unresolved identity determination",
+      mutate: (j, familyId) => {
+        j.families.find((f) => f.familyId === familyId).sourceReconciliation.unresolvedObligations = []; return j;
       } },
-    { on: "master", id: "F29", name: "source wait cannot invent an unresolved identity determination", mutate: (j) => {
-        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
-        if (!f) throw new Error("No governed source-wait subject for F29");
-        f.sourceReconciliation.unresolvedObligations = []; return j;
-      } },
-    { on: "master", id: "F29", name: "source wait cannot coexist with ready source bindings", mutate: (j) => {
-        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
-        if (!f) throw new Error("No governed source-wait subject for F29");
-        f.sourceReadiness.ready = true; return j;
+    { on: "master", id: "F29", subject: sourceWaitFamilyF29Judges,
+      name: "source wait cannot coexist with ready source bindings",
+      mutate: (j, familyId) => {
+        j.families.find((f) => f.familyId === familyId).sourceReadiness.ready = true; return j;
       } },
     { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
     /* F31-F32. Administrative claim history never outranks a later packet
@@ -2062,24 +2139,24 @@ if (MUTATIONS) {
     /* F34. A finished packet cannot keep a verifier busy without a current
      * verification state. This is the exact stale-grant shape that F24 cannot
      * distinguish from an intentionally dispatched reread. */
-    { on: "ledger+active", id: "F34", mustStayGreen: ["F24"], name: "matching grant and dispatch on an already-proven null-lapse family is caught", mutate: ({ ledger, active }) => {
-        const master = read(`${DIR}/MASTER_QUEUE.json`);
-        const proven = (master.families ?? []).find((f) => f.state === "COMPLETE_PACKET_PROVEN" && !f.verificationLapsedBecause);
-        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(proven?.familyId));
+    { on: "ledger+active", id: "F34", mustStayGreen: ["F24"], subject: provenFamilyWithReleasedVerification,
+      name: "matching grant and dispatch on an already-proven null-lapse family is caught",
+      mutate: ({ ledger, active }, familyId) => {
+        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(familyId));
         const lane = (active.assignments ?? []).find((a) => a.lane === "independent-verification");
-        if (!proven || !claim || !lane) throw new Error("F34 mutation requires a proven null-lapse family, released verification claim, and verifier lane");
         claim.lane = lane.assignmentId;
         claim.released = false;
         claim.releasedAt = null;
-        lane.items = [...new Set([...(lane.items ?? []), proven.familyId])];
+        lane.items = [...new Set([...(lane.items ?? []), familyId])];
         lane.itemCount = lane.items.length;
         return { ledger: withClaimsDigest(ledger), active };
       } },
-    { on: "master+ledger+active", id: "F34", expectPass: true, mustStayGreen: ["F24"], name: "a matching live grant in VERIFY_PENDING stays green", mutate: ({ master, ledger, active }) => {
-        const proven = (master.families ?? []).find((f) => f.state === "COMPLETE_PACKET_PROVEN" && !f.verificationLapsedBecause);
-        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(proven?.familyId));
+    { on: "master+ledger+active", id: "F34", expectPass: true, mustStayGreen: ["F24"], subject: provenFamilyWithReleasedVerification,
+      name: "a matching live grant in VERIFY_PENDING stays green",
+      mutate: ({ master, ledger, active }, familyId) => {
+        const proven = (master.families ?? []).find((f) => f.familyId === familyId);
+        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(familyId));
         const lane = (active.assignments ?? []).find((a) => a.lane === "independent-verification");
-        if (!proven || !claim || !lane) throw new Error("F34 positive control requires a proven family, released verification claim, and verifier lane");
         proven.state = "VERIFY_PENDING";
         master.byState.COMPLETE_PACKET_PROVEN -= 1;
         master.byState.VERIFY_PENDING = (master.byState.VERIFY_PENDING ?? 0) + 1;
@@ -2151,6 +2228,21 @@ if (MUTATIONS) {
   let undetected = 0;
   let unprovable = 0;
   /*
+   * A case whose SUBJECT does not exist today is a third thing, and conflating
+   * it with either of the other two is how a suite starts lying.
+   *
+   * It is not UNPROVABLE -- nothing is red at baseline. It is not MISSED --
+   * the check did not fail to catch anything, because nothing it judges was
+   * touched. It is a branch of a check with no live subject in the corpus at
+   * this moment, and demanding one would be demanding I manufacture a family.
+   *
+   * A case declares `subject`, evaluated BEFORE the mutation and passed into
+   * it. That is what makes NO SUBJECT a measured fact rather than a mutation
+   * quietly becoming a no-op: a case that cannot name its subject by the
+   * check's own rule never writes a file at all.
+   */
+  let noSubject = 0;
+  /*
    * A mutation judged against an ALREADY-FAILING check proves nothing. F24 was
    * red at baseline for eighteen undispatched grants, and every F24 case
    * therefore reported "detected" no matter what it mutated -- including one
@@ -2169,6 +2261,15 @@ if (MUTATIONS) {
         unprovable += 1;
         continue;
       }
+      let subjectId;
+      if (c.subject) {
+        try { subjectId = c.subject(); } catch { subjectId = null; }
+        if (!subjectId) {
+          console.log(`  NO SUBJECT  [${c.id}] ${c.name} — no family in the corpus reaches this branch of the check right now`);
+          noSubject += 1;
+          continue;
+        }
+      }
       /* A target is JSON or it is source. The harness assumed JSON for
        * everything but the prompt, so the first source-file mutation --
        * breaking the rasterizer's resolver on purpose -- died in JSON.parse
@@ -2180,11 +2281,11 @@ if (MUTATIONS) {
       else if (touchedTargets.length > 1) {
         const inputs = Object.fromEntries(touchedTargets.map((key) =>
           [key, JSON.parse(originals[key].toString("utf8"))]));
-        const outputs = c.mutate(inputs);
+        const outputs = c.mutate(inputs, subjectId);
         for (const key of touchedTargets) {
           fs.writeFileSync(targets[key], `${JSON.stringify(outputs[key], null, 2)}\n`);
         }
-      } else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8"))), null, 2)}\n`);
+      } else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8")), subjectId), null, 2)}\n`);
       let caught = false;
       let collateral = [];
       try {
@@ -2216,6 +2317,7 @@ if (MUTATIONS) {
     && fs.readFileSync(promptTarget).equals(originalPrompt);
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
   if (unprovable) console.log(`  ${unprovable} case(s) unprovable: their check was already failing.`);
+  if (noSubject) console.log(`  ${noSubject} case(s) had no subject: the branch they exercise has no live family in the corpus. They proved nothing and claim nothing.`);
   if (!restored || undetected > 0) { console.error("the factory verifier proves less than it claims."); process.exit(1); }
   if (unprovable) { console.error(`\n${unprovable} case(s) could not be judged because their check is red at baseline. Fix the baseline, then this suite means something.`); process.exit(1); }
   console.log(`\nOK factory mutations — ${cases.length + isolatedF35Cases} case(s), including ${isolatedF35Cases} isolated F35 control(s); every mutation caught.`);
