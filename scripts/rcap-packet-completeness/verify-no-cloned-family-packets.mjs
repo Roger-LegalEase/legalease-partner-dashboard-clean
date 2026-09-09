@@ -46,6 +46,32 @@ const textOf = (file) => {
   } catch { return null; }
 };
 
+/*
+ * A BLIND SPOT THIS CHECK HAD, AND THE ONE IT WAS BUILT TO CATCH.
+ *
+ * VF07 found it on Oregon. Three set-aside motions share one extracted text and
+ * differ only in WHICH ROUTE BOX IS TICKED -- and on that form a tick is two
+ * diagonal PATH STROKES, not glyphs. pdftotext sees nothing, so three documents
+ * that are three different filings read as one. On this form the route election
+ * IS the filing.
+ *
+ * That is exactly the defect this file exists to report, arriving as a false
+ * positive instead. So the identity of a delivered document is its extracted
+ * text AND the marks drawn on it: the page number and rounded position of every
+ * path-painting operator in the content streams. Two documents whose words match
+ * but whose marks differ are two documents.
+ *
+ * Rounding is to 0.1pt. A tick is a deliberate mark at a deliberate place; it
+ * does not wander by a tenth of a point between builds, and rounding keeps a
+ * float printed as 130.50000000000001 from reading as a difference.
+ */
+const marksOf = (file) => {
+  try {
+    return execFileSync("python3", ["scripts/rcap-packet-completeness/read-page-marks.py", file],
+      { maxBuffer: 256 * 1024 * 1024 }).toString("utf8");
+  } catch { return null; }
+};
+
 const fixtures = [];
 for (const state of fs.readdirSync(OVERLAYS)) {
   const sdir = path.join(OVERLAYS, state);
@@ -66,6 +92,7 @@ for (const state of fs.readdirSync(OVERLAYS)) {
 
 const byText = new Map();
 let unreadable = 0;
+let marksUnreadable = 0;
 for (const f of fixtures) {
   const t = textOf(f.file);
   if (t === null) { unreadable += 1; continue; }
@@ -74,7 +101,12 @@ for (const f of fixtures) {
    * form carries no text layer -- so those are counted, never compared. */
   const norm = t.toString("utf8").replace(/\s+/g, " ").trim();
   if (!norm) { unreadable += 1; continue; }
-  const key = sha(Buffer.from(norm, "utf8"));
+  /* Words AND marks. A document whose words match another's but whose ticks are
+   * in different places is a different filing, and on a route-election form the
+   * tick is the whole difference. */
+  const marks = marksOf(f.file);
+  if (marks === null) marksUnreadable += 1;
+  const key = sha(Buffer.from(`${norm}\u0000${marks ?? "MARKS_NOT_READ"}`, "utf8"));
   if (!byText.has(key)) byText.set(key, []);
   byText.get(key).push({ ...f, bytes: fs.statSync(f.file).size, fileSha256: sha(fs.readFileSync(f.file)) });
 }
@@ -135,10 +167,12 @@ sharedDocuments.sort((a, b) => b.familyCount - a.familyCount);
 const doc = {
   schemaVersion: "rcap-cloned-family-packets/v1",
   question: "Do two different families deliver a document that reads identically?",
-  measuredBy: "pdftotext -layout over every fixture PDF, whitespace-normalised, grouped by the SHA-256 of the extracted text",
+  measuredBy: "pdftotext -layout over every fixture PDF, whitespace-normalised, PLUS the page positions of every path-placing operator read from the decompressed content streams, grouped by the SHA-256 of the pair",
   whyNotRawBytes: "The case that prompted this differs only in the /Title metadata string. Raw-byte comparison reports two distinct files and misses that the pages are the same.",
   fixturesRead: fixtures.length,
   fixturesWithNoReadableText: unreadable,
+  fixturesWithNoReadableMarks: marksUnreadable,
+  whyMarksAreRead: "VF07 found three Oregon motions sharing one extracted text and differing only in which route box is ticked -- and a tick there is two diagonal path strokes, not glyphs. Text alone read three different filings as one, which is the exact defect this file exists to report arriving as a false positive.",
   clonedDeliverableGroups: clonedDeliverables.length,
   familiesDeliveringACloneOfAnother: [...new Set(clonedDeliverables.flatMap((g) => g.families))].sort(),
   sharedDocumentGroups: sharedDocuments.length,
