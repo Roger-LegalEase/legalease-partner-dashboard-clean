@@ -43,18 +43,35 @@ Two of these need saying plainly. **If the district attorney objects, or the cou
 
 _The three conditions above are quoted from `data/record-clearing/legal-design-intake/CO.memo.json`, track `co_petition_seal_arrest`, at SHA-256 `427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591`._
 
+## Get your Colorado criminal-history report before you start
+
+The controlling record requires this **before you file**, and it is not one of the blanks on the form. It is a document you have to ask for and wait for, so start it first.
+
+- Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.
+- Check your answer to "What was the arrest — which agency, what date, and what were you accused of?" against Colorado criminal-history report, and correct the packet if they disagree.
+
+**Colorado criminal-history report** — obtained from Colorado Bureau of Investigation.
+
+- How to obtain it: Request a criminal-history report from CBI and attach it if the form requires it.
+- When it is required: Where the official form requires a history or exhibit.
+
+This is a different thing from ticking the Colorado Bureau of Investigation in section 3. That box says the CBI **holds** records the order must reach. This is a report about your own record that **you** obtain, read, and attach if the form requires it — and check your section 4 answers against before you sign. LegalEase does not obtain it for you and does not verify it.
+
+_The requirements above are quoted from `data/record-clearing/legal-design-track-registry.json`, track `co_petition_seal_arrest`, at SHA-256 `555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc`, and from `data/record-clearing/legal-design-intake/CO.memo.json` at SHA-256 `427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591`._
+
 ## What you must do before you file
 
-1. **Fill in every item in the tables below.** Each names the form, the section and the blank.
-2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.
-3. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.
-4. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony.
-5. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.
-6. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.
-7. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.
-8. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.
-9. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.
-10. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.
+1. **Get your Colorado criminal-history report from the CBI**, as described above, and have it in front of you before you fill anything in.
+2. **Fill in every item in the tables below.** Each names the form, the section and the blank.
+3. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.
+4. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.
+5. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony. **Check what you write against your Colorado criminal-history report, and correct the packet if they disagree.**
+6. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.
+7. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.
+8. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.
+9. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.
+10. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.
+11. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.
 
 ## JDF-417 — Petition to Seal Arrest and Criminal Records — No Charges Filed: the items you must supply
 
