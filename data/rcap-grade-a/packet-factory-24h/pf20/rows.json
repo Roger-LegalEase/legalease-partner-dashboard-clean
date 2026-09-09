@@ -240,6 +240,134 @@
       "runtimeSelectable": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ne-seal-pardoned-set",
+      "lane": "PF20",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 ne-seal-pardoned-set",
+      "claimResult": "CLAIM_OK PF20 ne-seal-pardoned-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family ne-seal-pardoned-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "builtFreshNotResumed": "The interrupted run preserved at 02e7e7a9f was not read, not merged and not used as evidence of anything. This family was built from the source binaries.",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CC-6-12",
+          "revision": "CC 6:12 Rev. 04/2024",
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "custody": "master_library"
+        },
+        {
+          "formNumber": "CC-6-12a",
+          "revision": "CC 6:12a Rev. 06/2024",
+          "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "custody": "master_library"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "aZeroOverAnEmptySet": "requiredFactsNotCollected = 0 over an empty set: this family declares no required-before-filing blank at all, because every fact the motion needs is a case fact the fixture holds. It is a true zero, not a measured one.",
+      "totals": {
+        "terminalFields": 25,
+        "written": 15,
+        "blank": 10
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+        "PROTECTED_FIELD": 2
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "06f5fae3ff55d3d23302157f847153ade429a221a879beb865639b55f7666979",
+          "byteLength": 505612,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "a6b1d085e19c376e5a9c3bb9decfa7f4ee116e8e53aad6e7318e51d71f8f9b4f",
+          "byteLength": 505795,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CC 6:12",
+          "packetPages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "instructions",
+          "documentId": "CC 6:12a",
+          "packetPages": [
+            3,
+            4
+          ],
+          "carriedUnchanged": "0 AcroForm fields, asserted before assembly; nothing is written on the court's own instructions"
+        }
+      ],
+      "routeElectionsMade": [
+        "CC 6:12 item 2, a select-one: \"Resulted in a conviction that was later pardoned\". This family IS that branch, so the packet states it and declares the other three not applicable naming the selection made.",
+        "the caption: the packet writes \"IN THE <court> COURT OF <county> COUNTY, NEBRASKA\" into the two fields the form's own script drives, and sets both drop-downs to match."
+      ],
+      "defectsFoundInTheDeliveredBytesAndFixed": [
+        "The caption is not printed page text. It is the default value of TYPEOFCOURTRESULTS and fullcountystatementRIGHT. Three fill strategies were rendered and looked at before one was chosen: selecting only the drop-downs leaves the caption line empty and prints the selection over the chooser prompt beneath it, and writing the free-text alternates collides with the right-aligned caption still in the caption field.",
+        "A boundary charge line read \"a Class IV felony\" in the bytes and \"a Class IV felo\" on the paper: the value overran its widget and the appearance's own clip cut it. Every value is now fitted to its own widget before it is written, and every drawn run is measured against its own box afterwards."
+      ],
+      "sourceCarriedDefaultsCleared": [
+        {
+          "field": "CC 6:12:enter the type of court",
+          "sourceCarriedValue": "           \r    (Enter the type of court)",
+          "why": "a chooser prompt left in place prints on the filed caption beside the court the packet states"
+        },
+        {
+          "field": "CC 6:12:enter the county",
+          "sourceCarriedValue": "\r   (Enter the county name)",
+          "why": "the same"
+        }
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, page content streams decompressed, the source page's own streams excluded, each /FlatWidget-n Do resolved to its XObject and every show-text operator decoded with the matrix that precedes it. A marked box is proved against the source's own Off appearance: Nebraska draws its tick as two stroked line segments, not as a glyph, and a show-text proof alone reported the pardon box unmarked.",
+        "report": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "pardonCheckboxProof": "markKind stroked_vector_mark, differsFromTheSourceOffAppearance true, 2 moveto operators against 1 clip path",
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "couldNotMeasureHere": [
+        "That a pardon was granted, or on what date. CC 6:12 has no place to attach the pardon and this build creates none; the participant is told to bring the Board of Pardons document and ask the clerk whether a copy should be filed.",
+        "Any Nebraska filing fee, and whether a Nebraska in forma pauperis application should be a component of this family. The family's instrument kinds name a fee waiver and no Nebraska fee-waiver form is bound to it by any source record, so none is built and none is implied.",
+        "No raster was produced and none was measured."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
     }
   ],
   "summary": {
