@@ -578,6 +578,47 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     note("visualDefects", { why: "the family's own source receipt does not bind every source to an exact SHA-256" });
   }
 
+  /*
+   * AN ABSENT MEASUREMENT IS NOT A ZERO.
+   *
+   * Three counters are raised only from keys in the artifact write records:
+   * invisibleWrites and visualDefects from addedGlyphsReadFromOutputBytes,
+   * flattenedWidgetAppearancesReadFromOutputBytes and
+   * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes; protectedWrites from
+   * refusedFieldsWithInk. 28 families' records are written on an older shape
+   * that carries NONE of those keys -- it has finalizerWritten (a list, not a
+   * count), flattenedAppearanceCount and writtenProof instead. For those
+   * families the three loops iterate nothing, the counters stay at their
+   * initial 0, and this function returned PASS_COMPLETE with nine zeros for
+   * quantities it never measured. Most of them are recorded
+   * COMPLETE_PACKET_PROVEN.
+   *
+   * This is the rule every lane in this factory is held to -- a counter you
+   * could not measure is null, never 0 -- applied to the gate that holds them
+   * to it. It is also the rule the packet-build environment gate already states
+   * as a named check of its own: an absent tree returns null; an empty tree
+   * returns [].
+   *
+   * A counter is measurable when at least one artifact record carries a key it
+   * reads. Measurable-and-zero still means zero; only absent becomes null, and
+   * a family with any null counter cannot be PASS_COMPLETE, because the
+   * question was never asked.
+   */
+  const artifactRecords = actualWrites?.artifacts ?? [];
+  const anyArtifactHas = (...keys) =>
+    artifactRecords.some((a) => keys.some((k) => a[k] !== undefined && a[k] !== null));
+  const measurability = {
+    invisibleWrites: anyArtifactHas("valuesReportedByFinalizer", "addedGlyphsReadFromOutputBytes", "flattenedWidgetAppearancesReadFromOutputBytes"),
+    visualDefects: anyArtifactHas("nonWhitespaceGlyphsOutsideMeasuredWriteBoxes"),
+    protectedWrites: anyArtifactHas("refusedFieldsWithInk")
+  };
+  /* No artifact records at all is a different fact -- a zero-source composition
+   * binds no document bytes by design -- and is not this rule's business. */
+  const unmeasured = artifactRecords.length === 0
+    ? []
+    : Object.keys(measurability).filter((c) => !measurability[c] && counters[c] === 0);
+  for (const c of unmeasured) counters[c] = null;
+
   const failed = PASS_COUNTERS.filter((c) => counters[c] > 0);
   let result = "PASS_COMPLETE";
   if (counters.protectedWrites > 0) result = "FAIL_PROTECTED_WRITE";
@@ -587,6 +628,9 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   else if (counters.unclassifiedBlanks > 0) result = "FAIL_MISSING_PREFILLS";
   else if (counters.requiredComponentsMissing > 0) result = "FAIL_COMPONENT_SET";
   else if (currentness !== "EXACT") result = "FAIL_CURRENTNESS";
+  /* Last, and only over a would-be pass: a counter that DID fail is a finding,
+   * and an unasked question must never mask one that was asked and answered. */
+  else if (unmeasured.length > 0) result = "NOT_MEASURABLE_HERE";
 
   return {
     familyId, directory: dir, result, auditable: true,
