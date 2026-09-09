@@ -36,7 +36,42 @@ check would be red on any pull request to `main`.
 
 ---
 
-# Two families now need a full-set raster the batch workflow cannot give them
+# CORRECTED 2026-09-09 17:20Z: the batch workflow was never the limit
+
+**I reported the full-set raster to Roger twice as a change needed on `main`.
+That was wrong both times.** `scripts/rcap-raster-batch.mjs` renders
+`row.documents` -- every document the queue names, each into its own slugged
+directory -- and writes `documentsRendered` covering all of them. It has done so
+since the eleven-family Washington and Arkansas change. The two-document limit
+lived in `scripts/rcap-packet-recovery/admit-completed-fixture-raster.py`, whose
+own refusal named it: *additional declared outputs require a full-set importer*.
+
+That importer now exists and is committed here, with eleven controls proving the
+widening kept every binding a pair had and gained the three a set needs. Nothing
+on `main` was touched.
+
+**What is still open is the queue side, and it is a real question rather than a
+missing capability.** `documentSet` in `generate-raster-queue.mjs` takes
+`canonical.pdf` as the whole canonical set when the family ships one, on the
+stated basis that an assembled packet covers every canonical page. So
+`pa_pardon_expungement-set` enrols with two documents while its report declares
+six, and the importer refuses -- correctly -- because the receipt would not cover
+every declared output.
+
+The question that decides it is per family and substantive: are
+`canonical--PA-RCRIM-P-790-PETITION.pdf` and its siblings participant
+deliverables in their own right, or components of the assembled packet? If they
+are deliverables, the queue must enrol all six and the receipt must measure all
+six. If they are components, the family's report should not declare them as
+outputs. I have not guessed. The same question reaches `al-trafficking-set`,
+`ne-seal-pre2017-set` and `rcap-or-official-pdf-fill`, which the queue declines
+for a related reason it states plainly: several PDFs could be the canonical
+fixture and the builder declares none, so it refuses to guess which one the
+receipt would describe.
+
+---
+
+# SUPERSEDED: Two families now need a full-set raster the batch workflow cannot give them
 
 **Measured 2026-09-09.** `.github/workflows/rcap-packet-raster-acceptance-batch.yml`
 renders exactly two fixtures per family, `canonical` and `boundary`, and the
