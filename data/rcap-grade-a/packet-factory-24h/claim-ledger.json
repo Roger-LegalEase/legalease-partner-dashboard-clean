@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "24ee51fe79f739c6a8f2da076a3b5e4d508d0001",
+  "generatedAtCommit": "c6d066d9952d7259fa2b96a86dddd703d1d445e0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3567,21 +3567,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "hi_712_1200_deferred_expungement-set",
-      "familyId": "hi_712_1200_deferred_expungement-set",
-      "itemId": null,
-      "familyIds": [
-        "hi_712_1200_deferred_expungement-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF03",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "hi_dag_danc_expungement-set",
       "familyId": "hi_dag_danc_expungement-set",
       "itemId": null,
@@ -3636,21 +3621,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF23",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ia-12347-set",
-      "familyId": "ia-12347-set",
-      "itemId": null,
-      "familyIds": [
-        "ia-12347-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF14",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -13874,7 +13844,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "be8f5dbc905fd3c4a6634d919277dd4dec2e735f198e66649bb3da9e4968223c",
+  "claimsDigest": "2d5d01543f2eb184df5af9dd089a9e0f743cad8262c89cebd30c66a54459f01f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -54343,6 +54313,22 @@
       "operation": "packet-build",
       "lane": "PF08",
       "withdrawnAt": "2026-09-08T17:26:58Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "hi_712_1200_deferred_expungement-set",
+      "operation": "packet-build",
+      "lane": "PF03",
+      "withdrawnAt": "2026-09-09T10:33:35Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-12347-set",
+      "operation": "packet-build",
+      "lane": "PF14",
+      "withdrawnAt": "2026-09-09T10:33:35Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
