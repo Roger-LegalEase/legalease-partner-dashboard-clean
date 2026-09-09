@@ -1,0 +1,610 @@
+{
+ "lane": "FIX01",
+ "laneKind": "repair",
+ "shift": "fix01-clip-20260909",
+ "generatedAtBase": "034b96005887508193689c0224ca610ee40b5d9a",
+ "branch": "fix01-clip-20260909",
+ "assignedFamiliesWorkedInThisReturn": [
+  "ca-17b-reduction-set",
+  "md_pardon_expungement-set",
+  "mo-art-xiv-marijuana-set",
+  "fl-early-juvenile-set",
+  "ar-drug-court-set"
+ ],
+ "familiesGrantedButNotWorkedHere": [],
+ "claimsAsserted": "All five asserted before any artifact of theirs was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>', each returning CLAIM_OK under grant set 0aa4a25b7880f293. No family was refused at the claim gate.",
+ "oneCauseOrFive": {
+  "answer": "THREE causes, not one and not five.",
+  "causeA": {
+   "obligationName": "CLIPPING_AND_OVERLAP",
+   "families": [
+    "ca-17b-reduction-set",
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set"
+   ],
+   "cause": "pdf-lib regenerates an appearance the source already carried, and flatten stamps the regeneration onto the filing. form.updateFieldAppearances() repaints any widget whose current /AS state has no entry in /AP /N; under ISO 32000-1 12.5.5 a conforming viewer paints nothing there, so whatever pdf-lib invents is ink the issuer never authored.",
+   "codeShape": "NOT one shared module at the outset. California went through the shared finalizer, which already implemented the remedy behind suppressSynthesizedAppearances. Maryland and Missouri each carried a byte-identical PRIVATE copy of flattenWithoutDeleting() \u2014 md line 733, mo line 919 \u2014 calling updateFieldAppearances() with no suppression and unable to reach the finalizer's flag at all. One cause, three sites, two of them copy-paste duplicates.",
+   "fixedOnceAt": "scripts/rcap-official-forms/rcap-active-content.mjs :: suppressSynthesizedSelectionAppearances \u2014 imported by both builders rather than reimplemented, so no third copy was created. The module itself was not modified."
+  },
+  "causeB": {
+   "obligationName": "CLIPPING_AND_OVERLAP",
+   "families": [
+    "fl-early-juvenile-set"
+   ],
+   "cause": "flat overlay geometry. No AcroForm is involved: the builder draws with page.drawText at hand-authored rectangles and its fitText() validates a value only against its own rectangle width, never against what the form already prints at that spot. Unrelated to cause A in mechanism, in code and in remedy."
+  },
+  "causeC": {
+   "obligationName": "CLIPPING_AND_OVERLAP",
+   "families": [
+    "ar-drug-court-set"
+   ],
+   "cause": "written values wider than the source form's own widget BBox, clipped at the BBox so the rendered page showed a truncated case number and name while the text layer still carried the whole string and a text-only check reported them present. Remedy is fit-or-refuse, which is neither of the other two."
+  },
+  "consequence": "Fixing it once at the cause is right for CA/MD/MO and would have been actively wrong for FL and AR. CLIPPING_AND_OVERLAP is a category here, not a diagnosis: on these five it covers added ink at unticked boxes, re-laid-out issuer chrome, overlay-versus-printed-ink collision, and BBox overflow."
+ },
+ "verdictCurrency": "A second finding that changed this lane's scope more than the first: three of the five already carried their repair at HEAD and were failing on stale measurement rather than an unfixed defect. ca-17b (FIX14 c8bc1b1fd, FIX120 645205166) and ar-drug-court (26838a27b, c656f17f5) were repaired after their verifiers' bases; fl-early-juvenile's phone collision was repaired but eight later-recorded collisions remain open. Only md_pardon_expungement and mo-art-xiv-marijuana were still broken as recorded.",
+ "sharedModuleCallerCoverage": {
+  "suppressSynthesizedSelectionAppearances": {
+   "implementation": "scripts/rcap-official-forms/rcap-active-content.mjs (unmodified by this lane)",
+   "callersNowCovered": [
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs, behind suppressSynthesizedAppearances, and through it every family whose config opts in \u2014 pre-existing, not added here",
+    "scripts/build-census-v1-md_pardon_expungement-set.mjs \u2014 ADDED BY THIS LANE",
+    "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs \u2014 ADDED BY THIS LANE"
+   ],
+   "callerNotTouchedAndStillCarryingTheDefect": {
+    "file": "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
+    "family": "ne-seal-pardoned-set",
+    "finding": "A THIRD byte-identical private copy of flattenWithoutDeleting() exists at line 410, calling form.updateFieldAppearances() as its first statement, with zero occurrences of any suppress flag in the file. Its committed fixtures carry 5 stroke-only flattened widget appearances per fixture whose stream is pdf-lib's default check-box provider shape \u2014 'q 1 g 0 0 10.08 10.08 re f 0 G 0.5 0.5 9.08 9.08 re s Q', a white background fill plus a stroked square \u2014 in both canonical and boundary.",
+    "whatIsNotClaimed": "This is a read, not a diagnosis. I did not compare those five against the Nebraska source to establish how many are synthesized versus shipped by the form's own /Off appearance, because this lane holds no claim on ne-seal-pardoned-set and the rules forbid touching a family outside the five. It is reported so it can be assigned, not fixed here.",
+    "recommendation": "Grant it to a lane and have that lane import the same shared helper. The repair is then the identical three-line change made twice in this shift."
+   }
+  },
+  "outputByteReadings": {
+   "addedBy": "this lane, in scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs :: verifyCaArtifact",
+   "keys": [
+    "addedGlyphsReadFromOutputBytes",
+    "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes",
+    "flattenedControlChromeGlyphsReadFromOutputBytes"
+   ],
+   "callersNowCovered": "every family rendered through verifyCaArtifact on the shared west-family host \u2014 ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set, ca-17b-reduction-set, ca-851-91-set and any other build_ca family. Only ca-17b-reduction-set was rebuilt here, so only its report moved; the others pick the readings up on their next rebuild by whoever holds them, and none of their committed bytes changed.",
+   "callersNotCovered": "Maryland and Missouri do not render through this host and keep their own equivalent readings, which this lane corrected in place: addedGlyphsReadFromOutputBytes was a source-authored literal 0 in both, beside a real reading of the same quantity under flattenedShowTextGlyphsReadFromOutputBytes. Arkansas and Florida already emitted both keys with real values and needed no change."
+  }
+ },
+ "verdictsSet": "none",
+ "grantsNothing": "This is a repair-and-measurement return. It sets no verdict, issues no PASS, opens no commercial route, approves nothing and releases no claim. Every family here still needs the raster gate and an independent lane, and neither is this lane. claimReleased is false on all five: releases are the Captain's.",
+ "productionTouched": false,
+ "packetsSelfVerified": 0,
+ "centralManifestsTouched": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, ACTIVE_ASSIGNMENTS.json, claim-ledger.json and every script under scripts/grade-a-packet-factory-24h/ are untouched, and no family outside the five was edited.",
+ "rows": [
+  {
+   "itemId": "md_pardon_expungement-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "repair",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationCoverage": "This row answers CLIPPING_AND_OVERLAP as VF20 scored it at 3687291a6 \u2014 the non-superseded row \u2014 and nothing else. VF20's own finding states that there is no clipping or overlap of TEXT on this family: every added word, including the boundary fixture's 'Maria-Alejandra O'Shaughnessy-Whitfield' and its 16-character case number, is contained in its declared write rect to 0.5pt in x and 2pt in y. The scored defect was added INK at 50 refused check-box widgets, and that is what this repair removes.",
+   "obligationsThisRowDoesNotDischarge": [
+    "FEE_AND_WAIVER \u2014 open, and NOT touched here. The superseded 7f386ab54 row found filing-instructions.md tells the participant Maryland 'does not state an amount, because no held source establishes one; ask the clerk', while MD.memo.json track md_pardon_expungement records rules.fees as '$30 (CC-DC-CR-072B)' \u2014 a held source keyed to this exact form. That is a contradiction between the packet and the controlling memo, not a build defect, and this lane holds no grant to resolve a fee figure. It is named here so it is not lost when the CLIPPING row supersedes the earlier one.",
+    "SELF_HELP_STOP \u2014 open, and NOT touched here. Same superseded row: MD.memo.json lists the State's Attorney's objection as a self-help stop condition and a case-insensitive search of participant-instructions.md and filing-instructions.md returns zero occurrences of \"State's Attorney\".",
+    "RASTER_PASS \u2014 no raster receipt is produced by this lane. rasterState is BUILT_RASTER_PENDING. No page image was rendered here, and a local browser render would not have been a receipt if it had been. This repair CHANGED THE DELIVERED BYTES, so any admitted raster receipt keyed to the previous digests no longer covers these bytes and the family must be re-rastered centrally against the digests recorded below.",
+    "Independent verification \u2014 this lane built or measured these bytes, so it cannot verify them. Every family below needs a lane that neither built nor repaired it to read the delivered bytes and set a verdict. This return sets none."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Both readings are node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set, no --write. Before, at base 200ef13b9: PASS_COMPLETE, 32/146 written, nine zeros. After, on this lane's tree: PASS_COMPLETE, 32/146 written, nine zeros. THE COUNTERS DO NOT MOVE AND CANNOT. All nine are glyph and field counters; the defect draws no glyph, so no counter here could ever have seen it, before or after. This row does not rest on the counters \u2014 it rests on the control reading below, taken from the delivered bytes. A green counter set beside a real defect is exactly the condition VF20 corrected its own earlier read about.",
+   "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set, run without --write, before the edit at base 200ef13b9 and after it on this lane's working tree.",
+   "visualDefects": [
+    {
+     "defect": "50 synthesized stroked squares, one per refused check-box widget, across CC-DC-CR-072B (15 widgets) and CC-DC-089 (41), on both fixtures, reaching packet page 4 \u2014 the court's own order page, at the Granted / Granted In Part / Denied and financial-eligibility controls a judge ticks.",
+     "state": "REMOVED_BY_THIS_LANE",
+     "confirmedBy": "output-byte re-read, this lane",
+     "independentlyReviewed": false,
+     "note": "Nobody independent has looked at these pages. This lane measured the bytes and did not render them for visual review; rasterState stays BUILT_RASTER_PENDING for that reason."
+    }
+   ],
+   "whatWasWrong": "scripts/build-census-v1-md_pardon_expungement-set.mjs carried a private copy of flattenWithoutDeleting() whose first statement was form.updateFieldAppearances() with no suppression. pdf-lib regenerates an appearance for any check-box or radio widget whose current /AS state has no entry in /AP /N, using its default check-box provider, which paints a stroked square the size of the widget /Rect; the flatten then stamps that square onto the page. Under ISO 32000-1 12.5.5 a conforming viewer paints nothing at such a widget, so the square is ink this build added rather than ink the Maryland Judiciary authored.",
+   "whatWasDone": "The builder now imports suppressSynthesizedSelectionAppearances from scripts/rcap-official-forms/rcap-active-content.mjs and calls it immediately before updateFieldAppearances(), passing the set of field names this run wrote so a ticked box is never touched. That is the same function, called in the same position, that the shared finalizer already runs for its own callers behind suppressSynthesizedAppearances. It was imported rather than reimplemented so this family and the finalizer's families cannot drift apart. Separately, addedGlyphsReadFromOutputBytes was the literal 0 while a real reading of that same quantity sat beside it under flattenedShowTextGlyphsReadFromOutputBytes; the canonical key now carries the measurement and the sibling key is kept.",
+   "controlReadings": [
+    {
+     "reading": "flattened widget appearance streams that stroke a path and draw no glyph, decoded from the delivered bytes",
+     "before": {
+      "canonical": 56,
+      "boundary": 56
+     },
+     "after": {
+      "canonical": 6,
+      "boundary": 6
+     },
+     "interpretation": "50 removed on each fixture, exactly the 50 VF20 counted. The 6 that remain are the boxes this run ticks, which draw the source's own X stroke and are untouched.",
+     "method": "each /FlatWidget XObject on every page resolved and its stream inflated, then classified by whether it contains a show-text operator inside BT/ET or only path operators; run against the committed bytes at 200ef13b9 and against the rebuilt bytes"
+    },
+    {
+     "reading": "addedGlyphsReadFromOutputBytes, per fixture, from reports/actual-writes.json",
+     "before": {
+      "canonical": 0,
+      "boundary": 0,
+      "note": "source-authored literal, not a measurement"
+     },
+     "after": {
+      "canonical": 627,
+      "boundary": 1007
+     },
+     "interpretation": "the packet previously published a zero where it held a reading."
+    },
+    {
+     "reading": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, per fixture",
+     "before": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "after": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "interpretation": "a real measured zero both times; it is a glyph counter and this defect drew no glyph."
+    }
+   ],
+   "artifacts": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256": "2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb",
+     "bytes": 1167389,
+     "pages": 4,
+     "changedByThisLane": true,
+     "previousSha256": "cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256": "a06f4ddabe754147bb8f2036d92583d5757d560aacbdd04b9deda6e55c68e3b4",
+     "bytes": 1167835,
+     "pages": 4,
+     "changedByThisLane": true,
+     "previousSha256": "c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90"
+    }
+   ],
+   "commit": "0c4c6f264",
+   "sharedArtifactsTouched": "none. No central manifest, no script under scripts/grade-a-packet-factory-24h/, and no family outside the five. scripts/rcap-official-forms/rcap-active-content.mjs was IMPORTED, not modified.",
+   "claimReleased": false
+  },
+  {
+   "itemId": "mo-art-xiv-marijuana-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "repair",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationCoverage": "This row answers CLIPPING_AND_OVERLAP as VF20 scored it at 3687291a6, and nothing else. As on Maryland, VF20's own finding records that no drawn string exceeds its box on either fixture: the scored defect is added ink at 29 refused check-box widgets.",
+   "obligationsThisRowDoesNotDischarge": [
+    "SOURCE_IDENTITY \u2014 open, NOT touched here. The superseded 7f386ab54 row measured that production-field-map.json twice, and build-findings.json once, state the FI-05 binary 'carries the CIRCUIT row' for 'Expunge Marijuana Criminal/Arrest Records X#' on 'pages 3 and 4', while the bytes show the row printed on page 4 only with X# at xMin 213.48\u2013224.36, inside the ASSOCIATE column (x 197\u2013244), not the CIRCUIT column (x 257\u2013284).",
+    "ROUTE_OPTIONS \u2014 open, NOT touched here. Same row: the FI-05 Case Type Code X# election rests on two recorded grounds and only one survives the bytes. VF20's own instruction is to repair the recorded basis and put the ASSOCIATE/CIRCUIT question to counsel.",
+    "REQUIRED_BEFORE_FILING \u2014 open, NOT touched here. MO.memo.json marks 'Certified docket sheet and judgment for each case' requiredBeforeFiling true, and a case-insensitive search of participant-instructions.md and filing-instructions.md returns zero occurrences of 'certified', 'docket' or 'judgment'.",
+    "RASTER_PASS \u2014 no raster receipt is produced by this lane. rasterState is BUILT_RASTER_PENDING. No page image was rendered here, and a local browser render would not have been a receipt if it had been. This repair CHANGED THE DELIVERED BYTES; re-raster centrally against the digests below.",
+    "Independent verification \u2014 this lane built or measured these bytes, so it cannot verify them. Every family below needs a lane that neither built nor repaired it to read the delivered bytes and set a verdict. This return sets none."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "verify-packet-completeness --family mo-art-xiv-marijuana-set, no --write. Before, at base 200ef13b9: PASS_COMPLETE, 58/300 written, nine zeros. After: PASS_COMPLETE, 58/300 written, nine zeros. As on Maryland the counters do not move and cannot: the defect draws no glyph. The control reading below is what measures this repair.",
+   "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set, run without --write, before the edit at base 200ef13b9 and after it on this lane's working tree.",
+   "visualDefects": [
+    {
+     "defect": "29 synthesized stroked squares at refused selection widgets across CR375 and the two FI-05 sheets, on both fixtures. On FI-05 the widget /Rect is 13.342 x 17.269 against a printed box about 9pt square, so the delivered page carried a visible second rectangle drawn around the court's own box.",
+     "state": "REMOVED_BY_THIS_LANE",
+     "confirmedBy": "output-byte re-read, this lane",
+     "independentlyReviewed": false,
+     "note": "Nobody independent has looked. rasterState stays BUILT_RASTER_PENDING."
+    }
+   ],
+   "whatWasWrong": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs carried a byte-identical copy of the same private flattenWithoutDeleting() as the Maryland pardon builder, with the same unsuppressed form.updateFieldAppearances() as its first statement, and the same consequence.",
+   "whatWasDone": "Identical repair to Maryland's, through the same shared import of suppressSynthesizedSelectionAppearances, and the same replacement of the source-authored addedGlyphsReadFromOutputBytes zero.",
+   "controlReadings": [
+    {
+     "reading": "flattened widget appearance streams that stroke a path and draw no glyph, decoded from the delivered bytes",
+     "before": {
+      "canonical": 29,
+      "boundary": 29
+     },
+     "after": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "interpretation": "29 is VF20's corrected count, the one that replaced its own mis-stated 27. Identical on both fixtures, which is the determinism VF20 recorded.",
+     "method": "same method as Maryland, run against the committed bytes at 200ef13b9 and the rebuilt bytes"
+    },
+    {
+     "reading": "addedGlyphsReadFromOutputBytes, per fixture",
+     "before": {
+      "canonical": 0,
+      "boundary": 0,
+      "note": "source-authored literal, not a measurement"
+     },
+     "after": {
+      "canonical": 887,
+      "boundary": 1159
+     }
+    },
+    {
+     "reading": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, per fixture",
+     "before": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "after": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "interpretation": "a real measured zero both times."
+    }
+   ],
+   "artifacts": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256": "44ffa83102e981e65144007f272ae480c2d4251a23ca2c6b30144f7d28a12397",
+     "bytes": 683896,
+     "pages": 10,
+     "changedByThisLane": true,
+     "previousSha256": "9f978890250062c03b69a31fd70c76ac15d2517120e5cf4789979e2349eb597e"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256": "9db6f9ab18a5a9a6468095e855d3aba65dfa651083ac60c45cc393e874e28dc3",
+     "bytes": 684238,
+     "pages": 10,
+     "changedByThisLane": true,
+     "previousSha256": "ba54902173f3b560fc4972f279f3de74be8238636bc23c65f56e36d8bb2fdb0b"
+    }
+   ],
+   "commit": "ef56ba659",
+   "sharedArtifactsTouched": "none. rcap-active-content.mjs was imported, not modified.",
+   "claimReleased": false
+  },
+  {
+   "itemId": "ca-17b-reduction-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "measurement",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationCoverage": "This row closes the MEASUREMENT that CLIPPING_AND_OVERLAP could not be demonstrated without. The repair itself was already in the tree before this lane opened and was NOT made here: FIX14 (c8bc1b1fd) set detachNestedControlFields, which ends the CR-180 page-3 privacy banner, and FIX120 (645205166) set suppressSynthesizedAppearances, which ends the doubled check-box outline. Both landed after VF05's base d4653b258, which is why the recorded verdict still describes bytes that no longer exist. What was missing was the two output-byte readings, without which no one could show the clipping was gone.",
+   "obligationsThisRowDoesNotDischarge": [
+    "REPEATING_ROWS, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP \u2014 all four carried by the SUPERSEDED BLOCKED_SOURCE row at 46360ba12, and none touched here. FEE_AND_WAIVER in particular: that row found the track names FW-001 as the general California waiver route while the instructions say waiver is not established and never name FW-001. This lane fabricates no fee and no waiver route and did not go near it.",
+    "SOURCE_IDENTITY \u2014 recorded unmeasured on the superseded row and still unmeasured. Not touched.",
+    "RASTER_PASS \u2014 no raster receipt is produced by this lane. rasterState is BUILT_RASTER_PENDING and no page image was rendered here. The delivered bytes did NOT change in this row, so any raster receipt keyed to the current digests still covers them; but no such receipt is produced or claimed here.",
+    "Independent verification \u2014 this lane measured these bytes and cannot verify them. A lane that neither built nor repaired this family must read the delivered bytes and set the verdict. This return sets none."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Before, at base 200ef13b9: NOT_MEASURABLE_HERE, 8/187 written. invisibleWrites and visualDefects are recorded null, NOT zero, and that is the whole point of this row \u2014 the verifier printed them UNMEASURED because no artifact record on this path carried either output-byte key, so the question had never been asked. A counter that could not be measured is null. After: PASS_COMPLETE, 8/187 written, all nine measured, all nine zero. The other seven were 0 before and after and were always measurable.",
+   "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set, run without --write, before the edit at base 200ef13b9 and after it on this lane's tree.",
+   "visualDefects": [
+    {
+     "defect": "CR-180 page 3 issuer privacy banner delivered as a single line clipped at both ends, plus a doubled outline at all 18 check-box widgets.",
+     "state": "ALREADY_REMOVED_BEFORE_THIS_LANE",
+     "removedBy": "FIX14 (c8bc1b1fd) and FIX120 (645205166)",
+     "confirmedBy": "output-byte comparison, this lane",
+     "independentlyReviewed": false,
+     "note": "Confirmed gone by reading the bytes at VF05's base d4653b258 against the current bytes: 83 flattened appearances and 250 glyphs then, including the banner at page 3 x=36 y=12.78 reading 'For your protection and privacy, please press the Clear This Form butt'; 78 appearances and 107 glyphs now, and zero banner-bearing appearances. No independent reviewer has looked at the current pages."
+    }
+   ],
+   "whatWasWrong": "Nothing in the delivered bytes. verify-packet-completeness decides whether invisibleWrites and visualDefects were measured by looking for addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes on an artifact record. The shared CA path emitted flattenedAppearanceCount and writtenProof instead, so both counters were unmeasured and the family read NOT_MEASURABLE_HERE \u2014 correctly.",
+   "whatWasDone": "Both readings added once, in the shared CA path verifyCaArtifact() in scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, not in five builders. Read from the saved bytes via flattenedWidgets() over the written file. A third reading, flattenedControlChromeGlyphsReadFromOutputBytes, was added beside them \u2014 see the honesty note below.",
+   "measurementHonestyNote": "I checked, rather than assumed, whether the geometry reading would have caught the banner VF05 scored, and it would NOT have. The banner draws at the Warning pushbutton's own rect, page 3 x=36 y=12.78, and that field IS in the finalizer census, so the appearance lands INSIDE a measured write box and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads zero with the defect present. The source comment says so instead of claiming a proof the number does not carry. The banner class is chrome delivered at its own widget, not ink outside a box, so it needed its own reading: flattenedControlChromeGlyphsReadFromOutputBytes counts glyphs drawn by a flattened appearance sitting at a pushbutton widget, which is a viewer control and never filing content. It reads 0 on the current bytes and 126 glyphs across 4 widgets on the pre-FIX14 bytes at d4653b258. That is the reading a future lane should watch on this path.",
+   "controlReadings": [
+    {
+     "reading": "addedGlyphsReadFromOutputBytes on CR-180, the only filled document",
+     "before": null,
+     "after": {
+      "canonical": 107,
+      "boundary": 362
+     },
+     "interpretation": "before is null because the key did not exist, not because it was zero."
+    },
+    {
+     "reading": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes on CR-180",
+     "before": null,
+     "after": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "interpretation": "measured against 81 write boxes read from the finalizer census; 78 flattened appearances, all of them at a census widget. See the honesty note for what this number does not cover."
+    },
+    {
+     "reading": "flattenedControlChromeGlyphsReadFromOutputBytes on CR-180",
+     "before": {
+      "atD4653b258": 126,
+      "appearances": 4
+     },
+     "after": {
+      "canonical": 0,
+      "boundary": 0
+     },
+     "interpretation": "this is the reading with teeth for the defect VF05 scored."
+    }
+   ],
+   "artifacts": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-canonical/cr-180-filled.pdf",
+     "sha256": "ee454a96d0415e567ba3882045a10da5d7b73a33509cf1307d741065ac3f1080",
+     "bytes": 57452,
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-boundary/cr-180-filled.pdf",
+     "sha256": "11816c4df15c4f2b7594fb996f1e1e4d9e234721fee42280c21a1c93a4fcd3d0",
+     "bytes": 57723,
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-canonical/cr-180-filled.pdf",
+     "sha256": "ee454a96d0415e567ba3882045a10da5d7b73a33509cf1307d741065ac3f1080",
+     "bytes": 57452,
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-boundary/cr-180-filled.pdf",
+     "sha256": "11816c4df15c4f2b7594fb996f1e1e4d9e234721fee42280c21a1c93a4fcd3d0",
+     "bytes": 57723,
+     "changedByThisLane": false
+    }
+   ],
+   "bytesUnchangedProof": "Every fixture digest above is identical to the digest committed before this lane touched the family. That is the proof this row is a measurement and not a repair, and it is also why every sibling CA family rendered through the same shared path is byte-unaffected by the change.",
+   "commit": "034b96005",
+   "sharedArtifactsTouched": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, the shared west-family host. The change adds report keys only and moves no PDF byte, proved by the unchanged digests above. Callers now covered: every family that renders through verifyCaArtifact \u2014 ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set, ca-17b-reduction-set, ca-851-91-set and any other build_ca family on this host. None of them was rebuilt by this lane, so none of their committed bytes or reports moved; each picks the readings up on its next rebuild by whoever holds it.",
+   "claimReleased": false
+  },
+  {
+   "itemId": "ar-drug-court-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "measurement",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationCoverage": "This row closes CLIPPING_AND_OVERLAP only, by re-measurement. The repair was already in the tree and was NOT made here: commits 26838a27b and c656f17f5 replaced a fixed-size renderer that wrote a value regardless of width with fit-or-refuse, and both landed after VF05's base 5de917b3. REQUIRED_BEFORE_FILING, the other obligation this family was granted for, is NOT closed \u2014 see below.",
+   "obligationsThisRowDoesNotDischarge": [
+    "REQUIRED_BEFORE_FILING \u2014 STILL OPEN, and measured open by this lane rather than assumed. The decisive item VF05 named IS fixed: field 'Sex' now carries effectiveLabel 'Sex' with printedRow 'Sex ____________ SID No. _____________________' on all four documents, so the instructions no longer print two consecutive rows named 'Race' and no longer tell a participant to write race into the sex box. But VF05's second half is not fixed. Of the 66 requiredBeforeFiling items in production-field-map.json, 33 still carry an effectiveLabel that is under four characters or contains a rule run, and 3 of the fragments VF05 named by hand are still there verbatim. Measured examples, label then field: 'A' / CLASS; '_______ DIVISION' / DIVISION; '____________________.' / ACA; '1.The defendant was arrested on the _______ day of' / MONTH; '8.If applicable, on the ______ day of' / MONTH 02; 'number(s) _____________ in' / COUNTY 02. These name nothing a participant can act on, which is exactly VF05's finding. THIS LANE DID NOT REPAIR IT. Authoring a participant-facing name for each of those 33 blanks is deciding what an Arkansas court form asks for at each one, and the label-derivation that produced the fragments is the thing at fault; that is a REQUIRED_BEFORE_FILING repair, not a clipping repair, and it needs its own pass with the form in hand. The family should not be read as repaired on this obligation.",
+    "RASTER_PASS \u2014 no raster receipt is produced by this lane. rasterState is BUILT_RASTER_PENDING and no page image was rendered here. The delivered bytes did NOT change in this row.",
+    "Independent verification \u2014 this lane measured these bytes and cannot verify them. A lane that neither built nor repaired this family must read the delivered bytes and set the verdict. This return sets none."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "verify-packet-completeness --family ar-drug-court-set, no --write. Before, at base 200ef13b9: PASS_COMPLETE, 22/190 written, nine zeros. After: identical, because this lane changed no byte and no code on this family. Both output-byte readings were already emitted with real values on this path, so unlike California nothing was unmeasured here. The counters are not what closes this obligation; the control readings below are, and they are what VF05 itself measured, re-run against the current bytes.",
+   "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set, run without --write, at base 200ef13b9 and again on this lane's tree.",
+   "visualDefects": [
+    {
+     "defect": "Eight writes across the two boundary assemblies exceeded their measured write box \u2014 the case number at 118.05pt in a 104.85pt box and the petitioner's full legal name at 195.64pt in boxes of 154 to 189pt \u2014 and because an AcroForm appearance is clipped at its BBox, the rendered page showed a silently truncated case number and name while the text layer still carried the whole string.",
+     "state": "ALREADY_REMOVED_BEFORE_THIS_LANE",
+     "removedBy": "commits 26838a27b and c656f17f5",
+     "confirmedBy": "output-byte and rendered-geometry re-read, this lane",
+     "independentlyReviewed": false,
+     "note": "No independent reviewer has looked at the current pages."
+    }
+   ],
+   "whatWasWrong": "Nothing at HEAD. The recorded verdict describes bytes superseded by a repair that landed after it.",
+   "whatWasDone": "No code and no byte changed on this family. It was re-measured three ways against its own committed bytes.",
+   "controlReadings": [
+    {
+     "reading": "every write's drawn width against its usable widget width, from reports/actual-writes.json",
+     "after": {
+      "totalWrites": 34,
+      "overflowingOrUncontained": 0
+     },
+     "interpretation": "no value now exceeds its box on any of the four fixtures."
+    },
+    {
+     "reading": "values refused rather than truncated, boundary fixtures",
+     "after": {
+      "pre-adjudication-boundary": 5,
+      "post-adjudication-boundary": 5
+     },
+     "interpretation": "the ten refusals are exactly the two values VF05 named \u2014 matter.case_number and participant.full_legal_name \u2014 at the widgets too narrow for them at the minimum readable size. Recorded overflow at minimum: pre 5.24, 35.92, 28.36, 5.24, 20.56pt; post 17.15, 10.45, 45.47, 16.77, 39.53pt. Each carries notTruncated true and a whatTheParticipantMustDo telling the participant to write the value on the printed line by hand or ask the clerk. Ten rather than VF05's eight because the refusal test is taken at the minimum readable size and covers both Case No occurrences."
+    },
+    {
+     "reading": "VF05's own corroboration method \u2014 pdftotext -bbox pairwise word overlap on all four fixtures, printed rules excluded, restricted to the words VF05 named ('prays', 'to', 'Dismiss', 'III', and the boundary surname tokens)",
+     "after": {
+      "pre-adjudication-boundary": 0,
+      "post-adjudication-boundary": 0
+     },
+     "interpretation": "none of the collisions VF05 recorded at pre-adjudication p4 and p8 and post-adjudication p4 and p8 is present. The residual overlaps in the unrestricted run are participant values sitting on the form's own printed answer rules, which is correct, and printed-caption-on-printed-caption pairs that appear identically in the canonical and boundary fixtures and are therefore in the source, not in the writes."
+    }
+   ],
+   "artifacts": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
+     "sha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+     "bytes": 692600,
+     "pages": 9,
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
+     "sha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
+     "bytes": 691917,
+     "pages": 9,
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-canonical.pdf",
+     "sha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-boundary.pdf",
+     "sha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422",
+     "changedByThisLane": false
+    }
+   ],
+   "commit": null,
+   "commitNote": "No commit for this family: this lane changed nothing in it.",
+   "sharedArtifactsTouched": "none",
+   "claimReleased": false
+  },
+  {
+   "itemId": "fl-early-juvenile-set",
+   "status": "STOPPED",
+   "stopClass": "BLOCKED_SOURCE",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": false,
+   "laneKind": "repair",
+   "obligationsRepaired": [],
+   "obligationCoverage": "Nothing is repaired on this family. It is the one family of the five that is both still genuinely broken and impossible to repair in this container.",
+   "obligationsThisRowDoesNotDischarge": [
+    "CLIPPING_AND_OVERLAP \u2014 STILL OPEN. The collision the superseded vf04 row described, the page-1 telephone value overprinting FDLE's printed area-code parenthesis, IS fixed: the builder now writes the phone at x=386, past the closing parenthesis that ends at x=384.22, and my own pdftotext -bbox pass finds no collision there. The later non-superseded fl-complete-independent-review row records eight others and they are open. I confirmed one of the two groups directly on the committed bytes: CHATB-FL-01, the page-3 surname, collides with the printed 'Name:' heading by 6.96 x 6.78 points in BOTH fixtures \u2014 'Reyes' in canonical and 'O'Shaughnessy-Whitfield' in boundary, both drawn at x=65 where the heading spans x 41.40\u201371.96. CHATB-FL-02, the three page-1 values (arresting agency, first arrest date, first charge) sitting below and crossing their answer rules, I could NOT confirm by bbox overlap because the collision is with printed line art rather than printed words; the reviewer measured it by calibrated visual inspection and gives exact coordinates (agency rule top-left y327.326 against text bbox y323.862\u2013335.542, baseline 333; date/charge rules y367.476 against text bbox y364.938\u2013375.242, baseline 373).",
+    "ARTIFACTS, FEE_AND_WAIVER, KNOWN_PREFILLS, SERVICE, SOURCE_IDENTITY \u2014 all open, none touched. FEE_AND_WAIVER in particular: the reviewer found the $75 amount and payment methods supported but the statutory executive-director waiver missing from the guidance (CHATB-FL-04). This lane fabricates no fee, no waiver route and no service rule, and closes none of these.",
+    "RASTER_PASS \u2014 no raster receipt is produced by this lane. rasterState is BUILT_RASTER_PENDING and no page image was rendered here.",
+    "Independent verification \u2014 this lane measured these bytes and cannot verify them. A lane that neither built nor repaired this family must read the delivered bytes and set the verdict. This return sets none."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "verify-packet-completeness --family fl-early-juvenile-set, no --write, reads PASS_COMPLETE, 28/93 written, nine zeros, both before and after \u2014 because this lane changed nothing. The nine zeros are NOT evidence the family is sound: the reviewer's eight collisions are all inside declared write boxes or against printed line art, and no counter in the set can see either. This is the same shape as Maryland and Missouri: green counters beside a real defect.",
+   "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set, run without --write, at base 200ef13b9.",
+   "visualDefects": [
+    {
+     "defect": "CHATB-FL-01, page 3: the surname is drawn over the printed 'Name:' heading rather than in the last-name answer area. Confirmed by this lane on the committed bytes, both fixtures, 6.96 x 6.78 pt overlap.",
+     "state": "OPEN",
+     "independentlyReviewed": true,
+     "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B review session"
+    },
+    {
+     "defect": "CHATB-FL-02, page 1: the prefilled arresting agency and the first arrest-date/charge row sit below their answer rules and intersect those rules at the tops of their glyphs, both fixtures.",
+     "state": "OPEN",
+     "independentlyReviewed": true,
+     "confirmedByThisLane": false,
+     "note": "not reproducible by word-overlap because the collision is with printed line art; the reviewer's coordinates are carried above verbatim."
+    }
+   ],
+   "whatWasWrong": "The builder is a flat overlay: it draws with page.drawText at hand-authored rectangles, and its fitText() checks a value only against its own rectangle width, never against what the form already prints there. That is why a value can be perfectly 'contained' and still land on a printed heading or across a printed rule, and why nine zero counters coexist with eight real collisions.",
+   "whatWasDone": "Nothing. See the blocker.",
+   "blocker": {
+    "class": "BLOCKED_SOURCE",
+    "exactRefusal": "AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent; required SHA-256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+    "raisedAt": "scripts/build-census-v1-fl-early-juvenile-set.mjs:101, in sourceBytes(), reached from run() at :542",
+    "reproduction": "node scripts/build-census-v1-fl-early-juvenile-set.mjs",
+    "whyItStopsTheRepair": "The source binary the receipt binds, custodyPath /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf, sha256 d9417ea3\u2026, 22449 bytes, 5 pages, is not mounted in this container; the whole staging root /workspaces/.legalease-source-staging/ is absent, and no file anywhere on this filesystem carries that digest, including the Master Library edition at MASTER_LIBRARY_SOURCE_DIR, whose FL 05_SOURCE_GATED set holds FDLE40-021, FDLE40-026 and circuit packets but no FDLE40-028. The repair the reviewer asks for is a geometry change \u2014 move the surname into the answer area, lift the three page-1 values above their rules \u2014 and the reviewer's own correction says in terms 'Do not solve it by changing only a measured rectangle' and 'test both full packets'. Without the source I cannot rebuild, cannot re-render, and cannot measure the new positions against the form's own printed ink. Editing the coordinates blind and committing them would be shipping an unverified change to a filed court document, so this family stops here rather than being given a plausible answer.",
+    "whatWouldUnblockIt": "Mount the bound byte at the receipt's custodyPath, or supply any path holding sha256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb at 22449 bytes. With it, the repair is measurable in one pass: read the page-3 'Name:' heading extent and the page-1 answer rules off the source, reposition the four writes against them, rebuild, and re-run the bbox overlap check that already isolates the page-3 collision."
+   },
+   "artifacts": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256": "a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae",
+     "changedByThisLane": false
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256": "9bd0ab0144742a973d38afe6b0880868581d88525eeb906c1da8499f74e58484",
+     "changedByThisLane": false
+    }
+   ],
+   "commit": null,
+   "sharedArtifactsTouched": "none",
+   "claimReleased": false
+  }
+ ]
+}
