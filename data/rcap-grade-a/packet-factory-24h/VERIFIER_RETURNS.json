@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 115,
-    "rows": 1034,
-    "independentVerdicts": 255,
-    "failRepairRequired": 33,
+    "returnDirectories": 117,
+    "rows": 1037,
+    "independentVerdicts": 256,
+    "failRepairRequired": 34,
     "passIndependent": 202
   },
   "failRepairRequiredFamilies": [
@@ -55,6 +55,7 @@
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
+    "ia-12347-set",
     "il-cannabis-vacate-set",
     "il-exp-qualprob-set",
     "il-seal-2yr-set",
@@ -8963,6 +8964,29 @@
       "superseded": false
     },
     {
+      "familyId": "ia-12347-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names two selfHelpStopConditions: 'The county attorney opposes the application.' and 'A disputed intervening conviction inside the two-year window.' The second reaches the participant: 'Check both against your own court record before you sign... If either is not true of your case, this is the wrong packet, and you should stop and talk to a lawyer.' The first reaches nobody. Neither delivered document has a stop-and-get-help section, and the only sentence touching opposition is filing-instructions.md 'After filing': 'The county attorney has an opportunity to respond.' A self-represented filer is told a response may come and is never told that opposition is where this packet's help ends. Sibling Illinois families in this same cohort carry an explicit '## Stop and get help' section; this one carries none.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set",
+      "superseded": false
+    },
+    {
       "familyId": "ia-7251-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "verify-ca-ia-ky-018",
@@ -9671,6 +9695,36 @@
     {
       "familyId": "il-exp-qualprob-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names eight selfHelpStopConditions. The delivered '## Stop and get help' section carries four: objection by the State's Attorney, ISP, arresting agency or chief legal officer; a contested hearing; eligibility facts that do not match; and immigration consequences. Four are absent from the delivered guide: 'A case appears on the transcript that the participant does not recognize, which may indicate identity theft'; 'The participant has federal or out-of-state records, which an Illinois court cannot reach'; 'A motion to vacate, modify or reconsider is filed under 5.2(d)(12)'; and 'The petition is denied'. The denial case and the out-of-state case are the two a self-represented filer is least able to handle unaided, and the record names both.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The ten record lines are present verbatim - all 10 of 10 confirmed by exact string containment against packetSet.requiredBeforeFiling, so FIX13 holds and the ISP statewide criminal history transcript is now named as a fingerprint-based document to obtain. The failure is what the same section then adds. Under 'Every item this packet leaves for you' and the sentence 'Do not sign until the packet is complete', the guide prints eleven further pre-filing obligations: 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70'. production-field-map.json classifies Case List slots arrest2 through arrest59 as OPTIONAL_PARTICIPANT_CONTENT ('Unused additional-record slot ... every unused row remains wholly blank') and the eleven identical slots arrest60 through arrest70 as REQUIRED_BEFORE_FILING with requiredBeforeFiling: true. They are the same kind of slot on the same 70-row table. A petitioner with one case is told to complete eleven rows that nothing requires, named by raw AcroForm field ids they cannot interpret. Measured on the delivered guide, not on the ledger.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf13",
       "isIndependentVerification": true,
       "verifiedAtBase": "d4653b258",
@@ -9689,7 +9743,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-exp-supervision-set",
@@ -9888,6 +9942,36 @@
     {
       "familyId": "il-seal-2yr-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names eight selfHelpStopConditions. The delivered '## Stop and get help' section carries four: objection by the State's Attorney, ISP, arresting agency or chief legal officer; a contested hearing; eligibility facts that do not match; and immigration consequences. Four are absent from the delivered guide: 'A case appears on the transcript that the participant does not recognize, which may indicate identity theft'; 'The participant has federal or out-of-state records, which an Illinois court cannot reach'; 'A motion to vacate, modify or reconsider is filed under 5.2(d)(12)'; and 'The petition is denied'. The out-of-state omission bites hardest on this track: its own release blocker records that the two-year clock runs from termination of the last sentence 'in any jurisdiction' while the ISP transcript will not show out-of-state sentences, so the participant most needing to be told to stop is the one the guide does not address.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The ten record lines are present verbatim - all 10 of 10 confirmed by exact string containment against packetSet.requiredBeforeFiling, so FIX13 holds and the fingerprint-based ISP transcript is now named as a document to obtain. The failure is what the same section then adds. Under 'Every item this packet leaves for you' and the sentence 'Do not sign until the packet is complete', the guide prints eleven further pre-filing obligations: 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70'. production-field-map.json classifies Case List slots arrest2 through arrest59 as OPTIONAL_PARTICIPANT_CONTENT ('Unused additional-record slot ... every unused row remains wholly blank') and the eleven identical slots arrest60 through arrest70 as REQUIRED_BEFORE_FILING with requiredBeforeFiling: true. They are the same kind of slot on the same 70-row table, and the split is arbitrary. A petitioner with one sealed case is told to complete eleven rows that nothing requires, named by raw AcroForm field ids they cannot interpret. Measured on the delivered guide, not on the ledger.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf13",
       "isIndependentVerification": true,
       "verifiedAtBase": "d4653b258",
@@ -9906,7 +9990,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-3yr-set",

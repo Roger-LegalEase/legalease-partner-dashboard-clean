@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "eed4fb4912416240f60a27dcb62b6ac4e33fb35b",
+  "minimumCaptainSha": "5a904625dd115c06420b9eabf5e324046729a2b8",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,8 +72,8 @@
     "sourceReady": 57,
     "sourceBlocked": 6,
     "legalBlocked": 17,
-    "verifyPending": 8,
-    "repairRequired": 15,
+    "verifyPending": 5,
+    "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 17,
-    "FAIL_REPAIR_REQUIRED": 25,
+    "FAIL_REPAIR_REQUIRED": 28,
     "SOURCE_READY": 57,
     "BUILT_RASTER_PENDING": 12,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
-    "VERIFY_PENDING": 8,
+    "VERIFY_PENDING": 5,
     "HANDOFF_READY": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -16453,8 +16453,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "159c0b5cf",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -16483,11 +16490,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names two selfHelpStopConditions: 'The county attorney opposes the application.' and 'A disputed intervening conviction inside the two-year window.' The second reaches the participant: 'Check both against your own court record before you sign... If either is not true of your case, this is the wrong packet, and you should stop and talk to a lawyer.' The first reaches nobody. Neither delivered document has a stop-and-get-help section, and the only sentence touching opposition is filing-instructions.md 'After filing': 'The county attorney has an opportunity to respond.' A self-represented filer is told a response may come and is never told that opposition is where this packet's help ends. Sibling Illinois families in this same cohort carry an explicit '## Stop and get help' section; this one carries none.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
@@ -18308,11 +18324,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf13",
-        "verifiedAtBase": "d4653b258",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
+        "lane": "vf03",
+        "verifiedAtBase": "159c0b5cf",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -18342,19 +18360,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names eight selfHelpStopConditions. The delivered '## Stop and get help' section carries four: objection by the State's Attorney, ISP, arresting agency or chief legal officer; a contested hearing; eligibility facts that do not match; and immigration consequences. Four are absent from the delivered guide: 'A case appears on the transcript that the participant does not recognize, which may indicate identity theft'; 'The participant has federal or out-of-state records, which an Illinois court cannot reach'; 'A motion to vacate, modify or reconsider is filed under 5.2(d)(12)'; and 'The petition is denied'. The denial case and the out-of-state case are the two a self-represented filer is least able to handle unaided, and the record names both.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Measured against IL.memo.json and the controlling record directly. The track registry (data/record-clearing/legal-design-track-registry.json, track il-exp-qualprob) carries ten packetSet.requiredBeforeFiling lines; ZERO of the ten reach participant-instructions.md. The two IL.memo.json documents marked requiredBeforeFiling are named only in a single terse clause -- 'Obtain the ISP statewide transcript and certified dispositions for every arrest or case' -- with no how-to-obtain for either, so a participant is told to get a fingerprint-based ISP Access and Review transcript with no route to it; and the guide never tells the filer to attach or submit them, the only one of these five families with no attach instruction anywhere, against IL.memo.json's own _supportingDocumentsNote 'Records the participant obtains and attaches.' Materially, the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent: the packet leaves the verification block deliberately blank and never tells the participant to sign and verify it, so a filer following this guide files an unsigned Request. The fee and the Rule 298 waiver appear only in filing-instructions.md, not in the participant document. The record also places the expunge-versus-seal election on the Case List's per-case election column; the guide directs it to 'the Request'. Root cause: scripts/build-census-v1-il-exp-qualprob-set.mjs never reads track.packetSet.requiredBeforeFiling, while build-census-v1-il-exp-nonconv-set.mjs and build-census-v1-il-cannabis-vacate-set.mjs do and reproduce all ten lines verbatim.",
-          "findingReadFrom": "finding",
-          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-exp-qualprob].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md"
+          "finding": "The ten record lines are present verbatim - all 10 of 10 confirmed by exact string containment against packetSet.requiredBeforeFiling, so FIX13 holds and the ISP statewide criminal history transcript is now named as a fingerprint-based document to obtain. The failure is what the same section then adds. Under 'Every item this packet leaves for you' and the sentence 'Do not sign until the packet is complete', the guide prints eleven further pre-filing obligations: 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70'. production-field-map.json classifies Case List slots arrest2 through arrest59 as OPTIONAL_PARTICIPANT_CONTENT ('Unused additional-record slot ... every unused row remains wholly blank') and the eleven identical slots arrest60 through arrest70 as REQUIRED_BEFORE_FILING with requiredBeforeFiling: true. They are the same kind of slot on the same 70-row table. A petitioner with one case is told to complete eleven rows that nothing requires, named by raw AcroForm field ids they cannot interpret. Measured on the delivered guide, not on the ledger.",
+          "findingReadFrom": "detail",
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
@@ -18940,11 +18965,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf13",
-        "verifiedAtBase": "d4653b258",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
+        "lane": "vf04",
+        "verifiedAtBase": "159c0b5cf",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -18974,19 +19001,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry track names eight selfHelpStopConditions. The delivered '## Stop and get help' section carries four: objection by the State's Attorney, ISP, arresting agency or chief legal officer; a contested hearing; eligibility facts that do not match; and immigration consequences. Four are absent from the delivered guide: 'A case appears on the transcript that the participant does not recognize, which may indicate identity theft'; 'The participant has federal or out-of-state records, which an Illinois court cannot reach'; 'A motion to vacate, modify or reconsider is filed under 5.2(d)(12)'; and 'The petition is denied'. The out-of-state omission bites hardest on this track: its own release blocker records that the two-year clock runs from termination of the last sentence 'in any jurisdiction' while the ISP transcript will not show out-of-state sentences, so the participant most needing to be told to stop is the one the guide does not address.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The worst of the three. Checked against IL.memo.json directly: track il-seal-2yr marks two documents requiredBeforeFiling, the Illinois State Police statewide criminal history transcript and the certified disposition for each case. The ISP transcript is NEVER NAMED anywhere in participant-instructions.md as a document to obtain or to submit -- 'Illinois State Police' appears once, in the service paragraph, as a party the clerk serves, and 'ISP' appears once, in the stop section, as a party that might object. It is a fingerprint-based Access and Review record with weeks of lead time and the guide gives the filer no reason to start it. The whole 'Required before filing' section reads 'Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.' followed by a list of form field names; it names no record at all. The one sentence that could carry the obligation -- 'Attach certified dispositions and other route-specific evidence identified above.' -- points at 'above', where nothing is identified. Zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach the file, so the petitioner's signature and verification, the wet-signature expectation, the fee and the Rule 298 waiver are all absent from the participant document as well. This is the Delaware and Missouri regression, reproduced.",
-          "findingReadFrom": "finding",
-          "evidence": "data/record-clearing/legal-design-intake/IL.memo.json tracks[trackId=il-seal-2yr].supportingDocuments vs data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md (89 lines, of which 68 are 'Complete <field>' entries)"
+          "finding": "The ten record lines are present verbatim - all 10 of 10 confirmed by exact string containment against packetSet.requiredBeforeFiling, so FIX13 holds and the fingerprint-based ISP transcript is now named as a document to obtain. The failure is what the same section then adds. Under 'Every item this packet leaves for you' and the sentence 'Do not sign until the packet is complete', the guide prints eleven further pre-filing obligations: 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70'. production-field-map.json classifies Case List slots arrest2 through arrest59 as OPTIONAL_PARTICIPANT_CONTENT ('Unused additional-record slot ... every unused row remains wholly blank') and the eleven identical slots arrest60 through arrest70 as REQUIRED_BEFORE_FILING with requiredBeforeFiling: true. They are the same kind of slot on the same 70-row table, and the split is arbitrary. A petitioner with one sealed case is told to complete eleven rows that nothing requires, named by raw AcroForm field ids they cannot interpret. Measured on the delivered guide, not on the ledger.",
+          "findingReadFrom": "detail",
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",

@@ -1,3 +1,54 @@
+# The border scan's /MK /BC precondition was wrong, and there are TWO ways a square gets stamped
+
+**Measured 2026-09-09.** This closes the disagreement I recorded earlier today
+between VF20's raster and the structural scan, and it splits into two findings
+rather than one.
+
+**1. pdf-lib strokes black whether or not `/MK /BC` says anything.** The scan
+refused to look at any widget without a border-colour entry, on the theory that
+pdf-lib derives its stroke from `/MK /BC`. VF03 and VF04 disproved it: all 94
+Illinois check-box widgets carry `/MK /BC = null` and the delivered fixtures
+still contain stroke-only Form XObjects. I decompressed
+`il-seal-2yr-set`'s canonical myself before changing the line: **443 Form
+XObjects, 91 stroke-only**, each `0 0 0 RG`, `0 w`, closed path, `S`, no text
+operator. The precondition is gone. Border characteristics are still recorded,
+because a declared colour is a different explanation of the same ink, but they
+are no longer a gate.
+
+That alone brought `mo-art-xiv-marijuana-set` (72 exposed) and
+`md_pardon_expungement-set` (118) into the cohort — **VF20's raster was right
+and the structural predicate was reporting on itself.**
+
+**2. My own third-shape reader was looking for the wrong key.** The write's
+field name is `fieldName` on the Illinois hosts and `field` elsewhere, and
+reading only `field` made the union empty, so every Illinois family fell out of
+the scan with `widgetsExposed: 0`. Those entries also carry their own
+`documentId`, and the receipt maps a documentId to a source digest — so the
+branch now attributes writes **per source** where both are present, and the
+family-wide caveat I wrote this morning does not apply to that shape at all.
+
+  cohort   7 families / 201 widgets  ->  87 families / 6103 widgets
+
+**Illinois is still outside the cohort, and that is now a positive finding
+rather than a gap.** The scan resolves its sources (`documentsNotMeasurableHere:
+0`) and finds a usable `/AP /N` for the unticked state, so pdf-lib regenerates
+nothing. The 91 rectangles are the **form's own `/Off` appearance streams,
+stamped by `flatten()`** — which is why VF03 and VF04 found 72 of them
+overprinting the printed box exactly and invisibly, and 19 and 20 misregistered
+onto a `/Rect` edge as a separate hairline. That is a placement defect in the
+flatten, not a synthesis defect, and it is what they scored as visualDefects 19
+and 20.
+
+So there are two mechanisms and one symptom. This scan predicts the first. Only
+a raster of the delivered page finds the second, which is why those counters
+must keep coming from a lane that renders rather than from this file.
+
+**A cohort membership is not a visual defect.** 6103 widgets will have a border
+stamped; how many of those differ from the form's own printed box is a
+per-family raster question nobody has asked corpus-wide.
+
+---
+
 # The custody class is wrong in BOTH directions, and its own row says so
 
 **Measured 2026-09-09** by PF07 (`79ec24edd`), which hashed all 1857 files under

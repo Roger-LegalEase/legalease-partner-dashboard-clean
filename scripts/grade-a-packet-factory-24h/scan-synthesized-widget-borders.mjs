@@ -179,11 +179,36 @@ async function measure(bytes, writtenFieldNames) {
     for (const widget of field.acroField.getWidgets()) {
       out.widgets += 1;
       if (isNonDisplayed(widget)) continue;
+      /*
+       * /MK /BC IS NOT A PRECONDITION, AND REQUIRING IT WAS THE WHOLE DEFECT.
+       *
+       * This scan existed to find borders pdf-lib stamps that the official form
+       * does not print, and it refused to look at any widget without a border
+       * COLOUR entry -- on the theory that pdf-lib derives the stroke from
+       * /MK /BC and draws nothing without one. That theory is wrong, and two
+       * independent lanes proved it on delivered bytes.
+       *
+       * VF20 measured 29 synthesised squares in Missouri and 50 in Maryland by
+       * a directional 150 dpi raster diff, on families this scan called clean,
+       * and I recorded the disagreement rather than resolve it. VF03 and VF04
+       * then resolved it: all 94 Illinois check-box widgets carry
+       * `/MK /BC = null`, and the delivered fixtures nevertheless contain 91
+       * stroke-only Form XObjects whose whole stream is `0 0 0 RG`, `0 w` and a
+       * closed path to `S` at the widget /Rect. I decompressed the streams and
+       * counted them myself before changing this line: 443 Form XObjects, 91
+       * stroke-only with no text operator at all.
+       *
+       * So pdf-lib strokes black whether or not /MK /BC says anything, and the
+       * predicate reported clean about the predicate rather than about the
+       * family. Border characteristics are still recorded, because a widget
+       * that DOES declare a colour is a different explanation of the same ink;
+       * they are no longer a gate.
+       */
       const mk = widget.dict.lookup(PDFName.of("MK"));
-      const hasBorderColour = mk instanceof PDFDict && mk.get(PDFName.of("BC")) !== undefined;
-      if (!hasBorderColour) continue;
+      const borderColour = mk instanceof PDFDict ? mk.get(PDFName.of("BC")) : undefined;
       if (written !== false) continue;
       out.unwrittenWidgetsWithBorderCharacteristics += 1;
+      if (borderColour === undefined) out.unwrittenWidgetsWithNoDeclaredBorderColour = (out.unwrittenWidgetsWithNoDeclaredBorderColour ?? 0) + 1;
 
       const ap = widget.dict.lookup(PDFName.of("AP"));
       const normal = ap instanceof PDFDict ? doc.context.lookup(ap.get(PDFName.of("N"))) : undefined;
@@ -393,9 +418,50 @@ function writtenFieldsBySourceDigest(dir, receipt = null) {
    * than being left to assume exactness.
    */
   if (Array.isArray(proof.documents)) {
+    /*
+     * The write's field name is spelled `fieldName` on the Illinois hosts and
+     * `field` elsewhere, and reading only `field` made the union EMPTY on every
+     * Illinois family -- so this branch returned an empty map and the families
+     * fell out of the scan entirely. il-seal-2yr-set was reported
+     * widgetsExposed 0 while its delivered canonical carries 91 stroke-only
+     * Form XObjects, which I decompressed and counted. `measure` compares
+     * against `field.getName()`, which is the unqualified name ("1 - County"),
+     * so `fieldName` is the right key and `fieldId` ("EXP-AD Request:1 -
+     * County") is not.
+     *
+     * These entries also carry their own `documentId`, and the receipt maps a
+     * documentId to a source digest -- so where both are present this attributes
+     * writes PER SOURCE and the family-wide caveat does not apply at all. The
+     * union is the fallback for an entry that names no document.
+     */
+    const nameOf = (w) => w?.fieldName ?? w?.field ?? null;
+    const digestByDocumentId = new Map();
+    for (const doc of receipt?.documents ?? []) {
+      if (typeof doc.documentId === "string" && typeof doc.sha256 === "string") {
+        digestByDocumentId.set(doc.documentId, doc.sha256.toLowerCase());
+      }
+    }
     const union = new Set();
-    for (const doc of proof.documents) for (const write of doc.actualWrites ?? []) if (write?.field) union.add(write.field);
+    let everyWriteNamedAResolvableDocument = true;
+    for (const doc of proof.documents) {
+      for (const write of doc.actualWrites ?? []) {
+        const name = nameOf(write);
+        if (!name) continue;
+        union.add(name);
+        const digest = digestByDocumentId.get(write.documentId ?? doc.documentId);
+        if (digest) add(digest, [{ field: name }]);
+        else everyWriteNamedAResolvableDocument = false;
+      }
+    }
     if (union.size === 0) return byDigest;
+    if (everyWriteNamedAResolvableDocument && byDigest.size > 0) {
+      /* Per-source attribution succeeded; every source the receipt names that
+       * this proof wrote nothing into gets an empty set, which is a real zero
+       * and not an absence. */
+      for (const digest of digestByDocumentId.values()) if (!byDigest.has(digest)) byDigest.set(digest, new Set());
+      return byDigest;
+    }
+    byDigest.clear();
     for (const doc of receipt?.documents ?? []) {
       const digest = typeof doc.sha256 === "string" ? doc.sha256.toLowerCase() : null;
       if (digest) byDigest.set(digest, union);
