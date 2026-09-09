@@ -101,6 +101,29 @@
 // grant, and it belongs to that writer's owner. This lane does not take it on.
 // A working repair for it already exists in this repository as
 // pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs.
+// WHAT LANE FIX118 REPAIRED HERE, BEYOND THE CHECK-BOX INK AND THE CASE LIST
+// REPEATING GROUP.
+//
+//   REQUIRED_BEFORE_FILING -- THE-ELECTION-COLUMN-THE-FORM-DOES-NOT-HAVE. The
+//   guide told the participant to "make the per-case expunge-or-seal election in
+//   the Case List's per-case election column, which is where the record places it
+//   -- not on the Request". The record does place it there: registry
+//   packetSet.requiredBeforeFiling line 6 reads "Expunge-versus-seal selection
+//   for each case -- Case List, per-case election column." The official form does
+//   not. This lane enumerated the blank ATJ 2902.1 Case List: 78 AcroForm fields
+//   -- 1 dropdown (county), 76 text fields (five caption fields, "7 - Case
+//   Number", and arrest1 through arrest70) and 1 check box ("Page 1 - More
+//   Arrests or Case Numbers"). There is no election field of any kind. The
+//   sentence therefore sent the filer to a column that does not exist and, worse,
+//   away from where this packet actually made the election: Request item 12 and
+//   the Section 19 limb. The record's own line is still printed verbatim above,
+//   because the record is quoted, not edited. What the builder says in its own
+//   voice now states the discrepancy and points at the Request.
+//
+//   The registry line itself is NOT changed here. Correcting a controlling legal
+//   record is not a repair lane's to make, and the same line reaches
+//   il-seal-2yr-set and il-exp-qualprob-set, which this lane holds no
+//   REQUIRED_BEFORE_FILING grant over.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -145,7 +168,7 @@ function controllingRecord() {
 }
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFDict, PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts, decodePDFRawStream } = require("pdf-lib");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
@@ -379,7 +402,16 @@ function participantSelfControl(documentId, name) {
 function optionalUnusedSlot(documentId, name, page) {
   if (documentId === "EXP-AD Request" && page === 2) return requestTableRow(name) === null ? null : "inactive";
   if (documentId === "EXP-AD Request" && page === 4) return (requestTableRow(name) ?? 0) > 1 ? "unused" : null;
-  if (documentId === "EXP-AD Case List") return /^arrest(?:[2-9]|[1-5]\d)$/.test(name) ? "unused" : null;
+  // FIX118, REPEATING_ROWS. The Case List's arrest/case cells are ONE repeating
+  // group of seventy identically unlabelled cells, arrest1 through arrest70. The
+  // old test, /^arrest(?:[2-9]|[1-5]\d)$/, reached arrest59 and stopped, so
+  // arrest60 through arrest70 -- eleven cells of the same group, adjacent in the
+  // same column, indistinguishable on the printed form -- fell through to
+  // REQUIRED_BEFORE_FILING and were printed to the participant as "Complete
+  // arrest60 on EXP-AD Case List page 1" through "Complete arrest70", named by
+  // raw AcroForm identifiers that appear nowhere on the form. Nothing requires
+  // them: a petitioner with one case owes none of the sixty-nine unused rows.
+  if (documentId === "EXP-AD Case List") return caseListArrestSlot(name) > 1 ? "unused" : null;
   if (documentId === "EXP-AD Order Granting") {
     const slot = orderCaseSlot(name);
     if (slot === null) return null;
@@ -412,9 +444,91 @@ function setComplete(field, value, font) {
   return { drawnText: value, fontSize: size };
 }
 
+/** The 1-based cell number of a Case List arrest/case cell, or 0 if not one. */
+function caseListArrestSlot(name) {
+  const match = /^arrest(\d+)$/.exec(name);
+  return match ? Number(match[1]) : 0;
+}
+
+/*
+ * FIX118, CLIPPING_AND_OVERLAP. An unticked box must draw nothing at all.
+ *
+ * Measured on this family's delivered bytes before this change: each fixture
+ * carried 443 flattened Form XObjects, of which 91 were stroke-only -- each one
+ * "0 0 0 RG", "0 w", a single closed four-segment path, "S", and no text
+ * operator -- one for every check-box widget this route does not tick. Not one
+ * of them comes from the official form.
+ *
+ * All 94 Illinois check-box widgets in this packet set carry an /AP /N
+ * dictionary holding ONLY their on state (/Yes or /No) and no /Off entry, which
+ * is how a form says that an unticked box draws nothing. pdf-lib reads that
+ * absence as a missing appearance: PDFCheckBox.needsAppearancesUpdate() returns
+ * true whenever a widget's /AS is absent from /AP /N, so
+ * form.updateFieldAppearances() replaced every check box's appearance streams
+ * with its own -- an /Off state that strokes a hairline rectangle around the
+ * whole widget /Rect, and an on state that discards the form's own ZapfDingbats
+ * mark in favour of a 1.5 w drawn check.
+ *
+ * The form's own empty box is a glyph, not the widget rectangle. On Request
+ * page 1 the printed box is a 12 pt glyph on a baseline at y=343.5, while the
+ * widget /Rect spans y=341.175 to 353.179 and x=71.9114 to 84.0799, so
+ * pdf-lib's square prints as a second, larger, offset hairline box around the
+ * printed one. VF03 and VF04 scored 19 and 20 of these as visual defects from a
+ * raster of the delivered pages.
+ *
+ * Installing the /Off appearance the form omits -- an empty Form XObject the
+ * size of the widget -- makes needsAppearancesUpdate() false, so pdf-lib
+ * regenerates nothing: a ticked box flattens the official form's own mark, and
+ * an unticked box flattens an empty stream. This writes no participant fact and
+ * adds no ink. It removes ink the source never authored.
+ */
+const OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET = 94;
+function preserveOfficialCheckBoxAppearances(document, form) {
+  let installed = 0;
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFCheckBox)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      const normal = widget.getAppearances()?.normal;
+      assert.ok(normal instanceof PDFDict, `${field.getName()}: the official form states no check-box appearance dictionary; refusing to let pdf-lib invent one`);
+      if (normal.has(PDFName.of("Off"))) continue;
+      const { width, height } = widget.getRectangle();
+      normal.set(PDFName.of("Off"), document.context.register(document.context.formXObject([], { BBox: document.context.obj([0, 0, width, height]) })));
+      installed += 1;
+    }
+  }
+  return installed;
+}
+
+/*
+ * The negative control for the repair above, read from the delivered bytes.
+ *
+ * A flattened widget appearance that paints without drawing a glyph is ink no
+ * participant fact accounts for. On these four official forms the only such ink
+ * pdf-lib produced was the synthesized check-box border, so this must count
+ * zero after the repair -- and it counted 91 per fixture before it.
+ */
+function inkWithoutGlyphs(document) {
+  let count = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      if (/(?:^|\s)(?:S|s|f|F|f\*|B|B\*|b|b\*)(?=\s|$)/.test(body)) count += 1;
+    }
+  }
+  return count;
+}
+
 async function fillDocument(source, fixtureName, fixture, elections) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
+  const emptyOffAppearances = preserveOfficialCheckBoxAppearances(document, form);
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
   const writes = [];
@@ -462,14 +576,14 @@ async function fillDocument(source, fixtureName, fixture, elections) {
     else refusals.push({ ...base, effectiveLabel: `Complete ${name} on ${source.documentId} page ${page}`, reason: "The platform does not hold this participant, case, or financial fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
   }
   form.updateFieldAppearances(font);
-  form.flatten();
+  form.flatten({ updateFieldAppearances: false });
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
   document.setCreator("LegalEase deterministic official-form builder");
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, emptyOffAppearances };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -491,7 +605,17 @@ async function buildPacket(sources, fixtureName, fixture) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), 13);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: 13, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  // FIX118, CLIPPING_AND_OVERLAP. Both halves of the repair are checked on the
+  // bytes that ship, not on the intention: every check-box widget the four
+  // official forms declare received the /Off appearance they omit, and the
+  // delivered packet contains no flattened appearance that paints without
+  // drawing a glyph. This second count was 91 per fixture before the repair.
+  const emptyOffAppearances = filled.reduce((total, item) => total + item.emptyOffAppearances, 0);
+  assert.equal(emptyOffAppearances, OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET,
+    `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
+  const strayInk = inkWithoutGlyphs(reopened);
+  assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
+  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 async function build() {
@@ -519,7 +643,7 @@ async function build() {
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
   const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
   const signature = track.rules.participantSignature;
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## The Section 19 ground this packet ticked\n\nSection 19 of the Request reads: \"I received a felony conviction for an offense subject to sealing AND at least one of these is true\", followed by three lettered limbs. Section 19 has no box of its own, so ticking a limb is how that statement is made. This packet ticks the limb for ${electedGround}. Read your certified disposition and your Illinois State Police transcript before you sign. If the record instead shows ${alternativeGround}, tick that limb and untick the one this packet ticked. Do not tick both, and do not tick 19.a: that is the two-year limb for a sentence of conditional discharge or probation that was NOT revoked, and it is a different route. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back, so start it now. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the per-case expunge-or-seal election in the Case List's per-case election column, which is where the record places it -- not on the Request. For this three-year sealing route, select the printed option matching the certified record: revoked conditional discharge or probation, or completed prison or jail custody.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## The Section 19 ground this packet ticked\n\nSection 19 of the Request reads: \"I received a felony conviction for an offense subject to sealing AND at least one of these is true\", followed by three lettered limbs. Section 19 has no box of its own, so ticking a limb is how that statement is made. This packet ticks the limb for ${electedGround}. Read your certified disposition and your Illinois State Police transcript before you sign. If the record instead shows ${alternativeGround}, tick that limb and untick the one this packet ticked. Do not tick both, and do not tick 19.a: that is the two-year limb for a sentence of conditional discharge or probation that was NOT revoked, and it is a different route. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back, so start it now. Compare the transcript against every certified disposition and resolve every mismatch before filing. The record's per-case expunge-versus-seal line above places that election in a Case List per-case election column. The official Case List this packet ships carries no such column: its 78 form fields are the county, five caption fields, one clerk-assigned case number, one \"More Arrests or Case Numbers\" box and seventy unlabelled arrest or case cells, and not one of them is an election field. This packet therefore made the per-case expunge-or-seal election where the official forms do carry it, on the Request: item 12 is answered Yes to sealing, and the Section 19 limb named above states the ground. Check that election against your certified disposition and your Illinois State Police transcript before you sign, and if it is wrong correct it on the Request, not on the Case List. For this three-year sealing route, select the printed option matching the certified record: revoked conditional discharge or probation, or completed prison or jail custody.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
