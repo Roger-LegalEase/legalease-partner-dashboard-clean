@@ -19102,6 +19102,262 @@
    "decisiveDefect": "The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form. participant-instructions.md repeats it: \"Complete the participant signature only after every fact and attachment is complete, and sign under oath before a notary or other authorized officer.\" Worse, this builder pins the defect in place: scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 318 asserts assert.match(instructions, /notary/i), so its own repair invariant REQUIRES the unsupported notarization direction to be present. That is an inverted safeguard, not a missing one.",
    "observedNotScored": "Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure.",
    "alsoOpen": "AL6-03 is open on this family too and is recorded as BLOCKED_LEGAL_INPUT on KNOWN_PREFILLS. The FAIL above stands independently of it and must be repaired regardless of how AL6-03 is answered."
+  },
+  {
+   "itemId": "il-seal-edu-set",
+   "lane": "VF03",
+   "wave": "VF Illinois rebuild re-read at d4653b258 — FIX99's rebuild of the four stale-and-wrong Illinois families",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+   "verifier": "Independent-verification worker. I built none of these bytes, repaired none of them, wrote no builder, acquired no source and released no grant. FIX99 (branch ilx-20260909, base dc905747f) built and repaired them and deliberately set no verdict: its return records \"This lane BUILT these bytes. It sets no verdict and issues no PASS. All four return to a lane that neither built nor repaired them.\" I am that lane. product-wiring.json on two of these families still records an older FAIL_REPAIR_REQUIRED from my own lane; that read was of the STALE bytes at a different digest, and a prior verification is not a build or a repair, so it does not disqualify this re-read.",
+   "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+   "verifiedAtBaseMeans": "Every hash, page count, glyph box, pixel measurement and memo comparison below was recomputed from the bytes at this commit in /home/user/v9b-worktree. Nothing is carried from a builder report, from an earlier row, or from verify-packet-completeness.mjs.",
+   "whichBytesTheseAre": {
+    "theRebuildWasAnnouncedAt": "1aa762eaa on branch ilx-20260909, which is NOT an ancestor of this worktree's HEAD",
+    "whatReachesThisBranch": "f31037d6c, the same change on v9b-20260909; HEAD is d4653b258",
+    "iCheckedTheyAreTheSameBytes": "git diff 1aa762eaa d4653b258 over the four family directories touches exactly one file per family, product-wiring.json, and nothing else. Both fixtures, both instruction files, the field map, the source receipt and all three reports are byte-identical between the two commits.",
+    "andThatHEADIsTheMoreCurrent": "The product-wiring difference runs in HEAD's favour: at 1aa762eaa the wiring still bound canonical 8e7db8e1… — the STALE digest — and still carried a RASTER_PASS acceptanceReceipt bound to it. At HEAD the four component rows bind the rebuilt canonical digest and acceptanceReceipt is null. The stale receipt has been correctly withdrawn rather than left pointing at bytes that no longer exist."
+   },
+   "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 il-seal-edu-set",
+    "result": "CLAIM_OK VF03 il-seal-edu-set (independent-verification, grant set def7c8ff77ef7a20)",
+    "exitCode": 0,
+    "grantReleased": false,
+    "claimLedgerCommitted": false,
+    "assertedUnderItsOwnLaneFirst": true
+   },
+   "canonicalSha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+   "boundarySha256": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518",
+   "digestsConfirmedFirst": {
+    "orderOfWork": "Both fixtures were hashed on disk before any obligation was measured.",
+    "canonicalOnDisk": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423, 1,732,604 bytes, 13 pages parsed from the bytes",
+    "boundaryOnDisk": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518, 1,733,312 bytes, 13 pages parsed from the bytes",
+    "reportsAgree": "build-summary.json, rendered-artifacts.json and product-wiring.json all bind these two digests.",
+    "noCentralReceiptBindsThem": "product-wiring.json records acceptanceReceipt null. The previous RASTER_PASS receipt (workflowRunId 33836771479) was bound to the stale canonical 8e7db8e1… and no longer describes anything on disk. No central visual gate has seen these bytes."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "custodyMounts": "Expungement_AI_RCAP_Master_Library_Edition_1 (499 files, 329 PDFs, 51 jurisdictions), Nationwide_Recovery_Pool_2026-09-02 (51 jurisdictions) and rcap-d-source-packs-2026-08-12 are all mounted; both custodies this family draws on are present.",
+    "browserEnvironment": "RCAP_CHROMIUM_PATH is unexported in this container, so browser_environment_exported cannot pass. This invocation renders nothing through a browser and the gate reports it not applicable rather than passed. pdftoppm is present and every raster below was produced with it."
+   },
+   "nineCounters": {
+    "measuredHere": true,
+    "measuredFrom": "the delivered bytes at this base, not from any builder report and not from verify-packet-completeness.mjs",
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "noneAreNull": "All nine were measured here. None is null and none is a carried number.",
+    "howEachWasMeasured": {
+     "knownRequiredFieldsMissing": "0. The field map covers exactly the 424 AcroForm fields the four source forms carry — I enumerated them from the source binaries and the two sets are equal, 0 in the source and not in the map and 0 in the map and not in the source. 45 are written and 379 refused, and no refusal carries factAvailable true, so no field the platform holds a fact for is blank.",
+     "requiredFactsNotCollected": "0. All 58 refusals dispositioned REQUIRED_BEFORE_FILING have their effectiveLabel present verbatim in participant-instructions.md; I diffed the two sets and the miss count is 0 in both directions.",
+     "unclassifiedBlanks": "0. Every refusal carries either a completenessDisposition from the closed vocabulary or a refusalClass, except 15 attorney-block fields which carry an explicit reason (\"Attorney-only; the fixture is self-represented\") and role instead. Those 15 are accounted for on the page as well as in the file: the self-represented box is ticked and the whole lawyer block is blank. Recorded as an observation below, not as a blank.",
+     "incompleteRows": "0. The case table carries one complete active-route record and nine wholly blank rows; no row has some cells written and a REQUIRED_KNOWN cell blank.",
+     "requiredOptionsMissing": "0. Scored by paint over all 94 checkbox and radio widgets in the packet. Exactly 5 carry interior ink and all 5 are declared writes: item 1 (expunge) /No; item 12 (seal) /Yes; item 22 (education-credential sealing of eligible felony convictions) /Yes; the two self-represented boxes /Yes. The other 89 carry none.",
+     "requiredComponentsMissing": "0. Four components declared by the memo and by the packet-set manifest, four delivered: EXP-AD Request (6pp), EXP-AD Case List (1p), EXP-AD Order Granting (2pp), FW-CIV-APPLICATION (4pp) = 13 pages. Proved by content rather than by manifest: every one of the 13 delivered pages was pixel-differenced against the source page the manifest binds it to and each is that page.",
+     "invisibleWrites": "0, and this is where I differ from verify-packet-completeness.mjs, which reports 2. Measured here: 40 textual writes each have their value's glyphs present in the output and falling inside the source widget /Rect the write names, 40 of 40; and 5 selection controls each paint 45-78 added dark pixels into a widget interior the source leaves blank. Every declared write is on the page. The verifier's 2 is an artifact of its own arithmetic, described under completenessVerifierDisagreement below.",
+     "protectedWrites": "0. Every one of the 379 refused fields was located by its own source /Rect, inset 2 pt to exclude the border, and its interior scored for added pixels in the 150 dpi difference plane. Zero refused fields carry ink, in either fixture. That includes the clerk's own Case Number caption on Order page 2, which the delivered bytes carried before this rebuild.",
+     "visualDefects": "0. Zero pixels of the official form's own printed ink are covered, obscured or replaced on any of the 13 pages of either fixture — total lost-ink 0 px in all 26 pages. Zero pixels of new ink fall outside the /Rect of a field the family writes: canonical 30,164 px inside and 0 px outside, boundary 48,575 px inside and 0 px outside. Boundary stress values wrap inside their cell and stay legible; nothing is clipped, ellipsized or overset. I looked at the pages, not only at the numbers."
+    }
+   },
+   "completenessVerifierDisagreement": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+    "itsResult": "FAIL_VISIBLE_APPEARANCE, 45/424 written, invisibleWrites 2, visualDefects UNMEASURED, all seven other counters 0",
+    "myResult": "invisibleWrites 0, measured from the delivered bytes",
+    "whoIsRight": "The verifier is wrong, and the bug is precise.",
+    "theBug": "verify-packet-completeness.mjs line ~449 computes `const visible = (typeof glyphs === 'number' ? glyphs : 0) + (typeof appearances === 'number' ? appearances : 0)` over addedGlyphsReadFromOutputBytes and flattenedWidgetAppearancesReadFromOutputBytes. FIX99's repair set both of those to NULL on purpose, because they name a reading of the output bytes that no builder performs and they had been shipping as a hardcoded 0 and as the length of the builder's own write list. The verifier coerces those nulls to 0, finds visible === 0 beside valuesReportedByFinalizer > 0, and raises invisibleWrites once per artifact — 2 per family.",
+    "whyTheGuardDidNotCatchIt": "The file has a measurability guard for exactly this, at line ~628: `invisibleWrites: anyArtifactHas('valuesReportedByFinalizer', 'addedGlyphsReadFromOutputBytes', 'flattenedWidgetAppearancesReadFromOutputBytes')`, and anyArtifactHas is an OR over keys that are neither undefined nor null. valuesReportedByFinalizer is 45 and is not null, so the counter is certified as measured on the strength of the FINALIZER'S OWN REPORT rather than on either reading of the output bytes. The two output-byte readings being null never reaches the decision. The second half of the rule, `counters[c] === 0`, would block the null-conversion anyway, because the counting loop has already raised the counter to 2. Both halves need repairing. visualDefects, whose measurability key is the single output-byte reading nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, behaves correctly on the same file and reports UNMEASURED — which is the behaviour invisibleWrites should have and does not.",
+    "whatThisMeans": "The null-not-zero repair is what exposed this: a builder that keeps reporting a fabricated zero sails through, and a builder that is honest about not having measured is failed. That is the rule pointed exactly backwards. The packet bytes are not defective and I did not fail them for it, because failing them would dispatch a repair lane whose obvious 'fix' is to put invented numbers back into actual-writes.json.",
+    "whereItBelongs": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs is a shared host, not a family file. This is a shared-host repair and it blocks all four of these families at the completeness gate until it is made. It also warrants a sweep: any family whose builder honestly nulls those two keys will be reading FAIL_VISIBLE_APPEARANCE for the same reason.",
+    "iDidNotRepairIt": "I verify; I do not repair. No script in this repository was modified by this lane."
+   },
+   "rasterState": "BUILT_RASTER_PENDING",
+   "rasterStateBinding": {
+    "central": "No central raster receipt binds these bytes. reports/rendered-artifacts.json records rasterState BUILT_RASTER_PENDING, build-summary.json records BUILT_RASTER_PENDING with selfVerified false, and product-wiring.json records acceptanceReceipt null after the stale receipt was withdrawn.",
+    "whatThisVerdictThereforeDoesNotCarry": "a central visual gate. Every appearance statement in this row was measured by this reader from the delivered bytes with pdftoppm at 150 dpi, and that is not the gate. This family must be enrolled in the raster matrix at the digests above before any promotion.",
+    "whatThisReaderDidInstead": "Rastered all 13 pages of both fixtures and all 13 pages of the four official sources at 150 dpi, differenced them pixel by pixel, scored every widget rectangle in the packet, and looked at the pages — the case-table row of every family, the boundary stress row, Order page 2, and a checkbox at 14x against its own source. Rasters were deleted before commit.",
+    "browserUnavailable": "RCAP_CHROMIUM_PATH is unexported here, so no browser-based render was attempted."
+   },
+   "theOutcomeColumn": {
+    "whatTheCellCarries": "FC, painted once, in the Outcome column of the sealing table on Request page 4.",
+    "myAnswer": "The derivation is right and FC is the right entry.",
+    "why": "The Outcome Abbreviations for Sealing legend printed on that page is MC, FC, CE, QP, and FC is 'Felony Conviction'. The election this packet ticks is item 22, 'I have completed my last sentence and may now ask the court to seal eligible felony convictions'. FC is the legend's shortened form of the disposition item 22 presupposes, so the table and the election assert the same thing. The stale bytes are the counter-example: they wrote the sentence 'Dismissed' in this cell while ticking item 22, so the case table swore to a dismissal and the election swore to a felony conviction on one verified petition.",
+    "theReservationIRecord": "FC hard-codes 'felony' from the route. Item 22 does say felony convictions, so within this packet it is consistent — but the education-credential waiver is not the only thing on that legend, and a participant whose eligible case is a misdemeanour conviction needs MC. The guide handles this correctly: it prints the whole legend and says 'Check it against your certified disposition before you sign, and change it only to another value printed on that legend.' I record the reservation and do not score it.",
+    "oneTensionInTheForm": null
+   },
+   "namedDefectsFromTheRebuildClaim": {
+    "howEachWasTested": "Each was measured on the rebuilt bytes AND on the stale bytes recovered from dc905747f, so every test below has a negative control that fired.",
+    "caseNumberInTwentyChargeCells": {
+     "gone": true,
+     "rebuilt": "pdftotext over canonical.pdf finds '2021-CF-004217' exactly 3 times, and the three are the Request's Arrest or Case Number - 1, the Case List's arrest1 and the Order's arrest/case number field. boundary.pdf finds its own case number '2024-CF-000001-99' exactly 3 times.",
+     "stale": "the stale canonical for this family found it 3 times; the 20-cell defect was carried by its three siblings, and this family's own delivered defect was the truncated instruction below",
+     "andTheChargeCellCarriesACharge": "'Possession of a controlled substance', read off the page at 150 dpi."
+    },
+    "orderPageTwoItemThree": {
+     "gone": true,
+     "rebuilt": "fixture page 9 carries Jordan Avery Reyes, 412 West Madison Street, Chicago, IL 60606, jordan.reyes@example.org and 312-555-0142 in item 3's Name, Address, Email and Telephone.",
+     "stale": "on the stale bytes item 3 is entirely empty and the case number is printed instead in the clerk's own 'Case Number' caption at the head of that page — a court-owned field.",
+     "andTheJudgeBlockIsStillBlank": "ENTERED / Judge / Date are empty and both IT IS ORDERED decision boxes are unticked, under the form's own 'Do not check the boxes below. The judge will check the correct boxes.'"
+    },
+    "caseListArrestSlotsAsColumns": {
+     "gone": true,
+     "rebuilt": "1 of 70 arrest slots written (arrest1); the other 69 are OPTIONAL_PARTICIPANT_CONTENT and carry zero added pixels inside their own rectangles.",
+     "stale": "arrest2 through arrest5 were filled as though they were the columns of a single row."
+    },
+    "truncatedInstructionAndEllipsizedOverlay": {
+     "gone": true,
+     "rebuilt": "zero matches for /exactly as (shown|printed)/i, for the ellipsis character and for '...' in all eight rebuilt fixtures.",
+     "stale": "the stale canonicals print 'Charge exactly as shown o…' or 'Charge exactly as shown on the court disposition' in a charge cell, and the stale boundaries print five ellipsized overlays including 'Springfield Police Department Records…' and 'Acquitted or dismissed…'.",
+     "andTheBoundaryValuesNowWrap": "at 150 dpi the long agency and charge values wrap onto two and three lines inside their cells, at reduced size, fully legible, and inside the box."
+    },
+    "xrefReconstruction": {
+     "gone": true,
+     "rebuilt": "pdfinfo prints no diagnostic on any of the eight rebuilt fixtures.",
+     "stale": "pdfinfo on all eight stale fixtures prints \"Syntax Error: Couldn't find trailer dictionary\", \"Syntax Error: Invalid XRef entry 8\" and \"Internal Error: xref num 8 not found but needed, try to reconstruct\".",
+     "theExplanationIsConsistentWithWhatIRead": "actual-writes.json records danglingAnnotationReferencesPruned 146 per fixture, and both fixtures report Form: none, so the AcroForm is gone and the xref no longer names objects flatten() deleted. I did not read pruneDanglingAnnots() itself; I measured its effect."
+    },
+    "reportedWriteCounts": {
+     "claimed": "45",
+     "countedInTheReportHere": "45 entries across the four documents in reports/actual-writes.json, matching valuesReportedByFinalizer on both artifacts",
+     "andConfirmedOnThePage": "40 textual writes found in the delivered text inside their own field rectangles, plus 5 selection controls found by paint. 40 + 5 = 45."
+    }
+   },
+   "howTheSweepWasProvedSensitive": "Every named-defect test was run twice, once on the rebuilt bytes and once on the stale bytes recovered from dc905747f, and each fired on the stale side. The protected-field pixel test fires on the stale Order page 2 caption. The xref test fires on all eight stale files. The ellipsis and literal scans fire on the stale canonicals and boundaries. The case-number count returns 37 on the stale side and 3 here. A sweep that cannot fail proves nothing, and this one can.",
+   "observationsThatFailNoObligation": [
+    "15 of the refusals carry no completenessDisposition and no refusalClass. All 15 are attorney-block fields with an explicit reason, 'Attorney-only; the fixture is self-represented', and a role. They are accounted for on the page too — the self-represented box is ticked and the whole lawyer block is blank — so I scored unclassifiedBlanks 0, but a consumer keying on completenessDisposition will find them undefined where the other 409 are not.",
+    "flatten() re-strokes every checkbox and radio border about one device pixel heavier at 150 dpi than the form's own printed border. This is the FIX80/FIX85 /MK /BC condition in its benign form: the box is the form's own box in the form's own place, not a border synthesised where none is printed. I proved that separately — added ink that is neither within 2 px of the form's printed ink nor inside a written field's rectangle is 0 px in both fixtures, so there is no synthesised box anywhere in this packet.",
+    "The Request's self-represented checkbox and the FW-CIV's are both ticked as route-determined writes. They assert that the participant is completing the form themselves, which is the product's own premise and the mirror of the lawyer block this packet deliberately leaves blank. I record it because it is a participant election rather than a record fact, and it is the one election in the packet that is true by construction rather than by the memo."
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "familyId is il-seal-edu-set identically in production-field-map.json, product-wiring.json, source-receipt.json, reports/rendered-artifacts.json, reports/build-summary.json and reports/actual-writes.json, and the route key is obligation:track-only:IL:il-seal-edu identically in the field map and the wiring. That key's tail is il-seal-edu, which is a trackId in data/record-clearing/legal-design-intake/IL.memo.json, and the memo track's legalName, destination, rules and stop conditions are the ones this packet is built to.",
+     "finding": "The packet is built for the route the record names, and the pages say so themselves rather than only the keys: item 1 (expunge) /No; item 12 (seal) /Yes; item 22 (education-credential sealing of eligible felony convictions) /Yes; the two self-represented boxes /Yes. Sibling routes on this same form set are excluded on the page, not merely by a label."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Four sources, all four rehashed here from the mounted custodies by the path the receipt names: EXP-AD Request 44792bea… 1,015,247 B and EXP-AD Order Granting 52e06b58… 823,679 B and FW-CIV-APPLICATION b2da395f… 1,051,549 B from Expungement_AI_RCAP_Master_Library_Edition_1, and EXP-AD Case List b72d30d2… 744,328 B from Nationwide_Recovery_Pool_2026-09-02. SHA-256 and byte length both match on all four. No source binary is committed into the family directory.",
+     "finding": "4 of 4 bind exact. This is the custody the stale delivery could not reach: FIX99's return says the EXP-AD Case List lives in nationwide_recovery_pool_2026_09_02 and was unmounted in the container that failed to regenerate. It is mounted here and it binds."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "The memo declares four components for this track — primary_filing EXP-AD Request required, attachment EXP-AD Case List required, proposed_order EXP-AD Order Granting required, fee_waiver FW-CIV-APPLICATION conditional — and all four are delivered, in that order, 6+1+2+4 = 13 pages. I did not take this from the manifest: every delivered page was rastered and differenced against the source page it claims to be, and all 13 are.",
+     "finding": "Nothing is dropped and nothing is renumbered. The conditional fee-waiver component is delivered and its financial items are left to the participant, which is what conditional means here. Recorded and not scored here: this family's filing-instructions.md is three lines and does not enumerate the component set in order with roles and requirements, where its three Illinois siblings do. The components are all present in the bytes; it is the guide that does not list them."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "45 declared writes. For each of the 40 textual ones I extracted the word boxes of the delivered page it names and checked, independently of the builder, that the exact value appears there and that its glyphs fall inside the /Rect of that field read from the source AcroForm. 40/40 present and inside. The remaining 5 are selection controls and are scored by paint under ROUTE_OPTIONS.",
+     "finding": "Every prefill is a fact the record holds — county, name, other names, date of birth, race, gender, case number, arresting agency, charge, arrest date, address, telephone, email. No signature, no date of signing, no notarial act, no judicial finding and no clerk assignment is written anywhere. The Request's SIGN line is blank; the '/s/' visible beside it is printed on the official form and is not overlay ink, which I confirmed by finding it in the source page's own text and absent from the added-word set."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "All 379 refused fields located by source /Rect, interiors inset 2 pt, scored for added pixels in the 150 dpi difference plane on every page of both fixtures. refusedFieldsWithInk = 0. The 8 fields classed court_prosecutor_clerk_or_agency_owned, the 2 signature_or_date_participant_completion fields, the judge's ENTERED block and decision boxes on Order page 2 and the official-use-only prosecutor receipt block on Request page 6 are all blank.",
+     "finding": "Clean, and the test is sensitive: run against the stale bytes the same measurement fires on the clerk's own Case Number caption at the head of Order page 2, which those bytes filled with 2021-CF-004217. It is empty here."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Pixel-differenced 26 delivered pages against 26 official source pages. Lost ink — source pixels the delivered page does not have — is 0 px on every page of both fixtures. New ink outside the /Rect of any written field, after excluding pixels within 2 px of the form's own printed ink, is 0 px in both fixtures (canonical 30,164 px inside boxes, boundary 48,575 px inside boxes). The boundary fixture carries the long stress values and none of them escapes its cell.",
+     "finding": "Nothing overlaps the form and nothing leaves its box, including in the boundary fixture, which is what boundary is for. I looked at the boundary case row at 150 dpi: 'Springfield Police Department Records Division' and the long charge wrap onto two and three lines inside their cells at reduced size and stay fully legible. Observation, not a defect: flatten() re-strokes each checkbox border about one device pixel heavier at 150 dpi than the form's own printed border. It is the same box in the same place — the 0-px outside-box figure proves no border is synthesised where the form prints none — and at 100% the two are indistinguishable; I compared them side by side at 14x."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "The memo records eight self-help stop conditions for this track. participant-instructions.md carries all eight in substance in a single paraphrased sentence, and adds two more (the printed education-route facts not matching, and an ambiguous transcript or certified disposition). None is verbatim; I checked each of the eight against the paraphrase by hand and each is covered.",
+     "finding": "The packet stops where the record says to stop: objection, contested hearing, ambiguous or contested disposition, unrecognised case and possible identity theft, federal or out-of-state records, immigration consequences, a motion to vacate or reconsider, and denial. Recorded: the paraphrase is this family's, not the record's words, and it is the only one of the four Illinois guides that does not quote the record here."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md states the destination in its own words — 'File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case' — which is the memo's destination and its detail. It is not the memo's wording and the memo's destination.name string does not appear.",
+     "finding": "The destination is stated and it is the record's."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Both guides carry the memo's service rule verbatim — 'The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.' — and the notice rule verbatim, naming the State's Attorney, the Illinois State Police, the arresting agency and the chief legal officer, the 60-day objection period under § 5.2(d)(5)(B) and the order under § 5.2(d)(6)(B).",
+     "finding": "The participant is told plainly not to serve anyone, which is the memo's express instruction to whoever writes this copy. No service is fabricated and no certificate of service is completed."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Checked against IL.memo.json directly, both ways. (1) Field map: all 58 refusals dispositioned REQUIRED_BEFORE_FILING have their effectiveLabel present in participant-instructions.md, and every '- Complete …' line in that file corresponds to such a refusal — 0 missing in either direction. (2) Memo supportingDocuments: the ISP statewide criminal history transcript and the certified disposition for each case are marked requiredBeforeFiling true. Both are named — 'Obtain the ISP statewide transcript and certified dispositions for every arrest or case', and 'Attach certified dispositions and the educational credential evidence identified above'. (3) memo manualCompletionItems: signature and verification date, the expunge-or-seal election, and the hearing date are all three covered.",
+     "finding": "The regression found in Delaware and again in Missouri — a document the memo marks requiredBeforeFiling that the participant guide never names — does not occur here. It is nonetheless the weakest of the four on this obligation, and the gap is worth a repair lane even though it does not fail the test: this guide names both required documents and tells the participant to obtain and attach them, but drops the memo's obtainedFrom and howToObtain for both. Its three Illinois siblings tell the participant that the ISP transcript comes from the Illinois State Police Bureau of Identification through Access and Review, that it needs fingerprints taken at a law-enforcement facility or a licensed vendor, and that Access and Review is free; this one says only 'Obtain the ISP statewide transcript'. Same jurisdiction, same forms, same memo, less instruction."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Both fixtures rehashed from disk before any obligation was scored. canonical.pdf 1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423 1,732,604 B 13 pages; boundary.pdf c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518 1,733,312 B 13 pages. Each agrees with reports/build-summary.json on sha256, byteLength and pageCount, and with reports/rendered-artifacts.json on sha256 and byteLength. product-wiring.json binds the same canonical digest on all four of its component rows.",
+     "finding": "pdfinfo opens both fixtures with no diagnostic at all. The claim that this is the fix is true and the test is sensitive: the same command on the stale bytes prints 'Syntax Error: Couldn't find trailer dictionary', 'Invalid XRef entry 8' and 'xref num 8 not found but needed, try to reconstruct' on all eight stale files, and prints nothing on any of the eight rebuilt ones. Both fixtures also report Form: none, so the AcroForm is fully flattened as AOIC requires for e-filing."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "13 pages in each fixture. Page for page, each delivered page was pixel-differenced against the source page the declared component order puts there — Request 1-6, Case List 7, Order 8-9, FW-CIV 10-13 — and every one matched with zero lost ink. A transposed or substituted page would show as a whole page of lost and added ink.",
+     "finding": "The order is the manifest's order and it is proved from the pixels rather than asserted from the manifest. Order page 2 is at fixture page 9, and it is the page the item-3 repair lands on."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "All 94 checkbox and radio widgets in the packet scored by interior paint against the source's own unticked appearance. Exactly 5 carry ink and each is a declared write attributed to its widget's own export state: item 1 (expunge) /No; item 12 (seal) /Yes; item 22 (education-credential sealing of eligible felony convictions) /Yes; the two self-represented boxes /Yes. Item 3 of the Request has no stem checkbox — only 3A/3B/3C/3D — so ticking the sub-box alone is the complete election; item 22's conditions (a) to (e) are printed text, not boxes.",
+     "finding": "Every election the route requires is made and no election the route does not require is made. The attribution is to WIDGET STATE and not to position: item 12's mark is inside the widget whose export value is /No, and I confirmed the source ships the Yes and No widgets as two separate rectangles of the same field. Recorded: item 20 of the Request is left unticked and classed participant_sworn_narrative_or_legal_election, which is the right refusal, but unlike its sealing sibling this guide has no section explaining which boxes the packet does not check or why, so an education-route filer is not told that item 20 exists or that it may apply to them."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "The Case List's 70 arrest slots carry exactly one write, arrest1, and the other 69 are dispositioned OPTIONAL_PARTICIPANT_CONTENT and are blank in the delivered bytes — confirmed by the pixel test over their own /Rects, not from the write list. The Request's case table carries one complete active-route record in row 1 and nine wholly blank rows, and the inactive table on the other page is wholly blank.",
+     "finding": "The delivered defect is gone. The stale bytes filled arrest2 through arrest5 as though they were the columns of one row — case number, agency, charge, date spread across four single-value row slots on a form whose grid runs the other way. Here the grid carries one write."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "The fee facts are stated in this family's own words rather than the memo's. filing-instructions.md gives 'Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee', and participant-instructions.md gives 'Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.' The waiver route is named and the instrument is shipped.",
+     "finding": "Nothing false is stated, so this passes — but it is materially thinner than its three Illinois siblings and it is the same divergence seen on every other obligation for this family. The memo's county range ($60 to $235, McLean $136) is dropped, and the participant-facing line names the shipped component as 'the included Rule 298 application' where the packet actually ships FW-CIV-APPLICATION / ATJ 601.9. That phrasing does track the memo's own rules.feeWaiver string, so I do not score it as a misidentification; filing-instructions.md gets it right with 'the included Rule 298 FW-CIV-APPLICATION'."
+    }
+   },
+   "failedObligationNames": [],
+   "whatICouldNotMeasure": [
+    "Whether P and FC are the right abbreviations as a matter of Illinois filing PRACTICE rather than as a matter of this form's printed legend and this packet's own election. I answered the second question, which is the one the bytes can answer. A clerk's or a judge's habit about what belongs in that column is counsel review, not verification, and FIX99 recorded the same limit.",
+    "Whether a circuit clerk will accept the sealing table with a blank Outcome cell, or treat the petition as incomplete. The refusal is right on the record; its filing consequence is not something I can read from the bytes.",
+    "The central raster gate. No receipt binds these digests, RCAP_CHROMIUM_PATH is unexported, and the local pdftoppm reading in this row is not that gate.",
+    "Byte-for-byte reproducibility of the builders. Re-running them would rewrite the delivered fixtures, which a verification lane must not do. FIX99 reports building each family twice to identical bytes; I did not confirm it and I do not carry it.",
+    "The PNG artifacts of the superseded workflow run 33836771479. They were not downloaded in this container, and the receipt they belong to is withdrawn in any case."
+   ],
+   "independence": {
+    "iDidNotBuildThis": true,
+    "iDidNotRepairThis": true,
+    "iWroteNoScriptInThisRepository": true,
+    "theBuilder": "FIX99, branch ilx-20260909, base dc905747f, which set no verdict on its own work.",
+    "priorReadByThisLane": "product-wiring.json records lastIndependentVerification FAIL_REPAIR_REQUIRED from this lane on an earlier base against the STALE bytes at a different digest. That is a prior verification, not a build or a repair, and the claim mechanism's own note contemplates a second read of a repaired family.",
+    "toolsIWroteForThisReadAreOutsideTheRepository": "The raster-difference, widget-rectangle and election-scoring scripts live in this session's scratchpad and are not committed. Nothing under scripts/ was modified."
+   },
+   "grantsNothing": "This row grants no commercial authority, opens no route, promotes no build status and installs no product wiring. product-wiring.json still reads DECLARED_NOT_INSTALLED with authorityCreated none, and this row does not change that. A Grade-A fulfillment record is not created here.",
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "packetFilesModified": 0,
+   "grantReleased": false,
+   "promotionCeilings": [
+    "BUILT_RASTER_PENDING: no central visual receipt binds these bytes.",
+    "verify-packet-completeness.mjs returns FAIL_VISIBLE_APPEARANCE on this family for the shared-host reason above. Until that is repaired the family cannot show a green completeness gate, whatever this row says about the bytes."
+   ],
+   "theSixtySixFieldNameLines": {
+    "claim": "participant-instructions.md had shipped 66 lines of interior AcroForm field names as instructions, and regeneration fixed it with no writer repair.",
+    "gone": true,
+    "measuredOnTheStaleFile": "the file at dc905747f is 148 lines carrying 124 '- Complete …' items, and exactly 66 of them name an interior AcroForm slot rather than anything printed on a form: 11 of the shape 'Complete arrest60 on EXP-AD Case List page 1', 28 of 'Complete arrest/case number N on EXP-AD Order Granting page 1' and 27 of 'Complete arrest/case number - Sealing N'. The claimed figure of 66 is exact. A participant cannot find 'arrest60' anywhere on any page; it is a slot name inside the PDF.",
+    "measuredOnTheFileHere": "85 lines, 58 '- Complete …' items, and zero matches for /^- Complete arrest/ or any other interior slot name. The 66 are gone and the 58 that were always actionable are exactly the ones kept. Every one of the 58 is a printed item number with the form's own printed label — 'Complete 8 - # of Adults on FW-CIV-APPLICATION page 1', 'Complete 19 - My Employment Total on FW-CIV-APPLICATION page 2', 'Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3'.",
+    "isWhatRemainsActionable": "Yes. All 58 are items a participant can find: each names the printed item number, the printed label and the form and page it is on, and all 58 are on FW-CIV-APPLICATION, which is the conditional fee-waiver application whose financial figures only the participant holds. I checked the set both ways against the field map — every REQUIRED_BEFORE_FILING refusal appears in the file and every line in the file corresponds to one.",
+    "andTheExplanationHolds": "The reclassification is visible in the delivered field map: the 70 Case List arrest slots and the Order's repeating case-number slots are now dispositioned OPTIONAL_PARTICIPANT_CONTENT rather than requiredBeforeFiling, which is what FIX93's optionalUnusedSlot() is described as doing. 219 refusals now carry that disposition. I read the delivered classification, not the predicate."
+   },
+   "theDivergenceThisFamilyCarries": {
+    "whatIFound": "This family's participant-instructions.md and filing-instructions.md are produced by a different and older path than its three Illinois siblings, and the difference is measurable rather than stylistic. I compared each guide against IL.memo.json string by string. For il-exp-pardon, il-exp-precompletion and il-seal-nonconv, the memo's rules.filing, rules.fees, rules.feeWaiver, rules.service and rules.notice, the destination.name, all eight selfHelpStopConditions, every supportingDocument name and every manualCompletionItem appear VERBATIM. For il-seal-edu only rules.service and rules.notice do; the other thirteen comparisons are paraphrase or absence.",
+    "whatIsMissingAsAResult": [
+     "the route obligation key, which the other three print",
+     "a '## Boxes this packet does not check' section, which its sealing sibling uses to explain Sections 15 to 24",
+     "the memo's obtainedFrom and howToObtain for both requiredBeforeFiling documents",
+     "the memo's county fee range ($60 to $235, McLean $136)",
+     "the component set enumerated in order with roles and requirements in filing-instructions.md, which is 3 lines here and 18 lines in each sibling",
+     "a '## What the legal-design record requires of this packet' section"
+    ],
+    "whyIDidNotFailIt": "Nothing in it is false, every memo requiredBeforeFiling document is named as something to obtain and attach, all eight stop conditions are covered in substance, the destination and the service rule are right, and the fifteen obligations are about the packet. The packet bytes are as sound as its three siblings' — same sources, same 13 pages, same zero lost pixels, same zero protected writes.",
+    "whyItStillNeedsRepair": "It is the same jurisdiction, the same four forms and the same memo, delivering less instruction to the participant than the three families beside it. The rebuild removed the 66 field-name lines from this file but did not bring the file onto the generator its siblings use. That is a bounded repair with an obvious shape and it is worth dispatching."
+   }
   }
  ],
  "supersededLaneMembership": {
