@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF01",
+  "shift": "20260909b",
+  "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "independence": "This lane did not build, repair or raster any family below, and released no grant of its own.",
+  "measurementNote": "Every counter and obligation below was measured in this container from the committed artifact bytes and the controlling records. verify-packet-completeness.mjs returned PASS_COMPLETE with nine zeros for this family; that reading is recorded as necessary and not sufficient, and it is not the basis of any result here.",
+  "rows": [
+    {
+      "itemId": "co_petition_seal_arrest-set",
+      "lane": "VF01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 1,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 13,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId co_petition_seal_arrest-set agrees across production-field-map.json and the MASTER_QUEUE row; routeKeys identical in both (obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704); routeSelectionId co-petition-seal-arrest-set-jdf-417-jdf-418 recorded in the source receipt."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared sources recomputed from bytes held in this container. I indexed all 501 files of the Master Library at MASTER_LIBRARY_SOURCE_DIR by SHA-256 and both digests resolve exactly: e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4 = STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__...__REV-2025-07-01__EN.pdf, and b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993 = the JDF-418 order. The receipt binds by content rather than by declared path and the content binding holds."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 declared components (JDF-417 primary filing, JDF-417-ORDER proposed order) and 2 rendered documents (JDF-417, JDF-418) in both fixtures. JDF-418 is the order form the registry names as JDF-417-ORDER; the source receipt records the identity confirmation from document text."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 19 values the builder's fixture holds print complete in the delivered bytes on BOTH fixtures, checked by extracting the text layer and matching each declared value whole. I also read the builder's own FIXTURES block: it holds only identity, county and case number, and holds NO arrest date, arrest number, arresting agency or offence list, so the blank arrest facts in section 3 and the empty section 4a offence table are honest refusals rather than dropped writes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Measured by reading participant-instructions.md by hand against the controlling record's packetSet.requiredBeforeFiling in data/record-clearing/legal-design-track-registry.json, track co_petition_seal_arrest. The record's first required item is 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it', carried also in CO.memo.json supportingDocuments with requiredBeforeFiling true. The delivered guide never mentions it: its only three references to the CBI are as a records custodian to tick in section 3 and to serve, not as a report the petitioner must obtain and attach. The second record item, cross-checking the arrest answers against that same report, likewise never names the document. The family's own blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true, but that claim is scoped to the 40 FORM BLANKS only; all 40 are indeed disclosed verbatim. The record's required supporting DOCUMENT is outside that scope and outside the completeness verifier's, which iterates the builder's own blank ledger and never opens the registry."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "12 selections are left unticked and every one is classified a genuine participant election and disclosed in the guide with a reason. Confirmed from the bytes that the packet ticks nothing: the delivered PDFs contain no ZapfDingbats, Wingdings or Webdings glyph runs at all, and no vector check mark. The CBI box, which the form itself marks required, is left for the participant but carries a dedicated guide heading ('The Colorado Bureau of Investigation is not optional') ending 'Tick it.', so the election is surfaced rather than silently dropped."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The section 4a offence table is 9 rows of 2 cells and every one of the 18 cells is blank, disclosed individually in the guide table by row number. No row is half-written, so there is no row that states part of an offence."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read back from the artifact bytes, not from the builder's report. JDF-417 Signature, Signature date, Counsel Signature, Certificate-of-Service date and Certificate-of-Service 'Other' are blank; JDF-417 Division/Courtroom and JDF-418 Division, Courtroom, other-orders box, judicial signature and judicial date are blank. The JDF-418 'So Ordered / By: / Dated:' block carries no ink. No write in the field map targets a signature, date, court-only or prosecutor-only field. The findings-of-eligibility paragraphs on JDF-418 are the official form's own pre-printed text, present identically in the source binary, not a fabricated judicial finding."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both artifacts recomputed from the committed bytes and hash to the record: canonical a75ed07d8fe5c52be01fa584dff5dcad90fc0c39f44cbacca3cb41c4ac888728 at 826296 bytes, boundary 1c267aea07c3f1a1910e5ea6ec60412dd7cd4445b641c0a728a040f7d1c9b351 at 826621 bytes, both 5 pages as recorded."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Page order in the bytes matches the packet manifest: JDF-417 pages 1-3 then JDF-418 pages 1-2. The 'Page 3 of 2' footer on packet page 3 is the official JDF 417's own footer, confirmed present at the same wording in the source binary, so it is preserved source text and not a pagination defect."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "13 synthesized widget borders are stamped onto the filing as ink the official form does not print. Measured three independent ways and all three agree. (1) Appearance streams: 13 flattened widgets, sized 84.11x15.12 and 85.68x15.12 on pages 2 and 3, each paint '1 g / 0 0 0 RG / 1 w / 0 0 m / 0 14.12 l / 84.68 14.12 l / 84.68 0 l / h / B' -- a closed four-sided rectangle filled white and stroked black on all four sides. (2) The official JDF-417's own /AP /N for those same fields paints '1 g / 0 0 84.1091 15.1201 re / f / 0 G / 0 0.5 m / 84.1091 0.5 l / s' -- white fill and a SINGLE BOTTOM RULE, no side or top strokes. (3) A directional 150 dpi raster diff of delivered page 2 against the official page 2 returns 464, 468 and 464 dark-pixels-added on the three offence rows sampled with zero pixels removed, and the rendered crop shows a full box in the delivered file where the official prints one bottom rule. The affected fields are the nine 'Misdemeanor or Felony' cells of the section 4a offence table (4A.1B-4A.9B) and the four sworn yes/no answers 4B.0, 4C.0, 4D.0 and 4E.0. The repository's own scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs independently places this family in the FIX80 cohort with exactly these 13 widgets, all APPEARANCE_CLEARED_BY_DROP, and records that the builder does not pass suppressSynthesizedWidgetBorders. The family carries a current RASTER_PASS, so the visual gate did not catch this."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's destination is 'District court of the district where the arrest and criminal-record information is located' and the guide names the district court. Recorded caution, not scored as a failure: the guide locates it by COUNTY ('the clerk of the Colorado court in the county where the arrest happened') where the record says DISTRICT, and presents 'the District Court or the County Court you select in section A' as a co-equal choice. The registry does not say county courts take these petitions; that assertion appears only in the builder's election rationale. The district court is named, so the obligation is met, but the county-court limb is broader than the record supports."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states 'The filing fee for this petition remains unresolved' and 'The source review does not address a fee waiver for this petition', and carries the fee as a release_blocker unresolved question. The guide states no figure, says why ('not established in any source this packet holds ... an unsourced address in a filing instruction is worse than none' and the parallel fee sentence), and routes the participant: 'Ask the clerk what fee applies, and what to do if you cannot pay it.' No currency figure appears anywhere in the guide. Refusing to invent a fee the record does not hold is the correct handling."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record says 'The source review does not state a separate service requirement beyond the court's process.' The guide's service step is drawn from JDF 417's own section 5 certificate of service: serve every agency ticked in section 3, then complete the certificate, and 'Do it after you have served, not before.' The certificate date and method are left blank as protected participant-completion fields."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide presents three conditions as 'the record's own words' and cites CO.memo.json track co_petition_seal_arrest at SHA-256 427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591. I recomputed that file's SHA-256 and it matches exactly, and the three quoted strings are byte-identical to selfHelpStopConditions in that track: 'The district attorney objects.', 'The court sets a contested hearing.', 'Immigration, licensing or firearm consequences are in play.' This is a genuine quotation, not an empty one, and the guide expands each into plain instruction."
+        }
+      },
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING", "CLIPPING_AND_OVERLAP"],
+      "couldNotMeasure": [],
+      "repairNeeded": [
+        "Print the record's required supporting document in participant-instructions.md: the Colorado criminal-history report obtained from CBI, and the instruction to check the arrest answers against it, both of which the registry marks requiredBeforeFiling.",
+        "Suppress the synthesized widget borders on the 13 /Ch fields 4A.1B-4A.9B, 4B.0, 4C.0, 4D.0 and 4E.0 so the filing prints the official bottom rule rather than a four-sided box."
+      ],
+      "challengesRecorded": [
+        "The CO canonical fixture holds no arrest facts at all, so a petition to seal an arrest record is delivered with the arrest date, arrest number, agency and offence list entirely blank (17 of 80 fields written, 40 required-before-filing items). This is honest and fully disclosed and is not scored as a counter, but it is thin evidence that the route delivers."
+      ]
+    }
+  ]
+}
