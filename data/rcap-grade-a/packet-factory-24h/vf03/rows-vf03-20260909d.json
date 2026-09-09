@@ -399,6 +399,200 @@
       "visualDefects": [],
       "failedObligationNames": [],
       "grantsNothing": "This lane read and measured. It edited no packet, repaired nothing, released no claim and approves no output. An independent PASS proves a packet complete against its own controlling records; it promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": false,
+      "postRepairNote": "Not a post-repair reread of an independent verification: product wiring carries no lastIndependentVerification for this family and its independentVerificationStatus is PENDING. It IS a first read of bytes that were repaired in the build commit itself. acf2b6c4a ('PF24: build the North Dakota summary marijuana pardon packet and correct its caption evidence') records that reports/caption-evidence.json credited the authored AcroForm field names to Colorado and cited sibling Colorado forms not in this packet, and that the builder corrected it before committing. I verified the DELIVERED file rather than the claim -- see the captionEvidenceRead cross-check.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief is identical in MASTER_QUEUE.json, source-receipt.json, production-field-map.json and the footer of participant-instructions.md. The delivered paper carries the route in the strongest possible way: the form itself is marijuana-specific. Its printed title on page 1 is 'NORTH DAKOTA PARDON ADVISORY BOARD APPLICATION TO PARDON ELIGIBLE MARIJUANA OFFENSES', and its printed items 1, 2 and 3 are marijuana-specific certifications -- a request for an unconditional pardon with removal of guilt 'for the offense of possession of a controlled substance-marijuana, possession of marijuana paraphernalia, or ingestion of marijuana', a certification of no prosecution for intent to deliver, delivery or manufacture, and the five-year no-other-conviction certification. ON THE CAPTAIN'S QUESTION -- could this read the same as a regular pardon application? No, and it cannot. MASTER_QUEUE.json binds nd-regular-pardon-set to official-form:SFN-14859 under route key obligation:track-only:ND:nd-regular-pardon; this family binds official-form:SFN-61663 under a different route key. Two different SFN numbers, two different printed forms, and this one's marijuana-specific certifications are printed on the paper by the Department rather than elected by the packet. A regular pardon application to the same board on SFN 14859 would be a different document with different printed text. There is no way for these two packets to deliver the same filing unless a builder bound the wrong form number, and this family's source receipt binds SFN 61663 by exact SHA-256."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One source, rehashed by me from the bytes in this container: c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f, 46054 bytes, 2 pages, at MASTER_LIBRARY_SOURCE_DIR/STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf -- exactly what source-receipt.json declares. The receipt is unusually honest about a naming split and I confirmed it: MASTER_QUEUE names the source official-form:SFN-61663, the number printed on the paper, while the committed corpus index files the identical binary under the slug ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA and classes it SUPPORT rather than FORM. Both identifiers are recorded so the two names are never read as two documents. The bytes are one binary and I hashed them."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One declared component, primary_filing SFN-61663, and one delivered, whole, in both fixtures. Source page count 2 and delivered page count 2. The form's second page is the text of N.D.C.C. ch. 12-55.1 and carries no widgets; both fixtures carry it and it is pixel-identical to the pinned source, so the packet delivers the statute the board applies alongside the application rather than dropping it."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Every write in the canonical fixture is correct and lands correctly. The FAILURE is in the boundary fixture and is narrow, provable and cheap to repair. production-field-map.json, maps[0].boundaryWrites, declares SIX writes including 'State' at rect x 452.76, y 455.76, width 34.32, height 18.6, factId participant.state. The delivered boundary fixture carries FIVE. I measured the State rectangle at 150 dpi on the delivered boundary page against the pinned source: ZERO added ink pixels, against 186 in the same rectangle on the canonical fixture. The State box on the delivered boundary filing is blank. reports/actual-writes.json records the cause honestly under `unfittable`: the boundary persona's participant.state is the string 'North Dakota', which needs 35.5pt at the 6pt minimum font in a 34.32pt box, so the shared finalizer refused it rather than clipping it. Refusing rather than clipping is the right instinct. What fails is what happens next. The refusal reaches no participant-facing record. reports/blanks-left-for-the-participant.json is fixture-independent and lists 26 required-before-filing blanks; State is not one of them, and its own field everyRequiredBeforeFilingItemIsDisclosed reads true. participant-instructions.md has no row for State and affirmatively tells the reader 'The platform filled in what it holds about you: your name, your date of birth and your address', which on this fixture is not true of the state component. The field map -- the document the completeness contract reads -- still declares the write. It matters because of this form's own printed rule, quoted in the packet's own instructions: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you, which could result in a postponement of your hearing.' This is the DEFECTS_NO_COUNTER_CAN_SEE entry `map-honest-writes-not` running in reverse: there the map declared a blank and the finalizer wrote, here the map declares a write and the finalizer did not, and nothing compares the two. The builder's own reports/completeness-counters.json reads knownRequiredFieldsMissing 0 with the box blank. The repair is one of two lines: normalise participant.state to its two-letter postal abbreviation before fitting -- the canonical fixture proves 'ND' fits the box with room to spare -- or route the finalizer's unfittable refusal into blanks-left-for-the-participant.json so the participant is told to write it in."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing protected was written, measured at pixel level. Both response check boxes, the Date Denied box, Social Security Number, Place of Birth, Race, all three telephone boxes, List of Former Names or Aliases, the Signature of Applicant line, the signature Date, and every one of the eighteen cells of the item 5 offence table measure ZERO added ink pixels in BOTH fixtures. The two columns the build was most worried about -- City or County, which binds participant.city by field name, and Case Number, which binds matter.case_number -- carry no ink in any of their three rows in either fixture. The delivered fixtures carry no AcroForm and no annotations at all: pdf-lib reports 0 fields, 0 /Annots entries and 0 dangling references on both, so nothing remains writable and no widget object survives the flatten. Three field names on this form would have taken a participant fact and meant something else -- `City or County` binds participant.city, `Case Number` binds matter.case_number, and both `Home Telephone Number` and `Work Telephone Number` bind participant.phone. All are refused by role and recorded in blanks-left-for-the-participant.json under nearMissesRefusedByRole, and my pixel measurement confirms none carries ink in either fixture."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No value is clipped, overprinted or ellipsized in either fixture. Measured at pixel level, not from a counter. I rendered the pinned source and both delivered fixtures at 150 dpi greyscale with pdftoppm and differenced them pixel by pixel, then summed the added ink inside each of the 36 widget rectangles taken from the source binary's own /Rect values. Canonical page 1: 3409 added ink pixels total, and 930+555+889+476+186+373 = 3409 fall inside the six write rectangles -- so zero added ink anywhere else on the page. Boundary page 1: 6277 added total, and 2152+577+2283+611+654 = 6277 inside five write rectangles -- again zero elsewhere. Page 2 of both fixtures is pixel-identical to the pinned source page 2. This independently confirms the build's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 rather than adopting it, and it is the check the brief warns a geometry counter can pass with a defect present. Every added pixel sits inside the rectangle of the field that owns it, so no value strays into a neighbouring box or over a printed caption. The one value that would not fit is refused rather than clipped, which is the correct visual outcome -- its consequence is scored under KNOWN_PREFILLS, not here. 36 widget appearances were flattened into each fixture while only 6 (canonical) and 5 (boundary) carry values; the 30 or 31 empty appearances add zero ink, so no synthesized box, border or artefact was stamped onto the filing."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md closes with a section headed 'What this packet is not', which states that this is a prepared copy of an official form, is not legal advice, is not sent for the participant and does not decide whether the offence is eligible, and quotes the form's own closing note that it is provided for informational purposes and that the reader should contact an attorney about any particular issue. It leads, before any filling instruction, with the form's own capitalised warning that a request for a pardon will NOT expunge a criminal history record, with the fact that a background check may continue to show the offence, and with the open-record consequence -- the application becomes public on receipt and the board appearance is minuted online -- and tells the reader to decide whether they want that before sending it. All three are the form's own words and all three are on the delivered source page I read."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The destination is the Pardon Advisory Board Clerk and the guide gives all three of the form's own channels verbatim: fax 701-328-6780, post to P.O. Box 1898, Bismarck, ND 58502-1898, or e-mail pardonclerk@nd.gov. I checked each against the printed text of the pinned source page 1 and all three match character for character. The guide adds 'Those are the form's own words and this packet adds nothing to them', and it does not invent a courthouse, a filing fee or a clerk practice."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "There is no service obligation to measure. This is an application to an executive-branch agency board, not a court filing: SFN 61663 is submitted to the Pardon Advisory Board Clerk and there is no opposing party, no respondent and no proof-of-service instrument. The pinned source carries no service language, no certificate of service and no service field among its 36 widgets, and the registry route is a pardon application rather than a petition. Recorded as NOT_MEASURABLE_HERE rather than PASS because a PASS would assert that a service requirement was met, and there is none."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 26 required-before-filing blanks in reports/blanks-left-for-the-participant.json appear as rows in the table in participant-instructions.md, each naming its section, the blank and what to write, and I checked the delivered page to confirm each is in fact blank. Beyond the field list the guide carries what this form actually requires and what no field census would catch: the 90-day deadline against April and November board meetings, worked back to early January and early August; both required attachments -- the criminal judgment and the criminal information, complaint or citation for each offence, or a written explanation of the attempts to obtain them, plus a photocopy of a driver's licence or state ID; and the form's own rule that an incomplete application is returned, which can postpone the hearing. The three offence-table Judge cells are the item the builder flagged as most worth challenging, and I challenged it. The completeness contract's COURT_ONLY class matches the caption `Judge` and would excuse those three cells as protected; on THIS form item 5 asks the APPLICANT to name the judge for each offence. The build declared them under the case-determined exception so they count as required before filing and are printed in the guide. Reading the source page 1 I agree the caption belongs to the applicant here -- item 5 reads 'Please provide the name of the person, the city or county, offense, and the case number for each of the following' -- and the safer disposition is the one delivered. The State refusal described under KNOWN_PREFILLS is a gap in this same disclosure chain and is scored there, once, rather than twice."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash here to exactly what approval-request.json, reports/rendered-artifacts.json, reports/independent-visual-review.json and the admitted raster verdict pin: canonical b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847 and boundary 98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf. Structure: pdf-lib loads both, reports 2 pages, 0 AcroForm fields, 0 annotation references and 0 unresolvable references. Poppler opens both silently and exits 0 with no cross-reference reconstruction. The raster verdict at raster-runs/admitted/nd-summary-marijuana-pardon-set/ is RASTER_PASS, workflowRunId 34407406641, pagesMeasured 4, coversTheWholeFamily true, and its pinned digests equal the ones I recomputed, so the raster covers the bytes I read. reports/build-summary equivalents publish no invented zero: addedGlyphsReadFromOutputBytes is a real reading, 60 on canonical and 115 on boundary, and the builder script emits it as `proof.glyphs` rather than a literal. That is the pattern DEFECTS_NO_COUNTER_CAN_SEE flags on another builder and it is absent here."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two pages, one document, and the order is checked across the document rather than only asserted. reports/rendered-artifacts.json carries a pageManifest mapping packet page 1 to source page 1 and packet page 2 to source page 2 of the same sha256; I confirmed both by text: delivered page 1 is the application face and delivered page 2 is the N.D.C.C. ch. 12-55.1 text, in that order, and page 2 is pixel-identical to source page 2. No page is duplicated, reordered or dropped."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This form carries no route option. Its only two selection controls are the pair at the top of page 1 -- 'First-Time Applicant' and 'I was previously denied relief by the Pardon Advisory Board' -- and neither is a statutory election: both are facts about the applicant's own history with the board, which the platform does not hold. Both are refused as participant elections, both are recorded in blanks-left-for-the-participant.json under participantElections with that reason, both are rows in the guide's 'The choices that are yours' table, step 2 of the guide's own do-this-before-sending list tells the reader to tick one of them, and I measured zero added ink in both boxes in both fixtures. production-field-map.json states the same conclusion in terms: routeDeterminedSelections is empty and the routeSelectionNote says 'Nothing on this form is a route option left unmade.' Reading the printed page I agree: items 1 to 4 are certifications made by signing, not boxes, and there is no alternative ground printed anywhere on the form."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The item 5 offence table is three rows of six columns -- judge, prosecutor, defence, city or county, offence, case number -- eighteen cells, and ALL EIGHTEEN are empty in both fixtures, measured as zero added ink pixels per cell rectangle. That is the correct outcome and not an omission: the platform holds at most one of the six things a row needs, and a row carrying a case number beside five blanks reads as a finished row and is not one, on a form whose own instruction is that an incomplete application is returned. All eighteen cells are carried to the participant by name in the guide, row by row, with an instruction for each. incompleteRows is therefore 0 rather than 3: there is no partially filled row anywhere."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "There is no fee to measure and the packet correctly invents none. The pinned SFN 61663 prints no fee anywhere on either page -- I read both -- and names no waiver, no fee schedule and no payment channel; its submission instructions are fax, post or e-mail to the Pardon Advisory Board Clerk with no charge stated. participant-instructions.md accordingly states no fee and no waiver, and no fee figure appears anywhere in the family directory. Recorded as NOT_MEASURABLE_HERE rather than PASS because a PASS would assert that a fee and waiver treatment was verified correct, and the correct treatment here is silence: the source is silent, so any figure would have been fabricated."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "One: SFN-61663 field 'State' on the boundary fixture. Counted by enumerating all 36 AcroForm fields from the pinned source with pdf-lib, measuring added ink inside each field's own /Rect on both delivered fixtures at 150 dpi, and checking every empty required box against the participant disclosure in blanks-left-for-the-participant.json and participant-instructions.md. Every other empty box is disclosed. State is not, and the field map declares it written. The canonical fixture scores 0.",
+        "requiredFactsNotCollected": "Zero. Every fact this route needs to identify itself is on the paper or is a fact the platform must not hold. The route's own certifications (items 1 to 4) are printed by the Department and made by signing, not by a field the packet could leave uncollected.",
+        "unclassifiedBlanks": "Zero. 36 source fields; 6 declared writes and 30 blanks; the 30 partition exactly as 26 required-before-filing + 2 participant elections + 2 protected (signature and date) in reports/blanks-left-for-the-participant.json, and every one of the 26 is a row in participant-instructions.md. No blank is left without a classification.",
+        "incompleteRows": "Zero. Measured per cell rather than per row: all eighteen cells of the three-row item 5 offence table have zero added ink pixels in both fixtures, so no row is partly filled.",
+        "requiredOptionsMissing": "Zero. The form has two selection controls and neither is a route option; both are participant history facts, both are disclosed, and both are correctly unticked. routeDeterminedSelections in the field map is empty and I agree from the printed page.",
+        "requiredComponentsMissing": "Zero. One declared component, one delivered, both its pages present and in order, page 2 pixel-identical to the pinned source.",
+        "invisibleWrites": "Zero. Every value the delivered bytes claim is confirmed as ink at 150 dpi inside its own widget rectangle: canonical 3409 added pixels across six rectangles, boundary 6277 across five. No declared value produced an invisible mark. The State case is a refusal recorded as such, not an invisible write, and is counted under knownRequiredFieldsMissing instead.",
+        "protectedWrites": "Zero, measured at pixel level rather than from the map. Signature of Applicant 0, signature Date 0, both response check boxes 0, Social Security Number 0, Race 0, Place of Birth 0, all three telephone boxes 0, List of Former Names or Aliases 0, and all eighteen offence-table cells 0 -- in both fixtures. The delivered files also carry no AcroForm and no annotations, so nothing is writable after delivery.",
+        "visualDefects": "Zero. Whole-page pixel differencing of both fixtures against the pinned source at 150 dpi: every added pixel on page 1 falls inside a declared write rectangle, and page 2 differs by zero pixels. No clipping, no overlap, no ellipsis, no stray ink and no synthesized widget border, despite 36 widget appearances being flattened into a page carrying at most six values."
+      },
+      "crossChecks": {
+        "captionEvidenceRead": "The Captain asked what the delivered caption evidence now says about where each field name came from, so I read the committed file rather than the commit message. reports/caption-evidence.json perDocument[0].basis now reads: 'the printed caption read from this document's own text stream at each widget's coordinate, corroborated by the AcroForm field name the North Dakota Department of Corrections and Rehabilitation authored into SFN 61663'. There is no reference to Colorado and none to sibling forms: grepping the entire family directory case-insensitively for 'colorado' and 'sibling' returns nothing, and field-census.census-v1.json independently attributes the names to 'the field names the Department of Corrections authored'. I did not take the attribution on trust. I enumerated the source binary's own AcroForm field names with pdf-lib and they ARE the printed captions verbatim -- Applicant Name, Social Security Number, Date of Birth, Place of Birth, Race, Applicants Address, City, State, ZIP Code, Home Telephone Number, Work Telephone Number, Cellphone Number, List of Former Names or Aliases, Judge, Prosecutor, Defense, City or County, Offense, Case Number and their _2 and _3 siblings, Signature of Applicant, Date -- 36 of them, matching the 36 entries in the evidence file one for one. The attribution is now true and checkable. One residual worth naming, not scored: the per-field `textExtractedAtThisCoordinate` samples the two text lines nearest each widget, which for some fields does not include that field's own caption line. 'Date Denied' at rect y 538.32-556.92 records extractions at y 547 and y 529 while its caption sits on the y 557 line. The file is transparent that this is 'the extraction at every widget's own coordinate ... either way', and the field-name corroboration carries the claim, so the basis stands.",
+        "regularPardonComparison": "Asked directly by the Captain. These two families cannot deliver the same filing. MASTER_QUEUE.json binds nd-regular-pardon-set to sourceIds ['official-form:SFN-14859'] with routeKeys ['obligation:track-only:ND:nd-regular-pardon']; this family binds ['official-form:SFN-61663'] with routeKeys ['obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief']. Different SFN, different route. And the difference is printed on the paper, not elected by the packet: SFN 61663's title is 'APPLICATION TO PARDON ELIGIBLE MARIJUANA OFFENSES' and its items 1 to 3 confine it to possession of a controlled substance-marijuana, possession of marijuana paraphernalia and ingestion of marijuana, with a certification of no prosecution for intent to deliver, delivery or manufacture. A regular pardon application on SFN 14859 carries none of that text. I did not read the nd-regular-pardon-set directory; this comparison rests on MASTER_QUEUE.json and on the two forms' own numbers. One thing the sibling lane should know: SFN 14859 is not present in MASTER_LIBRARY_SOURCE_DIR. The only pardon binary in STATES/ND/04_SUPPORTING_PROCESS is SFN 61663, the marijuana form. If that lane binds its packet to the binary that is there, it will build a marijuana application under a regular-pardon route key, and THAT is how the two would come to read the same. Flagging it as a risk to the Captain, not as a finding against this family.",
+        "buildHostSharedWithNeSealPardoned": "Checked because the Captain named the ne-seal-pardoned-set builder's two defects. scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs is a standalone 81111-byte script; grepping it for updateFieldAppearances returns nothing, and its glyph reading is emitted as `addedGlyphsReadFromOutputBytes: proof.glyphs`, a real measurement rather than a hardcoded literal, corroborated by the two different values 60 and 115 actually present in the delivered reports. Neither of the two ne-seal-pardoned-set defects is present here, and I confirmed the appearance half independently: 36 flattened widget appearances add zero ink outside the write rectangles.",
+        "recordsThatDisagree": "Two committed records in this family classify the same three blanks differently and I record both rather than reconciling them. reports/completeness-counters.json blankDispositions reads REQUIRED_BEFORE_FILING 23, PROTECTED_FIELD 5, PARTICIPANT_ELECTION_GENUINE 2. reports/blanks-left-for-the-participant.json lists 26 requiredBeforeFiling, 2 participantElections and 2 protectedBlanks. Both total the same 30 blanks; the three-blank difference is exactly the three offence-table Judge cells, which the completeness contract classes as court-owned and the blanks report classes as the applicant's under the case-determined exception. I measured against the delivered page and the participant-facing disclosure, and on that measurement the blanks report is the one that matches what a participant receives: all three Judge cells are blank on the paper and all three appear in participant-instructions.md with an instruction. The disagreement changes no counter -- knownRequiredFieldsMissing is 0 on that account either way -- and resolving it is not this lane's to do.",
+        "defectCatalogue": "Checked against DEFECTS_NO_COUNTER_CAN_SEE.json family by family. map-honest-writes-not: PRESENT IN REVERSE and scored under KNOWN_PREFILLS -- the map declares a boundary write the delivered bytes do not carry. acroform-index-is-not-the-printed-row: not present; the offence table's three rows use the suffixes '', '_2' and '_3' and all eighteen cells are empty anyway. extracted-line-order-is-not-column-order: the offence-table headings were read by x-position from the widget rects rather than from extraction order, and the six columns line up with the six rect x-origins 44.88, 144, 220.44, 297, 387 and 468. internal-record-text-printed-on-a-filing: not present -- whole-page pixel differencing shows no added ink outside the six write rectangles, so no record analysis reached the paper. a-published-zero-where-a-measurement-existed: not present; the glyph readings are real and differ per fixture. a-geometry-counter-with-no-teeth: I did not rely on the published geometry counter, I re-measured it in pixels. two-families-one-filing: answered under regularPardonComparison.",
+        "cloneCheck": "CLONED_FAMILY_PACKETS.json does not list nd-summary-marijuana-pardon-set in familiesDeliveringACloneOfAnother, and no other North Dakota family appears in that list at all.",
+        "builderHonesty": "Worth recording for the Captain. reports/completeness-counters.json is labelled 'the BUILDER's own count' and 'whatThisIsNot: A verdict', build-status.json carries selfVerified false, and reports/independent-visual-review.json carries granted false with reviewedBy null. approval-request.json volunteers three items for a reviewer's attention including the one the builder calls 'the item most worth challenging'. This family did not self-verify and did not claim a review it had not had."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+          "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/field-census.census-v1.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/approval-request.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-status.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-findings.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/independent-visual-review.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nd-summary-marijuana-pardon-set/nd-summary-marijuana-pardon-set.verdict.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "note": "read only for the nd-regular-pardon-set source binding; not edited"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json"
+        },
+        {
+          "path": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
+          "note": "read only to check for updateFieldAppearances and a hardcoded glyph zero; not edited"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "grantsNothing": "This lane read and measured. It edited no packet, repaired nothing, released no claim and approves no output. The FAIL is a repair assignment, not a rejection of the family."
     }
   ]
 }
