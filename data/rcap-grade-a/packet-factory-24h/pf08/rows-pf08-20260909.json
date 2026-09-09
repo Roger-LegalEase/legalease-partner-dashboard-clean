@@ -696,6 +696,278 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "me-seal-survivor-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ],
+      "jurisdiction": "ME",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "counsel_review_pending",
+      "builtBy": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+      "lane": "PF08",
+      "claim": "CLAIM_OK PF08 me-seal-survivor-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-survivor-set (read only)",
+      "countersResult": "PASS_COMPLETE",
+      "blankDispositions": {
+        "PARTICIPANT_ELECTION_GENUINE": 6,
+        "REQUIRED_BEFORE_FILING": 4,
+        "PROTECTED_FIELD": 9,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 1
+      },
+      "deliveryIsGated": true,
+      "openGatesOnThisRoute": {
+        "ruleId": "ME-2264-7-CR-308-FORM-CONFLICT",
+        "statute": "15 M.R.S. § 2264(7), as amended by PL 2025, c. 513",
+        "gates": [
+          {
+            "id": "me_2264_7_cr308_warning_conflict",
+            "kind": "source_acquisition",
+            "owner": "RCAP source acquisition",
+            "items": [
+              "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+              "what the court actually does when a survivor is later convicted of a new crime"
+            ],
+            "evidenceReference": "pending: CR-308 page 2 warning box, read at source, conflicts with the amended statute",
+            "note": "Report disposition CONDITIONAL — FORM-CONFLICT GATE for Q-010, product decision 'statute overrides CR-308 warning'. Form CR-308 page 2 warns that a later conviction anywhere extinguishes the order. That is inconsistent with § 2264(7) as amended by PL 2025, c. 513. The legal answer is settled — the statute governs — and the product still cannot hand a participant an official form whose own printed warning contradicts the relief being sought without knowing what the court does in practice."
+          },
+          {
+            "id": "me_2264_7_prosecutor_notice_method",
+            "kind": "source_acquisition",
+            "owner": "RCAP source acquisition",
+            "items": [
+              "whether the movant serves the prosecutorial office or the court performs all notice",
+              "the method each court requires"
+            ],
+            "evidenceReference": "pending: no court notice-practice record exists yet",
+            "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-011. The same § 2264(3) notice question as the adult conviction route, on a different route, and it is its own gate so closing one route's notice practice does not silently release the other."
+          }
+        ],
+        "whatThisBuildDidAboutThem": "nothing. Both are source-acquisition gates owned by RCAP source acquisition. This packet is a review artifact — generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 — and it must not be delivered to a participant until they close."
+      },
+      "theRecoveredCr308DoesNotSatisfyTheWarningGate": {
+        "gate": "me_2264_7_cr308_warning_conflict",
+        "itemItWouldHaveSatisfied": "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+        "boundBinary": {
+          "sourceId": "official-form:CR-308",
+          "revision": "Rev. 06/26",
+          "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+          "recoveredOn": "2026-09-04"
+        },
+        "warningStillPrintedOnPage2": true,
+        "printedSentence": "WARNING: If at any time after the date of this order the Defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes this order.",
+        "measuredHow": "re-read from the bound bytes on every run, through the pikepdf-unlocked derivative's own printed word boxes",
+        "soWhat": "The CR-308 recovered into custody on 2026-09-04 is not the corrected form the gate asks for. The gate's first item is unmet on both limbs, and its second item — what the court actually does when a survivor is later convicted of a new crime — has no record at all."
+      },
+      "malformedAppearanceStreamsInThePublishedSource": {
+        "whatThisIs": "an appearance stream the official form ships without a /Subtype. It is preserved by the pikepdf derivative (that is what equivalence means) and surfaces as a page-level form XObject once the AcroForm is flattened, where poppler warns on every artifact derived from this source. This lane does not rewrite an official form's appearance streams, so it is measured, named and carried to the raster gate.",
+        "found": [
+          {
+            "form": "CR-308",
+            "sourceSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+            "field": "Findings of fact supporting this ORDER are as follows 1",
+            "appearanceStreamsWithoutSubtype": [
+              "N"
+            ],
+            "keysPresent": [
+              "/BBox",
+              "/Filter",
+              "/Length",
+              "/Resources"
+            ],
+            "whereItSurfaces": "as a page-level form XObject after the AcroForm is flattened",
+            "readerWarning": "poppler: Syntax Error: XObject subtype is missing or wrong type",
+            "presentInTheExactSource": true,
+            "introducedByThisBuild": false,
+            "repairedByThisBuild": false,
+            "fieldIsWrittenByThisBuild": false
+          }
+        ],
+        "forTheRasterGate": "Expect `Syntax Error: XObject subtype is missing or wrong type` when rasterizing these fixtures. It originates in the published CR-308 and not in this packet."
+      },
+      "sourceRecovery": {
+        "previouslyClassed": "SOURCE_GENUINELY_MISSING (CR-308)",
+        "nowMounted": true,
+        "digestUnchanged": true,
+        "hashedByThisLaneBeforeBinding": true,
+        "observed": [
+          {
+            "formNumber": "CR-307",
+            "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+            "byteLength": 175213
+          },
+          {
+            "formNumber": "CR-308",
+            "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+            "byteLength": 162514
+          }
+        ],
+        "matchesCommittedIndex": true,
+        "acquisitionCommissioned": false
+      },
+      "encryptedSourceHandling": {
+        "why": "Both binaries are AES-256 (R6/V5) with an empty user password and modify_other false. pdf-lib implements no decryption and cannot open either; the committed corpus index records CR-308 as `unreadable` with the load error it raised.",
+        "strategy": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
+        "precedent": "the same bridge already committed in scripts/build-census-v1-ca-1203-4-set.mjs for the encrypted California Judicial Council forms",
+        "theExactSourceIsNeverModified": true,
+        "approvalStatus": "The Master Library's own asset manifest says of CR-307 that runtime mapping requires an approved alternate handling strategy and completed-output review. This build names the strategy and proves the derivative equivalent to the source; whether the strategy is approved is a reviewer's call and the approval request asks for it.",
+        "derivatives": [
+          {
+            "formNumber": "CR-307",
+            "sourceSha256Before": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+            "sourceSha256After": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+            "sourceUnchanged": true,
+            "derivedPath": "/home/user/pfb-worktree/data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/derived-sources/cr-307-pikepdf-unlocked.pdf",
+            "derivedSha256": "1a43d763fc27585a52cb8234b2c1ebca20bf4d59d3b45abb47dba38ad154e2cd",
+            "derivedByteLength": 171910,
+            "createdBy": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
+            "openedWithEmptyUserPassword": true,
+            "officialEncrypted": true,
+            "derivedEncrypted": false,
+            "equivalence": {
+              "pageCountIdentical": true,
+              "pageGeometryIdentical": true,
+              "fieldsOnlyInOfficial": [],
+              "fieldsOnlyInDerivative": [],
+              "fieldsThatDiffer": [],
+              "terminalFieldTreeAndWidgetsIdentical": true,
+              "equivalent": true
+            }
+          },
+          {
+            "formNumber": "CR-308",
+            "sourceSha256Before": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+            "sourceSha256After": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+            "sourceUnchanged": true,
+            "derivedPath": "/home/user/pfb-worktree/data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/derived-sources/cr-308-pikepdf-unlocked.pdf",
+            "derivedSha256": "4dbce66994c493e2ce73e5776b2c9a4afb19b991b5f8255b84f3f7a3efcbd168",
+            "derivedByteLength": 159142,
+            "createdBy": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
+            "openedWithEmptyUserPassword": true,
+            "officialEncrypted": true,
+            "derivedEncrypted": false,
+            "equivalence": {
+              "pageCountIdentical": true,
+              "pageGeometryIdentical": true,
+              "fieldsOnlyInOfficial": [],
+              "fieldsOnlyInDerivative": [],
+              "fieldsThatDiffer": [],
+              "terminalFieldTreeAndWidgetsIdentical": true,
+              "equivalent": true
+            }
+          }
+        ]
+      },
+      "officialForms": [
+        {
+          "formNumber": "CR-307",
+          "pageCount": 1,
+          "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+          "acroFieldCount": 15,
+          "derivedSha256": "1a43d763fc27585a52cb8234b2c1ebca20bf4d59d3b45abb47dba38ad154e2cd",
+          "structuralClassObserved": "acroform",
+          "encryptedInCustody": true
+        },
+        {
+          "formNumber": "CR-308",
+          "pageCount": 2,
+          "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+          "acroFieldCount": 15,
+          "derivedSha256": "4dbce66994c493e2ce73e5776b2c9a4afb19b991b5f8255b84f3f7a3efcbd168",
+          "structuralClassObserved": "acroform",
+          "encryptedInCustody": true
+        }
+      ],
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:CR-307"
+          ],
+          "pathInArchive": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+          "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+          "byteLength": 175213,
+          "custody": "master_library",
+          "boundBy": "exact_content_sha256",
+          "assetClassInTheMasterLibrary": "source_gated",
+          "structuralClassInTheCommittedIndex": "unreadable"
+        },
+        {
+          "sourceIds": [
+            "official-form:CR-308"
+          ],
+          "pathInArchive": "LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+          "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+          "byteLength": 162514,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "boundBy": "exact_content_sha256",
+          "assetClassInTheMasterLibrary": null,
+          "structuralClassInTheCommittedIndex": "unreadable"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+          "byteLength": 322600,
+          "pageCount": 3
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "84d03dd83fa56368c2de6b3cd48fff764e18f88d3a0724a2321a6588d7e44f62",
+          "byteLength": 322810,
+          "pageCount": 3
+        }
+      ],
+      "totals": {
+        "terminalFields": 30,
+        "written": 10,
+        "blank": 20
+      },
+      "routeSelectionsMade": 0,
+      "requiredBeforeFiling": 4,
+      "boundaryOnlyRequiredBeforeFiling": [],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 10,
+          "addedGlyphsReadFromOutputBytes": 140,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "selectionsMarked": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 10,
+          "addedGlyphsReadFromOutputBytes": 336,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "selectionsMarked": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }

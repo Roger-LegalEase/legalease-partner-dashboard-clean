@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "me-seal-survivor-set",
+  "blocking": [],
+  "findingCount": 0,
+  "deliveryIsGated": true,
+  "openGatesOnThisRoute": {
+    "ruleId": "ME-2264-7-CR-308-FORM-CONFLICT",
+    "statute": "15 M.R.S. § 2264(7), as amended by PL 2025, c. 513",
+    "gates": [
+      {
+        "id": "me_2264_7_cr308_warning_conflict",
+        "kind": "source_acquisition",
+        "owner": "RCAP source acquisition",
+        "items": [
+          "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+          "what the court actually does when a survivor is later convicted of a new crime"
+        ],
+        "evidenceReference": "pending: CR-308 page 2 warning box, read at source, conflicts with the amended statute",
+        "note": "Report disposition CONDITIONAL — FORM-CONFLICT GATE for Q-010, product decision 'statute overrides CR-308 warning'. Form CR-308 page 2 warns that a later conviction anywhere extinguishes the order. That is inconsistent with § 2264(7) as amended by PL 2025, c. 513. The legal answer is settled — the statute governs — and the product still cannot hand a participant an official form whose own printed warning contradicts the relief being sought without knowing what the court does in practice."
+      },
+      {
+        "id": "me_2264_7_prosecutor_notice_method",
+        "kind": "source_acquisition",
+        "owner": "RCAP source acquisition",
+        "items": [
+          "whether the movant serves the prosecutorial office or the court performs all notice",
+          "the method each court requires"
+        ],
+        "evidenceReference": "pending: no court notice-practice record exists yet",
+        "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-011. The same § 2264(3) notice question as the adult conviction route, on a different route, and it is its own gate so closing one route's notice practice does not silently release the other."
+      }
+    ],
+    "whatThisBuildDidAboutThem": "nothing. Both are source-acquisition gates owned by RCAP source acquisition. This packet is a review artifact — generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 — and it must not be delivered to a participant until they close."
+  },
+  "malformedAppearanceStreamsInThePublishedSource": {
+    "whatThisIs": "an appearance stream the official form ships without a /Subtype. It is preserved by the pikepdf derivative (that is what equivalence means) and surfaces as a page-level form XObject once the AcroForm is flattened, where poppler warns on every artifact derived from this source. This lane does not rewrite an official form's appearance streams, so it is measured, named and carried to the raster gate.",
+    "found": [
+      {
+        "form": "CR-308",
+        "sourceSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+        "field": "Findings of fact supporting this ORDER are as follows 1",
+        "appearanceStreamsWithoutSubtype": [
+          "N"
+        ],
+        "keysPresent": [
+          "/BBox",
+          "/Filter",
+          "/Length",
+          "/Resources"
+        ],
+        "whereItSurfaces": "as a page-level form XObject after the AcroForm is flattened",
+        "readerWarning": "poppler: Syntax Error: XObject subtype is missing or wrong type",
+        "presentInTheExactSource": true,
+        "introducedByThisBuild": false,
+        "repairedByThisBuild": false,
+        "fieldIsWrittenByThisBuild": false
+      }
+    ],
+    "forTheRasterGate": "Expect `Syntax Error: XObject subtype is missing or wrong type` when rasterizing these fixtures. It originates in the published CR-308 and not in this packet."
+  },
+  "theRecoveredCr308DoesNotSatisfyTheWarningGate": {
+    "gate": "me_2264_7_cr308_warning_conflict",
+    "itemItWouldHaveSatisfied": "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+    "boundBinary": {
+      "sourceId": "official-form:CR-308",
+      "revision": "Rev. 06/26",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "recoveredOn": "2026-09-04"
+    },
+    "warningStillPrintedOnPage2": true,
+    "printedSentence": "WARNING: If at any time after the date of this order the Defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes this order.",
+    "measuredHow": "re-read from the bound bytes on every run, through the pikepdf-unlocked derivative's own printed word boxes",
+    "soWhat": "The CR-308 recovered into custody on 2026-09-04 is not the corrected form the gate asks for. The gate's first item is unmet on both limbs, and its second item — what the court actually does when a survivor is later convicted of a new crime — has no record at all."
+  },
+  "observations": [
+    "Both binaries are AES-256 encrypted against modification with an empty user password. They are read and rendered through a deterministic pikepdf-unlocked derivative, proved equivalent to the exact source on page count, page geometry, the terminal field tree and every widget rectangle before any value is written. The exact sources are hashed before and after and are unchanged.",
+    "CR-307's AcroForm field names are shifted by one against the labels its page prints: each field carries the caption above it. Left to the shared semantics' name channel, `Defendants DOB mmddyyyy` binds participant.date_of_birth and that widget is the caption's DEFENDANT NAME box, so the motion would go to the clerk with the survivor's date of birth printed where the court reads their name. Every CR-307 write is therefore bound to the printed label the widget was measured to sit against, and reports/caption-evidence.json carries the correspondence field by field.",
+    "CR-308's field names are correct on the same measurement and it is bound normally. Two forms from the same court at the same revision, and only one is mislabelled.",
+    "CR-308 is the court's order and is filled to its caption only. The three GRANTED/DENIED ordering boxes, the prosecutor's name, both hearing dates, the findings of fact and the judge's signature are the court's.",
+    "CR-307 item 1's crime-list box is not written. It is printed under the sentence that the listed crimes are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and § 2262-B, so writing there asserts a legal conclusion about the participant's own record. The conviction date on the same item is a held matter fact and is written.",
+    "CR-307 item 2 — the averment that the participant is a survivor of trafficking or exploitation and that the crime was a substantial result of it — has no AcroForm field behind it. Nothing is written and the participant instructions quote it and say what signing asserts.",
+    "No box is marked on either form. The three court-for-filing boxes are decided by which court entered the conviction, which this route reaches in all three."
+  ]
+}
