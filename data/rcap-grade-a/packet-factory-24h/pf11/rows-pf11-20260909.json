@@ -1,0 +1,592 @@
+{
+  "schemaVersion": "packet-factory-24h/worker-rows/v1",
+  "assignmentId": "PF11",
+  "workerBranch": "pf11-20260909",
+  "lane": "packet-build",
+  "engine": "Claude Code, local worktree /home/user/v2mm-worktree",
+  "shiftBaseSha": "44762b711",
+  "writtenAt": "2026-09-09T13:42:14Z",
+  "whyThisFilenameAndNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf11/rows.json already holds a PF11 return from an earlier shift, for a different assignment (tx_exp_acquittal-set). It is left byte-for-byte unchanged and this shift\u2019s return is written alongside it. Returns are found by shape, not by filename.",
+  "familiesAssigned": 3,
+  "rowsReturned": 3,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode, minimum captain sha 1ff3f36f85d23410dad2d49fd6f53fbf6ccac151)",
+    "rowGates": {
+      "ca-diversion-seal-set": "NOT_READY: family_sources_bind failed",
+      "nh_conviction_standard-set": "READY: 14/14 passed; 5/5 sources bind by exact SHA-256 (custody_reconciliation)",
+      "nh_marijuana_annulment-set": "READY: 14/14 passed; 3/3 sources bind by exact SHA-256 (custody_reconciliation)"
+    },
+    "claims": "CLAIM_OK for all three under grant set 885d08cd5e602448; no claim released by this worker."
+  },
+  "selfVerification": "none. PF11 built these bytes and set no verdict.",
+  "rasterRule": "Every page of every delivered fixture was rendered through scripts/raster/pdf-page-raster.mjs on a resolved Chromium, measured, and the images deleted. No Poppler. Both families return BUILT_RASTER_PENDING.",
+  "sharedCentralArtifactsRegenerated": "none. VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json, PACKET_COMPLETENESS_MATRIX.json and ACTIVE_ASSIGNMENTS.json are unchanged in this branch.",
+  "rows": [
+    {
+      "itemId": "ca-diversion-seal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "CA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
+        "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2"
+      ],
+      "rowGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family 'ca-diversion-seal-set' --codex-cloud --minimum-captain-sha 1ff3f36f85d23410dad2d49fd6f53fbf6ccac151",
+        "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+        "checkThatFailed": "family_sources_bind",
+        "detailVerbatim": "ca-diversion-seal-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable."
+      },
+      "sourceIdentityThatDidNotBind": {
+        "sourceId": "official-form:SDSC-CRM-307",
+        "formNumber": "SDSC-CRM-307",
+        "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "byteLength": 211228,
+        "declaredPath": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+        "declaredCustody": "nationwide_recovery_pool_2026_09_02",
+        "tier": "exact_content_hash"
+      },
+      "whatWasMeasuredHere": [
+        "The nationwide_recovery_pool_2026_09_02 custody IS mounted in this container at private/source-imports/Nationwide_Recovery_Pool_2026-09-02. It is not a missing mount.",
+        "Of the 380 entries the committed corpus index records in that custody, 371 are present on disk and 9 are absent. LegalEase California/source-acquisition-2026-09-04/crm307.pdf is one of the 9 absent, and its source-acquisition-2026-09-04 directory does not exist under the mounted California tree at all.",
+        "No file anywhere under any mounted custody root hashes to da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287, and no file anywhere under those roots has the 211228-byte length the index records for it.",
+        "The committed corpus index carries the digest exactly once, in that one absent path, and records the file itself as structurally unreadable when it was indexed: structuralClassObserved \"unreadable\", loadError \"Expected instance of PDFDict, but got instance of undefined\"."
+      ],
+      "discrepancyWorthTheCaptainsAttention": "The dispatch described this family as SOURCE_READY with custodyClass SOURCE_ALREADY_HELD. The committed records disagree with that description and agree with the measurement: data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json records this family as verdict NOT_MEASURABLE_HERE, custodyClass SOURCE_GENUINELY_MISSING, documentSourcesResolved 0 of 1; while data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json records sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true for the same family, with sourceReadiness.custodyClass SOURCE_GENUINELY_MISSING inside it. The queue row is internally inconsistent, and it is what the dispatch was written from.",
+      "legalInputStatus": "SETTLED (not a legal blocker; this is a source blocker)",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAreNullNotZero": "Nothing was built and nothing was measured. Nine zeros here would assert a clean measurement that was never taken.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "artifactsProduced": [],
+      "buildScriptWritten": false,
+      "exactNextAction": "Acquire the owner-custodied SDSC-CRM-307 binary that hashes to da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287 into a mounted custody, or record a superseding source identity for official-form:SDSC-CRM-307. This lane acquired nothing: the assignment forbids network acquisition and the agent proxy denies court sites.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nh_conviction_standard-set",
+      "status": "COMPLETED",
+      "workflowState": "BUILT_RASTER_PENDING",
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:NH:nh_conviction_standard:conviction-annulment-under-rsa-651-5",
+        "obligation:track-pathway:NH:nh_conviction_standard:dwi-dui-annulment"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "countersMeasuredBy": [
+        "the builder's own count over the delivered field map, byte proof, rendered artifacts and participant-instructions.md, at data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/reports/completeness-counters.json",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nh_conviction_standard-set', which read the same delivered files independently of the builder's report"
+      ],
+      "thisIsNotAVerdict": "PF11 built these bytes and issues no PASS. An independent lane that neither built nor repaired them decides.",
+      "sources": [
+        {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "formNumber": "NHJB-2317",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "byteLength": 85115,
+          "instrumentKind": "primary_filing",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-3057-DSe",
+          "formNumber": "NHJB-3057",
+          "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+          "byteLength": 87550,
+          "instrumentKind": "primary_filing_post_2019",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "formNumber": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "byteLength": 64896,
+          "instrumentKind": "fee_waiver_motion",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "formNumber": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "byteLength": 66063,
+          "instrumentKind": "fee_waiver_financial_statement",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-2956",
+          "formNumber": "NHJB-2956",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "byteLength": 62291,
+          "instrumentKind": "criminal_history_request",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        }
+      ],
+      "allSourcesExact": true,
+      "groundingRecordsBoundByDigest": [
+        {
+          "path": "data/record-clearing/legal-design-intake/NH.memo.json",
+          "sha256": "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199",
+          "trackId": "nh_conviction_standard",
+          "fieldsQuotedOnParticipantSurfaces": [
+            "rules.fees",
+            "rules.feeWaiver",
+            "destination.detail",
+            "rules.service",
+            "rules.notice"
+          ]
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "trackId": "nh_conviction_standard",
+          "fieldsQuotedOnParticipantSurfaces": [
+            "selfHelpStopConditions",
+            "selfHelpBoundaries",
+            "rules.service",
+            "rules.notice",
+            "packetSet.requiredBeforeFiling",
+            "packetSet.components[].conditionDescription"
+          ]
+        }
+      ],
+      "appearanceDispositionProvenance": [
+        {
+          "formNumber": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2311",
+          "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "digestProvedBy": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/source-receipt.json",
+          "fields": {
+            "sig.8": "render_participant_value_only_when_written"
+          },
+          "why": "the registry is keyed by family and this measurement is a property of the form binary; the sibling family's committed receipt binds the identical SHA-256"
+        },
+        {
+          "formNumber": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2328",
+          "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "digestProvedBy": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/source-receipt.json",
+          "fields": {
+            "12.total": "render_participant_value_only_when_written",
+            "money.total": "render_participant_value_only_when_written",
+            "monthly.total": "render_participant_value_only_when_written"
+          },
+          "why": "the registry is keyed by family and this measurement is a property of the form binary; the sibling family's committed receipt binds the identical SHA-256"
+        }
+      ],
+      "components": {
+        "officialFormsRendered": [
+          "NHJB-2317",
+          "NHJB-3057",
+          "NHJB-2311",
+          "NHJB-2328",
+          "NHJB-2956"
+        ],
+        "processGuidanceDeliveredInParticipantInstructions": [
+          "post_filing_instructions",
+          "whole_record_disclosure",
+          "effect_and_limits_disclosure"
+        ]
+      },
+      "artifacts": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "bd2a4c278778d4b61cdee81110ecccfe2ba93a3f794e04f8a929ffdafcadebe3",
+          "byteLength": 225427,
+          "pageCount": 13
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "78908658fd0dc118ea0112c03bcec2bd0b6f7ab3a4c6b878bdaa8a1d6d91383f",
+          "byteLength": 225516,
+          "pageCount": 13
+        }
+      },
+      "artifactDigestsRehashedFromTheDeliveredFiles": true,
+      "raster": {
+        "engine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+        "pagesRendered": 26,
+        "everyPageOfBothFixturesRendered": true,
+        "imagesRetained": false,
+        "disposal": "Every page of both fixtures was rendered through scripts/raster/pdf-page-raster.mjs on a browser this container resolves, measured, and then deleted with its staging directory: this build lane carries no raster binary into its return. The measurement of each page is kept below with the SHA-256 of the image that was produced, and the artifact digests above are what the central raster-acceptance workflow re-renders from.",
+        "measurementIsNotAVisualReview": "Rendering a page and hashing it is not a review of it. No independent reader has looked at these pages, so visualDefects records that nobody has looked rather than that there is nothing to see, and this family stays BUILT_RASTER_PENDING until RASTER_PASS comes back from a lane that did not build it."
+      },
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2317",
+          "valuesReportedByFinalizer": 10,
+          "addedGlyphsReadFromOutputBytes": 156,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-3057",
+          "valuesReportedByFinalizer": 10,
+          "addedGlyphsReadFromOutputBytes": 173,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2311",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 52,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 16,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2328",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 125,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 93,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2956",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 68,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 11,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2317",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 174,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-3057",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 174,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2311",
+          "valuesReportedByFinalizer": 2,
+          "addedGlyphsReadFromOutputBytes": 72,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 16,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2328",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 121,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 93,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2956",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 132,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 11,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "synthesizedWidgetBorderScan": {
+        "script": "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs",
+        "widgetsExposed": 0,
+        "inCohort": false,
+        "builderPasses": "suppressSynthesizedAppearances: true",
+        "builderDoesNotPass": "suppressSynthesizedWidgetBorders",
+        "why": "the scan measured 0 widgets on these binaries carrying the /MK border characteristic the second option suppresses, so passing it would change nothing here. The scan writes data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json, which is outside this lane\u2019s owned paths; it was reverted with git checkout after each run and is unchanged in this branch."
+      },
+      "canonicalMappedWrites": 33,
+      "boundaryMappedWrites": 24,
+      "requiredBeforeFilingCount": 103,
+      "participantElections": 27,
+      "participantSurfaces": [
+        "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/filing-instructions.md"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nh_conviction_standard-set.mjs",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nh_marijuana_annulment-set",
+      "status": "COMPLETED",
+      "workflowState": "BUILT_RASTER_PENDING",
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:NH:nh_marijuana_annulment:marijuana-possession-annulment-under-rsa-651-5-b"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "countersMeasuredBy": [
+        "the builder's own count over the delivered field map, byte proof, rendered artifacts and participant-instructions.md, at data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/completeness-counters.json",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nh_marijuana_annulment-set', which read the same delivered files independently of the builder's report"
+      ],
+      "thisIsNotAVerdict": "PF11 built these bytes and issues no PASS. An independent lane that neither built nor repaired them decides.",
+      "sources": [
+        {
+          "sourceId": "official-form:NHJB-3124-DS",
+          "formNumber": "NHJB-3124",
+          "sha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+          "byteLength": 60749,
+          "instrumentKind": "primary_filing",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "formNumber": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "byteLength": 64896,
+          "instrumentKind": "fee_waiver_motion",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "formNumber": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "byteLength": 66063,
+          "instrumentKind": "fee_waiver_financial_statement",
+          "custodyRead": "master_library",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "boundBy": "the digest the MASTER_QUEUE pins, re-hashed from the mounted file before a byte was read"
+        }
+      ],
+      "allSourcesExact": true,
+      "groundingRecordsBoundByDigest": [
+        {
+          "path": "data/record-clearing/legal-design-intake/NH.memo.json",
+          "sha256": "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199",
+          "trackId": "nh_marijuana_annulment",
+          "fieldsQuotedOnParticipantSurfaces": [
+            "rules.fees",
+            "rules.feeWaiver",
+            "destination.detail",
+            "rules.service",
+            "rules.notice"
+          ]
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "trackId": "nh_marijuana_annulment",
+          "fieldsQuotedOnParticipantSurfaces": [
+            "selfHelpStopConditions",
+            "selfHelpBoundaries",
+            "rules.service",
+            "rules.notice",
+            "packetSet.requiredBeforeFiling",
+            "packetInstructions",
+            "unresolvedQuestions"
+          ]
+        }
+      ],
+      "appearanceDispositionProvenance": [
+        {
+          "formNumber": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2311",
+          "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "digestProvedBy": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/source-receipt.json",
+          "fields": {
+            "sig.8": "render_participant_value_only_when_written"
+          },
+          "why": "the registry is keyed by family and this measurement is a property of the form binary; the sibling family's committed receipt binds the identical SHA-256"
+        },
+        {
+          "formNumber": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2328",
+          "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "digestProvedBy": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/source-receipt.json",
+          "fields": {
+            "12.total": "render_participant_value_only_when_written",
+            "money.total": "render_participant_value_only_when_written",
+            "monthly.total": "render_participant_value_only_when_written"
+          },
+          "why": "the registry is keyed by family and this measurement is a property of the form binary; the sibling family's committed receipt binds the identical SHA-256"
+        }
+      ],
+      "components": {
+        "officialFormsRendered": [
+          "NHJB-3124",
+          "NHJB-2311",
+          "NHJB-2328"
+        ],
+        "processGuidanceDeliveredInParticipantInstructions": [
+          "prosecutor_copy",
+          "proof_of_service",
+          "post_filing_instructions",
+          "effect_and_limits_disclosure"
+        ]
+      },
+      "artifacts": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+          "byteLength": 110626,
+          "pageCount": 7
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+          "byteLength": 110674,
+          "pageCount": 7
+        }
+      },
+      "artifactDigestsRehashedFromTheDeliveredFiles": true,
+      "raster": {
+        "engine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+        "pagesRendered": 14,
+        "everyPageOfBothFixturesRendered": true,
+        "imagesRetained": false,
+        "disposal": "Every page of both fixtures was rendered through scripts/raster/pdf-page-raster.mjs on a browser this container resolves, measured, and then deleted with its staging directory: this build lane carries no raster binary into its return. The measurement of each page is kept below with the SHA-256 of the image that was produced, and the artifact digests above are what the central raster-acceptance workflow re-renders from.",
+        "measurementIsNotAVisualReview": "Rendering a page and hashing it is not a review of it. No independent reader has looked at these pages, so visualDefects records that nobody has looked rather than that there is nothing to see, and this family stays BUILT_RASTER_PENDING until RASTER_PASS comes back from a lane that did not build it."
+      },
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-3124",
+          "valuesReportedByFinalizer": 10,
+          "addedGlyphsReadFromOutputBytes": 139,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 25,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2311",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 52,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 16,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "NHJB-2328",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 125,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 93,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-3124",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 174,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 25,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2311",
+          "valuesReportedByFinalizer": 2,
+          "addedGlyphsReadFromOutputBytes": 72,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 16,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "NHJB-2328",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 121,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 93,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "synthesizedWidgetBorderScan": {
+        "script": "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs",
+        "widgetsExposed": 0,
+        "inCohort": false,
+        "builderPasses": "suppressSynthesizedAppearances: true",
+        "builderDoesNotPass": "suppressSynthesizedWidgetBorders",
+        "why": "the scan measured 0 widgets on these binaries carrying the /MK border characteristic the second option suppresses, so passing it would change nothing here. The scan writes data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json, which is outside this lane\u2019s owned paths; it was reverted with git checkout after each run and is unchanged in this branch."
+      },
+      "canonicalMappedWrites": 18,
+      "boundaryMappedWrites": 12,
+      "requiredBeforeFilingCount": 80,
+      "participantElections": 8,
+      "participantSurfaces": [
+        "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/filing-instructions.md"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

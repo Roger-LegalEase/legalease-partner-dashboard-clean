@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nh_marijuana_annulment-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "THE PETITIONER SERVES THE PROSECUTOR ON THIS ROUTE, WHICH IS THE OPPOSITE OF THE GENERAL ANNULMENT TRACK. RSA 651:5-b puts the copy of the petition on the petitioner rather than on the court, the committed record's rules.service says so in terms, and the prosecutor's ten-day objection window runs from their receipt of it. The manifest makes prosecutor_copy a REQUIRED component of this packet set and proof_of_service a conditional one recommended in every case.",
+      "consequence": "Both are delivered as named sections of participant-instructions.md, quoting the record's own component notes, and the service and notice sentences are printed verbatim in both instruction documents. Nothing is sent for the participant and no prosecutor's office or address is named, because the platform holds no sourced New Hampshire prosecutor directory. The certificate of service on NHJB-2328 is still delivered BLANK: the participant does serve, and that is exactly why the certificate is signed on the day the copy goes out rather than in advance by a packet."
+    },
+    {
+      "finding": "THE RECORD FORBIDS THIS PACKET FROM STATING A PRICE. rules.fees for this track says RSA 651:5-b, unlike RSA 651:5-a, contains no fee provision and no exemption, that whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is an open question, and -- in terms -- that the packet must not state a price. The record still names the Circuit Court Filing Fees schedule among this track's official sources, which is what makes the trap live: the schedule carries a figure and this route may not assert it.",
+      "consequence": "The packet prints the record's own fees sentence and the record's own open question, names the schedule as a source without adopting its figure, and tells the participant to ask the clerk. The self-test enforces it on the delivered prose rather than on intent: every sentence quoted from the record is removed from both instruction documents and what remains must contain no currency figure at all. The fee-waiver papers are still prepared, because the record names them for the case where a fee is charged."
+    },
+    {
+      "finding": "THE STATUTORY STATEMENT ABOUT THE AMOUNT IS THE PARTICIPANT'S ALONE. RSA 651:5-b requires the petition to state that the amount was three quarters of an ounce or less, and the sworn verification on page 2 of NHJB-3124 carries that assertion together with the truth of the facts. The committed record lists it as a manual completion item and gives the reason in terms: LegalEase asks the question and never answers it for them.",
+      "consequence": "Nothing in this build asserts an amount, the verification block is delivered blank, and the participant is told in participant-instructions.md exactly what they are swearing to before they sign. It is also put in front of visual review as something to confirm on the paper."
+    },
+    {
+      "finding": "ARREST OR CONVICTION IS DECIDED BY THE CASE, NOT BY THE ROUTE. NHJB-3124 carries a single check box, \"Arrest — no conviction\", beside a charge line the court has already printed. The record's eligibleDispositions for this track are \"arrested\" and \"convicted\", and its venue rule is deliberately wider than the general one so that an arrest-only participant can file where the arrest happened.",
+      "consequence": "The box is left as a participant election and disclosed by name, with the reason stated: the route reaches both, so the route cannot answer it. The three conviction-only cells beside it — date of conviction, charge degree and description of sentence — are declared required before filing and each tells the participant to leave it blank if there was no conviction."
+    },
+    {
+      "finding": "NHJB-3124 CARRIES NO WIDGET ANYWHERE IN ITS COURT-COMPLETED HALF. Its 28 AcroForm fields were read from the pinned binary and the COURT COMPLETES block (date sent to prosecutor, sent-by initials, name of prosecutor), the NOTICE TO PETITIONER, the certificate of annulment, the denial-reason lines, the judge's signature and printed name and the CC list are all printed page content with nothing on top of them.",
+      "consequence": "There is nothing there for this build to refuse and nothing for it to write, which makes 'no court-owned write' a weaker statement here than it is where a widget exists. It is recorded here and put in front of visual review as something to confirm on the paper: those rules must be clear."
+    },
+    {
+      "finding": "THE APPEARANCE-SEMANTICS REGISTRY IS KEYED BY FAMILY AND THE MEASUREMENT IS A PROPERTY OF THE BINARY. data/rcap-all50/shared/field-appearance-semantics.json records that NHJB-2311's sig.8 ships the placeholder 'Enter /s/ before name' in its own widget appearance and that NHJB-2328's 12.total, money.total and monthly.total ship a white 0.00 -- but it records them under nh_petition_nonconviction_pre2019-set and nh_petition_vacated-set. This family binds byte-for-byte the same two binaries and has no entry of its own.",
+      "consequence": "The registry file is a shared host this lane does not open, so the dispositions are READ from the existing entries and reused only where the digest proves the bytes are identical: the sibling family's committed source-receipt.json must record the same SHA-256 this build pinned and re-hashed, and the entry must carry the expected number of fields. A mismatch stops the build. Without that, this packet would have shipped a motion whose signature line reads 'Enter /s/ before name' and a sworn financial statement whose three totals read 0.00 above empty columns. What the registry needs is a key on the source digest rather than on the family; that belongs to the lane that owns the file, and the provenance actually used is recorded in source-receipt.json under appearanceDispositionProvenance."
+    },
+    {
+      "finding": "SHARED-BINDER GAP, STILL OPEN, ON A BOX NEW HAMPSHIRE NAMES FOR THE LINE ABOVE IT. NHJB-3124 prints City/Town at the box named \"Mailing Address.2\", directly under the box named \"Mailing Address.1\" that prints Address. decideBinding resolves a field's fact from its NAME before its printed line and never reaches the label when the name matches, so that box resolves to participant.street_address; an explicit mapping to the right fact is then refused as explicit_mapping_conflicts_with_field_name. The rule lives in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host this lane does not open.",
+      "consequence": "The city is WRITTEN at that widget's own rectangle through the finalizer's opt-in named-fact channel, which names one fact id and one field, resolves the fact from the same facts set as every other write, runs the same protect test on the caption and on the field name, and refuses a value whole rather than truncating it. The shared gap itself is unchanged and stays reported here for the lane that owns it."
+    },
+    {
+      "finding": "NO SINGLE REGISTRY FACT NAMES A ONE-LINE ADDRESS, which is why NHJB-2328's Residence Address is written through the same named-fact channel from the held street, city, state abbreviation and ZIP rather than through the shared descriptor channel, whose generic address caption binds street only.",
+      "consequence": "Nothing is authored: the value is a function of held facts and, if a part were missing, the fact would be absent and the line would stay blank rather than carry a fraction of an address. Closing the gap properly means a descriptor and a fact in scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does not open."
+    },
+    {
+      "finding": "READ-BACK ENCODING in the shared flattened-widget reader. scripts/rcap-official-forms/pdf-flattened-widgets.mjs decodes an appearance stream's string bytes as latin1, so a WinAnsi right single quotation mark (byte 0x92) reads back as U+0092 and a boundary surname carrying one appears not to match what was expected on a page where it does match.",
+      "consequence": "This family applies the WinAnsi 0x80-0x9F block to what the shared reader returns before comparing and before recording drawnText. The shared reader is not opened here and the defect stays reported for the lane that owns it."
+    },
+    {
+      "finding": "NHJB-2311's only court control is a dropdown of SUPERIOR courts, while NHJB-3124 carries its own dropdown of every circuit-court district division and every superior court.",
+      "consequence": "The fee-waiver form cannot name the court a circuit-court petition is filed in. Nothing is invented around it: the election is left to the participant and participant-instructions.md tells them to write the court name by hand where the list cannot express it."
+    },
+    {
+      "finding": "NHJB-2328 ships three computed total fields carrying the value 0, so a naively flattened packet prints \"Total $ 0.00\" beneath columns of otherwise empty lines.",
+      "consequence": "The census reads the value from the pinned source, the recorded participant-input appearance disposition drops it, and the byte proof records what the source itself draws so the two can never be confused. It is stated to the participant, because a frozen 0.00 above a hand-written column would tell the court something the participant did not mean to say."
+    },
+    {
+      "finding": "THE COMMITTED RECORD CARRIES THREE OPEN QUESTIONS ON THIS ROUTE THAT IT CLASSIFIES AS RELEASE BLOCKERS: whether the RSA 651:5, VI whole-record bar applies to an RSA 651:5-b petition, whether the filing and investigation fees apply, and whether the offence-date cutoff or the arrest date controls where the two straddle 16 September 2017. The track's legalInputStatus in the packet factory queue is SETTLED and the family's row gate reports no open legal input, so these are release blockers rather than build blockers.",
+      "consequence": "None is answered by this build and none is guessed or researched. All three are printed verbatim in both instruction documents under their own heading, so the participant is told what nobody has established. They remain the release gate's to clear."
+    },
+    {
+      "finding": "THE MASTER_QUEUE row for this family gives its three sources paths in the D source packs, a custody this container does not mount.",
+      "consequence": "The build binds all three from the Master Library instead, starting from the digest the assignment pins, and re-hashes each file on disk before a byte is read. The committed corpus index records the same three digests in the Master Library, so this is the same binary held in more than one custody, not a substituted source. The source receipt records the path actually read."
+    },
+    {
+      "severity": "advisory",
+      "finding": "This lane rendered every page of both fixtures through the calibrated rasterizer and then DELETED the images, keeping the measurement and the image digest.",
+      "consequence": "reports/rendered-artifacts.json records the geometry, the calibration residual and the SHA-256 of each page image, with rasterImagesRetained false. The family is BUILT_RASTER_PENDING: the central raster-acceptance workflow re-renders from the artifact digests recorded there, and no packet becomes PASS_COMPLETE without a RASTER_PASS from a lane that did not build it."
+    }
+  ]
+}
