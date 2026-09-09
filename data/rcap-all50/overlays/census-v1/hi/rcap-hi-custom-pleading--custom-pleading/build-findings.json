@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "rcap-hi-custom-pleading",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row for this family names five packetComponents, all of them the `-primary-filing-3` stage-two HCJDC-159B components, while the committed legal-design track registry declares three required components for each of the same five tracks: a custom-pleading `-primary-filing-1`, a custom-pleading `-proposed-order-2` and the `-primary-filing-3` official form.",
+      "consequence": "This build follows the registry and produces all fifteen. The ten the queue row omits are not owned by any other family in the queue, and a stage-two application delivered without the stage-one motion behind it could not be submitted at all, because the form's own face refuses a conviction application with no court order attached. The queue row is a summary; the registry is the controlling legal record."
+    },
+    {
+      "finding": "The registry declares `-primary-filing-3` as official_pdf_fill of HCJDC-159B, and the family's own queue row records custodyClass SOURCE_ALREADY_HELD with directAttachment true.",
+      "consequence": "The pinned form is attached as its own bytes and six held facts are drawn onto it. No page of that component is composed, and no imitation of the official form appears anywhere in this packet. The write boxes were measured from the pinned bytes in this run by reading the x-extent of each printed rule out of the content stream."
+    },
+    {
+      "finding": "The five routes do not share a mandate. Four are recorded as mandatory in four different formulations, and HRS 291E-64(e) is recorded as 'Not established as mandatory', with the registry adding that the packet copy must not tell a participant the order is guaranteed. The HRS 706-622.9 record adds that the packet copy must not describe subsection (4) relief as automatic.",
+      "consequence": "Each route's pages carry that route's own mandate sentence verbatim, and the build asserts that each sentence appears in its own track's record. No route inherits another's promise."
+    },
+    {
+      "finding": "The Master Library's Hawaii STATE_README records that no state legal-review file was supplied for this edition and marks that a release blocker, while the committed track registry carries a full legal-design record for all five tracks with legalDesignStatus legal_design_approved_with_limitations and no build blockers.",
+      "consequence": "Building proceeds on the registry, which is what the Master Library's own integration rule directs a reader to use. The Master Library gap is a release-level matter and is reported here for the reviewer rather than treated as a source failure; the one Hawaii binary this family binds resolved exactly by content digest."
+    }
+  ]
+}
