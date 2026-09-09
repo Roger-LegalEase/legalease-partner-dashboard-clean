@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 1014,
+    "rows": 1023,
     "independentVerdicts": 255,
-    "failRepairRequired": 37,
-    "passIndependent": 198
+    "failRepairRequired": 33,
+    "passIndependent": 202
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -48,21 +48,17 @@
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
+    "ca-17b-reduction-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-    "de_mandatory_expungement-set",
     "fl-early-juvenile-set",
     "il-cannabis-vacate-set",
-    "il-exp-pardon-set",
-    "il-exp-precompletion-set",
     "il-exp-qualprob-set",
     "il-seal-2yr-set",
     "il-seal-3yr-set",
-    "il-seal-edu-set",
-    "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "md_pardon_expungement-set",
     "mo-art-xiv-marijuana-set",
@@ -3694,6 +3690,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A clipped, semantically broken sentence is printed on a delivered filing document, and the packet's own counters and the acceptance receipt both read zero problems for it. It is not participant content - it is the form's interactive toolbar strip - and it does not obscure any petition text, which is why this row states plainly what it is. It is still a defect this build introduced into the issuer's page, and CLIPPING_AND_OVERLAP has no materiality threshold. The proof that it is introduced rather than preserved is the two comparison renders above.",
+          "findingReadFrom": "finding",
+          "evidence": "CR-180 page 3 of every delivered fixture prints the issuer's privacy banner as a single clipped line reading 'd privacy, please press the Clear This Form button after you'. The full string is 'For your protection and privacy, please press the Clear This Form button after you have printed the form.' Both ends are cut: the opening 'For your protection an' is lost off the left of the grey box and 'have printed the form.' is lost off the right. This is not source-authored. Rendering page 3 of the pinned Master Library CR-180 at 06c1b643 shows the same banner laid out correctly on two lines and complete. Rendering page 3 of this family's own derived-sources/cr-180-pikepdf-unlocked.pdf shows it correctly on two lines as well. So the source is clean, the unlocking step is clean, and the defect enters at the fill-and-flatten step in this family's build. The same step also redraws every checkbox on the form with a doubled outline where the source and the derivative draw a single one."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
       "superseded": false
     },
     {
@@ -5225,6 +5244,29 @@
       "failedObligationNames": [
         "KNOWN_PREFILLS",
         "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "This is a new finding, not one carried forward. The committed TRUTH4_FINDINGS.json has no check-B entry for this family at all - it lists it under notMeasurable on the ground that 'no census-v1 family directory exists', which is stale, since the directory exists and holds five delivered pages. The failure was found by measuring the memo against the delivered bytes here. Its consequence is concrete: a participant whose petition the district attorney opposes, or whom the court sets down for a contested hearing, is nowhere told that self-help ends there, and a non-citizen or a licence holder is nowhere warned that sealing carries immigration, licensing or firearm consequences. The instructions do end by saying 'if anyone opposes the petition, that is the point to get a lawyer' - one condition in substance - and that sentence is why conditionsCarriedInSubstance is 1 rather than 0.",
+          "findingReadFrom": "finding",
+          "evidence": "CO.memo.json track co_petition_seal_arrest declares three selfHelpStopConditions: 'The district attorney objects.', 'The court sets a contested hearing.', and 'Immigration, licensing or firearm consequences are in play.' None of the three appears verbatim in participant-instructions.md or in either fixture, and two of the three appear nowhere in substance either. Measured string by string over the delivered bytes at this base: the words 'immigration', 'firearm' and 'licensing' return zero matches in participant-instructions.md and zero in both PDFs; 'contested hearing' returns zero, and the only occurrences of 'hearing' anywhere in the packet are the issuer's own JDF-418 background text ('presented at a hearing') and JDF-417 section 6 ('I request a hearing to present my request'), neither of which is a stop; the district attorney appears only twice and both times as something other than a stop - once as a records custodian to tick in section 3 and once as the holder of a diversion record. There is no 'stop and get help' section in this packet at all. The repository's own truth check agrees: re-running scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs against these bytes scores this family conditionsHeld 3, conditionsCarriedVerbatim 0, conditionsCarriedInSubstance 1, conditionsNotRepresented 2, immigrationConditionsNotRepresented 1, result FAIL, failures B1_STOP_CONDITION_NOT_CARRIED_VERBATIM and B1B_STOP_CONDITION_NOT_REPRESENTED_AT_ALL."
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
@@ -7017,6 +7059,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The bound legal content has NOT moved and I proved that rather than assuming it. The pinned blob was recovered from 2d01b84f7 and the single census entry this receipt binds - the one whose routeKey is obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement - was serialised and compared object for object against the bytes on disk: identical. So this is a receipt-accuracy defect and not a wrong-source defect, and the repair is to re-pin or to record the drift, not to re-source. It is scored a failure because the receipt makes a false statement about its own custody, and the receipt is the record a downstream gate reads to decide whether this packet's authority still binds.",
+          "findingReadFrom": "finding",
+          "evidence": "source-receipt.json declares allSourcesExact true over three committed records. Rehashed against the tree at this base, two bind exactly - src/lib/legal-authority/routes/single-routes.json at 6ca51b6d and src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json at 0d5885d3 - and the third does not. data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json is pinned at 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f / 2625273 bytes; the file on disk is f6fc081419eadf60... / 2629290 bytes. The pinned digest is the blob at commit 2d01b84f7 and the file has changed four times since. allSourcesExact true is therefore false as stated, a rebuild will not reproduce this receipt, and a gate that re-checks pins against HEAD refuses it."
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "superseded": false
     },
     {
@@ -8118,6 +8183,33 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "This is the same conflict as blockedLegalInput below and it is scored here rather than passed. A guide cannot replace an owed application: the delivered document says on its own face that it is filed nowhere, so if the memo's reclassification governs, the required component of this packet set does not exist. This lane does not resolve which record governs and did not compose an application, because composing one would require asserting a form, format and submission destination SBI has not published and which CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json forbids inventing.",
+          "findingReadFrom": "finding",
+          "evidence": "componentSet ['agency_preparation_guide'] agrees across production-field-map.json, reports/rendered-artifacts.json (components, documents and a pageManifest for all four pages of both fixtures) and product-wiring.json. Measured against the family's own declaration, one component is owed and one is delivered. Measured against DE.memo.json tracks[1].components[0] - role primary_filing, requirement REQUIRED, officialFormId DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION - a required primary filing is owed and is not delivered in any form."
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
@@ -9331,6 +9423,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-pardon-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-exp-pardon-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-pardon-set",
       "superseded": false
     },
     {
@@ -9385,6 +9491,20 @@
         "ROUTE_OPTIONS",
         "SELF_HELP_STOP"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-precompletion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-exp-precompletion-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
@@ -9880,7 +10000,7 @@
           "grantsWholeObligationPass": false
         }
       ],
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-edu-set",
@@ -9966,6 +10086,20 @@
       "superseded": true
     },
     {
+      "familyId": "il-seal-edu-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+      "superseded": false
+    },
+    {
       "familyId": "il-seal-nonconv-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
@@ -10010,6 +10144,20 @@
         "REQUIRED_BEFORE_FILING",
         "ROUTE_OPTIONS"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-nonconv-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
@@ -18099,6 +18247,43 @@
       ],
       "failedObligationNames": [
         "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The defect the prior row recorded reproduces on the current bytes and was not repaired. The wiring record that a promotion would be read off omits the only component this packet set marks required, and declares both conditional components as though they were unconditional. The guidance content itself IS delivered - reports/rendered-artifacts.json componentSet names all three and pages 4-5 carry it - so this is a declaration defect, not a missing page, and it is repairable from the manifest.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[362] declares three components for pa_pardon_expungement-set: order 1 pa_pardon_expungement-process-guidance-1, role process_guidance, requirement REQUIRED; order 2 pa_pardon_expungement-primary-filing-2, role primary_filing, requirement conditional ('Generated only where the automatic route has not cleared the record after the quarterly cycle'); order 3 pa_pardon_expungement-proposed-order-3, role proposed_order, requirement conditional ('Accompanies the fallback petition'). product-wiring.json binding.packetComponents at this base names two - component:pa_pardon_expungement-primary-filing-2 and component:pa_pardon_expungement-proposed-order-3 - and omits the required one. Separately, production-field-map.json componentConditions is null, so the manifest's conditional-generation rule for the two forms is not carried in the delivered record at all."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Two known facts are dropped silently on exactly the fixture that exists to test long values, with no refusal record and no disclosure, while the field map declares them written. The finalizer is capable of shrinking to fit - it shrinks a 39-character name into the order's caption box and a 45-character address into the petition's address widget on the same fixture - so this is a drop, not a policy. It is a source-authored default in boundaryWrites contradicted by the delivered appearance, and it is the class of defect that a reader of the record would never see.",
+          "findingReadFrom": "finding",
+          "evidence": "The canonical petition writes nine values including AddrState 'PA' and AddrZip '19107'. The boundary petition writes seven: AddrState and AddrZip are absent. The builder holds both facts for the boundary fixture ('participant.state': 'Pennsylvania', 'participant.zip': '18702-2214'). production-field-map.json lists AddrState and AddrZip under boundaryWrites - i.e. the record says the boundary fixture writes them. reports/actual-writes.json for the boundary petition reports valuesReportedByFinalizer 7 and lists neither, and records no refusal for either. Read off the rendered page, boundary page 1 shows 'Wilkes-Barre Township' with the state and ZIP positions empty; '18702' occurs nowhere in the boundary packet, and the only occurrences of 'Pennsylvania' are the form's own printed text."
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The guidance page is bound last and its own first heading is 'READ THIS BEFORE YOU FILE ANYTHING'. Its content is the part that tells the participant whether they need to file at all - 'If the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.' A participant who reads the packet in the order it is bound reaches the petition first and that sentence fourth. No record in the family declares a rationale for the inversion.",
+          "findingReadFrom": "finding",
+          "evidence": "The committed manifest declares component order 1 process_guidance, 2 primary_filing, 3 proposed_order. reports/rendered-artifacts.json pageManifest for both fixtures records the delivered assembly as page 1 primary_filing, pages 2-3 proposed_order, pages 4-5 process_guidance, and the rendered pages confirm it. production-field-map.json componentSet is written in the delivered order rather than the declared one, so the family's own record agrees with itself and disagrees with the manifest."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "PAGE_ORDER"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",

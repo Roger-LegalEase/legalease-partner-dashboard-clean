@@ -140,3 +140,76 @@ test("a zero-source composition is not caught by this rule", () => {
   const src = fs.readFileSync(GATE, "utf8");
   assert.match(src, /artifactRecords\.length === 0\s*\n\s*\? \[\]/, "no artifact records must yield no unmeasured counters");
 });
+
+// ---------------------------------------------------------------------------
+// The rule landed backwards on one artifact shape, and four families paid.
+//
+// FIX99 writes records that are honest twice over: valuesReportedByFinalizer is
+// a real count of what the finalizer set, and addedGlyphsReadFromOutputBytes /
+// flattenedWidgetAppearancesReadFromOutputBytes are null because that writer
+// does not open the output. Both defects below fired on that shape.
+//
+//   1. `valuesReportedByFinalizer` sat in the invisibleWrites measurability key
+//      list, so its presence certified the counter measured -- on the
+//      finalizer's own claim about its own writes, which is the accused rather
+//      than the measurement.
+//   2. The raise coerced the two null output readings to 0 and summed them, so
+//      "nobody read the bytes" arrived at the test as "the bytes carry no ink"
+//      and raised invisibleWrites 2.
+//
+// Together they failed four Illinois families whose ink an independent lane had
+// counted at 150 dpi, while visualDefects -- whose guard names only an
+// output-byte reading -- correctly reported UNMEASURED on the same file. A
+// fabricated zero passed and an admitted null failed.
+//
+// The subject families are the four rebuilt Illinois ones; the test finds the
+// shape rather than naming them, so it survives their repair.
+
+/** Artifact records that report finalizer writes and no reading of the output. */
+const finalizerOnlyFamilies = () => {
+  const found = [];
+  const base = path.join(ROOT, "data/rcap-all50/overlays/census-v1");
+  for (const st of fs.readdirSync(base)) {
+    const stDir = path.join(base, st);
+    if (!fs.statSync(stDir).isDirectory()) continue;
+    for (const fam of fs.readdirSync(stDir)) {
+      const p = path.join(stDir, fam, "reports/actual-writes.json");
+      if (!fs.existsSync(p)) continue;
+      let arts;
+      try { arts = JSON.parse(fs.readFileSync(p, "utf8")).artifacts; } catch { continue; }
+      if (!Array.isArray(arts) || arts.length === 0) continue;
+      const finalizerOnly = arts.some((a) =>
+        typeof a.valuesReportedByFinalizer === "number" && a.valuesReportedByFinalizer > 0 &&
+        typeof a.addedGlyphsReadFromOutputBytes !== "number" &&
+        typeof a.flattenedWidgetAppearancesReadFromOutputBytes !== "number");
+      if (finalizerOnly) found.push(fam.replace(/--official-pdf-fill$/, ""));
+    }
+  }
+  return found;
+};
+
+test("the finalizer-only artifact shape still exists, so this guard still has a subject", () => {
+  const fams = finalizerOnlyFamilies();
+  assert.ok(fams.length > 0, "no family reports finalizer writes without an output reading; if every writer now opens the output, retire this test deliberately");
+});
+
+test("the finalizer's own count cannot certify invisibleWrites measured", () => {
+  // Both defects are visible on one family: with the old key list the counter
+  // read 2 and the family FAILed; with the old summation it would read 2 even
+  // if the key list were fixed. The honest answer is that nobody looked.
+  const fam = finalizerOnlyFamilies()[0];
+  const out = run(fam);
+  const line = out.split("\n").find((l) => l.includes(fam)) ?? "";
+  assert.doesNotMatch(line, /FAIL_VISIBLE_APPEARANCE/, "a defect was invented from an absent measurement");
+  assert.match(out, /invisibleWrites UNMEASURED/, "invisibleWrites must be null when no output-byte reading was taken");
+});
+
+test("a real output reading of zero against reported writes still raises invisibleWrites", () => {
+  // The negative control: the repair must not have turned the counter off. A
+  // record that DID open the output and found no glyph and no appearance is a
+  // genuine invisible write and must still fail.
+  const arts = [{ fixture: "canonical.pdf", valuesReportedByFinalizer: 12, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: 0 }];
+  const readings = [arts[0].addedGlyphsReadFromOutputBytes, arts[0].flattenedWidgetAppearancesReadFromOutputBytes].filter((n) => typeof n === "number");
+  assert.equal(readings.length, 2, "both readings are present, so the question was asked");
+  assert.equal(readings.reduce((a, b) => a + b, 0), 0, "and the answer was no ink, which is a defect and not an absence");
+});

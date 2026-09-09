@@ -446,8 +446,17 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     const reported = artifact.valuesReportedByFinalizer ?? artifact.finalizerWritten ?? null;
     const glyphs = artifact.addedGlyphsReadFromOutputBytes ?? null;
     const appearances = artifact.flattenedWidgetAppearancesReadFromOutputBytes ?? null;
-    const visible = (typeof glyphs === "number" ? glyphs : 0) + (typeof appearances === "number" ? appearances : 0);
-    if (typeof reported === "number" && reported > 0 && visible === 0) {
+    /*
+     * `visible` is a sum over the readings that EXIST. A null is not a zero: a
+     * record whose two output-byte readings are both null says nobody opened
+     * the output, not that the output is blank. Coercing those nulls to 0 made
+     * the finalizer's own count the whole test and raised invisibleWrites on
+     * four Illinois families whose ink an independent raster pass had counted.
+     * So the raise requires at least one real reading to have been taken.
+     */
+    const readings = [glyphs, appearances].filter((n) => typeof n === "number");
+    const visible = readings.reduce((a, b) => a + b, 0);
+    if (readings.length > 0 && typeof reported === "number" && reported > 0 && visible === 0) {
       note("invisibleWrites", { fixture: artifact.fixture, reportedByFinalizer: reported, glyphsInOutput: glyphs, appearancesInOutput: appearances, why: "the finalizer reported values but the output bytes carry no glyph and no flattened appearance" });
     }
     const outsideBoxes = artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes;
@@ -619,13 +628,19 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
    * unmeasured is the same error as calling an unmeasured thing zero, pointed
    * the other way, and it would have made 15 honest families unmeasurable.
    *
+   * `valuesReportedByFinalizer` was in the invisibleWrites key list and should
+   * not have been. It is the finalizer's own claim about what it wrote -- the
+   * accused, not the measurement -- so its presence certified the counter
+   * measured on a number that is not a reading of the output bytes. Only the
+   * two output-byte readings can settle whether anyone looked.
+   *
    * The two that remain are absent only when the measurement is: every one of
    * the 210 carries `addedGlyphsReadFromOutputBytes`, and
    * `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes` IS the geometry pass's own
    * output, so its absence is the pass not having run.
    */
   const measurability = {
-    invisibleWrites: anyArtifactHas("valuesReportedByFinalizer", "addedGlyphsReadFromOutputBytes", "flattenedWidgetAppearancesReadFromOutputBytes"),
+    invisibleWrites: anyArtifactHas("addedGlyphsReadFromOutputBytes", "flattenedWidgetAppearancesReadFromOutputBytes"),
     visualDefects: anyArtifactHas("nonWhitespaceGlyphsOutsideMeasuredWriteBoxes")
   };
   /* No artifact records at all is a different fact -- a zero-source composition
