@@ -262,6 +262,130 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "verdictIssued": "none. This lane builds and stops; it verifies nothing and approves nothing."
+    },
+    {
+      "itemId": "de_discretionary_family_court-set",
+      "familyId": "de_discretionary_family_court-set",
+      "jurisdiction": "DE",
+      "lane": "PF02",
+      "claim": "CLAIM_OK PF02 de_discretionary_family_court-set (packet-build, grant set 5eebad4c75905f1d)",
+      "implementationStrategy": "official_pdf_fill (declared). Measured: this family binds no PDF at all.",
+      "status": "STOPPED",
+      "blocker": "BLOCKED_SOURCE",
+      "stopClass": "SOURCE_IS_NOT_A_PDF_AND_THE_DECLARED_STRATEGY_IS_OFFICIAL_PDF_FILL",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "exactRefusal": "No refusal from pdf-lib, because neither bound instrument is a PDF and neither was ever offered to it. FORM-281 is 'Composite Document File V2 Document, Little Endian, Os: Windows, Version 10.0, Code page: 1252, Title: The Family Court of the State of Delaware, Author: Morett, William (Courts), Name of Creating Application: Microsoft Office Word, Number of Pages: 1, Number of Words: 574' — a binary Word .doc. FORM-281E is 'Microsoft Word 2007+', an Office Open XML .docx whose word/document.xml carries legacy Word form fields (FORMTEXT and FORMCHECKBOX runs). The declared strategy for this family, in the track registry, the packet-set manifest, MASTER_QUEUE.json and SOURCE_READY_BUILDABILITY.json alike, is official_pdf_fill.",
+      "componentsRequiredByTheControllingRecords": [
+        {
+          "order": 1,
+          "componentId": "de_discretionary_family_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281",
+          "buildable": false,
+          "why": "the instrument is a binary Word .doc, not a PDF"
+        },
+        {
+          "order": 2,
+          "componentId": "de_discretionary_family_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281E",
+          "buildable": false,
+          "why": "the instrument is a Word .docx with legacy Word form fields, not a PDF"
+        },
+        {
+          "order": 3,
+          "componentId": "de_discretionary_family_court-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "buildable": true,
+          "why": "composed, binds no official binary"
+        }
+      ],
+      "requiredComponentsUnbuildable": 1,
+      "conditionalComponentsUnbuildable": 1,
+      "itIsNotJustTheDotDoc": "The assignment named one format problem, FORM-281 being a .doc. There are two. The conditional continuation FORM-281E is a .docx, held byte-exact in the Master Library at aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33 and confirmed here. Delaware Family Court publishes this whole packet family as Word documents, so this family binds no PDF whatsoever. A one-off conversion of the .doc would not have produced a buildable family either.",
+      "theThreeHonestOptionsAndWhichWasTaken": {
+        "optionConsidered1": "Build a Word path if the factory has one.",
+        "verdictOn1": "The factory has none, and this was measured rather than assumed. All 186 official-document bindings across every source-receipt.json under data/rcap-all50/overlays/census-v1 are PDFs; every one of the 186 build-census-v1 builders that touches a source binary imports pdf-lib and goes through finalizeOfficialForm or finalizeFlatOverlay, both of which begin with PDFDocument.load. There is no docx or doc fill engine, no Word-aware completeness contract, and no docx branch in scripts/rcap-packet-completeness/. The two required output-byte glyph readings, addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, are defined as measurements over a produced PDF's content streams and have no meaning over a .doc. Writing such a path would be building new shared factory infrastructure, which is not this lane's grant and is not a packet build.",
+        "optionConsidered2": "Stop with BLOCKED_SOURCE naming the format problem exactly.",
+        "optionConsidered3": "Report that it needs a docx path and stop.",
+        "taken": "Options 2 and 3 together. This row is the BLOCKED_SOURCE stop naming both formats exactly, and the lane return to the assigning agent states that this family needs a Word path decision before it can be built at all.",
+        "theDishonestOptionAndWhyItWasRefused": "Converting silently and presenting the result as the official form. It was refused, and it is worth being explicit that it was refused as a choice rather than prevented by the container: LibreOffice IS installed here (/usr/bin/soffice, /usr/bin/libreoffice), so `soffice --convert-to pdf` would have produced a plausible PDF within seconds. What it would have produced is a LibreOffice re-render — its pagination, its font substitution, its line breaks — bearing no relation to any digest in any controlling record, and handing it to a participant as the Delaware Family Court petition would be presenting this factory's output as a court's published instrument. SOURCE_REMATERIALIZATION_REQUEST.json's own noteOnFormat anticipates exactly this: 'DE-FORM-281 is a .doc, not a PDF. It was not converted. Whoever builds de_discretionary_family_court-set needs a Word path or a stop, not a silent conversion.' SOURCE_READY_BUILDABILITY.json rules the same way on the sibling: 'The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build.'",
+        "nothingWasConverted": "No conversion of any kind was run. soffice was never invoked. The two Word files were opened read-only to establish their format and field structure and were not written, copied or transformed."
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:FORM-281",
+          "declaredSha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+          "rehashedHere": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+          "digestsIdentical": true,
+          "byteLength": 97280,
+          "expectedByteLength": 97280,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+          "resolvedBy": "declared_path_and_content_hash",
+          "assetFormat": "doc",
+          "isPdf": false,
+          "wordMetadata": {
+            "title": "The Family Court of the State of Delaware",
+            "author": "Morett, William (Courts)",
+            "lastSavedBy": "Tumiki, Shashank C (Courts)",
+            "revisionNumber": 7,
+            "lastSaved": "2025-11-19",
+            "pages": 1,
+            "words": 574
+          }
+        },
+        {
+          "sourceId": "official-form:FORM-281E",
+          "declaredSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+          "rehashedHere": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+          "digestsIdentical": true,
+          "byteLength": 26118,
+          "custodyPath": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+          "custodyRoot": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "resolvedBy": "declared_path_and_content_hash",
+          "assetFormat": "docx",
+          "isPdf": false,
+          "formFieldMechanism": "legacy Word form fields: FORMTEXT and FORMCHECKBOX runs in word/document.xml",
+          "printedTitle": "PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET"
+        }
+      ],
+      "bothSourcesAreHeldAndExact": "This is not a missing-source stop. Both instruments are in custody and both re-hash to their declared digests exactly. The defect is that an official_pdf_fill family binds two Word documents.",
+      "recordsDefectWorthCorrecting": {
+        "what": "Four records declare implementationStrategy / outputStrategy official_pdf_fill for this family and for both of its official components: legal-design-track-registry.json (trackId de_discretionary_family_court), legal-design-packet-set-manifests.json (de_discretionary_family_court-set v1.0.0), MASTER_QUEUE.json, and SOURCE_READY_BUILDABILITY.json.",
+        "why": "No component of this family is a PDF, so official_pdf_fill cannot be the right strategy for it under any engine. The declaration is wrong on its face, independently of whether the factory ever gains a Word path.",
+        "notEdited": "No controlling record and no central manifest was opened for writing by this lane. Correcting a strategy declaration is a Captain decision.",
+        "alreadyPartlyObserved": "SOURCE_READY_BUILDABILITY.json classifies FORM-281E as 'held_but_not_a_pdf' and already says an official_pdf_fill route cannot overlay it, so the contradiction is visible in the measurement record; what is new here is that it applies to the primary filing too, and therefore to the whole family."
+      },
+      "whatWouldUnblockIt": "A Captain-and-counsel decision on one of three, none of which is a build: (a) give the factory a Word fill path — one that fills the court's own FORMTEXT and FORMCHECKBOX fields and preserves the court's layout — together with a completeness contract and glyph-reading equivalents that work over Word output, and change this family's declared strategy accordingly; (b) acquire genuine PDF originals of FORM-281 and FORM-281E from Delaware Family Court and re-bind the family to those digests; or (c) rule explicitly that a factory-converted PDF may stand in for a court's published Word instrument, and record that ruling where a reviewer will see it. Note for (b): Delaware's Superior Court forms ARE published as PDFs and are still unbuildable, because they are AES-256 encrypted — see the other two rows in this file. Acquiring PDFs for Family Court may substitute this family's blocker for that one rather than remove it.",
+      "whyEveryCounterIsNull": "Nothing was built, so there is nothing to count. No fixture PDF, field map, field census, write report or blanks report exists for this family, and a zero in any of these nine would be a measurement this lane did not take. Zero writes is not the same fact as zero defects.",
+      "factoryPrecedentChecked": "186 distinct official documents are bound by exact SHA-256 across every source-receipt.json under data/rcap-all50/overlays/census-v1. Of the 34 that resolve to bytes on disk in this container, 33 are unencrypted and 0 are encrypted. This factory has never built an official_pdf_fill packet from an encrypted source, and holds no code path that could.",
+      "whyNoBuilderScriptWasWritten": "scripts/build-census-v1-de_pardon_expungement-set.mjs, scripts/build-census-v1-de_discretionary_superior_court-set.mjs and scripts/build-census-v1-de_discretionary_family_court-set.mjs were NOT created. A builder that cannot open its own sources cannot be run, cannot be tested and produces nothing, and committing three of them would leave scripts that read as an official_pdf_fill path for Delaware while being none. buildScriptExists stays false for all three, which is what SOURCE_READY_BUILDABILITY.json already records.",
+      "sourceRecoveryWasNecessaryButNotSufficient": "The 2026-09-04 acquisition archive was correctly recovered and correctly mounted, and this lane re-hashed all four Delaware originals and confirmed each against SOURCE_REMATERIALIZATION_REQUEST.json's expectedSha256 and expectedByteLength. The missing-bytes input is genuinely discharged. It was not, however, the only blocker: these three families would have stopped on the encrypted-source defect on 2026-09-04 as well.",
+      "rasterState": "NOT_BUILT",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "verdictIssued": "none. This lane builds and stops; it verifies nothing and approves nothing."
     }
   ]
 }

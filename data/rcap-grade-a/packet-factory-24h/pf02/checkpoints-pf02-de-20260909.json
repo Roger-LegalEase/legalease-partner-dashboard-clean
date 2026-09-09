@@ -36,9 +36,39 @@
       "completed": 0,
       "stopped": 1,
       "note": "Same root defect as checkpoint 1 and the same stop class. Also records that the stated reason for consolidating the three Delaware families onto one lane does not hold as written: CIV_EXP_02_B is bound by this family alone. The genuinely shared instrument is CIV_EXP_02_A, required primary filing of both this family and de_pardon_expungement-set."
+    },
+    {
+      "n": 3,
+      "familiesDecidedAtThisPoint": 3,
+      "families": [
+        "de_discretionary_family_court-set"
+      ],
+      "completed": 0,
+      "stopped": 1,
+      "note": "A different blocker from the other two. This family binds no PDF at all: FORM-281 is a binary Word .doc and the conditional continuation FORM-281E is a Word .docx with legacy FORMTEXT/FORMCHECKBOX fields, while the declared strategy in every controlling record is official_pdf_fill. Nothing was converted; LibreOffice is installed here and was deliberately not used."
     }
   ],
-  "finalReturn": null,
+  "finalReturn": {
+    "rowsReturned": 3,
+    "completed": 0,
+    "stopped": 3,
+    "allThreeStoppedForSourceReasons": true,
+    "twoDistinctRootCauses": {
+      "aesEncryptedPdf": [
+        "de_pardon_expungement-set",
+        "de_discretionary_superior_court-set"
+      ],
+      "sourceIsNotAPdf": [
+        "de_discretionary_family_court-set"
+      ]
+    },
+    "sourceRecoveryDischargedTheBlockerItWasMeantTo": "All four recovered 2026-09-04 originals were re-hashed here and match their declared digests and byte lengths exactly. The missing-bytes input is genuinely gone. It was not the only blocker on any of the three families.",
+    "buildersWritten": 0,
+    "artifactsWritten": 0,
+    "centralManifestsEdited": 0,
+    "sharedFactoryScriptsEdited": 0,
+    "sourcesConvertedDecryptedOrSubstituted": 0
+  },
   "packetsSelfVerified": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false
