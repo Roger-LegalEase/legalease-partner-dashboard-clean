@@ -11,7 +11,7 @@
   "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
   "familiesAssignedByPrompt": 4,
   "familiesGrantedByClaimLedger": null,
-  "rowsReturned": 2,
+  "rowsReturned": 3,
   "packetsSelfVerified": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -337,8 +337,194 @@
           "measured": "all three are now false: fixtures/, a completeness-counters record and a full packet exist at the paths above."
         }
       ]
+    },
+    {
+      "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "whyNoOverlayDirectory": "The builder's own design is to create nothing for a family it refuses to build, and this lane did not change that. The measurements below are the family's evidence and they live in this return.",
+      "routeKeys": [
+        "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-automatic-and-verification",
+        "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-recovery-letter"
+      ],
+      "builtBy": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "buildStatus": "official_forms_ingested",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 tx_nd_automatic_misdemeanor_deferred-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. In this worktree it stopped on the wrong thing: it reported that the custody holding the Statement of Inability is not mounted here, so the refusal it was written to record was never reached and never checked.",
+      "defectFoundAndRepairedInTheBuilder": {
+        "defect": "A HELD SOURCE WAS REPORTED UNMOUNTED BECAUSE ITS CUSTODY IS RESOLVED INSIDE THE CHECKOUT",
+        "demonstratedBy": "At the shift base the builder returned failedSourceIdentities: [{ sourceIdentity: 'official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond', why: 'the custody holding private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf is not mounted here' }]. The bytes are held, and hash to the pinned bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d.",
+        "whyItIsADefect": "The corpus index declares the human_source_returns custody with pathsRelativeTo 'repositoryRoot', so the shared resolver joins the path onto whichever checkout is running. private/human-source-returns is untracked in every checkout — it is a mount, not repository content — and git sparse-checkout cannot materialise it, so from a worktree the resolver always reports a held source as unmounted. That is the false-corruption failure mode the resolver's own header warns about, arriving from the other direction.",
+        "repair": "This builder now falls back, per custody, to a root named in the environment — RCAP_HUMAN_SOURCE_RETURNS_DIR, and RCAP_D_SOURCE_DIR for the D packs, the variable scripts/build-census-v1-ar-*.mjs already use for exactly this. The override changes only where the bytes are looked for: the committed index still pins the digest, the bytes are still hashed in this container, and a mismatch still fails. A stop now also names the custody, the paths tried, and the variable that would resolve it.",
+        "sharedModuleNotEdited": "scripts/lib/corpus-index-paths.mjs has the same blind spot for every family whose source sits in a repositoryRoot-relative custody. It is a shared module with one writer and was NOT edited. Reported to the Captain instead.",
+        "invocationThatReproduces": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs"
+      },
+      "whyThisFamilyIsStillStopped": {
+        "blockedComponent": "component:tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+        "blockedSourceIdentity": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "finding": "The form cannot record two elections this route determines. Group10 is ONE top-level radio field with four kid widgets: two on page 3 and two on page 9. A radio group holds one selection, so marking one question unmarks the other, whatever tool the filer uses.",
+        "verifiedFirstHandInThisShift": "Measured from the pinned bytes rather than taken from the builder's prose. Group10 pagesSpanned [3, 9]; widgets at page 3 y=304.1 and y=135.7 and page 9 y=317 and y=288.5. The text extracted at those coordinates is, in order: 'I am being represented in this case for free by an attorney who works for a legal aid provider...' (page 3, under 'Check only one box.'), 'I am not represented by legal aid.' (page 3), 'I cannot afford to pay court costs.' (page 9), and 'I cannot furnish an appeal bond or pay a cash deposit to appeal a justice court decision, and I cannot afford to pay court costs.' (page 9). This packet is drafted for a self-represented filer who cannot afford court costs, so both answers are route-determined and the form can hold only one.",
+        "whatWasNotDone": "The two elections were not relabelled as participant elections to keep a counter at zero; no marks were drawn into page content beside the widgets, on a declaration sworn under penalty of perjury, through a control the form does not provide; and the binary the Supreme Court of Texas approved was not re-fielded.",
+        "whatWouldUnblockIt": [
+          "a Statement of Inability binary whose item-3 and item-9 elections are separate AcroForm fields, or",
+          "an owner determination that this packet may mark those two elections outside the form's own controls, or",
+          "an owner determination that the fee-waiver component may be dropped from this family's declared set and replaced by the fee the OCA instructions name as its alternative"
+        ]
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced, so nothing was measured. A zero would be a claim about a packet that does not exist.",
+      "componentsBuildable": [
+        "recovery_letter",
+        "proposed_order"
+      ],
+      "componentsBlocked": [
+        "fee_waiver_statement"
+      ],
+      "measurementsCarriedForwardSoTheNextLaneNeedNotResurvey": {
+        "recoveryLetter": {
+          "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "encryptedInTheCustody": true,
+          "pdfLibCanOpenItDirectly": false,
+          "pikepdfDerivativeSha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
+          "pikepdfDerivativeByteLength": 251614,
+          "pageCount": 7,
+          "acroFormFields": 25,
+          "deterministic": "two runs in this container produced the identical derivative digest",
+          "buildable": true
+        },
+        "proposedOrder": {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "pageCount": 3,
+          "acroFormFields": 0,
+          "buildable": true,
+          "note": "a flat proposed order the court completes; nothing on it is the participant's to fill"
+        },
+        "feeWaiverStatement": {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "pageCount": 12,
+          "radioGroupsMeasured": [
+            {
+              "name": "Choice 1",
+              "options": 5,
+              "pagesSpanned": [
+                1
+              ]
+            },
+            {
+              "name": "Group12",
+              "options": 2,
+              "pagesSpanned": [
+                4
+              ]
+            },
+            {
+              "name": "Group10",
+              "options": 4,
+              "pagesSpanned": [
+                3,
+                9
+              ]
+            }
+          ],
+          "sourceCarriedDefaultsThatAnyBuildMustClear": [
+            {
+              "field": "Today",
+              "sourceCarriedValue": "12/15/2022",
+              "why": "it sits on the line beneath a declaration made under penalty of perjury; delivered as-is it would date a sworn statement to a day the filer did not sign"
+            },
+            {
+              "field": "Value / Valor 11",
+              "sourceCarriedValue": "0",
+              "why": "a computed total that reads as a statement the filer owns nothing"
+            },
+            {
+              "field": "Amount Cantidad 15",
+              "sourceCarriedValue": "0",
+              "why": "a computed total that reads as a statement the filer spends nothing"
+            }
+          ],
+          "buildable": false
+        }
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072"
+          ],
+          "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "custody": "master_library",
+          "resolved": true,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:OCA Model Order of Nondisclosure under Section 411.072"
+          ],
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "custody": "master_library",
+          "resolved": true,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+          ],
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "resolved": true,
+          "boundBy": "exact_content_sha256",
+          "resolvedThrough": "RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns, a custody mount this container holds and the buildability record's own mountsSearched names"
+        }
+      ],
+      "allSourcesExact": true,
+      "allThreeSourcesResolvedAndHashedInThisContainer": true,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No fixture, no field map, no census, no instructions and no glyph readings were produced. The family was not built.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[tx_nd_automatic_misdemeanor_deferred-set].buildScriptExists",
+          "says": "false",
+          "measured": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs exists at the shift base commit and runs. The field is stale; MASTER_QUEUE has it right."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json and MASTER_QUEUE.json",
+          "field": "sourceStatus / verdict",
+          "says": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF, SOURCE_BOUND_BY_HELD_BYTES, 3/3 resolved",
+          "measured": "True, and this lane confirms it by hashing all three. But three-of-three held is not three-of-three usable: one of the three cannot record two elections this route determines, and no source record in this repository says so. Held-ness and buildability are different measurements and the queue reports only the first."
+        }
+      ]
     }
   ],
   "familiesCompleted": 1,
-  "familiesStopped": 1
+  "familiesStopped": 2
 }
