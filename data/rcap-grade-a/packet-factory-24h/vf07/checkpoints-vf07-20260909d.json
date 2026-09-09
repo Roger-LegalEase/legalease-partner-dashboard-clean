@@ -37,7 +37,39 @@
     "rcap-hi-custom-pleading"
    ],
    "pushed": true
+  },
+  {
+   "n": 5,
+   "what": "Claim gate for rcap-or-official-pdf-fill. CLAIM_OK VF07 rcap-or-official-pdf-fill (independent-verification, grant set 68a665634f7e38b0), exit 0, before any artifact of the family was read.",
+   "familiesCompletedAtThisPoint": [
+    "la-976-arrest-no-conviction-set",
+    "rcap-hi-custom-pleading"
+   ],
+   "pushed": false
+  },
+  {
+   "n": 6,
+   "what": "rcap-or-official-pdf-fill read and scored: BLOCKED_LEGAL_INPUT on COMPONENT_SET. The registry declares seven required components per track, including a proposed_order marked official_pdf_fill and sourced to OR-OJD-ADULT-SET-ASIDE-PACKET. That binary, read at its pinned digest, is five pages carrying an instruction sheet, a Motion, a Declaration of Eligibility and a Certificate of Mailing, and no order; the Oregon corpus holds no Oregon order form. The build drafted none, on the ground that an order is the court's act, and disclosed the absence on the delivered page under a heading 'NO PROPOSED ORDER IS ENCLOSED'. That refusal is correct - drafting one would have been fabrication - but it leaves the family uncertifiable against its own record, and the fix is a legal-input decision rather than a build repair. All four documents were checked present and in order and PAGE_ORDER holds across every document boundary; three of the four are delivered and the fourth is the blocked one. Second finding, escalated: sharedDocuments group 23 is a false positive, and the reason matters more than the group. The shared document is this family's own primary filing, not a cover sheet, and it reads identically to another OR family's motion only because the route election is marked with two diagonal path strokes that no text extraction can see. Read from the content streams, the three motions mark three different boxes and are three different filings. The clone gate is blind to exactly the difference it exists to detect on any family whose deliverable differs by a drawn checkbox.",
+   "familiesCompletedAtThisPoint": [
+    "la-976-arrest-no-conviction-set",
+    "rcap-hi-custom-pleading",
+    "rcap-or-official-pdf-fill"
+   ],
+   "pushed": true
   }
  ],
- "grantsNothing": "Checkpoints are a record of this lane's own progress. They approve no output and promote no route."
+ "grantsNothing": "Checkpoints are a record of this lane's own progress. They approve no output and promote no route.",
+ "shiftSummary": {
+  "familiesRead": 3,
+  "built": 0,
+  "repaired": 0,
+  "released": 0,
+  "verdicts": {
+   "la-976-arrest-no-conviction-set": "FAIL_REPAIR_REQUIRED (FEE_AND_WAIVER)",
+   "rcap-hi-custom-pleading": "FAIL_REPAIR_REQUIRED (KNOWN_PREFILLS)",
+   "rcap-or-official-pdf-fill": "BLOCKED_LEGAL_INPUT (COMPONENT_SET)"
+  },
+  "noneOfTheThreePassed": "Every one of the three carried an admitted RASTER_PASS and all nine builder counters at zero. None of the three findings was visible to a counter; all three were found by reading the delivered PDF against its pinned source and its controlling record.",
+  "grantsNothing": "No route was promoted, no output approved and no commercial path opened."
+ }
 }
