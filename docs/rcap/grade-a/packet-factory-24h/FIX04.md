@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `cee5c6d8b7af7352a925f6d3bf894df54ef2953e` (or the newer dispatch base)
+**Minimum required ancestor:** `1e95f1f067e2f26094228b6f0c922c875c25f33a` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-misd-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha cee5c6d8b7af7352a925f6d3bf894df54ef2953e
+  --minimum-captain-sha 1e95f1f067e2f26094228b6f0c922c875c25f33a
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
+- Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'al-misd-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-exp-nonconv-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ms-nonconv-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -58,10 +59,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
 - `al-misd-conviction-set`
 - `il-exp-nonconv-set`
+- `ms-nonconv-set`
 
 ## What you receive
 
@@ -76,8 +78,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/**`
 - `scripts/build-census-v1-al-misd-conviction-set.mjs`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
+- `scripts/build-census-v1-ms-nonconv-set.mjs`
 
 ## Never write here
 
