@@ -9,6 +9,22 @@ This packet is four official New Mexico forms, prepared for a petition to expung
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, the county, the judicial district and the case number. **Everything else is yours** — including your other names, the agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed below by the form and the section it is in.
 
+## Before you start: when to stop and get a lawyer's advice
+
+Some things put a case beyond what anyone should do on their own paperwork. The list below is quoted word for word, and in order, from the record LegalEase keeps for this kind of New Mexico case. It is read out of that record on the day this packet is built, so it is that list as it then stood; the two records it was read from and compared against are named, with their digests, in this family's build-findings.json.
+
+**If any one of these is true of your case, stop and get a lawyer's advice before you file anything.**
+
+- Any dispute about whether the participant is in fact the subject of the record.
+- Any suggestion, from the participant or anyone else, that LegalEase name the true offender anywhere in the packet or the proposed order.
+- Any charge or proceeding pending against the participant anywhere.
+- An objection filed by any party.
+- A contested hearing on whether the participant is a victim of identity theft.
+- Records held outside New Mexico, or federal, tribal or military records.
+- Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement.
+
+This packet names no particular lawyer, clinic or organisation, because the record it is built from names none for New Mexico. Ask a lawyer.
+
 ## Nobody is served with this petition, and nobody objects to it
 
 On the identity-theft track, **Rule 1-077.1(E) NMRA entitles no responding party to notice** of your petition. You do not serve the district attorney, the police, or anyone else, and there is no certificate of service in this packet because none is required. That is why:
@@ -205,7 +221,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 7. Where the charges were disposed of or originated | Location of the Metropolitan Court the charges were disposed of or originated in | the town or city that metropolitan court sits in |
 | 7. Where the charges were disposed of or originated | Location of the Magistrate Court the charges were disposed of or originated in | the town or city that magistrate court sits in |
 | 7. Where the charges were disposed of or originated | Location of the Municipal Court the charges were disposed of or originated in | the town or city that municipal court sits in |
-| Signature section | Mailing Address of the Petitioner on page 3 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in section 1 on page 1 |
 | Signature section | Telephone Number of the Petitioner on page 3 | your telephone number, so the court can reach you |
 | Signature section | Email of the Petitioner on page 3 | your e-mail address, if you have one |
 
@@ -213,7 +228,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Parties entitled to notice: the petitioner | Petitioner Address | your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails the notice of hearing to |
 | Parties entitled to notice: the petitioner | Petitioner Telephone Number | the telephone number the court should use to reach you about the hearing |
 | Parties entitled to notice: the petitioner | Petitioner Email Address | the e-mail address the court should use to reach you about the hearing, if you have one |
 
@@ -282,7 +296,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | E. Monthly expenses | Monthly expense: Medical expenses | what you pay each month in medical expenses |
 | E. Monthly expenses | Monthly expense: Other, description | a description of any other monthly expense |
 | E. Monthly expenses | Monthly expense: Other, amount | what that other monthly expense costs |
-| F. Household | I live at, your full mailing address on one line | your full address on one line: street, city, state and ZIP. It is the same address written out in parts on page 4 |
 | F. Household | The head of the household is | who the head of your household is, which may be you |
 | F. Household | Household member 1, Name | the name of household member 1, if you have that many |
 | F. Household | Household member 2, Name | the name of household member 2, if you have that many |
@@ -307,7 +320,14 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
 | The applicant's oath | Telephone of the applicant | your telephone number |
 | Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
-| Caption of Form 4-223, Order on Application for Free Process | Name of the Petitioner in the caption of the order for free process | your name, the same as page 1, on the caption of the order you give the judge |
+
+## One or two lines that may be blank on your copy
+
+The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
+
+| Form | Page | The line | What to write if it is blank |
+| --- | --- | --- | --- |
+| NM-4-951 | 3 | Mailing Address of the Petitioner on page 3 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in section 1 on page 1 |
 
 ## What the platform deliberately left blank
 

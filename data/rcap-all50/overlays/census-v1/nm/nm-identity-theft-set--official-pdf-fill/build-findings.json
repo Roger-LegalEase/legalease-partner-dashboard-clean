@@ -11,6 +11,14 @@
   ],
   "findings": [
     {
+      "finding": "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an unavailable one.",
+      "consequence": "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- participant.street_address, the registry's one participant address descriptor -- with the binding, and what the printed caption resolves to on its own, recorded on the field-map row. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short to show the value at the shared six-point readable floor, the host measures that with the same fitter the finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      "finding": "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the AcroForm field named \"I live at\" left the whole-address line of section F empty.",
+      "consequence": "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it writes, and the host asserts both are clean before it offers either row. What each authored name resolves to in the shared registry is recorded on the field-map row. The county blanks on both captions of that binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is untouched."
+    },
+    {
       "finding": "Three of the four documents are FLAT PDFs with no AcroForm field: Form 4-951, Form 4-960.1 and the retained local order. Their blanks are underscore GLYPH RUNS far more often than stroked rules -- the existing stroke reader finds 15 rules on Form 4-951 where the form has 71 blanks -- so the shared measureRuledBlank path finds almost none of them.",
       "consequence": "They are measured by scripts/rcap-nm-flat-forms/nm-flat-blank-measurer.mjs, which reads underscore runs from the per-glyph x and advance the shared anchor-capture walker reports, joins runs that abut across two text-showing operators at 1.2pt, and locates printed \"[ ]\" pairs and symbol-font tick glyphs. Every measured blank must carry a dictionary row and every dictionary row must match a measured blank, checked on every build in both directions, so a blank that moves stops the build rather than moving a write box with it."
     },
@@ -46,5 +54,22 @@
       "finding": "No selection control anywhere in this packet is marked, including on Form 4-222 where the controls ARE AcroForm checkboxes with measured rectangles.",
       "consequence": "On the three flat forms there is nothing measured to mark: the controls are printed \"[ ]\" characters or symbol-font glyphs, checkboxCandidates finds no stroked box, and a mark drawn from a derived coordinate is a mark nobody measured. On Form 4-222 the shared finalizer writes text values only -- and every box on it is a sworn assertion about the applicant's own finances. All of them are listed in reports/blanks-left-for-the-participant.json and named in participant-instructions.md with what to mark."
     }
-  ]
+  ],
+  "selfHelpStopConditionsAsPrinted": {
+    "trackId": "nm_identity_theft",
+    "conditions": [
+      "Any dispute about whether the participant is in fact the subject of the record.",
+      "Any suggestion, from the participant or anyone else, that LegalEase name the true offender anywhere in the packet or the proposed order.",
+      "Any charge or proceeding pending against the participant anywhere.",
+      "An objection filed by any party.",
+      "A contested hearing on whether the participant is a victim of identity theft.",
+      "Records held outside New Mexico, or federal, tribal or military records.",
+      "Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement."
+    ],
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "registrySha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+    "memo": "data/record-clearing/legal-design-intake/NM.memo.json",
+    "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+    "quotedVerbatim": true
+  }
 }
