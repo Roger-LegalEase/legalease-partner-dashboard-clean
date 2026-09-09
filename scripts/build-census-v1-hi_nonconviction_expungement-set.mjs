@@ -64,6 +64,13 @@ const PROFILE_REL = "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json";
 const ROUTE_CONTRACT_REL = "src/lib/legal-authority/routes/p0.json";
 const ROUTE_CONTRACT_KEY = "HI:nonconviction-arrest-expungement";
 const CORPUS_INDEX_REL = "data/rcap-all50/local-source-corpus-index.json";
+// The track registry is the third controlling record this packet PRINTS from.
+// It carries the two things VF02 found missing from the whole family: the
+// track's self-help stop conditions and the packetSet's own
+// requiredBeforeFiling list, including the notarization line and the
+// fee-waiver line. It is read here and bound by digest so it cannot drift.
+const TRACK_REGISTRY_REL = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "hi_nonconviction_expungement";
 
 const SOURCE = Object.freeze({
   documentId: "HCJDC-159B",
@@ -121,11 +128,56 @@ function readControllingRecord() {
   assert.equal(authority.decisionId, contract.decisionId, "the compiled profile and the route contract disagree about the legal decision id");
   assert.match(authority.statute, /831-3\.2/, "this family is the HRS § 831-3.2 non-conviction route; the record now names a different statute");
 
+  const registryBytes = fs.readFileSync(TRACK_REGISTRY_REL);
+  const registry = JSON.parse(registryBytes.toString("utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  assert.ok(track, `${TRACK_REGISTRY_REL} no longer declares track ${TRACK_ID}; this packet prints its stop conditions and its required-before-filing list from it`);
+
+  // Each of these is an OWED DELIVERY: a stop condition the participant is
+  // entitled to be told about, and the record's own list of what must be done
+  // before filing. An empty declaration is a stop, never a shorter guide — a
+  // packet that prints no stop is worse than a build that refuses to ship.
+  const selfHelpStopConditions = track.selfHelpStopConditions ?? [];
+  assert.ok(
+    Array.isArray(selfHelpStopConditions) && selfHelpStopConditions.length > 0,
+    `${TRACK_REGISTRY_REL} track ${TRACK_ID} declares no selfHelpStopConditions; the packet prints them and must not ship with no stop section`
+  );
+  for (const condition of selfHelpStopConditions) {
+    assert.ok(typeof condition === "string" && condition.trim().length > 0, `${TRACK_ID} declares an empty self-help stop condition`);
+  }
+
+  const packetSet = track.packetSet ?? {};
+  const recordRequiredBeforeFiling = packetSet.requiredBeforeFiling ?? [];
+  assert.ok(
+    Array.isArray(recordRequiredBeforeFiling) && recordRequiredBeforeFiling.length > 0,
+    `${TRACK_REGISTRY_REL} track ${TRACK_ID} declares an empty packetSet.requiredBeforeFiling; the packet prints it`
+  );
+  for (const item of recordRequiredBeforeFiling) {
+    assert.ok(typeof item === "string" && item.trim().length > 0, `${TRACK_ID} declares an empty requiredBeforeFiling item`);
+  }
+
+  // The fee-waiver item is carried beside the fee. It is conditional on the
+  // record, and the condition is printed with it: a participant who cannot pay
+  // is owed the record's answer, whatever that answer turns out to be.
+  const participantActionRequired = packetSet.participantActionRequired ?? [];
+  const feeWaiverAction = participantActionRequired.find((a) => a?.kind === "apply_fee_waiver");
+  assert.ok(feeWaiverAction, `${TRACK_ID} no longer carries an apply_fee_waiver participant action; the packet prints it beside the fee`);
+  assert.ok(
+    typeof feeWaiverAction.description === "string" && feeWaiverAction.description.trim().length > 0,
+    `${TRACK_ID} apply_fee_waiver carries no description; the packet prints it`
+  );
+
   return {
     pathway, contract, authority,
+    track,
+    selfHelpStopConditions,
+    recordRequiredBeforeFiling,
+    feeWaiverAction,
+    packetSetComponentCount: (packetSet.components ?? []).length,
     recordDigest: {
       profile: `${PROFILE_REL}@${sha256(fs.readFileSync(PROFILE_REL))}`,
-      routeContract: `${ROUTE_CONTRACT_REL}@${sha256(fs.readFileSync(ROUTE_CONTRACT_REL))}`
+      routeContract: `${ROUTE_CONTRACT_REL}@${sha256(fs.readFileSync(ROUTE_CONTRACT_REL))}`,
+      trackRegistry: `${TRACK_REGISTRY_REL}@${sha256(registryBytes)}`
     }
   };
 }
@@ -652,6 +704,19 @@ function participantInstructions(record, blanks, unfittable) {
   lines.push("## Required before filing — you must complete each of these yourself");
   lines.push("");
   for (const blank of required) lines.push(`- **${blank.label}** — ${blank.participantMustSupply}`);
+  lines.push("");
+  // Printed from packetSet.requiredBeforeFiling verbatim, with the count beside
+  // it, so a list that loses an item loses it visibly. Two of these — the
+  // notarization line and the fee-waiver line — were absent from the whole
+  // family before this section existed.
+  lines.push(`### The record's own required-before-filing list — all ${record.recordRequiredBeforeFiling.length} items, in its words`);
+  lines.push("");
+  for (const item of record.recordRequiredBeforeFiling) lines.push(`- ${item}`);
+  lines.push("");
+  const unsettledByTheSourceReview = record.recordRequiredBeforeFiling.filter((item) => /^The source review does not/i.test(item));
+  if (unsettledByTheSourceReview.length) {
+    lines.push(`${unsettledByTheSourceReview.length} of those ${record.recordRequiredBeforeFiling.length} lines are the record reporting what the source review does **not** establish. They are printed above exactly as the record states them, rather than resolved for you: where the record does not settle a point, this packet does not settle it either, and it does not leave the point out.`);
+  }
   if (unfittable.length) {
     lines.push("");
     lines.push("### Values this packet held but could not print completely");
@@ -672,6 +737,17 @@ function participantInstructions(record, blanks, unfittable) {
   lines.push("The form itself prints the circumstances in which an expungement order **shall not** be issued. Read them on the application before you file. The record additionally names these as the points that decide the route:");
   lines.push("");
   for (const exclusion of authority.exclusions) lines.push(`- ${exclusion}`);
+  lines.push("");
+  // Where self-help ends, printed from the track's own stop conditions. This is
+  // not eligibility: the section above says when the ROUTE does not apply, and
+  // this one says when YOU should stop working alone, whatever the route says.
+  lines.push(`## Stop and get help from a Hawaii lawyer — the ${record.selfHelpStopConditions.length} conditions the record names`);
+  lines.push("");
+  lines.push(`This packet is built to be completed by you, without a lawyer. The controlling record names ${record.selfHelpStopConditions.length} conditions at which that stops being true. If any one of them is true of your record or your situation, stop and speak to a Hawaii lawyer before you go any further with this application:`);
+  lines.push("");
+  for (const condition of record.selfHelpStopConditions) lines.push(`- ${condition}`);
+  lines.push("");
+  lines.push(`These ${record.selfHelpStopConditions.length} are the whole of what the record names, printed in its own words. They are not eligibility rules: a stop condition can be true of you even where the route above applies.`);
   lines.push("");
   lines.push("## Nothing in this packet is legal advice, and nothing in it is approved for filing on your behalf");
   lines.push("");
@@ -704,6 +780,19 @@ function filingInstructions(record, geometry) {
   lines.push("- Payment by money order or cashier's check issued in the United States, payable to \"State of Hawaii\". Personal checks are not accepted. The amounts printed on the form are $35 for a first-time expungement, $50 for a non-first-time expungement and $20 for a duplicate certificate; $10 of the fee is non-refundable.");
   lines.push("- A self-addressed stamped envelope.");
   lines.push("- Your disposition documentation.");
+  lines.push("");
+  // The fee half was already carried. The waiver half is the record's, and a
+  // participant who cannot pay is owed it even when the record's answer is that
+  // the source review does not address the question.
+  lines.push("## If you cannot pay the fee");
+  lines.push("");
+  lines.push(`The controlling record carries one line about a fee waiver, and this is it, in full: "${record.feeWaiverAction.description}"`);
+  if (record.feeWaiverAction.conditionDescription) {
+    lines.push("");
+    lines.push(`The record records that line as conditional: ${record.feeWaiverAction.conditionDescription}`);
+  }
+  lines.push("");
+  lines.push(`That is the whole of what the record establishes, and this packet does not go past it. It does not say a waiver exists and it does not say none exists — it says the source review did not address the question, so nothing here should be read as telling you the fee can be waived. This packet contains no fee-waiver form: the record declares ${record.packetSetComponentCount === 1 ? "one component for this packet, the application itself" : `${record.packetSetComponentCount} components for this packet, and no fee-waiver form among them`}. If you cannot raise the fee, ask the Hawaii Criminal Justice Data Center at the address above before you send the application, rather than sending it without payment.`);
   lines.push("");
   lines.push("## Service");
   lines.push("");
