@@ -12,6 +12,7 @@ const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbed
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INDEX_PATH = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST_PATH = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
+const MEMO_PATH = "data/record-clearing/legal-design-intake/AL.memo.json";
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
@@ -23,7 +24,19 @@ const SOURCES = [
 
 const FAMILY_CONFIG = {
   "al-diversion-set": { selected: ["Check Box8.5"], routeSummary: "Misdemeanor or violation charge dismissed after successful completion of an approved diversion or court program; the form's one-year and prior-expungement conditions still must be confirmed." },
-  "al-felony-dwop-set": { selected: ["Check Box10.3"], routeSummary: "Felony charge dismissed without prejudice more than five years ago, not refiled, with the form's conviction-free condition." },
+  "al-felony-dwop-set": {
+    trackId: "al-felony-dwop",
+    selected: ["Check Box10.3"],
+    routeSummary: "Felony charge dismissed without prejudice more than five years ago, not refiled, with the form's conviction-free condition.",
+    /*
+     * The route-specific comparison, quoting the condition CR-65 itself prints
+     * next to the box this packet selects. The durations are the form's own
+     * words -- AL.memo.json states both clocks abstractly ("As set by
+     * § 15-27-2(a)(7)"), so the five-year figures are cited to the printed form
+     * rather than to the memo, and nothing here invents a period neither holds.
+     */
+    recordComparison: "Read the certified local record against the condition CR-65 prints beside the box this packet selected: \"the charge was dismissed without prejudice more than five years ago, has not been refiled, and [you] have not been convicted of any other felony or misdemeanor crime, any violation, or any traffic violation, excluding minor traffic violations, during the previous five years.\" Confirm the dismissal was without prejudice, confirm the dismissal date, confirm the charge has not been refiled, and confirm both five-year periods. Correct the selection if the record says otherwise, and stop if the record does not establish every part of it."
+  },
   "al-felony-nonconviction-90-set": { selected: [], routeSummary: "Felony nonconviction route after the applicable 90-day period. The participant must select the exact outcome printed in Section III; the route family does not determine whether it was dismissal with prejudice, no-bill, acquittal, or unconditional nolle prosequi." },
   "al-misd-conviction-set": { selected: ["Check Box9.2", "Check Box9.3", "Check Box9.4", "Check Box9.5", "Check Box9.6", "Check Box9.7", "Check Box9.8"], routeSummary: "Qualifying misdemeanor, violation, traffic, municipal, or misdemeanor youthful-offender conviction after all seven Section II conditions." },
   "al-misd-dwop-set": { selected: ["Check Box8.6"], routeSummary: "Misdemeanor or violation charge dismissed without prejudice more than one year ago, not refiled, with the form's two-year conviction-free condition." },
@@ -294,6 +307,124 @@ async function buildPacket(sources, fixtureName, fixture, config) {
 }
 
 
+/*
+ * Both guides, generated from the bound legal record rather than retyped.
+ *
+ * This family was carved out of the shared Alabama host into its own builder,
+ * and the guides were carried across as hardcoded template literals. Two things
+ * followed from that. The guides stopped being derived from AL.memo.json, so
+ * they could not move when the record moved; and one sentence they carried --
+ * "Sign the petition under oath before an authorized officer or notary only
+ * after every required item and attachment is complete." -- directs a step the
+ * record expressly does not establish. AL.memo.json rules.notarization for this
+ * track reads "The source review does not state a notarization requirement for
+ * CR-65." Directing notarization anyway imposes a step, a cost and a delay on
+ * the participant that no source in this packet supports, and contradicted the
+ * four sibling Alabama packets built from the same form, which quote that
+ * sentence and tell the participant to ask the circuit clerk instead.
+ *
+ * So the guides are generated here from the memo and bound to its digest, in
+ * the same shape the shared host produces: what the record establishes, quoted;
+ * a numbered before-you-file sequence; the named blanks; service with its
+ * honest residue; notarization as a question for the clerk rather than a
+ * direction; and every stop condition the record holds, verbatim.
+ */
+function writeGuides({ out, familyId, config, rules, track, memoDigest, required }) {
+  const requiredList = required.map((row) => `- ${row.effectiveLabel}`).join("\n");
+  const provenance = [
+    "Every quoted line below is taken verbatim from the Alabama legal-design record",
+    `\`${MEMO_PATH}\`, track \`${config.trackId}\` (sha256 ${memoDigest}).`,
+    "Where that record does not establish something, this packet says so rather than guessing."
+  ].join(" ");
+  const heldRecord = [
+    `- Where to file: "${rules.filing}"`,
+    `- Filing fee: "${rules.fees}"`,
+    `- Fee waiver: "${rules.feeWaiver}"`,
+    `- Notice: "${rules.notice}"`,
+    `- Service: "${rules.service}"`,
+    `- Who signs: "${rules.participantSignature}"`,
+    `- Notarization: "${rules.notarization}"`
+  ].join("\n");
+  const beforeFiling = [
+    ...(track.supportingDocuments ?? []).map((doc, index) =>
+      `${index + 1}. Obtain: ${doc.name}. Where from: ${doc.obtainedFrom}. How: ${doc.howToObtain}`),
+    `${(track.supportingDocuments ?? []).length + 1}. ${config.recordComparison}`,
+    `${(track.supportingDocuments ?? []).length + 2}. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.`,
+    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.`,
+    ...(track.manualCompletionItems ?? []).map((item, index) =>
+      `${(track.supportingDocuments ?? []).length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
+  ].join("\n");
+  const stops = (track.selfHelpStopConditions ?? []).map((stop) => `- ${stop}`).join("\n");
+  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Alabama expungement packet - ${familyId}
+
+## Route selected
+
+${config.routeSummary}
+
+## What the held record establishes
+
+${provenance}
+
+${heldRecord}
+
+## Do these before you file
+
+${beforeFiling}
+
+## Blanks you must fill in
+
+Each line names a blank on the paper that this packet did not fill because it
+does not hold that fact. Fill every one on both the canonical and the
+boundary-style packet before filing.
+
+${requiredList}
+
+## Service
+
+The record states: "${rules.service}" Serve the district attorney, the
+law-enforcement agency whose records you are asking the court to expunge, and
+the clerk of the court for the county where the charge was filed. Use a
+separate CR-65 page 7 certificate of service for each recipient.
+
+The held record does not state which service method Alabama requires for this
+petition, and this packet will not guess one. Ask the circuit clerk in the
+filing county which method that court accepts before you serve. Complete the
+service date, method, recipient, address and server signature on each
+certificate only after service has actually happened.
+
+## Notarization
+
+CR-65 page 6 carries a notary block. The record states: "${rules.notarization}"
+So ask the circuit clerk in the filing county whether that court requires the
+page-6 affidavit to be sworn before a notary or other authorized officer. Leave
+the notary block, its date and your own signature blank until you are in front
+of whoever administers the oath.
+
+## Stop and get help
+
+Stop using automated assistance and speak with an Alabama lawyer if any of these
+is true:
+
+${stops}
+`);
+  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}
+
+${provenance}
+
+- Where to file: "${rules.filing}"
+- Destination: ${track.destination?.name ?? "not stated in the record"}${track.destination?.detail ? ` — "${track.destination.detail}"` : ""}
+- Filing fee: "${rules.fees}"
+- Fee waiver: "${rules.feeWaiver}"
+- Notice: "${rules.notice}"
+- Notarization: "${rules.notarization}"
+
+The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form.
+Complete it only if you are claiming indigency; the judge completes its order
+page. Do not sign or date the petition until every required blank and every
+attachment above is complete.
+`);
+}
+
 function assertRepairInvariants(out) {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
   const instructions = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
@@ -315,6 +446,48 @@ function assertRepairInvariants(out) {
   assert.match(instructions, /certified local record/i);
   assert.match(instructions, /minor traffic violation/i);
   assert.match(instructions, /licensing or firearm consequences/i);
+
+  /*
+   * REQUIRED_BEFORE_FILING, the half of it a blank list cannot answer.
+   *
+   * Naming every blank is necessary and is not sufficient: a guide can name all
+   * of them and still direct a step the record refuses, and the nine counters
+   * cannot see that, because they audit whether a blank was classified and
+   * never whether an instruction is true. Each assertion below fires on the
+   * bytes this family shipped before this repair.
+   */
+  const filing = fs.readFileSync(path.join(out, "filing-instructions.md"), "utf8");
+
+  // The record states the source review does not establish a notarization
+  // requirement for CR-65, so neither guide may direct one as though it did.
+  assert.doesNotMatch(instructions, /Sign the petition under oath before an authorized officer or notary/);
+  assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/);
+  assert.doesNotMatch(instructions, /sign under oath before a notary or other authorized officer/);
+
+  // The guide must quote the record it is derived from, and be bound to its digest.
+  const memoBytes = fs.readFileSync(path.join(ROOT, MEMO_PATH));
+  const memo = JSON.parse(memoBytes.toString("utf8"));
+  const track = memo.tracks.find((entry) => entry.trackId === FAMILY_CONFIG[fieldMap.familyId].trackId);
+  assert.ok(track, "the guide's track must be present in the memo");
+  for (const heading of ["## What the held record establishes", "## Do these before you file", "## Notarization"]) {
+    assert.ok(instructions.includes(heading), `guide section missing: ${heading}`);
+  }
+  assert.ok(instructions.includes(sha256(memoBytes)), "the guide must carry the digest of the record it quotes");
+  assert.ok(instructions.includes(track.rules.notarization), "the guide must quote the record's notarization line verbatim");
+  assert.ok(filing.includes(track.rules.notarization), "the filing guide must quote the record's notarization line verbatim");
+
+  // Every supporting document the record marks required-before-filing, named
+  // with its source and its method rather than merely mentioned.
+  for (const doc of (track.supportingDocuments ?? []).filter((row) => row.requiredBeforeFiling)) {
+    assert.ok(instructions.includes(doc.name), `required-before-filing document missing from the guide: ${doc.name}`);
+    assert.ok(instructions.includes(doc.obtainedFrom), `where to obtain it missing from the guide: ${doc.name}`);
+    assert.ok(instructions.includes(doc.howToObtain), `how to obtain it missing from the guide: ${doc.name}`);
+  }
+
+  // SELF_HELP_STOP: every stop the record holds, verbatim, not a paraphrase.
+  for (const stop of track.selfHelpStopConditions ?? []) {
+    assert.ok(instructions.includes(stop), `stop condition missing from the guide: ${stop}`);
+  }
 }
 
 export async function buildAlabamaFamily(familyId) {
@@ -328,6 +501,22 @@ export async function buildAlabamaFamily(familyId) {
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, WORKLIST_PATH), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === familyId);
   assert.ok(family, `family absent from worklist: ${familyId}`);
+  /*
+   * The guides are generated FROM the legal record, not written alongside it.
+   *
+   * A retyped guide drifts from the record silently; one quoted from the record
+   * and bound to its digest cannot drift without the digest moving.
+   */
+  const memoBytes = fs.readFileSync(path.join(ROOT, MEMO_PATH));
+  const memoDigest = sha256(memoBytes);
+  const memo = JSON.parse(memoBytes.toString("utf8"));
+  const track = memo.tracks.find((entry) => entry.trackId === config.trackId);
+  assert.ok(track, `track absent from ${MEMO_PATH}: ${config.trackId}`);
+  const rules = track.rules ?? {};
+  for (const key of ["filing", "fees", "feeWaiver", "notice", "service", "participantSignature", "notarization"]) {
+    assert.ok(rules[key], `${config.trackId}: rules.${key} is not held; a guide may not be written past an absent rule`);
+  }
+  assert.ok((track.selfHelpStopConditions ?? []).length > 0, `${config.trackId}: the record holds no stop conditions`);
   const packets = {};
   for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture, config);
   fs.mkdirSync(path.join(out, "fixtures"), { recursive: true });
@@ -359,9 +548,7 @@ export async function buildAlabamaFamily(familyId) {
     independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false
   });
   const required = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling);
-  const requiredList = required.map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Alabama expungement packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nFill every item below on both the canonical and boundary-style packet before filing. Do not sign early.\n\n${requiredList}\n\nAlso attach a certified local arrest record or certified disposition/case-action summary, plus a certified ALEA criminal record. Compare the selected Section III dismissal-without-prejudice answer against the certified local record before filing: confirm the dismissal date, no refiling, the five-year period after dismissal, and the five-year conviction-free period before filing (excluding minor traffic violations). Stop if any record does not establish those facts.\n\n## Service\n\nAfter the petition is complete, serve the district attorney, the law-enforcement agency, and the clerk of the court for the jurisdiction whose records are sought. Use a separate page 7 certificate for each recipient. Complete the service date, method, recipient, address, and server signature only after service actually occurs.\n\n## Stop and get help\n\nStop automated assistance if a prosecutor or victim objects, the court sets a contested hearing, the facts do not match the selected printed option, the certified record does not clearly establish both five-year clocks or the minor traffic violation carve-out, licensing or firearm consequences may be involved, or immigration consequences may be involved.\n`);
-  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\nFile in the criminal division of the Alabama circuit court in the county where the charge was filed. The filing fee recorded for this route is $500. If indigency is claimed, complete the included C-10-CRIMINAL affidavit; the judge completes its order page. Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\n`);
+  writeGuides({ out, familyId, config, rules, track, memoDigest, required });
   writeJson(path.join(out, "reports", "build-summary.json"), {
     familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
     artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false
