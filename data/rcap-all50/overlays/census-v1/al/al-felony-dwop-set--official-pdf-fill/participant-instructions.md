@@ -4,9 +4,32 @@
 
 Felony charge dismissed without prejudice more than five years ago, not refiled, with the form's conviction-free condition.
 
-## Required before filing
+## What the held record establishes
 
-Fill every item below on both the canonical and boundary-style packet before filing. Do not sign early.
+Every quoted line below is taken verbatim from the Alabama legal-design record `data/record-clearing/legal-design-intake/AL.memo.json`, track `al-felony-dwop` (sha256 7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391). Where that record does not establish something, this packet says so rather than guessing.
+
+- Where to file: "File CR-65 in the criminal division of the circuit court in the county where the charges were filed."
+- Filing fee: "$500, or C-10-Criminal where indigency is claimed."
+- Fee waiver: "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+- Notice: "Prosecutor and victim objection window."
+- Service: "A certificate of service page per entity served."
+- Who signs: "The petitioner signs their own petition."
+- Notarization: "The source review does not state a notarization requirement for CR-65."
+
+## Do these before you file
+
+1. Obtain: Certified local record — arrest record, disposition, or case action summary. Where from: The clerk of the court where the charges were filed. How: Ask the clerk for a certified copy of the disposition.
+2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
+3. Read the certified local record against the condition CR-65 prints beside the box this packet selected: "the charge was dismissed without prejudice more than five years ago, has not been refiled, and [you] have not been convicted of any other felony or misdemeanor crime, any violation, or any traffic violation, excluding minor traffic violations, during the previous five years." Confirm the dismissal was without prejudice, confirm the dismissal date, confirm the charge has not been refiled, and confirm both five-year periods. Correct the selection if the record says otherwise, and stop if the record does not establish every part of it.
+4. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.
+5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.
+6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
+
+## Blanks you must fill in
+
+Each line names a blank on the paper that this packet did not fill because it
+does not hold that fact. Fill every one on both the canonical and the
+boundary-style packet before filing.
 
 - Complete "Only one offense per petition Multicount cases require multiple petitions" on CR-65 page 1
 - Complete "1 Criminal charge from the record to be considered 1" on CR-65 page 5
@@ -67,12 +90,33 @@ Fill every item below on both the canonical and boundary-style packet before fil
 - Monthly exceptional-expense subtotal (item 3d)
 - Total monthly expenses (item 3e)
 
-Also attach a certified local arrest record or certified disposition/case-action summary, plus a certified ALEA criminal record. Compare the selected Section III dismissal-without-prejudice answer against the certified local record before filing: confirm the dismissal date, no refiling, the five-year period after dismissal, and the five-year conviction-free period before filing (excluding minor traffic violations). Stop if any record does not establish those facts.
-
 ## Service
 
-After the petition is complete, serve the district attorney, the law-enforcement agency, and the clerk of the court for the jurisdiction whose records are sought. Use a separate page 7 certificate for each recipient. Complete the service date, method, recipient, address, and server signature only after service actually occurs.
+The record states: "A certificate of service page per entity served." Serve the district attorney, the
+law-enforcement agency whose records you are asking the court to expunge, and
+the clerk of the court for the county where the charge was filed. Use a
+separate CR-65 page 7 certificate of service for each recipient.
+
+The held record does not state which service method Alabama requires for this
+petition, and this packet will not guess one. Ask the circuit clerk in the
+filing county which method that court accepts before you serve. Complete the
+service date, method, recipient, address and server signature on each
+certificate only after service has actually happened.
+
+## Notarization
+
+CR-65 page 6 carries a notary block. The record states: "The source review does not state a notarization requirement for CR-65."
+So ask the circuit clerk in the filing county whether that court requires the
+page-6 affidavit to be sworn before a notary or other authorized officer. Leave
+the notary block, its date and your own signature blank until you are in front
+of whoever administers the oath.
 
 ## Stop and get help
 
-Stop automated assistance if a prosecutor or victim objects, the court sets a contested hearing, the facts do not match the selected printed option, the certified record does not clearly establish both five-year clocks or the minor traffic violation carve-out, licensing or firearm consequences may be involved, or immigration consequences may be involved.
+Stop using automated assistance and speak with an Alabama lawyer if any of these
+is true:
+
+- The prosecutor or a victim files an objection.
+- The court sets a hearing.
+- Whether a prior offence is a "minor traffic violation" is unclear.
+- Immigration, licensing or firearm consequences are in play.

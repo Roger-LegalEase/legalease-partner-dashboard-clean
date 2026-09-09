@@ -1,0 +1,60 @@
+{
+  "lane": "FIX119",
+  "laneKind": "repair",
+  "generatedAt": "2026-09-09",
+  "baseSha": "22c4a83dd",
+  "verdictBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+  "supersedes": {
+    "file": "data/rcap-grade-a/packet-factory-24h/fix119/rows-fix119-20260909.json",
+    "why": "Those three rows recorded BLOCKED_BEFORE_CLAIM because claim.mjs --assert FIX119 exited 8 on all three families at base b2b582427, which still carried the released grants. Captain committed the three transfers at 22c4a83dd. The earlier rows were superseded by that transfer, not by any change to the packets: no packet byte differed between the two bases, and no finding in them was withdrawn or answered. They are left in place as the record of the claim gate holding.",
+    "readTheseRowsInstead": true
+  },
+  "rasterNote": "This lane has no browser and cannot raster. Every non-visual obligation is finished and the exact SHA-256 of each PDF is recorded. Each family returns BUILT_RASTER_PENDING. Where countersAfter shows visualDefects 0, that is verify-packet-completeness.mjs reading the builder's own artifact report; nobody has looked at a rendered page in this lane, and each build-summary.json records visualDefects null for that reason. No family here is PASS_COMPLETE until RASTER_PASS.",
+  "rows": [
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "obligationsRepaired": ["REQUIRED_BEFORE_FILING"],
+      "obligationCoverage": "The family's failedObligationNames is exactly [REQUIRED_BEFORE_FILING] on the selected independent verdict (lane vf02, base b5cb44279e39cc56d11f65be5dd3de0d16bab85e). That obligation is named and discharged here.",
+      "whatTheVerifierFound": "vf02 confirmed the part that already passed: both memo-required documents are named in participant-instructions.md with source and method, and all 58 REQUIRED_BEFORE_FILING refusals carry plain-language labels with zero opaque Text-n or undefined-n labels. It failed the obligation on a step the packet ADDS that the record refuses: filing-instructions.md ended \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete\", while AL.memo.json track al-felony-dwop rules.notarization reads \"The source review does not state a notarization requirement for CR-65.\" It also found participant-instructions.md structurally degraded against its four siblings: no \"## What the held record establishes\", no \"## Do these before you file\", no \"## Notarization\", and stops paraphrased rather than verbatim (\"The court sets a hearing\" narrowed to \"the court sets a contested hearing\").",
+      "howItWasRepaired": "The guides were generated from the bound legal record instead of being hardcoded template literals. scripts/build-census-v1-al-felony-dwop-set.mjs now reads data/record-clearing/legal-design-intake/AL.memo.json, resolves track al-felony-dwop, refuses to write past any absent rule, and emits both guides through a writeGuides function in the same shape the repaired shared Alabama host produces for the four sibling families. The notarization direction is gone from both guides and is replaced by a Notarization section that quotes rules.notarization verbatim and tells the participant to ask the circuit clerk. All four selfHelpStopConditions are now carried verbatim, so \"The court sets a hearing.\" is no longer narrowed. The guide carries the sha256 of the memo it quotes, so it cannot drift from the record without the digest moving.",
+      "factsNotInvented": "The five-year periods in the route comparison are quoted from the condition CR-65 itself prints beside the box this packet selects, read out of the form's own content streams, and are cited to the printed form rather than to the memo, which states both clocks abstractly as \"As set by § 15-27-2(a)(7)\". No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment or judicial finding was created.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS - no browser in this lane; the family returns BUILT_RASTER_PENDING and nobody has looked at a rendered page.",
+        "KNOWN_PREFILLS - vf02 recorded it unmeasured on this verdict. This row did not measure it and makes no claim about it.",
+        "The vf09 verdict on this family, and the two superseded 2026-09-07 chat verdicts, are not answered here. This row answers the selected independent verdict only."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersNote": "verify-packet-completeness.mjs --family al-felony-dwop-set reports PASS_COMPLETE, 31/216 written, all nine counters zero, before and after. The counters were zero before this repair too: that is the point of the finding. A guide that directs a step the record refuses is invisible to all nine, because they audit whether a blank was classified and never whether an instruction is true.",
+      "verifyPacketCompletenessOutput": "ok al-felony-dwop-set PASS_COMPLETE 31/216 written · 1 famil(ies) audited · 1 PASS_COMPLETE",
+      "artifactsProduced": [
+        { "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027", "changedByThisRepair": false },
+        { "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856", "changedByThisRepair": false },
+        { "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/participant-instructions.md", "sha256": "4096155dd5434c5784d2fc7cced1587a4b78a3d514d0cd0652d37f6db530e6f6", "changedByThisRepair": true, "sha256Before": "8d34bbb0220c80b8ce4fca870dc53e64852bd9df62fda9bc78a9911a9b59187d" },
+        { "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/filing-instructions.md", "sha256": "c4f3719cf6e5b7d20c7767db2348c9ff96e930cd4d60f91a482d67f04c54c619", "changedByThisRepair": true, "sha256Before": "4bbae3931d68c1cf0966b3808ab16fb55135912afa12ea02a9826a5566dfd4bd" }
+      ],
+      "pdfBytesUnchanged": "The two PDFs rebuild byte-identically to the committed bytes, verified by rebuilding at the pre-repair source before any edit. This repair is guide-only: it changed no ink on any page, so the pending raster measures exactly the bytes that were already enrolled.",
+      "negativeControl": {
+        "what": "The invariants added to assertRepairInvariants in scripts/build-census-v1-al-felony-dwop-set.mjs, run both ways. Eighteen checks: the notarization direction absent from both guides, the three missing sections present, the memo digest carried, rules.notarization quoted verbatim in both guides, each requiredBeforeFiling supporting document named with its source and its method, and each selfHelpStopCondition carried verbatim.",
+        "preRepairReading": "17 of 18 checks FIRE on the pre-repair bytes. `node scripts/build-census-v1-al-felony-dwop-set.mjs --check` against the committed pre-repair guides exits 1 on the first of them, the notarization direction in filing-instructions.md.",
+        "postRepairReading": "0 of 18 checks fire. `node scripts/build-census-v1-al-felony-dwop-set.mjs --check` prints \"al-felony-dwop-set: repair invariants PASS\" and exits 0.",
+        "theOneThatDidNotFire": "\"no notarization direction in participant guide\" passed pre-repair, because on THIS family the unsupported sentence was in filing-instructions.md only. Its sibling al-felony-nonconviction-90-set carried it in both."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
