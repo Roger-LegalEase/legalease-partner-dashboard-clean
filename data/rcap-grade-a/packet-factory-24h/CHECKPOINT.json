@@ -9,15 +9,15 @@
   "completePacketProven": 191,
   "states": {
     "SOURCE_BLOCKED": 6,
-    "SOURCE_READY": 37,
-    "LEGAL_BLOCKED": 17,
+    "SOURCE_READY": 35,
+    "LEGAL_BLOCKED": 18,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
-    "BUILT_RASTER_PENDING": 17,
+    "BUILT_RASTER_PENDING": 19,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 18,
+    "VERIFY_PENDING": 15,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 21,
+    "FAIL_REPAIR_REQUIRED": 23,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
@@ -30,17 +30,17 @@
     "AGENCY_APPLICATION_READY": 0,
     "OUT_OF_SCOPE": 5
   },
-  "sourceReady": 37,
+  "sourceReady": 35,
   "sourceBlocked": 6,
-  "assigned": 37,
+  "assigned": 35,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 32,
-    "lanesProvisionedEmpty": 24,
+    "lanesWithWorkAtDispatch": 31,
+    "lanesProvisionedEmpty": 25,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -160,6 +160,12 @@
     },
     {
       "family": "pa_790_nonconviction-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "rcap-or-official-pdf-fill",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

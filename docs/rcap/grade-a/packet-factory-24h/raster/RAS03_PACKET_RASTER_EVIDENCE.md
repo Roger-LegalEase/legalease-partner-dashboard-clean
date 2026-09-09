@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `711235c1046e465ac7f2224bef929b3bf645e16b`
+**Minimum required ancestor:** `e18e837bd5a789f634633124cef6665967aae9d5`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -16,7 +16,7 @@ There is no browser in this container and there is no way to get one: the Playwr
 
 The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped GitHub runner, against the exact PDF bytes named below. Your job is to read what it produced and decide whether it binds.
 
-## Your families (62)
+## Your families (61)
 
 ### agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission
 
@@ -147,130 +147,177 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - expected pages 5 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### fl-self-defense-set
+### de_pardon_expungement-set
 
-- canonical `data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf` — `a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b`
-- boundary `data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf` — `627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba`
-- expected pages 5 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9`
+- boundary `data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9`
+- expected pages 3 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ga-fo-active-pre2026-set
+### ga-deaddocket-j3-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/fixtures/canonical.pdf` — `e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862`
-- boundary `data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/fixtures/boundary.pdf` — `95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6`
+- canonical `data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/canonical.pdf` — `0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd`
+- boundary `data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/boundary.pdf` — `65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96`
 - expected pages 6 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ga-misd-j4-set
+### ga-fugitive-j5-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/fixtures/canonical.pdf` — `b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890`
-- boundary `data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/fixtures/boundary.pdf` — `682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470`
-- expected pages 9 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/canonical.pdf` — `f5d5ed92060a864fd2f6c162e7941b2190862ac1329f36a25360e20192577759`
+- boundary `data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/boundary.pdf` — `b187407464de55069fc7185e9d721acef7c90f9f9830315d7ddad860d4533c8c`
+- expected pages 6 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ga-seal-m-set
+### ga-nonconv-pre2013-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/fixtures/canonical.pdf` — `9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796`
-- boundary `data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/fixtures/boundary.pdf` — `09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182`
-- expected pages 8 · requested scale 2.5
+- **15 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/canonical.pdf` — `c1ba21c6400010377cace19b85ecf100866e07a57c2facc6b5c554b48fcf18e1` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-01.pdf` — `67b8e50bc14acfc82059b5a6bdab1f7dd7b423aa266a5988b5b95a62d8aab367` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-02.pdf` — `7c61def202587c133fb3cf98e13205e4f1e722da22bd754f19cb908077f8607c` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-03.pdf` — `dbcf5dac28c454e99df2108157c6aeb52f25f8d9978eef9b3b11028db531d800` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-04.pdf` — `c1ba21c6400010377cace19b85ecf100866e07a57c2facc6b5c554b48fcf18e1` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-05.pdf` — `43024310d0eb3f8f697aa9b9f71c29a4cec4b11cac37ad6f945ab81f79ff1856` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-06.pdf` — `e08d7e6e17022d409703b20369c3358784cb2867f12ea14b0271b47bc8e19990` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-07.pdf` — `ed070e1a32055d5c115fe06a91fdf589aac8fff6fa36736c0e341b84da0a6c7d` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-08.pdf` — `646d51a152aafb18f279899fddee1aecececbcc41b83aedbe7ed2c71b2d19e29` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-09.pdf` — `ad157e636e23a08e62e7ac41d75da766ad96ea35fc3dd9e5b355311acaf6a3a0` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/basis-10.pdf` — `8dc14acf89cd956ea7ea51da0bc9b1044ec944174ac292fc962b9945fb1f65c8` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/disposition-document-available.pdf` — `bae68f944039b4dd95ce5b9a872f2fce99914b6d8f6292c50c71c74f6fd1e0c3` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/fbi-record-only.pdf` — `bae68f944039b4dd95ce5b9a872f2fce99914b6d8f6292c50c71c74f6fd1e0c3` · 8 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/boundary.pdf` — `62aa209bccaad83f188ac941760ce89fdc9fceeb9f3c0a96d7ea0ee50335a2a2` · 8 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/missing-participant-facts.pdf` — `8969ba951de1adb9fde9ed7b703032c59e8a205f7687fe52a1362f24b6206a47` · 7 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 108 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
-### hi_nonconviction_expungement-set
+### hi_712_1200_deferred_expungement-set
 
-- canonical `data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43`
-- boundary `data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `696e190fa18b54f8e7694eaed727dc7f8b10d7515a847d9fec904b9a3b3879a1`
+- canonical `data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `78e674c8aaabc6adb66a4c4a40bc8232a1cb86c650bb0c5d21c6646226c01313`
+- boundary `data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `d975f877ae1cf99d2e2a2b686557a0c832c13dab597bf975c3ebf8ad69cfa793`
 - expected pages 1 · requested scale 2.5
-- built by VF01
+- built by (no builder lane recorded)
 
-### id_felony_reduction-set
+### ia-901c2-set
 
-- canonical `data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/canonical.pdf` — `d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1`
-- boundary `data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/boundary.pdf` — `8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48`
+- **5 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/canonical.pdf` — `18a2255cd780d62955b030ad9996d5b8fe46d71c5bb00f4517d3ff7a116d251b` · 5 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/exact-day-180.pdf` — `6dabf84f3285ca8747551c4b264882fdfd6c689a40b1cf51ae77dbf94fc88e27` · 5 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/good-cause-waiver.pdf` — `fbcf0b2dd84a53d17a59cffc4698eea50efeb13cfbf7543a1cf5c55c53879ef7` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/missing-contact.pdf` — `9b5a75a2c3d8ce37d204ac43fe507fcc2decb6de949494fd67053b625938f372` · 5 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/boundary.pdf` — `5d01a98e4134ad7b58f9f13b8ec55049202f93a8baaf0cd941e5e45715601128` · 5 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 26 across all documents · requested scale 2.5
+- built by (no builder lane recorded)
+
+### id_set_aside_dismissal-set
+
+- canonical `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf` — `7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc`
+- boundary `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf` — `69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f`
 - expected pages 4 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### il-exp-nonconv-set
+### il-exp-precompletion-set
 
-- canonical `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/canonical.pdf` — `66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86`
-- boundary `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/boundary.pdf` — `db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa`
-- expected pages 14 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### il-exp-supervision-set
-
-- canonical `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/canonical.pdf` — `330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb`
-- boundary `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/boundary.pdf` — `df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2`
+- canonical `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/canonical.pdf` — `3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f`
+- boundary `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/boundary.pdf` — `0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631`
 - expected pages 13 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### il-seal-edu-set
+### il-seal-2yr-set
 
-- canonical `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf` — `1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423`
-- boundary `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/boundary.pdf` — `c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518`
+- canonical `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf` — `090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166`
+- boundary `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf` — `9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553`
+- expected pages 13 · requested scale 2.5
+- built by VF03
+
+### in_arrest_no_charges-set
+
+- **4 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf` — `f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112` · 15 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf` — `f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9` · 4 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d` · 15 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 38 across all documents · requested scale 2.5
+- built by (no builder lane recorded)
+
+### in_section1_petition-set
+
+- **4 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf` — `f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241` · 15 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf` — `f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9` · 4 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d` · 15 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 38 across all documents · requested scale 2.5
+- built by (no builder lane recorded)
+
+### ky_nonconviction_expungement-set
+
+- **13 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf` — `8b806d7edb05b79773c4cffb09e496ff16fe62805df4105c761d15d45c06c903` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.pdf` — `47dc4c77498407c8d75fbed895191065a1e35b8b19f6d5283a83acfade1d2d8c` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.pdf` — `b3250b724ed748f48fe6126686d3dd0adbf594310ec09f12f06e1196a428b902` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.pdf` — `7608f5a1f6f2a82e13c2c8ab7e47fbf4fbd302a1d13fa0bf28388e521cd939b7` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.pdf` — `348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.pdf` — `61d4a78aa97cae751de0a07a232c1b77b6b3105fde28f52e94247b9d7471274e` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.pdf` — `52e2a1b5a160a8ded12da380ef7101b6bda8515431799f28c9d126a18ee3902a` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.pdf` — `700f772dd5d2feee0d76e001aab1cb7cabbcb574fb4bec96a29f936ffd388fcd` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.pdf` — `ba982c0b44e445ffe0897d0cd354aa2132d1b49a8ce17de624f11742388b74e1` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.pdf` — `ec9a5b1d2d706b209c5e5d4e96a7821c77ed960de8294b635a1056ca0eaba3af` · 8 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.pdf` — `996013880aa5fdf217212f8f0bf6cbd98c41b08a3561982c5f87ec5cc6849485` · 6 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `93f902bfe7108680379c49d5a4cf27273369b67a7794e989ee17c52a8ee20474` · 8 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 90 across all documents · requested scale 2.5
+- built by (no builder lane recorded)
+
+### la-977-misdemeanor-conviction-set
+
+- canonical `data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/canonical.pdf` — `fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446`
+- boundary `data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/boundary.pdf` — `35e8a1e90c10289940347d2471b2872f3582eb59a547ea9e48e14f9f0c363efe`
 - expected pages 13 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### in_conviction_felony-set
+### la-985-expungement-by-redaction-set
 
-- canonical `data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/canonical.pdf` — `0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0`
-- boundary `data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/boundary.pdf` — `092cf31c9b4499a4b0515c86de8d3536005f4ff2a5bf2ca66b80835919f898dd`
-- expected pages 10 · requested scale 2.5
-- built by (no builder lane recorded)
+- canonical `data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf` — `b1d880af0c6539383329e73491b0bb6d293f3fba4ea3509d32abcd894926ef8c`
+- boundary `data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/boundary.pdf` — `378c0dab12934eaf89e71f37ecf5489e53a7e3f6fe015ce387a63b85e9c87fc1`
+- expected pages 17 · requested scale 2.5
+- built by VF08
 
-### ky_expungement_certification-set
+### ma-seal-admin-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf` — `d57289137b84e372f3de9edefaf070b41e0b61c11b268c229a2119a2a74d15e2`
-- boundary `data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf` — `964a9b4b17a293235f9b75ec4e2a8581227850f590fa2338d84bcbec07e3f338`
+- canonical `data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/canonical.pdf` — `f01868bbe1716bbe6576d39431a0b77ef7310a4a2d10c025f040edbe72c58987`
+- boundary `data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/boundary.pdf` — `fbaf27c950c8dc336c28a4d59bf1a35ac82309d338e86623b1ae2756f80767d5`
 - expected pages 1 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ky_void_seal_controlled_substance-set
+### md_pardon_expungement-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf` — `e7419541f263c4fdc41bbcea0d45d4dd748a35830e722c02f88afd412c646037`
-- boundary `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf` — `0b864b30e140fd8b53adc948f6b294c093095e133b489dab27a745dd632db12f`
+- canonical `data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb`
+- boundary `data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `a06f4ddabe754147bb8f2036d92583d5757d560aacbdd04b9deda6e55c68e3b4`
 - expected pages 4 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### la-977d-marijuana-first-offense-set
+### me-seal-gen-set
 
-- canonical `data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/fixtures/canonical.pdf` — `38fd3de68ae770fc3351533516e28b24562c483d8c0bec948af17373436639dd`
-- boundary `data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/fixtures/boundary.pdf` — `780f4e79189048e1ac854bb231f1868e24153f10639dac5aaa2b418c1da59790`
-- expected pages 19 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### ma-expunge-k-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/canonical.pdf` — `084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea`
-- boundary `data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/boundary.pdf` — `6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832`
-- expected pages 2 · requested scale 2.5
-- built by VF01
-
-### ma-seal-decrim-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill/fixtures/canonical.pdf` — `3ac87f6e248672399d482881f012b779101229664ef9bed10e1f6914edfda5f4`
-- boundary `data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill/fixtures/boundary.pdf` — `b2476975802790d46694f369ecf48b484451f328607938ebf4f366b5d4c4f08f`
+- canonical `data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/canonical.pdf` — `10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78`
+- boundary `data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/boundary.pdf` — `43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc`
 - expected pages 1 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### md_second_chance_shielding-set
+### mi_setaside_first_owi-set
 
-- canonical `data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/canonical.pdf` — `7265c7307fab7193a5dff3c5e2edb035ecad340122d2c587b476ef91752e777f`
-- boundary `data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/boundary.pdf` — `00e402d6699ec3f872e0cdc205e182bf36a2dd919d6091b32b5f38cfbd36cf5d`
-- expected pages 2 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### me-seal-prost-set
-
-- canonical `data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-canonical-filled.pdf` — `4e44539864adc68ea7f7080693315ee08708f00659f7391c21aeda934010abf3`
-- boundary `data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-boundary-filled.pdf` — `9a9a65a2a145b07982f573fe820e0aa088fc28ac1cc58136e9652217289cf70c`
-- expected pages 1 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### mi_setaside_marihuana-set
-
-- canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf` — `d026a1bffa91702245c6938ab4438a29a83ae93f109dd9677d8253aca81e463f`
-- boundary `data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf` — `5180ce722fb75f08b366c3c7b7d9a0e43d4a36076593aeb704b14adc8b3f4f82`
-- expected pages 2 · requested scale 2.5
+- **6 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/canonical.pdf` — `0eaf0fb4a17803aed4f2858871a19d561f2f8c1cf87309ba28f3cba510daeff7` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/prior-application-pending-handoff.pdf` — `33f22dd2da62aa9156c9eb2131608407eef8c22414ff681ce31723077c3ffabb` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/prior-denial-earlier-order-date-handoff.pdf` — `831ef62d76c3125a399966b1569ac0cb507734b2ddbdc784f7d0e7633a76b01b` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/prior-denial-interval-elapsed-handoff.pdf` — `dc84a4629aac4965afb75d0bc5cc14561845ba011dd875fcb3192fedac2f032c` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/prior-denial-within-three-years-handoff.pdf` — `831ef62d76c3125a399966b1569ac0cb507734b2ddbdc784f7d0e7633a76b01b` · 4 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/boundary.pdf` — `017a440ba23c13a3d4c7af53e7998f54e03b92213a024d369764529ed73934fd` · 4 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 24 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
 ### mn_petition_juvenile_as_adult-set
@@ -343,132 +390,133 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - expected pages 5 · requested scale 2.5
 - built by VF08
 
-### rcap-in-custom-pleading
+### rcap-ks-custom-pleading
 
-- canonical `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131`
-- boundary `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8`
+- canonical `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74`
+- boundary `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7`
+- expected pages 13 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### rcap-oh-custom-pleading-clean-tracks
+
+- **8 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_expungement/rendered/canonical/canonical.pdf` — `c07ffa2bc32bee08f8bb81280042c5477560e770dcf8efdea1ad52b0c19d45b9` · 2 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf` — `fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb` · 2 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_33_nonconviction/rendered/canonical/canonical.pdf` — `706adfcd0ba6a26778374545a4d9c2b1e5d1138cb1a15a4acf2b293716e11406` · 2 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_35_firearm/rendered/canonical/canonical.pdf` — `375eb1262bfce63677f756b1ab22d90b2f9c459e2fcc98aaaeacf899d8970214` · 2 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_expungement/rendered/boundary/boundary.pdf` — `52fcfb3e632223b8ffc238175f232fef31e0bd3d740b4024aba39f659688adf1` · 2 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf` — `43acb3e1195fb1887e7fce984bb60c86dfdd1ba2e5ea563b7ad618435fee1e2e` · 2 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_33_nonconviction/rendered/boundary/boundary.pdf` — `4e8955cd1461d3e091230d5d9831ae4c952b95a214626bd425bc509effd79028` · 2 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_35_firearm/rendered/boundary/boundary.pdf` — `51aaec6a1f3900aa40ea9b2d6bf3c955d0a819c9ffc9ddb12691d790f4c8351c` · 2 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf` and `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 16 across all documents · requested scale 2.5
+- built by (no builder lane recorded)
+
+### rcap-tx-custom-pleading
+
+- canonical `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `ba6c19326906bfc43c16e8cf2b0fe9dd6a2d0114b18668bfadc16289e98b8aba`
+- boundary `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `15f79e7c32e1cc0298f847c16ebc8c3c92cef661f475a9754fa4e86fd7808c64`
+- expected pages 16 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### ri_decriminalized-set
+
+- canonical `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf` — `f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc`
+- boundary `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf` — `3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a`
+- expected pages 10 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### ri_multiple_misdemeanors-set
+
+- canonical `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37`
+- boundary `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `c2ea5d906ef5674fcec2a12c20f9023ff36acc20f4e42d2217ef9aef9e855bdc`
+- expected pages 15 · requested scale 2.5
+- built by VF02
+
+### tx_nd_deferred_other-set
+
+- canonical `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/canonical.pdf` — `fdfbeec021c450d9a485b924159be88ad0d60dab164d6299cfb391e9cae9a326`
+- boundary `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/boundary.pdf` — `47096ed4ed0df5a80e93da82eb5b460af55595a866772e42721fd1d057488a6c`
+- expected pages 26 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### tx_nd_veterans_court-set
+
+- canonical `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/fixtures/canonical.pdf` — `4a5d3bec8d9a3261df8bb20965aea7ae133a46edb09165a40ab3089199849e28`
+- boundary `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/fixtures/boundary.pdf` — `5a24261a37f2fc801ae6361075c8573b0bf45af94adca766a38dcbc48a36d3ed`
+- expected pages 25 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### ut_pet_dismissed_with_prejudice-set
+
+- canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/canonical.pdf` — `53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a`
+- boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/boundary.pdf` — `f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f`
+- expected pages 19 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### ut_pet_traffic-set
+
+- canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/fixtures/canonical.pdf` — `b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909`
+- boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/fixtures/boundary.pdf` — `ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03`
+- expected pages 9 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### va_seal_enumerated_seven_year-set
+
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf` — `3527d8b4f621e798537b4c276da302e6cd78e2c8903fbdd87c30f81c44571615`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf` — `44ee4594b5fed61454390047a269af54c10d046da39305c979511709ae9b6e37`
+- expected pages 13 · requested scale 2.5
+- built by (no builder lane recorded)
+
+### vt_exp_deferred_sentence-set
+
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/fixtures/canonical.pdf` — `b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/fixtures/boundary.pdf` — `f8c1e0b0e58e3fd7f39f821ddf5dc7427c9f4b56202f881b97fae5a0f1b01f04`
 - expected pages 4 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### rcap-nv-custom-pleading
+### vt_seal_misdemeanor-set
 
-- canonical `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `1d72131dcf8adefe7142cb2241aa97811b4c90892342d1422d3441b649e293bf`
-- boundary `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `5274a3d33329f447612a9736ac31442a760dc24b4aa2acdc01d7061175578596`
-- expected pages 44 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### rcap-sc-custom-pleading
-
-- canonical `data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b`
-- boundary `data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5`
-- expected pages 64 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### rcap-wi-custom-pleading
-
-- canonical `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `fa75790c3ef35af41d142cade19bf6def68149e3767e9b14eb73b1bd45414dc9`
-- boundary `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `84297a24847a4a9555b92a8ac138d101fffd03331e71be7229efb72e50f1b5d8`
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a`
 - expected pages 6 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ri_first_offender_misdemeanor-set
+### wa_crop_certificate_of_restoration-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206`
-- boundary `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `90987141136b5406403ff179368715c6071b43a1f170b81ddf773f5dbbda6c00`
-- expected pages 15 · requested scale 2.5
-- built by VF01
-
-### tx_exp_acquittal-set
-
-- canonical `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf` — `cc6f681a67a26edb02c90e1a32380c707ae001a094c672639c3e05e667f7a8ae`
-- boundary `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf` — `a6095ba89ee340ebcb23ec1f8354bd7972dae3ee4b2e60820793e5fe6407e8ed`
-- expected pages 23 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/wa/wa-crop-certificate-of-restoration-set--custom-pleading/fixtures/canonical.pdf` — `44d858039dfd15ea013f3d3d431cc74d277d3b8a59d2a12f7edde490808678c9`
+- boundary `data/rcap-all50/overlays/census-v1/wa/wa-crop-certificate-of-restoration-set--custom-pleading/fixtures/boundary.pdf` — `9eecfba4d9b8ba5d5ed0feba913e46ffd18a98f708038616a624701130ab8288`
+- expected pages 7 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### tx_nd_dwi_probation-set
-
-- canonical `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf` — `cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b`
-- boundary `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/boundary.pdf` — `19467b262ffa7837fbb2c9c70cd34315b58319197dcf5f6a34994a9fcbf85ad8`
-- expected pages 24 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### ut_pet_acquittal-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/canonical.pdf` — `b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5`
-- boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/boundary.pdf` — `9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4`
-- expected pages 19 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### ut_pet_limitations-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf` — `c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9`
-- boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf` — `d609fb3de01fb5e5b736e1d63753088bee559767f1dabf9f5aa8127a6c4f8909`
-- expected pages 19 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### va_exp_identity_used_by_another-set
-
-- canonical `data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/canonical.pdf` — `e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/boundary.pdf` — `eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66`
-- expected pages 8 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### va_seal_petition_misdemeanor-set
-
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `32b06f4cd0794b9757e5cf52ced0b55a292cebc109ee4801457d7624aa24ef16`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `1237dfee564cd3c0b4fd469266b570bcf454de0b2e3c001a96a3ce5dfa468c31`
-- expected pages 11 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### vt_seal_dui-set
-
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf` — `c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf` — `21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a`
-- expected pages 6 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### vt_seal_pardon-set
-
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf` — `c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf` — `21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a`
-- expected pages 6 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### wa_vac_domestic_violence-set
+### wa_vac_misdemeanor_ordinary-set
 
 - **4 documents**, and the receipt must cover every one of them:
-  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` — `42e4e3447e6f49cc925cf52485e0861261e5de714c91c672d5d71014d624d48e` · 5 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf` — `3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7` · 6 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` — `fd2d21f7ca98376dd4c6ce63af548002b808b04ab388bc477f093370df5ea445` · 5 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf` — `4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55` · 6 page(s)
-- the row pins `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` — `846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad` · 5 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf` — `3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7` · 6 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` — `75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77` · 5 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf` — `4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55` · 6 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
 - expected pages 22 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
-### wa_vac_survivor_felony-set
+### wa_vac_treaty_fishing-set
 
 - **4 documents**, and the receipt must cover every one of them:
-  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf` — `3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f` · 3 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0920-canonical-filled.pdf` — `1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb` · 3 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf` — `2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d` · 3 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0920-boundary-filled.pdf` — `e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721` · 3 page(s)
-- the row pins `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
-- expected pages 12 across all documents · requested scale 2.5
+  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` — `846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad` · 5 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf` — `3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7` · 6 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` — `75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77` · 5 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf` — `4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55` · 6 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 22 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
-### wi_nc_doj_fingerprint_removal-set
+### wv_conv_nonviolent_felony-set
 
-- canonical `data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf` — `5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6`
-- boundary `data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf` — `3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3`
-- expected pages 2 · requested scale 2.5
-- built by (no builder lane recorded)
-
-### wv_dui_deferral_expungement-set
-
-- canonical `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf` — `d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e`
-- boundary `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf` — `776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782`
-- expected pages 11 · requested scale 2.5
-- built by (no builder lane recorded)
+- canonical `data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `bc0ee71288e77b08d346082a8d56d304f844c3f10e9525c43684ad7b8a7ba8e4`
+- boundary `data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `5371f7c74286adde7da2738fe282884947acde43d26efb74f5bf0556c270ce6c`
+- expected pages 4 · requested scale 2.5
+- built by VF01
 
 ## What you check, per family
 
@@ -502,7 +550,7 @@ The diff is the return.
 
 ```text
 LANE: RAS03
-FAMILIES ASSIGNED: 62
+FAMILIES ASSIGNED: 61
 RASTER_PASS:
 RASTER_FAIL:
 RASTER_BLOCKED_ENVIRONMENT:

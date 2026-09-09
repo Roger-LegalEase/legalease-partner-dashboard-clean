@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c8f71b5c08f2f90dbffccd0182744a8da9d4b6fb",
+  "generatedAtCommit": "e18e837bd5a789f634633124cef6665967aae9d5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3228,7 +3228,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF03",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T14:02:42.013Z"
@@ -4732,9 +4732,9 @@
         "la-976-arrest-no-conviction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -7172,6 +7172,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "familyId": "rcap-hi-custom-pleading",
+      "itemId": null,
+      "familyIds": [
+        "rcap-hi-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "rcap-in-custom-pleading",
       "familyId": "rcap-in-custom-pleading",
       "itemId": null,
@@ -7425,21 +7440,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T06:48:41.410Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-or-official-pdf-fill",
-      "familyId": "rcap-or-official-pdf-fill",
-      "itemId": null,
-      "familyIds": [
-        "rcap-or-official-pdf-fill"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9624,11 +9624,24 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T22:29:59.427Z",
-      "releaseReason": "VF08 has returned its FAIL_REPAIR_REQUIRED read on this family; releasing so the repair can proceed on bytes nobody is measuring."
+      "released": false
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "itemId": null,
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "familyIds": [
+        "wv_conv_nonviolent_felony-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14034,24 +14047,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_nonviolent_felony-set",
-      "itemId": null,
-      "familyId": "wv_conv_nonviolent_felony-set",
-      "familyIds": [
-        "wv_conv_nonviolent_felony-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX06",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "6d62f0296763f70a864ebacae4cb20eba0b7bc830e5621db6ecef0267ed1b1a6",
+  "claimsDigest": "66293974978683773de31a27812b348b2769dd72fbe405e7d650d605342282e0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43466,6 +43464,16 @@
       "previouslyReleasedAt": "2026-09-09T13:24:32.090Z",
       "reissuedAt": "2026-09-09T21:57:26.721Z",
       "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-09T22:31:08Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -56651,6 +56659,22 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "withdrawnAt": "2026-09-09T22:22:56Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-09T22:31:08Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-or-official-pdf-fill",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-09T22:31:08Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

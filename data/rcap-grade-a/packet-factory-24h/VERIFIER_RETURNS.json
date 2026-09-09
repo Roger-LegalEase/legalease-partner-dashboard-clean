@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 132,
-    "rows": 1054,
-    "independentVerdicts": 268,
-    "failRepairRequired": 37,
+    "returnDirectories": 133,
+    "rows": 1057,
+    "independentVerdicts": 271,
+    "failRepairRequired": 39,
     "passIndependent": 211
   },
   "failRepairRequiredFamilies": [
@@ -61,6 +61,7 @@
     "il-seal-2yr-set",
     "il-seal-3yr-set",
     "in_infraction_nondisclosure-set",
+    "la-976-arrest-no-conviction-set",
     "la-985-expungement-by-redaction-set",
     "md_pardon_expungement-set",
     "mn_petition_609a02_subd3-set",
@@ -74,6 +75,7 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
+    "rcap-hi-custom-pleading",
     "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
@@ -11294,6 +11296,31 @@
       "superseded": true
     },
     {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [
+        "REPEATING_ROWS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
+      "superseded": false
+    },
+    {
       "familyId": "la-977-misdemeanor-conviction-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf05",
@@ -19652,6 +19679,31 @@
       "superseded": true
     },
     {
+      "familyId": "rcap-hi-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "REPEATING_ROWS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
+      "superseded": false
+    },
+    {
       "familyId": "rcap-ks-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "ks-municipal-independent-review",
@@ -21929,6 +21981,34 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-or-official-pdf-fill",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "REPEATING_ROWS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-or-official-pdf-fill",
+      "superseded": false
     },
     {
       "familyId": "rcap-sc-custom-pleading",

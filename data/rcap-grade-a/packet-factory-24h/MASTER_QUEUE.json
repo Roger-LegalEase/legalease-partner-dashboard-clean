@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c8f71b5c08f2f90dbffccd0182744a8da9d4b6fb",
+  "minimumCaptainSha": "e18e837bd5a789f634633124cef6665967aae9d5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "bdb5707e90bd73851211d6bc92803bd993a1e18ea25a7d6402d10db9411e46c7",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "edf3ee9c1ef657ab802186b455687182787878e6f12c9064b31956236ff67492",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -69,22 +69,22 @@
     "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
     "remaining": 337,
-    "sourceReady": 37,
+    "sourceReady": 35,
     "sourceBlocked": 6,
-    "legalBlocked": 17,
-    "verifyPending": 18,
-    "repairRequired": 12,
+    "legalBlocked": 18,
+    "verifyPending": 15,
+    "repairRequired": 14,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 191,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
-    "LEGAL_BLOCKED": 17,
-    "BUILT_RASTER_PENDING": 17,
-    "SOURCE_READY": 37,
-    "VERIFY_PENDING": 18,
-    "FAIL_REPAIR_REQUIRED": 21,
+    "LEGAL_BLOCKED": 18,
+    "BUILT_RASTER_PENDING": 19,
+    "SOURCE_READY": 35,
+    "VERIFY_PENDING": 15,
+    "FAIL_REPAIR_REQUIRED": 23,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -168,11 +168,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 37,
+    "sourceReadyFamilies": 35,
     "familiesPerBuilder": 1.5,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 37 do, so a full roster of 24 builders averages 1.5 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 8 source obligations across 23 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 35 do, so a full roster of 24 builders averages 1.5 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 8 source obligations across 24 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -13455,11 +13455,7 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -13473,20 +13469,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_discretionary_superior_court-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
       "ownedPaths": [
@@ -13713,11 +13719,7 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -13731,20 +13733,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_pardon_expungement-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
       "ownedPaths": [
@@ -23047,8 +23059,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf07",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -23077,11 +23096,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
@@ -27037,7 +27065,9 @@
         "verifiedAtBase": "26ab5d8641c0e366dfed8d75a34c3bf6690ffa7f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37121,8 +37151,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf07",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37151,11 +37188,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
@@ -38128,17 +38174,31 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "selectedIndependentVerdict": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf07",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "rcap-or-official-pdf-fill",
+        "foundBy": [
+          "vf07 (current independent verification)"
+        ],
+        "why": "COMPONENT_SET: legal input unresolved",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -38162,7 +38222,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
@@ -49048,9 +49108,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 37,
+    "familiesAssignedToBuilders": 35,
     "sourceObligationsAssigned": 8,
-    "actualPromotedAndReleased": 37,
+    "actualPromotedAndReleased": 35,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
