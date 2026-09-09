@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 137,
-    "rows": 1074,
-    "independentVerdicts": 279,
-    "failRepairRequired": 39,
+    "returnDirectories": 138,
+    "rows": 1076,
+    "independentVerdicts": 281,
+    "failRepairRequired": 41,
     "passIndependent": 219
   },
   "failRepairRequiredFamilies": [
@@ -55,6 +55,7 @@
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+    "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
     "ia-12347-set",
     "il-seal-2yr-set",
@@ -63,6 +64,7 @@
     "la-976-arrest-no-conviction-set",
     "ma-expunge-k-set",
     "md_pardon_expungement-set",
+    "mn_petition_15218-set",
     "mn_petition_609a02_subd3-set",
     "mo-art-xiv-marijuana-set",
     "nd-summary-marijuana-pardon-set",
@@ -8264,6 +8266,36 @@
       "superseded": true
     },
     {
+      "familyId": "de_discretionary_superior_court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909e.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_superior_court-set",
+      "superseded": false
+    },
+    {
       "familyId": "de_mandatory_expungement-set",
       "verdict": "PRODUCT_PATH_PENDING",
       "lane": "de-independent-review",
@@ -12736,6 +12768,43 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mn_petition_15218-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909e.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set",
       "superseded": false
     },
     {
