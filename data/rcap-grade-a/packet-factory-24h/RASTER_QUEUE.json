@@ -23497,21 +23497,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -23549,9 +23548,37 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS03",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "5a89a7b9cdab60a76aef9359a66a22060a764baf",
-      "requestedScale": 2.5
+      "requestedScale": 2.5,
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34407406641",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+        "jobId": "102654459237",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "boundToBoundarySha256": "f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3",
+        "documentsDigest": "60d92f8c53822ab42576878637f13a518d7dc081cb3dcf072cf15645dca4b0a7",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 46,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10126309758",
+          "name": "rcap-raster-la-976-arrest-no-conviction-set-34407406641",
+          "zipSha256": "sha256:4a95ce608cff66b6c898acabcc9af7d2c35e7f53a20c457614f90cf34c5aac86"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-976-arrest-no-conviction-set/la-976-arrest-no-conviction-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-976-arrest-no-conviction-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/boundary.pdf",
@@ -23774,21 +23801,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
       "canonicalPdfSha256": "b1d880af0c6539383329e73491b0bb6d293f3fba4ea3509d32abcd894926ef8c",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -23826,7 +23852,7 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS02",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "5a89a7b9cdab60a76aef9359a66a22060a764baf",
       "requestedScale": 2.5,
       "supersededReceipts": [
@@ -23878,7 +23904,35 @@
           "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
           "workflowRunId": "34364359375"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34407406641",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+        "jobId": "102654459280",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "b1d880af0c6539383329e73491b0bb6d293f3fba4ea3509d32abcd894926ef8c",
+        "boundToBoundarySha256": "378c0dab12934eaf89e71f37ecf5489e53a7e3f6fe015ce387a63b85e9c87fc1",
+        "documentsDigest": "ac1a54eec1624d88608b5a85f1cbc7921b6dc663f78f30f8202c02c3503595d8",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 34,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10126232548",
+          "name": "rcap-raster-la-985-expungement-by-redaction-set-34407406641",
+          "zipSha256": "sha256:f2f2f7ab5f79fb2a89663a1417e6f883d84a0916264667955923b523a8f8618b"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-985-expungement-by-redaction-set/la-985-expungement-by-redaction-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-985-expungement-by-redaction-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -31520,21 +31574,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
       "canonicalPdfSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -31572,9 +31625,37 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS03",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "5a89a7b9cdab60a76aef9359a66a22060a764baf",
-      "requestedScale": 2.5
+      "requestedScale": 2.5,
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34407406641",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+        "jobId": "102654459295",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "boundToBoundarySha256": "25a94c99e835a898aae79d4111a6da2ecbcb4342cd7b78530587e783dcc8a9ff",
+        "documentsDigest": "22fcd6cd3ee7282299982bc2520a6a301a15d7814e786bd9a25b676da3c4b983",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 40,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10126266223",
+          "name": "rcap-raster-rcap-hi-custom-pleading-34407406641",
+          "zipSha256": "sha256:fa1db5f5626f8c40adedc3dd789ba048f10078c3ff85c8bd99fa27998de75ead"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/rcap-hi-custom-pleading/rcap-hi-custom-pleading.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/rcap-hi-custom-pleading/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
