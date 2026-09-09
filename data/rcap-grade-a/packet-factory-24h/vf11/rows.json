@@ -7338,6 +7338,538 @@
    "commercialRoutesOpened": 0,
    "productionTouched": false,
    "grantsNothing": "An independent FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record; it opens no commercial route and approves no output."
+  },
+  {
+   "itemId": "nj_arrest_no_conviction-set",
+   "lane": "VF11",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+   "verifier": "VF11 (independent; built and repaired nothing in these four families)",
+   "verifiedAtBase": "df524f2fd",
+   "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 nj_arrest_no_conviction-set returned CLAIM_OK VF11 nj_arrest_no_conviction-set (independent-verification, grant set 30c8eb5c8b97f22e), exit 0, asserted inside /home/user/vf11-worktree before any artifact of this family was read. No release, no transfer, no ledger write.",
+   "canonicalSha256": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+   "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+   "digestsConfirmedFirst": "Yes. sha256sum was run over every file in all four families' fixtures/ directories before any other artifact of any family was read, and each digest was compared against that family's own RASTER_QUEUE row rather than against the prompt text. All eight files bind: nj-arrest canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d (572743 B), boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 (574020 B); the other three families' canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f (571718 B) and the same boundary 23a571af... (574020 B). Every rasterReceipt boundToCanonicalSha256 and boundToBoundarySha256 equals the bytes on disk.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set returned, verbatim: \"ok repo_identity vf11-nj-four-read at df524f2f; ok clone_is_complete full clone, all heads fetchable; - assigned_branch_tip_visible no --branch given; check not applicable; ok worktree_clean clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; - browser_environment_exported not applicable: this invocation renders nothing...; - build_time_rasterizer_available not applicable; - page_rasterizer_available not applicable; FAIL private_is_git_ignored private/ is NOT git-ignored; ok master_library_mounted mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; FAIL corpus_matches_committed_index 1 absent, 0 mismatched of 24 sampled; ok family_sources_bind 1/1 source(s) bind by exact SHA-256 (custody_reconciliation); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear. PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable\", exit 1. Both failures were diagnosed here and neither bears on these four families. private_is_git_ignored fails because the check runs `git check-ignore -q private/` with a trailing slash and this lane's prescribed setup reaches private/ through a symlink, which that form does not resolve; `git check-ignore private` resolves and reports it ignored at .gitignore:53, and `git ls-files private/` returns nothing. corpus_matches_committed_index: the single absent sampled entry was identified here as \"LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf\", an Alabama form no New Jersey family reads; the New Jersey source itself bound by exact SHA-256 and was rehashed here from the mounted corpus as c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set, run in this worktree on the committed bytes at df524f2fd; returned PASS_COMPLETE, exit 0.",
+    "whatTheZerosDoNotEstablish": "All nine are zero and two defects were still found on the pages. readFieldRows (verify-packet-completeness.mjs line 173) routes every non-refuse field-map row into writes, so a candidate_write or measured_route_selection the build withholds at draw time is never classified as a blank and cannot reach requiredOptionsMissing or knownRequiredFieldsMissing; and the component check compares the field map's documents against the render without ever opening legal-design-packet-set-manifests.json, so a missing required process_guidance component cannot reach requiredComponentsMissing. Zero counters are reported here as measured, and are not offered as evidence for the obligations they cannot see."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34292115043",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "7f9efe19345b5d1570635e8ed67e9df6433fa3fb",
+    "jobId": "102281414199",
+    "jobConclusion": "success",
+    "documentsCovered": [
+     "cn-10557-canonical.pdf"
+    ],
+    "documentsNotCovered": [],
+    "takenFrom": "the family's own RASTER_QUEUE.json row, not from the assignment prompt",
+    "whatThisReceiptDoesNotEstablish": "The gate rendered the canonical document only. The boundary fixture is declared and bound by hash but was not rendered by this gate, so a defect appearing only in the boundary is not something the RASTER_PASS excluded; this lane rastered the boundary itself for that reason. The receipt's PNG artifacts were not downloaded here."
+   },
+   "sourceResolution": "The single source is NJ CN-10557 REV-2020-06, resolved from source-receipt.json to STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf under MASTER_LIBRARY_SOURCE_DIR =/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and rehashed here: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, 179 AcroForm fields — matching the receipt exactly. The preflight's independent family_sources_bind check returned 1/1 bind by exact SHA-256. The pinned blank was rendered at 300 dpi and used as the baseline for every added-ink measurement in this row, so the ink numbers are differences against the official form rather than against another build.",
+   "howTheSweepWasProvedSensitive": "Three positive/negative controls were run rather than assumed. (1) Ink control: the same 300 dpi rect was measured on the delivered fixture and on the 300 dpi render of the pinned blank CN-10557 (c1dd37b5...). The pinned source reads 535 ink px in the page-18 dismiss rect and 696 in the page-19 guilty rect. The arrest canonical reads +859 in the dismiss rect; every other election rect on every other fixture reads exactly +0. A method that returns +859 on one fixture and +0 on seven is discriminating, and the +859 independently reproduces the number FIX105 reported without being taken from it. (2) Mutation control: changing one word of a committed self-help condition (\"ordinance violation\" -> \"ordinance infraction\") makes the verbatim substring test return absent while the unmutated string returns present, so the 12-of-12 result is not a test that passes on anything. (3) Cross-family control: the ordinance 12-condition list tested against the arrest guide returns 11 of 12, not 12 of 12 and not 0 of 12 — the two routes share eleven conditions and differ in the ordinance-specific first one, which is the expected discriminating answer and is reported here rather than rounded to a clean number.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json routeKeys, product-wiring.json routeKeys and production-field-map.json familyId, read for all four families and compared.",
+     "finding": "The records identify this family's route distinctly and consistently: routeKeys, familyId and directory agree, and commercialAuthority is false. Measured on the records; the separate question of whether the DELIVERED PAGES state the route is ruled under ROUTE_OPTIONS, where the contract puts it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json documents[0]; sha256sum of the mounted Master Library file; pdfinfo page count; field count from production-field-map.json.",
+     "finding": "The single source is NJ CN-10557 REV-2020-06 at STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__...__EN.pdf. Rehashed here from the mounted corpus: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, matching the receipt exactly. The field map carries 179 terminal fields, equal to the receipt's acroFieldCount. The preflight's family_sources_bind check independently returned 1/1 bind by exact SHA-256."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "legal-design-packet-set-manifests.json packetSet for this family; reports/rendered-artifacts.json manifestComponentDelivery; participant-instructions.md headings; pdftotext of the delivered canonical.",
+     "finding": "Measured against the packet-set manifest rather than against the family's own declaration, because the counter does not read that manifest. Every declared component is answered. The four official_pdf_fill roles are delivered inside the 43-page kit (Petition for Expungement, Order for Hearing and Expungement Order all appear in the delivered text), and every process_guidance role resolves to a heading that exists in participant-instructions.md and carries content answering that role."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json written/heldButNotPrinted/proof on both fixtures; production-field-map.json candidate_write rows; participant-instructions.md held-but-not-printed table; 300 dpi renders.",
+     "finding": "Every fact the platform holds is either printed or withheld under the row-integrity rule and disclosed to the participant by field name, fact id, reason and fixture. On this family the delivered canonical prints the participant identity block and item (a) in full (date, offence, court). Recorded honestly: the zero on knownRequiredFieldsMissing is not independent evidence for these rows. readFieldRows in verify-packet-completeness.mjs (line 173) puts every row whose decision is not \"refuse\" into writes rather than blanks, so a candidate_write the build later withholds at draw time never reaches classifyBlank. This obligation was therefore measured by hand against the delivered bytes, not read off the counter."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "production-field-map.json rows carrying requiredBeforeFiling true, each tested for a backticked mention in participant-instructions.md.",
+     "finding": "Every row declaring requiredBeforeFiling true is named in the packet's participant instructions: 50 of 50 rows disclosed, none missing. The declarations use the explicit channel (requiredBeforeFiling as a boolean plus a named reason), not prose, and the six permanently unavailable cells of the conviction paragraph are declared this way rather than being excused by policy language."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "production-field-map.json field `dismiss`, decision \"measured_route_selection\"; reports/actual-writes.json canonical selections [{control dismiss, page 18}]; 300 dpi render of canonical page 18, looked at; added ink in the rect (x 33.793, y 214.365, 18x18 pt; rows 2332:2407, cols 141:216) = +859 against the pinned blank form, versus +0 on the boundary.",
+     "finding": "PASS. The delivered canonical states this route: the box beside item (a) carries the mark and the paragraph beneath it reads whole — 2020-01-15, \"Possession of a controlled substance\", \"Example Court\" — so the petition says on its face that the charge was dismissed, which is the route it was built for. The mark is absent only on the boundary fixture, where the offence value cannot be printed at a legible size and the row is withheld; a family whose canonical states its route and whose stress fixture withholds a row it cannot support has not left a route election to the participant."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "300 dpi pdftoppm renders of pages 18 and 19 of both fixtures, opened and looked at; added-ink measurement in both election rects against the 300 dpi render of the pinned blank CN-10557; reports/actual-writes.json written, selections and heldButNotPrinted on both fixtures; participant-instructions.md \"Values this platform holds but did not print\" table; pdftotext -layout of both delivered fixtures diffed against the pinned source.",
+     "finding": "PASS on all three limbs the assignment names. (1) Withholding is what the delivered pages actually do, not merely what the report says: on every fixture where a row is broken, the row's cells are blank AND its election box is empty, confirmed by eye at 300 dpi and by measurement — +0 added ink in the election rect against the blank official form. No half-filled row and no orphan mark was found on any of the eight fixtures. (2) Every withholding is disclosed where a participant will see it: the guide's \"Values this platform holds but did not print\" table names the withdrawn election itself as a row (`dismiss`, \"the election this row states on the printed form\"), gives the sibling cells that could not be printed, and names the fixture it applies to; the table is introduced with an instruction to write each one in by hand. (3) No good mark was silently dropped. The one row in these four families that supports its election — item (a) on the nj_arrest_no_conviction-set canonical — still prints it: +859 added ink in the dismiss rect, the X visible in the crop, above a paragraph carrying its date, offence and court. Every other election rect on every other fixture reads +0, and in each of those cases the row beneath it is empty, so the withholding is matched to a broken row rather than applied indiscriminately. What the withdrawal costs the conviction families is a separate obligation and is failed under ROUTE_OPTIONS, not here: a rule that refuses to swear to a paragraph it cannot complete is the right rule, and the defect is that nothing else on those petitions then states the route."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every written field on both fixtures classified through completeness-contract.mjs classifyField using its field-map identity; reports/actual-writes.json refused rows; choiceNeutralization block; 300 dpi renders.",
+     "finding": "No write lands on a protected or attorney-only field on either fixture: zero writes classify as PROTECTED or ATTORNEY. The signature, signature date, notary execution block, judge's signature line, clerk, prosecutor, agency and post-order fields are all in the refused set, and the guide states they are expressly refused. choiceNeutralization ran before flattening on both fixtures and removed no source-set value from any petition checkbox."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over fixtures/ first; the family's RASTER_QUEUE row; reports/rendered-artifacts.json; reports/actual-writes.json proof blocks; sha256sum of both contact sheets; pixel comparison of the committed 72 dpi raster PNGs against fresh renders of the current bytes; a repo-wide scan for the three pre-repair digests and for any non-current 64-hex digest written near a cn-10557 fixture name.",
+     "finding": "PASS. Every record naming these bytes pins the bytes on disk. The RASTER_QUEUE row's rasterReceipt, its documents[].sha256 and pageCountEvidence, rendered-artifacts.json and both actual-writes.json proof blocks all carry this family's exact on-disk digests and the correct 43-page count. Both contact-sheet digests bind their files on disk, and the 86 committed raster PNGs are current: page 19 of both fixtures re-rendered from today's bytes differs from the committed PNG by 0 pixels. No residue of the pre-repair pair survives as a live pin. The three superseded digests (0b32e839..., cc91a4ca..., 77ccbea4...) appear only where history belongs: 7 occurrences in RASTER_QUEUE.json, all 7 inside supersededReceipts and 0 outside, plus the FIX88, FIX105 and VF03 lane rows that recorded them as the bytes they read at their own base. No family record carries a stale fixture digest."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "pdfinfo page counts on both fixtures and on the pinned source; the RASTER_QUEUE row's expectedPages and pageCountEvidence; whitespace-normalised text comparison of both delivered fixtures against the pinned source.",
+     "finding": "Both fixtures carry 43 pages, equal to the pinned source and to the queue's expectedPages of 43 and its pdf-lib pageCountEvidence. Comparing the delivered text against the source line by line after whitespace normalisation, no source line is lost other than caption lines that now carry a value on the same line and the two viewer buttons; nothing is inserted, dropped or reordered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json outcome and widget outcome on every write of both fixtures; 300 dpi renders of the long-value boundary pages 18 and 27, opened and looked at; the proof block's drawnText compared against the expected value.",
+     "finding": "Every write on both fixtures reports outcome \"fit\" or \"shrunk\" and nothing else — no clipped or overflowing write anywhere in the four families. Looked at at 300 dpi on the boundary fixture, which is the stress case: a 69-character name, a 44-character city and a phone number with an extension all sit inside their rules, at reduced size, without touching the printed captions beside them or the line below. The proof block confirms the exact expected string was drawn at every measured widget, so nothing was shortened to make it fit."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md filing section; legal-design-track-registry.json venue and destination for this track.",
+     "finding": "The packet states where to file and the statement is carried from the committed record: the court and division, the county rule, the receiving office, and the alternative eCourts route with a warning not to file both ways. The registry's destination name and detail appear in the guide; where the registry records the venue rule as an open question the guide says so rather than inventing one."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md; legal-design-track-registry.json rules.fees and rules.feeWaiver; the delivered kit's own running footer read out of the delivered text.",
+     "finding": "The packet states the fee position affirmatively and separates it from the State Police record charge, and states that a waiver is moot because there is no court filing fee to waive."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md service and post-order sections; legal-design-track-registry.json rules.notice, rules.service and manualCompletionItems.",
+     "finding": "The packet tells the participant who must be served and that serving the signed order on every record-holding agency is a separate later step, and it carries the held notice list from the committed record. Service certificates are to be completed only after service actually occurs, which the packet states. The kit's own delivered pages 10 and 11 are pointed to for the list and the certified-mail-within-five-days rule, rather than summarised away."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "legal-design-track-registry.json and legal-design-intake/NJ.memo.json selfHelpStopConditions for this track; participant-instructions.md tested condition by condition as exact substrings and for index order.",
+     "finding": "All 13 of this route's committed stop conditions print verbatim in the guide, in the registry's own order, and the registry list and the NJ intake memo list are deep-equal on the committed bytes. The section is headed \"## Where self-help ends\" and carries the conditions as a list."
+    }
+   },
+   "failedObligationNames": [],
+   "carriedVersusFreshlyMeasured": "Nothing was carried. Every page ruled on visually was rastered fresh in this worktree at 300 dpi with pdftoppm from the committed bytes named above, and looked at: arrest canonical and boundary page 18, and canonical and boundary page 19 of all four families. The committed 72 dpi raster PNGs and contact sheets in each family directory were separately re-rendered from the current bytes and compared pixel by pixel — 0 differing pixels on all eight page-19 PNGs — so they are records of the current bytes and not of the pre-repair pair. FIX105's own measurements, VF03's prior findings and the queue's page counts were read as claims to be tested, never as evidence.",
+   "observationsThatFailNoObligation": [
+    "This family's boundary fixture is byte-identical to the boundary fixtures of the other three New Jersey families (23a571af...), because withdrawing its item (a) election removed the last mark that distinguished it. On this family it is not a defect: the canonical still states the route, and the boundary is the stress fixture. It is recorded because the same identity IS the proof of the ROUTE_OPTIONS defect on the three conviction families.",
+    "verify-packet-completeness.mjs reports \"18/179 written\" while the delivered canonical carries 13 written field entries and the boundary 10. The difference is accounting, not bytes: the counter counts every non-refuse field-map row as a write, including candidate_write rows the build later withholds. Not a defect in this family; it is the mechanism that makes the nine counters insensitive to a withheld candidate_write or a withdrawn route selection, and it is why KNOWN_PREFILLS and ROUTE_OPTIONS were measured on the pages here rather than read off the counters.",
+    "The environment preflight returned PACKET_BUILD_ENVIRONMENT_NOT_READY with two failures. Both were diagnosed and neither touches these families; the verbatim output and the diagnosis are in the preflight field."
+   ],
+   "independence": "This lane built nothing and repaired nothing in these four families. It did not run any build script, did not rebuild any fixture, did not write to any family directory, did not edit RASTER_QUEUE.json, MASTER_QUEUE.json or the claim ledger, and released no grant. It did not create subagents. Rasters were written under /tmp and deleted after measuring; no raster PNG was committed. The prompt's statement that job 102281414225 belongs to nj_disorderly_persons-set was not relied on: every job id, digest, page count and receipt in these rows was taken from that family's own RASTER_QUEUE row, which assigns 102281414225 to nj_indictable_conviction-set and 102281414317 to nj_disorderly_persons-set.",
+   "grantsNothing": "This row proves nothing about commercial authority. It opens no route, promotes no family, grants no delivery authority, and creates no acceptance receipt. commercialAuthority is false in all four production-field-map.json files and this lane did not change that. Counsel review, visual review and source-freshness review were not performed here and remain owed."
+  },
+  {
+   "itemId": "nj_disorderly_persons-set",
+   "lane": "VF11",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+   "verifier": "VF11 (independent; built and repaired nothing in these four families)",
+   "verifiedAtBase": "df524f2fd",
+   "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 nj_disorderly_persons-set returned CLAIM_OK VF11 nj_disorderly_persons-set (independent-verification, grant set 30c8eb5c8b97f22e), exit 0, asserted inside /home/user/vf11-worktree before any artifact of this family was read. No release, no transfer, no ledger write.",
+   "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+   "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+   "digestsConfirmedFirst": "Yes. sha256sum was run over every file in all four families' fixtures/ directories before any other artifact of any family was read, and each digest was compared against that family's own RASTER_QUEUE row rather than against the prompt text. All eight files bind: nj-arrest canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d (572743 B), boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 (574020 B); the other three families' canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f (571718 B) and the same boundary 23a571af... (574020 B). Every rasterReceipt boundToCanonicalSha256 and boundToBoundarySha256 equals the bytes on disk.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set returned, verbatim: \"ok repo_identity vf11-nj-four-read at df524f2f; ok clone_is_complete full clone, all heads fetchable; - assigned_branch_tip_visible no --branch given; check not applicable; ok worktree_clean clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; - browser_environment_exported not applicable: this invocation renders nothing...; - build_time_rasterizer_available not applicable; - page_rasterizer_available not applicable; FAIL private_is_git_ignored private/ is NOT git-ignored; ok master_library_mounted mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; FAIL corpus_matches_committed_index 1 absent, 0 mismatched of 24 sampled; ok family_sources_bind 1/1 source(s) bind by exact SHA-256 (custody_reconciliation); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear. PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable\", exit 1. Both failures were diagnosed here and neither bears on these four families. private_is_git_ignored fails because the check runs `git check-ignore -q private/` with a trailing slash and this lane's prescribed setup reaches private/ through a symlink, which that form does not resolve; `git check-ignore private` resolves and reports it ignored at .gitignore:53, and `git ls-files private/` returns nothing. corpus_matches_committed_index: the single absent sampled entry was identified here as \"LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf\", an Alabama form no New Jersey family reads; the New Jersey source itself bound by exact SHA-256 and was rehashed here from the mounted corpus as c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set, run in this worktree on the committed bytes at df524f2fd; returned PASS_COMPLETE, exit 0.",
+    "whatTheZerosDoNotEstablish": "All nine are zero and two defects were still found on the pages. readFieldRows (verify-packet-completeness.mjs line 173) routes every non-refuse field-map row into writes, so a candidate_write or measured_route_selection the build withholds at draw time is never classified as a blank and cannot reach requiredOptionsMissing or knownRequiredFieldsMissing; and the component check compares the field map's documents against the render without ever opening legal-design-packet-set-manifests.json, so a missing required process_guidance component cannot reach requiredComponentsMissing. Zero counters are reported here as measured, and are not offered as evidence for the obligations they cannot see."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34292115043",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "7f9efe19345b5d1570635e8ed67e9df6433fa3fb",
+    "jobId": "102281414317",
+    "jobConclusion": "success",
+    "documentsCovered": [
+     "cn-10557-canonical.pdf"
+    ],
+    "documentsNotCovered": [],
+    "takenFrom": "the family's own RASTER_QUEUE.json row, not from the assignment prompt",
+    "whatThisReceiptDoesNotEstablish": "The gate rendered the canonical document only. The boundary fixture is declared and bound by hash but was not rendered by this gate, so a defect appearing only in the boundary is not something the RASTER_PASS excluded; this lane rastered the boundary itself for that reason. The receipt's PNG artifacts were not downloaded here."
+   },
+   "sourceResolution": "The single source is NJ CN-10557 REV-2020-06, resolved from source-receipt.json to STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf under MASTER_LIBRARY_SOURCE_DIR =/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and rehashed here: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, 179 AcroForm fields — matching the receipt exactly. The preflight's independent family_sources_bind check returned 1/1 bind by exact SHA-256. The pinned blank was rendered at 300 dpi and used as the baseline for every added-ink measurement in this row, so the ink numbers are differences against the official form rather than against another build.",
+   "howTheSweepWasProvedSensitive": "Three positive/negative controls were run rather than assumed. (1) Ink control: the same 300 dpi rect was measured on the delivered fixture and on the 300 dpi render of the pinned blank CN-10557 (c1dd37b5...). The pinned source reads 535 ink px in the page-18 dismiss rect and 696 in the page-19 guilty rect. The arrest canonical reads +859 in the dismiss rect; every other election rect on every other fixture reads exactly +0. A method that returns +859 on one fixture and +0 on seven is discriminating, and the +859 independently reproduces the number FIX105 reported without being taken from it. (2) Mutation control: changing one word of a committed self-help condition (\"ordinance violation\" -> \"ordinance infraction\") makes the verbatim substring test return absent while the unmutated string returns present, so the 12-of-12 result is not a test that passes on anything. (3) Cross-family control: the ordinance 12-condition list tested against the arrest guide returns 11 of 12, not 12 of 12 and not 0 of 12 — the two routes share eleven conditions and differ in the ordinance-specific first one, which is the expected discriminating answer and is reported here rather than rounded to a clean number.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json routeKeys, product-wiring.json routeKeys and production-field-map.json familyId, read for all four families and compared.",
+     "finding": "The records identify this family's route distinctly and consistently: routeKeys, familyId and directory agree, and commercialAuthority is false. Measured on the records; the separate question of whether the DELIVERED PAGES state the route is ruled under ROUTE_OPTIONS, where the contract puts it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json documents[0]; sha256sum of the mounted Master Library file; pdfinfo page count; field count from production-field-map.json.",
+     "finding": "The single source is NJ CN-10557 REV-2020-06 at STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__...__EN.pdf. Rehashed here from the mounted corpus: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, matching the receipt exactly. The field map carries 179 terminal fields, equal to the receipt's acroFieldCount. The preflight's family_sources_bind check independently returned 1/1 bind by exact SHA-256."
+    },
+    "COMPONENT_SET": {
+     "result": "FAIL",
+     "evidence": "legal-design-packet-set-manifests.json packetSet nj_disorderly_persons-set (10 required components); reports/rendered-artifacts.json manifestComponentDelivery, which declares 10 of 10 rendered; participant-instructions.md read in full; legal-design-track-registry.json track nj_disorderly_persons, mechanism.",
+     "finding": "FAIL. The manifest declares component 10, role counting_disclosure, requirement required, outputStrategy process_guidance. The family's own manifestComponentDelivery marks it \"rendered\" and points it at the heading \"## Where self-help ends\". That section was read here in full: it carries the route's 14 self-help STOP conditions and nothing else. The counting rule this route actually runs on is nowhere in the guide. The registry's own mechanism for nj_disorderly_persons states it — no more than five disorderly persons offences, no more than five petty disorderly persons offences, or a combination of no more than five; or multiple offences whose convictions were entered on the same day; or multiple offences interdependent or closely related and committed as part of a sequence of events within a comparatively short period — and none of it reaches the participant. Tested as strings: \"no more than five\" 0 hits, \"five disorderly\" 0, \"same day\" 0, \"closely related\" 0, \"sequence of events\" 0, \"comparatively short\" 0. The only occurrences of \"same-day\" and \"closely-related\" in the whole guide are the two identical self-help stop lines \"Any same-day or closely-related bundling argument.\" — a direction to stop and see a lawyer, which is the opposite of telling the participant how the count works. A required disclosure pointed at a section that does not make it is a missing component recorded as a delivered one. Secondarily on the same obligation: the manifest's role 6 is service_and_objection_instructions and this family's \"## Who must be served\" section names the notice list and says nothing whatever about objections, while its three siblings each address them. requiredComponentsMissing cannot catch either: verify-packet-completeness.mjs checks the field map's documents against the render and never opens the packet-set manifest."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json written/heldButNotPrinted/proof on both fixtures; production-field-map.json candidate_write rows; participant-instructions.md held-but-not-printed table; 300 dpi renders.",
+     "finding": "Every fact the platform holds is either printed or withheld under the row-integrity rule and disclosed to the participant by field name, fact id, reason and fixture. On this family matter.conviction_date, matter.charge and matter.court are held and withheld with the rest of item (d), and all three are named in the guide's \"Values this platform holds but did not print\" table against both fixtures. Recorded honestly: the zero on knownRequiredFieldsMissing is not independent evidence for these rows. readFieldRows in verify-packet-completeness.mjs (line 173) puts every row whose decision is not \"refuse\" into writes rather than blanks, so a candidate_write the build later withholds at draw time never reaches classifyBlank. This obligation was therefore measured by hand against the delivered bytes, not read off the counter."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "production-field-map.json rows carrying requiredBeforeFiling true, each tested for a backticked mention in participant-instructions.md.",
+     "finding": "Every row declaring requiredBeforeFiling true is named in the packet's participant instructions: 89 of 89 rows disclosed, none missing. The declarations use the explicit channel (requiredBeforeFiling as a boolean plus a named reason), not prose, and the six permanently unavailable cells of the conviction paragraph are declared this way rather than being excused by policy language."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "FAIL",
+     "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED.",
+     "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "300 dpi pdftoppm renders of pages 18 and 19 of both fixtures, opened and looked at; added-ink measurement in both election rects against the 300 dpi render of the pinned blank CN-10557; reports/actual-writes.json written, selections and heldButNotPrinted on both fixtures; participant-instructions.md \"Values this platform holds but did not print\" table; pdftotext -layout of both delivered fixtures diffed against the pinned source.",
+     "finding": "PASS on all three limbs the assignment names. (1) Withholding is what the delivered pages actually do, not merely what the report says: on every fixture where a row is broken, the row's cells are blank AND its election box is empty, confirmed by eye at 300 dpi and by measurement — +0 added ink in the election rect against the blank official form. No half-filled row and no orphan mark was found on any of the eight fixtures. (2) Every withholding is disclosed where a participant will see it: the guide's \"Values this platform holds but did not print\" table names the withdrawn election itself as a row (`guilty`, \"the election this row states on the printed form\"), gives the sibling cells that could not be printed, and names the fixture it applies to; the table is introduced with an instruction to write each one in by hand. (3) No good mark was silently dropped. The one row in these four families that supports its election — item (a) on the nj_arrest_no_conviction-set canonical — still prints it: +859 added ink in the dismiss rect, the X visible in the crop, above a paragraph carrying its date, offence and court. Every other election rect on every other fixture reads +0, and in each of those cases the row beneath it is empty, so the withholding is matched to a broken row rather than applied indiscriminately. What the withdrawal costs the conviction families is a separate obligation and is failed under ROUTE_OPTIONS, not here: a rule that refuses to swear to a paragraph it cannot complete is the right rule, and the defect is that nothing else on those petitions then states the route."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every written field on both fixtures classified through completeness-contract.mjs classifyField using its field-map identity; reports/actual-writes.json refused rows; choiceNeutralization block; 300 dpi renders.",
+     "finding": "No write lands on a protected or attorney-only field on either fixture: zero writes classify as PROTECTED or ATTORNEY. The signature, signature date, notary execution block, judge's signature line, clerk, prosecutor, agency and post-order fields are all in the refused set, and the guide states they are expressly refused. choiceNeutralization ran before flattening on both fixtures and removed no source-set value from any petition checkbox."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over fixtures/ first; the family's RASTER_QUEUE row; reports/rendered-artifacts.json; reports/actual-writes.json proof blocks; sha256sum of both contact sheets; pixel comparison of the committed 72 dpi raster PNGs against fresh renders of the current bytes; a repo-wide scan for the three pre-repair digests and for any non-current 64-hex digest written near a cn-10557 fixture name.",
+     "finding": "PASS. Every record naming these bytes pins the bytes on disk. The RASTER_QUEUE row's rasterReceipt, its documents[].sha256 and pageCountEvidence, rendered-artifacts.json and both actual-writes.json proof blocks all carry this family's exact on-disk digests and the correct 43-page count. Both contact-sheet digests bind their files on disk, and the 86 committed raster PNGs are current: page 19 of both fixtures re-rendered from today's bytes differs from the committed PNG by 0 pixels. No residue of the pre-repair pair survives as a live pin. The three superseded digests (0b32e839..., cc91a4ca..., 77ccbea4...) appear only where history belongs: 7 occurrences in RASTER_QUEUE.json, all 7 inside supersededReceipts and 0 outside, plus the FIX88, FIX105 and VF03 lane rows that recorded them as the bytes they read at their own base. No family record carries a stale fixture digest."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "pdfinfo page counts on both fixtures and on the pinned source; the RASTER_QUEUE row's expectedPages and pageCountEvidence; whitespace-normalised text comparison of both delivered fixtures against the pinned source.",
+     "finding": "Both fixtures carry 43 pages, equal to the pinned source and to the queue's expectedPages of 43 and its pdf-lib pageCountEvidence. Comparing the delivered text against the source line by line after whitespace normalisation, no source line is lost other than caption lines that now carry a value on the same line and the two viewer buttons; nothing is inserted, dropped or reordered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json outcome and widget outcome on every write of both fixtures; 300 dpi renders of the long-value boundary pages 18 and 27, opened and looked at; the proof block's drawnText compared against the expected value.",
+     "finding": "Every write on both fixtures reports outcome \"fit\" or \"shrunk\" and nothing else — no clipped or overflowing write anywhere in the four families. Looked at at 300 dpi on the boundary fixture, which is the stress case: a 69-character name, a 44-character city and a phone number with an extension all sit inside their rules, at reduced size, without touching the printed captions beside them or the line below. The proof block confirms the exact expected string was drawn at every measured widget, so nothing was shortened to make it fit."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md filing section; legal-design-track-registry.json venue and destination for this track.",
+     "finding": "The packet states where to file and the statement is carried from the committed record: the court and division, the county rule, the receiving office, and the alternative eCourts route with a warning not to file both ways. The registry's destination name and detail appear in the guide; where the registry records the venue rule as an open question the guide says so rather than inventing one."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md; legal-design-track-registry.json rules.fees and rules.feeWaiver; the delivered kit's own running footer read out of the delivered text.",
+     "finding": "The packet states the fee position affirmatively and separates it from the State Police record charge, and states that a waiver is moot because there is no court filing fee to waive."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md service and post-order sections; legal-design-track-registry.json rules.notice, rules.service and manualCompletionItems.",
+     "finding": "The packet tells the participant who must be served and that serving the signed order on every record-holding agency is a separate later step, and it carries the held notice list from the committed record. Service certificates are to be completed only after service actually occurs, which the packet states. On this family the section is the briefest of the four: it names the notice list but not the certified-mail-within-five-days mechanics its siblings take from the kit's delivered pages 10 and 11, and it says nothing about objections. The objection gap is failed under COMPONENT_SET, where the manifest names the role; the brevity is recorded as an observation."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "legal-design-track-registry.json and legal-design-intake/NJ.memo.json selfHelpStopConditions for this track; participant-instructions.md tested condition by condition as exact substrings and for index order.",
+     "finding": "All 14 of this route's committed stop conditions print verbatim in the guide, in the registry's own order, and the registry list and the NJ intake memo list are deep-equal on the committed bytes. The section is headed \"## Where self-help ends\" and carries the conditions as a list."
+    }
+   },
+   "failedObligationNames": [
+    "COMPONENT_SET",
+    "ROUTE_OPTIONS"
+   ],
+   "carriedVersusFreshlyMeasured": "Nothing was carried. Every page ruled on visually was rastered fresh in this worktree at 300 dpi with pdftoppm from the committed bytes named above, and looked at: arrest canonical and boundary page 18, and canonical and boundary page 19 of all four families. The committed 72 dpi raster PNGs and contact sheets in each family directory were separately re-rendered from the current bytes and compared pixel by pixel — 0 differing pixels on all eight page-19 PNGs — so they are records of the current bytes and not of the pre-repair pair. FIX105's own measurements, VF03's prior findings and the queue's page counts were read as claims to be tested, never as evidence.",
+   "observationsThatFailNoObligation": [
+    "The delivered canonical of this family is byte-identical to those of nj_indictable_conviction-set and nj_ordinance-set. That identity is evidence for the ROUTE_OPTIONS failure and is not itself listed as a separate defect.",
+    "The guide carries a 15-entry held selfHelpBoundaries section and a 14-entry held selfHelpStopConditions section as raw record dumps under \"Where self-help ends\". They are accurate and are what makes SELF_HELP_STOP pass; they also mean the manifest's counting_disclosure was pointed at a section already occupied by a different obligation.",
+    "The service section is the briefest of the four families and names no service mechanics beyond the notice list."
+   ],
+   "independence": "This lane built nothing and repaired nothing in these four families. It did not run any build script, did not rebuild any fixture, did not write to any family directory, did not edit RASTER_QUEUE.json, MASTER_QUEUE.json or the claim ledger, and released no grant. It did not create subagents. Rasters were written under /tmp and deleted after measuring; no raster PNG was committed. The prompt's statement that job 102281414225 belongs to nj_disorderly_persons-set was not relied on: every job id, digest, page count and receipt in these rows was taken from that family's own RASTER_QUEUE row, which assigns 102281414225 to nj_indictable_conviction-set and 102281414317 to nj_disorderly_persons-set.",
+   "grantsNothing": "This row proves nothing about commercial authority. It opens no route, promotes no family, grants no delivery authority, and creates no acceptance receipt. commercialAuthority is false in all four production-field-map.json files and this lane did not change that. Counsel review, visual review and source-freshness review were not performed here and remain owed."
+  },
+  {
+   "itemId": "nj_indictable_conviction-set",
+   "lane": "VF11",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+   "verifier": "VF11 (independent; built and repaired nothing in these four families)",
+   "verifiedAtBase": "df524f2fd",
+   "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 nj_indictable_conviction-set returned CLAIM_OK VF11 nj_indictable_conviction-set (independent-verification, grant set 30c8eb5c8b97f22e), exit 0, asserted inside /home/user/vf11-worktree before any artifact of this family was read. No release, no transfer, no ledger write.",
+   "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+   "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+   "digestsConfirmedFirst": "Yes. sha256sum was run over every file in all four families' fixtures/ directories before any other artifact of any family was read, and each digest was compared against that family's own RASTER_QUEUE row rather than against the prompt text. All eight files bind: nj-arrest canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d (572743 B), boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 (574020 B); the other three families' canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f (571718 B) and the same boundary 23a571af... (574020 B). Every rasterReceipt boundToCanonicalSha256 and boundToBoundarySha256 equals the bytes on disk.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set returned, verbatim: \"ok repo_identity vf11-nj-four-read at df524f2f; ok clone_is_complete full clone, all heads fetchable; - assigned_branch_tip_visible no --branch given; check not applicable; ok worktree_clean clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; - browser_environment_exported not applicable: this invocation renders nothing...; - build_time_rasterizer_available not applicable; - page_rasterizer_available not applicable; FAIL private_is_git_ignored private/ is NOT git-ignored; ok master_library_mounted mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; FAIL corpus_matches_committed_index 1 absent, 0 mismatched of 24 sampled; ok family_sources_bind 1/1 source(s) bind by exact SHA-256 (custody_reconciliation); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear. PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable\", exit 1. Both failures were diagnosed here and neither bears on these four families. private_is_git_ignored fails because the check runs `git check-ignore -q private/` with a trailing slash and this lane's prescribed setup reaches private/ through a symlink, which that form does not resolve; `git check-ignore private` resolves and reports it ignored at .gitignore:53, and `git ls-files private/` returns nothing. corpus_matches_committed_index: the single absent sampled entry was identified here as \"LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf\", an Alabama form no New Jersey family reads; the New Jersey source itself bound by exact SHA-256 and was rehashed here from the mounted corpus as c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set, run in this worktree on the committed bytes at df524f2fd; returned PASS_COMPLETE, exit 0.",
+    "whatTheZerosDoNotEstablish": "All nine are zero and two defects were still found on the pages. readFieldRows (verify-packet-completeness.mjs line 173) routes every non-refuse field-map row into writes, so a candidate_write or measured_route_selection the build withholds at draw time is never classified as a blank and cannot reach requiredOptionsMissing or knownRequiredFieldsMissing; and the component check compares the field map's documents against the render without ever opening legal-design-packet-set-manifests.json, so a missing required process_guidance component cannot reach requiredComponentsMissing. Zero counters are reported here as measured, and are not offered as evidence for the obligations they cannot see."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34292115043",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "7f9efe19345b5d1570635e8ed67e9df6433fa3fb",
+    "jobId": "102281414225",
+    "jobConclusion": "success",
+    "documentsCovered": [
+     "cn-10557-canonical.pdf"
+    ],
+    "documentsNotCovered": [],
+    "takenFrom": "the family's own RASTER_QUEUE.json row, not from the assignment prompt",
+    "whatThisReceiptDoesNotEstablish": "The gate rendered the canonical document only. The boundary fixture is declared and bound by hash but was not rendered by this gate, so a defect appearing only in the boundary is not something the RASTER_PASS excluded; this lane rastered the boundary itself for that reason. The receipt's PNG artifacts were not downloaded here."
+   },
+   "sourceResolution": "The single source is NJ CN-10557 REV-2020-06, resolved from source-receipt.json to STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf under MASTER_LIBRARY_SOURCE_DIR =/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and rehashed here: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, 179 AcroForm fields — matching the receipt exactly. The preflight's independent family_sources_bind check returned 1/1 bind by exact SHA-256. The pinned blank was rendered at 300 dpi and used as the baseline for every added-ink measurement in this row, so the ink numbers are differences against the official form rather than against another build.",
+   "howTheSweepWasProvedSensitive": "Three positive/negative controls were run rather than assumed. (1) Ink control: the same 300 dpi rect was measured on the delivered fixture and on the 300 dpi render of the pinned blank CN-10557 (c1dd37b5...). The pinned source reads 535 ink px in the page-18 dismiss rect and 696 in the page-19 guilty rect. The arrest canonical reads +859 in the dismiss rect; every other election rect on every other fixture reads exactly +0. A method that returns +859 on one fixture and +0 on seven is discriminating, and the +859 independently reproduces the number FIX105 reported without being taken from it. (2) Mutation control: changing one word of a committed self-help condition (\"ordinance violation\" -> \"ordinance infraction\") makes the verbatim substring test return absent while the unmutated string returns present, so the 12-of-12 result is not a test that passes on anything. (3) Cross-family control: the ordinance 12-condition list tested against the arrest guide returns 11 of 12, not 12 of 12 and not 0 of 12 — the two routes share eleven conditions and differ in the ordinance-specific first one, which is the expected discriminating answer and is reported here rather than rounded to a clean number.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json routeKeys, product-wiring.json routeKeys and production-field-map.json familyId, read for all four families and compared.",
+     "finding": "The records identify this family's route distinctly and consistently: routeKeys, familyId and directory agree, and commercialAuthority is false. Measured on the records; the separate question of whether the DELIVERED PAGES state the route is ruled under ROUTE_OPTIONS, where the contract puts it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json documents[0]; sha256sum of the mounted Master Library file; pdfinfo page count; field count from production-field-map.json.",
+     "finding": "The single source is NJ CN-10557 REV-2020-06 at STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__...__EN.pdf. Rehashed here from the mounted corpus: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, matching the receipt exactly. The field map carries 179 terminal fields, equal to the receipt's acroFieldCount. The preflight's family_sources_bind check independently returned 1/1 bind by exact SHA-256."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "legal-design-packet-set-manifests.json packetSet for this family; reports/rendered-artifacts.json manifestComponentDelivery; participant-instructions.md headings; pdftotext of the delivered canonical.",
+     "finding": "Measured against the packet-set manifest rather than against the family's own declaration, because the counter does not read that manifest. Every declared component is answered. The four official_pdf_fill roles are delivered inside the 43-page kit (Petition for Expungement, Order for Hearing and Expungement Order all appear in the delivered text), and every process_guidance role resolves to a heading that exists in participant-instructions.md and carries content answering that role."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json written/heldButNotPrinted/proof on both fixtures; production-field-map.json candidate_write rows; participant-instructions.md held-but-not-printed table; 300 dpi renders.",
+     "finding": "Every fact the platform holds is either printed or withheld under the row-integrity rule and disclosed to the participant by field name, fact id, reason and fixture. On this family matter.conviction_date, matter.charge and matter.court are held and withheld with the rest of item (d), and all three are named in the guide's \"Values this platform holds but did not print\" table against both fixtures. Recorded honestly: the zero on knownRequiredFieldsMissing is not independent evidence for these rows. readFieldRows in verify-packet-completeness.mjs (line 173) puts every row whose decision is not \"refuse\" into writes rather than blanks, so a candidate_write the build later withholds at draw time never reaches classifyBlank. This obligation was therefore measured by hand against the delivered bytes, not read off the counter."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "production-field-map.json rows carrying requiredBeforeFiling true, each tested for a backticked mention in participant-instructions.md.",
+     "finding": "Every row declaring requiredBeforeFiling true is named in the packet's participant instructions: 85 of 85 rows disclosed, none missing. The declarations use the explicit channel (requiredBeforeFiling as a boolean plus a named reason), not prose, and the six permanently unavailable cells of the conviction paragraph are declared this way rather than being excused by policy language."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "FAIL",
+     "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED.",
+     "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "300 dpi pdftoppm renders of pages 18 and 19 of both fixtures, opened and looked at; added-ink measurement in both election rects against the 300 dpi render of the pinned blank CN-10557; reports/actual-writes.json written, selections and heldButNotPrinted on both fixtures; participant-instructions.md \"Values this platform holds but did not print\" table; pdftotext -layout of both delivered fixtures diffed against the pinned source.",
+     "finding": "PASS on all three limbs the assignment names. (1) Withholding is what the delivered pages actually do, not merely what the report says: on every fixture where a row is broken, the row's cells are blank AND its election box is empty, confirmed by eye at 300 dpi and by measurement — +0 added ink in the election rect against the blank official form. No half-filled row and no orphan mark was found on any of the eight fixtures. (2) Every withholding is disclosed where a participant will see it: the guide's \"Values this platform holds but did not print\" table names the withdrawn election itself as a row (`guilty`, \"the election this row states on the printed form\"), gives the sibling cells that could not be printed, and names the fixture it applies to; the table is introduced with an instruction to write each one in by hand. (3) No good mark was silently dropped. The one row in these four families that supports its election — item (a) on the nj_arrest_no_conviction-set canonical — still prints it: +859 added ink in the dismiss rect, the X visible in the crop, above a paragraph carrying its date, offence and court. Every other election rect on every other fixture reads +0, and in each of those cases the row beneath it is empty, so the withholding is matched to a broken row rather than applied indiscriminately. What the withdrawal costs the conviction families is a separate obligation and is failed under ROUTE_OPTIONS, not here: a rule that refuses to swear to a paragraph it cannot complete is the right rule, and the defect is that nothing else on those petitions then states the route."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every written field on both fixtures classified through completeness-contract.mjs classifyField using its field-map identity; reports/actual-writes.json refused rows; choiceNeutralization block; 300 dpi renders.",
+     "finding": "No write lands on a protected or attorney-only field on either fixture: zero writes classify as PROTECTED or ATTORNEY. The signature, signature date, notary execution block, judge's signature line, clerk, prosecutor, agency and post-order fields are all in the refused set, and the guide states they are expressly refused. choiceNeutralization ran before flattening on both fixtures and removed no source-set value from any petition checkbox."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over fixtures/ first; the family's RASTER_QUEUE row; reports/rendered-artifacts.json; reports/actual-writes.json proof blocks; sha256sum of both contact sheets; pixel comparison of the committed 72 dpi raster PNGs against fresh renders of the current bytes; a repo-wide scan for the three pre-repair digests and for any non-current 64-hex digest written near a cn-10557 fixture name.",
+     "finding": "PASS. Every record naming these bytes pins the bytes on disk. The RASTER_QUEUE row's rasterReceipt, its documents[].sha256 and pageCountEvidence, rendered-artifacts.json and both actual-writes.json proof blocks all carry this family's exact on-disk digests and the correct 43-page count. Both contact-sheet digests bind their files on disk, and the 86 committed raster PNGs are current: page 19 of both fixtures re-rendered from today's bytes differs from the committed PNG by 0 pixels. No residue of the pre-repair pair survives as a live pin. The three superseded digests (0b32e839..., cc91a4ca..., 77ccbea4...) appear only where history belongs: 7 occurrences in RASTER_QUEUE.json, all 7 inside supersededReceipts and 0 outside, plus the FIX88, FIX105 and VF03 lane rows that recorded them as the bytes they read at their own base. No family record carries a stale fixture digest."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "pdfinfo page counts on both fixtures and on the pinned source; the RASTER_QUEUE row's expectedPages and pageCountEvidence; whitespace-normalised text comparison of both delivered fixtures against the pinned source.",
+     "finding": "Both fixtures carry 43 pages, equal to the pinned source and to the queue's expectedPages of 43 and its pdf-lib pageCountEvidence. Comparing the delivered text against the source line by line after whitespace normalisation, no source line is lost other than caption lines that now carry a value on the same line and the two viewer buttons; nothing is inserted, dropped or reordered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json outcome and widget outcome on every write of both fixtures; 300 dpi renders of the long-value boundary pages 18 and 27, opened and looked at; the proof block's drawnText compared against the expected value.",
+     "finding": "Every write on both fixtures reports outcome \"fit\" or \"shrunk\" and nothing else — no clipped or overflowing write anywhere in the four families. Looked at at 300 dpi on the boundary fixture, which is the stress case: a 69-character name, a 44-character city and a phone number with an extension all sit inside their rules, at reduced size, without touching the printed captions beside them or the line below. The proof block confirms the exact expected string was drawn at every measured widget, so nothing was shortened to make it fit."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md filing section; legal-design-track-registry.json venue and destination for this track.",
+     "finding": "The packet states where to file and the statement is carried from the committed record: the court and division, the county rule, the receiving office, and the alternative eCourts route with a warning not to file both ways. The registry's destination name and detail appear in the guide; where the registry records the venue rule as an open question the guide says so rather than inventing one."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md; legal-design-track-registry.json rules.fees and rules.feeWaiver; the delivered kit's own running footer read out of the delivered text.",
+     "finding": "The packet states the fee position and binds it to the delivered pages: \"It is not the court's filing fee: the enclosed kit states the court's own position in a running footer on four of its delivered pages — Kit updated 06/2020 to remove the filing fee, CN 10557\", and separates that from the State Police charge for the SBI record. It is thinner than its two siblings, which carry a dedicated fee section that also disposes of the waiver expressly; that thinness is recorded under observationsThatFailNoObligation rather than failed here, because the fee position is stated and sourced."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md service and post-order sections; legal-design-track-registry.json rules.notice, rules.service and manualCompletionItems.",
+     "finding": "The packet tells the participant who must be served and that serving the signed order on every record-holding agency is a separate later step, and it carries the held notice list from the committed record. Service certificates are to be completed only after service actually occurs, which the packet states. The kit's own delivered pages 10 and 11 are pointed to for the list and the certified-mail-within-five-days rule, rather than summarised away."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "legal-design-track-registry.json and legal-design-intake/NJ.memo.json selfHelpStopConditions for this track; participant-instructions.md tested condition by condition as exact substrings and for index order.",
+     "finding": "All 13 of this route's committed stop conditions print verbatim in the guide, in the registry's own order, and the registry list and the NJ intake memo list are deep-equal on the committed bytes. On this family they are carried under the heading \"## What this packet does not decide about your eligibility\" rather than a \"Where self-help ends\" heading; the obligation is that the packet says where self-help ends, and it does, so the heading name is recorded as an observation and not failed."
+    }
+   },
+   "failedObligationNames": [
+    "ROUTE_OPTIONS"
+   ],
+   "carriedVersusFreshlyMeasured": "Nothing was carried. Every page ruled on visually was rastered fresh in this worktree at 300 dpi with pdftoppm from the committed bytes named above, and looked at: arrest canonical and boundary page 18, and canonical and boundary page 19 of all four families. The committed 72 dpi raster PNGs and contact sheets in each family directory were separately re-rendered from the current bytes and compared pixel by pixel — 0 differing pixels on all eight page-19 PNGs — so they are records of the current bytes and not of the pre-repair pair. FIX105's own measurements, VF03's prior findings and the queue's page counts were read as claims to be tested, never as evidence.",
+   "observationsThatFailNoObligation": [
+    "The delivered canonical of this family is byte-identical to those of nj_disorderly_persons-set and nj_ordinance-set. That identity is evidence for the ROUTE_OPTIONS failure and is not itself listed as a separate defect.",
+    "This family states where self-help ends under the heading \"## What this packet does not decide about your eligibility\" rather than \"## Where self-help ends\". All 13 committed conditions are present verbatim and in order, so the obligation is met; only the heading differs from its siblings.",
+    "The fee position is stated in a single sentence inside \"Records to gather before you file\" rather than in a dedicated fee section, and the waiver is not addressed expressly. The statement is sourced to the kit's own running footer, so FEE_AND_WAIVER passes, but it is thinner than the arrest and disorderly guides."
+   ],
+   "independence": "This lane built nothing and repaired nothing in these four families. It did not run any build script, did not rebuild any fixture, did not write to any family directory, did not edit RASTER_QUEUE.json, MASTER_QUEUE.json or the claim ledger, and released no grant. It did not create subagents. Rasters were written under /tmp and deleted after measuring; no raster PNG was committed. The prompt's statement that job 102281414225 belongs to nj_disorderly_persons-set was not relied on: every job id, digest, page count and receipt in these rows was taken from that family's own RASTER_QUEUE row, which assigns 102281414225 to nj_indictable_conviction-set and 102281414317 to nj_disorderly_persons-set.",
+   "grantsNothing": "This row proves nothing about commercial authority. It opens no route, promotes no family, grants no delivery authority, and creates no acceptance receipt. commercialAuthority is false in all four production-field-map.json files and this lane did not change that. Counsel review, visual review and source-freshness review were not performed here and remain owed."
+  },
+  {
+   "itemId": "nj_ordinance-set",
+   "lane": "VF11",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+   "verifier": "VF11 (independent; built and repaired nothing in these four families)",
+   "verifiedAtBase": "df524f2fd",
+   "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 nj_ordinance-set returned CLAIM_OK VF11 nj_ordinance-set (independent-verification, grant set 30c8eb5c8b97f22e), exit 0, asserted inside /home/user/vf11-worktree before any artifact of this family was read. No release, no transfer, no ledger write.",
+   "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+   "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+   "digestsConfirmedFirst": "Yes. sha256sum was run over every file in all four families' fixtures/ directories before any other artifact of any family was read, and each digest was compared against that family's own RASTER_QUEUE row rather than against the prompt text. All eight files bind: nj-arrest canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d (572743 B), boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 (574020 B); the other three families' canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f (571718 B) and the same boundary 23a571af... (574020 B). Every rasterReceipt boundToCanonicalSha256 and boundToBoundarySha256 equals the bytes on disk.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set returned, verbatim: \"ok repo_identity vf11-nj-four-read at df524f2f; ok clone_is_complete full clone, all heads fetchable; - assigned_branch_tip_visible no --branch given; check not applicable; ok worktree_clean clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; - browser_environment_exported not applicable: this invocation renders nothing...; - build_time_rasterizer_available not applicable; - page_rasterizer_available not applicable; FAIL private_is_git_ignored private/ is NOT git-ignored; ok master_library_mounted mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; FAIL corpus_matches_committed_index 1 absent, 0 mismatched of 24 sampled; ok family_sources_bind 1/1 source(s) bind by exact SHA-256 (custody_reconciliation); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear. PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable\", exit 1. Both failures were diagnosed here and neither bears on these four families. private_is_git_ignored fails because the check runs `git check-ignore -q private/` with a trailing slash and this lane's prescribed setup reaches private/ through a symlink, which that form does not resolve; `git check-ignore private` resolves and reports it ignored at .gitignore:53, and `git ls-files private/` returns nothing. corpus_matches_committed_index: the single absent sampled entry was identified here as \"LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf\", an Alabama form no New Jersey family reads; the New Jersey source itself bound by exact SHA-256 and was rehashed here from the mounted corpus as c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set, run in this worktree on the committed bytes at df524f2fd; returned PASS_COMPLETE, exit 0.",
+    "whatTheZerosDoNotEstablish": "All nine are zero and two defects were still found on the pages. readFieldRows (verify-packet-completeness.mjs line 173) routes every non-refuse field-map row into writes, so a candidate_write or measured_route_selection the build withholds at draw time is never classified as a blank and cannot reach requiredOptionsMissing or knownRequiredFieldsMissing; and the component check compares the field map's documents against the render without ever opening legal-design-packet-set-manifests.json, so a missing required process_guidance component cannot reach requiredComponentsMissing. Zero counters are reported here as measured, and are not offered as evidence for the obligations they cannot see."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34292115043",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "7f9efe19345b5d1570635e8ed67e9df6433fa3fb",
+    "jobId": "102281414246",
+    "jobConclusion": "success",
+    "documentsCovered": [
+     "cn-10557-canonical.pdf"
+    ],
+    "documentsNotCovered": [],
+    "takenFrom": "the family's own RASTER_QUEUE.json row, not from the assignment prompt",
+    "whatThisReceiptDoesNotEstablish": "The gate rendered the canonical document only. The boundary fixture is declared and bound by hash but was not rendered by this gate, so a defect appearing only in the boundary is not something the RASTER_PASS excluded; this lane rastered the boundary itself for that reason. The receipt's PNG artifacts were not downloaded here."
+   },
+   "sourceResolution": "The single source is NJ CN-10557 REV-2020-06, resolved from source-receipt.json to STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf under MASTER_LIBRARY_SOURCE_DIR =/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and rehashed here: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, 179 AcroForm fields — matching the receipt exactly. The preflight's independent family_sources_bind check returned 1/1 bind by exact SHA-256. The pinned blank was rendered at 300 dpi and used as the baseline for every added-ink measurement in this row, so the ink numbers are differences against the official form rather than against another build.",
+   "howTheSweepWasProvedSensitive": "Three positive/negative controls were run rather than assumed. (1) Ink control: the same 300 dpi rect was measured on the delivered fixture and on the 300 dpi render of the pinned blank CN-10557 (c1dd37b5...). The pinned source reads 535 ink px in the page-18 dismiss rect and 696 in the page-19 guilty rect. The arrest canonical reads +859 in the dismiss rect; every other election rect on every other fixture reads exactly +0. A method that returns +859 on one fixture and +0 on seven is discriminating, and the +859 independently reproduces the number FIX105 reported without being taken from it. (2) Mutation control: changing one word of a committed self-help condition (\"ordinance violation\" -> \"ordinance infraction\") makes the verbatim substring test return absent while the unmutated string returns present, so the 12-of-12 result is not a test that passes on anything. (3) Cross-family control: the ordinance 12-condition list tested against the arrest guide returns 11 of 12, not 12 of 12 and not 0 of 12 — the two routes share eleven conditions and differ in the ordinance-specific first one, which is the expected discriminating answer and is reported here rather than rounded to a clean number.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json routeKeys, product-wiring.json routeKeys and production-field-map.json familyId, read for all four families and compared.",
+     "finding": "The records identify this family's route distinctly and consistently: routeKeys, familyId and directory agree, and commercialAuthority is false. Measured on the records; the separate question of whether the DELIVERED PAGES state the route is ruled under ROUTE_OPTIONS, where the contract puts it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json documents[0]; sha256sum of the mounted Master Library file; pdfinfo page count; field count from production-field-map.json.",
+     "finding": "The single source is NJ CN-10557 REV-2020-06 at STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__...__EN.pdf. Rehashed here from the mounted corpus: c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, matching the receipt exactly. The field map carries 179 terminal fields, equal to the receipt's acroFieldCount. The preflight's family_sources_bind check independently returned 1/1 bind by exact SHA-256."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "legal-design-packet-set-manifests.json packetSet for this family; reports/rendered-artifacts.json manifestComponentDelivery; participant-instructions.md headings; pdftotext of the delivered canonical.",
+     "finding": "Measured against the packet-set manifest rather than against the family's own declaration, because the counter does not read that manifest. Every declared component is answered. The four official_pdf_fill roles are delivered inside the 43-page kit (Petition for Expungement, Order for Hearing and Expungement Order all appear in the delivered text), and every process_guidance role resolves to a heading that exists in participant-instructions.md and carries content answering that role."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json written/heldButNotPrinted/proof on both fixtures; production-field-map.json candidate_write rows; participant-instructions.md held-but-not-printed table; 300 dpi renders.",
+     "finding": "Every fact the platform holds is either printed or withheld under the row-integrity rule and disclosed to the participant by field name, fact id, reason and fixture. On this family matter.conviction_date, matter.charge and matter.court are held and withheld with the rest of item (d), and all three are named in the guide's \"Values this platform holds but did not print\" table against both fixtures. Recorded honestly: the zero on knownRequiredFieldsMissing is not independent evidence for these rows. readFieldRows in verify-packet-completeness.mjs (line 173) puts every row whose decision is not \"refuse\" into writes rather than blanks, so a candidate_write the build later withholds at draw time never reaches classifyBlank. This obligation was therefore measured by hand against the delivered bytes, not read off the counter."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "production-field-map.json rows carrying requiredBeforeFiling true, each tested for a backticked mention in participant-instructions.md.",
+     "finding": "Every row declaring requiredBeforeFiling true is named in the packet's participant instructions: 85 of 85 rows disclosed, none missing. The declarations use the explicit channel (requiredBeforeFiling as a boolean plus a named reason), not prose, and the six permanently unavailable cells of the conviction paragraph are declared this way rather than being excused by policy language."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "FAIL",
+     "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED.",
+     "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "300 dpi pdftoppm renders of pages 18 and 19 of both fixtures, opened and looked at; added-ink measurement in both election rects against the 300 dpi render of the pinned blank CN-10557; reports/actual-writes.json written, selections and heldButNotPrinted on both fixtures; participant-instructions.md \"Values this platform holds but did not print\" table; pdftotext -layout of both delivered fixtures diffed against the pinned source.",
+     "finding": "PASS on all three limbs the assignment names. (1) Withholding is what the delivered pages actually do, not merely what the report says: on every fixture where a row is broken, the row's cells are blank AND its election box is empty, confirmed by eye at 300 dpi and by measurement — +0 added ink in the election rect against the blank official form. No half-filled row and no orphan mark was found on any of the eight fixtures. (2) Every withholding is disclosed where a participant will see it: the guide's \"Values this platform holds but did not print\" table names the withdrawn election itself as a row (`guilty`, \"the election this row states on the printed form\"), gives the sibling cells that could not be printed, and names the fixture it applies to; the table is introduced with an instruction to write each one in by hand. (3) No good mark was silently dropped. The one row in these four families that supports its election — item (a) on the nj_arrest_no_conviction-set canonical — still prints it: +859 added ink in the dismiss rect, the X visible in the crop, above a paragraph carrying its date, offence and court. Every other election rect on every other fixture reads +0, and in each of those cases the row beneath it is empty, so the withholding is matched to a broken row rather than applied indiscriminately. What the withdrawal costs the conviction families is a separate obligation and is failed under ROUTE_OPTIONS, not here: a rule that refuses to swear to a paragraph it cannot complete is the right rule, and the defect is that nothing else on those petitions then states the route."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every written field on both fixtures classified through completeness-contract.mjs classifyField using its field-map identity; reports/actual-writes.json refused rows; choiceNeutralization block; 300 dpi renders.",
+     "finding": "No write lands on a protected or attorney-only field on either fixture: zero writes classify as PROTECTED or ATTORNEY. The signature, signature date, notary execution block, judge's signature line, clerk, prosecutor, agency and post-order fields are all in the refused set, and the guide states they are expressly refused. choiceNeutralization ran before flattening on both fixtures and removed no source-set value from any petition checkbox."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over fixtures/ first; the family's RASTER_QUEUE row; reports/rendered-artifacts.json; reports/actual-writes.json proof blocks; sha256sum of both contact sheets; pixel comparison of the committed 72 dpi raster PNGs against fresh renders of the current bytes; a repo-wide scan for the three pre-repair digests and for any non-current 64-hex digest written near a cn-10557 fixture name.",
+     "finding": "PASS. Every record naming these bytes pins the bytes on disk. The RASTER_QUEUE row's rasterReceipt, its documents[].sha256 and pageCountEvidence, rendered-artifacts.json and both actual-writes.json proof blocks all carry this family's exact on-disk digests and the correct 43-page count. Both contact-sheet digests bind their files on disk, and the 86 committed raster PNGs are current: page 19 of both fixtures re-rendered from today's bytes differs from the committed PNG by 0 pixels. No residue of the pre-repair pair survives as a live pin. The three superseded digests (0b32e839..., cc91a4ca..., 77ccbea4...) appear only where history belongs: 7 occurrences in RASTER_QUEUE.json, all 7 inside supersededReceipts and 0 outside, plus the FIX88, FIX105 and VF03 lane rows that recorded them as the bytes they read at their own base. No family record carries a stale fixture digest."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "pdfinfo page counts on both fixtures and on the pinned source; the RASTER_QUEUE row's expectedPages and pageCountEvidence; whitespace-normalised text comparison of both delivered fixtures against the pinned source.",
+     "finding": "Both fixtures carry 43 pages, equal to the pinned source and to the queue's expectedPages of 43 and its pdf-lib pageCountEvidence. Comparing the delivered text against the source line by line after whitespace normalisation, no source line is lost other than caption lines that now carry a value on the same line and the two viewer buttons; nothing is inserted, dropped or reordered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json outcome and widget outcome on every write of both fixtures; 300 dpi renders of the long-value boundary pages 18 and 27, opened and looked at; the proof block's drawnText compared against the expected value.",
+     "finding": "Every write on both fixtures reports outcome \"fit\" or \"shrunk\" and nothing else — no clipped or overflowing write anywhere in the four families. Looked at at 300 dpi on the boundary fixture, which is the stress case: a 69-character name, a 44-character city and a phone number with an extension all sit inside their rules, at reduced size, without touching the printed captions beside them or the line below. The proof block confirms the exact expected string was drawn at every measured widget, so nothing was shortened to make it fit."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md filing section; legal-design-track-registry.json venue and destination for this track.",
+     "finding": "The packet states where to file and the statement is carried from the committed record: the court and division, the county rule, the receiving office, and the alternative eCourts route with a warning not to file both ways. The registry's destination name and detail appear in the guide; where the registry records the venue rule as an open question the guide says so rather than inventing one."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md; legal-design-track-registry.json rules.fees and rules.feeWaiver; the delivered kit's own running footer read out of the delivered text.",
+     "finding": "The packet states the fee position and binds it to the delivered pages: \"It is not the court's filing fee: the enclosed kit states the court's own position in a running footer on four of its delivered pages — Kit updated 06/2020 to remove the filing fee, CN 10557\", and separates that from the State Police charge for the SBI record. It is thinner than its two siblings, which carry a dedicated fee section that also disposes of the waiver expressly; that thinness is recorded under observationsThatFailNoObligation rather than failed here, because the fee position is stated and sourced."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md service and post-order sections; legal-design-track-registry.json rules.notice, rules.service and manualCompletionItems.",
+     "finding": "The packet tells the participant who must be served and that serving the signed order on every record-holding agency is a separate later step, and it carries the held notice list from the committed record. Service certificates are to be completed only after service actually occurs, which the packet states. The kit's own delivered pages 10 and 11 are pointed to for the list and the certified-mail-within-five-days rule, rather than summarised away."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "legal-design-track-registry.json track nj_ordinance selfHelpStopConditions; legal-design-intake/NJ.memo.json track nj_ordinance selfHelpStopConditions; participant-instructions.md tested condition by condition as exact substrings and for index order; mutation and cross-family controls.",
+     "finding": "PASS, and this is the repair VF03 measured at 0 of 12. All 12 conditions now print verbatim under a \"## Where self-help ends\" heading, and they print in the registry's own order: their character offsets in the guide are 14994, 15104, 15128, 15216, 15275, 15328, 15414, 15433, 15494, 15555, 15687, 15769 — strictly increasing, index for index, with no reordering, no paraphrase, no omission and no thirteenth condition added. The registry list and the NJ intake memo list were compared here and are deep-equal, so the build's own precondition that the two records agree holds on the committed bytes rather than only in the builder. The section states that the conditions are carried from those two records and names them, and it closes with an immigration hard stop. Sensitivity was proved before the result was accepted: mutating a single word of condition 1 makes the same test report it absent."
+    }
+   },
+   "failedObligationNames": [
+    "ROUTE_OPTIONS"
+   ],
+   "carriedVersusFreshlyMeasured": "Nothing was carried. Every page ruled on visually was rastered fresh in this worktree at 300 dpi with pdftoppm from the committed bytes named above, and looked at: arrest canonical and boundary page 18, and canonical and boundary page 19 of all four families. The committed 72 dpi raster PNGs and contact sheets in each family directory were separately re-rendered from the current bytes and compared pixel by pixel — 0 differing pixels on all eight page-19 PNGs — so they are records of the current bytes and not of the pre-repair pair. FIX105's own measurements, VF03's prior findings and the queue's page counts were read as claims to be tested, never as evidence.",
+   "observationsThatFailNoObligation": [
+    "The delivered canonical of this family is byte-identical to those of nj_disorderly_persons-set and nj_indictable_conviction-set. On a municipal-ordinance route that is the sharpest form of the ROUTE_OPTIONS defect: the delivered petition is indistinguishable from an indictable-conviction petition. It is cited as evidence there rather than counted twice.",
+    "The two family-note bullets that close the guide sit directly beneath the \"Where self-help ends\" section with no heading of their own, so a reader may take them as part of that list. The same shape appears in all four siblings, so it is the family's normal structure rather than something this repair introduced.",
+    "The fee position is stated in a single sentence inside \"Records to gather before you file\" rather than in a dedicated fee section, and the waiver is not addressed expressly.",
+    "The self-help section's own text asserts that the build \"reads both and prints them only while they agree\". That precondition was checked on the committed bytes here and holds: registry and memo lists are deep-equal. The assertion was verified rather than taken on trust."
+   ],
+   "independence": "This lane built nothing and repaired nothing in these four families. It did not run any build script, did not rebuild any fixture, did not write to any family directory, did not edit RASTER_QUEUE.json, MASTER_QUEUE.json or the claim ledger, and released no grant. It did not create subagents. Rasters were written under /tmp and deleted after measuring; no raster PNG was committed. The prompt's statement that job 102281414225 belongs to nj_disorderly_persons-set was not relied on: every job id, digest, page count and receipt in these rows was taken from that family's own RASTER_QUEUE row, which assigns 102281414225 to nj_indictable_conviction-set and 102281414317 to nj_disorderly_persons-set.",
+   "grantsNothing": "This row proves nothing about commercial authority. It opens no route, promotes no family, grants no delivery authority, and creates no acceptance receipt. commercialAuthority is false in all four production-field-map.json files and this lane did not change that. Counsel review, visual review and source-freshness review were not performed here and remain owed."
   }
  ],
  "determination": {
