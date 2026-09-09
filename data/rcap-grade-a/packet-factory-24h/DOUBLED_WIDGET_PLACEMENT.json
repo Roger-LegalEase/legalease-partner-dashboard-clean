@@ -141,5 +141,30 @@
         "offsetPt": 698.7
       }
     }
-  ]
+  ],
+  "CORRECTION_2026-09-09": {
+    "whatWasWrong": "My test read the placement translate and the BBox lower-left and never read the XObject's /Matrix, which is exactly where the correction lives. A normalized appearance carries /Matrix [1 0 0 1 -Rect.x -Rect.y], which cancels the placement translate exactly and lands the box on its own /Rect. Reading translate-equals-BBox-lower-left alone cannot tell a corrected box from a doubled one, so it flagged all three West Virginia families.",
+    "whoCaughtIt": "VF09, which refused to adopt my measurement, found the builder wiring, and told me before doing any work. It was blocked at the claim gate at the time and reported the disagreement rather than staying silent.",
+    "theCorrectedMeasurement": [
+      {
+        "overlayDirectory": "wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+        "doubledAfterReadingMatrix": 0,
+        "correctedByMatrix": 26
+      },
+      {
+        "overlayDirectory": "wv-conv-nonviolent-felony-set--official-pdf-fill",
+        "doubledAfterReadingMatrix": 26,
+        "correctedByMatrix": 0
+      },
+      {
+        "overlayDirectory": "wv-conv-single-misdemeanor-set--official-pdf-fill",
+        "doubledAfterReadingMatrix": 0,
+        "correctedByMatrix": 26
+      }
+    ],
+    "theRealBlastRadius": "ONE family: wv_conv_nonviolent_felony-set, whose flattened checkbox XObjects carry NO /Matrix at all. Its two siblings call normalizeWidgetAppearancePlacement(pdf) immediately before sanitizeAndFlatten; it is a separate 2,714-line builder that imports neither. The defect is one builder on an unnormalized path.",
+    "noPublishedFamilyIsAffected": "wv_conv_multiple_misdemeanors-set and wv_conv_single_misdemeanor-set are correct and stay COMPLETE_PACKET_PROVEN. I had granted a re-read on both and withdrawn it. Terminal does not drop.",
+    "whatIAlmostDid": "Withdrew two correct published families on a measurement missing a term, and sent a repair lane to change a shared module that already implements the fix its own comment describes.",
+    "whatSurvives": "VF08's finding on wv_conv_nonviolent_felony-set stands entirely -- it was read off rendered pages, not inferred from structure, and the absent /Matrix confirms it independently."
+  }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "25c56504af0a0041f467a3af10328ff276f2e6eb",
+  "generatedAtCommit": "c8f71b5c08f2f90dbffccd0182744a8da9d4b6fb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5381,9 +5381,9 @@
         "mn_petition_609a02_subd3-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -9593,11 +9593,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+      "released": true,
+      "releasedAt": "2026-09-09T22:24:08.963Z",
+      "releaseReason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
     },
     {
       "subjectType": "packet-family",
@@ -9639,11 +9639,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+      "released": true,
+      "releasedAt": "2026-09-09T22:24:09.265Z",
+      "releaseReason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
     },
     {
       "subjectType": "packet-family",
@@ -14035,7 +14035,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "73bafb5a26457c8a2c27d642868e9dda96b23aa661d5209fcc08b4e747a916b9",
+  "claimsDigest": "b91338052fa62ae36288290f17c0121897bea4698dd2353c25a21ffd9b7a7e38",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34759,6 +34759,42 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T22:10:56.688Z",
       "reason": "FIX01 returned this family COMPLETED with repairedByThisLane true and nine numeric zero counters. Releasing centrally so the repair is not stranded behind its own grant."
+    },
+    {
+      "lane": "VF09",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T22:24:08.695Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T22:24:08.963Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
+    },
+    {
+      "lane": "VF09",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T22:24:09.062Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T22:24:09.265Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
     }
   ],
   "reissues": [
@@ -52053,6 +52089,28 @@
       "previouslyReleasedAt": "2026-09-05T21:16:30.804Z",
       "transferredAt": "2026-09-09T22:17:09.047Z",
       "reason": "A Captain measurement proves 26 doubled widget placements per fixture in this family's delivered bytes -- the same defect VF08 proved on its sibling. Its PASS was read before that was known and needs a fresh independent read on the current bytes."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF09",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-09T22:24:08.695Z",
+      "transferredAt": "2026-09-09T22:24:08.809Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF09",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-09T22:24:09.062Z",
+      "transferredAt": "2026-09-09T22:24:09.166Z",
+      "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
     }
   ],
   "grants": [
@@ -56550,6 +56608,14 @@
       "lane": "FIX05",
       "withdrawnAt": "2026-09-09T22:11:27Z",
       "reason": "lane retired: FIX05 is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-09T22:22:56Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
 }

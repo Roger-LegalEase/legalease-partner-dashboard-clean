@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 131,
-    "rows": 1053,
-    "independentVerdicts": 267,
-    "failRepairRequired": 36,
+    "returnDirectories": 132,
+    "rows": 1054,
+    "independentVerdicts": 268,
+    "failRepairRequired": 37,
     "passIndependent": 211
   },
   "failRepairRequiredFamilies": [
@@ -63,6 +63,7 @@
     "in_infraction_nondisclosure-set",
     "la-985-expungement-by-redaction-set",
     "md_pardon_expungement-set",
+    "mn_petition_609a02_subd3-set",
     "mo-art-xiv-marijuana-set",
     "nh_marijuana_annulment-set",
     "nj_disorderly_persons-set",
@@ -12509,6 +12510,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "26ab5d8641c0e366dfed8d75a34c3bf6690ffa7f",
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "The guide's account of who must be served is false against EXP104's own printed page, which is delivered in this packet as pages 7 and 8. It states: 'The service list is EXP104's fifteen numbered boxes. Three of them are marked (Required) on the form itself and already carry their addresses printed: the MN Bureau of Criminal Apprehension, the Office of the MN Attorney General, and the MN Department of Human Services / Office of Inspector General. The rest are checked and completed only where they relate to your case.' I read every box on the delivered page by x-position and y-band and mapped each printed box number to the marker printed beneath it. SIX boxes are marked (Required), not three: box 1 MN Bureau of Criminal Apprehension, box 2 Office of the MN Attorney General, box 3 MN Dept. of Corrections, box 4 ______ County Attorney's Office, box 5 ______ County Dept. of Corrections (Probation), box 6 ______ County Sheriff's Office. The six boxes marked '(check box & use if related to your case)' are 7, 8, 9, 10, 11 and 12. So the third agency the guide names as Required - MN Department of Human Services / Office of Inspector General - is box 9, and box 9 is one of the CONDITIONAL boxes; and the guide's sentence 'The rest are checked and completed only where they relate to your case' tells the participant that boxes 3, 4, 5 and 6 are optional when the form marks all four (Required). Box 4 is the County Attorney's Office, which the guide's own disclosure table elsewhere calls 'the prosecuting authority the committed record requires you to serve'. A participant following this paragraph would treat service on the prosecuting authority, the county probation department and the county sheriff as discretionary.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set",
       "superseded": false
     },
     {
@@ -32562,8 +32586,9 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 30,
+  "rowsRefused": 31,
   "refusedRows": [
+    "vf02/census-pending-family:ME:juvenile-sealing: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): REPEATING_ROWS",
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
     "vf02/rcap-ks-custom-pleading::ks-12-4516-municipal::canonical: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
