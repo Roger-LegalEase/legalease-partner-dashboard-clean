@@ -1,0 +1,26 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+ "assignmentId": "VF07",
+ "workerId": "VF07",
+ "workerBranch": "pfe-vf-20260909",
+ "shift": "vf07-independent-reads-20260909d",
+ "laneKind": "independent-verification, three VERIFY_PENDING families",
+ "checkpointRule": "Claim before reading. One row per family, written, committed and pushed as it finishes, before the next family is opened. This lane builds nothing, repairs nothing and releases nothing.",
+ "checkpoints": [
+  {
+   "n": 1,
+   "what": "Claim gate for la-976-arrest-no-conviction-set. node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 'la-976-arrest-no-conviction-set' returned CLAIM_OK VF07 la-976-arrest-no-conviction-set (independent-verification, grant set 68a665634f7e38b0), exit 0. No artifact of the family was read before this returned.",
+   "familiesCompletedAtThisPoint": [],
+   "pushed": false
+  },
+  {
+   "n": 2,
+   "what": "la-976-arrest-no-conviction-set read and scored: FAIL_REPAIR_REQUIRED on FEE_AND_WAIVER. The assignment's named question resolves in the family's favour - the conditional Article 988 fee-exemption component IS delivered at canonical pages 7-8, matching item 2 of its own required-before-filing list, with only identifying fields written and every certification box and the district attorney's signature blank. The failure is a different one, found by reading the page: canonical page 7 prints a builder-facing paragraph headed 'Why this component is in this packet:' reciting the build record's own generation condition verbatim and naming three internal records, on a document the packet directs the participant to hand to the district attorney. That is the recorded internal-record-text-printed-on-a-filing class and it occurs in exactly one of the seventeen canonical fixtures materialised in this checkout. Cross-check returned alongside it: five sibling Louisiana families print the identical item-2 promise while delivering no Article 988 page at all.",
+   "familiesCompletedAtThisPoint": [
+    "la-976-arrest-no-conviction-set"
+   ],
+   "pushed": true
+  }
+ ],
+ "grantsNothing": "Checkpoints are a record of this lane's own progress. They approve no output and promote no route."
+}

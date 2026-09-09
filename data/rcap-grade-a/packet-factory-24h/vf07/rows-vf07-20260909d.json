@@ -1,0 +1,145 @@
+{
+ "schemaVersion": "rcap-verifier-lane-return/v1",
+ "lane": "VF07",
+ "laneKind": "independent-verification",
+ "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+ "branch": "pfe-vf-20260909",
+ "writtenAt": "2026-09-09",
+ "note": "Written alongside the pre-existing vf07/rows.json, rows-vf07-20260909c.json, repair-assignments.json and vf07-stale-verdicts-and-first-reads.json. None of them was read into, edited or overwritten. This lane built nothing, repaired nothing and edited no packet, builder, overlay, manifest or registry.",
+ "measuredBy": "The delivered bytes in the committed tree at this base. Digests recomputed with sha256sum. Page content read with pdftotext -layout page by page. Content streams zlib-decompressed and scanned directly for fill-colour and text-render-mode operators. Nothing carried from a builder's counters or byte proof without being re-derived here.",
+ "overlayDirectoriesModified": [],
+ "packetsModified": [],
+ "commercialRoutesOpened": [],
+ "builtOrRepairedByThisLane": false,
+ "rows": [
+  {
+   "itemId": "la-976-arrest-no-conviction-set",
+   "lane": "VF07",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "postRepairReread": false,
+   "priorIndependentVerdict": null,
+   "firstIndependentRead": true,
+   "rasterState": "RASTER_PASS, admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-976-arrest-no-conviction-set/ (run 34407406641, packetCommit 686a2f65ee5b06d41a6634676b22ca13e7419490). It pins canonical 17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5 and boundary f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3, which are the bytes in the tree at this base as recomputed here with sha256sum. 46 pages measured, problems [], environmentProblems [], nonblank and croppedToThePage true on every page, coversTheWholeFamily true, max calibrationResidualPx 0. Not re-run by this lane. The raster proves these pages render; it proves nothing about the finding below.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "All 35 canonicalWrites declared across the four maps in production-field-map.json were searched for as literal strings in the pdftotext -layout extraction of all 23 canonical pages. 35 of 35 found. The complement was checked too: the 46 canonicalRefusals were located by printedLabel on the delivered pages and every one carries an empty dot leader.",
+    "requiredFactsNotCollected": "The guide's supply table (participant-instructions.md, 'What you must supply before filing', 16 rows) was walked against the delivered pages. Every one of the 16 named blanks prints as an empty dot leader on the document the row names, on LA-CCRP-ART-989, LA-CCRP-ART-992 and LA-CCRP-ART-988. None is silently answered and none is answered by restating its own printed question.",
+    "unclassifiedBlanks": "81 terminal fields; 35 written and 46 blank. Every blank resolves to a declared canonicalRefusal in production-field-map.json and to one of the three dispositions the builder's counters report (REQUIRED_BEFORE_FILING 16, NOT_APPLICABLE_ON_THIS_ROUTE 4, PROTECTED_FIELD 26). Recounted here from the map, not copied: 46 = 16 + 4 + 26.",
+    "incompleteRows": "0 rows inspected because this family has no repeating table. The Article 989 form carries single-instance charge lines, not a numbered charge grid; the multi-count case is routed to the withheld Article 993 continuation sheet. Counted as 0 rather than null because the absence of a row structure was read off the delivered pages, not assumed.",
+    "requiredOptionsMissing": "The one option set on this packet is the Article 976(A) ground election. It is deliberately blank and declared determinedByTheCaseNotTheRoute. No widget option list exists to check because the packet carries no AcroForm at all (verified: /AcroForm absent from both fixture byte streams).",
+    "requiredComponentsMissing": "packet-set-manifest.json declares six components. Five are generated and all five appear in the delivered 23-page canonical at the pages component-page-manifest.json assigns them (1-3 the Article 989 motion, 4 the Article 991 order, 5-6 the Article 992 order, 7-8 the Article 988 fee exemption, 9-23 the instructions). The sixth, the Article 993 continuation, is withheld and is outside this family's composedFromAuthority grant, which was read first hand at data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json and grants exactly LA-CCRP-ART-988, 989, 991 and 992.",
+    "invisibleWrites": "Measured directly from the bytes rather than taken from the report: all 46 content streams of canonical.pdf were zlib-decompressed and scanned. The only fill colour operator anywhere in the file is '0 0 0 rg' and no text render mode operator appears at all, so every glyph draws black in mode 0. There is no white-on-white text and no Tr 3.",
+    "protectedWrites": "All 26 PROTECTED_FIELD blanks were located on the delivered pages and read. Every ordering paragraph, finding, return date, date, place and judicial signature on the Article 991 and Article 992 orders is an empty dot leader; every certification box and the district attorney's signature and date on the Article 988 is an empty dot leader; the clerk's filed-on stamp and certificate of service are empty. refusedFieldsWithInk is empty in the builder's own byte proof and my independent read of the pages agrees.",
+    "visualDefects": "0. Layout read at appearance level from pdftotext -layout across all 23 canonical pages and all 23 boundary pages: no truncated value, no value colliding with an adjacent label, no dot leader overrun. The admitted raster receipt independently measured all 46 pages nonblank and cropped to the paper at residual 0. The defect recorded below is a content defect, not a rendering defect, and is not counted here."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "measured": "production-field-map.json routeKeys is exactly the single MASTER_QUEUE route key, obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement. The identity is on the delivered page, not only in metadata: page 1 prints 'ARTICLE 989 MOTION FOR EXPUNGEMENT OF A RECORD OF ARREST THAT DID NOT RESULT IN A CONVICTION, UNDER ARTICLE 976' and Part II recites Article 976(A) by its own terms. Louisiana runs six tracks off six articles that share the Article 989/991/992 instruments, and the packet disambiguates itself on its own face: 'Whether any charge on this arrest ended in a misdemeanour or felony conviction: No', with the printed statement that a conviction on this arrest puts the matter in Article 977 or Article 978 and means this is the wrong packet. The guide's opening section names all six sibling tracks and which article each is."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "measured": "Two records disagree and I record both. MASTER_QUEUE's nested sourceReadiness.custodyClass reads SOURCE_IDENTITY_UNRESOLVED while the same row's top-level sourceStatus reads SOURCE_BOUND_BY_HELD_BYTES and sourceBound true. I measured against the bytes. Both declared digests were recomputed here with sha256sum at the declared paths in the mounted private custody and both match exactly: LA-CCRP-ART-993 = 0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2 and LA-CCRP-ART-990 = 13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a. The nested class is contradicted by measurement. Neither of those two is rendered into the packet and rendered-artifacts.json says so (renderedIntoThePacket false on both), which is correct: Article 990 is the responding agency's own affidavit and Article 993 is the withheld continuation sheet. The four instruments this packet does render carry no binary at all and are not claimed to; they are composed under the LA-STATUTORY-FORMS owner determination, read first hand, which grants this familyId exactly LA-CCRP-ART-988, 989, 991 and 992 and lists remainOfficialAndMustBeHeld as empty. Every pageManifest entry accordingly carries sourceSha256 null with sourceClass composed_from_the_committed_statutory_authority, which is an honest declaration rather than a missing digest."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "measured": "Six declared components, five generated, and all five are on the delivered pages at the assigned positions, confirmed by reading each page rather than by trusting the manifest. The withheld sixth is the Article 993 continuation, and three independent reasons hold it out: its stated condition (more counts than the Article 989 motion's own fields hold) is unmet on both fixtures, Article 993 is absent from the composedFromAuthority grant I read at OWNER_DETERMINATIONS_2026-09-02.json, and the committed legal-design note states no template exists and none is counsel-approved. The guide discloses the withholding in its own section and sends a participant with more counts to the clerk for the statutory sheet. The conditional Article 988 component is generated, which is the correct resolution and is checked against the packet's own promise under REQUIRED_BEFORE_FILING below."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "measured": "35 declared writes, all 35 read back in the delivered text, and the reverse direction checked too, which is the direction the map-honest-writes-not defect lives in. No value appears on any page that the map does not declare. Specifically checked and clean: no alias or previous-name line is answered with the legal name (the Article 989 form carries no alias line at all), and no address history is invented (the form carries no address line). The mover's name Jordan Avery Reyes, date of birth 1991-04-17, arrest date 2019-03-08, arresting agency, docket TEST-2026-000001, court, parish and division are the held facts and are the only facts written. addedGlyphsReadFromOutputBytes in the builder's byte proof is 562, a real reading rather than a hardcoded literal zero, so the published-zero defect does not apply here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "measured": "Every court-, clerk- and prosecutor-owned field is blank on the delivered page. The Article 991 order: ordering paragraphs, objection-window direction, no-contradictory-hearing finding, return date, date, place and judge's signature, all empty dot leaders under a printed banner reading 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided, and no relief exists unless and until a judge completes and signs it and the clerk enters it.' The Article 992 order: same, with only the caption and the arrest identifiers carried over. The Article 988: all three certification boxes, the district attorney's signature and the date of that signature are empty, under the printed statement that they belong to the district attorney or a designee. The mover's own signature and date are blank on both the Article 989 and the Article 988, as the record requires. This is the specific point the assignment named for Louisiana and it holds."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "measured": "Read at appearance level on all 46 fixture pages. The boundary fixture is a genuine long-value fixture and not a copy of the canonical: it carries 'Municipal and Traffic Court of New Orleans, Traffic Division', 'Parish of Saint John the Baptist', 'Maria-Alejandra O'Shaughnessy-Whitfield', 'TEST-BOUNDARY-2026-0000000000000001' and 'Division Z-Long', and differs from canonical in both digest and byte length (77460 vs 77112). None of those long values is truncated, none runs into an adjacent label and none pushes a dot leader off the measure. The admitted raster measured all 46 pages cropped to a 612 x 792 pt page with residual 0."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "measured": "The memo's 9 self-help stop conditions are carried and the two that can fire from a field on this packet are printed at the field itself rather than only in the guide. On the Article 989 motion, the operating-a-vehicle-while-intoxicated question prints with the Article 976(B) five-year bar and the statement that the committed record makes a vehicle-while-intoxicated arrest in any form a condition on which self-help stops; the 'names anyone besides the mover' question prints with the routing to the Article 985 redaction track and the statement that it is a self-help stop condition. The Article 975 custody bar prints with 'If that answer is yes, this motion may not be filed.' The guide reproduces all 9 conditions with the count printed beside them."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "measured": "filing-instructions.md names the clerk of court for the parish of arrest, with the Article 989 motion filed together with the proposed Article 991 and Article 992 orders, and cites Article 972.1 for which courts have authority within their trial jurisdiction. The guide and the registry text agree. No fee, clerk practice or deadline appears that is not tied to a cited article. Nothing is invented."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "measured": "The packet is unambiguous that the participant serves nobody, and it says so on the filing itself and not only in the guide: the foot of Article 989 page 3 prints 'Under Article 979 the clerk serves the motion on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law enforcement agency, and files the certificate of service. The mover serves nobody.' Article 992 page 5 carries the Article 982 post-grant service by the clerk. The registry's serve_party entry says the same. Correct and consistent across all three places."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "measured": "This is the obligation the assignment named for Louisiana and it holds in the delivered bytes. Item 2 of 19 of the packet set's own required-before-filing list reads 'The packet gives you the Article 988 form with your own fields filled in.' The packet does give it: canonical pages 7 and 8 are the Article 988 Motion for Fee Exemption, carrying the mover's full legal name, date of birth, date of arrest and docket number as ink, with the last four digits of the Social Security number and the original arrest charge printing blank as the participant's own. All 19 required-before-filing items and all 21 registry participant actions are carried verbatim with their counts printed beside them. Cross-check worth recording: five sibling Louisiana families print the identical item-2 sentence in their participant instructions while delivering no Article 988 page at all - la-977-misdemeanor-conviction-set, la-977d-marijuana-first-offense-set, la-978-felony-conviction-set, la-985-expungement-by-redaction-set and la-985-1-interim-expungement-set, each verified here by extracting its own canonical.pdf and finding no 'ARTICLE 988 MOTION FOR FEE EXEMPTION' page. Those five are not my families and I issue no verdict on them, but the false statement the assignment describes is live in five places and la-976 is not one of them."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "measured": "Two fixtures, both present, both 23 pages, both digest-matched here with sha256sum against component-page-manifest.json, rendered-artifacts.json and the admitted raster verdict's pinned hashes: canonical 17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5 at 77112 bytes and boundary f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3 at 77460 bytes. Four records carry the same two digits and none disagrees."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "measured": "Read page by page across document boundaries, not only within each document. The delivered order is Article 989 motion pages 1-3, Article 991 order page 4, Article 992 order pages 5-6, Article 988 fee exemption pages 7-8, instructions pages 9-23. That is the manifest's componentOrder and it is also the order the packet's own sequencing requires the participant to work in, with one deliberate exception the packet itself resolves: the Article 988 is bound at position 4 but must be delivered to the district attorney BEFORE the motion is filed, and both page 8 and the guide say so in terms. Each component's internal pagination is continuous and no page is orphaned or repeated."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "measured": "The route fixes the article; the case fixes the ground. The Article 976(A) ground election prints as an empty two-line dot leader on the motion and again on the Article 992 order, with the printed reason that the ground is established by the minute entry and the district attorney's certification and that Louisiana State Police names choosing the wrong eligibility basis as a common fatal error. That is a refusal to guess a legal conclusion, not a missing option. The one election the packet does make for the participant, that no charge on this arrest ended in a conviction, is stated affirmatively on the face with the routing consequence printed beside it rather than left as a silent blank. No option list was mis-ordered because there is no AcroForm and no widget option list in this file."
+    },
+    "REPEATING_ROWS": {
+     "result": "NOT_MEASURABLE_HERE",
+     "measured": "This family delivers no repeating row structure. The Article 989 form carries single-instance charge lines and a 'How many separate charges or counts this arrest carries' line, not a numbered charge grid, and the multi-count case is routed off this packet to the withheld Article 993 continuation sheet. There is no AcroForm in either fixture, so the acroform-index-is-not-the-printed-row defect has no surface here: there are no widget indices to disagree with a printed row number. Recorded as not measurable rather than as a pass, because there is nothing of this kind to measure."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "FAIL",
+     "measured": "The fee law is stated correctly and the waiver instrument is correctly delivered and correctly left unsigned. The failure is what else is printed on the waiver instrument. Canonical page 7, on the face of the Article 988 Motion for Fee Exemption, between the form's own instruction and the participant's identifying fields, prints a paragraph headed 'Why this component is in this packet:' which then recites the build record's own generation condition verbatim in quotation marks - 'Generated wherever the participant may qualify for the Article 983(F) exemption, which on this track is common.' - and goes on to cite three internal build records by name: 'The committed fee rule states that the exemption is very often available on this track and must be screened before filing rather than after, and the committed legal-design record directs that every participant on this track is routed through Article 988 before filing.' None of that is statute text or rule text. It is the builder's justification for including the component, addressed to a reviewer, and the quoted sentence is an instruction written to tell a builder when to generate a component. It is printed on a document that page 8 directs the participant to take or send to the district attorney's office before filing and to append to the motion at filing. This is the defect class the Captain recorded as internal-record-text-printed-on-a-filing at data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, whose stated rule is 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text', and whose foundBy names this family. It is not a corpus convention: the phrase 'Why this component is in this packet' was searched across all seventeen canonical.pdf fixtures materialised in this checkout across LA, HI and OR and occurs in exactly one, this one. The packet also argues against itself here - page 1 of its own Article 989 motion prints that Article 986 provides only the statutory forms shall be used, with no local variant, and that Article 986(C) lets a clerk alter the form only to show the name of the court. No counter sees this: the text is present, non-empty, inside its write box and quoted accurately from a controlling record, so every gate passes. Two of the three things PF14 was recorded as finding are genuinely gone from the delivered bytes - there is no machine vocabulary of eligible dispositions printed as a bullet list, the Article 976(A) grounds being recited as statutory prose, and no memo component note at the foot of any composed form, checked page by page - but this third instance survives on the delivered page."
+    }
+   },
+   "crossChecks": {
+    "DEFECTS_NO_COUNTER_CAN_SEE": "All seven checked deliberately. map-honest-writes-not: checked in both directions, 35 of 35 declared writes found and no undeclared value on any page; no alias or address-history line exists on this form to over-write. acroform-index-is-not-the-printed-row: no AcroForm and no numbered table, no surface. extracted-line-order-is-not-column-order: this is a composed single-column instrument with no multi-column heading row. internal-record-text-printed-on-a-filing: PRESENT, on canonical page 7, recorded as the FEE_AND_WAIVER failure above. a-published-zero-where-a-measurement-existed: addedGlyphsReadFromOutputBytes is 562, not a literal zero. a-geometry-counter-with-no-teeth: nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 here and I did not rely on it; I decoded the content streams myself and found one fill colour, black, and no invisible render mode. two-families-one-filing: see below.",
+    "CLONED_FAMILY_PACKETS": "la-976-arrest-no-conviction-set does not appear anywhere in data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json, in clonedDeliverables or sharedDocuments. Checked independently against the six sibling Louisiana families materialised here: all six share the Article 989/991/992 instrument shape and a caption, but la-976's Part II eligibility recital, its Article 976(B) vehicle-while-intoxicated section, its Article 975 custody bar and its prayer are its own, and none of the six delivers an Article 988 page at all, so no two of them are the same filing.",
+    "recordsThatDisagree": "MASTER_QUEUE's sourceReadiness.custodyClass says SOURCE_IDENTITY_UNRESOLVED while the same row's sourceStatus says SOURCE_BOUND_BY_HELD_BYTES with sourceBound true. Both recorded; I measured against the bytes and both declared digests match at their declared paths. I did not reconcile the records and I edited no central artifact."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf (all 23 pages)",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/boundary.pdf (all 23 pages)",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/packet-set-manifest.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/component-page-manifest.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/filing-instructions.md",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-976-arrest-no-conviction-set/la-976-arrest-no-conviction-set.verdict.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-976-arrest-no-conviction-set/admission-proof.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)",
+    "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/ (two bound PDFs, re-hashed)",
+    "the six sibling Louisiana canonical.pdf fixtures, for the clone and item-2 cross-checks only"
+   ],
+   "visualDefects": [],
+   "failedObligationNames": [
+    "FEE_AND_WAIVER"
+   ],
+   "grantsNothing": "This is a measurement of what was delivered. It approves no output, promotes no route, opens no commercial path and is not a counsel or visual review. The FAIL is a repair instruction to the owning build lane, not a release decision."
+  }
+ ]
+}
