@@ -153,6 +153,131 @@
         { "sourceId": "official-form:1021EX", "pinnedSha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174" }
       ],
       "artifacts": []
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "lane": "PF02",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 md_pardon_expungement-set",
+      "claimResult": "CLAIM_OK PF02 md_pardon_expungement-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family md_pardon_expungement-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CC-DC-CR-072B",
+          "revision": "Rev. 10/01/2025-2",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "custody": "nationwide_recovery_pool_2026_09_02"
+        },
+        {
+          "formNumber": "CC-DC-089",
+          "revision": "Rev. 11/2025",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "custody": "master_library"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "totals": {
+        "terminalFields": 146,
+        "written": 32,
+        "blank": 114
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 18,
+        "REQUIRED_BEFORE_FILING": 34,
+        "PARTICIPANT_ELECTION_GENUINE": 35,
+        "PROTECTED_FIELD": 26,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741",
+          "byteLength": 1169719,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90",
+          "byteLength": 1170165,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CC-DC-CR-072B",
+          "packetPages": [
+            1
+          ]
+        },
+        {
+          "kind": "fee_waiver",
+          "documentId": "CC-DC-089",
+          "packetPages": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "routeElectionsMade": [
+        "CC-DC-CR-072B item 3: the ground this family IS - one criminal act, not a crime of violence under Criminal Law Article sec. 14-101(a), followed by a full and unconditional pardon by the Governor - is marked, and the pardon date is written beside it from the held screening fact, which is the fact the route's own ten-year test is computed from.",
+        "CC-DC-089: \"I request a waiver of the prepaid costs\" is ticked, because that is what the component is.",
+        "the District Court box and the court location, and the arrest alternative of item 1, are stated from held case facts and their select-one siblings declared not applicable naming the selection made."
+      ],
+      "electionsDeliberatelyLeftToTheParticipant": [
+        "the other seven grounds of item 3. The form says \"check all that apply\", so it is not a select-one and a second ground may also be true of a given record; only the person filing knows theirs.",
+        "items 4 and 5, whether the case was transferred or appealed. The form says in terms that the answer decides which court the petition must be filed in, and the platform holds neither fact.",
+        "the whole affidavit of income on CC-DC-089. This platform holds no income, property or debt fact about anyone."
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, page content streams decompressed, the source page's own streams excluded, each /FlatWidget-n Do resolved to its XObject and every show-text operator decoded with the matrix that precedes it; a marked box is proved against the source's own Off appearance.",
+        "report": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "defectsFoundInTheDeliveredBytesAndFixed": [
+        "Flattening drew the two Maryland forms' Reset buttons onto the filed page: ten glyphs of ink and every counter still zero. Push buttons are viewer controls, not filing content, and are now detached before flattening and recorded.",
+        "pdf-lib's form.flatten() deletes each field's objects, and the writer then emits an xref table with entries for object numbers that no longer exist. Poppler reported \"Invalid XRef entry 93\" on the first Maryland artifact and had to reconstruct the table. The build now draws what pdf-lib draws, operator for operator, and detaches instead of deleting."
+      ],
+      "sourceFindings": [
+        "CC-DC-CR-072B's AcroForm names describe whichever printed line each field sat near, and several name the wrong thing: \"2 I was charged with the offense of\" is the second line of the incident description, \"I was convicted found guilty of check all that apply...\" is the offence blank of item 2, and the checkbox named for common law battery and domestically related crime is the burglary-and-felony-theft ground. Every label was read off the rendered page at the widget's measured /Rect and the field map carries both names.",
+        "CC-DC-089 prints that form MDJ-008, the Notice Regarding Restricted Information under Rule 20-201.1, must be filed with it unless the case is one of six restricted types. Expungement is not one of them and no MDJ-008 is bound to this family by any source record. The packet does not carry one and does not stand in for one. That is a source obligation for whoever owns acquisition."
+      ],
+      "couldNotMeasureHere": [
+        "That any pardon was granted, or on what date. The date written on the petition is the held screening answer and the participant is told to check it against the pardon document before signing. Whether screening evidence is a sufficient basis for a date on a petition affirmed under the penalties of perjury is a counsel question, raised in approval-request.json.",
+        "The filing fee for a Maryland expungement petition on a guilty disposition. No held source establishes one and this packet states no amount.",
+        "No raster was produced and none was measured."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
     }
   ]
 }

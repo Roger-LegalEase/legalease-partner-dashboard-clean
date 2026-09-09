@@ -98,6 +98,134 @@
       "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "nh_conviction_streamlined-set",
+      "lane": "PF12",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 nh_conviction_streamlined-set",
+      "claimResult": "CLAIM_OK PF12 nh_conviction_streamlined-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family nh_conviction_streamlined-set -> family_sources_bind ok, 4/4 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "directory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "buildScript": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
+      "builtFreshNotResumed": "The interrupted run preserved at 7a9c130a5 was not read, not merged and not used as evidence of anything. The four source binaries were surveyed from the custody.",
+      "refusalReproduces": "the builder's output is byte-identical across two runs and creates no directory",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "artifacts": [],
+      "whatStopsIt": {
+        "sourceIdentity": "official-form:NHJB-2311",
+        "measurement": {
+          "NHJB-3057-DSe court.district/su": {
+            "options": 43,
+            "superiorCourts": 11,
+            "circuitDistrictDivisions": 31
+          },
+          "NHJB-2311-Se court.superior": {
+            "options": 12,
+            "superiorCourts": 11,
+            "circuitDistrictDivisions": 0
+          },
+          "NHJB-2328-DFPe court.district/family/probate - both": {
+            "options": 74,
+            "superiorCourts": 0,
+            "circuitDistrictDivisions": 31
+          },
+          "intersectionOfTheMotionAndStatementLists": []
+        },
+        "whyThatMatters": "each form names its court through a drop-down and none of the three offers a free-text alternative. The fee-waiver motion's list and the financial statement's list have no court in common, so for any New Hampshire case whatever - a Superior Court felony annulment or a Circuit Court misdemeanor annulment - one of the two fee-waiver components cannot state the court it is filed in.",
+        "theSuffixesAgree": "-Se is the Superior court edition, -DFPe the District, Family and Probate edition, and the petition this family files is NHJB-3057-DSe, the District edition. The family binds a Superior Court fee-waiver motion beside a Circuit Court petition and a Circuit Court financial statement.",
+        "whyNotJustLeaveItBlank": "filling NHJB-2311 for a Circuit Court annulment delivers the wrong court's motion, and leaving its court blank delivers a motion that does not say where it is filed. Neither is a packet."
+      },
+      "whatWouldUnblockIt": [
+        "binding the Circuit Court fee-waiver motion that matches NHJB-3057-DSe and NHJB-2328-DFPe, rather than the Superior Court NHJB-2311-Se, or",
+        "binding the Superior Court financial statement that matches NHJB-2311-Se, and scoping this family to Superior Court annulments, or",
+        "an owner determination that this family's fee-waiver components may be dropped and replaced by a pointer to whichever fee-waiver forms the filing court actually uses"
+      ],
+      "aRouteElectionWithNoControlToMakeItIn": {
+        "form": "NHJB-2956-FPe",
+        "printedLine": "PURPOSE OF RECORD: Housing / Employment / Annulment/Expungement / Other ______",
+        "theRouteAnswersIt": "Annulment/Expungement",
+        "controlsBesideTheOptions": "none. No AcroForm widget, no stroked box, nothing but printed words and white space. The only writable control on that line is the Other rule, and writing the purpose there would state that the purpose is Other, which is false.",
+        "whyThisLaneDidNotMarkIt": "every write box in this factory's official-form path is the /Rect of the source's own widget and no coordinate is hand-entered. A mark in white space beside a printed option would be the first, on a form signed under penalty of perjury.",
+        "ownerDeterminationNeeded": true,
+        "thisIsTheOneThisRowCouldNotAnswer": true
+      },
+      "surveyRecordedSoTheNextLaneDoesNotRepeatIt": {
+        "NHJB-3057-DSe": {
+          "pages": 4,
+          "fields": 36,
+          "pushButtons": 4,
+          "sourceCarriedDefaults": []
+        },
+        "NHJB-2311-Se": {
+          "pages": 2,
+          "fields": 20,
+          "pushButtons": 4,
+          "sourceCarriedDefaults": []
+        },
+        "NHJB-2328-DFPe": {
+          "pages": 3,
+          "fields": 90,
+          "pushButtons": 4,
+          "sourceCarriedDefaults": [
+            {
+              "field": "12.total",
+              "value": "0"
+            },
+            {
+              "field": "money.total",
+              "value": "0"
+            },
+            {
+              "field": "monthly.total",
+              "value": "0"
+            }
+          ]
+        },
+        "NHJB-2956-FPe": {
+          "pages": 1,
+          "fields": 17,
+          "pushButtons": 3,
+          "sourceCarriedDefaults": [
+            {
+              "field": "court.family/probate1 CUSTOM",
+              "value": "1",
+              "isOneOfItsOwnOptions": false,
+              "note": "this drop-down occupies the NAME OF PERSON/ENTITY TO RECEIVE RECORD slot of Section II and carries a stored value that is not one of its options"
+            }
+          ]
+        },
+        "otherThingsAnyBuildOfThisFamilyMustDecide": [
+          "NHJB-3057's seven certification checkboxes on page 2 are the statutory elements of the RSA 651:5 route and are what the route determines; the hearing-request box beside them is the participant's.",
+          "NHJB-2956 Section II is the third-party release block and is not reached when the participant requests their own record; its notary block must stay blank in every case.",
+          "all four binaries carry push buttons - Clear Form, Lock & Save Form, Top of Page, Form Guide - which must be detached before flattening or their captions are drawn onto the filed page."
+        ]
+      },
+      "componentsBuildable": [
+        "primary_filing",
+        "criminal_history_request"
+      ],
+      "componentsBlocked": [
+        "fee_waiver_motion",
+        "fee_waiver_financial_statement"
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "supersededShiftReturn": {

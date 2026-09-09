@@ -406,6 +406,159 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "lane": "PF14",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 mo-art-xiv-marijuana-set",
+      "claimResult": "CLAIM_OK PF14 mo-art-xiv-marijuana-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family mo-art-xiv-marijuana-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CR375",
+          "revision": "SJRC (10-24)",
+          "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+          "custody": "master_library"
+        },
+        {
+          "formNumber": "FI-05",
+          "revision": "SJRC (04-23)",
+          "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+          "custody": "nationwide_recovery_pool_2026_09_02"
+        }
+      ],
+      "theFi05Question": {
+        "asked": "whether the bytes the repaired resolver binds are the document this family means",
+        "whyItHadToBeAsked": "this family stopped BLOCKED_SOURCE because official-form:FI-05 matched zero committed index entries by form number. It lives in the Nationwide recovery pool, whose 380 entries all carry formNumber null. A digest confirmed against the committed index proves the bytes are the bytes somebody pinned; it proves nothing about what document they carry.",
+        "digestReHashedFromDisk": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "matchesTheCommittedIndexAndTheQueue": true,
+        "readFromTheDocumentItself": {
+          "pageCount": 4,
+          "acroFieldCount": 111,
+          "printsFormNumberFI05": true,
+          "printsConfidentialCaseFilingInformationSheet": true,
+          "printsNonDomesticRelationsVariant": true,
+          "printsCaseTypesList": true,
+          "printsMarijuanaExpungementCaseTypeRow": true
+        },
+        "answer": "YES. The FI-05 bytes ARE the document this family means. The binary is the Missouri Supreme Court's own Confidential Case Filing Information Sheet in the Non-Domestic Relations variant an expungement petition is filed under: page 1 is that sheet and is footed SJRC (04-23) FI-05, page 2 is its REDACTED INFORMATION table and Submitted-by block on the same footer, and pages 3 and 4 are the Missouri Case Types List. It also proves the route election below out of its own printed table."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "whatTheZeroesDoAndDoNotMean": "requiredOptionsMissing = 0 from the shared gate proves very little on its own: that counter can only see a field whose map decision is literally measured_route_selection, and this family declares none. The route elections this packet makes are listed under routeElectionsMade and are what the zero should be read against.",
+      "totals": {
+        "terminalFields": 300,
+        "written": 58,
+        "blank": 242
+      },
+      "blanksByDisposition": {
+        "PROTECTED_FIELD": 2,
+        "PARTICIPANT_ELECTION_GENUINE": 18,
+        "LATER_COMPLETION": 2,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 157,
+        "REQUIRED_BEFORE_FILING": 62
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9f978890250062c03b69a31fd70c76ac15d2517120e5cf4789979e2349eb597e",
+          "byteLength": 685343,
+          "pageCount": 10
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ba54902173f3b560fc4972f279f3de74be8238636bc23c65f56e36d8bb2fdb0b",
+          "byteLength": 685685,
+          "pageCount": 10
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CR375",
+          "packetPages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "cover_sheet",
+          "documentId": "FI-05",
+          "packetPages": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "kind": "continuation",
+          "documentId": "FI-05 (additional sheet)",
+          "packetPages": [
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ],
+      "routeElectionsMade": [
+        "FI-05 Case Type Code X# and Case Type Description \"Expunge Marijuana Criminal/Arrest Records\", on both sheets. The census records the route as filed \"with FI-05 at case type X#\" and the FI-05 binary prints that exact row in the CIRCUIT column of its own Case Types List on pages 3 and 4.",
+        "CR375 Defendant: the Circuit Court Division that entered the conviction.",
+        "CR375 Defendant: the MSHP Criminal Justice Information Services Division, Missouri's central repository.",
+        "CR375 Defendant: the prosecuting attorney of the county of charge.",
+        "CR375 incarceration pair: stated from the held screening fact rather than left blank, and declared determined by the case rather than by the route."
+      ],
+      "electionsDeliberatelyLeftToTheParticipant": [
+        "race, ethnicity and sex on CR375 and gender on FI-05, which are self-identification",
+        "the county sheriff, the municipal police department and the open Other defendant line, which are facts of the participant's own arrest",
+        "whether an unredacted document is attached to the filing sheet in place of listing identifiers"
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, every page content stream is decompressed, the streams the source page already carried are excluded, each remaining /FlatWidget-n Do is resolved to its XObject, that stream is decompressed, and every show-text operator in it is decoded with the matrix or text offset that precedes it and carried back into page coordinates by the placement cm. A marked box is proved against the source's own Off appearance for the same widget, because Missouri draws a tick as a ZapfDingbats glyph and other states draw one as stroked lines.",
+        "report": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "buildFindings": [
+        "Five FI-05 widgets carry a /Rect written bottom-edge-last, so their height reads negative: Party Type Code, Party Type Description, Bar ID, Party Type Code_5 and Party Type Description_3. Every rect is normalized before use and the malformed ones are flagged in the field map.",
+        "FI-05 holds three party blocks and this petition has four parties, so the continuation component is a second FI-05 - which is what the form's own printed instruction directs.",
+        "Missouri Supreme Court Operating Rule 4.07 requires the full Social Security number on FI-05. It is left blank on every sheet and disclosed. This platform does not hold or print Social Security numbers."
+      ],
+      "couldNotMeasureHere": [
+        "Two blanks this build declares required-before-filing do not reach that disposition in the shared contract. CR375 prints \"County Sheriff's Dept.\" and \"Municipal Police Dept.\", the contract's court-assigned label pattern matches the word \"department\", and both are classified LATER_COMPLETION - a field the court fills in after filing, which they are not. The labels were left faithful to the printed captions rather than reworded to move the classifier, and both blanks are disclosed to the participant anyway. The heuristic is a finding for whoever owns the contract.",
+        "No raster was produced and none was measured. visualDefects = 0 is a byte-level measurement of glyphs outside their own measured write boxes; it is not a rendered-page review."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
     }
   ],
   "shifts": [
