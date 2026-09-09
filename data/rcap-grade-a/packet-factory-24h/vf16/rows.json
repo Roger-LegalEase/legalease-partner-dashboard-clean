@@ -308,6 +308,481 @@
         "consistentWith": "the master queue, which already held all nine Washington families at FAIL_REPAIR_REQUIRED. Nothing was promoted on the withdrawn verdict.",
         "lanContract": "L9 now refuses a PASS_COMPLETE_INDEPENDENT from a return that did not score every proof obligation."
       }
+    },
+    {
+     "itemId": "ms-nonconv-set",
+     "lane": "VF16",
+     "wave": "packet-factory-24h/VF16/ms-nonconv-fourth-read-after-the-agreement-check (2026-09-09)",
+     "verdict": "PASS_COMPLETE_INDEPENDENT",
+     "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+     "verifier": "CLAUDE-VF16-MS-FOURTH-READ (independent - did not build, repair, raster, acquire or productize this family; authored none of 3980df4d0, 8bb1b82f0, 508723c5b or 64a979b22; wrote neither verify-acceptance-receipt-agreement.mjs nor its test; edited no family record, no overlay directory, no build script, no shared record, no check and no claim ledger; wrote only under data/rcap-grade-a/packet-factory-24h/vf16/; created no subagent; ran claim.mjs only inside /home/user/vf16-worktree)",
+     "verifiedAtBase": "8eb587840",
+     "verifiedAt": "2026-09-09",
+     "readsWhichRepair": {
+      "repairCommit": "64a979b22",
+      "repairTitle": "Mississippi: the last hand correction, and a check so there is no fourth",
+      "repairKind": "records-only plus a new check and its tests; 25 lines in one family record, 122 lines of new check, 84 lines of new test. No fixture byte rebuilt or rerendered.",
+      "repairAuthor": "Captain",
+      "filesChanged": [
+       "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json",
+       "scripts/verify-acceptance-receipt-agreement.mjs",
+       "scripts/verify-acceptance-receipt-agreement.test.mjs"
+      ],
+      "wholeChainReadInFull": [
+       "3980df4d0 - answered VF04: fixtures and the settled counsel question corrected",
+       "8bb1b82f0 - answered VF12: the receipt's reach stated, but boundary.pdf put in documentsNotCovered",
+       "508723c5b - answered VF13: the queue generator and the ingest tool fixed; 6958 lines of RASTER_QUEUE regenerated",
+       "64a979b22 - answered VF15: the hand-authored block corrected from the queue row, plus the agreement check"
+      ],
+      "whyVF15CouldNotReadIt": "64a979b22 answers VF15's own ARTIFACTS finding, so VF15 is not the reader of the repair of its own finding, and the Captain cannot read his own correction. This lane is the fourth independent reader and authored nothing under review."
+     },
+     "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF16 ms-nonconv-set returned 'CLAIM_OK VF16 ms-nonconv-set (independent-verification, grant set b2eabd545925b297)', exit 0, asserted inside /home/user/vf16-worktree before any family artifact was opened. The grant is NOT released by this lane and the claim ledger is NOT committed here.",
+     "canonicalSha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+     "boundarySha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+     "digestsConfirmedFirst": {
+      "orderOfWork": "The grant was asserted first. The one mandated preflight ran next. sha256sum over fixtures/ was then the first read taken against the family, before any family record, any queue row, any page and any obligation was opened.",
+      "canonicalOnDisk": {
+       "sha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+       "byteLength": 33154,
+       "pageCount": 11
+      },
+      "boundaryOnDisk": {
+       "sha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+       "byteLength": 33493,
+       "pageCount": 11
+      },
+      "equalToTheDigestsThisAssignmentNamed": true,
+      "bytesUnchangedSinceVF04VF12VF13AndVF15": true,
+      "consequence": "Both digests hold, so the fourteen non-ARTIFACTS results may be carried. Thirteen are carried and stated as carries; SOURCE_IDENTITY was re-established fresh instead, because a bound source's containing file moved again since VF15. ARTIFACTS was measured fresh."
+     },
+     "byteLengths": {
+      "canonical": 33154,
+      "boundary": 33493,
+      "method": "stat -c%s and ls agree; the byte length pdf-lib reports on load agrees for both"
+     },
+     "pageCountsRecomputed": {
+      "canonical": 11,
+      "boundary": 11,
+      "methodsThatAgree": [
+       "pdf-lib 1.17.1 getPageCount(): 11 and 11",
+       "pdftotext -bbox page enumeration: 11 <page> elements in each fixture",
+       "pdftoppm page addressing: page 7 of 11 addressable in both"
+      ],
+      "recomputedNotTrusted": "No page count in any record was accepted as given. Each was recomputed from the bytes and then compared to the record. Both fixtures are 612x792 pt."
+     },
+     "preflight": {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ms-nonconv-set",
+      "runOnceBeforeReading": true,
+      "verdictVerbatim": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+      "exitCode": 1,
+      "recordedAsItRan": true,
+      "theTwoFailuresVerbatim": [
+       "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+       "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled"
+      ],
+      "diagnosedHere": "private_is_git_ignored: this lane's mandated mount makes private a symlink to /home/user/legalease-partner-dashboard-clean/private, so the check's path probe cannot resolve through it and reads that as not-ignored. git status was empty before and after every command in this lane and this lane commits by file name only, so no source byte can enter a commit here. corpus_matches_committed_index: a standing corpus/index condition; VF12 identified the absent entry as an Alabama pardon-board form, which is no source of this family. VF01, VF04, VF12 and VF13 each recorded the identical pair for the identical reasons on this family.",
+      "whyNeitherFailureTouchesThisRead": "family_sources_bind PASSED verbatim: 'ms-nonconv-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder, not document bytes here.' This family consumes no corpus document and this read consumes no corpus document.",
+      "whatPassedThatMatters": "repo_identity vf16-ms-fourth-read at 8eb58784; clone_is_complete; worktree_clean; node 22.22.2; pdf-lib 1.17.1; master_library_mounted and master_library_complete (501 files, 329 PDFs, 51 jurisdictions); master_library_not_at_operational_path; absent_is_not_empty; stale_artifact_block_consulted with 0 artifacts under this family held. git config core.sparseCheckout false and `git ls-files -v | grep -c '^S'` = 0."
+     },
+     "nineCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "allZero": true,
+      "measuredHere": true,
+      "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set in this worktree at 8eb587840: 'ok ms-nonconv-set PASS_COMPLETE 10/52 written', 1 family audited, 1 PASS_COMPLETE, exit 0. git status was empty immediately before and immediately after the run.",
+      "notTakenAsTheVerdict": "The counters were equally zero at VF04's, VF12's, VF13's and VF15's bases while each of those four findings stood. They compare delivered pages against the build's own componentSet and reach no statement inside a record about what a raster acceptance established. They are reported because the verdict requires them measured zero here, not as evidence that the records are right."
+     },
+     "rasterState": "RASTER_PASS",
+     "rasterStateBinding": {
+      "receiptReadFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json historicalRasterRows[31], familyId ms-nonconv-set. At this base the queue holds 204 live rows and 45 historical; the family has NO live row and appears at notEligible[92] with why ['the current failed obligations have not been repaired'].",
+      "verdict": "RASTER_PASS",
+      "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "workflowRunId": "34058277654",
+      "jobId": "101554484258",
+      "jobConclusion": "success",
+      "renderedCommitSha": "2495d6d9b595a53c4e3cdf3cbeebea94b891d151",
+      "boundToCanonicalSha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+      "boundToBoundarySha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+      "bothBoundDigestsEqualTheBytesOnDiskHere": true,
+      "queueRowStatusHere": "historicalOnly true, currentGateAuthority false. expectedPages 11 and the row's own canonicalPdfSha256 / boundaryPdfSha256 equal the bytes measured here.",
+      "theRowsOwnCoverageBlock": "documents ['canonical.pdf'], rastered ['canonical.pdf'], notRastered [], notRenderedByThisGate ['boundary.pdf'], complete true, and whatCompleteMeansHere 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.'",
+      "receiptPngsNotRead": "The queue row itself records that the session that ingested it could not fetch the workflow artifacts (blob-storage egress denied), so the PNG receipts were not read there and were not read here. The binding rests on the pinned rendered commit, the queue's pinned digest pair and the job conclusion."
+     },
+     "recordsEnumerated": {
+      "howTheListWasBuilt": "Enumeration came BEFORE any disposition. Three repo-wide greps over the whole worktree excluding node_modules and .git - one for canonical digest 732e7f47..., one for boundary digest 87e4bf90..., one for run 34058277654 - and their union taken. This is the step the three previous readers each did partially: VF04 checked two of the three family records, VF12 and VF13 each opened the queue and the family but neither enumerated the assignment ledgers. The union is 15 files. Two of them - ACTIVE_ASSIGNMENTS.json and vf04/repair-assignments.json - name these bytes AND this run and appear on no previous reader's list.",
+      "recordsThatNameTheBytesOrTheRun": [
+       {
+        "record": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json",
+        "names": "both digests and the run",
+        "disposition": "CORRECT AT THIS BASE. censusV1Representation.fixtures pins 732e7f47/33154/11 and 87e4bf90/33493/11, each recomputed here. acceptanceReceipt agrees with the queue row's rasterReceipt field for field on every substantive key - verified by my own comparison of all 27 union keys, not by running the Captain's check: 12 shared keys AGREE (both bound digests, coversTheWholeFamily, documentsCovered, documentsNotCovered, everyCanonicalDocumentRendered, jobConclusion, jobId, renderedCommitSha, verdict, whatThisGateDidNotRender, workflow, workflowRunId), one differs only in prose wording of theTwoCoverageQuestions with identical meaning, and the rest are keys legitimately private to one record or the other. The correct shape holds: documentsNotCovered [] beside whatThisGateDidNotRender ['boundary.pdf'] and coversTheWholeFamily true."
+       },
+       {
+        "record": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/approval-request.json",
+        "names": "NEITHER digest, NOT the run, and no receipt of any kind",
+        "disposition": "CLEAN, and materially so. Its keys are schemaVersion, familyId, requested, buildStatus, status, approvedForLive, live, commercialRoutesOpened, counselQuestionsRaised, mattersForTheReviewersAttention, counselQuestionsSettled. It carries no raster claim and no coversTheWholeFamily. Noted because the new check reads this file class: measured factory-wide, approval-request.json holds ZERO receipts, so one of the check's two file classes is a no-op. See agreementCheckRuling."
+       },
+       {
+        "record": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json",
+        "names": "both digests; NOT the run",
+        "disposition": "CORRECT. artifacts[] and pdfs[] each pin 732e7f47/33154/11 and 87e4bf90/33493/11, all six values recomputed here. pageManifest assigns all 11 pages. everyPageRastered false, rasterSkipped true, rasterPages [] and independentVerificationPending true are honest about the build-time gate and consistent with a central raster that rendered canonical.pdf only. NOTE: this is the record class VF04 actually failed on, and no agreement check reads it - see agreementCheckRuling."
+       },
+       {
+        "record": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/actual-writes.json",
+        "names": "neither digest, not the run",
+        "disposition": "CLEAN. Carries schemaVersion, familyId, derivedFromArtifactBytes, note, documents, artifacts, blockingFindings. It named no artifact digest, so it carried no residue of the superseded pairs and none was found in it."
+       },
+       {
+        "record": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/source-receipt.json",
+        "names": "neither digest, not the run",
+        "disposition": "CLEAN OF ARTIFACT RESIDUE, one stale pin unrelated to the bytes. It pins composition sources only and names no fixture digest, byte length or page count. Its pin for the shared record legal-design-packet-set-manifests.json is stale AGAIN at this base (pinned 6076f734.../3683419 B; measured 80b5e071.../3694688 B) - the third distinct identity of that file since VF04. The bound anchor is unchanged; see sourceResolution."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json historicalRasterRows[31]",
+        "names": "both digests and the run",
+        "disposition": "CORRECT AT THIS BASE, and it is the measurement the copies must match. Its rasterReceipt now carries documentsNotCovered [], whatThisGateDidNotRender ['boundary.pdf'], coversTheWholeFamily true, everyCanonicalDocumentRendered true - agreeing with its own coverage block and with product-wiring. It retains coverageReconciledFromTheRow.wasClaimed; ruled under retentionRuling."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[210]",
+        "names": "both digests and the run, inside a quoted finding",
+        "disposition": "STALE BUT NOT MISLEADING AS TO STATUS. It still carries VF13's ARTIFACTS failedObligation verbatim, whose text says 'the queue carries the pre-correction receipt for the same run, with coversTheWholeFamily true and documentsNotCovered []'. That sentence is FALSE of the tree at this base - 508723c5b corrected the queue and I verified the agreement myself. Holding a FAIL is nonetheless correct bookkeeping: no passing independent read existed until this one. This lane's return is the input that settles it. This lane did not edit it."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[443]-[449]",
+        "names": "both digests and the run, inside quoted lane findings",
+        "disposition": "STALE SELECTION, correctly conservative. Seven rows exist for this family: vf01 BLOCKED_LEGAL_INPUT, vf03 PASS_COMPLETE_INDEPENDENT, vf04, vf06, vf08, vf12 and vf13 - the first six marked superseded true, and vf13's FAIL_REPAIR_REQUIRED is the current selection with superseded null. VF15's return is NOT YET INGESTED, so the file's current verdict for this family is VF13's, whose finding text is stale for the same reason as MASTER_QUEUE's. The stale VF03 PASS is explicitly marked superseded and cannot be read as current. This lane did not edit it."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json assignments[51].detail[2]",
+        "names": "both digests and the run",
+        "disposition": "ENUMERATED HERE FOR THE FIRST TIME; no previous reader listed it. It is a dispatch ledger that quotes VF13's ARTIFACTS finding in full as the repair brief. Its copy of that finding is stale in exactly the way MASTER_QUEUE's is. It carries no receipt object and asserts nothing about the bytes in its own voice, so it cannot be mistaken for a measurement. Disposition: stale quotation in an assignment record, not a defect of the family. This lane did not edit it."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+        "names": "both digests and the run",
+        "disposition": "ENUMERATED HERE FOR THE FIRST TIME; no previous reader listed it. A historical repair-assignment record from VF04's wave, quoting VF04's finding and the digests it measured. It is history by construction and names its own base. Not a defect. This lane did not edit it."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/fix107/rows.json",
+        "names": "both digests; NOT the run",
+        "disposition": "CORRECT AS HISTORY. FIX107 is the repair that moved both fixtures from 10 to 11 pages; its row names the digests it produced, which are the digests on disk now. Consistent with the bytes."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json, vf12/rows.json, vf13/rows.json, vf15/rows.json",
+        "names": "both digests and the run",
+        "disposition": "CORRECT AS READINGS. Each is a verifier return that names the base it read at (513f43c82, f78191545, ea720b40f, 0cc3c9b5c) and is true of the tree at that base. A reading is not a copy that owes agreement with the current queue, and must not be asserted against it. VF04, VF12 and VF13 were read in full here; VF15's ARTIFACTS finding and routeLinePlacementRuling were read in full."
+       },
+       {
+        "record": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "names": "the run only; neither digest",
+        "disposition": "GRANT BOOKKEEPING. Names the run in grant/assignment context. Not a receipt and not a claim about the bytes. NOT committed by this lane and the grant is NOT released."
+       },
+       {
+        "record": "scripts/verify-acceptance-receipt-agreement.mjs and scripts/verify-acceptance-receipt-agreement.test.mjs",
+        "names": "the run in the header comment; the test file names both digests in fixtures",
+        "disposition": "THE NEW CHECK AND ITS TESTS. Read adversarially rather than trusted; ruled under agreementCheckRuling. The digests appear only as synthetic test fixtures. Not edited by this lane."
+       },
+       {
+        "record": "data/rcap-grade-a/fulfillment-authority-registry.json records[] (the ms-nonconv-set entry)",
+        "names": "NEITHER census fixture digest and NOT the run",
+        "disposition": "OUT OF SCOPE OF THIS FINDING, and checked rather than assumed. The family's registry record is bound to the CLINIC DEMO artifact 413f6226... and fixture ms-nonconviction-clinic-demo-participant-a, not to the census-v1 fixtures, and it carries no rasterReceipt at all. It does carry provider.imageDigest sha256:2bca8a36..., restored at 53d700044 with providerPublication.state 'published_input_equivalent' and hostedAcceptance 'not_established_by_this_record'. Separately, the registry as a whole carries five OTHER families' rasterReceipt copies that no agreement check reads - that is a finding, recorded under agreementCheckRuling.thirdFileClass."
+       }
+      ],
+      "recordsSearchedAndFoundNOTToNameThem": "approval-request.json, reports/actual-writes.json, source-receipt.json, reports/blanks-left-for-the-participant.json, reports/completeness-counters.json, build-status.json, build-findings.json, participant-instructions.md and production-field-map.json name neither fixture digest nor the run. The four superseded digests (0441d16c, 379dae5a, e9ca98c5, b483d29c) survive in exactly ONE file in the entire family directory - product-wiring.json - and inside it only within the labelled supersededFixtures block. Confirmed by four separate greps over the family directory."
+     },
+     "twoQuestionsRuling": {
+      "theDistinction": "documentsNotCovered names a CANONICAL document the gate was asked for and did not render; a non-empty list is a hard failure. whatThisGateDidNotRender names a declared fixture the gate never renders by design, which is boundary.pdf here; a non-empty list is ordinary and correct.",
+      "theHardFailureVerifiedInTheSourceNotAssumed": "scripts/rcap-grade-a-packet-acceptance/acceptance-identity.mjs was read at the cited region. It fails a row with ACCEPTANCE.COVERAGE_INCOMPLETE on `if ((receipt.documentsNotCovered ?? []).length)`, reason 'the receipt records N document(s) it did not cover'. The same region also fails on RECEIPT_COVERS_A_DIFFERENT_DOCUMENT and on any row document the receipt does not cover. So the assignment's premise is correct and was confirmed at the source rather than taken on the commit message's word.",
+      "whatTheFamilyCarriesAtThisBase": "product-wiring.json censusV1Representation.acceptanceReceipt: documentsNotCovered [], whatThisGateDidNotRender ['boundary.pdf'], coversTheWholeFamily true, everyCanonicalDocumentRendered true, documentsCovered ['canonical.pdf']. RASTER_QUEUE historicalRasterRows[31].rasterReceipt: identical on all five. The queue row's own coverage block: rastered ['canonical.pdf'], notRastered [], notRenderedByThisGate ['boundary.pdf'], complete true.",
+      "ruling": "CORRECT SHAPE, IN BOTH RECORDS, AND THE TWO AGREE. This is the first base in the chain at which that is true. boundary.pdf is named under exactly one of the two questions - the by-design one - in both records, and documentsNotCovered is empty in both, so the acceptance-identity hard-failure field is clean. coversTheWholeFamily true is honest here because the row's own measurement is complete true: the family ships one assembled canonical packet and the gate rendered it.",
+      "whyTheConflationKeptHappening": "The two fields answer questions that sound identical in English - 'what did the gate not cover' and 'what did the gate not render' - and only one of them is a failure. Three careful hand edits each collapsed them, in alternating directions. It was not carelessness about the bytes; every digest was right from 3980df4d0 onward."
+     },
+     "agreementCheckRuling": {
+      "question": "Does scripts/verify-acceptance-receipt-agreement.mjs actually foreclose this class?",
+      "ruling": "NO. IT FORECLOSES A NARROWER CLASS THAN THE ONE THAT KEEPS RECURRING, AND THIS IS A FINDING. It asserts that a family-record COPY does not contradict the queue row's receipt. It never asserts that the receipt's SHAPE is correct, and it never compares the receipt to the queue row's own coverage measurement. Where both records carry the same wrong shape - which is precisely how two of the four failures actually stood - the check is green. It is a real improvement and it would have caught two of the four; it is not the end of the class.",
+      "ranItMyself": "node scripts/verify-acceptance-receipt-agreement.mjs -> 'OK acceptance-receipt agreement - 27 copied receipt(s) agree with the queue row for their run.', exit 0. node --test scripts/verify-acceptance-receipt-agreement.test.mjs -> tests 8, pass 8, fail 0, exit 0. Verbatim.",
+      "wouldItHaveCaughtTheFourTested": {
+       "method": "Not accepted from the commit message. The check's own exported findReceipts and compareReceipt were run against the REAL historical content of product-wiring.json and RASTER_QUEUE.json at each failure's base, retrieved with git show, using the check's own family-keyed lookup.",
+       "VF04": "NO - NOT CAUGHT. At 3980df4d0~1 findReceipts returns ZERO receipts from product-wiring.json: the family carried whyAcceptanceReceiptIsNull, not a receipt, so the check has nothing to compare and reports OK. VF04's actual defect was superseded digests in censusV1Representation.fixtures and in reports/rendered-artifacts.json. The check reads neither the fixtures block nor reports/, and compares boundToCanonicalSha256 only when a receipt object already exists. The header comment's 'VF04 found stale digests' implies a reach the code does not have; the eighth regression test covers a SYNTHETIC receipt pinned to stale bytes, not the shape VF04 actually met.",
+       "VF12": "NO - NOT CAUGHT, and this is the important one. At 3980df4d0 the product-wiring copy carried documentsNotCovered [] and coversTheWholeFamily true, and the queue's rasterReceipt carried documentsNotCovered [], whatThisGateDidNotRender [] and coversTheWholeFamily true. The copy merely OMITTED whatThisGateDidNotRender, and line 52 skips any key the copy leaves undefined. compareReceipt returns 0 disagreements. The check reports OK. VF12's finding was that the receipt contradicted the queue row's coverage BLOCK (notRenderedByThisGate ['boundary.pdf']), and the check never reads that block - it compares receipt to receipt only, and at that base the queue's own receipt carried the same overclaim.",
+       "VF13": "YES - CAUGHT. At 8bb1b82f0 the copy carried documentsNotCovered ['boundary.pdf'] against the queue's []; compareReceipt flags documentsNotCovered.",
+       "VF15": "YES - CAUGHT. At VF15's declared base 0cc3c9b5c the copy carried documentsNotCovered ['boundary.pdf'] against the queue's []; compareReceipt flags documentsNotCovered. (At the intermediate commit 508723c5b the two agreed and the check would have been green - see theGeneratorItselfEmittedTheConflation.)",
+       "score": "2 of 4. It catches DIVERGENCE between two records. It misses OVERCLAIM shared by both, and it misses a defect that lives outside a receipt object."
+      },
+      "theGeneratorItselfEmittedTheConflation": "Measured, not inferred. At 508723c5b - the commit whose stated result was '219 receipts now name what the gate did not render; 0 carry the contradiction' - the MS queue receipt carried documentsNotCovered ['boundary.pdf'] AND whatThisGateDidNotRender ['boundary.pdf'] simultaneously: boundary.pdf under both questions, with the acceptance-identity hard-failure field non-empty. It was corrected again by 1e95f1f06. So the generator has already produced the conflated shape once. The agreement check cannot see a recurrence of that, because when the generator emits it the queue and every faithfully regenerated copy agree. Demonstrated directly: compareReceipt(conflatedReceipt, conflatedReceipt) returns 0 disagreements.",
+      "consequenceAtTheCommercialGate": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs:1406 requires raster.rasterReceipt.coversTheWholeFamily === true as the evidence that the raster covered the whole family, and greps clean for both documentsNotCovered and whatThisGateDidNotRender - the authority generator never reads either field. So a receipt in the conflated shape satisfies the agreement check AND the commercial-authority gate. Nothing between the two asserts that documentsNotCovered is empty. That is the class still open.",
+      "supersededSkip": {
+       "ruling": "A REAL HOLE, LATENT TODAY, ONE EDIT FROM LIVE.",
+       "measuredNow": "Across all 346 MASTER_QUEUE families, 27 receipts are found and ZERO are skipped by /superseded/i. No live divergence hides there at this base.",
+       "whyItIsStillAHole": "The regex tests the WHOLE accumulated path, so a receipt at any depth beneath any key containing 'superseded' is skipped. Demonstrated: a receipt placed at .censusV1Representation.supersededFixtures.supersededBy.acceptanceReceipt is found by findReceipts and then skipped. 'supersededBy' by its name holds the SUPERSEDING - that is, the CURRENT - record, so the one key most likely to hold a live receipt is also the one the skip swallows. This family already carries both a supersededFixtures block and supersededBy keys, so the shape is one ordinary edit away.",
+       "narrowerRuleAvailable": "Skipping on the immediate parent key, or on an explicit retained:true marker, would retain the intent without swallowing a live receipt."
+      },
+      "doesFindReceiptsReachEveryReceipt": {
+       "withinTheTwoFileClassesItReads": "YES, TODAY, and this was measured rather than assumed: 30 receipt-named objects exist in family product-wiring.json and approval-request.json files; 27 carry workflowRunId and all 27 are found; the other 3 name no run at all under any key, so there is nothing to compare. Zero carry a run under an alternative key. All 346 MASTER_QUEUE families have a directory, so no family is skipped for want of one. Nesting is handled correctly - the walker recurses into a node's children even after matching it, so a receipt nested inside another is still reached.",
+       "detectionGapsDemonstrated": "The predicate is node.workflowRunId && (verdict === 'RASTER_PASS' || node.jobId). Tested: a receipt with a non-PASS verdict and no jobId is NOT detected; a receipt naming the run as runId is NOT detected; a receipt naming it as workflowRun is NOT detected. A numeric workflowRunId IS detected, and String() coercion at the run comparison handles it correctly. None of these shapes exists in a family record today; each would be invisible if written."
+      },
+      "thirdFileClass": {
+       "ruling": "YES - THERE IS ONE, AND IT IS A FINDING. The check reads product-wiring.json and approval-request.json. Measured factory-wide, ALL 27 receipts live in product-wiring.json and approval-request.json holds ZERO, so one of its two file classes is a no-op while at least two other classes copy receipts and are never opened.",
+       "unreadClassOne": {
+        "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+        "what": "Five receipt copies at records[].evidenceBindings.rasterReceipt, for vt_exp_deferred_sentence-set, wa_crop_certificate_of_restoration-set and wy_fel_1502-set (three records).",
+        "whyItMatters": "This is the record that carries COMMERCIAL AUTHORITY. It is the highest-consequence copy of a receipt in the repository and it is the one class the check does not assert. Its agreement rests entirely on regeneration discipline: it is generated by generate-rcap-grade-a-fulfillment-authority.mjs, and a generated copy still drifts whenever the queue moves and the registry is not regenerated - which is exactly what 508723c5b had to do by hand.",
+        "measuredStateToday": "I ran the check's own compareReceipt over all five against their families' queue rows: 0 disagreements. There is no live divergence today. The finding is that nothing asserts it."
+       },
+       "unreadClassTwo": {
+        "path": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
+        "what": "Nine receipt copies at rows[].preexistingRasterAcceptance, each naming data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json as its own `source`.",
+        "whyItMatters": "A record that names the queue as its source is a copy by its own admission. Their familyIds are route-composite ('rcap-tn-custom-pleading::route::tn_eligible_conviction' and the like) and match no queue row by id, so under the check's family-keyed lookup no comparison is even POSSIBLE for them; they would be unverifiable rather than merely unread. Eight of the nine name run 33879628067, for which the main queue holds no receipt under any family id I could resolve.",
+        "notAdjudicatedHere": "These are other families and outside this lane's grant. I measured their reachability, not their correctness, and I make no finding about whether any of them is actually wrong."
+       },
+       "correctlyExcluded": "Verifier returns (54 rows.json, RETURN.json, cohort measurements) also contain receipts, but a return is a record of what a reader saw AT A NAMED BASE. Asserting those against the current queue would be wrong, and the check is right not to read them. The finding is confined to records that copy a receipt forward as live evidence."
+      },
+      "comparedFieldList": {
+       "ruling": "ADEQUATE FOR THE FIELDS THAT ACTUALLY FAILED, AND UNDERMINED BY THE UNDEFINED SKIP. documentsCovered, documentsNotCovered, whatThisGateDidNotRender and coversTheWholeFamily are the four coverage fields the chain turned on, and both bound digests plus renderedCommitSha cover the byte-binding. Nothing that caused a failure is missing from the list.",
+       "theUndefinedSkipIsTheWeakness": "Line 52, `if (copy[key] === undefined) continue`, is defensible as written - a partial copy may legitimately restate only part of a receipt, and one regression test exists for exactly that. But it means the way to defeat the check is to OMIT a limiting field rather than contradict it, and omission is precisely the VF12 shape: the copy dropped whatThisGateDidNotRender and the sentence that went with it. A copy can silently shed every limit it carries and stay green.",
+       "notCompared": "expectedPages, jobId, jobConclusion, verdict, workflow and the coverage prose are not compared. jobConclusion and verdict are the fields that say the gate PASSED; a copy could assert RASTER_PASS against a queue receipt that does not, and the check would not object."
+      },
+      "whatWouldActuallyCloseTheClass": "Three additions, none of which this lane made or is authorised to make: (1) assert the SHAPE, not just the agreement - documentsNotCovered must be empty on any receipt carrying verdict RASTER_PASS, and no document may appear under both coverage questions - so that a generator-emitted conflation fails even when every copy matches; (2) assert each queue rasterReceipt against its OWN row's coverage block, which is the measurement the receipt is a record of and the disagreement VF12 actually found; (3) extend the file classes to records that copy a receipt forward as live evidence, the fulfillment-authority registry first.",
+      "whatTheCheckDoesWell": "It is correct about this family at this base, it is honest that a copy is a copy, its eight regression tests genuinely exercise the shapes that reached a verifier, and it would have caught VF13 and VF15 at their real bases. Saying it does not close the class is not saying it should be reverted."
+     },
+     "sourceResolution": {
+      "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "zeroSourceComposition": true,
+      "sourceReceipt": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/source-receipt.json",
+      "namesNoArtifactBytes": "The receipt pins composition sources only - it names neither fixture digest, neither byte length and neither page count - so it carried no residue of either superseded pair and none was found in it.",
+      "compositionSourcesRecomputedHere": [
+       {
+        "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+        "pinned": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+        "measured": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+        "byteLength": 399654,
+        "match": true
+       },
+       {
+        "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+        "pinned": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "measured": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "byteLength": 59843,
+        "match": true
+       },
+       {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec (3683419 B)",
+        "measured": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 (3694688 B)",
+        "match": false
+       }
+      ],
+      "howTheMismatchWasResolvedHere": "Not carried from VF12. The shared file has now moved THREE times since VF04's base by unrelated work - 6076f734 at 513f43c82, 5882bbcb at f78191545 and ea720b40f, 80b5e071 at 0cc3c9b5c and at this base - so its containing-file pin is staler than when VF12 flagged it. The family's own bound anchor was therefore compared directly across five bases with ONE canonicalisation method applied identically throughout (recursive key-sorted serialisation): packetSets[247], packetSetId ms-nonconv-set, canonicalised digest 87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f at 513f43c82, f78191545, ea720b40f, 0cc3c9b5c AND 8eb587840 - identical at every base VF04, VF12, VF13, VF15 and this lane read. The bound content is unchanged; only the containing file's identity moved.",
+      "methodNoteAgainstVF12": "VF12 reported the anchor digest as 7e3fbb68... and this lane computes 87f4fe65... for what it states is unchanged content. The two numbers are not comparable: VF12 did not state its canonicalisation and this lane's is recursive and key-sorted. What matters is that a SINGLE method applied across all five bases returns one value, which is the comparison that establishes the anchor did not move. The absolute digest is method-dependent and is recorded only so the next reader can reproduce it.",
+      "specificationDigestAgreement": "3a1bed79... matches the pin carried in product-wiring binding.packetSpecificationSha256, in censusV1Representation.packetSpecificationSha256 and in the fulfillment-authority registry's packetSpecification.sha256.",
+      "consequenceForSourceIdentity": "SOURCE_IDENTITY was re-established FRESH here rather than carried, and passes on the bound anchor. The stale containing-file pin is recorded as an observation; it is a shared-record bookkeeping matter, not a packet defect, and this lane did not edit it."
+     },
+     "proofObligations": {
+      "ROUTE_IDENTITY": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 at 0cc3c9b5c on proven byte identity, which carries back through VF13, VF12 and VF04 at 513f43c82. Both fixture digests recomputed here are unchanged. Corroborated rather than taken on trust: the route key obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is unchanged in product-wiring routeKey/routeKeys/binding.routeKeys, in source-receipt.json routeKeys, in the queue row, and it is the route printed on delivered page 7.",
+       "finding": "Carried. The route the family names is the route its records bind and the route its pages print."
+      },
+      "SOURCE_IDENTITY": {
+       "result": "PASS",
+       "evidence": "FRESHLY RE-ESTABLISHED here, NOT carried, because the containing file of one bound source moved again since VF15. MS.memo.json and the packet specification recompute byte-exact to their pins (01c4a958.../399654 B and 3a1bed79.../59843 B). legal-design-packet-set-manifests.json does not match its pin (measured 80b5e071.../3694688 B), so the family's own anchor was compared across five bases with one method: packetSets[247] packetSetId ms-nonconv-set is identical at 513f43c82, f78191545, ea720b40f, 0cc3c9b5c and 8eb587840. See sourceResolution.",
+       "finding": "The content this family binds is unchanged across every base any reader in this chain has used. Only the shared containing file's identity moved, and the receipt's pin for it is stale - recorded as an observation, not a packet defect."
+      },
+      "COMPONENT_SET": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity, and re-derived from the delivered text here rather than read from a report: canonical pages 1-2 cover_and_contents, 3-5 primary_filing (page 5 the VERIFICATION sheet), 6-7 proposed_order, 8 certificate_of_service, 9 attachment/exhibit checklist, 10-11 instructions - identical headings in boundary. reports/rendered-artifacts.json specificationConformance reports documentsTheSpecificationNames 5, documentsRendered 5, documentsDispositionedWithoutRendering 0. Zero '{{' placeholders survive in either fixture, counted here in both.",
+       "finding": "Carried, with the page-to-component map re-derived from the delivered text of both fixtures."
+      },
+      "KNOWN_PREFILLS": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; both digests are unchanged, so every prefill measured on the delivered pages is the same ink. Corroborated on the bytes: the canonical fixture prefills 'Latoya Renee Jefferson' and the boundary fixture 'Bartholomew-Emmanuel de la Cruz-Featherstone' consistently across the cover, the petition caption, the verification and the exhibit checklist, with the court, county and cause number left as blanks in both.",
+       "finding": "Carried, with the two fixtures' distinct participant identities re-read on delivered pages."
+      },
+      "REQUIRED_BEFORE_FILING": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity, and re-read here in full on delivered page 5 because the retired counsel question's factual basis depends on it. Page 5 of the canonical fixture is the VERIFICATION under the petition caption: the verification body on oath, the jurat 'Signed and sworn to or affirmed before me on this ______ day of ____________________, 20____', a blank petitioner signature line, blank STATE OF and COUNTY OF venue lines, and blank notary signature and printed-name lines. The page says on its own face '(Signed in the notary's presence, after the oath or affirmation - never in advance. Nothing on this page is signed, dated or completed for the petitioner.)' and '(The venue is where the notarial act actually takes place. It is left blank here and is never taken from where the petitioner lives.)'",
+       "finding": "Carried, with the jurat and every notarial blank re-confirmed on the delivered bytes. The retired treatment sentence - that no verification block and no notarial certificate was added - is indeed false of delivered page 5, so the retirement rests on a true premise."
+      },
+      "ROUTE_OPTIONS": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; requiredOptionsMissing remeasures 0 here, and the builder's own blankDispositions record 6 PARTICIPANT_ELECTION_GENUINE blanks.",
+       "finding": "Carried."
+      },
+      "REPEATING_ROWS": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; incompleteRows remeasures 0 here.",
+       "finding": "Carried."
+      },
+      "PROTECTED_FIELDS": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; protectedWrites and invisibleWrites both remeasure 0 here, and the builder's blankDispositions record 16 PROTECTED_FIELD blanks. Re-read on delivered page 7 of the canonical fixture and viewed as a rendered image, not only as text: the JUDICIAL OFFICER OF THE COURT rule is blank and annotated '(the Court alone completes, signs and enters this order)', and the APPROVED AS TO FORM rule for the prosecuting authority is blank and annotated 'this block is never completed by the preparer and is never pre-signed'. Neither is pre-signed and neither carries ink.",
+       "finding": "Carried, with both signature blocks re-read and visually inspected on delivered page 7."
+      },
+      "ARTIFACTS": {
+       "result": "PASS",
+       "evidence": "MEASURED FRESH. This is the obligation this read owes and the one this family failed four times. THE BYTES: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 / 33154 B / 11 pages and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 / 33493 B / 11 pages, each recomputed here before any record was opened, with pdf-lib getPageCount and a pdftotext page enumeration agreeing on 11 and 11. THE RECORDS: every record naming these bytes or run 34058277654 was enumerated FIRST by three repo-wide greps and their union taken - 15 files - and only then checked. product-wiring.json fixtures pins exactly those six values; reports/rendered-artifacts.json artifacts[] and pdfs[] pin exactly those six values; RASTER_QUEUE historicalRasterRows[31] pins the same two digests and expectedPages 11. THE AGREEMENT, verified by my own field-for-field comparison rather than by running the Captain's check: across the 27-key union of product-wiring's acceptanceReceipt and the queue row's rasterReceipt, all 12 shared substantive keys agree - both bound digests, coversTheWholeFamily, documentsCovered, documentsNotCovered, everyCanonicalDocumentRendered, jobConclusion, jobId, renderedCommitSha, verdict, whatThisGateDidNotRender, workflow and workflowRunId - one key differs only in prose wording with identical meaning, and the remainder are legitimately private to one record. THE SHAPE: documentsNotCovered [] beside whatThisGateDidNotRender ['boundary.pdf'] and coversTheWholeFamily true, in BOTH records, which is the correct shape and the first base in the chain at which both carry it. WHAT VF13 FAILED IS NOW TRUE: whyThisReceiptIsTheOne asserts 'RASTER_QUEUE.json carries exactly this receipt for this family, bound by hash to the two fixtures above' - false at VF13's base, verified true here. RESIDUE: the four superseded digests survive in exactly one file in the family, product-wiring.json, and only inside the labelled supersededFixtures block; approval-request.json, source-receipt.json and reports/actual-writes.json name no artifact digest at all.",
+       "finding": "PASS. Every digest, byte length and page count pins what is on disk; every record naming these bytes or this run was enumerated before being checked and each is either correct or is labelled history; and the two records describing run 34058277654 agree field for field in the correct shape. The three residual items - a superseded block whose file pointers name live paths, an independentVerificationOwed block three reads stale, and a correctedOn.was that is field-identical to the current correct values - are recorded as observations under retentionRuling and observationsThatFailNoObligation. None of them misstates what the bytes are or what the gate did, and none is measured by this obligation. Separately, the check added to prevent a fourth divergence does not close the class; that is a finding against the check, recorded in full under agreementCheckRuling, and it is not a defect of this family's artifacts or records."
+      },
+      "PAGE_ORDER": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity, and re-derived from the delivered text here: the 11 pages of the canonical fixture read 1-2 cover, 3-5 petition with 5 the verification sheet, 6-7 proposed order, 8 certificate of service, 9 exhibit checklist, 10-11 filing instructions, matching reports/rendered-artifacts.json pageManifest entry for entry and its specificationConformance document order 1..5. The boundary fixture's headings are identical page for page.",
+       "finding": "Carried, re-derived from delivered text on both fixtures. The component-to-page assignment is correct; the page 7 placement observation is ruled separately under routeLinePlacementRuling and does not disturb this result."
+      },
+      "CLIPPING_AND_OVERLAP": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity and independently corroborated here across ALL 22 delivered pages with pdftotext -bbox: canonical 3429 word boxes and boundary 3452, with 0 words outside the page box and 0 word-box pairs overlapping by more than 0.5 pt on both axes in either fixture, all ink within x [72.0, 541.9] pt and y [64.5, 712.4] pt on 612x792 pt pages. Page 7 of the canonical fixture was additionally rendered to PNG at 110 dpi under /tmp and read as an image.",
+       "finding": "Carried and corroborated on every delivered page of both fixtures. Nothing is clipped and nothing overlaps."
+      },
+      "FILING_DESTINATION": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; delivered page 10 of both fixtures re-read here opens FILING INSTRUCTIONS with 'This packet is prepared for expunging the record of a Mississippi case that did not end in a conviction' and delegates the money and venue questions to the records office of the court that heard the case.",
+       "finding": "Carried."
+      },
+      "FEE_AND_WAIVER": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity. The unresolved reach of the Miss. Code Ann. Sec. 99-19-72 fee remains a RAISED counsel question in approval-request.json counselQuestionsRaised, and source-receipt.json statutoryAuthority still carries Sec. 99-19-72. Confirmed here that the notarisation retirement did not sweep it up: four counsel questions remain raised and exactly one sits in counselQuestionsSettled.",
+       "finding": "Carried; the fee question is correctly still open."
+      },
+      "SERVICE": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; delivered page 8 of both fixtures re-read here is the CERTIFICATE OF SERVICE under the petition caption.",
+       "finding": "Carried."
+      },
+      "SELF_HELP_STOP": {
+       "result": "PASS",
+       "evidence": "CARRIED from VF15 on byte identity; delivered page 11 of both fixtures re-read here carries 'WHAT THE ORDER DOES, FROM THE RECORD' and the statutory stop conditions. The two stop sentences on page 7 - that the Court alone completes and signs the order, and that the prosecutor's block is never completed by the preparer and never pre-signed - were re-read on the rendered page image.",
+       "finding": "Carried."
+      }
+     },
+     "failedObligationNames": [],
+     "carriedVersusFreshlyMeasured": {
+      "identityTheCarryRestsOn": "sha256sum over fixtures/ was recomputed before any other family read and both digests hold: canonical 732e7f47... (33154 B) and boundary 87e4bf90... (33493 B), 11 pages each. The repair at 64a979b22 changed one JSON block, one new script and one new test, and no packet byte - confirmed from the commit's own file list and from the fact that its three diff hunks all fall inside the acceptanceReceipt block.",
+      "carriedFrom": "VF15 at 0cc3c9b5c, which carried from VF13 at ea720b40f, which carried from VF12 at f78191545, which carried from VF04 at 513f43c82. VF04 is the root of every visual and geometric measurement in this chain.",
+      "carried": [
+       "ROUTE_IDENTITY",
+       "COMPONENT_SET",
+       "KNOWN_PREFILLS",
+       "REQUIRED_BEFORE_FILING",
+       "ROUTE_OPTIONS",
+       "REPEATING_ROWS",
+       "PROTECTED_FIELDS",
+       "PAGE_ORDER",
+       "CLIPPING_AND_OVERLAP",
+       "FILING_DESTINATION",
+       "FEE_AND_WAIVER",
+       "SERVICE",
+       "SELF_HELP_STOP"
+      ],
+      "carriedCount": 13,
+      "notCarriedButReEstablishedFresh": [
+       "SOURCE_IDENTITY"
+      ],
+      "whySourceIdentityWasNotCarried": "A carry is sound only on the identity of the thing measured. SOURCE_IDENTITY measures the composition sources, and one of them - data/record-clearing/legal-design-packet-set-manifests.json - changed identity again between VF15's base and this one, its third distinct identity since VF04. It was re-measured here on the family's own anchor across five bases rather than carried.",
+      "measuredFresh": [
+       "ARTIFACTS"
+      ],
+      "whatWasCorroboratedRatherThanCarriedBlind": "Nine of the thirteen carries were corroborated on the delivered bytes here rather than merely asserted: page headings on pages 1, 3, 5, 6, 8, 9, 10 and 11 of BOTH fixtures; the full verification and jurat on page 5; both signature blocks on page 7 as text and as a rendered image; a placeholder scan returning 0 in both fixtures; and a full 22-page bbox pass returning 0 words outside the page box and 0 overlapping pairs. A carry is sound because identical bytes render identically, but the carry was not used as a reason to look at nothing.",
+      "noRastersCommitted": "Page 7 of the canonical fixture was rendered to PNG at 110 dpi under /tmp/vf16-rasters, read, and the entire directory - which this lane created - was deleted after measuring. No PNG was written into the repository and none was committed."
+     },
+     "retentionRuling": {
+      "question": "Can any retained block be mistaken for current?",
+      "supersededFixtures": {
+       "ruling": "ACCEPTABLE AS RETENTION, with one defective pointer that is now three Captain corrections old.",
+       "labelling": "The ten-page pair sits at censusV1Representation.supersededFixtures.tenPagePairSupersededByFix107 and carries supersededBy ('FIX107's repair, which added the specification's VERIFICATION section as its own sheet and moved both fixtures from 10 pages to 11') and retainedBecause ('the receipts and reviews that name these digests remain true of those exact bytes'). The key name, the parent key and both sentences each say what it is, and the live fixtures block sits above it carrying the current digests, so the two cannot be conflated.",
+       "theEightPagePair": "supersededFixtures.canonical and supersededFixtures.boundary (e9ca98c5.../8 pages and b483d29c.../8 pages) carry no per-block sentence and are labelled only by the parent key - and they use the SAME key names, canonical and boundary, as the live fixtures block. That is thinner than the ten-page block. It is still unambiguous because the parent key governs, and it is not any of these four corrections' doing.",
+       "defectivePointerStillPresent": "Both halves of the ten-page block carry a 'file' field naming the LIVE paths fixtures/canonical.pdf and fixtures/boundary.pdf, where those digests are not and cannot be found. A reader who resolves the pointer and hashes it gets 732e7f47.../87e4bf90..., a mismatch with the sha256 stated two lines above. VF12 recorded this on 2026-09-09 and three subsequent corrections to this same file - 8bb1b82f0, 508723c5b's family-side no-op and 64a979b22 - left it untouched. It does not make the dead digests readable as current, because the labelling prevents that, so it remains an observation rather than a failure. A superseded record should not name a live path as the location of dead bytes.",
+       "leakageChecked": "All four superseded digests were grepped across the entire family directory. Each appears in exactly one file, product-wiring.json, and inside it only within this block. Nothing leaked."
+      },
+      "supersededOpenCounselQuestion": {
+       "ruling": "ACCEPTABLE AS RETENTION.",
+       "labelling": "The block carries question, treatmentAtTheTime (past tense on its face), retiredBecause and retiredOn 2026-09-08. retiredBecause names the controlling inputs - the specification at 2.0.0 with notarisationRequired true, and Roger Roman's direction of 2026-09-03 at SHA-256 88497978c1... - names FIX107 as the implementation, and states in terms that the retired sentence is false of delivered page 5. The live statement that replaces it, notarisationTreatment, sits in the same record.",
+       "testedNotTrusted": "The retirement's factual claim was verified on the delivered bytes rather than accepted: page 5 of the canonical fixture carries the VERIFICATION on oath with the jurat on its own sheet under the petition caption, with the jurat date and every notarial field blank. notarisationTreatment is true of those bytes, and it correctly disclaims being a ruling that Sec. 99-19-71(4) compels notarisation and being counsel approval.",
+       "notReopened": "This lane does not reopen the settled question and takes no position on it beyond confirming that the packet delivers what the record says it delivers."
+      },
+      "correctedOn": {
+       "ruling": "ACCEPTABLE AS RETENTION, WITH A NAMED WEAKNESS THAT IS WORTH FIXING.",
+       "theWeakness": "correctedOn.was records the pre-8bb1b82f0 state as documentsCovered ['canonical.pdf'], documentsNotCovered [] and coversTheWholeFamily true. Those three values are FIELD-FOR-FIELD IDENTICAL to what the live block correctly carries at this base. What actually made the old state wrong was the ABSENCE of whatThisGateDidNotRender and of the coverage limits - and an absence is exactly what a 'was' block listing three present fields cannot show.",
+       "whyItIsNotAFailure": "The hazard runs the opposite way from the one the assignment guards against: no reader can take dead values as live, because the values are the same and no harm follows from the confusion. The risk is that a reader compares was to the live block, finds them equal, and concludes either that the correction did nothing or that the current shape is the condemned shape. The adjacent 'why' sentence resolves it for a careful reader - it names the defect as claiming whole-family coverage while naming only canonical.pdf and binding the boundary digest - and the live block carries whatThisGateDidNotRender and the coverage limits that the old one lacked. Recoverable, therefore an observation and not a defect.",
+       "recommendation": "A 'was' block that records a correction of an OMISSION should record the omission - whatThisGateDidNotRender: absent - rather than only the fields that were present."
+      },
+      "correctedAgainOn": {
+       "ruling": "ACCEPTABLE AS RETENTION, and the better-written of the two.",
+       "whyItIsClear": "Its was block records documentsNotCovered ['boundary.pdf'] with whatThisGateDidNotRender null and coversTheWholeFamily null, which is genuinely distinguishable from the live values on every field it lists. Its why names the precise error - the by-design exclusion placed in the hard-failure field - and names acceptance-identity.mjs as the thing that fails on it. Its howItIsPreventedFromRecurring names the new check.",
+       "oneOverstatement": "howItIsPreventedFromRecurring says the block 'cannot silently diverge a fourth time'. Divergence between this block and the queue row is indeed now checked. But the sentence reads as a guarantee against the class, and the class is broader than divergence: a shape that both records carry together passes the check silently. See agreementCheckRuling. This is a record overstating a check's reach, not a false statement about the bytes, and it is recorded as an observation.",
+       "nullVersusAbsent": "The was block uses null to mean 'the key was absent'. Mildly ambiguous but disambiguated by the accompanying why."
+      },
+      "coverageReconciledFromTheRow": {
+       "ruling": "ACCEPTABLE AS RETENTION, in the queue and not in the family record.",
+       "whereItLives": "RASTER_QUEUE historicalRasterRows[31].rasterReceipt.coverageReconciledFromTheRow, written by the 508723c5b generator change. It retains wasClaimed - coversTheWholeFamily true, documentsCovered ['canonical.pdf'], documentsNotCovered ['boundary.pdf'], whatThisGateDidNotRender ['boundary.pdf'] - beside why: 'the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run'.",
+       "canItBeMistakenForCurrent": "No. It is nested two levels below the receipt's live fields, under a key that says it is a reconciliation of what WAS claimed, with a why in the same object. The live values sit at the receipt's top level where every consumer reads them. Confirmed that no consumer reads the nested path: the authority generator reads rasterReceipt.coversTheWholeFamily, and the check's own findReceipts does not descend into wasClaimed because it carries no workflowRunId.",
+       "oneObservationAboutIt": "The retained wasClaimed IS the conflated shape - boundary.pdf under both questions with documentsNotCovered non-empty - and it is retained inside a live receipt. It is correctly labelled, so it is acceptable. It is worth noticing that this shape was not merely an ingested legacy: measured here, the generator itself emitted exactly this shape into the MS queue receipt at 508723c5b before it was corrected again. See agreementCheckRuling.theGeneratorItselfEmittedTheConflation."
+      },
+      "overall": "Every retention is labelled well enough that a reader cannot take dead values for live ones. Two carry named weaknesses - a superseded block pointing at live file paths, unrepaired across three corrections, and a was block that is indistinguishable from the current correct state because it records only the fields that were present and not the one that was missing. Neither is a defect of the artifacts and neither is measured by any of the fifteen."
+     },
+     "routeLinePlacementRuling": {
+      "ruling": "OBSERVATION THAT FAILS NO OBLIGATION. Reached independently on my own measurements and my own look at the rendered page, and stated as this lane's disposition rather than inherited from VF13 or VF15.",
+      "howMeasuredHere": "Delivered canonical.pdf page 7 was rendered to PNG at 110 dpi under /tmp and read as an image, and its text geometry measured independently with pdftotext -bbox.",
+      "whatIsOnThePage": "Page 7 is the execution page of the proposed order. In reading order: a 'Route:' label carrying obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal wrapped over three lines; then SO ORDERED.; then ENTERED, this the ... day of ...; then JUDICIAL OFFICER OF THE COURT with its rule and '(the Court alone completes, signs and enters this order)'; then APPROVED AS TO FORM, for the prosecuting authority: with its rule and the sentence that the block is never completed by the preparer and never pre-signed.",
+      "geometryMeasuredHere": "66 word boxes on the page. The route block occupies yMin 78.987 to yMax 117.887 pt. SO ORDERED. begins at yMin 136.987 pt, so the clear vertical gap is 19.100 pt. ENTERED begins at yMin 165.987 pt, 48.100 pt below the last route glyph. Zero route glyphs reach the Court's execution band. Across all 66 word boxes, 0 pairs overlap by more than 0.5 pt on both axes. All ink on the page lies within x [72.0, 536.1] and y [79.0, 291.9] on a 612x792 pt page.",
+      "independentAgreementWithVF15": "These numbers - 19.100 pt clear, 0 overlaps of 66 word boxes - reproduce VF15's exactly. I measured them from the bytes before reading VF15's figures in detail. Agreement across two readers on the same bytes is corroboration, not inheritance.",
+      "disposition": "An observation, not a defect. The line is placed above SO ORDERED. rather than within or below the Court's execution band, it overlaps nothing, it is separated by a full clear line, it collides with no signature rule, and on the rendered image it reads plainly as a machine route identifier rather than as a term of the order. It fails none of the fifteen: it is not a prefill, not a participant field, not a protected-field write - both protected blocks on this very page are blank and correctly annotated - not a clipping or overlap, not a page-order fault, not a self-help failure, and not an artifact defect. visualDefects and protectedWrites both remeasure 0.",
+      "whatThisDispositionDoesNotSay": "It does not say the line is desirable. Build-system vocabulary printed on the page a judge signs is a presentation question, and a visual or counsel reviewer is entitled to ask for it to move to a footer or off the order entirely. This family already carries visual and counsel review as pending. That is a review item, not an obligation failure, and this lane does not decide it and did not edit the family to change it."
+     },
+     "observationsThatFailNoObligation": [
+      "The internal route identifier is printed on court-facing pages. 'Route:' with the full obligation:track-pathway string appears on 6 of the 11 delivered pages of both fixtures - pages 2, 4, 7, 8, 9 and 11 - including the petition, the proposed order and the certificate of service, which are documents filed with a Mississippi court. It is build-system vocabulary, not caption, statute or docket text. Ruled above; owed to visual and counsel review, which are pending.",
+      "censusV1Representation.independentVerificationOwed still records VF04 as the only prior read, naming lane VF04, verdict FAIL_REPAIR_REQUIRED, base 513f43c82. There have now been FOUR failed independent reads - VF04, VF12, VF13 and VF15. VF13 flagged this understatement when there were two; three corrections to this same file have since left it untouched and it is now three reads stale. Its operative claim - that independent verification is owed - was true until this read, and it understates rather than overclaims, so it is an observation and not a failure. It is nonetheless the block a reader consults to learn this family's verification history, and it would tell them one failure where there were four.",
+      "source-receipt.json's pin for the shared record data/record-clearing/legal-design-packet-set-manifests.json is stale again (pinned 6076f734.../3683419 B; measured 80b5e071.../3694688 B). This is the file's third distinct identity since VF04 and the second time a reader has recorded the pin as stale. The bound anchor is unchanged across all five bases, so this is the containing file's identity moving under the receipt, exactly the condition the receipt's own identityRefresh block records and repaired once before. Another identityRefresh is owed to whoever maintains that receipt. This lane did not edit it.",
+      "The retained supersededFixtures.tenPagePairSupersededByFix107 block still names the live fixture paths as the location of the superseded bytes, unrepaired since VF12 flagged it three corrections ago.",
+      "correctedOn.was is field-for-field identical to the current, correct live values, because it records only the fields that were present and not the absence that was the actual defect. See retentionRuling.correctedOn.",
+      "correctedAgainOn.howItIsPreventedFromRecurring says this block 'cannot silently diverge a fourth time'. Divergence is now checked; the broader class is not. See agreementCheckRuling.",
+      "MASTER_QUEUE families[210], VERIFIER_RETURNS rows[449] and ACTIVE_ASSIGNMENTS assignments[51] all still carry VF13's ARTIFACTS finding verbatim, whose text asserts that the queue still carries the pre-correction receipt. That sentence is false of the tree at this base. Holding a FAIL was correct bookkeeping until now - no passing independent read existed - and this lane's return is the input that settles it. VF15's return is not yet ingested into VERIFIER_RETURNS, so the file's current selection for this family is still VF13's. This lane edited none of them.",
+      "reports/rendered-artifacts.json states everyPageRastered false, rasterSkipped true, rasterPages [] and independentVerificationPending true. That is honest about the build-time gate and consistent with a central raster acceptance that rendered canonical.pdf only.",
+      "The queue row remains historicalOnly true with currentGateAuthority false, and the family sits at RASTER_QUEUE notEligible[92] with why 'the current failed obligations have not been repaired'. whyThisReceiptIsTheOne does not mention that status. VF12 raised the same point as supporting rather than disqualifying, and it is repeated here on the same footing: the receipt is true of the exact bytes and coverage it names, which is what the family record claims for it."
+     ],
+     "independence": {
+      "builtNothingHere": true,
+      "repairedNothingHere": true,
+      "didNotAuthorTheRecordsOrTheCheckUnderReview": "product-wiring.json's corrected block, the queue generator fix, verify-acceptance-receipt-agreement.mjs and its test were all written by the Captain at 3980df4d0, 8bb1b82f0, 508723c5b and 64a979b22. This lane read all four commits and their results and authored none of them.",
+      "didNotTrustTheCheckItWasToldAbout": "The check was read line by line, run, its tests run, its exported functions replayed against the real historical trees at all four failure bases, and four adversarial shapes constructed against it. Its reach was measured, not accepted. The ruling that it does not close the class is this lane's own and is supported by measurements recorded above.",
+      "editedNoFamilyRecord": "No file under data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading was opened for writing. No generator, check, test, queue, ledger or shared record was edited. The observations above were left exactly as found.",
+      "wroteOnlyUnder": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json, appended so that every earlier row's bytes are literally unchanged.",
+      "claimLedgerNotCommitted": true,
+      "grantNotReleased": true,
+      "noSubagents": true,
+      "commitDiscipline": "Committed by file name only; no `git add .`, `-A` or `--all`. No force-push. The Captain branch, main and every other worktree untouched. Worked only inside /home/user/vf16-worktree and ran claim.mjs only there.",
+      "rasters": "Page 7 of the canonical fixture was rendered to PNG at 110 dpi into /tmp/vf16-rasters, a directory this lane created, and the whole directory was deleted after measuring. Nothing else under /tmp was touched. No raster was committed.",
+      "gitStatusDiscipline": "git status was empty before and after the preflight, the counters run, the agreement check, the regression tests and the clinic-demo verifier.",
+      "whyThisReaderIsIndependentOfVF15": "VF15's finding was answered by 64a979b22, so VF15 cannot read the repair of its own finding, and the Captain cannot read his own correction. This lane did none of the build, the FIX107 repair, the raster, any of the four record corrections, or the check."
+     },
+     "clinicDemoBindingUndisturbed": {
+      "checkedNotAssumed": true,
+      "where": "product-wiring.json binding.artifacts. The assignment names approval-request.json; the binding in fact lives in product-wiring.json, which is where VF04 and VF12 also located it. approval-request.json has no binding key at all.",
+      "canonical": {
+       "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+       "byteLength": 33774,
+       "pageCount": 12,
+       "fileOnDisk": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+       "digestAndLengthVerifiedOnDiskHere": true
+      },
+      "boundary": {
+       "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+       "byteLength": 37430,
+       "pageCount": 13,
+       "fileOnDisk": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+       "digestAndLengthVerifiedOnDiskHere": true
+      },
+      "approval": "binding.counselReview: Lawrence Blackmon, APPROVE, 2026-09-03, status approved_exact_participant_delivery_hashes, authenticationKind owner_attestation by Roger Roman, bound to those two exact hashes and to the current Mississippi Volunteer Lawyers counsel-review package, without qualifications.",
+      "untouchedByAllFourCorrections": "Verified from the diffs themselves. 64a979b22's three hunks against product-wiring.json all fall inside the acceptanceReceipt block and the diff contains no occurrence of 'binding'. 8bb1b82f0 and 3980df4d0 likewise leave binding unchanged.",
+      "verifierRun": "node scripts/verify-ms-clinic-mode-demo.mjs reports 'Mississippi Clinic Mode demo approval: 5 documents; 25 participant-delivery pages deterministic and raster-reviewed; exact hashes approved and all technical delivery held.', exit 0.",
+      "correctlyDistinguished": "This is a different artifact set with different digests, lengths and page counts - 12 and 13 pages against the census fixtures' 11 and 11. censusV1Representation.whatThisIs states in terms that the census-v1 overlay is not the participant-delivery artifact bound above. This lane treats the approval as a real professional approval, not residue, did not disturb it, and does not enlarge it."
+     },
+     "grantsNothing": "This read promotes nothing, opens no commercial route, changes no live RCAP route and creates no fulfillment authority. A PASS_COMPLETE_INDEPENDENT is one independent reader's measured result on one family at one base; it is not counsel approval, not visual review, not source-freshness review and not permission to sell. The family remains at RASTER_QUEUE notEligible[92], approval-request.json status PENDING_INDEPENDENT_VERIFICATION with approvedForLive false, live false and commercialRoutesOpened 0, and four counsel questions remain raised - none of which this read touches. The queue row remains historicalOnly with currentGateAuthority false, so nothing here makes the raster receipt a current gate authority. The counsel approval bound to the Clinic Demo hashes is untouched and is not enlarged by anything here, and the settled notarisation question stays settled and is not reopened. The finding that the agreement check does not close the class is directed at whoever owns that check; this lane did not edit it and asserts no authority to."
     }
   ],
   "captainAdjudication": "Five rows claimed PASS_COMPLETE_INDEPENDENT over the nine counters alone. Downgraded to FAIL_REPAIR_REQUIRED on obligations Captain measured directly. See verdictAdjudication on each row; the lane’s own measurements are untouched and stand."
