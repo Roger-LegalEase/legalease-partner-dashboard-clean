@@ -1189,6 +1189,41 @@ function mapHelpers(componentId) {
       requiredBeforeFiling: false, routeDetermined: false, document: componentId, why
     }),
     /*
+     * A control the reader marks, WHICH THE FORM ITSELF MARKS REQUIRED.
+     *
+     * `election` above is for a control the route leaves open and the form
+     * leaves optional -- a venue box, an interpreter box. It is not for a blank
+     * the printed page marks MUST. Using it there hands the participant a
+     * filing carrying a box the court says must be completed, with nothing in
+     * the packet naming it: the classification reads clean, the counters read
+     * zero, and the blank is invisible to the only person who can fill it.
+     *
+     * The classification and the disclosure are one act. requiredBeforeFiling
+     * true is what puts a blank into the participant guide's "items you must
+     * supply" table, so a control the form marks required is marked required
+     * here and reaches the guide by the same path every other required blank
+     * does.
+     *
+     * It reaches REQUIRED_BEFORE_FILING through the contract's case-determined
+     * exception, because that is exactly what this is. classifyField() reads a
+     * selection control as PARTICIPANT_ELECTION, which is not in
+     * PARTICIPANT_COMPLETABLE_REQUIREMENTS, so without the exception the
+     * declaration would return UNCLASSIFIED_BLANK. The exception is for a
+     * control the CASE and not the ROUTE decides, it requires the caller to say
+     * why the route cannot decide it, and that sentence is the caller's --
+     * never inferred here, and never a restatement of build policy.
+     */
+    requiredElection: (id, label, what, why, whyTheRouteCannotDetermineIt, page = 1) => ({
+      ...base(id, label, page),
+      isSelectionControl: true, kind: "selection_control",
+      reason: `the participant supplies this before filing: ${what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true, identity: `${componentId} field ${id}`, factId: null, routeDetermined: false,
+      determinedByTheCaseNotTheRoute: true, whyTheRouteCannotDetermineIt,
+      document: componentId, why, participantMustSupply: what
+    }),
+    /*
      * An ATTORNEY block on a form a self-represented participant files.
      * The platform holds no representation fact, and writing participant
      * data into a block the court reads as counsel's would tell the court
@@ -1356,6 +1391,13 @@ function countCompleteness(maps, writeProofs, instructionsText) {
       disposition: r.completenessDisposition ?? null,
       ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
       ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      /* The case-determined exception travels on the declared channel or not at
+       * all: classifyBlank() reads these two keys and this is the only place
+       * the field-map row is turned into what it reads. Dropping them here
+       * silently converts a declared required-before-filing selection control
+       * into an unclassified blank. */
+      ...(Object.hasOwn(r, "determinedByTheCaseNotTheRoute") ? { determinedByTheCaseNotTheRoute: r.determinedByTheCaseNotTheRoute === true } : {}),
+      ...(typeof r.whyTheRouteCannotDetermineIt === "string" ? { whyTheRouteCannotDetermineIt: r.whyTheRouteCannotDetermineIt } : {}),
       identity: r.identity ?? null, factId: r.factId ?? null
     }
   });
@@ -1651,7 +1693,19 @@ async function runFamily(argv = process.argv.slice(2)) {
         overlayDirectoryTouched: false
       };
     }
+    /*
+     * `b.bytes` becomes the READABLE TRANSPORT DERIVATIVE from here down, and
+     * the official binary is kept beside it. Everything measured from the page
+     * -- census, cells, ink -- must read the derivative, and everything that
+     * DESCRIBES the bound identity must read the official binary. Reporting
+     * `b.bytes.length` beside `b.doc.sha256` states the derivative's size as
+     * the official document's, which is what `officialByteLength` below exists
+     * to stop. It is a description defect and never a binding one: binding is
+     * by digest throughout, and the digest is recomputed from the official file
+     * on disk before and after the read.
+     */
     b.officialBytes = b.bytes;
+    b.officialByteLength = b.bytes.length;
     b.bytes = fs.readFileSync(unlocked.derivedPath);
     b.derivedPath = unlocked.derivedPath;
     b.transport = unlocked.record;
@@ -2169,7 +2223,7 @@ async function runFamily(argv = process.argv.slice(2)) {
     documents: bound.map((b) => ({
       sourceIds: [b.doc.sourceId], documentId: b.doc.documentId, formNumber: b.doc.formNumber ?? b.doc.documentId,
       officialTitle: b.doc.officialTitle, revision: b.doc.revision ?? null,
-      sha256: b.doc.sha256, byteLength: b.bytes.length,
+      sha256: b.doc.sha256, byteLength: b.officialByteLength ?? b.bytes.length,
       custody: b.custody, pathInCustody: b.pathInCustody,
       matchedBy: "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
       ...(b.transport ? { transport: {
@@ -2188,7 +2242,7 @@ async function runFamily(argv = process.argv.slice(2)) {
           "the bound identity is the official binary above; this derivative is a build-time transport copy, "
           + "is not committed, and is deleted when the build ends"
       } } : {}),
-      corpusIndexAgrees: b.entry.sha256 === b.doc.sha256 && b.entry.byteLength === b.bytes.length,
+      corpusIndexAgrees: b.entry.sha256 === b.doc.sha256 && b.entry.byteLength === (b.officialByteLength ?? b.bytes.length),
       pageCount: b.entry.pageCount, acroFieldCount: b.entry.acroFieldCount,
       structuralClassObserved: b.entry.structuralClassObserved,
       instrumentKind: b.doc.instrumentKind ?? "participant_agency_application_form",
@@ -2211,7 +2265,7 @@ async function runFamily(argv = process.argv.slice(2)) {
       sourceIds: [b.doc.sourceId], documentId: b.doc.documentId, formNumber: b.doc.formNumber ?? b.doc.documentId,
       officialTitle: b.doc.officialTitle, revision: b.doc.revision ?? null,
       componentId: b.doc.componentId ?? b.componentId,
-      sha256: b.doc.sha256, byteLength: b.bytes.length, custody: b.custody, pathInCustody: b.pathInCustody,
+      sha256: b.doc.sha256, byteLength: b.officialByteLength ?? b.bytes.length, custody: b.custody, pathInCustody: b.pathInCustody,
       matchedBy: "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
       declaredRequirement: b.doc.declaredRequirement ?? "conditional",
       conditionDescription: b.doc.conditionDescription ?? null,
