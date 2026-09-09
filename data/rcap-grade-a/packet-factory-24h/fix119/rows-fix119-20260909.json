@@ -1,0 +1,153 @@
+{
+  "lane": "FIX119",
+  "laneKind": "repair",
+  "generatedAt": "2026-09-09",
+  "baseSha": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+  "headShaAtRun": "b2b582427",
+  "laneOutcome": "BLOCKED_BEFORE_CLAIM_ON_ALL_ASSIGNED_FAMILIES",
+  "laneNote": "All three assigned families were refused by scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX119 with exit code 8 (GRANTED_ELSEWHERE_BUT_RELEASED). Per the lane contract a non-zero claim exit is a full stop for that family: no artifact of any of the three families was read, no packet byte was produced, no counter was measured. `claim.mjs --status FIX119` reports 0 live grants. The refusal itself names the remedy as a Captain dispatch act (--transfer FROM TO subject --reason) and explicitly forbids the lane choosing a released grant's destination for itself, so this lane did not self-transfer, self-grant or self-reissue. Every counter is null because it was not measured, not because it was zero.",
+  "rows": [
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "laneKind": "repair",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX119 'al-felony-dwop-set'",
+      "claimExitCode": 8,
+      "claimRefusalVerbatim": "GRANTED_ELSEWHERE_BUT_RELEASED: al-felony-dwop-set is recorded on FIX01, not FIX119, and FIX01 RELEASED it at 2026-09-09T06:38:05.710Z. No lane is executing it. Captain can hand it over with: --transfer FIX01 FIX119 al-felony-dwop-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+      "artifactsRead": [],
+      "artifactsProduced": [],
+      "obligationsRepaired": [],
+      "obligationsThisRowDoesNotDischarge": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationCoverageNote": "The assigned failed obligation for this family is REQUIRED_BEFORE_FILING (the verifier read AL.memo.json directly rather than the builder's report). This row discharges it in no part. The obligation name is quoted from the FIX119 dispatch prompt, not from the family's queue entry or lane return, neither of which was opened.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Unmeasured, not zero. verify-packet-completeness.mjs --family al-felony-dwop-set reads the family's packet artifacts, which the claim refusal forbids this lane from reading, so it was not run.",
+      "negativeControl": {
+        "state": "NOT_CONSTRUCTED",
+        "preRepairReading": null,
+        "postRepairReading": null,
+        "reason": "A control that fires on the pre-repair bytes cannot be built without reading the pre-repair bytes."
+      },
+      "unblockRequires": "Captain dispatch: --transfer FIX01 FIX119 al-felony-dwop-set --reason \"...\""
+    },
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "laneKind": "repair",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX119 'al-felony-nonconviction-90-set'",
+      "claimExitCode": 8,
+      "claimRefusalVerbatim": "GRANTED_ELSEWHERE_BUT_RELEASED: al-felony-nonconviction-90-set is recorded on FIX02, not FIX119, and FIX02 RELEASED it at 2026-09-09T06:38:05.820Z. No lane is executing it. Captain can hand it over with: --transfer FIX02 FIX119 al-felony-nonconviction-90-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+      "artifactsRead": [],
+      "artifactsProduced": [],
+      "obligationsRepaired": [],
+      "obligationsThisRowDoesNotDischarge": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationCoverageNote": "The assigned failed obligation for this family is REQUIRED_BEFORE_FILING. This row discharges it in no part. The obligation name is quoted from the FIX119 dispatch prompt; the family's queue entry and lane return were not opened.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Unmeasured, not zero. The completeness verifier was not run because running it reads the family artifacts this lane is barred from reading.",
+      "negativeControl": {
+        "state": "NOT_CONSTRUCTED",
+        "preRepairReading": null,
+        "postRepairReading": null,
+        "reason": "A control that fires on the pre-repair bytes cannot be built without reading the pre-repair bytes."
+      },
+      "unblockRequires": "Captain dispatch: --transfer FIX02 FIX119 al-felony-nonconviction-90-set --reason \"...\""
+    },
+    {
+      "itemId": "al-pardoned-felony-set",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "laneKind": "repair",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimAssertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX119 'al-pardoned-felony-set'",
+      "claimExitCode": 8,
+      "claimRefusalVerbatim": "GRANTED_ELSEWHERE_BUT_RELEASED: al-pardoned-felony-set is recorded on FIX03, not FIX119, and FIX03 RELEASED it at 2026-09-09T06:38:06.140Z. No lane is executing it. Captain can hand it over with: --transfer FIX03 FIX119 al-pardoned-felony-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+      "artifactsRead": [],
+      "artifactsProduced": [],
+      "obligationsRepaired": [],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_OPTIONS",
+        "AL6-04"
+      ],
+      "obligationCoverageNote": "The assigned failed obligation for this family is ROUTE_OPTIONS, finding AL6-04, concerning the eight-box conjunctive sworn certification at CR-65 Section V. This row discharges it in no part and reaches no conclusion about whether the packet may pre-tick those boxes, because the packet was not read. Naming the finding here is not an assessment of it.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Unmeasured, not zero. The completeness verifier was not run because running it reads the family artifacts this lane is barred from reading.",
+      "negativeControl": {
+        "state": "NOT_CONSTRUCTED",
+        "preRepairReading": null,
+        "postRepairReading": null,
+        "reason": "A control that fires on the pre-repair bytes cannot be built without reading the pre-repair bytes."
+      },
+      "unblockRequires": "Captain dispatch: --transfer FIX03 FIX119 al-pardoned-felony-set --reason \"...\""
+    }
+  ]
+}
