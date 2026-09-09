@@ -61,15 +61,17 @@ def main():
     if args.apply:
         # Exclusive adjacent temporary file + recheck; refuse concurrent changes.
         temp = file.with_name(file.name + '.mo-discovery-new')
+        created = False
         try:
             with temp.open('xb') as stream:
+                created = True
                 stream.write(after)
             temp.chmod(file.stat().st_mode & 0o777)
             if file.read_bytes() != before:
                 raise ValueError('Concurrent reader change detected')
             temp.replace(file)
         finally:
-            if temp.exists():
+            if created and temp.exists():
                 temp.unlink()
     print(('APPLIED' if args.apply else 'CHECK_OK') + ': ' + str(PATH))
     print('before_git_blob=' + blob(before))
