@@ -71,8 +71,10 @@
           "page": 4,
           "effectiveLabel": "12 - Seal Records",
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
-          "routeDetermined": true
+          "routeDetermined": true,
+          "routeReason": "item 12: this route asks the court to seal"
         },
         {
           "fieldId": "EXP-AD Request:4 - Arresting Agency - 1",
@@ -101,7 +103,10 @@
           "page": 4,
           "effectiveLabel": "4 - Outcome - 1",
           "factId": "matter.outcome",
-          "drawnText": "Dismissed",
+          "outcomeDerivedFrom": "route",
+          "outcomeMeaning": "Felony Conviction",
+          "printedLegend": "Outcome Abbreviations for Sealing, EXP-AD Request page 4",
+          "drawnText": "FC",
           "fontSize": 8
         },
         {
@@ -121,8 +126,21 @@
           "page": 4,
           "effectiveLabel": "4 - List all charges for each case number - 1",
           "factId": "matter.charge",
-          "drawnText": "Charge exactly as shown on the court disposition",
-          "fontSize": 7.25
+          "drawnText": "Possession of a controlled substance, Class 4 felony",
+          "fontSize": 6.75
+        },
+        {
+          "fieldId": "EXP-AD Request:19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+          "fieldName": "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+          "documentId": "EXP-AD Request",
+          "page": 5,
+          "effectiveLabel": "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+          "factId": "matter.sealing_ground",
+          "drawnText": "Yes",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "routeReason": "Section 19: this fixture's certified record shows a completed Illinois prison or jail sentence, with three years passed since the end of the last sentence. Section 19 is where this route's statutory ground lies; which limb applies is the participant's fact, not the route's.",
+          "participantAlternative": "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence"
         },
         {
           "fieldId": "EXP-AD Request:P6 - Print Name2",
@@ -321,6 +339,46 @@
           "factId": "matter.case_number",
           "drawnText": "2021-CF-004217",
           "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Name",
+          "fieldName": "3 - Name",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Address",
+          "fieldName": "3 - Address",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Address",
+          "factId": "participant.street_address",
+          "drawnText": "412 West Madison Street, Chicago, IL 60606",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Telephone",
+          "fieldName": "3 - Telephone",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Telephone",
+          "factId": "participant.phone",
+          "drawnText": "312-555-0142",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Email",
+          "fieldName": "3 - Email",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Email",
+          "factId": "participant.email",
+          "drawnText": "jordan.reyes@example.org",
+          "fontSize": 8
         }
       ]
     },
@@ -412,20 +470,20 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 39,
+      "valuesReportedByFinalizer": 44,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 44,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 7.25,
+      "minimumFontSize": 6.75,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 39,
+      "valuesReportedByFinalizer": 44,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 44,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 5.5,
+      "minimumFontSize": 6,
       "refusedFieldsWithInk": []
     }
   ]

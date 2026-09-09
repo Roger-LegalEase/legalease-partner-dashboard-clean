@@ -1353,6 +1353,112 @@
       "productionTouched": false,
       "commercialRoutesOpened": 0,
       "grantsNothing": "This row opens no route, promotes no status, proves no packet and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "worker": "ilr-20260909 Illinois repair lane (FIX07/FIX02/FIX03/FIX04/FIX06)",
+      "workerBranch": "ilr-20260909",
+      "baseSha": "b5cb44279",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-exp-qualprob:expungement-after-eligible-supervision-or-qualified-probation"
+      ],
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "verdict": null,
+      "verdictNote": "This lane REPAIRED and REBUILT this family. It sets no verdict and none of the text below is one. An independent lane must read the delivered bytes and decide.",
+      "readsWhichVerification": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json, lane VF13 at 9285d8019, verdict FAIL_REPAIR_REQUIRED. Its per-finding page, field and evidence were used as located; nothing in it was re-derived.",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "selfVerified": false,
+      "grantsNothing": "A rebuild is not an approval. This row opens no route, promotes no status past state_built, and adopts no fixture fact. Counsel review, source-freshness review, owner adoption of the fixture facts and the central 307 dpi raster acceptance are all still owed.",
+      "claimHandling": "Grant asserted under this exact lane before any edit (node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <family> -> CLAIM_OK, grant set 1d35e377c6e39f67). The grant is left held; this lane released and re-granted nothing.",
+      "artifacts": {
+        "canonical": {
+          "sha256": "dc55ad08565d7255c8992dda6a63bd942e14f09570d1283913d8f17b84b02b9a",
+          "byteLength": 1734561,
+          "pageCount": 13
+        },
+        "boundary": {
+          "sha256": "bb52fc825160724f1b7f42a7331486434e23d62962588127db017c3140411ffc",
+          "byteLength": 1735285,
+          "pageCount": 13
+        },
+        "writes": 45,
+        "classifiedBlanks": 379
+      },
+      "determinism": {
+        "method": "The builder was run twice in this container after the final edit and the delivered tree hashed both times (both fixture PDFs, production-field-map.json, reports/actual-writes.json, participant-instructions.md).",
+        "result": "byte-identical on the second run"
+      },
+      "proofOfWrites": {
+        "method": "Read out of the SAVED bytes, not from the builder's report. Every content stream of every delivered page was decompressed and any stream whose SHA-256 matches a stream of the official source was excluded. In each remaining stream every `/FlatWidget-* Do` placement was resolved to its appearance XObject, that XObject was decompressed, and each show-text operator (Tj, TJ, ', \") was decoded -- literal and hex strings both -- with the text matrix (Tm/Td/TD/T*) preceding it, composed with the `cm` that placed the widget. Each placement was then matched back to the source field whose widget rectangle starts at that point.",
+        "selectionControlsAlsoRead": "pdf-lib draws a ticked box as vector strokes, not as text, so a show-text-only reading would have reported every election as invisible. A widget appearance painting two or more paths is the ticked state and one path is the empty box; the ticked ones were also confirmed as images at 150 dpi.",
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "refusedFieldsCarryingInk": 0,
+        "inkOutsideAnyKnownWidget": 0,
+        "ellipsizedValues": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "howMeasured": "Eight are the completeness contract's mechanical count over the delivered tree: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>. invisibleWrites and protectedWrites were ALSO recomputed independently from the saved bytes by this lane (see proofOfWrites) and agree at 0. visualDefects is null, not 0: the central 307 dpi raster acceptance (.github/workflows/rcap-packet-raster-acceptance-batch.yml) was not run here, and this lane built these bytes, so its own 150 dpi reading cannot discharge it.",
+        "whatTheseCountersStillCannotSee": "VF13's point stands. Six of its findings were invisible to these counters -- an unanswered route election the field map declared a participant refusal, a surplus election no counter names, and three source-authored fixture literals that are non-empty and therefore 'written'. A green count here is not evidence that a seventh of that kind is absent."
+      },
+      "notMeasurableHere": [
+        "The central 307 dpi raster acceptance. RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs; pdftoppm (poppler) was used for reading pages and every raster was deleted before committing.",
+        "Whether an Illinois circuit clerk or e-filing system accepts these PDFs.",
+        "Counsel review, source-freshness review, and owner adoption of the fixture facts."
+      ],
+      "recordedNotRepaired": {
+        "id": "IL-OFFICIAL-PDF-FILL-DELIVERS-AN-INVALID-CROSS-REFERENCE-TABLE",
+        "whatVf13Recorded": "Every Illinois official_pdf_fill fixture ships an invalid cross-reference table; il-seal-2yr canonical declares /Size 954 while its 14 xref subsections cover only 808 objects. All 11 source PDFs parse clean, so the fault is the Illinois writer's.",
+        "confirmedStillPresent": "Yes, on this family's rebuilt bytes: poppler 24.02.0 reports \"Syntax Error: Couldn't find trailer dictionary\" and reconstructs the table before rendering.",
+        "notTakenOnBecause": "The dispatch assigns it to the Illinois writer's owner, and it reproduces on families outside this lane's grant.",
+        "whereTheFixAlreadyExists": "A working repair is already in this repository: pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs prunes the /Annots references that flatten() leaves dangling, which is the cause. That builder's own header records measuring 41 dangling references on the Request alone and poppler opening the pruned file with no diagnostic. Whoever owns the writer can lift it; this lane did not, because doing so changes the delivered bytes of ten Illinois families."
+      },
+      "findingsRepaired": [
+        {
+          "finding": "1 - Section 12 unanswered while Section 13 is populated",
+          "repairedBy": "Same two root causes and the same two repairs as the non-conviction sibling, in scripts/build-census-v1-il-exp-qualprob-set.mjs: knownValue() is gated on ACTIVE_REQUEST_PAGE = 2, and selectCheckboxState() replaces check() so the /No widget of '12 - Seal Records' is reachable. The self-test assertion that used to DEMAND the charge on both tables ('the first complete row on each Request table must receive the charge', expected 2) was itself enshrining the defect; it now expects 1 and adds an assertion that nothing at all is written on Request page 4.",
+          "provenInBytes": "Request page 4 carries exactly one added mark, at x=161.96 -- the /No widget at x=162.0 -- and nothing else. Read as an image at 150 dpi: 'No' ticked, 'Yes' empty, the Section 13 table wholly blank. Item 1 is answered Yes on page 1 and Section 8 is ticked on page 3."
+        },
+        {
+          "finding": "4 - Order page 2 item 3 refused as a signature",
+          "repairedBy": "ORDER_COURT_OWNED replaces the blanket page-2 rule, per scripts/build-census-v1-il-exp-pardon-set.mjs:40-48. Item 3's Name, Address, Telephone and Email carry the held facts; Attorney Number stays an attorney refusal.",
+          "provenInBytes": "Packet page 9 carries the four values; the judge's controls and the ENTERED lines stay blank."
+        },
+        {
+          "finding": "5 - The charge cell prints a fixture literal",
+          "repairedBy": "Fixed in FIXTURES: 'Possession of a controlled substance' (canonical) and a long real charge (boundary).",
+          "provenInBytes": "Request page 2 row 1 Charge cell reads 'Possession of a controlled substance'."
+        },
+        {
+          "finding": "6 - The outcome cell is not a printed abbreviation",
+          "repairedBy": "'outcome' is deleted from both fixtures and ROUTE_OUTCOME derives it from the route: QP, Qualified Probation Successfully Completed, declared consistent with the Section 8 election the same packet ticks. VF13 was sharpest here -- the delivered Request swore Section 8 and recorded the outcome as a dismissal, two incompatible outcomes for one case on a document signed under 735 ILCS 5/1-109.",
+          "provenInBytes": "Request page 2 Outcome cell reads 'QP' on both fixtures; no cell in either packet reads 'Dismissed'."
+        }
+      ],
+      "alsoRepaired": [
+        "The proposed Order's sealing slots no longer appear in the participant's 'Required before filing' list; they are the inactive branch on an expungement route."
+      ],
+      "findingsNotApplicable": [
+        "2 is il-seal-3yr-set's, 3 is il-seal-2yr-set's, 7 is il-cannabis-vacate-set's."
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-il-exp-qualprob-set.mjs",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/ (rebuilt)"
+      ]
     }
   ],
   "whatCouldNotBeEstablished": [

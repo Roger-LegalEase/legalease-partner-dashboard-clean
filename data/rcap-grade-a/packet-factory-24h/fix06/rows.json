@@ -1205,6 +1205,117 @@
       "productionTouched": false,
       "commercialRoutesOpened": 0,
       "grantsNothing": "This row opens no route, promotes no status, proves no packet and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one."
+    },
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "worker": "ilr-20260909 Illinois repair lane (FIX07/FIX02/FIX03/FIX04/FIX06)",
+      "workerBranch": "ilr-20260909",
+      "baseSha": "b5cb44279",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-cannabis-vacate:cannabis-specific-automatic-or-petition-expungement"
+      ],
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "verdict": null,
+      "verdictNote": "This lane REPAIRED and REBUILT this family. It sets no verdict and none of the text below is one. An independent lane must read the delivered bytes and decide.",
+      "readsWhichVerification": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json, lane VF13 at 9285d8019, verdict FAIL_REPAIR_REQUIRED. Its per-finding page, field and evidence were used as located; nothing in it was re-derived.",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "selfVerified": false,
+      "grantsNothing": "A rebuild is not an approval. This row opens no route, promotes no status past state_built, and adopts no fixture fact. Counsel review, source-freshness review, owner adoption of the fixture facts and the central 307 dpi raster acceptance are all still owed.",
+      "claimHandling": "Grant asserted under this exact lane before any edit (node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <family> -> CLAIM_OK, grant set 1d35e377c6e39f67). The grant is left held; this lane released and re-granted nothing.",
+      "artifacts": {
+        "canonical": {
+          "sha256": "d6d8ec5b303e03156cf4fca139fb80137f19f11f5068fa08909804d96fad9160",
+          "byteLength": 1904308,
+          "pageCount": 11
+        },
+        "boundary": {
+          "sha256": "b57eed8f0151d26127da700b6c257f4412c9441fbdb88eda5e1a4ef97234c667",
+          "byteLength": 1905153,
+          "pageCount": 11
+        },
+        "writes": 71,
+        "classifiedBlanks": 368
+      },
+      "determinism": {
+        "method": "The builder was run twice in this container after the final edit and the delivered tree hashed both times (both fixture PDFs, production-field-map.json, reports/actual-writes.json, participant-instructions.md).",
+        "result": "byte-identical on the second run"
+      },
+      "proofOfWrites": {
+        "method": "Read out of the SAVED bytes, not from the builder's report. Every content stream of every delivered page was decompressed and any stream whose SHA-256 matches a stream of the official source was excluded. In each remaining stream every `/FlatWidget-* Do` placement was resolved to its appearance XObject, that XObject was decompressed, and each show-text operator (Tj, TJ, ', \") was decoded -- literal and hex strings both -- with the text matrix (Tm/Td/TD/T*) preceding it, composed with the `cm` that placed the widget. Each placement was then matched back to the source field whose widget rectangle starts at that point.",
+        "selectionControlsAlsoRead": "pdf-lib draws a ticked box as vector strokes, not as text, so a show-text-only reading would have reported every election as invisible. A widget appearance painting two or more paths is the ticked state and one path is the empty box; the ticked ones were also confirmed as images at 150 dpi.",
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "refusedFieldsCarryingInk": 0,
+        "inkOutsideAnyKnownWidget": 0,
+        "ellipsizedValues": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "howMeasured": "Eight are the completeness contract's mechanical count over the delivered tree: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>. invisibleWrites and protectedWrites were ALSO recomputed independently from the saved bytes by this lane (see proofOfWrites) and agree at 0. visualDefects is null, not 0: the central 307 dpi raster acceptance (.github/workflows/rcap-packet-raster-acceptance-batch.yml) was not run here, and this lane built these bytes, so its own 150 dpi reading cannot discharge it.",
+        "whatTheseCountersStillCannotSee": "VF13's point stands. Six of its findings were invisible to these counters -- an unanswered route election the field map declared a participant refusal, a surplus election no counter names, and three source-authored fixture literals that are non-empty and therefore 'written'. A green count here is not evidence that a seventh of that kind is absent."
+      },
+      "notMeasurableHere": [
+        "The central 307 dpi raster acceptance. RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs; pdftoppm (poppler) was used for reading pages and every raster was deleted before committing.",
+        "Whether an Illinois circuit clerk or e-filing system accepts these PDFs.",
+        "Counsel review, source-freshness review, and owner adoption of the fixture facts."
+      ],
+      "recordedNotRepaired": {
+        "id": "IL-OFFICIAL-PDF-FILL-DELIVERS-AN-INVALID-CROSS-REFERENCE-TABLE",
+        "whatVf13Recorded": "Every Illinois official_pdf_fill fixture ships an invalid cross-reference table; il-seal-2yr canonical declares /Size 954 while its 14 xref subsections cover only 808 objects. All 11 source PDFs parse clean, so the fault is the Illinois writer's.",
+        "confirmedStillPresent": "Yes, on this family's rebuilt bytes: poppler 24.02.0 reports \"Syntax Error: Couldn't find trailer dictionary\" and reconstructs the table before rendering.",
+        "notTakenOnBecause": "The dispatch assigns it to the Illinois writer's owner, and it reproduces on families outside this lane's grant.",
+        "whereTheFixAlreadyExists": "A working repair is already in this repository: pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs prunes the /Annots references that flatten() leaves dangling, which is the cause. That builder's own header records measuring 41 dangling references on the Request alone and poppler opening the pruned file with no diagnostic. Whoever owns the writer can lift it; this lane did not, because doing so changes the delivered bytes of ten Illinois families."
+      },
+      "findingsRepaired": [
+        {
+          "finding": "7 - participant.city_state_zip is 'Cook County, Illinois'",
+          "repairedBy": "Fixed at the source line VF13 named, scripts/build-census-v1-il-cannabis-vacate-set.mjs:167, which returned `${fixture.county} County, Illinois` for any field matching /city state zip/. A county is not a city, a state and a ZIP, and the value was derived from the FILING COUNTY, a different fact from where the participant lives. The fixture now carries the address split the way these forms split it: street on the Street Address line, city, state and ZIP on the City, State, ZIP line beneath it. The old street value already contained the city, state and ZIP, so the packet had been printing them twice and the county nowhere it belonged.",
+          "provenInBytes": "All three occurrences VF13 located now read 'Chicago, IL 60606' (canonical) and 'Springfield, IL 62703' (boundary): CXP Motion page 3, CXP Additional Cannabis Convictions page 2, and CXP Notice of Court Date page 2 -- the 'Prepared by' address the court and the State's Attorney use, read as an image at 150 dpi. A self-test now refuses any City, State, ZIP value containing ' County' and requires the shape 'City, ST ZIP', and refuses a Street Address line that repeats the city, state and ZIP."
+        }
+      ],
+      "repairedBeyondVf13": [
+        {
+          "id": "NOTICE-CITY-STATE-ZIP-LEFT-BLANK-BY-A-PUNCTUATION-BLIND-MATCHER",
+          "what": "CXP Notice of Court Date page 1, field '1 - City, State, Zip', in the same signature block whose Street Address the packet DOES write. The matcher was /city state zip/, which does not match a name containing commas, so this one field fell into 'The platform does not hold this participant, case, or financial fact; supply it before filing' while the packet held the value. The matcher is punctuation-tolerant now.",
+          "counter": "knownRequiredFieldsMissing, had it been read at appearance level"
+        },
+        {
+          "id": "DATE-OF-BIRTH-REFUSED-AS-A-SIGNATURE-ON-ONE-DOCUMENT",
+          "what": "CXP Notice of Court Date page 1, field 'Date of birth'. protectedField() tested /time|date|courtroom|.../ against the whole field name and 'date of birth' contains 'date', so the participant's own date of birth was refused on this one document under refusalClass signature_or_date_participant_completion -- 'Signature, judge, clerk, or post-filing field' -- while the same fact was written on the suite's other five documents. A date of birth is none of those things, and the Notice's own sidebar says 'Enter your name, birth date, race, and gender.' The court-owned test is now anchored to the hearing fields it was meant for (1a - Date, 1a - Time, 1 - Time AM/PM, the 1b - block, and the State's Attorney and clerk fields), which are still refused.",
+          "shapeOfTheDefect": "The same shape as VF13's finding 4 on the EXP-AD Order: a non-signature hidden behind a signature class."
+        },
+        {
+          "id": "PREPARER-BLOCKS-HALF-FILLED-OR-WHOLLY-REFUSED",
+          "what": "Two blocks. On CXP Notice of Court Date page 2 the 'Prepared by' name and phone lines were blank while the street and city lines below them were filled. On CXP Order Granting or Denying Motion page 2 the whole preparer block was refused by a blanket 'every field on page 2' rule. That page's printed STOP box reads 'DO NOT fill in these lines. The judge will sign and enter date here' and is scoped to ENTERED / Judge / Date; beside the block below it the form prints 'Enter the name and contact information of the person completing the Order.' Both blocks are complete now: name, street, city/state/ZIP, phone, and email where the form prints one.",
+          "openToChallenge": "This extends the adjudication already made for EXP-AD Order Granting page 2 item 3 (scripts/build-census-v1-il-exp-pardon-set.mjs:40-48) to a document VF13 did not raise it on. If an independent lane reads the cannabis Order's preparer block differently, this is the change to challenge.",
+          "stillRefused": "Judge, Date, both denial checkboxes, the three denial reasons, the denied-case grid, and Attorney Number (self-represented)."
+        },
+        {
+          "id": "SEVENTEEN-INKED-WIDGETS-IN-NEITHER-WRITES-NOR-REFUSALS",
+          "what": "flatten() draws every widget's appearance onto the page, push buttons included, so the source forms' own PRINT FORM / SAVE FORM / RESET FORM captions reach the delivered pages as static ink on five of the six CXP documents. The builder skipped non-text, non-checkbox, non-dropdown fields entirely, so seventeen inked widgets appeared in neither writes[] nor refusals[] and nothing downstream could account for ink it could see. They are declared now as viewer UI controls, in the completeness contract's own words for that class, with sourceAuthoredInk:true. The PDF bytes are unchanged by this: the digests before and after the declaration are identical, which is the proof it is a map-only repair.",
+          "notAParticipantFact": "This is the source form's own caption, not packet ink, and it is not counted against the family."
+        }
+      ],
+      "findingsNotApplicable": [
+        "1, 2, 3, 4, 5 and 6 are the four EXP-AD families'. The CXP suite is a different form set: it has no Section 12, no Section 13, no Section 19, no EXP-AD Order and no Outcome column."
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
+        "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/ (rebuilt)"
+      ]
     }
   ],
   "fixBDispatch": {
