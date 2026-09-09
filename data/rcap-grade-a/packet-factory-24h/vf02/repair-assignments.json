@@ -1059,6 +1059,40 @@
     },
     "alsoDisclosedNotScored": "The requiredBeforeFiling disclosure labels reach the participant garbled from a scrambled text stream (', CasNe o', 'CRIMINAL CONVICTION · r', 'bnter the original'). Every declared item is named, so REQUIRED_BEFORE_FILING passes, but several are named in a form no participant can act on -- and that garbling is why classifyField returns UNMATCHED and the counters cannot see the KNOWN_PREFILLS defect.",
     "doNotRepairInThisLane": "VF02 verifies and does not edit."
+  },
+  {
+   "assignmentId": "VF02-REPAIR-AL-FELONY-DWOP-UNSUPPORTED-NOTARIZATION-DIRECTION",
+   "itemId": "al-felony-dwop-set",
+   "lane": "VF02",
+   "raisedBy": "VF02 independent verification 2026-09-09; this lane did not build, repair or raster this packet, and made no edit to it",
+   "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+   "packetBytesReadAtCommit": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+   "canonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+   "boundarySha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856",
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "blockedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "decisiveDefect": "The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form.",
+   "whatRepairIsAuthorised": "Delete the notarization direction from filing-instructions.md, and generate this family's guides from AL.memo.json the way the repaired shared host does rather than from hardcoded template literals in scripts/build-census-v1-al-felony-dwop-set.mjs. The corrected text is already written and shipping in the four sibling Alabama families: quote rules.notarization and tell the participant to ask the circuit clerk in the filing county whether the page-6 affidavit must be sworn, leaving the notary block, its date and the signature blank. Then extend the shared host's assertRepairInvariants coverage - or its doesNotMatch check - to this builder so the sentence cannot come back, and restore the missing \"What the held record establishes\", \"Do these before you file\" and \"Notarization\" sections and the verbatim self-help stop conditions.",
+   "whatThisAssignmentDoesNotAuthorise": "It authorises no change to AL.memo.json's legal content, no new participant fact, no signature, no notarization, no route promotion and no commercial route. It does not authorise deciding AL6-03; that stays BLOCKED_LEGAL_INPUT until legal design answers it.",
+   "nineCountersAtRead": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "whyTheCountersDidNotCatchIt": "All nine counters read zero on these same six families both before and after AL6-01, while the boundary packet printed a clipped and semantically false case number on the sworn SSN line. Zero counters decided nothing in this row; the verdict comes from the bytes, the rasters and AL.memo.json.",
+   "reVerificationRequired": "The repaired bytes must be independently re-read by a lane that did not repair them."
   }
  ],
  "va6Assignments": {

@@ -561,6 +561,40 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "grantsNothing": "This is a verification finding. It approves no output and opens no commercial route."
+  },
+  {
+   "assignmentId": "VF06-REPAIR-AL-PARDONED-FELONY-UNSUPPORTED-SWORN-SECTION-V-CERTIFICATIONS",
+   "itemId": "al-pardoned-felony-set",
+   "lane": "VF06",
+   "raisedBy": "VF06 independent verification 2026-09-09; this lane did not build, repair or raster this packet, and made no edit to it",
+   "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+   "packetBytesReadAtCommit": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
+   "canonicalSha256": "0ca558a91f4cfbd1cd43489b2cb652b7c56970407763773858800e303867c408",
+   "boundarySha256": "327a61276c403203a552840063d79c6c04ecb2036e0bd253265a0013e35b3dae",
+   "failedProofObligations": [
+    "ROUTE_OPTIONS"
+   ],
+   "blockedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "decisiveDefect": "AL6-04, new here and decisive. CR-65 Section V is a conjunctive sworn certification - \"AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement\" - and the packet ticks all eight on the participant's behalf: Check Box10.6 on page 3 and Check Box11.0 through 11.6 on page 4, all under factId route.selection, on a petition sworn on CR-65 page 6. I rastered page 4 and read the eight printed lines against AL.memo.json track al-pardoned-felony. That track records eligibleDispositions [\"a felony conviction for which a pardon has been granted\"], exclusions [] (empty), waitingPeriods [] (empty), and only four participantInputs: pardonDate, restorationLanguage, firearmRightsExcluded, countyOfFiling. Six of the eight ticks therefore assert facts the route never establishes and never asks about: 11.1 \"One hundred eighty days have passed from the date of the issuance of the certification of pardon\" (no waiting period is recorded at all); 11.2 \"the conviction is not a violent offense, as provided in Section 12-25-32\"; 11.3 \"not a sex offense, as provided in Section 15-20A-5\"; 11.4 \"not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition\"; 11.5 \"not a serious traffic offense, as provided in Article 9 of Chapter 5A of Title 32\"; 11.6 \"At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit\". A seventh, 11.0 \"All civil and political rights that were forfeited as a result of the conviction have been restored\", is contradicted by the track's own stop condition \"The pardon withholds firearm rights and the restoration question controls\" - the route expressly contemplates that this box may be false. Only 10.6, the certificate of pardon with restoration of civil and political rights, is the route's defining disposition. The comparison that proves this is not a general objection to conjunctive ticking: the sibling al-misd-conviction-set ticks its seven Section II boxes and every one of those seven IS backed by a memo exclusion, waiting period or participant input. Here six are backed by nothing. The eight-box list is source-authored, hardcoded as FAMILY_CONFIG[\"al-pardoned-felony-set\"].selected in scripts/build-census-v1-al-diversion-set.mjs line 56, and assertRepairInvariants checks nothing about whether a ticked box is supported by the record. Telling the participant in step 3 to \"confirm every condition printed in CR-65 Section V\" does not cure ink already sworn on their behalf. This is the AL6-01 defect class - a semantically unsupported write into a sworn field - surviving the AL6-01 repair, with all nine counters at zero.",
+   "whatRepairIsAuthorised": "Stop ticking the six Section V boxes the held record does not establish. Concretely: in scripts/build-census-v1-al-diversion-set.mjs, FAMILY_CONFIG[\"al-pardoned-felony-set\"].selected currently hardcodes eight boxes; reduce it to the ones the route determines - Check Box10.6 - and refuse Check Box11.0 through 11.6 as participant elections with plain-language labels drawn from the printed form text, so each appears in the participant's \"Blanks you must fill in\" list as a box they must read and tick themselves. Do not invent memo content to justify the ticks: if legal design intends this route to gate on the 180-day period and on the violent/sex/moral-turpitude/serious-traffic/CDL exclusions, that belongs in AL.memo.json track al-pardoned-felony as waitingPeriods, exclusions and participantInputs first, and only then may the builder derive the ticks from it. Add an invariant to assertRepairInvariants that refuses any route.selection write whose printed condition is not traceable to a memo exclusion, waiting period or participant input - the absence of that check is why all nine counters read zero over this defect.",
+   "whatThisAssignmentDoesNotAuthorise": "It authorises no change to AL.memo.json's legal content, no new participant fact, no signature, no notarization, no route promotion and no commercial route. It does not authorise deciding AL6-03; that stays BLOCKED_LEGAL_INPUT until legal design answers it.",
+   "nineCountersAtRead": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "whyTheCountersDidNotCatchIt": "All nine counters read zero on these same six families both before and after AL6-01, while the boundary packet printed a clipped and semantically false case number on the sworn SSN line. Zero counters decided nothing in this row; the verdict comes from the bytes, the rasters and AL.memo.json.",
+   "reVerificationRequired": "The repaired bytes must be independently re-read by a lane that did not repair them."
   }
   ],
      "vf06ReDispatchWaveBlockedFamilies": {
