@@ -89,6 +89,36 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill";
 const OUT = path.join(ROOT, OUT_REL);
 const FAMILY_ID = "il-seal-2yr-set";
+
+// FIX13, REQUIRED_BEFORE_FILING. This builder never read the record it is meant to
+// print, and this family was the barest of the five: the whole "Required before
+// filing" section was one sentence plus a list of form field names, and it named no
+// RECORD at all. The Illinois State Police statewide criminal history transcript --
+// a fingerprint-based Access and Review document with weeks of lead time, which
+// data/record-clearing/legal-design-intake/IL.memo.json marks requiredBeforeFiling
+// for this track -- appeared nowhere as a document to obtain; "Illinois State
+// Police" occurred once, as a party the clerk serves. The one sentence that could
+// have carried the obligation, "Attach certified dispositions and other
+// route-specific evidence identified above", pointed at an "above" where nothing
+// was identified. None of the ten packetSet.requiredBeforeFiling lines reached the
+// file, so the petitioner was never told to sign and verify the Request the packet
+// deliberately leaves blank, never told a wet signature is expected, and never told
+// the filing fee or the Rule 298 waiver.
+//
+// The record's own words are read at build time, exactly as
+// build-census-v1-il-exp-nonconv-set.mjs reads them, so the guide cannot drift from
+// the record it claims to quote: change the registry and the guide changes.
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "il-seal-2yr";
+
+function controllingRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY_PATH), "utf8"));
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
+  assert.ok(Array.isArray(track.packetSet?.requiredBeforeFiling) && track.packetSet.requiredBeforeFiling.length,
+    `the registry states no requiredBeforeFiling for ${TRACK_ID}; refusing to write a guide that claims to quote it`);
+  return track;
+}
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts } = require("pdf-lib");
@@ -399,6 +429,7 @@ async function buildPacket(sources, fixtureName, fixture) {
 }
 
 async function build() {
+  const track = controllingRecord();
   const sources = resolveSources();
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === FAMILY_ID);
@@ -416,8 +447,10 @@ async function build() {
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and other route-specific evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The participant serves nobody. The circuit clerk serves under 20 ILCS 2630/5.2(d)(4) after filing on the State's Attorney or prosecutor, Illinois State Police, the arresting agency, and the chief legal officer of the local government that made the arrest. The recipients have 60 days after service to object. Do not complete court-owned service or order fields.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
-  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order, clerk case numbers, and later-completion fields.\n`);
+  const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
+  const signature = track.rules.participantSignature;
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nThe first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
+  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
 }
@@ -467,7 +500,26 @@ function selfTest() {
   assert.equal(fieldMap.refusals.filter((row) => /^arrest\/case number/i.test(row.fieldName) && row.requiredBeforeFiling).length, 0, "unused proposed-Order case slots are not owed before filing");
 
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
-  for (const phrase of ["circuit clerk serves under 20 ILCS 2630/5.2(d)(4)", "State's Attorney or prosecutor", "Illinois State Police", "arresting agency", "chief legal officer", "60 days after service"]) assert.ok(instructions.includes(phrase), `service guidance must include: ${phrase}`);
+  // FIX13. These used to match a hand-written paraphrase of the service model. The
+  // guide now prints the record's own service and notice sentences, so the same
+  // obligation is checked against the record rather than against a restatement.
+  const track = controllingRecord();
+  for (const phrase of ["Illinois State Police", "arresting agency", "chief legal officer", "You serve nobody"]) assert.ok(instructions.includes(phrase), `service guidance must include: ${phrase}`);
+  for (const [label, sentence] of [["fees", track.rules.fees], ["feeWaiver", track.rules.feeWaiver],
+    ["service", track.rules.service], ["notice", track.rules.notice], ["filing", track.rules.filing],
+    ["participantSignature", track.rules.participantSignature]]) {
+    assert.ok(instructions.includes(sentence), `participant-instructions.md must carry the record's ${label} sentence`);
+  }
+  // FIX13, REQUIRED_BEFORE_FILING. Every line of the controlling record reaches the
+  // participant document verbatim, so a registry edit the guide does not carry fails
+  // the build rather than shipping a guide that quotes a record it has drifted from.
+  for (const line of track.packetSet.requiredBeforeFiling) {
+    assert.ok(instructions.includes(line), `participant-instructions.md must carry the required-before-filing step: ${line.slice(0, 60)}`);
+  }
+  assert.ok(/Obtain Illinois State Police statewide criminal history transcript/.test(instructions),
+    "the ISP statewide transcript must be named as a document to obtain, not only as a party that is served");
+  assert.ok(instructions.includes("Sign and date that block yourself, in ink"),
+    "the guide must tell the petitioner to sign the verification block the packet leaves blank");
   for (const phrase of ["item 12 Yes", "Section 17", "does not elect Section 15"]) assert.ok(instructions.includes(phrase), `the guide must disclose the route's elections: ${phrase}`);
   console.log("il-seal-2yr-set self-test passed");
 }

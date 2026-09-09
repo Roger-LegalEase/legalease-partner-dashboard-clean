@@ -152,13 +152,14 @@ const MANIFEST_COMPONENT_ORDER = [
 const FAMILY_CONFIG = {
   "il-cannabis-vacate-set": {
     mode: "vacate_and_expunge",
+    // The ONLY election this route makes. Item 4's lead checkbox is the relief the
+    // route asks for -- "I ask the court to VACATE AND EXPUNGE" -- and that is what
+    // the route is. Everything else on the Motion's face is an assertion about the
+    // participant's own record, and PARTICIPANT_ELECTIONS below says why for each.
     selected: [
-      "2 - I was convicted before June 25, 2019",
-      "3 - I have completed the sentences or conditions imposed by the conviction",
-      "4 - I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions checkbox",
-      "4 - Misdemeanor/Class 4 Felony Checkboxes1"
+      "4 - I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions checkbox"
     ],
-    routeSummary: "Motion to vacate and expunge eligible Illinois cannabis convictions. The misdemeanor/Class 4 classification and every case fact remain participant-supplied unless established by the certified record."
+    routeSummary: "Motion to vacate and expunge eligible Illinois cannabis convictions. The route asks the court for that relief and nothing more: the misdemeanor/Class 4 classification, the conviction date and whether the sentence and conditions are complete are the movant's own sworn facts, established from the certified disposition, and this packet leaves every one of them for the movant to make."
   }
 };
 
@@ -296,6 +297,67 @@ function attorneyField(name) {
   return /lawyer|attorney|law firm|client name/.test(name.toLowerCase());
 }
 
+/*
+ * FIX13, ROUTE_OPTIONS. One fact, two contradictory treatments, on the delivered
+ * bytes: Motion page 1 item 1 -- the gate the form prints as "In 1, you cannot ask
+ * to vacate and expunge a criminal conviction unless one of the special situations
+ * listed under checkboxes a or b describes your case" -- was blank on both fixtures
+ * and declared a participant refusal, while "4 - Misdemeanor/Class 4 Felony
+ * Checkboxes1", the SAME classification for the SAME case, was written as a
+ * route.selection with routeDetermined true and rendered ticked /Misdemeanor.
+ *
+ * The record decides it, and it decides against the write. The registry track
+ * il-cannabis-vacate lists BOTH dispositions -- misdemeanor_cannabis_conviction and
+ * class_4_felony_cannabis_conviction -- so the route spans both and settles
+ * neither; and generationRequirements carries "convictionClass": "Was the
+ * conviction a misdemeanor or a Class 4 felony?" as a REQUIRED participant answer.
+ * A fact the record collects from the participant is not a fact the route
+ * determines. The form agrees: page 2's column header is "Cannabis Conviction
+ * (check the type of Cannabis conviction)", and the field carries two named
+ * appearance states, /Misdemeanor and /Class 4 Felony, so it is expressible either
+ * way and the packet was choosing one on no evidence.
+ *
+ * Item 2 and item 3 failed the same way and are corrected with it. Item 2, "I was
+ * convicted before June 25, 2019", was written as a route.selection although the
+ * record states no date limit anywhere -- mechanism reads "Any individual may move
+ * to vacate and expunge a conviction for a misdemeanor or Class 4 felony violation
+ * of Cannabis Control Act section 4 or section 5" -- and although both fixtures'
+ * own printed arrest dates, 03/12/2021 and 11/29/2023, contradict it. Item 3, "I
+ * have completed the sentences or conditions imposed by the conviction", was
+ * written as a route.selection although the record makes it requiredBeforeFiling
+ * proof to obtain ("Proof that the sentence or conditions imposed by the conviction
+ * are complete"), a required generationRequirement, and a self-help stop condition.
+ *
+ * So none of the four is ticked now, and none of them is silently blank either:
+ * each is an owed election, carried into the guide by requiredBeforeFiling with the
+ * form's own printed words and the record that puts it on the participant.
+ */
+const PARTICIPANT_ELECTIONS = {
+  "1a - Misdemeanor cannabis offenses": {
+    printed: "1.a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5",
+    why: "The form prints beside item 1: \"you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.\" Which one describes your case is the offence class of your own conviction, which the registry collects as the required answer convictionClass and which this route does not settle: it serves misdemeanor and Class 4 felony cannabis convictions alike."
+  },
+  "1b - Class 4 felony cannabis offense": {
+    printed: "1.b. Class 4 felony cannabis offense under 720 ILCS 550/4 or 720 ILCS 550/5",
+    why: "The same gate as 1.a, and the same reason. Tick 1.a and/or 1.b to match what your certified disposition says every listed case was."
+  },
+  "2 - I was convicted before June 25, 2019": {
+    printed: "2. I was convicted before June 25, 2019",
+    why: "The date of your conviction is a fact of your own record, read off the certified disposition. This packet does not hold it and will not swear to it for you."
+  },
+  "3 - I have completed the sentences or conditions imposed by the conviction": {
+    printed: "3. I have completed the sentences or conditions imposed by the conviction in each of the cases listed",
+    why: "The record makes this a document to obtain before filing -- proof from the circuit clerk or probation department that the sentence and any conditions are complete -- and a point at which to stop and get help if it is disputed. Tick it only once that proof is in your hand."
+  },
+  "4 - Misdemeanor/Class 4 Felony Checkboxes1": {
+    printed: "4. Cannabis Conviction (check the type of Cannabis conviction): Misdemeanor, or Class 4 Felony",
+    why: "The same classification as item 1, asked again per case. Tick Misdemeanor or Class 4 Felony for this case to match the certified disposition, and tick the same limb of item 1."
+  }
+};
+
+const participantElection = (documentId, name) =>
+  documentId === "CXP Motion to Vacate and Expunge" ? PARTICIPANT_ELECTIONS[name] ?? null : null;
+
 function routeSelected(documentId, name, config) {
   if (documentId !== "CXP Motion to Vacate and Expunge") return false;
   return config.selected.includes(name);
@@ -305,20 +367,38 @@ function participantSelfControl(documentId, name) {
   return false;
 }
 
-function safeSet(field, value, font) {
+/*
+ * FIX13, CLIPPING_AND_OVERLAP. safeSet() used to shrink to 6pt and then, if the
+ * value still did not fit, slice characters off the end and append a horizontal
+ * ellipsis. On the delivered boundary fixture that printed "Springfield Police
+ * Department Rec" followed by an ellipsis where the value is "Springfield Police
+ * Department Records Division" -- twelve characters dropped mid-word, on a motion
+ * signed under Supreme Court Rule 137, and invisible to every report, because
+ * reports/actual-writes.json records only the canonical fixture's drawn text.
+ *
+ * This is the same defect the pardon repair removed from the EXP-AD builders. The
+ * replacement is theirs: setComplete writes the value WHOLE or refuses to write at
+ * all. It shrinks to 5.5pt, and where a cell is tall enough it wraps instead of
+ * cutting; where neither fits it throws, because a value that cannot be printed
+ * completely is a failure to surface, never a value silently shortened.
+ */
+function setComplete(field, value, font) {
   const max = typeof field.getMaxLength === "function" ? field.getMaxLength() : undefined;
-  let drawnText = max ? value.slice(0, max) : value;
-  const widths = field.acroField.getWidgets().map((widget) => Math.max(1, widget.getRectangle().width - 4));
-  const available = widths.length ? Math.min(...widths) : 100;
+  if (max && value.length > max && typeof field.removeMaxLength === "function") field.removeMaxLength();
+  const rectangles = field.acroField.getWidgets().map((widget) => widget.getRectangle());
+  const available = rectangles.length ? Math.min(...rectangles.map((rect) => Math.max(1, rect.width - 4))) : 100;
+  const height = rectangles.length ? Math.min(...rectangles.map((rect) => rect.height)) : 12;
   let size = 8;
-  while (size > 6 && font.widthOfTextAtSize(drawnText, size) > available) size -= 0.25;
-  if (font.widthOfTextAtSize(drawnText, size) > available) {
-    while (drawnText.length && font.widthOfTextAtSize(`${drawnText}…`, size) > available) drawnText = drawnText.slice(0, -1);
-    drawnText = `${drawnText}…`;
+  while (size > 5.5 && font.widthOfTextAtSize(value, size) > available) size -= 0.25;
+  if (font.widthOfTextAtSize(value, size) > available) {
+    assert.ok(height >= 24, `complete value cannot fit safely in ${field.getName()}`);
+    field.enableMultiline();
+    size = 6;
   }
   field.setFontSize(size);
-  field.setText(drawnText);
-  return { drawnText, fontSize: size };
+  field.setText(value);
+  assert.equal(field.getText(), value, `complete value did not survive in ${field.getName()}`);
+  return { drawnText: value, fontSize: size };
 }
 
 async function fillDocument(source, fixtureName, fixture, config) {
@@ -349,7 +429,15 @@ async function fillDocument(source, fixtureName, fixture, config) {
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion control: ${name}`, documentId: source.documentId, page, reason: "Court, clerk, or later-completion field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
       } else {
-        refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Participant choice: ${name}`, documentId: source.documentId, page, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
+        // FIX13. A named printed election this route does not settle is owed before
+        // filing and named to the participant in the form's own words, rather than
+        // left as an unexplained blank the guide never mentions.
+        const election = participantElection(source.documentId, name);
+        if (election) {
+          refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Tick the printed election that matches your certified disposition: ${election.printed} (${source.documentId} page ${page})`, documentId: source.documentId, page, reason: election.why, refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false, factAvailable: false, completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, role: "participant", printedText: election.printed });
+        } else {
+          refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Participant choice: ${name}`, documentId: source.documentId, page, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
+        }
       }
       continue;
     }
@@ -370,7 +458,7 @@ async function fillDocument(source, fixtureName, fixture, config) {
     if (!(field instanceof PDFTextField)) continue;
     const known = knownValue(source.documentId, name, fixture, config);
     if (known && !protectedField(source.documentId, name, page)) {
-      const fitted = safeSet(field, known[0], font);
+      const fitted = setComplete(field, known[0], font);
       writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], ...fitted });
     } else if (protectedField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Signature, court, or later-completion field: ${name}`, documentId: source.documentId, page, reason: "Signature, judge, clerk, or post-filing field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" });
@@ -435,7 +523,16 @@ export async function buildIllinoisFamily(familyId) {
   writeJson(path.join(out, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
   const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
-  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nObtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nCourt, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
+  // FIX13. The elections this route does not settle, printed to the participant in
+  // the form's own words with the reason each is theirs to make. A gate the packet
+  // leaves blank and never mentions is a silent refusal; this is the visible one.
+  const ownedElections = packets.canonical.refusals
+    .filter((row) => row.printedText)
+    .map((row) => `- **${row.printedText}** (page ${row.page})\n  ${row.reason}`)
+    .join("\n");
+  assert.equal(ownedElections.split("\n- ").length, Object.keys(PARTICIPANT_ELECTIONS).length,
+    "every printed election this route does not settle must reach the guide");
+  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\n## The printed elections this packet does not make for you\n\nThis Motion asks the court for one thing, and the packet ticks that one box: item 4, \"I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions.\" That is what this route is.\n\nEvery other box printed on the Motion's face is a statement about YOUR record, sworn by you. This packet does not know those facts and does not tick them, and it will not swear to them on your behalf. Read each one against your certified disposition, then tick it yourself before you sign:\n\n${ownedElections}\n\nItem 1 is a gate, not a formality: the form prints \"you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.\" If neither 1.a nor 1.b describes every case you have listed, this is not the right motion for that case -- stop and get help rather than filing it. Tick the same offence class in item 1 and in the item 4 table for each case; a motion that says misdemeanor in one place and Class 4 felony in the other contradicts itself on its face.\n\nObtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nCourt, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
   fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nDo not complete the judge's order, clerk certification, hearing details, service details, signature, or signature date in advance.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
@@ -466,6 +563,33 @@ function selfTest() {
   }
   assert.ok(/\$60/.test(participant) && /\$60/.test(filing), "the ISP $60 order-processing cost must be stated");
   assert.ok(/5\.2\(i\)\(3\)/.test(participant), "the service model must name section 5.2(i)(3)");
+
+  // FIX13, CLIPPING_AND_OVERLAP. No delivered value is ellipsized, and the boundary
+  // fixture's longest value is present whole. Read from the field map rather than
+  // from reports/actual-writes.json, which records the canonical fixture only.
+  const map = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
+  assert.equal(map.refusals.filter((row) => String(row.effectiveLabel ?? "").includes("\u2026")).length, 0,
+    "no refusal label may carry an ellipsis");
+  assert.ok(!/setText\(`\$\{drawnText\}\u2026`\)/.test(fs.readFileSync(new URL(import.meta.url), "utf8")),
+    "the ellipsizing writer must not return");
+
+  // FIX13, ROUTE_OPTIONS. The Motion's only route-determined election is the relief
+  // this route asks for. Every printed assertion about the movant's own record is
+  // refused, owed before filing, and named to the participant in the form's words.
+  const motionSelections = map.writes.filter((row) => row.documentId === "CXP Motion to Vacate and Expunge" && row.isSelectionControl);
+  assert.deepEqual(motionSelections.map((row) => row.fieldName),
+    ["4 - I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions checkbox"],
+    "the relief the route seeks is the only election this packet makes on the Motion");
+  for (const field of Object.keys(PARTICIPANT_ELECTIONS)) {
+    const refused = map.refusals.find((row) => row.documentId === "CXP Motion to Vacate and Expunge" && row.fieldName === field);
+    assert.ok(refused, `the printed election must be classified, not left unaccounted: ${field}`);
+    assert.equal(refused.requiredBeforeFiling, true, `the printed election must be owed before filing: ${field}`);
+    assert.ok(participant.includes(refused.printedText), `the guide must name the printed election in the form's own words: ${field}`);
+  }
+  assert.equal(map.writes.filter((row) => /Misdemeanor\/Class 4 Felony/.test(row.fieldName)).length, 0,
+    "the offence class is the movant's sworn fact and the route does not settle it: no Section 4 classification may be written");
+  assert.ok(/cannot ask to vacate and expunge a criminal conviction unless/.test(participant),
+    "the guide must reproduce the form's own gate language for item 1");
 
   const actual = JSON.parse(fs.readFileSync(path.join(out, "reports/actual-writes.json"), "utf8"));
   const writes = actual.documents.flatMap((document) => document.actualWrites);

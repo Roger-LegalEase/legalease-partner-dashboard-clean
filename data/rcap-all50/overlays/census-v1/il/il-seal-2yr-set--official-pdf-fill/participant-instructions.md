@@ -1,10 +1,31 @@
-# Illinois expungement or sealing packet - il-seal-2yr-set
+# Illinois sealing packet - il-seal-2yr-set
 
 ## Route selected
 
 Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period. The Request answers item 12 Yes and elects Section 17, and records the outcome as MC, the printed sealing abbreviation for a misdemeanor conviction. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route.
 
 ## Required before filing
+
+The controlling record requires each of these before this packet is filed. They are printed here in the record's own words.
+
+- Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.
+- Check your answer to "For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.
+- Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.
+- Check your answer to "For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?" against Certified disposition for each case, and correct the packet if they disagree.
+- Petitioner's signature and verification date — Request, verification block.
+- Expunge-versus-seal selection for each case — Case List, per-case election column.
+- Hearing date — Any notice issued after an objection.
+- The petitioner signs and verifies the Request. A wet signature is expected.
+- A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
+- Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
+
+The first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.
+
+### The Request is not signed for you
+
+The petitioner signs and verifies the Request. A wet signature is expected. The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.
+
+### Every item this packet leaves for you
 
 Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
 
@@ -78,11 +99,27 @@ Complete every applicable case, outcome, financial, and participant item listed 
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
 
-Attach certified dispositions and other route-specific evidence identified above.
+Attach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.
 
-## Filing and notice
+## What it costs, and the waiver
 
-File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The participant serves nobody. The circuit clerk serves under 20 ILCS 2630/5.2(d)(4) after filing on the State's Attorney or prosecutor, Illinois State Police, the arresting agency, and the chief legal officer of the local government that made the arrest. The recipients have 60 days after service to object. Do not complete court-owned service or order fields.
+A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
+
+Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
+
+## Who serves, and how
+
+The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.
+
+Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).
+
+You serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.
+
+## Where this is filed
+
+File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.
+
+The filing destination is the Circuit clerk of the county of arrest or charge. File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under § 5.2(d)(4).
 
 ## Stop and get help
 
