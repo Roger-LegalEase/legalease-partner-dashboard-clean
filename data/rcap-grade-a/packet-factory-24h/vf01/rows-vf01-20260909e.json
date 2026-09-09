@@ -165,6 +165,165 @@
     "KNOWN_PREFILLS"
    ],
    "grantsNothing": "This is an independent read of two rendered fixtures. It approves no output, promotes no route, opens no commercial path and changes no live RCAP route. A FAIL here withdraws nothing that was never granted."
+  },
+  {
+   "itemId": "md_pardon_expungement-set",
+   "lane": "VF01",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill, delivered as a flattened AcroForm on both documents. CC-DC-CR-072B and CC-DC-089 both carry real AcroForms and the build fills and flattens them; the delivered fixtures carry /FlatWidget-n form XObjects placed into the page content.",
+   "postRepairReread": true,
+   "postRepairFindings": {
+    "whatIWasAskedToTest": "FIX01 reported the CLIPPING_AND_OVERLAP failure VF20 scored (56 stroke-only flattened check-box appearances per fixture) repaired 56 -> 6, and said the 6 that remain are the ticked boxes drawing the source's own X. It also reported replacing a hardcoded literal 0 for addedGlyphsReadFromOutputBytes with the real reading beside it.",
+    "strokeOnlyFlattenedAppearancesIMeasured": {
+     "canonical": 6,
+     "boundary": 6,
+     "method": "every /FlatWidget-n XObject on every page resolved from the delivered bytes with pdf-lib, its stream inflated, and classified as stroke-only when it paints a path and executes no show-text operator"
+    },
+    "areTheSixTheSourcesOwnMarkOrSynthesized": "All six are the source's own. Each one's inflated stream is BYTE-IDENTICAL to an /AP /N on-state appearance stream in the pinned source binary, and each is placed with a translate that equals the /Rect of a widget that carries that appearance: page 1 '1 0 0 1 190.309 750.967' = CC-DC-CR-072B Check Box33 rect (190.309, 750.967); page 1 '1 0 0 1 349.99 576.629' = Check Box36 rect; page 1 '1 0 0 1 37.5592 424.394' = the item 3 pardon-ground box's own rect; page 2 '1 0 0 1 262.348 695.935' and page 4 '1 0 0 1 262.479 670.577' = the two widgets of CC-DC-089's District Court check box; page 3 '1 0 0 1 144.401 481.236' = the Request a Waiver check box. Every stream is the Maryland Judiciary's own X - 'q 1 1 w h re W n <two crossed diagonals> s Q' - and not pdf-lib's default provider output. No synthesized square survives.",
+    "didThePlacementDoubleLikeWestVirginia": "No. Every BBox is origin-anchored ([0 0 w h]), so the DOUBLED_WIDGET_PLACEMENT arithmetic test (translate equals a non-origin BBox lower-left) cannot fire and does not.",
+    "publishedNumberIsTheMeasuredOne": "Confirmed. reports/actual-writes.json now publishes addedGlyphsReadFromOutputBytes 627 canonical and 1007 boundary, exactly equal to flattenedShowTextGlyphsReadFromOutputBytes beside it, and it publishes flattenedVectorMarksReadFromOutputBytes 6 on both fixtures - which is the same 6 I counted independently from the bytes. The literal zero is gone.",
+    "iDidNotRelyOnTheGeometryCounter": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 on both fixtures and I gave it no weight, for the reason the brief names: ink drawn at a census widget's own rect lands inside a measured box. The independent test is the pixel one below, which would have caught all 50 squares because each would have been added ink at a rect no write declared."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "note": "Nine zeros, and the family still fails. Both defects are contradictions between the delivered field map and guide and the delivered bytes, which no counter reads."
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "38 values are written per fixture and every one prints. I rendered all four delivered pages and all four pinned source pages at 130 dpi and counted added ink inside each write's own declared /Rect: the lowest reading is well above a visibility floor and none is empty, on either fixture. reports/actual-writes.json records runsWiderThanTheirOwnBox empty and refusedFieldsWithInk empty, and the rendered boundary fixture confirms it - 'Maria-Alejandra O'Shaughnessy-Whitfield', a 16-character case number and a two-line incident description all print whole and inside their boxes.",
+    "requiredFactsNotCollected": "114 blanks are classified in the delivered field map and every one carries a printed-label disclosure. I read participant-instructions.md and filing-instructions.md in full against them.",
+    "unclassifiedBlanks": "146 terminal fields = 32 written + 114 blank, and the 114 bucket exactly: 18 NOT_APPLICABLE_ON_THIS_ROUTE + 34 REQUIRED_BEFORE_FILING + 35 PARTICIPANT_ELECTION_GENUINE + 26 PROTECTED_FIELD + 1 OPTIONAL. The field map's own refusals array holds 114 entries, one per blank. Nothing is unaccounted for.",
+    "incompleteRows": "CC-DC-089's affidavit carries the only row tables in the packet - the item 3 income schedule, the item 4 property schedule and the item 5 debt schedule. Every row of all three is blank on both fixtures, so no row states part of a financial fact. Confirmed from the rendered page, not only from the map.",
+    "requiredOptionsMissing": "The packet answers four selection controls and leaves the rest to the participant. All four are marked in the delivered bytes and each is right on its face: the item 3 pardon ground with the pardon date beside it, the CC-DC-089 waiver request, the District Court caption box, and item 1's 'arrested'. No required selection is left unanswered. The disclosure failure is scored under ROUTE_OPTIONS rather than counted here.",
+    "requiredComponentsMissing": "The manifest names two components - CC-DC-CR-072B primary_filing required order 1, CC-DC-089 fee_waiver conditional order 2 - and both render, 1 page and 3 pages.",
+    "invisibleWrites": "Per-write pixel test described above, over all 38 writes on each fixture. Zero writes with no ink.",
+    "protectedWrites": "No ink at any field the map refuses. Whole-page differencing against the pinned sources leaves 0 added pixels outside declared write rects on all eight pages, so the judge's signature, the judge ID, the granted/denied election, the findings boxes, the ordered amount and date, the party signature blocks and the attorney certifications are all empty. Recorded honestly: this 0 is measured against the classification the field map actually applies. If you instead took the refusal reason the same map states 18 times on that page - 'every field on it belongs to the court' - literally, the five caption values the packet writes there would be protected writes and this counter would read 5. The contradiction is scored as a FAIL under KNOWN_PREFILLS rather than resolved by me in a counter.",
+    "visualDefects": "Read from the rendering. Nothing added outside a declared rect on any page; no value clipped or overlapping printed text on either fixture; the six marks land inside their printed boxes. The only ink REMOVED from the sources is 1,056 pixels on page 1 and 928 on page 4, and I cropped both regions and looked: they are the forms' two 'Reset' viewer push-buttons, which the field map declares under viewerControlsRemoved as detached rather than deleted. Removing a Reset button from a filing is correct, not a defect."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "familyId md_pardon_expungement-set and routeKey obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8 agree across the field map, the source receipt, product-wiring.json, the MASTER_QUEUE row and the MD.memo.json track. Both delivered guides print the route key on their last line. The packet is built for CRIM. PROC. 10-105(a)(8) and the ground it marks in item 3 is that subsection's ground."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both declared digests recomputed exact from the bytes: CC-DC-CR-072B 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469 at 764,936 bytes in the mounted Nationwide recovery pool, and CC-DC-089 eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384 at 1,062,198 bytes in the Master Library, matching the receipt and the MASTER_QUEUE sourceHashes. Neither is a review derivative: I hashed every file under data/rcap-all50/overlays/rescued-encrypted-pdfs/ and neither digest is among them (that directory holds no Maryland file at all). Both bound binaries carry live AcroForms whose own /AP /N streams the delivered marks reproduce byte for byte, which is a second, independent proof that the pages delivered are these binaries' pages."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The manifest names exactly two components and both are delivered: CC-DC-CR-072B (primary_filing, required, order 1) as packet page 1 and CC-DC-089 (fee_waiver, conditional on the participant being unable to pay the $30 fee, order 2) as packet pages 2-4. Recorded as a source obligation rather than a component miss: CC-DC-089 prints on its own face that form MDJ-008, the Notice Regarding Restricted Information under Rule 20-201.1, must accompany it unless the case is one of six restricted types, and expungement is not one of them. MDJ-008 is bound to this family by no source record, the packet does not carry it and does not stand in for it, and both delivered guides tell the participant to obtain it from the Maryland Judiciary. That is the honest treatment of a companion the manifest does not name."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The 38 values themselves are correct, complete and inside their boxes on both fixtures. The FAIL is that the delivered records and the delivered guide state, three times over, that the packet wrote nothing on the court's order page while it wrote five things there. production-field-map.json refuses 18 fields on packet page 4 (CC-DC-089 page 3) and gives every one of them the same reason: 'page 3 of this form is the court's order on the request and every field on it belongs to the court'. build-findings.json says 'Page 3 of CC-DC-089 is the court's order on the request. Every field on it is refused as court-owned.' participant-instructions.md tells the participant, under 'What is deliberately left blank': 'Page 3 of CC-DC-089 is the court's order and every line on it belongs to the court.' In the delivered bytes that page carries five writes from the same field map: the DISTRICT COURT OF MARYLAND caption box is TICKED, and Court's City/County, Case No., Petitioner/Plaintiff and Respondent/Defendant are all printed. I read them off the rendered page 4 and counted their ink. The same refusals array contradicts itself in place - its first page-4 entry refuses the CIRCUIT COURT box with the reason 'the packet states the other member of this select-one', which is the tick the blanket sentence says does not exist. This is the participant-facing consequence and it is why it is a FAIL rather than a note: the caption on a proposed order names the court that will sign it and the case it will be signed in, and the packet tells the person filing that nothing on that page is theirs to check. Repair is in the copy and the refusal basis, not in the geometry: the caption is correctly filled and should be described as filled."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Nothing is signed, dated or decided for anyone. Measured from the rendering: on all eight delivered pages, every added pixel falls inside a declared write rect, so the Party Signature and its Date on both forms, the whole Attorney Certification block, the Judge's signature, the Judge ID number, the financial-eligibility findings, the granted / granted-in-part / denied election, the ordered amount and its due date all carry no ink on either fixture. The order's 'submitted by (Name of party)' blank is also left empty even though the packet holds that name, which is the conservative direction. The five caption writes on that same page are scored under KNOWN_PREFILLS above rather than counted here, because the field map does not classify them as protected - it writes them."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "This is the repaired obligation and it now holds, tested against the bytes rather than taken from the repair report. Stroke-only flattened appearances: 6 per fixture, down from the 56 VF20 scored, and each of the 6 is byte-identical to an /AP /N on-state stream in the pinned source and placed at that widget's own /Rect - the source's own X, not a synthesized square. The whole-page test is the one that would have caught the 50: differencing every delivered page against its pinned source at 130 dpi leaves ZERO added pixels outside the declared write rects on all four canonical and all four boundary pages, where each of the 50 squares would have been added ink at a rect no write declares. No value is clipped and none overlaps printed text, on either fixture, including the boundary fixture's long name, 16-character case number and two-line incident description."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All three of MD.memo.json's selfHelpStopConditions for this track now print verbatim in participant-instructions.md, including the one VF20's superseded row found missing: 'The State's Attorney objects.' The guide goes further and explains that this condition arrives after filing and that the participant will not be the one who starts it, quoting rules.notice verbatim - 'The court serves the State's Attorney; 30-day objection period.' Four route boundaries are then stated separately and correctly labelled as route boundaries rather than record conditions."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The memo's destination is the Clerk of the District Court or circuit court that heard the case, and its filing rule is 'File with the clerk of the court that heard the case, on CC-DC-CR-072B with the pardon checkbox.' filing-instructions.md says 'File with the clerk of the court shown in the caption - the court where the conviction was entered - unless the case was transferred or appealed, in which case the form tells you which court takes the petition', which carries the rule and the form's own exception. Items 4 and 5, which the form says decide the court, are correctly left to the participant and are called out as the two answers that decide where the petition goes."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The record's service rule is 'The court serves.' and its notice rule is 'The court serves the State's Attorney; 30-day objection period.' The packet asks the participant to serve nobody, invents no certificate of service, and states the notice rule verbatim. filing-instructions.md adds the petition's own printed victim notice - that a victim may offer objections or additional information and that the court may act as soon as thirty days after the petition is served - which I confirmed is printed on the source binary."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All seven of the manifest's requiredBeforeFiling items are carried. Two print verbatim ('$30 (CC-DC-CR-072B).' and 'Request for Waiver of Prepaid Costs, CC-DC-089.'); the other five are carried in substance without loss - the signed gubernatorial pardon with its source and the instruction to check the pardon date before signing, the case-number check ('Check the caption, the case number, the arrest date, the arresting agency, the incident description, the offence and the conviction date against your own case record'), the signature and affirmation block, and the affirmation under penalties of perjury, which the guide states twice. Separately all 34 required-before-filing form blanks are disclosed with their printed labels. One recorded gap, not scored as a failure: the record names the free source for the case-number check, 'Maryland Judiciary Case Search', and neither delivered guide names it; the participant is told to check against 'your own case record' instead."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both artifacts recomputed from the committed bytes: canonical 2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb at 1,167,389 bytes and boundary a06f4ddabe754147bb8f2036d92583d5757d560aacbdd04b9deda6e55c68e3b4 at 1,167,835 bytes, 4 pages each. These are FIX01's post-repair digests, not the pre-repair ones it records as previous (cca0c00e... and c2268041...), so the bytes I read are the repaired bytes. The RASTER_PASS in product-wiring.json binds boundToCanonicalSha256 2bd8059f..., the same digest, so the admitted raster covers these bytes and not the failed ones."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Four pages in manifest order: CC-DC-CR-072B page 1 as packet page 1, then CC-DC-089 pages 1, 2 and 3 as packet pages 2, 3 and 4. Proven page by page rather than read off the page manifest - each delivered page differences cleanly against the source page it claims, which no reordering would survive - and the order page lands last, as CC-DC-089 prints it."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "Every selection the packet makes is defensible on its face, and half of them are hidden from the person who signs. The packet ticks four controls: (1) item 3's pardon ground, with the pardon date written beside it - disclosed in its own section of the guide, with the warning to check the date against the pardon document; (2) CC-DC-089's 'I request a waiver of the prepaid costs' - disclosed in one sentence; (3) the DISTRICT COURT OF MARYLAND caption box, on the petition and on both CC-DC-089 widgets, on the field map's basis 'the court of conviction held by this fixture is a District Court location'; and (4) item 1's 'I was arrested', on the basis 'the held case fact is an arrest rather than a summons or a citation'. Selections 3 and 4 appear NOWHERE in participant-instructions.md or filing-instructions.md, and the field map's own routeSelectionsMade array lists only selections 1 and 2. Item 1 is the one that matters: the form prints '(Check one of the following boxes) On or about ___, I was [ ] arrested, [ ] served with a summons, [ ] or served with a citation', the packet answers that select-one from an inference (factId null, routeDetermined false), and the petition is affirmed under the penalties of perjury. The word 'arrest' reaches the participant only inside 'check the arrest date ... against your own case record'; nothing tells them the packet chose arrested over summons or citation. Actionable repair: list all four in routeSelectionsMade and disclose selections 3 and 4 to the participant in the same terms the other two already get. Correctly NOT ticked: the other seven grounds of item 3, which the form makes a check-all-that-apply and which the packet carries as genuine participant elections with the form's own words beside each; and items 4 and 5, the transfer and appeal questions that decide the court."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet writes no repeating row. CC-DC-089's three schedules - item 3 income by source, item 4 property, item 5 debts - are the only row tables, every row is blank on both fixtures, and each line is disclosed to the participant with what it asks for. No row states part of a fact, so no row index can disagree with the label printed beside it."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The contradiction VF20's superseded row found is gone. MD.memo.json rules.fees reads '$30 (CC-DC-CR-072B).' and rules.feeWaiver reads 'Request for Waiver of Prepaid Costs, CC-DC-089.', and both delivered guides now quote both verbatim and say '$30, keyed to this form'. The packet is candid about what the figure rests on: the two source binaries print no amount at all - the petition's only fee wording is 'Filing Fees Are Not Refundable' across the top of page 1, which I confirmed on the binary - so the guide states that the form is not evidence that the figure is current and tells the participant to confirm it with the clerk. The waiver route is not merely named: CC-DC-089 is delivered, its request box is ticked, its affidavit is left entirely to the participant because the platform holds no income, property or debt fact, and the guide tells a participant who does not need a waiver to leave the form out of what they file."
+    }
+   },
+   "crossChecks": {
+    "recordsThatDisagree": [
+     {
+      "about": "this family's standing independent verdict",
+      "recordA": "MASTER_QUEUE.json families[md_pardon_expungement-set].selectedIndependentVerdict: FAIL_REPAIR_REQUIRED, lane vf20, verifiedAtBase 3687291a6",
+      "recordB": "data/rcap-grade-a/packet-factory-24h/fix01/rows-fix01-clip-20260909.json: the CLIPPING_AND_OVERLAP defect repaired at commit 0c4c6f264, with new digests",
+      "whatIMeasuredAgainst": "the bytes in the overlay directory at 7d6453f51, which carry FIX01's post-repair digests. VF20's finding is answered on its own terms and I re-derive its measurement from the bytes rather than inheriting either record. This return supersedes neither; the Captain owns that."
+     },
+     {
+      "about": "whether every field on CC-DC-089 page 3 belongs to the court",
+      "recordA": "production-field-map.json refusals: 18 fields on packet page 4 refused with the reason 'page 3 of this form is the court's order on the request and every field on it belongs to the court', echoed in build-findings.json and in participant-instructions.md",
+      "recordB": "production-field-map.json writes and reports/actual-writes.json: five values written on that same page, one of them a ticked selection control, all five visible in the rendered page",
+      "whatIMeasuredAgainst": "the bytes. Both records are inside the same delivered directory, so this is not two teams disagreeing - it is one packet contradicting itself in front of the participant, and it is scored as the KNOWN_PREFILLS failure."
+     }
+    ],
+    "clonedFamilyPackets": "CLONED_FAMILY_PACKETS.json names no Maryland family in any cloned, near-clone or shared-document group. I re-checked the six MD census-v1 families myself by whitespace-normalised pdftotext digest of each canonical fixture and this family's is distinct from all five siblings. It does share CC-DC-089 with other Maryland routes as a fee-waiver component, which is the shared-document case rather than the cloned-filing case.",
+    "defectsNoCounterCanSee": "Aliases on a name line: not present, the forms have no alias line and every name write is the caption or party name. AcroForm index versus printed row number: this family is the exact case the record warns about and the build handles it - CC-DC-CR-072B's field names were auto-generated from whatever printed line each widget sat near and several name the wrong thing, so the map carries sourceFieldName beside an effectiveLabel read off the rendered page at the measured /Rect. I checked the three ticks that matter against the rendered page and every one lands where its effectiveLabel says: the caption District Court box, item 1's 'arrested', and item 3's pardon ground with the pardon date on the line the same item prints. Column order: verified by rendering, not by extracted line order. Internal record text on a filing: none reaches the PDFs; the pages differ from their sources only at declared write rects. Published zero where a measurement existed: this was one of the two defects repaired and it is now cured, 627 and 1007 published where the literal 0 stood. Geometry-counter blind spot: given no weight, for the reason stated in postRepairFindings."
+   },
+   "evidenceRead": [
+    "fixtures/canonical.pdf and fixtures/boundary.pdf: every /FlatWidget XObject inflated and classified, all four pages of each rendered at 130 dpi and differenced against the pinned source pages, and the caption, item 1, item 3, the affidavit signature block and the order page read as images",
+    "the two pinned sources, digests recomputed, and their AcroForm /AP /N appearance streams inflated for byte comparison against the delivered marks",
+    "reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/builder-completeness-counters.json, reports/rendered-artifacts.json",
+    "production-field-map.json in full: 32 writes, 114 refusals, routeSelectionsMade, routeSelectionNote, fieldNameWarning, viewerControlsRemoved",
+    "build-status.json, build-findings.json, source-receipt.json, product-wiring.json",
+    "participant-instructions.md and filing-instructions.md, read in full",
+    "data/record-clearing/legal-design-intake/MD.memo.json tracks[md_pardon_expungement] and legal-design-packet-set-manifests.json packetSets[md_pardon_expungement-set]",
+    "data/rcap-grade-a/packet-factory-24h/fix01/rows-fix01-clip-20260909.json (the repair lane's own account, tested rather than inherited), MASTER_QUEUE.json, RASTER_QUEUE.json, DOUBLED_WIDGET_PLACEMENT.json, DEFECTS_NO_COUNTER_CAN_SEE.json, CLONED_FAMILY_PACKETS.json",
+    "data/rcap-all50/overlays/rescued-encrypted-pdfs/ - every file hashed, to prove neither Maryland source is a decrypted derivative"
+   ],
+   "visualDefects": [],
+   "failedObligationNames": [
+    "KNOWN_PREFILLS",
+    "ROUTE_OPTIONS"
+   ],
+   "grantsNothing": "This is an independent read of two rendered fixtures. It approves no output, promotes no route and opens no commercial path. The repaired obligation is confirmed repaired; the family still fails on two obligations it was not previously read on."
   }
  ]
 }
