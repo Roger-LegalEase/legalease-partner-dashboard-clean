@@ -13695,9 +13695,41 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "itemId": null,
+      "familyId": "ca-17b-reduction-set",
+      "familyIds": [
+        "ca-17b-reduction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Placeholder reason corrected: the grant was minted with the word probe while I was establishing which lane held it. Re-granted immediately with the reason that belongs on the record. No work was done under the placeholder grant."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "itemId": null,
+      "familyId": "co_petition_seal_arrest-set",
+      "familyIds": [
+        "co_petition_seal_arrest-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Placeholder reason corrected: the grant was minted with the word probe while I was establishing which lane held it. Re-granted immediately with the reason that belongs on the record. No work was done under the placeholder grant."
     }
   ],
-  "claimsDigest": "f5c4c9a80195027a2341c62f116d1775e014f86d2f3e5db14dd55f54f4f69f37",
+  "claimsDigest": "a199e75df8243581fc900bae992087792bf74761ecfa69311863127a294762a7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33017,6 +33049,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T03:40:34.868Z",
       "reason": "Repair complete and returned: fix120/rows.json pass 2 records COMPLETED_REPAIR_PENDING_INDEPENDENT_VERIFICATION (ri_deferred_sentence-set) and COMPLETED_RECORD_REPAIR_NO_BYTE_CHANGE_PENDING_INDEPENDENT_VERIFICATION (the two District Court misdemeanour tracks) at base a5e4658d8. RI-B-07 now appears 40 times in the track registry and 24 times in RI.memo.json where the selected independent verdict measured zero. What is owed next is an independent read by a lane that did not repair them, so the grant moves."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T04:20:45.356Z",
+      "reason": "Placeholder reason corrected: the grant was minted with the word probe while I was establishing which lane held it. Re-granted immediately with the reason that belongs on the record. No work was done under the placeholder grant."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T04:20:45.547Z",
+      "reason": "Placeholder reason corrected: the grant was minted with the word probe while I was establishing which lane held it. Re-granted immediately with the reason that belongs on the record. No work was done under the placeholder grant."
     }
   ],
   "reissues": [
@@ -40833,6 +40883,26 @@
       "previouslyReleasedAt": "2026-09-06T05:14:12.546Z",
       "reissuedAt": "2026-09-09T03:02:11.094Z",
       "reason": "Third step of the OWNER_CORRECTIONS_REQUIRED lift procedure: the named correction is made, the family is rebuilt, and an independent verifier who is neither its builder nor its repairer reads it again. VF04 held the prior read and is neither; FIX83 did the confirmation."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T04:20:45.356Z",
+      "reissuedAt": "2026-09-09T04:20:53.181Z",
+      "reason": "Repaired bytes, unread verdict. The selected independent verdict predates a commit that moved this family's delivered fixtures, so the failure it records was measured on bytes that no longer exist. Sources bind at this base and the packet is built; what is owed is an independent read of the current bytes by a lane that neither built nor repaired them."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T04:20:45.547Z",
+      "reissuedAt": "2026-09-09T04:20:53.285Z",
+      "reason": "Repaired bytes, unread verdict. The selected independent verdict predates a commit that moved this family's delivered fixtures, so the failure it records was measured on bytes that no longer exist. Sources bind at this base and the packet is built; what is owed is an independent read of the current bytes by a lane that neither built nor repaired them."
     }
   ],
   "transfers": [
@@ -49086,6 +49156,28 @@
       "grantedAt": "2026-09-06T21:40:45.751Z",
       "grantedBy": "Captain",
       "reason": "Batch-04 research: carry the corrected consolidation scope (dismissal/nolle only), the petitioner's 30-day Suffolk DA notice, the discretionary preliminary hearing and the no-fee rule into the composed petition, instructions and guide; the form-identity hold stays",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-09T04:20:21.436Z",
+      "grantedBy": "Captain",
+      "reason": "probe",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-09T04:20:21.559Z",
+      "grantedBy": "Captain",
+      "reason": "probe",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
