@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 128,
-    "rows": 1046,
-    "independentVerdicts": 263,
-    "failRepairRequired": 34,
-    "passIndependent": 209
+    "returnDirectories": 131,
+    "rows": 1053,
+    "independentVerdicts": 267,
+    "failRepairRequired": 36,
+    "passIndependent": 211
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -55,11 +55,13 @@
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
+    "hi_nonconviction_expungement-set",
     "ia-12347-set",
     "il-exp-qualprob-set",
     "il-seal-2yr-set",
     "il-seal-3yr-set",
     "in_infraction_nondisclosure-set",
+    "la-985-expungement-by-redaction-set",
     "md_pardon_expungement-set",
     "mo-art-xiv-marijuana-set",
     "nh_marijuana_annulment-set",
@@ -2516,6 +2518,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_certificate_second_chance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_certificate_second_chance-set",
       "superseded": false
     },
     {
@@ -8494,6 +8510,20 @@
       "superseded": true
     },
     {
+      "familyId": "fl-self-defense-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-self-defense-set",
+      "superseded": false
+    },
+    {
       "familyId": "fl-trafficking-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
@@ -9005,6 +9035,43 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_dag_danc_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The controlling record's packetSet.requiredBeforeFiling for hi_nonconviction_expungement carries eight items. Six are named in the delivered guides in substance, which I accept as naming them even though not verbatim: the photo identification (participant-instructions.md checklist item and filing-instructions.md 'A copy of your valid official government-issued photo ID'), the money order (both files, with the form's own payable-to wording), the stamped self-addressed envelope (both files), the signature and its date, the applicant signing personally, and the application fee. TWO ARE ABSENT FROM THE ENTIRE FAMILY DIRECTORY. (1) 'The source review does not state a notarization requirement.' Nothing in either guide says this. The only occurrence of the word in the family is the closing sentence 'No part of this application has been signed, initialled, dated, notarised or adopted by anyone', which if anything leaves a reader thinking notarisation may be required; the record settles that it is not stated, and the packet does not pass that on. (2) 'The source review does not address a fee waiver.' Also absent, and scored again under FEE_AND_WAIVER because the same missing line is what leaves that obligation unmet; one repair discharges both, and I am not counting it twice as two separate defects. I confirmed the absence by grepping the whole family directory: 'fee waiver' and 'notarization' as the record phrases them appear nowhere in it.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The fee half is well done. The record says only 'An application fee applies, paid by money order. The source review does not state the amount', and rather than stop there the packet reports the form's own printed schedule with attribution: $35 first-time, $50 non-first-time, $20 duplicate certificate, $10 of it non-refundable, payable by money order or cashier's check issued in the United States to 'State of Hawaii', personal checks not accepted, and a refund of all but the $10 if the application is denied. I confirmed every one of those figures is printed on the delivered page and is not added ink. The waiver half is absent. The controlling record carries an apply_fee_waiver item reading 'The source review does not address a fee waiver', conditional, 'Applies only when the participant cannot pay the filing fee', requiredBeforeFiling true - and neither participant-instructions.md nor filing-instructions.md mentions a fee waiver at all. A grep of the whole family directory for 'fee waiver' and for 'waiver' returns nothing. So a participant who cannot raise $35 is told the payment is mandatory and is told nothing about whether any relief from it exists, where the record has an answer to give. Compare the two families I read this shift whose records carry the identical line: az_certificate_second_chance-set and fl-self-defense-set both print it and both tell the participant what to do about it.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet never states where self-help ends. The controlling record names exactly two selfHelpStopConditions for this track, identical in selfHelpBoundaries: 'The record is federal, military, or from another jurisdiction.' and 'Any immigration matter.' NEITHER APPEARS ANYWHERE IN THE FAMILY. I grepped the whole family directory case-insensitively: 'immigration' returns nothing and 'federal' returns nothing, in participant-instructions.md, filing-instructions.md and every other file. There is no 'stop and get help' section and no sentence anywhere telling the participant to stop and speak to a Hawaii lawyer. The closest text is the closing heading 'Nothing in this packet is legal advice, and nothing in it is approved for filing on your behalf', which is a disclaimer about what the packet is, not a statement of the point at which a self-represented applicant should stop. The section headed 'When this route does not apply' does not fill the gap either: it lists route-determining facts (exact disposition and statutory subsection, first-time status, treatment completion, deferred-acceptance or bail-forfeiture exception, statutory exclusions), which is eligibility, not a stop. The omission bites: the first condition is precisely the case an HCJDC application cannot reach, because a federal, military or out-of-state record is outside the statewide repository this route clears, and the second is the standard immigration hard stop that every other guide I read this shift carries. This is the same failure mode VF03, VF04 and VF05 scored on the Illinois families - a guide whose stop section carries fewer conditions than the record names - except that here it carries none of them.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set",
       "superseded": false
     },
     {
@@ -9711,6 +9778,36 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The record's ten requiredBeforeFiling lines are all present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that same section. FILE data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md, LINE 26, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1, rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column: I read the whole one-page form, and it is a caption block (county, name, other names, clerk-assigned case number, date of birth, race, gender), then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. There is nowhere on it to elect expunge versus seal for a case. Worse, the sentence sends the participant AWAY from where this packet actually made the election and contradicts the same guide's own line 5 and line 9, which correctly state that the Request answers item 1 Yes and item 12 No. A participant following line 26 would hunt for a column that does not exist and would be told not to check the one place the election really is. This is defect (a) that VF05 scored on il-seal-3yr-set and that FIX118 repaired there and only there: il-seal-3yr-set's guide now explains that the record places the election in such a column, that the official Case List carries none, what its 78 fields actually are, and that the election was therefore made on the Request. il-exp-qualprob-set never received that repair.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The hash half of this obligation passes and the structural half does not. Hashes: canonical.pdf rehashes here to 2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68 (1728424 bytes, 13 pages) and boundary.pdf to 8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56 (1729148 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: neither delivered file is a well-formed PDF. Both carry 146 indirect references to objects that do not exist in the file. Measured two independent ways. (i) Reading the bytes: the trailer declares /Size 954 while the cross-reference table at offset 1712092 covers only 808 object numbers in 14 subsections - (0,8) (11,70) (91,61) (162,18) (188,70) (266,36) (304,151) (494,114) (652,1) (659,26) (688,57) (750,80) (835,59) (897,57) - leaving 146 object numbers, beginning 8, 9, 10, 81-90, 152-161, 180-187, entirely absent from the xref and marked neither in-use nor free, which PDF 32000-1 section 7.5.4 does not permit. Those object numbers are also absent from the file body: there is no '8 0 obj' anywhere, there are no object streams and no cross-reference streams, so nothing is hiding them. (ii) Reloading the delivered file with pdf-lib and resolving each page's /Annots entries: 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - page 1 has 3 of 5, page 7 has 39 of 40, page 8 has 44 of 45. Page object 80 is packet page 1 and its dictionary reads /Annots [ 4 0 R 6 0 R 8 0 R 9 0 R 10 0 R ]: objects 4 and 6 are the form's own Link annotations and resolve, and 8, 9 and 10 are widget annotations that the flatten removed from the document and did not remove from the page. CONSEQUENCE, measured not predicted: poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' and 'Internal Error: xref num 8 not found but needed, try to reconstruct' on every pdfinfo and pdftotext invocation. All four official sources open silently. So do the other packet families I read this shift - az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set all load with zero dangling annotation references - so this is not a property of the factory. It is not new damage from FIX118: I extracted the pre-repair canonical at 159c0b5cf and it has the same broken xref, and the same fault is present on il-seal-2yr-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set, so one repair in the shared EXP-AD build path answers six families. It matters here rather than being cosmetic because this packet is delivered specifically for e-filing: participant-instructions.md tells the participant 'AOIC requires a flattened PDF for e-filing, so LegalEase output is delivered pre-flattened', and the file that says so is one a mainstream PDF library must repair before it can read it.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
       "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
       "failedObligations": [
         {
@@ -9778,7 +9875,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-exp-qualprob-set",
@@ -10000,6 +10097,36 @@
     {
       "familyId": "il-seal-2yr-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All ten of the record's requiredBeforeFiling lines are present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that section. FILE data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md, LINE 22, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1 rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column; I read the whole one-page form and it is a caption block, then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. The sentence also sends the participant away from where this packet actually made the election - item 12 Yes and Section 17 on the Request - and so contradicts the guide's own 'Route selected' paragraph five lines above it. This is defect (a) that VF05 scored on il-seal-3yr-set; FIX118 repaired it there and on no other family, and il-seal-2yr-set carries the sentence unchanged.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The hash half passes and the structural half does not. Hashes: canonical.pdf rehashes here to d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003 (1728326 bytes, 13 pages) and boundary.pdf to d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d (1729052 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: reloading each delivered fixture with pdf-lib and resolving every page's /Annots entries against the document returns 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - references to widget annotation objects the flatten removed from the file and did not remove from the pages. Poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' on every invocation. All four official sources open silently, and so do az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set, which I read this shift and which carry zero dangling references, so this is a fault of the shared EXP-AD build path and not of the factory. It is the identical defect I measured on il-exp-qualprob-set, it is present in that family's pre-repair bytes at 159c0b5cf so it is not new damage from FIX118, and it is also present on il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. One repair answers six families. It is material rather than cosmetic here because participant-instructions.md tells the participant this packet is delivered pre-flattened specifically because AOIC requires a flattened PDF for e-filing.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
       "verifiedAtBase": "159c0b5cf",
@@ -10025,7 +10152,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909b.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-2yr-set",
@@ -10118,6 +10245,29 @@
     {
       "familyId": "il-seal-3yr-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The hash half passes and the structural half does not. Hashes: canonical.pdf rehashes here to d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab (1728343 bytes, 13 pages) and boundary.pdf to d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90 (1729034 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: reloading each delivered fixture with pdf-lib and resolving every page's /Annots entries against the document returns 146 unresolvable references on canonical and 146 on boundary, across all 13 pages - references to widget annotation objects the flatten removed from the file and did not remove from the pages. Poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' on every invocation, where all four official sources open silently and so do az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set, which I read this shift with zero dangling references. On il-exp-qualprob-set I read the bytes directly and found the mechanism: the trailer declares /Size 954 while the cross-reference table covers only 808 object numbers in 14 subsections, and the missing object numbers are absent from the file body as well, with no object streams and no cross-reference streams to hide them. It is not new damage from FIX118 - the pre-repair bytes at 159c0b5cf carry it - and it is present on il-seal-2yr-set, il-exp-qualprob-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set, so one repair in the shared EXP-AD build path answers six families. It is material rather than cosmetic because participant-instructions.md tells the participant this packet is delivered pre-flattened specifically because AOIC requires a flattened PDF for e-filing.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
       "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
@@ -10152,7 +10302,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909b.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-3yr-set",
@@ -11168,6 +11318,39 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-978-felony-conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-985-expungement-by-redaction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 37 declared writes produce readable ink and print on the page they belong to; that half is sound. Six of them, however, are not facts. On the Article 989 motion the build writes: original_arrest_charges = 'Original arrest charge and statute for each count exactly as they appear on the state rap sheet', which is the field's own printed prompt written back into the field as its answer; disposition_type = 'Disposition wording from the canonical fixture court record'; underlying_entitlement = 'Article 977 - misdemeanor conviction, as the fixture court record states it'; other_individuals_named = 'One other individual is named in the record of this arrest, as the fixture record states'; others_entitled = 'Not known to the fixture participant'; record_locations = '...as far as the fixture participant knows'. Five of the six are written a second time onto the Article 992 PROPOSED ORDER OF EXPUNGEMENT, the document a judge signs, at packet page 5. The boundary fixture repeats the pattern with longer prompt-restatements. Every one of the six is a REQUIRED participantInput on the controlling record - originalArrestCharges, dispositionType, underlyingEntitlement, otherIndividualsNamed, othersEntitled, recordLocations - so these are facts the route needs and the platform did not hold. The correct treatment was available and the same builder used it seven times over: race, gender, the last four SSN digits, the arrest or booking number, the SID number, the agency item number and the driver's licence number are all classified REQUIRED_BEFORE_FILING, left visibly blank, and named in the guide's 'What you must supply before filing' table. These six were instead classified written, so not one of them appears in that table, and the guide's lead-in tells the participant to 'Check every prefilled fact against your own court record', framing them as facts to check rather than prompts to replace. Two consequences make this an output defect rather than a fixture nicety. The build-harness word 'fixture' is printed four times on the face of a motion and a proposed order. And the cell the Louisiana State Police list of common fatal errors singles out - the original arrest charge, which the guide itself warns at line 141 must not be the amended charge and must not omit counts - carries nothing but a restatement of its own question. No other family I read this shift does this: az_certificate_second_chance-set, fl-self-defense-set, hi_nonconviction_expungement-set and all three Illinois families supply real-shaped participant facts in every written cell.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Coverage is otherwise very good: the guide carries all 20 registry items, all 6 selfHelpStopConditions, all 3 exclusions and all 4 unresolvedQuestions verbatim, numbered, with the count printed beside them, and all 7 blanks the field map classes REQUIRED_BEFORE_FILING appear in the 'What you must supply before filing' table with what to write. The failure is a false statement about this packet inside a required-before-filing item. participant-instructions.md item 5 of 18, and again at the obtain_document entry, prints the record's howToObtain verbatim: 'The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed.' This packet does not give the participant the Article 988 form. The guide itself says so 22 lines earlier, under 'What is not generated, and the condition the record states': the fee-waiver component 'is not generated'. The two statements are never reconciled, and the stakes are the Article 983(A) five-hundred-and-fifty-dollar cap, non-refundable even if the motion is denied, because item 5 also says 'Filing without it means paying the fee.' The builder solved exactly this problem for the OTHER not-generated component one line later - for the Article 993 supplemental sheet it adds 'ask the clerk of court for the Article 993 supplemental sheet rather than adding pages of your own' - and did not do the same for Article 988.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-expungement-by-redaction-set",
       "superseded": false
     },
     {

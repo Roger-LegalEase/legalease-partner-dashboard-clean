@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "6d30f576244539a2ec88fab1be2d00d8545e0249",
+  "generatedAtCommit": "117c5f4b80fd805de1c6093ec6db364a492ca281",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1102,21 +1102,6 @@
         "az_certificate_second_chance-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_certificate_second_chance-set",
-      "familyId": "az_certificate_second_chance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_certificate_second_chance-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -1622,7 +1607,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.014Z"
@@ -1668,7 +1653,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.118Z"
@@ -2474,7 +2459,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -3165,7 +3150,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T17:55:10.866Z"
@@ -3214,21 +3199,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T14:02:42.013Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-self-defense-set",
-      "familyId": "fl-self-defense-set",
-      "itemId": null,
-      "familyIds": [
-        "fl-self-defense-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3646,11 +3616,12 @@
         "hi_nonconviction_expungement-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF13",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-09T14:07:31.672Z",
+      "releaseReason": "PF13 41c9d22ed COMPLETED: HCJDC 159(b) filled with no authored coordinate, 125/234 added glyphs equal the non-whitespace characters of the six written values, 0 outside a write box"
     },
     {
       "subjectType": "packet-family",
@@ -3661,12 +3632,11 @@
         "hi_nonconviction_expungement-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF13",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-09T14:07:31.672Z",
-      "releaseReason": "PF13 41c9d22ed COMPLETED: HCJDC 159(b) filled with no authored coordinate, 125/234 added glyphs equal the non-whitespace characters of the six written values, 0 outside a write box"
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4120,11 +4090,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX118",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T16:42:21.634Z",
-      "releaseReason": "FIX118 rounds one and two integrated at the Captain head: SELF_HELP_STOP now prints the record's eight conditions verbatim, REQUIRED_BEFORE_FILING names the elections and the flattened-print instruction, REPEATING_ROWS is one group in production-field-map.json, and the synthesized check-box borders are gone (inkWithoutGlyphs 91 to 0 on all six fixtures)."
+      "releasedAt": "2026-09-09T16:42:21.634Z"
     },
     {
       "subjectType": "packet-family",
@@ -4242,11 +4211,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX118",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T16:42:21.411Z",
-      "releaseReason": "FIX118 rounds one and two integrated at the Captain head: SELF_HELP_STOP now prints the record's eight conditions verbatim, REQUIRED_BEFORE_FILING names the elections and the flattened-print instruction, REPEATING_ROWS is one group in production-field-map.json, and the synthesized check-box borders are gone (inkWithoutGlyphs 91 to 0 on all six fixtures)."
+      "releasedAt": "2026-09-09T16:42:21.411Z"
     },
     {
       "subjectType": "packet-family",
@@ -4288,11 +4256,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX118",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T16:42:21.523Z",
-      "releaseReason": "FIX118 rounds one and two integrated at the Captain head: SELF_HELP_STOP now prints the record's eight conditions verbatim, REQUIRED_BEFORE_FILING names the elections and the flattened-print instruction, REPEATING_ROWS is one group in production-field-map.json, and the synthesized check-box borders are gone (inkWithoutGlyphs 91 to 0 on all six fixtures)."
+      "releasedAt": "2026-09-09T16:42:21.523Z"
     },
     {
       "subjectType": "packet-family",
@@ -4786,11 +4753,12 @@
         "la-985-expungement-by-redaction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF13",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-09T14:07:31.785Z",
+      "releaseReason": "PF13 e4a392f50 COMPLETED: Art. 989 motion plus two orders and a guide; 18/18 requiredBeforeFiling, 20/20 participant actions, 6/6 stops, 3/3 exclusions, 4/4 open questions carried into the delivered PDF"
     },
     {
       "subjectType": "packet-family",
@@ -4801,12 +4769,11 @@
         "la-985-expungement-by-redaction-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF13",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-09T14:07:31.785Z",
-      "releaseReason": "PF13 e4a392f50 COMPLETED: Art. 989 motion plus two orders and a guide; 18/18 requiredBeforeFiling, 20/20 participant actions, 6/6 stops, 3/3 exclusions, 4/4 open questions carried into the delivered PDF"
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14018,7 +13985,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "519ac8835edea969ee67d57ac54412cfe4572eac9935c22b9318078dc8a58481",
+  "claimsDigest": "11d01346ae8ed087ae24010fc360467978588499e27acaebe9badbb6a87d6ad7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -55774,6 +55741,38 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "withdrawnAt": "2026-09-09T18:27:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-09T18:35:59Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-self-defense-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-09T18:35:59Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "hi_nonconviction_expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-09T18:35:59Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-09T18:35:59Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
