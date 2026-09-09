@@ -153,7 +153,7 @@
       "publicationRunId": 32599252817
     }
   ],
-  "reconciliationStatus": "one current publication recorded; its acceptance has not run",
+  "reconciliationStatus": "one current publication recorded and accepted",
   "supersededWorkerImageAcceptance": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
     "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
@@ -312,15 +312,41 @@
   },
   "workerImageAcceptance": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
-    "status": "not_yet_run_for_this_publication",
+    "status": "accepted",
+    "evidenceBasis": "github_actions_run_metadata_no_artifact",
+    "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
+    "workflowFile": ".github/workflows/rcap-worker-image-acceptance.yml",
+    "workflowName": "RCAP worker image acceptance",
+    "workflowRunId": 34299263608,
+    "workflowRunNumber": 436,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34299263608",
+    "workflowAttempt": 1,
+    "event": "workflow_dispatch",
+    "selectedBranch": "claude/legalease-sprint-captain-utucnw",
+    "headSha": "815b50f206dec3a0ca2c1d20a247e74d9c1aef6d",
+    "conclusion": "success",
     "subjectDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
     "subjectSourceSha": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
-    "howTheSubjectIsChosen": "The acceptance workflow reads sourceSha and immutableRegistryDigest from this file rather than from a typed input, so the image it examines is the one this record names.",
-    "whatIsOwed": "an authenticated pull by digest, an OCI revision naming this source, non-root, a healthcheck, fail-closed exit 2 startup, graceful SIGTERM, an empty scratch and a clean secret scan"
+    "howTheSubjectWasChosen": "The workflow reads sourceSha and immutableRegistryDigest from this file rather than from a typed input, so the image it accepted is the one this record names. The head it ran at, 815b50f20, is the commit that recorded this publication.",
+    "whatItProved": [
+      "the registry resolved the source-SHA tag and it agrees with the digest",
+      "an anonymous pull token was refused, so the package is still private",
+      "an authenticated pull by immutable digest succeeded",
+      "the image states its own source through org.opencontainers.image.revision, on the normal path, with the retired exception not consulted",
+      "the container runs as rcapworker, not root, with a non-zero uid",
+      "a HEALTHCHECK is declared and its declared command succeeds",
+      "the unconfigured worker fails closed with exit 2 from the Supabase storage refusal, which also proves the whole module graph resolves inside the image",
+      "SIGTERM reaches an installed handler and the loop reports a completed graceful shutdown",
+      "the scratch directory is present, owned by rcapworker, empty and writable",
+      "the secret scan still catches a credential-shaped string and still ignores prefix-only policy code, and the image filesystem, config env and layer history are clean"
+    ],
+    "whatItProvedBasis": "the same checks the workflow applies to every subject; the list is carried from the previous acceptance because the workflow is unchanged, and it describes the checks, not their results on this image",
+    "whatItDoesNotEstablish": "Acceptance examines the image. It is not a deployment, does not update any production worker, and proves nothing about a packet's legal content or a route's commercial authority.",
+    "artifactNotDownloadedHere": "The run's artifacts were not fetched: the download redirects to blob storage the egress proxy denies with 403. The conclusion, run id, run number and head SHA are read from the run metadata."
   },
   "releaseTruth": {
     "imagePublished": true,
-    "imageAccepted": false,
+    "imageAccepted": true,
     "applicationProductionDeployedByThisTask": false,
     "productionWorkerUpdated": false,
     "rlsMigrationApplied": false,
