@@ -26,6 +26,23 @@ generator-owned `acceptanceReceipt` went from a RASTER_PASS bound to canonical
 bytes. A patch hunk touching that file would need reconciling rather than
 applying.
 
+## A seventh file arrived: `evidence/results.json`
+
+Received after the first six. It is a summary record, not a missing artifact.
+Cross-checked here: it names the same four fixture identities as the audit and
+**all four agree**, including the two boundary digests whose BYTES are still
+absent — `50d95ab2…` (LA) and `47fb91fb…` (NH). Two independent records now
+agree on what those bytes should hash to, which is worth something; neither is
+the bytes.
+
+It also states, in the delivery's own voice, that `sharedRegistryModified` is
+false, `independentReviewIssued` is false, `centralAdmissionPerformed` is false,
+`terminalPromotions` is 0, and remote publication was "pending at archive
+creation". Every one of those is consistent with the README and with treating
+this as received-not-installed.
+
+It changes nothing about the four missing items below.
+
 ## Why it is not installed
 
 The installation needs four things that did not arrive:
