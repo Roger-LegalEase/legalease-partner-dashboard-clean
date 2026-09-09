@@ -129,6 +129,85 @@ const ROOT = path.resolve(path.dirname(thisFile), "..");
  * this build does not write onto the issuer's forms.
  */
 const CO_MEMO = "data/record-clearing/legal-design-intake/CO.memo.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+
+/*
+ * A DOCUMENT THE RECORD REQUIRES BEFORE FILING, THAT THE GUIDE NEVER NAMED.
+ *
+ * VF01, REQUIRED_BEFORE_FILING. The controlling record's
+ * packetSet.requiredBeforeFiling for track co_petition_seal_arrest opens with
+ * two items, and neither reached the participant:
+ *
+ *   "Obtain Colorado criminal-history report. Request a criminal-history report
+ *    from CBI and attach it if the form requires it."
+ *   "Check your answer to \"What was the arrest ...\" against Colorado
+ *    criminal-history report, and correct the packet if they disagree."
+ *
+ * CO.memo.json carries the same document in the track's supportingDocuments
+ * with requiredBeforeFiling true. The delivered guide referred to the CBI three
+ * times and every one of them was the CBI as a RECORDS CUSTODIAN to tick in
+ * section 3 and to serve -- never as a report the petitioner must obtain and
+ * attach. A participant reading the guide end to end would have filed without
+ * the document the record requires, and without the cross-check that document
+ * exists to make possible.
+ *
+ * Why no counter caught it: the family's blanks-left-for-the-participant.json
+ * asserts everyRequiredBeforeFilingItemIsDisclosed, and that assertion is true
+ * -- but it is scoped to the 40 FORM BLANKS, all 40 of which are disclosed
+ * verbatim. A required supporting DOCUMENT is not a form blank, so it is
+ * outside that ledger and outside the completeness verifier, which iterates the
+ * builder's own blank ledger and never opens the registry.
+ *
+ * The items are READ FROM THE COMMITTED RECORDS at build time and printed in
+ * the records' own words, on the same basis as selfHelpStopConditions above:
+ * not transcribed into this file and not paraphrased. The build refuses if
+ * either record stops declaring them, so this cannot go quietly stale.
+ *
+ * This adds no participant fact and asserts nothing about any participant's
+ * actual record. It tells the participant to obtain a document, which is what
+ * the record says to do.
+ */
+function requiredSupportingDocuments(trackId) {
+  const registryBytes = fs.readFileSync(path.join(ROOT, TRACK_REGISTRY));
+  const registry = JSON.parse(registryBytes.toString("utf8"));
+  const registryTracks = Array.isArray(registry.tracks) ? registry.tracks : Object.values(registry.tracks ?? {});
+  const registryTrack = registryTracks.find((t) => (t.trackId ?? t.id) === trackId);
+  assert.ok(registryTrack, `${TRACK_REGISTRY} declares no track ${trackId}`);
+  const declared = registryTrack.packetSet?.requiredBeforeFiling ?? [];
+  const documentItems = declared.filter((item) => /criminal-history report/i.test(String(item)));
+  assert.equal(documentItems.length, 2,
+    `${TRACK_REGISTRY} track ${trackId} must declare the two criminal-history-report items this packet prints; found ${documentItems.length}`);
+
+  const memoBytes = fs.readFileSync(path.join(ROOT, CO_MEMO));
+  const memo = JSON.parse(memoBytes.toString("utf8"));
+  const memoTracks = Array.isArray(memo.tracks) ? memo.tracks : Object.values(memo.tracks ?? {});
+  const memoTrack = memoTracks.find((t) => (t.trackId ?? t.id) === trackId);
+  assert.ok(memoTrack, `${CO_MEMO} declares no track ${trackId}`);
+  const supporting = (memoTrack.supportingDocuments ?? []).filter((d) => d.requiredBeforeFiling === true);
+  assert.ok(supporting.length > 0,
+    `${CO_MEMO} track ${trackId} declares no supporting document required before filing; this build prints the record's own words and has none to print`);
+
+  return {
+    items: documentItems,
+    documents: supporting,
+    sources: [
+      {
+        pathInRepository: TRACK_REGISTRY,
+        sha256: crypto.createHash("sha256").update(registryBytes).digest("hex"),
+        byteLength: registryBytes.length,
+        recordId: `legal-design-track-registry#${trackId}.packetSet.requiredBeforeFiling`,
+        role: "the controlling track record: the items required before filing, printed verbatim"
+      },
+      {
+        pathInRepository: CO_MEMO,
+        sha256: crypto.createHash("sha256").update(memoBytes).digest("hex"),
+        byteLength: memoBytes.length,
+        recordId: `legal-design-intake:CO#${trackId}.supportingDocuments`,
+        role: "the committed Colorado legal-design memo: the supporting document required before filing, printed verbatim"
+      }
+    ]
+  };
+}
 
 function selfHelpStopConditions(trackId) {
   const memo = JSON.parse(fs.readFileSync(path.join(ROOT, CO_MEMO), "utf8"));
@@ -659,6 +738,59 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
+    /*
+     * FIX120, CLIPPING_AND_OVERLAP. VF01 measured 13 four-sided widget borders
+     * stamped onto the filing as ink JDF 417 does not print: the nine
+     * "Misdemeanor or Felony" cells of the section 4a offence table
+     * (4A.1B-4A.9B) and the four sworn yes/no answers 4B.0, 4C.0, 4D.0, 4E.0.
+     *
+     * Re-measured here on the pinned source rather than taken on trust. All 13
+     * are /Ch choosers this packet deliberately leaves unmade. Each ships its
+     * own /AP /N drawing white fill and ONE BOTTOM RULE --
+     * "1 g 0 0 84.1091 15.1201 re f 0 G 0 0.5 m 84.1091 0.5 l s" -- and each
+     * declares /MK /BC [0 0 0] with /BS /S /U, the border style that means "a
+     * single line along the bottom of the annotation rectangle". The unwritten-
+     * input drop cleared that appearance, updateFieldAppearances regenerated one
+     * from /MK /BC alone -- pdf-lib's provider never reads /BS -- and flatten()
+     * stamped a closed four-sided box where the Colorado Judicial Department
+     * prints a rule to write on.
+     *
+     * suppressSynthesizedWidgetBorders keeps the silent source appearance
+     * instead of clearing it, and strips /MK /BC and /MK /BG from an unwritten
+     * field's widgets so nothing regenerated for one paints. It writes no
+     * participant fact and answers no question: these 13 stay unmade, which is
+     * the whole point of them. It restores the rule the issuer draws.
+     */
+    suppressSynthesizedWidgetBorders: true,
+    /*
+     * FIX120, the same obligation at the other half of the same form.
+     *
+     * suppressSynthesizedWidgetBorders above covers only fields this run leaves
+     * UNWRITTEN, by design -- "a field this run WROTE is never touched by
+     * either half". Measuring the delivered bytes after it left 10 four-sided
+     * boxes standing: 9 on page 1 and 1 on page 3, at County, the defendant
+     * name, Case Number, 1.1, 1.2, 1.5, 1.6, the street address and the city --
+     * the caption fields this packet writes the participant's own details into.
+     *
+     * They are the same defect and the same obligation. Every one of the 10
+     * declares /BS << /S /U >> -- ISO 32000-1 Table 166: "a single line along
+     * the bottom of the annotation rectangle" -- and ships an appearance that
+     * draws exactly that and nothing else ("0 G 0 0.5 m 193.6362 0.5 l s").
+     * pdf-lib's text provider never reads /BS and strokes a full rectangle from
+     * /MK /BC [0 0 0], so the Colorado Judicial Department's writing rule was
+     * delivered as a box drawn around the participant's own name, county and
+     * case number. Because that ink sits INSIDE a declared write box, no
+     * completeness counter and no raster receipt can see it -- which is why the
+     * family's own nine counters read zero on the pre-repair bytes while VF01
+     * measured 13 defects by hand.
+     *
+     * honorWidgetBorderStyle removes /MK /BC before regeneration so no rectangle
+     * is synthesised, and draws the declared underline back from that same
+     * /MK /BC and the widget's /BS /W, so the court's rule is kept rather than
+     * traded away. A widget whose declared style and shipped appearance
+     * contradict each other is refused and counted, never repaired.
+     */
+    honorWidgetBorderStyle: true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -938,7 +1070,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf, stopConditions) {
+function participantInstructions(maps, rbf, stopConditions, supportingDocuments) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -1026,17 +1158,48 @@ function participantInstructions(maps, rbf, stopConditions) {
     + `\`${ROUTE.trackId}\`, at SHA-256 \`${stopConditions.source.sha256}\`._`, ""
   );
 
+  /* VF01, REQUIRED_BEFORE_FILING. The record requires a document before this
+   * petition is filed, and the guide named the CBI only as an agency to tick
+   * and serve. The record's own words, before the numbered steps, because a
+   * participant has to request this and wait for it before the rest is useful. */
+  out.push("## Get your Colorado criminal-history report before you start", "");
+  out.push(
+    "The controlling record requires this **before you file**, and it is not one of the blanks on the form. It is a "
+    + "document you have to ask for and wait for, so start it first.", ""
+  );
+  for (const item of supportingDocuments.items) out.push(`- ${item}`);
+  out.push("");
+  for (const doc of supportingDocuments.documents) {
+    out.push(`**${doc.name}** — obtained from ${doc.obtainedFrom}.`, "");
+    if (doc.howToObtain) out.push(`- How to obtain it: ${doc.howToObtain}`);
+    if (doc.conditionDescription) out.push(`- When it is required: ${doc.conditionDescription}`);
+    out.push("");
+  }
+  out.push(
+    "This is a different thing from ticking the Colorado Bureau of Investigation in section 3. That box says the CBI "
+    + "**holds** records the order must reach. This is a report about your own record that **you** obtain, read, and "
+    + "attach if the form requires it — and check your section 4 answers against before you sign. LegalEase does not "
+    + "obtain it for you and does not verify it.", ""
+  );
+  out.push(
+    `_The requirements above are quoted from \`${supportingDocuments.sources[0].pathInRepository}\`, track `
+    + `\`${ROUTE.trackId}\`, at SHA-256 \`${supportingDocuments.sources[0].sha256}\`, and from `
+    + `\`${supportingDocuments.sources[1].pathInRepository}\` at SHA-256 `
+    + `\`${supportingDocuments.sources[1].sha256}\`._`, ""
+  );
+
   out.push("## What you must do before you file", "");
-  out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
-  out.push("2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
-  out.push("3. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.");
-  out.push("4. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony.");
-  out.push("5. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.");
-  out.push("6. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.");
-  out.push("7. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.");
-  out.push("8. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.");
-  out.push("9. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.");
-  out.push("10. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.");
+  out.push("1. **Get your Colorado criminal-history report from the CBI**, as described above, and have it in front of you before you fill anything in.");
+  out.push("2. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
+  out.push("3. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
+  out.push("4. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.");
+  out.push("5. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony. **Check what you write against your Colorado criminal-history report, and correct the packet if they disagree.**");
+  out.push("6. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.");
+  out.push("7. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.");
+  out.push("8. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.");
+  out.push("9. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.");
+  out.push("10. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.");
+  out.push("11. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -1206,7 +1369,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const rbf = requiredBeforeFilingItems(maps);
   const stopConditions = selfHelpStopConditions(ROUTE.trackId);
-  const instructionsText = participantInstructions(maps, rbf, stopConditions);
+  const supportingDocuments = requiredSupportingDocuments(ROUTE.trackId);
+  const instructionsText = participantInstructions(maps, rbf, stopConditions, supportingDocuments);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1241,7 +1405,21 @@ export async function runFamily(argv = process.argv.slice(2)) {
       instrumentKind: "committed_record_bound_as_authority",
       role: stopConditions.source.role,
       statementsPrintedVerbatim: stopConditions.conditions.length
-    }],
+    },
+    /* FIX120. The packet now also prints the record's required-before-filing
+     * supporting document in the record's own words, so both records it quotes
+     * are bound here by exact SHA-256 on the same footing. */
+    ...supportingDocuments.sources.map((src, index) => ({
+      sourceIds: [`committed-record:${src.pathInRepository}`],
+      recordId: src.recordId,
+      pathInRepository: src.pathInRepository,
+      sha256: src.sha256, byteLength: src.byteLength,
+      instrumentKind: "committed_record_bound_as_authority",
+      role: src.role,
+      statementsPrintedVerbatim: index === 0
+        ? supportingDocuments.items.length
+        : supportingDocuments.documents.length
+    }))],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
 
