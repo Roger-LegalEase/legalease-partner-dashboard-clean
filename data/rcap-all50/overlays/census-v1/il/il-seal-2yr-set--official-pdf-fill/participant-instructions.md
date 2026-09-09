@@ -2,7 +2,7 @@
 
 ## Route selected
 
-Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period.
+Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period. The Request answers item 12 Yes and elects Section 17, and records the outcome as MC, the printed sealing abbreviation for a misdemeanor conviction. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route.
 
 ## Required before filing
 
@@ -19,61 +19,6 @@ Complete every applicable case, outcome, financial, and participant item listed 
 - Complete arrest68 on EXP-AD Case List page 1
 - Complete arrest69 on EXP-AD Case List page 1
 - Complete arrest70 on EXP-AD Case List page 1
-- Complete arrest/case number 1 on EXP-AD Order Granting page 1
-- Complete arrest/case number 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number 28 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 28 on EXP-AD Order Granting page 1
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1

@@ -1483,6 +1483,121 @@
         "obligation:track-pathway:IL:il-exp-qualprob:expungement-after-eligible-supervision-or-qualified-probation"
       ],
       "firstExecutionEver": true
+    },
+    {
+      "itemId": "il-exp-nonconv-set",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "worker": "ilr-20260909 Illinois repair lane (FIX07/FIX02/FIX03/FIX04/FIX06)",
+      "workerBranch": "ilr-20260909",
+      "baseSha": "b5cb44279",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-exp-nonconv:adult-non-conviction-expungement"
+      ],
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "verdict": null,
+      "verdictNote": "This lane REPAIRED and REBUILT this family. It sets no verdict and none of the text below is one. An independent lane must read the delivered bytes and decide.",
+      "readsWhichVerification": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json, lane VF13 at 9285d8019, verdict FAIL_REPAIR_REQUIRED. Its per-finding page, field and evidence were used as located; nothing in it was re-derived.",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "selfVerified": false,
+      "grantsNothing": "A rebuild is not an approval. This row opens no route, promotes no status past state_built, and adopts no fixture fact. Counsel review, source-freshness review, owner adoption of the fixture facts and the central 307 dpi raster acceptance are all still owed.",
+      "claimHandling": "Grant asserted under this exact lane before any edit (node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <family> -> CLAIM_OK, grant set 1d35e377c6e39f67). The grant is left held; this lane released and re-granted nothing.",
+      "artifacts": {
+        "canonical": {
+          "sha256": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86",
+          "byteLength": 2103296,
+          "pageCount": 14
+        },
+        "boundary": {
+          "sha256": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa",
+          "byteLength": 2104135,
+          "pageCount": 14
+        },
+        "writes": 52,
+        "classifiedBlanks": 417
+      },
+      "determinism": {
+        "method": "The builder was run twice in this container after the final edit and the delivered tree hashed both times (both fixture PDFs, production-field-map.json, reports/actual-writes.json, participant-instructions.md).",
+        "result": "byte-identical on the second run"
+      },
+      "proofOfWrites": {
+        "method": "Read out of the SAVED bytes, not from the builder's report. Every content stream of every delivered page was decompressed and any stream whose SHA-256 matches a stream of the official source was excluded. In each remaining stream every `/FlatWidget-* Do` placement was resolved to its appearance XObject, that XObject was decompressed, and each show-text operator (Tj, TJ, ', \") was decoded -- literal and hex strings both -- with the text matrix (Tm/Td/TD/T*) preceding it, composed with the `cm` that placed the widget. Each placement was then matched back to the source field whose widget rectangle starts at that point.",
+        "selectionControlsAlsoRead": "pdf-lib draws a ticked box as vector strokes, not as text, so a show-text-only reading would have reported every election as invisible. A widget appearance painting two or more paths is the ticked state and one path is the empty box; the ticked ones were also confirmed as images at 150 dpi.",
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "refusedFieldsCarryingInk": 0,
+        "inkOutsideAnyKnownWidget": 0,
+        "ellipsizedValues": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "howMeasured": "Eight are the completeness contract's mechanical count over the delivered tree: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>. invisibleWrites and protectedWrites were ALSO recomputed independently from the saved bytes by this lane (see proofOfWrites) and agree at 0. visualDefects is null, not 0: the central 307 dpi raster acceptance (.github/workflows/rcap-packet-raster-acceptance-batch.yml) was not run here, and this lane built these bytes, so its own 150 dpi reading cannot discharge it.",
+        "whatTheseCountersStillCannotSee": "VF13's point stands. Six of its findings were invisible to these counters -- an unanswered route election the field map declared a participant refusal, a surplus election no counter names, and three source-authored fixture literals that are non-empty and therefore 'written'. A green count here is not evidence that a seventh of that kind is absent."
+      },
+      "notMeasurableHere": [
+        "The central 307 dpi raster acceptance. RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs; pdftoppm (poppler) was used for reading pages and every raster was deleted before committing.",
+        "Whether an Illinois circuit clerk or e-filing system accepts these PDFs.",
+        "Counsel review, source-freshness review, and owner adoption of the fixture facts."
+      ],
+      "recordedNotRepaired": {
+        "id": "IL-OFFICIAL-PDF-FILL-DELIVERS-AN-INVALID-CROSS-REFERENCE-TABLE",
+        "whatVf13Recorded": "Every Illinois official_pdf_fill fixture ships an invalid cross-reference table; il-seal-2yr canonical declares /Size 954 while its 14 xref subsections cover only 808 objects. All 11 source PDFs parse clean, so the fault is the Illinois writer's.",
+        "confirmedStillPresent": "Yes, on this family's rebuilt bytes: poppler 24.02.0 reports \"Syntax Error: Couldn't find trailer dictionary\" and reconstructs the table before rendering.",
+        "notTakenOnBecause": "The dispatch assigns it to the Illinois writer's owner, and it reproduces on families outside this lane's grant.",
+        "whereTheFixAlreadyExists": "A working repair is already in this repository: pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs prunes the /Annots references that flatten() leaves dangling, which is the cause. That builder's own header records measuring 41 dangling references on the Request alone and poppler opening the pruned file with no diagnostic. Whoever owns the writer can lift it; this lane did not, because doing so changes the delivered bytes of ten Illinois families."
+      },
+      "findingsRepaired": [
+        {
+          "finding": "1 - Section 12 unanswered while Section 13 is populated",
+          "repairedBy": "TWO root causes, both in scripts/build-census-v1-il-exp-nonconv-set.mjs. (a) knownValue()'s five active-row predicates were not gated on a page, and the sealing table's captions differ from the expungement table's only by a '4 - ' prefix, so row 1 of BOTH tables was written. They are gated on ACTIVE_REQUEST_PAGE = 2 now and Request page 4 is classified as the inactive branch. (b) '12 - Seal Records' was unreachable in code: PDFCheckBox.check() sets the field to the first widget's on state (/Yes) and PDFAcroCheckBox.setValue refuses any other, so 'No' could not be written. selectCheckboxState() sets the field value and each widget's appearance state directly. The field map no longer declares '12 - Seal Records' a participant refusal at all; it is a route-determined write.",
+          "provenInBytes": "Request page 4 (packet page 4) carries exactly one added mark, at x=161.96 -- the /No widget, whose rectangle starts at x=162.0 -- and no other ink. Section 13's five row-1 cells are gone. Confirmed as an image at 150 dpi: No ticked, Yes empty, the Section 13 table wholly blank. Item 1 is answered Yes at x=71.91 on page 1."
+        },
+        {
+          "finding": "4 - Order page 2 item 3 refused as a signature",
+          "repairedBy": "protectedField()'s blanket 'every field on EXP-AD Order Granting page 2' is replaced by ORDER_COURT_OWNED, the named set the page actually reserves for the judge (the two IT IS ORDERED controls, Judge's Name, Entered Date), following scripts/build-census-v1-il-exp-pardon-set.mjs:40-48. '3 - Name', '3 - Address', '3 - Telephone' and '3 - Email' now carry the held participant facts. '3 - Attorney Number' stays blank as an attorney refusal: the fixture is self-represented.",
+          "provenInBytes": "Packet page 10 carries four added values in item 3. Read as an image at 150 dpi: Name, Address, Email and Telephone filled, Attorney Number blank, both IT IS ORDERED boxes and the ENTERED Judge and Date lines blank."
+        },
+        {
+          "finding": "5 - The charge cell prints a fixture literal",
+          "repairedBy": "Fixed where it is authored, in FIXTURES. canonical.charge was 'Charge exactly as shown on the court disposition'; it is now 'Possession of a controlled substance', the value the pardon-set repair already adopted. boundary.charge was 'Complete charge exactly as printed on the certified disposition'; it is now a long real charge that still exercises the wrapping path. A self-test assertion now refuses any drawnText shaped like a direction to the participant.",
+          "provenInBytes": "Request page 2 row 1 Charge cell reads 'Possession of a controlled substance' (canonical) and the boundary's long charge wraps across three lines at 6pt with no ellipsis."
+        },
+        {
+          "finding": "6 - The outcome cell is not a printed abbreviation",
+          "repairedBy": "'outcome' is deleted from both fixtures. NON_CONVICTION_GROUNDS maps each printed non-conviction ground to the abbreviation the Request page 2 legend supplies for it, and the Outcome cell is derived from the elected ground, so the table and the election cannot state two different things about one case. This route's fixtures elect item 7, so the cell reads DA.",
+          "provenInBytes": "Request page 2 Outcome cell reads 'DA' on both fixtures. No cell anywhere in either packet reads 'Dismissed'."
+        }
+      ],
+      "repairedBeyondVf13AndOpenToChallenge": {
+        "what": "The Request now elects a printed eligibility ground: item 7, 'For at least one case, I was charged, but was later acquitted or the case was dismissed'.",
+        "why": "With Section 13 emptied the delivered Request would have stated no printed ground at all -- the same shape VF13 failed il-seal-3yr-set for. The registry's authority for this route is 20 ILCS 2630/5.2(b)(1)(i) and (b)(1)(ii), and the form prints one item for each limb: item 4 for arrest-and-release and item 7 for charged-then-acquitted-or-dismissed. Both fixtures were already built on a dismissal or acquittal, so item 7 is the limb their own facts support and DA is its printed abbreviation.",
+        "whatWasNotDone": "No participant fact was invented. WHICH limb applies is recorded as a fixture fact (matter.expungement_ground, routeDetermined:false), not as a route determination; item 4 is refused with a reason naming it as the alternative and naming RWC as the abbreviation that would go with it; and participant-instructions.md says which limb the packet ticked, when to change it, and that the Request is verified under 735 ILCS 5/1-109.",
+        "forTheVerifier": "VF13 did not name this and counted requiredOptionsMissing as 1, for Section 12 alone. If an independent lane reads the route as one that should state no printed ground, this is the change to challenge."
+      },
+      "alsoRepaired": [
+        "VF13's REQUIRED_BEFORE_FILING observation. The proposed Order's twenty-eight 'arrest/case number - Sealing' slots fell through to REQUIRED_BEFORE_FILING, so the generated 'Required before filing' list told an expunge-only participant to complete twenty-eight sealing rows. orderCaseSlot() now classifies them as the inactive branch. The guide no longer asks for them.",
+        "FAMILY_CONFIG carried route entries for nine Illinois families this file does not build, several of them stale -- it still selected item 16 for il-seal-nonconv-set, which the pardon host expressly retracted as asserting a supervision sentence that route does not have. Only il-exp-nonconv-set remains and buildIllinoisFamily refuses anything else. No other family's output changed: nothing imports this file."
+      ],
+      "findingsNotApplicable": [
+        "2 (no statutory ground stated) is il-seal-3yr-set's.",
+        "3 (a surplus election) is il-seal-2yr-set's.",
+        "7 (city_state_zip carries the filing county) is il-cannabis-vacate-set's."
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-il-exp-nonconv-set.mjs",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/ (rebuilt)"
+      ]
     }
   ],
   "fixBDispatch": {

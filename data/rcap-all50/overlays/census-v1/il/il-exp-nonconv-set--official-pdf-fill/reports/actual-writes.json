@@ -71,8 +71,10 @@
           "documentId": "EXP-AD Request",
           "page": 1,
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
-          "routeDetermined": true
+          "routeDetermined": true,
+          "routeReason": "item 1: this route asks the court to expunge"
         },
         {
           "fieldId": "EXP-AD Request:Arrest or Case Number - 1",
@@ -101,8 +103,8 @@
           "documentId": "EXP-AD Request",
           "page": 2,
           "factId": "matter.charge",
-          "drawnText": "Charge exactly as shown on the court disposition",
-          "fontSize": 7.25
+          "drawnText": "Possession of a controlled substance",
+          "fontSize": 8
         },
         {
           "fieldId": "EXP-AD Request:Date of Arrest - 1",
@@ -115,64 +117,42 @@
           "fontSize": 8
         },
         {
+          "fieldId": "EXP-AD Request:7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+          "fieldName": "7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+          "effectiveLabel": "7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+          "documentId": "EXP-AD Request",
+          "page": 3,
+          "factId": "matter.expungement_ground",
+          "drawnText": "Yes",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "routeReason": "This fixture's certified record shows a charge that ended in acquittal or dismissal -- a not-guilty finding, nolle prosequi, stricken off with leave to reinstate, non-suit, dismissal, or a finding of no probable cause, 20 ILCS 2630/5.2(b)(1)(ii). That the ground is one of the printed non-conviction items is settled by the route; which one applies is the participant's fact.",
+          "participantAlternative": "4 - For at least one case, I was arrested and released, and no charges were filed against me"
+        },
+        {
+          "fieldId": "EXP-AD Request:12 - Seal Records",
+          "fieldName": "12 - Seal Records",
+          "effectiveLabel": "12 - Seal Records",
+          "documentId": "EXP-AD Request",
+          "page": 4,
+          "factId": "route.selection",
+          "drawnText": "No",
+          "isSelectionControl": true,
+          "routeDetermined": true,
+          "routeReason": "item 12: this route carries no sealing authority, and Request page 4 says a filer requesting only expungement checks the No box"
+        },
+        {
           "fieldId": "EXP-AD Request:Outcome - For example RV S or P - 1",
           "fieldName": "Outcome - For example RV S or P - 1",
           "effectiveLabel": "Outcome - For example RV S or P - 1",
           "documentId": "EXP-AD Request",
           "page": 2,
           "factId": "matter.outcome",
-          "drawnText": "Dismissed",
+          "outcomeDerivedFrom": "elected printed ground",
+          "outcomeMeaning": "Dismissal or Acquittal",
+          "printedLegend": "Outcome Abbreviations for Expungement, EXP-AD Request page 2",
+          "drawnText": "DA",
           "fontSize": 8
-        },
-        {
-          "fieldId": "EXP-AD Request:4 - Arresting Agency - 1",
-          "fieldName": "4 - Arresting Agency - 1",
-          "effectiveLabel": "4 - Arresting Agency - 1",
-          "documentId": "EXP-AD Request",
-          "page": 4,
-          "factId": "matter.arresting_agency",
-          "drawnText": "Chicago Police Department",
-          "fontSize": 8
-        },
-        {
-          "fieldId": "EXP-AD Request:4 - Date of Arrest - 1",
-          "fieldName": "4 - Date of Arrest - 1",
-          "effectiveLabel": "4 - Date of Arrest - 1",
-          "documentId": "EXP-AD Request",
-          "page": 4,
-          "factId": "matter.arrest_date",
-          "drawnText": "03/12/2021",
-          "fontSize": 8
-        },
-        {
-          "fieldId": "EXP-AD Request:4 - Outcome - 1",
-          "fieldName": "4 - Outcome - 1",
-          "effectiveLabel": "4 - Outcome - 1",
-          "documentId": "EXP-AD Request",
-          "page": 4,
-          "factId": "matter.outcome",
-          "drawnText": "Dismissed",
-          "fontSize": 8
-        },
-        {
-          "fieldId": "EXP-AD Request:4 - Arrest or Case Number - 1",
-          "fieldName": "4 - Arrest or Case Number - 1",
-          "effectiveLabel": "4 - Arrest or Case Number - 1",
-          "documentId": "EXP-AD Request",
-          "page": 4,
-          "factId": "matter.case_number",
-          "drawnText": "2021-CF-004217",
-          "fontSize": 8
-        },
-        {
-          "fieldId": "EXP-AD Request:4 - List all charges for each case number - 1",
-          "fieldName": "4 - List all charges for each case number - 1",
-          "effectiveLabel": "4 - List all charges for each case number - 1",
-          "documentId": "EXP-AD Request",
-          "page": 4,
-          "factId": "matter.charge",
-          "drawnText": "Charge exactly as shown on the court disposition",
-          "fontSize": 7.25
         },
         {
           "fieldId": "EXP-AD Request:P6 - Print Name2",
@@ -445,6 +425,46 @@
           "factId": "matter.case_number",
           "drawnText": "2021-CF-004217",
           "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Name",
+          "fieldName": "3 - Name",
+          "effectiveLabel": "3 - Name",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Address",
+          "fieldName": "3 - Address",
+          "effectiveLabel": "3 - Address",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "factId": "participant.street_address",
+          "drawnText": "412 West Madison Street, Chicago, IL 60606",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Telephone",
+          "fieldName": "3 - Telephone",
+          "effectiveLabel": "3 - Telephone",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "factId": "participant.phone",
+          "drawnText": "312-555-0142",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Email",
+          "fieldName": "3 - Email",
+          "effectiveLabel": "3 - Email",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "factId": "participant.email",
+          "drawnText": "jordan.reyes@example.org",
+          "fontSize": 8
         }
       ]
     },
@@ -536,20 +556,20 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 51,
+      "valuesReportedByFinalizer": 52,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 51,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 52,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 7.25,
+      "minimumFontSize": 8,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 51,
+      "valuesReportedByFinalizer": 52,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 51,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 52,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 5.5,
+      "minimumFontSize": 6,
       "refusedFieldsWithInk": []
     }
   ]

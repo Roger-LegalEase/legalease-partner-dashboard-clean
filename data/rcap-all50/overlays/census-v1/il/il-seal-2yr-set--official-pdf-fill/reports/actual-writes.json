@@ -71,8 +71,10 @@
           "page": 4,
           "effectiveLabel": "12 - Seal Records",
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
-          "routeDetermined": true
+          "routeDetermined": true,
+          "routeReason": "item 12: this route asks the court to seal"
         },
         {
           "fieldId": "EXP-AD Request:4 - Arresting Agency - 1",
@@ -101,7 +103,10 @@
           "page": 4,
           "effectiveLabel": "4 - Outcome - 1",
           "factId": "matter.outcome",
-          "drawnText": "Dismissed",
+          "outcomeDerivedFrom": "route",
+          "outcomeMeaning": "Misdemeanor Conviction",
+          "printedLegend": "Outcome Abbreviations for Sealing, EXP-AD Request page 4",
+          "drawnText": "MC",
           "fontSize": 8
         },
         {
@@ -121,18 +126,8 @@
           "page": 4,
           "effectiveLabel": "4 - List all charges for each case number - 1",
           "factId": "matter.charge",
-          "drawnText": "Charge exactly as shown on the court disposition",
-          "fontSize": 7.25
-        },
-        {
-          "fieldId": "EXP-AD Request:15 - Asking to Seal",
-          "fieldName": "15 - Asking to Seal",
-          "documentId": "EXP-AD Request",
-          "page": 5,
-          "effectiveLabel": "15 - Asking to Seal",
-          "factId": "route.selection",
-          "isSelectionControl": true,
-          "routeDetermined": true
+          "drawnText": "Retail theft, Class A misdemeanor",
+          "fontSize": 8
         },
         {
           "fieldId": "EXP-AD Request:17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
@@ -141,8 +136,10 @@
           "page": 5,
           "effectiveLabel": "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
-          "routeDetermined": true
+          "routeDetermined": true,
+          "routeReason": "item 17: the two-year misdemeanor-conviction sealing ground this route is built for, 20 ILCS 2630/5.2(c)(2)(C)"
         },
         {
           "fieldId": "EXP-AD Request:P6 - Print Name2",
@@ -341,6 +338,46 @@
           "factId": "matter.case_number",
           "drawnText": "2021-CF-004217",
           "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Name",
+          "fieldName": "3 - Name",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Address",
+          "fieldName": "3 - Address",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Address",
+          "factId": "participant.street_address",
+          "drawnText": "412 West Madison Street, Chicago, IL 60606",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Telephone",
+          "fieldName": "3 - Telephone",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Telephone",
+          "factId": "participant.phone",
+          "drawnText": "312-555-0142",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Email",
+          "fieldName": "3 - Email",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Email",
+          "factId": "participant.email",
+          "drawnText": "jordan.reyes@example.org",
+          "fontSize": 8
         }
       ]
     },
@@ -432,20 +469,20 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 41,
+      "valuesReportedByFinalizer": 44,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 44,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 7.25,
+      "minimumFontSize": 8,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 41,
+      "valuesReportedByFinalizer": 44,
       "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 44,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 5.5,
+      "minimumFontSize": 6,
       "refusedFieldsWithInk": []
     }
   ]

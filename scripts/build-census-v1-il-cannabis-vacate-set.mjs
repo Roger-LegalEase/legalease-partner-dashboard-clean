@@ -49,6 +49,68 @@
 // DEFECTIVE ONES. Mount the pool, run this builder, then run `--self-test`,
 // which reads the delivered artifacts rather than the sources and fails
 // loudly while those bytes remain unrepaired.
+//
+// WHAT LANE FIX06 REPAIRED HERE, AND WHY. The independent read
+// data/rcap-grade-a/packet-factory-24h/vf13/rows.json (lane VF13, at 9285d8019)
+// failed this family's delivered bytes on KNOWN_PREFILLS.
+//
+//   KNOWN_PREFILLS -- CITY-STATE-ZIP-CARRIES-THE-FILING-COUNTY. knownValue
+//   returned `${fixture.county} County, Illinois` for any field matching
+//   /city state zip/, so the line labelled "City, State, ZIP" printed "Cook
+//   County, Illinois" on three documents -- CXP Motion page 3, CXP Additional
+//   Cannabis Convictions page 2, and CXP Notice of Court Date page 2 -- directly
+//   beneath a Street Address line reading "412 West Madison Street, Chicago, IL
+//   60606". A county is not a city, a state and a ZIP code, and the value was
+//   derived from the FILING COUNTY, which is a different fact from where the
+//   participant lives. On the Notice of Court Date this is the "Prepared by"
+//   address by which the court and the State's Attorney reach the movant, so a
+//   wrong city and a missing ZIP is a delivery risk. The fixture now carries the
+//   participant's address split the way these forms split it: street on the
+//   Street Address line, city, state and ZIP on the City, State, ZIP line. The
+//   old street value already contained the city, state and ZIP, so the packet was
+//   printing them twice and the county nowhere it belonged.
+//
+//   Two further defects of the same shape, found by reading the delivered pages
+//   in this lane rather than reported by VF13, and repaired with it:
+//
+//     CXP Notice of Court Date page 1, field "1 - City, State, Zip". The old
+//     matcher was /city state zip/, which does not match a name containing
+//     commas, so this field alone was left blank and fell into "the platform does
+//     not hold this fact; supply it before filing" -- while the Street Address
+//     immediately above it, in the same signature block, was written. The packet
+//     held the value the whole time. The matcher is punctuation-tolerant now.
+//
+//     CXP Notice of Court Date page 1, field "Date of birth". protectedField
+//     tested /time|date|courtroom|.../ against the whole field name, and "date of
+//     birth" contains "date", so the participant's own date of birth was refused
+//     on this one document under refusalClass
+//     signature_or_date_participant_completion -- "Signature, judge, clerk, or
+//     post-filing field" -- while the same fact was written on the other five
+//     documents. A date of birth is none of those things. The Notice's own
+//     sidebar says "Enter your name, birth date, race, and gender." The
+//     court-owned test is anchored to the hearing fields it was meant for.
+//
+//   CXP Order Granting or Denying Motion page 2, the preparer block. The old rule
+//   refused every field on that page. The page's printed STOP box reads "DO NOT
+//   fill in these lines. The judge will sign and enter date here", and it is
+//   scoped to ENTERED / Judge / Date. Beside the block below it the form prints
+//   "Enter the name and contact information of the person completing the Order."
+//   This packet completes the Order and the participant is self-represented, so
+//   that person is the participant, and the packet holds every value. This is the
+//   same adjudication already made for EXP-AD Order Granting page 2 item 3 at
+//   scripts/build-census-v1-il-exp-pardon-set.mjs lines 40-48, applied to the
+//   cannabis suite's equivalent block. It is an extension of that ruling to a
+//   document VF13 did not raise it on, so it is flagged in this lane's row for a
+//   verifier to challenge. Judge, Date, the two denial checkboxes, the denial
+//   reasons and the denied-case grid stay blank and stay court-owned, and
+//   "Attorney Number" stays blank because the fixture is self-represented.
+//
+// NOT REPAIRED HERE, AND WHY. VF13 also recorded that every Illinois
+// official_pdf_fill fixture ships an invalid cross-reference table. That is the
+// Illinois writer's defect, it reproduces on families outside this lane's grant,
+// and it belongs to that writer's owner. A working repair for it already exists
+// in this repository as pruneDanglingAnnots() in
+// scripts/build-census-v1-il-exp-pardon-set.mjs.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -58,7 +120,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFDropdown, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFButton, PDFDocument, PDFCheckBox, PDFDropdown, PDFTextField, StandardFonts } = require("pdf-lib");
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INDEX_PATH = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST_PATH = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
@@ -100,9 +162,27 @@ const FAMILY_CONFIG = {
   }
 };
 
+// The address is split the way these forms split it: `street` is the Street
+// Address line and `cityStateZip` is the City, State, ZIP line beneath it. Every
+// CXP document that prints one prints the other.
+
+// The nine counters are NOT measured here. A builder reporting its own output as
+// clean is not a measurement, and eight hardcoded zeros read exactly like one.
+const NOT_MEASURED_BY_THIS_BUILDER = {
+  knownRequiredFieldsMissing: null,
+  requiredFactsNotCollected: null,
+  unclassifiedBlanks: null,
+  incompleteRows: null,
+  requiredOptionsMissing: null,
+  requiredComponentsMissing: null,
+  invisibleWrites: null,
+  protectedWrites: null,
+  visualDefects: null
+};
+
 const FIXTURES = {
-  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Charge exactly as shown on the court disposition", arrestDate: "03/12/2021", outcome: "Dismissed", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Complete charge exactly as printed on the certified disposition", arrestDate: "11/29/2023", outcome: "Acquitted or dismissed as certified", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Possession of cannabis", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street", cityStateZip: "Chicago, IL 60606" },
+  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Possession of cannabis, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407", cityStateZip: "Springfield, IL 62703" }
 };
 
 function resolveSources() {
@@ -161,17 +241,54 @@ function knownValue(documentId, name, fixture, config) {
   if (documentId === "CXP Motion to Vacate and Expunge" && name === "4 - Arresting Agency1") return [fixture.arrestAgency, "matter.arresting_agency"];
   if (documentId === "CXP Motion to Vacate and Expunge" && name === "4 - Date of Arrest1") return [fixture.arrestDate, "matter.arrest_date"];
   if (/print name/.test(key)) return [fixture.full, "participant.full_legal_name"];
-  if (/telephone/.test(key) && !/lawyer/.test(key)) return [fixture.phone, "participant.phone"];
+  // "Telephone1" on the Motion, "Prepared by - Phone Number" on the Notice and
+  // "Phone Number" on the Order are all the same fact on the same block.
+  if (/telephone|phone number/.test(key) && !/lawyer/.test(key)) return [fixture.phone, "participant.phone"];
   if (/email/.test(key) && !/lawyer/.test(key)) return [fixture.email, "participant.email"];
   if (/street address/.test(key) && !/lawyer/.test(key)) return [fixture.street, "participant.street_address"];
-  if (/city state zip/.test(key) && !/lawyer/.test(key)) return [`${fixture.county} County, Illinois`, "participant.city_state_zip"];
+  // Punctuation-tolerant: the Notice names this field "1 - City, State, Zip" and
+  // the Motion names it "City State ZIP1". Both are the same line of the same
+  // address block, and the value is where the participant lives -- not the
+  // county the motion is filed in.
+  if (/city[ ,]*state[ ,]*zip/.test(key) && !/lawyer/.test(key)) return [fixture.cityStateZip, "participant.city_state_zip"];
+  // CXP Order page 2: "Enter the name and contact information of the person
+  // completing the Order." This packet completes it and the participant is
+  // self-represented, so that person is the participant.
+  // The preparer's name line: "Prepared By" on the Order, "Prepared by" on the
+  // Notice. Both sit above a Street Address and a City, State, ZIP the packet
+  // already writes, so leaving the name blank leaves a half-filled address block
+  // on the very page the court and the State's Attorney read it from.
+  if (/^prepared by$/i.test(name)) return [fixture.full, "participant.full_legal_name"];
   return null;
 }
 
+/*
+ * What the cannabis suite reserves for someone other than the participant.
+ *
+ * The old rules were two blanket sweeps. "Every field on the Order's page 2"
+ * swept in the preparer block the form tells the filer to complete; and on the
+ * Notice, a bare /date/ test swept in "Date of birth", a fact the packet holds
+ * and writes on the suite's five other documents. Both are named lists now.
+ */
+const ORDER_COURT_OWNED = new Set([
+  "Order - Denied Checkboxes",
+  "Your cases are not legally eligible to be vacated & expunged",
+  "Law enforcement\u2019s interest in retaining your criminal records is greater than your interest in vacating and expunging your records",
+  "Other Checkbox",
+  "Judge",
+  "Date"
+]);
+// The Notice's hearing block: the Circuit Clerk supplies the date, time, court
+// address and courtroom when the Motion is filed, and the clerk signs its
+// certificate. "Date of birth" is deliberately NOT here.
+const NOTICE_COURT_OWNED = (key) =>
+  /^1a - (?:date|time)$/.test(key) || key === "1 - time am/pm" || /^1b - /.test(key) ||
+  /state's attorney|circuit clerk|deputy clerk/.test(key);
+
 function protectedField(documentId, name, page) {
   const key = name.toLowerCase();
-  if (documentId === "CXP Order Granting or Denying Motion" && page >= 2) return true;
-  if (documentId === "CXP Notice of Court Date for Motion" && /time|date|courtroom|state's attorney|circuit clerk|deputy clerk/.test(key)) return true;
+  if (documentId === "CXP Order Granting or Denying Motion" && page >= 2 && (ORDER_COURT_OWNED.has(name) || /^case number\d+za$/i.test(name) || /^other - \d+$/i.test(name))) return true;
+  if (documentId === "CXP Notice of Court Date for Motion" && NOTICE_COURT_OWNED(key)) return true;
   return /signature|judge|entered date/.test(key);
 }
 
@@ -234,6 +351,20 @@ async function fillDocument(source, fixtureName, fixture, config) {
       } else {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Participant choice: ${name}`, documentId: source.documentId, page, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
       }
+      continue;
+    }
+    if (field instanceof PDFButton) {
+      /*
+       * The form's own PRINT FORM / SAVE FORM / RESET FORM push buttons.
+       *
+       * flatten() draws every widget's appearance onto the page, these included,
+       * so seventeen widgets across five of the six CXP documents carry ink in
+       * the delivered bytes. That ink is the source form's own caption and no
+       * fact of this packet -- but the field map listed them in neither writes
+       * nor refusals, so nothing downstream could account for ink it could see.
+       * They are declared now, in the contract's own words for this class.
+       */
+      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Viewer UI control: ${name}`, documentId: source.documentId, page, reason: "Viewer UI control printed by the source form itself; never a filing fact. flatten() carries the source's own button caption into the delivered page; this packet writes nothing to it.", refusalClass: "not_applicable_on_this_route", role: "none", sourceAuthoredInk: true });
       continue;
     }
     if (!(field instanceof PDFTextField)) continue;
@@ -306,7 +437,7 @@ export async function buildIllinoisFamily(familyId) {
   const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
   fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nObtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nCourt, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
   fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nDo not complete the judge's order, clerk certification, hearing details, service details, signature, or signature date in advance.\n`);
-  writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
+  writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
@@ -335,6 +466,61 @@ function selfTest() {
   }
   assert.ok(/\$60/.test(participant) && /\$60/.test(filing), "the ISP $60 order-processing cost must be stated");
   assert.ok(/5\.2\(i\)\(3\)/.test(participant), "the service model must name section 5.2(i)(3)");
+
+  const actual = JSON.parse(fs.readFileSync(path.join(out, "reports/actual-writes.json"), "utf8"));
+  const writes = actual.documents.flatMap((document) => document.actualWrites);
+  const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
+
+  // VF13, CITY-STATE-ZIP-CARRIES-THE-FILING-COUNTY. The City, State, ZIP line
+  // carries a city, a state and a ZIP -- never a county, and never the filing
+  // county, which is a different fact.
+  const cityRows = writes.filter((row) => row.factId === "participant.city_state_zip");
+  assert.ok(cityRows.length >= 3, `the City, State, ZIP line must be written wherever it is printed, got ${cityRows.length}`);
+  for (const row of cityRows) {
+    assert.ok(!/ County\b/i.test(row.drawnText), `a county reached a City, State, ZIP line: ${row.fieldId} = ${row.drawnText}`);
+    assert.match(row.drawnText, /^[^,]+, [A-Z]{2} \d{5}$/, `a City, State, ZIP line must read "City, ST ZIP": ${row.fieldId} = ${row.drawnText}`);
+  }
+  assert.equal(fieldMap.refusals.filter((row) => /city[ ,]*state[ ,]*zip/i.test(row.fieldName)).length, 0,
+    "no printed City, State, ZIP line may be left blank while the packet holds the value");
+  // The Street Address line is the street, not the whole address repeated.
+  for (const row of writes.filter((entry) => entry.factId === "participant.street_address")) {
+    assert.ok(!/, [A-Z]{2} \d{5}$/.test(row.drawnText), `the Street Address line must not repeat the city, state and ZIP: ${row.fieldId}`);
+  }
+  // Found by this lane: the participant's own date of birth was refused on the
+  // Notice under a signature class while written on the other five documents.
+  assert.equal(writes.filter((row) => row.factId === "participant.date_of_birth").length,
+    fieldMap.writes.filter((row) => row.factId === "participant.date_of_birth").length,
+    "date-of-birth writes must be reported consistently");
+  assert.equal(fieldMap.refusals.filter((row) => /date of birth/i.test(row.fieldName)).length, 0,
+    "the participant's date of birth is a held fact, not a signature or a court field");
+  // Found by this lane: the preparer block on the Notice and on the Order.
+  for (const documentId of ["CXP Notice of Court Date for Motion", "CXP Order Granting or Denying Motion"]) {
+    const block = new Set(writes.filter((row) => row.documentId === documentId && row.page === 2).map((row) => row.factId));
+    for (const factId of ["participant.full_legal_name", "participant.street_address", "participant.city_state_zip", "participant.phone"]) {
+      assert.ok(block.has(factId), `${documentId} page 2: the preparer block must be completed, not half-filled; missing ${factId}`);
+    }
+  }
+  assert.equal(fieldMap.refusals.filter((row) => row.documentId === "CXP Order Granting or Denying Motion" && /^(?:Prepared By|Street Address|City, State, ZIP|Phone Number|Email)$/.test(row.fieldName) && row.refusalClass === "signature_or_date_participant_completion").length, 0,
+    "no preparer-block field may be refused as a signature");
+  // The judge's half of the Order stays the judge's.
+  for (const judgeField of ["Judge", "Date", "Order - Denied Checkboxes", "Other Checkbox"]) {
+    assert.ok(fieldMap.refusals.some((row) => row.documentId === "CXP Order Granting or Denying Motion" && row.fieldName === judgeField),
+      `the Order must still reserve ${judgeField}: page 2 says "DO NOT fill in these lines. The judge will sign and enter date here."`);
+  }
+  assert.ok(fieldMap.refusals.some((row) => /attorney number/i.test(row.fieldName) && row.role === "attorney"),
+    "the attorney number stays blank on a self-represented packet");
+  // The clerk supplies the hearing, not this packet.
+  for (const hearingField of ["1a - Date", "1a - Time", "1b - Address", "1b - Courtroom"]) {
+    assert.ok(fieldMap.refusals.some((row) => row.documentId === "CXP Notice of Court Date for Motion" && row.fieldName === hearingField),
+      `the Notice must leave the clerk-supplied hearing field blank: ${hearingField}`);
+  }
+  assert.equal(writes.filter((row) => String(row.drawnText ?? "").includes("\u2026")).length, 0, "held values must not be ellipsized");
+  // Found by this lane: flatten() carries the source form's own PRINT/SAVE/RESET
+  // button captions into the delivered pages, and the map accounted for neither.
+  assert.equal(fieldMap.refusals.filter((row) => row.sourceAuthoredInk === true).length, 17,
+    "every source-authored push-button caption the flattener carries into the page must be declared");
+  assert.equal(writes.filter((row) => row.sourceAuthoredInk === true).length, 0,
+    "a viewer UI control is never a write");
   console.log("il-cannabis-vacate-set self-test passed");
 }
 

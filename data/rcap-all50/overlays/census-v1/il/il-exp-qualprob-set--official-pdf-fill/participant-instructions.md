@@ -2,7 +2,7 @@
 
 ## Route selected
 
-Expungement after eligible qualified probation and the printed five-year condition. Confirm from the certified disposition that the qualified probation ended successfully and that at least five years have passed.
+Expungement after eligible qualified probation and the printed five-year condition, 20 ILCS 2630/5.2(b). Confirm from the certified disposition that the qualified probation ended successfully and that at least five years have passed. The Request answers item 1 Yes and item 12 No, elects Section 8, and records the outcome as QP, the printed expungement abbreviation for successfully completed Qualified Probation. This route carries no sealing authority, so Sections 13 to 24 stay wholly blank and the proposed Order's sealing half stays wholly blank.
 
 ## Required before filing
 
@@ -19,61 +19,6 @@ Obtain the ISP statewide transcript and certified dispositions for every arrest 
 - Complete arrest68 on EXP-AD Case List page 1
 - Complete arrest69 on EXP-AD Case List page 1
 - Complete arrest70 on EXP-AD Case List page 1
-- Complete arrest/case number 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number 28 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 1 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 28 on EXP-AD Order Granting page 1
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
@@ -132,6 +77,10 @@ Obtain the ISP statewide transcript and certified dispositions for every arrest 
 - Complete 104 - Type on FW-CIV-APPLICATION page 3
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
+
+## What this packet asks for, and what it does not
+
+This is an expungement-only packet. On the Request, item 1 "I am requesting to expunge records" is answered Yes and item 12 "I am requesting to seal records" is answered No, which is what page 4 of the form directs a filer requesting only expungement to do. Because item 12 is No, Sections 13 to 23 are skipped and left blank, and the SEALING half of the proposed Order is left blank. Do not fill them in. If you also need records sealed, that is a different request on a different statutory ground and it needs its own packet.
 
 ## Filing and notice
 
