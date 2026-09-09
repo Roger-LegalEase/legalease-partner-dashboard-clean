@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 984,
+    "rows": 988,
     "independentVerdicts": 252,
-    "failRepairRequired": 44,
-    "passIndependent": 193
+    "failRepairRequired": 43,
+    "passIndependent": 194
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -70,7 +70,6 @@
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "ms-nonconv-set",
-    "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "nj_ordinance-set",
@@ -13784,7 +13783,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
@@ -13990,6 +13989,20 @@
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "df524f2fd",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf17",
       "isIndependentVerification": true,
@@ -14133,7 +14146,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_disorderly_persons-set",
@@ -14402,6 +14415,34 @@
     {
       "familyId": "nj_disorderly_persons-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "df524f2fd",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "FAIL. The manifest declares component 10, role counting_disclosure, requirement required, outputStrategy process_guidance. The family's own manifestComponentDelivery marks it \"rendered\" and points it at the heading \"## Where self-help ends\". That section was read here in full: it carries the route's 14 self-help STOP conditions and nothing else. The counting rule this route actually runs on is nowhere in the guide. The registry's own mechanism for nj_disorderly_persons states it — no more than five disorderly persons offences, no more than five petty disorderly persons offences, or a combination of no more than five; or multiple offences whose convictions were entered on the same day; or multiple offences interdependent or closely related and committed as part of a sequence of events within a comparatively short period — and none of it reaches the participant. Tested as strings: \"no more than five\" 0 hits, \"five disorderly\" 0, \"same day\" 0, \"closely related\" 0, \"sequence of events\" 0, \"comparatively short\" 0. The only occurrences of \"same-day\" and \"closely-related\" in the whole guide are the two identical self-help stop lines \"Any same-day or closely-related bundling argument.\" — a direction to stop and see a lawyer, which is the opposite of telling the participant how the count works. A required disclosure pointed at a section that does not make it is a missing component recorded as a delivered one. Secondarily on the same obligation: the manifest's role 6 is service_and_objection_instructions and this family's \"## Who must be served\" section names the notice list and says nothing whatever about objections, while its three siblings each address them. requiredComponentsMissing cannot catch either: verify-packet-completeness.mjs checks the field map's documents against the render and never opens the packet-set manifest.",
+          "evidence": "legal-design-packet-set-manifests.json packetSet nj_disorderly_persons-set (10 required components); reports/rendered-artifacts.json manifestComponentDelivery, which declares 10 of 10 rendered; participant-instructions.md read in full; legal-design-track-registry.json track nj_disorderly_persons, mechanism."
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair.",
+          "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf34",
       "isIndependentVerification": true,
       "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
@@ -14523,7 +14564,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -14602,6 +14643,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
       "superseded": true
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "df524f2fd",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair.",
+          "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED."
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+      "superseded": false
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -14732,7 +14795,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_ordinance-set",
@@ -14825,6 +14888,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
       "superseded": true
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "df524f2fd",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair.",
+          "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED."
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "superseded": false
     },
     {
       "familyId": "nm_conviction-set",

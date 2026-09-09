@@ -29,22 +29,28 @@
       ],
       "recordId": "packet-set-manifest:nc_146_acquittal_petition-set",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
-      "byteLength": 3684141,
+      "sha256": "5882bbcb261e7a0567bd5fb1aabce62d557156ac39de7e95dec43400942abec8",
+      "byteLength": 3688800,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle the filing destination, the fee, the waiver, the service position, and the records the participant must obtain and keep",
       "anchorStatementsVerified": 6,
       "identityRefresh": {
-        "refreshedOn": "2026-09-07",
+        "refreshedOn": "2026-09-09",
         "was": {
-          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-          "byteLength": 3683419
+          "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
+          "byteLength": 3684141
         },
-        "why": "The NC dismissal integration changed a shared manifest. This exact family object and every non-bookkeeping family file were recomputed and remain identical. Repair the refresh metadata to the existing anchorsCompared/anchorsIdentical contract; no source or packet is re-bound.",
+        "why": "The record was rewritten around this receipt's anchor. 1 packet set(s) moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical. Only the whole-file identity moved.",
         "anchorsCompared": 1,
+        "anchorDetail": [
+          "nc_146_acquittal_petition-set: identical"
+        ],
         "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "cd32cb7b846e99bd19d3172467d81f566a420d12",
-        "exactFamilyObjectSha256": "4b4e150f7d8c00a8bd222831a60952bf071c9e5d9e34e955a38adf915a9f5aff"
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction-set"
+        ],
+        "previousPinLastSeenAtCommit": "f06f33bc6",
+        "whatThisDoesNotClaim": "Nothing about the packet's own bytes, its obligations or its verdict. This restores an identity binding that lapsed on an unrelated edit; it is not a verification, a promotion or an approval."
       }
     },
     {
