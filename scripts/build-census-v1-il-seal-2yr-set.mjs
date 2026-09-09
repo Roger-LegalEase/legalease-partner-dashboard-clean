@@ -75,8 +75,54 @@
 // declares /Size 954 while its 14 xref subsections cover 808 objects). That is
 // the Illinois writer's defect, it reproduces on families outside this lane's
 // grant, and it belongs to that writer's owner. This lane does not take it on.
-// A working repair for it already exists in this repository as
-// pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs.
+// THE CROSS-REFERENCE DEFECT IS NOW REPAIRED HERE. The paragraph above recorded
+// it as another owner's to take on; this lane holds the grant and has taken it.
+// See "WHAT FIX07 REPAIRED HERE" below.
+//
+// WHAT FIX07 REPAIRED HERE.
+//
+//   ARTIFACTS. Repaired, and repaired at the shared cause rather than here.
+//   VF01/VF02/VF03 measured 146 dangling indirect references per fixture on this
+//   build path: pdf-lib's form.flatten() deletes the widget annotation objects
+//   and leaves their references in each page's /Annots, and buildPacket's
+//   copyPages then reserves an object number for each unresolvable reference and
+//   never emits an object at it. That is one fault with two faces -- the trailer
+//   declared /Size 954 over a cross-reference table covering 808 object numbers
+//   in 14 subsections, and 954 - 808 is exactly the dangling count, because each
+//   dangling reference consumes exactly one reserved-and-never-written number.
+//   The prune now runs on each component document immediately after flatten,
+//   BEFORE copyPages, from the single shared implementation at
+//   scripts/lib/pdf-prune-dangling-annots.mjs. Link annotations resolve and are
+//   kept, 21 before and 21 after. The verifiers also proposed emitting an xref
+//   covering 0..Size-1 with free entries; that was evaluated and NOT adopted,
+//   because pruning before the copy makes it unnecessary rather than redundant:
+//   pdf-lib then emits a single full-coverage subsection on its own, measured at
+//   /Size 808 over 808 covered. Hand-writing an xref downstream of pdf-lib's
+//   writer would have masked the cause instead of removing it.
+//
+//   REQUIRED_BEFORE_FILING -- THE ELECTION COLUMN THE FORM DOES NOT HAVE. The
+//   guide told the participant to "make the per-case expunge or seal election in
+//   the Case List's per-case election column, which is where the record places it
+//   -- not on the Request". The record does place it there: registry
+//   packetSet.requiredBeforeFiling line 6 reads "Expunge-versus-seal selection
+//   for each case -- Case List, per-case election column." The official form does
+//   not. This lane re-enumerated the blank ATJ 2902.1 Case List from the bound
+//   bytes (sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c)
+//   rather than accepting the earlier count: 78 AcroForm fields on one page -- 1
+//   dropdown ("1 - County"), 76 text fields (five caption fields, "7 - Case
+//   Number", and arrest1 through arrest70) and 1 check box ("Page 1 - More
+//   Arrests or Case Numbers"). There is no election field of any kind. The
+//   sentence therefore sent the filer to a column that does not exist and away
+//   from where this packet actually made the election. The record's own line is
+//   still printed verbatim above, because the record is quoted, not edited. What
+//   the builder says in its own voice now states the divergence and points at the
+//   Request, and a self-test assertion refuses the old sentence if it returns.
+//
+//   The registry line itself is NOT changed here, and neither is IL.memo.json.
+//   Correcting a controlling legal record is the record owner's act, not a repair
+//   lane's. The divergence is reported for that owner: the same line 6 reaches
+//   il-seal-2yr, il-exp-qualprob and il-seal-3yr, and it places an election on a
+//   column the official ATJ 2902.1 does not have.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -84,6 +130,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { countDanglingAnnots, pruneDanglingAnnots } from "./lib/pdf-prune-dangling-annots.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill";
@@ -495,13 +542,20 @@ async function fillDocument(source, fixtureName, fixture) {
   }
   form.updateFieldAppearances(font);
   form.flatten({ updateFieldAppearances: false });
+  // VF01/VF02/VF03, ARTIFACTS. flatten() deletes the widget annotation objects
+  // and leaves their references in each page's /Annots. Prune them HERE, on the
+  // component document, because buildPacket's copyPages is what turns a surviving
+  // dangling reference into a reserved-and-never-written object number and so into
+  // the /Size-over-xref mismatch Poppler refuses to open. Link annotations resolve
+  // and are kept. The shared implementation is scripts/lib/pdf-prune-dangling-annots.mjs.
+  const danglingAnnotsPruned = pruneDanglingAnnots(document);
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
   document.setCreator("LegalEase deterministic official-form builder");
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals, emptyOffAppearances };
+  return { document, writes, refusals, emptyOffAppearances, danglingAnnotsPruned };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -518,8 +572,17 @@ async function buildPacket(sources, fixtureName, fixture) {
   packet.setProducer("pdf-lib 1.17.1");
   packet.setCreationDate(FIXED_DATE);
   packet.setModificationDate(FIXED_DATE);
+  // Second prune, on the merged packet, so a reference introduced by the copy
+  // itself cannot reach the delivered bytes. On a correctly pruned component set
+  // this removes nothing; it is a guard, not the repair.
+  pruneDanglingAnnots(packet);
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity }));
   const reopened = await PDFDocument.load(bytes);
+  // The check is on the bytes that ship, not on the intention. This was 146 per
+  // fixture before the repair, and every one of them was also an object number
+  // the trailer's /Size declared and the cross-reference table did not cover.
+  assert.equal(countDanglingAnnots(reopened), 0,
+    "the delivered packet must carry no unresolvable /Annots reference");
   assert.equal(reopened.getPageCount(), 13);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
   // FIX118, CLIPPING_AND_OVERLAP. Both halves of the repair are checked on the
@@ -584,7 +647,7 @@ async function build() {
   assert.ok(feeWaiverElectionRows.length, "the fee-waiver form's participant elections must reach the guide");
   const feeWaiverElections = feeWaiverElectionRows.map((row) => `- ${row.fieldName} \u2014 FW-CIV-APPLICATION page ${row.page}`).join("\n");
   const registryCarveOut = "";
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nThe first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\nThis packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.\n\n${requiredList}\n\n### The boxes only you can tick\n\nThe list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.\n\nThis packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:\n\n${feeWaiverElections}${registryCarveOut}\n\nDo not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.\n\n${stopConditions}\n\nTwo of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.\n`);
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nThe first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. The record's per-case expunge-versus-seal line above places that election in a Case List per-case election column. The official Case List this packet ships carries no such column: its 78 form fields are the county, five caption fields, one clerk-assigned case number, one \"More Arrests or Case Numbers\" box and seventy unlabelled arrest or case cells, and not one of them is an election field. This packet therefore made the per-case expunge-or-seal election where the official forms do carry it, on the Request: item 12 is answered Yes to sealing, and Section 17 states the two-year misdemeanor-conviction ground. Check that election against your certified disposition and your Illinois State Police transcript before you sign, and if it is wrong correct it on the Request, not on the Case List.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\nThis packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.\n\n${requiredList}\n\n### The boxes only you can tick\n\nThe list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.\n\nThis packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:\n\n${feeWaiverElections}${registryCarveOut}\n\nDo not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.\n\n${stopConditions}\n\nTwo of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
@@ -656,6 +719,19 @@ function selfTest() {
   assert.ok(instructions.includes("Sign and date that block yourself, in ink"),
     "the guide must tell the petitioner to sign the verification block the packet leaves blank");
   for (const phrase of ["item 12 Yes", "Section 17", "does not elect Section 15"]) assert.ok(instructions.includes(phrase), `the guide must disclose the route's elections: ${phrase}`);
+  // VF01/VF02, REQUIRED_BEFORE_FILING -- THE ELECTION COLUMN THE FORM DOES NOT
+  // HAVE. These assertions replace one that pinned the false sentence in place.
+  // The record's own line 6 is still printed verbatim above, because the record is
+  // quoted and not edited; what the builder says in its own voice must now state
+  // the divergence and point at the Request, and must never again send the filer
+  // to a Case List column that does not exist.
+  assert.ok(!instructions.includes("Case List's per-case election column"),
+    "the guide must not direct the filer to a Case List election column: the official ATJ 2902.1 has no such field");
+  for (const phrase of [
+    "The official Case List this packet ships carries no such column",
+    "not one of them is an election field",
+    "correct it on the Request, not on the Case List",
+  ]) assert.ok(instructions.includes(phrase), `the guide must state the Case List election-column divergence: ${phrase}`);
   // FIX118 round two, SELF_HELP_STOP. Every condition the controlling record
   // names reaches the file verbatim, so a registry edit the guide does not carry
   // fails the build instead of shipping a stop section that quotes a record it
