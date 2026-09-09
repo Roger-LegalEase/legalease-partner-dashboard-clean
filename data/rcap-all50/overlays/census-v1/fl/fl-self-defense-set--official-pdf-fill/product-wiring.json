@@ -1,15 +1,15 @@
 {
   "schemaVersion": "rcap-census-v1-product-wiring/v1",
-  "family": "hi_nonconviction_expungement-set",
-  "routeKey": "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement",
+  "family": "fl-self-defense-set",
+  "routeKey": "obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578",
   "routeKeys": [
-    "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement"
+    "obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578"
   ],
   "workType": "PRODUCT_WIRING_REQUIRED",
   "status": "DECLARED_NOT_INSTALLED",
   "authorityCreated": "none",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
-  "derivedFrom": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/rendered-artifacts.json",
   "explicitNonGrants": [
     "This document opens no commercial route.",
     "It creates no fulfillment record and consumes no packet credit.",
@@ -25,43 +25,36 @@
     "generationAllowed": false
   },
   "binding": {
-    "family": "hi_nonconviction_expungement-set",
-    "jurisdiction": "HI",
+    "family": "fl-self-defense-set",
+    "jurisdiction": "FL",
     "routeKeys": [
-      "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement"
+      "obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578"
     ],
     "deliveryType": "participant_agency_application",
     "instrumentKinds": [
-      "Hawaii Attorney General Expungement Application under § 831-3.2"
+      "Florida Lawful Self-Defense Expunction Application under § 943.0578"
     ],
     "packetComponents": [
-      "component:hi_nonconviction_expungement-primary-filing-1"
+      "component:fl-self-defense-primary-filing-1"
     ],
-    "fieldMap": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/production-field-map.json",
-    "instructions": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/participant-instructions.md",
-    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
-    "sourceReceipt": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/source-receipt.json",
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
       {
-        "sourceId": "official-form:HCJDC-159B",
-        "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+        "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34364359375",
-      "jobId": "102510268153",
-      "artifactId": "10109439157",
-      "boundToCanonicalSha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": null,
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
     "maintenanceRelationship": {
-      "rebuiltFrom": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
+      "rebuiltFrom": "scripts/build-census-v1-fl-self-defense-set.mjs",
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
@@ -69,16 +62,16 @@
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
-    "packetSetId": "hi_nonconviction_expungement-set",
+    "packetSetId": "fl-self-defense-set",
     "outputStrategy": "participant_agency_application",
     "components": [
       {
-        "componentId": "hi_nonconviction_expungement-set-component-1",
+        "componentId": "fl-self-defense-set-component-1",
         "role": "primary_filing",
         "order": 1,
-        "documentId": "HCJDC-159B",
-        "file": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43",
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b",
         "requirement": "required"
       }
     ]
