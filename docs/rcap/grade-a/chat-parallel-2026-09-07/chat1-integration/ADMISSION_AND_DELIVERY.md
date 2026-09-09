@@ -1,3 +1,97 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T05:20Z -->
+# Captain checkpoint — 199/346; the recovery pool landed and the blocked backlog moved
+
+Only the changed facts. Every earlier block below stays true of the moment it
+describes.
+
+**Heads.** Captain local and remote = `1d4b3f384`.
+
+**Census: 199/346 terminal.** 178 COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2
+HANDOFF_READY, 5 OUT_OF_SCOPE. Nonterminal: 73 SOURCE_READY, 36
+FAIL_REPAIR_REQUIRED, 18 PRODUCT_PATH_PENDING, 13 LEGAL_BLOCKED, 6
+SOURCE_BLOCKED, 1 WRONG_DELIVERY_TYPE.
+
+Closed since the last checkpoint: `vt_exp_decriminalized-set` and
+`nj_arrest_no_conviction-set` (`51c934b1a`), `ms-nonconv-set` (`83a08a8ad`),
+`ut_pet_limitations-set` (`ed077003c`), `ri_deferred_sentence-set`
+(`ddc7ab28d`).
+
+**THE NATIONWIDE RECOVERY POOL IS MOUNTED, AND IT MOVED THE WHOLE BACKLOG.**
+The kit arrived as eight desktop chunks, each verified against its own
+`chunk_sha256`, joined to the exact original (228,260,257 bytes, `db8a02db…`)
+and confirmed three ways — the join's combined digest, the UNCHANGED toolkit
+script taking its already-exists path and exiting 0, and a separate sha256sum
+plus `zipfile.testzip()` across 879 members. The kit's own reconstructor refuses
+the complete corpus (`RECOVERY_REFUSED: 513/583, missing 70, wrong-size 0`) and
+is right to; `stage-nationwide-recovery-pool.mjs` staged the partial pool: 513
+verified, 0 rejected, 51 jurisdictions. The receipt it wrote differs from the
+2026-09-02 one only in timestamps and kit root — a kit transported by an
+entirely different route staged to the same files at the same digests.
+
+What it bought, measured before and after: the row gate binds 43 SOURCE_READY
+families where it bound 32; **42 have every bound source held as a real PDF
+where 25 did**; and of the 42 FAIL/SOURCE_BLOCKED families, **36 now bind**,
+including the Alabama six, the Illinois nine and the New Mexico three, none of
+which could bind in this container before.
+
+**The stager refused once first, and was right to.** `private/source-imports`
+was a symlink in the Captain worktree, so `git check-ignore` could not walk
+under it and the guard will not write a source body where it cannot prove git
+ignores the path. Restructuring into a real directory of per-custody symlinks
+satisfied it honestly. The same symlink/ignore interaction has now bitten three
+lanes; every lane prompt says to build `private/` as a real directory.
+
+**Two counters that could not fail are still fixed** (route election `d89411ea2`,
+receipt/coverage reconciliation `508723c5b`), and two more silent failures were
+found and fixed this shift:
+
+- **`generate-product-wiring.mjs` was exiting on the first thrown assertion**, so
+  no family's wiring regenerated and 128 records sat frozen. It reports refusals
+  and continues now (`ee6a9fc79`); six families still refuse, five of them
+  expecting boundary.pdf in a receipt the gate never renders.
+- **The URL promotion generator was scraping a host policy that had moved.**
+  Three regexes over another script's characters, all returning empty, so
+  `hostAllowed` answered false for every host on earth — `www.txcourts.gov`
+  included — and it refused 210 of 242 URLs while reporting itself green. It
+  imports `scripts/lib/official-host-policy.mjs` now (`4cbf14d4f`): 0 → 202
+  corroborated candidates. The empty `REFUSED_HOSTS` was the sharper half; that
+  gate was safe only by accident.
+
+**The corpus index claimed the Master Library held fourteen binaries it never
+had** — Drive fetches by an ephemeral Codex worker,
+`sourceBodiesStagedOrCommitted: false` — and because that custody IS mounted,
+the sampled integrity check resolved them, found them absent, and **refused
+every packet build in this container**. Reattributed at `e53228f02` with six
+tests. Three of the fourteen turn out to be in the repository under
+`reference/`; eleven are owed.
+
+**ROLLING SHORTLIST.** Seven lanes are executing. One writer per shared file;
+the Captain is the only integrator.
+
+| family / group | unmet requirement | input available | owner | next action |
+|---|---|---|---|---|
+| Illinois five (il-exp-nonconv, il-cannabis-vacate, il-exp-qualprob, il-seal-2yr, il-seal-3yr) | five repaired builders that have never been executed | pool mounted; all five bind | FIX04/03/07/08/01 | running: first execution, two runs each, nine counters, raster |
+| PF03/PF23 six | build | five buildable, ia-12346 stops on a Drive-receipt-only source | PF03, PF23 | running |
+| New Hampshire three + PF12 | build | all three bind and are held PDFs | PF11, PF12 | running |
+| PF14 four, PF20 two | build | mo-art-xiv stops on FI-05 | PF14, PF20 | running |
+| RI District two | FEE_AND_WAIVER: do the records now say what the page says | eight surviving copies scoped at `d4984cbc5` | VF04, VF05 | running reread |
+| ca-17b, co_petition_seal_arrest, WV vacatur | repaired bytes nobody has read | bytes moved after the failing verdict | VF05, VF01, VF03 | running reread |
+| Alabama six | shared host repaired by FIX09, never rebuilt | now bind through the pool | FIX09 lineage | dispatch when a worktree frees |
+| 28 buildable, undispatched | build | every bound source is a held PDF | unassigned | dispatch as capacity frees |
+
+**PRODUCTION.** Image published AND accepted; `releaseTruth.imageAccepted` true.
+Nothing deployed, no RLS migration, no production worker updated. Blocked on
+Roger alone: phase 50 `CREATE OR REPLACE TRIGGER` authorization, the seven
+unpopulated staging values, a persistent worker host.
+
+**USER-ONLY, held for Roger's return.** Push access to
+`legalease-source-artifacts` (the token reads it, `push: false`, so the verified
+228 MB archive cannot be published as a release asset); the component-authority
+decision (manifest vs census, 207 families would gain a component); a BMC issuer
+confirmation for `ma-bmc-multi-set`; the New Jersey intake gap (three facts no
+question on any track collects); and the 70 manifest files still absent from the
+pool.
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T01:25Z -->
 # Captain checkpoint — 196/346; two counters that could not fail, both now can
 
