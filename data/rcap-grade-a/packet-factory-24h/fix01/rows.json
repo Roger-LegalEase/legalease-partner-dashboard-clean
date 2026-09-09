@@ -987,6 +987,131 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "lane": "FIX01",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+      "base": "1d4b3f384",
+      "branch": "il-five-rebuild-20260909",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 il-seal-3yr-set -> CLAIM_OK FIX01 il-seal-3yr-set (repair, grant set 2c840336e7f0a24a), exit 0. The grant was NOT released and the claim ledger was NOT committed.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable. ok repo_identity il-five-rebuild-20260909 at 1d4b3f38; ok clone_is_complete; ok worktree_clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; ok private_is_git_ignored; ok master_library_mounted; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; ok corpus_matches_committed_index (24 sampled entries byte-exact; src05_worker_materialization_2026_09_02 not mounted here and not compared); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted (12 hashes, 6 families, 7 refused capabilities).",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family il-seal-3yr-set -> PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 4/4 source(s) bind by exact SHA-256 (custody_reconciliation); stale_artifact_block_consulted 0 artifact(s) under this family clear.",
+      "sourcesRehashedByMe": {
+        "count": 4,
+        "allExact": true,
+        "method": "I resolved every declared source through data/rcap-all50/local-source-corpus-index.json with the repository's own makeCorpusEntryResolver, read the bytes, computed sha256 myself and compared it to the digest the builder declares, then loaded each file with pdf-lib and read its page count and AcroForm field count and checked the %PDF header and %%EOF trailer. Every one matched. Across the five families 11 distinct sources were re-hashed; 8 of them resolve through custody nationwide_recovery_pool_2026_09_02 at private/source-imports/Nationwide_Recovery_Pool_2026-09-02, which is the custody FIX94 could not mount, so those 8 bound for the first time here.",
+        "custodyCaveat": "The recovery pool is a PARTIAL custody: 513 of 583 files, completeOperationalCorpus false. It held every byte these five families needed, and that is all it proves. It is not evidence that any corpus is complete.",
+        "sources": [
+          {
+            "documentId": "EXP-AD Request",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+            "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+            "byteLength": 1015247,
+            "pages": 6,
+            "acroFields": 151,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pages": 1,
+            "acroFields": 78,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "EXP-AD Order Granting",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+            "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+            "byteLength": 823679,
+            "pages": 2,
+            "acroFields": 74,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "FW-CIV-APPLICATION",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+            "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+            "byteLength": 1051549,
+            "pages": 4,
+            "acroFields": 121,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          }
+        ]
+      },
+      "canonicalSha256": "2d81bc640de80d14353af9eb19506287c5666fd289659ab07053ddae5561727b",
+      "boundarySha256": "8ff2e2249f0fe8336bd6c5288e68f214206b51dfe75a14abacbb6c6bd35d832f",
+      "priorDeliveredCanonicalSha256": "2d81bc640de80d14353af9eb19506287c5666fd289659ab07053ddae5561727b",
+      "priorDeliveredBoundarySha256": "8ff2e2249f0fe8336bd6c5288e68f214206b51dfe75a14abacbb6c6bd35d832f",
+      "deliveredBytesChangedByThisRun": false,
+      "determinismTwoRuns": {
+        "runsExecuted": 2,
+        "byteIdentical": true,
+        "method": "The builder was run, the whole family directory copied aside, the builder run again, and the two trees compared with diff -r. No file differed.",
+        "note": "The builder stamps a fixed FIXED_DATE 2026-09-03T00:00:00.000Z into every PDF's creation and modification date rather than a wall clock, which is why the digests are stable under a hash-bound receipt."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+        "result": "PASS_COMPLETE",
+        "allNineReportedNotJustTheFirst": true,
+        "whatTheseCountersDoNotSee": "VF01 recorded this engine's blind spot for exactly these families and it still holds: the counters trust the declared fact-to-field mapping and the builder's own visualDefects flag. They read zero on this family before this lane ran and they read zero now, so they did not distinguish the repaired bytes from the faulted ones. Every finding in this row that matters came from looking at rastered pages, not from these nine numbers."
+      },
+      "pagesInspected": [
+        "canonical p6 signature block at 316 dpi, against the same region of the blank official form. The '/s/' on the signature rule is printed on the court's own form -- it is page content, not a builder write and not a field default; I checked every text field in the source Request and ZERO carry a source-authored default value. The signature line itself is empty. Print Name carries Jordan Avery Reyes, the phone and email carry the fixture's, and 'I am completing this form for myself' is ticked. No signature is fabricated.",
+        "canonical p1 Section 1 expunge election at 316 dpi: both boxes clear.",
+        "I did not re-raster this family's Section 12 or page-2 table; the sibling family il-seal-2yr-set builds the same four sources through the same code path and I inspected those pages there."
+      ],
+      "rasterMethod": "Rastered at 307-384 dpi through scripts/raster/pdf-page-raster.mjs against the Chromium at PLAYWRIGHT_BROWSERS_PATH. No playwright install, no apt-get, no pdftoppm. Full-page render tops out at 287 dpi because the harness viewport is 2448x3168, so each page I ruled on was re-mediaboxed to the region of interest and rendered through the same calibrated path, which still measures paper bounds and calibration marks and refuses any mapping whose two estimates disagree by more than 1.5px -- it refused several of my crops and I moved the region or the magnification rather than lowering the tolerance. All rasters were written under /tmp and deleted; none was committed.",
+      "whatChanged": [
+        "THE PREMISE OF THE DISPATCH DOES NOT HOLD FOR THIS FAMILY, AND THIS IS THE MOST IMPORTANT THING IN THIS ROW. The builder ran to completion twice and rewrote every artifact under the family directory, and the bytes it produced are IDENTICAL to the bytes already committed at 1d4b3f384: after both runs `git status --porcelain` reports NO modification anywhere under this family directory. The canonical and boundary digests I produced are exactly the digests FIX94 recorded as the unrepaired delivered ones. This row therefore delivers NO new bytes.",
+        "WHY, from the repository's own history: FIX94 recorded this builder as repaired in source at dc1530264 and 'never run'. git says otherwise -- dc1530264 (2026-09-04T03:10:01-04:00) changed BOTH scripts/build-census-v1-il-seal-3yr-set.mjs AND data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf in the same commit. That lane ran its builder; the delivered bytes already were its repaired output, and my independent re-run from re-hashed sources reproduces them byte-for-byte.",
+        "CONSEQUENCE FOR THE INDEPENDENT VERDICT ON RECORD: the verdict FIX94 selected (vf02 at fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e, 2026-09-04T00:24:11-04:00) predates dc1530264. Its seven failed obligations -- CLIPPING_AND_OVERLAP, KNOWN_PREFILLS, PROTECTED_FIELDS, REPEATING_ROWS, REQUIRED_BEFORE_FILING, ROUTE_IDENTITY, ROUTE_OPTIONS -- were read on the PRE-repair artifacts and are not findings about the bytes now committed. The current bytes have never been independently read.",
+        "What I can say from looking: the packet is 13 pages with 39 writes and 385 classified blanks over 424 recorded fields, 124 of them declared REQUIRED_BEFORE_FILING, and the signature block is unsigned.",
+        "Determinism is now established for this builder where it previously was not: two runs, byte-identical."
+      ],
+      "whatThisRowDoesNotDischarge": [
+        "The mirror of the same question is open on this sealing route and I did not settle it either. Section 1 on Request page 1 reads \"I am requesting to expunge records.  [ ] Yes   [ ] No (If no, skip to Request to Seal Criminal Records starting in Section 12)\", and like Section 12 it is one field with two widgets, /Yes at x=71.9 and /No at x=139.5. I rastered page 1 of the delivered packet at 316 dpi: both boxes are unticked. This packet correctly blanks the inactive page-2 expungement table -- I rastered rows 1 and 2 and they are empty -- but it leaves Section 1's Yes/No question unanswered rather than answering it \"No\", so the Request tells the court nothing about whether expungement was requested. Same class of open question as the expungement families' Section 12, and it belongs to whoever holds the route.",
+        "This row repairs nothing and delivers no new bytes. It should not be counted as a repair, a rebuild or a re-delivery.",
+        "ROUTE_IDENTITY and ROUTE_OPTIONS in particular are not discharged here. The repair's account is that Section 15's no-wait Second Chance branch is no longer selected and that the three-year conditional-discharge/probation, revoked-sentence and custody options are left as participant elections with routeDetermined false. I read that in the field map but I did not raster page 5 to confirm which of options 15 through 24 are inked on the delivered page, so I do not vouch for it. An independent lane must look at page 5.",
+        "124 REQUIRED_BEFORE_FILING refusals are declared and disclosed, not discharged. No signature, notarization, consent, clerk act, fee or judicial finding was fabricated.",
+        "This row is a builder's report on its own output and discharges no obligation. I ran these builders, so my verdict is not a verdict: an independent lane reading the committed bytes decides. The self-test in each builder passed, and a builder's self-test is the builder agreeing with itself. The nine counters read zero, and they read zero on the faulted bytes too."
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateMeans": "My raster is my own check, not central acceptance. Central raster acceptance has not run on these bytes.",
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "grantsNothing": "This row opens no route, promotes no status and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one.",
+      "builderSha256": "cdfb8340d80fd2a7535fa867086187ef0576d2cb343930c62cf4f9dde0f6c8ff",
+      "builderSha256MatchesFix94Record": true,
+      "builderSelfTest": "node scripts/build-census-v1-il-seal-3yr-set.mjs --self-test -> 'il-seal-3yr-set self-test passed'.",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-seal-3yr:adult-conviction-sealing"
+      ],
+      "firstExecutionEver": false,
+      "firstExecutionEverIsFalseBecause": "The dispatch stated that not one of these five builders had ever produced a byte. For this family that is not so: dc1530264 produced the bytes that are committed today, and this run reproduced them exactly."
     }
   ],
   "currentRepairWave": {
