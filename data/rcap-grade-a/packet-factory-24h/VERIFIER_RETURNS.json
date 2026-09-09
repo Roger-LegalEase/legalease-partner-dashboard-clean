@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 141,
-    "rows": 1084,
-    "independentVerdicts": 287,
-    "failRepairRequired": 47,
+    "returnDirectories": 142,
+    "rows": 1088,
+    "independentVerdicts": 291,
+    "failRepairRequired": 51,
     "passIndependent": 219
   },
   "failRepairRequiredFamilies": [
@@ -65,7 +65,10 @@
     "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
     "la-977d-marijuana-first-offense-set",
+    "la-985-1-interim-expungement-set",
     "ma-expunge-k-set",
+    "ma-seal-court-set",
+    "md_10105_early-set",
     "md_pardon_expungement-set",
     "me-seal-survivor-set",
     "mn_petition_15218-set",
@@ -87,6 +90,7 @@
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
+    "wv_acc_treatment_job_readiness-set",
     "wv_conv_nonviolent_felony-set"
   ],
   "refusedAtTheClaimGate": {
@@ -11627,6 +11631,29 @@
       "superseded": false
     },
     {
+      "familyId": "la-985-1-interim-expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "la-985-expungement-by-redaction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
@@ -12153,6 +12180,36 @@
       "superseded": false
     },
     {
+      "familyId": "ma-seal-court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-seal-court-set",
+      "superseded": false
+    },
+    {
       "familyId": "ma-seal-decrim-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf05",
@@ -12164,6 +12221,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-seal-decrim-set",
+      "superseded": false
+    },
+    {
+      "familyId": "md_10105_early-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_early-set",
       "superseded": false
     },
     {
@@ -32497,6 +32577,36 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set",
       "superseded": true
+    },
+    {
+      "familyId": "wv_acc_treatment_job_readiness-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_acc_treatment_job_readiness-set",
+      "superseded": false
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
