@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "packet-factory-24h/worker-checkpoints/v1",
+  "assignmentId": "PF14",
+  "workerBranch": "pf14-20260909",
+  "whyThisFilenameAndNotCheckpointsJson": "data/rcap-grade-a/packet-factory-24h/pf14/checkpoints.json already holds a PF14 return from an earlier shift on branch fable/pd. It is left byte-for-byte unchanged and this shift's checkpoints are written alongside it.",
+  "checkpointRule": "This assignment returns each family the moment it is finished rather than holding a batch, so a checkpoint is written per completed family.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "writtenAt": "2026-09-09T21:20:00Z",
+      "familiesCovered": [
+        "la-976-arrest-no-conviction-set"
+      ],
+      "completed": [
+        "la-976-arrest-no-conviction-set"
+      ],
+      "stopped": [],
+      "remaining": [
+        "la-977d-marijuana-first-offense-set",
+        "la-985-1-interim-expungement-set"
+      ],
+      "rowsWritten": 1,
+      "artifactDigests": {
+        "la-976-arrest-no-conviction-set": {
+          "canonical": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+          "boundary": "f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3"
+        }
+      },
+      "overlayDirectoriesTouchedByAStoppedFamily": 0,
+      "packetsSelfVerified": 0,
+      "claimsReleased": 0,
+      "sharedCentralArtifactsRegenerated": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "rasterImagesRetained": false,
+      "note": "BUILT_RASTER_PENDING is a factory workflow state and not a launch verdict: it zeroes nothing and waives nothing, and visualDefects records that nobody independent has looked rather than that there is nothing to see."
+    }
+  ]
+}
