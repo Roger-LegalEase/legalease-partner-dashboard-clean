@@ -320,6 +320,38 @@ const PROOF_OBLIGATIONS = [
   "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
   "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP",
 ];
+/*
+ * TWO CORRECTIONS, both made because the check stopped catching its own
+ * mutation while nothing about the data got worse.
+ *
+ * 1. THE READING IS PER ROW, not per document. It scored the union of every
+ *    uppercase token in the whole return, so one row that scored the full set
+ *    vouched for every other row in the file. VF16 is exactly that shape: five
+ *    Washington rows that name six obligations, and one later Mississippi row
+ *    that names all fifteen. The moment the sixth row was appended, the five
+ *    partial ones became unreadable by this check -- the L9 mutation went from
+ *    caught to MISSED with no verifier having changed a word of their reading.
+ *    An obligation another family scored is not evidence about this one.
+ *
+ * 2. AN OBLIGATION IS RECOGNISED BY NAME, NOT BY UNDERSCORE. The old token
+ *    match only ever saw SCREAMING_SNAKE spellings, so VF04, VF05 and VF06 --
+ *    which key their obligation tables "ROUTE IDENTITY", "FEE AND WAIVER",
+ *    "SELF-HELP STOP" -- read as having scored almost nothing. Under a per-row
+ *    reading that would have failed three complete, careful returns for their
+ *    punctuation. The separator is not the claim; the name is.
+ *
+ * What is deliberately NOT restored is a document-level fallback for a row that
+ * names no obligation at all. That is the hole above wearing a different hat: a
+ * row claiming the strongest verdict in the vocabulary has to say what it
+ * scored. No current row relies on one -- all 371 PASS rows name their
+ * obligations in the row -- so this costs nothing today and closes the shape.
+ */
+const OBLIGATION_NAMED = new Map(
+  PROOF_OBLIGATIONS.map((o) => [o, new RegExp(o.replace(/_/g, "[ _-]"))]));
+const unscoredIn = (value) => {
+  const text = JSON.stringify(value);
+  return PROOF_OBLIGATIONS.filter((o) => !OBLIGATION_NAMED.get(o).test(text));
+};
 const verdictProblems = [];
 let passRowsSeen = 0;
 const factoryDir = path.join(ROOT, DIR);
@@ -330,11 +362,10 @@ for (const lane of laneDirs) {
   let doc;
   try { doc = JSON.parse(fs.readFileSync(path.join(factoryDir, lane, "rows.json"), "utf8")); } catch { continue; }
   if (doc.laneKind && doc.laneKind !== "independent-verification") continue;
-  const scored = new Set(JSON.stringify(doc).match(/[A-Z][A-Z_]{4,}/g) ?? []);
   for (const row of doc.rows ?? []) {
     if (row.verdict !== "PASS_COMPLETE_INDEPENDENT") continue;
     passRowsSeen += 1;
-    const unscored = PROOF_OBLIGATIONS.filter((o) => !scored.has(o));
+    const unscored = unscoredIn(row);
     if (unscored.length) {
       verdictProblems.push(`${lane}/${row.itemId ?? "a row"} claims PASS_COMPLETE_INDEPENDENT without scoring ${unscored.length} obligation(s): ${unscored.slice(0, 5).join(", ")}`);
     }
