@@ -29,7 +29,21 @@ where every source the packet actually uses binds. It is useless as a dispatch
 signal in both directions: it cried missing on families that were fine, and the
 dispatch ignored it where it was right.
 
-The buildability record's own list is the narrow one -- **13 families**:
+**Correction, same day, from a stronger measurement.** The sentence that stood
+here said the buildability record's list was the narrow, right one. It is
+narrow and it is NOT complete. PF06 (`2f16bad2c`) hashed all 1859 files under
+all five mounted custody roots and searched by declared digest, and found
+`fl-sealing-set` (the FDLE certificate and all three Rule 3.989 instruments)
+and `ia-901c3-set` (Rule 2.86 Form 2; the library holds Forms 4 and 5) with
+zero hits. Neither is on the buildability list. So that record under-reports,
+"not on the list" proves nothing, and the only sound test is resolving each
+declared digest against the mounts. All three running build lanes were told.
+
+PF06 also confirms the scalar problem from the other side: MASTER_QUEUE records
+all three of its source-blocked families as `sourceBound: true` /
+`SOURCE_BOUND_BY_HELD_BYTES`, which the mounted custody does not support.
+
+The buildability record's list, incomplete, is **13 families**:
 `az_certificate_second_chance-set`, `ca-diversion-seal-set`,
 `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`,
 `de_pardon_expungement-set`, `ky_protective_order_record_expungement-set`,

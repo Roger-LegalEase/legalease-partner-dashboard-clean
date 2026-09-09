@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0785c850ff3b60efc2b9d483eb8b0c593c9003bc",
+  "generatedAtCommit": "9a3f7ff58e39e9e3e8caeb37d0b233a94aefe961",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -784,8 +784,9 @@
       "operation": "packet-build",
       "lane": "PF06",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T14:02:41.795Z",
+      "releaseReason": "PF06 10d346b47 COMPLETED: CR-65 both statutory subsections, four artifacts, eight counters zero and visualDefects null; BUILT_RASTER_PENDING"
     },
     {
       "subjectType": "packet-family",
@@ -1480,11 +1481,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF11",
+      "lane": "PF06",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-09T13:46:46.551Z",
-      "releaseReason": "PF11 36ec1c777 STOPPED/BLOCKED_SOURCE: official-form:SDSC-CRM-307 da6852b5... is in no mounted custody; SOURCE_READY_BUILDABILITY.json already recorded 0 of 1 resolved and the dispatch did not consult it"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3059,10 +3058,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF02",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3193,9 +3191,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF02",
       "laneKind": "packet-build",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-09T14:02:42.013Z"
     },
     {
       "subjectType": "packet-family",
@@ -3658,10 +3657,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF07",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4695,7 +4693,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF03",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T09:49:13.073Z"
@@ -6129,6 +6127,22 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "nh_conviction_standard-set",
+      "itemId": null,
+      "familyId": "nh_conviction_standard-set",
+      "familyIds": [
+        "nh_conviction_standard-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF11",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-09T13:47:01.639Z",
+      "releaseReason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "nh_conviction_streamlined-set",
       "familyId": "nh_conviction_streamlined-set",
       "itemId": null,
@@ -6137,9 +6151,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF11",
       "laneKind": "packet-build",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-09T14:02:42.224Z"
     },
     {
       "subjectType": "packet-family",
@@ -7899,7 +7914,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF03",
+      "lane": "PF05",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T07:39:39.272Z"
@@ -13853,25 +13868,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nh_conviction_standard-set",
-      "itemId": null,
-      "familyId": "nh_conviction_standard-set",
-      "familyIds": [
-        "nh_conviction_standard-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF11",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-09T13:47:01.639Z",
-      "releaseReason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
     }
   ],
-  "claimsDigest": "2bf8eb7aa79ba736474d7b90925822b51f199c1d7fe2237a372da0de89e18f30",
+  "claimsDigest": "d23f5e357d5143d1d9e1028f8bf6c5bbc6b156849e512f7e770bf466662a7502",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34055,6 +34054,51 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-09T13:47:01.639Z",
       "reason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:02:41.795Z",
+      "reason": "PF06 10d346b47 COMPLETED: CR-65 both statutory subsections, four artifacts, eight counters zero and visualDefects null; BUILT_RASTER_PENDING"
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:02:41.907Z",
+      "reason": "PF06 2f16bad2c STOPPED/BLOCKED_SOURCE: declared digest has 0 hits across all 1859 files under all five mounted custody roots"
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "fl-sealing-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:02:42.013Z",
+      "reason": "PF06 2f16bad2c STOPPED/BLOCKED_SOURCE: declared digest has 0 hits across all 1859 files under all five mounted custody roots"
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "ia-901c3-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:02:42.117Z",
+      "reason": "PF06 2f16bad2c STOPPED/BLOCKED_SOURCE: declared digest has 0 hits across all 1859 files under all five mounted custody roots"
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_streamlined-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:02:42.224Z",
+      "reason": "PF06 2f16bad2c STOPPED/BLOCKED_LEGAL_INPUT: all four sources bind by exact SHA-256; the missing thing is an owner determination on the court option list (11 vs 73, intersection 0, no free-text field)"
     }
   ],
   "reissues": [
@@ -42441,6 +42485,36 @@
       "previouslyReleasedAt": "2026-09-09T12:29:55.852Z",
       "reissuedAt": "2026-09-09T13:22:51.795Z",
       "reason": "post-repair reread: FIX13 674da4c5b moved these bytes after VF13's failure; VF13 verified and neither built nor repaired them"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "packet-build",
+      "lane": "PF02",
+      "dispatchNames": "PF02",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-09T14:04:10Z",
+      "reason": "the current dispatch names PF02 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-diversion-seal-set",
+      "operation": "packet-build",
+      "lane": "PF06",
+      "dispatchNames": "PF06",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-09T14:04:10Z",
+      "reason": "the current dispatch names PF06 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-901c3-set",
+      "operation": "packet-build",
+      "lane": "PF07",
+      "dispatchNames": "PF07",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-09T14:04:10Z",
+      "reason": "the current dispatch names PF07 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
