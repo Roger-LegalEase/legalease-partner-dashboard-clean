@@ -23,24 +23,29 @@
       ],
       "recordId": "legal-design-track-registry:id_felony_reduction",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
-      "byteLength": 16775681,
+      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+      "byteLength": 16778727,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
       "anchorStatementsVerified": 11,
       "identityRefresh": {
-        "refreshedOn": "2026-09-06",
+        "refreshedOn": "2026-09-09",
         "was": {
-          "sha256": "15e4c0da5b693222b57a512203396fddb0cfbd2b54a1ad2d3e4e36157e9aa47d",
-          "byteLength": 16759814
+          "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+          "byteLength": 16775681
         },
-        "why": "The record was rewritten around this receipt's anchors. Every anchored entry this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
+        "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
         "anchorsCompared": 1,
         "anchorDetail": [
           "id_felony_reduction: identical"
         ],
         "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "HEAD~1"
+        "entriesThatMovedInThisRecord": [
+          "ri_first_offender_misdemeanor",
+          "ri_multiple_misdemeanors"
+        ],
+        "previousPinLastSeenAtCommit": "94445c6a4",
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
       }
     },
     {
