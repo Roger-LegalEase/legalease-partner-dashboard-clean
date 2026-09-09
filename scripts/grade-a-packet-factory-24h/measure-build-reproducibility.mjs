@@ -55,7 +55,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
-const OUT = "data/rcap-grade-a/fable-packet-factory/BUILD_REPRODUCIBILITY.json";
+const DEFAULT_OUT = "data/rcap-grade-a/fable-packet-factory/BUILD_REPRODUCIBILITY.json";
 
 const argv = process.argv.slice(2);
 const flag = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : null; };
@@ -63,6 +63,18 @@ const LIMIT = Number(flag("--limit") ?? Infinity);
 const ONLY_FAMILY = flag("--family");
 const PROVEN_ONLY = argv.includes("--proven-only");
 const BUILD_TIMEOUT_MS = Number(flag("--timeout") ?? 600_000);
+
+// This report is rewritten in full on every run, so a partial sweep aimed at the
+// default path silently replaces a completed sweep's record -- which has already
+// happened once in this repository. --out lets a sweep of a subset write its own
+// record and leave the corpus-wide one alone, and --families names that subset
+// from a JSON array of family ids so the subset is covered by ONE run rather
+// than by a loop of runs that each replace the last.
+const OUT = flag("--out") ?? DEFAULT_OUT;
+const FAMILY_SET_FILE = flag("--families");
+const FAMILY_SET = FAMILY_SET_FILE
+  ? new Set(JSON.parse(fs.readFileSync(path.resolve(ROOT, FAMILY_SET_FILE), "utf8")))
+  : null;
 
 const PROVEN_STATES = new Set(["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS"]);
 
@@ -224,6 +236,22 @@ function determineInvocation(family) {
     return { argv: [], basis: "direct-invocation guard calls a no-argument entrypoint" };
   }
   if (passed.length === 0 && guard < 0) {
+    // No process.argv[1] guard at all. That is not the same as "cannot be
+    // invoked": several builders are plain top-level scripts whose module body
+    // dispatches on process.argv.slice(2) and falls through to their own family
+    // when given no arguments. Reading that as UNKNOWN_INVOCATION cost an
+    // earlier sweep a true positive (il-seal-edu-set), so it is detected here.
+    // The no-argument branch is the last `else` of that top-level dispatch: if
+    // this family's own id is what it falls through to, a bare `node <script>`
+    // builds this family. The claim is still confirmed empirically afterwards --
+    // builderRewroteOwnDirectory reports a run that touched none of the family's
+    // own files, whatever else it did.
+    const lastElse = src.lastIndexOf("\nelse");
+    const elseIdx = lastElse >= 0 ? lastElse : src.lastIndexOf(" else ");
+    const tail = elseIdx >= 0 ? src.slice(elseIdx, elseIdx + 400) : "";
+    if (tail.includes(JSON.stringify(family.familyId))) {
+      return { argv: [], basis: "no direct-invocation guard: the script body runs at top level and its no-argument branch defaults to this family id" };
+    }
     return { argv: null, basis: `no direct-invocation guard found in ${family.buildScript}` };
   }
   return { argv: null, basis: `direct-invocation guard enters ${JSON.stringify(passed)}, not ${family.familyId}` };
@@ -310,7 +338,9 @@ const candidates = queue.families.filter((f) => f.directory && f.buildScriptExis
 const ordered = [
   ...candidates.filter((f) => PROVEN_STATES.has(f.state)),
   ...(PROVEN_ONLY ? [] : candidates.filter((f) => !PROVEN_STATES.has(f.state)))
-].filter((f) => (ONLY_FAMILY ? f.familyId === ONLY_FAMILY : true));
+]
+  .filter((f) => (ONLY_FAMILY ? f.familyId === ONLY_FAMILY : true))
+  .filter((f) => (FAMILY_SET ? FAMILY_SET.has(f.familyId) : true));
 
 // A full pass is slow -- roughly a minute per family, and it cannot be
 // parallelised because every build writes into the one working tree. So the
@@ -427,6 +457,8 @@ for (const family of ordered) {
 
   const drift = diffSnapshots(committed, rebuilt);
 
+  row.builderRewroteOwnDirectory = wroteOwnDirectory;
+
   if (drift.fileCount === 0) {
     row.classification = "REPRODUCES";
     row.filesRewrittenByBuilder = rewrote.length;
@@ -510,7 +542,8 @@ function buildReport() {
   // number in the report with families this sweep deliberately did not measure.
   const provenFailing = results.filter((r) => r.proven
     && !["REPRODUCES", "SKIPPED_LANE_ACTIVE", "UNKNOWN_INVOCATION"].includes(r.classification));
-  const notSwept = candidates.filter((c) => !results.some((r) => r.familyId === c.familyId));
+  const asked = (ONLY_FAMILY || FAMILY_SET) ? ordered : candidates;
+  const notSwept = asked.filter((c) => !results.some((r) => r.familyId === c.familyId));
 
   return {
     schemaVersion: 1,
@@ -532,6 +565,7 @@ function buildReport() {
     denominator: {
       familiesInQueue: queue.families.length,
       withDirectoryAndOwningScript: candidates.length,
+      selectedForThisRun: ordered.length,
       provenWithDirectoryAndOwningScript: candidates.filter((f) => PROVEN_STATES.has(f.state)).length,
       swept: results.length,
       sweptProven: results.filter((r) => r.proven).length,
