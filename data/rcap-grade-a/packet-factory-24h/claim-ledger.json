@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b25e353126364ce7aa9699bb92f1339f985a1914",
+  "generatedAtCommit": "8eded88ec33954e26ca7e95c56e0da5d89d790d5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3616,6 +3616,21 @@
         "hi_nonconviction_expungement-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "hi_nonconviction_expungement-set",
+      "familyId": "hi_nonconviction_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "hi_nonconviction_expungement-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF13",
       "laneKind": "packet-build",
@@ -3635,8 +3650,9 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T20:14:29.706Z",
+      "releaseReason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
       "subjectType": "packet-family",
@@ -4778,8 +4794,9 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T20:14:29.813Z",
+      "releaseReason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
       "subjectType": "packet-family",
@@ -13991,7 +14008,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d2108fb267b50e6f497b4bfb494a0313cecd4f5136ef339488eabb92695acf15",
+  "claimsDigest": "8b7b632be395387a9e7cdf0c192df9ac30f7237ee47317ae53639a14049e5714",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34553,6 +34570,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T20:09:13.673Z",
       "reason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "hi_nonconviction_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T20:14:29.706Z",
+      "reason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T20:14:29.813Z",
+      "reason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
     }
   ],
   "reissues": [
