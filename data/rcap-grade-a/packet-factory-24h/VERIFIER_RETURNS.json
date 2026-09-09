@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 994,
+    "rows": 997,
     "independentVerdicts": 252,
-    "failRepairRequired": 41,
-    "passIndependent": 196
+    "failRepairRequired": 40,
+    "passIndependent": 197
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -77,7 +77,6 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "ri_deferred_sentence-set",
     "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
@@ -21025,6 +21024,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d66978655",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
       "superseded": false
     },
     {
@@ -21419,6 +21432,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d66978655",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The defect VF04 and VF05 reported is repaired, and a NEW copy of the same answer survives unscoped. REPAIRED: no release-gating record still resolves the District Court filing fee on the Superior Court answer. All three duplicate researchResolvedQuestions resolutions on this track in the registry, and the single one in RI.memo.json, now carry clearsReleaseBlockerForThisTrack false, scopeLimitedTo 'the identified Rhode Island SUPERIOR COURT routes', a doesNotReachThisTrackBecause paragraph quoting RI-B-07's holding that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule', and the exact remaining question verbatim; and the District filing-charge blocker stands open again in releaseBlockers, unresolvedQuestions and blockers in both records. The Superior answer, its support, its supportUrl and its provenance are preserved rather than deleted. NOT REPAIRED: the 2026-09-06 owner decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json applied that research to all four Rhode Island tracks through TWO limbs - 'rules.fees restated to the Superior Court FAQ's no-fee answer' AND 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. FIX120 pass 2 corrected the second limb on the two District tracks and left the first limb untouched. rules.fees on this DISTRICT track still reads, word for word identical to the two Superior tracks, 'No expungement filing fee in the Superior Court. The Rhode Island Superior Court's own expungement FAQ ... expressly says the process requires no fee ...', and rules.researchParticipantText.fee still reads 'The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case ...'. Neither carries any statement that this track files in the District Court, neither names RI-B-07, and neither is marked as not reaching this track. Four locations survive on this track: registry .rules.fees, registry .rules.researchParticipantText.fee, RI.memo.json .rules.fees and RI.memo.json .rules.researchParticipantText.fee. This matters for two measured reasons rather than one of form. First, rules.fees is a field this repository quotes VERBATIM onto participant surfaces: al-diversion-set prints '- Filing fee: \"${rules.fees}\"', il-exp-pardon-set asserts in a build test that 'the guide must quote the record on fees', and in_conviction_felony-set, la-978-felony-conviction-set, az_marijuana_expungement_superior_court-set, az_record_sealing_conviction-set and nh_petition_nonconviction_pre2019-set each print it or pin it. The only reason no District packet byte carries it today is that scripts/build-census-v1-ri_decriminalized-set.mjs never reads rules.fees or researchParticipantText - this reader grepped the host and found no reference to either field - so the honest page is honest by hardcoding, not because the record it would otherwise quote is correct. Second, the surviving copy contradicts its own track object: registry tracks for this route carry, inside packetSet.participantActionRequired and packetSet.requiredBeforeFiling, 'Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.' while rules.fees on the same track states the Superior no-fee answer as the fee rule. FIX120 pass 2's own row asserts copiesSurvivingAfter count 0 with the proof 'no District track retains a resolution that clears the blocker'. That proof is true as stated and the count is wrong, because the enumeration it rests on covered researchResolvedQuestions and the three blocker arrays and never reached rules.fees or rules.researchParticipantText.fee. This is the one-copy-fixed-duplicate-left pattern the lane's own stated discipline exists to prevent, on the same two tracks, in the same two records, from the same owner direction. REPAIR REQUIRED: scope rules.fees and rules.researchParticipantText.fee on registry tracks[365] and tracks[367] and on RI.memo.json tracks[0] and tracks[2] the same way the resolutions were scoped - preserving the Superior answer, naming the District Court, naming RI-B-07, printing no District figure, and reviving neither the repealed $100 grant charge nor the civil schedule. Do NOT touch tracks[366] or tracks[368], or RI.memo tracks[1] or tracks[4]: those are Superior Court routes and the answer is true there.",
+          "evidence": "THE PAGE, READ HERE AT 300 dpi. Page 11 of both fixtures was rendered by this reader through scripts/raster/pdf-page-raster.mjs and read. It carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT. Your case is in the DISTRICT COURT, and no District Court filing-fee schedule is held by this repository. The Superior Court's no-fee answer does not establish what the District Court charges, if anything, for this motion, and no District Court figure is printed here because none is held.' It refuses to revive the $100 charge on a grant that Sec. 12-1.3-3(c) does not carry, refuses the civil filing-fee schedule, and says 'ASK THE CLERK of the District Court division where you are filing what this motion costs'. No figure is printed anywhere on the page. The preceding paragraph names which court gave the no-fee answer and says this build did not fetch courts.ri.gov. The $5 BCI state check is stated as a charge for the record and expressly not a court filing fee. The page invents no fee, no clerk act and no waiver, and it is unchanged from the bytes VF04 and VF05 read. THE RECORDS. Sixty copies of the filing-fee entry were enumerated across the three named records and each is classified in everyCopyOfTheFilingFeeEntryFound. The release-gating copies now match the page. Four copies on this track do not."
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
       "superseded": false
     },
     {
@@ -21597,6 +21632,28 @@
           "obligation": "FEE_AND_WAIVER",
           "finding": "The origin records still clear the filing-fee release blocker for this DISTRICT COURT track on a SUPERIOR COURT answer, which is exactly what RI-B-07 says does not reach it. data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/RI.memo.json both carry, in researchResolvedQuestions for this track, the entry whose original blocker statement reads 'Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.', resolved with answer '$0 expungement filing fee for the identified Superior Court routes ...' and support 'Rhode Island Superior Court FAQ'. The underlying decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json lists all four Rhode Island tracks, including the two District Court ones, and directs 'Use the supported Superior Court no-filing-fee answer', recording that 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. RI-B-07 is dated one day later and holds that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule'. FIX120 repaired the printed page and source-receipt.json but did not reopen that blocker at origin: RI-B-07 appears zero times in the track registry, zero times in RI.memo.json and zero times in legal-design-packet-set-manifests.json, and neither record carries any District Court scope limit. The consequence is that the page says the charge is not established while a release-gating record says the question is resolved for this track.",
           "evidence": "The participant-facing text is honest and invents nothing: page 11 carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT', says the case is in the DISTRICT COURT and no District Court filing-fee schedule is held, says the Superior Court's no-fee answer does not establish what the District Court charges, prints no figure, refuses to revive the repealed $100 grant charge or to apply the civil schedule, and tells the participant to ask the clerk of the District Court division. participant-instructions.md carries the same section, and source-receipt.json's whatThisReceiptDoesNotEstablish names RI-B-07 as a finding this build does not close. The $5 BCI state-check cost is stated as a charge for the record and not a court fee. What fails is not the page but the record behind it. RI-B-02 correctly does NOT name this family, and page 15 accordingly keeps the court's own instruction 8 and the original PAY EVERYTHING OFF step; that is by design and is not scored against this route."
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d66978655",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The defect VF04 and VF05 reported is repaired, and a NEW copy of the same answer survives unscoped. REPAIRED: no release-gating record still resolves the District Court filing fee on the Superior Court answer. All three duplicate researchResolvedQuestions resolutions on this track in the registry, and the single one in RI.memo.json, now carry clearsReleaseBlockerForThisTrack false, scopeLimitedTo 'the identified Rhode Island SUPERIOR COURT routes', a doesNotReachThisTrackBecause paragraph quoting RI-B-07's holding that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule', and the exact remaining question verbatim; and the District filing-charge blocker stands open again in releaseBlockers, unresolvedQuestions and blockers in both records. The Superior answer, its support, its supportUrl and its provenance are preserved rather than deleted. NOT REPAIRED: the 2026-09-06 owner decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json applied that research to all four Rhode Island tracks through TWO limbs - 'rules.fees restated to the Superior Court FAQ's no-fee answer' AND 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. FIX120 pass 2 corrected the second limb on the two District tracks and left the first limb untouched. rules.fees on this DISTRICT track still reads, word for word identical to the two Superior tracks, 'No expungement filing fee in the Superior Court. The Rhode Island Superior Court's own expungement FAQ ... expressly says the process requires no fee ...', and rules.researchParticipantText.fee still reads 'The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case ...'. Neither carries any statement that this track files in the District Court, neither names RI-B-07, and neither is marked as not reaching this track. Four locations survive on this track: registry .rules.fees, registry .rules.researchParticipantText.fee, RI.memo.json .rules.fees and RI.memo.json .rules.researchParticipantText.fee. This matters for two measured reasons rather than one of form. First, rules.fees is a field this repository quotes VERBATIM onto participant surfaces: al-diversion-set prints '- Filing fee: \"${rules.fees}\"', il-exp-pardon-set asserts in a build test that 'the guide must quote the record on fees', and in_conviction_felony-set, la-978-felony-conviction-set, az_marijuana_expungement_superior_court-set, az_record_sealing_conviction-set and nh_petition_nonconviction_pre2019-set each print it or pin it. The only reason no District packet byte carries it today is that scripts/build-census-v1-ri_decriminalized-set.mjs never reads rules.fees or researchParticipantText - this reader grepped the host and found no reference to either field - so the honest page is honest by hardcoding, not because the record it would otherwise quote is correct. Second, the surviving copy contradicts its own track object: registry tracks for this route carry, inside packetSet.participantActionRequired and packetSet.requiredBeforeFiling, 'Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.' while rules.fees on the same track states the Superior no-fee answer as the fee rule. FIX120 pass 2's own row asserts copiesSurvivingAfter count 0 with the proof 'no District track retains a resolution that clears the blocker'. That proof is true as stated and the count is wrong, because the enumeration it rests on covered researchResolvedQuestions and the three blocker arrays and never reached rules.fees or rules.researchParticipantText.fee. This is the one-copy-fixed-duplicate-left pattern the lane's own stated discipline exists to prevent, on the same two tracks, in the same two records, from the same owner direction. REPAIR REQUIRED: scope rules.fees and rules.researchParticipantText.fee on registry tracks[365] and tracks[367] and on RI.memo.json tracks[0] and tracks[2] the same way the resolutions were scoped - preserving the Superior answer, naming the District Court, naming RI-B-07, printing no District figure, and reviving neither the repealed $100 grant charge nor the civil schedule. Do NOT touch tracks[366] or tracks[368], or RI.memo tracks[1] or tracks[4]: those are Superior Court routes and the answer is true there.",
+          "evidence": "THE PAGE, READ HERE AT 300 dpi. Page 11 of both fixtures was rendered by this reader through scripts/raster/pdf-page-raster.mjs and read. It carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT. Your case is in the DISTRICT COURT, and no District Court filing-fee schedule is held by this repository. The Superior Court's no-fee answer does not establish what the District Court charges, if anything, for this motion, and no District Court figure is printed here because none is held.' It refuses to revive the $100 charge on a grant that Sec. 12-1.3-3(c) does not carry, refuses the civil filing-fee schedule, and says 'ASK THE CLERK of the District Court division where you are filing what this motion costs'. No figure is printed anywhere on the page. The preceding paragraph names which court gave the no-fee answer and says this build did not fetch courts.ri.gov. The $5 BCI state check is stated as a charge for the record and expressly not a court filing fee. The page invents no fee, no clerk act and no waiver, and it is unchanged from the bytes VF04 and VF05 read. THE RECORDS. Sixty copies of the filing-fee entry were enumerated across the three named records and each is classified in everyCopyOfTheFilingFeeEntryFound. The release-gating copies now match the page. Four copies on this track do not."
         }
       ],
       "failedObligationNames": [
