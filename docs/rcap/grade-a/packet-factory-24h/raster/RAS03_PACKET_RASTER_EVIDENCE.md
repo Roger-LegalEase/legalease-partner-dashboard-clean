@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `ef3314a877babc67b493fb01b9e0157e43a5d24a`
+**Minimum required ancestor:** `1a5e184422f29585275b1040d37c3ed833b6c369`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -170,21 +170,21 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf` — `2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf` — `3b6995830519a2d04e9233e3715e1c1c568dac1adf54c0eeaa9501bdd7a64b60`
 - expected pages 11 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### il-exp-qualprob-set
 
 - canonical `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf` — `dc55ad08565d7255c8992dda6a63bd942e14f09570d1283913d8f17b84b02b9a`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf` — `bb52fc825160724f1b7f42a7331486434e23d62962588127db017c3140411ffc`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF03
 
 ### il-seal-3yr-set
 
 - canonical `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf` — `3406669cadd2e9d88c5aee730bef6fec765d4ae3041df55253a5ad1921f92165`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf` — `0ca002a720e0f2f9d44fea383a8d3d2a5a46c9868e0af50e36dd136260f7462c`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF05
 
 ### in_conviction_d6-set
 

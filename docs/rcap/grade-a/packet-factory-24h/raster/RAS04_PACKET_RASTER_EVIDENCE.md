@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `ef3314a877babc67b493fb01b9e0157e43a5d24a`
+**Minimum required ancestor:** `1a5e184422f29585275b1040d37c3ed833b6c369`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -156,7 +156,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/canonical.pdf` — `d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81`
 - boundary `data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/boundary.pdf` — `33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262`
 - expected pages 2 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF03
 
 ### id_felony_reduction-set
 

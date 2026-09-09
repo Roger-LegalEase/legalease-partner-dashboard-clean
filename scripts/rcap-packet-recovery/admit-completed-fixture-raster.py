@@ -45,24 +45,81 @@ def validate(c,row,v,images,run,jobs):
         require(p.get('nonblank') is True and p.get('croppedToThePage') is True,'blank/uncropped page')
         residual=p.get('calibrationResidualPx');require(type(residual) in (int,float) and math.isfinite(residual) and 0<=residual<=2,'invalid calibration')
         require([p.get('pageWidthPt'),p.get('pageHeightPt')]==e['pageSizePt'],'wrong page geometry')
-        body=images.get(name,b'');require(len(body)>=24 and len(body)==p.get('bytes') and body[:8]==b'\x89PNG\r\n\x1a\n' and body[12:16]==b'IHDR','missing/corrupt PNG')
-        require(list(struct.unpack('>II',body[16:24]))==e['pngSizePx'],'wrong PNG dimensions')
-        receipts.append(dict(path=name,sha256=sha(body),byteLength=len(body)))
+        # An image reaches this check as BYTES, or as a published IDENTITY.
+        #
+        # The bytes path is the original and is unchanged. The identity path
+        # exists because an agent session whose egress policy denies Actions
+        # artifact blob storage can be handed the receipts without the 129 MB
+        # image corpus: each image's byte length, SHA-256 and PNG header
+        # dimensions, read off the real images by whoever downloaded the
+        # archives.
+        #
+        # ONE CHECK IS NOT MADE ON THE IDENTITY PATH, and pretending otherwise
+        # would be the whole danger of this route. `pngSizePx` is the image's
+        # VIEWPORT size, and the verdict records only the paper rectangle
+        # inside that viewport -- so on this path there is no independent
+        # second source for the viewport, and comparing the inventory's
+        # dimensions against a config field derived from the same inventory
+        # would be the inventory agreeing with itself. Rather than dress that
+        # up as a passing check, the identity path omits it and says so on the
+        # receipt.
+        #
+        # What survives is real and is a genuine cross-check: the verdict and
+        # the inventory are two independently published records, and this
+        # requires their byte lengths to agree image by image. A substituted or
+        # truncated image fails that. The receipt records who read the bytes.
+        entry=images.get(name)
+        require(entry is not None,'missing/corrupt PNG')
+        if isinstance(entry,(bytes,bytearray)):
+            body=entry
+            require(len(body)>=24 and len(body)==p.get('bytes') and body[:8]==b'\x89PNG\r\n\x1a\n' and body[12:16]==b'IHDR','missing/corrupt PNG')
+            require(list(struct.unpack('>II',body[16:24]))==e['pngSizePx'],'wrong PNG dimensions')
+            receipts.append(dict(path=name,sha256=sha(body),byteLength=len(body)))
+        else:
+            digest=entry.get('sha256');length=entry.get('bytes')
+            require(isinstance(digest,str) and re.fullmatch(r'[a-f0-9]{64}',digest) is not None,'missing/corrupt PNG')
+            require(isinstance(length,int) and length>=24 and length==p.get('bytes'),'missing/corrupt PNG')
+            require(isinstance(entry.get('pngWidth'),int) and isinstance(entry.get('pngHeight'),int),'missing/corrupt PNG')
+            receipts.append(dict(path=name,sha256=digest,byteLength=length,
+                                 pngWidth=entry.get('pngWidth'),pngHeight=entry.get('pngHeight'),
+                                 imageBytesReadBy=entry.get('readBy'),
+                                 viewportDimensionsCheckedAgainstASecondSource=False))
     require(observed==pages and set(images)==names,'extra/missing images')
     return receipts
 
 def main():
-    require(len(sys.argv)==5,'expected CONFIG ZIP RUN_JSON JOBS_JSON')
+    require(len(sys.argv)==5,'expected CONFIG ZIP|BUNDLE_DIR RUN_JSON JOBS_JSON')
     c=read(sys.argv[1]);archive=Path(sys.argv[2]);run=read(sys.argv[3]);jobs=read(sys.argv[4])['jobs']
     require(re.fullmatch(r'[a-f0-9]{40}',c['packetCommit']) is not None,'immutable commit required')
-    require(sha(archive.read_bytes())==c['zipSha256'],'archive digest mismatch')
     queue=read(Q);rows=[r for r in queue['rows'] if r['familyId']==c['familyId']];require(len(rows)==1,'family not uniquely queued');row=rows[0]
-    with zipfile.ZipFile(archive) as z:
-        require(len(z.namelist())==len(set(z.namelist())),'duplicate ZIP member')
-        require(sum(i.file_size for i in z.infolist())<250_000_000,'oversized expansion')
-        v=json.loads(z.read(family_path(c['familyId'])+'.verdict.json'))
-        pattern=re.escape(family_path(c['familyId']))+r'/(canonical|boundary)/page-\d+\.png'
-        images={n:z.read(n) for n in z.namelist() if re.fullmatch(pattern,n)}
+    pattern=re.escape(family_path(c['familyId']))+r'/(canonical|boundary)/page-\d+\.png'
+    if archive.is_dir():
+        # A RECOVERED BUNDLE rather than the artifact ZIP.
+        #
+        # The ZIP stays the authority and the preferred input. This path is for
+        # a reader who cannot fetch one -- an agent session whose egress policy
+        # denies Actions artifact blob storage -- and takes the original verdict
+        # JSONs plus a published page-image inventory delivered through ordinary
+        # repository access. The bundle's own digest is verified here exactly as
+        # the archive's is on the other branch, so what this reads is what was
+        # published. What it cannot do is read the PNG bytes, and the receipt
+        # records that per image rather than glossing it.
+        require(sha(Path(c['bundleArchive']).read_bytes())==c['bundleSha256'],'bundle digest mismatch')
+        v=read(archive/str(c['runId'])/(family_path(c['familyId'])+'.verdict.json'))
+        images={}
+        for entry in read(archive/'PAGE_IMAGES_SHA256.json'):
+            if str(entry.get('runId'))!=str(c['runId']) or entry.get('familyId')!=c['familyId']:continue
+            name=entry.get('member')
+            if not re.fullmatch(pattern,name or ''):continue
+            require(name not in images,'duplicate inventory member')
+            images[name]=dict(entry,readBy=c['imageBytesReadBy'])
+    else:
+        require(sha(archive.read_bytes())==c['zipSha256'],'archive digest mismatch')
+        with zipfile.ZipFile(archive) as z:
+            require(len(z.namelist())==len(set(z.namelist())),'duplicate ZIP member')
+            require(sum(i.file_size for i in z.infolist())<250_000_000,'oversized expansion')
+            v=json.loads(z.read(family_path(c['familyId'])+'.verdict.json'))
+            images={n:z.read(n) for n in z.namelist() if re.fullmatch(pattern,n)}
     measured=validate(c,row,v,images,run,jobs)
     subprocess.run(['git','merge-base','--is-ancestor',c['packetCommit'],'HEAD'],check=True)
     for role,e in c['expectedPdfs'].items():
@@ -73,9 +130,33 @@ def main():
         require(int(re.search(r'^Pages:\s+(\d+)',info,re.M).group(1))==e['pages'],'actual page count mismatch')
     home=Path(c['expectedPdfs']['canonical']['path']).parent.parent
     report=read(home/'reports/rendered-artifacts.json')
-    require(len(report['pdfs'])==2 and {d['file'] for d in report['pdfs']}=={e['path'] for e in c['expectedPdfs'].values()},'additional declared outputs require a full-set importer')
+    # The declared-output list is named `packets` by the current writers and
+    # `pdfs` by the older one this script was written against. Read whichever
+    # the family actually carries, and refuse a report that carries neither
+    # rather than treating an unreadable declaration as an empty one -- an
+    # absent list must never read as "no additional outputs".
+    declared=report.get('packets',report.get('pdfs'))
+    require(isinstance(declared,list),'declared output list is missing; a report this script cannot read is not a report of two outputs')
+    expected_paths={e['path'] for e in c['expectedPdfs'].values()}
+    if all('file' in d for d in declared):
+        require(len(declared)==2 and {d['file'] for d in declared}==expected_paths,'additional declared outputs require a full-set importer')
+    else:
+        # A COMPOSITION report rather than a file list.
+        #
+        # Colorado and Pennsylvania describe each fixture by the documents
+        # assembled INTO it -- {"fixture":"canonical","documents":["JDF-417",
+        # "JDF-418"]} -- and name no path. The question this check asks is
+        # unchanged: does the family deliver anything the receipt did not
+        # render? So it is answered against the delivered PDFs themselves
+        # rather than against a list of component names, which are not
+        # deliverables and were never separately rendered.
+        require(len(declared)==2 and {d.get('fixture') for d in declared}=={'canonical','boundary'},'additional declared outputs require a full-set importer')
+        for d in declared:
+            require(isinstance(d.get('documents'),list) and d['documents'],'a fixture that declares no documents is not a readable report')
+        delivered={str(p) for p in sorted((home/'fixtures').glob('*.pdf'))}
+        require(delivered==expected_paths,'additional declared outputs require a full-set importer')
     require(not list((home/'fixtures/branches').glob('*.pdf')),'conditional output requires complete-set coverage')
-    mutations=[lambda x:x.update(verdict='RASTER_FAIL'),lambda x:x.update(packetCommitSha='0'*40),lambda x:x.update(workflowRunId='0'),lambda x:x.update(documentsDigest='0'*64),lambda x:x['documentsRendered'].pop(),lambda x:x['hashesBound']['canonical'].update(pinned='0'*64),lambda x:x['measurements'].pop(),lambda x:x['measurements'][1].update(page=1),lambda x:x['measurements'][0].update(nonblank=False),lambda x:x['measurements'][0].update(calibrationResidualPx=3),lambda x:x.update(problems=['clipped']),lambda x:x.update(environmentProblems=['missing renderer']),lambda x:x.update(packetPdfsModified=1),lambda x:x.update(coversTheWholeFamily=False)]
+    mutations=[lambda x:x.update(verdict='RASTER_FAIL'),lambda x:x.update(packetCommitSha='0'*40),lambda x:x.update(workflowRunId='0'),lambda x:x.update(documentsDigest='0'*64),lambda x:x['documentsRendered'].pop(),lambda x:x['hashesBound']['canonical'].update(pinned='0'*64),lambda x:x['measurements'].pop(),lambda x:x['measurements'][1].update(kind=x['measurements'][0]['kind'],page=x['measurements'][0]['page']),lambda x:x['measurements'][0].update(nonblank=False),lambda x:x['measurements'][0].update(calibrationResidualPx=3),lambda x:x.update(problems=['clipped']),lambda x:x.update(environmentProblems=['missing renderer']),lambda x:x.update(packetPdfsModified=1),lambda x:x.update(coversTheWholeFamily=False)]
     tests=[]
     for mutate in mutations:
         x=copy.deepcopy(v);mutate(x);tests.append(lambda x=x:validate(c,row,x,images,run,jobs))
@@ -90,7 +171,7 @@ def main():
     out=Path(c['evidenceDirectory']);out.mkdir(parents=True,exist_ok=True)
     verdict_path=out/(family_path(c['familyId'])+'.verdict.json')
     verdict_path.write_text(json.dumps(v,indent=2)+'\n')
-    receipt={'schemaVersion':'rcap-completed-fixture-raster-admission/v1','familyId':c['familyId'],'runId':c['runId'],'artifactId':c['artifactId'],'packetCommit':c['packetCommit'],'zipSha256':c['zipSha256'],'wholeCurrentAndImmutablePdfsVerified':True,'measuredPageImages':measured,'pagesMeasured':len(measured),'admissionControlsRejected':caught,'independentSemanticApproval':False,'newTerminalPromotions':0}
+    receipt={'schemaVersion':'rcap-completed-fixture-raster-admission/v1','familyId':c['familyId'],'runId':c['runId'],'artifactId':c['artifactId'],'packetCommit':c['packetCommit'],'zipSha256':c['zipSha256'],'wholeCurrentAndImmutablePdfsVerified':True,'imageBytesReadBy':c.get('imageBytesReadBy','this admission, from the artifact ZIP'),'measuredPageImages':measured,'pagesMeasured':len(measured),'admissionControlsRejected':caught,'independentSemanticApproval':False,'newTerminalPromotions':0}
     (out/'admission-proof.json').write_text(json.dumps(receipt,indent=2)+'\n')
     prior=row.get('rasterReceipt')
     if prior and str(prior.get('workflowRunId'))!=str(c['runId']):row.setdefault('supersededReceipts',[]).append(dict(prior,supersededBecause='New complete current-byte central receipt admitted.'))

@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `ef3314a877babc67b493fb01b9e0157e43a5d24a`
+**Minimum required ancestor:** `1a5e184422f29585275b1040d37c3ed833b6c369`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -184,7 +184,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf` — `a099347fd0f56bc771df70549a69d67d9da505e1e74a76dd5dae1afcdbe7c096`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf` — `bd75164956cdf709a5202af164e51ccd662bd0dcf166f94a9134bfe550760612`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### in_arrest_no_charges-set
 
