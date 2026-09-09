@@ -4,80 +4,124 @@
 
 Qualifying misdemeanor, violation, traffic, municipal, or misdemeanor youthful-offender conviction after all seven Section II conditions.
 
-## Required before filing
+## What the held record establishes
 
-Fill every item below on both the canonical and boundary-style packet before filing. Do not sign early.
+Every quoted line below is taken verbatim from the Alabama legal-design record `data/record-clearing/legal-design-intake/AL.memo.json`, track `al-misd-conviction` (sha256 7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391). Where that record does not establish something, this packet says so rather than guessing.
 
-- Complete was     granted on CR-65 page 6
-- Complete City on CR-65 page 6
-- Complete State on CR-65 page 6
-- Complete Zip Code on CR-65 page 6
-- Complete Text1 on CR-65 page 1
-- Complete Text2 on CR-65 page 1
-- Complete Text3 on CR-65 page 1
-- Complete Text4 on CR-65 page 2
-- Complete Text5 on CR-65 page 4
-- Complete Text7 on CR-65 page 3
-- Complete Text8 on CR-65 page 6
-- Complete Text9 on CR-65 page 6
-- Complete Text26 on CR-65 page 6
-- Complete Text10 on CR-65 page 6
-- Complete undefined on C-10-CRIMINAL page 1
-- Complete Total Number of People I am Supporting Financially in Household Including Myself on C-10-CRIMINAL page 1
-- Complete Home on C-10-CRIMINAL page 1
-- Complete Other on C-10-CRIMINAL page 1
-- Complete State  Last 4 Digits of Driver Licenses Number on C-10-CRIMINAL page 1
-- Complete Last 4 Digits of Social Security Number on C-10-CRIMINAL page 1
-- Complete Employers Name  Address on C-10-CRIMINAL page 1
-- Complete Other_2 on C-10-CRIMINAL page 1
-- Complete The monthly value of these benefits combined is on C-10-CRIMINAL page 1
-- Complete undefined_2 on C-10-CRIMINAL page 1
-- Complete undefined_3 on C-10-CRIMINAL page 1
-- Complete undefined_4 on C-10-CRIMINAL page 1
-- Complete undefined_5 on C-10-CRIMINAL page 1
-- Complete undefined_6 on C-10-CRIMINAL page 1
-- Complete undefined_7 on C-10-CRIMINAL page 1
-- Complete Other Monthly Income be specific on C-10-CRIMINAL page 1
-- Complete undefined_8 on C-10-CRIMINAL page 1
-- Complete undefined_9 on C-10-CRIMINAL page 1
-- Complete undefined_10 on C-10-CRIMINAL page 2
-- Complete undefined_11 on C-10-CRIMINAL page 2
-- Complete undefined_12 on C-10-CRIMINAL page 2
-- Complete undefined_13 on C-10-CRIMINAL page 2
-- Complete undefined_14 on C-10-CRIMINAL page 2
-- Complete undefined_15 on C-10-CRIMINAL page 2
-- Complete undefined_16 on C-10-CRIMINAL page 2
-- Complete undefined_17 on C-10-CRIMINAL page 2
-- Complete undefined_18 on C-10-CRIMINAL page 2
-- Complete Other Expenses be specific on C-10-CRIMINAL page 2
-- Complete undefined_19 on C-10-CRIMINAL page 2
-- Complete undefined_20 on C-10-CRIMINAL page 2
-- Complete undefined_21 on C-10-CRIMINAL page 2
-- Complete undefined_22 on C-10-CRIMINAL page 2
-- Complete undefined_23 on C-10-CRIMINAL page 2
-- Complete undefined_25 on C-10-CRIMINAL page 2
-- Complete undefined_26 on C-10-CRIMINAL page 2
-- Complete undefined_27 on C-10-CRIMINAL page 2
-- Complete undefined_28 on C-10-CRIMINAL page 2
-- Complete Other be specific on C-10-CRIMINAL page 2
-- Complete undefined_29 on C-10-CRIMINAL page 2
-- Complete If so describe on C-10-CRIMINAL page 2
-- Complete undefined_30 on C-10-CRIMINAL page 2
-- Complete undefined_31 on C-10-CRIMINAL page 2
-- Complete undefined_32 on C-10-CRIMINAL page 2
-- Complete 1 on C-10-CRIMINAL page 2
-- Complete 2 on C-10-CRIMINAL page 2
-- Complete Text4 on C-10-CRIMINAL page 1
-- Complete undefined_24.0 on C-10-CRIMINAL page 2
-- Complete undefined_24.1 on C-10-CRIMINAL page 2
-- Complete Text1 on C-10-CRIMINAL page 2
+- Where to file: "File CR-65 Section II in the criminal division of the circuit court in the county where the charges were filed."
+- Filing fee: "$500, or C-10-Criminal where indigency is claimed."
+- Fee waiver: "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+- Notice: "Prosecutor and victim objection window. Discretionary on the § 15-27-5(b) factors."
+- Service: "A certificate of service page per entity served."
+- Who signs: "The petitioner signs their own petition."
+- Notarization: "The source review does not state a notarization requirement for CR-65."
 
-Also attach a certified local arrest record or certified disposition/case-action summary, plus a certified ALEA criminal record. For a pardoned-felony route, attach the pardon certificate.
+## Do these before you file
+
+1. Obtain: Certified local record — conviction and evidence of completion. Where from: The clerk of the court where the charges were filed, or the supervising agency. How: Ask the clerk or supervising agency for certified evidence that all probation or parole requirements and court-ordered amounts are satisfied.
+2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
+3. Read the certified local record and confirm every one of the seven conditions printed in CR-65 Section II is true of your case, including that all court-ordered amounts, with any interest, are satisfied. Correct the selection if any condition does not match.
+4. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.
+5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.
+6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
+
+## Blanks you must fill in
+
+Each line names a blank on the paper that this packet did not fill because it
+does not hold that fact. Fill every one on both the canonical and the
+boundary-style packet before filing.
+
+- Complete "Only one offense per petition Multicount cases require multiple petitions" on CR-65 page 1
+- Complete "1 Criminal charge from the record to be considered 1" on CR-65 page 5
+- Complete "1 Criminal charge from the record to be considered 2" on CR-65 page 5
+- Complete "2 Grounds for or reasons why you seek expungement 1" on CR-65 page 5
+- Complete "2 Grounds for or reasons why you seek expungement 2" on CR-65 page 5
+- Complete "3 The agency or department that made the arrest 1" on CR-65 page 5
+- Complete "3 The agency or department that made the arrest 2" on CR-65 page 5
+- Complete "incarcerated or detained pursuant to arrest on the abovelisted charge that must be indicated here 1" on CR-65 page 5
+- Complete "incarcerated or detained pursuant to arrest on the abovelisted charge that must be indicated here 2" on CR-65 page 5
+- County where any previous expungement was filed
+- Court case number of any previous expungement
+- Last four digits of your Social Security Number
+- Complete "MUNICIPALITY OF" on C-10-CRIMINAL page 1
+- Complete "Spouses Full Name if married" on C-10-CRIMINAL page 1
+- Complete "Total Number of People I am Supporting Financially in Household Including Myself" on C-10-CRIMINAL page 1
+- Complete "Home" on C-10-CRIMINAL page 1
+- Complete "Other" on C-10-CRIMINAL page 1
+- Complete "State  Last 4 Digits of Driver Licenses Number" on C-10-CRIMINAL page 1
+- Complete "Last 4 Digits of Social Security Number" on C-10-CRIMINAL page 1
+- Complete "Employers Name  Address" on C-10-CRIMINAL page 1
+- Complete "Employers Telephone Number" on C-10-CRIMINAL page 1
+- Complete "Other_2" on C-10-CRIMINAL page 1
+- Complete "The monthly value of these benefits combined is" on C-10-CRIMINAL page 1
+- Your monthly gross income
+- Your spouse's monthly gross income, unless this is a marital offense
+- Your other monthly earnings, including commissions, bonuses, and interest
+- Combined monthly income of other household members
+- Monthly unemployment, workers' compensation, Social Security, retirement, or similar income
+- Child support or alimony received each month
+- Complete "Other Monthly Income be specific" on C-10-CRIMINAL page 1
+- Other monthly income amount
+- Total monthly gross income (item 3a)
+- Monthly rent or mortgage expense
+- Total monthly utility expense
+- Monthly food expense
+- Monthly clothing expense
+- Monthly health-care or medical-insurance expense
+- Monthly car-payment or transportation expense
+- Monthly loan-payment expense
+- Monthly credit-card-payment expense
+- Monthly educational or employment expense
+- Complete "Other Expenses be specific" on C-10-CRIMINAL page 2
+- Monthly cell-phone expense
+- Additional description of other monthly expenses
+- Other monthly expense amount
+- Monthly-expense subtotal (item 3b)
+- Monthly child-support or alimony expense subtotal (item 3c)
+- Total monthly gross income minus total monthly expenses
+- Cash, bank funds, stocks, bonds, or certificates of deposit
+- Equity in real estate
+- Equity in personal property
+- Complete "Other be specific" on C-10-CRIMINAL page 2
+- Other asset amount
+- Complete "If so describe" on C-10-CRIMINAL page 2
+- Value of any other property described
+- Total assets
+- Monthly exceptional-expense subtotal (item 3d)
+- Total monthly expenses (item 3e)
 
 ## Service
 
-After the petition is complete, serve the district attorney, the law-enforcement agency, and the clerk of the court for the jurisdiction whose records are sought. Use a separate page 7 certificate for each recipient. Complete the service date, method, recipient, address, and server signature only after service actually occurs.
+The record states: "A certificate of service page per entity served." Serve the district attorney, the
+law-enforcement agency whose records you are asking the court to expunge, and
+the clerk of the court for the county where the charge was filed. Use a
+separate CR-65 page 7 certificate of service for each recipient.
+
+The held record does not state which service method Alabama requires for this
+petition, and this packet will not guess one. Ask the circuit clerk in the
+filing county which method that court accepts before you serve. Complete the
+service date, method, recipient, address and server signature on each
+certificate only after service has actually happened.
+
+## Notarization
+
+CR-65 page 6 carries a notary block. The record states: "The source review does not state a notarization requirement for CR-65."
+So ask the circuit clerk in the filing county whether that court requires the
+page-6 affidavit to be sworn before a notary or other authorized officer. Leave
+the notary block, its date and your own signature blank until you are in front
+of whoever administers the oath.
 
 ## Stop and get help
 
-Stop automated assistance if a prosecutor or victim objects, the court sets a contested hearing, the facts do not match the selected printed option, or immigration consequences may be involved.
+Stop using automated assistance and speak with an Alabama lawyer if any of these
+is true:
+
+- The prosecutor or a victim files an objection.
+- The court sets a hearing.
+- Whether the offence is on the § 12-25-32 violent offense list is unclear.
+- Whether the offence is a crime of moral turpitude under § 17-3-30.1 is unclear.
+- Whether the offence is a serious traffic offense under Title 32 is unclear.
+- Whether an Act 2015-185 reclassification applies is unclear.
+- Whether all court-ordered amounts including interest are satisfied is unclear.
+- The participant is choosing which record to spend one of the two capped expungements on.
+- Immigration, licensing or firearm consequences are in play.

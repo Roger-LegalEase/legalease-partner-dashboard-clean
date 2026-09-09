@@ -19,6 +19,7 @@ Fill every item below on both the canonical and boundary-style packet before fil
 - Complete "incarcerated or detained pursuant to arrest on the abovelisted charge that must be indicated here 2" on CR-65 page 5
 - County where any previous expungement was filed
 - Court case number of any previous expungement
+- Last four digits of your Social Security Number
 - Complete "MUNICIPALITY OF" on C-10-CRIMINAL page 1
 - Complete "Spouses Full Name if married" on C-10-CRIMINAL page 1
 - Complete "Total Number of People I am Supporting Financially in Household Including Myself" on C-10-CRIMINAL page 1
