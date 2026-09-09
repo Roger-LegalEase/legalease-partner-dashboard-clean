@@ -109,6 +109,111 @@ const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex"
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 
+/* ------------------------------------------------------------------ *
+ * THE FEE, THE STOPS AND THE REQUIRED DOCUMENT ARE READ FROM THE
+ * RECORD -- THEY ARE NOT TYPED HERE
+ *
+ * VF20 failed this family twice on participant-facing copy that no
+ * completeness counter reads.
+ *
+ * FEE_AND_WAIVER. filing-instructions.md told the participant "Maryland charges
+ * a filing fee for an expungement petition on a guilty disposition. This packet
+ * does not state an amount, because no held source establishes one; ask the
+ * clerk." That sentence is Missouri's, where it is TRUE, because MO.memo.json
+ * says of that track "No fee figure is published on this track". Carried into
+ * Maryland it asserts an absence the controlling record contradicts:
+ * MD.memo.json's md_pardon_expungement track records rules.fees "$30
+ * (CC-DC-CR-072B)." -- a figure keyed to this exact form -- and the same memo's
+ * fee_waiver component is conditioned "Where the participant cannot pay the $30
+ * filing fee." Telling a participant no source establishes the fee, when the
+ * record we build from establishes it, is a false statement about our own
+ * holdings, and it is the statement that decides whether they bring money.
+ *
+ * The figure is therefore printed FROM the record. What genuinely stays
+ * unestablished stays unestablished, and is now said precisely rather than as a
+ * blanket absence: the delivered petition prints no amount at all -- its only
+ * fee text is "Filing Fees Are Not Refundable" across the top of page 1 -- so
+ * the form is not evidence that $30 is current, and nothing here establishes
+ * what any additional cost of the filing might be.
+ *
+ * SELF_HELP_STOP. The stops were a hand-written prose PARAPHRASE, the same
+ * shape Delaware's repair found. The record declares three conditions and the
+ * paraphrase carried two of them in substance and none verbatim; the missing
+ * one -- "The State's Attorney objects." -- never appeared in either
+ * instruction file in any form, so a participant was given the form's victim
+ * notice but never told that a prosecutor's objection is a stop-and-get-a-lawyer
+ * condition. That is exactly what a paraphrase does: it keeps what its author
+ * thought of.
+ *
+ * REQUIRED_BEFORE_FILING. The pardon document was disclosed in substance
+ * ("bring the pardon document with you") but the record's own name for it and
+ * the place the record says to get it were not printed, so a participant who
+ * does not have it was not told where to go. It is now derived too, which is
+ * what makes the regression test able to check it at all.
+ *
+ * None of these is visible to the nine counters: they range over this family's
+ * field-map rows, and all three defects are content -- present-but-false in the
+ * fee's case, absent in the others. verify-packet-completeness.mjs returned
+ * PASS_COMPLETE 32/146 with all nine zero while every one of them held.
+ *
+ * So all three are DERIVED from MD.memo.json at build time and the build
+ * REFUSES if the record stops declaring them. MD.memo.json is hashed into
+ * source-receipt.json as a composition source, so this text moves only when
+ * that record moves, and
+ * scripts/grade-a-packet-factory-24h/test-md-pardon-record-disclosures.mjs
+ * asserts the binding survived into the delivered bytes.
+ * ------------------------------------------------------------------ */
+const MD_MEMO_PATH = "data/record-clearing/legal-design-intake/MD.memo.json";
+const MD_TRACK_ID = "md_pardon_expungement";
+const MD_MEMO_BYTES = fs.readFileSync(path.join(ROOT, MD_MEMO_PATH));
+const MD_MEMO_TRACK = (() => {
+  const memo = JSON.parse(MD_MEMO_BYTES.toString("utf8"));
+  const track = (memo.tracks ?? []).find((entry) => entry.trackId === MD_TRACK_ID);
+  if (!track) throw new Error(`MD_MEMO_TRACK_ABSENT: ${MD_TRACK_ID} is not in ${MD_MEMO_PATH}`);
+  return track;
+})();
+
+const FEE_RULE = MD_MEMO_TRACK.rules?.fees;
+const FEE_WAIVER_RULE = MD_MEMO_TRACK.rules?.feeWaiver;
+const NOTICE_RULE = MD_MEMO_TRACK.rules?.notice;
+const SELF_HELP_STOP_CONDITIONS = MD_MEMO_TRACK.selfHelpStopConditions ?? [];
+const REQUIRED_BEFORE_FILING_DOCUMENTS = (MD_MEMO_TRACK.supportingDocuments ?? [])
+  .filter((document) => document.requiredBeforeFiling === true);
+
+if (!FEE_RULE) {
+  throw new Error("MD_MEMO_STATES_NO_FEE: refusing to build fee copy with no record behind it. If the record "
+    + "genuinely stops establishing a fee, this builder must be changed deliberately to say so, not silently.");
+}
+if (!FEE_WAIVER_RULE) throw new Error("MD_MEMO_STATES_NO_FEE_WAIVER_RULE");
+if (!SELF_HELP_STOP_CONDITIONS.length) {
+  throw new Error("MD_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS: refusing to build a packet with no stop conditions");
+}
+if (!REQUIRED_BEFORE_FILING_DOCUMENTS.length) {
+  throw new Error("MD_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT");
+}
+for (const document of REQUIRED_BEFORE_FILING_DOCUMENTS) {
+  for (const field of ["name", "obtainedFrom"]) {
+    if (!document[field]) {
+      throw new Error(`MD_MEMO_REQUIRED_DOCUMENT_INCOMPLETE: "${document.name ?? "(unnamed)"}" has no ${field}`);
+    }
+  }
+}
+
+/* The petition's own fee text, quoted. Confirmed present in the source binary
+ * and in both delivered fixtures; it is the only fee wording either form
+ * prints, and it names no amount. */
+const PETITION_PRINTED_FEE_TEXT = "Filing Fees Are Not Refundable";
+
+const FEE_PARAGRAPH = [
+  `The Maryland record for this route states the filing fee, in these words: "${FEE_RULE}" That is $30, keyed to`,
+  "this form.",
+  `The petition itself prints no amount - its only fee wording is "${PETITION_PRINTED_FEE_TEXT}" across the top`,
+  "of page 1 - so the form is not evidence that this figure is current, and nothing held here establishes any",
+  "other cost of the filing. Confirm the amount with the clerk before you pay, and take the fee with you.",
+  `If you cannot prepay it, the record names the waiver to use: "${FEE_WAIVER_RULE}" That form is in this packet.`,
+  "Complete the affidavit of income on CC-DC-089 in full, sign it, and file it with the petition."
+].join("\n");
+
 const FIXTURES = {
   canonical: {
     "participant.full_legal_name": "Jordan Avery Reyes",
@@ -1182,8 +1287,20 @@ function participantInstructions(ledger) {
     "",
     "**Check that date against your pardon document before you sign.** You are affirming the petition under the",
     "penalties of perjury, and the ground you are relying on requires that not more than ten years have passed",
-    "since the Governor signed the pardon. Nothing in this packet proves you were pardoned; bring the pardon",
-    "document with you.",
+    "since the Governor signed the pardon. Nothing in this packet proves you were pardoned.",
+    "",
+    "## What you must obtain before you file",
+    "",
+    "The Maryland record for this route marks the following as required before filing. Have it before you file,",
+    "and take it with you:",
+    "",
+    ...REQUIRED_BEFORE_FILING_DOCUMENTS.map((document) =>
+      `- **${document.name}.** Obtained from: ${document.obtainedFrom}.`
+      + (document.howToObtain ? ` ${document.howToObtain}` : "")),
+    "",
+    "## The filing fee",
+    "",
+    FEE_PARAGRAPH,
     "",
     "On CC-DC-089 the packet has ticked the request for a waiver of prepaid costs, because that is what the form is.",
     "",
@@ -1228,10 +1345,20 @@ function participantInstructions(ledger) {
     "",
     "## Stop conditions",
     "",
-    "Stop using this self-help packet and talk to a lawyer if the conviction was not pardoned, if more than ten",
-    "years have passed since the Governor signed the pardon, if you were convicted of more than one criminal act,",
-    "if the offence was a crime of violence under Criminal Law Article section 14-101(a), if you are now a",
-    "defendant in any pending criminal action, or if you have any immigration matter pending or possible.",
+    "Stop using this self-help packet and talk to a lawyer if any of these is true. They are the conditions the",
+    "Maryland record for this route states, in its own words:",
+    "",
+    ...SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`),
+    "",
+    "The last of those can happen after you file, and you will not be the one who starts it. The record states the",
+    `notice this way: "${NOTICE_RULE}" If the State's Attorney objects within that period, stop and talk to a`,
+    "lawyer.",
+    "",
+    "Stop as well if the conviction was not pardoned, if the offence was a crime of violence under Criminal Law",
+    "Article section 14-101(a), if you are now a defendant in any pending criminal action, or if you have any",
+    "immigration matter pending or possible. Those are route boundaries rather than conditions of the record: a",
+    "conviction that was not pardoned is not on this route at all, and the other three are conditions the",
+    "petition's own pardon ground makes you affirm.",
     "",
     `Route: ${ROUTE_KEY}`,
     ""
@@ -1254,11 +1381,9 @@ function filingInstructions() {
    true of your record, tick it too.
 5. Sign and date the petition.
 
-## If you are asking for a fee waiver
+## The filing fee, and asking for a waiver
 
-Maryland charges a filing fee for an expungement petition on a guilty disposition. This packet does not state an
-amount, because no held source establishes one; ask the clerk. If you cannot prepay it, complete the affidavit of
-income on CC-DC-089 in full, sign it, and file it with the petition.
+${FEE_PARAGRAPH}
 
 **CC-DC-089 requires a companion this packet does not carry.** The form says a Notice Regarding Restricted
 Information under Rule 20-201.1, form MDJ-008, must be filed with it unless the case is one of six restricted
@@ -1351,6 +1476,14 @@ async function build() {
     implementationStrategy: "official_pdf_fill", custodyClass: "SOURCE_ALREADY_HELD",
     acquisitionCommissioned: false, allSourcesExact: true,
     bindingMethod: "committed corpus-index path + index SHA-256 + on-disk SHA-256, re-read at build time",
+    compositionSources: [
+      { path: MD_MEMO_PATH, sha256: sha256(MD_MEMO_BYTES), byteLength: MD_MEMO_BYTES.length,
+        whatItSupplies: `rules.fees and rules.feeWaiver (the fee paragraph in both instruction files), the `
+          + `${SELF_HELP_STOP_CONDITIONS.length} self-help stop condition(s), rules.notice, and the `
+          + `${REQUIRED_BEFORE_FILING_DOCUMENTS.length} required-before-filing supporting document(s). All are `
+          + "read from this record at build time and the build refuses if it stops declaring them, so that text "
+          + "moves only when this hash moves." }
+    ],
     documents: [
       { sourceIds: [SOURCES[PETITION].sourceId], formNumber: PETITION, documentId: PETITION,
         revision: SOURCES[PETITION].revision, pathInArchive: SOURCES[PETITION].path,
@@ -1372,7 +1505,9 @@ async function build() {
     },
     whatThisReceiptDoesNotEstablish: [
       "that any pardon was granted, or on what date",
-      "the filing fee for a Maryland expungement petition on a guilty disposition",
+      "that the filing fee this packet states is current. The two source binaries print no amount at all - the "
+        + "petition's only fee wording is \"Filing Fees Are Not Refundable\" - so the figure comes from "
+        + "MD.memo.json's rules.fees, hashed above as a composition source, and not from either form",
       "possession of form MDJ-008, which CC-DC-089 requires alongside it",
       "independent verification, raster acceptance, counsel approval, or fulfillment authority"
     ],

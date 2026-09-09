@@ -7,8 +7,8 @@
       "consequence": "The build binds FI-05 by the pinned digest against the committed index and then reads the document itself - form number, title, variant, page count and the Case Types List row for this route - rather than treating a matching digest as proof of identity. The reading is recorded in source-receipt.json."
     },
     {
-      "finding": "The census records this route as filed \"with FI-05 at case type X#\", and the FI-05 binary prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" in the CIRCUIT column of its own Case Types List on pages 3 and 4.",
-      "consequence": "Case Type Code and Case Type Description are written by the packet on every sheet. A route election the route determines is not left to the participant."
+      "finding": "The census records this route as filed \"with FI-05 at case type X#\". That is the support for the value. An earlier build of this family also recorded that the FI-05 binary prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" in the CIRCUIT column of its Case Types List on pages 3 and 4; that corroboration was false and is withdrawn. Measured from the bytes: the row is on page 4 only, X# is drawn at x 213.48-224.36 inside the ASSOCIATE column (header x 195.72-243.69), the CIRCUIT column (header x 250.08-284.02) is empty on that row, and the neighbouring rows carry XG at x 260.52-273.40 and X5 at x 261.50-272.40 in CIRCUIT.",
+      "consequence": "Case Type Code and Case Type Description are still written by the packet on every sheet, because the census determines them and a route election the route determines is not left to the participant. What changed is the recorded basis: it now rests on the census alone, and the ASSOCIATE/CIRCUIT division question - live because CR375 is captioned \"IN THE ____ JUDICIAL CIRCUIT\" - is raised with counsel in approval-request.json rather than treated as answered by the form."
     },
     {
       "finding": "Five FI-05 widgets carry a /Rect written bottom-edge-last, so their height reads negative: Party Type Code, Party Type Description, Bar ID, Party Type Code_5 and Party Type Description_3.",

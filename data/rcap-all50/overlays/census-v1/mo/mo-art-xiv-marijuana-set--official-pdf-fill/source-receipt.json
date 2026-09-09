@@ -8,6 +8,14 @@
   "acquisitionCommissioned": false,
   "allSourcesExact": true,
   "bindingMethod": "committed corpus-index path + index SHA-256 + on-disk SHA-256, re-read at build time",
+  "compositionSources": [
+    {
+      "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "byteLength": 494662,
+      "whatItSupplies": "the 1 required-before-filing supporting document(s) and the 11 self-help stop condition(s) printed in participant-instructions.md. Both are read from this record at build time and the build refuses if it stops declaring them, so that text moves only when this hash moves."
+    }
+  ],
   "fi05IdentityReadFromTheDocument": {
     "whyItWasRead": "this family stopped BLOCKED_SOURCE because official-form:FI-05 matched zero committed index entries by form number: it lives in the Nationwide recovery pool, whose 380 entries all carry formNumber null. The resolver now confirms the pinned digest against the committed index instead. A matching digest proves the bytes are the bytes somebody pinned, not that they are the document this family means, so the document itself was read.",
     "pageCount": 4,

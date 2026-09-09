@@ -1459,6 +1459,113 @@
         "scripts/build-census-v1-il-exp-qualprob-set.mjs",
         "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/ (rebuilt)"
       ]
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "lane": "FIXMM",
+      "laneKind": "repair",
+      "worker": "fixmm-20260909 Missouri/Maryland repair lane",
+      "workerBranch": "fixmm-20260909",
+      "baseSha": "d4653b258",
+      "appendedToThisLaneBecause": "FIX02 holds the live repair grant on this family. This row is filed in FIX02's return so the repair sits with the grant. The work was done on branch fixmm-20260909 by the lane named above.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+      ],
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "reviewStatus": "qa_review_pending",
+      "verdict": null,
+      "verdictNote": "This lane REPAIRED and REBUILT this family. It sets no verdict and nothing below is one. An independent lane must read the delivered bytes and decide.",
+      "selfVerified": false,
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "packetsBuiltOrRepairedHere": 1,
+      "overlayDirectoriesModified": 1,
+      "grantsNothing": "A rebuild is not an approval. This row opens no route, promotes nothing past state_built, adopts no fixture fact, and approves no fee figure. Counsel review, source-freshness review and central raster acceptance are all still owed.",
+      "readsWhichVerification": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json, lane VF20 worker ADM at 7f386ab54, verdict FAIL_REPAIR_REQUIRED. Both located defects were re-measured here from the committed bytes and the committed record before anything was changed.",
+      "claimHandling": {
+        "asserted": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIXMM md_pardon_expungement-set",
+        "result": "GRANTED_ELSEWHERE: md_pardon_expungement-set is granted to FIX02, not FIXMM, and that grant is LIVE",
+        "detail": "A live repair grant on this family exists and is held by FIX02. This lane is not FIX02. Nothing was granted, re-issued, transferred or released here: choosing a grant's destination is a dispatch act and the Captain owns the ledger. The Captain must reconcile FIX02's live grant against this repair before it is integrated, and must confirm FIX02 was not working the same family in parallel.",
+        "ledgerWritten": false
+      },
+      "whatWasWrongAndWhereItWasFixed": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "located": "filing-instructions.md told the participant 'Maryland charges a filing fee for an expungement petition on a guilty disposition. This packet does not state an amount, because no held source establishes one; ask the clerk.' MD.memo.json's md_pardon_expungement track records rules.fees '$30 (CC-DC-CR-072B).' and conditions its fee_waiver component on 'Where the participant cannot pay the $30 filing fee.' Reproduced here at d4653b258: '$30' occurred zero times in either instruction file.",
+          "rootCause": "The sentence is Missouri's, and it is TRUE of Missouri - MO.memo.json says of that track 'No fee figure is published on this track'. Carried into Maryland it asserts an absence the controlling record contradicts. It is the sentence that decides whether a participant brings money to the clerk.",
+          "fixedAt": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+          "howFixed": "The builder now reads MD.memo.json's md_pardon_expungement track at build time and composes one fee paragraph, used in BOTH instruction files, that quotes rules.fees and rules.feeWaiver verbatim. It THROWS MD_MEMO_STATES_NO_FEE or MD_MEMO_STATES_NO_FEE_WAIVER_RULE if the record stops establishing either, rather than falling back to a no-source sentence. Refusal was exercised: with rules.fees deleted on a scratch copy of the memo the build stops before writing a byte.",
+          "whatStaysUnestablished": "The genuinely unestablished element is kept unestablished and is now stated precisely instead of as a blanket absence. The delivered petition prints NO amount - its only fee wording is 'Filing Fees Are Not Refundable' across the top of page 1, confirmed in the source binary and in both delivered fixtures - so the form is not evidence the $30 is current, and nothing held here establishes any other cost of the filing. The copy says so and tells the participant to confirm the amount with the clerk before paying. source-receipt.json's whatThisReceiptDoesNotEstablish was corrected the same way: it no longer says the receipt does not establish the fee (which read as no source does), but that the two source binaries print no amount and the figure comes from MD.memo.json, hashed as a composition source.",
+          "notDone": "No fee was invented, no amount was rounded or updated, and nothing here approves $30 as current."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "located": "VF20 named the third condition, 'The State's Attorney objects.', as appearing nowhere - zero occurrences of \"State's Attorney\" in either instruction file. That reproduces. Measured VERBATIM as the task asked, ALL THREE were absent, not only the third: 'The 10-year filing deadline is close or has passed.' and 'The participant has more than one conviction, which puts the 'only one criminal act' condition in issue.' were carried in substance by a hand-written sentence but nowhere in the record's own words.",
+          "rootCause": "A hand-written prose PARAPHRASE standing in for the record's conditions - the same class Delaware's repair at 1b5a20e21 found, and the same class this lane found in Missouri today. The paraphrase covered the two conditions its author thought of and dropped the one that is not about the participant's own record at all.",
+          "fixedAt": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+          "howFixed": "All three conditions are printed verbatim from MD.memo.json, and the build throws MD_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS if the record stops declaring them. rules.notice - 'The court serves the State's Attorney; 30-day objection period.' - is quoted beside them, because that is what makes the third condition actionable: the participant does not start the objection, the court's service does, and it happens after filing. The four route-boundary sentences the family already carried are kept beside them and labelled as route boundaries rather than record conditions. Nothing was traded away.",
+          "recordsAgree": "MD.memo.json and data/record-clearing/legal-design-track-registry.json state the same three conditions and the same fees rule; the test asserts both before using either."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING - VF20 scored this PASS and recorded a weakness as an observation; the observation is closed here",
+          "located": "The memo's one requiredBeforeFiling document, 'Copy of the signed gubernatorial pardon', was disclosed in substance ('bring the pardon document with you') but the record's own name for it and its obtainedFrom - 'Maryland Governor's Office or DPSCS' - were not printed, so a participant who does not have the document was not told where to get it.",
+          "fixedAt": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+          "howFixed": "Derived from the memo like the rest, with name, obtainedFrom and howToObtain, under its own 'What you must obtain before you file' heading. The build throws MD_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT or MD_MEMO_REQUIRED_DOCUMENT_INCOMPLETE if the record stops declaring it. This is also what makes the regression test able to check the item at all.",
+          "whyIncludedInARepairScopedSmall": "The task requires a test asserting every requiredBeforeFiling item reaches the delivered instructions. A test of a substance-only disclosure would have to guess at wording; binding the item to the record is the smallest change that makes the assertion meaningful, and it closes VF20's own recorded weakness."
+        }
+      ],
+      "regressionProtection": {
+        "test": "scripts/grade-a-packet-factory-24h/test-md-pardon-record-disclosures.mjs",
+        "scope": "Reads MD.memo.json and legal-design-track-registry.json and the DELIVERED participant-instructions.md and filing-instructions.md. Asserts the two records agree on the stops and the fee; that every requiredBeforeFiling document reaches participant-instructions.md with its obtainedFrom; that all three stop conditions are present verbatim; that rules.fees reaches BOTH instruction files verbatim and NEITHER tells the participant no held source establishes it; that rules.feeWaiver is named; and that rules.notice is quoted.",
+        "whyATestAndNotACounter": "None of the nine counters can see any of this. They range over this family's 146 terminal field-map rows and these defects are content - present-but-false in the fee's case, absent in the others. verify-packet-completeness.mjs returned PASS_COMPLETE 32/146 with all nine zero before the repair and returns exactly the same after it.",
+        "testsTheDeliveredFileNotTheBuilder": "A builder that composes the right paragraph into bytes nobody shipped is the same defect from the participant's side.",
+        "failsAgainstPreRepairTree": true,
+        "failsHowManyWays": 10,
+        "howMeasured": "The test was run against a tree assembled from d4653b258 (this family's delivered files and both records at that commit). It exits 1 naming the pardon document two ways, all three stop conditions, the fee in both files, the Missouri no-held-source sentence, the waiver form and the notice rule.",
+        "wiredInto": ".github/workflows/rcap-chatgpt-recovery.yml, beside the Delaware disclosures test"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "measuredHere": "Eight measured by rerunning scripts/rcap-packet-completeness/verify-packet-completeness.mjs against the rebuilt bytes: PASS_COMPLETE 32/146 written, unchanged from before the repair, which is the point - no counter reads either defect.",
+        "visualDefectsIsNullBecause": "No central raster ran and this lane produced these bytes, so it does not score their appearance. The builder's own byte-level proxy - non-whitespace glyphs outside the measured write boxes - is zero on both fixtures, but that is a glyph-box measurement, not a raster, and it is not offered as a visual result. All four pages of the canonical fixture were rasterised at 110 dpi here as a sanity look only (CC-DC-089's order page wholly blank - every judicial finding, waiver outcome, judge line and ID number empty) and the images were deleted."
+      },
+      "artifacts": {
+        "canonical": {
+          "sha256": "cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741",
+          "byteLength": 1169719,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90",
+          "byteLength": 1170165,
+          "pageCount": 4
+        },
+        "digestsUnchangedByThisRepair": "Both PDF digests are identical to the pre-repair values at d4653b258. That is expected and is stated plainly rather than presented as a rebuild result: this family composes no page of its own, so its instruction files are delivered as markdown beside the fixtures and are not drawn into either PDF. Every repaired byte is in participant-instructions.md, filing-instructions.md and source-receipt.json. The PDFs were regenerated from the sources on every run and rehash to the same values."
+      },
+      "determinism": {
+        "method": "The builder was run twice in this container after the final edit and all delivered files of this family hashed after each run.",
+        "result": "byte-identical on the second run"
+      },
+      "recordBinding": {
+        "compositionSourceAdded": "source-receipt.json now carries data/record-clearing/legal-design-intake/MD.memo.json with its SHA-256 and byte length, so the fee, the stops, the notice and the required document move only when that record moves."
+      },
+      "notTouched": "The items VF20 verified clean were left alone: no button artwork reaches any page, the cross-reference table is valid, the indigency affidavit is wholly blank, the CC-DC-089 order page is blank, and the six marks come from source On states.",
+      "whatThisRowDoesNotDo": "It opens no route, promotes nothing past state_built, sets no verdict, and does not approve the $30 figure as current. It does not touch the claim ledger.",
+      "openAndNotResolvedHere": [
+        "Whether the $30 the record states is current. Neither form prints an amount, so nothing held here can settle it; the copy tells the participant to confirm with the clerk and it stays a counsel/source-freshness question.",
+        "MDJ-008 is still named by CC-DC-089 and still not held by this family - unchanged, and still disclosed in both instruction files.",
+        "The claim-ledger conflict above: FIX02 holds a live repair grant on this same family."
+      ]
     }
   ],
   "whatCouldNotBeEstablished": [

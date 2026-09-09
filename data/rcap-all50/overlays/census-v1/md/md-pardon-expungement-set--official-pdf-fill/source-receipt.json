@@ -8,6 +8,14 @@
   "acquisitionCommissioned": false,
   "allSourcesExact": true,
   "bindingMethod": "committed corpus-index path + index SHA-256 + on-disk SHA-256, re-read at build time",
+  "compositionSources": [
+    {
+      "path": "data/record-clearing/legal-design-intake/MD.memo.json",
+      "sha256": "4e773ffb80e152ed18294aa19545e6ec2f27d3d239188b25340d63726b7a8faf",
+      "byteLength": 137393,
+      "whatItSupplies": "rules.fees and rules.feeWaiver (the fee paragraph in both instruction files), the 3 self-help stop condition(s), rules.notice, and the 1 required-before-filing supporting document(s). All are read from this record at build time and the build refuses if it stops declaring them, so that text moves only when this hash moves."
+    }
+  ],
   "documents": [
     {
       "sourceIds": [
@@ -57,7 +65,7 @@
   },
   "whatThisReceiptDoesNotEstablish": [
     "that any pardon was granted, or on what date",
-    "the filing fee for a Maryland expungement petition on a guilty disposition",
+    "that the filing fee this packet states is current. The two source binaries print no amount at all - the petition's only fee wording is \"Filing Fees Are Not Refundable\" - so the figure comes from MD.memo.json's rules.fees, hashed above as a composition source, and not from either form",
     "possession of form MDJ-008, which CC-DC-089 requires alongside it",
     "independent verification, raster acceptance, counsel approval, or fulfillment authority"
   ],

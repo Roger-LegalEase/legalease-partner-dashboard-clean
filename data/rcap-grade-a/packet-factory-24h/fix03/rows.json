@@ -1215,6 +1215,113 @@
         "scripts/build-census-v1-il-seal-2yr-set.mjs",
         "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/ (rebuilt)"
       ]
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "lane": "FIXMM",
+      "laneKind": "repair",
+      "worker": "fixmm-20260909 Missouri/Maryland repair lane",
+      "workerBranch": "fixmm-20260909",
+      "baseSha": "d4653b258",
+      "appendedToThisLaneBecause": "FIX03 holds the live repair grant on this family. This row is filed in FIX03's return so the repair sits with the grant. The work was done on branch fixmm-20260909 by the lane named above.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief",
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition"
+      ],
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "reviewStatus": "qa_review_pending",
+      "verdict": null,
+      "verdictNote": "This lane REPAIRED and REBUILT this family. It sets no verdict and nothing below is one. An independent lane must read the delivered bytes and decide.",
+      "selfVerified": false,
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "packetsBuiltOrRepairedHere": 1,
+      "overlayDirectoriesModified": 1,
+      "grantsNothing": "A rebuild is not an approval. This row opens no route, promotes nothing past state_built, adopts no fixture fact, and answers no legal question. Counsel review, source-freshness review and central raster acceptance are all still owed.",
+      "readsWhichVerification": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json, lane VF20 worker ADM at 7f386ab54, verdict FAIL_REPAIR_REQUIRED. Both located defects were re-measured here from the committed bytes before anything was changed; neither was taken on report.",
+      "claimHandling": {
+        "asserted": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIXMM mo-art-xiv-marijuana-set",
+        "result": "GRANTED_ELSEWHERE: mo-art-xiv-marijuana-set is granted to FIX03, not FIXMM, and that grant is LIVE",
+        "detail": "A live repair grant on this family exists and is held by FIX03. This lane is not FIX03. The ledger also still carries an unreleased PF18 packet-build grant on the same subject. Nothing was granted, re-issued, transferred or released here: choosing a grant's destination is a dispatch act and the Captain owns the ledger. The Captain must reconcile FIX03's live grant against this repair before it is integrated, and must confirm FIX03 was not working the same family in parallel.",
+        "ledgerWritten": false
+      },
+      "whatWasWrongAndWhereItWasFixed": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "located": "MO.memo.json track mo-art-xiv-marijuana marks exactly one supporting document requiredBeforeFiling true - 'Certified docket sheet and judgment for each case' - and the words 'certified', 'docket' and 'judgment' occurred zero times in participant-instructions.md and zero times in filing-instructions.md. Reproduced here at d4653b258 before any edit.",
+          "rootCause": "The builder composed its participant instructions from hand-written literals and never read the state memo. Nothing in the build could notice that the record owed a document the copy did not name.",
+          "fixedAt": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+          "howFixed": "The builder now reads MO.memo.json's mo-art-xiv-marijuana track at build time, derives a 'What you must obtain before you file' section from every supportingDocuments entry with requiredBeforeFiling true - the record's own name, obtainedFrom and howToObtain, quoted - and THROWS MO_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT if the record stops declaring one, or MO_MEMO_REQUIRED_DOCUMENT_INCOMPLETE if a declared document loses its name, source or how-to-obtain. Refusal was exercised: with requiredBeforeFiling flipped false on a scratch copy of the memo the build stops before writing a byte. Not a pasted sentence.",
+          "delivered": "participant-instructions.md now names the certified docket sheet and judgment, the clerk it comes from, and how to ask for it."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "located": "NOT named by VF20, which scored this obligation PASS. Found here while repairing the one above, and reported rather than quietly fixed. MO.memo.json declares ELEVEN selfHelpStopConditions; the builder printed a single hand-written sentence covering four of them in substance. Measured verbatim, all eleven were absent from participant-instructions.md. Seven were absent in substance too: distribution or delivery to a minor, violence, operating a motor vehicle under the influence of marijuana, a class A, B or C marijuana felony, more than three pounds or an unclear quantity, an arguable Article XIV sections 1 and 2 question, and a Case.net/Highway Patrol disagreement about whether relief was already entered.",
+          "rootCause": "The same one: a hand-written PARAPHRASE standing in for the record's conditions. A paraphrase keeps only what its author happened to think of. This is the class Delaware's repair at 1b5a20e21 found.",
+          "fixedAt": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+          "howFixed": "All eleven conditions are now printed verbatim from MO.memo.json, and the build throws MO_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS if the record stops declaring them. The two route-boundary sentences the family already carried - a non-marijuana conviction and a pending charge - are kept beside them and labelled as route boundaries rather than record conditions. Nothing was traded away for the restoration.",
+          "recordsAgree": "MO.memo.json and data/record-clearing/legal-design-track-registry.json state the same eleven conditions; the test asserts that before using either."
+        },
+        {
+          "obligation": "SOURCE_IDENTITY / ROUTE_OPTIONS - the false corroboration",
+          "located": "production-field-map.json (twice, on both FI-05 Case Type Code writes) and build-findings.json (once) recorded that the FI-05 binary 'carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest Records  X#\"' on 'pages 3 and 4'.",
+          "reMeasuredHere": "pdftotext -bbox over the pinned FI-05 (SHA-256 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e) at its mounted custody. The row is printed on PAGE 4 ONLY - page 3 carries the list's other categories. On page 4 the left block's headers are ASSOCIATE at x 195.72-243.69 and CIRCUIT at x 250.08-284.02. X# is drawn at x 213.48-224.36: inside ASSOCIATE. The CIRCUIT cell of that row is empty, while the neighbouring 'Expungement of Crim/Arrest Record' carries XG at x 260.52-273.40 and 'Expungement of Records (610.140 RSMo)' carries X5 at x 261.50-272.40, both in CIRCUIT. CR375 page 1 is captioned 'IN THE ______ JUDICIAL CIRCUIT, ________ COUNTY, MISSOURI'. VF20's finding reproduces exactly.",
+          "whatWasChanged": "The RECORDED JUSTIFICATION, not the write. The value X# is separately and genuinely supported by the census: data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json records this route's destination as 'Unit 2 is filed with the clerk of that court, with FI-05 at case type X#'. The write is kept on that basis, which is a held record keyed to this exact route. The CIRCUIT-column claim is withdrawn in all three places and replaced with what the form actually shows, including the measured coordinates. The builder header comment that seeded all three is rewritten at the same root.",
+          "isTheCensusSupportSufficient": "For the VALUE, yes - it is a held record naming this exact code for this exact route, and it is the only basis this build now claims. For the DIVISION QUESTION it is silent, and this lane does not answer it. Whether a petition captioned in the judicial circuit is opened at a case type the form's own list places in the ASSOCIATE column is a legal question about Missouri practice, not a build decision. It is now a counsel question in approval-request.json, stated with the measured coordinates, alongside the pre-existing question of whether the code is still current.",
+          "notDone": "The write was not silently dropped, and no substitute code was invented. Nothing in this repair asserts which division is correct."
+        }
+      ],
+      "regressionProtection": {
+        "test": "scripts/grade-a-packet-factory-24h/test-mo-art-xiv-record-disclosures.mjs",
+        "scope": "Reads MO.memo.json and legal-design-track-registry.json and the DELIVERED participant-instructions.md, filing-instructions.md, production-field-map.json and build-findings.json. Asserts the two records state the same stop conditions; that every requiredBeforeFiling document reaches participant-instructions.md with its obtainedFrom and howToObtain; that every one of the eleven stop conditions is present verbatim; that the withdrawn CIRCUIT-column corroboration has not reappeared and the ASSOCIATE measurement is on record; and that the Missouri fee sentence stops claiming no held source establishes a fee the moment MO.memo.json publishes a figure.",
+        "whyATestAndNotACounter": "None of the nine counters can see any of this. They range over this family's 300 terminal field-map rows and these defects are absent or false CONTENT. verify-packet-completeness.mjs returned PASS_COMPLETE 58/300 with all nine zero before the repair with the required document and all eleven stops missing, and returns exactly the same after it.",
+        "testsTheDeliveredFileNotTheBuilder": "A builder that composes the right paragraph into bytes nobody shipped is the same defect from the participant's side.",
+        "failsAgainstPreRepairTree": true,
+        "failsHowManyWays": 18,
+        "howMeasured": "The test was run against a tree assembled from d4653b258 (this family's delivered files and both records at that commit). It exits 1 naming the required document three ways, all eleven stop conditions, and four recorded-basis assertions.",
+        "wiredInto": ".github/workflows/rcap-chatgpt-recovery.yml, beside the Delaware disclosures test"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "measuredHere": "Eight measured by rerunning scripts/rcap-packet-completeness/verify-packet-completeness.mjs against the rebuilt bytes: PASS_COMPLETE 58/300 written, unchanged from before the repair, which is the point - no counter reads any of the three defects.",
+        "visualDefectsIsNullBecause": "No central raster ran and this lane produced these bytes, so it does not score their appearance. The builder's own byte-level proxy - non-whitespace glyphs outside the measured write boxes - is zero on both fixtures, but that is a glyph-box measurement, not a raster, and it is not offered as a visual result. Two pages of each canonical fixture were rasterised at 110 dpi here as a sanity look only (signature blank, judicial order page blank, no synthesised marks) and the images were deleted."
+      },
+      "artifacts": {
+        "canonical": {
+          "sha256": "9f978890250062c03b69a31fd70c76ac15d2517120e5cf4789979e2349eb597e",
+          "byteLength": 685343,
+          "pageCount": 10
+        },
+        "boundary": {
+          "sha256": "ba54902173f3b560fc4972f279f3de74be8238636bc23c65f56e36d8bb2fdb0b",
+          "byteLength": 685685,
+          "pageCount": 10
+        },
+        "digestsUnchangedByThisRepair": "Both PDF digests are identical to the pre-repair values at d4653b258. That is expected and is stated plainly rather than presented as a rebuild result: this family composes no page of its own, so its participant-instructions.md and filing-instructions.md are delivered as markdown beside the fixtures and are not drawn into either PDF. Every repaired byte is in participant-instructions.md, production-field-map.json, build-findings.json, approval-request.json and source-receipt.json. The PDFs were regenerated from the sources on every run and rehash to the same values."
+      },
+      "determinism": {
+        "method": "The builder was run twice in this container after the final edit and all 14 delivered files of this family hashed after each run.",
+        "result": "byte-identical on the second run"
+      },
+      "recordBinding": {
+        "compositionSourceAdded": "source-receipt.json now carries data/record-clearing/legal-design-intake/MO.memo.json with its SHA-256 and byte length, so the derived disclosure text moves only when that record moves."
+      },
+      "whatThisRowDoesNotDo": "It opens no route, promotes nothing past state_built, sets no verdict, and does not answer the ASSOCIATE/CIRCUIT division question. It does not touch the claim ledger.",
+      "openAndNotResolvedHere": [
+        "The ASSOCIATE/CIRCUIT division question for FI-05 case type X#, now a counsel question with the measured coordinates.",
+        "Whether X# is still the current code for a marijuana expungement filed today - the pre-existing counsel question, unchanged.",
+        "The claim-ledger conflict above: FIX03 holds a live repair grant and PF18 an unreleased packet-build grant on this same family."
+      ]
     }
   ],
   "reportedNotRepaired": [

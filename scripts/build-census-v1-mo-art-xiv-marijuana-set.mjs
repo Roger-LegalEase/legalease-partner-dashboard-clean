@@ -36,17 +36,38 @@
  * variant an expungement petition is filed under, and it is the sheet the census
  * names. The bytes are the document this family means.
  *
- * THE CASE TYPE CODE IS A ROUTE ELECTION, AND THE SOURCE ANSWERS IT
+ * THE CASE TYPE CODE IS A ROUTE ELECTION, AND WHAT ACTUALLY SUPPORTS IT
  *
- * The census records the destination as "Unit 2 is filed with the clerk of that
- * court, with FI-05 at case type X#". FI-05's own Case Types List, printed on
- * pages 3 and 4 of this same binary, carries the row
+ * The value X# comes from the census, which records the destination as "Unit 2
+ * is filed with the clerk of that court, with FI-05 at case type X#". That is
+ * the whole of the support, and it is a held record keyed to this exact route.
  *
- *     Expunge Marijuana Criminal/Arrest Records            X#      (CIRCUIT)
+ * This build previously recorded a SECOND ground, and it was false. It said
+ * FI-05's Case Types List "carries the CIRCUIT row" for this description, on
+ * "pages 3 and 4". Measured out of the binary with pdftotext -bbox:
+ *
+ *   - the row "Expunge Marijuana Criminal/Arrest Records  X#" is printed on
+ *     page 4 only; page 3 carries the list's other categories (DOMESTIC
+ *     RELATIONS, ADOPTION, JUVENILE, PROTECTION ORDERS, CONTRACT and others);
+ *   - the left block's column headers on page 4 are ASSOCIATE at x 195.72-243.69
+ *     and CIRCUIT at x 250.08-284.02;
+ *   - X# is drawn at x 213.48-224.36, inside ASSOCIATE;
+ *   - the CIRCUIT cell of that row is empty, while the neighbouring rows
+ *     "Expungement of Crim/Arrest Record" and "Expungement of Records (610.140
+ *     RSMo)" carry XG at x 260.52-273.40 and X5 at x 261.50-272.40, in CIRCUIT.
+ *
+ * That matters because CR375 is captioned "IN THE ____ JUDICIAL CIRCUIT,
+ * ________ COUNTY, MISSOURI". A reviewer told the form itself puts this case
+ * type in the CIRCUIT column would take the division question as settled by the
+ * source; the source says the opposite. The write is kept, because the census
+ * supports the value; the recorded basis is corrected to say what the form
+ * shows, and the ASSOCIATE/CIRCUIT division question is put to counsel in
+ * approval-request.json. This lane does not answer it: which division a Missouri
+ * case type belongs to is a legal question, not a build decision.
  *
  * The route determines the case type, so the packet states it rather than asking
  * the participant. Case Type Code and Case Type Description are written on every
- * FI-05 sheet in the packet, from the source's own table.
+ * FI-05 sheet in the packet.
  *
  * A SOURCE DEFECT THAT HAD TO BE MEASURED RATHER THAN ASSUMED
  *
@@ -119,10 +140,88 @@ const SOURCES = Object.freeze({
   }
 });
 
-/* The case type this route files under, taken from the Case Types List printed
- * on pages 3 and 4 of the FI-05 binary itself. */
+/* The case type this route files under. The value is the census destination
+ * record's; the description is the one printed beside that code in the FI-05
+ * Case Types List. See the header note on what does and does not support it. */
 const CASE_TYPE_CODE = "X#";
 const CASE_TYPE_DESCRIPTION = "Expunge Marijuana Criminal/Arrest Records";
+
+/* ------------------------------------------------------------------ *
+ * WHAT THE PARTICIPANT MUST OBTAIN, AND WHEN TO STOP, ARE READ FROM
+ * THE RECORD -- THEY ARE NOT TYPED HERE
+ *
+ * VF20 failed this family on REQUIRED_BEFORE_FILING: MO.memo.json marks the
+ * "Certified docket sheet and judgment for each case" requiredBeforeFiling
+ * true, and the words "certified", "docket" and "judgment" appeared zero times
+ * in either delivered instruction file. The repository's
+ * REQUIRED_BEFORE_FILING_CONDITIONS require such an item to be DISCLOSED --
+ * named in participant-instructions.md as something to obtain and submit.
+ *
+ * Re-reading the record while repairing that turned up the same shape in the
+ * stop conditions. This builder carried a hand-written one-sentence PARAPHRASE
+ * of the eleven conditions MO.memo.json declares, and a paraphrase keeps only
+ * what its author happened to think of. Measured verbatim, all eleven were
+ * absent, and seven were absent in substance too: distribution or delivery to a
+ * minor, violence, driving under the influence of marijuana, a class A, B or C
+ * marijuana felony, more than three pounds or an unclear quantity, an arguable
+ * Article XIV sections 1 and 2 question, and a Case.net/Highway Patrol
+ * disagreement about whether relief was already entered. Those are the
+ * conditions that decide whether this route is the participant's at all.
+ *
+ * No completeness counter can see either loss. The nine counters range over
+ * this family's field-map rows, and both defects are ABSENT CONTENT rather than
+ * an unclassified blank, so verify-packet-completeness.mjs returned
+ * PASS_COMPLETE with all nine zero while both were missing.
+ *
+ * So both are DERIVED from MO.memo.json at build time and the build REFUSES if
+ * the record stops declaring them. MO.memo.json is hashed into
+ * source-receipt.json as a composition source, so this text moves only when
+ * that record moves, and
+ * scripts/grade-a-packet-factory-24h/test-mo-art-xiv-record-disclosures.mjs
+ * asserts the binding survived all the way into the delivered bytes.
+ * ------------------------------------------------------------------ */
+const MO_MEMO_PATH = "data/record-clearing/legal-design-intake/MO.memo.json";
+const MO_TRACK_ID = "mo-art-xiv-marijuana";
+const MO_MEMO_BYTES = fs.readFileSync(path.join(ROOT, MO_MEMO_PATH));
+const MO_MEMO_TRACK = (() => {
+  const memo = JSON.parse(MO_MEMO_BYTES.toString("utf8"));
+  const track = (memo.tracks ?? []).find((entry) => entry.trackId === MO_TRACK_ID);
+  if (!track) throw new Error(`MO_MEMO_TRACK_ABSENT: ${MO_TRACK_ID} is not in ${MO_MEMO_PATH}`);
+  return track;
+})();
+
+const REQUIRED_BEFORE_FILING_DOCUMENTS = (MO_MEMO_TRACK.supportingDocuments ?? [])
+  .filter((document) => document.requiredBeforeFiling === true);
+const SELF_HELP_STOP_CONDITIONS = MO_MEMO_TRACK.selfHelpStopConditions ?? [];
+if (!REQUIRED_BEFORE_FILING_DOCUMENTS.length) {
+  throw new Error("MO_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT: refusing to build instructions that would "
+    + "silently owe the participant nothing before filing");
+}
+if (!SELF_HELP_STOP_CONDITIONS.length) {
+  throw new Error("MO_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS: refusing to build a packet with no stop conditions");
+}
+for (const document of REQUIRED_BEFORE_FILING_DOCUMENTS) {
+  for (const field of ["name", "obtainedFrom", "howToObtain"]) {
+    if (!document[field]) {
+      throw new Error(`MO_MEMO_REQUIRED_DOCUMENT_INCOMPLETE: "${document.name ?? "(unnamed)"}" has no ${field}`);
+    }
+  }
+}
+
+/* The disclosure, in the record's own words. Every sentence below is either a
+ * quotation from MO.memo.json or a statement about what that record says. */
+const REQUIRED_BEFORE_FILING_LINES = [
+  "## What you must obtain before you file",
+  "",
+  "The Missouri record for this route marks the following as required before filing. Get it before you file, and",
+  "file it with your petition.",
+  ""
+];
+for (const document of REQUIRED_BEFORE_FILING_DOCUMENTS) {
+  REQUIRED_BEFORE_FILING_LINES.push(
+    `- **${document.name}.** Obtained from: ${document.obtainedFrom}. ${document.howToObtain}`
+  );
+}
 
 const SIGNATURE_CLASS = "signature_or_date_participant_completion";
 const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
@@ -532,12 +631,16 @@ function fi05Spec(documentId, facts, plan, sheetNote) {
       factId: "case.filing_county", value: facts["case.filing_county"], size: 10 },
     { name: "Case Type Code", label: "Case Type Code", value: CASE_TYPE_CODE,
       factId: "route.case_type_code", routeDetermined: true, size: 11,
-      basis: "the census records this route as filed \"with FI-05 at case type X#\", and this binary's own Case "
-        + "Types List, printed on its pages 3 and 4, carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest "
-        + "Records  X#\"" },
+      basis: "the census records this route as filed \"with FI-05 at case type X#\". That census destination "
+        + "record is the whole of the support for this value. The FI-05 binary corroborates the CODE ITSELF and "
+        + "nothing more: its Case Types List prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" on "
+        + "page 4 only, and the X# is drawn at x 213.48-224.36, inside the ASSOCIATE column (header x "
+        + "195.72-243.69) rather than the CIRCUIT column (header x 250.08-284.02), whose cell is empty on that "
+        + "row. Whether a petition captioned \"IN THE ____ JUDICIAL CIRCUIT\" is nonetheless filed at this case "
+        + "type is a question for counsel, and approval-request.json asks it; this build does not answer it" },
     { name: "Case Type Description", label: "Case Type Description", value: CASE_TYPE_DESCRIPTION,
       factId: "route.case_type_description", routeDetermined: true, size: 9,
-      basis: "the description printed beside code X# in this binary's own Case Types List" },
+      basis: "the description printed beside code X# in this binary's own Case Types List, on its page 4" },
     { name: "Submitted by", label: "Submitted by", factId: "participant.full_legal_name",
       value: facts["participant.full_legal_name"], size: 9 },
     { name: "City_4", label: "Submitted by: city", factId: "participant.city", value: facts["participant.city"], size: 9 },
@@ -1241,14 +1344,15 @@ function productionFieldMap(parts, agencies) {
       "This packet is built for the Article XIV, section 2 marijuana expungement petition. Three elections the "
       + "route determines are made by the packet rather than left to the participant: the Case Type Code and Case "
       + "Type Description on every FI-05 sheet (X#, Expunge Marijuana Criminal/Arrest Records, taken from the "
-      + "Case Types List printed on pages 3 and 4 of the FI-05 binary itself), and the three record-holding "
+      + "census destination record and matched to the description printed beside that code on page 4 of the "
+      + "FI-05 Case Types List), and the three record-holding "
       + "agencies CR375 names as Defendant(s) that are true of every case on this route - the court that entered "
       + "the conviction, the MSHP CJIS Division as the state central repository, and the office that prosecuted "
       + "the case. The incarceration pair is determined by the case, not the route, and is stated from the held "
       + "screening fact. Race, ethnicity, sex and the further arresting agencies stay with the person filing.",
     routeSelectionsMade: [
       { routeKey: FILING_ROUTE_KEY, selection: `FI-05 Case Type Code ${CASE_TYPE_CODE} (${CASE_TYPE_DESCRIPTION})`,
-        sourceSupport: "the census destination record and the Case Types List printed on pages 3 and 4 of the FI-05 binary" },
+        sourceSupport: "the census destination record, which records this route as filed \"with FI-05 at case type X#\". The FI-05 Case Types List prints that code beside that description on its page 4, in the ASSOCIATE column; it does not place the row in CIRCUIT, and that division question is open with counsel" },
       { routeKey: FILING_ROUTE_KEY, selection: `Defendant: ${agencies.courtAgency}`,
         sourceSupport: "the court that entered the conviction holds the record this petition asks to expunge" },
       { routeKey: FILING_ROUTE_KEY, selection: `Defendant: ${agencies.mshp}`,
@@ -1349,9 +1453,10 @@ function participantInstructions(ledger, agencies) {
     "",
     "## What the packet answered because the route answers it",
     "",
-    "- **Case Type Code X#, Expunge Marijuana Criminal/Arrest Records.** Every Missouri marijuana expungement is",
-    "  filed under that case type. It is printed in the Case Types List on pages 3 and 4 of the FI-05 sheet itself,",
-    "  so the packet fills it in rather than asking you to look it up.",
+    "- **Case Type Code X#, Expunge Marijuana Criminal/Arrest Records.** The held record for this route says a",
+    "  Missouri marijuana expungement is filed at that case type, and the FI-05 Case Types List on page 4 of the",
+    "  sheet prints that description beside that code, so the packet fills it in rather than asking you to look it",
+    "  up. If the clerk tells you a different case type applies, use the clerk's.",
     "- **Three agencies are already named as Defendant(s) on the petition:**",
     `  ${agencies.courtAgency}; ${agencies.mshp}; and ${agencies.prosecutor}.`,
     "  Those three hold a record of a Missouri marijuana conviction in every case on this route: the court that",
@@ -1374,6 +1479,8 @@ function participantInstructions(ledger, agencies) {
     "",
     "Race, ethnicity and sex on page 2 of the petition and on the filing sheets are left blank on purpose. They are",
     "self-identification, and nothing here will state them about you.",
+    "",
+    ...REQUIRED_BEFORE_FILING_LINES,
     "",
     "## What you must supply before filing",
     "",
@@ -1421,9 +1528,15 @@ function participantInstructions(ledger, agencies) {
     "",
     "## Stop conditions",
     "",
-    "Stop using this self-help packet and talk to a lawyer if any conviction you are asking to expunge was not a",
-    "Missouri marijuana offense, if you are currently incarcerated or on probation for a marijuana offense, if any",
-    "charge is still pending, or if you have any immigration matter pending or possible.",
+    "Stop using this self-help packet and talk to a lawyer if any of these is true. They are the conditions the",
+    "Missouri record for this route states, in its own words:",
+    "",
+    ...SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`),
+    "",
+    "Stop as well if any conviction you are asking to expunge was not a Missouri marijuana offense, or if any",
+    "charge against you is still pending. Those two are route boundaries rather than conditions of the record: a",
+    "non-marijuana conviction is not on this route at all, and a pending charge is a different posture from the",
+    "one this packet is drafted for.",
     "",
     `Routes: ${ROUTE_KEYS.join(", ")}`,
     ""
@@ -1591,6 +1704,13 @@ async function build(argv = process.argv.slice(2)) {
     implementationStrategy: "official_pdf_fill", custodyClass: "NO_ACQUISITION_TASK_NAMED",
     acquisitionCommissioned: false, allSourcesExact: true,
     bindingMethod: "committed corpus-index path + index SHA-256 + on-disk SHA-256, re-read at build time",
+    compositionSources: [
+      { path: MO_MEMO_PATH, sha256: sha256(MO_MEMO_BYTES), byteLength: MO_MEMO_BYTES.length,
+        whatItSupplies: `the ${REQUIRED_BEFORE_FILING_DOCUMENTS.length} required-before-filing supporting `
+          + `document(s) and the ${SELF_HELP_STOP_CONDITIONS.length} self-help stop condition(s) printed in `
+          + "participant-instructions.md. Both are read from this record at build time and the build refuses if "
+          + "it stops declaring them, so that text moves only when this hash moves." }
+    ],
     fi05IdentityReadFromTheDocument: {
       whyItWasRead: "this family stopped BLOCKED_SOURCE because official-form:FI-05 matched zero committed index "
         + "entries by form number: it lives in the Nationwide recovery pool, whose 380 entries all carry "
@@ -1668,8 +1788,8 @@ async function build(argv = process.argv.slice(2)) {
     findings: [
       { finding: "official-form:FI-05 resolves through the Nationwide recovery pool, whose 380 index entries all carry formNumber null, which is why a form-number resolver returned zero matches and stopped this family.",
         consequence: "The build binds FI-05 by the pinned digest against the committed index and then reads the document itself - form number, title, variant, page count and the Case Types List row for this route - rather than treating a matching digest as proof of identity. The reading is recorded in source-receipt.json." },
-      { finding: "The census records this route as filed \"with FI-05 at case type X#\", and the FI-05 binary prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" in the CIRCUIT column of its own Case Types List on pages 3 and 4.",
-        consequence: "Case Type Code and Case Type Description are written by the packet on every sheet. A route election the route determines is not left to the participant." },
+      { finding: "The census records this route as filed \"with FI-05 at case type X#\". That is the support for the value. An earlier build of this family also recorded that the FI-05 binary prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" in the CIRCUIT column of its Case Types List on pages 3 and 4; that corroboration was false and is withdrawn. Measured from the bytes: the row is on page 4 only, X# is drawn at x 213.48-224.36 inside the ASSOCIATE column (header x 195.72-243.69), the CIRCUIT column (header x 250.08-284.02) is empty on that row, and the neighbouring rows carry XG at x 260.52-273.40 and X5 at x 261.50-272.40 in CIRCUIT.",
+        consequence: "Case Type Code and Case Type Description are still written by the packet on every sheet, because the census determines them and a route election the route determines is not left to the participant. What changed is the recorded basis: it now rests on the census alone, and the ASSOCIATE/CIRCUIT division question - live because CR375 is captioned \"IN THE ____ JUDICIAL CIRCUIT\" - is raised with counsel in approval-request.json rather than treated as answered by the form." },
       { finding: "Five FI-05 widgets carry a /Rect written bottom-edge-last, so their height reads negative: Party Type Code, Party Type Description, Bar ID, Party Type Code_5 and Party Type Description_3.",
         consequence: "Every rect is normalized before it is used as a write box, the malformed ones are flagged in the field map's rectBasis, and the ink is proved against the normalized box out of the saved bytes." },
       { finding: "FI-05 holds three party blocks and this petition has four parties: the petitioner and the three record-holding agencies CR375 names as Defendant(s).",
@@ -1701,7 +1821,8 @@ async function build(argv = process.argv.slice(2)) {
       "The packet names three Defendant agencies on CR375 - the court of conviction, the MSHP CJIS Division and the prosecuting attorney - on the ground that each holds a record in every case on this route. Confirm that a prepared draft should name them rather than leave the whole list to the participant.",
       "The incarceration pair is stated from the held screening answer rather than left blank. Confirm that screening evidence is a sufficient basis for a statement made under penalty of perjury, with the participant's own verification required before signing.",
       "The packet carries a second FI-05 as the continuation component so that all four parties are entered. Confirm that a second Confidential Case Filing Information Sheet is what a Missouri clerk expects for a four-party expungement filing, rather than a different continuation.",
-      "Case Type Code X# is taken from the Case Types List printed in the FI-05 binary itself. Confirm the code is still current for a marijuana expungement filed today."
+      "Case Type Code X# is taken from the census destination record for this route. Confirm the code is still current for a marijuana expungement filed today.",
+      "FI-05's own Case Types List prints X# for \"Expunge Marijuana Criminal/Arrest Records\" in the ASSOCIATE column (x 195.72-243.69), not the CIRCUIT column (x 250.08-284.02), which is empty on that row while the neighbouring expungement rows carry XG and X5 in CIRCUIT. CR375 is captioned \"IN THE ____ JUDICIAL CIRCUIT, ________ COUNTY, MISSOURI\". Confirm which division a marijuana expungement petition is opened in and whether X# is the right code for a petition filed in the circuit court, or whether the circuit-division code differs. This build states X# on the census record alone and does not resolve the division question."
     ],
     independentVerificationStatus: "PENDING",
     approvedForLive: false, live: false,

@@ -13,8 +13,24 @@ Governor - and has written the pardon date you gave beside it.
 
 **Check that date against your pardon document before you sign.** You are affirming the petition under the
 penalties of perjury, and the ground you are relying on requires that not more than ten years have passed
-since the Governor signed the pardon. Nothing in this packet proves you were pardoned; bring the pardon
-document with you.
+since the Governor signed the pardon. Nothing in this packet proves you were pardoned.
+
+## What you must obtain before you file
+
+The Maryland record for this route marks the following as required before filing. Have it before you file,
+and take it with you:
+
+- **Copy of the signed gubernatorial pardon.** Obtained from: Maryland Governor's Office or DPSCS. Obtain a copy of the executed pardon showing the signature date.
+
+## The filing fee
+
+The Maryland record for this route states the filing fee, in these words: "$30 (CC-DC-CR-072B)." That is $30, keyed to
+this form.
+The petition itself prints no amount - its only fee wording is "Filing Fees Are Not Refundable" across the top
+of page 1 - so the form is not evidence that this figure is current, and nothing held here establishes any
+other cost of the filing. Confirm the amount with the clerk before you pay, and take the fee with you.
+If you cannot prepay it, the record names the waiver to use: "Request for Waiver of Prepaid Costs, CC-DC-089." That form is in this packet.
+Complete the affidavit of income on CC-DC-089 in full, sign it, and file it with the petition.
 
 On CC-DC-089 the packet has ticked the request for a waiver of prepaid costs, because that is what the form is.
 
@@ -115,9 +131,21 @@ CC-DC-089 is the court's order and every line on it belongs to the court.
 
 ## Stop conditions
 
-Stop using this self-help packet and talk to a lawyer if the conviction was not pardoned, if more than ten
-years have passed since the Governor signed the pardon, if you were convicted of more than one criminal act,
-if the offence was a crime of violence under Criminal Law Article section 14-101(a), if you are now a
-defendant in any pending criminal action, or if you have any immigration matter pending or possible.
+Stop using this self-help packet and talk to a lawyer if any of these is true. They are the conditions the
+Maryland record for this route states, in its own words:
+
+- The 10-year filing deadline is close or has passed.
+- The participant has more than one conviction, which puts the 'only one criminal act' condition in issue.
+- The State's Attorney objects.
+
+The last of those can happen after you file, and you will not be the one who starts it. The record states the
+notice this way: "The court serves the State's Attorney; 30-day objection period." If the State's Attorney objects within that period, stop and talk to a
+lawyer.
+
+Stop as well if the conviction was not pardoned, if the offence was a crime of violence under Criminal Law
+Article section 14-101(a), if you are now a defendant in any pending criminal action, or if you have any
+immigration matter pending or possible. Those are route boundaries rather than conditions of the record: a
+conviction that was not pardoned is not on this route at all, and the other three are conditions the
+petition's own pardon ground makes you affirm.
 
 Route: obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8

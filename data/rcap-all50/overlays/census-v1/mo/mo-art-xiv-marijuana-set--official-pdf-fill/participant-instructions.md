@@ -12,9 +12,10 @@ drafted fact against your own court record on Case.net. You are signing under pe
 
 ## What the packet answered because the route answers it
 
-- **Case Type Code X#, Expunge Marijuana Criminal/Arrest Records.** Every Missouri marijuana expungement is
-  filed under that case type. It is printed in the Case Types List on pages 3 and 4 of the FI-05 sheet itself,
-  so the packet fills it in rather than asking you to look it up.
+- **Case Type Code X#, Expunge Marijuana Criminal/Arrest Records.** The held record for this route says a
+  Missouri marijuana expungement is filed at that case type, and the FI-05 Case Types List on page 4 of the
+  sheet prints that description beside that code, so the packet fills it in rather than asking you to look it
+  up. If the clerk tells you a different case type applies, use the clerk's.
 - **Three agencies are already named as Defendant(s) on the petition:**
   Circuit Court of Greene County, Missouri, Division 4; Missouri State Highway Patrol, Criminal Justice Information Services (CJIS) Division; and Prosecuting Attorney of Greene County, Missouri.
   Those three hold a record of a Missouri marijuana conviction in every case on this route: the court that
@@ -45,6 +46,13 @@ drafted fact against your own court record on Case.net. You are signing under pe
 
 Race, ethnicity and sex on page 2 of the petition and on the filing sheets are left blank on purpose. They are
 self-identification, and nothing here will state them about you.
+
+## What you must obtain before you file
+
+The Missouri record for this route marks the following as required before filing. Get it before you file, and
+file it with your petition.
+
+- **Certified docket sheet and judgment for each case.** Obtained from: Clerk of the court where the case was charged or the finding of guilt entered. Ask the clerk for a certified copy of the docket and the judgment. It supplies the case number, the court, the offense grade and the charge description, and on a marijuana case it is often the only place the quantity appears.
 
 ## What you must supply before filing
 
@@ -129,8 +137,24 @@ The judge or division line at the top of the petition is the court's to complete
 
 ## Stop conditions
 
-Stop using this self-help packet and talk to a lawyer if any conviction you are asking to expunge was not a
-Missouri marijuana offense, if you are currently incarcerated or on probation for a marijuana offense, if any
-charge is still pending, or if you have any immigration matter pending or possible.
+Stop using this self-help packet and talk to a lawyer if any of these is true. They are the conditions the
+Missouri record for this route states, in its own words:
+
+- The participant is currently incarcerated. A petition seeking immediate release is a liberty application and carries a mandatory attorney handoff.
+- The participant is on probation or parole. The constitution vacates the sentence automatically for this population and a petition may be both unnecessary and wrong.
+- Any case involved distribution or delivery to a minor.
+- Any case involved violence.
+- Any case involved operating a motor vehicle while under the influence of marijuana.
+- Any class A, B or C marijuana felony.
+- More than three pounds of marijuana was involved, or the quantity is unclear from the record.
+- Whether the conduct would still be an offense, or a lesser offense, under Article XIV sections 1 and 2 is arguable.
+- Case.net and the Highway Patrol record disagree about whether the case was already expunged.
+- The participant is not a United States citizen or there is any immigration consequence, where a marijuana conviction carries federal consequences a state vacatur may not cure.
+- The participant asks whether the vacatur reaches a federal firearms disability or a federal benefit.
+
+Stop as well if any conviction you are asking to expunge was not a Missouri marijuana offense, or if any
+charge against you is still pending. Those two are route boundaries rather than conditions of the record: a
+non-marijuana conviction is not on this route at all, and a pending charge is a different posture from the
+one this packet is drafted for.
 
 Routes: obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief, obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition
