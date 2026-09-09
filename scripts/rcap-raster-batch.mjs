@@ -232,6 +232,10 @@ for (const target of targets) {
     const tol = Math.max(4, expectPxPerPt * 2);
     const measurement = {
       page: i + 1, png: path.relative(OUT, stable), bytes: fs.statSync(stable).size,
+      /* The identity of the image that was measured, taken here on the runner
+       * where the bytes exist. A reader who cannot reach artifact blob storage
+       * still gets a digest it can bind the measurement to. */
+      pngSha256: sha256(stable), pngWidth: Math.round(render.paper.width), pngHeight: Math.round(render.paper.height),
       paper: render.paper, pxPerPt: render.pxPerPt, expectedPxPerPt: expectPxPerPt,
       pageWidthPt: render.pageWidth, pageHeightPt: render.pageHeight,
       expectedPx: { width: expectW, height: expectH, tolerancePx: tol },
@@ -273,7 +277,36 @@ const doc = {
   packetPdfsModified: 0, bodiesCommitted: 0, commercialRoutesOpened: 0, productionTouched: false
 };
 fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
+
+/*
+ * The page-image inventory, and then the whole receipt into the job log.
+ *
+ * WHY THIS IS PRINTED AND NOT ONLY UPLOADED. The upload below is the
+ * authority and stays. But an agent session whose egress policy denies
+ * Actions artifact blob storage -- CONNECT tunnel failed, response 403
+ * against the blob host -- cannot fetch the artifact at all, while the
+ * Actions job-log API answers for it normally. Eleven finished families
+ * have sat BUILT_RASTER_PENDING waiting on a receipt rather than on any
+ * work, because the measurement existed and could not be read.
+ *
+ * So the same receipt is also written to stdout, delimited, one JSON
+ * document per line. It is the identical object: nothing is summarised,
+ * softened or recomputed for the log. The importer's bundle-directory
+ * path already reads exactly this shape and already records, per image,
+ * that the PNG bodies were not read -- printing the digest here changes
+ * who can read the receipt, not what the receipt claims.
+ */
+const inventory = artifacts.map((a) => ({
+  runId: RUN_ID, familyId: FAMILY, member: a.png,
+  bytes: a.bytes, sha256: a.pngSha256, pngWidth: a.pngWidth, pngHeight: a.pngHeight
+}));
+fs.writeFileSync(path.join(OUT, "PAGE_IMAGES_SHA256.json"), `${JSON.stringify(inventory, null, 2)}\n`);
+
 try { fs.rmSync(derivativeStage, { recursive: true, force: true }); } catch { /* this job owns the temporary derivatives */ }
+console.log(`RCAP_RECEIPT_BEGIN family=${FAMILY} run=${RUN_ID} commit=${COMMIT ?? row.packetCommitSha}`);
+console.log(`RCAP_RECEIPT_VERDICT ${JSON.stringify(doc)}`);
+console.log(`RCAP_RECEIPT_INVENTORY ${JSON.stringify(inventory)}`);
+console.log(`RCAP_RECEIPT_END family=${FAMILY} run=${RUN_ID} pages=${artifacts.length}`);
 console.log(`${verdict} ${FAMILY} — ${targets.length} document(s), ${artifacts.length} page(s) measured, ${problems.length} problem(s)`);
 for (const p of problems.slice(0, 10)) console.log(`  ${p}`);
 process.exit(verdict === "RASTER_PASS" ? 0 : 1);
