@@ -18,9 +18,9 @@
     "rcap-hi-custom-pleading",
     "composed-treatment:nc_146_dismissal_petition"
   ],
-  "rowsReturned": 1,
+  "rowsReturned": 2,
   "familiesCompleted": 1,
-  "familiesStopped": 0,
+  "familiesStopped": 1,
   "custodyVerification": "private/ is a gitignored mount rather than a sparse git path and was symlinked into this worktree mid-shift by the Captain. Every source digest this lane relied on was reproduced with sha256sum from that mount before any conclusion was drawn from it. No family in this lane was stopped for a source reason.",
   "rasterState": "BUILT_RASTER_PENDING",
   "rasterNote": "No local raster was produced and none is claimed. RASTER_PASS comes from the central workflow, bound to the exact SHA-256 recorded above.",
@@ -354,6 +354,138 @@
       "legalOrSourceAuthorityEdited": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:nc_146_dismissal_petition",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "claim": "CLAIM_OK PF12 composed-treatment:nc_146_dismissal_petition (packet-build, grant set 98f7d891ebf0ea2d)",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; this lane created nothing at that path and left no partial directory behind",
+      "buildScriptWritten": false,
+      "jurisdiction": "NC",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+      ],
+      "counters": null,
+      "countersNote": "No packet was produced, so there is nothing to count. The nine counters are null rather than zero: a counter that was never measured is not a zero.",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "notASourceStop": "This is NOT a custody failure and must not be read as one. All six bound sources resolve exactly, measured with sha256sum against their declared digests under the mounted private/ tree, after the Captain symlinked that mount into this worktree mid-shift. SOURCE_READY_BUILDABILITY.json's verdict EVERY_BOUND_SOURCE_IS_A_HELD_PDF for this family is correct and this lane reproduces it.",
+      "sourcesVerified": [
+        {
+          "sourceId": "official-form:AOC-CR-287",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "resolved": true,
+          "resolvedIn": [
+            "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS",
+            "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS"
+          ]
+        },
+        {
+          "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "resolved": true,
+          "resolvedIn": [
+            "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS"
+          ]
+        },
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "resolved": true,
+          "resolvedIn": [
+            "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS",
+            "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS"
+          ]
+        },
+        {
+          "sourceId": "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "resolved": true,
+          "sameBytesAs": "official-form:AOC-CR-287"
+        },
+        {
+          "sourceId": "source-sha256:fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "resolved": true,
+          "sameBytesAs": "official-form:AOC-CR-287-INSTRUCTIONS"
+        },
+        {
+          "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "resolved": true,
+          "sameBytesAs": "official-form:AOC-CV-226"
+        }
+      ],
+      "allSourcesExact": true,
+      "decisiveConflict": "The assigned route is the separate DNA expunction application under G.S. 15A-146(b1). Not one of the three distinct documents behind the six bound sources reaches that subsection, and the controlling record states that the instrument for it is not recorded anywhere.",
+      "measuredEvidence": [
+        {
+          "measurement": "printed face of the pinned AOC-CR-287, read from its own bytes in this lane",
+          "finding": "Its title reads 'PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-146(a) OR G.S. 15A-146(a1) (CHARGE(S) DISMISSED)', its authority line reads 'G.S. 15A-146, 15A-150', and its petition body reads 'I hereby petition for an expunction pursuant to G.S. 15A-146(a) or (a1) and certify as follows'. Side two's findings and order clause are keyed to (a) and (a1) throughout and reach the court's records, law enforcement agencies, DAC and DMV; nothing on either side reaches a DNA record or the State DNA Database."
+        },
+        {
+          "measurement": "text search of all three bound documents, from their pinned bytes",
+          "finding": "Zero occurrences of 'DNA', of '15A-146(b', or of 'deoxyribo' in AOC-CR-287, in the AOC-CR-287 instructions, or in AOC-CV-226."
+        },
+        {
+          "measurement": "the route's own census record, scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
+          "finding": "It declares this route's participantFacingInstrument as 'composed DNA expunction application under G.S. 15A-146(b1) - exact approved form is not recorded' and its destination as 'not recorded - exact filing court for the separate G.S. 15A-146(b1) application requires source confirmation'. It also directs that the branch be preserved 'without inventing another approved-track source identity or importing its facts into the ordinary dismissal packet'."
+        },
+        {
+          "measurement": "the committed legal-design track registry, rules.filing for nc_146_dismissal_petition",
+          "finding": "'G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.' The approved form for the (b1) branch is the one thing the record says is not recorded."
+        },
+        {
+          "measurement": "the committed legal-design track registry, selfHelpStopConditions for nc_146_dismissal_petition",
+          "finding": "'DNA expunction, which carries its own service and hearing requirements' is a listed self-help stop condition for this very track."
+        },
+        {
+          "measurement": "the Master Library North Carolina legal review, ASOF 2026-08-01",
+          "finding": "It lists DNA expunction under SELF-HELP LIMITS and again among the attorney-handoff triggers, and records at correction 8 that the DNA application route inside 15A-146(b1) is missing from the internal reference, including its 20-day service requirement on the district attorney."
+        },
+        {
+          "measurement": "the AOC criminal forms index held in custody under private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Carolina",
+          "finding": "Expunction forms are listed under G.S. 15A-146(a), (a1) and (a2). No form is listed under 15A-146(b1). The two DNA-record expunction forms in the index are AOC-CR-284 under G.S. 15A-148 and AOC-CR-293 under G.S. 15A-145.8(b), which are different statutes and different routes. The index is paginated, so this is a positive finding about what it names and not a proof of exhaustiveness."
+        }
+      ],
+      "whyNotBuiltAnyway": [
+        "Composing a (b1) application would have required inventing the instrument's identity, its approved-form status and its filing court, all three of which the controlling record expressly records as not recorded. G.S. 15A-146(c), as the record states it, requires any petition under this section to be on an AOC-approved form.",
+        "Promoting AOC-CR-287 as this route's filing instrument would have promoted a source whose printed statutory identity conflicts with the route, which is the source-fidelity defect this factory exists to prevent.",
+        "Falling back to a guidance-only deliverable would have changed this family's delivery type. That is an owner decision, not a build-lane one, and the queue row's ownerDeliveryTypeRefusal is null."
+      ],
+      "exactLegalQuestionForTheOwner": "What exact filing instrument, component set, filing destination and fee treatment are approved for the G.S. 15A-146(b1) DNA-expunction application? Specifically: is there an AOC-approved form for a (b1) application, and if there is not, what does G.S. 15A-146(c)'s AOC-approved-form requirement mean for that branch? Until that is answered and a form is bound by hash, this route has no instrument a packet can carry.",
+      "priorLaneAgreement": {
+        "lane": "PF09",
+        "workerBranch": "codex/cs2-pf09-nc-in-3db",
+        "recordedIn": "data/rcap-grade-a/packet-factory-24h/pf09/rows.json",
+        "priorVerdict": "STOPPED / BLOCKED_LEGAL_INPUT",
+        "note": "PF09 reached the same conclusion on the same conflict. This lane did not adopt that finding: it re-measured the pinned bytes, the census record, the registry, the Master Library review and the AOC forms index independently, and adds the forms-index and Master Library findings that PF09's return does not record. The agreement is corroboration, not inheritance."
+      },
+      "contradictsRecords": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[composed-treatment:nc_146_dismissal_petition].legalInputStatus",
+          "says": "SETTLED",
+          "measured": "The legal input is not settled. The route's own census record states that the approved form and the filing court are not recorded, and the controlling track record lists this branch as a self-help stop condition. The same queue row also carries state SOURCE_READY and terminalTreatment null, while an earlier shift's return in this same directory records the family as STOPPED / BLOCKED_LEGAL_INPUT."
+        }
+      ],
+      "claimReleased": false,
+      "claimReleaseRequired": true,
+      "claimReleaseNote": "The Captain owns releases. This lane released nothing and transferred nothing.",
+      "artifacts": [],
+      "packetsSelfVerified": 0,
+      "selfVerified": false,
+      "centralGeneratedStateEdited": false,
+      "legalOrSourceAuthorityEdited": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
-  ]
+  ],
+  "blockedSource": [],
+  "blockedLegalInput": [
+    "composed-treatment:nc_146_dismissal_petition"
+  ],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": [],
+  "headShaNote": "null because a commit cannot contain its own SHA; the HI family's commit is recorded in checkpoint 1 below."
 }
