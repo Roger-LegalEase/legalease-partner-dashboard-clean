@@ -1,0 +1,595 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX120",
+  "laneKind": "repair",
+  "repairedByThisLane": true,
+  "repairedAtBase": "f78191545",
+  "branch": "fix120-ri-four-repair",
+  "grantSet": "1c4d8a07d2f0f02c",
+  "controllingEvidence": {
+    "record": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+    "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session, 2026-09-07",
+    "packetSnapshotReviewed": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+    "readInFull": true
+  },
+  "buildEnvironmentPreflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ri_deferred_sentence-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable (exit 1)",
+    "failuresVerbatim": [
+      "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+      "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled"
+    ],
+    "whatWasFoundOnInspection": "Neither failure touches Rhode Island, and neither was worked around. private/ IS ignored in this worktree - .gitignore line 53 carries it, `git status --ignored` reports it ignored, and `git ls-files private/` is empty - but private/ here is the READ-ONLY SYMLINK the assignment required, and `git check-ignore -q private/` errors with \"fatal: pathspec 'private/' is beyond a symbolic link\" (exit 128), which the check reads as not-ignored. The absent corpus entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama form. In the same run family_sources_bind passed 1/1 by exact SHA-256 for ri_deferred_sentence-set, and both Rhode Island binaries resolved by content in every build.",
+    "reportedNotSuppressed": true
+  },
+  "egressAttemptedHere": [
+    {
+      "url": "https://riag.ri.gov/i-want/get-background-check",
+      "result": "curl: (56) CONNECT tunnel failed, response 403"
+    },
+    {
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm",
+      "result": "curl: (56) CONNECT tunnel failed, response 403"
+    }
+  ],
+  "decriminalizedByteIdentityProof": {
+    "familyNotGrantedToThisLaneButSharingTheHost": "ri_decriminalized-set",
+    "method": "ri_decriminalized-set was rendered at the base with its own script and its digests recorded, the host was then changed, and it was rendered again with the same script and flags. Every repair on the host is gated by track id, and ri_decriminalized is on none of the gate sets.",
+    "before": {
+      "canonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+      "boundarySha256": "3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a"
+    },
+    "after": {
+      "canonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+      "boundarySha256": "3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a"
+    },
+    "identical": true,
+    "additionalEvidence": "After the post-change rebuild, `git status --porcelain` reported NO modified file anywhere under the ri-decriminalized-set--official-pdf-fill directory: not the two fixtures, not the field map, the source receipt, the participant instructions, the reports or the build status.",
+    "incidentDisclosed": "While deleting my own rasters I ran `rm -rf data/rcap-all50/overlays/census-v1/ri/*/raster`, which also removed eight COMMITTED raster PNGs belonging to ri_nonconviction_sealing-set, a family outside this lane. They were restored immediately with `git checkout --` on that path; the working tree shows no deletion and no modification under that family."
+  },
+  "rows": [
+    {
+      "itemId": "ri_deferred_sentence-set",
+      "lane": "FIX120",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "repairedAtBase": "f78191545",
+      "claim": "CLAIM_OK FIX120 ri_deferred_sentence-set (repair, grant set 1c4d8a07d2f0f02c)",
+      "findingsAddressed": [
+        "RI-B-01",
+        "RI-B-03",
+        "RI-B-05"
+      ],
+      "findingsNotClosed": [],
+      "whatChanged": [
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json / data/record-clearing/legal-design-packet-set-manifests.json (track ri_deferred_sentence)",
+          "change": "RI-B-01. The BCI acquisition instruction, which originates in these records, now identifies the expungement-purpose STATE criminal records check, the Attorney General's current acquisition requirements (valid photo identification, in person at the BCI office or by mail as that page directs), its own $5 state-check cost stated as a charge for the record and not a court filing fee, a refusal to substitute the fingerprint-based national employment check, and the statement that a clear state report does not by itself prove that no relevant arrest or disposition exists. The request, its signatures and any release stay the participant's. A howToObtainSource block records that riag.ri.gov was NOT fetched by this build and that the requirements are relayed from the 2026-09-07 independent review, source RI-S4."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-01. New gate set BCI_EXPUNGEMENT_PURPOSE_TRACKS (the four repaired routes; ri_decriminalized excluded). filingInstructionsBody prints four new paragraphs after the documents list: where the BCI requirements come from and that this build did not fetch the page; that the $5 is neither a court filing fee nor a court-ordered obligation; that a clear report is not a finding that there is nothing to find; and that every signature and release on the request is the participant's. participantInstructions prints the same three points and step 1 now names the expungement-purpose state check."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "feeSection now records that the Superior Court FAQ answer was read again on 2026-09-07 in the independent review and that this build did not fetch courts.ri.gov. No figure is added and the existing no-fee sentence is unchanged."
+        },
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json (track ri_deferred_sentence, selfHelpStopConditions and selfHelpBoundaries)",
+          "change": "RI-B-03. The two imported first-offender stops were replaced with this route's own conditions. 'Any prior conviction or prior probation, which defeats first-offender status.' became a stop on any doubt that the court will make the section 12-19-19(c) finding of compliance with every term of the deferral agreement, saying in terms that a prior conviction or probation on another case is not itself a bar here because this is not the first-offender route. 'Any arrest during the lookback period, even without a conviction.' became a stop on any source that imposes a further five- or ten-year wait after completion, saying that eligibility for consideration is immediate on the court's compliance finding. The crime-of-violence bar, the pending-proceeding condition, the unpaid agreement obligations, the contested-fact and professional-help boundaries are all kept."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-05. The deferred family's discrepancy block was replaced with a resolution block under a new per-family discrepancyHeading ('WHY THIS PACKET MARKS THE RELIEF BULLET IT MARKS'), stating the mechanism as Chapter 12-1.3 expungement after the section 12-19-19(c) compliance hearing through section 12-1.3-2(e), and not the section 12-1-12 destruction-of-identification-records route; that the second relief bullet is the Chapter 12-1.3 request and is therefore the one marked; that nothing adds a conviction requirement; and that no clerk, court or lawyer has approved the packet, the order or the mark. The broad 'no held record states which bullet a Superior Court expects' claim is gone. The default heading for every other family is unchanged."
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/source-receipt.json",
+          "change": "whatThisReceiptDoesNotEstablish now replaces the relief-bullet line with the narrower truth (no clerk, court or lawyer approval; the mechanism is the reviewer's reading; the statutes were not fetched here) and adds the riag.ri.gov non-fetch line. groundingRecords gains the findings file with its provenance limit."
+        }
+      ],
+      "pagesThatMoved": [
+        {
+          "page": 10,
+          "what": "fee section gains the 2026-09-07 re-read and non-fetch provenance paragraph; the documents list shifts"
+        },
+        {
+          "page": 11,
+          "what": "the corrected BCI acquisition entry and the first two provenance paragraphs"
+        },
+        {
+          "page": 12,
+          "what": "the remaining BCI paragraph, and the RI-B-05 resolution block replacing the unresolved-mechanism warning"
+        },
+        {
+          "page": 13,
+          "what": "the corrected self-help stop list; exclusions and route trailer reflow onto it"
+        },
+        {
+          "page": 14,
+          "what": "unchanged in text: the certified-copy checklist still carries the court's own instruction 8 and the original PAY EVERYTHING OFF step, because RI-B-02 is expressly not applied to this route"
+        }
+      ],
+      "pagesUnchanged": "pages 1-9 of both fixtures are byte-identical in text to the base: the four official form pages, the composed proposed order and the notice pages. Every change is on the composed guidance pages.",
+      "canonicalSha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+      "boundarySha256": "f5a6cb91d3915bb10b00aaa3fd7476fdde0e1838745bcd4ef46bdcb984d9e8d2",
+      "pageCounts": {
+        "canonical": 14,
+        "boundary": 14,
+        "atBase": 14
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set, run in this worktree after the rebuild; it reported PASS_COMPLETE with all nine at zero. That is a counter measurement by the repairing lane, not a verdict and not an independent verification.",
+      "questionsStillOpen": [],
+      "sourcesUsed": [
+        {
+          "id": "official-form-bytes",
+          "what": "Superior-55 (SHA-256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca) and DC-33 (SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908), each bound by exact digest from the mounted Master Library",
+          "provenance": "HELD BYTES, resolved by content in this worktree"
+        },
+        {
+          "id": "RI-S1 / RI-S2 / RI-S5",
+          "what": "R.I. Gen. Laws sections 12-1.3-2, 12-1.3-3 and 12-19-19(c), at the pinpoints the reviewer recorded",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. webserver.rilegislature.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S3",
+          "what": "Rhode Island Superior Court expungement FAQ, the no-fee answer and the costs/fines/restitution answer",
+          "provenance": "RELAYED. courts.ri.gov is refused by this container's egress proxy; it was already carried through the committed decision record OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS."
+        },
+        {
+          "id": "RI-S4",
+          "what": "Rhode Island Attorney General, get-background-check page: state-check cost, identity, mail and in-person instructions",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. riag.ri.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S6 / RI-S7",
+          "what": "The printed instruction and affidavit pages of DC-33 and Superior-55, February 2025",
+          "provenance": "HELD BYTES read first-hand from the pinned binaries in this worktree."
+        },
+        {
+          "id": "review record",
+          "what": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json, at packet snapshot 32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+          "provenance": "READ IN FULL IN THIS WORKTREE. It is the specification for these repairs."
+        }
+      ],
+      "whatThisDoesNotClaim": [
+        "that riag.ri.gov, courts.ri.gov or webserver.rilegislature.gov was fetched by this lane - all three were attempted or are known-refused, and every statute, agency-page and FAQ reading here is relayed from the 2026-09-07 independent review or from committed records",
+        "that any Rhode Island clerk, court or lawyer has approved this packet, the composed proposed order, or the relief bullet it marks",
+        "that the packet is verified: this lane repaired it and measured counters, and does not verify its own work"
+      ],
+      "grantsNothing": "A repaired packet is review evidence. This lane verified nothing of its own, requests no promotion, asserts no PASS, opens no commercial route and touched no independent-verification row."
+    },
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "lane": "FIX120",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill",
+      "repairedAtBase": "f78191545",
+      "claim": "CLAIM_OK FIX120 ri_first_offender_felony-set (repair, grant set 1c4d8a07d2f0f02c)",
+      "findingsAddressed": [
+        "RI-B-01",
+        "RI-B-02"
+      ],
+      "findingsNotClosed": [
+        "RI-B-06"
+      ],
+      "whatChanged": [
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json / data/record-clearing/legal-design-packet-set-manifests.json (track ri_first_offender_felony)",
+          "change": "RI-B-01. The BCI acquisition instruction, which originates in these records, now identifies the expungement-purpose STATE criminal records check, the Attorney General's current acquisition requirements (valid photo identification, in person at the BCI office or by mail as that page directs), its own $5 state-check cost stated as a charge for the record and not a court filing fee, a refusal to substitute the fingerprint-based national employment check, and the statement that a clear state report does not by itself prove that no relevant arrest or disposition exists. The request, its signatures and any release stay the participant's. A howToObtainSource block records that riag.ri.gov was NOT fetched by this build and that the requirements are relayed from the 2026-09-07 independent review, source RI-S4."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-01. New gate set BCI_EXPUNGEMENT_PURPOSE_TRACKS (the four repaired routes; ri_decriminalized excluded). filingInstructionsBody prints four new paragraphs after the documents list: where the BCI requirements come from and that this build did not fetch the page; that the $5 is neither a court filing fee nor a court-ordered obligation; that a clear report is not a finding that there is nothing to find; and that every signature and release on the request is the participant's. participantInstructions prints the same three points and step 1 now names the expungement-purpose state check."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "feeSection now records that the Superior Court FAQ answer was read again on 2026-09-07 in the independent review and that this build did not fetch courts.ri.gov. No figure is added and the existing no-fee sentence is unchanged."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-02. certifiedCopySection now takes the route and, for the two first-offender tracks only (POST_GRANT_CHECKLIST_FOLLOWS_THE_ORDER), replaces the categorical 'PAY EVERYTHING OFF' step with a step that follows the actual court order: the balance the order leaves after any court-approved reduction or waiver is the balance, the full balance stands where no order reduces or waives anything, restitution is owed to the person harmed and is not remitted by a remission of costs and fines, the clerk is asked for what is outstanding and the waiver or reduction order is brought, and no participant may declare an obligation waived. The court's own instruction 8 is quoted above it, unchanged. participantInstructions step 9 carries the same correction for these two routes."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-06 is kept open and sharpened: the Part Two felony/misdemeanor discrepancy block now adds that no corrected affidavit wording, attachment or court-approved handling is written here because none is established by any held source, that it comes from an issuer correction by the Rhode Island Judiciary or a qualified legal determination, and that nothing in the packet permits swearing to an untrue statement. No wording is supplied and no box is marked."
+        }
+      ],
+      "pagesThatMoved": [
+        {
+          "page": 10,
+          "what": "fee provenance paragraph added; content shifts"
+        },
+        {
+          "page": 11,
+          "what": "corrected BCI acquisition entry and its provenance paragraphs"
+        },
+        {
+          "page": 12,
+          "what": "the RI-B-06 sharpening inside the Part Two discrepancy block"
+        },
+        {
+          "page": 13,
+          "what": "exclusions and the self-help stop list reflow; the first-offender stops are correctly kept on this route"
+        },
+        {
+          "page": 14,
+          "what": "the certified-copy checklist step 1 replaced by the order-following step (RI-B-02)"
+        },
+        {
+          "page": 15,
+          "what": "new page: the tail of the checklist and the route trailer, pushed over by the longer step 1"
+        }
+      ],
+      "pagesUnchanged": "pages 1-9 of both fixtures are byte-identical in text to the base: the four official form pages, the composed proposed order and the notice pages. Every change is on the composed guidance pages.",
+      "canonicalSha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+      "boundarySha256": "afa8ec318bf716fd6d2657f90e14bdcf960a258f73f17da35001d3f444d669ef",
+      "pageCounts": {
+        "canonical": 15,
+        "boundary": 15,
+        "atBase": 14
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set, run in this worktree after the rebuild; it reported PASS_COMPLETE with all nine at zero. That is a counter measurement by the repairing lane, not a verdict and not an independent verification.",
+      "questionsStillOpen": [
+        {
+          "findingId": "RI-B-06",
+          "binds": [
+            "ri_first_offender_felony-set"
+          ],
+          "exactRemainingQuestion": "What corrected affidavit text, attachment, or acknowledged court-approved handling should a felony filer use for this particular sworn statement? Obtain an issuer correction or actual qualified legal determination. Do not ask again whether an ordinary first-offender felony uses the ten-year statutory route.",
+          "whereThePacketSaysSo": "page 12 of both fixtures",
+          "closedByThisLane": false
+        }
+      ],
+      "sourcesUsed": [
+        {
+          "id": "official-form-bytes",
+          "what": "Superior-55 (SHA-256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca) and DC-33 (SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908), each bound by exact digest from the mounted Master Library",
+          "provenance": "HELD BYTES, resolved by content in this worktree"
+        },
+        {
+          "id": "RI-S1 / RI-S2 / RI-S5",
+          "what": "R.I. Gen. Laws sections 12-1.3-2, 12-1.3-3 and 12-19-19(c), at the pinpoints the reviewer recorded",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. webserver.rilegislature.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S3",
+          "what": "Rhode Island Superior Court expungement FAQ, the no-fee answer and the costs/fines/restitution answer",
+          "provenance": "RELAYED. courts.ri.gov is refused by this container's egress proxy; it was already carried through the committed decision record OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS."
+        },
+        {
+          "id": "RI-S4",
+          "what": "Rhode Island Attorney General, get-background-check page: state-check cost, identity, mail and in-person instructions",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. riag.ri.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S6 / RI-S7",
+          "what": "The printed instruction and affidavit pages of DC-33 and Superior-55, February 2025",
+          "provenance": "HELD BYTES read first-hand from the pinned binaries in this worktree."
+        },
+        {
+          "id": "review record",
+          "what": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json, at packet snapshot 32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+          "provenance": "READ IN FULL IN THIS WORKTREE. It is the specification for these repairs."
+        }
+      ],
+      "whatThisDoesNotClaim": [
+        "that riag.ri.gov, courts.ri.gov or webserver.rilegislature.gov was fetched by this lane",
+        "any corrected Superior-55 Part Two affidavit wording, any clerk's handling of it, or any legal determination - RI-B-06 is left open and is stated as open in the packet",
+        "that the packet is verified: this lane repaired it and measured counters, and does not verify its own work"
+      ],
+      "grantsNothing": "A repaired packet is review evidence. This lane verified nothing of its own, requests no promotion, asserts no PASS, opens no commercial route and touched no independent-verification row."
+    },
+    {
+      "itemId": "ri_first_offender_misdemeanor-set",
+      "lane": "FIX120",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "repairedAtBase": "f78191545",
+      "claim": "CLAIM_OK FIX120 ri_first_offender_misdemeanor-set (repair, grant set 1c4d8a07d2f0f02c)",
+      "findingsAddressed": [
+        "RI-B-01",
+        "RI-B-02"
+      ],
+      "findingsNotClosed": [
+        "RI-B-07"
+      ],
+      "whatChanged": [
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json / data/record-clearing/legal-design-packet-set-manifests.json (track ri_first_offender_misdemeanor)",
+          "change": "RI-B-01. The BCI acquisition instruction, which originates in these records, now identifies the expungement-purpose STATE criminal records check, the Attorney General's current acquisition requirements (valid photo identification, in person at the BCI office or by mail as that page directs), its own $5 state-check cost stated as a charge for the record and not a court filing fee, a refusal to substitute the fingerprint-based national employment check, and the statement that a clear state report does not by itself prove that no relevant arrest or disposition exists. The request, its signatures and any release stay the participant's. A howToObtainSource block records that riag.ri.gov was NOT fetched by this build and that the requirements are relayed from the 2026-09-07 independent review, source RI-S4."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-01. New gate set BCI_EXPUNGEMENT_PURPOSE_TRACKS (the four repaired routes; ri_decriminalized excluded). filingInstructionsBody prints four new paragraphs after the documents list: where the BCI requirements come from and that this build did not fetch the page; that the $5 is neither a court filing fee nor a court-ordered obligation; that a clear report is not a finding that there is nothing to find; and that every signature and release on the request is the participant's. participantInstructions prints the same three points and step 1 now names the expungement-purpose state check."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "feeSection now records that the Superior Court FAQ answer was read again on 2026-09-07 in the independent review and that this build did not fetch courts.ri.gov. No figure is added and the existing no-fee sentence is unchanged."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-02, as for the felony route: the post-grant checklist and participant-instructions step 9 follow the court's order and the balances legally remaining, distinguish restitution from remittable costs and fines, and forbid a participant self-declaring a waiver. The official instruction 8 is quoted unchanged."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-07 disclosure, NOT closure. For the two District Court routes (DISTRICT_COURT_CHARGE_NOT_ESTABLISHED) the fee section and participant-instructions now say plainly that no District Court filing-fee schedule is held, that the Superior Court's no-fee answer does not establish the District Court's charge, that no figure is printed because none is held, that the repealed $100 charge on a grant is not revived and the civil schedule is not applied, and that the participant must ask the clerk of the District Court division. No fee, clerk response or professional determination is stated."
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/source-receipt.json",
+          "change": "whatThisReceiptDoesNotEstablish gains the riag.ri.gov non-fetch line and the District Court charge line naming RI-B-07 as a finding this build does not close; groundingRecords gains the findings file with its provenance limit."
+        }
+      ],
+      "pagesThatMoved": [
+        {
+          "page": 10,
+          "what": "fee section: the 2026-09-07 re-read and non-fetch paragraph"
+        },
+        {
+          "page": 11,
+          "what": "the RI-B-07 'WHAT IS NOT ESTABLISHED' paragraph and the corrected BCI acquisition entry"
+        },
+        {
+          "page": 12,
+          "what": "the BCI provenance paragraphs; waiting period and hearing reflow onto it"
+        },
+        {
+          "page": 13,
+          "what": "exclusions and the self-help stops, correctly unchanged in content for this first-offender route"
+        },
+        {
+          "page": 14,
+          "what": "the certified-copy checklist with the order-following step 1 (RI-B-02)"
+        },
+        {
+          "page": 15,
+          "what": "new page: checklist tail and route trailer"
+        }
+      ],
+      "pagesUnchanged": "pages 1-9 of both fixtures are byte-identical in text to the base: the four official form pages, the composed proposed order and the notice pages. Every change is on the composed guidance pages.",
+      "canonicalSha256": "bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206",
+      "boundarySha256": "90987141136b5406403ff179368715c6071b43a1f170b81ddf773f5dbbda6c00",
+      "pageCounts": {
+        "canonical": 15,
+        "boundary": 15,
+        "atBase": 13
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set, run in this worktree after the rebuild; it reported PASS_COMPLETE with all nine at zero. That is a counter measurement by the repairing lane, not a verdict and not an independent verification.",
+      "questionsStillOpen": [
+        {
+          "findingId": "RI-B-07",
+          "binds": [
+            "ri_first_offender_misdemeanor-set",
+            "ri_multiple_misdemeanors-set"
+          ],
+          "exactRemainingQuestion": "For these District Court filings, confirm the present filing charge, if any, from a District-specific official source or actual clerk response. Do not reintroduce the repealed $100 grant charge, apply civil fees, or ask counsel to find a nonexistent official proposed-order form.",
+          "whereThePacketSaysSo": "page 11 of both fixtures and the 'What it costs to file, and what is not established' section of participant-instructions.md",
+          "closedByThisLane": false
+        }
+      ],
+      "sourcesUsed": [
+        {
+          "id": "official-form-bytes",
+          "what": "Superior-55 (SHA-256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca) and DC-33 (SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908), each bound by exact digest from the mounted Master Library",
+          "provenance": "HELD BYTES, resolved by content in this worktree"
+        },
+        {
+          "id": "RI-S1 / RI-S2 / RI-S5",
+          "what": "R.I. Gen. Laws sections 12-1.3-2, 12-1.3-3 and 12-19-19(c), at the pinpoints the reviewer recorded",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. webserver.rilegislature.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S3",
+          "what": "Rhode Island Superior Court expungement FAQ, the no-fee answer and the costs/fines/restitution answer",
+          "provenance": "RELAYED. courts.ri.gov is refused by this container's egress proxy; it was already carried through the committed decision record OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS."
+        },
+        {
+          "id": "RI-S4",
+          "what": "Rhode Island Attorney General, get-background-check page: state-check cost, identity, mail and in-person instructions",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. riag.ri.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S6 / RI-S7",
+          "what": "The printed instruction and affidavit pages of DC-33 and Superior-55, February 2025",
+          "provenance": "HELD BYTES read first-hand from the pinned binaries in this worktree."
+        },
+        {
+          "id": "review record",
+          "what": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json, at packet snapshot 32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+          "provenance": "READ IN FULL IN THIS WORKTREE. It is the specification for these repairs."
+        }
+      ],
+      "whatThisDoesNotClaim": [
+        "that riag.ri.gov, courts.ri.gov or webserver.rilegislature.gov was fetched by this lane",
+        "what a Rhode Island District Court charges to file this motion - no figure is stated anywhere in the packet, and none is implied",
+        "that RI-B-07 is closed, or that FEE_AND_WAIVER is met on this family",
+        "that the packet is verified: this lane repaired it and measured counters, and does not verify its own work"
+      ],
+      "grantsNothing": "A repaired packet is review evidence. This lane verified nothing of its own, requests no promotion, asserts no PASS, opens no commercial route and touched no independent-verification row."
+    },
+    {
+      "itemId": "ri_multiple_misdemeanors-set",
+      "lane": "FIX120",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "repairedAtBase": "f78191545",
+      "claim": "CLAIM_OK FIX120 ri_multiple_misdemeanors-set (repair, grant set 1c4d8a07d2f0f02c)",
+      "findingsAddressed": [
+        "RI-B-01",
+        "RI-B-03",
+        "RI-B-04"
+      ],
+      "findingsNotClosed": [
+        "RI-B-07"
+      ],
+      "whatChanged": [
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json / data/record-clearing/legal-design-packet-set-manifests.json (track ri_multiple_misdemeanors)",
+          "change": "RI-B-01. The BCI acquisition instruction, which originates in these records, now identifies the expungement-purpose STATE criminal records check, the Attorney General's current acquisition requirements (valid photo identification, in person at the BCI office or by mail as that page directs), its own $5 state-check cost stated as a charge for the record and not a court filing fee, a refusal to substitute the fingerprint-based national employment check, and the statement that a clear state report does not by itself prove that no relevant arrest or disposition exists. The request, its signatures and any release stay the participant's. A howToObtainSource block records that riag.ri.gov was NOT fetched by this build and that the requirements are relayed from the 2026-09-07 independent review, source RI-S4."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-01. New gate set BCI_EXPUNGEMENT_PURPOSE_TRACKS (the four repaired routes; ri_decriminalized excluded). filingInstructionsBody prints four new paragraphs after the documents list: where the BCI requirements come from and that this build did not fetch the page; that the $5 is neither a court filing fee nor a court-ordered obligation; that a clear report is not a finding that there is nothing to find; and that every signature and release on the request is the participant's. participantInstructions prints the same three points and step 1 now names the expungement-purpose state check."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "feeSection now records that the Superior Court FAQ answer was read again on 2026-09-07 in the independent review and that this build did not fetch courts.ri.gov. No figure is added and the existing no-fee sentence is unchanged."
+        },
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json (track ri_multiple_misdemeanors, selfHelpStopConditions and selfHelpBoundaries)",
+          "change": "RI-B-03 and RI-B-04 at their origin. 'Any prior conviction or prior probation, which defeats first-offender status.' - the stop that defeated the route it was printed on - became a stop on any FELONY conviction, saying in terms that the additional misdemeanor convictions this route exists to clear are not themselves a stop because section 12-1.3-2(b) is the route for more than one but fewer than six. 'Any count near the five-conviction ceiling ... both unresolved' became a stop on a misdemeanor count that cannot be established from the record, stating the threshold as two through five with no felony, counted across the record rather than across the convictions named in the motion, and keeping reclassification, an already-cleared conviction and a disputed record entry as escalations. The genuine ten-year lookback stop, the contested-fact and professional-help boundaries and the subsection-specific DV/DUI/refusal escalation are kept."
+        },
+        {
+          "file": "data/record-clearing/legal-design-track-registry.json / data/record-clearing/legal-design-intake/RI.memo.json (track ri_multiple_misdemeanors)",
+          "change": "RI-B-04. The unresolvedQuestion \"Does 'fewer than six' mean up to five, and does the count include convictions the person is not seeking to expunge?\" was moved to researchResolvedQuestions in the shape the records already use, with a resolution that names finding RI-B-04, the reviewer, the review record, the answer (two through five, any or all of them, six not admitted by the affidavit wording, count the relevant convictions), createsApproval false, and a provenance limit recording that the statute was not re-read here because the proxy refuses it."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-04 on the page. The multiple-misdemeanor discrepancy block was rewritten as two blocks: the threshold stated as more than one but fewer than six - two, three, four or five - with no felony and the other subsection conditions, section 12-1.3-2(b) allowing any or all of them, the page-1 instruction and the page-4 sixth box quoted as they are printed, and the express statement that the box's wording does not enlarge the route and that nothing on the court's form is altered or marked; and a second block requiring the count to be taken across the whole record rather than the motion, with reclassification, already-cleared and disputed entries sent to advice."
+        },
+        {
+          "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+          "change": "RI-B-07 disclosure, NOT closure, identical to the other District Court route."
+        }
+      ],
+      "pagesThatMoved": [
+        {
+          "page": 10,
+          "what": "fee section: the 2026-09-07 re-read and non-fetch paragraph"
+        },
+        {
+          "page": 11,
+          "what": "the RI-B-07 'WHAT IS NOT ESTABLISHED' paragraph and the corrected BCI acquisition entry"
+        },
+        {
+          "page": 12,
+          "what": "the BCI provenance paragraphs, the waiting period and the hearing"
+        },
+        {
+          "page": 13,
+          "what": "the rewritten threshold blocks (RI-B-04) and the exclusions"
+        },
+        {
+          "page": 14,
+          "what": "the corrected self-help stop list (RI-B-03 and RI-B-04)"
+        },
+        {
+          "page": 15,
+          "what": "new page: the certified-copy checklist, which correctly keeps the original PAY EVERYTHING OFF step because RI-B-02 does not name this family"
+        }
+      ],
+      "pagesUnchanged": "pages 1-9 of both fixtures are byte-identical in text to the base: the four official form pages, the composed proposed order and the notice pages. Every change is on the composed guidance pages.",
+      "canonicalSha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+      "boundarySha256": "c2ea5d906ef5674fcec2a12c20f9023ff36acc20f4e42d2217ef9aef9e855bdc",
+      "pageCounts": {
+        "canonical": 15,
+        "boundary": 15,
+        "atBase": 13
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set, run in this worktree after the rebuild; it reported PASS_COMPLETE with all nine at zero. That is a counter measurement by the repairing lane, not a verdict and not an independent verification.",
+      "questionsStillOpen": [
+        {
+          "findingId": "RI-B-07",
+          "binds": [
+            "ri_first_offender_misdemeanor-set",
+            "ri_multiple_misdemeanors-set"
+          ],
+          "exactRemainingQuestion": "For these District Court filings, confirm the present filing charge, if any, from a District-specific official source or actual clerk response. Do not reintroduce the repealed $100 grant charge, apply civil fees, or ask counsel to find a nonexistent official proposed-order form.",
+          "whereThePacketSaysSo": "page 11 of both fixtures and the 'What it costs to file, and what is not established' section of participant-instructions.md",
+          "closedByThisLane": false
+        }
+      ],
+      "sourcesUsed": [
+        {
+          "id": "official-form-bytes",
+          "what": "Superior-55 (SHA-256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca) and DC-33 (SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908), each bound by exact digest from the mounted Master Library",
+          "provenance": "HELD BYTES, resolved by content in this worktree"
+        },
+        {
+          "id": "RI-S1 / RI-S2 / RI-S5",
+          "what": "R.I. Gen. Laws sections 12-1.3-2, 12-1.3-3 and 12-19-19(c), at the pinpoints the reviewer recorded",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. webserver.rilegislature.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S3",
+          "what": "Rhode Island Superior Court expungement FAQ, the no-fee answer and the costs/fines/restitution answer",
+          "provenance": "RELAYED. courts.ri.gov is refused by this container's egress proxy; it was already carried through the committed decision record OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS."
+        },
+        {
+          "id": "RI-S4",
+          "what": "Rhode Island Attorney General, get-background-check page: state-check cost, identity, mail and in-person instructions",
+          "provenance": "RELAYED FROM THE 2026-09-07 INDEPENDENT REVIEW. riag.ri.gov was attempted here and refused: 'curl: (56) CONNECT tunnel failed, response 403'."
+        },
+        {
+          "id": "RI-S6 / RI-S7",
+          "what": "The printed instruction and affidavit pages of DC-33 and Superior-55, February 2025",
+          "provenance": "HELD BYTES read first-hand from the pinned binaries in this worktree."
+        },
+        {
+          "id": "review record",
+          "what": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json, at packet snapshot 32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+          "provenance": "READ IN FULL IN THIS WORKTREE. It is the specification for these repairs."
+        }
+      ],
+      "whatThisDoesNotClaim": [
+        "that riag.ri.gov, courts.ri.gov or webserver.rilegislature.gov was fetched by this lane",
+        "what a Rhode Island District Court charges to file this motion",
+        "that six misdemeanor convictions are eligible on this route, or that any box on the official affidavit has been altered or pre-attested",
+        "that RI-B-07 is closed, or that FEE_AND_WAIVER is met on this family",
+        "that the packet is verified: this lane repaired it and measured counters, and does not verify its own work"
+      ],
+      "grantsNothing": "A repaired packet is review evidence. This lane verified nothing of its own, requests no promotion, asserts no PASS, opens no commercial route and touched no independent-verification row."
+    }
+  ],
+  "laneDoesNotVerifyItsOwnWork": "No promotion is requested, no PASS is asserted, no independent-verification row was created or touched, and the grants are not released. The nine counters on each row are the repairing lane's own measurement with the repository's contract, not a verdict.",
+  "rastersDeleted": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
