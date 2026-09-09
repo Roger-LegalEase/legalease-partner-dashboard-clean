@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF23",
+  "workerId": "claude-opus5-pf23-20260909",
+  "workerBranch": "pf23-20260909",
+  "engine": "Claude Opus 5 packet-build lane in an isolated git worktree",
+  "lane": "packet-build",
+  "shiftBaseSha": "60e695ef2fd3b5d2abc23a1f5c668b680523e18a",
+  "familiesAssigned": 3,
+  "familiesAssignedIds": [
+    "ma-expunge-k-set",
+    "ma-seal-court-set",
+    "wv_acc_treatment_job_readiness-set"
+  ],
+  "familyHeldButNotAssignedForBuild": {
+    "familyId": "ia-12346-set",
+    "instruction": "PF23 holds it; the dispatch directs that it not be built because its sources do not resolve",
+    "touched": false
+  },
+  "rowsReturned": 1,
+  "familiesCompleted": [
+    "ma-expunge-k-set"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "claimsAsserted": [
+    {
+      "familyId": "ma-expunge-k-set",
+      "result": "CLAIM_OK PF23 ma-expunge-k-set (packet-build, grant set 015bca8790f8534b)"
+    },
+    {
+      "familyId": "ma-seal-court-set",
+      "result": "CLAIM_OK PF23 ma-seal-court-set (packet-build, grant set 015bca8790f8534b)"
+    },
+    {
+      "familyId": "wv_acc_treatment_job_readiness-set",
+      "result": "CLAIM_OK PF23 wv_acc_treatment_job_readiness-set (packet-build, grant set 015bca8790f8534b)"
+    }
+  ],
+  "claimsReleased": [],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is review evidence. It authorizes no fulfillment, opens no commercial route, and this lane issues no verdict on its own packets.",
+  "rows": [
+    {
+      "itemId": "ma-expunge-k-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:MA:ma-expunge-k:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k"
+      ],
+      "statutoryAuthority": "G.L. c. 276, § 100K — non-time-based expungement on one of eight enumerated grounds",
+      "remedy": "expungement (the record is destroyed), not sealing",
+      "buildScript": "scripts/build-census-v1-ma-expunge-k-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasured": true,
+      "countersBasis": "the builder computed all nine with the repository shared contract functions (scripts/rcap-packet-completeness/completeness-contract.mjs) over this family own field map, byte proof, rendered artifacts and participant-instructions.md; see reports/completeness-counters.json",
+      "sourcesThatBound": [
+        {
+          "sourceId": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+          "declaredPath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+          "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+          "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "boundBy": "exact content digest, asserted three times before anything rendered: the MASTER_QUEUE pin, a digest asserted in the builder itself, and the per-source measurement in SOURCE_IDENTITY_RESOLUTION_SWEEP.json",
+          "pageCount": 2,
+          "acroFieldCount": 26,
+          "byteLength": 1387408
+        }
+      ],
+      "sourcesThatDidNotBind": [],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea",
+          "byteLength": 425188,
+          "pageCount": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832",
+          "byteLength": 425294,
+          "pageCount": 2
+        }
+      ],
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 58,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 26
+        },
+        {
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 143,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 26
+        }
+      ],
+      "rasterPagesRenderedLocally": 4,
+      "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+      "localRasterIsNotAReceipt": "A local Chromium render is build evidence. RASTER_PASS comes from the central workflow, bound to the canonical and boundary SHA-256 recorded above.",
+      "writesMade": 1,
+      "writesMadeDetail": "one box: YOUR NAME AND ADDRESS, written through the finalizer composed-fact channel from participant.full_legal_name, participant.street_address and participant.city_state_zip. No caller text reaches the page; the channel resolves fact ids against the same fact set every other write is resolved from.",
+      "routeSelectionsMade": 0,
+      "routeSelectionsMadeDetail": "This form carries no route fork. Its eight ground boxes look like one and are not: the single route spans all eight and the route-obligation census records its basis as a record created on one of the eight statutory grounds without naming one. All eight, and the four court-department boxes, are declared REQUIRED_BEFORE_FILING with determinedByTheCaseNotTheRoute and a stated reason.",
+      "requiredBeforeFiling": 16,
+      "participantElections": 6,
+      "protectedBlanks": 1,
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "verdictIssued": null,
+      "contradictsARecordInThisRepo": [
+        "SOURCE_READY_BUILDABILITY.json classes this family SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0, and the MASTER_QUEUE row repeats the scalar as custodyClass SOURCE_IDENTITY_UNRESOLVED — in the same row that reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, and pins the exact digest that binds. The buildability row per-source entry for this very source reads kind held_pdf, firstBytes %PDF- and resolvedBy declared_path. The row contradicts its own scalar and the scalar is the wrong half.",
+        "data/rcap-grade-a/packet-factory-24h/pf23/rows.json, written by the previous PF23 worker, returns this family STOPPED / BLOCKED_SOURCE on the ground that no digest is pinned for this label anywhere. MASTER_QUEUE.json pins 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce for it in sourceHashes, and that prior row records the same worker re-hashing the same file to the same digest. The stop was on a record that disagreed with the queue own pin.",
+        "SOURCE_IDENTITY_RESOLUTION_SWEEP.json records identityEvidence.xfaPresent false for these bytes. The AcroForm dictionary of the pinned binary carries an /XFA entry and pdf-lib announces removing XFA form data on load. The binary is an XFA hybrid; its AcroForm side is complete and the delivered artifact is the flattened rendering of the static pages. The same disagreement was measured on TC0021 by ma-expunge-mj-set, so it is a property of how that field is generated rather than of this file."
+      ],
+      "measurementsWorthCarrying": [
+        "Every check box on this form ships a /1 appearance and NO /Off. That is the precondition of the measured Vermont synthesized-border defect: without suppression, twenty-two unticked boxes would each acquire a stroked square this court form does not print. Both suppression flags are passed and all twenty-two rectangles are read in the output on the ink-operator channel to confirm nothing paints there.",
+        "Ink must be measured by operator SEMANTICS, not by operator census. Every text field on this binary ships no /AP, so pdf-lib generates one, and each generated appearance is a path-construction-and-clip preamble around an EMPTY <> Tj. Counting the preamble as painting flagged 22 clean boxes and 7 clean text fields; counting Tj by operator rather than by operand flagged the 7 again. Both readings inflated visualDefects, the counter that would have stopped a correct packet. The builder now counts stroke/fill/shading/XObject operators apart from path and clip operators, and reads show-text by its operand.",
+        "A quoted anchor must be a whole sentence. This form instruction sheet wraps its sentences over three and four lines, and quoting the single extracted line an anchor sat on handed the participant a fragment beginning mid-clause as the court own words. Quoted anchors now name a span of printed lines, are assembled in reading order and cut at a sentence boundary, and the assembled quotation is asserted to end on a terminator and still contain its needle.",
+        "Page 1 prints DATE: and PETITIONER SIGNATURE on a rule and the AcroForm carries no widget at either. No field counter would ever have shown that gap; the participant is told the rule has no fillable box and is signed by hand."
+      ]
+    }
+  ]
+}
