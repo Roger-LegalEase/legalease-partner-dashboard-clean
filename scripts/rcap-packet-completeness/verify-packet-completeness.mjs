@@ -457,6 +457,66 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
       note("protectedWrites", { fixture: artifact.fixture, field: refused.fieldId ?? refused, why: "a field the map refused carries ink in the output" });
     }
   }
+  // ---- a route that never makes its election never states its statute -----------
+  /*
+   * readFieldRows classifies a documents-and-decisions row by "not refuse means
+   * write", so every decision that is not literally "refuse" lands in `writes`
+   * and never reaches the blank classifier -- and requiredOptionsMissing is
+   * raised ONLY from that classifier. A row declaring `measured_route_selection`
+   * was therefore counted as an election already made, whatever the packet did
+   * with it, and the counter read zero on all six families that declare one.
+   * Three New Jersey families were failed by hand for a missing election while
+   * their nine counters said the packet was complete.
+   *
+   * The rule is NOT "every fixture marks the election". On these routes the
+   * AcroForm field is refused as a court-role field and the mark is made by a
+   * `selections` entry drawn inside the court's existing box -- and a fixture
+   * whose row is broken deliberately WITHHOLDS that mark and records it under
+   * heldButNotPrinted, because a marked election over a half-written row is
+   * worse than no mark. That withholding is the repair working, not a defect,
+   * and failing it per fixture would punish exactly the honest behaviour.
+   *
+   * What cannot stand is a route that withholds its election on EVERY fixture
+   * it can build. Then no participant of that route ever receives a packet that
+   * states which statute it proceeds under, and the election exists only as an
+   * intention in the map. That is ROUTE_OPTION_NOT_SELECTED at the route level,
+   * which is the level the participant experiences. An election declared with
+   * no readable artifact record at all is refused rather than assumed made, on
+   * the rule the schema reader already applies: an unread record is
+   * unauditable, never empty.
+   */
+  const declaredElections = new Map();
+  for (const doc of fieldMap.documents ?? []) {
+    for (const f of doc.fields ?? []) {
+      if (String(f.decision ?? "").toLowerCase() !== "measured_route_selection") continue;
+      const field = String(f.field ?? f.fieldId ?? "");
+      if (field) declaredElections.set(field, { field, document: doc.documentId ?? doc.formNumber ?? null });
+    }
+  }
+  if (declaredElections.size > 0) {
+    const electionArtifacts = actualWrites?.artifacts ?? [];
+    for (const e of declaredElections.values()) {
+      if (electionArtifacts.length === 0) {
+        note("requiredOptionsMissing", { field: e.field, document: e.document, why: "the map declares a measured route election and the family carries no artifact-level write record, so nothing says whether the election is ever made" });
+        continue;
+      }
+      const madeOn = [];
+      const withheldOn = [];
+      for (const artifact of electionArtifacts) {
+        const fixture = artifact.fixture ?? artifact.documentId ?? "unnamed fixture";
+        const written = (artifact.written ?? []).some((w) => String(w.field ?? w.fieldId ?? w) === e.field);
+        const drawn = (artifact.selections ?? []).some((s) => String(s.control ?? s.field ?? s.fieldId ?? s) === e.field);
+        if (written || drawn) { madeOn.push(fixture); continue; }
+        withheldOn.push(fixture);
+      }
+      if (madeOn.length > 0) continue;
+      note("requiredOptionsMissing", {
+        field: e.field, document: e.document, fixturesWithoutTheElection: withheldOn,
+        why: `the map declares this a measured route election and no fixture this route can build makes it -- it is neither written nor drawn on ${withheldOn.length} of ${electionArtifacts.length} fixture(s) -- so no packet this route delivers states which statute it proceeds under`
+      });
+    }
+  }
+
   for (const w of writes) {
     if (classifyField(w.label, w.isSelectionControl === true).requirement === "PROTECTED") {
       note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
