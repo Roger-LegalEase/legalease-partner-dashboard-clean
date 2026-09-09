@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e53228f026ec428a7cc00e8d5d5a3a7bfba8aa72",
+  "minimumCaptainSha": "22a086de6b553cd763596cae79cb956912ce3846",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -28,7 +28,7 @@
     "data/rcap-all50/local-source-corpus-index.json": "4eb96846c8cedb58c343a46f559f1a0b3e22e2c715cd51f8d9a41a7e8a52b5c3",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "cb2ee878b839e751c1ded19e792bad909e2a98c3e4ca7efcdcbf90b2c32a9e1e",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
-    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "7caa56533f328df4c2a9182f2da3b865ebc761f18d2d4acf4c890780a713f6c1",
+    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "e27cea443e87d21ec868f51a5d4c7646d6b2c9464a96239c5c02ffb86d6f67d7",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d"
   },
   "stateVocabulary": [
@@ -71,7 +71,7 @@
     "remaining": 332,
     "sourceReady": 73,
     "sourceBlocked": 6,
-    "legalBlocked": 14,
+    "legalBlocked": 13,
     "verifyPending": 0,
     "repairRequired": 23,
     "sumsToDenominator": true
@@ -84,9 +84,10 @@
     "SOURCE_READY": 73,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 14,
+    "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
-    "WRONG_DELIVERY_TYPE": 1
+    "WRONG_DELIVERY_TYPE": 1,
+    "BUILT_RASTER_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -175,7 +176,7 @@
     "familiesPerBuilder": 3,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 73 do, so a full roster of 24 builders averages 3.0 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 8 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 8 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -43236,37 +43237,21 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf04",
-        "verifiedAtBase": "6fb6e391bd4ef24254b5232997fdf2bcb6551371",
+        "verifiedAtBase": "9bf6117c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
-      "ownerCorrectionRequired": {
-        "familyId": "ut_pet_limitations-set",
-        "fromQuestion": "Q4-publishing-a-filing-fee-the-design-declines-to-publish",
-        "theQuestionAsked": "The controlling design rule for this route directs the participant to the clerk or agency without a figure, or records the figure as unconfirmed and release-blocking. The rendered packet publishes a figure. May the packet state this amount, or must it carry the design's refusal?",
-        "ownerDecision": "DO NOT PUBLISH AN UNCONFIRMED FEE. Follow the controlling design's refusal and direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it.",
-        "correctionRequired": "Remove the published figure and carry the controlling design's own refusal, directing the participant to the specific clerk or agency for the current amount. A figure may be added only when current primary authority or the official form supports it.",
-        "live": true
-      },
+      "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "ut_pet_limitations-set",
-        "foundBy": [
-          "vf04 (current independent verification)"
-        ],
-        "why": "ROUTE_OPTIONS: legal input unresolved | FILING_DESTINATION: legal input unresolved",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": {
         "familyId": "ut_pet_limitations-set",
         "stateOverride": null,
@@ -43296,7 +43281,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
