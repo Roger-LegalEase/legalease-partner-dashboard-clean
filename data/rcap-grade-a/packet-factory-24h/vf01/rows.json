@@ -19837,6 +19837,335 @@
     "A legal owner must reconcile the categorical Dotson exclusion in the track registry with the Sec. 19.2-298.02 plea/stipulation basis printed on CC-1473 Rev. 07/26 before this family can return a complete independent pass.",
     "A hash-bound complete-coverage RASTER_PASS from the central acceptance workflow on canonical 95c6fd7f... and boundary 334ea36f...; the queue's receipt was recorded from a local render with no workflow run id."
    ]
+  },
+  {
+   "itemId": "pa_pardon_expungement-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+   "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set (nine counters); pdftoppm 300 dpi page inspection; sha256 recomputation over fixtures/, raster/ and the two Master Library sources; manifest and census comparison read by hand",
+   "verifiedAtBase": "683e8e31a",
+   "claim": "CLAIM_OK VF01 pa_pardon_expungement-set (independent-verification, grant set 07b9e1542702b81b). Grant asserted before any read. Not released by this lane; the claim ledger is not committed here.",
+   "canonicalSha256": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+   "boundarySha256": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+   "digestsConfirmedFirst": {
+    "order": "Both digests were recomputed over fixtures/ as the first read of the family, before product-wiring.json, the manifest, the census, the instructions or any page was opened.",
+    "canonicalMatchesFix101Record": true,
+    "boundaryMatchesFix101Record": true,
+    "matchesRasterQueueRow": "RASTER_QUEUE canonicalPdfSha256 and boundaryPdfSha256 equal these two values, and rasterReceipt.boundToCanonicalSha256 / boundToBoundarySha256 from run 33844904078 (jobId 100935414166, artifact 9926325950, verdict RASTER_PASS) name the same bytes.",
+    "componentPdfsUnchanged": {
+     "canonical--PA-RCRIM-P-790-PETITION.pdf": "8f33808244acef558c2489e47ddccf1804f02c0d9cb50d258697306b2b7e0ca2",
+     "canonical--PA-RCRIM-P-790-ORDER.pdf": "d2e76d06368f4f12e215b914fe41be0a9f86231cac55fd4d2367c3acd2be9fbc",
+     "boundary--PA-RCRIM-P-790-PETITION.pdf": "2bd7c82a74549352d2fa06daef448a34405b33fbbf2236f2250e7b0f62c73148",
+     "boundary--PA-RCRIM-P-790-ORDER.pdf": "4ad89343b3454360298c87a8319bc7c6d252f8e26319e496a6cf3c47b5f0c270"
+    },
+    "soVf30MayBeCarried": "The Captain's condition for carrying vf30's twelve passes is met on its own terms. This lane nevertheless re-measured fourteen of the fifteen obligations fresh, because the packet bytes DID move between vf30's read and this base: vf30's artifactProof records canonical 888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74 and boundary bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2, which are the pre-FIX02 bytes. FIX02 at 2a44668e7 replaced them. FIX101's 'identical before and after' is true of FIX101's own repair and is not a statement that vf30 read these bytes."
+   },
+   "byteLengths": {
+    "fixtures/canonical.pdf": 318883,
+    "fixtures/boundary.pdf": 319039,
+    "fixtures/canonical--PA-RCRIM-P-790-PETITION.pdf": 119298,
+    "fixtures/canonical--PA-RCRIM-P-790-ORDER.pdf": 195185,
+    "fixtures/boundary--PA-RCRIM-P-790-PETITION.pdf": 119379,
+    "fixtures/boundary--PA-RCRIM-P-790-ORDER.pdf": 195237,
+    "agreesWithRenderedArtifacts": true
+   },
+   "pageCountsRecomputed": {
+    "canonical.pdf": 5,
+    "boundary.pdf": 5,
+    "method": "pdfinfo (Poppler 24.02.0); both 612 x 792 pt letter",
+    "agreesWithRenderedArtifactsAndRasterQueue": true,
+    "rasterPagesBound": "All ten committed raster PNGs were rehashed on disk and every one equals its sha256 in reports/rendered-artifacts.json."
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family pa_pardon_expungement-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable (exit 1)",
+    "verbatimLines": [
+     "  ok  repo_identity                          vf01-pa-pardon-read at 683e8e31",
+     "  ok  clone_is_complete                      full clone, all heads fetchable",
+     "  -  assigned_branch_tip_visible            no --branch given; check not applicable",
+     "  ok  worktree_clean                         clean",
+     "  ok  node_toolchain                         node 22.22.2",
+     "  ok  pdf_lib_importable                     pdf-lib 1.17.1",
+     "  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.",
+     "  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.",
+     "  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.",
+     "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+     "  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+     "  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions",
+     "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled",
+     "  ok  family_sources_bind                    2/2 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+     "  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library",
+     "  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []",
+     "  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear"
+    ],
+    "bothFailuresDiagnosedNotWavedAway": {
+     "private_is_git_ignored": "Genuine and environmental. .gitignore line 53 is 'private/', whose trailing slash matches a directory only; the read-only symlink this lane created is a link, not a directory, so the repository's own ignore rules do not cover it. `git check-ignore -v private` nevertheless reports it ignored, and names core.excludesFile=/tmp/claude-0/.../scratchpad/vf07-excludes -- a leftover excludes file from a different lane inherited by this container's git config. The preflight check is right and check-ignore is being answered by foreign state. No packet record depends on it; this lane committed by explicit file name only and never staged private.",
+     "corpus_matches_committed_index": "The single absent sampled entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (custody master_library, recorded sha 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327), reproduced by re-running the check's own deterministic 24-of-351 sample through scripts/lib/corpus-index-paths.mjs. It is an Alabama source and has nothing to do with this family. Custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here and were not compared. This family's own two sources bind exactly, which the preflight also reports and this lane re-proved by hand."
+    },
+    "whyThisDoesNotBlockTheRead": "Neither failure touches the bytes, sources or records under measurement, and this lane rendered nothing into the family. The NOT_READY result is reported as measured rather than characterised as a pass."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "verifierResult": "PASS_COMPLETE, 17/109 written",
+    "counterBlindSpotThatMatters": "requiredComponentsMissing is 0 while COMPONENT_SET fails. The counter reads the component set out of production-field-map.json and reports/rendered-artifacts.json -- both of which correctly name all three components -- and never compares product-wiring.json's binding.packetComponents against the committed packet-set manifest. Nine zero counters are therefore not evidence that the delivered component declaration is right, and this family is the demonstration."
+   },
+   "sweepSensitivityProof": {
+    "establishedHarnessRefused": "`node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set --mutations` exits 1 with: 'REFUSED: no audited family carries a top-level writes[]/refusals[] field map, which is the shape every mutation below injects into. This is not a pass. The mutation suite proves the counters CATCH injected defects, and it proved nothing on this run.' This family's map uses the nested maps[].canonicalWrites / canonicalRefusals shape, so the built-in cases inject into arrays it does not have.",
+    "whatWasDoneInstead": "The harness's own cases were re-expressed against the shape this family actually carries -- maps[].canonicalWrites and maps[].canonicalRefusals, plus reports/actual-writes.json for the two artifact-level counters -- and each was run through the real CLI, comparing the printed counter line before and after. Every case was reverted immediately and the working tree was re-read for byte identity after every single run.",
+    "casesAndResults": [
+     "detected  a missing participant name (knownRequiredFieldsMissing 0 -> 1)",
+     "detected  a missing mailing address (knownRequiredFieldsMissing 0 -> 1)",
+     "detected  a protected write on Petitioner's Signature (protectedWrites 0 -> 1)",
+     "detected  an unexplained blank with an empty reason (unclassifiedBlanks 0 -> 1)",
+     "detected  a write bound to a companion document nobody rendered (requiredComponentsMissing 0 -> 1)",
+     "detected  an invisible field value: finalizer reports 12 values, output bytes carry 0 added glyphs and 0 flattened appearances (invisibleWrites 0 -> 1)",
+     "detected  non-whitespace glyphs outside every measured write box (visualDefects 0 -> 4 reported, counter 0 -> 1)",
+     "detected  a route election mislabelled required-before-filing (requiredOptionsMissing 0 -> 1)",
+     "detected  a required-before-filing claim the participant is never asked for, instructions removed (requiredFactsNotCollected 0 -> 79)",
+     "detected  a partial charge row: SectionRow1 written while the other six cells of the first charge row stay refused (incompleteRows 0 -> 1)"
+    ],
+    "coverage": "Ten injected defects, ten detected, zero undetected. All nine counters were exercised and every one moved off zero for a defect it owns. The first attempt at incompleteRows used the harness's California AcroForm row names and MISSED; it is recorded here because the second attempt, built from this family's real row field names, detected it -- the miss was the construction, not the counter, and it is reported rather than dropped.",
+    "treeIntegrityAfterEveryMutation": "git status --porcelain over the whole worktree is empty after every run, and fixtures/canonical.pdf and fixtures/boundary.pdf rehash to fc67ec72... and ecfe22d0... unchanged. No mutation was committed and no family record was left edited.",
+    "whyThisIsNotSelfCertification": "The sensitivity cases were written to make counters RISE. The nine zeroes reported above are from the unmutated committed tree."
+   },
+   "rasterState": {
+    "buildStatusLiteral": "rasterEngine chromium_calibrated, popplerUsed false, rasterState rendered_locally_pending_central_acceptance",
+    "renderedArtifacts": "rasterSkipped false, rasterEngine 'scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)', ten rasterPages named with hashes; all ten rehash correct on disk.",
+    "rasterQueueRow": "currentRasterState RASTER_PASS, receipt from workflow run 33844904078, renderedCommitSha 8ea3f334de0b75e164a6e2a7fee1e5641a7789b2, problemsFound 0, pagesMeasured 10, coverage canonical.pdf only, boundary.pdf explicitly not rendered by that gate.",
+    "pagesRegeneratedByFix101": "canonical page-04, canonical page-05, boundary page-04, boundary page-05. Pages 01-03 of both fixtures are byte-identical to the PNGs committed at vf30's base d64ea2550, which this lane verified by hashing the blobs out of that commit."
+   },
+   "rasterStateBinding": {
+    "ruling": "PASS as a binding, with a recorded conservative staleness that fails no obligation.",
+    "theBindingIsCorrectlyPinned": "product-wiring.json proposedRepresentation.components[0].sha256 is fc67ec72..., the delivered canonical digest. binding.sourceVersion pins both official sources by the digests this lane re-proved against the Master Library.",
+    "acceptanceReceiptIsNull": "binding.acceptanceReceipt is null. It previously carried the run 33598433649 receipt bound to the superseded canonical 888d4766..., and dropping it when FIX02 moved the bytes was correct. But a current, hash-bound RASTER_PASS for the delivered digests does exist in RASTER_QUEUE (run 33844904078) and the binding does not carry it. The binding therefore understates the family's raster position.",
+    "whyThatIsNotAFailureHere": "The understatement grants nothing and opens nothing. paymentEligible and sponsorshipEligible are both false and whyPaymentIsClosed states that commercial authority comes only from a Grade-A fulfillment record. A record that claims less than the evidence supports is not a Grade-A defect; a record that claims more would be. It is recorded so the Captain can re-pin it deliberately rather than discover it as a surprise.",
+    "boundaryIsNotCoveredByCentralRaster": "The RASTER_PASS covers canonical.pdf only; the row says so in terms. The boundary pages this lane inspected were rendered locally by this lane and by FIX101, and no central run has accepted them. Nothing here should be read as central acceptance of boundary.pdf."
+   },
+   "componentSetRuling": {
+    "result": "FAIL",
+    "limbOne_bindingComponentList": "FAIL. data/record-clearing/legal-design-packet-set-manifests.json packetSets[362] declares three components in this order: pa_pardon_expungement-process-guidance-1 (role process_guidance, requirement REQUIRED, order 1), pa_pardon_expungement-primary-filing-2 (conditional, order 2), pa_pardon_expungement-proposed-order-3 (conditional, order 3). product-wiring.json binding.packetComponents at this base names exactly two: ['component:pa_pardon_expungement-primary-filing-2', 'component:pa_pardon_expungement-proposed-order-3']. The one component the manifest marks required -- and the entire deliverable of the automatic route, on which nothing is filed -- is still missing, and the manifest's declared order is not followed because the first-ordered component is absent.",
+    "thisIsNotAStaleReadingOfFix101": "FIX101 did make this repair. At c27405c9c 'Repair Pennsylvania pardon: declare the guidance component and re-render the pages that proved it', binding.packetComponents reads all three ids in manifest order. The very next commit, 48f4637c4 'Regenerate after FIX101: Vermont to independent read, Pennsylvania to raster', reverted it to two. It has stayed at two through 1e95f1f06 and through this base 683e8e31a. This lane read the blob at each of those four commits to establish that sequence. The exact regression FIX101 warned about in its leftOpen note has already happened, in the commit immediately after its own.",
+    "limbTwo_guidanceTimetable": "PASS. vf30's quoted sentence -- 'This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from.' -- does not appear anywhere in the delivered canonical or boundary PDF, in the committed rasters, or in participant-instructions.md. Delivered canonical page 4 states, and the committed page-04 PNG depicts: 'For an unconditional pardon, the Board of Pardons transmits eligible records to AOPC quarterly, AOPC sends the record to the court of common pleas, and the court orders expungement after confirming the criteria.' That is the Board-to-AOPC quarterly transmission and the AOPC-to-court leg the held unit's unitDescription and packetInstructions require. participant-instructions.md item 7 states the same cycle in the same terms.",
+    "internalInconsistencyWithinTheDeliveredRecord": "production-field-map.json componentSet is ['primary_filing','proposed_order','process_guidance'] and reports/rendered-artifacts.json componentSet is the same three, with pages 4 and 5 attributed to process_guidance in both pageManifests. Only product-wiring.json -- the census-derived record -- names two. The family's own build records and its wiring record disagree with each other about what the packet contains.",
+    "whyThisIsNotCosmetic": "product-wiring.json is the record a later installation lane would represent in runtime. A binding that names only the two official forms describes a packet whose automatic route delivers nothing, which is the opposite of what the packet actually is: on the automatic route nothing is filed and the guidance page is the whole product."
+   },
+   "requiredBeforeFilingRuling": {
+    "result": "PASS",
+    "measuredOnBothSurfaces": "The obligation requires the acts on the participant instructions AND on the rendered guidance. Both carry all three.",
+    "renderedGuidance_canonicalPage4": [
+     "obtain the pardon copy: 'First obtain a copy of the pardon from the Pennsylvania Board of Pardons. LegalEase does not collect, inspect or authenticate it.'",
+     "confirm unconditional versus conditional from that document: 'Confirm from that copy whether the pardon is unconditional or conditional; if the document and your answer disagree, correct the packet before proceeding.'",
+     "record the quarterly verification date: 'Record the date you checked whether that quarterly process cleared your record:' followed by the printed line 'Quarterly verification date: ____________________'"
+    ],
+    "participantInstructions": [
+     "line 29: '**Obtain a copy of the pardon** from the Pennsylvania Board of Pardons. LegalEase does not collect, inspect or authenticate it.'",
+     "line 30: '**Confirm from that copy whether the pardon is unconditional or conditional.** If the document and your answer disagree, correct the packet before proceeding.'",
+     "line 31: '**Record the quarterly verification date** when you check whether the automatic Board-to-AOPC-to-court process cleared your record: ____________________.'",
+     "lines 132-134 repeat all three as rows of the participant-supplied items table."
+    ],
+    "restOfTheManifestListAlsoChecked": "The manifest's requiredBeforeFiling carries eight entries, not three. The other five are also present: the Pennsylvania State Police criminal history obtained within 60 days before filing (instructions lines 13 and 36, and the petition's own two checkboxes on delivered page 1), petitioner signature/date/verification (line 34 and line 138), no fee on the automatic route with county-varying fees on the fallback (line 17), in forma pauperis relief (line 17), and the signature rule (line 34). production-field-map.json carries requiredBeforeFilingCount 81 with an 81-entry list, and requiredFactsNotCollected measures 0 with that counter proven live above.",
+    "visuallyConfirmed": "Read off the 300 dpi raster of delivered canonical page 4 and off the committed raster/canonical/page-04/page.png, not only out of the text layer."
+   },
+   "selfHelpStopRuling": {
+    "result": "PASS",
+    "heldUnitLocation": "data/record-clearing/legal-design-specifications.json processGuidanceSpecs[131], unitId pa_pardon_automatic_route, key stopConditions.",
+    "comparison": [
+     {
+      "held": "The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.",
+      "delivered": "- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.",
+      "ruling": "carried; every element present -- no pardon yet, application out of scope, referral"
+     },
+     {
+      "held": "Whether the pardon is conditional or unconditional cannot be determined from the document.",
+      "delivered": "- You cannot determine from the pardon document whether it is conditional or unconditional.",
+      "ruling": "carried; same proposition, second person"
+     },
+     {
+      "held": "The record still appears after the quarterly cycle and the fallback route's availability is unclear.",
+      "delivered": "- The record still appears after the quarterly cycle and it is unclear whether the fallback Rule 790 petition is available.",
+      "ruling": "carried; identical, and names the fallback as the Rule 790 petition"
+     }
+    ],
+    "verbatimQualification": "Word for word these are NOT literal copies of the held strings; each is rewritten into the participant's second person, which is what a page addressed to 'you' requires. Compared clause by clause against the held unit no element is dropped, softened or added. This lane reads the instruction 'verbatim against the held unit' as a demand for a word-by-word comparison, which is recorded above in full so the Captain can substitute a literal-copy standard and overrule this PASS on the record if that is the intended reading.",
+    "carriedAsActualStops": "They appear under the heading 'STOP AND GET HELP' on delivered canonical page 5 and boundary page 5, and under '## Stop and get help' at participant-instructions.md lines 142-146. Read off the 300 dpi raster and off committed raster/canonical/page-05/page.png, whose pixels this lane looked at.",
+    "doesThePacketStillSaySimplyToFile": "No. The sentence 'If the record is already clear, stop; if it is not, file the petition.' does remain on delivered page 4, but it is no longer unqualified: the third stop on the facing page is precisely the case where the record still appears after the quarterly cycle and fallback availability is unclear, and page 4 opens under 'READ THIS BEFORE YOU FILE ANYTHING'. vf30's finding was that the guidance said this INSTEAD of carrying the stops; the stops are now carried, so the 'instead' no longer holds.",
+    "residualRecordedNotFailed": "The page-4 sentence carries no pointer to the STOP block, and a participant who reads page 4 and stops reading meets the directive before the qualifier. This is a legibility residual on a two-page component whose second page is the stop block; it fails no obligation and is logged under observationsThatFailNoObligation rather than treated as a defect."
+   },
+   "censusDerivationGapRuling": {
+    "question": "Whether the delivered record is correct today, and separately whether the derivation gap is a defect of this family's deliverable or an upstream issue outside it.",
+    "deliveredRecordCorrectToday": "NO. This is the material difference between this read and FIX101's report. FIX101 wrote truthfully that its builder change 'keeps the delivered record correct but does not fix the derivation'. That was true of the tree FIX101 committed at c27405c9c. It is not true of the tree at this base: the central regeneration at 48f4637c4 re-derived product-wiring.json from the census and dropped the guidance component again, and it is still dropped at 683e8e31a. The predicted regression is not hypothetical; it has already occurred.",
+    "isItThisFamilysDefect": "BOTH, and they must not be collapsed. The delivered defect is this family's: product-wiring.json inside this family directory names two of three components at this base, contradicts this family's own production-field-map.json and rendered-artifacts.json, and misdescribes the automatic route's deliverable. That alone is why the verdict is FAIL_REPAIR_REQUIRED. The derivation defect is upstream and outside this family: data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json lists, for BOTH pa_pardon routes, requiredSourceIds of ['component:pa_pardon_expungement-primary-filing-2', 'component:pa_pardon_expungement-proposed-order-3', 'official-form:PA-RCRIM-P-790-ORDER', 'official-form:PA-RCRIM-P-790-PETITION', 'source-sha256:fc06486e...', two source-urls] with no component id for the process guidance. This lane read both route rows and confirms vf30's and FIX101's description of the census exactly.",
+    "whyTheDistinctionMatters": "The Captain's instruction is not to fail a family for an upstream derivation gap when the delivered bytes and records are right. Here the delivered record is NOT right, so the family fails on its own delivered record and does not need the upstream gap to fail it. But repairing only the family file would be repairing the symptom: the census is what 48f4637c4 regenerated from, and any future central regeneration will drop the component a third time. FIX101's builder-side fix did not survive one commit.",
+    "narrowestSufficientUpstreamRepair": "Add component:pa_pardon_expungement-process-guidance-1 to requiredSourceIds for both obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition, then regenerate product-wiring.json and confirm binding.packetComponents lists all three in manifest order. Not this lane's to make: this lane edits no family record and no central record.",
+    "onePacketBytesNote": "No packet byte needs to move for this repair. The guidance component is already in the delivered PDFs on pages 4 and 5 and is already named by rendered-artifacts.json and production-field-map.json. The defect is entirely in the declaration, so the canonical and boundary digests, and the RASTER_PASS bound to them, should survive the repair untouched."
+   },
+   "buildStatusLiteralRuling": {
+    "result": "HONEST",
+    "theLiteral": "rasterEngine null -> chromium_calibrated, rasterState BUILT_RASTER_PENDING -> rendered_locally_pending_central_acceptance.",
+    "rasterEngineIsAccurate": "reports/rendered-artifacts.json names 'scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)' with rasterSkipped false, popplerUsed is false in build-status.json, and every rasterPages entry carries engine chromium_calibrated_scripts_lib_pdf_page_raster with calibrationResidualPx 0 and identical paperBounds across all ten pages. The prior record declared rasterEngine null, rasterSkipped true and rasterPages [] while four PNGs from a superseded build sat under raster/, which disclosed nothing about them. The new literal describes what is there.",
+    "rasterStateClaimsLessThanTheEvidence": "It asserts a local render and expressly withholds central acceptance. For the four regenerated PNGs that is exactly right -- no central run produced them, and the RASTER_PASS accepted PDF bytes, not PNGs. For the PDFs it understates, because run 33844904078 accepted the exact delivered canonical digest. Understating is the safe direction: the literal grants nothing, opens nothing, and cannot be mistaken for acceptance. It is honest.",
+    "regeneratedPngsAreConsistentWithTheUnchangedPdfs": "Confirmed by looking, not by trusting the report. This lane rastered delivered canonical pages 4 and 5 at 300 dpi with Poppler pdftoppm 24.02.0 and compared them against the committed Chromium PNGs raster/canonical/page-04/page.png and page-05/page.png. The committed page-04 PNG shows the pardon-copy step, the unconditional/conditional confirmation, the Board-to-AOPC-to-court quarterly cycle and the 'Quarterly verification date: ____' line; the committed page-05 PNG shows the STOP AND GET HELP block with all three stops, the WHAT THIS PACKET IS NOT paragraph and both route-key footer lines. Both match the delivered PDF pages line for line. The two engines differ in raster geometry -- Chromium 2448x3168 with its own paper inset, Poppler 2550x3300 full-bleed -- so the PNG bytes are not expected to and do not match; the depicted content does.",
+    "noRasterWasProducedIntoTheFamilyByThisLane": "All rasters this lane made were written under /tmp and deleted. No file under the family directory was created, edited or deleted by this lane."
+   },
+   "sourceResolution": {
+    "corpusRoot": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "documents": [
+     {
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+      "recordedSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "recomputedSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "recordedByteLength": 87647,
+      "observedByteLength": 87647,
+      "binds": true
+     },
+     {
+      "documentId": "PA-RCRIM-P-790-ORDER",
+      "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+      "recordedSha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+      "recomputedSha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+      "recordedByteLength": 151853,
+      "observedByteLength": 151853,
+      "binds": true
+     }
+    ],
+    "custodyClass": "SOURCE_ALREADY_HELD; allSourcesExact true; tier exact_form_number for both, agreeing with binding.sourceVersion.",
+    "composedByThisBuild": "process_guidance, declared in source-receipt.json composedComponentsAuthoredByThisBuild. The guidance pages have no official source and none is claimed."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The two unit keys obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and :pa_pardon_fallback_petition appear identically in the census route rows, product-wiring routeKeys and binding.routeKeys, production-field-map.json routeKeys, the footer of delivered canonical and boundary page 5, and participant-instructions.md lines 152-153. routeSelectionId pa-pardon-expungement-rule-790-complete-set agrees between source-receipt.json and the field map.",
+     "finding": "Consistent everywhere it is written. Freshly measured on these bytes."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Both official PDFs rehashed and re-sized directly from the mounted Master Library; 2/2 match receipt digests and byte lengths exactly. The preflight's family_sources_bind independently reports 2/2 by exact SHA-256.",
+     "finding": "Both sources bind. Freshly measured."
+    },
+    "COMPONENT_SET": {
+     "result": "FAIL",
+     "evidence": "Manifest packetSets[362] declares three components, order 1 process-guidance (required), 2 primary-filing, 3 proposed-order. product-wiring.json binding.packetComponents at 683e8e31a names two and omits component:pa_pardon_expungement-process-guidance-1. Blob read at c27405c9c (three, in order), 48f4637c4 (two), 1e95f1f06 (two), 683e8e31a (two).",
+     "finding": "The guidance-timetable limb is repaired and passes; the binding limb is not repaired at this base. FIX101's fix was reverted by the central regeneration in the next commit, and the required component and the manifest's declared order are still absent from the delivered wiring record."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "17 of 109 fields written; knownRequiredFieldsMissing 0 with that counter proven live. reports/actual-writes.json shows added glyphs and flattened widget appearances read from the output bytes for all four artifact entries. Boundary page 1 inspected as pixels: 'Maria-Alejandra O'Shaughnessy-Whitfield' and '1188 Upper Notch Crossing Road, Apartment 14B' sit inside their boxes.",
+     "finding": "Every declared write reconciles to ink in the delivered bytes. Freshly measured."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "All three named acts on delivered canonical page 4 and in participant-instructions.md lines 29-31 and 132-134, plus the remaining five manifest entries; 81-entry requiredBeforeFiling list in the field map; requiredFactsNotCollected 0 with the counter proven live.",
+     "finding": "Repaired and holding on both the instructions and the rendered guidance. Freshly measured; this is one of the three vf30 failures."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "Both the automatic/no-filing branch and the fallback-petition branch are named on delivered page 4 and in the instructions; requiredOptionsMissing 0 with the counter proven live; the packet marks no checkbox on either form and instruction 5 says so.",
+     "finding": "Both branches disclosed and every election left to the participant. Freshly measured."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows 0, with sensitivity proven by writing SectionRow1 while the other six cells of the first charge row stayed refused, which raised it to 1. All charge-row cells across the declared rows are refused, so every row is wholly the participant's.",
+     "finding": "No partially completed charge row. Freshly measured."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "protectedWrites 0 and invisibleWrites 0, both counters proven live. On the delivered pages: Social Security Number blank, Signature of Petitioner and Date blank, every checkbox unmarked including the two State Police history boxes and the Yes/No fine question, and the whole of the proposed order left to the court apart from the style of the case.",
+     "finding": "Signatures, dates, checkboxes, SSN and court-owned fields all protected. Freshly measured."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Two PDFs and ten PNGs declared. All twelve rehashed here: both PDF digests and byte lengths match rendered-artifacts.json and RASTER_QUEUE, all ten PNG digests match rendered-artifacts.json. Page counts recomputed as 5 and 5.",
+     "finding": "0 missing, 0 hash or length mismatches. Freshly measured."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Text extracted per page: page 1 the Rule 790 petition, pages 2-3 the proposed order and its Rule 790 information sheet, pages 4-5 the process guidance. Matches the pageManifest in rendered-artifacts.json for both fixtures and all ten raster page labels.",
+     "finding": "Five pages each in declared participant assembly order. Freshly measured."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "visualDefects 0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on all four artifact entries, with the visualDefects counter proven live. Pages inspected as pixels by this lane: committed canonical page-04 and page-05, committed boundary page-01, and this lane's own 300 dpi renders of delivered canonical and boundary pages 4 and 5. Pages 01-03 of both fixtures are byte-identical to the PNGs vf30 inspected, proven by hashing those blobs out of d64ea2550.",
+     "finding": "0 clipped, 0 overlapping, 0 cropped, 0 blank. Pages 4-5 measured fresh because those pixels changed; pages 1-3 carried on PNG bytes proven identical. Not visual approval."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "Delivered page 4: nothing to file where the automatic route has cleared the record, and 'File the petition with the Clerk of Courts' otherwise. participant-instructions.md line 9 names the Clerk of Courts of the judicial district where the charges were disposed and states the petition is decided by a Court of Common Pleas judge even where a magisterial district judge or Philadelphia Municipal Court judge disposed of the case. Agrees with the held unit's destination block.",
+     "finding": "Correct destination on both routes, including the no-filing route. Freshly measured."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md line 17 states no held source gives the county fee, reports a statewide range of roughly $132 to $215 and expressly labels it a range to expect rather than the county's figure, directs the participant to the Clerk of Courts, and identifies in forma pauperis relief while disclosing the packet does not include the IFP form. No fee arises on the automatic route because nothing is filed.",
+     "finding": "Fee variability disclosed without inventing a county figure, and the waiver named. Freshly measured."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md line 15: service on the Commonwealth through the District Attorney, 60 days from service for the Commonwealth to respond, and a 30-day stay where the petition is granted without consent. The delivered petition page carries the printed line that the petitioner shall serve a copy upon the attorney for the Commonwealth. No participant service on the automatic route.",
+     "finding": "Service party, timing and the automatic-route exception all stated. Freshly measured."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "All three held stopConditions from processGuidanceSpecs[131] carried under 'STOP AND GET HELP' on delivered canonical and boundary page 5 and at participant-instructions.md lines 142-146; clause-by-clause comparison recorded in selfHelpStopRuling; read off the 300 dpi raster and the committed page-05 PNG.",
+     "finding": "Repaired. The three stops are carried as actual stops with no element dropped; the direction to file is no longer unqualified. Freshly measured; this is one of the three vf30 failures."
+    }
+   },
+   "failedObligationNames": [
+    "COMPONENT_SET"
+   ],
+   "carriedVersusFreshlyMeasured": {
+    "freshlyMeasured": [
+     "ROUTE_IDENTITY",
+     "SOURCE_IDENTITY",
+     "COMPONENT_SET",
+     "KNOWN_PREFILLS",
+     "REQUIRED_BEFORE_FILING",
+     "ROUTE_OPTIONS",
+     "REPEATING_ROWS",
+     "PROTECTED_FIELDS",
+     "ARTIFACTS",
+     "PAGE_ORDER",
+     "FILING_DESTINATION",
+     "FEE_AND_WAIVER",
+     "SERVICE",
+     "SELF_HELP_STOP"
+    ],
+    "partiallyCarried": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "whatWasCarriedAndOnWhatBasis": "Only the pixel inspection of pages 01-03 of both fixtures, and only because those six PNGs are byte-identical to the ones vf30 inspected -- established by hashing the blobs at d64ea2550 rather than by trusting FIX101's note. Pages 04 and 05 of both fixtures changed and were inspected fresh here.",
+    "whyTheTwelveWereNotSimplyCarried": "The Captain authorised carrying vf30's twelve passes if the two digests held, and they do. But vf30 measured a different packet: its artifactProof records canonical 888d4766... and boundary bdc27af9..., the pre-FIX02 bytes, and this base delivers fc67ec72... and ecfe22d0.... A carry of a text-dependent obligation across a change in the text would be a judgement about bytes nobody read. Every obligation that could be re-measured here was re-measured here, so thirteen of the twelve carries were replaced by fresh measurement and one is carried only in the narrow part where the bytes are provably identical.",
+    "vf30JudgementsConfirmedOnTheNewBytes": "All twelve of vf30's passes hold on the delivered bytes. Nothing vf30 passed has regressed."
+   },
+   "observationsThatFailNoObligation": [
+    "product-wiring.json binding.acceptanceReceipt is null while RASTER_QUEUE carries a current hash-bound RASTER_PASS for the delivered digests from run 33844904078. The binding understates; it grants nothing and opens nothing, so it fails no obligation, but it should be re-pinned deliberately.",
+    "binding.lastIndependentVerification still records vf30's FAIL_REPAIR_REQUIRED at d64ea255018e0ffb0f4daaee51b5cfcf279d94af. Accurate as of this base and correctly not updated by the repairing lane; this lane does not edit it either.",
+    "Delivered page 4 says 'If the record is already clear, stop; if it is not, file the petition.' with no pointer to the STOP block on page 5. The stop that qualifies it is on the facing page of the same two-page component and the obligation is met, but the sentence would be stronger qualified in place.",
+    "The nine completeness counters cannot see the COMPONENT_SET failure. requiredComponentsMissing reads the field map and rendered-artifacts, which both correctly name three components, and never compares binding.packetComponents to the committed manifest. A family can carry nine zeroes and a PASS_COMPLETE while its wiring record misdescribes the packet, which is what happened here and would happen to any family whose census requiredSourceIds omit a composed component.",
+    "The verifier's own --mutations harness cannot run on this family's field-map shape and says so honestly rather than printing a pass. That refusal is correct behaviour, but it means every family using the nested maps[] shape has no built-in sensitivity proof; teaching the harness that shape would close a gap across the whole nested-shape cohort.",
+    "product-wiring.json proposedRepresentation.components lists a single component named pa_pardon_expungement-set-component-1 with role primary_filing pointing at the whole assembled canonical.pdf. That is a different and looser representation than binding.packetComponents, and it too does not reflect the manifest's three components. It is labelled a specification for a later lane and grants nothing, so it fails no obligation here, but a later installation lane should not read it as the component set.",
+    "build-status.json buildStatus is state_built with reviewStatus qa_review_pending, which is consistent with the vocabulary in AGENTS.md and claims no approved_for_live or live status."
+   ],
+   "independence": {
+    "builtNothing": true,
+    "repairedNothing": true,
+    "editedNoFamilyRecord": true,
+    "statement": "This lane did not build, repair or author any part of pa_pardon_expungement-set. It read the committed tree at 683e8e31a in a fresh worktree of its own. The only writes it made anywhere were the temporary sensitivity mutations described above, each reverted immediately with the whole worktree re-proved byte-clean afterwards, and the append of this row to its own return file.",
+    "notSelfVerification": "FIX101 built the repair; this lane measured it and found one of the three repaired obligations not holding at this base. That disagreement is the point of an independent read.",
+    "remainingDefectNotFixedHere": "The missing component in binding.packetComponents and the census requiredSourceIds gap were both left exactly as found. A remaining defect is a finding, not this lane's to repair.",
+    "wholeDefectSetInOnePass": "Everything found is in this row: the one obligation failure, the census derivation disposition, and seven observations that fail no obligation. No defect is being held back for a later cycle."
+   },
+   "grantsNothing": "This row is a measurement and nothing else. It opens no commercial route, creates no fulfillment record, consumes no packet credit, marks no packet proven, changes no live RCAP route and touches no compiled runtime. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else; this is not that record. The verdict is FAIL_REPAIR_REQUIRED, so it is not even a candidate for one."
   }
  ],
  "supersededLaneMembership": {
