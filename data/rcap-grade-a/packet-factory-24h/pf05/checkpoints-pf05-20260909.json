@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "PF05",
+  "workerBranch": "pfc-20260909",
+  "returnFilename": "checkpoints-pf05-20260909.json",
+  "writtenAlongsideRatherThanOver": "checkpoints.json (an earlier PF05 shift) survives byte-for-byte.",
+  "note": "One checkpoint per family, written and pushed as that family finished rather than batched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "closedAtIs": "the UTC date of this shift. This lane has no trusted wall clock beyond the date, so the time component is zeroed rather than invented.",
+      "familiesInThisCheckpoint": [
+        "nh_conviction_streamlined-set"
+      ],
+      "familiesCompleted": 0,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        {
+          "itemId": "nh_conviction_streamlined-set",
+          "stopReason": "BLOCKED_SOURCE",
+          "stopClass": "BLOCKED_SOURCE",
+          "overlayDirectoryTouched": false,
+          "shortWhy": "All four declared digests resolve and were re-hashed from bytes, but the four held binaries are editions of different New Hampshire courts. NHJB-2311-Se offers Superior Courts only, NHJB-2328-DFPe offers no Superior Court, and NHJB-2956-FPe offers neither tier this route files in. No one court can be named across the packet and no form carries a free-text court field."
+        }
+      ],
+      "nineCountersZeroOn": [],
+      "countersNullOn": [
+        "nh_conviction_streamlined-set"
+      ],
+      "packetsSelfVerified": 0,
+      "pushedTo": "origin/pfc-20260909"
+    }
+  ]
+}

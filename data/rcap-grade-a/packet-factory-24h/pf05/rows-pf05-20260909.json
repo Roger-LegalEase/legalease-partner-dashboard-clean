@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF05",
+  "workerId": "PF05",
+  "lane": "packet-build",
+  "workerBranch": "pfc-20260909",
+  "engine": "Claude Opus 5 (Claude Code)",
+  "returnFilename": "rows-pf05-20260909.json",
+  "writtenAlongsideRatherThanOver": "rows.json, LANE_NOT_EXECUTED.json and PFB_SHIFT_RETURN.json (earlier PF05 material) survive byte-for-byte; this return is a distinct file.",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "headShaAtReturn": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "headShaAtReturnIs": "the parent of the commit that carries this file, read with git rev-parse HEAD before committing. It is not the sha of that commit, which cannot be known before it exists, and it is not transcribed by hand.",
+  "worktree": "/home/user/pfc-worktree",
+  "familiesAssignedByPrompt": 3,
+  "familiesGrantedByClaimLedger": 3,
+  "rowsReturned": 1,
+  "familiesCompleted": 0,
+  "familiesStopped": 1,
+  "blockedSource": [
+    "nh_conviction_streamlined-set"
+  ],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "shiftIsIncomplete": "This return covers family 1 of 3. ut_pet_cannabis-set and nc_auto_146_a4_agency_followup-set are not yet returned and no row for either is present. Absence of a row here is not a result for those families.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "No packet was built in this return, so there is nothing to raster and no digest to bind. rasterState is carried for schema continuity and zeroes nothing.",
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": "none - MASTER_QUEUE.json, SOURCE_READY_BUILDABILITY.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json and every script under scripts/grade-a-packet-factory-24h/ are untouched by this lane.",
+  "grantsNothing": "This lane built nothing here, verified nothing and set no verdict. A STOPPED row opens no route and authorizes no promotion.",
+  "rows": [
+    {
+      "itemId": "nh_conviction_streamlined-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "verdict": null,
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_conviction_streamlined"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "claimAssertion": "CLAIM_OK PF05 nh_conviction_streamlined-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "allFourDeclaredSourcesResolvedByContentDigest": true,
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:NHJB-3057-DSe",
+          "component": "primary_filing",
+          "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+          "byteLength": 87550,
+          "pages": 4
+        },
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "component": "fee_waiver_motion",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "byteLength": 64896,
+          "pages": 2
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "component": "fee_waiver_financial_statement",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "byteLength": 66063,
+          "pages": 3
+        },
+        {
+          "sourceId": "official-form:NHJB-2956",
+          "component": "criminal_history_request",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "byteLength": 62291,
+          "pages": 1
+        }
+      ],
+      "whyBlockedSourceDespiteEverySourceBeingHeld": "The stop is not a missing binary. All four declared digests resolve under the master library and were re-hashed from bytes by this lane. The stop is that the four held binaries are editions of DIFFERENT New Hampshire courts and cannot name one filing court between them.",
+      "why": "A packet is filed in one court. NHJB-3057-DSe, the petition, names its court through the drop-down court.district/su, whose 43 options are 11 Superior Courts and 31 Circuit Court District Divisions, so this route files in one of those two tiers. NHJB-2311-Se names its court through court.superior, whose 12 options are a blank and 11 Superior Courts and no Circuit Court division at all. NHJB-2328-DFPe names its court through court.district/family/probate - both, whose 74 options are District, Family and Probate divisions and include no Superior Court at all. In a Superior Court annulment the financial statement cannot name the court; in a District Division annulment the fee-waiver motion cannot. Neither form carries a free-text court field, so neither gap can be filled with text. The suffixes agree with the drop-downs: -Se is the Superior court edition, -DFPe the District, Family and Probate edition, -DSe the District edition of the petition. Filling the Superior motion for a Circuit Court annulment would deliver the wrong court's motion, and leaving its court blank would deliver a motion that does not say where it is filed. Neither is a defect a build can absorb.",
+      "measuredByThisLaneIndependentlyOfTheBuildScript": "Every drop-down and every field of all four binaries was enumerated directly from the master-library bytes with pdf-lib, not read back from the build script's own summary. The court-list measurement reproduced exactly.",
+      "additionalDefectThisLaneFoundAndTheScriptHadMissed": {
+        "form": "NHJB-2956-FPe",
+        "component": "criminal_history_request",
+        "chooserField": "court.family/probate1 CUSTOM",
+        "optionCount": 43,
+        "offersASuperiorCourt": false,
+        "offersACircuitDistrictDivision": false,
+        "finding": "Its 43 options are Family Division and Probate Division entries exclusively. It reaches NEITHER tier this route files in, so unlike the two fee-waiver components - each of which can at least name a court in one tier - this component cannot name the filing court in any case this route can produce. It is blocked in every tier.",
+        "priorClaimCorrected": "The build script previously returned componentsBuildable: [primary_filing, criminal_history_request] as a hardcoded literal. That named this component buildable and was wrong. This lane replaced both lists with a value computed from each binary's own chooser against the petition's own tiers, and added whichComponentsCanNameTheSameCourt, which resolves the question per tier rather than per component.",
+        "scriptEditedByThisLane": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs, which the assignment names as this lane's to fix. The refusal, its stopClass and its null counters are unchanged; only the component classification became measured rather than asserted."
+      },
+      "otherSourceDefectsMeasuredSoTheNextLaneNeedNotResurvey": [
+        {
+          "form": "NHJB-2328-DFPe",
+          "fields": ["12.total", "money.total", "monthly.total"],
+          "sourceCarriedValue": "0",
+          "consequence": "delivered unchanged these state that the filer has no income, no cash and no monthly expenses. Any build of this form must clear them."
+        },
+        {
+          "form": "NHJB-2956-FPe",
+          "field": "court.family/probate1 CUSTOM",
+          "sourceCarriedValue": "1",
+          "isOneOfItsOwnOptions": false,
+          "consequence": "the binary ships a stored drop-down value that is not among that drop-down's own options."
+        },
+        {
+          "form": "NHJB-2956-FPe",
+          "field": "address",
+          "sourceCarriedValue": " ",
+          "consequence": "a stored single-space text value."
+        },
+        {
+          "forms": ["NHJB-3057-DSe", "NHJB-2311-Se", "NHJB-2328-DFPe", "NHJB-2956-FPe"],
+          "pushButtonCounts": { "NHJB-3057-DSe": 4, "NHJB-2311-Se": 4, "NHJB-2328-DFPe": 4, "NHJB-2956-FPe": 3 },
+          "consequence": "Clear Form, Lock and Save Form, Top of Page and Form Guide push buttons must be detached before flattening or their captions are drawn onto the filed page."
+        }
+      ],
+      "purposeOfRecordLineIsAnOwnerDetermination": "NHJB-2956 prints PURPOSE OF RECORD: Housing / Employment / Annulment/Expungement / Other ______. The route's identity answers it, but the binary draws no control beside the printed options - no AcroForm widget, no stroked box - so marking it would put ink at a hand-entered coordinate in white space, and writing the purpose into the Other rule would state that the purpose is Other, which is false. Not the stop; recorded for the owner.",
+      "whatWouldUnblockIt": [
+        "binding the Circuit Court District Division fee-waiver motion that matches NHJB-3057-DSe and NHJB-2328-DFPe, rather than the Superior Court NHJB-2311-Se",
+        "or binding the Superior Court financial statement that matches NHJB-2311-Se and scoping this family to Superior Court annulments",
+        "and in either case binding a criminal-history release whose court chooser reaches the tier the packet is filed in, because NHJB-2956-FPe reaches neither",
+        "or an owner determination that the fee-waiver and criminal-history components may be dropped and replaced by a pointer to whichever forms the filing court actually uses"
+      ],
+      "artifactsRead": 4,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
