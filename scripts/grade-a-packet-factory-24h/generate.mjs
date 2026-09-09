@@ -1685,6 +1685,33 @@ for (const { evidencePath, doc } of laneReturnFiles) {
   }
 }
 for (const familyId of completedPacketBuildFamilies) stoppedPacketBuildByFamily.delete(familyId);
+/*
+ * A COUNTER THAT WAS NOT MEASURED IS NOT A ZERO.
+ *
+ * This read `Number(value) === 0`, and `Number(null)` is 0 in JavaScript, so a
+ * row honestly reporting `invisibleWrites: null` -- "I could not measure this"
+ * -- was read as though it had measured zero. FIX120 found it in its own row,
+ * where the hole happened to favour its own family, and flagged it rather than
+ * leaving it. That is the only reason anyone knows.
+ *
+ * `visualDefects` is the one exception and stays permitted as null, because
+ * nothing in a repair container can measure it: it records that nobody has
+ * looked, and the raster requirement enforces that separately. Every other
+ * counter must be a real number equal to zero.
+ *
+ * Measured before landing: 281 repair rows carry countersAfter, five carry a
+ * non-numeric value, four of those are visualDefects alone. Only
+ * ca-17b-reduction-set carries a null anywhere else, and it is already held by
+ * the family-side gate for exactly the same reason -- its completeness reads
+ * NOT_MEASURABLE_HERE. So this changes no family's state today and closes the
+ * hole before it decides one.
+ */
+const countersAreMeasuredZero = (counters) => counters !== null
+  && typeof counters === "object"
+  && Object.entries(counters).every(([name, value]) => name === "visualDefects"
+    ? value === null || (typeof value === "number" && value === 0)
+    : typeof value === "number" && value === 0);
+
 function repairCompletionAfterVerdict(independentReturn) {
   const familyId = independentReturn?.familyId;
   const base = independentReturn?.verifiedAtBase;
@@ -1694,8 +1721,7 @@ function repairCompletionAfterVerdict(independentReturn) {
   catch { return null; }
   const orderedCandidates = [];
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
-    if (!candidate.row.countersAfter
-      || !Object.values(candidate.row.countersAfter).every((value) => Number(value) === 0)) continue;
+    if (!countersAreMeasuredZero(candidate.row.countersAfter)) continue;
     let priorDocument = null;
     try {
       priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
@@ -1719,7 +1745,7 @@ function repairCompletionAfterVerdict(independentReturn) {
   const contributing = orderedCandidates.filter((c) => repairRowDischargesFailure(c.row, failed)
     || repairRowsJointlyDischargeFailure(orderedCandidates.map((x) => x.row), failed));
   if (contributing.length === 0) return null;
-  if (!orderedCandidates.every((c) => Object.values(c.row.countersAfter ?? {}).every((v) => Number(v) === 0))) return null;
+  if (!orderedCandidates.every((c) => countersAreMeasuredZero(c.row.countersAfter))) return null;
   return contributing[contributing.length - 1];
 }
 
@@ -3046,7 +3072,8 @@ const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git workt
  * the outcome without naming the means is an invitation to improvise.
  */
 const RASTER_RULE = [
-  "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
+  "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that a Codex container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside it. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
+  "**And if your container DOES resolve a browser, that changes nothing about whose raster counts.** Two lanes have now reported building a page image locally, and they were right to discard it: a local render is not a receipt. Only the central gate below produces one, bound to the exact bytes the queue pinned and published as an artifact this factory can admit. Use a local render to measure something if it helps you, delete it, and still return `BUILT_RASTER_PENDING` with `visualDefects` untouched.",
   "Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.",
   /*
    * WHICH FIELD CARRIES WHICH FACT, because two lanes in one day put the

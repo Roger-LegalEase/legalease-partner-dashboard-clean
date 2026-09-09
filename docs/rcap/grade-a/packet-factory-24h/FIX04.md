@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `436a78a182597b6c1d19c8ee22d6cf86ba5b576e` (or the newer dispatch base)
+**Minimum required ancestor:** `a8d78da3864d065ecad3c53f350dd17cfdbb7816` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'co_petition_seal_arrest-set' \
+  --family 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement' \
   --codex-cloud \
-  --minimum-captain-sha 436a78a182597b6c1d19c8ee22d6cf86ba5b576e
+  --minimum-captain-sha a8d78da3864d065ecad3c53f350dd17cfdbb7816
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -39,13 +39,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 ## Claim before you read
 
 - Assert only these 1 exact family before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'co_petition_seal_arrest-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
 ## How to raster
 
-- **A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.
+- **A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that a Codex container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside it. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.
+- **And if your container DOES resolve a browser, that changes nothing about whose raster counts.** Two lanes have now reported building a page image locally, and they were right to discard it: a local render is not a receipt. Only the central gate below produces one, bound to the exact bytes the queue pinned and published as an artifact this factory can admit. Use a local render to measure something if it helps you, delete it, and still return `BUILT_RASTER_PENDING` with `visualDefects` untouched.
 - Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.
 - Put that in `rasterState`. `status` is the row's own outcome and takes exactly `COMPLETED` or `STOPPED`: a repair that finished is `COMPLETED` even though nobody has rastered it, because `status` records whether YOU finished, not whether a page was looked at. The post-repair reader in `generate.mjs` takes only rows whose `status` is `COMPLETED`, so a finished repair filed as `BUILT_RASTER_PENDING` leaves its family sitting in FAIL.
 - `countersBefore` and `countersAfter` hold exactly the nine counters and nothing else -- that reader requires every value to be numerically zero, so a prose key alongside them (`measuredBy`, a caveat, even a boolean `allNineZero`) makes the whole object read as non-zero. Put the prose in siblings and keep every word of it.
@@ -61,7 +62,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 1 family
 
-- `co_petition_seal_arrest-set`
+- `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
 
 ## What you receive
 
@@ -74,8 +75,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/**`
-- `scripts/build-census-v1-co_petition_seal_arrest-set.mjs`
+- `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
 
 ## Never write here
 
