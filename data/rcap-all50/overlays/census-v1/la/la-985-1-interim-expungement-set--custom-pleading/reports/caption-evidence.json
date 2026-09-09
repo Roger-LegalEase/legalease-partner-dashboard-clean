@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "la-985-1-interim-expungement-set",
+  "question": "Is the caption, the controlling authority, the eligibility recital, the FORMS and the prayer on this packet this family's own, or a sibling's?",
+  "whyItIsAsked": "Louisiana runs six expungement tracks off six articles that share a caption shape. This track uses two forms no sibling uses, and one line of its own committed record names a sibling's Article 991 order.",
+  "controllingArticle": "La. C.Cr.P. art. 985.1",
+  "mandatoryForms": [
+    "LA-CCRP-ART-994",
+    "LA-CCRP-ART-995"
+  ],
+  "legalNameFromTheRecord": "Interim Motion to Expunge a Felony Arrest from Criminal History (La. C.Cr.P. art. 985.1)",
+  "assertedAtBuildTime": [
+    "registryTrack.legalName matches /art\\. 985\\.1/i",
+    "memoTrack.controllingAuthority.summary matches /Article 985\\.1\\(A\\)/",
+    "memoTrack.controllingAuthority.citations[0] === 'La. C.Cr.P. art. 985.1'",
+    "the required primary filing component's officialFormId === 'LA-CCRP-ART-994'",
+    "the required proposed order component's officialFormId === 'LA-CCRP-ART-995'",
+    "registryTrack.rules.filing names Articles 994 and 995 as this track's forms",
+    "the committed exclusions still state that the misdemeanour conviction itself is not expunged by this track",
+    "the committed waiting periods still state that Article 985.1(D) disapplies the sibling time limitations",
+    "all 13 Article 995 structural anchors are present in the bound source bytes"
+  ],
+  "captionFieldsWrittenOnEveryFilingDocument": [
+    {
+      "id": "court_name",
+      "label": "Name of court with trial jurisdiction over the misdemeanour conviction",
+      "factId": "case.court_name"
+    },
+    {
+      "id": "parish",
+      "label": "Parish of arrest and conviction",
+      "factId": "case.parish"
+    },
+    {
+      "id": "docket_number",
+      "label": "Docket or case number",
+      "factId": "case.docket_number"
+    },
+    {
+      "id": "division",
+      "label": "Division of the court",
+      "factId": "case.division"
+    },
+    {
+      "id": "mover_full_legal_name",
+      "label": "Mover full legal name",
+      "factId": "participant.full_legal_name"
+    }
+  ],
+  "documentsCarryingTheCaption": [
+    "LA-CCRP-ART-994",
+    "LA-CCRP-ART-995"
+  ],
+  "articleSpecificText": {
+    "motionTitle": "MOTION FOR INTERIM EXPUNGEMENT OF A FELONY ARREST FROM CRIMINAL HISTORY",
+    "orderTitle": "ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD",
+    "eligibilityRecital": "Article 985.1(A)'s felony arrest that resulted in a misdemeanour conviction arising out of that same arrest, with Article 985.1(B)'s separate-and-distinct rule, Article 985.1(D)'s disapplication of the sibling time limitations and its permission of more than one interim expungement, and Article 977(C)(1)'s preservation of the route through the sex-offence exclusion",
+    "prayer": "an order directing the Bureau to expunge the entry of the named felony charges from the criminal history and directing the clerk, the district attorney and the arresting agency to expunge them from public indices - in the Legislature's own Article 995 words",
+    "theSentenceThisTrackMustCarry": "only the original felony arrest is expunged; the misdemeanour conviction stays unless separately cleared under Article 977",
+    "whatIsNotOnThisPacket": "no Article 989 motion, no Article 991 order, no Article 992 order of expungement, no arrest-without-conviction grounds list, no first-offence-marijuana recital and no Article 985 redaction paragraph."
+  },
+  "recordLinesThatNameASiblingsFormAndAreCorrectedInTheGuide": [
+    "registryTrack.rules.notice: \"...the Article 991 Order states that no contradictory hearing is required and the motion may be granted ex parte.\" There is no Article 991 order on this track; the Article 995 order carries its own alternative to a hearing on its face."
+  ],
+  "howTheyAreTreated": "printed verbatim and corrected beneath, by code that compares the article a line names against the forms this packet actually renders rather than by a hardcoded exception.",
+  "siblingFamiliesThisPacketMustNotResemble": [
+    "la-976-arrest-no-conviction-set",
+    "la-977-misdemeanor-conviction-set",
+    "la-977d-marijuana-first-offense-set",
+    "la-978-felony-conviction-set",
+    "la-985-expungement-by-redaction-set",
+    "la-987-set-aside-and-dismiss-set"
+  ]
+}
