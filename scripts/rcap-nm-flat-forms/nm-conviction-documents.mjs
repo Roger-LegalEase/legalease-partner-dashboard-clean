@@ -31,8 +31,50 @@
  * point of the second stage is that it happens sixty-three days later -- so
  * every one of those controls and lines is the participant's.
  */
-import { WRITE, SUPPLY, PROTECT, DECRETAL, ELECTION, ATTORNEY, OPTIONAL, NOT_A_BLANK, COURT_OWNED, SIGNATURE }
+import { WRITE, WRITE_BOUND_AS, SUPPLY, PROTECT, DECRETAL, ELECTION, ATTORNEY, OPTIONAL, NOT_A_BLANK, COURT_OWNED, SIGNATURE }
   from "./nm-packet-host.mjs";
+
+/*
+ * The petitioner's own mailing address, on the one printed line each of these
+ * forms gives it.
+ *
+ * The shared registry holds one participant address descriptor,
+ * participant.street_address, and it is what a blank captioned "Mailing
+ * Address" binds. The value written is the whole one-line address the platform
+ * composes from the street, city, state and ZIP it holds -- the same four parts
+ * it writes separately in paragraph 1 of Form 4-953, two pages earlier in the
+ * same packet.
+ *
+ * These rows used to say the registry has no one-line mailing-address fact.
+ * That is true of the descriptor list and says nothing about what the platform
+ * holds, and stating the first as though it were the second left the address
+ * the court writes to blank on three documents.
+ */
+/*
+ * Form 4-960.3 prints its address line under the caption "Street Address, City,
+ * State and Zip Code", which the shared registry reads as three separate
+ * descriptors -- city, zip and state -- and resolves the first of them. The one
+ * printed line is a mailing address, so it is bound under an address caption
+ * and the substitution is recorded on the field-map row beside what the printed
+ * caption resolves to on its own. Form 4-960.2 on the non-conviction track
+ * carries the identical block and is bound the identical way.
+ */
+const AFFIRMATION_ADDRESS_BINDING = {
+  label: "Mailing Address of the Petitioner on the affirmation, on one line",
+  factId: "participant.street_address",
+  why:
+    "the printed caption names the address in three parts -- \"Street Address, City, State and Zip Code\" -- and the "
+    + "shared registry resolves the first of the three descriptors those words match rather than an address. The blank "
+    + "is one printed line for the whole mailing address, so it is bound under the address caption and the whole "
+    + "composed address is written on it."
+};
+
+const ADDRESS_BINDING =
+  "the shared registry holds one participant address descriptor, participant.street_address, and it is what a blank "
+  + "captioned \"Mailing Address\" binds. The value written is the whole one-line address, composed from the street, "
+  + "city, state and ZIP the platform holds and writes in parts in paragraph 1 of Form 4-953. A missing descriptor is "
+  + "a fact about the descriptor list, not about what the platform holds.";
+
 
 /* ------------------------------------------------------------------ *
  * Shared shapes.
@@ -229,7 +271,7 @@ export const DICTIONARY_4_953 = {
   "p3-y62064-x43764": NOT_A_BLANK("an amendment underline beneath printed words in the list of excluded offences"),
   "p3-y53604-x7608": NOT_A_BLANK("a printed bullet mark in the list of excluded offences, not a place anyone writes"),
 
-  "p3-y47832-x7200": { section: P12, label: "Why justice will be served by granting the petition, first line", ...SUPPLY("why you are asking for expungement — employment, licensing, housing — and what has happened or will happen to you if it is refused. This is the heart of the petition and only you can write it") },
+  "p3-y47832-x7200": { section: P12, label: "Why justice will be served by granting the petition, first line", ...SUPPLY("why you are asking for expungement — employment, licensing, housing — and what has happened or will happen to you if it is refused. This is the heart of the petition, and writing it is on the stop list at the top of these instructions: only you hold the facts, and a lawyer should advise on the argument") },
   "p3-y46452-x7200": { section: P12, label: "Why justice will be served, second line", ...SUPPLY("the second line of that explanation") },
   "p3-y45072-x7200": { section: P12, label: "Why justice will be served, third line", ...SUPPLY("the third line of that explanation") },
   "p3-y43692-x7200": { section: P12, label: "Why justice will be served, fourth line", ...SUPPLY("the fourth line of that explanation") },
@@ -283,7 +325,14 @@ export const DICTIONARY_4_953 = {
   "p4-y16524-x7200": { section: SIGN, label: "Printed name of Petitioner", ...WRITE("participant.full_legal_name") },
   "p4-y16524-x36000": { section: SIGN, label: "Date beside the printed name of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. The petition is affirmed under penalty of perjury under the laws of the State of New Mexico, and the date it is affirmed is the date the participant signs it") },
   "p4-y13764-x7200": { section: SIGN, label: "Signature of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own petition and no build signs it for them") },
-  "p4-y11004-x7200": { section: SIGN, label: "Mailing Address of the Petitioner on page 4", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") },
+  "p4-y11004-x7200": {
+    section: SIGN, label: "Mailing Address of the Petitioner on page 4",
+    ...WRITE_BOUND_AS("participant.full_mailing_address", { factId: "participant.street_address", why: ADDRESS_BINDING }, {
+      what:
+        "your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, "
+        + "written out in parts in paragraph 1"
+    })
+  },
   "p4-y8244-x7200": { section: SIGN, label: "Telephone Number of the Petitioner on page 4", ...SUPPLY("your telephone number, so the court can reach you") },
   "p4-y8244-x36000": { section: SIGN, label: "Email of the Petitioner on page 4", ...SUPPLY("your e-mail address, if you have one") },
 
@@ -390,7 +439,12 @@ export const DICTIONARY_4_960 = {
 
   "p2-y61044-x7200": { section: NOTICE_SIGN, label: "Printed name of Petitioner on the notice", ...WRITE("participant.full_legal_name") },
   "p2-y58284-x7200": { section: NOTICE_SIGN, label: "Signature of Petitioner on the notice", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own notice") },
-  "p2-y55524-x7200": { section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") },
+  "p2-y55524-x7200": {
+    section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice",
+    ...WRITE_BOUND_AS("participant.full_mailing_address", { factId: "participant.street_address", why: ADDRESS_BINDING }, {
+      what: "your full mailing address on this one line: street, city, state and ZIP"
+    })
+  },
   "p2-y52764-x7200": { section: NOTICE_SIGN, label: "Telephone Number of the Petitioner on the notice", ...SUPPLY("your telephone number") },
   "p2-y50004-x7200": { section: NOTICE_SIGN, label: "Date beneath the Petitioner's signature on the notice", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. It is the date the participant signs the notice, which is at least sixty-three days after this packet is prepared") },
 
@@ -455,10 +509,53 @@ export const DICTIONARY_4_960_3 = {
   "p2-y63624-x12600": AFFIRMED("Your most recent conviction, first line", "the date of your most recent conviction, the offence and the court"),
   "p2-y62244-x12600": AFFIRMED("Your most recent conviction, second line", "the rest of that description"),
 
-  "p2-y53964-x7200": { section: AFF_SIGN, label: "Printed name of Petitioner on the affirmation", ...WRITE("participant.full_legal_name") },
-  "p2-y53964-x36000": { section: AFF_SIGN, label: "Date beside the printed name on the affirmation", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. The affirmation is made under penalty of perjury and the date is the date the participant signs it") },
-  "p2-y51204-x7200": { section: AFF_SIGN, label: "Signature of Petitioner on the affirmation", ...PROTECT(SIGNATURE, "signature or date field; the participant affirms and signs this themselves") },
-  "p2-y48444-x7200": { section: AFF_SIGN, label: "Mailing Address of the Petitioner on the affirmation", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") }
+  /*
+   * FORM 4-960.3's SIGNATURE BLOCK IS NOT FORM 4-953's, AND IT WAS MAPPED AS
+   * THOUGH IT WERE.
+   *
+   * Every caption in this block is printed BELOW the rule it names, and read
+   * that way the four blanks are:
+   *
+   *   12 ______________________  ______________________
+   *   13 (Petitioner Signature)  (Print Name)
+   *   14 ____________________________________________________________
+   *   15 Street Address   City   State   Zip Code
+   *   16 ___________________________________
+   *   17 (Telephone)
+   *
+   * The rows here were copied from Form 4-953's block, which runs printed name
+   * and date, then signature, then mailing address, then telephone -- a
+   * different order on a different form. Every one of these four blanks was one
+   * line out. The delivered page put the participant's printed name on the line
+   * captioned "(Petitioner Signature)", declared the Street Address / City /
+   * State / Zip Code line a signature and protected it, and called the
+   * telephone line the mailing address. Read from the page image at 300 dpi:
+   * "Dana Marie Sandoval" sat above "(Petitioner Signature)" and the address
+   * line was empty.
+   *
+   * The sibling form on the non-conviction track, Form 4-960.2, has the same
+   * block and is mapped correctly there; that map is what these four rows now
+   * agree with. Nothing about the geometry changed -- the same four measured
+   * blanks, at the same four keys -- only which blank each one is.
+   */
+  "p2-y53964-x7200": {
+    section: AFF_SIGN, label: "Signature of Petitioner on the affirmation",
+    ...PROTECT(SIGNATURE, "signature or date field; the affirmation is made under penalty of perjury and the participant signs it themselves. The caption \"(Petitioner Signature)\" is printed under this rule")
+  },
+  "p2-y53964-x36000": {
+    section: AFF_SIGN, label: "Print Name of Petitioner on the affirmation",
+    ...WRITE("participant.full_legal_name")
+  },
+  "p2-y51204-x7200": {
+    section: AFF_SIGN, label: "Street Address, City, State and Zip Code of the Petitioner on the affirmation, on one line",
+    ...WRITE_BOUND_AS("participant.full_mailing_address", AFFIRMATION_ADDRESS_BINDING, {
+      what: "your full mailing address on this one line: street, city, state and ZIP"
+    })
+  },
+  "p2-y48444-x7200": {
+    section: AFF_SIGN, label: "Telephone of the Petitioner on the affirmation",
+    ...SUPPLY("your telephone number, so the court can reach you about this affirmation")
+  }
 };
 
 /* ------------------------------------------------------------------ *

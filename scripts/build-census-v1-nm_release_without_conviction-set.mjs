@@ -107,8 +107,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  runNmFamily, resolveSourcesByHash, ROOT,
-  WRITE, SUPPLY, HELD_NOT_WRITTEN, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, OPTIONAL, NOT_A_BLANK, SIGNATURE
+  runNmFamily, resolveSourcesByHash, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection, ROOT,
+  WRITE, WRITE_BOUND_AS, SUPPLY, HELD_NOT_WRITTEN, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, OPTIONAL, NOT_A_BLANK,
+  SIGNATURE
 } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, PRINTED_BLANKS_4_223, PRINTED_DISTRICT_FINDING, PRINTED_DISTRICT_IN_THE_CAPTION }
@@ -166,10 +167,41 @@ const captionRows = (keys) => ({
   [keys.name]: { section: CAPTION, label: "In re, the petitioner's name", ...WRITE("participant.full_legal_name") }
 });
 
-const ONE_LINE_ADDRESS_NOTE =
-  "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a "
-  + "street with no city on the line the court writes to is worse than a line the participant completes. Reported to the "
-  + "owner of the registry in build-findings.json.";
+/*
+ * The petitioner's own mailing address, on the one printed line each form gives
+ * it.
+ *
+ * The shared registry holds one participant address descriptor,
+ * participant.street_address, and it is what a blank captioned "Mailing
+ * Address" binds. The value written is the whole one-line address, composed
+ * from the street, city, state and ZIP the platform holds and writes in parts
+ * in paragraph 1 of Form 4-952. These rows used to say the registry has no
+ * one-line mailing-address fact, which is true of the descriptor list and says
+ * nothing about what the platform holds.
+ */
+const ADDRESS_BINDING =
+  "the shared registry holds one participant address descriptor, participant.street_address, and it is what a blank "
+  + "captioned \"Mailing Address\" binds. The value written is the whole one-line address, composed from the street, "
+  + "city, state and ZIP the platform holds and writes in parts in paragraph 1 of Form 4-952. A missing descriptor is "
+  + "a fact about the descriptor list, not about what the platform holds.";
+
+/*
+ * Form 4-960.2 prints its address line under the caption "Street Address, City,
+ * State and Zip Code", which the shared registry reads as three separate
+ * descriptors -- city, zip and state -- and resolves the first of them. The one
+ * printed line is a mailing address, so it is bound under the address caption
+ * and the substitution is recorded on the field-map row beside what the printed
+ * caption resolves to on its own.
+ */
+const AFFIRMATION_ADDRESS_BINDING = {
+  label: "Mailing Address of the Petitioner on the affirmation, on one line",
+  factId: "participant.street_address",
+  why:
+    "the printed caption names the address in three parts -- \"Street Address, City, State and Zip Code\" -- and the "
+    + "shared registry resolves the first of the three descriptors those words match rather than an address. The blank "
+    + "is one printed line for the whole mailing address, so it is bound under the address caption and the whole "
+    + "composed address is written on it."
+};
 
 const AGENCY_LINE_NOTE =
   "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being "
@@ -204,12 +236,14 @@ const originatingCourt = (facts) => {
   return held;
 };
 
-const LOWER_COURT_LINE_NOTE =
-  "the platform's shared field semantics protect every blank whose printed line names a magistrate: PROTECT_RULES "
-  + "matches /magistrate/ under the \"court\" category, so \"Metropolitan/Magistrate/Municipal Court case number(s)\" "
-  + "and \"[ ] Magistrate Court in ____ (location)\" refuse every write whatever fact is offered. That rule is shared "
-  + "by the whole corpus and re-labelling the blank until it stops matching it would be wording a refusal to beat a "
-  + "regex, so the line is left to the participant and the ground is stated. Reported in build-findings.json.";
+const LOWER_COURT_CASE_NUMBER_BINDING =
+  "the shared protect rules match /magistrate/ under the \"court\" category, so the printed caption "
+  + "\"Metropolitan/Magistrate/Municipal Court case number(s)\" refuses every write whatever fact is offered. That "
+  + "rule protects the blanks a court fills. This one is the petitioner's own statement of their own case number, in "
+  + "their own petition, on the line Form 4-952 paragraph 4 prints immediately below the district-court line the same "
+  + "paragraph writes, and the platform holds both the number and the intake's required originating-court answer that "
+  + "decides which of the two lines it belongs on. The row is bound under a caption naming what the blank holds; the "
+  + "shared semantics module is unchanged and still refuses paragraph 12's magistrate location line.";
 
 const LOWER_COURT_LOCATION_NOTE =
   "the intake's required originating-court answer has two halves -- which court, and in what location -- and these "
@@ -378,12 +412,37 @@ const DICTIONARY_4_952 = (facts) => ({
           + "invented. The number this case does have belongs on the next line."
         )
       },
+      /*
+       * The case number of a case the district court never held, on the line
+       * paragraph 4 prints for it.
+       *
+       * The platform holds the number and holds the required intake answer that
+       * puts it on this line rather than the one above, and the previous build
+       * declared it KNOWN_FACT_NOT_WRITTEN: the shared protect rules match
+       * /magistrate/ under the "court" category, and the printed caption of
+       * this blank names all three lower courts, so the ordinary channel
+       * refuses every write whatever fact is offered. That rule is shared by
+       * the whole corpus and is not this build's to change -- and it is not
+       * this blank's rule either. It protects the blanks a court fills; this
+       * one is the petitioner's own statement of their own case number, in
+       * their own petition, on the line the Supreme Court's form prints for it,
+       * immediately below the district-court line the same paragraph writes.
+       *
+       * So the row is bound under a caption naming what the blank holds, the
+       * substitution and both readings of the printed caption are recorded on
+       * the field-map row, and the build asserts on every run that the caption
+       * it binds under carries no protect category of its own. Nothing in
+       * scripts/rcap-official-forms/rcap-field-semantics.mjs is changed, and
+       * the rule still refuses paragraph 12's magistrate LOCATION line, which
+       * is a different blank and one the platform holds nothing for.
+       */
       "p2-y60684-x9000": {
         section: P4, label: "Metropolitan, Magistrate or Municipal Court case number(s)",
-        ...HELD_NOT_WRITTEN(
-          "your case number, on this line -- your case was in a metropolitan, magistrate or municipal court, and this is the line the form gives for it",
-          `the platform holds this case number as matter.case_number and the write is refused rather than unavailable -- the value itself is not repeated into this record. ${LOWER_COURT_LINE_NOTE}`
-        )
+        ...WRITE_BOUND_AS("matter.case_number", {
+          label: "Case number(s) of this matter, paragraph 4, the second of the two numbered lines",
+          factId: "matter.case_number",
+          why: LOWER_COURT_CASE_NUMBER_BINDING
+        })
       }
     }),
   "p2-y59304-x29880": { section: P4, label: "Law Enforcement Agency case number(s)", ...SUPPLY("the case number the law enforcement agency gave this matter, from your records", AGENCY_LINE_NOTE) },
@@ -484,7 +543,18 @@ const DICTIONARY_4_952 = (facts) => ({
   "p4-y63444-x7200": { section: SIGN, label: "Printed name of Petitioner", ...WRITE("participant.full_legal_name") },
   "p4-y63444-x36000": { section: SIGN, label: "Date beside the printed name of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. The petition is affirmed under penalty of perjury under the laws of the State of New Mexico, and the date it is affirmed is the date the participant signs it") },
   "p4-y60684-x7200": { section: SIGN, label: "Signature of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own petition and no build signs it for them") },
-  "p4-y57924-x7200": { section: SIGN, label: "Mailing Address of the Petitioner on page 4", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1", ONE_LINE_ADDRESS_NOTE) },
+  "p4-y57924-x7200": {
+    section: SIGN, label: "Mailing Address of the Petitioner on page 4",
+    ...WRITE_BOUND_AS(
+      "participant.full_mailing_address",
+      { factId: "participant.street_address", why: ADDRESS_BINDING },
+      {
+        what:
+          "your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, "
+          + "written out in parts in paragraph 1"
+      }
+    )
+  },
   "p4-y55164-x7200": { section: SIGN, label: "Telephone Number of the Petitioner on page 4", ...SUPPLY("your telephone number, so the court can reach you") },
   "p4-y55164-x36000": { section: SIGN, label: "Email of the Petitioner on page 4", ...SUPPLY("your e-mail address, if you have one") },
 
@@ -603,7 +673,14 @@ const DICTIONARY_4_959 = {
 
   "p2-y68964-x7200": { section: NOTICE_SIGN, label: "Printed name of Petitioner on the notice", ...WRITE("participant.full_legal_name") },
   "p2-y66204-x7200": { section: NOTICE_SIGN, label: "Signature of Petitioner on the notice", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own notice") },
-  "p2-y63444-x7200": { section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", ONE_LINE_ADDRESS_NOTE) },
+  "p2-y63444-x7200": {
+    section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice",
+    ...WRITE_BOUND_AS(
+      "participant.full_mailing_address",
+      { factId: "participant.street_address", why: ADDRESS_BINDING },
+      { what: "your full mailing address on this one line: street, city, state and ZIP" }
+    )
+  },
   "p2-y60684-x7200": { section: NOTICE_SIGN, label: "Telephone Number of the Petitioner on the notice", ...SUPPLY("your telephone number") },
   "p2-y57924-x7200": { section: NOTICE_SIGN, label: "Date beneath the Petitioner's signature on the notice", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. It is the date the participant signs the notice, which is at least sixty-three days after this packet is prepared") },
 
@@ -663,7 +740,15 @@ const DICTIONARY_4_960_2 = {
 
   "p1-y17258-x7502": { section: AFF_SIGN, label: "Signature of Petitioner on the affirmation", ...PROTECT(SIGNATURE, "signature or date field; the participant affirms and signs this themselves") },
   "p1-y17258-x28805": { section: AFF_SIGN, label: "Printed name of Petitioner on the affirmation", ...WRITE("participant.full_legal_name") },
-  "p1-y13298-x7202": { section: AFF_SIGN, label: "Street Address, City, State and Zip Code of the Petitioner on the affirmation, on one line", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", ONE_LINE_ADDRESS_NOTE) },
+  "p1-y13298-x7202": {
+    section: AFF_SIGN,
+    label: "Street Address, City, State and Zip Code of the Petitioner on the affirmation, on one line",
+    ...WRITE_BOUND_AS(
+      "participant.full_mailing_address",
+      AFFIRMATION_ADDRESS_BINDING,
+      { what: "your full mailing address on this one line: street, city, state and ZIP" }
+    )
+  },
   "p1-y9338-x7202": { section: AFF_SIGN, label: "Telephone of the Petitioner on the affirmation", ...SUPPLY("your telephone number") }
 };
 
@@ -682,9 +767,17 @@ const DICTIONARY_4_960_2 = {
  * petition affirmed under penalty of perjury is not a place to read a court off
  * a prefix.
  * ------------------------------------------------------------------ */
+/*
+ * The composed facts. The platform holds the street, the city, the state and
+ * the ZIP separately, and every form in this packet prints at least one blank
+ * asking for all four on one line, so the one-line address is composed here for
+ * the same reason city_state_zip already was.
+ */
 const compose = (f) => ({
   ...f,
-  "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
+  "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`,
+  "participant.full_mailing_address":
+    `${f["participant.street_address"]}, ${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
 });
 
 const FIXTURES = {
@@ -717,6 +810,12 @@ const FIXTURES = {
 };
 
 /* ------------------------------------------------------------------ *
+ * The track's own stop conditions, read from the record on every build and
+ * printed verbatim. See selfHelpStopSection in the shared host.
+ * ------------------------------------------------------------------ */
+const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_release_without_conviction");
+
+/* ------------------------------------------------------------------ *
  * The participant's instructions.
  *
  * Every sentence of process here is grounded in the committed legal-design
@@ -724,7 +823,7 @@ const FIXTURES = {
  * trackId nm_release_without_conviction) or in the printed text of the pinned
  * forms. Nothing is added from memory.
  * ------------------------------------------------------------------ */
-function participantInstructions({ rbf, controls, inapplicable }) {
+function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const controlsByDoc = new Map();
@@ -747,11 +846,15 @@ function participantInstructions({ rbf, controls, inapplicable }) {
   out.push(
     "The platform filled in what it holds about you: your name, your date of birth, your address, the county and the "
     + "judicial district, and -- where you told us your case was handled in the district court -- your case number, on "
-    + "the one line paragraph 4 gives for a district court number. **Everything else is yours**: the way the case "
-    + "ended, the agencies that hold your records, your telephone number, your e-mail, and your case number if your "
-    + "case was in a metropolitan, magistrate or municipal court. Every one of those blanks is listed below by the "
-    + "form and the section it is in.", ""
+    + "the one line paragraph 4 gives for a district court number, or -- where you told us it was handled in a "
+    + "metropolitan, magistrate or municipal court -- on the line paragraph 4 gives for that. Only one of those two "
+    + "lines carries a number, and it is the one your case belongs on. **Everything else is yours**: the way the case "
+    + "ended, the agencies that hold your records, your telephone number, your e-mail, and the location of the lower "
+    + "court if your case was in one. Every one of those blanks is listed below by the form and the section it is "
+    + "in.", ""
   );
+
+  out.push(...selfHelpStopSection(STOP_CONDITIONS));
 
   out.push("## Keep this petition separate from any conviction", "");
   out.push(
@@ -862,14 +965,15 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "Magistrate or Municipal Court** case number, and paragraph 12 asks the same question again as a choice between "
     + "four courts. Most cases on this track were in one of the lower courts even though the petition is filed in "
     + "district court, so those are not the same answer.", "",
-    "The packet uses the answer you gave about which court handled your case, and nothing else. **If your case was in "
-    + "the district court**, your case number is already on the District Court line of paragraph 4 and your judicial "
-    + "district on the District Court line of paragraph 12; leave the lower-court lines empty. **If your case was in a "
-    + "metropolitan, magistrate or municipal court**, both of those lines are deliberately empty: your case has no "
-    + "district court number and was not disposed of in a district court, and nothing is written on a line that would "
-    + "say otherwise on a petition you affirm under penalty of perjury. **Copy your case number onto the "
-    + "Metropolitan/Magistrate/Municipal line in paragraph 4, and in paragraph 12 tick the court that handled your "
-    + "case and write the town or city it sits in.**", ""
+    "The packet uses the answer you gave about which court handled your case, and nothing else, and it writes your "
+    + "case number on one of the two lines in paragraph 4 — never on both. **If your case was in the district "
+    + "court**, the number is on the District Court line and your judicial district is on the District Court line of "
+    + "paragraph 12; the lower-court lines are left empty. **If your case was in a metropolitan, magistrate or "
+    + "municipal court**, the number is on the Metropolitan/Magistrate/Municipal line and the District Court line "
+    + "above it is left empty, because your case has no district court number and nothing is written on a line that "
+    + "would say otherwise on a petition you affirm under penalty of perjury. In that case **paragraph 12 is yours**: "
+    + "tick the court that handled your case and write the town or city it sits in, which is the one part of the "
+    + "answer the packet does not hold.", ""
   );
 
   out.push("## Boxes you tick with a pen", "");
@@ -900,9 +1004,11 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     out.push("");
   }
 
+  out.push(...heldNotWrittenSection(heldNotWritten));
+
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Every signature and every signature date.** Forms 4-952 and 4-960.2 are affirmed under penalty of perjury.");
-  out.push("- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other; where your case was in a metropolitan, magistrate or municipal court, copying it onto that line is yours to do, for the reason in the section above.");
+  out.push("- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other, and the other line is left empty.");
   out.push("- **The county in the caption of Form 4-222 and of the order bound with it.** That form prints another district's court name directly below the county line, so a county written there would help compose a caption naming a court that is not yours. Complete the whole of that caption by hand on the copy you file, or use your own district's copy of the form.");
   out.push("- **Everything below the caption of Form 4-955.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.");
   out.push("- **Everything Form 4-959 and Form 4-960.2 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you. None of it is knowable now.");
@@ -1019,9 +1125,10 @@ const FAMILY = {
       + "expungement cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch "
       + "EMPTY and both printed boxes unmarked.",
     "Form 4-952 page 2, paragraph 4: the case number on the line for the court the held intake answer names, and on no "
-      + "other. On the canonical fixture, a district-court case, that is the District Court line; on the boundary "
-      + "fixture, a magistrate case, EVERY case-number line is empty, including the lower-court line the number "
-      + "belongs on, which the shared semantics refuse. See build-findings.json.",
+      + "other. On the canonical fixture, a district-court case, that is the District Court line and the "
+      + "Metropolitan/Magistrate/Municipal line below it is empty; on the boundary fixture, a magistrate case, it is "
+      + "the Metropolitan/Magistrate/Municipal line and the District Court line above it is empty. Exactly one of the "
+      + "two carries ink on each fixture. See build-findings.json for the caption that row is bound under.",
     "Form 4-952 page 2, paragraph 6: every charge detail empty and every one of the six disposition boxes unmarked.",
     "Form 4-952 pages 2 and 3, paragraph 10 and paragraph 12: in paragraph 10 the judicial district is written on the "
       + "District Court line on both fixtures; in paragraph 12 it is written on the District Court branch ONLY on the "
@@ -1030,30 +1137,99 @@ const FAMILY = {
     "Form 4-952 page 3: nothing written on the five short marginal rules, and nothing on the full-width divider at the "
       + "foot of the page.",
     "Form 4-952 page 4, the SIGNATURE SECTION: the printed name written, the date beside it empty, the signature line "
-      + "empty, and the whole attorney block empty.",
+      + "empty, the whole one-line mailing address written on the rule captioned \"Mailing Address\" below it and not "
+      + "on the signature rule above it, and the whole attorney block empty. On the boundary fixture that address line "
+      + "is EMPTY and the field map says why: sixty-nine characters need 202.3pt at the shared six-point readable "
+      + "floor and the printed rule gives 196pt.",
     "Form 4-955: the caption written and EVERYTHING ELSE EMPTY. This is a certificate of service and service has not "
       + "happened.",
     "Form 4-959 page 1: the caption written and every one of the twelve response glyphs unmarked; nothing written on the "
-      + "four short strike-through strokes. Page 2: the printed name written, and the certificate of service at the foot "
-      + "entirely empty.",
-    "Form 4-960.2: the caption written, the petitioner's name written in the 'I, ____' line and as the printed name in "
-      + "the signature block, the signature line empty, and every pending-charge line empty.",
-    "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name in the notice block; items 1 "
-      + "to 5, the judge's name and the TCAA signature block empty. Page 2: EMPTY, because the four service blocks are "
-      + "the petitioner's to complete for any objector.",
+      + "four short strike-through strokes. Page 2: the printed name written, the one-line mailing address written on "
+      + "the rule captioned \"Mailing Address\" (EMPTY on the boundary fixture, for the width reason above), and the "
+      + "certificate of service at the foot entirely empty.",
+    "Form 4-960.2: the caption written, the petitioner's name written in the 'I, ____' line and on the "
+      + "\"(Print Name)\" blank of the signature block, the \"(Petitioner Signature)\" blank beside it empty, the "
+      + "whole one-line mailing address on the rule captioned \"Street Address City State Zip Code\", the "
+      + "\"(Telephone)\" rule below it empty, and every pending-charge line empty. Form 4-960.3 on the conviction "
+      + "track has the identical block; the two should be read side by side.",
+    "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name and whole one-line mailing "
+      + "address in the notice block; the telephone and e-mail lines, items 1 to 5, the judge's name and the TCAA "
+      + "signature block empty. On the boundary fixture that address is set at 6.5pt, above the shared six-point "
+      + "floor. Page 2: EMPTY, because the four service blocks are the petitioner's to complete for any objector.",
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
       + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank now left EMPTY. It used "
       + "to carry the participant's county, which composed with the printed district into a caption naming a court "
-      + "they have not chosen; both blanks are the participant's to complete on the copy they file.",
+      + "they have not chosen; both blanks are the participant's to complete on the copy they file. On page 6 the "
+      + "petitioner's NAME is now written on the rule before \", Petitioner,\": its widget is named \"SIXTH "
+      + "JUDICIAL DISTRICT COURT\" after the line printed above it, which is why it used to be blank, and it is "
+      + "written through the shared finalizer's named-fact channel.",
+    "Form 4-222 page 3, section F: \"I live at ____\" now carries the whole one-line mailing address, the same four "
+      + "parts written separately on page 4 of the same form. Read the two against each other.",
     "Form 4-952 page 2 paragraph 4 and page 3 paragraph 12, on BOTH fixtures and read against each other. The "
       + "canonical case was disposed of in the district court, so its number is on the District Court line and its "
       + "judicial district on the District Court branch of the select-one. The boundary case is a magistrate case: "
-      + "both of those lines must be EMPTY, no branch of paragraph 12 may carry ink, and no box anywhere may be "
-      + "marked.",
+      + "the District Court case-number line must be EMPTY and the Metropolitan/Magistrate/Municipal line must carry "
+      + "the number; no branch of paragraph 12 may carry ink, because the location half of that answer is not held, "
+      + "and no box anywhere may be marked.",
     "No page of either fixture comes from the San Juan packet. Both fixtures are 21 pages: 4 + 2 + 3 + 2 + 3 + 7."
   ],
   blockingFindings: [PRINTED_DISTRICT_FINDING],
+  selfHelpStops: STOP_CONDITIONS,
   findings: [
+    {
+      finding:
+        "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at "
+        + "least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it "
+        + "writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on "
+        + "the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the "
+        + "shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it "
+        + "were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an "
+        + "unavailable one.",
+      consequence:
+        "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of "
+        + "those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- "
+        + "participant.street_address, the registry's one participant address descriptor -- with the binding, and what "
+        + "the printed caption resolves to on its own, recorded on the field-map row. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short "
+        + "to show the value at the shared six-point readable floor, the host measures that with the same fitter the "
+        + "finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value "
+        + "needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. "
+        + "Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      finding:
+        "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of "
+        + "Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed "
+        + "ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL "
+        + "DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying "
+        + "otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the "
+        + "AcroForm field named \"I live at\" left the whole-address line of section F empty.",
+      consequence:
+        "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller "
+        + "names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way "
+        + "past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it "
+        + "writes, and the host asserts both are clean before it offers either row. What each authored name resolves "
+        + "to in the shared registry is recorded on the field-map row. The county blanks on both captions of that "
+        + "binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is "
+        + "untouched."
+    },
+    {
+      finding:
+        "THE LOWER-COURT CASE NUMBER IS NOW ON THE PAGE. FIX79 left Form 4-952 paragraph 4's "
+        + "Metropolitan/Magistrate/Municipal case-number line blank on the magistrate fixture and declared it "
+        + "KNOWN_FACT_NOT_WRITTEN, because the shared protect rules match /magistrate/ under the \"court\" category "
+        + "and refuse the printed caption whatever fact is offered.",
+      consequence:
+        "That rule protects the blanks a COURT fills. This blank is the petitioner's own case number, on their own "
+        + "petition, on the line the Supreme Court's form prints for it directly below the district-court line the "
+        + "same paragraph writes, and the platform holds both the number and the intake's required originating-court "
+        + "answer that decides which of the two lines it belongs on. The row is bound under a caption naming what the "
+        + "blank holds, and the build asserts on every run that the bound caption carries no protect category and "
+        + "resolves matter.case_number in the shared registry, recording on the field-map row that the printed caption "
+        + "resolves the same fact and does carry the \"court\" category. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed, and paragraph 12's magistrate and "
+        + "municipal LOCATION lines are still refused and still blank -- the platform holds no location for them."
+    },
     {
       finding:
         "TWO PARTIES ARE SERVED ON THIS TRACK, NOT THREE. Rule 1-077.1(E)(1) NMRA and the committed track record name the "
@@ -1080,14 +1256,18 @@ const FAMILY = {
         + "paragraph 4 and the judicial district on the District Court branch of paragraph 12; where it is not, both "
         + "lines are left empty, the District Court lines are declared NOT_APPLICABLE_ON_THIS_ROUTE with the held "
         + "answer named as the condition, and the participant is told which line is theirs under a heading of its own. "
-        + "This no longer diverges from nm_conviction-set on the district-court branch. What remains: the shared field "
-        + "semantics protect every blank whose printed line names a magistrate (PROTECT_RULES matches /magistrate/ "
-        + "under the \"court\" category), so on a lower-court case the Metropolitan/Magistrate/Municipal case-number "
-        + "line and the paragraph-12 magistrate and municipal location lines refuse every write whatever fact is "
-        + "offered. That row is declared KNOWN_FACT_NOT_WRITTEN on the boundary half of the field map rather than "
-        + "excused as an unavailable fact -- the platform holds the number -- and it is reported for the owner of the "
-        + "shared semantics. Re-labelling the blank until it stopped matching the protect rule was available and was "
-        + "not done."
+        + "This no longer diverges from nm_conviction-set on the district-court branch, and the lower-court line is "
+        + "now written too. The shared field semantics protect every blank whose printed line names a magistrate "
+        + "(PROTECT_RULES matches /magistrate/ under the \"court\" category), and the previous build left the "
+        + "lower-court case-number line blank on that ground and declared it KNOWN_FACT_NOT_WRITTEN. That rule "
+        + "protects the blanks a COURT fills; this one is the petitioner's own case number on their own petition, on "
+        + "the line the Supreme Court's own form prints for it directly under the district-court line the same "
+        + "paragraph writes. The row is now bound under a caption naming what the blank holds, through the shared "
+        + "host's WRITE_BOUND_AS mechanism, and the build asserts on every run that the bound caption carries no "
+        + "protect category and resolves matter.case_number in the shared registry -- recording on the field-map row "
+        + "that the printed caption resolves the same fact and does carry the \"court\" category. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed, and paragraph 12's magistrate and "
+        + "municipal LOCATION lines are still refused and still blank: the platform holds no location for them."
     },
     {
       finding:
@@ -1188,11 +1368,13 @@ const FAMILY = {
       + "both are left for the participant, who is told to complete that caption by hand or to use their own "
       + "district's copy. Whether the component may ship statewide on this binary at all is still open and is "
       + "counsel's.",
-    "Form 4-952's dictionary is a function of the held originating-court answer: paragraph 4's case number and "
-      + "paragraph 12's judicial district are written on the district-court branch only where the case was disposed of "
-      + "in the district court, and the other branches carry nothing. Counsel should confirm the branch rule, and the "
-      + "owner of the shared field semantics should see that /magistrate/ in the \"court\" protect rule refuses the "
-      + "lower-court case-number line even when the number is held.",
+    "Form 4-952's dictionary is a function of the held originating-court answer: paragraph 4 writes the case number on "
+      + "the District Court line where the case was disposed of there and on the Metropolitan/Magistrate/Municipal "
+      + "line where it was not, and paragraph 12's judicial district is written on the district-court branch only. "
+      + "Counsel should confirm the branch rule. The lower-court case-number line is written through the host's "
+      + "WRITE_BOUND_AS mechanism, because the shared /magistrate/ protect rule in the \"court\" category refuses "
+      + "the printed caption; the owner of the shared field semantics should still see that a rule meant for blanks a "
+      + "court fills is refusing a petitioner's own case-number line on the Supreme Court's own petition form.",
     "The proposed-order component is bound by hash and not rendered: the bound binary is a whole 31-page San Juan "
       + "County packet, county-captioned and citing the 2019 statute, and the manifest conditions it on San Juan County. "
       + "Counsel should confirm that not rendering it is the right disposition, and whether the family's binding should "

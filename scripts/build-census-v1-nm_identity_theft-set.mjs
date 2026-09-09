@@ -72,8 +72,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  runNmFamily, WRITE, SUPPLY, PROTECT, DECRETAL, ELECTION, ATTORNEY, INAPPLICABLE, OPTIONAL, NOT_A_BLANK,
-  COURT_OWNED, SIGNATURE
+  runNmFamily, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection, WRITE, WRITE_BOUND_AS, SUPPLY, PROTECT, DECRETAL, ELECTION, ATTORNEY,
+  INAPPLICABLE, OPTIONAL, NOT_A_BLANK, COURT_OWNED, SIGNATURE
 } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, PRINTED_BLANKS_4_223, PRINTED_DISTRICT_FINDING, PRINTED_DISTRICT_IN_THE_CAPTION }
@@ -110,6 +110,12 @@ const P7 = "7. Where the charges were disposed of or originated";
 const P8 = "8. Telephonic or electronic appearance";
 const SIGN = "Signature section";
 const ATTY = "Attorney block (page 3)";
+
+const ADDRESS_BINDING =
+  "the shared registry holds one participant address descriptor, participant.street_address, and it is what a blank "
+  + "captioned \"Mailing Address\" binds. The value written is the whole one-line address, composed from the street, "
+  + "city, state and ZIP the platform holds and writes in parts in section 1 on page 1 of this form. A missing "
+  + "descriptor is a fact about the descriptor list, not about what the platform holds.";
 
 /** The judicial district, which this route's intake collects and this form asks for seven times. */
 const DISTRICT = (where) => ({ section: where.section, label: where.label, ...WRITE("matter.court") });
@@ -304,9 +310,29 @@ const DICTIONARY_4_951 = {
   "p2-y7644-x7200": { section: SIGN, label: "Signature of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own petition and no build signs it for them") },
 
   /* ---- page 3, the petitioner's contact block --------------------------- */
+  /*
+   * The petitioner's own mailing address, on the one printed line the form
+   * gives it.
+   *
+   * The shared registry holds one participant address descriptor,
+   * participant.street_address, and it is what a blank captioned "Mailing
+   * Address" binds. The value written is the whole one-line address, composed
+   * from the street, city, state and ZIP the platform holds and writes in parts
+   * in section 1 on page 1 of this same form. The row used to say the registry
+   * has no one-line mailing-address fact, which is true of the descriptor list
+   * and says nothing about what the platform holds.
+   */
   "p3-y68964-x7200": {
     section: SIGN, label: "Mailing Address of the Petitioner on page 3",
-    ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in section 1 on page 1", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.")
+    ...WRITE_BOUND_AS(
+      "participant.full_mailing_address",
+      { factId: "participant.street_address", why: ADDRESS_BINDING },
+      {
+        what:
+          "your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, "
+          + "written out in parts in section 1 on page 1"
+      }
+    )
   },
   "p3-y66204-x7200": { section: SIGN, label: "Telephone Number of the Petitioner on page 3", ...SUPPLY("your telephone number, so the court can reach you") },
   "p3-y66204-x36000": { section: SIGN, label: "Email of the Petitioner on page 3", ...SUPPLY("your e-mail address, if you have one") },
@@ -504,7 +530,14 @@ const DICTIONARY_LOCAL_ORDER = {
 const compose = (f) => ({
   ...f,
   "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`,
-  "participant.mailing_address_one_line":
+  /*
+   * The one-line mailing address. Every form in this packet prints at least one
+   * blank asking for street, city, state and ZIP on a single line, and the
+   * platform holds all four. It was composed here and written nowhere; the
+   * blanks that needed it said instead that the registry had no such fact,
+   * which is true of the descriptor list and not of the platform.
+   */
+  "participant.full_mailing_address":
     `${f["participant.street_address"]}, ${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
 });
 
@@ -538,9 +571,15 @@ const FIXTURES = {
 };
 
 /* ------------------------------------------------------------------ *
+ * The track's own stop conditions, read from the record on every build and
+ * printed verbatim. See selfHelpStopSection in the shared host.
+ * ------------------------------------------------------------------ */
+const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_identity_theft");
+
+/* ------------------------------------------------------------------ *
  * The participant's instructions.
  * ------------------------------------------------------------------ */
-function participantInstructions({ rbf, controls, inapplicable }) {
+function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const controlsByDoc = new Map();
@@ -562,6 +601,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed "
     + "below by the form and the section it is in.", ""
   );
+
+  out.push(...selfHelpStopSection(STOP_CONDITIONS));
 
   out.push("## Nobody is served with this petition, and nobody objects to it", "");
   out.push(
@@ -663,6 +704,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     for (const i of items) out.push(`| ${i.section} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
   }
+
+  out.push(...heldNotWrittenSection(heldNotWritten));
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and its date** on Form 4-951. The petition is sworn under penalty of perjury and the date is the date you sign.");
@@ -803,9 +846,14 @@ const FAMILY = {
       + "inside a printed sentence and are the placements most likely to overlap.",
     "Form 4-951 page 2, the SIGNATURE SECTION: the printed name written, the date beside it empty, and the signature "
       + "line below empty. Confirm nothing was written on the full-width divider above the heading.",
-    "Form 4-951 page 3: the mailing address written; telephone, e-mail and the whole attorney block empty.",
-    "Form 4-960.1 page 1: county, district and name in the caption, and the petitioner's name and address in the "
-      + "PARTIES ENTITLED TO NOTICE block; items 1 to 5, the judge's name and the TCAA signature block all empty.",
+    "Form 4-951 page 3: the whole one-line mailing address written on the rule captioned \"Mailing Address\" below "
+      + "it, and not on the signature rule above it; telephone, e-mail and the whole attorney block empty. On the "
+      + "boundary fixture that address line is EMPTY and the field map says why: sixty-nine characters need 202.3pt at "
+      + "the shared six-point readable floor and the printed rule gives 196pt.",
+    "Form 4-960.1 page 1: county, district and name in the caption, and the petitioner's name and whole one-line "
+      + "mailing address in the PARTIES ENTITLED TO NOTICE block; the telephone and e-mail lines, items 1 to 5, the "
+      + "judge's name and the TCAA signature block all empty. On the boundary fixture that address is set at 6.5pt, "
+      + "above the shared six-point floor, and its legibility is worth a reviewer's eye.",
     "Form 4-960.1 page 2: COMPLETELY EMPTY. All twenty blanks of the four service blocks, on a track where nobody is served.",
     "The Order on Petition to Expunge: the caption written on page 1 and NOTHING ELSE anywhere on the four pages. In "
       + "particular page 4's \"Name of actual offender\" and \"Contact information\" lines must be empty, and the box in "
@@ -813,8 +861,12 @@ const FAMILY = {
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
       + "this build cannot change. Confirm the COUNTY OF blank one line above it is now EMPTY on both captions -- it "
       + "used to carry the participant's county, which composed with the printed district into a caption naming a "
-      + "court they have not chosen -- and that the petitioner's name is written while the respondent line and the "
-      + "three case-number boxes are empty.",
+      + "court they have not chosen -- and that the petitioner's name IS written on page 6's caption while the "
+      + "respondent line and the three case-number boxes are empty. That page-6 name is new: its widget is named "
+      + "\"SIXTH JUDICIAL DISTRICT COURT\" after the line printed above it, which is why it used to be blank, and it "
+      + "is written through the shared finalizer's named-fact channel.",
+    "Form 4-222 page 3, section F: \"I live at ____\" now carries the whole one-line mailing address, the same four "
+      + "parts written separately on page 4 of the same form. Read the two against each other.",
     "Form 4-222 pages 1 to 3: every financial box unmarked and every financial line empty.",
     "Form 4-222 page 4: the printed name, street address and city/state/ZIP written; the signature, the telephone, both "
       + "party boxes and the whole notary block empty.",
@@ -822,7 +874,45 @@ const FAMILY = {
       + "signature line on Form 4-223 empty."
   ],
   blockingFindings: [PRINTED_DISTRICT_FINDING],
+  selfHelpStops: STOP_CONDITIONS,
   findings: [
+    {
+      finding:
+        "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at "
+        + "least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it "
+        + "writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on "
+        + "the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the "
+        + "shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it "
+        + "were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an "
+        + "unavailable one.",
+      consequence:
+        "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of "
+        + "those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- "
+        + "participant.street_address, the registry's one participant address descriptor -- with the binding, and what "
+        + "the printed caption resolves to on its own, recorded on the field-map row. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short "
+        + "to show the value at the shared six-point readable floor, the host measures that with the same fitter the "
+        + "finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value "
+        + "needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. "
+        + "Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      finding:
+        "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of "
+        + "Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed "
+        + "ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL "
+        + "DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying "
+        + "otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the "
+        + "AcroForm field named \"I live at\" left the whole-address line of section F empty.",
+      consequence:
+        "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller "
+        + "names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way "
+        + "past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it "
+        + "writes, and the host asserts both are clean before it offers either row. What each authored name resolves "
+        + "to in the shared registry is recorded on the field-map row. The county blanks on both captions of that "
+        + "binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is "
+        + "untouched."
+    },
     {
       finding:
         "Three of the four documents are FLAT PDFs with no AcroForm field: Form 4-951, Form 4-960.1 and the retained "

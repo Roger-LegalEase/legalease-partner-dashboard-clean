@@ -54,7 +54,8 @@
  * behaviour here for a reason beyond the mechanism: each of these boxes is a
  * sworn assertion about the applicant's own finances.
  */
-import { WRITE, SUPPLY, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, COURT_OWNED, SIGNATURE } from "./nm-packet-host.mjs";
+import { WRITE, NAMED_FACT_WRITE, SUPPLY, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, COURT_OWNED, SIGNATURE }
+  from "./nm-packet-host.mjs";
 
 export const FORM_4_222 = Object.freeze({
   sourceId: "official-form:4-222",
@@ -308,9 +309,30 @@ export const DICTIONARY_4_222 = Object.freeze({
   "undefined_34": MONEY(EXPENSES, "Monthly expense: Other, amount", "what that other monthly expense costs"),
 
   /* ---- page 3, section F -------------------------------------------------- */
+  /*
+   * "I live at ______________________," is one printed line, 383.28pt wide,
+   * asking for a whole address. The widget's authored name is the two words
+   * printed in front of it and matches no descriptor at all, so the shared
+   * semantics falls back to the printed caption and resolves
+   * participant.street_address -- the registry's one participant address
+   * descriptor -- while the line is asking for street, city, state and ZIP
+   * together. The row used to report that as "the registry has no one-line
+   * mailing-address fact", which is a statement about the descriptor list
+   * offered as a statement about what the platform holds. The platform holds
+   * all four parts and writes them in parts on page 4 of this same form.
+   *
+   * The value goes through the shared finalizer's named-fact channel, which
+   * applies the protect rules to the field name and to the caption before it
+   * writes; both are clean here, and the host asserts it on every build.
+   */
   "I live at": {
     section: HOUSEHOLD, label: "I live at, your full mailing address on one line",
-    ...SUPPLY("your full address on one line: street, city, state and ZIP. It is the same address written out in parts on page 4", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line. Reported to the owner of the registry in build-findings.json.")
+    ...NAMED_FACT_WRITE(
+      "participant.full_mailing_address",
+      "the printed line asks for the whole address on one line and the shared registry's one participant address "
+      + "descriptor is the street line, so the ordinary channel would write a street with no city onto a form sworn on "
+      + "oath. The platform holds the street, city, state and ZIP and writes them in parts on page 4 of this same form."
+    )
   },
   "and the head of the household is": { section: HOUSEHOLD, label: "The head of the household is", ...SUPPLY("who the head of your household is, which may be you") },
   "Name 1": HOUSEHOLD_ROW(1, "name", "Name"),
@@ -423,7 +445,16 @@ export const DICTIONARY_4_222 = Object.freeze({
   },
   "SIXTH JUDICIAL DISTRICT COURT": {
     section: ORDER_CAPTION, label: "Name of the Petitioner in the caption of the order for free process",
-    ...SUPPLY("your name, the same as page 1, on the caption of the order you give the judge", "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as a COURT rather than as a person's name. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
+    ...NAMED_FACT_WRITE(
+      "participant.full_legal_name",
+      "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so this widget -- "
+      + "the petitioner's name in the caption of the order -- is named after the court line above it and the shared "
+      + "registry resolves matter.court from that name. An explicit mapping saying otherwise is refused as a mapping "
+      + "conflict, and that guard is right to refuse it: it cannot tell which of the two readings is the true one. The "
+      + "named-fact channel is how the caller says which, and it is not a way past a protect rule -- neither the "
+      + "authored name nor the printed caption carries one, and the build asserts that before it offers the row. The "
+      + "name is the same value written into the caption of page 1 of this same form."
+    )
   },
   "v": {
     section: ORDER_CAPTION, label: "Name of the Respondent in the caption of the order for free process",

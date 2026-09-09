@@ -51,7 +51,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { runNmFamily } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
+import { runNmFamily, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection }
+  from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, PRINTED_BLANKS_4_223, PRINTED_DISTRICT_FINDING, PRINTED_DISTRICT_IN_THE_CAPTION }
   from "./rcap-nm-flat-forms/nm-form-4-222.mjs";
@@ -82,9 +83,21 @@ const SERVICE_ON_THIS_TRACK =
 
 /* ------------------------------------------------------------------ */
 
+/*
+ * The composed facts, and why the one-line mailing address is one of them.
+ *
+ * The platform holds the street, the city, the state and the ZIP as four
+ * separate facts and every one of these forms prints at least one blank asking
+ * for all four on a single line. Composing them here is the same thing the
+ * packet already did for city_state_zip; not composing them is what left the
+ * address the court writes to blank on three of this family's documents while
+ * the row said the platform held nothing.
+ */
 const compose = (f) => ({
   ...f,
-  "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
+  "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`,
+  "participant.full_mailing_address":
+    `${f["participant.street_address"]}, ${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
 });
 
 const FIXTURES = {
@@ -112,9 +125,15 @@ const FIXTURES = {
   })
 };
 
+/* ------------------------------------------------------------------ *
+ * The track's own stop conditions, read from the record on every build and
+ * printed verbatim. See selfHelpStopSection in the shared host.
+ * ------------------------------------------------------------------ */
+const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_conviction");
+
 /* ------------------------------------------------------------------ */
 
-function participantInstructions({ rbf, controls, inapplicable }) {
+function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const controlsByDoc = new Map();
@@ -127,6 +146,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "1978, Section 29-3A-5 and Rule 1-077.1 NMRA. **You do not file them all at once.** They go in two stages, at "
     + "least sixty-three days apart, and there is a hearing in every case on this track.", ""
   );
+
+  out.push(...selfHelpStopSection(STOP_CONDITIONS));
 
   out.push("## How to gather your records first", "");
   out.push(
@@ -193,8 +214,10 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     "At the hearing you may be asked about the petition and about any objection. The court decides whether justice will "
     + "be served by expungement, weighing the nature and gravity of the offence, your age, your criminal history and "
     + "your employment history, how long it has been since the offence and since you completed the sentence, and what "
-    + "happens to you if the petition is refused. **That is what paragraph 12 of the petition is for, and it is the part "
-    + "only you can write.**", ""
+    + "happens to you if the petition is refused. **That is what paragraph 12 of the petition is for.** Only you hold "
+    + "the facts it is built from — but writing that argument is on the stop list at the top of these instructions, and "
+    + "so are an objection and a contested hearing. **Get a lawyer's advice about paragraph 12, and about the hearing, "
+    + "before you file.**", ""
   );
 
   out.push("## Which district's order form you need", "");
@@ -248,6 +271,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     for (const i of items) out.push(`| ${i.section} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
   }
+
+  out.push(...heldNotWrittenSection(heldNotWritten));
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Every signature and every signature date.** Forms 4-953 and 4-960.3 are affirmed under penalty of perjury.");
@@ -364,26 +389,122 @@ const FAMILY = {
     "Form 4-953 page 3, paragraph 13: the judicial district written on the District Court line and on the "
       + "originating-court line, and every sheriff, district-attorney and agency line empty.",
     "Form 4-953 page 4, the SIGNATURE SECTION: the printed name written, the date beside it empty, the signature line "
-      + "empty, and nothing written on the full-width divider above the heading.",
+      + "empty, the one-line mailing address written on the rule captioned \"Mailing Address\" below it -- and NOT on "
+      + "the signature rule above it -- and nothing written on the full-width divider above the heading. On the "
+      + "boundary fixture that address line is EMPTY and says why: sixty-nine characters need 202.3pt at the shared "
+      + "six-point readable floor and the printed rule gives 196pt.",
     "Form 4-956: the caption written and EVERYTHING ELSE EMPTY. This is a certificate of service and service has not "
       + "happened.",
     "Form 4-960 pages 1 and 2: the caption written, the printed name written, and every one of the eighteen response "
       + "boxes unmarked. The certificate of service at the foot of page 2 and on page 3 entirely empty.",
-    "Form 4-960.3: the caption written, the petitioner's name written in the 'I, ____' line and in the signature block, "
-      + "and every pending-charge and conviction line empty.",
-    "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name in the notice block; items 1 "
-      + "to 5, the judge's name and the TCAA signature block empty.",
+    "Form 4-960.3 page 2, the signature block, and read the captions BELOW each rule rather than above: "
+      + "\"(Petitioner Signature)\" is the LEFT blank of the first pair and must be empty, \"(Print Name)\" is the "
+      + "RIGHT blank of that pair and carries the name, the full-width rule below them is captioned \"Street Address "
+      + "City State Zip Code\" and carries the whole one-line address, and the short rule under it is "
+      + "\"(Telephone)\" and must be empty. The previous build had all four one line out and printed the name above "
+      + "\"(Petitioner Signature)\". Form 4-960.2 on the non-conviction track has the identical block; the two "
+      + "should be read side by side. Every pending-charge and conviction line empty.",
+    "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name and the one-line mailing "
+      + "address in the notice block; the telephone and e-mail lines, items 1 to 5, the judge's name and the TCAA "
+      + "signature block empty. On the boundary fixture that address is set at 6.5pt, which is above the shared "
+      + "six-point floor and is the size a reviewer should look at.",
     "Form 4-960.1 page 2: EMPTY, but for a DIFFERENT reason than on the identity-theft family. Here the four service "
       + "blocks are the petitioner's to complete for any party that objected; they are required-before-filing rather "
       + "than not-applicable, and they are listed in the instructions.",
     "The Order on Petition to Expunge: the caption written on page 1 and NOTHING ELSE on the four pages.",
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
-      + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank now left EMPTY. It used "
+      + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank left EMPTY. It used "
       + "to carry the participant's county, which composed with the printed district into a caption naming a court "
-      + "they have not chosen; both blanks are the participant's to complete on the copy they file."
+      + "they have not chosen; both blanks are the participant's to complete on the copy they file.",
+    "Form 4-222 page 6, the caption of Form 4-223: the petitioner's NAME now written on the rule before "
+      + "\", Petitioner,\", the same value as the caption of page 1. The widget holding it is named \"SIXTH "
+      + "JUDICIAL DISTRICT COURT\" after the line printed above it, which is why it was blank before; it is written "
+      + "through the shared finalizer's named-fact channel and the field-map row records what that authored name "
+      + "resolves to. The respondent half of the caption stays empty -- Rule 1-077.1 styles the action In re.",
+    "Form 4-222 page 3, section F: \"I live at ____\" now carries the whole one-line mailing address, which is the "
+      + "same four parts written separately on page 4 of the same form. Read the two against each other."
   ],
   blockingFindings: [PRINTED_DISTRICT_FINDING],
+  selfHelpStops: STOP_CONDITIONS,
   findings: [
+    {
+      finding:
+        "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at "
+        + "least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it "
+        + "writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on "
+        + "the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the "
+        + "shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it "
+        + "were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an "
+        + "unavailable one.",
+      consequence:
+        "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of "
+        + "those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- "
+        + "participant.street_address, the registry's one participant address descriptor -- with the binding, and what "
+        + "the printed caption resolves to on its own, recorded on the field-map row. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short "
+        + "to show the value at the shared six-point readable floor, the host measures that with the same fitter the "
+        + "finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value "
+        + "needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. "
+        + "Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      finding:
+        "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of "
+        + "Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed "
+        + "ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL "
+        + "DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying "
+        + "otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the "
+        + "AcroForm field named \"I live at\" left the whole-address line of section F empty.",
+      consequence:
+        "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller "
+        + "names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way "
+        + "past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it "
+        + "writes, and the host asserts both are clean before it offers either row. What each authored name resolves "
+        + "to in the shared registry is recorded on the field-map row. The county blanks on both captions of that "
+        + "binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is "
+        + "untouched."
+    },
+    {
+      finding:
+        "THE PACKET OMITTED SIX OF THE TRACK'S TEN SELF-HELP STOP CONDITIONS, AND CALLED ONE OF THEM ENCOURAGEMENT. "
+        + "VF03 measured the delivered instructions against the registry's own selfHelpStopConditions for nm_conviction "
+        + "and found the felony, Crimes Against Household Members Act, unpaid-or-unclear financial obligation, "
+        + "intervening-conviction, multiple-district and justice-narrative stops missing, while paragraph 12 of Form "
+        + "4-953 -- which condition 8 makes a stop -- was described to the participant as the part only they can write.",
+      consequence:
+        "The stop list is no longer written by hand. selfHelpStopConditions in the shared host reads the track's "
+        + "conditions from data/record-clearing/legal-design-track-registry.json on every build, asserts they are word "
+        + "for word what data/record-clearing/legal-design-intake/NM.memo.json carries for the same track, and stops "
+        + "the build if the two records disagree. participant-instructions.md prints all of them verbatim and in the "
+        + "registry's order, before anything else, under a heading that says to stop and get a lawyer's advice. Who to "
+        + "ask is named from the record and nowhere else: no record under data/record-clearing/ names an organisation, "
+        + "clinic or telephone number for New Mexico, so the packet names none and says so. Both records' paths and "
+        + "digests are in this file under selfHelpStopConditionsAsPrinted. The second half of the VF03 finding is "
+        + "repaired too, and it is a separate thing from the omission: printing condition 8 while the hearing section "
+        + "still called the justice-will-be-served narrative \"the part only you can write\", and the paragraph-12 "
+        + "disclosure still called it the part \"only you can write\", would have left one delivered document telling "
+        + "the participant to stop and to press on in the same breath. Both sentences now say what is true of a stop "
+        + "condition -- only the participant holds the facts, and the argument is a lawyer's advice -- and the hearing "
+        + "section names the objection and contested-hearing stop beside it."
+    },
+    {
+      finding:
+        "FORM 4-960.3'S SIGNATURE BLOCK WAS MAPPED AS FORM 4-953'S, AND ALL FOUR OF ITS BLANKS WERE ONE LINE OUT. Every "
+        + "caption in that block is printed BELOW the rule it names: \"(Petitioner Signature)\" and \"(Print Name)\" "
+        + "under the first pair, \"Street Address City State Zip Code\" under the full-width rule, \"(Telephone)\" "
+        + "under the short rule. The rows had been copied from Form 4-953, whose block runs printed name and date, "
+        + "signature, mailing address, telephone -- a different order on a different form. The delivered page put the "
+        + "participant's PRINTED NAME on the line captioned \"(Petitioner Signature)\", declared the Street Address / "
+        + "City / State / Zip Code rule a signature and protected it, and called the telephone rule the mailing "
+        + "address. Read from the delivered page at 300 dpi, not from the report. Not named in the VF03 verdict; found "
+        + "while repairing the address blanks and repaired with them rather than left standing.",
+      consequence:
+        "The four rows now agree with the printed captions and with Form 4-960.2 on the non-conviction track, which "
+        + "carries the identical block and was mapped correctly there. The signature rule is PROTECTED and empty, the "
+        + "name is on \"(Print Name)\", the whole one-line address is on the Street Address rule -- 464pt wide, so it "
+        + "fits on both fixtures -- and the telephone rule is the participant's. The same four measured blanks at the "
+        + "same four keys; only which blank each one is has changed."
+    },
     {
       finding:
         "SERVICE IS REQUIRED ON THIS TRACK, and that changes the disposition of twenty blanks relative to the "
