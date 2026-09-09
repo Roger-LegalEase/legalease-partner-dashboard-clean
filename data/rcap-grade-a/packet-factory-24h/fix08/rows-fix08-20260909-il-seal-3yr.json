@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "lane": "FIX08",
+  "laneKind": "repair",
+  "generatedBy": "FIX08 (running as one shared repair with FIX06 and FIX07)",
+  "repairedAtBase": "0cb08c3617e4d54223f581a9f3a8a17894d3f93e",
+  "branch": "fix-il-artifacts-20260909",
+  "worktree": "/home/user/v9a-worktree",
+  "filenameNote": "The assignment named this file rows-fix08-20260909.json. That exact name is already taken in this directory by a live FIX08 return for ri_first_offender_misdemeanor-set, so this return is written alongside it under a distinct name rather than overwriting it, as the lane contract directs. Returns are found by shape, not by filename.",
+  "sharedCentralArtifactsNotWritten": "MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, claim-ledger.json, the completeness matrix and raster-enrolment-baseline.json are all untouched by this lane. scan-synthesized-widget-borders.mjs was not run, because it writes one as a side effect.",
+  "rows": [
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+      "sharedRepairModule": "scripts/lib/pdf-prune-dangling-annots.mjs",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 il-seal-3yr-set returned CLAIM_OK FIX08 il-seal-3yr-set (repair, grant set c604e772d95973a5), exit 0. No claim was released, transferred or written by this lane; claim-ledger.json is untouched.",
+      "claimAnomalyObserved": "claim.mjs --status FIX08 reported TWO live grants for this lane, not one: il-seal-3yr-set and sd_arrest_expungement-set. The assignment named il-seal-3yr-set as this lane's only family, so sd_arrest_expungement-set was neither asserted nor read nor touched. Reported for Captain rather than acted on.",
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "obligationsRepaired": [
+        "ARTIFACTS"
+      ],
+      "obligationCoverage": "ARTIFACTS is the only obligation this family failed and it is the only obligation this row addresses. REQUIRED_BEFORE_FILING was already PASS on this family at base -- FIX118 repaired the election-column sentence here -- and this lane changed nothing in its guide.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS -- this lane rastered nothing. This container does resolve Poppler's pdfinfo and it was used as a structural control only; no page image was produced, admitted or claimed, and a local render would not be a receipt if one had been. visualDefects records that nobody here looked, not that there is nothing to see. The two SHA-256 values below pin the exact bytes the central raster gate must read, and they are NOT the bytes the earlier admitted raster verdict was bound to -- that verdict was bound to the pre-repair bytes and this repair supersedes it, so this family needs a fresh raster.",
+        "Independent verification. This lane built the repair and may not verify it.",
+        "Counsel review, visual review and source-freshness review. This row opens no commercial route and promotes no route."
+      ],
+      "whatWasActuallyWrong": {
+        "carriedFinding": "VF03 rows-vf03-20260909c.json repairsNeeded, and MASTER_QUEUE.json failedObligations[0] for this family: 146 dangling indirect references per fixture; trailer /Size 954 against a cross-reference table covering 808 object numbers in 14 subsections; Poppler refusing both fixtures with 'Syntax Error: Couldn't find trailer dictionary'.",
+        "reproducedAtBase": "TRUE, measured rather than accepted. At base 0cb08c3617e4d54223f581a9f3a8a17894d3f93e the control read canonical and boundary at danglingAnnots 146, resolvedAnnots 21 (all 21 Link), trailerSize 954, xrefCovered 808, xrefSubsections 14, xrefUncovered 146. pdfinfo on the base canonical printed 'Syntax Error: Couldn't find trailer dictionary', then 'Invalid XRef entry 8', 'Invalid XRef entry 9', 'Invalid XRef entry 10' -- the exact three objects page object 80's /Annots names and the file does not contain.",
+        "mechanism": "pdf-lib's form.flatten() deletes the widget annotation objects from the document context and leaves their indirect references in each page's /Annots array. buildPacket then copies those pages into a fresh packet document, and PDFObjectCopier reserves a fresh object number for each unresolvable reference and never emits an object at it. That is why the two symptoms carry the SAME number: each dangling reference consumes exactly one reserved-and-never-written object number, so 954 - 808 = 146 = the dangling count, and the writer emits one xref subsection per surviving run of real objects, which is where the 14 subsections come from.",
+        "whyItPredatesFIX118": "The defect is in the flatten-then-copy path, which FIX118 did not touch. Consistent with VF03's confirmation at 159c0b5cf, and with the fact that il-exp-pardon-set and il-seal-edu-set -- which have called the same prune since they were written -- ship clean."
+      },
+      "verifiersProposedRepairEvaluatedNotAdopted": {
+        "proposed": "After form.flatten(), prune each page's /Annots of unresolvable references (Link annots resolve and must stay), AND emit an xref covering 0..Size-1 with unused numbers marked free.",
+        "firstHalfAdopted": "Yes, and moved earlier than 'after form.flatten()' would suggest on its own: the prune runs on each COMPONENT document immediately after flatten, before copyPages, because copyPages is what converts a surviving dangling reference into a reserved object number. A second prune runs on the merged packet as a guard; on a correctly pruned component set it removes nothing.",
+        "secondHalfRejectedWithEvidence": "No free-entry xref pass was written, because pruning at the component document makes it unnecessary rather than merely redundant. With no dangling reference to copy, no object number is reserved-and-never-written, pdf-lib's /Size falls to the true largest object number and the writer emits a SINGLE full-coverage subsection on its own. Measured after repair: trailerSize 808, xrefCovered 808, xrefSubsections 1, xrefUncovered 0 -- identical in shape to the already-clean il-exp-pardon-set and il-seal-edu-set. Hand-emitting an xref would have been a second, unverified PDF writer sitting downstream of pdf-lib's, and it would have masked rather than removed the cause."
+      },
+      "control": {
+        "controlScript": "A standalone reader that reopens each delivered fixture with pdf-lib, resolves every page /Annots entry against the document, and independently parses the trailer /Size and every xref subsection from the raw bytes. It reports danglingAnnots, linkAnnotsKept, trailerSize, xrefCovered, xrefSubsections, xrefUncovered. It is a measurement instrument, not a packet artifact, so it was run from the scratchpad and not committed into the family directory.",
+        "secondIndependentControl": "poppler pdfinfo, which is present in this container. It is used as a structural reader only and produced no image.",
+        "readingOnPreRepairBytes": {
+          "fires": true,
+          "canonical": {
+            "sha256": "d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab",
+            "bytes": 1728343,
+            "danglingAnnots": 146,
+            "linkAnnotsKept": 21,
+            "trailerSize": 954,
+            "xrefCovered": 808,
+            "xrefSubsections": 14,
+            "xrefUncovered": 146
+          },
+          "boundary": {
+            "sha256": "d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90",
+            "bytes": 1729034,
+            "danglingAnnots": 146,
+            "linkAnnotsKept": 21,
+            "trailerSize": 954,
+            "xrefCovered": 808,
+            "xrefSubsections": 14,
+            "xrefUncovered": 146
+          },
+          "pdfinfo": "Syntax Error: Couldn't find trailer dictionary / Invalid XRef entry 8 / Internal Error: xref num 8 not found but needed, try to reconstruct / Invalid XRef entry 9 / Invalid XRef entry 10"
+        },
+        "readingOnPostRepairBytes": {
+          "fires": false,
+          "canonical": {
+            "sha256": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+            "bytes": 1726367,
+            "danglingAnnots": 0,
+            "linkAnnotsKept": 21,
+            "trailerSize": 808,
+            "xrefCovered": 808,
+            "xrefSubsections": 1,
+            "xrefUncovered": 0
+          },
+          "boundary": {
+            "sha256": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb",
+            "bytes": 1727058,
+            "danglingAnnots": 0,
+            "linkAnnotsKept": 21,
+            "trailerSize": 808,
+            "xrefCovered": 808,
+            "xrefSubsections": 1,
+            "xrefUncovered": 0
+          },
+          "pdfinfo": "Opens silently. 13 pages, letter, Form: none, PDF version 1.7. No syntax error and no reconstruction."
+        },
+        "linkAnnotationsNotHarmed": "linkAnnotsKept is 21 before and 21 after, on both fixtures. The prune removed 146 references to objects that are not in the file and removed no live annotation of any kind.",
+        "inBuildGuard": "The build now asserts countDanglingAnnots(reopened) === 0 on the reopened delivered bytes, so this defect cannot return silently on this family."
+      },
+      "determinismEvidence": {
+        "baseWasDeterministicBeforeAnyChange": "Yes, established before the repair was written so byte movement is attributable to it. il-seal-3yr-set was rebuilt at base 0cb08c3617e4d54223f581a9f3a8a17894d3f93e with no source change and reproduced canonical d95efc94... and boundary d211932e... exactly, with git status clean under the family directory.",
+        "repairedBuildIsDeterministic": "Yes. Rebuilt twice after the repair; canonical a41c124a... and boundary c8ca8931... both times."
+      },
+      "appearanceLevelCheck": "pdftotext -layout over the whole packet is byte-identical before and after the repair: 45978 bytes of extracted text on both, zero diff lines. The 1976-byte file shrink on canonical is the removed reference entries and the collapsed xref subsections, not content. No source-authored default was introduced, no write was added or removed -- the delivered write count is unchanged at 44 of 424, and production-field-map.json, participant-instructions.md, filing-instructions.md and source-receipt.json are all byte-identical to base.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set, before the repair (on base bytes restored with git checkout HEAD) and after it. PASS_COMPLETE, 44/424 written, both times. Every value above is a measurement, none is a default. Worth Captain's attention: all nine counters were ALREADY zero at base while the family was in FAIL_REPAIR_REQUIRED, so the nine counters do not express the ARTIFACTS defect and their being zero is not by itself evidence this repair worked. The control readings above are that evidence.",
+      "visualDefectsNote": "visualDefects is reported as the verifier measured it and is not a claim that a page was looked at. Nobody rastered these bytes.",
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+          "bytes": 1726367,
+          "pageCount": 13,
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb",
+          "bytes": 1727058,
+          "pageCount": 13,
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "1545dcd8f3758b6baaa5e01d9ccad78b19d743a42d241cc02efc9fef1b6f465d",
+          "changedByThisLane": true,
+          "note": "Regenerated by the build; declares the two SHA-256 values above."
+        },
+        {
+          "path": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+          "sha256": "d220742a6eb9770a18015f791de99fa26804c6a20a2540032c39469e44edcc22",
+          "changedByThisLane": true
+        },
+        {
+          "path": "scripts/lib/pdf-prune-dangling-annots.mjs",
+          "sha256": "0435e14401982743a1e35b89c7e4c5948ad6257c990d2f5acb2e91306653fb66",
+          "changedByThisLane": true,
+          "note": "New shared module. One implementation of the repair at the shared cause, imported by this family's builder rather than copied into it."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "72fe153b530e9c61e62e373cc38923ae9033d1bbf3084d672d7f02458098912b",
+          "changedByThisLane": false,
+          "note": "Byte-identical to base. Listed because REQUIRED_BEFORE_FILING passes on this family and this lane did not disturb it."
+        }
+      ],
+      "familiesDeliberatelyNotRebuilt": {
+        "families": [
+          "il-exp-nonconv-set",
+          "il-cannabis-vacate-set",
+          "il-exp-supervision-set"
+        ],
+        "why": "All three are COMPLETE_PACKET_PROVEN with independent verdicts and admitted raster receipts bound to their exact current bytes. Rebuilding them would invalidate a verdict and a receipt each.",
+        "byteIdenticalAtEnd": true,
+        "evidence": "git status is clean under all three family directories and their build scripts are untouched. il-exp-nonconv-set canonical still 66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86 (146 dangling), il-cannabis-vacate-set canonical still 2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689 (87 dangling), il-exp-supervision-set canonical still 330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb (146 dangling).",
+        "theirBuildScriptsWereAlsoNotChanged": "Deliberate, and it is a real residual gap this lane is not closing. Wiring their builders to the shared module without rebuilding them would leave a committed artifact that no longer reproduces from its committed builder, which would break reproducibility on three terminal families to fix a defect nobody has asked them to carry. The shared module now exists for their owner to adopt in the same commit as their rebuild and re-raster."
+      },
+      "grantsNothing": "This row repairs one structural obligation on one family. It grants no commercial authority, opens no route, promotes no build status, and supersedes no verdict on its own -- the family must be verified again by a lane that neither built nor repaired it, and rastered against the two SHA-256 values above."
+    }
+  ]
+}

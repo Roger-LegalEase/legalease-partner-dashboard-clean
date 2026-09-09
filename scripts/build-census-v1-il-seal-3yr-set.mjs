@@ -131,6 +131,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { countDanglingAnnots, pruneDanglingAnnots } from "./lib/pdf-prune-dangling-annots.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill";
@@ -583,13 +584,20 @@ async function fillDocument(source, fixtureName, fixture, elections) {
   }
   form.updateFieldAppearances(font);
   form.flatten({ updateFieldAppearances: false });
+  // VF01/VF02/VF03, ARTIFACTS. flatten() deletes the widget annotation objects
+  // and leaves their references in each page's /Annots. Prune them HERE, on the
+  // component document, because buildPacket's copyPages is what turns a surviving
+  // dangling reference into a reserved-and-never-written object number and so into
+  // the /Size-over-xref mismatch Poppler refuses to open. Link annotations resolve
+  // and are kept. The shared implementation is scripts/lib/pdf-prune-dangling-annots.mjs.
+  const danglingAnnotsPruned = pruneDanglingAnnots(document);
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
   document.setCreator("LegalEase deterministic official-form builder");
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals, emptyOffAppearances };
+  return { document, writes, refusals, emptyOffAppearances, danglingAnnotsPruned };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -607,8 +615,17 @@ async function buildPacket(sources, fixtureName, fixture) {
   packet.setProducer("pdf-lib 1.17.1");
   packet.setCreationDate(FIXED_DATE);
   packet.setModificationDate(FIXED_DATE);
+  // Second prune, on the merged packet, so a reference introduced by the copy
+  // itself cannot reach the delivered bytes. On a correctly pruned component set
+  // this removes nothing; it is a guard, not the repair.
+  pruneDanglingAnnots(packet);
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity }));
   const reopened = await PDFDocument.load(bytes);
+  // The check is on the bytes that ship, not on the intention. This was 146 per
+  // fixture before the repair, and every one of them was also an object number
+  // the trailer's /Size declared and the cross-reference table did not cover.
+  assert.equal(countDanglingAnnots(reopened), 0,
+    "the delivered packet must carry no unresolvable /Annots reference");
   assert.equal(reopened.getPageCount(), 13);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
   // FIX118, CLIPPING_AND_OVERLAP. Both halves of the repair are checked on the
