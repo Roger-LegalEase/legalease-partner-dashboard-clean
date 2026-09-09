@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 117,
-    "rows": 1037,
-    "independentVerdicts": 256,
+    "returnDirectories": 121,
+    "rows": 1042,
+    "independentVerdicts": 259,
     "failRepairRequired": 34,
-    "passIndependent": 202
+    "passIndependent": 205
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -56,13 +56,13 @@
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
     "ia-12347-set",
-    "il-cannabis-vacate-set",
     "il-exp-qualprob-set",
     "il-seal-2yr-set",
     "il-seal-3yr-set",
     "in_infraction_nondisclosure-set",
     "md_pardon_expungement-set",
     "mo-art-xiv-marijuana-set",
+    "nh_marijuana_annulment-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "nj_ordinance-set",
@@ -5279,6 +5279,36 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Measured by reading participant-instructions.md by hand against the controlling record's packetSet.requiredBeforeFiling in data/record-clearing/legal-design-track-registry.json, track co_petition_seal_arrest. The record's first required item is 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it', carried also in CO.memo.json supportingDocuments with requiredBeforeFiling true. The delivered guide never mentions it: its only three references to the CBI are as a records custodian to tick in section 3 and to serve, not as a report the petitioner must obtain and attach. The second record item, cross-checking the arrest answers against that same report, likewise never names the document. The family's own blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true, but that claim is scoped to the 40 FORM BLANKS only; all 40 are indeed disclosed verbatim. The record's required supporting DOCUMENT is outside that scope and outside the completeness verifier's, which iterates the builder's own blank ledger and never opens the registry.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "13 synthesized widget borders are stamped onto the filing as ink the official form does not print. Measured three independent ways and all three agree. (1) Appearance streams: 13 flattened widgets, sized 84.11x15.12 and 85.68x15.12 on pages 2 and 3, each paint '1 g / 0 0 0 RG / 1 w / 0 0 m / 0 14.12 l / 84.68 14.12 l / 84.68 0 l / h / B' -- a closed four-sided rectangle filled white and stroked black on all four sides. (2) The official JDF-417's own /AP /N for those same fields paints '1 g / 0 0 84.1091 15.1201 re / f / 0 G / 0 0.5 m / 84.1091 0.5 l / s' -- white fill and a SINGLE BOTTOM RULE, no side or top strokes. (3) A directional 150 dpi raster diff of delivered page 2 against the official page 2 returns 464, 468 and 464 dark-pixels-added on the three offence rows sampled with zero pixels removed, and the rendered crop shows a full box in the delivered file where the official prints one bottom rule. The affected fields are the nine 'Misdemeanor or Felony' cells of the section 4a offence table (4A.1B-4A.9B) and the four sworn yes/no answers 4B.0, 4C.0, 4D.0 and 4E.0. The repository's own scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs independently places this family in the FIX80 cohort with exactly these 13 widgets, all APPEARANCE_CLEARED_BY_DROP, and records that the builder does not pass suppressSynthesizedWidgetBorders. The family carries a current RASTER_PASS, so the visual gate did not catch this.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
       "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
       "failedObligations": [
         {
@@ -5325,7 +5355,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
@@ -8950,6 +8980,20 @@
       "superseded": false
     },
     {
+      "familyId": "hi_712_1200_deferred_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_712_1200_deferred_expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "hi_dag_danc_expungement-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -9411,6 +9455,20 @@
     },
     {
       "familyId": "il-cannabis-vacate-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-cannabis-vacate-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf13",
       "isIndependentVerification": true,
@@ -9437,7 +9495,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-exp-nonconv-set",
@@ -14677,6 +14735,43 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_conviction_standard-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b-nh.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_standard-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_marijuana_annulment-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The record's fee rule for this route ends with an instruction about the packet itself: 'Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, SO THE PACKET MUST NOT STATE A PRICE.' Currency figures survive in BOTH delivered instruction documents, eight times: participant-instructions.md lines 51, 78 and 91 and filing-instructions.md lines 19, 41 and 56 each carry '$125.00' and '$100'. That leaves two assurances the delivered guide makes about itself false on their face. It says 'This packet does not state a price for this petition, and that is deliberate' in the same paragraph that prints $125.00; and, of the Circuit Court Filing Fees schedule, it says 'Its figure is deliberately not repeated here' when that schedule's figure is $125.00 and it is repeated twice within eight lines of that sentence and four times in the document. The builder plainly understood the rule as no currency figure reaching the participant -- it went to the trouble of naming the schedule by prefix and URL rather than by its title, because the title carries the amount -- and then did not apply the same rule to the body. Recorded in fairness: every figure is a verbatim quotation of the controlling record, nothing is invented, the packet asserts no price as due, the figures appear as the subject of a declared open question, and the substantive guidance is right -- ask the clerk before you pay, and the waiver papers NHJB-2311 and NHJB-2328 are named and prepared and delivered. The defect is the false self-description plus the leak, not a fabricated fee. The repair is small and does not require giving up verbatim fidelity: elide the two amounts where the record's fee rule is quoted and say that they are elided, or drop the two sentences that claim they are absent.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b-nh.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_marijuana_annulment-set",
       "superseded": false
     },
     {

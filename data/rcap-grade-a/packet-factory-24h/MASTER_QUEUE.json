@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5a904625dd115c06420b9eabf5e324046729a2b8",
+  "minimumCaptainSha": "67a896eb46988fb919d9ecc1fd21afa609528a2c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,21 +72,20 @@
     "sourceReady": 57,
     "sourceBlocked": 6,
     "legalBlocked": 17,
-    "verifyPending": 5,
-    "repairRequired": 18,
+    "verifyPending": 0,
+    "repairRequired": 20,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 182,
+    "COMPLETE_PACKET_PROVEN": 185,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 17,
-    "FAIL_REPAIR_REQUIRED": 28,
+    "FAIL_REPAIR_REQUIRED": 30,
     "SOURCE_READY": 57,
     "BUILT_RASTER_PENDING": 12,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
-    "VERIFY_PENDING": 5,
     "HANDOFF_READY": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -9612,10 +9611,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -9645,19 +9646,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "This is a new finding, not one carried forward. The committed TRUTH4_FINDINGS.json has no check-B entry for this family at all - it lists it under notMeasurable on the ground that 'no census-v1 family directory exists', which is stale, since the directory exists and holds five delivered pages. The failure was found by measuring the memo against the delivered bytes here. Its consequence is concrete: a participant whose petition the district attorney opposes, or whom the court sets down for a contested hearing, is nowhere told that self-help ends there, and a non-citizen or a licence holder is nowhere warned that sealing carries immigration, licensing or firearm consequences. The instructions do end by saying 'if anyone opposes the petition, that is the point to get a lawyer' - one condition in substance - and that sentence is why conditionsCarriedInSubstance is 1 rather than 0.",
-          "findingReadFrom": "finding",
-          "evidence": "CO.memo.json track co_petition_seal_arrest declares three selfHelpStopConditions: 'The district attorney objects.', 'The court sets a contested hearing.', and 'Immigration, licensing or firearm consequences are in play.' None of the three appears verbatim in participant-instructions.md or in either fixture, and two of the three appear nowhere in substance either. Measured string by string over the delivered bytes at this base: the words 'immigration', 'firearm' and 'licensing' return zero matches in participant-instructions.md and zero in both PDFs; 'contested hearing' returns zero, and the only occurrences of 'hearing' anywhere in the packet are the issuer's own JDF-418 background text ('presented at a hearing') and JDF-417 section 6 ('I request a hearing to present my request'), neither of which is a stop; the district attorney appears only twice and both times as something other than a stop - once as a records custodian to tick in section 3 and once as the holder of a diversion record. There is no 'stop and get help' section in this packet at all. The repository's own truth check agrees: re-running scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs against these bytes scores this family conditionsHeld 3, conditionsCarriedVerbatim 0, conditionsCarriedInSubstance 1, conditionsNotRepresented 2, immigrationConditionsNotRepresented 1, result FAIL, failures B1_STOP_CONDITION_NOT_CARRIED_VERBATIM and B1B_STOP_CONDITION_NOT_REPRESENTED_AT_ALL."
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Measured by reading participant-instructions.md by hand against the controlling record's packetSet.requiredBeforeFiling in data/record-clearing/legal-design-track-registry.json, track co_petition_seal_arrest. The record's first required item is 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it', carried also in CO.memo.json supportingDocuments with requiredBeforeFiling true. The delivered guide never mentions it: its only three references to the CBI are as a records custodian to tick in section 3 and to serve, not as a report the petitioner must obtain and attach. The second record item, cross-checking the arrest answers against that same report, likewise never names the document. The family's own blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true, but that claim is scoped to the 40 FORM BLANKS only; all 40 are indeed disclosed verbatim. The record's required supporting DOCUMENT is outside that scope and outside the completeness verifier's, which iterates the builder's own blank ledger and never opens the registry.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "13 synthesized widget borders are stamped onto the filing as ink the official form does not print. Measured three independent ways and all three agree. (1) Appearance streams: 13 flattened widgets, sized 84.11x15.12 and 85.68x15.12 on pages 2 and 3, each paint '1 g / 0 0 0 RG / 1 w / 0 0 m / 0 14.12 l / 84.68 14.12 l / 84.68 0 l / h / B' -- a closed four-sided rectangle filled white and stroked black on all four sides. (2) The official JDF-417's own /AP /N for those same fields paints '1 g / 0 0 84.1091 15.1201 re / f / 0 G / 0 0.5 m / 84.1091 0.5 l / s' -- white fill and a SINGLE BOTTOM RULE, no side or top strokes. (3) A directional 150 dpi raster diff of delivered page 2 against the official page 2 returns 464, 468 and 464 dark-pixels-added on the three offence rows sampled with zero pixels removed, and the rendered crop shows a full box in the delivered file where the official prints one bottom rule. The affected fields are the nine 'Misdemeanor or Felony' cells of the section 4a offence table (4A.1B-4A.9B) and the four sworn yes/no answers 4B.0, 4C.0, 4D.0 and 4E.0. The repository's own scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs independently places this family in the FIX80 cohort with exactly these 13 widgets, all APPEARANCE_CLEARED_BY_DROP, and records that the builder does not pass suppressSynthesizedWidgetBorders. The family carries a current RASTER_PASS, so the visual gate did not catch this.",
+          "findingReadFrom": "detail",
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
@@ -15982,7 +15990,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -16016,7 +16029,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_712_1200_deferred_expungement-set.mjs",
@@ -17609,10 +17622,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf13",
-        "verifiedAtBase": "d4653b258",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -17643,27 +17656,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The route's own printed gate is unmade, and the packet contradicts itself about the same fact. Motion page 1 item 1 -- 'All of the cases listed have resulted in convictions for: a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5; AND/OR b. Class 4 felony cannabis offense' -- is wholly blank in both fixtures, beside the form's own printed instruction 'In 1, you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.' production-field-map.json declares 1a and 1b refusals, class participant_sworn_narrative_or_legal_election, 'not determined by this packet route'. Yet page 2's per-case classification column for the very same case, '4 - Misdemeanor/Class 4 Felony Checkboxes1', is a WRITE with factId route.selection and is visibly ticked Misdemeanor. The same fact is route-determined in Section 4 and a participant refusal in Section 1, and the delivered page shows the gate unanswered while the table answers it. This is the shape of the Section 12/13 defect 8f2701e0f repaired on the two expunge families, still live on this one. Second, item 2 'I was convicted before June 25, 2019' is ticked as route.selection in BOTH fixtures, whose own printed case data is 2021-CF-004217 with date of arrest 03/12/2021 (canonical) and 2024-CF-000001-99 with date of arrest 11/29/2023 (boundary): a conviction in a case arrested in 2021 or 2023 cannot predate June 25, 2019, so the motion swears a fact its own page contradicts, under Supreme Court Rule 137. Third and recorded rather than counted: item 3 'I have completed the sentences or conditions imposed by the conviction' is also written as route.selection although the controlling record makes that fact a requiredBeforeFiling proof to obtain and a self-help stop condition ('Whether the non-financial conditions of the sentence are complete is disputed'), and this family's own stop section says to stop 'if a sentence or condition may be incomplete'.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf page 1 and page 2, read as rendered images; production-field-map.json writes[4 - Misdemeanor/Class 4 Felony Checkboxes1] and refusals[1a - Misdemeanor cannabis offenses], [1b - Class 4 felony cannabis offense]"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The delivered boundary fixture prints an ellipsized fact on a motion filed with a circuit court. CXP Motion to Vacate and Expunge page 2, item 4, field '4 - Arresting Agency1' reads 'Springfield Police Department Rec' plus a horizontal-ellipsis glyph; the fixture's own value, at scripts/build-census-v1-il-cannabis-vacate-set.mjs:185, is 'Springfield Police Department Records Division'. Twelve characters are dropped mid-word and replaced with an ellipsis. Confirmed three ways: the hex Tj operand in the delivered FlatWidget appearance stream, the rendered page at 150 dpi, and the source field, which is single-line with no /MaxLen. Root cause is safeSet() at scripts/build-census-v1-il-cannabis-vacate-set.mjs:308-321, which shrinks to 6pt and then slices characters off and appends an ellipsis -- the same safeSet ellipsis truncation the pardon repair removed from the EXP-AD builders in favour of setComplete(), which writes the whole value or refuses it and names it as owed. Nothing in the reports can see this: reports/actual-writes.json records only canonical drawn text ('Chicago Police Department'), and verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros for this family. No other string in either fixture exceeds its clip width.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf page 2, FlatWidget-1733050384; scripts/build-census-v1-il-cannabis-vacate-set.mjs:185 and :308-321"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
@@ -32243,7 +32240,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b-nh.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -32277,7 +32279,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_conviction_standard-set.mjs",
@@ -32552,8 +32554,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b-nh.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -32582,11 +32591,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The record's fee rule for this route ends with an instruction about the packet itself: 'Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, SO THE PACKET MUST NOT STATE A PRICE.' Currency figures survive in BOTH delivered instruction documents, eight times: participant-instructions.md lines 51, 78 and 91 and filing-instructions.md lines 19, 41 and 56 each carry '$125.00' and '$100'. That leaves two assurances the delivered guide makes about itself false on their face. It says 'This packet does not state a price for this petition, and that is deliberate' in the same paragraph that prints $125.00; and, of the Circuit Court Filing Fees schedule, it says 'Its figure is deliberately not repeated here' when that schedule's figure is $125.00 and it is repeated twice within eight lines of that sentence and four times in the document. The builder plainly understood the rule as no currency figure reaching the participant -- it went to the trouble of naming the schedule by prefix and URL rather than by its title, because the title carries the amount -- and then did not apply the same rule to the body. Recorded in fairness: every figure is a verbatim quotation of the controlling record, nothing is invented, the packet asserts no price as due, the figures appear as the subject of a declared open question, and the substantive guidance is right -- ask the clerk before you pay, and the waiver papers NHJB-2311 and NHJB-2328 are named and prepared and delivered. The defect is the false self-description plus the leak, not a fabricated fee. The repair is small and does not require giving up verbatim fidelity: elide the two amounts where the record's fee rule is quoted and say that they are elided, or drop the two sentences that claim they are absent.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
