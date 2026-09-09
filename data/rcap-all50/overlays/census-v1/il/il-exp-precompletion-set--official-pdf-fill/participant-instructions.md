@@ -2,204 +2,38 @@
 
 ## Route selected
 
-Expungement under the precompletion route. Confirm the exact statutory facts and disposition before filing; the statewide Request has no single checkbox that establishes this route.
+Expungement filed in anticipation of successful completion of a problem-solving court, pre-plea diversion or post-plea diversion program, under 20 ILCS 2630/5.2(b)(2)(A-5). The Request's item 6 with sub-option b is the election that states this route: the petition may be filed 61 days before the anticipated dismissal, or any time after.
+
+Route obligation: `obligation:track-only:IL:il-exp-precompletion`
+
+## The Outcome column
+
+**The Outcome column of the case table is left blank for you to complete, and this is deliberate.** The Outcome Abbreviations for Expungement legend prints no shortened form for this route. QP is item 8's sentence of Qualified Probation, which this route does not have, and DA would state that the case has been dismissed when item 6(b) is filed while the program is still running and before any dismissal. Enter the outcome yourself, from the legend printed on page 2, once the program is complete and the certified disposition shows what happened. The full printed legend on that page is: RV (Conviction Reversed or Vacated), P (Pardon from the Governor), CE (Certificate of Eligibility for Expungement from PRB), FI (Found Factually Innocent), RWC (Released Without Charge), DA (Dismissal or Acquittal), S (Supervision Successfully Completed), QP (Qualified Probation Successfully Completed).
 
 ## Required before filing
 
-Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
+Every item below is stated by the record this packet is built from. Do not sign until the packet is complete.
 
-- Complete Arresting Agency - 2 on EXP-AD Request page 2
-- Complete Date of Arrest - 2 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 2 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 3 on EXP-AD Request page 2
-- Complete Arresting Agency - 3 on EXP-AD Request page 2
-- Complete Date of Arrest - 3 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 3 on EXP-AD Request page 2
-- Complete Arresting Agency - 4 on EXP-AD Request page 2
-- Complete Date of Arrest - 4 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 4 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 5 on EXP-AD Request page 2
-- Complete Arresting Agency - 5 on EXP-AD Request page 2
-- Complete Date of Arrest - 5 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 5 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 6 on EXP-AD Request page 2
-- Complete Arresting Agency - 6 on EXP-AD Request page 2
-- Complete Date of Arrest - 6 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 6 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 7 on EXP-AD Request page 2
-- Complete Arresting Agency - 7 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 8 on EXP-AD Request page 2
-- Complete Date of Arrest - 7 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 7 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 8 on EXP-AD Request page 2
-- Complete Arresting Agency - 8 on EXP-AD Request page 2
-- Complete Date of Arrest - 8 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 9 on EXP-AD Request page 2
-- Complete Arresting Agency - 9 on EXP-AD Request page 2
-- Complete Date of Arrest - 9 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 9 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 10 on EXP-AD Request page 2
-- Complete Arresting Agency - 10 on EXP-AD Request page 2
-- Complete Date of Arrest - 10 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 10 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 2 on EXP-AD Request page 2
-- Complete 4 - Arrest or Case Number - 2 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 2 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 2 on EXP-AD Request page 4
-- Complete 4 - Outcome - 2 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 3 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 3 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 3 on EXP-AD Request page 4
-- Complete 4 - Outcome - 3 on EXP-AD Request page 4
-- Complete Arrest or Case Number - 4 on EXP-AD Request page 2
-- Complete 4 - Arrest or Case Number - 4 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 4 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 4 on EXP-AD Request page 4
-- Complete 4 - Outcome - 4 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 5 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 5 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 5 on EXP-AD Request page 4
-- Complete 4 - Outcome - 5 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 6 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 6 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 6 on EXP-AD Request page 4
-- Complete 4 - Outcome - 6 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 7 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 7 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 7 on EXP-AD Request page 4
-- Complete 4 - Outcome - 7 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 8 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 8 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 8 on EXP-AD Request page 4
-- Complete 4 - Outcome - 8 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 9 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 9 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 9 on EXP-AD Request page 4
-- Complete 4 - Outcome - 9 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 10 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 10 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 10 on EXP-AD Request page 4
-- Complete 4 - Outcome - 10 on EXP-AD Request page 4
-- Complete arrest7 on EXP-AD Case List page 1
-- Complete arrest8 on EXP-AD Case List page 1
-- Complete arrest9 on EXP-AD Case List page 1
-- Complete arrest10 on EXP-AD Case List page 1
-- Complete arrest11 on EXP-AD Case List page 1
-- Complete arrest12 on EXP-AD Case List page 1
-- Complete arrest13 on EXP-AD Case List page 1
-- Complete arrest14 on EXP-AD Case List page 1
-- Complete arrest6 on EXP-AD Case List page 1
-- Complete arrest15 on EXP-AD Case List page 1
-- Complete arrest16 on EXP-AD Case List page 1
-- Complete arrest17 on EXP-AD Case List page 1
-- Complete arrest18 on EXP-AD Case List page 1
-- Complete arrest19 on EXP-AD Case List page 1
-- Complete arrest20 on EXP-AD Case List page 1
-- Complete arrest22 on EXP-AD Case List page 1
-- Complete arrest23 on EXP-AD Case List page 1
-- Complete arrest24 on EXP-AD Case List page 1
-- Complete arrest25 on EXP-AD Case List page 1
-- Complete arrest26 on EXP-AD Case List page 1
-- Complete arrest27 on EXP-AD Case List page 1
-- Complete arrest28 on EXP-AD Case List page 1
-- Complete arrest21 on EXP-AD Case List page 1
-- Complete arrest29 on EXP-AD Case List page 1
-- Complete arrest30 on EXP-AD Case List page 1
-- Complete arrest31 on EXP-AD Case List page 1
-- Complete arrest32 on EXP-AD Case List page 1
-- Complete arrest33 on EXP-AD Case List page 1
-- Complete arrest34 on EXP-AD Case List page 1
-- Complete arrest35 on EXP-AD Case List page 1
-- Complete arrest36 on EXP-AD Case List page 1
-- Complete arrest37 on EXP-AD Case List page 1
-- Complete arrest38 on EXP-AD Case List page 1
-- Complete arrest39 on EXP-AD Case List page 1
-- Complete arrest40 on EXP-AD Case List page 1
-- Complete arrest41 on EXP-AD Case List page 1
-- Complete arrest42 on EXP-AD Case List page 1
-- Complete arrest43 on EXP-AD Case List page 1
-- Complete arrest44 on EXP-AD Case List page 1
-- Complete arrest45 on EXP-AD Case List page 1
-- Complete arrest46 on EXP-AD Case List page 1
-- Complete arrest47 on EXP-AD Case List page 1
-- Complete arrest48 on EXP-AD Case List page 1
-- Complete arrest50 on EXP-AD Case List page 1
-- Complete arrest51 on EXP-AD Case List page 1
-- Complete arrest52 on EXP-AD Case List page 1
-- Complete arrest53 on EXP-AD Case List page 1
-- Complete arrest54 on EXP-AD Case List page 1
-- Complete arrest55 on EXP-AD Case List page 1
-- Complete arrest56 on EXP-AD Case List page 1
-- Complete arrest49 on EXP-AD Case List page 1
-- Complete arrest57 on EXP-AD Case List page 1
-- Complete arrest58 on EXP-AD Case List page 1
-- Complete arrest59 on EXP-AD Case List page 1
-- Complete arrest60 on EXP-AD Case List page 1
-- Complete arrest61 on EXP-AD Case List page 1
-- Complete arrest62 on EXP-AD Case List page 1
-- Complete arrest63 on EXP-AD Case List page 1
-- Complete arrest64 on EXP-AD Case List page 1
-- Complete arrest65 on EXP-AD Case List page 1
-- Complete arrest66 on EXP-AD Case List page 1
-- Complete arrest67 on EXP-AD Case List page 1
-- Complete arrest68 on EXP-AD Case List page 1
-- Complete arrest69 on EXP-AD Case List page 1
-- Complete arrest70 on EXP-AD Case List page 1
-- Complete arrest/case number 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number 28 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 1 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 28 on EXP-AD Order Granting page 1
+- Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule. Obtain it from: Illinois State Police, Bureau of Identification, through Access and Review.
+- Check your answer to "What is the case number?" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.
+- Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee. Obtain it from: Circuit clerk of each county where a case was filed.
+- Check your answer to "What is the case number?" against Certified disposition for each case, and correct the packet if they disagree.
+- Petitioner's signature and verification date — Request, verification block.
+- Expunge-versus-seal selection for each case — Case List, per-case election column.
+- Hearing date — Any notice issued after an objection.
+- The petitioner signs and verifies the Request. A wet signature is expected.
+- A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
+- Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
+
+Conditional and post-filing steps:
+
+- Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.
+- The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.
+- File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.
+
+Complete every applicable case, outcome, financial and participant item listed below.
+
+- Enter the Outcome for this case on EXP-AD Request page 2, using the printed legend
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
@@ -259,12 +93,50 @@ Complete every applicable case, outcome, financial, and participant item listed 
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
 
-Attach certified dispositions and the pardon, eligibility certificate, educational proof, or other route-specific evidence identified above.
+## Boxes this packet does not check
+
+- Item 12 on page 4 asks "I am requesting to seal records." This packet answers No, because it is an expungement route and Section 1 answers Yes.
 
 ## Filing and notice
 
-File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields.
+**Where this is filed.** Circuit clerk of the county of arrest or charge. File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under § 5.2(d)(4).
+
+**Venue, in the record's words.** Section 5.2(d)(1) requires filing with the clerk of the court where the arrests occurred or the charges were brought, not the county of residence. A separate petition is filed in each county involved. Cook County filings go to the district matching the case.
+
+**Filing mechanics, in the record's words.** File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.
+
+**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.
+
+**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).
+
+If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice.
+
+## Fees and the fee waiver
+
+A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
+
+Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. The application ships with this packet as its final component.
+
+## What the legal-design record requires of this packet
+
+These are the record's own directions for this route, quoted so you can check the
+packet against them. Some are addressed to whoever produces the packet rather
+than to you.
+
+- The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.
+- Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.
+- Never use 'expunge' as a synonym for 'seal'. Say which remedy applies.
+- Tell the participant plainly that the filing does not ripen unless the program is completed successfully.
 
 ## Stop and get help
 
-Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.
+Stop automated assistance and get help if any of the following happens. These are the stop conditions the legal-design record records for this route.
+
+- The State's Attorney, ISP, the arresting agency or the chief legal officer files an objection.
+- The court sets a contested hearing.
+- The disposition on the transcript is ambiguous or contested.
+- A case appears on the transcript that the participant does not recognize, which may indicate identity theft.
+- The participant has federal or out-of-state records, which an Illinois court cannot reach.
+- Immigration consequences are in play.
+- A motion to vacate, modify or reconsider is filed under § 5.2(d)(12).
+- The petition is denied.

@@ -65,12 +65,24 @@
           "fontSize": 8
         },
         {
+          "fieldId": "EXP-AD Request:Page 1 - Request to Expunge Records",
+          "fieldName": "Page 1 - Request to Expunge Records",
+          "documentId": "EXP-AD Request",
+          "page": 1,
+          "effectiveLabel": "Page 1 - Request to Expunge Records",
+          "factId": "route.selection",
+          "drawnText": "No",
+          "isSelectionControl": true,
+          "routeDetermined": true
+        },
+        {
           "fieldId": "EXP-AD Request:12 - Seal Records",
           "fieldName": "12 - Seal Records",
           "documentId": "EXP-AD Request",
           "page": 4,
           "effectiveLabel": "12 - Seal Records",
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
           "routeDetermined": true
         },
@@ -101,7 +113,9 @@
           "page": 4,
           "effectiveLabel": "4 - Outcome - 1",
           "factId": "matter.outcome",
-          "drawnText": "Dismissed",
+          "outcomeDerivedFrom": "route",
+          "printedLegend": "MC (Misdemeanor Conviction), FC (Felony Conviction), CE (Certificate of Eligibility for Sealing from PRB), QP (Qualified Probation Successfully Completed)",
+          "drawnText": "FC",
           "fontSize": 8
         },
         {
@@ -121,8 +135,8 @@
           "page": 4,
           "effectiveLabel": "4 - List all charges for each case number - 1",
           "factId": "matter.charge",
-          "drawnText": "Charge exactly as shown on the court disposition",
-          "fontSize": 7.25
+          "drawnText": "Possession of a controlled substance",
+          "fontSize": 8
         },
         {
           "fieldId": "EXP-AD Request:22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
@@ -131,6 +145,7 @@
           "page": 5,
           "effectiveLabel": "22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
           "factId": "route.selection",
+          "drawnText": "Yes",
           "isSelectionControl": true,
           "routeDetermined": true
         },
@@ -331,6 +346,46 @@
           "factId": "matter.case_number",
           "drawnText": "2021-CF-004217",
           "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Name",
+          "fieldName": "3 - Name",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Address",
+          "fieldName": "3 - Address",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Address",
+          "factId": "participant.street_address",
+          "drawnText": "412 West Madison Street, Chicago, IL 60606",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Telephone",
+          "fieldName": "3 - Telephone",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Telephone",
+          "factId": "participant.phone",
+          "drawnText": "312-555-0142",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Granting:3 - Email",
+          "fieldName": "3 - Email",
+          "documentId": "EXP-AD Order Granting",
+          "page": 2,
+          "effectiveLabel": "3 - Email",
+          "factId": "participant.email",
+          "drawnText": "jordan.reyes@example.org",
+          "fontSize": 8
         }
       ]
     },
@@ -422,20 +477,24 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 40,
-      "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 40,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 7.25,
+      "valuesReportedByFinalizer": 45,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "readFromOutputBytesNote": "Null, not zero. These three name a reading of the saved bytes that this builder never performs. Counting them is an independent reader's job.",
+      "minimumFontSize": 8,
+      "danglingAnnotationReferencesPruned": 146,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 40,
-      "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 40,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "minimumFontSize": 5.5,
+      "valuesReportedByFinalizer": 45,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "readFromOutputBytesNote": "Null, not zero. These three name a reading of the saved bytes that this builder never performs. Counting them is an independent reader's job.",
+      "minimumFontSize": 6,
+      "danglingAnnotationReferencesPruned": 146,
       "refusedFieldsWithInk": []
     }
   ]
