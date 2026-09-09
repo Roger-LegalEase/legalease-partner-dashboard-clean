@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ar-misdemeanor-seal-set",
+  "routeKey": "obligation:track-only:AR:ar-misdemeanor-seal",
+  "routeKeys": [
+    "obligation:track-only:AR:ar-misdemeanor-seal"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ar-misdemeanor-seal-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:track-only:AR:ar-misdemeanor-seal"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ar-misdemeanor-seal-primary-filing-1",
+      "component:ar-misdemeanor-seal-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+        "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ar-misdemeanor-seal-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ar-misdemeanor-seal-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+        "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "sha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ar-misdemeanor-seal-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+        "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+        "sha256": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17",
+        "requirement": "required"
+      }
+    ]
+  }
+}

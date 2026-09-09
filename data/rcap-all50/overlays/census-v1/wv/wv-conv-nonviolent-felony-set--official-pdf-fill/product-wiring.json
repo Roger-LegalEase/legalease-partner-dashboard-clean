@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "wv_conv_nonviolent_felony-set",
+  "routeKey": "obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "wv_conv_nonviolent_felony-set",
+    "jurisdiction": "WV",
+    "routeKeys": [
+      "obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "attorney_referral_notice",
+      "certificate_of_service",
+      "filing_instructions",
+      "primary_filing",
+      "service_package",
+      "verification"
+    ],
+    "packetComponents": [
+      "component:wv_conv_nonviolent_felony-certificate-of-service-3",
+      "component:wv_conv_nonviolent_felony-primary-filing-1",
+      "component:wv_conv_nonviolent_felony-verification-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SCA-C907",
+        "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "wv_conv_nonviolent_felony-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "wv_conv_nonviolent_felony-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "SCA-C907",
+        "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+        "requirement": "required"
+      }
+    ]
+  }
+}

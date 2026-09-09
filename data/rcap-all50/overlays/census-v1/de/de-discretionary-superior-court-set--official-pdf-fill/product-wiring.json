@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "de_discretionary_superior_court-set",
+  "routeKey": "obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374",
+  "routeKeys": [
+    "obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "de_discretionary_superior_court-set",
+    "jurisdiction": "DE",
+    "routeKeys": [
+      "obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "continuation",
+      "cover_sheet",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:de_discretionary_superior_court-continuation-2",
+      "component:de_discretionary_superior_court-primary-filing-1",
+      "component:de_discretionary_superior_court-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CIV_EXP_02_A",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_02_B",
+        "sha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_04_A",
+        "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-de_discretionary_superior_court-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "de_discretionary_superior_court-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "de_discretionary_superior_court-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "CIV_EXP_02_A",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b4a52fd021617f602e56a23b9f140828ac704283539c2e9a714fa37ca42629dc",
+        "requirement": "required"
+      },
+      {
+        "componentId": "de_discretionary_superior_court-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "CIV_EXP_04_A",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b4a52fd021617f602e56a23b9f140828ac704283539c2e9a714fa37ca42629dc",
+        "requirement": "required"
+      },
+      {
+        "componentId": "de_discretionary_superior_court-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "cover_sheet",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b4a52fd021617f602e56a23b9f140828ac704283539c2e9a714fa37ca42629dc",
+        "requirement": "required"
+      }
+    ]
+  }
+}

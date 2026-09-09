@@ -32,7 +32,6 @@
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md",
-    "filingInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
@@ -42,12 +41,16 @@
         "tier": "exact_content_hash"
       }
     ],
-    "declaredInstrumentKindsWithoutAComponent": {
-      "kinds": [
-        "court_order",
-        "service_instructions"
-      ],
-      "note": "MASTER_QUEUE declares three instrument kinds for this family and one packet component. The route census names a court_order and a service_instructions component; neither has a bound source, and the court order for this motion is the clerk's own notification block printed on the face of AOC-275.18. Recorded rather than silently treated as delivered."
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
     }
   }
 }

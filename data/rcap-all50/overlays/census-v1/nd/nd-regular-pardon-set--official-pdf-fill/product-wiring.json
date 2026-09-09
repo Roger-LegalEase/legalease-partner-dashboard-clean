@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nd-regular-pardon-set",
+  "routeKey": "obligation:track-only:ND:nd-regular-pardon",
+  "routeKeys": [
+    "obligation:track-only:ND:nd-regular-pardon"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nd-regular-pardon-set",
+    "jurisdiction": "ND",
+    "routeKeys": [
+      "obligation:track-only:ND:nd-regular-pardon"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "attachment_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:nd-regular-pardon-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SFN-14859",
+        "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nd-regular-pardon-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nd-regular-pardon-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nd-regular-pardon-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "SFN-14859",
+        "file": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c0a8d543dc45047ff0ddf20558239ffe10ba3a3e8af3ef034922a7be5cbcd7c7",
+        "requirement": "required"
+      }
+    ]
+  }
+}

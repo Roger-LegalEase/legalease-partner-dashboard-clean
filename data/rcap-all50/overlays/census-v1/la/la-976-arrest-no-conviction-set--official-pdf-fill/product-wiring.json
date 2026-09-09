@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "la-976-arrest-no-conviction-set",
+  "routeKey": "obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "la-976-arrest-no-conviction-set",
+    "jurisdiction": "LA",
+    "routeKeys": [
+      "obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "continuation",
+      "fee_waiver",
+      "instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:la-976-arrest-no-conviction-fee-waiver-4",
+      "component:la-976-arrest-no-conviction-primary-filing-1",
+      "component:la-976-arrest-no-conviction-proposed-order-2",
+      "component:la-976-arrest-no-conviction-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34407406641",
+      "jobId": "102654459237",
+      "artifactId": "10126309758",
+      "boundToCanonicalSha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "la-976-arrest-no-conviction-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "la-976-arrest-no-conviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "LA-CCRP-ART-989",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-976-arrest-no-conviction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "LA-CCRP-ART-991",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-976-arrest-no-conviction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "LA-CCRP-ART-992",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-976-arrest-no-conviction-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "LA-CCRP-ART-988",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-976-arrest-no-conviction-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "la-976-arrest-no-conviction-instructions-6",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
+        "requirement": "required"
+      }
+    ]
+  }
+}
