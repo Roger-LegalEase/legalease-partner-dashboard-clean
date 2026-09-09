@@ -1,3 +1,107 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T00:15Z -->
+# Captain checkpoint — 194/346 published; release track advanced, count not yet moved
+
+Only the changed facts are here. Everything below this block is the earlier
+record and remains true of the moment it describes.
+
+**Heads.** Captain local and remote `claude/legalease-sprint-captain-utucnw` =
+`c209a30b9`. PR #224 was merged into Captain at
+`c065d2485b97be9a9c53313551226b0b6c3c9cfb`; do not attempt that merge again.
+
+**Census: 194/346 terminal, 152 remaining, unchanged since takeover.** 173
+COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE.
+Nonterminal: 73 SOURCE_READY, 35 FAIL_REPAIR_REQUIRED (was 41), 18
+PRODUCT_PATH_PENDING, 13 LEGAL_BLOCKED, 6 SOURCE_BLOCKED, 5
+BUILT_RASTER_PENDING, 1 VERIFY_PENDING, 1 WRONG_DELIVERY_TYPE.
+
+**One derivation is deliberately withheld and it is the reason the count has not
+moved.** `generate` refuses and writes nothing while the dispatch manifest
+assigns a family to one verification lane and the live claim belongs to another.
+It currently names VF07/nj_indictable_conviction-set and VF08/nj_ordinance-set
+against VF11. This is correct and self-resolving: integrating VF11's return
+consumes those families and the dispatch regenerates. Vermont's independent PASS
+is already committed and waits in that same derivation. Do NOT hand-edit
+ACTIVE_ASSIGNMENTS to clear it. Lesson for the next transfer: reissue an
+independent-verification claim to the lane the dispatch already names, rather
+than to a new lane id.
+
+**Closures owed, by gate.** vt_exp_decriminalized-set has its PASS
+(VF10, `f8d62fbbb`) and needs only the derivation. The four New Jersey families
+are BUILT_RASTER_PENDING with RASTER_PASS receipts ingested from central run
+34292115043 and are under independent read by VF11 now.
+pa_pardon_expungement-set is BUILT_RASTER_PENDING only because its three
+repaired obligations are not yet consumed; its receipt already binds the bytes
+on disk (`fc67ec72e845`, run 33844904078) and no new raster is owed.
+
+**Active writers.** Two: FIX95 (New Mexico three, `/home/user/fix95-worktree`,
+58 dirty files, no commits, running about an hour) and VF11 (New Jersey four
+reads, `/home/user/vf11-worktree`, base `df524f2fd`). FIX96, FIX101, FIX105,
+PF16 and VF10 have returned and are integrated; the vf10 worktree was removed
+after confirming it clean and pushed.
+
+**Kentucky scoped correction: INSTALLED** at `2940142d0`. Three copies of the
+stop "Any case where the underlying offence falls outside KRS 431.073(1)(a) and
+(1)(d), so that the pardon is the only route." removed — two registry entries
+and the originating memo stop. 503 tracks, 502 unrelated byte-identical, which
+matches the supplied executedchecks.json exactly. The package's patch file never
+reached this container; the change was applied from current preimages against
+the described scope and that provenance is recorded on the track under
+scopedCorrections. Do not reapply it and do not look for the zip again.
+
+**Production, separately.** Image PUBLISHED and ACCEPTED. Source
+`c065d2485b97be9a9c53313551226b0b6c3c9cfb`, digest
+`sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802`,
+publication run 34265052706, acceptance run 34289593168 SUCCESS. Fulfillment
+authority now reads `published_input_equivalent`; the readiness audit is 14/14
+with 0 blocked. The old `b680a4e4`/`bf4589d3` image is superseded in the chain
+with its failure recorded — do not restamp it. Deployment: NOT deployed, NOT
+verified.
+
+**The one thing blocking the end-to-end rehearsal, and it needs Roger.** F1
+ephemeral now passes the baseline, matches all seven migration hashes and
+applies phase 49, then fails: `supabase/phase-50-rcap-packet-delivery-hardening.sql`
+line 421 errors with `trigger "guard_packet_render_job_transition" for relation
+"packet_render_jobs" already exists`. Cause established, not guessed:
+`supabase/migrations/20260818205000_rcap_upgrade_05_triggers.sql`, the
+forward-only Production schema upgrade, already creates all five `guard_packet_*`
+triggers, and phase 50 uses plain `CREATE TRIGGER`. Phase 49 survives only
+because every statement in it is `IF NOT EXISTS`. The fix is one line per
+trigger, `CREATE OR REPLACE TRIGGER` (PostgreSQL 17 supports it), then
+regenerating the staging action so the recorded hashes match. It is NOT done:
+phase 50 is an authorized, hash-gated migration bound to an authorizationId, so
+it is not rewritten without Roger's word. Asked once; awaiting.
+
+**Two F1 harness defects found and fixed** (neither weakened a check): the
+pre-49 ordering sentinel asserted the absence of `packet_render_jobs`, which the
+baseline migrations create, so it could never pass — it now asserts
+`rcap_partner_packet_allocation` and `rcap_packet_credit_consumptions`, created
+by phase 49 and by nothing in supabase/migrations; and the sandbox partner seed
+supplied one of the four columns `partner_records` requires. Latest run 34293728568
+at `4b3b86e9f`, in progress at this checkpoint.
+
+**Also fixed:** the scratchpad registry-pin refresher mis-parsed field-scoped
+anchors (`track-registry:<track>:<field>`) and refused receipts whose bound
+content had not moved. It now compares the named field, which is stricter than
+comparing the whole track. Sixteen Virginia receipts anchoring a different
+recordId shape are still refused rather than guessed at.
+
+**Committed diagnostics.** `data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json`
+measures, per bound source, whether SOURCE_READY families can actually be built:
+6 have every bound source held as a PDF, 16 carry a held-but-unusable source
+(four Montana families on .docx, twelve on locator strings), 51 are
+NOT_MEASURABLE_HERE because their custody is not mounted in this container. It
+changes no state and adds no gate. Two earlier passes of that sweep were wrong
+and are not what is committed.
+
+**Exact next command.** When VF11 returns: cherry-pick its rows, release its four
+grants, then run the seven generators in order (extract-verifier-returns,
+generate-product-wiring, generate, generate-raster-queue, generate-source-conveyor,
+generate-washington-repair, generate-source-relationship-registry) with
+MASTER_LIBRARY_SOURCE_DIR exported, and read the census. That derivation is what
+publishes Vermont and any New Jersey passes.
+
+<!-- END CLAUDE CAPTAIN CHECKPOINT 2026-09-09T00:15Z -->
+
 <!-- CLAUDE CAPTAIN HANDOFF 2026-09-08 -->
 # Captain handoff to Claude — writes released after this checkpoint publication
 
