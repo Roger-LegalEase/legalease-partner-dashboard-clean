@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-source-rematerialization-request/v1",
+  "recordedBy": "Captain, 2026-09-09",
+  "why": "Seven official forms were fetched on 2026-09-04, their receipts record the exact bytes that came back, and the bytes were never materialised into a mounted custody. Six families are blocked on nothing else. This is not a research task and not a legal question: it is seven downloads with a digest to check each one against.",
+  "whyICannotDoItHere": "This environment's network policy denies these hosts. curl to courts.delaware.gov returns 'CONNECT tunnel failed, response 403' at the agent proxy, and the proxy status confirms a policy denial rather than an upstream failure. The Actions runners are not a way round it either -- a workflow that fetched a form would be acquiring a legal source inside CI with no custody record.",
+  "howToDoIt": "Fetch each directBinaryUrl. Hash what comes back with sha256sum. If it equals expectedSha256, the instrument is the one the receipt describes and it can be placed in custody as storedFilename. If it does NOT equal expectedSha256, do not place it: the form has been revised since 2026-09-04, and a revised form is a different instrument that has to be re-bound rather than substituted. Send me the digest either way -- a mismatch is a useful answer and tells me the family needs a new binding, not that the fetch failed.",
+  "doNotSubstitute": "Do not send a file that merely carries the right form number, a scan, a print-to-PDF, or a copy from a third-party forms site. The digest is the whole point.",
+  "whatThisUnblocks": "de_pardon_expungement-set, de_discretionary_superior_court-set, de_discretionary_family_court-set, ky_protective_order_record_expungement-set, me-seal-survivor-set and nd-regular-pardon-set are each blocked on one or more of these and on nothing else. Each is otherwise a straight build.",
+  "notAProductionClaim": "Materialising a source grants nothing. It makes a build possible; it opens no route and promotes no family.",
+  "sources": [
+    {
+      "sourceId": "DE-CIV-EXP-02-B",
+      "families": [
+        "de_discretionary_superior_court-set"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "directBinaryUrl": "https://courts.delaware.gov/forms/download.aspx?id=164808",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "expectedSha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+      "expectedByteLength": 227057,
+      "expectedPageCount": 1,
+      "expectedPrintedTitle": "Expungement Petition Form Additional Charges Extension Sheet",
+      "storedFilename": "civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-02-B/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "DE-CIV-EXP-04-A",
+      "families": [
+        "de_discretionary_superior_court-set"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "directBinaryUrl": "https://courts.delaware.gov/forms/download.aspx?id=118518",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "expectedSha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+      "expectedByteLength": 987462,
+      "expectedPageCount": 1,
+      "expectedPrintedTitle": "Expungement Order Granting Form",
+      "storedFilename": "civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-04-A/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "DE-CIV-EXP-08-A",
+      "families": [
+        "de_pardon_expungement-set"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "directBinaryUrl": "https://courts.delaware.gov/forms/download.aspx?id=119268",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "expectedSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+      "expectedByteLength": 1128070,
+      "expectedPageCount": 1,
+      "expectedPrintedTitle": "Expungement New Order Granting after Pardon",
+      "storedFilename": "civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-08-A/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "DE-FORM-281",
+      "families": [
+        "de_discretionary_family_court-set"
+      ],
+      "issuingAuthority": "Delaware Family Court / Delaware Courts",
+      "directBinaryUrl": "https://courts.delaware.gov/forms/download.aspx?id=386",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "expectedSha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+      "expectedByteLength": 97280,
+      "expectedPageCount": null,
+      "expectedPrintedTitle": "Petition For Expungement of Adult Record",
+      "storedFilename": "281---petition-for-expungement-of-adult-record-11192025.doc",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-FORM-281/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "KY-AOC-275.18",
+      "families": [
+        "ky_protective_order_record_expungement-set"
+      ],
+      "issuingAuthority": "Kentucky Court of Justice",
+      "directBinaryUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/275.18.pdf",
+      "officialLandingPages": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx"
+      ],
+      "expectedSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+      "expectedByteLength": 192243,
+      "expectedPageCount": 1,
+      "expectedPrintedTitle": "Motion for Expungement of Emergency/Temporary Order of Protection",
+      "storedFilename": "275.18.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/KY-AOC-275.18/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "ME-CR-308",
+      "families": [
+        "me-seal-survivor-set"
+      ],
+      "issuingAuthority": "Maine Judicial Branch",
+      "directBinaryUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+      "officialLandingPages": [
+        "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index"
+      ],
+      "expectedSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "expectedByteLength": 162514,
+      "expectedPageCount": 2,
+      "expectedPrintedTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+      "storedFilename": "MJB-Form-cr-308.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/ME-CR-308/receipt.json",
+      "acquiredStatus": "acquired"
+    },
+    {
+      "sourceId": "ND-SFN-14859",
+      "families": [
+        "nd-regular-pardon-set"
+      ],
+      "issuingAuthority": "North Dakota Pardon Advisory Board / North Dakota Department of Corrections and Rehabilitation",
+      "directBinaryUrl": "https://www.docr.nd.gov/sites/default/files/documents/parole_pardon/Pardon/Applications/North%20Dakota%20Pardon%20Advisory%20Board%20Application%20(1).pdf",
+      "officialLandingPages": [
+        "https://www.docr.nd.gov/pardon-advisory-board"
+      ],
+      "expectedSha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+      "expectedByteLength": 211478,
+      "expectedPageCount": 8,
+      "expectedPrintedTitle": "North Dakota Pardon Advisory Board Application",
+      "storedFilename": "North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/ND-SFN-14859/receipt.json",
+      "acquiredStatus": "acquired"
+    }
+  ]
+}
