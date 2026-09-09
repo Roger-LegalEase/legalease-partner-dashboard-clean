@@ -4702,8 +4702,8 @@
       "operation": "rapid-repair",
       "lane": "FIX116",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-07T07:42:02.749Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c. Accepted instrument identity remains a hold. No further build assignment is needed for the completed repair."
     },
     {
@@ -8198,8 +8198,8 @@
       "operation": "rapid-repair",
       "lane": "FIX83",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T05:11:45.331Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Completed repair 667527723/86af8c364 integrated; current-byte independent reread now starts, fresh central raster remains owed."
     },
     {
@@ -13701,7 +13701,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "07b9e1542702b81bc9ee894e9976a26901c222a165545bf28e62919575630f0d",
+  "claimsDigest": "85edc2180e2692bcf1d81db97588c59e47e57d3cfac4bb8b32a6304607b5a40a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40771,6 +40771,26 @@
       "previouslyReleasedAt": "2026-09-02T22:41:28.771Z",
       "reissuedAt": "2026-09-09T01:55:43.989Z",
       "reason": "FIX101 repaired all three obligations vf30 failed (COMPONENT_SET, REQUIRED_BEFORE_FILING, SELF_HELP_STOP) without moving a fixture byte, so the RASTER_PASS from run 33844904078 still binds the delivered bytes. The repair lane states it cannot verify its own work and names an independent re-read as what is owed. Reissued to VF01, the lane the dispatch names."
+    },
+    {
+      "lane": "FIX83",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T05:11:45.331Z",
+      "reissuedAt": "2026-09-09T01:59:32.181Z",
+      "reason": "Owner withholding OWN-ADOPT-2026-09-02-BATCH-53 'Do not publish an unconfirmed fee' is lifted by the record's own procedure: make the named correction, rebuild, and have an independent verifier who is neither builder nor repairer read it again. Two sibling families under the identical decision, ms-fel-set and ut_pet_traffic-set, are already COMPLETE_PACKET_PROVEN by that path."
+    },
+    {
+      "lane": "FIX116",
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-07T07:42:02.749Z",
+      "reissuedAt": "2026-09-09T01:59:32.296Z",
+      "reason": "Owner withholding OWN-ADOPT-2026-09-02-BATCH-53 'CUSTOM_PLEADING_FROM_CODIFIED_TEXT is not external source-acquisition work' is lifted by the record's own procedure. Two sibling families under the identical decision, ga-jail-k2-set and vt_seal_under_25-set, are already COMPLETE_PACKET_PROVEN by that path."
     }
   ],
   "transfers": [
