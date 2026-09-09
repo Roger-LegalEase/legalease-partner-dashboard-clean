@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "la-985-1-interim-expungement-set",
+  "jurisdiction": "LA",
+  "trackId": "la-985-1-interim-expungement",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-985-1-interim-expungement:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "authorityDecision": "LA-STATUTORY-FORMS",
+  "composedFromAuthority": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-994"
+  ],
+  "controllingArticle": "La. C.Cr.P. art. 985.1",
+  "whatThisTrackReaches": "only the entry of the ORIGINAL FELONY ARREST in the criminal history. The misdemeanour conviction that arose out of that arrest is not expunged by this track and stays on the record unless separately cleared under Article 977. The packet says so on the motion, on the proposed order, in the filing instructions and three times in the guide.",
+  "mandatoryForms": {
+    "motion": {
+      "officialFormId": "LA-CCRP-ART-994",
+      "composedFrom": "the committed authority; no binary of Article 994 is retained by any Master Library edition"
+    },
+    "order": {
+      "officialFormId": "LA-CCRP-ART-995",
+      "composedFrom": "the Article 995 statutory text held byte-exact in custody and bound to this packet by content digest",
+      "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+      "anchorsAssertedAgainstTheSourceBytes": [
+        "Art. 995. Order of interim expungement form to be used",
+        "ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD",
+        "Considering the Motion for Expungement",
+        "The hearing conducted and evidence adduced herein, OR",
+        "Affidavits of No Opposition filed,",
+        "IT IS ORDERED, ADJUDGED AND DECREED",
+        "THE MOTION IS DENIED for the following reasons (check all that apply):",
+        "Mover was not arrested for a felony.",
+        "Mover was not convicted of a misdemeanor offense.",
+        "Name of Offense",
+        "JUDGE",
+        "PLEASE SERVE",
+        "Acts 2014, No. 145"
+      ],
+      "legislaturesOwnWordsReproduced": [
+        "the grant paragraph",
+        "the further-ordered paragraph",
+        "both denial-reason boxes",
+        "the hearing-or-affidavits alternatives"
+      ],
+      "oneLineNotReproduced": {
+        "line": "THUS ORDERED AND SIGNED this ___ day of ___, 20___ at ___, Louisiana.",
+        "why": "the retained capture is a browser print whose text layer interleaves that line with the year and place blanks; extracted it reads as a mangled string. A mangled line does not go onto a proposed order a judge signs.",
+        "whatWasRenderedInstead": "its constituent blanks - day, month and year, and place - as the court-owned fields they are, beneath the heading THUS ORDERED AND SIGNED.",
+        "detectedAtBuildTime": true,
+        "asExtracted": "20 ______ aTHUS ORDtERE_________________________, LD AND SIGNED this ____ day of _________________________,ouisiana. ____________________________ JUDGE https://"
+      },
+      "judicialBoundary": "the committed note states that the judge signs, so the rendering carries no signature label of its own: the statute's own word JUDGE sits beneath a blank rule. The election between a hearing and Affidavits of No Opposition, the granted-or-denied choice, both reasons for denial, the date and the place all render blank, and the absence of ink on the signature line is proved from the output bytes rather than asserted."
+    }
+  },
+  "components": [
+    {
+      "componentId": "la-985-1-interim-expungement-primary-filing-1",
+      "documentId": "LA-CCRP-ART-994",
+      "title": "Article 994 Motion for Interim Expungement of a Felony Arrest, under Article 985.1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-994",
+      "order": 1,
+      "generated": true
+    },
+    {
+      "componentId": "la-985-1-interim-expungement-proposed-order-2",
+      "documentId": "LA-CCRP-ART-995",
+      "title": "Article 995 Order of Expungement of Interim Arrest Record",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "LA-CCRP-ART-995",
+      "order": 2,
+      "generated": true
+    },
+    {
+      "componentId": "la-985-1-interim-expungement-fee-waiver-3",
+      "documentId": "LA-CCRP-ART-988",
+      "title": "Article 988 Motion for Fee Exemption under Article 983(F)",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-988",
+      "order": 3,
+      "generated": false
+    },
+    {
+      "componentId": "la-985-1-interim-expungement-instructions-4",
+      "documentId": "la-985-1-interim-expungement-instructions-4",
+      "title": "Article 985.1 Participant and Filing Instructions",
+      "role": "instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "order": 4,
+      "generated": true
+    }
+  ],
+  "componentsNotGenerated": [
+    {
+      "componentId": "la-985-1-interim-expungement-fee-waiver-3",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-988",
+      "conditionTheRecordStates": "Generated only where the participant may qualify for the Article 983(F) exemption; Article 985.1(C) applies the ordinary fee provisions.",
+      "generated": false,
+      "whyNotGenerated": "the condition is that the participant may qualify for the Article 983(F) exemption, and Article 985.1(C) applies the ordinary Article 983 fee provisions. The Article 983(F) grounds are non-conviction grounds - acquittal of all charges, no prosecution within the time limitation, dismissal or refusal, factual innocence, or a juvenile drug-court exemption - and this track's own predicate is a MISDEMEANOUR CONVICTION arising out of the felony arrest, so no fixture establishes any of them. The record's own words about the exemption and the non-refundable fee are carried in the participant and filing instructions, and item 5 of the record's required-before-filing list, which claims the packet gives the participant this form, is printed unchanged and corrected beneath."
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/filing-instructions.md"
+}

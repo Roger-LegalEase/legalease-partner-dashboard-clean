@@ -1,0 +1,19 @@
+# Filing instructions - Interim Motion to Expunge a Felony Arrest from Criminal History (La. C.Cr.P. art. 985.1)
+
+Prepared for **Jordan Avery Reyes**.
+
+This motion clears ONLY the entry of the original FELONY ARREST from the criminal history. The misdemeanour conviction that arose out of that arrest is not expunged by it and stays on the record unless it is separately cleared under Article 977.
+
+- Filing: File the Article 994 Motion for Interim Expungement with the proposed Article 995 Order of Expungement of Interim Arrest Record with the clerk of court. Article 985.1(C) applies the procedures of Article 979 et seq. Article 986 makes Articles 994 and 995 the forms to be used.
+- Where: Clerk of court for the parish. File the Article 994 interim motion with the proposed Article 995 order. Article 985.1(C) applies the Article 979 et seq. procedures and fees, so the clerk serves the district attorney, the Bureau and the arresting agency.
+- Venue: The court with trial jurisdiction over the misdemeanour conviction in the parish of arrest and conviction, under Article 972.1.
+- What the registry says about filing: File the Article 994 Motion for Interim Expungement with the proposed Article 995 Order of Expungement of Interim Arrest Record with the clerk of court. Article 985.1(C) applies the procedures of Article 979 et seq. Article 986 makes Articles 994 and 995 the forms to be used.
+- What it costs: Article 985.1(C) applies the ordinary Article 983 fee provisions, so the five-hundred-fifty-dollar cap applies, collected by the clerk at filing and non-refundable even if the motion is denied.
+- Fee exemption: Article 983(F) through the Article 988 Motion for Fee Exemption where its grounds are met.
+- Service: The participant does not serve anyone. Under Article 979 the clerk of court serves notice of the motion by United States mail or electronically on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency, and files a certificate of service showing the mailing date. Under Article 982, if expungement is granted the clerk serves the order and judgment on the district attorney, the Bureau, the sheriff of the parish of conviction and the arresting agency.
+
+## The order of operations the committed record fixes
+
+Sequencing is the deliverable in Louisiana. The instructions carry, in order: order the Right to Review or sheriff's background check and watch its sixty-day life; complete the participant fields of the Article 988 fee exemption and deliver it to the district attorney BEFORE filing, expecting it back within fifteen days; request whichever Article 989 certification letters the chosen eligibility basis needs; file with the clerk with the fee or the returned exemption; the clerk serves the district attorney, the Bureau and the arresting agency under Article 979; agencies have sixty days from service to object under Article 980, extendable once by up to thirty days; an Affidavit of No Opposition from each named agency attached to the motion supports an ex parte grant with no contradictory hearing; if expungement is granted the clerk serves the order and judgment under Article 982. It also carries the Louisiana State Police list of common fatal errors: wrong arrest date, using the amended charge instead of the original arrest charge, omitting counts, putting misdemeanours and felonies in the wrong section, missing dispositions or certifications, and choosing the wrong eligibility basis. On this track the instructions make two things explicit: this motion clears only the original felony arrest entry, and the misdemeanour conviction stays on the record unless it is separately cleared under Article 977; and the route remains open where Article 977 is closed by the sex-offence exclusion, has no waiting period, and has no numerical cap.
+
+Packet set: la-985-1-interim-expungement-set
