@@ -165,6 +165,96 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "al-pardoned-felony-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "laneKind": "shared-host-repair",
+      "obligationsRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "findingAnswered": "AL6-04",
+      "obligationCoverage": "The family's failedObligationNames is exactly [ROUTE_OPTIONS] on the selected independent verdict (lane vf06, base b5cb44279e39cc56d11f65be5dd3de0d16bab85e), finding AL6-04. That obligation is named and discharged here.",
+      "theAnswerToTheQuestionAsked": "The honest answer is that this packet CANNOT pre-tick CR-65 Section V, and the packet now says so. The record does not establish every limb for the participant, and six of the eight limbs it establishes nothing about whatsoever.",
+      "whyTheRecordDoesNotEstablishTheLimbs": "AL.memo.json track al-pardoned-felony records waitingPeriods [] -- empty, so no 180-day period exists in the record at all -- exclusions [] empty, and exactly four participantInputs: pardonDate, restorationLanguage, firearmRightsExcluded, countyOfFiling. Nothing in the track speaks to a violent offense under § 12-25-32 (Box11.2), a sex offense under § 15-20A-5 (11.3), moral turpitude under § 17-3-30.1 or a 15-year arrest-free period (11.4), a serious traffic offense under Article 9 of Chapter 5A of Title 32 (11.5), or a commercial driver licence at the time of the offense (11.6). Box11.1's 180 days has no counterpart in the record. Box11.0, restoration of all civil and political rights, is not merely unestablished but is the OPEN question: the same memo carries it as a retained legal_design_blocker -- 'whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships' -- and as a stop condition, 'The pardon withholds firearm rights and the restoration question controls.' The route expressly contemplates that this box may be false. Box10.6, the route's defining disposition, also asserts restoration ('certificate of pardon WITH RESTORATION of civil and political rights'), and the memo's own limitation classifies it as the participant's fact: 'Pardon date, restoration language, and certificate terms are participant-entered facts.'",
+      "howItWasRepaired": "Not one of the eight is ticked any more. FAMILY_CONFIG['al-pardoned-felony-set'].selected in scripts/build-census-v1-al-diversion-set.mjs goes from eight boxes to []. Each of the eight now leaves the build as a refusal with refusalClass participant_sworn_narrative_or_legal_election and routeDetermined false, so the certification comes back to the participant instead of being made for them. participant-instructions.md gains a section, 'The eight conditions you must certify yourself', which quotes each limb as CR-65 prints it -- the printed wording read out of the form's own content streams -- and states beside each one what the held record does and does not say. Box11.0 is marked UNRESOLVED IN THE HELD RECORD and tells the participant that if the pardon excludes firearm rights they should not check it and should stop.",
+      "whatWasDeliberatelyNotDone": "The ticks were not made to look better, not reduced to a smaller set, and not left in place with a warning added elsewhere. Ink already on a sworn certification is not cured by prose in a guide, and a partly-ticked conjunctive certification still swears the limbs it ticks. Telling the participant in step 3 to 'confirm every condition printed in CR-65 Section V', which the pre-repair packet did, does not cure ink already sworn on their behalf -- vf06 said exactly this and it is right.",
+      "deliveryNotShrunk": "Removing the ticks removes no owed delivery: the packet never held the facts they asserted. The delivery grew -- the participant now receives all eight limbs quoted from the form with the record's position on each, which the pre-repair packet did not provide. The precedent is in this repository: the sibling al-felony-nonconviction-90-set already ships with selected: [] and passes all nine counters, and the sibling al-misd-conviction-set keeps its seven Section II ticks precisely because each of those seven IS backed by a memo exclusion, waiting period or participant input.",
+      "sharedHostBlastRadius": "scripts/build-census-v1-al-diversion-set.mjs is a shared host imported by three families this lane does not own: al-diversion-set, al-misd-conviction-set, al-misd-dwop-set. Only this family's FAMILY_CONFIG entry was changed, and the new guide section renders only where a family's config declares electionsHandedBack, so the other three carry no such section. All three were rebuilt through the modified host and git reports their directories clean -- byte-for-byte unchanged. The family-specific assertions were deliberately placed in scripts/build-census-v1-al-pardoned-felony-set.mjs, which nothing imports, rather than in the shared assertRepairInvariants, because 'check nothing' is true of this family and false of the other three.",
+      "factsNotInvented": "No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment, judicial finding or eligibility determination was created. This repair removes assertions rather than adding any. The printed limb wording is quoted from CR-65 itself; the record's position on each limb is quoted from or directly derived from AL.memo.json.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS - no browser in this lane. This family's PDF bytes CHANGED, so the pending raster measures different bytes than were previously enrolled and the visual obligation is genuinely open. The eight page-3 and page-4 checkbox appearances that used to carry a tick should now be empty; that is the thing to look at first.",
+        "AL-7 itself, the dispositive firearm-restoration question, is NOT resolved by this repair and is not this lane's to resolve. It remains a retained legal_design_blocker in AL.memo.json. This repair stops the packet from silently answering it in the participant's favour; it does not answer it. The route should not reach approved_for_live until AL-7 is resolved by counsel.",
+        "Whether this route should ship at all with an unresolved dispositive eligibility blocker is a legal-design determination for whoever owns it, not a packet defect this lane can close."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "PASS_COMPLETE, 30/216 written, all nine zero before and after. All nine read zero while all eight sworn limbs were ticked -- that is the finding, and it is why AL6-04 was described as the AL6-01 defect class surviving the AL6-01 repair with all nine counters at zero. requiredOptionsMissing stays 0 after the ticks are removed because each box is classified PARTICIPANT_ELECTION_GENUINE, an allowed disposition, exactly as on the sibling al-felony-nonconviction-90-set which also elects nothing.",
+      "verifyPacketCompletenessOutput": "ok al-pardoned-felony-set PASS_COMPLETE 30/216 written · 1 famil(ies) audited · 1 PASS_COMPLETE",
+      "writeCountChange": "production-field-map.json writes 38 -> 30, refusals 178 -> 186. The eight moved from writes to refusals. CR-65 selection-control writes 8 -> 0. actual-writes.json reports 30 values, 0 glyphs outside measured boxes, no refused field carrying ink, on both fixtures.",
+      "artifactsProduced": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "985f5109580e569525a848adee80004a020d460e6d5a07db90bfc2b3dca6b2f0",
+          "changedByThisRepair": true,
+          "sha256Before": "0ca558a91f4cfbd1cd43489b2cb652b7c56970407763773858800e303867c408"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "bf42599d8545ee2e470f5bc2b298d64562966c9c71e1a7578c85ca958b29ff6f",
+          "changedByThisRepair": true,
+          "sha256Before": "327a61276c403203a552840063d79c6c04ecb2036e0bd253265a0013e35b3dae"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "0fb769335164ea0feae70beca0946685e31bcab74a0c77302f61d8f193a427d1",
+          "changedByThisRepair": true,
+          "sha256Before": "b3215d33ae167c6fdd2dad9b514ecf1c50704dfe00f80ba79a07bb4a5d7b78f6"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "acbc89a8effbdde59c180299946509efe13da2ec7dbbd27e47fe2a031ca2ea48",
+          "changedByThisRepair": false
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/production-field-map.json",
+          "sha256": "2a3c8cd4cea3a719805cd6b21fa205ff347f104df47ced0bd44b86a35762b3f8",
+          "changedByThisRepair": true,
+          "sha256Before": "9c89c393f88394d0cd490dd0f38587c29389cf2be15c860751e34ac984c9022e"
+        }
+      ],
+      "negativeControl": {
+        "what": "assertPardonedFelonyInvariants in scripts/build-census-v1-al-pardoned-felony-set.mjs, run both ways. Thirty-one checks: each of the eight Section V boxes unticked, no CR-65 selection control written at all, each of the eight returned as a refusal with routeDetermined false, the guide naming the certification and accounting for all eight limbs, the guide saying plainly it checked nothing, the firearm-restoration stop verbatim, the restoration limb marked unresolved, the record's silence on any waiting period stated, and the memo digest carried.",
+        "preRepairReading": "29 of 31 checks FIRE on the pre-repair bytes.",
+        "postRepairReading": "0 of 31 fire. `node scripts/build-census-v1-al-pardoned-felony-set.mjs --check` prints \"al-pardoned-felony-set: repair invariants PASS\" and exits 0, after also passing the shared host's assertRepairInvariants.",
+        "theTwoThatDidNotFire": "'firearm-restoration stop carried verbatim' and 'guide carries the memo digest' passed pre-repair: the shared host already generated this family's guide from the memo, so its stops and digest were already right. Only the certification was wrong. That is a fair reading of the pre-repair packet and is reported rather than smoothed over.",
+        "structuralControl": "A second control on blast radius: all three sibling families that import the modified shared host were rebuilt through it, and git reports their directories clean. The repair reaches exactly one family."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
