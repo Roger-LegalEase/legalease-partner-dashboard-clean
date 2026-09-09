@@ -1,0 +1,225 @@
+# Motion to Expunge Record of Arrest That Did Not Result in a Conviction (La. C.Cr.P. art. 976)
+
+Prepared for **Jordan Avery Reyes**. Packet set `la-976-arrest-no-conviction-set`, version 1.0.0.
+
+This packet set serves 1 route(s):
+
+- `obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement`
+
+## The article this packet proceeds under
+
+Louisiana runs separate expungement tracks off separate articles, and they are not interchangeable. This packet is the **Article 976** track: a record of ARREST that did not result in a conviction. A misdemeanour conviction is Article 977, a first offence possession of marijuana is Article 977(D) on the Article 998 form, a felony conviction is Article 978, a record that names more than one person is Article 985 redaction, and a felony arrest that ended in a misdemeanour conviction is the Article 985.1 interim expungement. If any charge on your arrest ended in a conviction, this is the wrong packet.
+
+Article 976(A) lets a person move to expunge a record of arrest for a felony or misdemeanour that did not result in conviction where the person was not prosecuted and the time limitation has expired, the district attorney declined to prosecute every offence arising out of the arrest including because a pretrial diversion programme was completed, the proceedings were finally disposed of by dismissal, sustaining of a motion to quash or acquittal, or the person was judicially determined to be factually innocent and entitled to compensation under R.S. 15:572.8. Article 976(B) bars expungement of an arrest for operating a vehicle while intoxicated, or a parish or municipal equivalent, where the person was placed in a pretrial diversion programme, until five years have elapsed since the date of arrest. Article 975 bars filing by a person in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour. Relief is effectively mandatory: under Article 980 the court grants where no timely objection is filed and the mover is legally entitled.
+
+The committed record lists 14 authorities for this track:
+
+- La. C.Cr.P. art. 976
+- La. C.Cr.P. art. 975
+- La. C.Cr.P. art. 979
+- La. C.Cr.P. art. 980
+- La. C.Cr.P. art. 982
+- La. C.Cr.P. art. 983
+- La. C.Cr.P. art. 986
+- La. C.Cr.P. art. 988
+- La. C.Cr.P. art. 989
+- La. C.Cr.P. art. 990
+- La. C.Cr.P. art. 991
+- La. C.Cr.P. art. 992
+- La. C.Cr.P. art. 993
+- La. R.S. 15:572.8
+
+## What is in this packet
+
+- `la-976-arrest-no-conviction-primary-filing-1` - Article 989 Motion for Expungement of a Record of Arrest That Did Not Result in a Conviction, under Article 976 (primary_filing, required).
+- `la-976-arrest-no-conviction-proposed-order-2` - Article 991 Order (proposed_order, required).
+- `la-976-arrest-no-conviction-proposed-order-3` - Article 992 Order of Expungement of Arrest Record (proposed_order, required).
+- `la-976-arrest-no-conviction-fee-waiver-4` - Article 988 Motion for Fee Exemption under Article 983(F) (fee_waiver, conditional).
+- `la-976-arrest-no-conviction-instructions-6` - Article 976 Participant and Filing Instructions (instructions, required).
+
+The Article 988 Motion for Fee Exemption is conditional on the record and is generated here because the condition the record states is met on this track: the record says the Article 983(F) exemption is common on this track and must be screened before filing rather than after. Your own identifying fields are filled in on it. Every certification box and the district attorney's signature are left blank, because the form's own instruction assigns them to the district attorney.
+
+## What is not generated, and the condition the record states
+
+- `la-976-arrest-no-conviction-continuation-5` (continuation, LA-CCRP-ART-993): Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold. This packet does not meet that condition, so the component is not generated.
+
+The Article 993 supplemental sheet is a statutory form for which the committed legal-design record states that no template exists, none is counsel-approved and no implementation is authorized, and it is not in this family's authority grant. Where your arrest carries more charges or counts than the Article 989 motion holds, ask the clerk of court for the Article 993 supplemental sheet rather than adding pages of your own; Article 986(B) permits a supplemental form only so far as it adheres to the statutory form.
+
+## Everything the committed record requires to be in place before filing (all 19 item(s) it lists)
+
+This list is the packet set's own. Some items are yours, some belong to the district attorney, the clerk or the judge. Every one of them is reproduced here, in the record's own words and in the record's own order, so that nothing on it reaches you shortened.
+
+- Item 1 of 19: Obtain Louisiana criminal background check dated within the past sixty days. Louisiana State Police recommends a fingerprint-based Right to Review, because the motion must match the state rap sheet on arrest and booking date, original arrest charge, arrest number and counts. Order it so it is still inside its sixty-day life on the day the motion is filed; the Article 989 form marks it required on its face.
+- Item 2 of 19: Obtain Returned Article 988 Motion for Fee Exemption, completed and signed by the district attorney. The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed. The district attorney or a designee completes the certification boxes and signs, and returns it within fifteen days. Append it to the motion at filing only if you are found eligible. Filing without it means paying the fee, and Article 983 makes the fee non-refundable even if the motion is denied.
+- Item 3 of 19: Obtain Bill of information or indictment for each charge. Ask the clerk of court in the parish of arrest or conviction for a copy of the bill of information or indictment for each charge on the arrest.
+- Item 4 of 19: Obtain Minute entry showing the final disposition. Ask the clerk of court for the minute entry that shows how each charge was finally disposed of.
+- Item 5 of 19: Check your answer to "How did each charge on this arrest end — never prosecuted and the time limit ran out, the district attorney refused the charges, you completed a pretrial diversion programme, the case was dismissed, a motion to quash was sustained, you were acquitted, or a court found you factually innocent?" against Minute entry showing the final disposition, and correct the packet if they disagree.
+- Item 6 of 19: Obtain District attorney certification letter verifying that the charges were refused. The Article 989 attachment checklist lists it. Ask the district attorney's office in writing for a letter verifying that the charges arising out of this arrest were refused. The packet includes a cover request naming exactly which certifications your chosen eligibility basis needs.
+- Item 7 of 19: Obtain District attorney certification letter verifying no participation in a pretrial diversion programme. Ask the district attorney's office in writing for a letter verifying that you did not participate in a pretrial diversion programme on this arrest. The Article 989 attachment checklist lists it, and the Article 988 fee exemption turns on the same fact.
+- Item 8 of 19: Obtain Court order of factual innocence and entitlement to compensation under R.S. 15:572.8. Ask the clerk of the court that made the determination for a certified copy.
+- Item 9 of 19: Obtain Affidavit of No Opposition from each named agency. This is the agencies' own instrument on the Article 990 form, and only they can execute it. If you can obtain one from each named agency and attach them to the motion, the Article 991 Order provides that no contradictory hearing is required and the motion may be granted ex parte. LegalEase cannot prepare, complete or sign it.
+- Item 10 of 19: Every finding, ruling, date, place and signature on the Article 991 Order — Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line.
+- Item 11 of 19: Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement — Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line.
+- Item 12 of 19: Race and gender — Article 989 Motion, Part I Defendant Information.
+- Item 13 of 19: The participant's signature and the date of signing — Article 989 Motion, unrepresented-mover signature block on the final page.
+- Item 14 of 19: Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption — Article 988 Motion for Fee Exemption, the certification section and signature block.
+- Item 15 of 19: The whole of the Article 990 Affidavit of Response — Not printed in the participant packet; described in the filing instructions only.
+- Item 16 of 19: The clerk's service of the motion and of the order and judgment — Not printed in the participant packet; described in the filing instructions only.
+- Item 17 of 19: The mover signs the Article 989 Motion in the block headed 'If not represented by counsel'. LegalEase leaves the signature and date blank.
+- Item 18 of 19: Article 983(A) caps the total cost of obtaining a court order of expungement at five hundred fifty dollars. The clerk collects at the time of filing and Article 983 makes the fees non-refundable even if the motion is denied. Article 983(F) waives all fees where a district attorney certification verifies no felony convictions and no pending felony charge under a bill of information or indictment, together with one of the listed non-conviction grounds — acquittal of all charges after trial including lesser and included offences, no prosecution within the time limitation with no pretrial diversion, dismissal or refusal before the time limitation with no pretrial diversion, factual innocence with entitlement to compensation under R.S. 15:572.8, or a juvenile who completed a juvenile drug court programme and is exempt under Article 983(G). The exemption is very often available on this track and must be screened before filing rather than after.
+- Item 19 of 19: Article 983(F), claimed through the Article 988 Motion for Fee Exemption. The form goes to the district attorney before filing and comes back within fifteen days. Louisiana State Police states that a person is ineligible for the exemption if they have ever been convicted of a felony, including an expunged felony.
+
+## What you must supply before filing
+
+Check every prefilled fact against your own court record and your background check, and correct the packet where they disagree. The blanks below are deliberately empty and are yours to complete.
+
+| Document | Blank on the document | What you must supply |
+| --- | --- | --- |
+| LA-CCRP-ART-989 | Original arrest charge and statute for every count as they appear on the state rap sheet | each charge at the time of arrest - the original arrest charge and statute for every count, exactly as the state rap sheet writes them, not the charge that was later amended and not leaving a count out |
+| LA-CCRP-ART-989 | Which Article 976(A) ground applies to each charge on this arrest | which Article 976(A) ground each charge ended on - never prosecuted and the time limitation ran out, the district attorney refused the charges, a pretrial diversion programme was completed, the case was dismissed, a motion to quash was sustained, an acquittal, or a judicial determination of factual innocence with entitlement to compensation under R.S. 15:572.8 |
+| LA-CCRP-ART-989 | Whether this arrest was for operating a vehicle while intoxicated, or for a parish or municipal ordinance version of that offence | whether this arrest was for operating a vehicle while intoxicated, or for a parish or city ordinance version of that offence |
+| LA-CCRP-ART-989 | Whether a pretrial diversion programme was entered on a vehicle-while-intoxicated arrest | whether you entered a pretrial diversion programme on that vehicle-while-intoxicated arrest, if this arrest was one |
+| LA-CCRP-ART-989 | Whether the record of this arrest names anyone besides the mover | whether the record of this arrest names anyone besides you |
+| LA-CCRP-ART-989 | Race | your race, written as the state rap sheet writes it, so Part I matches the record the Bureau holds |
+| LA-CCRP-ART-989 | Gender | your gender, written as the state rap sheet writes it, so Part I matches the record the Bureau holds |
+| LA-CCRP-ART-989 | Last four digits of the Social Security number | the last four digits of your Social Security number, written on the form by hand at the moment you file |
+| LA-CCRP-ART-989 | Arrest or booking number shown on the state rap sheet | the arrest or booking number (ATN) exactly as your Right to Review or sheriff's background check prints it |
+| LA-CCRP-ART-989 | SID number shown on the state rap sheet | your SID number exactly as your rap sheet prints it, or leave it blank if your rap sheet shows none |
+| LA-CCRP-ART-989 | Arresting law enforcement item number for this arrest | the arresting agency's item number for this arrest, from your rap sheet or the agency's own report |
+| LA-CCRP-ART-989 | Louisiana driver's licence number | your Louisiana driver's licence number, or leave it blank if you have never held one |
+| LA-CCRP-ART-992 | Original arrest charge and statute for every count as they appear on the state rap sheet | each charge at the time of arrest - the original arrest charge and statute for every count, exactly as the state rap sheet writes them, not the charge that was later amended and not leaving a count out |
+| LA-CCRP-ART-992 | Which Article 976(A) ground applies to each charge on this arrest | which Article 976(A) ground each charge ended on - never prosecuted and the time limitation ran out, the district attorney refused the charges, a pretrial diversion programme was completed, the case was dismissed, a motion to quash was sustained, an acquittal, or a judicial determination of factual innocence with entitlement to compensation under R.S. 15:572.8 |
+| LA-CCRP-ART-988 | Last four digits of the Social Security number | the last four digits of your Social Security number, written on the form by hand before you take it to the district attorney |
+| LA-CCRP-ART-988 | Original arrest charge and statute for every count as they appear on the state rap sheet | each charge at the time of arrest, written the same way you wrote it on the Article 989 motion so the two documents match |
+
+The two blanks on that list the record singles out are the original arrest charge and the Article 976(A) ground. Louisiana State Police names both among the common fatal errors on a Louisiana expungement: using the amended charge instead of the original arrest charge, omitting counts, and choosing the wrong eligibility basis. Neither is guessed by this packet and neither should be guessed by you: take them from the minute entry, the bill of information and your own rap sheet.
+
+## What you must obtain or confirm before filing (21 item(s) held by the committed track registry)
+
+- **obtain_document** (required, required before filing): Obtain Louisiana criminal background check dated within the past sixty days. Louisiana State Police recommends a fingerprint-based Right to Review, because the motion must match the state rap sheet on arrest and booking date, original arrest charge, arrest number and counts. Order it so it is still inside its sixty-day life on the day the motion is filed; the Article 989 form marks it required on its face. Obtained from: Louisiana State Police (Right to Review) or the parish sheriff.
+- **obtain_document** (conditional, required before filing): Obtain Returned Article 988 Motion for Fee Exemption, completed and signed by the district attorney. The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed. The district attorney or a designee completes the certification boxes and signs, and returns it within fifteen days. Append it to the motion at filing only if you are found eligible. Filing without it means paying the fee, and Article 983 makes the fee non-refundable even if the motion is denied. Obtained from: The district attorney's office for the parish. Condition: Applies only where the participant may qualify for the Article 983(F) fee exemption.
+- **obtain_document** (conditional, required before filing): Obtain Bill of information or indictment for each charge. Ask the clerk of court in the parish of arrest or conviction for a copy of the bill of information or indictment for each charge on the arrest. Obtained from: Clerk of court for the parish. Condition: Applies where a prosecution was instituted, so a charging instrument exists.
+- **obtain_document** (conditional, required before filing): Obtain Minute entry showing the final disposition. Ask the clerk of court for the minute entry that shows how each charge was finally disposed of. Obtained from: Clerk of court for the parish. Condition: Applies where the case reached a disposition on the court's minutes.
+- **confirm_answer** (conditional, required before filing): Check your answer to "How did each charge on this arrest end — never prosecuted and the time limit ran out, the district attorney refused the charges, you completed a pretrial diversion programme, the case was dismissed, a motion to quash was sustained, you were acquitted, or a court found you factually innocent?" against Minute entry showing the final disposition, and correct the packet if they disagree. Condition: Applies where the case reached a disposition on the court's minutes.
+- **obtain_document** (conditional, required before filing): Obtain District attorney certification letter verifying that the charges were refused. The Article 989 attachment checklist lists it. Ask the district attorney's office in writing for a letter verifying that the charges arising out of this arrest were refused. The packet includes a cover request naming exactly which certifications your chosen eligibility basis needs. Obtained from: The district attorney's office for the parish. Condition: Applies where the eligibility basis is that the district attorney declined to prosecute.
+- **obtain_document** (conditional, required before filing): Obtain District attorney certification letter verifying no participation in a pretrial diversion programme. Ask the district attorney's office in writing for a letter verifying that you did not participate in a pretrial diversion programme on this arrest. The Article 989 attachment checklist lists it, and the Article 988 fee exemption turns on the same fact. Obtained from: The district attorney's office for the parish. Condition: Applies where the eligibility or fee-exemption basis depends on the absence of pretrial diversion.
+- **obtain_document** (conditional, required before filing): Obtain Court order of factual innocence and entitlement to compensation under R.S. 15:572.8. Ask the clerk of the court that made the determination for a certified copy. Obtained from: The court that made the determination. Condition: Applies only where the eligibility ground is factual innocence under Art. 976(A)(4).
+- **obtain_document** (conditional, required before filing): Obtain Affidavit of No Opposition from each named agency. This is the agencies' own instrument on the Article 990 form, and only they can execute it. If you can obtain one from each named agency and attach them to the motion, the Article 991 Order provides that no contradictory hearing is required and the motion may be granted ex parte. LegalEase cannot prepare, complete or sign it. Obtained from: The district attorney, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency. Condition: Optional. Pursue it only where the agencies will execute one; the track does not depend on it.
+- **complete_field** (required, required before filing): Every finding, ruling, date, place and signature on the Article 991 Order — Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line.
+- **complete_field** (required, required before filing): Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement — Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line.
+- **complete_field** (required, required before filing): Race and gender — Article 989 Motion, Part I Defendant Information.
+- **complete_field** (required, required before filing): The participant's signature and the date of signing — Article 989 Motion, unrepresented-mover signature block on the final page.
+- **complete_field** (required, required before filing): Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption — Article 988 Motion for Fee Exemption, the certification section and signature block.
+- **complete_field** (required, required before filing): The whole of the Article 990 Affidavit of Response — Not printed in the participant packet; described in the filing instructions only.
+- **complete_field** (required, required before filing): The clerk's service of the motion and of the order and judgment — Not printed in the participant packet; described in the filing instructions only.
+- **sign** (required, required before filing): The mover signs the Article 989 Motion in the block headed 'If not represented by counsel'. LegalEase leaves the signature and date blank.
+- **pay_fee** (required, required before filing): Article 983(A) caps the total cost of obtaining a court order of expungement at five hundred fifty dollars. The clerk collects at the time of filing and Article 983 makes the fees non-refundable even if the motion is denied. Article 983(F) waives all fees where a district attorney certification verifies no felony convictions and no pending felony charge under a bill of information or indictment, together with one of the listed non-conviction grounds — acquittal of all charges after trial including lesser and included offences, no prosecution within the time limitation with no pretrial diversion, dismissal or refusal before the time limitation with no pretrial diversion, factual innocence with entitlement to compensation under R.S. 15:572.8, or a juvenile who completed a juvenile drug court programme and is exempt under Article 983(G). The exemption is very often available on this track and must be screened before filing rather than after.
+- **apply_fee_waiver** (conditional, required before filing): Article 983(F), claimed through the Article 988 Motion for Fee Exemption. The form goes to the district attorney before filing and comes back within fifteen days. Louisiana State Police states that a person is ineligible for the exemption if they have ever been convicted of a felony, including an expunged felony. Condition: Applies only when the participant cannot pay the filing fee.
+- **serve_party** (required): The participant does not serve anyone. Under Article 979 the clerk of court serves notice of the motion by United States mail or electronically on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency, and files a certificate of service showing the mailing date. Under Article 982, if expungement is granted the clerk serves the order and judgment on the district attorney, the Bureau, the sheriff of the parish of conviction and the arresting agency.
+- **file** (required): File the Article 989 Motion for Expungement with the proposed Article 991 Order and the proposed Article 992 Order of Expungement with the clerk of court in the parish of arrest or conviction. Article 972.1 gives district courts, city and parish courts, mayor's and traffic courts, juvenile and family courts, and the New Orleans municipal and traffic courts authority within their trial jurisdiction. Article 986 provides that only the forms in Articles 987, 988, 989, 990, 991, 992, 993, 994, 995 and 998 shall be used, so there is no drafted pleading and no local variant; Article 986(C) lets a clerk alter the form only to show the name of that court.
+
+## The Article 976(A) grounds, in the record's own classification vocabulary (all 7 of them)
+
+These are the eligible dispositions the committed record lists for this Article. They are the record's own internal vocabulary rather than words to copy onto the motion: write the ground on the motion the way your own minute entry and the district attorney's certification put it.
+
+- Ground 1 of 7: `not_prosecuted_time_limitation_expired`
+- Ground 2 of 7: `district_attorney_declined_to_prosecute`
+- Ground 3 of 7: `pretrial_diversion_completed`
+- Ground 4 of 7: `dismissed`
+- Ground 5 of 7: `motion_to_quash_sustained`
+- Ground 6 of 7: `acquitted`
+- Ground 7 of 7: `judicially_determined_factually_innocent`
+
+## What the committed record says about the Article 988 fee exemption in this packet
+
+The Article 988 Motion for Fee Exemption. Its own instruction reads 'To be completed by defendant and submitted to the District Attorney's Office prior to filing. Append completed form to Motion of Expungement at filing only if eligible.' LegalEase completes only the defendant name, date of birth, last four of the Social Security number, date of arrest, docket number and charge. Every certification box and the signature belong to the district attorney or a designee, who returns it within fifteen days. This is a conditional supporting unit of Track A, not a separate relief mechanism, so the track is not composed.
+
+
+## The documents the record says you obtain and attach (8 item(s))
+
+- **Louisiana criminal background check dated within the past sixty days** (required, required before filing). From: Louisiana State Police (Right to Review) or the parish sheriff. Louisiana State Police recommends a fingerprint-based Right to Review, because the motion must match the state rap sheet on arrest and booking date, original arrest charge, arrest number and counts. Order it so it is still inside its sixty-day life on the day the motion is filed; the Article 989 form marks it required on its face.
+- **Returned Article 988 Motion for Fee Exemption, completed and signed by the district attorney** (conditional, required before filing). From: The district attorney's office for the parish. Condition: Applies only where the participant may qualify for the Article 983(F) fee exemption. The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed. The district attorney or a designee completes the certification boxes and signs, and returns it within fifteen days. Append it to the motion at filing only if you are found eligible. Filing without it means paying the fee, and Article 983 makes the fee non-refundable even if the motion is denied.
+- **Bill of information or indictment for each charge** (conditional, required before filing). From: Clerk of court for the parish. Condition: Applies where a prosecution was instituted, so a charging instrument exists. Ask the clerk of court in the parish of arrest or conviction for a copy of the bill of information or indictment for each charge on the arrest.
+- **Minute entry showing the final disposition** (conditional, required before filing). From: Clerk of court for the parish. Condition: Applies where the case reached a disposition on the court's minutes. Ask the clerk of court for the minute entry that shows how each charge was finally disposed of.
+- **District attorney certification letter verifying that the charges were refused** (conditional, required before filing). From: The district attorney's office for the parish. Condition: Applies where the eligibility basis is that the district attorney declined to prosecute. The Article 989 attachment checklist lists it. Ask the district attorney's office in writing for a letter verifying that the charges arising out of this arrest were refused. The packet includes a cover request naming exactly which certifications your chosen eligibility basis needs.
+- **District attorney certification letter verifying no participation in a pretrial diversion programme** (conditional, required before filing). From: The district attorney's office for the parish. Condition: Applies where the eligibility or fee-exemption basis depends on the absence of pretrial diversion. Ask the district attorney's office in writing for a letter verifying that you did not participate in a pretrial diversion programme on this arrest. The Article 989 attachment checklist lists it, and the Article 988 fee exemption turns on the same fact.
+- **Court order of factual innocence and entitlement to compensation under R.S. 15:572.8** (conditional, required before filing). From: The court that made the determination. Condition: Applies only where the eligibility ground is factual innocence under Art. 976(A)(4). Ask the clerk of the court that made the determination for a certified copy.
+- **Affidavit of No Opposition from each named agency** (conditional, required before filing). From: The district attorney, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency. Condition: Optional. Pursue it only where the agencies will execute one; the track does not depend on it. This is the agencies' own instrument on the Article 990 form, and only they can execute it. If you can obtain one from each named agency and attach them to the motion, the Article 991 Order provides that no contradictory hearing is required and the motion may be granted ex parte. LegalEase cannot prepare, complete or sign it.
+
+## Where this is filed
+
+- Venue: The court with trial jurisdiction over the offence in the parish of arrest, under Article 972.1: district courts, city and parish courts, mayor's and traffic courts, juvenile and family courts, and the New Orleans municipal and traffic courts.
+- Destination (clerk): Clerk of court for the parish of arrest
+- File the Article 989 motion with the proposed Article 991 and Article 992 orders. The clerk collects the Article 983 fees at filing unless a returned Article 988 fee exemption is appended, and thereafter serves the district attorney, the Louisiana Bureau of Criminal Identification and Information and the arresting agency under Article 979.
+
+## What it costs, and the fee exemption
+
+- Fees: Article 983(A) caps the total cost of obtaining a court order of expungement at five hundred fifty dollars. The clerk collects at the time of filing and Article 983 makes the fees non-refundable even if the motion is denied. Article 983(F) waives all fees where a district attorney certification verifies no felony convictions and no pending felony charge under a bill of information or indictment, together with one of the listed non-conviction grounds — acquittal of all charges after trial including lesser and included offences, no prosecution within the time limitation with no pretrial diversion, dismissal or refusal before the time limitation with no pretrial diversion, factual innocence with entitlement to compensation under R.S. 15:572.8, or a juvenile who completed a juvenile drug court programme and is exempt under Article 983(G). The exemption is very often available on this track and must be screened before filing rather than after.
+- Fee waiver: Article 983(F), claimed through the Article 988 Motion for Fee Exemption. The form goes to the district attorney before filing and comes back within fifteen days. Louisiana State Police states that a person is ineligible for the exemption if they have ever been convicted of a felony, including an expunged felony.
+
+## Notice, objection and service
+
+- Notice and objection: Under Article 980 any entity served under Article 979 may object by filing an affidavit of response, with reasons and with service on the defendant, within sixty days from the date of service of the motion. Since 1 August 2015 the Louisiana Bureau of Criminal Identification and Information is on the same sixty-day period as everyone else. Article 980(C) lets the court grant one extension of not more than thirty days beyond the original sixty. A timely objection means a contradictory hearing, which the objecting party must ask to have set. Where an Affidavit of No Opposition executed by each named agency is attached to the motion, the Article 991 Order states that no contradictory hearing is required and the motion may be granted ex parte.
+- Service: The participant does not serve anyone. Under Article 979 the clerk of court serves notice of the motion by United States mail or electronically on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency, and files a certificate of service showing the mailing date. Under Article 982, if expungement is granted the clerk serves the order and judgment on the district attorney, the Bureau, the sheriff of the parish of conviction and the arresting agency.
+
+## Signing
+
+- Signature: The mover signs the Article 989 Motion in the block headed 'If not represented by counsel'. LegalEase leaves the signature and date blank.
+- Notarization: none
+
+## Fields deliberately left blank (all 7 manual-completion item(s) the record holds)
+
+- Item 1 of 7: Every finding, ruling, date, place and signature on the Article 991 Order. Where: Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line. Why: The Article 991 Order is the judge's own procedural order. It sets the objection window and directs the clerk to serve. Nothing on it is the participant's to assert or sign.
+- Item 2 of 7: Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement. Where: Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line. Why: The final order is the court's judgment. LegalEase supplies the caption and the participant's identifying and charge information only.
+- Item 3 of 7: Race and gender. Where: Article 989 Motion, Part I Defendant Information. Why: The statutory form provides these fields, but counsel classified them as a manual completion item pending a data-protection review, so the packet prints them blank for the participant to complete by hand.
+- Item 4 of 7: The participant's signature and the date of signing. Where: Article 989 Motion, unrepresented-mover signature block on the final page. Why: The form carries parallel signature blocks for counsel and for an unrepresented mover. LegalEase never signs for the participant.
+- Item 5 of 7: Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption. Where: Article 988 Motion for Fee Exemption, the certification section and signature block. Why: The form's own instruction assigns the certification to the district attorney or a designee. LegalEase completes only the participant-owned identifying fields.
+- Item 6 of 7: The whole of the Article 990 Affidavit of Response. Where: Not printed in the participant packet; described in the filing instructions only. Why: Article 990 is the responding agency's instrument. Under Article 980 it is filed by the district attorney, the Louisiana Bureau of Criminal Identification and Information or the arresting agency, and it is signed by that agency's attorney. It is never a participant form.
+- Item 7 of 7: The clerk's service of the motion and of the order and judgment. Where: Not printed in the participant packet; described in the filing instructions only. Why: Articles 979 and 982 place service on the clerk of court, not on the participant.
+
+- Sign and date the unrepresented-mover block yourself, after reading the completed motion. If you are represented, give the packet to your attorney; the attorney block belongs to counsel and is left blank here.
+- Leave every ordering paragraph, finding, granted-or-denied election, return date, date, place and judge's signature on the Article 991 Order and the Article 992 Order of Expungement blank. Those are the court's.
+- Leave every certification box and the signature on the Article 988 Motion for Fee Exemption blank. Those belong to the district attorney or a designee.
+- Leave the clerk's filed-on stamp and the clerk's certificate of service blank. Article 979 makes service the clerk's act.
+- The Article 990 Affidavit of Response is the responding entity's own instrument. It is not printed in this packet and you never complete it.
+
+## Stop self-help and get legal help (all 9 stop conditions the record holds)
+
+- Stop 1 of 9: Any named agency files an Article 990 affidavit of response objecting to the motion.
+- Stop 2 of 9: The court sets a contradictory hearing under Article 980(D).
+- Stop 3 of 9: The record of the arrest names anyone besides the participant, which is the Article 985 redaction question and routes to the redaction track rather than this one.
+- Stop 4 of 9: The participant is in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour, so Article 975 bars filing.
+- Stop 5 of 9: The disposition of any charge on the arrest is unclear, or the rap sheet and the court record disagree.
+- Stop 6 of 9: The arrest spans more than one parish, so more than one court has trial jurisdiction.
+- Stop 7 of 9: Any charge on the arrest ended in a conviction.
+- Stop 8 of 9: The arrest was vehicle-while-intoxicated in any form.
+- Stop 9 of 9: A charge is pending against the participant.
+
+## Hard eligibility boundaries the record states (3 exclusion(s))
+
+- A person in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour may not file the motion (Art. 975). This is a status bar that lifts when custody status changes, not a permanent eligibility bar.
+- An arrest for operating a vehicle while intoxicated under R.S. 14:98, or a parish or municipal ordinance equivalent, where the person was placed in a pretrial diversion programme, until five years have elapsed from the date of arrest (Art. 976(B)).
+- A conviction arising out of the arrest. Any charge on the arrest that resulted in a misdemeanour or felony conviction is outside this Article and belongs to Article 977 or Article 978.
+
+Waiting periods (2):
+
+- Arrest for operating a vehicle while intoxicated, or a parish or municipal ordinance equivalent, where the person entered a pretrial diversion programme: Five years from the date of arrest for that offence (Art. 976(B)). The Article 989 form carries a dedicated check-box for it.
+- Every other Article 976 ground: None. There is no waiting period; where prosecution was never instituted the ground is the expiry of the time limitation for prosecution itself.
+
+## What the committed record requires these instructions to carry
+
+Sequencing is the deliverable in Louisiana. The instructions carry, in order: order the Right to Review or sheriff's background check and watch its sixty-day life; complete the participant fields of the Article 988 fee exemption and deliver it to the district attorney BEFORE filing, expecting it back within fifteen days; request whichever Article 989 certification letters the chosen eligibility basis needs; file with the clerk with the fee or the returned exemption; the clerk serves the district attorney, the Bureau and the arresting agency under Article 979; agencies have sixty days from service to object under Article 980, extendable once by up to thirty days; an Affidavit of No Opposition from each named agency attached to the motion supports an ex parte grant with no contradictory hearing; if expungement is granted the clerk serves the order and judgment under Article 982. It also carries the Louisiana State Police list of common fatal errors: wrong arrest date, using the amended charge instead of the original arrest charge, omitting counts, putting misdemeanours and felonies in the wrong section, missing dispositions or certifications, and choosing the wrong eligibility basis.
+
+## The Article 993 supplemental sheet (LA-CCRP-ART-993)
+
+Article 993 is the statutory supplemental sheet, and Article 986(B) permits supplemental forms so long as they adhere to it. It is a participant-completed continuation sheet with the same eligibility check-boxes as the motion, grouped by arrests that did not result in conviction, misdemeanour convictions and felony convictions. Retained by Edition 1.1 as a source-gated asset. Its absence would restrict only multi-count cases; a single-count packet does not need it. Output strategy corrected to custom_pleading by rcap-la-arts-993-995-998-output-strategy-memo-correction, against the adjudication at rcap-la-arts-993-995-998-html-source-output-strategy-adjudication. There is no official PDF of this article: the Legislature publishes the controlling text as HTML on its own article page, and the retained capture is a browser print of that page rather than an issuer publication, so official_pdf_fill can only resolve to a missing source. process_guidance is equally wrong, because a participant submission exists on this component. The article remains the authority and the source identity, which is why officialFormId and officialSourceUrl are kept. Article 986(A) makes the statutory forms exclusive, so the rendering must reproduce the Legislature's own words rather than paraphrase them, and under Article 986(C) the court name is the only authorized variation. The Louisiana Supreme Court's local city and parish packet is not a statewide substitute and must not be used as one. No template exists yet, none is counsel-approved, and no implementation is authorized here. Article 993 is one statutory sheet carrying three Yes/No sections — arrests without conviction, misdemeanour convictions and felony convictions — so a template must render it as a single sheet and must not be split into three. The Article 986(B) adherence requirement is unchanged: a supplemental form is permitted only so far as it adheres to the statutory form. The sheet is participant-completed throughout.
+
+## What the record does not settle (3 open question(s))
+
+- Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released. (impact: release_blocker; affects: correct_form)
+- Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing. (impact: nonblocking_research_note; affects: participant_instructions)
+- Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas. (impact: nonblocking_research_note; affects: governing_mechanism)
+
+## What this packet is not
+
+This built packet is review evidence. It is pending independent completeness verification, raster acceptance, visual review and counsel review. It is not approved for live use, it opens no route, and it is not legal advice.
