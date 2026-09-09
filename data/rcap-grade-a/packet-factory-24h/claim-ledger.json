@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1a47a2c928fabe83cee1a5d1adcd1c5654fd177c",
+  "generatedAtCommit": "b25e353126364ce7aa9699bb92f1339f985a1914",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4093,8 +4093,9 @@
       "operation": "rapid-repair",
       "lane": "FIX06",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T20:09:13.673Z",
+      "releaseReason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
       "subjectType": "packet-family",
@@ -4215,8 +4216,9 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T20:09:13.556Z",
+      "releaseReason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
       "subjectType": "packet-family",
@@ -4261,8 +4263,9 @@
       "operation": "rapid-repair",
       "lane": "FIX08",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T20:09:13.444Z",
+      "releaseReason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
       "subjectType": "packet-family",
@@ -13988,7 +13991,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c604e772d95973a5fd0f1cdd43151b9e70bb6117716d6f37b1eba2cd496526e9",
+  "claimsDigest": "d2108fb267b50e6f497b4bfb494a0313cecd4f5136ef339488eabb92695acf15",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34523,6 +34526,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T19:07:50.294Z",
       "reason": "FIX120 return integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T20:09:13.444Z",
+      "reason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T20:09:13.556Z",
+      "reason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T20:09:13.673Z",
+      "reason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
     }
   ],
   "reissues": [
