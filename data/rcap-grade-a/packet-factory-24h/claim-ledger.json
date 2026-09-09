@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "5dbbf3952b0fff5be9078ade607a47fd3081a22d",
+  "generatedAtCommit": "5b6be3b3c0a3d0e0b2086a03599da1f294171fb2",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2988,10 +2988,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
     },
     {
       "subjectType": "packet-family",
@@ -3003,10 +3004,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF15",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
     },
     {
       "subjectType": "packet-family",
@@ -3197,7 +3199,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF03",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T14:02:42.013Z"
@@ -7075,8 +7077,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T13:24:32.090Z",
-      "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+      "releasedAt": "2026-09-09T13:24:32.090Z"
     },
     {
       "subjectType": "packet-family",
@@ -14019,7 +14020,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "015bca8790f8534b3c960c9d4591adfcc8848611eeacf6b394633ec09391406d",
+  "claimsDigest": "5eebad4c75905f1d7f6789890f6e12e7a265241d3b254fda2fc02212c0713475",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34662,6 +34663,24 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-09T20:59:01.466Z",
       "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+    },
+    {
+      "lane": "PF15",
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_superior_court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T21:25:36.984Z",
+      "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "lane": "PF18",
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T21:25:37.194Z",
+      "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
     }
   ],
   "reissues": [
@@ -51818,6 +51837,28 @@
       "previouslyReleasedAt": "2026-09-09T20:59:01.466Z",
       "transferredAt": "2026-09-09T20:59:01.594Z",
       "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_superior_court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF15",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-09T21:25:36.984Z",
+      "transferredAt": "2026-09-09T21:25:37.091Z",
+      "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF18",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-09T21:25:37.194Z",
+      "transferredAt": "2026-09-09T21:25:37.306Z",
+      "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
     }
   ],
   "grants": [
