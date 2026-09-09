@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "md_pardon_expungement-set",
+  "findings": [
+    {
+      "finding": "Item 3 of CC-DC-CR-072B lists eight grounds under \"check all that apply\", one of which is this family's whole identity: a single criminal act, not a crime of violence, followed by a full and unconditional pardon.",
+      "consequence": "The packet marks that ground and writes the pardon date beside it from the held screening fact, which is the same fact the route's own ten-year test is computed from. The other seven are carried as genuine participant elections rather than declared inapplicable, because the form is not a select-one and a second ground may also be true of a given record."
+    },
+    {
+      "finding": "CC-DC-CR-072B's AcroForm field names were generated from whichever printed line each field sat near, and several name the wrong thing: \"2 I was charged with the offense of\" is the second line of the incident description, \"I was convicted found guilty of check all that apply...\" is the offence blank of item 2, and the checkbox named for common law battery and domestically related crime is the burglary-and-felony-theft ground.",
+      "consequence": "Every label was read off the rendered page at the widget's measured /Rect. The field map carries both sourceFieldName and effectiveLabel and states the warning, so no later reader trusts the source's names."
+    },
+    {
+      "finding": "CC-DC-089 prints that form MDJ-008, the Notice Regarding Restricted Information under Rule 20-201.1, must be filed with it unless the case is one of six restricted types. Expungement is not one of them, and no MDJ-008 is bound to this family by any source record.",
+      "consequence": "The packet does not carry MDJ-008 and does not stand in for it. The gap is named in the source receipt, in participant-instructions.md and in filing-instructions.md, and it is a source obligation for whoever owns acquisition."
+    },
+    {
+      "finding": "Items 4 and 5 of the petition ask whether the case was transferred or appealed, and the form says in terms that the answer decides which court the petition must be filed in.",
+      "consequence": "Neither is held by the platform. Both are carried as genuine participant elections, disclosed in the participant instructions and repeated in the filing instructions, because getting them wrong sends the petition to the wrong court."
+    },
+    {
+      "finding": "The whole affidavit of income on CC-DC-089 asks for facts this platform holds none of.",
+      "consequence": "Every income, property and debt line is left blank and disclosed. None is filled from an inference, and the participant is told that if they do not need a fee waiver they should leave the form out of what they file."
+    },
+    {
+      "finding": "Page 3 of CC-DC-089 is the court's order on the request.",
+      "consequence": "Every field on it is refused as court-owned, including the findings checkboxes, the granted/denied election, the amount and date ordered, and the judge's signature block."
+    }
+  ]
+}

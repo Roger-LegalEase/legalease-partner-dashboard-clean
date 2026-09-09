@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v2",
+  "familyId": "md_pardon_expungement-set",
+  "status": "BUILT_RASTER_PENDING",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+  ],
+  "buildStatus": "state_built",
+  "requested": "visual review and counsel review",
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "CC-DC-CR-072B"
+    },
+    {
+      "kind": "fee_waiver",
+      "documentId": "CC-DC-089"
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741",
+      "byteLength": 1169719,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90",
+      "byteLength": 1170165,
+      "pageCount": 4
+    }
+  ],
+  "counselQuestionsRaised": [
+    "The packet writes the pardon date into the sworn petition from the held screening answer. Confirm that screening evidence is a sufficient basis for a date on a petition affirmed under the penalties of perjury, with the participant's own verification against the pardon document required before signing.",
+    "The other seven grounds of item 3 are left for the participant because the form says check all that apply. Confirm that a prepared draft should not attempt a second ground.",
+    "CC-DC-089's caption is filled as State of Maryland versus the defendant, mirroring the criminal case caption the petition carries. Confirm that is how a Maryland clerk expects the fee-waiver caption of an expungement petition to read.",
+    "MDJ-008 is required alongside CC-DC-089 and is not held. Confirm whether the fee-waiver component should ship at all until MDJ-008 is acquired."
+  ],
+  "independentVerificationStatus": "PENDING",
+  "approvedForLive": false,
+  "live": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

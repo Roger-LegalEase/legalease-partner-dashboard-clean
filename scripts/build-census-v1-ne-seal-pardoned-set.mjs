@@ -74,7 +74,8 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFName, PDFRawStream, StandardFonts } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFRawStream, PDFButton, StandardFonts,
+  pushGraphicsState, popGraphicsState, translate, drawObject, rotateInPlace } = require("pdf-lib");
 
 const FAMILY_ID = "ne-seal-pardoned-set";
 const OUT_REL = "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill";
@@ -381,6 +382,55 @@ function fitValue(font, text, rect, requested, multiline) {
   };
 }
 
+/*
+ * FLATTEN WITHOUT DELETING ANYTHING.
+ *
+ * pdf-lib's own form.flatten() ends each field with removeField(), which calls
+ * context.delete() on the field's objects. The writer then emits an xref table
+ * with entries for object numbers that no longer exist, and any reference left
+ * pointing at one of them is dangling: copyPages reserves a slot for it and
+ * writes nothing there. Poppler reported "Invalid XRef entry 93" on the first
+ * Maryland artifact and had to reconstruct the table before it could draw a
+ * page - on a document a court is meant to accept.
+ *
+ * This does the same drawing pdf-lib does, operator for operator, and then
+ * DETACHES rather than deletes: the widget comes off the page's /Annots, the
+ * field comes off the AcroForm's /Fields, and the AcroForm comes off the
+ * catalog. Nothing is removed from the object table, so nothing can dangle, and
+ * the orphans are unreachable from any page - so copyPages never carries them
+ * into the assembled artifact at all.
+ */
+function detachAnnotation(pdf, page, dict) {
+  const annots = page.node.Annots();
+  if (!annots) return;
+  const kept = annots.asArray().filter((ref) => pdf.context.lookup(ref) !== dict);
+  if (kept.length !== annots.size()) page.node.set(PDFName.of("Annots"), pdf.context.obj(kept));
+}
+
+function flattenWithoutDeleting(pdf, form) {
+  form.updateFieldAppearances();
+  const fields = form.getFields();
+  for (const field of fields) {
+    for (const widget of field.acroField.getWidgets()) {
+      const page = form.findWidgetPage(widget);
+      const appearanceRef = form.findWidgetAppearanceRef(field, widget);
+      const xObjectKey = page.node.newXObject("FlatWidget", appearanceRef);
+      const rectangle = widget.getRectangle();
+      const operators = [
+        pushGraphicsState(),
+        translate(rectangle.x, rectangle.y),
+        ...rotateInPlace({ ...rectangle, rotation: 0 }),
+        drawObject(xObjectKey),
+        popGraphicsState()
+      ].filter(Boolean);
+      page.pushOperators(...operators);
+      detachAnnotation(pdf, page, widget.dict);
+    }
+    form.acroForm.removeField(field.acroField);
+  }
+  pdf.catalog.delete(PDFName.of("AcroForm"));
+}
+
 async function fillDocument(sourceBytes, spec) {
   const pdf = await PDFDocument.load(sourceBytes);
   const form = pdf.getForm();
@@ -388,15 +438,6 @@ async function fillDocument(sourceBytes, spec) {
   const unfittable = [];
   const drawn = [];
   const geometry = new Map();
-  const record = (name) => {
-    const field = form.getField(name);
-    const widget = field.acroField.getWidgets()[0];
-    const rect = normalizeRect(widget.getRectangle());
-    const page = widgetPageIndex(pdf, widget) + 1;
-    assert.ok(page > 0, `widget ${name} is on no page of ${spec.documentId}`);
-    geometry.set(name, { rect, page });
-    return { field, widget, rect, page };
-  };
   /* The source's own "Off" appearance for a checkbox, captured before anything
    * is marked, so the byte proof can compare the flattened appearance against
    * it instead of assuming a mark is always a glyph. */
@@ -410,30 +451,66 @@ async function fillDocument(sourceBytes, spec) {
       return inflate(Buffer.from(off.contents)).toString("latin1");
     } catch { return null; }
   };
+  /*
+   * ONE FIELD, SEVERAL WIDGETS.
+   *
+   * A caption field repeated on every page of a form is ONE AcroForm field with
+   * one widget per page, and setting it once puts ink on all of them. A proof
+   * that recorded only the first widget counted the ink on the others as
+   * unexplained marks and would have failed a correctly filled form for a defect
+   * it did not have. Every widget is recorded, and every one is proved.
+   */
+  const record = (name) => {
+    const field = form.getField(name);
+    const widgets = field.acroField.getWidgets();
+    const placements = widgets.map((widget) => {
+      const rect = normalizeRect(widget.getRectangle());
+      const page = widgetPageIndex(pdf, widget) + 1;
+      assert.ok(page > 0, `a widget of ${name} is on no page of ${spec.documentId}`);
+      return { rect, page };
+    });
+    assert.ok(placements.length > 0, `${spec.documentId}:${name} has no widget`);
+    geometry.set(name, placements);
+    return { field, widgets, placements };
+  };
+  const attach = (row, placements) => {
+    row.rect = placements[0].rect;
+    row.page = placements[0].page;
+    row.widgetCount = placements.length;
+    row.placements = placements.map((pl) => ({ page: pl.page, rect: pl.rect }));
+  };
   for (const row of spec.writes) {
-    const { field, widget, rect, page } = record(row.name);
+    const { field, widgets, placements } = record(row.name);
+    attach(row, placements);
     if (row.kind === "checkbox") {
-      const offAppearance = offAppearanceOf(widget);
+      const offs = widgets.map((widget) => offAppearanceOf(widget));
       field.check();
-      drawn.push({ ...row, rect, page, text: "✓", offAppearance });
+      placements.forEach((pl, i) => drawn.push({ ...row, rect: pl.rect, page: pl.page, widgetIndex: i, text: "✓", offAppearance: offs[i] }));
       continue;
     }
     const value = String(row.value ?? "");
     assert.ok(value.length > 0, `no fixture value for ${spec.documentId}:${row.name}`);
     if (row.kind === "dropdown") {
       field.select(value);
-      drawn.push({ ...row, rect, page, text: value });
+      placements.forEach((pl, i) => drawn.push({ ...row, rect: pl.rect, page: pl.page, widgetIndex: i, text: value }));
       continue;
     }
     if (row.multiline) field.enableMultiline();
-    const fit = fitValue(measuringFont, value, rect, row.size ?? 9, row.multiline === true);
-    if (!fit.fits) unfittable.push({ field: `${spec.documentId}:${row.name}`, value, fit, rect });
+    const narrowest = placements.reduce((a, b) => (a.rect.width <= b.rect.width ? a : b)).rect;
+    const fit = fitValue(measuringFont, value, narrowest, row.size ?? 9, row.multiline === true);
+    if (!fit.fits) unfittable.push({ field: `${spec.documentId}:${row.name}`, value, fit, rect: narrowest });
     field.setText(value);
     field.setFontSize(fit.size);
-    drawn.push({ ...row, rect, page, text: value, fontSize: fit.size, fit });
+    row.fittedFontSize = fit.size;
+    placements.forEach((pl, i) => drawn.push({ ...row, rect: pl.rect, page: pl.page, widgetIndex: i, text: value, fontSize: fit.size, fit }));
   }
   assert.equal(unfittable.length, 0,
     `${unfittable.length} value(s) do not fit their own widget even at ${MIN_READABLE_PT}pt: ${JSON.stringify(unfittable).slice(0, 1200)}`);
+  for (const row of spec.blanks) {
+    if (row.printedSlot) continue;
+    const { placements } = record(row.name);
+    attach(row, placements);
+  }
   /*
    * Values the SOURCE carries, cleared rather than delivered.
    *
@@ -445,19 +522,45 @@ async function fillDocument(sourceBytes, spec) {
    */
   const cleared = [];
   for (const row of spec.clearedSourceDefaults ?? []) {
-    const { field, rect, page } = record(row.name);
+    const { field, placements } = record(row.name);
     const before = typeof field.getText === "function" ? field.getText() : null;
     field.setText("");
-    cleared.push({ ...row, rect, page, sourceCarriedValue: before ?? null });
+    cleared.push({ ...row, rect: placements[0].rect, page: placements[0].page, sourceCarriedValue: before ?? null });
   }
-  for (const row of spec.blanks) {
-    if (row.printedSlot) continue;
-    const { rect, page } = record(row.name);
-    row.rect = rect;
-    row.page = page;
+  /*
+   * VIEWER CONTROLS ARE NOT FILING CONTENT.
+   *
+   * "Reset", "Clear Form", "Lock & Save Form" and "Top of Page" are push buttons
+   * a reader clicks on screen. Flattening draws their captions onto the page, so
+   * a packet that flattens without removing them delivers a filed document with
+   * a picture of a Reset button printed on it - ten glyphs of ink nobody asked
+   * for, on two Maryland forms, which is how this was found. Every push button
+   * is removed before flattening and every one is recorded.
+   */
+  const viewerControlsRemoved = [];
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFButton)) continue;
+    const name = field.getName();
+    const widgets = field.acroField.getWidgets();
+    const pages = widgets.map((widget) => widgetPageIndex(pdf, widget) + 1);
+    /*
+     * Detached, not deleted.
+     *
+     * pdf-lib's form.removeField() calls context.delete() on the field's own
+     * objects, and the writer then emits an xref table with entries for object
+     * numbers that no longer exist: poppler reported "Invalid XRef entry 93" on
+     * the first Maryland artifact built that way and had to reconstruct the
+     * table. The widget is taken off the page's /Annots and the field off the
+     * AcroForm's /Fields instead. Nothing is deleted, the xref stays whole, and
+     * the orphaned objects are simply not reachable from any page - so
+     * copyPages never carries them into the assembled artifact.
+     */
+    for (const page of pdf.getPages()) for (const widget of widgets) detachAnnotation(pdf, page, widget.dict);
+    form.acroForm.removeField(field.acroField);
+    viewerControlsRemoved.push({ name, pages, kind: "push_button", detachedNotDeleted: true });
   }
-  form.flatten();
-  return { pdf, drawn, cleared, geometry };
+  flattenWithoutDeleting(pdf, form);
+  return { pdf, drawn, cleared, viewerControlsRemoved, geometry };
 }
 
 const PLACEMENT = /q\s*\n1 0 0 1 ([\d.-]+) ([\d.-]+) cm\s*\n(?:1 0 0 1 0 0 cm\s*\n)*\/(FlatWidget-\d+) Do\s*\nQ/g;
@@ -718,6 +821,7 @@ async function renderFixture(resolved, fixtureName, facts) {
   const { parts, agencies } = partsFor(facts);
   const filled = [];
   const clearedRows = [];
+  const viewerControlsRemoved = [];
   const sourceStreamsByPage = [];
   const drawnByPage = new Map();
   let offset = 0;
@@ -735,13 +839,14 @@ async function renderFixture(resolved, fixtureName, facts) {
     for (const row of part.spec.blanks) row.packetPage = offset + (row.page ?? 0);
     sourceStreamsByPage.push(...(await sourcePageStreams(source.bytes)));
     for (const row of result.cleared) { row.document = part.documentId; row.packetPage = offset + row.page; clearedRows.push(row); }
+    for (const control of result.viewerControlsRemoved) viewerControlsRemoved.push({ ...control, document: part.documentId });
     filled.push({ pdf: result.pdf, documentId: part.documentId, component: part.component, sourceSha256: source.sha256 });
     offset += source.pageCount;
   }
   const assembled = await assemble(filled, fixtureName);
   const proof = await proveWrites(assembled.bytes, sourceStreamsByPage, drawnByPage, fixtureName);
   const drawnCount = [...drawnByPage.values()].reduce((n, list) => n + list.length, 0);
-  return { ...assembled, ...proof, parts, agencies, drawnCount, clearedRows };
+  return { ...assembled, ...proof, parts, agencies, drawnCount, clearedRows, viewerControlsRemoved };
 }
 
 /* ---- assembly ------------------------------------------------------------ */
@@ -779,8 +884,8 @@ function productionFieldMap(parts, clearedRows) {
         fieldId: `${part.documentId}:${row.name}`, fieldName: row.name, field: row.name,
         effectiveLabel: row.label, printedLabel: row.label, sourceLabel: row.label,
         documentId: part.documentId, component: part.component,
-        page: row.packetPage, sourcePage: row.page, factId: row.factId ?? null,
-        rect: row.rect, rectBasis: `the /Rect of the AcroForm widget named ${JSON.stringify(row.name)} on page ${row.page} of the source binary`,
+        page: row.packetPage, sourcePage: row.page, widgetCount: row.widgetCount ?? 1, widgets: row.placements ?? null, factId: row.factId ?? null,
+        rect: row.rect, rectBasis: `the /Rect of the AcroForm widget named ${JSON.stringify(row.name)} on page ${row.page} of the source binary${row.widgetCount > 1 ? ` (this field has ${row.widgetCount} widgets, one per page it repeats on, and every one is proved)` : ""}`,
         kind: row.kind === "checkbox" ? "selection_control" : row.kind === "dropdown" ? "acroform_chooser" : "acroform_text_field",
         disposition: row.kind === "checkbox" ? "selected_by_route" : "written",
         routeDetermined: row.routeDetermined === true,
@@ -956,6 +1061,9 @@ async function build() {
   for (const [name, facts] of Object.entries(FIXTURES)) fixtures[name] = await renderFixture(resolved, name, facts);
 
   const map = productionFieldMap(fixtures.canonical.parts, fixtures.canonical.clearedRows);
+  /* Push buttons detached before flattening, so a viewer control is never drawn
+   * onto a filed page. Declared rather than done quietly. */
+  map.viewerControlsRemoved = fixtures.canonical.viewerControlsRemoved;
   const artifactCounters = Object.entries(fixtures).map(([fixture, f]) => ({
     fixture,
     valuesReportedByFinalizer: f.drawnCount,
