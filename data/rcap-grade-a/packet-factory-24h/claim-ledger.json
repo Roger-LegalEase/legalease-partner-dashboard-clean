@@ -537,10 +537,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX119",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:05.710Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -583,10 +583,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX119",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:05.820Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -768,10 +768,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX119",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:06.140Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14075,7 +14075,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5d0d4dcdd3f61b6d988fc04e06303260fcefc4ac422576ef1a1ce93ce38a5b93",
+  "claimsDigest": "d69d916c4a24a58af92628ef4363a6d2d8e9a7e3b1ec8691ea6c75a11326a82e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -51359,6 +51359,39 @@
       "previouslyReleasedAt": "2026-09-09T13:21:39.822Z",
       "transferredAt": "2026-09-09T15:58:44.388Z",
       "reason": "Illinois cohort repair consolidated onto one lane: three independent FAIL_REPAIR_REQUIRED returns at base fbd22ae2c share CLIPPING_AND_OVERLAP, KNOWN_PREFILLS and REPEATING_ROWS, and the delivered bytes carry the flatten() /Off misregistration measured 2026-09-09."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX119",
+      "previouslyReleasedAt": "2026-09-09T06:38:05.710Z",
+      "transferredAt": "2026-09-09T17:58:27.253Z",
+      "reason": "Alabama repair cohort consolidated onto one lane: three finished packets each failing a single obligation on an independent read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-nonconviction-90-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX119",
+      "previouslyReleasedAt": "2026-09-09T06:38:05.820Z",
+      "transferredAt": "2026-09-09T17:58:27.370Z",
+      "reason": "Alabama repair cohort consolidated onto one lane: three finished packets each failing a single obligation on an independent read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-pardoned-felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX119",
+      "previouslyReleasedAt": "2026-09-09T06:38:06.140Z",
+      "transferredAt": "2026-09-09T17:58:27.476Z",
+      "reason": "Alabama repair cohort consolidated onto one lane: three finished packets each failing a single obligation on an independent read."
     }
   ],
   "grants": [
