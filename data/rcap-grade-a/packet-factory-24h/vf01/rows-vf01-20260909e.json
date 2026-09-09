@@ -324,6 +324,170 @@
     "ROUTE_OPTIONS"
    ],
    "grantsNothing": "This is an independent read of two rendered fixtures. It approves no output, promotes no route and opens no commercial path. The repaired obligation is confirmed repaired; the family still fails on two obligations it was not previously read on."
+  },
+  {
+   "itemId": "me-seal-survivor-set",
+   "lane": "VF01",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill on two AES-256 encrypted official binaries, filled and flattened through a pikepdf-unlocked derivative of each. Both sources carry live AcroForms (15 terminal fields each) and the delivered fixtures carry /FlatWidget-n form XObjects stamped into the page content.",
+   "postRepairReread": false,
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 3,
+    "visualDefects": 9,
+    "allZero": false,
+    "measuredHere": true,
+    "note": "The builder's own counters are not published for this family in the nine-counter form; these nine are mine, measured from the delivered bytes and the rendered pages."
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "10 values are written per fixture (6 on CR-307, 4 on CR-308) and every one prints in full. I rendered all three delivered pages and the three pinned source pages at 120 dpi and counted added ink inside each write's own widget /Rect; none is empty. The boundary fixture's 37-character docket number and its long unincorporated-township address print whole. reports/actual-writes.json records valuesTooLongForTheWidgetTheFormDraws as empty and the rendering agrees.",
+    "requiredFactsNotCollected": "Every blank the platform could have filled and did not is refused for a stated reason I read one by one: the court's town (not held), the conviction date and the item 1 crime list (both refused as sworn assertions the platform will not make), the three court-selection boxes, and the nine court-owned lines on CR-308. No held fact is missing from the paper.",
+    "unclassifiedBlanks": "30 terminal AcroForm fields across the two forms, 10 written and 20 blank, and reports/blanks.json classifies exactly 20: 4 required-before-filing, 6 participant elections, 9 protected, 1 not-applicable. Nothing is unaccounted for.",
+    "incompleteRows": "Neither form carries a repeating row table, so no row can state part of a fact.",
+    "requiredOptionsMissing": "No selection control is answered and none should be: the three court-for-filing boxes are the participant's own (the route reaches Superior Court, District Court and the Unified Criminal Docket alike) and the three CR-308 ordering boxes are the judge's. All six are enumerated in the participant guide with the form's own printed words. The counter is 0; the ink stamped at those controls is counted under visualDefects and protectedWrites instead.",
+    "requiredComponentsMissing": "The manifest names three required components - CR-307, CR-308 and an instructions component (process_guidance, order 3). CR-307 renders as packet page 1, CR-308 as pages 2-3, and the instructions component is delivered as participant-instructions.md with filing-instructions.md. Nothing declared is unrendered, so 0 - but see crossChecks: the MASTER_QUEUE row for this family lists only two packetComponents and omits the instructions component its own manifest marks required.",
+    "invisibleWrites": "Per-write pixel test over all 10 writes on each fixture, against the pinned source page. Every write has visible ink.",
+    "protectedWrites": "3. Whole-page differencing shows added ink at nine widget rects the packet expressly refuses, and three of those nine are court-owned: CR-308's 'the State consents ... GRANTED without a hearing' box (36.72, 510.36), its 'hearing was held ... GRANTED' box (37.2455, 407.88) and its 'hearing was held ... DENIED' box (36.72, 290.64). reports/blanks.json calls each of them 'an ordering box on the order the judge signs' and participant-instructions.md tells the participant that everything on CR-308 except the caption belongs to the judge. The packet nonetheless stamps a synthesized outline at each. The other six refused controls with added ink are participant elections rather than protected fields, so they are not counted here.",
+    "visualDefects": "9 per fixture, on both fixtures, read from the rendering. Nine synthesized stroked squares, one per check-box widget, at every one of the nine check boxes across the two forms. Measured three ways: (1) each is a stroke-only flattened appearance whose stream is 'q 0 0 0 RG 0 w [] 0 d ... 0 0 m 0 h l w h l w 0 l h S Q' - a bare rectangle outline the size of the widget /Rect; (2) none of the nine matches any /AP /N appearance stream in either pinned source, unlike Maryland's six, which matched byte for byte; (3) whole-page differencing against the pinned sources leaves 445 added pixels per fixture outside every declared write rect, and every one of those pixels sits inside a check-box widget rect."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "familyId me-seal-survivor-set and routeKey obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing agree across the source receipt, product-wiring.json, the MASTER_QUEUE row and the track registry entry me-seal-survivor. The packet is built for 15 M.R.S. sec. 2262-B and the guide names that section and the forms' own titles. The record's terminology rule is honoured: the delivered copy says sealing throughout and the word 'expungement' appears nowhere in it, which is the Maine-specific instruction the legal-design record states in terms."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The receipt binds the OFFICIAL binaries and not the review derivatives, and I proved it four ways. Both declared digests recompute exact from the bytes: CR-307 c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1 at 175,213 bytes in the Master Library, and CR-308 b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5 at 162,514 bytes at the recovered path private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf. Both bound digests are the ENCRYPTED originals - each file still carries an /Encrypt reference and an AESV3 filter - so neither is a decrypted stand-in. The pikepdf derivatives are recorded separately with their own digests, which also recompute exact (CR-307 1a43d763..., CR-308 4dbce669...) and are 3,303 and 3,372 bytes smaller than the originals, so no derivative digest could be mistaken for a source digest. I hashed every file under data/rcap-all50/overlays/rescued-encrypted-pdfs/: it holds no CR-308 at all (its two Maine files are CR-218 and JV-043) and none of its eleven digests appears in this family's records. The MASTER_QUEUE sourceHashes carry the same two official digests."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The manifest names three required components and all three are delivered: CR-307 as the primary filing (packet page 1), CR-308 as the proposed order (pages 2-3), and the process_guidance instructions component as participant-instructions.md together with filing-instructions.md. Recorded rather than reconciled: the MASTER_QUEUE row lists only two packetComponents for this family and omits the instructions component the manifest marks required."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 10 values are correct, complete and on the right lines, and the trap this family carries is handled. CR-307's AcroForm field names are shifted by one against the labels its page prints - the widget NAMED 'Defendants DOB mmddyyyy' is the caption's DEFENDANT NAME box - so binding by name would have printed the survivor's date of birth where the clerk reads their name. I checked the delivered rendering rather than the map: the caption reads 'Jordan Avery Reyes' on the Defendant line and 'Defendant's DOB (mm/dd/yyyy): 1991-04-17' on the DOB line, County 'Cumberland' and Docket No. 'CUMCD-CR-2019-01234' each under their own printed label. Every write is bound to the printed label the widget was measured against and reports/caption-evidence.json carries the correspondence."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "CR-308 is the order the judge signs and the packet says so - participant-instructions.md tells the participant that everything on it except the caption belongs to the judge, and reports/blanks.json refuses each ordering box as 'an ordering box on the order the judge signs'. The delivered bytes stamp a synthesized square at all three of them: the 'State consents, GRANTED without a hearing' box, the 'hearing was held, GRANTED' box and the 'hearing was held, DENIED' box. No text is written and no judge's signature is forged, so nothing on the order is decided - but ink this build added sits on three of the court's own decision controls, on a document the court will sign, and the packet's own record says nothing there is its to touch. The prosecutor's name, both hearing dates, the findings-of-fact box and the judge's signature line all carry no ink, and page 3 of the packet is pixel-identical to its source page. This failure and CLIPPING_AND_OVERLAP have one cause and one repair."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "NINE SYNTHESIZED CHECK-BOX OUTLINES PER FIXTURE, on both fixtures - the same defect class that failed md_pardon_expungement (56) and co_petition_seal_arrest (7), arriving on a family that already holds a RASTER_PASS. The mechanism is the documented one and I confirmed it in the source: every check box on both Maine forms carries /AS /Off with an /AP /N dictionary that holds an /On entry and NO /Off entry, and /MK << /CA (8) >> with no /BC border colour. Under ISO 32000-1 12.5.5 a conforming viewer paints nothing at such a widget; pdf-lib's default check-box provider invents a stroked square the size of the widget /Rect, and the flatten stamps it onto the page. Proof, from the delivered bytes rather than from any report: 9 stroke-only flattened appearances, 3 on packet page 1 and 6 on page 2, each stream a bare rectangle outline; NONE of the nine matches any /AP /N stream in either pinned source (I ran the same byte comparison that matched all six of Maryland's marks to their source appearances); and pixel differencing every delivered page against its pinned source leaves 445 added pixels per fixture outside every declared write rect, every one of them inside a check-box rect - 135 at the three CR-307 court boxes, 135 at the three CR-308 court boxes, and 67 + 63 + 45 at the three CR-308 ordering boxes. Visually it is the co_petition_seal_arrest shape: the invented ring lands around the box the form already prints, so the participant sees a doubled, heavier outline where Maine prints one. Measured on the 'Superior Court' box, source ink 174 pixels and delivered ink 249 in the same window, with the ink extent growing only 0.6pt in width - which is exactly why a bounding-box test cannot see it and why the brief told me to render. Every other value is inside its box and nothing is clipped; this obligation fails on the added ink alone."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "This is the most sensitive route in the sprint and its participant copy carries almost none of the boundary its own record states. The track record lists SEVEN selfHelpStopConditions; not one appears verbatim in participant-instructions.md or filing-instructions.md, and only one appears in substance ('If the State opposes, or the court sets a contested hearing, automated assistance ends and you need a lawyer'). Absent entirely, with their key words absent too - I searched both files case-insensitively for advocate, legal aid, legal-aid, victim services, referral, assess and immigration and every one returns nothing: (1) 'This entire track is a self-help boundary at the assessment stage. An attorney, legal-aid provider or qualified victim-services advocate must assess the case before any packet is prepared, and the referral must be named before the track opens.' (2) 'Any immigration-adjacent case ... sealing does not bind federal authorities' - which the record explains is common on this route because the statute contemplates federal immigration certifications as documentation. (3) 'Any decision about what documentation to present or whether to trigger the sec. 2264(4-A)(B) presumption.' (4) 'Any decision about whether to seek the State's consent so the motion can be granted without a hearing' - while filing-instructions.md affirmatively points the participant at the consent route ('CR-308's first ordering box is the no-hearing route') without saying that choosing it is a lawyer's call. Both scopeRestrictions are absent as well, including 'Do not open this track without a named legal-aid or victim-services referral partner in place.' Also absent: the record's legalDesignLimitations instruction that participant copy must say sealing restricts what agencies may disseminate and what appears on a State Bureau of Identification check - 'State Bureau of Identification' appears nowhere in the guide - and any statement of the durability rule. On that last point the packet hands the participant a proposed order whose page 2 prints 'WARNING: If at any time after the date of this order the Defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes this order', which I read in the delivered bytes, while the controlling record says 15 M.R.S. sec. 2264(7) as amended by PL 2025, c. 513 exempts sec. 2262-B records from that rule and describes LegalEase's position as 'the packet states the statutory rule, does not repeat the form's warning as advice'. The packet states no rule at all and says nothing about the conflict, so a survivor reads the form's warning as the law."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The record's venue is the court in which the conviction was entered, in the underlying criminal proceeding under sec. 2264(1), with consolidation where several motions are filed. filing-instructions.md states exactly that, with the statutory cite and the consolidation sentence, and names the clerk's office for the court of conviction. No courthouse address is invented; the court's town is carried to the participant as a blank because the platform holds the county and not the town."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Honest about an unsettled rule rather than inventing one. filing-instructions.md carries the record's position - sec. 2264(3) directs notice to the prosecutorial office, no service obligation is imposed on the movant by the statute or by CR-307, and the form carries no certificate-of-service block - then says in terms that whether the participant serves the prosecutor or the court performs all notice is not settled in the committed record, and to ask the clerk. No certificate of service is invented and none is filled. The build's own findings carry the same question as an open source-acquisition gate, me_2264_7_prosecutor_notice_method."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The four form blanks the family classifies as required-before-filing are all disclosed with their printed labels, and that part is done properly. What is missing is most of the record's own participant-action list. The manifest carries eleven requiredBeforeFiling strings and three obtain_document actions, and the delivered copy carries none of the following, checked by keyword search over both files: 'Obtain Certified copy of the judgment and docket record for each conviction' and the requiredBeforeFiling:true confirm that goes with it, 'Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record ... and correct the packet if they disagree' - the words certified and docket record appear nowhere; 'Obtain Official documentation of victim status, if the participant already holds any', which sec. 2264(4-A)(B) makes a presumption trigger - the words documentation and presumption appear nowhere; 'Obtain Affidavit or sworn testimony from clergy, a medical professional, victim services staff, or another professional' - the word affidavit appears nowhere; and 'The hearing date, time and courtroom, where a hearing is set' - the word courtroom appears nowhere. The guide does quote CR-307 paragraph 2 and say what signing it asserts, which is the single most important thing on the form and is done well. But a participant on this route is told nothing about the supporting material the statute is built around, and the record's own answer for what documentation to present is that it is a lawyer's decision - which the packet also does not say. Actionable repair: carry the manifest's participant-action list into the guide the way the Colorado and Maryland packets carry theirs."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both artifacts recomputed from the committed bytes and match reports/rendered-artifacts.json: canonical 0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07 at 322,600 bytes and boundary 84d03dd83fa56368c2de6b3cd48fff764e18f88d3a0724a2321a6588d7e44f62 at 322,810 bytes, 3 pages each. The RASTER_PASS in product-wiring.json binds boundToCanonicalSha256 0ee66d97..., the same digest, so the raster was admitted against exactly these bytes - which is worth stating plainly, because these are the bytes that carry the nine synthesized squares."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Three pages in manifest order: CR-307 page 1, then CR-308 pages 1 and 2, motion before proposed order. Proven page by page - each delivered page differences cleanly against the source page it claims, with 0 removed pixels everywhere, which no reordering would survive."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No option is answered and none should be. The three court-for-filing boxes are the participant's: the route reaches Superior Court, District Court and the Unified Criminal Docket alike, so the packet cannot pick one, and the guide prints the form's own instruction ('X' the court for filing) with all three named and tells the participant to mark the court their conviction was entered in. The three CR-308 ordering boxes are the judge's and are listed as such. No mark is made at any of the nine - the ink stamped there is a synthesized empty outline, not a tick, and I checked that no X, check glyph or diagonal stroke is present anywhere in the delivered bytes. CR-307 item 2, the survivor averment, has no widget behind it at all; the guide quotes it and states what signing it asserts."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Measured and does not apply: neither form carries a repeating row table. CR-308's findings-of-fact area is a single multi-line text field, left entirely to the court, so no row states part of a fact."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The record says no fee is expected on the strength of Administrative Order JB-05-26, which lists no fee for a criminal post-judgment motion, and that no waiver is expected because no fee is expected. filing-instructions.md carries exactly that, states no amount, and tells the participant to ask the clerk. It correctly does not promise a refund and does not send the participant to the civil in-forma-pauperis forms, which the record names as a specific error to avoid. No fee, waiver or deadline is fabricated."
+    }
+   },
+   "crossChecks": {
+    "recordsThatDisagree": [
+     {
+      "about": "how many components this family owes",
+      "recordA": "legal-design-packet-set-manifests.json packetSets[me-seal-survivor-set]: three components, CR-307, CR-308 and an instructions component (process_guidance, required, order 3)",
+      "recordB": "MASTER_QUEUE.json families[me-seal-survivor-set].packetComponents: two entries, primary-filing-1 and proposed-order-2, with no instructions component",
+      "whatIMeasuredAgainst": "the manifest, because it is the packet-set record. All three are in fact delivered, so the disagreement changes no result here; it is reported because a queue that omits a required component is how a missing component goes unnoticed elsewhere."
+     },
+     {
+      "about": "whether the conviction date is written on CR-307 item 1",
+      "recordA": "build-findings.json observation: 'The conviction date on the same item is a held matter fact and is written.'",
+      "recordB": "reports/actual-writes.json and reports/blanks.json: the item 1 conviction-date field is REFUSED, with the reason that LegalEase does not write a conviction date onto a sworn motion; participant-instructions.md carries it as a blank the participant must supply",
+      "whatIMeasuredAgainst": "the bytes, which leave it blank. Record B is right and the build-findings observation is wrong. It changes no obligation - the refusal is the correct behaviour and it is disclosed - but a build report that says a sworn field is written when it is blank is the kind of sentence a later reader will rely on."
+     },
+     {
+      "about": "whether the recovered CR-308 closes the warning gate",
+      "recordA": "build-findings.json openGatesOnThisRoute.me_2264_7_cr308_warning_conflict, whose first item is 'a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law'",
+      "recordB": "the bound CR-308 Rev. 06/26 recovered on 2026-09-04, whose page 2 still prints the extinguishment warning",
+      "whatIMeasuredAgainst": "the bytes. I read the warning in the delivered packet's own page 3 text, verbatim. The recovery does NOT satisfy the gate, and the build says so itself in theRecoveredCr308DoesNotSatisfyTheWarningGate - candidly and correctly. The gate is a source-acquisition gate owned by RCAP source acquisition and a release blocker in the track record, so under the build-first review model it does not stop the build; what it does bear on is what the packet tells the participant, and that silence is scored under SELF_HELP_STOP."
+     }
+    ],
+    "malformedAppearanceStreamInThePublishedSource": "Confirmed as the source's own defect, not the build's, and I checked it rather than accepting it. In the pinned CR-308 (through its proved-equivalent derivative) the field 'Findings of fact supporting this ORDER are as follows 1' carries an /AP /N stream whose dictionary holds /BBox, /Filter, /Length and /Resources and NO /Subtype and no /Type, while every other field on the same form carries /Type /XObject /Subtype /Form. Flattening promotes that stream to a page-level XObject, where /Subtype is required, so poppler emits 'Syntax Error: XObject subtype is missing or wrong type'. I reproduced the asymmetry: pdftotext over the official CR-308 and over the pikepdf derivative is silent, and the same command over the delivered canonical.pdf raises the warning. The page still renders - packet page 3 differs from its source page by exactly 0 pixels - so this is not a reason to fail the family and I do not score it. Worth saying to whoever owns the flattener: stamping /Type /XObject /Subtype /Form onto an appearance stream as it is promoted to a page XObject would silence it without touching a single mark the Maine Judicial Branch authored.",
+    "clonedFamilyPackets": "CLONED_FAMILY_PACKETS.json names no Maine family in any cloned, near-clone or shared-document group, and this family appears nowhere in it. The sibling me-seal-gen-set is the general sealing route on different forms.",
+    "defectsNoCounterCanSee": "Aliases on a name line: not present. AcroForm index versus printed label: this family carries the strongest instance of that defect class in the sources I have read today - CR-307's field names are shifted by one against its printed labels - and the build defeats it by measurement; I verified the result on the rendered page rather than in the map. Internal record text on a filing: none reaches the PDFs. Published zero where a measurement existed: addedGlyphsReadFromOutputBytes is a real reading here (85 and 55 canonical, 229 and 107 boundary). Geometry-counter blind spot: this family is the proof of the brief's warning. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 on all four documents and is TRUE - the strays draw no glyph - while nine invented squares per fixture sit on the paper. The pixel difference found them in one pass."
+   },
+   "evidenceRead": [
+    "fixtures/canonical.pdf and fixtures/boundary.pdf: every /FlatWidget XObject inflated and classified, all three pages of each rendered at 120 dpi and differenced against the pinned source pages, individual check boxes cropped and magnified, and the full text extracted",
+    "the two pinned official binaries, digests recomputed, encryption confirmed present; and the two pikepdf derivatives, digests recomputed, their AcroForm field trees, widget rects and /AP /N appearance streams read for the byte comparison",
+    "reports/actual-writes.json, reports/blanks.json, reports/caption-evidence.json, reports/rendered-artifacts.json",
+    "build-status.json, build-findings.json (including openGatesOnThisRoute and theRecoveredCr308DoesNotSatisfyTheWarningGate), source-receipt.json, product-wiring.json, production-field-map.json, field-census.census-v1.json",
+    "participant-instructions.md and filing-instructions.md, read in full and keyword-searched against the record's stop conditions, scope restrictions and participant actions",
+    "data/record-clearing/legal-design-track-registry.json tracks[me-seal-survivor] and legal-design-packet-set-manifests.json packetSets[me-seal-survivor-set]",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, SOURCE_ACQUISITION_MANIFEST.json, DOUBLED_WIDGET_PLACEMENT.json, DEFECTS_NO_COUNTER_CAN_SEE.json, CLONED_FAMILY_PACKETS.json",
+    "data/rcap-all50/overlays/rescued-encrypted-pdfs/ - every file hashed, to prove the CR-308 binding is the official binary and not a decrypted derivative"
+   ],
+   "visualDefects": [
+    {
+     "defect": "Nine synthesized stroked check-box outlines, one per check-box widget, on both fixtures: three at CR-307's Superior Court / Unified Criminal Docket / District Court boxes (packet page 1) and six on CR-308 (packet page 2) - its three court boxes and its three GRANTED/GRANTED/DENIED ordering boxes.",
+     "causedBy": "pdf-lib's default check-box appearance provider regenerating an appearance for a widget whose /AS /Off state has no /AP /N /Off entry, followed by the flatten stamping the invention onto the page. Every Maine check box on both forms is in that state.",
+     "provenNotSource": "none of the nine streams matches any /AP /N appearance stream in either pinned source; the same comparison matched all six of md_pardon_expungement's marks to their source appearances byte for byte.",
+     "whereItLands": "around the box the form already prints, producing a doubled and heavier outline rather than a stray square in white space - which is why the ink extent grows by less than a point and a bounding-box test cannot see it.",
+     "worstInstance": "three of the nine are on the order the judge signs, at the controls the court ticks to grant or deny the motion.",
+     "seenIn": "both canonical and boundary, 445 added pixels per fixture at 120 dpi."
+    }
+   ],
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP",
+    "PROTECTED_FIELDS",
+    "SELF_HELP_STOP",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "grantsNothing": "This is an independent read of two rendered fixtures. It approves no output, promotes no route and opens no commercial path. The family is in any case delivery-gated by two open source-acquisition gates its own build declares, and this FAIL is about the packet, not about those gates."
   }
  ]
 }
