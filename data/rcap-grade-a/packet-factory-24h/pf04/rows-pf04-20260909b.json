@@ -97,7 +97,9 @@
       "foundAndNotFixed": [
         "MASTER_QUEUE.json lists this family's packetComponents as exactly one entry, `component:mt_deferred_dismissal-primary-filing-4`, while all three committed legal-design records list five components. The queue row understates the packet set by four components. Not edited: MASTER_QUEUE.json is a shared central artifact.",
         "The custody reconciliation table data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json carries no row at all for worklistGroupId mt_deferred_dismissal-set, so family_sources_bind fell through to the census/form-number tier. It bound correctly, but the family has no custody-class determination of its own."
-      ]
+      ],
+      "theDeeperFinding": "The DOCX is not merely unfillable, it is the WRONG STAGE. The Montana DOJ/DCI Expungement/Removal Request Form is an agency submission a person MAILS AFTER a court has already ordered relief - it lists the court order among its own enclosures, and the committed unit description places it at \"The Department of Justice stage, a separate participant submission to a different destination that Sec. 46-18-204(2) places on the participant\", after the dismissal order. So the one source this family binds is downstream of the filing the route exists to make. The three components that ARE the court filing - the motion, the certificate of service and the proposed order - bind no source at all: legal-design-specifications.json records all three with templateStatus \"not_drafted\", and no Montana court instrument for this route exists in any mounted custody. Building around the agency form and calling the result a deferred-dismissal packet would ship a post-order mailing as though it were the motion; drafting the missing motion from the statute would be synthesising the instrument the record does not hold.",
+      "independentlyConfirmedBy": "The Captain's source-identity sweep reached the same conclusion from the other direction after this row was written, and adds the contrast case: the sibling family mt_misdemeanor_expungement-set DOES hold its court instrument, srmisexp2025.pdf, 22 pages, no AcroForm, carrying the Petition, the Order and the Statement of Inability. That is the Montana pattern - the court instruments exist as flat PDFs where they exist at all - and it is exactly what this family is missing."
     },
     {
       "itemId": "mn_petition_609a02_subd3-set",
@@ -278,18 +280,94 @@
         "BOTH HOST DEFECTS ABOVE ARE STILL LIVE IN THE HOST THIS FAMILY COPIED, scripts/build-census-v1-ak-mistaken-identity-set.mjs, and in any family copied from it. The first can only report defects a family does not have, so it costs build time rather than correctness. The second reorders a participant-facing disclosure table and is a delivery defect wherever a family declares more than a handful of required-before-filing items. Neither was touched outside this family's own script."
       ],
       "nextHandoff": "Central raster of the two hashes above, then independent verification by a lane that did not build this packet."
+    },
+    {
+      "itemId": "ar-veterans-court-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "rasterState": "NOT_BUILT",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyTheCountersAreNull": "No packet was built, so none of the nine was measured. Writing 0 here would report nine clean measurements that were never taken.",
+      "overlayDirectoryTouched": false,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill",
+      "overlayDirectoryState": "does not exist; this run created no ar-veterans-court-set directory and wrote no byte under it",
+      "buildScriptWritten": false,
+      "artifacts": [],
+      "claim": "CLAIM_OK PF04 ar-veterans-court-set (packet-build)",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind reported ok, 1/1 source(s) bind by exact SHA-256 (custody_reconciliation) — see whyTheRowGatePassedAnyway",
+      "legalInputStatus": "SETTLED. This is not a legal stop.",
+      "failedSourceIdentity": {
+        "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+        "pinnedSha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+        "declaredPathInMasterQueue": "google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX",
+        "resolved": false,
+        "printedTitle": "ORDER TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING PURSUANT TO A.C.A. §16-101-106 AND A.C.A. §16-90-1401 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}",
+        "component": "ar-veterans-court-proposed-order-3, requirement \"required\", outputStrategy official_pdf_fill"
+      },
+      "howTheSearchWasDone": "By content digest, not by filename. Every .pdf, .docx and .doc under every custody mounted in this checkout was hashed - 981 binaries across master_library, nationwide_recovery_pool_2026_09_02, d_source_packs and human_source_returns - and none carries dd73dfde... Every .pdf and .docx in the repository working tree was hashed as well, with the same result. The committed corpus index data/rcap-all50/local-source-corpus-index.json carries NO entry with that SHA-256 at all, so there is nothing for a digest lookup to resolve to and no custody root to join a path onto.",
+      "sourcesThatDidResolveByContent": [
+        {
+          "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+          "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+          "resolved": true,
+          "how": "content digest; every binary under the mounted Master Library was hashed and exactly one file carries this digest",
+          "heldAt": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+          "custody": "master_library",
+          "pages": 5,
+          "acroFieldCount": 0
+        }
+      ],
+      "whyTheRowGatePassedAnyway": "The row gate reports \"1/1 source(s) bind\" and the family declares TWO. familySources() in scripts/verify-packet-build-environment.mjs builds its source list from the custody reconciliation with `.filter((s) => s.resolved && s.heldAs?.sha256)`, so an UNRESOLVED source is dropped from the list rather than counted as unresolvable. The custody row itself is explicit - data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json records official-form:ACIC-ORDER-VETERANS-COURT with resolved false and heldAs null, and the row's custodyClass is SOURCE_IDENTITY_UNRESOLVED - so nothing is hidden, but the gate's own denominator is the resolved subset and a lane that read only its summary line would build on one source and never notice the second. Reported, not edited: that script is not an owned path of this lane.",
+      "whyTheQueueSaysSourceReadyAnyway": "MASTER_QUEUE.json records this family SOURCE_READY with sourceBound true and boundCount 2, resolving the order \"committed_acquisition_return_and_governed_custody\" against data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json, and CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json gives the next action as \"Build from the already-bound petition and newly custodied veterans-court order.\" The acquisition return it points at does not support that. Its own entry for this item records result ACQUIRED_CURRENT_OFFICIAL_BINARY with a privateArtifactReceipt whose provider is Google Drive, shared false and visibility owner_only, and beside it an uploadFailure: \"GitHub workflow dispatch returned HTTP 403; the uploader also rejects media.ark.org because it cannot encode the verified ACIC-page-to-CDN provenance chain.\" A Google Drive file id is not a custody. The corpus index says the same thing about the fourteen src05 binaries in its own custody note: bytesHeldByAnyMountedCustody false, \"the bytes were never staged, committed, or added to any release, and no mounted custody holds them\".",
+      "theBytesAreRecoverableAndThatIsTheUsefulPart": "The Drive object still exists and still matches. Read at 2026-09-09: file id 1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX, title CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf, mimeType application/pdf, fileSize 116034 - byte-for-byte the byteLength the acquisition return recorded - owner roger@legalease.com. Metadata only was read; the file was NOT downloaded, not staged and not committed. So this is a custody and indexing gap rather than a lost source, and it is one owner action from closed.",
+      "exactRemedy": [
+        "Stage the Drive object into a declared custody, verify it hashes to dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5, and add an entry for it to data/rcap-all50/local-source-corpus-index.json under that custody.",
+        "Set official-form:ACIC-ORDER-VETERANS-COURT resolved true with its heldAs path and sha256 in data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json, which moves the family off custodyClass SOURCE_IDENTITY_UNRESOLVED.",
+        "Then the family builds on the path this lane has already proved out: both ACIC forms are flat PDFs with acroFieldCount 0, which is exactly the measured-flat-overlay shape used for mn_petition_609a02_subd3-set in this same return."
+      ],
+      "whyNotBuiltFromThePetitionAlone": "The committed packet set for ar-veterans-court-set has three components and ALL THREE are requirement \"required\": process guidance, the ACIC petition, and the ACIC order (ar-veterans-court-proposed-order-3, outputStrategy official_pdf_fill, officialFormId ACIC-ORDER-VETERANS-COURT). The two routeKeys are a two-stage route and stage 2 is recorded as \"Stage 2 files the ACIC veterans treatment court petition and order pair\" - the pair, not the petition. Shipping the petition without the order would hand a participant a filing that asks a court to sign an order the packet does not contain, and would read as built. The builder contract reaches the same answer mechanically: a component the map names and no artifact renders is requiredComponentsMissing.",
+      "whyNotSubstituted": "The obvious substitute is the ACIC order held for a sibling Arkansas family. It is a different form for a different statutory route, and CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json states the governing rule in its own words: a determination \"never satisfies one identity by binding the binary of another\". No order from another route was considered further.",
+      "foundAndNotFixed": [
+        "family_sources_bind in scripts/verify-packet-build-environment.mjs reports its ratio over the RESOLVED subset of a family's sources rather than over the sources the family declares, because familySources() filters unresolved entries out of the list instead of adding them to `unresolvable`. On this family that prints \"1/1 source(s) bind by exact SHA-256\" for a family whose custody row records one of its two sources unresolved. The check is not wrong about the source it examined; its denominator hides the one it dropped. Not edited - that script is not an owned path of this lane - and reported here because a build lane that reads only the summary line would build a two-form packet on one form.",
+        "MASTER_QUEUE.json records this family SOURCE_READY with boundCount 2 on the strength of an acquisition return whose own uploadFailure says the upload failed and whose own receipt says the artifact is owner-only and unshared. MASTER_QUEUE.json is a shared central artifact and was not edited."
+      ],
+      "nextHandoff": "Source custody, not packet build. Nothing about this family's legal design or its petition is blocked; only the order binary is."
     }
   ],
-  "rowsReturned": 2,
+  "rowsReturned": 3,
   "familiesCompleted": [
     "mn_petition_609a02_subd3-set"
   ],
   "familiesStopped": [
-    "mt_deferred_dismissal-set"
+    "mt_deferred_dismissal-set",
+    "ar-veterans-court-set"
   ],
   "blockedSource": [
-    "mt_deferred_dismissal-set"
+    "mt_deferred_dismissal-set",
+    "ar-veterans-court-set"
   ],
   "blockedLegalInput": [],
-  "overlayDirectoriesTouchedByAStoppedFamily": 0
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set (no --write) returned PASS_COMPLETE with all nine counters zero. The two stopped families were never built, so the focused check has nothing to audit for either and neither appears in the matrix."
 }
