@@ -50,13 +50,34 @@
     "everyJobConclusion": "success"
   },
   "artifactsFromTransportJson": {
-    "az_certificate_second_chance-set": { "artifactId": "10109471408", "zipSha256": "e3b1b329d2b3244698953403341bf545bb042b665ba8b0fdae37b5119a67a267" },
-    "hi_nonconviction_expungement-set": { "artifactId": "10109439157", "zipSha256": "68c6d557f1fc2dcb20d65a18cfb84fc007018f7679bc05798d0b651c36cdcc1b" },
-    "la-985-expungement-by-redaction-set": { "artifactId": "10109677878", "zipSha256": "1acfe845c6bed79b2553ab7eed6e9b98139dcb598b9dd2415c9d9171d3dec104" },
-    "ma-seal-admin-set": { "artifactId": "10110081588", "zipSha256": "0621ecb821f78a8a177eb3b54bfca152636f5d133ec01a3cd88836a68557616f" },
-    "ma-seal-decrim-set": { "artifactId": "10109409386", "zipSha256": "f40f3569e3fab56004ec18fd03a7f19bc9ea9d1ea34c79fa1b089f01aecfd166" },
-    "me-seal-gen-set": { "artifactId": "10109409164", "zipSha256": "fb9e93a6373697b26e10af692401194046390f8f54cc0f87a33f3a195a2034bc" },
-    "nc_145_5_misdemeanor-set": { "artifactId": "10109472816", "zipSha256": "0236501a9164c02141e93ec92a9ba228c50b116a90da828201b2b643e4ebdcee" },
+    "az_certificate_second_chance-set": {
+      "artifactId": "10109471408",
+      "zipSha256": "e3b1b329d2b3244698953403341bf545bb042b665ba8b0fdae37b5119a67a267"
+    },
+    "hi_nonconviction_expungement-set": {
+      "artifactId": "10109439157",
+      "zipSha256": "68c6d557f1fc2dcb20d65a18cfb84fc007018f7679bc05798d0b651c36cdcc1b"
+    },
+    "la-985-expungement-by-redaction-set": {
+      "artifactId": "10109677878",
+      "zipSha256": "1acfe845c6bed79b2553ab7eed6e9b98139dcb598b9dd2415c9d9171d3dec104"
+    },
+    "ma-seal-admin-set": {
+      "artifactId": "10110081588",
+      "zipSha256": "0621ecb821f78a8a177eb3b54bfca152636f5d133ec01a3cd88836a68557616f"
+    },
+    "ma-seal-decrim-set": {
+      "artifactId": "10109409386",
+      "zipSha256": "f40f3569e3fab56004ec18fd03a7f19bc9ea9d1ea34c79fa1b089f01aecfd166"
+    },
+    "me-seal-gen-set": {
+      "artifactId": "10109409164",
+      "zipSha256": "fb9e93a6373697b26e10af692401194046390f8f54cc0f87a33f3a195a2034bc"
+    },
+    "nc_145_5_misdemeanor-set": {
+      "artifactId": "10109472816",
+      "zipSha256": "0236501a9164c02141e93ec92a9ba228c50b116a90da828201b2b643e4ebdcee"
+    },
     "note": "Read out of TRANSPORT.json inside the verified bundle, not from the Actions API here; the ZIP bytes themselves were never fetched into this session. TRANSPORT.json records an eighth archive, the canary."
   },
   "pageImages": {
@@ -77,5 +98,16 @@
   ],
   "refusedHere": [],
   "newTerminalPromotions": 0,
-  "meaning": "Current-byte raster evidence only. No independent semantic approval, no verdict, no terminal state. Each family still needs its independent verification return before it can transition."
+  "meaning": "Current-byte raster evidence only. No independent semantic approval, no verdict, no terminal state. Each family still needs its independent verification return before it can transition.",
+  "duplicateHandoffsReceived": [
+    {
+      "receivedAt": "2026-09-09T17:00Z",
+      "as": "RASTER_RECEIPTS_34364359375_2.zip",
+      "innerArchiveSha256": "6f41ec5fe81e1023efbae1de12cc944acd371e5ff53e47e0fd3b6eec51093a9d",
+      "identicalToTheConsumedBundle": true,
+      "howEstablished": "byte comparison of original-raster-receipts.tar.xz against the first handoff (cmp clean), and a field-by-field comparison of all seven bundle verdicts against the verdict.json files already written under raster-runs/admitted/ -- 7 identical, 0 differing",
+      "action": "Not replayed. The seven were admitted from the identical archive at 15:30Z and re-running the importer would rewrite existing evidence files for no gain.",
+      "newTerminalPromotions": 0
+    }
+  ]
 }
