@@ -29,17 +29,6 @@ The petitioner signs and verifies the Request. A wet signature is expected. The 
 
 Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
 
-- Complete arrest60 on EXP-AD Case List page 1
-- Complete arrest61 on EXP-AD Case List page 1
-- Complete arrest62 on EXP-AD Case List page 1
-- Complete arrest63 on EXP-AD Case List page 1
-- Complete arrest64 on EXP-AD Case List page 1
-- Complete arrest65 on EXP-AD Case List page 1
-- Complete arrest66 on EXP-AD Case List page 1
-- Complete arrest67 on EXP-AD Case List page 1
-- Complete arrest68 on EXP-AD Case List page 1
-- Complete arrest69 on EXP-AD Case List page 1
-- Complete arrest70 on EXP-AD Case List page 1
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
