@@ -281,6 +281,36 @@ jobs:
             --run-id "$WORKFLOW_RUN_ID" \
             --out raster-out
 
+      # The verdict and the page digests, printed where a reader without
+      # artifact access can still see them.
+      #
+      # The gate's evidence has only ever existed inside the uploaded zip, and
+      # an agent session whose egress policy denies Actions artifact blob
+      # storage can read this job's LOG and nothing else. So a family passed
+      # the gate and stayed BUILT_RASTER_PENDING for want of bytes that had
+      # already been measured -- Delaware, Nebraska, and the seven families of
+      # run 34352802308. This prints the same bytes the zip carries: the
+      # verdict document verbatim, and a SHA-256 for every rendered page.
+      #
+      # It weakens nothing. Nothing here is a new verdict, the artifact upload
+      # is unchanged and still authoritative, and the admit path still checks
+      # the zip against the run, the jobs and the family's current inventory.
+      # A reader who has the zip should keep using it; this is for one who
+      # cannot get it.
+      - name: Print the verdict and the page digests to the log
+        if: always()
+        run: |
+          set -uo pipefail
+          for v in raster-out/*.verdict.json; do
+            [ -e "$v" ] || continue
+            echo "===== BEGIN VERDICT $(basename "$v") ====="
+            cat "$v"
+            echo "===== END VERDICT $(basename "$v") ====="
+          done
+          echo "===== BEGIN PAGE DIGESTS ====="
+          find raster-out -type f -name '*.png' -print0 | sort -z | xargs -0 -r sha256sum
+          echo "===== END PAGE DIGESTS ====="
+
       - name: Refuse a modified packet byte
         run: |
           set -euo pipefail

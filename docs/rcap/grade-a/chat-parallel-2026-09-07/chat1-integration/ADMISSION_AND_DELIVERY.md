@@ -1,3 +1,104 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T13:00Z -->
+# Captain checkpoint — 194/346; seven families passed the visual gate and cannot be admitted from here
+
+Only the changed facts. Every earlier block below stays true of the moment it
+describes.
+
+**Census: 194/346 terminal, unchanged this execution.** 177
+COMPLETE_PACKET_PROVEN, 10 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE. The
+count did not move and the work did: eleven independent reads were consumed, two
+instrument defects were repaired, eight repairs were consolidated onto two live
+lanes, and seven families reached the central raster gate and passed it.
+
+## The one thing that needs Roger
+
+**Seven families have a passing central raster gate whose evidence this session
+cannot reach.** Run `34352802308` at packet commit `4bf305425`, dispatched from
+`main`: the synthetic canary passed, the live negative controls passed, the
+family matrix planned, and all seven family jobs concluded success.
+`scripts/rcap-raster-batch.mjs` ends `process.exit(verdict === "RASTER_PASS" ? 0
+: 1)` and runs under `set -e`, so a render step that concluded success emitted
+RASTER_PASS. The seven are `hi_712_1200_deferred_expungement-set`,
+`ia-12347-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`,
+`il-exp-precompletion-set`, `il-seal-edu-set` and `il-seal-nonconv-set`.
+
+They are still BUILT_RASTER_PENDING and **no receipt was written**, because the
+admit path needs the uploaded zip — the verdict document with one measurement
+per page, and the page images to hash against it — and this session's egress
+policy denies Actions artifact blob storage. CONNECT to the artifact endpoint is
+answered 403. A file in a receipts directory that looks like a receipt but omits
+the evidence the gate checks is worse than no file. This is the third time the
+same wall has stopped an already-measured family: Delaware, Nebraska, now seven.
+
+**The ask, and it is small.** One step in
+`.github/workflows/rcap-packet-raster-acceptance-batch.yml` that prints the
+verdict document and a SHA-256 per rendered page to the job **log**, which this
+session's policy does allow. It is written, YAML-validated and pushed on
+`claude/legalease-sprint-captain-utucnw`; the batch is dispatched from `main`,
+so it only takes effect from there. It adds no verdict, changes no gate, leaves
+the artifact upload authoritative, and leaves every admit check in place — a
+reader who can get the zip should keep using it. Two decisions, either of which
+works: land that step on `main`, or hand over the seven artifact zips of run
+`34352802308` (artifact `10104609538` is the Hawaii one, zip SHA-256
+`25960c54e2b5827b1cc8207dc4d63ac19c460e3e2080b2bb2660e72b49efe576`).
+
+The full record is `data/rcap-grade-a/packet-factory-24h/raster-runs/RUN_34352802308.json`,
+written from tool-obtained identifiers only, with the six unread job logs left
+null rather than filled in from the pattern of the one that was read.
+
+## Two more instruments were reporting quantities they had not measured
+
+That is now six of this shape, and both of today's were found by a lane rather
+than by me.
+
+5. **The completeness gate invented a defect out of an absent measurement.** Its
+   measurability guard listed `valuesReportedByFinalizer` among the keys that
+   certify `invisibleWrites` measured — the finalizer's own claim about its own
+   writes, the accused rather than the measurement — and the raise then coerced
+   the two null output-byte readings to 0 and summed them. "Nobody read the
+   bytes" arrived at the test as "the bytes carry no ink". Four Illinois
+   families FAILed on it while `visualDefects`, whose guard names only an
+   output-byte reading, correctly reported UNMEASURED on the same file. A
+   fabricated zero passed and an admitted null failed. Repaired at `b4ad8e88f`;
+   the matrix the queues read is a committed artifact and only rewrites under
+   `--write`, so `4bf305425` rewrote it: PASS_COMPLETE 227→228,
+   NOT_MEASURABLE_HERE 19→23, FAIL_VISIBLE_APPEARANCE 4→0.
+
+6. **The border scan claimed 37 families by the shape of their write proof and
+   measured none of them.** A third write-proof shape exists — `documents[]` as
+   one entry per delivered fixture, naming no source — and the first branch
+   tested only `Array.isArray(proof.documents)`, so it claimed those families
+   and returned an empty map. 155 of 219 unmeasurable documents. Repaired at
+   `588519136`: cohort 5 families/121 widgets → 7 families/201 widgets,
+   unmeasurable 219 documents/77 families → 84/37.
+
+## An open disagreement, recorded rather than settled
+
+VF20 failed `mo-art-xiv-marijuana-set` and `md_pardon_expungement-set` on 29 and
+50 synthesised widget borders — pdf-lib stamping a stroked square the official
+form does not print, 654 of the stray pixels in a column on the judge's order
+page at Granted / Granted In Part / Denied / Frivolous. It measured them with a
+directional 150 dpi raster diff of the delivered bytes. The structural scan
+requires `/MK /BC` on the widget and puts neither family in the cohort, and
+`verify-packet-completeness.mjs` is blind to it either way, because it raises
+`visualDefects` only from a counter of **glyphs** and a stroked rectangle is not
+a glyph. A structural predicate and a raster of the output disagree; the raster
+reads the delivered bytes. Both readings are in `UNCONSUMED_REPAIRS.md`. I did
+not adjudicate it by reasoning about a library's internals.
+
+## Delaware is a legal question, not a repair
+
+VF01 returned BLOCKED_LEGAL_INPUT on COMPONENT_SET and the extractor refused the
+whole row over one token — the obligation read `"BLOCKED"` where the vocabulary
+is `"BLOCKED_LEGAL_INPUT"` — so Delaware kept a stale FAIL from an earlier base
+and would have gone to a repair lane. Corrected as a vocabulary token, not a
+verdict: `de_mandatory_expungement-set` is now LEGAL_BLOCKED. The question is
+whether `DE.memo.json` governs, in which case the packet's required primary
+filing does not exist, or `route-product-metadata.json`'s `guidance_only`
+classification does. Three records give three answers. It is Roger's.
+
+---
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T07:35Z -->
 # Captain checkpoint — 195/346; four measuring instruments were reporting numbers they had not measured
 
