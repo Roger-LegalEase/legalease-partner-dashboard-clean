@@ -365,6 +365,208 @@
         "MASTER_QUEUE.json records implementationStrategy participant_agency_application for this family while the controlling legal record (FL.memo.json track fl-self-defense) records official_pdf_fill. The builder disclosed the disagreement rather than resolving it. This is a queue-label reconciliation for Captain; it is not a defect in the delivered packet and does not affect any obligation above."
       ],
       "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "postRepairNote": "This is a reread of the CURRENT bytes at 285c9b91c, not of the base VF01 and VF03 failed. The prior findings were used only to know what to look for. Both FIX118 rounds are confirmed landed here by direct measurement: the 91 stroke-only synthesized check-box rectangles per fixture are gone (0 on both), the eleven 'Complete arrestNN' lines are gone from the guide, all eight registry stop conditions are now printed verbatim, and the 46 fee-waiver check boxes now reach the guide. Two defects nonetheless stand, one of them the same election-column defect FIX118 repaired on il-seal-3yr and did not repair here.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine measure zero here and the family still fails. Neither defect below is a thing any of the nine counts: one is the structural integrity of the delivered file and the other is a false instruction in the guide. A green counter row is not a verdict."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:IL:il-exp-qualprob:expungement-after-eligible-supervision-or-qualified-probation is identical in the MASTER_QUEUE.json family row and in production-field-map.json. The paper carries the same route and I read every limb of it out of the delivered bytes: Request item 1 'I am requesting to expunge records' ticked Yes (packet page 1), Section 8 'For at least one case, I received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully' ticked (page 3), item 12 'I am requesting to seal records' ticked No (page 4), the Outcome cell carrying QP which is the form's own printed expungement abbreviation for qualified probation, and Sections 13-23 and the SEALING half of the proposed Order left wholly blank as an expungement-only route requires."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four declared sources, all four recomputed from bytes held in this container and all four exact. Three resolve against the 501-file Master Library index by content: 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853 = STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__...__REV-2026-06__EN.pdf, 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305 = the EXP-AD-ORDER-GRANTING of the same revision, b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5 = FW-CIV-APPLICATION REV-2025-08. The fourth is not in the Master Library and the receipt does not claim it is: the EXP-AD Case List is held under a different custody, and I recomputed it in this worktree at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, matching the receipt exactly. Every declared byteLength and page count also matches what I measured (6, 1, 2 and 4 pages)."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet set declares four components in order: primary_filing EXP-AD Request (required), attachment EXP-AD Case List (required), proposed_order EXP-AD Order Granting (required), fee_waiver FW-CIV-APPLICATION (conditional, 'Only where the participant cannot pay the county filing fee'). All four are rendered whole in both fixtures, 13 pages, and I identified each from its own printed footer in the delivered text. The conditional fee waiver is included, which is the right call on this route because the record's own requiredBeforeFiling names the Rule 298 application as the thing that makes the fee zero under section 5.2(d)(1)."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 45 declared writes produce readable ink in both fixtures. I checked each declared value against the extracted text of the exact packet page its document and page map to (Request 1-6, Case List 7, Order 8-9, FW-CIV 10-13). Six appeared to miss on a first pass and all six were artefacts of poppler's -layout column reconstruction, not of the packet: reading the word boxes shows 'Jordan Avery Reyes' printed as one contiguous run at y 305.6-313.0 x 372.2-444.2 on packet page 6, and '412 West Madison Street, Chicago, IL 60606' as one contiguous run at y 365.6-373.0 x 78.6-237.8, and the sixth was a check box whose stored value is the string Yes and whose ink is the tick I found at the printed box. Every one of the four repairs VF01 previously demanded here is confirmed on the bytes: the charge cells carry a charge and not the case number, the active expungement row's Outcome is QP, the inactive sealing table on Request page 4 is wholly blank, and the Case List carries the case number 2021-CF-004217 in its first cell with no ellipsized placeholder anywhere in either fixture."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The record's ten requiredBeforeFiling lines are all present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that same section. FILE data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md, LINE 26, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1, rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column: I read the whole one-page form, and it is a caption block (county, name, other names, clerk-assigned case number, date of birth, race, gender), then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. There is nowhere on it to elect expunge versus seal for a case. Worse, the sentence sends the participant AWAY from where this packet actually made the election and contradicts the same guide's own line 5 and line 9, which correctly state that the Request answers item 1 Yes and item 12 No. A participant following line 26 would hunt for a column that does not exist and would be told not to check the one place the election really is. This is defect (a) that VF05 scored on il-seal-3yr-set and that FIX118 repaired there and only there: il-seal-3yr-set's guide now explains that the record places the election in such a column, that the official Case List carries none, what its 78 fields actually are, and that the election was therefore made on the Request. il-exp-qualprob-set never received that repair."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Not one of the 379 refusals carries routeDetermined true, and every election the route does determine is ticked in the delivered bytes. I found exactly five ticks per fixture and identified each from its printed context: Request item 1 Yes (expunge), Request Section 8 (qualified probation plus five years), Request item 12 No (not sealing), Request page 6 'I am completing this form for myself', and FW-CIV page 4 self-represented. Each tick is the official form's own ZapfDingbats mark drawn inside the form's own printed empty-box glyph - measured, the tick box [74.5, 440.8, 81.5, 448.8] sits inside the printed box [72.0, 438.9, 84.0, 450.9] on page 1 - rather than pdf-lib's synthesized check inside a synthesized hairline square. Nothing on the proposed Order is ticked, which is right: the form prints 'Do not check the boxes below. The judge will check the correct boxes.'"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Three repeating structures, all measured from the bytes. (1) The Request's ten-row expungement table on page 2: row 1 carries ink in all five cells (2021-CF-004217, Chicago Police Department, Possession of a controlled substance, 03/12/2021, QP) and rows 2 through 10 are wholly blank. VF01's earlier '18 visibly partial rows per fixture' does not reproduce. (2) The Request's sealing table on page 4 is wholly blank, correct for an expungement-only route. (3) The Case List's seventy arrest-or-case cells: only the first carries the case number and the other sixty-nine are wholly blank, and the field map now classifies all sixty-nine identically as optional participant content - grep -c 'Complete arrest' on the delivered guide is 0, where VF01 and VF03 found eleven 'Complete arrest60' through 'Complete arrest70' lines. FIX118's off-by-N repair is confirmed landed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by differencing every word box of each of the four official sources against the corresponding delivered packet pages, on both fixtures. Canonical adds 35 words on the Request, 9 on the Case List, 21 on the Order and 20 on the fee waiver; boundary adds 60, 14, 30 and 24; nothing is removed from any source anywhere. Every added word is a caption, identity, address, contact or arrest-row value, or one of the five route ticks. The Request's verification block is untouched - the '/s/' beside 'Signature' is the official form's own printed text, present identically in the source, and no signature or verification date is written. On the proposed Order, the only writes are the caption on page 1 and item 3, 'Enter the name and contact information of the person who should receive the signed Order', which is the petitioner's own block; the judge's IT IS ORDERED boxes, the ENTERED line, the Judge line and the Date line all carry no ink, and the clerk-reserved 'Case Number' caption at the head of the Order's page 2 is blank. On the fee waiver the build writes only the caption and the applicant's name and contact details and makes none of its financial statements. The field map's role census agrees: 8 refusals are the court's and 2 are protected signature or date fields, and none of them is written."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The hash half of this obligation passes and the structural half does not. Hashes: canonical.pdf rehashes here to 2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68 (1728424 bytes, 13 pages) and boundary.pdf to 8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56 (1729148 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: neither delivered file is a well-formed PDF. Both carry 146 indirect references to objects that do not exist in the file. Measured two independent ways. (i) Reading the bytes: the trailer declares /Size 954 while the cross-reference table at offset 1712092 covers only 808 object numbers in 14 subsections - (0,8) (11,70) (91,61) (162,18) (188,70) (266,36) (304,151) (494,114) (652,1) (659,26) (688,57) (750,80) (835,59) (897,57) - leaving 146 object numbers, beginning 8, 9, 10, 81-90, 152-161, 180-187, entirely absent from the xref and marked neither in-use nor free, which PDF 32000-1 section 7.5.4 does not permit. Those object numbers are also absent from the file body: there is no '8 0 obj' anywhere, there are no object streams and no cross-reference streams, so nothing is hiding them. (ii) Reloading the delivered file with pdf-lib and resolving each page's /Annots entries: 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - page 1 has 3 of 5, page 7 has 39 of 40, page 8 has 44 of 45. Page object 80 is packet page 1 and its dictionary reads /Annots [ 4 0 R 6 0 R 8 0 R 9 0 R 10 0 R ]: objects 4 and 6 are the form's own Link annotations and resolve, and 8, 9 and 10 are widget annotations that the flatten removed from the document and did not remove from the page. CONSEQUENCE, measured not predicted: poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' and 'Internal Error: xref num 8 not found but needed, try to reconstruct' on every pdfinfo and pdftotext invocation. All four official sources open silently. So do the other packet families I read this shift - az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set all load with zero dangling annotation references - so this is not a property of the factory. It is not new damage from FIX118: I extracted the pre-repair canonical at 159c0b5cf and it has the same broken xref, and the same fault is present on il-seal-2yr-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set, so one repair in the shared EXP-AD build path answers six families. It matters here rather than being cosmetic because this packet is delivered specifically for e-filing: participant-instructions.md tells the participant 'AOIC requires a flattened PDF for e-filing, so LegalEase output is delivered pre-flattened', and the file that says so is one a mainstream PDF library must repair before it can read it."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet manifest for this family is the committed packet set's component order: primary_filing order 1, attachment order 2, proposed_order order 3, fee_waiver order 4. The delivered order matches exactly and I read it back page by page from the delivered text: packet pages 1-6 are EXP-AD Request pages 1-6 of 6, page 7 is the one-page EXP-AD Case List, pages 8-9 are EXP-AD Order Granting pages 1-2 of 2 (ATJ 2905.6), pages 10-13 are FW-CIV-APPLICATION pages 1-4 of 4. Each document is contiguous and in ascending source-page order, in both fixtures, and no page is dropped, duplicated or transposed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally on both fixtures, per document, against the official source pages. No added word box falls outside the media box and none comes within 18pt of the right edge. After excluding the printed underscore rules a value is supposed to sit on, and after resolving the text-identity artefacts my differencing produces when a written value repeats a word the page already prints, no added word box intersects any printed word box and no added word box intersects another added word box. The apparent collisions that remain are the five route ticks, and reading their coordinates shows each tick sits INSIDE the form's own printed empty-box glyph rather than beside it. The longest boundary values print whole and clear of the next column - 'Montgomery-Washington' ends at x=301.3 inside a rule running to x=373.8. The two things VF01 previously failed here are gone: no ellipsized value survives in either fixture, and the 91 stroke-only Form XObjects per fixture that pdf-lib synthesized around every unticked check box are now 0 on both, which I measured by walking every one of the 443 flattened Form XObjects in each file and by re-measuring the pre-repair bytes at 159c0b5cf for comparison, where the same walk finds 91. The admitted raster receipt for these exact digests measured 26 pages and reports problems [] and environmentProblems []."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's destination is {kind: clerk, name: 'Circuit clerk of the county of arrest or charge', detail: 'File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under section 5.2(d)(4).'}. participant-instructions.md carries it under 'Where this is filed', naming the circuit clerk in each county where an arrest occurred or a charge was brought, listing what to file together (Request, Case List, any Additional Cases forms and the proposed Order), and recording the AOIC flattening requirement for e-filing."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both are stated in the record's own words under 'What it costs, and the waiver': the circuit clerk fee plus an ISP processing fee, both county-collected, ISP charging nothing to file a petition and $60 to process a court order, county totals commonly roughly $60 to $235 with McLean County publishing $136, and the instruction to treat every figure as county-specific. The waiver route is not merely named, it is shipped: the Supreme Court Rule 298 Application for Waiver of Court Fees is component 4 of the packet, rendered as packet pages 10-13, and the guide states section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. The guide is also honest that the packet makes none of the waiver form's financial statements and that all 46 of its check boxes are the participant's, listing every one - the repair FIX118 made in its second round, confirmed present here."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "'## Who serves, and how' names the method and the recipients in the record's own words: 'The circuit court clerk serves, under section 5.2(d)(4). The participant serves no one.' and notice going to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. It states the 60-day objection period under section 5.2(d)(5)(B) and that absent an objection the court shall enter an order granting or denying under section 5.2(d)(6)(B), tells the participant to add a hearing date only when the clerk or court supplies it, and tells them not to complete court-owned service or order fields. I confirmed from the bytes that no service or certificate-of-service field is written."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry track names eight selfHelpStopConditions and all eight are now printed verbatim under '## Stop and get help', confirmed by exact string containment one by one: an objection by the State's Attorney, ISP, the arresting agency or the chief legal officer; a contested hearing; an ambiguous or contested disposition on the transcript; an unrecognised case on the transcript which may indicate identity theft; federal or out-of-state records an Illinois court cannot reach; immigration consequences; a motion to vacate, modify or reconsider under section 5.2(d)(12); and denial of the petition. This is the exact defect VF03 scored on this family at 159c0b5cf, where four of the eight were absent including the two a self-represented filer can least handle; FIX118's round-two repair is confirmed landed, and the guide adds a closing line singling out those two."
+        }
+      },
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "ARTIFACTS",
+          "file": "both fixtures: data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf and fixtures/boundary.pdf",
+          "defect": "146 dangling indirect references per fixture. Page /Annots arrays retain references to widget annotation objects the flatten deleted; those object numbers are in neither the file body nor the cross-reference table, and the trailer /Size 954 exceeds the 808 object numbers the xref covers.",
+          "howToSeeIt": "pdfinfo on either fixture prints 'Syntax Error: Couldn't find trailer dictionary' and reconstructs; node with pdf-lib, resolving each page's /Annots entries against the context, returns 146 unresolvable refs; page object 80 reads /Annots [ 4 0 R 6 0 R 8 0 R 9 0 R 10 0 R ] and objects 8, 9 and 10 do not exist.",
+          "repair": "In the shared EXP-AD build path, after form.flatten(), prune every page's /Annots array of references that no longer resolve (keeping the Link annotations, which do), and emit a cross-reference table that covers every object number from 0 to /Size-1, marking unused numbers free. Then re-render both fixtures and re-raster.",
+          "scope": "Not unique to this family and not caused by FIX118: the same fault is in the pre-repair bytes at 159c0b5cf and in il-seal-2yr-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. One repair answers six families. az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set are clean, so this is a path fault and not a factory fault."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md",
+          "line": 26,
+          "exactText": "Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.",
+          "defect": "The official EXP-AD Case List has no per-case election column, so the instruction cannot be carried out; and it tells the participant not to make the election on the Request, which is exactly where this packet made it and where the form itself directs it. The sentence also contradicts the same guide's own 'Route selected' and 'What this packet asks for' paragraphs.",
+          "repair": "Apply here the wording FIX118 already wrote for il-seal-3yr-set: keep printing the record's requiredBeforeFiling line verbatim, then state that the official Case List carries no such column and what its fields actually are, state that this packet therefore made the election on the Request (item 1 Yes, item 12 No), and tell the participant to check that election against the certified disposition and correct it on the Request rather than on the Case List.",
+          "scope": "il-seal-2yr-set carries the identical sentence at its own line 22 and needs the same repair; il-seal-3yr-set is already repaired."
+        }
+      ],
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set returned PASS_COMPLETE, 45/424 written, nine zeros. It is green and the family still fails: neither defect above is a thing the nine counters count.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-exp-qualprob-set/il-exp-qualprob-set.verdict.json, RASTER_PASS at packetCommitSha a77595707ec97a980306d184ac07b549884ce038, pagesMeasured 26, coversTheWholeFamily true, problems []. Its pinned digests equal the digests I recomputed, so it is over the current bytes.",
+        "fix118ClaimsVerifiedNotAdopted": "Round one: stroke-only Form XObjects 91 -> 0 per fixture, confirmed by walking all 443 flattened Form XObjects in the current bytes and in the pre-repair bytes at 159c0b5cf. 'Complete arrest' lines 11 -> 0, confirmed by grep on the delivered guide. Round two: 8 of 8 registry stop conditions verbatim, confirmed one by one; the 46 fee-waiver check boxes present in the guide, confirmed. The election-column repair FIX118 recorded for il-seal-3yr-set was NOT applied to this family, confirmed by reading both guides side by side."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/production-field-map.json",
+          "sha256": "d983f7051a0e262aa591f94cd89ad2e71050a388e1ac848a50d42cc2562963b5"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "e361b6d213964458ea64383ab6a78d117e59c70320462cbbff96a9010f56e095"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "e5bde4612d5c18a17818d1c21c07552da54f8bb875fb99d1239abdcf822f6e80"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/source-receipt.json",
+          "sha256": "89fa963a352694e01d8d6b1135d9ff364da84572546f29dd0b32234332c25438"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "dfbf36cd695fc8e93cee66de5b87f607087ca29e8b4f7c9d88ed68b282e60010"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "9e7801f639d95d5d76dc79c885b3ab509870d9f8baa5520a2af5b1c7d1b66732"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/build-summary.json",
+          "sha256": "3894c80d61e8af46e515cf312bdc5a80ef4c1ab14388ccdb356acfebeed3b6f3"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-exp-qualprob-set/il-exp-qualprob-set.verdict.json",
+          "sha256": "6644ba3f1ffe468323d03d8f8f6a67cbccc713ddd16503ba7b260935a9e6ec49"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+          "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix118/rows-fix118-20260909.json",
+          "sha256": "read for its claims, verified rather than adopted"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix118/rows-fix118-20260909b.json",
+          "sha256": "read for its claims, verified rather than adopted"
+        }
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
     }
   ]
 }
