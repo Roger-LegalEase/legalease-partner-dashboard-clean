@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "mo-art-xiv-marijuana-set",
+  "findings": [
+    {
+      "finding": "official-form:FI-05 resolves through the Nationwide recovery pool, whose 380 index entries all carry formNumber null, which is why a form-number resolver returned zero matches and stopped this family.",
+      "consequence": "The build binds FI-05 by the pinned digest against the committed index and then reads the document itself - form number, title, variant, page count and the Case Types List row for this route - rather than treating a matching digest as proof of identity. The reading is recorded in source-receipt.json."
+    },
+    {
+      "finding": "The census records this route as filed \"with FI-05 at case type X#\", and the FI-05 binary prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" in the CIRCUIT column of its own Case Types List on pages 3 and 4.",
+      "consequence": "Case Type Code and Case Type Description are written by the packet on every sheet. A route election the route determines is not left to the participant."
+    },
+    {
+      "finding": "Five FI-05 widgets carry a /Rect written bottom-edge-last, so their height reads negative: Party Type Code, Party Type Description, Bar ID, Party Type Code_5 and Party Type Description_3.",
+      "consequence": "Every rect is normalized before it is used as a write box, the malformed ones are flagged in the field map's rectBasis, and the ink is proved against the normalized box out of the saved bytes."
+    },
+    {
+      "finding": "FI-05 holds three party blocks and this petition has four parties: the petitioner and the three record-holding agencies CR375 names as Defendant(s).",
+      "consequence": "The packet carries a second FI-05 as the continuation component, which is what the form's own printed instruction directs. The two unused party blocks of that sheet are declared not-applicable with the reason named."
+    },
+    {
+      "finding": "CR375 asks which agencies the petitioner believes hold records. Three are true of every case on this route and three are facts of the individual case.",
+      "consequence": "The court that entered the conviction, the MSHP CJIS Division and the prosecuting attorney are named by the packet. The county sheriff, the municipal police department and the open Other line are left as genuine participant elections and disclosed, because naming an agency that holds no record would put a false defendant on a sworn petition."
+    },
+    {
+      "finding": "Race, ethnicity and sex on CR375, and gender on FI-05, are self-identification.",
+      "consequence": "Every one of those boxes is left unmarked and carried as a genuine participant election. Nothing here infers them from a record."
+    },
+    {
+      "finding": "Missouri Supreme Court Operating Rule 4.07 requires the full Social Security number on FI-05.",
+      "consequence": "The SSN line is left blank on every sheet and disclosed as required before filing. This platform does not hold or print Social Security numbers."
+    },
+    {
+      "finding": "Two blanks this build declares required-before-filing do not reach that disposition in the shared completeness contract. CR375 prints \"County Sheriff's Dept.\" and \"Municipal Police Dept.\", the contract's court-assigned label pattern matches the word \"department\", and both are therefore classified LATER_COMPLETION - a field the court completes at or after filing. They are the participant's own to fill.",
+      "consequence": "The labels are left faithful to the printed captions rather than reworded to move the classifier, and both blanks are disclosed to the participant in participant-instructions.md regardless of the disposition they landed in. The heuristic is a finding for whoever owns the contract, not a reason to distort a label."
+    },
+    {
+      "finding": "Flattening materializes each widget's own appearance into page content, including the unchecked checkboxes' Off appearance, which draws the box border the source already displayed.",
+      "consequence": "Those are path operators and not glyphs. The byte proof counts show-text operators only, so a border the source itself draws is never counted as ink this build added."
+    }
+  ]
+}
