@@ -1,0 +1,391 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF02",
+  "lane": "PF02",
+  "cohort": "Delaware expungement set, consolidated onto one writer",
+  "base": "537fd26ff624d812c095fc504c724adda0022211",
+  "branch": "v5c-src-20260909",
+  "worktree": "/home/user/v5c-worktree",
+  "producedOn": "2026-09-09",
+  "doNotConfuseWith": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json and the other pf02 rows files, which are earlier shifts' returns and were not touched.",
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "familyId": "de_pardon_expungement-set",
+      "jurisdiction": "DE",
+      "lane": "PF02",
+      "claim": "CLAIM_OK PF02 de_pardon_expungement-set (packet-build, grant set 5eebad4c75905f1d)",
+      "implementationStrategy": "official_pdf_fill",
+      "status": "STOPPED",
+      "blocker": "BLOCKED_SOURCE",
+      "stopClass": "SOURCE_HELD_BUT_NOT_MACHINE_READABLE_BY_THIS_FACTORY",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "exactRefusal": "Error: Expected instance of PDFDict, but got instance of undefined — thrown from PDFContext.lookup via PDFCatalog.Pages at PDFDocument.getPages, on both PDFDocument.load(..., { ignoreEncryption: true }) and finalizeFlatOverlay({ sourceBytes, expectedSha256 }), for CIV_EXP_02_A (f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a) and CIV_EXP_08_A (0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b). Preceded in both cases by a cascade of 'Trying to parse invalid object' / 'Invalid object ref' warnings, which is the signature of encrypted streams being parsed as plaintext.",
+      "componentsRequiredByTheControllingRecords": [
+        {
+          "order": 1,
+          "componentId": "de_pardon_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "buildable": false,
+          "why": "AES-256 encrypted; unreadable by pdf-lib"
+        },
+        {
+          "order": 2,
+          "componentId": "de_pardon_expungement-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_08_A",
+          "buildable": false,
+          "why": "AES-256 encrypted; unreadable by pdf-lib"
+        },
+        {
+          "order": 3,
+          "componentId": "de_pardon_expungement-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "buildable": true,
+          "why": "composed, binds no official binary"
+        }
+      ],
+      "requiredComponentsUnbuildable": 2,
+      "whyAPartialBuildWasRefused": "The cover sheet alone is buildable. Delivering it would be a packet missing both required official components, including the proposed order, which is exactly the defect requiredComponentsMissing exists to catch. A packet that reads as finished and is not is worse than an honest stop.",
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "declaredSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "rehashedHere": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "digestsIdentical": true,
+          "byteLength": 179445,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+          "resolvedBy": "content_hash_under_a_different_name",
+          "encrypted": "AES-256 (print:yes copy:no change:no addNotes:yes)",
+          "pages": 1,
+          "acroFieldCountReadableByPoppler": 44,
+          "readableByPdfLib": false
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_08_A",
+          "declaredSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "rehashedHere": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "digestsIdentical": true,
+          "byteLength": 1128070,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "resolvedBy": "declared_path_and_content_hash",
+          "encrypted": "AES-256 (print:yes copy:no change:no addNotes:yes)",
+          "pages": 1,
+          "readableByPdfLib": false
+        }
+      ],
+      "civExp02AResolvedByDigestNotFilename": "CIV_EXP_02_A is stored as 'download.aspx.pdf' with formNumber null, and a byte-identical second copy sits beside it as '2download.aspx'. Both hash to f2820f713b9f8e0f..., so identity was settled on the digest and the filenames were not used.",
+      "masterQueueContradictsTheControllingRecords": {
+        "what": "MASTER_QUEUE.json lists two packetComponents for this family — primary-filing-1 and proposed-order-2 — and omits de_pardon_expungement-cover-sheet-3.",
+        "butItsOwnRowDisagreesWithItself": "The same row's instrumentKinds lists three: cover_sheet, primary_filing, proposed_order.",
+        "controllingRecords": "legal-design-track-registry.json (trackId de_pardon_expungement) and legal-design-packet-set-manifests.json (de_pardon_expungement-set v1.0.0) agree component for component on three components, and both mark the cover sheet requirement 'required'.",
+        "followed": "The registry and the manifest. The queue row is a summary and it is wrong here; it was not edited by this lane.",
+        "consequenceIfTheQueueHadBeenFollowed": "A build from the queue row would have silently omitted a required component."
+      },
+      "aSecondMasterQueueContradiction": {
+        "what": "The row carries sourceStatus 'SOURCE_BOUND_BY_HELD_BYTES', sourceBound true and queueState 'SOURCE_READY', while the same row's sourceReadiness.custodyClass reads 'SOURCE_GENUINELY_MISSING'.",
+        "measuredTruth": "As of this base the bytes ARE held and DO hash correctly — the custodyClass is stale, not the sourceBound flag. Both were written before the 2026-09-04 archive was materialised on 2026-09-09.",
+        "note": "SOURCE_READY_BUILDABILITY.json and SOURCE_IDENTITY_RESOLUTION_SWEEP.json are stale in the same direction and for the same reason; each still records the three newly-mounted files as 'not_present_in_a_custody_mounted_here'. Neither was edited by this lane."
+      },
+      "registryBuildBlockerCarriedForwardNotUsedAsTheStopReason": {
+        "blocker": "DE-5, buildBlockers[0] on trackId de_pardon_expungement, impact build_blocker, affectedElement eligibility_branch: 'How far § 4375 escapes § 4374's exclusions in practice, given that CIV_EXP_02_A is captioned to § 4374 and a separate after-pardon order form exists. Read Cornette and Gieck in full and get Lawrence's position.'",
+        "whyItIsNotTheStopReason": "Measured across the repository, 64 of the 275 families already built on disk carry a non-empty registry buildBlockers array, so a build_blocker of this kind is not a bar to reaching state_built in this factory; AGENTS.md's build-first review model puts counsel review after the build. It is recorded here for the reviewers, not used to justify the stop.",
+        "butItIsSubstantive": "It is worth counsel's attention precisely because it is visible on the face of these sources: CIV_EXP_02_A is captioned to § 4374 while this track files under § 4375, and Delaware publishes a separate after-pardon order (CIV_EXP_08_A). Whether the § 4374-captioned petition is the right primary filing for a § 4375 pardon expungement is unresolved in the record."
+      },
+      "whatWouldUnblockIt": "A decision by the Captain and counsel on one of: (a) re-binding this family to unencrypted originals obtained from Delaware Courts, with new digests recorded in the registry, the manifest, the queue and a fresh acquisition receipt; or (b) adding a decryption-capable PDF engine to the factory (qpdf and mutool are not installed in this container; poppler's pdftotext and pdfinfo are, and they read these files, so the bytes are not damaged — only pdf-lib cannot open them), together with an explicit ruling that a factory-decrypted derivative may stand in for a court's published bytes. Neither is a build decision.",
+      "whyEveryCounterIsNull": "Nothing was built, so there is nothing to count. No fixture PDF, field map, field census, write report or blanks report exists for this family, and a zero in any of these nine would be a measurement this lane did not take. Zero writes is not the same fact as zero defects.",
+      "measuredEncryptionDefect": "Every Delaware Courts expungement instrument this family binds is published as an AES-256 encrypted PDF (pdfinfo: 'Encrypted: yes (print:yes copy:no change:no addNotes:yes algorithm:AES-256)'). pdf-lib 1.17.1, which is the only PDF engine any official_pdf_fill builder in this factory uses, carries no security handler at all: its parser reads /Encrypt into trailerInfo (node_modules/pdf-lib/cjs/core/parser/PDFParser.js:266) and never decrypts. `ignoreEncryption: true`, which every finalize path passes, suppresses the EncryptedPDFError throw and then parses ciphertext as though it were plaintext, which is why the failure surfaces as object-graph corruption rather than as an encryption error.",
+      "howTheRefusalWasMeasured": "Measured through the factory's own entry points, not inferred from the file header. Both PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false }) and finalizeFlatOverlay() from scripts/rcap-official-forms/rcap-official-form-finalize.mjs were called on the exact bound bytes. Control in the same run: the North Carolina AOC-CR-288 binary that the COMPLETE_PACKET_PROVEN nc_146_acquittal_petition-set builds from (sha256 776210116d1ee07a...), which is unencrypted, loaded and censused 128 AcroForm fields and 135 text items on the same code path in the same process.",
+      "factoryPrecedentChecked": "186 distinct official documents are bound by exact SHA-256 across every source-receipt.json under data/rcap-all50/overlays/census-v1. Of the 34 that resolve to bytes on disk in this container, 33 are unencrypted and 0 are encrypted. This factory has never built an official_pdf_fill packet from an encrypted source, and holds no code path that could.",
+      "noUnencryptedCopyExists": "Every PDF under the mounted Delaware custody was hashed and probed. All four court-published instruments are AES-256 encrypted, as is CIV_EXP_06_A. The only two unencrypted Delaware PDFs in custody are FORM-1021IP (an instruction packet) and Delaware-RecordExpungement-Agent-Reference.pdf (an internal training reference); neither is a filing instrument and neither is bound by any of these families. The Master Library holds no Delaware CIV_EXP form PDF at all.",
+      "whatWasNotDone": "The source was not decrypted, re-saved, rasterized, print-to-PDF'd, reconstructed or substituted, and no builder script was written for this family. Decrypting would produce bytes with a different SHA-256 than the digest the track registry, the packet-set manifest, MASTER_QUEUE.json and the acquisition receipt all bind, so the packet handed to a participant would not be the instrument any controlling record names; it would also mean stripping a court's own change:no permission from its published form. Both are re-binding decisions for the Captain and counsel, not a build, and neither was taken here.",
+      "whyNoBuilderScriptWasWritten": "scripts/build-census-v1-de_pardon_expungement-set.mjs, scripts/build-census-v1-de_discretionary_superior_court-set.mjs and scripts/build-census-v1-de_discretionary_family_court-set.mjs were NOT created. A builder that cannot open its own sources cannot be run, cannot be tested and produces nothing, and committing three of them would leave scripts that read as an official_pdf_fill path for Delaware while being none. buildScriptExists stays false for all three, which is what SOURCE_READY_BUILDABILITY.json already records.",
+      "sourceRecoveryWasNecessaryButNotSufficient": "The 2026-09-04 acquisition archive was correctly recovered and correctly mounted, and this lane re-hashed all four Delaware originals and confirmed each against SOURCE_REMATERIALIZATION_REQUEST.json's expectedSha256 and expectedByteLength. The missing-bytes input is genuinely discharged. It was not, however, the only blocker: these three families would have stopped on the encrypted-source defect on 2026-09-04 as well.",
+      "rasterState": "NOT_BUILT",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "verdictIssued": "none. This lane builds and stops; it verifies nothing and approves nothing."
+    },
+    {
+      "itemId": "de_discretionary_superior_court-set",
+      "familyId": "de_discretionary_superior_court-set",
+      "jurisdiction": "DE",
+      "lane": "PF02",
+      "claim": "CLAIM_OK PF02 de_discretionary_superior_court-set (packet-build, grant set 5eebad4c75905f1d)",
+      "implementationStrategy": "official_pdf_fill",
+      "status": "STOPPED",
+      "blocker": "BLOCKED_SOURCE",
+      "stopClass": "SOURCE_HELD_BUT_NOT_MACHINE_READABLE_BY_THIS_FACTORY",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "exactRefusal": "Error: Expected instance of PDFDict, but got instance of undefined — thrown from PDFContext.lookup via PDFCatalog.Pages at PDFDocument.getPages, on both PDFDocument.load(..., { ignoreEncryption: true }) and finalizeFlatOverlay({ sourceBytes, expectedSha256 }), for all three bound instruments: CIV_EXP_02_A (f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a), CIV_EXP_02_B (39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c) and CIV_EXP_04_A (59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940).",
+      "componentsRequiredByTheControllingRecords": [
+        {
+          "order": 1,
+          "componentId": "de_discretionary_superior_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "buildable": false,
+          "why": "AES-256 encrypted; unreadable by pdf-lib"
+        },
+        {
+          "order": 2,
+          "componentId": "de_discretionary_superior_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_B",
+          "buildable": false,
+          "why": "AES-256 encrypted; unreadable by pdf-lib"
+        },
+        {
+          "order": 3,
+          "componentId": "de_discretionary_superior_court-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_04_A",
+          "buildable": false,
+          "why": "AES-256 encrypted; unreadable by pdf-lib"
+        },
+        {
+          "order": 4,
+          "componentId": "de_discretionary_superior_court-cover-sheet-4",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "buildable": true,
+          "why": "composed, binds no official binary"
+        }
+      ],
+      "requiredComponentsUnbuildable": 2,
+      "conditionalComponentsUnbuildable": 1,
+      "whyAPartialBuildWasRefused": "Only the cover sheet is buildable. Both required official components — the petition and the proposed order — and the conditional additional-charges sheet are all unreadable, so there is no packet here to deliver.",
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "declaredSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "rehashedHere": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "digestsIdentical": true,
+          "byteLength": 179445,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+          "resolvedBy": "content_hash_under_a_different_name",
+          "encrypted": "AES-256 (print:yes copy:no change:no addNotes:yes)",
+          "pages": 1,
+          "readableByPdfLib": false
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_02_B",
+          "declaredSha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+          "rehashedHere": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+          "digestsIdentical": true,
+          "byteLength": 227057,
+          "expectedByteLength": 227057,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+          "resolvedBy": "declared_path_and_content_hash",
+          "encrypted": "AES-256 (print:yes copy:no change:no addNotes:yes)",
+          "pages": 1,
+          "readableByPdfLib": false
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_04_A",
+          "declaredSha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+          "rehashedHere": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+          "digestsIdentical": true,
+          "byteLength": 987462,
+          "expectedByteLength": 987462,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+          "resolvedBy": "declared_path_and_content_hash",
+          "encrypted": "AES-256 (print:yes copy:no change:no addNotes:yes)",
+          "pages": 1,
+          "readableByPdfLib": false
+        }
+      ],
+      "theConsolidationRationaleDoesNotHoldAsStated": {
+        "whatTheAssignmentSaid": "That the three families were consolidated onto one lane because DE-CIV-EXP-02-B, the additional-charges extension sheet, 'belongs to more than one of them'.",
+        "whatTheControllingRecordsSay": "CIV_EXP_02_B is bound by exactly one family. It is de_discretionary_superior_court-set's conditional continuation and appears nowhere else: de_pardon_expungement-set declares no continuation component at all, and de_discretionary_family_court-set's continuation is FORM-281E, a different instrument in a different format. The track registry, the packet-set manifests and MASTER_QUEUE.json all agree on this.",
+        "theRealOverlapIsADifferentForm": "CIV_EXP_02_A is the shared one — it is the required primary filing of BOTH de_pardon_expungement-set and de_discretionary_superior_court-set, at the same digest f2820f713b9f8e0f...",
+        "whyThisStillMattered": "The consolidation was right for the right reason under a wrong name. Two families do share a primary filing, and had they been built on separate lanes they could have produced two different treatments of the same petition. Recording this so the next reader does not go looking for a second binding of 02_B that does not exist."
+      },
+      "masterQueueStaleFields": {
+        "what": "queueState 'SOURCE_READY' and sourceBound true sit beside sourceReadiness.custodyClass 'SOURCE_GENUINELY_MISSING' in the same row.",
+        "measuredTruth": "The bytes are held and hash correctly as of this base; the custodyClass is stale. SOURCE_READY_BUILDABILITY.json still describes CIV_EXP_02_B and CIV_EXP_04_A as 'not_present_in_a_custody_mounted_here', which was true when it was measured and is not true now.",
+        "notEdited": "No central manifest was opened for writing by this lane."
+      },
+      "whatWouldUnblockIt": "The same Captain-and-counsel decision the pardon set needs: re-bind to unencrypted originals with new digests recorded across the registry, the manifest, the queue and a fresh acquisition receipt, or add a decryption-capable engine to the factory together with an explicit ruling that a factory-decrypted derivative may stand in for a court's published bytes. One decision unblocks both Superior Court families.",
+      "whyEveryCounterIsNull": "Nothing was built, so there is nothing to count. No fixture PDF, field map, field census, write report or blanks report exists for this family, and a zero in any of these nine would be a measurement this lane did not take. Zero writes is not the same fact as zero defects.",
+      "measuredEncryptionDefect": "Every Delaware Courts expungement instrument this family binds is published as an AES-256 encrypted PDF (pdfinfo: 'Encrypted: yes (print:yes copy:no change:no addNotes:yes algorithm:AES-256)'). pdf-lib 1.17.1, which is the only PDF engine any official_pdf_fill builder in this factory uses, carries no security handler at all: its parser reads /Encrypt into trailerInfo (node_modules/pdf-lib/cjs/core/parser/PDFParser.js:266) and never decrypts. `ignoreEncryption: true`, which every finalize path passes, suppresses the EncryptedPDFError throw and then parses ciphertext as though it were plaintext, which is why the failure surfaces as object-graph corruption rather than as an encryption error.",
+      "howTheRefusalWasMeasured": "Measured through the factory's own entry points, not inferred from the file header. Both PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false }) and finalizeFlatOverlay() from scripts/rcap-official-forms/rcap-official-form-finalize.mjs were called on the exact bound bytes. Control in the same run: the North Carolina AOC-CR-288 binary that the COMPLETE_PACKET_PROVEN nc_146_acquittal_petition-set builds from (sha256 776210116d1ee07a...), which is unencrypted, loaded and censused 128 AcroForm fields and 135 text items on the same code path in the same process.",
+      "factoryPrecedentChecked": "186 distinct official documents are bound by exact SHA-256 across every source-receipt.json under data/rcap-all50/overlays/census-v1. Of the 34 that resolve to bytes on disk in this container, 33 are unencrypted and 0 are encrypted. This factory has never built an official_pdf_fill packet from an encrypted source, and holds no code path that could.",
+      "noUnencryptedCopyExists": "Every PDF under the mounted Delaware custody was hashed and probed. All four court-published instruments are AES-256 encrypted, as is CIV_EXP_06_A. The only two unencrypted Delaware PDFs in custody are FORM-1021IP (an instruction packet) and Delaware-RecordExpungement-Agent-Reference.pdf (an internal training reference); neither is a filing instrument and neither is bound by any of these families. The Master Library holds no Delaware CIV_EXP form PDF at all.",
+      "whatWasNotDone": "The source was not decrypted, re-saved, rasterized, print-to-PDF'd, reconstructed or substituted, and no builder script was written for this family. Decrypting would produce bytes with a different SHA-256 than the digest the track registry, the packet-set manifest, MASTER_QUEUE.json and the acquisition receipt all bind, so the packet handed to a participant would not be the instrument any controlling record names; it would also mean stripping a court's own change:no permission from its published form. Both are re-binding decisions for the Captain and counsel, not a build, and neither was taken here.",
+      "whyNoBuilderScriptWasWritten": "scripts/build-census-v1-de_pardon_expungement-set.mjs, scripts/build-census-v1-de_discretionary_superior_court-set.mjs and scripts/build-census-v1-de_discretionary_family_court-set.mjs were NOT created. A builder that cannot open its own sources cannot be run, cannot be tested and produces nothing, and committing three of them would leave scripts that read as an official_pdf_fill path for Delaware while being none. buildScriptExists stays false for all three, which is what SOURCE_READY_BUILDABILITY.json already records.",
+      "sourceRecoveryWasNecessaryButNotSufficient": "The 2026-09-04 acquisition archive was correctly recovered and correctly mounted, and this lane re-hashed all four Delaware originals and confirmed each against SOURCE_REMATERIALIZATION_REQUEST.json's expectedSha256 and expectedByteLength. The missing-bytes input is genuinely discharged. It was not, however, the only blocker: these three families would have stopped on the encrypted-source defect on 2026-09-04 as well.",
+      "rasterState": "NOT_BUILT",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "verdictIssued": "none. This lane builds and stops; it verifies nothing and approves nothing."
+    },
+    {
+      "itemId": "de_discretionary_family_court-set",
+      "familyId": "de_discretionary_family_court-set",
+      "jurisdiction": "DE",
+      "lane": "PF02",
+      "claim": "CLAIM_OK PF02 de_discretionary_family_court-set (packet-build, grant set 5eebad4c75905f1d)",
+      "implementationStrategy": "official_pdf_fill (declared). Measured: this family binds no PDF at all.",
+      "status": "STOPPED",
+      "blocker": "BLOCKED_SOURCE",
+      "stopClass": "SOURCE_IS_NOT_A_PDF_AND_THE_DECLARED_STRATEGY_IS_OFFICIAL_PDF_FILL",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "exactRefusal": "No refusal from pdf-lib, because neither bound instrument is a PDF and neither was ever offered to it. FORM-281 is 'Composite Document File V2 Document, Little Endian, Os: Windows, Version 10.0, Code page: 1252, Title: The Family Court of the State of Delaware, Author: Morett, William (Courts), Name of Creating Application: Microsoft Office Word, Number of Pages: 1, Number of Words: 574' — a binary Word .doc. FORM-281E is 'Microsoft Word 2007+', an Office Open XML .docx whose word/document.xml carries legacy Word form fields (FORMTEXT and FORMCHECKBOX runs). The declared strategy for this family, in the track registry, the packet-set manifest, MASTER_QUEUE.json and SOURCE_READY_BUILDABILITY.json alike, is official_pdf_fill.",
+      "componentsRequiredByTheControllingRecords": [
+        {
+          "order": 1,
+          "componentId": "de_discretionary_family_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281",
+          "buildable": false,
+          "why": "the instrument is a binary Word .doc, not a PDF"
+        },
+        {
+          "order": 2,
+          "componentId": "de_discretionary_family_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281E",
+          "buildable": false,
+          "why": "the instrument is a Word .docx with legacy Word form fields, not a PDF"
+        },
+        {
+          "order": 3,
+          "componentId": "de_discretionary_family_court-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "buildable": true,
+          "why": "composed, binds no official binary"
+        }
+      ],
+      "requiredComponentsUnbuildable": 1,
+      "conditionalComponentsUnbuildable": 1,
+      "itIsNotJustTheDotDoc": "The assignment named one format problem, FORM-281 being a .doc. There are two. The conditional continuation FORM-281E is a .docx, held byte-exact in the Master Library at aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33 and confirmed here. Delaware Family Court publishes this whole packet family as Word documents, so this family binds no PDF whatsoever. A one-off conversion of the .doc would not have produced a buildable family either.",
+      "theThreeHonestOptionsAndWhichWasTaken": {
+        "optionConsidered1": "Build a Word path if the factory has one.",
+        "verdictOn1": "The factory has none, and this was measured rather than assumed. All 186 official-document bindings across every source-receipt.json under data/rcap-all50/overlays/census-v1 are PDFs; every one of the 186 build-census-v1 builders that touches a source binary imports pdf-lib and goes through finalizeOfficialForm or finalizeFlatOverlay, both of which begin with PDFDocument.load. There is no docx or doc fill engine, no Word-aware completeness contract, and no docx branch in scripts/rcap-packet-completeness/. The two required output-byte glyph readings, addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, are defined as measurements over a produced PDF's content streams and have no meaning over a .doc. Writing such a path would be building new shared factory infrastructure, which is not this lane's grant and is not a packet build.",
+        "optionConsidered2": "Stop with BLOCKED_SOURCE naming the format problem exactly.",
+        "optionConsidered3": "Report that it needs a docx path and stop.",
+        "taken": "Options 2 and 3 together. This row is the BLOCKED_SOURCE stop naming both formats exactly, and the lane return to the assigning agent states that this family needs a Word path decision before it can be built at all.",
+        "theDishonestOptionAndWhyItWasRefused": "Converting silently and presenting the result as the official form. It was refused, and it is worth being explicit that it was refused as a choice rather than prevented by the container: LibreOffice IS installed here (/usr/bin/soffice, /usr/bin/libreoffice), so `soffice --convert-to pdf` would have produced a plausible PDF within seconds. What it would have produced is a LibreOffice re-render — its pagination, its font substitution, its line breaks — bearing no relation to any digest in any controlling record, and handing it to a participant as the Delaware Family Court petition would be presenting this factory's output as a court's published instrument. SOURCE_REMATERIALIZATION_REQUEST.json's own noteOnFormat anticipates exactly this: 'DE-FORM-281 is a .doc, not a PDF. It was not converted. Whoever builds de_discretionary_family_court-set needs a Word path or a stop, not a silent conversion.' SOURCE_READY_BUILDABILITY.json rules the same way on the sibling: 'The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build.'",
+        "nothingWasConverted": "No conversion of any kind was run. soffice was never invoked. The two Word files were opened read-only to establish their format and field structure and were not written, copied or transformed."
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:FORM-281",
+          "declaredSha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+          "rehashedHere": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+          "digestsIdentical": true,
+          "byteLength": 97280,
+          "expectedByteLength": 97280,
+          "custodyPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+          "resolvedBy": "declared_path_and_content_hash",
+          "assetFormat": "doc",
+          "isPdf": false,
+          "wordMetadata": {
+            "title": "The Family Court of the State of Delaware",
+            "author": "Morett, William (Courts)",
+            "lastSavedBy": "Tumiki, Shashank C (Courts)",
+            "revisionNumber": 7,
+            "lastSaved": "2025-11-19",
+            "pages": 1,
+            "words": 574
+          }
+        },
+        {
+          "sourceId": "official-form:FORM-281E",
+          "declaredSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+          "rehashedHere": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+          "digestsIdentical": true,
+          "byteLength": 26118,
+          "custodyPath": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+          "custodyRoot": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "resolvedBy": "declared_path_and_content_hash",
+          "assetFormat": "docx",
+          "isPdf": false,
+          "formFieldMechanism": "legacy Word form fields: FORMTEXT and FORMCHECKBOX runs in word/document.xml",
+          "printedTitle": "PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET"
+        }
+      ],
+      "bothSourcesAreHeldAndExact": "This is not a missing-source stop. Both instruments are in custody and both re-hash to their declared digests exactly. The defect is that an official_pdf_fill family binds two Word documents.",
+      "recordsDefectWorthCorrecting": {
+        "what": "Four records declare implementationStrategy / outputStrategy official_pdf_fill for this family and for both of its official components: legal-design-track-registry.json (trackId de_discretionary_family_court), legal-design-packet-set-manifests.json (de_discretionary_family_court-set v1.0.0), MASTER_QUEUE.json, and SOURCE_READY_BUILDABILITY.json.",
+        "why": "No component of this family is a PDF, so official_pdf_fill cannot be the right strategy for it under any engine. The declaration is wrong on its face, independently of whether the factory ever gains a Word path.",
+        "notEdited": "No controlling record and no central manifest was opened for writing by this lane. Correcting a strategy declaration is a Captain decision.",
+        "alreadyPartlyObserved": "SOURCE_READY_BUILDABILITY.json classifies FORM-281E as 'held_but_not_a_pdf' and already says an official_pdf_fill route cannot overlay it, so the contradiction is visible in the measurement record; what is new here is that it applies to the primary filing too, and therefore to the whole family."
+      },
+      "whatWouldUnblockIt": "A Captain-and-counsel decision on one of three, none of which is a build: (a) give the factory a Word fill path — one that fills the court's own FORMTEXT and FORMCHECKBOX fields and preserves the court's layout — together with a completeness contract and glyph-reading equivalents that work over Word output, and change this family's declared strategy accordingly; (b) acquire genuine PDF originals of FORM-281 and FORM-281E from Delaware Family Court and re-bind the family to those digests; or (c) rule explicitly that a factory-converted PDF may stand in for a court's published Word instrument, and record that ruling where a reviewer will see it. Note for (b): Delaware's Superior Court forms ARE published as PDFs and are still unbuildable, because they are AES-256 encrypted — see the other two rows in this file. Acquiring PDFs for Family Court may substitute this family's blocker for that one rather than remove it.",
+      "whyEveryCounterIsNull": "Nothing was built, so there is nothing to count. No fixture PDF, field map, field census, write report or blanks report exists for this family, and a zero in any of these nine would be a measurement this lane did not take. Zero writes is not the same fact as zero defects.",
+      "factoryPrecedentChecked": "186 distinct official documents are bound by exact SHA-256 across every source-receipt.json under data/rcap-all50/overlays/census-v1. Of the 34 that resolve to bytes on disk in this container, 33 are unencrypted and 0 are encrypted. This factory has never built an official_pdf_fill packet from an encrypted source, and holds no code path that could.",
+      "whyNoBuilderScriptWasWritten": "scripts/build-census-v1-de_pardon_expungement-set.mjs, scripts/build-census-v1-de_discretionary_superior_court-set.mjs and scripts/build-census-v1-de_discretionary_family_court-set.mjs were NOT created. A builder that cannot open its own sources cannot be run, cannot be tested and produces nothing, and committing three of them would leave scripts that read as an official_pdf_fill path for Delaware while being none. buildScriptExists stays false for all three, which is what SOURCE_READY_BUILDABILITY.json already records.",
+      "sourceRecoveryWasNecessaryButNotSufficient": "The 2026-09-04 acquisition archive was correctly recovered and correctly mounted, and this lane re-hashed all four Delaware originals and confirmed each against SOURCE_REMATERIALIZATION_REQUEST.json's expectedSha256 and expectedByteLength. The missing-bytes input is genuinely discharged. It was not, however, the only blocker: these three families would have stopped on the encrypted-source defect on 2026-09-04 as well.",
+      "rasterState": "NOT_BUILT",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "verdictIssued": "none. This lane builds and stops; it verifies nothing and approves nothing."
+    }
+  ]
+}
