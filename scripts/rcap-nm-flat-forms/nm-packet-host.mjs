@@ -65,6 +65,9 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "../rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay } from "../rcap-official-forms/rcap-official-form-finalize.mjs";
+import { fitTextToWidget, MIN_READABLE_FONT_SIZE, HORIZONTAL_PADDING as TEXT_FITTING_HORIZONTAL_PADDING }
+  from "../rcap-official-forms/rcap-text-fitting.mjs";
+import { protectCategoryOf, descriptorsMatching } from "../rcap-official-forms/rcap-field-semantics.mjs";
 import { flattenedWidgets, drawnAt } from "../rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "../rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { checkboxCandidates } from "../lib/pdf-stroked-boxes.mjs";
@@ -73,7 +76,7 @@ import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKey
 import { measureDocumentBlanks } from "./nm-flat-blank-measurer.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, StandardFonts } = require("pdf-lib");
 const { rasterizePageCalibrated } = await import("../raster/pdf-page-raster.mjs");
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -83,6 +86,8 @@ const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)
 /** The value sits ON the printed rule: two points in, two points up. */
 export const WRITE_BOX_INSET = 2;
 export const WRITE_BOX_HEIGHT = 12;
+/** The ceiling every flat overlay write is fitted under. */
+export const FLAT_WRITE_FONT_SIZE = 10;
 
 /* ------------------------------------------------------------------ *
  * The policy vocabulary a document dictionary is written in.
@@ -140,6 +145,67 @@ export const SUPPLY = (what, whyTheBuildDoesNotHoldIt = null) => ({ policy: "sup
  */
 export const HELD_NOT_WRITTEN = (what, whyTheBuildDoesNotWriteIt) =>
   ({ policy: "held_not_written", what, buildNote: whyTheBuildDoesNotWriteIt });
+
+/**
+ * A held fact written where the form asks, through a BINDING the shared field
+ * semantics resolves, because this blank's own printed caption does not reach
+ * the value the form is asking for.
+ *
+ * Two things a plain WRITE cannot say, and both of them were being said as
+ * "the platform holds no value" instead -- which is the sentence that put
+ * these three families in repair.
+ *
+ * `binding.factId` is the descriptor the SHARED registry resolves for the
+ * caption this anchor is bound under, and the host asserts on every build that
+ * it IS what the registry resolves. It is not always the fact whose VALUE is
+ * written: the registry holds one participant address descriptor,
+ * `participant.street_address`, and it is what a blank captioned "Mailing
+ * Address" binds -- while the blank itself is one printed line asking for the
+ * whole address. The value written is `fact`; the binding is recorded beside
+ * it, so a reader sees the composition rather than inferring it.
+ *
+ * `binding.label` is the caption handed to the shared semantics, and it
+ * defaults to the row's own printed label -- an anchor keeps its printed
+ * caption unless there is a measured reason it cannot. Where one is given, the
+ * host records what the shared rules say about the PRINTED caption as well, so
+ * a substituted caption is visible as a substitution and can be argued with.
+ *
+ * `binding.why` states the ground in prose, for the field map and the record.
+ *
+ * `ifItDoesNotFit` is what the row becomes when the held value cannot be shown
+ * inside this blank's own measured box at the shared readable floor. The host
+ * measures that with the same fitter, the same font and the same floor the
+ * finalizer will use, and turns the row into a HELD_NOT_WRITTEN carrying the
+ * measurement -- the width the value needs at the floor against the width the
+ * form printed. A blank left because a court's printed line is too short is a
+ * different thing from a blank left because nothing is held, and the row says
+ * which.
+ */
+export const WRITE_BOUND_AS = (fact, binding, ifItDoesNotFit = null) =>
+  ({ policy: "write", fact, binding, ifItDoesNotFit });
+
+/**
+ * A held fact written into an AcroForm widget whose AUTHORED FIELD NAME resolves
+ * to a different fact than the blank holds.
+ *
+ * Form 4-223, bound at the back of Form 4-222 NMRA, is the case: its author
+ * named every field on pages 6 and 7 after the line printed ABOVE it, so the
+ * widget that holds the petitioner's name in the order's caption is named
+ * "SIXTH JUDICIAL DISTRICT COURT". The shared registry reads that name and
+ * resolves matter.court; an explicit mapping saying otherwise is refused as
+ * `explicit_mapping_conflicts_with_field_name`, and the guard doing that is
+ * doing its job -- it cannot know which of the two readings is right.
+ *
+ * So the value goes through the shared finalizer's own named-fact channel,
+ * `narrativeAcrossFields`, the same channel the Nebraska host uses: the caller
+ * names a fact id and a field, and the shared module resolves, protects, fits
+ * and refuses. It is NOT a way round a protect rule -- that channel applies
+ * `protectCategoryOf` to the field name AND to the caption before it writes,
+ * and the host asserts here that both are clean before it offers the row.
+ * Nothing in the shared semantics module is changed, and the measurement of
+ * what the authored name resolves to is recorded on the field-map row.
+ */
+export const NAMED_FACT_WRITE = (fact, why) => ({ policy: "named_fact_write", fact, why });
 
 /** A signature, a signature date, a notarial certificate, a court-only blank. */
 export const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
@@ -337,6 +403,116 @@ export function reconcilePacketSetManifest(familyId, delivery, instructionsText)
   };
 }
 
+/* ---- the track's own stop conditions, read at build time ------------------- */
+
+/**
+ * The conditions on which this track stops being self-help, quoted from the
+ * registry rather than restated.
+ *
+ * `data/record-clearing/legal-design-track-registry.json` carries
+ * `selfHelpStopConditions` per track, and the intake memo at
+ * `data/record-clearing/legal-design-intake/<JURISDICTION>.memo.json` carries
+ * the same list for the same track. A packet that paraphrases them, or covers
+ * some and not others, is a packet whose stop list drifts from the record it is
+ * supposed to be reading: VF03 measured six of this conviction track's ten
+ * conditions missing from the delivered instructions while the packet called
+ * the justice-will-be-served narrative "the part only you can write" -- which
+ * is condition 8, offered as encouragement.
+ *
+ * So the list is READ on every build and printed verbatim, in the registry's
+ * own order, and the build stops where the registry and the memo do not agree
+ * word for word. A condition added to the record tomorrow appears in the next
+ * rebuild rather than going undelivered.
+ *
+ * Who to ask is named from the repository record and nowhere else. The
+ * registry's own tenth condition on all three of these tracks says the
+ * Judiciary's packet "directs non-citizens to seek legal advice", and the
+ * intake memo's manual-completion items say in terms which certifications and
+ * arguments are the participant's or a lawyer's. Neither record names an
+ * organisation, a clinic or a telephone number for New Mexico, so neither does
+ * the packet: an invented referral is worse than none.
+ */
+export function selfHelpStopConditions(jurisdiction, trackId) {
+  const registryPath = "data/record-clearing/legal-design-track-registry.json";
+  const memoPath = `data/record-clearing/legal-design-intake/${jurisdiction}.memo.json`;
+  const registryBytes = fs.readFileSync(path.join(ROOT, registryPath));
+  const memoBytes = fs.readFileSync(path.join(ROOT, memoPath));
+  const registry = JSON.parse(registryBytes.toString("utf8"));
+  const memo = JSON.parse(memoBytes.toString("utf8"));
+  const track = (registry.tracks ?? registry).find((t) => t.trackId === trackId);
+  assert.ok(track, `${registryPath} carries no track ${trackId}`);
+  const memoTrack = (memo.tracks ?? []).find((t) => t.trackId === trackId);
+  assert.ok(memoTrack, `${memoPath} carries no track ${trackId}`);
+  const conditions = track.selfHelpStopConditions ?? [];
+  assert.ok(conditions.length > 0, `${registryPath}: track ${trackId} declares no selfHelpStopConditions`);
+  assert.deepEqual(conditions, memoTrack.selfHelpStopConditions ?? [],
+    `${trackId}: the track registry and ${memoPath} do not carry the same stop conditions, and this build will not choose between two records`);
+  return {
+    trackId,
+    conditions,
+    registry: registryPath,
+    registrySha256: crypto.createHash("sha256").update(registryBytes).digest("hex"),
+    memo: memoPath,
+    memoSha256: crypto.createHash("sha256").update(memoBytes).digest("hex"),
+    quotedVerbatim: true
+  };
+}
+
+/**
+ * The stop conditions as the participant reads them: verbatim, in the
+ * registry's own order, with who to ask named only from the record.
+ *
+ * No organisation, clinic or telephone number is named, because no record under
+ * `data/record-clearing/` names one for New Mexico. What the record does say,
+ * in the tenth condition of all three of these tracks, is that the Judiciary's
+ * own packet directs people to seek legal advice; so the packet says "a
+ * lawyer", says that the record names nobody in particular, and invents no
+ * referral.
+ */
+export function selfHelpStopSection(stops) {
+  const out = [];
+  out.push("## Before you start: when to stop and get a lawyer's advice", "");
+  out.push(
+    "Some things put a case beyond what anyone should do on their own paperwork. The list below is quoted word for "
+    + "word, and in order, from the record LegalEase keeps for this kind of New Mexico case. It is read out of that "
+    + "record on the day this packet is built, so it is that list as it then stood; the two records it was read from "
+    + "and compared against are named, with their digests, in this family's build-findings.json.", ""
+  );
+  out.push("**If any one of these is true of your case, stop and get a lawyer's advice before you file anything.**", "");
+  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("");
+  out.push(
+    "This packet names no particular lawyer, clinic or organisation, because the record it is built from names none "
+    + "for New Mexico. Ask a lawyer.", ""
+  );
+  return out;
+}
+
+/**
+ * The participant-facing form of `heldNotWrittenItems`.
+ *
+ * It says what is true and no more: whether the line is printed depends on how
+ * long the answer is, so check the copy in front of you. It does not say
+ * "required before filing", because on most copies it is not blank at all.
+ */
+export function heldNotWrittenSection(items) {
+  if (items.length === 0) return [];
+  const out = [];
+  out.push("## One or two lines that may be blank on your copy", "");
+  out.push(
+    "The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be "
+    + "read or run it past the end of the printed line. Where your own answer is too long for the line, the packet "
+    + "leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each "
+    + "line below on your own copy. If it is already filled in, there is nothing to do.**", ""
+  );
+  out.push("| Form | Page | The line | What to write if it is blank |", "| --- | --- | --- | --- |");
+  for (const i of items) {
+    out.push(`| ${i.document} | ${i.page} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+  }
+  out.push("");
+  return out;
+}
+
 /* ---- the flat census ------------------------------------------------------ */
 
 const r2 = (n) => Number(n.toFixed(2));
@@ -347,6 +523,71 @@ const writeBoxOf = (blank) => ({
   height: WRITE_BOX_HEIGHT
 });
 
+/* ---- the binding a write is made under, measured on every build ------------ *
+ *
+ * Nothing here decides anything. It re-runs the SHARED rules over the caption a
+ * row is bound under and over the caption the form prints, records both, and
+ * stops the build where a declared binding is not what the shared registry
+ * actually resolves. A binding that has to be asserted on every run cannot rot
+ * quietly when the shared list changes.
+ * ------------------------------------------------------------------ */
+
+/** The font the finalizer will use, embedded once, for measurement only. */
+let MEASURING_FONT = null;
+async function measuringFont() {
+  if (!MEASURING_FONT) {
+    const scratch = await PDFDocument.create();
+    MEASURING_FONT = await scratch.embedFont(StandardFonts.Helvetica);
+  }
+  return MEASURING_FONT;
+}
+
+function bindingMeasurementOf(documentId, key, printedLabel, binding) {
+  const boundLabel = binding.label ?? printedLabel;
+  const resolvedForBoundLabel = descriptorsMatching(boundLabel)[0]?.factId ?? null;
+  const protectOnBoundLabel = protectCategoryOf(boundLabel);
+  assert.equal(protectOnBoundLabel, null,
+    `${documentId}/${key}: the caption this write is bound under, ${JSON.stringify(boundLabel)}, matches the shared protect rule ${JSON.stringify(protectOnBoundLabel)}; nothing may be written under a protected caption`);
+  assert.equal(resolvedForBoundLabel, binding.factId,
+    `${documentId}/${key}: the binding declares ${JSON.stringify(binding.factId)} and the shared registry resolves ${JSON.stringify(resolvedForBoundLabel)} for ${JSON.stringify(boundLabel)}`);
+  return {
+    boundUnderCaption: boundLabel,
+    captionIsThePrintedLabel: boundLabel === printedLabel,
+    theSharedRegistryResolvesTheBoundCaptionAs: resolvedForBoundLabel,
+    theSharedRegistryResolvesThePrintedCaptionAs: descriptorsMatching(printedLabel)[0]?.factId ?? null,
+    theSharedProtectRulesOnThePrintedCaption: protectCategoryOf(printedLabel),
+    theSharedProtectRulesOnTheBoundCaption: protectOnBoundLabel,
+    why: binding.why
+  };
+}
+
+/**
+ * The measurement a named-fact write earns before it is offered to the shared
+ * finalizer's named-fact channel: what the authored field name resolves to,
+ * what the printed caption resolves to, and that neither carries a protect
+ * category. A named-fact write may correct a MISNAMED widget; it may never
+ * carry a value past a protect rule, and the assertions below are what makes
+ * that a property of the build rather than a promise in a comment.
+ */
+function namedFactMeasurementOf(documentId, name, entry) {
+  const caption = entry.bindingLabel ?? entry.label;
+  const protectOnName = protectCategoryOf(name);
+  const protectOnCaption = protectCategoryOf(caption);
+  assert.equal(protectOnName, null,
+    `${documentId}/${name}: the authored field name matches the shared protect rule ${JSON.stringify(protectOnName)}; a named-fact write may not carry a value past a protect rule`);
+  assert.equal(protectOnCaption, null,
+    `${documentId}/${name}: the caption ${JSON.stringify(caption)} matches the shared protect rule ${JSON.stringify(protectOnCaption)}`);
+  return {
+    factWritten: entry.fact,
+    channel: "the shared finalizer's narrativeAcrossFields named-fact channel",
+    theSharedRegistryResolvesTheAuthoredFieldNameAs: descriptorsMatching(name)[0]?.factId ?? null,
+    theSharedRegistryResolvesThePrintedCaptionAs: descriptorsMatching(caption)[0]?.factId ?? null,
+    theSharedProtectRulesOnTheAuthoredFieldName: protectOnName,
+    theSharedProtectRulesOnThePrintedCaption: protectOnCaption,
+    why: entry.why
+  };
+}
+
 /**
  * Measure a flat document and bind every measured blank to its dictionary row.
  *
@@ -355,7 +596,7 @@ const writeBoxOf = (blank) => ({
  * unclassified blank the build refuses to ship, and a dictionary entry with no
  * blank is geometry that has moved. Both stop the build.
  */
-export async function censusFlat(source) {
+export async function censusFlat(source, facts = {}) {
   const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
   const measured = measureDocumentBlanks(doc);
   const acroFieldCount = doc.getForm().getFields().length;
@@ -432,6 +673,47 @@ export async function censusFlat(source) {
       if (blank.widthIsUnmeasurable === true || blank.xIsMeasurable === false) {
         row.rect = null; row.writeBox = null; row.noGeometry = true;
       } else { row.rect = writeBoxOf(blank); row.writeBox = row.rect; }
+
+      /*
+       * The caption this row is bound under, and whether the value fits the
+       * blank the form printed. Both are measured here, on this build, from
+       * this row's own measured geometry -- never declared.
+       */
+      row.anchorLabel = entry.binding?.label ?? entry.label;
+      if (entry.binding) {
+        row.binding = bindingMeasurementOf(source.documentId, blank.key, entry.label, entry.binding);
+      }
+      if (entry.policy === "write" && entry.ifItDoesNotFit && row.writeBox) {
+        const value = String(facts[entry.fact] ?? "");
+        const fit = fitTextToWidget({
+          font: await measuringFont(), text: value, rect: row.writeBox,
+          multiline: false, maxFontSize: FLAT_WRITE_FONT_SIZE, minFontSize: MIN_READABLE_FONT_SIZE
+        });
+        row.fitOnThePrintedLine = {
+          measuredBlankWidthPt: r2(row.writeBox.width + WRITE_BOX_INSET * 2),
+          writeBoxWidthPt: row.writeBox.width,
+          usableWidthPt: r2(row.writeBox.width - TEXT_FITTING_HORIZONTAL_PADDING),
+          heldValueLength: value.length,
+          readableFloorFontSize: MIN_READABLE_FONT_SIZE,
+          ceilingFontSize: FLAT_WRITE_FONT_SIZE,
+          outcome: fit.outcome,
+          ...(fit.outcome === "refused"
+            ? { widthTheValueNeedsAtTheReadableFloor: fit.requiredWidthAtMin ?? null, reason: fit.reason }
+            : { fittedAtFontSize: fit.fontSize })
+        };
+        if (fit.outcome === "refused") {
+          row.policy = "held_not_written";
+          row.what = entry.ifItDoesNotFit.what;
+          row.buildNote =
+            `the platform holds this value and the line the form prints is too short to show it. Measured on this build: `
+            + `the value is ${value.length} characters and needs ${fit.requiredWidthAtMin}pt at the shared readable floor of `
+            + `${MIN_READABLE_FONT_SIZE}pt, and the write box the printed blank gives is ${r2(row.writeBox.width - TEXT_FITTING_HORIZONTAL_PADDING)}pt of usable width. `
+            + `The value itself is not repeated into this record. Nothing is truncated and nothing is written outside the `
+            + `blank the form printed; the participant writes it in their own hand, where a pen can do what a readable `
+            + `type size cannot.`;
+          row.fact = null;
+        }
+      }
       if (entry.policy === "not_a_blank") { notBlanks.push(row); continue; }
       rows.push(row);
     }
@@ -513,6 +795,9 @@ export async function censusAcroForm(source) {
       maxLength: typeof field.getMaxLength === "function" ? (field.getMaxLength() ?? null) : null,
       section: entry.section, effectiveLabel: entry.label, bindingLabel: entry.bindingLabel ?? entry.label,
       policy: entry.policy, fact: entry.fact ?? null,
+      ...(entry.policy === "named_fact_write"
+        ? { namedFactWrite: namedFactMeasurementOf(source.documentId, name, entry) }
+        : {}),
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
       buildNote: entry.buildNote ?? null,
       condition: entry.condition ?? null,
@@ -602,15 +887,24 @@ function protectedRulesOf(census) {
 export async function renderFlat(source, census, facts) {
   const writable = census.rows.filter((r) => r.policy === "write");
   const protectedRules = protectedRulesOf(census);
+  /*
+   * An anchor is identified to the finalizer by the caption it is bound under,
+   * and every row's is unique within the document -- the report, the byte proof
+   * and the field map are all keyed by it, so two anchors sharing one caption
+   * would mean two blanks reading each other's evidence.
+   */
+  const anchorLabels = census.rows.map((r) => r.anchorLabel).filter((l) => l !== null && l !== undefined);
+  assert.equal(new Set(anchorLabels).size, anchorLabels.length,
+    `${source.documentId}: two blanks are bound under the same caption: ${JSON.stringify(anchorLabels.filter((l, i) => anchorLabels.indexOf(l) !== i))}`);
   const anchors = writable.map((r) => ({
-    page: r.page, label: r.effectiveLabel, writeBox: r.writeBox,
-    factId: r.fact, fontSize: 10, protectedRules
+    page: r.page, label: r.anchorLabel, writeBox: r.writeBox,
+    factId: r.fact, fontSize: FLAT_WRITE_FONT_SIZE, protectedRules
   }));
   return finalizeFlatOverlay({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
     anchors, protectedRules,
-    explicitMappings: Object.fromEntries(writable.map((r) => [r.effectiveLabel, r.fact])),
+    explicitMappings: Object.fromEntries(writable.map((r) => [r.anchorLabel, r.binding?.theSharedRegistryResolvesTheBoundCaptionAs ?? r.fact])),
     facts,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
@@ -619,7 +913,8 @@ export async function renderFlat(source, census, facts) {
 
 export async function renderAcroForm(source, census, facts) {
   const writable = census.rows.filter((r) => r.policy === "write");
-  const writableNames = new Set(writable.map((r) => r.name));
+  const named = census.rows.filter((r) => r.policy === "named_fact_write");
+  const writableNames = new Set([...writable, ...named].map((r) => r.name));
   return finalizeOfficialForm({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
@@ -633,6 +928,12 @@ export async function renderAcroForm(source, census, facts) {
     unwritableFields: census.widgetRows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name })),
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title,
+    /*
+     * The named-fact channel. See NAMED_FACT_WRITE: the caller names a fact id
+     * and a field, and the shared module resolves, protects, fits and refuses.
+     * Empty on every document that declares none, so nothing else moves.
+     */
+    narrativeAcrossFields: named.map((r) => ({ factId: r.fact, fields: [r.name] })),
     /*
      * ISO 32000-1 12.5.5 places a widget's appearance by mapping its /BBox,
      * transformed by its /Matrix, onto the annotation's /Rect. pdf-lib's
@@ -749,8 +1050,8 @@ export async function byteProof(source, census, artifactBytes, report, fixtureNa
         ? drawnInBox(wdg.page, wdg.rect)
         : drawnAt(widgets, { page: wdg.page, rect: wdg.rect }).map((d) => d.text).filter(Boolean);
       const ink = text.join("").trim();
-      const isWritten = isFlat ? written.has(r.effectiveLabel) : written.has(r.name);
-      if (isWritten && r.policy === "write") {
+      const isWritten = isFlat ? written.has(r.anchorLabel) : written.has(r.name);
+      if (isWritten && (r.policy === "write" || r.policy === "named_fact_write")) {
         glyphs += ink.length;
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
@@ -819,12 +1120,21 @@ export function mapFor(source, census, report, isFlat) {
         ? "the printed section, the printed line the blank sits on, and the words printed immediately before it"
         : "the authored AcroForm field name, the printed line at the widget's own rectangle, and the printed section",
       printedTextAtCoordinate: r.printedTextAtCoordinate,
-      document: source.documentId
+      document: source.documentId,
+      ...(r.anchorLabel && r.anchorLabel !== r.effectiveLabel ? { boundUnderCaption: r.anchorLabel } : {})
     };
 
-    if (r.policy === "write") {
-      const hit = isFlat ? writtenNames.has(r.effectiveLabel) : writtenNames.has(r.name);
-      if (hit) { canonicalWrites.push({ ...base, factId: r.fact, kind: r.type }); continue; }
+    if (r.policy === "write" || r.policy === "named_fact_write") {
+      const hit = isFlat ? writtenNames.has(r.anchorLabel) : writtenNames.has(r.name);
+      if (hit) {
+        canonicalWrites.push({
+          ...base, factId: r.fact, kind: r.type,
+          ...(r.binding ? { boundThroughACaptionTheSharedRegistryResolves: r.binding } : {}),
+          ...(r.fitOnThePrintedLine ? { fitOnThePrintedLine: r.fitOnThePrintedLine } : {}),
+          ...(r.namedFactWrite ? { namedFactWrite: r.namedFactWrite } : {})
+        });
+        continue;
+      }
       canonicalRefusals.push({
         ...base, reason: "the finalizer refused this write; the packet does not claim a value it did not draw",
         category: null, completenessClass: null, class: null,
@@ -911,7 +1221,8 @@ export function mapFor(source, census, report, isFlat) {
         requiredBeforeFiling: false, routeDetermined: false, factId: null,
         why: `the platform holds a value for this blank and this build does not write it: ${r.buildNote}`,
         participantMustSupply: r.what,
-        whyTheBuildDoesNotWriteIt: r.buildNote
+        whyTheBuildDoesNotWriteIt: r.buildNote,
+        ...(r.fitOnThePrintedLine ? { fitOnThePrintedLine: r.fitOnThePrintedLine } : {})
       });
       continue;
     }
@@ -1077,6 +1388,39 @@ export function handMarkedControls(maps) {
   })));
 }
 
+/**
+ * The blanks this packet HOLDS a value for and did not print, on either
+ * fixture, so the participant is told about them rather than left to notice.
+ *
+ * A required-before-filing item is disclosed because the platform holds
+ * nothing. This is the other case: the platform holds the value and the line
+ * the court printed is too short to show it at a readable size, so which
+ * copies carry it depends on how long the participant's own answer is. Both
+ * fixtures are read, because the instruction file is one file for the family
+ * and a line that is blank on a long-address copy is blank for a real person.
+ */
+export function heldNotWrittenItems(maps) {
+  const byField = new Map();
+  for (const m of maps) {
+    for (const [fixture, rows] of [["canonical", m.canonicalRefusals ?? []], ["boundary", m.boundaryRefusals ?? []]]) {
+      for (const r of rows) {
+        if (r.completenessDisposition !== "KNOWN_FACT_NOT_WRITTEN") continue;
+        const existing = byField.get(r.field);
+        if (existing) { existing.blankOnFixtures.push(fixture); continue; }
+        byField.set(r.field, {
+          document: m.documentId, field: r.field, page: r.page,
+          section: r.sectionHeading, disclosureLabel: r.effectiveLabel,
+          participantMustSupply: r.participantMustSupply,
+          whyTheBuildDoesNotWriteIt: r.whyTheBuildDoesNotWriteIt,
+          fitOnThePrintedLine: r.fitOnThePrintedLine ?? null,
+          blankOnFixtures: [fixture]
+        });
+      }
+    }
+  }
+  return [...byField.values()];
+}
+
 export function inapplicableBlanks(maps) {
   return maps.flatMap((m) => m.canonicalRefusals
     .filter((r) => r.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE")
@@ -1140,7 +1484,7 @@ export async function runNmFamily(family, argv = []) {
         : r.printedBlankDictionary
     }))) {
       const isFlat = source.strategy === "measured_flat_overlay";
-      const census = isFlat ? await censusFlat(source) : await censusAcroForm(source);
+      const census = isFlat ? await censusFlat(source, facts) : await censusAcroForm(source);
       if (isFlat) {
         assert.equal(census.unmapped.length, 0,
           `${source.documentId}: ${census.unmapped.length} measured blank(s) carry no dictionary entry, so the packet would ship a blank nothing classifies: ${JSON.stringify(census.unmapped.slice(0, 6))}`);
@@ -1213,6 +1557,7 @@ export async function runNmFamily(family, argv = []) {
         optional: census.rows.filter((r) => r.policy === "optional").length,
         attorney: census.rows.filter((r) => r.policy === "attorney").length,
         heldAndNotWritten: census.rows.filter((r) => r.policy === "held_not_written").length,
+        namedFactWrites: census.rows.filter((r) => r.policy === "named_fact_write").length,
         notABlank: census.notBlanks?.length ?? 0
       }))
     };
@@ -1241,7 +1586,8 @@ export async function runNmFamily(family, argv = []) {
       for (const refusal of report.refused ?? []) {
         if (refusal.reason === "classified_unwritable_by_role") continue;
         const label = refusal.anchor ?? refusal.field;
-        const owed = census.rows.find((r) => r.policy === "write" && (isFlat ? r.effectiveLabel === label : r.name === label));
+        const owed = census.rows.find((r) => (r.policy === "write" || r.policy === "named_fact_write")
+          && (isFlat ? r.anchorLabel === label : r.name === label));
         if (owed) refusedWrites.push({ fixture: fixtureName, document: source.documentId, field: owed.key, label, reason: refusal.reason, category: refusal.category ?? null });
       }
       const proof = await byteProof(source, census, bytes, report, fixtureName, facts, isFlat);
@@ -1352,7 +1698,10 @@ export async function runNmFamily(family, argv = []) {
   const rbf = requiredBeforeFilingItems(maps);
   const controls = handMarkedControls(maps);
   const inapplicable = inapplicableBlanks(maps);
-  const instructionsText = family.participantInstructions({ maps, rbf, controls, inapplicable, route: ROUTE, documents: resolved });
+  const heldNotWritten = heldNotWrittenItems(maps);
+  const instructionsText = family.participantInstructions({
+    maps, rbf, controls, inapplicable, heldNotWritten, route: ROUTE, documents: resolved
+  });
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1569,7 +1918,15 @@ export async function runNmFamily(family, argv = []) {
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId,
     blocking: family.blockingFindings ?? [],
-    findings: family.findings
+    findings: family.findings,
+    /*
+     * Where the stop list in participant-instructions.md came from. The
+     * instructions say "the record LegalEase keeps for this kind of case" and
+     * stop there, because a path and a digest are not something to put in front
+     * of someone trying to file a petition. They belong here, with the digests
+     * of both records the build read and compared.
+     */
+    ...(family.selfHelpStops ? { selfHelpStopConditionsAsPrinted: family.selfHelpStops } : {})
   });
 
   writeJson(`${OUT}/approval-request.json`, {

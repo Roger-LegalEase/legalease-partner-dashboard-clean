@@ -42,7 +42,7 @@
  * the identity-theft reasoning onto a track that serves someone would excuse
  * twenty blanks that the filing needs.
  */
-import { WRITE, SUPPLY, PROTECT, INAPPLICABLE, COURT_OWNED, SIGNATURE } from "./nm-packet-host.mjs";
+import { WRITE, WRITE_BOUND_AS, SUPPLY, PROTECT, INAPPLICABLE, COURT_OWNED, SIGNATURE } from "./nm-packet-host.mjs";
 
 export const FORM_4_960_1 = Object.freeze({
   sourceId: "official-form:4-960.1",
@@ -109,6 +109,28 @@ const COURT_PARTS = {
  * filing and named in the instructions, rather than filled from something the
  * platform does not have.
  */
+/*
+ * The petitioner's address, and the sentence that used to stand where the value
+ * belongs.
+ *
+ * The blank is one printed line asking for a whole mailing address. The shared
+ * registry holds one participant address descriptor -- participant.street_address
+ * -- and it is what a caption reading "Address" binds, so the caption binds
+ * under that descriptor and the value written is the one-line address composed
+ * from the street, city, state and ZIP the platform already holds and already
+ * writes in parts elsewhere in this same packet.
+ *
+ * The row used to say the registry has no one-line address fact. That is true
+ * of the DESCRIPTOR LIST and says nothing about what the platform holds; the
+ * two were reported as the same thing, and the line the court mails the notice
+ * of hearing to was delivered empty on both fixtures of all three families.
+ */
+const ADDRESS_BINDING =
+  "the shared registry holds one participant address descriptor, participant.street_address, and it is what a blank "
+  + "captioned \"Address\" binds. The value written is the whole one-line mailing address, composed from the street, "
+  + "city, state and ZIP the platform holds and writes in parts elsewhere in this packet. A missing descriptor is a "
+  + "fact about the descriptor list, not about what the platform holds.";
+
 const PARTICIPANT_PARTS = {
   "p1-y63970-x14328": { section: CAPTION, label: "COUNTY OF", ...WRITE("matter.county") },
   "p1-y62590-x7202": { section: CAPTION, label: "Judicial district of the district court", ...WRITE("matter.court") },
@@ -116,12 +138,14 @@ const PARTICIPANT_PARTS = {
   "p1-y19586-x7202": { section: PETITIONER_BLOCK, label: "Petitioner Name", ...WRITE("participant.full_legal_name") },
   "p1-y16826-x7202": {
     section: PETITIONER_BLOCK, label: "Petitioner Address",
-    ...SUPPLY(
-      "your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails the "
-      + "notice of hearing to",
-      "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and "
-      + "a street with no city on the line the court mails to is worse than a line the participant completes. Reported to "
-      + "the owner of the registry in build-findings.json."
+    ...WRITE_BOUND_AS(
+      "participant.full_mailing_address",
+      { factId: "participant.street_address", why: ADDRESS_BINDING },
+      {
+        what:
+          "your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails "
+          + "the notice of hearing to"
+      }
     )
   },
   "p1-y14066-x7202": {
