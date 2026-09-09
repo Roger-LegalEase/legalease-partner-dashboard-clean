@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "487ddddcb0a03ae65779ea3caeb7abf4803eb9b2",
+  "minimumCaptainSha": "58f03978665215d365eab38d1380de41840aed8f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,19 +72,18 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 18,
-    "verifyPending": 5,
-    "repairRequired": 18,
+    "verifyPending": 0,
+    "repairRequired": 21,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 196,
+    "COMPLETE_PACKET_PROVEN": 198,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 18,
     "BUILT_RASTER_PENDING": 22,
     "SOURCE_READY": 33,
-    "VERIFY_PENDING": 5,
-    "FAIL_REPAIR_REQUIRED": 27,
+    "FAIL_REPAIR_REQUIRED": 30,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -3586,7 +3585,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -3616,11 +3620,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THE TEXT BLANKS PASS AND THE SELECTIONS FAIL. First the part that passes, so the failure is not overstated: the field map carries 57 refusals dispositioned REQUIRED_BEFORE_FILING and I found all 57 of their effectiveLabel strings verbatim in participant-instructions.md, and both of the controlling manifest's obtain_document items - supporting evidence of trafficking, and the certified ALEA criminal record - are disclosed as numbered steps 1 and 2 of 'Do these before you file'. WHAT FAILS: the official CR-65 prints, in the delivered bytes, three elections it marks mandatory, and the packet neither makes them nor tells the participant to. (1) Packet page 6, under the printed heading 'I swear or affirm, under the penalty of perjury:', item '(3) (Select one of the following):' offers '[ ] that I have not previously applied for an expungement in this or any other jurisdiction.' and '[ ] that I have previously filed for an expungement.' In all four delivered fixtures BOTH boxes are blank. I confirmed this at appearance level by rendering delivered page 6 at 130 dpi and reading it. (2) Packet page 5 prints 'Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)' over three boxes - certified record of arrest, certified record of disposition, and certified official criminal record from ALEA. All three are blank in all four fixtures, so neither the either-1-or-2 requirement nor the always-required item 3 is elected. NOW THE DISCLOSURE: I grepped both instruction files for 'select one', 'previously applied', 'previously filed', 'pro se', 'granted', 'denied', 'penalty of perjury', 'swear' and 'attach'. The only hit in either file is the closing line of filing-instructions.md, 'Do not sign or date the petition until every required blank and every attachment is complete' - which names no election and no attachment. Neither file names item (3), neither names the attachment boxes, and neither names the 'was [ ] granted [ ] denied' pair or the '[ ] pro se (Not represented by an attorney)' box, all of which are also blank on page 6. THE MECHANISM THAT KEEPS THE COUNTERS GREEN: the field map holds 50 selection-control refusals and 46 of them carry the identical boilerplate reason, 'A genuine participant election not determined by this route. This petition elects one statutory ground only.' That sentence is factually untrue of the page-5 attachment boxes, of the page-6 sworn select-one, of granted/denied and of pro se - none of them is a statutory ground. Worse, all 50 carry an effectiveLabel that is only the raw AcroForm field name ('Participant choice: Check Box2.0 (selection)'), so the record never states what any of these blanks says on the paper, and I confirmed that 0 of the 50 labels appears anywhere in participant-instructions.md. Every one of the 50 is recorded with requiredBeforeFiling false, which drops the mandatory ones out of the required-before-filing set entirely and is why nothing downstream can see them. A participant who follows this guide files a sworn CR-65 whose perjury clause has an unelected item (3) and whose attachment certification is unelected.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
@@ -9634,8 +9647,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b.json"
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -9667,26 +9680,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "REQUIRED_BEFORE_FILING"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Measured by reading participant-instructions.md by hand against the controlling record's packetSet.requiredBeforeFiling in data/record-clearing/legal-design-track-registry.json, track co_petition_seal_arrest. The record's first required item is 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it', carried also in CO.memo.json supportingDocuments with requiredBeforeFiling true. The delivered guide never mentions it: its only three references to the CBI are as a records custodian to tick in section 3 and to serve, not as a report the petitioner must obtain and attach. The second record item, cross-checking the arrest answers against that same report, likewise never names the document. The family's own blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true, but that claim is scoped to the 40 FORM BLANKS only; all 40 are indeed disclosed verbatim. The record's required supporting DOCUMENT is outside that scope and outside the completeness verifier's, which iterates the builder's own blank ledger and never opens the registry.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "13 synthesized widget borders are stamped onto the filing as ink the official form does not print. Measured three independent ways and all three agree. (1) Appearance streams: 13 flattened widgets, sized 84.11x15.12 and 85.68x15.12 on pages 2 and 3, each paint '1 g / 0 0 0 RG / 1 w / 0 0 m / 0 14.12 l / 84.68 14.12 l / 84.68 0 l / h / B' -- a closed four-sided rectangle filled white and stroked black on all four sides. (2) The official JDF-417's own /AP /N for those same fields paints '1 g / 0 0 84.1091 15.1201 re / f / 0 G / 0 0.5 m / 84.1091 0.5 l / s' -- white fill and a SINGLE BOTTOM RULE, no side or top strokes. (3) A directional 150 dpi raster diff of delivered page 2 against the official page 2 returns 464, 468 and 464 dark-pixels-added on the three offence rows sampled with zero pixels removed, and the rendered crop shows a full box in the delivered file where the official prints one bottom rule. The affected fields are the nine 'Misdemeanor or Felony' cells of the section 4a offence table (4A.1B-4A.9B) and the four sworn yes/no answers 4B.0, 4C.0, 4D.0 and 4E.0. The repository's own scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs independently places this family in the FIX80 cohort with exactly these 13 widgets, all APPEARANCE_CLEARED_BY_DROP, and records that the builder does not pass suppressSynthesizedWidgetBorders. The family carries a current RASTER_PASS, so the visual gate did not catch this.",
+          "finding": "SEVEN CONTROLS PER FIXTURE, IN BOTH FIXTURES, CARRY A SYNTHESIZED OUTLINE THE OFFICIAL FORM DOES NOT PRINT, AND ON TWO OF THEM THAT OUTLINE IS DRAWN OVER TEXT THE FORM DOES PRINT. This is a different mechanism from the one FIX120 closed, and it is present in the current post-repair bytes. HOW I MEASURED IT: I rendered each delivered page and its pinned source page to 150 dpi greyscale and took a directional pixel diff, then attributed every differing pixel to a widget by testing it against the 90 widget rectangles I read first-hand from the two source binaries. THE TWO INTERPRETER RADIOS, JDF-417 page 1, field Group1.7, /Rect [268.80 356.50 282.48 370.18] and [313.88 356.62 327.56 370.30]. The source prints one thin ring per option occupying pixels x 560-587 and x 654-681, rows 879-906. The delivered file draws a second, heavier ring shifted up and to the right, so the inked box becomes x 560-592 and x 654-686, rows 873-906: 99 and 94 dark pixels added, 102 and 106 removed, at each. Rendered and read at 3x, the printed row 'Do you need an interpreter?  No  Yes, in (language)' comes back with the synthesized ring cutting through the 'N' of 'No' and through the 'Y' of 'Yes', so both answer labels are struck through on the face of the filing. The row immediately below it, 'I want to attend court events: In-person / Virtually', is pixel-identical to the source, which proves this is per-widget and not a global rendering difference. THE FIVE SECTION-3 CHECKBOXES, JDF-417 page 2, fields 3A.0, 3B.0, 3C, 3D.0 and 3E.0, all at /Rect width and height 13.68pt. Each is delivered as TWO concentric squares where the form prints one. On 3A.0 (Prosecuting Attorney) the synthesized square lands up and to the right, taking the inked box from x 263-290 rows 249-276 to x 263-295 rows 243-276, 134 pixels added and 76 removed. On 3B.0 (Sheriff's Department), 3C (Colorado Bureau of Investigation (Required)), 3D.0 (Law Enforcement) and 3E.0 (Other) the synthesized square lands down and to the left, inside the printed one, so the bounding box is unchanged and 70 to 88 pixels are added within it - which is why a bounding-box or four-sided-box control does not see them. I read the crop at 2x and every one of the five shows a doubled box. These are the boxes that name the agencies the sealing order must reach, including the one the form itself marks required. WHY THE FAMILY'S OWN RECORD DOES NOT SHOW IT: reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for all four document rows, which is true and not the question - a stroked outline draws no glyph, and this ink is drawn at the census widget's own rect, exactly the case DEFECTS_NO_COUNTER_CAN_SEE warns must not be read as proof that nothing strayed. FOR THE REPAIR LANE: the prior VF01 FAIL of 20260909b named 13 four-sided boxes on /Ch choosers, and FIX120's control fourSidedWidgetBoxes() went 23 to 0. That control is measuring the right thing for /Ch and the wrong thing for these seven /Btn widgets, whose regenerated appearance is stamped at the widget /Rect at a size and offset that do not coincide with the mark the issuer's own page content already draws.",
           "findingReadFrom": "detail",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
@@ -16263,10 +16269,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -16297,34 +16303,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The controlling record's packetSet.requiredBeforeFiling for hi_nonconviction_expungement carries eight items. Six are named in the delivered guides in substance, which I accept as naming them even though not verbatim: the photo identification (participant-instructions.md checklist item and filing-instructions.md 'A copy of your valid official government-issued photo ID'), the money order (both files, with the form's own payable-to wording), the stamped self-addressed envelope (both files), the signature and its date, the applicant signing personally, and the application fee. TWO ARE ABSENT FROM THE ENTIRE FAMILY DIRECTORY. (1) 'The source review does not state a notarization requirement.' Nothing in either guide says this. The only occurrence of the word in the family is the closing sentence 'No part of this application has been signed, initialled, dated, notarised or adopted by anyone', which if anything leaves a reader thinking notarisation may be required; the record settles that it is not stated, and the packet does not pass that on. (2) 'The source review does not address a fee waiver.' Also absent, and scored again under FEE_AND_WAIVER because the same missing line is what leaves that obligation unmet; one repair discharges both, and I am not counting it twice as two separate defects. I confirmed the absence by grepping the whole family directory: 'fee waiver' and 'notarization' as the record phrases them appear nowhere in it.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The fee half is well done. The record says only 'An application fee applies, paid by money order. The source review does not state the amount', and rather than stop there the packet reports the form's own printed schedule with attribution: $35 first-time, $50 non-first-time, $20 duplicate certificate, $10 of it non-refundable, payable by money order or cashier's check issued in the United States to 'State of Hawaii', personal checks not accepted, and a refund of all but the $10 if the application is denied. I confirmed every one of those figures is printed on the delivered page and is not added ink. The waiver half is absent. The controlling record carries an apply_fee_waiver item reading 'The source review does not address a fee waiver', conditional, 'Applies only when the participant cannot pay the filing fee', requiredBeforeFiling true - and neither participant-instructions.md nor filing-instructions.md mentions a fee waiver at all. A grep of the whole family directory for 'fee waiver' and for 'waiver' returns nothing. So a participant who cannot raise $35 is told the payment is mandatory and is told nothing about whether any relief from it exists, where the record has an answer to give. Compare the two families I read this shift whose records carry the identical line: az_certificate_second_chance-set and fl-self-defense-set both print it and both tell the participant what to do about it.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet never states where self-help ends. The controlling record names exactly two selfHelpStopConditions for this track, identical in selfHelpBoundaries: 'The record is federal, military, or from another jurisdiction.' and 'Any immigration matter.' NEITHER APPEARS ANYWHERE IN THE FAMILY. I grepped the whole family directory case-insensitively: 'immigration' returns nothing and 'federal' returns nothing, in participant-instructions.md, filing-instructions.md and every other file. There is no 'stop and get help' section and no sentence anywhere telling the participant to stop and speak to a Hawaii lawyer. The closest text is the closing heading 'Nothing in this packet is legal advice, and nothing in it is approved for filing on your behalf', which is a disclaimer about what the packet is, not a statement of the point at which a self-represented applicant should stop. The section headed 'When this route does not apply' does not fill the gap either: it lists route-determining facts (exact disposition and statutory subsection, first-time status, treatment completion, deferred-acceptance or bail-forfeiture exception, statutory exclusions), which is eligibility, not a stop. The omission bites: the first condition is precisely the case an HCJDC application cannot reach, because a federal, military or out-of-state record is outside the statewide repository this route clears, and the second is the standard immigration hard stop that every other guide I read this shift carries. This is the same failure mode VF03, VF04 and VF05 scored on the Illinois families - a guide whose stop section carries fewer conditions than the record names - except that here it carries none of them.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
@@ -24140,7 +24123,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -24170,11 +24158,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two committed controlling records make obtaining a CORI a required-before-filing act and the delivered guide never discloses it. (1) data/record-clearing/legal-design-packet-set-manifests.json, packetSet ma-expunge-k-set, participantActionRequired[0]: kind obtain_document, requirement required, requiredBeforeFiling true, obtainedFrom 'Massachusetts Department of Criminal Justice Information Services', description 'Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS.' The same string is the first entry of that packetSet's requiredBeforeFiling array. (2) data/record-clearing/legal-design-track-registry.json, track ma-expunge-k, packetSet.participantActionRequired[0] carries the identical item. participantActionRequired[1] is the paired confirm_answer item, 'Check your answer to \"What is the docket number?\" against Your own CORI ... and correct the packet if they disagree', also requiredBeforeFiling true. WHAT THE DELIVERED GUIDE ACTUALLY SAYS: I read participant-instructions.md end to end and grepped it. It contains three references to a CORI and all three are as an OPTIONAL ALTERNATIVE SOURCE to copy from, never as a document to obtain — line 64 'Write in the docket number and the charges from your own court papers or your CORI', line 85 'copied from your own court papers or from your CORI', line 87 'listed from your own court papers or CORI'. There is no step directing the participant to obtain it, no 'documents you must obtain first' section anywhere in the guide, and the only occurrence of 'Department of Criminal Justice Information' (line 7) is inside a quotation from the court's instruction sheet about which agencies must DESTROY records on expungement — the opposite role. DCJIS is never named. A participant who follows the guide's own numbered eight-step list and holds their court papers never obtains a CORI at all, and never performs the confirm_answer cross-check, because neither is stated. THE FAMILY'S OWN CLAIM AND WHY IT READS CLEAN: reports/blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true with disclosedIn participant-instructions.md, but its requiredBeforeFiling array holds 16 entries and every one of them is a FORM BLANK on the petition face; the controlling records' seven participant-action strings are outside its scope, so the assertion is true of a narrower set than its name claims. This is the same defect shape and the same standard on which this lane failed co_petition_seal_arrest-set on 20260909b, where the record's obtain_document item (the CBI criminal-history report) was likewise absent from the guide while the guide mentioned the agency in a different role.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-k-set.mjs",
@@ -39409,10 +39406,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf04",
-        "verifiedAtBase": "d66978655",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -39470,20 +39467,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The defect VF04 and VF05 reported is repaired, and a NEW copy of the same answer survives unscoped. REPAIRED: no release-gating record still resolves the District Court filing fee on the Superior Court answer. All three duplicate researchResolvedQuestions resolutions on this track in the registry, and the single one in RI.memo.json, now carry clearsReleaseBlockerForThisTrack false, scopeLimitedTo 'the identified Rhode Island SUPERIOR COURT routes', a doesNotReachThisTrackBecause paragraph quoting RI-B-07's holding that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule', and the exact remaining question verbatim; and the District filing-charge blocker stands open again in releaseBlockers, unresolvedQuestions and blockers in both records. The Superior answer, its support, its supportUrl and its provenance are preserved rather than deleted. NOT REPAIRED: the 2026-09-06 owner decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json applied that research to all four Rhode Island tracks through TWO limbs - 'rules.fees restated to the Superior Court FAQ's no-fee answer' AND 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. FIX120 pass 2 corrected the second limb on the two District tracks and left the first limb untouched. rules.fees on this DISTRICT track still reads, word for word identical to the two Superior tracks, 'No expungement filing fee in the Superior Court. The Rhode Island Superior Court's own expungement FAQ ... expressly says the process requires no fee ...', and rules.researchParticipantText.fee still reads 'The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case ...'. Neither carries any statement that this track files in the District Court, neither names RI-B-07, and neither is marked as not reaching this track. Four locations survive on this track: registry .rules.fees, registry .rules.researchParticipantText.fee, RI.memo.json .rules.fees and RI.memo.json .rules.researchParticipantText.fee. This matters for two measured reasons rather than one of form. First, rules.fees is a field this repository quotes VERBATIM onto participant surfaces: al-diversion-set prints '- Filing fee: \"${rules.fees}\"', il-exp-pardon-set asserts in a build test that 'the guide must quote the record on fees', and in_conviction_felony-set, la-978-felony-conviction-set, az_marijuana_expungement_superior_court-set, az_record_sealing_conviction-set and nh_petition_nonconviction_pre2019-set each print it or pin it. The only reason no District packet byte carries it today is that scripts/build-census-v1-ri_decriminalized-set.mjs never reads rules.fees or researchParticipantText - this reader grepped the host and found no reference to either field - so the honest page is honest by hardcoding, not because the record it would otherwise quote is correct. Second, the surviving copy contradicts its own track object: registry tracks for this route carry, inside packetSet.participantActionRequired and packetSet.requiredBeforeFiling, 'Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.' while rules.fees on the same track states the Superior no-fee answer as the fee rule. FIX120 pass 2's own row asserts copiesSurvivingAfter count 0 with the proof 'no District track retains a resolution that clears the blocker'. That proof is true as stated and the count is wrong, because the enumeration it rests on covered researchResolvedQuestions and the three blocker arrays and never reached rules.fees or rules.researchParticipantText.fee. This is the one-copy-fixed-duplicate-left pattern the lane's own stated discipline exists to prevent, on the same two tracks, in the same two records, from the same owner direction. REPAIR REQUIRED: scope rules.fees and rules.researchParticipantText.fee on registry tracks[365] and tracks[367] and on RI.memo.json tracks[0] and tracks[2] the same way the resolutions were scoped - preserving the Superior answer, naming the District Court, naming RI-B-07, printing no District figure, and reviving neither the repealed $100 grant charge nor the civil schedule. Do NOT touch tracks[366] or tracks[368], or RI.memo tracks[1] or tracks[4]: those are Superior Court routes and the answer is true there.",
-          "findingReadFrom": "finding",
-          "evidence": "THE PAGE, READ HERE AT 300 dpi. Page 11 of both fixtures was rendered by this reader through scripts/raster/pdf-page-raster.mjs and read. It carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT. Your case is in the DISTRICT COURT, and no District Court filing-fee schedule is held by this repository. The Superior Court's no-fee answer does not establish what the District Court charges, if anything, for this motion, and no District Court figure is printed here because none is held.' It refuses to revive the $100 charge on a grant that Sec. 12-1.3-3(c) does not carry, refuses the civil filing-fee schedule, and says 'ASK THE CLERK of the District Court division where you are filing what this motion costs'. No figure is printed anywhere on the page. The preceding paragraph names which court gave the no-fee answer and says this build did not fetch courts.ri.gov. The $5 BCI state check is stated as a charge for the record and expressly not a court filing fee. The page invents no fee, no clerk act and no waiver, and it is unchanged from the bytes VF04 and VF05 read. THE RECORDS. Sixty copies of the filing-fee entry were enumerated across the three named records and each is classified in everyCopyOfTheFilingFeeEntryFound. The release-gating copies now match the page. Four copies on this track do not."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",

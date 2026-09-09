@@ -34,16 +34,17 @@
     }
   ],
   "counts": {
-    "returnDirectories": 135,
-    "rows": 1067,
-    "independentVerdicts": 275,
+    "returnDirectories": 136,
+    "rows": 1072,
+    "independentVerdicts": 277,
     "failRepairRequired": 38,
-    "passIndependent": 216
+    "passIndependent": 218
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
+    "al-trafficking-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
@@ -55,11 +56,11 @@
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
-    "hi_nonconviction_expungement-set",
     "ia-12347-set",
     "il-seal-2yr-set",
     "in_infraction_nondisclosure-set",
     "la-976-arrest-no-conviction-set",
+    "ma-expunge-k-set",
     "md_pardon_expungement-set",
     "mn_petition_609a02_subd3-set",
     "mo-art-xiv-marijuana-set",
@@ -74,7 +75,6 @@
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-hi-custom-pleading",
-    "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
@@ -1659,6 +1659,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THE TEXT BLANKS PASS AND THE SELECTIONS FAIL. First the part that passes, so the failure is not overstated: the field map carries 57 refusals dispositioned REQUIRED_BEFORE_FILING and I found all 57 of their effectiveLabel strings verbatim in participant-instructions.md, and both of the controlling manifest's obtain_document items - supporting evidence of trafficking, and the certified ALEA criminal record - are disclosed as numbered steps 1 and 2 of 'Do these before you file'. WHAT FAILS: the official CR-65 prints, in the delivered bytes, three elections it marks mandatory, and the packet neither makes them nor tells the participant to. (1) Packet page 6, under the printed heading 'I swear or affirm, under the penalty of perjury:', item '(3) (Select one of the following):' offers '[ ] that I have not previously applied for an expungement in this or any other jurisdiction.' and '[ ] that I have previously filed for an expungement.' In all four delivered fixtures BOTH boxes are blank. I confirmed this at appearance level by rendering delivered page 6 at 130 dpi and reading it. (2) Packet page 5 prints 'Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)' over three boxes - certified record of arrest, certified record of disposition, and certified official criminal record from ALEA. All three are blank in all four fixtures, so neither the either-1-or-2 requirement nor the always-required item 3 is elected. NOW THE DISCLOSURE: I grepped both instruction files for 'select one', 'previously applied', 'previously filed', 'pro se', 'granted', 'denied', 'penalty of perjury', 'swear' and 'attach'. The only hit in either file is the closing line of filing-instructions.md, 'Do not sign or date the petition until every required blank and every attachment is complete' - which names no election and no attachment. Neither file names item (3), neither names the attachment boxes, and neither names the 'was [ ] granted [ ] denied' pair or the '[ ] pro se (Not represented by an attorney)' box, all of which are also blank on page 6. THE MECHANISM THAT KEEPS THE COUNTERS GREEN: the field map holds 50 selection-control refusals and 46 of them carry the identical boilerplate reason, 'A genuine participant election not determined by this route. This petition elects one statutory ground only.' That sentence is factually untrue of the page-5 attachment boxes, of the page-6 sworn select-one, of granted/denied and of pro se - none of them is a statutory ground. Worse, all 50 carry an effectiveLabel that is only the raw AcroForm field name ('Participant choice: Check Box2.0 (selection)'), so the record never states what any of these blanks says on the paper, and I confirmed that 0 of the 50 labels appears anywhere in participant-instructions.md. Every one of the 50 is recorded with requiredBeforeFiling false, which drops the mandatory ones out of the required-before-filing set entirely and is why nothing downstream can see them. A participant who follows this guide files a sworn CR-65 whose perjury clause has an unelected item (3) and whose attachment certification is unelected.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
       "superseded": false
     },
     {
@@ -5332,6 +5355,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "SEVEN CONTROLS PER FIXTURE, IN BOTH FIXTURES, CARRY A SYNTHESIZED OUTLINE THE OFFICIAL FORM DOES NOT PRINT, AND ON TWO OF THEM THAT OUTLINE IS DRAWN OVER TEXT THE FORM DOES PRINT. This is a different mechanism from the one FIX120 closed, and it is present in the current post-repair bytes. HOW I MEASURED IT: I rendered each delivered page and its pinned source page to 150 dpi greyscale and took a directional pixel diff, then attributed every differing pixel to a widget by testing it against the 90 widget rectangles I read first-hand from the two source binaries. THE TWO INTERPRETER RADIOS, JDF-417 page 1, field Group1.7, /Rect [268.80 356.50 282.48 370.18] and [313.88 356.62 327.56 370.30]. The source prints one thin ring per option occupying pixels x 560-587 and x 654-681, rows 879-906. The delivered file draws a second, heavier ring shifted up and to the right, so the inked box becomes x 560-592 and x 654-686, rows 873-906: 99 and 94 dark pixels added, 102 and 106 removed, at each. Rendered and read at 3x, the printed row 'Do you need an interpreter?  No  Yes, in (language)' comes back with the synthesized ring cutting through the 'N' of 'No' and through the 'Y' of 'Yes', so both answer labels are struck through on the face of the filing. The row immediately below it, 'I want to attend court events: In-person / Virtually', is pixel-identical to the source, which proves this is per-widget and not a global rendering difference. THE FIVE SECTION-3 CHECKBOXES, JDF-417 page 2, fields 3A.0, 3B.0, 3C, 3D.0 and 3E.0, all at /Rect width and height 13.68pt. Each is delivered as TWO concentric squares where the form prints one. On 3A.0 (Prosecuting Attorney) the synthesized square lands up and to the right, taking the inked box from x 263-290 rows 249-276 to x 263-295 rows 243-276, 134 pixels added and 76 removed. On 3B.0 (Sheriff's Department), 3C (Colorado Bureau of Investigation (Required)), 3D.0 (Law Enforcement) and 3E.0 (Other) the synthesized square lands down and to the left, inside the printed one, so the bounding box is unchanged and 70 to 88 pixels are added within it - which is why a bounding-box or four-sided-box control does not see them. I read the crop at 2x and every one of the five shows a doubled box. These are the boxes that name the agencies the sealing order must reach, including the one the form itself marks required. WHY THE FAMILY'S OWN RECORD DOES NOT SHOW IT: reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for all four document rows, which is true and not the question - a stroked outline draws no glyph, and this ink is drawn at the census widget's own rect, exactly the case DEFECTS_NO_COUNTER_CAN_SEE warns must not be read as proof that nothing strayed. FOR THE REPAIR LANE: the prior VF01 FAIL of 20260909b named 13 four-sided boxes on /Ch choosers, and FIX120's control fourSidedWidgetBoxes() went 23 to 0. That control is measuring the right thing for /Ch and the wrong thing for these seven /Btn widgets, whose regenerated appearance is stamped at the widget /Rect at a size and offset that do not coincide with the mark the issuer's own page content already draws.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
       "superseded": false
@@ -9055,6 +9101,20 @@
     },
     {
       "familyId": "hi_nonconviction_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -9088,7 +9148,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ia-12347-set",
@@ -11782,6 +11842,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two committed controlling records make obtaining a CORI a required-before-filing act and the delivered guide never discloses it. (1) data/record-clearing/legal-design-packet-set-manifests.json, packetSet ma-expunge-k-set, participantActionRequired[0]: kind obtain_document, requirement required, requiredBeforeFiling true, obtainedFrom 'Massachusetts Department of Criminal Justice Information Services', description 'Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS.' The same string is the first entry of that packetSet's requiredBeforeFiling array. (2) data/record-clearing/legal-design-track-registry.json, track ma-expunge-k, packetSet.participantActionRequired[0] carries the identical item. participantActionRequired[1] is the paired confirm_answer item, 'Check your answer to \"What is the docket number?\" against Your own CORI ... and correct the packet if they disagree', also requiredBeforeFiling true. WHAT THE DELIVERED GUIDE ACTUALLY SAYS: I read participant-instructions.md end to end and grepped it. It contains three references to a CORI and all three are as an OPTIONAL ALTERNATIVE SOURCE to copy from, never as a document to obtain — line 64 'Write in the docket number and the charges from your own court papers or your CORI', line 85 'copied from your own court papers or from your CORI', line 87 'listed from your own court papers or CORI'. There is no step directing the participant to obtain it, no 'documents you must obtain first' section anywhere in the guide, and the only occurrence of 'Department of Criminal Justice Information' (line 7) is inside a quotation from the court's instruction sheet about which agencies must DESTROY records on expungement — the opposite role. DCJIS is never named. A participant who follows the guide's own numbered eight-step list and holds their court papers never obtains a CORI at all, and never performs the confirm_answer cross-check, because neither is stated. THE FAMILY'S OWN CLAIM AND WHY IT READS CLEAN: reports/blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true with disclosedIn participant-instructions.md, but its requiredBeforeFiling array holds 16 entries and every one of them is a FORM BLANK on the petition face; the controlling records' seven participant-action strings are outside its scope, so the assertion is true of a narrower set than its name claims. This is the same defect shape and the same standard on which this lane failed co_petition_seal_arrest-set on 20260909b, where the record's obtain_document item (the CBI criminal-history report) was likewise absent from the guide while the guide mentioned the agency in a different role.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
       "superseded": false
     },
     {
@@ -23733,6 +23816,20 @@
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -23826,7 +23923,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
