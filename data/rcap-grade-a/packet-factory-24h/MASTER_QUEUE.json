@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b72b0a24d94765bccf235d227734d4486c5479b3",
+  "minimumCaptainSha": "38d648809c905e5ff75db1208742b2213e2f7891",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,7 +73,7 @@
     "sourceBlocked": 6,
     "legalBlocked": 16,
     "verifyPending": 0,
-    "repairRequired": 25,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 16,
-    "FAIL_REPAIR_REQUIRED": 36,
+    "FAIL_REPAIR_REQUIRED": 35,
     "SOURCE_READY": 67,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 5,
+    "BUILT_RASTER_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -17597,9 +17597,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
-        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
+        "lane": "vf13",
+        "verifiedAtBase": "d4653b258",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -17633,35 +17633,21 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "PAGE_ORDER",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
+        "CLIPPING_AND_OVERLAP",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost.",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route's own printed gate is unmade, and the packet contradicts itself about the same fact. Motion page 1 item 1 -- 'All of the cases listed have resulted in convictions for: a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5; AND/OR b. Class 4 felony cannabis offense' -- is wholly blank in both fixtures, beside the form's own printed instruction 'In 1, you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.' production-field-map.json declares 1a and 1b refusals, class participant_sworn_narrative_or_legal_election, 'not determined by this packet route'. Yet page 2's per-case classification column for the very same case, '4 - Misdemeanor/Class 4 Felony Checkboxes1', is a WRITE with factId route.selection and is visibly ticked Misdemeanor. The same fact is route-determined in Section 4 and a participant refusal in Section 1, and the delivered page shows the gate unanswered while the table answers it. This is the shape of the Section 12/13 defect 8f2701e0f repaired on the two expunge families, still live on this one. Second, item 2 'I was convicted before June 25, 2019' is ticked as route.selection in BOTH fixtures, whose own printed case data is 2021-CF-004217 with date of arrest 03/12/2021 (canonical) and 2024-CF-000001-99 with date of arrest 11/29/2023 (boundary): a conviction in a case arrested in 2021 or 2023 cannot predate June 25, 2019, so the motion swears a fact its own page contradicts, under Supreme Court Rule 137. Third and recorded rather than counted: item 3 'I have completed the sentences or conditions imposed by the conviction' is also written as route.selection although the controlling record makes that fact a requiredBeforeFiling proof to obtain and a self-help stop condition ('Whether the non-financial conditions of the sentence are complete is disputed'), and this family's own stop section says to stop 'if a sentence or condition may be incomplete'.",
           "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf page 1 and page 2, read as rendered images; production-field-map.json writes[4 - Misdemeanor/Class 4 Felony Checkboxes1] and refusals[1a - Misdemeanor cannabis offenses], [1b - Class 4 felony cannabis offense]"
         },
         {
-          "obligation": "PAGE_ORDER",
-          "finding": "The rendered packet is alphabetic (Additional Cannabis, Additional Notice, Getting Started, Motion, Notice, Order), not controlling manifest order 1-6 (Motion, Additional Cannabis, Getting Started, Notice, Additional Notice, Order).",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The delivered boundary fixture prints an ellipsized fact on a motion filed with a circuit court. CXP Motion to Vacate and Expunge page 2, item 4, field '4 - Arresting Agency1' reads 'Springfield Police Department Rec' plus a horizontal-ellipsis glyph; the fixture's own value, at scripts/build-census-v1-il-cannabis-vacate-set.mjs:185, is 'Springfield Police Department Records Division'. Twelve characters are dropped mid-word and replaced with an ellipsis. Confirmed three ways: the hex Tj operand in the delivered FlatWidget appearance stream, the rendered page at 150 dpi, and the source field, which is single-line with no /MaxLen. Root cause is safeSet() at scripts/build-census-v1-il-cannabis-vacate-set.mjs:308-321, which shrinks to 6pt and then slices characters off and appends an ellipsis -- the same safeSet ellipsis truncation the pardon repair removed from the EXP-AD builders in favour of setComplete(), which writes the whole value or refuses it and names it as owed. Nothing in the reports can see this: reports/actual-writes.json records only canonical drawn text ('Chicago Police Department'), and verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros for this family. No other string in either fixture exceeds its clip width.",
           "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "County filing fee/waiver uncertainty is stated, but the controlling manifest's exact $60 Illinois State Police court-order processing cost is omitted.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The controlling manifest states clerk service under section 5.2(i)(3), while current instructions merely tell the participant to confirm notice recipients with the clerk and do not surface that service model.",
-          "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf page 2, FlatWidget-1733050384; scripts/build-census-v1-il-cannabis-vacate-set.mjs:185 and :308-321"
         }
       ],
       "continuationResult": null,
@@ -17816,14 +17802,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "current-byte-independent-verification-il-tx-batch-018",
-        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf13",
+        "verifiedAtBase": "d4653b258",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17852,48 +17836,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "All 27 charge-entry fields across the Request and Additional Cases forms are incorrectly bound to matter.case_number and print 2021-CF-004217 instead of the known charge.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The participant guidance does not accurately reconcile the already-inked malformed charge rows with the remaining case facts the participant must supply, so the packet is not truthfully completion-ready.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "Later repeated charge cells are inked while their sibling case, agency, date, and outcome cells remain blank; the Case List also spreads one record across arrest1 through arrest5 as though those one-dimensional slots were five columns.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "The participant criminal case number is written into five clerk-reserved caption fields: Request 7 - Case Number, Case List 7 - Case Number, Additional Cases 7 - Case Number, Order 7 - Case Number, and FW-CIV 4 - Case Number.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The Case List arrest3 charge is deliberately shortened by the builder's safeSet path to Charge exactly as shown o…, so the exact participant fact is truncated despite the visual raster reporting zero layout problems.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
@@ -18464,9 +18411,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf13",
+        "verifiedAtBase": "d4653b258",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -18500,35 +18447,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "SERVICE"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The active qualified-probation expungement row also says outcome “Dismissed”, and the inactive sealing table is populated. The Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "On Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. The same defect appears in the inactive sealing table on page 4. This is 18 visibly partial rows per fixture.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how.",
-          "findingReadFrom": "detail",
-          "evidence": null
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Measured against IL.memo.json and the controlling record directly. The track registry (data/record-clearing/legal-design-track-registry.json, track il-exp-qualprob) carries ten packetSet.requiredBeforeFiling lines; ZERO of the ten reach participant-instructions.md. The two IL.memo.json documents marked requiredBeforeFiling are named only in a single terse clause -- 'Obtain the ISP statewide transcript and certified dispositions for every arrest or case' -- with no how-to-obtain for either, so a participant is told to get a fingerprint-based ISP Access and Review transcript with no route to it; and the guide never tells the filer to attach or submit them, the only one of these five families with no attach instruction anywhere, against IL.memo.json's own _supportingDocumentsNote 'Records the participant obtains and attaches.' Materially, the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent: the packet leaves the verification block deliberately blank and never tells the participant to sign and verify it, so a filer following this guide files an unsigned Request. The fee and the Rule 298 waiver appear only in filing-instructions.md, not in the participant document. The record also places the expunge-versus-seal election on the Case List's per-case election column; the guide directs it to 'the Request'. Root cause: scripts/build-census-v1-il-exp-qualprob-set.mjs never reads track.packetSet.requiredBeforeFiling, while build-census-v1-il-exp-nonconv-set.mjs and build-census-v1-il-cannabis-vacate-set.mjs do and reproduce all ten lines verbatim.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-exp-qualprob].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md"
         }
       ],
       "continuationResult": null,
@@ -19119,9 +19045,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf13",
+        "verifiedAtBase": "d4653b258",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -19155,35 +19081,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "SERVICE"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The inactive expungement table is populated even though the route selects sealing, and the Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "On inactive Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. Active sealing page 4 repeats the same defect in rows 2-10. This is 18 visibly partial rows per fixture.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how.",
-          "findingReadFrom": "detail",
-          "evidence": null
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The worst of the three. Checked against IL.memo.json directly: track il-seal-2yr marks two documents requiredBeforeFiling, the Illinois State Police statewide criminal history transcript and the certified disposition for each case. The ISP transcript is NEVER NAMED anywhere in participant-instructions.md as a document to obtain or to submit -- 'Illinois State Police' appears once, in the service paragraph, as a party the clerk serves, and 'ISP' appears once, in the stop section, as a party that might object. It is a fingerprint-based Access and Review record with weeks of lead time and the guide gives the filer no reason to start it. The whole 'Required before filing' section reads 'Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.' followed by a list of form field names; it names no record at all. The one sentence that could carry the obligation -- 'Attach certified dispositions and other route-specific evidence identified above.' -- points at 'above', where nothing is identified. Zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach the file, so the petitioner's signature and verification, the wet-signature expectation, the fee and the Rule 298 waiver are all absent from the participant document as well. This is the Delaware and Missouri regression, reproduced.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-intake/IL.memo.json tracks[trackId=il-seal-2yr].supportingDocuments vs data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md (89 lines, of which 68 are 'Complete <field>' entries)"
         }
       ],
       "continuationResult": null,
@@ -19320,9 +19225,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "lane": "vf13",
+        "verifiedAtBase": "d4653b258",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -19356,56 +19261,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_IDENTITY",
-        "ROUTE_OPTIONS"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "This family is the adult-conviction sealing route after the applicable three-year period, but both artifacts visibly select section 15, the no-wait Second Chance Probation / First Time Weapon Offense Program branch. The selected packet branch therefore does not identify the route the family names.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "On Request pages 2 and 4 the builder writes the case number into all 20 Charge fields instead of matter.charge. On the Case List it writes agency, charge, arrest date and outcome into four blanks that each ask only for another arrest/case number. Canonical charge text and multiple boundary values are visibly ellipsized.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The authoritative route requires the ISP statewide transcript, outcome comparison against that transcript and certified dispositions, a per-case expunge/seal election, and later hearing-date completion. participant-instructions.md omits the transcript and both comparison steps and does not explain the per-case election or post-objection hearing date.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "Section 12 Yes is selected, but section 15 is the wrong no-wait branch for a three-year family. The field map's own route summary says the participant must choose the applicable conditional-discharge/probation, revoked-sentence, or custody option, yet the builder preselects section 15 instead.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "Request page 2 and page 4 each contain nine later rows with only the same case number written in the Charge column and all companion cells blank: 18 incomplete rows per fixture. incompleteRows=0 is a detector miss.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "The Request, Case List and proposed Order case-number captions expressly say 'if the Circuit Clerk assigns a new number', and the waiver says '(Clerk fills in)'; all four carry the participant's criminal case number in both fixtures. Signatures and judge/order controls otherwise remain blank.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Fresh review of all 26 pages shows canonical Case List charge text ending in an ellipsis and boundary Request/Case List agency, charge and outcome values ending in ellipses. Complete known values are not visible despite zero reported glyphs outside the builder's boxes.",
-          "findingReadFrom": "detail",
-          "evidence": null
+          "finding": "Checked against IL.memo.json directly. Both documents the memo marks requiredBeforeFiling for track il-seal-3yr are named to obtain ('Obtain the ISP statewide transcript and certified dispositions for every arrest or case') and the guide closes with an attach sentence, so this family is not as bare as il-seal-2yr-set. It still fails: zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach participant-instructions.md. No how-to-obtain is given for either record, so the fingerprint-based ISP Access and Review route is never explained; and the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent, so a filer following this guide files a Request whose verification block the packet deliberately left blank and which nothing told them to sign. The fee and the Rule 298 waiver appear only in filing-instructions.md. Same root cause as the other two: scripts/build-census-v1-il-seal-3yr-set.mjs never reads track.packetSet.requiredBeforeFiling.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-seal-3yr].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md"
         }
       ],
       "continuationResult": null,

@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 1009,
+    "rows": 1014,
     "independentVerdicts": 255,
-    "failRepairRequired": 38,
-    "passIndependent": 197
+    "failRepairRequired": 37,
+    "passIndependent": 198
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -56,7 +56,6 @@
     "de_mandatory_expungement-set",
     "fl-early-juvenile-set",
     "il-cannabis-vacate-set",
-    "il-exp-nonconv-set",
     "il-exp-pardon-set",
     "il-exp-precompletion-set",
     "il-exp-qualprob-set",
@@ -9179,6 +9178,36 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-cannabis-vacate-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route's own printed gate is unmade, and the packet contradicts itself about the same fact. Motion page 1 item 1 -- 'All of the cases listed have resulted in convictions for: a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5; AND/OR b. Class 4 felony cannabis offense' -- is wholly blank in both fixtures, beside the form's own printed instruction 'In 1, you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.' production-field-map.json declares 1a and 1b refusals, class participant_sworn_narrative_or_legal_election, 'not determined by this packet route'. Yet page 2's per-case classification column for the very same case, '4 - Misdemeanor/Class 4 Felony Checkboxes1', is a WRITE with factId route.selection and is visibly ticked Misdemeanor. The same fact is route-determined in Section 4 and a participant refusal in Section 1, and the delivered page shows the gate unanswered while the table answers it. This is the shape of the Section 12/13 defect 8f2701e0f repaired on the two expunge families, still live on this one. Second, item 2 'I was convicted before June 25, 2019' is ticked as route.selection in BOTH fixtures, whose own printed case data is 2021-CF-004217 with date of arrest 03/12/2021 (canonical) and 2024-CF-000001-99 with date of arrest 11/29/2023 (boundary): a conviction in a case arrested in 2021 or 2023 cannot predate June 25, 2019, so the motion swears a fact its own page contradicts, under Supreme Court Rule 137. Third and recorded rather than counted: item 3 'I have completed the sentences or conditions imposed by the conviction' is also written as route.selection although the controlling record makes that fact a requiredBeforeFiling proof to obtain and a self-help stop condition ('Whether the non-financial conditions of the sentence are complete is disputed'), and this family's own stop section says to stop 'if a sentence or condition may be incomplete'.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf page 1 and page 2, read as rendered images; production-field-map.json writes[4 - Misdemeanor/Class 4 Felony Checkboxes1] and refusals[1a - Misdemeanor cannabis offenses], [1b - Class 4 felony cannabis offense]"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The delivered boundary fixture prints an ellipsized fact on a motion filed with a circuit court. CXP Motion to Vacate and Expunge page 2, item 4, field '4 - Arresting Agency1' reads 'Springfield Police Department Rec' plus a horizontal-ellipsis glyph; the fixture's own value, at scripts/build-census-v1-il-cannabis-vacate-set.mjs:185, is 'Springfield Police Department Records Division'. Twelve characters are dropped mid-word and replaced with an ellipsis. Confirmed three ways: the hex Tj operand in the delivered FlatWidget appearance stream, the rendered page at 150 dpi, and the source field, which is single-line with no /MaxLen. Root cause is safeSet() at scripts/build-census-v1-il-cannabis-vacate-set.mjs:308-321, which shrinks to 6pt and then slices characters off and appends an ellipsis -- the same safeSet ellipsis truncation the pardon repair removed from the EXP-AD builders in favour of setComplete(), which writes the whole value or refuses it and names it as owed. Nothing in the reports can see this: reports/actual-writes.json records only canonical drawn text ('Chicago Police Department'), and verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros for this family. No other string in either fixture exceeds its clip width.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf page 2, FlatWidget-1733050384; scripts/build-census-v1-il-cannabis-vacate-set.mjs:185 and :308-321"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
       "superseded": false
     },
     {
@@ -9229,6 +9258,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
       "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-exp-nonconv-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-nonconv-set",
       "superseded": false
     },
@@ -9389,6 +9432,29 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Measured against IL.memo.json and the controlling record directly. The track registry (data/record-clearing/legal-design-track-registry.json, track il-exp-qualprob) carries ten packetSet.requiredBeforeFiling lines; ZERO of the ten reach participant-instructions.md. The two IL.memo.json documents marked requiredBeforeFiling are named only in a single terse clause -- 'Obtain the ISP statewide transcript and certified dispositions for every arrest or case' -- with no how-to-obtain for either, so a participant is told to get a fingerprint-based ISP Access and Review transcript with no route to it; and the guide never tells the filer to attach or submit them, the only one of these five families with no attach instruction anywhere, against IL.memo.json's own _supportingDocumentsNote 'Records the participant obtains and attaches.' Materially, the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent: the packet leaves the verification block deliberately blank and never tells the participant to sign and verify it, so a filer following this guide files an unsigned Request. The fee and the Rule 298 waiver appear only in filing-instructions.md, not in the participant document. The record also places the expunge-versus-seal election on the Case List's per-case election column; the guide directs it to 'the Request'. Root cause: scripts/build-census-v1-il-exp-qualprob-set.mjs never reads track.packetSet.requiredBeforeFiling, while build-census-v1-il-exp-nonconv-set.mjs and build-census-v1-il-cannabis-vacate-set.mjs do and reproduce all ten lines verbatim.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-exp-qualprob].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md"
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
       "superseded": false
     },
@@ -9584,6 +9650,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The worst of the three. Checked against IL.memo.json directly: track il-seal-2yr marks two documents requiredBeforeFiling, the Illinois State Police statewide criminal history transcript and the certified disposition for each case. The ISP transcript is NEVER NAMED anywhere in participant-instructions.md as a document to obtain or to submit -- 'Illinois State Police' appears once, in the service paragraph, as a party the clerk serves, and 'ISP' appears once, in the stop section, as a party that might object. It is a fingerprint-based Access and Review record with weeks of lead time and the guide gives the filer no reason to start it. The whole 'Required before filing' section reads 'Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.' followed by a list of form field names; it names no record at all. The one sentence that could carry the obligation -- 'Attach certified dispositions and other route-specific evidence identified above.' -- points at 'above', where nothing is identified. Zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach the file, so the petitioner's signature and verification, the wet-signature expectation, the fee and the Rule 298 waiver are all absent from the participant document as well. This is the Delaware and Missouri regression, reproduced.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-intake/IL.memo.json tracks[trackId=il-seal-2yr].supportingDocuments vs data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md (89 lines, of which 68 are 'Complete <field>' entries)"
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
       "superseded": false
     },
     {
@@ -9648,6 +9737,29 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d4653b258",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Checked against IL.memo.json directly. Both documents the memo marks requiredBeforeFiling for track il-seal-3yr are named to obtain ('Obtain the ISP statewide transcript and certified dispositions for every arrest or case') and the guide closes with an attach sentence, so this family is not as bare as il-seal-2yr-set. It still fails: zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach participant-instructions.md. No how-to-obtain is given for either record, so the fingerprint-based ISP Access and Review route is never explained; and the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent, so a filer following this guide files a Request whose verification block the packet deliberately left blank and which nothing told them to sign. The fee and the Rule 298 waiver appear only in filing-instructions.md. Same root cause as the other two: scripts/build-census-v1-il-seal-3yr-set.mjs never reads track.packetSet.requiredBeforeFiling.",
+          "findingReadFrom": "finding",
+          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-seal-3yr].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md"
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
       "superseded": false
     },
