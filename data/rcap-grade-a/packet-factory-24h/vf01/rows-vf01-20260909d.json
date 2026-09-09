@@ -97,8 +97,8 @@
         },
         "REPEATING_ROWS": {
           "measured": true,
-          "result": "NOT_MEASURABLE_HERE",
-          "detail": "This form carries no repeating row structure to measure. I read all 26 widgets out of the pinned binary and there is no numbered table and no indexed row group on either page: the charges are collected in a single free-text region (TextField1[2], page 1, x 21.55 y 497.83) under the printed line 'I request that this Court order that the records of the following charges be expunged (list charges)', the reasons in a second free-text region (TextField1[4], y 227.84), and the continuation in a third on page 2 (subform[1].TextField1[6]). The remaining widgets are 4 department boxes, 8 ground boxes, 6 further single boxes, a dropdown and three short text fields. With no row there is no row to leave incomplete, and incompleteRows is 0 for the same reason."
+          "result": "PASS",
+          "detail": "Measured, and the measurement is that this form carries no repeating row structure to leave incomplete. I read all 26 widgets out of the pinned binary and there is no numbered table and no indexed row group on either page: the charges are collected in a single free-text region (TextField1[2], page 1, x 21.55 y 497.83) under the printed line 'I request that this Court order that the records of the following charges be expunged (list charges)', the reasons in a second free-text region (TextField1[4], y 227.84), and the continuation in a third on page 2 (subform[1].TextField1[6]). The remaining widgets are 4 department boxes, 8 ground boxes, 6 further single boxes, a dropdown and three short text fields. With no row there is no row to leave half-written, and incompleteRows is 0 for the same reason. Scored PASS rather than NOT_MEASURABLE_HERE because the absence of a row structure is a fact I read off the binary, not an obligation I could not reach."
         },
         "FEE_AND_WAIVER": {
           "measured": true,
@@ -183,7 +183,16 @@
       "failedObligationNames": [
         "REQUIRED_BEFORE_FILING"
       ],
-      "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+      "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path.",
+      "amendments": [
+        {
+          "at": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+          "obligation": "REPEATING_ROWS",
+          "from": "NOT_MEASURABLE_HERE",
+          "to": "PASS",
+          "why": "Captain's extraction rule: an obligation that turns out to be trivially satisfied because the form has no such structure is a MEASURED pass, and NOT_MEASURABLE_HERE is reserved for an obligation this lane could not reach. The underlying reading is unchanged and the verdict is unchanged."
+        }
+      ]
     },
     {
       "itemId": "al-trafficking-set",
