@@ -10,6 +10,14 @@ File the completed packet with the **Clerk of Courts of the judicial district wh
 
 The petition prints a `Judicial District number` and a `County of ______` line on page 1, and those identify the district you are filing in. If you do not know which district your case was in, the docket number on your paperwork identifies it, and the Clerk of Courts can tell you from the docket number.
 
+## Check the address block on page 1 of the petition before you file
+
+The platform prints your address into the `CASE INFORMATION` block on page 1 of the petition. Two of those blanks are very small: the state blank is a **two-character** blank — the form itself declares that limit — and the ZIP blank is about 28 points wide, which is a five-digit ZIP and no more.
+
+Where the value the platform holds for you is longer than the blank the form draws, **this packet leaves that blank empty rather than shortening your address to make it fit.** It will not print `Pennsylvania` as `PA`, and it will not print a ZIP+4 such as `18702-2214` with the last four digits cut off, because a shortened address on a sworn petition is a different address from the one you gave. Nothing is truncated and nothing is printed at a size too small to read.
+
+So look at that block before you file. **If the state or the ZIP is blank, write it in by hand** in the form the blank has room for — the two-letter state abbreviation, and the five-digit ZIP. The packet's field map records each such blank against the value the platform holds and the measurement that would not fit, so you can check for yourself that nothing was lost silently.
+
 **Before you file, order your Pennsylvania State Police criminal history report.** Rule 790 requires a report obtained **within 60 days before filing** to be attached, unless the Commonwealth waives it. Because of that 60-day window, order it late in your preparation rather than first. If you do not attach one, the petition has a blank asking you to say why.
 
 **After you file, the petition is served on the Commonwealth** — the District Attorney, as the attorney for the Commonwealth — and the Commonwealth then has **60 days** from service to consent, object, or do nothing. After that window the judge grants the petition, denies it, or schedules a hearing. If it is granted without the Commonwealth's consent, the order is **stayed for 30 days** while an appeal may be taken. Keep your proof of service with your copy of the packet.
@@ -36,6 +44,14 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 8. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
 
 ## The items you must supply
+
+### process_guidance — process_guidance
+
+| Page | The blank on the form | What to write |
+| --- | --- | --- |
+| 1 | Copy of the pardon | obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it |
+| 1 | Pardon type confirmation | compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree |
+| 1 | Quarterly verification date | record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record |
 
 ### PA-RCRIM-P-790-PETITION — Petition for Expungement Pursuant to Pa.R.Crim.P. 790
 
@@ -124,14 +140,6 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 | 2 | Amount of fine, costs or restitution still due | the amount of any fine, costs or restitution still due, or nothing if none is |
 | 2 | Reason for expungement on the Rule 790 information page | your own statement of the reason for expungement, as the Rule 790 information page asks for it |
 | 2 | Criminal justice agencies to be served with the order | the criminal justice agencies on which the order should be served, so the court can name them in its order |
-
-### process_guidance — process_guidance
-
-| Page | The blank on the form | What to write |
-| --- | --- | --- |
-| 1 | Copy of the pardon | obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it |
-| 1 | Pardon type confirmation | compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree |
-| 1 | Quarterly verification date | record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record |
 
 ## Things the platform deliberately left blank
 

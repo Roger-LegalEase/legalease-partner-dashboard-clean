@@ -47,24 +47,30 @@
       ],
       "recordId": "route-obligation-census:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-      "byteLength": 2625273,
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
       "anchorStatementsVerified": 3,
       "identityRefresh": {
-        "refreshedOn": "2026-09-05",
+        "refreshedOn": "2026-09-09",
         "was": {
-          "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
-          "byteLength": 2599752
+          "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+          "byteLength": 2625273
         },
-        "why": "The census has been rewritten around this receipt's anchors twice. The annotation this receipt carried recorded only the first move and ended at 9816a479e532017f, which is no longer the identity on disk, so the builder dropped it rather than laundering a stale comparison forward. This lane re-did the comparison across the WHOLE drift instead of copying anything. Both historical blobs were recovered - 0936833332542f8e at commit 39b88c674 and 9816a479e532017f at commit ecd2bde79 - and the single census entry this receipt binds, the one whose routeKey is obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, was serialised and compared object-for-object against the bytes on disk at 4d0eb74bbafe6ee3: identical at all three identities. All three anchor statements are present in all three. The bound content has not moved; only the whole-file identity has, twice.",
+        "why": "The census has now been rewritten around this receipt's anchors three times. The receipt was pinned at 4d0eb74bbafe6ee3 while the file on disk stood at f6fc081419eadf60, so allSourcesExact true was a false statement about this receipt's own custody and a rebuild could not reproduce it. This lane re-did the comparison across the WHOLE drift rather than carrying the previous annotation forward: all three historical blobs were recovered from the repository - 0936833332542f8e at commit 39b88c674, 9816a479e532017f at commit ecd2bde79 and 4d0eb74bbafe6ee3 at commit 2d01b84f7 - and the single census entry this receipt binds, the one whose routeKey is obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, was serialised with sorted keys and compared object-for-object against the bytes on disk at f6fc081419eadf60. It is identical at all four identities, at the same array index routes[93], 2823 characters in each. The three anchor statements this build relies on are present on disk; the builder refuses if any is missing and it did not refuse. The bound content has not moved; only the whole-file identity has, three times. This is a re-pin, not a re-source: nothing was re-acquired and no page moved a byte.",
         "anchorsCompared": 3,
         "anchorsIdentical": 3,
         "entriesComparedObjectForObject": 1,
         "entriesIdentical": 1,
-        "previousPinLastSeenAtCommit": "39b88c674",
+        "previousPinLastSeenAtCommit": "2d01b84f7",
         "throughIdentities": [
+          {
+            "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+            "byteLength": 2599752,
+            "lastSeenAtCommit": "39b88c674",
+            "comparedHere": true
+          },
           {
             "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
             "byteLength": 2607149,
@@ -72,7 +78,12 @@
             "comparedHere": true
           }
         ],
-        "comparedBy": "FIX30, rebuilding this family to remove markdown emphasis delimiters from a delivered page"
+        "comparedBy": "FIX14, repairing the SOURCE_IDENTITY finding that this receipt declared allSourcesExact true over a pin that no longer resolved to any version in the tree",
+        "supersedes": {
+          "refreshedOn": "2026-09-05",
+          "comparedBy": "FIX30",
+          "why": "That annotation was written against 4d0eb74bbafe6ee3 and was correctly dropped by scripts/rcap-packet-completeness/identity-refresh.mjs when this rebuild measured a different identity. It is not carried forward; the comparison above was performed again from the recovered blobs."
+        }
       }
     }
   ],

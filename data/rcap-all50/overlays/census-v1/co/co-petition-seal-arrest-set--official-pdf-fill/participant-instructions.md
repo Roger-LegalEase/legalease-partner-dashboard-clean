@@ -31,6 +31,18 @@ JDF 417 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 
 Section 2 asks whether you are the person the records are about, or someone filing for them. **Tick one.** The four blanks underneath — name, date of birth, mailing address and phone — belong to the **person in interest**, and the form asks for them only if that is not you. The packet left them blank rather than copying your own details into them: putting one person's identity into another person's block on a sworn petition would be a false statement, not a convenience. If you ticked the first box, leave all four blank.
 
+## Stop and get help
+
+This packet is self-help. There are points past which it cannot take you, and the Colorado legal-design record names them. **If any of the following is true, stop and get a lawyer before you go further.** These are the record's own words:
+
+- The district attorney objects.
+- The court sets a contested hearing.
+- Immigration, licensing or firearm consequences are in play.
+
+Two of these need saying plainly. **If the district attorney objects, or the court sets your petition down for a contested hearing, this packet stops being enough** — a contested sealing hearing is a hearing you have to argue, and nothing in this packet argues it for you. And **sealing a record can carry consequences beyond the record itself**: if you are not a United States citizen, or you hold or are seeking a professional or occupational licence, or you own or want to own a firearm, get advice about what sealing does and does not do for you before you file. This packet does not assess any of those, and it does not tell you that sealing solves them.
+
+_The three conditions above are quoted from `data/record-clearing/legal-design-intake/CO.memo.json`, track `co_petition_seal_arrest`, at SHA-256 `427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591`._
+
 ## What you must do before you file
 
 1. **Fill in every item in the tables below.** Each names the form, the section and the blank.
