@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nh_conviction_streamlined-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "SHARED-BINDER GAP, STILL OPEN, ON BOXES NEW HAMPSHIRE NAMES FOR THE LINE ABOVE THEM. NHJB-3057 prints City/Town at the box named \"Mailing Address.2\", directly under the box named \"Mailing Address.1\" that prints Address; NHJB-2956 asks for LAST (MAIDEN/ALIAS) FIRST MI in four boxes and names all four name.1 to name.4; and NHJB-2956's whole-address line is named \"Mailing Address1\". decideBinding resolves a field's fact from its NAME before its printed line and never reaches the label when the name matches, so \"Mailing Address.2\" and \"Mailing Address1\" resolve to participant.street_address and the four name boxes each resolve to participant.full_legal_name — measured here, in this container. An explicit mapping to the right fact is then refused as explicit_mapping_conflicts_with_field_name, and a caption correction cannot help because the label is never consulted. The rule lives in scripts/rcap-official-forms/rcap-field-semantics.mjs, which is shared by every builder in the corpus and which this lane does not open.",
+      "consequence": "REPAIRED LOCALLY AND ONLY LOCALLY, by FIX78. Until then these five boxes were declared required-before-filing and disclosed with the sentence \"the platform holds no value for this\", which this builder's own fixtures contradict: the city, the three name parts and the address are all held and four of the five are written elsewhere in this same packet. The paper showed it — the pre-2019 sibling printed an address with a street, a state and a ZIP and no town, and NHJB-2956's Section I carried a date of birth above a blank name line and a blank address line, on the release the participant is told to mail to the State Police. Each of the five is now WRITTEN at that widget's own rectangle through the finalizer's opt-in named-fact channel, which names one fact id and one field, resolves the fact from the same facts set as every other write, runs the same protect test on the caption and on the field name, and refuses a value whole rather than truncating it. NHJB-2956's name.2 (maiden name or alias) is NOT named and stays the participant's. The shared gap itself is unchanged and stays reported here for the lane that owns it."
+    },
+    {
+      "finding": "NO SINGLE REGISTRY FACT NAMES A ONE-LINE ADDRESS. NHJB-2956 gives the whole address one ruled line and captions it STREET/CITY/STATE/ZIP CODE. FACT_DESCRIPTORS carries participant.street_address, participant.city, participant.state, participant.zip and participant.city_state_zip, and nothing that names street, city, state and zip together. The finalizer's composed-field channel joins the facts it is given with a newline, one fact per line, which is right for a multi-line block: measured here on the pinned NHJB-2956, a two-fact composition of this line carries a newline, measures wider than the widget at every size down to the 6pt readable floor, and is refused as value_exceeds_widget_width_at_minimum_font.",
+      "consequence": "The line is derived in this builder from the two held facts the packet already writes elsewhere — participant.street_address and participant.city_state_zip — joined in the order the form's own caption prints them, and named to the finalizer as a single fact id. Nothing is authored: the value is a function of held facts, and if either part were missing the fact would be absent and the line would stay blank rather than carry a fraction of an address. Closing the gap properly means a descriptor and a fact in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host this lane does not open; it is reported here for the lane that owns it."
+    },
+    {
+      "finding": "READ-BACK ENCODING in the shared flattened-widget reader. scripts/rcap-official-forms/pdf-flattened-widgets.mjs decodes an appearance stream's string bytes as latin1. WinAnsi draws a right single quotation mark as the single byte 0x92, which latin1 turns into U+0092, a C1 control — so this family's own report recorded drawnText \"Maria-Alejandra O\\u0092Shaughnessy-Whitfield\" and matchesExpected FALSE on three boundary writes, while the delivered bytes carry U+2019 and the page prints the surname whole at 300 dpi.",
+      "consequence": "A report saying three writes did not match what was expected, on a page where they did, is a defect in the report and VF01 read it as one. This family now applies the WinAnsi 0x80-0x9F block to what the shared reader returns, before comparing and before recording drawnText, so its read-back compares like with like; every byte outside that block is unchanged, so no other value moves. The shared reader is not opened here — 40-odd families share it — and the defect stays reported for the lane that owns it."
+    },
+    {
+      "finding": "NHJB-2311's only court control is a dropdown of SUPERIOR courts, and a pre-2019 annulment petition is filed in a circuit court district division — which NHJB-3057's own dropdown lists in full.",
+      "consequence": "The fee-waiver form cannot name the court the petition is filed in. Nothing is invented around it: the election is left to the participant and participant-instructions.md tells them to write the court name by hand where the list cannot express it, rather than picking a superior court they are not in."
+    },
+    {
+      "finding": "NHJB-2311's signature widget ships with the printed hint \"Enter /s/ before name\" baked into its own appearance stream rather than into its value, and flattening materialises it.",
+      "consequence": "Read from the finished artifact alone this looks exactly like ink on a field the map refused, which is a blocking finding and would be the wrong one. The build therefore flattens each pinned source once, unwritten, and compares: ink that matches the source's own appearance is recorded as a documentAuthoredAppearance. Nothing is softened — ink at a widget the source leaves empty, or ink that differs from the source's own, is still a blocking finding."
+    },
+    {
+      "finding": "New Hampshire names every box of the filer block on NHJB-2311 and NHJB-2328 sig.1 through sig.11, including the name, address, city, state, zip, telephone and e-mail lines.",
+      "consequence": "The shared protect rules refuse a write into any field whose name says sig, and that is the right rule: the block is completed by the filer at the moment of signing. The whole block is classified protected and the participant is told, in participant-instructions.md, that it is theirs to complete."
+    },
+    {
+      "finding": "NHJB-2328 ships three computed total fields — 12.total, money.total and monthly.total — carrying the value 0, so the flattened packet prints \"Total $ 0.00\" beneath columns of otherwise empty lines.",
+      "consequence": "That is the form's own default and not a write: the census reads the value from the pinned source and the byte proof records the ink as a document-authored appearance. It is stated to the participant in participant-instructions.md, because a frozen 0.00 above a hand-written column would tell the court something the participant did not mean to say, and it is stated to the visual reviewer, who would otherwise read a printed total as a defect."
+    },
+    {
+      "finding": "NHJB-3057 says PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENSE, and its charge block is one row of six facts, every one of them read off the court record.",
+      "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant, with the clerk of the court that handled the matter as the place to get it. None is estimated: a sentence-completion date guessed onto a petition sworn under penalties of law is worse than a blank one."
+    },
+    {
+      "finding": "The certification on page 2 of NHJB-3057 carries seven sworn boxes and a hearing request, several of which are legal characterisations of the applicant's own record — the RSA 651:5, III time requirements, whether the matter is a violent crime or a felony crime of obstruction of justice, whether an extended term under RSA 651:6 was imposed, whether an enhanced penalty applies to a second conviction.",
+      "consequence": "All ten are left to the participant as sworn elections. A packet that ticked one would be swearing to a characterisation of a record it has not seen."
+    },
+    {
+      "finding": "Section II of NHJB-2956 is the third-party release block, and the control New Hampshire put on its \"NAME OF PERSON/ENTITY TO RECEIVE RECORD\" line is a dropdown of family and probate courts.",
+      "consequence": "The source requires Section II for every mailed request and every third-party release; only an in-person request for one’s own record uses Section I alone. The recipient address is conditionally required and the recipient selection is disclosed. Step 8 requires the participant to ask the Criminal Records Unit how to enter the intended recipient before mailing, and to complete Section II with notarization. No unrelated court, recipient identity, signature or notarial act is supplied by the platform."
+    },
+    {
+      "finding": "The MASTER_QUEUE row for this family gives its four sources paths in the D source packs and the nationwide recovery pool, custodies this container does not mount.",
+      "consequence": "The build binds all four from the Master Library instead, starting from the digest the assignment pins, and re-hashes each file on disk before a byte is read. The committed corpus index records the same four digests in the Master Library, so this is the same binary held in more than one custody, not a substituted source. The absent custodies are stated rather than worked around and the source receipt records the path actually read."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
