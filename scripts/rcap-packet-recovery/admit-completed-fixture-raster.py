@@ -189,13 +189,25 @@ def main():
         require(int(re.search(r'^Pages:\s+(\d+)',info,re.M).group(1))==e['pages'],'actual page count mismatch')
     home=Path(c['expectedPdfs']['canonical']['path']).parent.parent
     report=read(home/'reports/rendered-artifacts.json')
-    # The declared-output list is named `packets` by the current writers and
-    # `pdfs` by the older one this script was written against. Read whichever
-    # the family actually carries, and refuse a report that carries neither
-    # rather than treating an unreadable declaration as an empty one -- an
-    # absent list must never read as "no additional outputs".
-    declared=report.get('packets',report.get('pdfs'))
-    require(isinstance(declared,list),'declared output list is missing; a report this script cannot read is not a report of its outputs')
+    # The declared-output list is named `packets` by the current writers,
+    # `pdfs` by the older one this script was written against, and `artifacts`
+    # by a third. Read whichever the family actually carries, and refuse a
+    # report that carries none rather than treating an unreadable declaration as
+    # an empty one -- an absent list must never read as "no additional outputs".
+    #
+    # PREFER A LIST THAT NAMES FILES. pa_pardon_expungement-set carries both:
+    # `artifacts` holds its two assembled outputs WITH paths, and `packets` is
+    # the same two fixtures' composition with no path at all. Reading `packets`
+    # first sent it down the composition branch, which answers the coverage
+    # question by globbing fixtures/ -- and the four per-component PDFs the
+    # builder retains for byte proof are in that directory, so a family that
+    # declares exactly two outputs was refused for delivering six. The
+    # declaration says what is delivered; the directory does not.
+    candidates=[report.get(k) for k in ('packets','pdfs','artifacts')]
+    candidates=[d for d in candidates if isinstance(d,list) and d]
+    require(candidates,'declared output list is missing; a report this script cannot read is not a report of its outputs')
+    with_files=[d for d in candidates if all(isinstance(x,dict) and 'file' in x for x in d)]
+    declared=with_files[0] if with_files else candidates[0]
     expected_paths={e['path'] for e in expected_documents(c)}
     if all('file' in d for d in declared):
         require(len(declared)==len(expected_paths) and {d['file'] for d in declared}==expected_paths,'the receipt does not cover every declared output')

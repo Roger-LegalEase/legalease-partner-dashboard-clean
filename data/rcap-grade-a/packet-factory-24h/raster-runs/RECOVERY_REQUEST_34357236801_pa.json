@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
+  "why": "pa_pardon_expungement-set is the last RASTER_PENDING row whose packet is finished. Its receipt already exists — run 34357236801 rendered and measured it successfully on 2026-09-09 — and it has never been admitted here because the artifact blob store is unreachable from this session (CONNECT tunnel failed, response 403). Nothing needs rerendering; the packet bytes have not moved since that run.",
+  "runId": "34357236801",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowDefinitionHeadSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "family": "pa_pardon_expungement-set",
+  "runStatus": "completed",
+  "runConclusion": "success",
+  "jobs": {
+    "Synthetic canary and live negative controls": "102484912294",
+    "Plan the family matrix": "102485696793",
+    "pa_pardon_expungement-set": "102486004246"
+  },
+  "everyJobConclusion": "success",
+  "artifact": {
+    "artifactId": "10106541378",
+    "name": "rcap-raster-pa_pardon_expungement-set-34357236801",
+    "sizeInBytes": 3865836,
+    "digest": "sha256:6e77ace7460682422f0f9f50bf8a394486081000950f8f843817f6d06374f897",
+    "expiresAt": "2026-09-23T13:34:39Z"
+  },
+  "whatChangedHereSoThisCanBeAdmitted": "The importer refused this family before, and the refusal was its own defect rather than the family's. pa_pardon declares its two assembled outputs in the report's `artifacts` array WITH paths, while `packets` carries the same two fixtures' composition with no path. The importer read `packets` first, fell into the composition branch, and answered the coverage question by globbing fixtures/ — where the builder also retains four per-component PDFs for byte proof. So a family declaring exactly two outputs was refused for delivering six. The importer now prefers a declared list that names files, which is the declaration rather than the directory. This family needs no rerender and no full-set receipt: two documents, exactly as run 34357236801 measured.",
+  "whatToSendBack": "The same bundle shape consumed four times now: a tar.xz carrying 34357236801/pa_pardon_expungement-set.verdict.json plus the canary, negative-control and runtime receipts, a PAGE_IMAGES_SHA256.json inventory, and a TRANSPORT.json naming the run, artifact, job and canary identities. PNG bodies are not needed.",
+  "doNot": "Do not rerender. Do not send the other six artifacts of this run: il-exp-qualprob, il-seal-2yr and il-seal-3yr from this run are superseded by their repaired-byte receipts from run 34378560072, already admitted; il-cannabis-vacate-set is already admitted; co_petition_seal_arrest-set is FAIL_REPAIR_REQUIRED and its receipt describes bytes that must change before it means anything.",
+  "recordedBy": "Captain, 2026-09-09, from mcp__github__actions_list list_workflow_jobs and list_workflow_run_artifacts",
+  "admittedHere": false,
+  "newTerminalPromotions": 0
+}
