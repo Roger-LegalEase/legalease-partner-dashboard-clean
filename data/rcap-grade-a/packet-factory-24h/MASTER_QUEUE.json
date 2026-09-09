@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "eaf09990baa14ceffaf07eb10fb3fc7fa5f97a65",
+  "minimumCaptainSha": "ab38d8d486a875d4c6259ee0a1c4c05e7840f57e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "cb2ee878b839e751c1ded19e792bad909e2a98c3e4ca7efcdcbf90b2c32a9e1e",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "e27cea443e87d21ec868f51a5d4c7646d6b2c9464a96239c5c02ffb86d6f67d7",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d"
@@ -72,13 +72,13 @@
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 0,
+    "verifyPending": 1,
     "repairRequired": 25,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 178,
-    "GUIDANCE_READY": 14,
+    "GUIDANCE_READY": 13,
     "OUT_OF_SCOPE": 5,
     "FAIL_REPAIR_REQUIRED": 36,
     "SOURCE_READY": 73,
@@ -86,6 +86,7 @@
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
+    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -13691,112 +13692,9 @@
         "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
       },
       "reviewedGuidanceAdmission": {
-        "eligible": true,
-        "terminalTreatment": "GUIDANCE_READY",
-        "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json",
-        "reviewSha256": "d6cbc5d6da48ea513c420d7b6b21c302a5fa62f32ad9ef4a1afa13c8872396c1",
-        "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B packet-review session",
-        "sessionIdentity": "chatb-20260907-independent-02-continuation",
-        "outputs": [
-          {
-            "fixture": "canonical",
-            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-            "sha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
-            "byteLength": 10625,
-            "pageCount": 3
-          },
-          {
-            "fixture": "boundary",
-            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
-            "sha256": "f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a",
-            "byteLength": 10756,
-            "pageCount": 3
-          }
-        ],
-        "sourceChecks": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json",
-            "sha256": "75c5466ab6807ec872c768e11611a9b98b3c3d5d2bcaddb2ab7073327a9cbe86",
-            "matched": true
-          },
-          {
-            "path": "reference/delaware/DE-Service-Code-Form_27S23V.pdf",
-            "sha256": "963c85833f87a99563f2ed2ea3414332232c550f4c64bcd887f51a9d0039557a",
-            "matched": true
-          },
-          {
-            "path": "reference/delaware/sbi-process-20260907.html",
-            "sha256": "47c8cc44de90f49cea3bbedfe0f3426b70b2544cab5b6fdcd87e5a831a355e5f",
-            "matched": true
-          },
-          {
-            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
-            "matched": false,
-            "scopeUnchanged": true,
-            "historicalCommit": "c6af0d84134216c5d0757e5543ccf3fcaa42f19c",
-            "comparison": "all prior structured content and ordering identical; only other-family entries or exact measured custody paths added",
-            "pinnedSha256": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
-            "currentSha256": "cb2ee878b839e751c1ded19e792bad909e2a98c3e4ca7efcdcbf90b2c32a9e1e",
-            "unchangedPriorFamilyEntries": 73,
-            "appendedFamilyIds": [
-              "nc_146_dismissal_petition-set"
-            ],
-            "addedEvidencePaths": [
-              "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json",
-              "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
-            ],
-            "custodyChecks": [
-              {
-                "familyId": "ut_pet_special_certificate-set",
-                "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
-                "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed"
-              },
-              {
-                "familyId": "ut_pet_special_certificate-set",
-                "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
-                "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174"
-              },
-              {
-                "familyId": "census-pending-family:ME:juvenile-sealing",
-                "path": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
-                "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7"
-              }
-            ]
-          },
-          {
-            "path": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/sources/DE-SBI-MANDATORY/receipt.json",
-            "sha256": "1a26621dca464d4d8da3f0922e8a8e1f323a984c0cf2d4bfa51d750daaa85a12",
-            "matched": true
-          },
-          {
-            "path": "data/record-clearing/legal-design-intake/DE.memo.json",
-            "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
-            "matched": true
-          },
-          {
-            "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
-            "sha256": "6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801",
-            "matched": true
-          },
-          {
-            "path": "data/expungement-ai/route-product-metadata.json",
-            "sha256": "b4db39f66438f59caf5994de1c40fa8cb67c40d888c27f1ce258c1f260c8d05d",
-            "matched": true
-          },
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-            "matched": true
-          }
-        ],
-        "rasterRunId": 34078415178,
-        "rasterArtifactId": "10002964440",
-        "reviewAuthoredByIntegrator": false,
-        "packetBytesChanged": false,
-        "runtimeInstalled": false,
-        "filingPermitted": false,
-        "paymentEligible": false,
-        "sponsorshipEligible": false
+        "eligible": false,
+        "reason": "other source registry content changed\n+ actual - expected\n... Skipped lines\n\n  {\n    determinations: [\n      {\n        determination: 'Re-point both obligations to the 10/30/2023 edition and bind the held copies. ACQUIRE_EXACT_SOURCE -> ATTACH_HELD_SOURCE.',\n        families: [\n...\n        affectedProofs: 'None of the three families is COMPLETE_PACKET_PROVEN; each is FAIL_REPAIR_REQUIRED on other findings. No proven family binds this obligation.',\n+       candidatesExcluded: [\n+         {\n+           acquisitionRunId: '34315889273',\n+           excludedBecause: 'byte-identical to the held Sixth-District copy',\n+           sha256: '809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a',\n+           url: 'https://selfrepresentation.nmcourts.gov/wp-content/uploads/sites/24/2024/03/Application-and-Order-for-Free-Process-Fillable.pdf'\n+         },\n+         {\n+           acquisitionRunId: '34316000746',\n+           excludedBecause: '200 text/html soft-404; the NMRA publisher does not publish Form 4-222 at the pattern its ten sibling Rule 4 forms use',\n+           sha256: '35b3c0b4c50d762aa98bc47c36e2c8b1bd872691284cea05f8ebf6784f3945ca',\n+           url: 'https://supremecourt.nmcourts.gov/wp-content/uploads/sites/2/2025/10/Form-4-222-NMRA.pdf'\n+         }\n+       ],\n        determination: \"SOURCE_UNRESOLVED. The held binary bound as official-form:4-222 (sha256 809c66a7b7b6..., NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf) prints SIXTH JUDICIAL DISTRICT COURT as static caption text, so it is the Sixth Judicial District's copy of the statewide Application for Free Process and Affidavit of Indigency, not the statewide form: a participant in the Second (Bernalillo) or Seventh (Sierra) district would file a caption naming the wrong court. The held 4-953 petition (2ee3d41243e0...) prints a blank JUDICIAL DISTRICT COURT line and is not affected. A district-local copy may not be promoted statewide. ACQUIRE_EXACT_SOURCE: the statewide 4-222 with its printed district line blank, placed in governed custody by content hash.\",\n        evidence: [\n          'pdftotext of the held 809c66a7 bytes, page 1 lines 3-5: STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT',\n          'VF01 at 48449fe39 (nm_release_without_conviction-set): pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under written counties in the Second and Seventh',\n          'VF04 at a667d6de0 (nm_conviction-set): page 20 and 24 deliver COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT; VF05 (nm_identity_theft-set): the same on page 11',\n+         \"ACQUISITION 34315889273 (2026-09-09): the publisher's own self-representation site, https://selfrepresentation.nmcourts.gov/wp-content/uploads/sites/24/2024/03/Application-and-Order-for-Free-Process-Fillable.pdf, returned 200 application/pdf, 1088817 bytes, sha256 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a — byte-identical to the held binary. The statewide-looking URL serves the Sixth Judicial District's copy; this candidate does not resolve the obligation.\",\n+         'ACQUISITION 34316000746 (2026-09-09): the NMRA rules publisher, https://supremecourt.nmcourts.gov/wp-content/uploads/sites/2/2025/10/Form-4-222-NMRA.pdf — the exact path pattern under which ten sibling Rule 4 forms (4-951 through 4-960.3) are published and already in the promotion set — returned 200 text/html, 12145 bytes, structure not_a_pdf: a WordPress soft-404. Form 4-222 is not published there.'\n        ],\n        families: [\n          'nm_conviction-set',\n          'nm_identity_theft-set',\n          'nm_release_without_conviction-set'\n...\n        ],\n+       ownerAction: \"Acquire a statewide 4-222 whose printed district line is blank, and place it in governed custody. The one candidate URL in the promotion set is now excluded by acquisition 34315889273: it serves the held bytes exactly. No published statewide copy with a blank district line has been located, and it may not exist — New Mexico may publish this form only per district. If it does not, the three families need a decision that is not an acquisition: either a per-district source set, or the form's caption treated as a participant-completed field. That decision is the owner's.\",\n-       ownerAction: \"Acquire the statewide 4-222 binary (the official New Mexico courts site is refused by this container's proxy) and place it in governed custody; the three families then rebuild against it and re-enter raster and verification.\",\n        recordedBy: 'Claude Code Captain',\n        recordedOn: '2026-09-05',\n        whatThisDoesNotEstablish: \"It does not establish that the Sixth District's copy differs from the statewide form in any other respect, or that the statewide form is published with the district line blank; it establishes only that the held bytes name one district and are bound to three statewide routes. The three families also carry repair verdicts on their host (item-2 branch writes, case number not written) that are independent of this source question and are held with their repair lanes.\"\n      }\n    ],\n",
+        "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -13831,7 +13729,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "GUIDANCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -16225,7 +16123,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -16242,8 +16139,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -16255,7 +16152,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_712_1200_deferred_expungement-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
       "ownedPaths": [
@@ -16684,7 +16581,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -16701,8 +16597,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -16714,7 +16610,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
       "ownedPaths": [
@@ -38230,7 +38126,8 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
+        "4 PDFs could be the canonical fixture (canonical--arrest-no-charges--motion-and-declaration.pdf, canonical--arrest-no-charges.pdf, canonical--dismissed-charge--motion-and-declaration.pdf, canonical--dismissed-charge.pdf) and the builder declares none — refusing to guess which one the receipt would describe",
+        "4 PDFs could be the boundary fixture (boundary--arrest-no-charges--motion-and-declaration.pdf, boundary--arrest-no-charges.pdf, boundary--dismissed-charge--motion-and-declaration.pdf, boundary--dismissed-charge.pdf) and the builder declares none — refusing to guess which one the receipt would describe",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -38247,8 +38144,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -38260,7 +38157,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill",
       "ownedPaths": [
