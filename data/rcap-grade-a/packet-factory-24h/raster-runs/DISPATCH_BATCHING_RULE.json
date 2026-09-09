@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "rcap-raster-dispatch-batching/v1",
+  "recordedBy": "Captain, 2026-09-09",
+  "why": "Run 34413372916 rendered sixteen families in one batch. Nine receipts were carried and verified within minutes and then waited, because the importer requires the RUN OBJECT to report completed/success before it will admit anything, and the run does not close until its longest job does. A two-page Kentucky family sat behind a thirty-eight-page Louisiana one. Nothing was lost and nothing was rerun, but nine families were admissible and idle.",
+  "theRequirementThatCausesItAndStays": "The importer refuses with 'ValueError: central run failed' while the run is in progress, and it is right to. A receipt from a run that later fails is not evidence. The consuming lane proved this deliberately rather than assuming it, and admitted nothing until the run closed. That requirement is not being relaxed.",
+  "theRule": [
+    "Group a dispatch into modest batches by EXPECTED PAGE COUNT, read from the raster queue's own rows rather than guessed.",
+    "Keep a batch's longest job within roughly the same order of magnitude as its shortest. Two to eight pages in one batch, ten to twenty in another, thirty and up in a third.",
+    "Prefer several small runs to one large one when the spread is wide. Each run closes on its own longest job, so a narrow spread is the whole point.",
+    "Never rerun an admitted output to reorganise a completed batch. An admitted receipt is bound to bytes that have not moved, and re-rendering it buys nothing and costs a receipt."
+  ],
+  "whatThisIsNot": "Not a scheduler and not a queue. It is how a family_batch input is chosen, and it changes only the grouping of a dispatch that would have happened anyway.",
+  "theEvidence": {
+    "run": "34413372916",
+    "families": 16,
+    "pagesTotal": 262,
+    "shortest": "ky_protective_order_record_expungement-set, 2 pages",
+    "longest": "la-977d-marijuana-first-offense-set, 38 pages",
+    "carriedAndWaiting": 9
+  }
+}
