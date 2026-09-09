@@ -1,0 +1,625 @@
+{
+  "schemaVersion": "rcap-actual-writes-byte-proof/v1",
+  "familyId": "md_10105_early-set",
+  "derivedFromArtifactBytes": true,
+  "note": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. Both glyph readings are measurements: the added glyphs are counted at the measured write boxes, and the glyphs outside them are counted by differencing every flattened appearance in the artifact against the same source flattened with nothing written on it.",
+  "documents": [
+    {
+      "fixture": "canonical",
+      "formNumber": "CC-DC-CR-072C",
+      "componentId": "md_10105_early-primary-filing-1",
+      "sourceSha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "outsideBoxProofMethod": "every flattened appearance in the artifact that lands at no measured widget rectangle, differenced against the same source flattened with nothing written on it, so what remains is ink this build added outside every measured write box",
+      "valuesReportedByFinalizer": 9,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "addedGlyphsReadFromOutputBytes": 137,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "inkOutsideMeasuredWriteBoxes": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "promptsSuppressed": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 385.04,
+            "y": 724.6,
+            "width": 187.32,
+            "height": 12.24
+          },
+          "section": "Court",
+          "effectiveLabel": "Case No.",
+          "drawnText": [
+            "1B02194217"
+          ],
+          "expected": "1B02194217",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 343.05,
+            "y": 686.37,
+            "width": 159.63,
+            "height": 12.24
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "City State Zip_2",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 320.03,
+            "y": 246.04,
+            "width": 157.2,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant City, State, Zip",
+          "drawnText": [
+            "Baltimore, MD 21201"
+          ],
+          "expected": "Baltimore, MD 21201",
+          "matchesExpected": true
+        },
+        {
+          "field": "Date of Birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 507.16,
+            "y": 687,
+            "width": 65.19,
+            "height": 11.82
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant DOB",
+          "drawnText": [
+            "1991-04-17"
+          ],
+          "expected": "1991-04-17",
+          "matchesExpected": true
+        },
+        {
+          "field": "Printed Name of Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 319.39,
+            "y": 283.79,
+            "width": 251.95,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Printed Name",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 319.29,
+            "y": 265.04,
+            "width": 251.52,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Address",
+          "drawnText": [
+            "412 Charles Street"
+          ],
+          "expected": "412 Charles Street",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Telephone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 481.87,
+            "y": 246.15,
+            "width": 88.91,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Telephone",
+          "drawnText": [
+            "410-555-0142"
+          ],
+          "expected": "410-555-0142",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Email Address",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 319.87,
+            "y": 226.62,
+            "width": 157.08,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant E-mail",
+          "drawnText": [
+            "jordan.reyes@example.org"
+          ],
+          "expected": "jordan.reyes@example.org",
+          "matchesExpected": true
+        },
+        {
+          "field": "Name of Person Signing Waiver",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 77,
+            "y": 181.19,
+            "width": 123.72,
+            "height": 12.24
+          },
+          "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+          "effectiveLabel": "Name of the person signing the waiver",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "canonical",
+      "formNumber": "CC-DC-CR-078",
+      "componentId": "md_10105_early-attachment-2",
+      "sourceSha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "outsideBoxProofMethod": "every flattened appearance in the artifact that lands at no measured widget rectangle, differenced against the same source flattened with nothing written on it, so what remains is ink this build added outside every measured write box",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+      "addedGlyphsReadFromOutputBytes": 75,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "inkOutsideMeasuredWriteBoxes": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "promptsSuppressed": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 400.88,
+            "y": 641.54,
+            "width": 138.2,
+            "height": 12.24
+          },
+          "section": "Court",
+          "effectiveLabel": "Case No.",
+          "drawnText": [
+            "1B02194217"
+          ],
+          "expected": "1B02194217",
+          "matchesExpected": true
+        },
+        {
+          "field": "City, State, Zip",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 342.83,
+            "y": 558.84,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant City, State, Zip",
+          "drawnText": [
+            "Baltimore, MD 21201"
+          ],
+          "expected": "Baltimore, MD 21201",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 342.39,
+            "y": 614.28,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 342.88,
+            "y": 585.86,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant Address",
+          "drawnText": [
+            "412 Charles Street"
+          ],
+          "expected": "412 Charles Street",
+          "matchesExpected": true
+        },
+        {
+          "field": "Name Of Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 124.88,
+            "y": 460.75,
+            "width": 278.56,
+            "height": 12.96
+          },
+          "section": "The release",
+          "effectiveLabel": "Name of the person signing the waiver",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CC-DC-CR-072C",
+      "componentId": "md_10105_early-primary-filing-1",
+      "sourceSha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "outsideBoxProofMethod": "every flattened appearance in the artifact that lands at no measured widget rectangle, differenced against the same source flattened with nothing written on it, so what remains is ink this build added outside every measured write box",
+      "valuesReportedByFinalizer": 8,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "addedGlyphsReadFromOutputBytes": 249,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "inkOutsideMeasuredWriteBoxes": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "promptsSuppressed": [],
+      "unfittable": [
+        {
+          "field": "Defendant Email Address",
+          "factId": "participant.email",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+          "rect": {
+            "x": 319.87,
+            "y": 226.62,
+            "width": 157.08,
+            "height": 11.52
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 165.6
+        }
+      ],
+      "actualWrites": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 385.04,
+            "y": 724.6,
+            "width": 187.32,
+            "height": 12.24
+          },
+          "section": "Court",
+          "effectiveLabel": "Case No.",
+          "drawnText": [
+            "C-04-CR-24-0011882-SUPPLEMENTAL"
+          ],
+          "expected": "C-04-CR-24-0011882-SUPPLEMENTAL",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 343.05,
+            "y": 686.37,
+            "width": 159.63,
+            "height": 12.24
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "City State Zip_2",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 320.03,
+            "y": 246.04,
+            "width": 157.2,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant City, State, Zip",
+          "drawnText": [
+            "Prince Frederick, Maryland 20678-2214"
+          ],
+          "expected": "Prince Frederick, Maryland 20678-2214",
+          "matchesExpected": true
+        },
+        {
+          "field": "Date of Birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 507.16,
+            "y": 687,
+            "width": 65.19,
+            "height": 11.82
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant DOB",
+          "drawnText": [
+            "1968-12-31"
+          ],
+          "expected": "1968-12-31",
+          "matchesExpected": true
+        },
+        {
+          "field": "Printed Name of Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 319.39,
+            "y": 283.79,
+            "width": 251.95,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Printed Name",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 319.29,
+            "y": 265.04,
+            "width": 251.52,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Address",
+          "drawnText": [
+            "1188 Upper Notch Crossing Road, Apartment 14B"
+          ],
+          "expected": "1188 Upper Notch Crossing Road, Apartment 14B",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Telephone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 481.87,
+            "y": 246.15,
+            "width": 88.91,
+            "height": 11.52
+          },
+          "section": "Signature block - defendant column",
+          "effectiveLabel": "Defendant Telephone",
+          "drawnText": [
+            "(410) 555-0199 ext. 4417"
+          ],
+          "expected": "(410) 555-0199 ext. 4417",
+          "matchesExpected": true
+        },
+        {
+          "field": "Name of Person Signing Waiver",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 77,
+            "y": 181.19,
+            "width": 123.72,
+            "height": 12.24
+          },
+          "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+          "effectiveLabel": "Name of the person signing the waiver",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CC-DC-CR-078",
+      "componentId": "md_10105_early-attachment-2",
+      "sourceSha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "outsideBoxProofMethod": "every flattened appearance in the artifact that lands at no measured widget rectangle, differenced against the same source flattened with nothing written on it, so what remains is ink this build added outside every measured write box",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+      "addedGlyphsReadFromOutputBytes": 180,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "inkOutsideMeasuredWriteBoxes": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "promptsSuppressed": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 400.88,
+            "y": 641.54,
+            "width": 138.2,
+            "height": 12.24
+          },
+          "section": "Court",
+          "effectiveLabel": "Case No.",
+          "drawnText": [
+            "C-04-CR-24-0011882-SUPPLEMENTAL"
+          ],
+          "expected": "C-04-CR-24-0011882-SUPPLEMENTAL",
+          "matchesExpected": true
+        },
+        {
+          "field": "City, State, Zip",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 342.83,
+            "y": 558.84,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant City, State, Zip",
+          "drawnText": [
+            "Prince Frederick, Maryland 20678-2214"
+          ],
+          "expected": "Prince Frederick, Maryland 20678-2214",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 342.39,
+            "y": 614.28,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "Defendant Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 342.88,
+            "y": 585.86,
+            "width": 196.25,
+            "height": 12.96
+          },
+          "section": "Caption",
+          "effectiveLabel": "Defendant Address",
+          "drawnText": [
+            "1188 Upper Notch Crossing Road, Apartment 14B"
+          ],
+          "expected": "1188 Upper Notch Crossing Road, Apartment 14B",
+          "matchesExpected": true
+        },
+        {
+          "field": "Name Of Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 124.88,
+            "y": 460.75,
+            "width": 278.56,
+            "height": 12.96
+          },
+          "section": "The release",
+          "effectiveLabel": "Name of the person signing the waiver",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "formNumber": "CC-DC-CR-072C",
+      "valuesReportedByFinalizer": 9,
+      "addedGlyphsReadFromOutputBytes": 137,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "canonical",
+      "formNumber": "CC-DC-CR-078",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 75,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CC-DC-CR-072C",
+      "valuesReportedByFinalizer": 8,
+      "addedGlyphsReadFromOutputBytes": 249,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CC-DC-CR-078",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 180,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    }
+  ],
+  "blockingFindings": []
+}

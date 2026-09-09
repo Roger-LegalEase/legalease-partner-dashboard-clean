@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "PF10",
+  "workerBranch": "pfa-20260909",
+  "returnFilename": "checkpoints-pf10-20260909.json",
+  "writtenAlongsideRatherThanOver": "This lane's own checkpoints file. No other lane's file is written by PF10.",
+  "note": "One checkpoint per family, closed as that family was committed and pushed, rather than one batch at the end. The head SHA on each checkpoint is the commit that carried that family.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T21:02:37Z",
+      "familyInThisCheckpoint": "md_10105_early-set",
+      "whatWasUnmet": "SOURCE_READY with every bound source held, and no build script",
+      "whatThisLaneDid": "Wrote scripts/build-census-v1-md_10105_early-set.mjs and built the family: two Maryland Judiciary forms bound by exact digest, 73 censused widgets, 14 writes, 20 required-before-filing items, both glyph readings measured from the output bytes.",
+      "status": "COMPLETED",
+      "nineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "canonicalSha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+      "boundarySha256": "20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522",
+      "pushedTo": "origin/pfa-20260909",
+      "packetsSelfVerified": 0,
+      "verdictIssued": null,
+      "commitThatCarriedThisFamily": null
+    }
+  ],
+  "howTheCommitShaIsRecorded": "A commit cannot contain its own SHA. Each checkpoint is written with commitThatCarriedThisFamily null in the commit that carries the family, and the following commit fills it in. A checkpoint still showing null is one whose commit is the current head."
+}

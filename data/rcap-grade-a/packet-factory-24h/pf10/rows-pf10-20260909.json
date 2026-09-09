@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "PF10",
+  "workerId": "PF10",
+  "lane": "pf10",
+  "workerBranch": "pfa-20260909",
+  "engine": "claude-opus-5",
+  "returnFilename": "rows-pf10-20260909.json",
+  "writtenAlongsideRatherThanOver": "This lane's own return file. No other lane's rows file and no central manifest is written by PF10.",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "worktree": "/home/user/pfa-worktree",
+  "familiesAssignedByPrompt": [
+    "md_10105_early-set",
+    "rcap-in-custom-pleading",
+    "co_municipal_conviction_seal-set"
+  ],
+  "familiesGrantedByClaimLedger": [],
+  "theUnmetRequirement": "All three families were SOURCE_READY with every bound source already held in custody and NO BUILD SCRIPT. This lane wrote the missing builder for each one.",
+  "custodyVerification": "Every source is bound by the digest MASTER_QUEUE declares, checked against the committed corpus index and then recomputed from the bytes on disk. No source is bound by path, and no similarly named file, revision or locator page is substituted for a form.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "No fixture in this return carries a raster receipt. This lane rendered no page locally, because a local browser render is not a receipt: the central raster workflow produces one, bound to the exact fixture SHA-256 recorded on each row.",
+  "packetsSelfVerified": 0,
+  "verdictsIssued": 0,
+  "whyNoVerdict": "A build lane does not verify its own packets. The nine counters on each row are the BUILDER's own count, computed with the repository's own contract functions; they are evidence for an independent lane, not a pass.",
+  "otherPfPromptsExecutedInThisWorktree": [],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": [],
+  "grantsNothing": "A built family is review evidence. It authorizes no fulfillment, opens no commercial route, promotes no route and changes no central state.",
+  "rows": [
+    {
+      "itemId": "md_10105_early-set",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "This lane built the family. The raster receipt comes from the central workflow on the digests below, and the completeness verdict from an independent verification lane. Neither is asserted here.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+      ],
+      "jurisdiction": "MD",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-md_10105_early-set.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 20,
+        "PROTECTED_FIELD": 14,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 9,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1,
+        "PARTICIPANT_ELECTION_GENUINE": 15
+      },
+      "componentSet": [
+        "md_10105_early-primary-filing-1",
+        "md_10105_early-attachment-2"
+      ],
+      "componentConditions": {
+        "md_10105_early-attachment-2": "Where the alternative route is used: CC-DC-CR-072A plus a standalone waiver."
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:CC-DC-CR-072C"
+          ],
+          "documentId": "CC-DC-CR-072C",
+          "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+          "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+          "sha256RecomputedFromBytes": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+          "byteLength": 888008,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:CC-DC-CR-078"
+          ],
+          "documentId": "CC-DC-CR-078",
+          "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
+          "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+          "sha256RecomputedFromBytes": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+          "byteLength": 35270,
+          "custody": "master_library",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+          "byteLength": 220570,
+          "pageCount": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522",
+          "byteLength": 220812,
+          "pageCount": 2
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "formNumber": "CC-DC-CR-072C",
+          "valuesReportedByFinalizer": 9,
+          "addedGlyphsReadFromOutputBytes": 137,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "CC-DC-CR-078",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 75,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "CC-DC-CR-072C",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 249,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "CC-DC-CR-078",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 180,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "requiredBeforeFiling": 20,
+      "participantElections": 15,
+      "routeSelectionsMade": 0,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "headShaAtReturn": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "rowsReturned": 1,
+  "familiesCompleted": [
+    "md_10105_early-set"
+  ],
+  "familiesStopped": [],
+  "familiesNotYetReturned": [
+    "rcap-in-custom-pleading",
+    "co_municipal_conviction_seal-set"
+  ],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": []
+}
