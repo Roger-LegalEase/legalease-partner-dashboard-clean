@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-pf03-negative-controls/v1",
+  "lane": "PF03",
+  "whatThisIs": "Each control removes one of this lane's protections and asserts the defect it stands in front of actually appears. Every control here FIRED on the pre-repair configuration.",
+  "whatThisIsNot": "A verdict on any packet. This lane builds and does not verify its own bytes.",
+  "source": {
+    "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+    "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce"
+  },
+  "passCounters": [
+    "knownRequiredFieldsMissing",
+    "requiredFactsNotCollected",
+    "unclassifiedBlanks",
+    "incompleteRows",
+    "requiredOptionsMissing",
+    "requiredComponentsMissing",
+    "invisibleWrites",
+    "protectedWrites",
+    "visualDefects"
+  ],
+  "allControlsReproducedTheirDefect": true,
+  "controls": [
+    {
+      "control": "role-gate-removed-writes-participants-own-name-into-third-party-boxes",
+      "defectReproduced": true,
+      "boxesWritten": [
+        {
+          "field": "AliasMaidenPrevious Name",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "field": "Fathers Name",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "field": "Mothers Maiden Name",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "field": "HusbandWifes Name",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "evidence": "4 of 4 third-party name boxes received [\"participant.full_legal_name\"]",
+      "whatTheRepairIs": "every non-written field is passed in unwritableFields, so role refusal precedes the name channel"
+    },
+    {
+      "control": "route-record-stops-naming-part-a-box-4-so-the-build-refuses",
+      "defectReproduced": true,
+      "evidence": "build refused: the route-obligation census no longer records Part A box 4 for obligation:track-only:MA:ma-seal-decrim. This packet's only route election rests on that record, ",
+      "whatTheRepairIs": "routeRecord() asserts the census still records Part A box 4 before any tick is made",
+      "sharedRecordRestoredByteForByte": true
+    },
+    {
+      "control": "unmade-route-election-is-readable-as-unmade-and-raises-requiredOptionsMissing",
+      "defectReproduced": true,
+      "evidence": "box 4 reads marked=false without the election and marked=true with it; an election declared route-determined and left unmade classifies ROUTE_OPTION_NOT_SELECTED",
+      "whatTheRepairIs": "the tick is made from the controlling record and read back from the output bytes on two channels"
+    },
+    {
+      "control": "oversized-value-is-refused-rather-than-shortened",
+      "defectReproduced": true,
+      "evidence": "a 47-character city was refused for width and no shortened form of it was written",
+      "whatTheRepairIs": "the refusal is recorded with its measurement and the blank is named to the participant"
+    }
+  ]
+}

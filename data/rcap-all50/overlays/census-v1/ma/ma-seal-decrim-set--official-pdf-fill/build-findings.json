@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ma-seal-decrim-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "The shared field-semantics registry binds FOUR of this form's boxes to participant.full_legal_name, measured with decideBinding against the pinned binary's own field names: 'AliasMaidenPrevious Name', 'Fathers Name', 'Mothers Maiden Name' and 'HusbandWifes Name'. The full_legal_name descriptor's pattern ends in a catch-all \\bname\\b, and the registry carries no other-names, parent or spouse descriptor at all.",
+      "consequence": "Left to the shared binder this petition — signed under the penalties of perjury — would have stated that the participant's father, mother and spouse are all the participant, and that their own current legal name is an alias. All four are passed as unwritable by ROLE, the one gate the name channel cannot reverse, and all four are declared required-before-filing and disclosed. Returned for whoever owns the descriptor list: a form asking for a THIRD PARTY's name is not rare, and the catch-all reaches every one of them."
+    },
+    {
+      "finding": "The name box is one widget under three printed captions. 'Print' is a single 350.4 x 9.8 pt widget at x 37.8, and the form prints 'Last Name' at x 90, 'First Name' at x 203 and 'Middle Name' at x 330 beneath it. The platform holds all three parts separately.",
+      "consequence": "A single widget takes one string laid out from its left edge, and the finalizer's composed channel joins facts with newlines into a box 9.8 pt high. Neither can put three values under three horizontal captions, so the box is refused with the measurement and the held parts recorded, and the participant prints the name themselves. Recorded as a shared-factory question: a horizontally partitioned single widget has no channel."
+    },
+    {
+      "finding": "The pinned binary ships the 'Print' field with a value of 23 space characters and an appearance stream that draws them at /Helv 8.",
+      "consequence": "It is whitespace: it draws no glyph, the byte proof reads the rectangle as carrying no ink, and it is left exactly as the issuer shipped it. Recorded rather than cleared — the finalizer's clearSourceCarriedTextValues channel skips a blank value and then throws for the field it was asked to clear and did not."
+    },
+    {
+      "finding": "SOURCE_READY_BUILDABILITY.json classifies this family SOURCE_IDENTITY_UNRESOLVED_IN_THE_CUSTODY_RECORD with documentSourcesResolved 0, and the MASTER_QUEUE row repeats the scalar.",
+      "consequence": "The declared path holds the declared digest exactly, in a mounted custody root, verified before this build wrote anything. The buildability record itself says its identifier comparison is unreliable and is 'a prompt to look, never a finding'. This build looked; the source is in custody. Recorded in source-receipt.json for whoever owns the scalar."
+    },
+    {
+      "finding": "Every check box on this form ships BOTH an /Off and a /Yes appearance, and the /Yes stream draws its mark as a ZapfDingbats glyph ('(4) Tj' at /ZaDb 14.532) over the same white fill and stroked square the /Off stream paints.",
+      "consequence": "pdf-lib has no missing appearance state to synthesize a border for, so suppressSynthesizedAppearances and suppressSynthesizedWidgetBorders are passed and are NO-OPS here — measured, not assumed: finalizing this source with both flags and with neither produces byte-identical output. They are passed anyway so a later edition that drops an /Off stream does not quietly acquire seven squares the paper does not print. The byte proof reads every box on both channels, glyph and painting-operator count against the source's own /Off baseline, because a text-only reading cannot separate a ticked box from an unticked one on this form."
+    },
+    {
+      "finding": "The delivered appearance of every check box is the issuer's own, MINUS its opaque white background. The source's /Off stream is 'q 1 g / 0 0 18 18 re / f / 0.5 0.5 17 17 re / s / Q' and its /Yes stream is the same followed by the ZapfDingbats mark; the flattened artifact carries '0.5 0.5 17 17 re s' and, on box 4, the mark. Painting operators per box therefore read 2 unticked and 5 ticked against a source /Off baseline of 4.",
+      "consequence": "This is the shared finalizer's preserveUnwrittenSelectionBackgrounds default, not a decision of this family, and it is the safe direction: an opaque white rectangle stamped by a flatten paints over whatever the page prints behind the widget. The issuer's stroked box survives, so every box still reads as a box and no outline is lost. Recorded because the delivered appearance is not byte-identical to the issuer's appearance, and a visual reviewer should know which difference is intended."
+    },
+    {
+      "finding": "The route-obligation census records nothing for this route on filingMethod, filingFee, serviceTiming, filingDeadline, postFilingInstructions and hearing treatment: [\"affidavitOrVerification\",\"certificateOfService\",\"contestedHearingOrOppositionHandoff\",\"coverSheet\",\"filingDeadline\",\"filingFee\",\"filingMethod\",\"notarizationRequirements\",\"notice\",\"postFilingInstructions\",\"proposedOrder\",\"requiredParticipantAttachments\",\"schedulesOrContinuationPages\",\"serviceTiming\",\"uncontestedHearingTreatment\"].",
+      "consequence": "The participant instructions state no fee, no deadline and no hearing step, and name the office that answers the fee question — the same office the petition is sent to. An unsourced figure in a filing instruction is worse than none."
+    }
+  ]
+}
