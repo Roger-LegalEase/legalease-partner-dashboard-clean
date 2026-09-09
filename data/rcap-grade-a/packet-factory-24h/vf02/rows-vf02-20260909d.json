@@ -300,6 +300,304 @@
       ],
       "visualDefects": [],
       "grantsNothing": "This FAIL is a measurement and a repair assignment. It promotes nothing, approves nothing, and settles no question of Minnesota law."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "aa115a1ff76bca89cebcc0d09b72a5174a97d8c4",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill, AcroForm filled then flattened; the delivered PDF carries no fillable field by design because AOIC requires a flattened PDF for e-filing",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "This family's own build-summary.json publishes all nine as null with the note that a builder does not measure its own output. The nine zeros here are mine, measured from the delivered bytes."
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "The field map declares 45 writes across the four documents (19 Request, 11 Order Granting, 8 FW-CIV, 7 Case List). I mapped each declared write to its packet page through the document order and located every one of the 45 in the delivered canonical bytes by reading the flattened widget appearance XObjects. 45 of 45 found, none missing.",
+        "requiredFactsNotCollected": "The 'Required before filing' section prints the controlling record's items in the record's own words - the ISP statewide transcript, the certified disposition per case, the two cross-checks against the probation-termination answer, the signature and verification, the per-case expunge-or-seal election, the hearing date, the fee and the Rule 298 waiver. I read each against the file. Nothing declared is absent.",
+        "unclassifiedBlanks": "Every non-written field is in the 379-entry refusals list with a reason and a refusalClass, and the guide enumerates the participant's blanks individually by the form's own printed field number and page ('Complete 19 - My Employment Total on FW-CIV-APPLICATION page 2'). I found no blank that is neither written nor classified.",
+        "incompleteRows": "The Case List's seventy arrest cells and the Request's ten-row case table are the row structures. One case row is written and it is complete across all five of its printed columns - case number 2021-CF-004217, Chicago Police Department, Possession of a controlled substance, 03/12/2021, outcome QP - which I read by x-position against the printed column headers. The remaining rows carry no cells at all, so no row has written cells beside required blank cells.",
+        "requiredOptionsMissing": "The route determines exactly four elections and I found all four correctly made on the page, each located by comparing the tick's x against the x of the form's own empty-box glyph. See ROUTE_OPTIONS.",
+        "requiredComponentsMissing": "Four components declared, four delivered: EXP-AD Request pages 1-6, EXP-AD Case List page 7, EXP-AD Order Granting pages 8-9, FW-CIV-APPLICATION pages 10-13. Source page counts 6+1+2+4 = 13 and the delivered packet is 13 pages.",
+        "invisibleWrites": "For every overlay write in BOTH fixtures I computed drawn width from Helvetica metrics and tested the end x against the right margin and against the next non-rule item on the same baseline. Zero overflow the margin and zero collide with printed text in either fixture. I deliberately excluded the form's own underscore rules from the collision test, because a value drawn on the blank rule it belongs to is the intended result, not an overlap; testing without that exclusion produces fourteen false positives.",
+        "protectedWrites": "The refusals carry 2 signature-or-date refusals, 4 judge-only refusals on the proposed Order, 4 clerk-assigned case number refusals and 15 attorney-only refusals. I confirmed all of them on the page rather than in the record: packet pages 8 and 9 - the whole proposed Order - carry no tick glyph anywhere, which matches the Order's own printed instruction 'Do not check the boxes below. The judge will check the correct boxes.' The Request's verification block and the FW-CIV signature line are both empty. No protected field carries ink.",
+        "visualDefects": "A RASTER_PASS is admitted against canonical.pdf sha256 fb7c7dbd..., the exact bytes on disk. Independently I confirmed 13 pages, and measured every write for margin overflow and printed-text collision in both fixtures. I found no visual defect and did not re-raster."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:IL:il-exp-qualprob:expungement-after-eligible-supervision-or-qualified-probation is identical in MASTER_QUEUE.json, approval-request.json and production-field-map.json, and all three record implementationStrategy official_pdf_fill, matching the directory name. No queue-versus-record disagreement on this family. The routeSummary states exactly what the route does - item 1 Yes, item 12 No, Section 8 elected, outcome QP, Sections 13 to 24 blank and the Order's sealing half blank - and I verified every clause of that sentence on the delivered pages."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four official sources, all recomputed by me from the bytes and all exact, with byteLength matching the receipt in every case. EXP-AD Request = 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853 (1015247 bytes, 6 pages); EXP-AD Case List = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c (744328, 1 page); EXP-AD Order Granting = 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305 (823679, 2 pages); FW-CIV-APPLICATION = b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5 (1051549, 4 pages). Three resolve in the Master Library at STATES/IL/02_PACKET_FORMS and the Case List at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/. Note the MASTER_QUEUE row records the Case List's path as 'google-drive:1AYe4toOzEBUp9AyONsV-5o9-NSC7QjhU' and the FW-CIV path under private/source-imports/rcap-d-source-packs-2026-08-12/; the receipt names different paths for both. The digests agree everywhere and identity binds by digest."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four components - primary_filing, attachment, proposed_order, fee_waiver - and all four rendered whole at the page ranges I verified against the sources page by page."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 45 declared writes located in the delivered bytes. Read by x-position against the printed column labels, each value sits in its own column: on the caption block the labels at y=558.1 are 'Date of Birth' (x=78.5), 'Race' (x=192.9) and 'Gender' (x=306.1) and the three values sit at x=72.1, 187.6 and 302.9, each on its own rule. This is the check the 'extracted line order is not column order' defect calls for and it clears. Checked against 'map-honest-writes-not': the field map declares 45 writes, the finalizer reports 45 flattened widget appearances, and I found 45 - map and finalizer agree, with no field written that the map left blank.",
+          "observation": "The word 'None' is written on the Request's 'Other Names Used In These Cases' line, and on the same line of the Case List and the proposed Order. This is superficially the shape of the WV defect, so I checked its provenance: the field map maps that field to the declared fact participant.other_names, and the boundary fixture writes a genuine different name there ('Alexandria Catherine Washington-Montgomery' beside a legal name of 'Alexandria Catherine Montgomery-Washington'). So 'None' is the value of a collected fact rather than a builder's invention, and the build is not writing the legal name onto the alias line. Recorded because 'None' is still an affirmative negative assertion on a filing verified under 735 ILCS 5/1-109, and a reviewer should know the packet makes it from the participant's own answer."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Verified on the page, not from the refusal list. Packet pages 8-9, the entire proposed Order, carry no tick glyph at all - I enumerated every overlay-font item on every page and the Order pages carry only caption values and contact details. That matches the Order's own printed instruction that the judge checks the boxes. The Request's verification block and the FW-CIV signature line are empty, and the clerk-assigned case number field is empty on every document that carries one."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured here rather than read from the builder's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0. Zero margin overflows and zero collisions with printed text in canonical or boundary, including the boundary's 43-character email and its 42-character hyphenated legal name written three times across three documents."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "A 'Stop and get help' section with eight stops printed in the controlling record's own words, including an objection by the State's Attorney, ISP, the arresting agency or the chief legal officer; a contested hearing; an ambiguous or contested disposition; an unrecognised case on the transcript, which the guide flags as possible identity theft; federal or out-of-state records; immigration consequences; a motion under 5.2(d)(12); and denial. It then names the two it cannot help with at all."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The circuit clerk in each county where an arrest occurred or a charge was brought, stated in both participant-instructions.md and filing-instructions.md, with the e-filing and pre-flattening note. That is the destination the route names."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "'The circuit court clerk serves, under 5.2(d)(4). The participant serves no one.' The guide then names who receives notice - the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer - gives the 60-day objection period under 5.2(d)(5)(B) and the default disposition under 5.2(d)(6)(B), and tells the participant not to complete court-owned service fields. Statute-cited and consistent with the packet carrying no certificate of service."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Checked against the file. The record's items are printed verbatim, and the participant's blanks are then enumerated one by one by the form's OWN printed field number and page rather than by an internal index - 'Complete 19 - My Employment Total on FW-CIV-APPLICATION page 2'. A separate section, 'The boxes only you can tick', lists every check box left to the participant, with the reasoning that dollar amounts beside unticked boxes are not a completed application. I verified two of the guide's specific factual assertions about the paper rather than taking them: the delivered PDFs carry no AcroForm and zero form fields (21 residual annotations, all /Link), so the 'delivered flattened, complete by hand' instruction is true of these bytes; and the EXP-AD Case List source carries exactly 78 terminal form fields - 6 caption fields, 1 clerk case number, 70 unlabelled arrest cells and 1 button - with no field whose name contains expunge, seal or election, exactly as the guide states."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical.pdf = fb7c7dbd4bb01d187fadd69e6857a57be57d840d44049a23ecc9692a54927008, 1726448 bytes, 13 pages; boundary.pdf = e8f82821fe6368795fe7f6cafcf774b1a10014661a5b1228284b05c3fa0139ec, 1727172 bytes, 13 pages. Recomputed by me and matching reports/build-summary.json, approval-request.json, reports/rendered-artifacts.json AND the RASTER_QUEUE.json row. This family was flagged to me as one a previous reader released without returning, with its bytes having moved since; at this base the admitted RASTER_PASS is bound to the exact bytes I read, so the raster is current and no stale-verdict problem survives into this reading."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "rendered-artifacts.json for this family carries no per-page manifest, only a document list, so I established page order from the bytes: I extracted the text of all four sources and diffed each delivered page against a candidate source page. Every page matched its expected source exactly - Request 1-6 at packet 1-6, Case List at 7, Order Granting 1-2 at 8-9, FW-CIV 1-4 at 10-13 - and the Request's own printed footer confirms it ('ATJ 2901.9 Page 2 of 6 (06/26)'). The delivered order matches the document order the record names."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four route-determined elections, each verified by comparing the tick's x against the x of the form's own empty checkbox glyph rather than by reading extracted line order. (1) Page 1, 'I am requesting to expunge': the two empty boxes sit at x=72.0 (Yes) and x=139.5 (No); the tick is at x=74.5, so YES is ticked. (2) Page 4 Section 12, 'I am requesting to seal': boxes at x=81.0 (Yes) and x=162.0 (No); the tick is at x=164.5, so NO is ticked. (3) Page 3 item 8: box at x=72.0, tick at x=74.5, electing 'For at least one case, I received a sentence of Qualified Probation and at least 5 years have passed since' - the clause this route is named for. (4) Page 2 outcome column: 'QP', which the form's own printed legend on that page defines as 'QP Qualified Probation Successfully Completed'. I checked QP against the 'internal record text printed on a filing' defect and it is not an internal code: it is the form's own published abbreviation. Consistent with item 12 being No, packet page 5 and the Order's sealing half carry no ink at all."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One case row is written and complete across all five printed columns, read by x-position against the headers on page 2. No other row carries any cell. Checked deliberately against 'an AcroForm index is not a printed row number': the single written row is the printed row 1 - the form's printed '1' sits at y=681.9 and the written cells at y=672.2, in the same band, above the printed '2' at y=645.3 - so the written charge is on the line whose number is printed beside it."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide states a circuit clerk fee plus an ISP processing fee, both county-collected, with ISP charging nothing to file a petition and $60 to process a court order, county totals of roughly $60 to $235, McLean County publishing $136, and the instruction to treat every figure as county-specific. I did not take those figures on trust: they are grounded in the committed track registry at data/record-clearing/legal-design-track-registry.json, inside the packet set's own requiredBeforeFiling text, so no fee is fabricated by this build. The waiver is Supreme Court Rule 298 and it is not merely named - FW-CIV-APPLICATION is shipped as packet pages 10-13, with 5.2(d)(1) cited for the no-fee case."
+        }
+      },
+      "failedObligationNames": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "Not listed in familiesDeliveringACloneOfAnother, and no il/ family appears anywhere in that record. The check would not catch this family's situation anyway, because it groups on the SHA-256 of a whole fixture set's extracted text and this family's packet differs from its siblings' on at least one page.",
+        "NEAR_CLONE_MEASUREMENT": "Raised as asked, with the page-level measurement, and bounded by what this lane may read. I hold no claim on il-seal-2yr-set or il-seal-3yr-set and did not open their artifacts, so this is measured from my own family's 13 pages plus MASTER_QUEUE.json, which is a central record I may read. EIGHT Illinois families bind the identical four official forms with the identical four-component shape: il-exp-pardon-set, il-exp-precompletion-set, il-exp-qualprob-set, il-exp-supervision-set, il-seal-2yr-set, il-seal-3yr-set, il-seal-edu-set and il-seal-nonconv-set. Illinois publishes ONE statewide EXP-AD set that serves both expungement and sealing, so near-identity between these families is structural rather than a build error - the route is expressed by which boxes are ticked, not by a different form. The page-level measurement on my family: of 13 canonical pages, exactly FOUR carry route-distinguishing ink - page 1 (item 1 Yes), page 2 (outcome code QP), page 3 (Section 8 tick), page 4 (item 12 No) - and the other NINE carry only caption and participant data that would be identical for any sibling with the same participant. Pages 5, 11 and 12 carry no ink at all. So 9 of 13 pages of this family are, by construction, not distinguishable from a sibling's. The question worth raising is NOT the seal-2yr/seal-3yr pair I was pointed at but a closer one: il-exp-qualprob-set and il-exp-supervision-set share the same route-key wording ('expungement-after-eligible-supervision-or-qualified-probation'), the same four forms and the same item 1 Yes / item 12 No answers, and appear to differ only in WHICH Section 3-11 box is ticked and in a two-letter outcome code - the form's legend prints 'S Supervision Successfully Completed' immediately beside 'QP Qualified Probation Successfully Completed' on the same line of page 2. One tick position and two letters is the whole difference between two commercially distinct routes. That is correct as built here - I verified this family ticks Section 8 and writes QP - but it is a thin margin, and a reader of the two packets side by side should confirm the sibling ticks a different box.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately against each. 'map-honest-writes-not': map declares 45, finalizer reports 45, I located 45; nothing written that the map left blank. 'acroform-index-is-not-the-printed-row': the one written charge row is the printed row 1, confirmed by the printed row numbers' y-positions. 'extracted-line-order-is-not-column-order': the caption's Date of Birth / Race / Gender columns were read by x against the printed labels and each value is in its own column. 'internal-record-text-printed-on-a-filing': the only non-obvious token on any filing is 'QP', and the form itself prints its meaning on the same page; the whole-page diff otherwise shows nothing added but participant values. 'published-zero-where-a-measurement-existed': I did not accept the builder's zero and recomputed margins and collisions, and I note this family's build-summary.json already publishes all nine counters as null rather than as zeros, with the note that it used to write eight zeros and one null and thereby reported a measurement never taken.",
+        "PAGE_TEXT_VS_PINNED_SOURCE": "All 13 delivered pages diffed against their pinned source pages. 32 added lines total and every one is a participant value or a route election on the page it belongs to; nothing printed by the Illinois courts was altered, dropped or reordered. I also confirmed that the two lone '4' glyphs that survive the diff on pages 3 and 4 at the form's own 10.98pt body size are printed in the sources at the same coordinates, so they are the form's text and not stray ink.",
+        "RECORD_SPEAKS_WITH_TWO_VOICES": "The controlling record requires a per-case 'Expunge-versus-seal selection - Case List, per-case election column'. The official Case List has no such column - I confirmed it carries 78 terminal fields, none of them an election field. The guide does not paper over this: it states the mismatch plainly, explains that the election was therefore made where the official forms do carry it (Request item 1 and item 12), and tells the participant to correct it on the Request rather than on the Case List if it is wrong. That is the right handling of two records that disagree."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf (all 13 pages, text by position, flattened widget XObjects, annotations, AcroForm state)",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf (same, plus overflow and collision measurement)",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/filing-instructions.md",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/build-summary.json",
+        "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "Master Library STATES/IL/02_PACKET_FORMS EXP-AD-REQUEST, EXP-AD-ORDER-GRANTING and FW-CIV-APPLICATION (hashed, page-counted, text extracted)",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf (hashed, AcroForm field census)",
+        "data/record-clearing/legal-design-track-registry.json (to ground the Illinois fee figures rather than accept them)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (all thirteen IL family rows, for the near-clone measurement)",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (this family's raster row)",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+      ],
+      "notRead": [
+        "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--* and il-seal-3yr-set--*: this lane holds no claim on either family and another lane is reading them, so their artifacts were not opened. The near-clone question is answered from my own family's pages and from central records instead."
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This independent PASS proves the packet complete against its own controlling records. It approves no output, promotes no route, opens no commercial path, and settles no question of Illinois law."
+    },
+    {
+      "itemId": "ri_multiple_misdemeanors-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "47c85d4ef80b144b11e1202f13832315b039c63f",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill for the four DC-33 pages; the remaining eleven pages are components composed by this build, because Rhode Island publishes no template for them",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine measure zero here and the family still fails, for the second time in this return. The defect is internal machine text printed on a filing: present, non-empty, inside its layout box, and taken verbatim from a controlling record, which is exactly the shape DEFECTS_NO_COUNTER_CAN_SEE records as invisible to every counter. visualDefects is 0 because the pages render correctly and the geometry is clean - the defect is what the words say, not how they are drawn."
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "Nine writes declared across the five components. I located all nine in the delivered canonical bytes. On DC-33 the whole-page diff against the pinned source shows exactly two added values on page 2 and two on page 3 - the legal name and date of birth in each of the two captions - and nothing on pages 1 or 4, which matches the packet's own statement that every case fact is left for the participant. The platform holds no case fact for this route and writes none.",
+        "requiredFactsNotCollected": "The 25 REQUIRED_BEFORE_FILING blanks are disclosed, and the composed filing-instructions pages state which Part of the affidavit is the participant's (Part Three B), what to obtain first, and that the platform has not seen the docket. Nothing declared is absent.",
+        "unclassifiedBlanks": "The builder's blankDispositions account for 88 blanks - 25 REQUIRED_BEFORE_FILING, 35 PARTICIPANT_ELECTION_GENUINE, 27 PROTECTED_FIELD and 1 NOT_APPLICABLE_ON_THIS_ROUTE - against DC-33's 77 source AcroForm fields plus the composed components' own blanks. I found no blank on any of the 15 pages that is neither written nor classified.",
+        "incompleteRows": "DC-33's affidavit Parts and the composed order's four count/charge/disposition lines are the row structures. This build writes into none of them: the composed order prints '1. Count: .... Charge: .... Disposition: ....' through line 4 with every cell blank and says on the page why - 'Copy them from the motion; they are not filled in here because the platform has not seen the court record they come from.' No row carries written cells beside blank required cells.",
+        "requiredOptionsMissing": "The route determines no election that this build may make. The judicial-complex choice on DC-33 is left blank and the guidance says why - 'The District Court form lists four; the platform has not seen your docket and does not know which one is yours.' The Part Three B boxes are the participant's sworn statements and none is marked. Nothing route-determined is unselected.",
+        "requiredComponentsMissing": "Five components declared by the controlling packet-set manifest and five delivered, at the page ranges the manifest names. Zero missing. See COMPONENT_SET for a queue record that names only two.",
+        "invisibleWrites": "Measured in both fixtures. On DC-33 the writes are flattened widget appearances and each sits in its own caption. On the eleven composed pages I measured every text item's end x against the right margin using Times-Roman AFM metrics, which is the font those pages actually use: zero items past the margin in either fixture. My first pass with Helvetica metrics produced five false positives, three of them on the court's own untouched page 1, so the measurement was redone with the correct font.",
+        "protectedWrites": "27 protected blanks declared, and I confirmed the important ones on the page rather than in the record. On DC-33 the certification-of-notice line, the signature and the date are all empty. On the composed proposed order everything below the build's own 'EVERYTHING BELOW THIS LINE IS THE COURT'S' divider is blank: the findings lines, both the GRANTED and DENIED boxes, the relief box, the further-terms lines, the Justice/Judge signature line, the date of entry and the Clerk's certification. No signature, no finding, no grant, no denial and no seal is written by this build.",
+        "visualDefects": "A RASTER_PASS is admitted against canonical.pdf sha256 7af4bd63..., the exact bytes on disk. Independently I confirmed 15 pages at 612x792 and measured every composed line against the page margins with the correct font metrics, finding nothing outside them. Zero rendering defects. The failure below is textual content, not rendering, and a raster could never have caught it."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The packet IS built for the route the record names - the route is the multiple-misdemeanour motion under R.I. Gen. Laws 12-1.3-2, the affidavit Part is correctly identified as Part Three B: Multiple Convictions, and the guidance states the two-to-five range and the exclusions accurately. It fails because the route's INTERNAL IDENTIFIER is printed on the filing. Four pages of the delivered packet carry the line 'Route: obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-1-bci-and-docket ; obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit ; obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies'. Those are this factory's own obligation-census keys. They mean nothing to a Rhode Island court. The decisive one is on PACKET PAGE 6, which is page 2 of the composed proposed order - the document page 5 describes as '(PROPOSED - brought to the hearing by the moving party)' and the page that carries the court's findings, the GRANTED and DENIED boxes, the Justice/Judge signature line, the date of entry and the Clerk's certification. The line sits at the very top of that page, at y=720, ABOVE the build's own divider at y=633 and its notice that 'EVERYTHING BELOW THIS LINE IS THE COURT'S', so it reads as text the moving party put on the order it is asking a judge to sign. This is the DEFECTS_NO_COUNTER_CAN_SEE entry 'internal-record-text-printed-on-a-filing', whose recorded standard is exactly on point: 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' The same line also appears on packet pages 8, 14 and 15 - the notice package, the filing instructions and the certified-copy checklist - which are guidance rather than filings (page 7 says so in terms: 'This page is guidance. It is not a filing and there is nothing here to hand to a clerk'), so those three are the same defect at lower severity.",
+          "obligationMappingNote": "The DEFECTS record states that for this defect class 'the text is present, non-empty, inside its write box and quoted verbatim from a controlling record. Every check passes.' No one of the fifteen obligation names owns it cleanly. I have recorded it under ROUTE_IDENTITY because what leaked onto the filing IS the route identity in its internal machine form, and ROUTE_IDENTITY is the obligation that owns route identity. If the Captain's convention files this class elsewhere, the finding stands unchanged; only the label moves."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One official source and I recomputed it from the bytes: the Master Library's STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf = 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, 307164 bytes, 4 pages, 77 AcroForm fields. That is the digest bound in rendered-artifacts.json and in the MASTER_QUEUE row. The route also names official-form:DC-33-ORDER, which the queue's sourceReadiness correctly records as satisfiedByRelationship rather than as a missing binary, because Rhode Island publishes no order template and the packet composes one instead - a fact the composed order states on its own face."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Five components declared by the controlling record at data/record-clearing/legal-design-packet-set-manifests.json - primary-filing-1, proposed-order-2, notice-package-3, filing-instructions-4 and certified-copy-delivery-checklist-5 - and all five delivered, which I confirmed page by page against the delivered bytes. Two committed records disagree here and I record both: MASTER_QUEUE.json's packetComponents for this family lists only TWO, component:ri_multiple_misdemeanors-primary-filing-1 and component:ri_multiple_misdemeanors-proposed-order-2, omitting the other three. I measured against the packet-set manifest and the delivered bytes, which agree with each other on five."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nine writes, all located in the delivered bytes: the legal name and date of birth into each of DC-33's two captions (packet pages 2 and 3), the name and date of birth into the composed order's caption (page 5), and the name into the 'Prepared for' line of each of the three composed guidance components (pages 7, 9 and 15). Checked against 'map-honest-writes-not': the whole-page diff of DC-33 against its pinned source shows exactly the four declared caption values and nothing else, so the finalizer wrote nothing the map left blank. DC-33 has no aliases line and no address-history line.",
+          "observation": "The date of birth is written in ISO form, '1994-04-17', on the composed order's caption and in DC-33's caption. The same choice appears in the Minnesota family in this return. DC-33's printed label is a bare 'Date of Birth' with no format prescribed, so nothing on the paper is contradicted; recorded so a reviewer sees the convention."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Verified on the page. DC-33's certification-of-notice line, signature and date are empty, and the notice-package page explains why in terms a participant can act on: 'A certification that notice has been given, signed and dated before notice was actually given, is a false statement to a court.' On the composed proposed order the entire court half is blank - findings, both GRANTED and DENIED boxes, the relief box, further terms, the Justice/Judge line, the date of entry and the Clerk's certification. The order's own closing sentence says it: 'no part of it is a finding, a grant, a denial, a signature, an entry, a certification or a seal.' That statement is true of the delivered bytes."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured with the correct font metrics rather than taken from the builder's zero. The eleven composed pages are set in base-14 Times-Roman; measured against Times AFM widths, zero text items on any composed page pass the right margin in either fixture, including the boundary fixture's long hyphenated name. The four DC-33 pages carry only two short caption values each and both sit in their captions."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Packet pages 13 and 14 carry 'WHEN TO STOP AND GET HELP INSTEAD', printed in the committed track registry's own words, with twelve stops including any crime of violence, any felony conviction, an arrest during the lookback, unclear financial obligations, a pending proceeding, the good-moral-character and rehabilitation findings which it correctly assigns to the court, immigration exposure, the licensure and employment categories where disclosure survives expungement, out-of-reach federal, out-of-state, military and tribal records, and a misdemeanour count the participant cannot establish. It also carries a 'WHAT THIS PACKET IS NOT' paragraph."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "'The court where the conviction occurred', with the accurate observation that Rhode Island has no county layer for this purpose and that the forms are court-specific rather than local. It tells the participant to mark the one judicial complex on the motion where the case was heard and states plainly that the platform has not seen the docket and does not know which of the four it is."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The notice package states who must be told - the Office of the Attorney General and the police department that originally brought the charge - the ten-day rule, and the statutory basis the motion's own certification line cites, 12-1-12.1(b)(1) or 12-1.3-3(a). It then does something better than most: it sets out the ORDER of events, that the clerk sets the hearing date, that notice is given after filing, and that the certification line is completed only after notice has actually been given. It states that no address is printed because the platform holds none and will not guess one, and refers the participant to the clerk. Nothing about service is fabricated."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The composed filing-instructions component names what to obtain first, which affidavit Part is the participant's, and every case fact the platform has not supplied. It also correctly handles a place where the court's own form disagrees with itself: Part Three B is for a person convicted of more than one but fewer than six misdemeanours, while the sixth box of that same Part reads 'That I have not been convicted of more than six (6) misdemeanors', and the guidance states that the box's wording does not enlarge the route, that nothing on the court's form is altered and no box marked. It also tells the participant to count misdemeanour convictions across their whole record rather than only those named in the motion. I checked both statements against the delivered DC-33 pages and both are accurate."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical.pdf = 7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37, 312729 bytes, 15 pages; boundary.pdf = c2ea5d906ef5674fcec2a12c20f9023ff36acc20f4e42d2217ef9aef9e855bdc, 312907 bytes, 15 pages. Recomputed by me and matching reports/rendered-artifacts.json AND the RASTER_QUEUE.json row that carries this family's RASTER_PASS. This family was flagged to me as one whose packet bytes moved after the last verdict was recorded; at this base the admitted raster is bound to the exact bytes I read, so my verdict and the raster are on the same bytes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The manifest declares DC-33 pages 1-4 at packet 1-4, then proposed order 5-6, notice package 7-8, filing instructions 9-14 and the certified-copy checklist at 15. I verified the first four by diffing each against the pinned DC-33 source page, and the composed eleven by reading each page's own heading in order - 'ORDER FOR EXPUNGEMENT OR SEALING OF RECORD' at 5, 'NOTICE TO THE OFFICE OF THE ATTORNEY GENERAL AND THE CHARGING POLICE' at 7, 'FILING INSTRUCTIONS' at 9. The delivered order matches the manifest."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No election on this route belongs to the build. The judicial complex, the Part Three B boxes and the count/charge/disposition lines are all the participant's, each left blank with a stated reason. The single NOT_APPLICABLE_ON_THIS_ROUTE disposition is consistent with a route that composes rather than selects."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The composed order's four count/charge/disposition lines are printed complete and empty, numbered 1 to 4, with the instruction to copy them from the motion. No cell in any row is written, so no row carries written cells beside blank required cells."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The filing-instructions component addresses cost and does not invent a figure, telling the participant to read the court's own page because 'a court's own page is the only place its current fee appears'. No filing fee, waiver route or clerk practice is fabricated."
+        }
+      },
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "decisiveDefect": "Packet page 6 - page 2 of the composed proposed order, the page carrying the court's findings, the GRANTED and DENIED boxes, the Justice/Judge signature line, the date of entry and the Clerk's certification - prints this factory's internal obligation-census keys at y=720, at the very top of the page: 'Route: obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-1-bci-and-docket ; obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit ; obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies'.",
+          "whyItMatters": "This is a document the moving party hands to a Rhode Island District Court judge at the hearing and asks the court to sign. Machine identifiers from the build system have no meaning to a court and no place on a filing. The factory's own recorded standard for this defect class is that filings recite statute citations and rule text only.",
+          "alsoPresentAt": "Packet pages 8, 14 and 15 carry the identical line. Those three are guidance rather than filings - the notice package states on page 7 that it is not a filing and there is nothing there to hand to a clerk - so they are the same defect at lower severity. Packet page 9 separately prints the raw internal component slugs ('ri_multiple_misdemeanors-primary-filing-1', and four more) to the participant in its 'WHAT IS IN THIS PACKET' list; that is participant-facing guidance rather than a filing, but it is the same class of internal vocabulary reaching a reader.",
+          "whatIsNotWrong": "The rest of this packet is careful work and the repair should not disturb it. The composed order states on its face that it is not an official Rhode Island form, keeps the entire court half blank, and says so. The guidance correctly identifies where DC-33's Part Three B sixth box disagrees with the statute and refuses to let the box's wording enlarge the route. Nothing on the court's own four pages is altered - the whole-page diff shows only the four declared caption values.",
+          "notRepairedHere": "This lane does not repair what it verifies. No file in the overlay directory and no build script was touched."
+        }
+      ],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "Not listed in familiesDeliveringACloneOfAnother and no ri/ family appears in the record. Worth noting for whoever reads the other Rhode Island families: build-status.json for this family records builtBy 'scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs' but buildHost 'scripts/build-census-v1-ri_decriminalized-set.mjs', so a sibling family's script hosted this build. The stray route trailer is therefore likely to be a shared composer behaviour rather than a one-family slip, and every family built through that host should be read for the same line.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately against each. 'internal-record-text-printed-on-a-filing': PRESENT, and it is the decisive defect on this family. 'map-honest-writes-not': the DC-33 page diff shows only the four declared caption values, so map and finalizer agree. 'acroform-index-is-not-the-printed-row': no charge row is written on any page. 'extracted-line-order-is-not-column-order': the composed pages are single-column and the DC-33 captions were read by position. 'published-zero-where-a-measurement-existed': I did not accept nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, and my own first margin measurement was wrong until I used the composed pages' actual Times-Roman metrics, which is a reminder that the geometry counter depends entirely on measuring with the right font.",
+        "PAGE_TEXT_VS_PINNED_SOURCE": "All four DC-33 pages diffed against the pinned source. Two values added on page 2 and two on page 3, none on pages 1 or 4, and not one printed word of the Rhode Island Judiciary's form altered, dropped or reordered.",
+        "RECORDS_THAT_DISAGREE": "Three disagreements recorded rather than reconciled. (1) MASTER_QUEUE.json's row carries sourceStatus SOURCE_BOUND_BY_HELD_BYTES with sourceReadiness.ready true, and in the same sourceReadiness block custodyClass SOURCE_GENUINELY_MISSING. I measured against the bytes: DC-33 is held in the mounted Master Library and hashes exactly to the pinned digest, so SOURCE_GENUINELY_MISSING is contradicted by the file. (2) The same row's packetComponents names two components where the controlling packet-set manifest declares five and the packet delivers five. (3) build-status.json names one script as builtBy and a different family's script as buildHost."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf (all 15 pages, full text by position, geometry)",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf (same, plus margin measurement)",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "Master Library STATES/RI/02_PACKET_FORMS DC-33 REV-2025-02 (hashed, page-counted, 77-field AcroForm census, text extracted)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (the controlling five-component declaration)",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (this family's raster row)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This FAIL is a measurement and a repair assignment. It promotes nothing, approves nothing, and settles no question of Rhode Island law."
     }
   ]
 }
