@@ -387,6 +387,30 @@ function resolveHeldSources(queueFamily) {
 
 /* ------------------------------------------------------------- fixtures */
 
+/*
+ * SIX REQUIRED PARTICIPANT INPUTS ARE ABSENT FROM THESE TABLES ON PURPOSE.
+ *
+ * originalArrestCharges, dispositionType, underlyingEntitlement,
+ * otherIndividualsNamed, othersEntitled and recordLocations are REQUIRED
+ * participantInputs on the committed memo, and the platform holds no value for
+ * any of them. This build used to carry each one as a written fact whose value
+ * was a restatement of its own printed question ("Original arrest charge and
+ * statute for each count exactly as they appear on the state rap sheet") or a
+ * description of the fixture ("Not known to the fixture participant"), five of
+ * them printing a second time onto the Article 992 PROPOSED ORDER OF
+ * EXPUNGEMENT, and the word "fixture" reaching the face of a motion and an
+ * order four times.
+ *
+ * A prompt is not an answer. Inventing plausible answers instead would be worse
+ * still: these are the mover's own sworn averments about a criminal record, and
+ * the original arrest charge is the cell the Louisiana State Police list of
+ * common fatal errors singles out. So they are not written at all. Each is now
+ * a REQUIRED_BEFORE_FILING blank that prints as an empty dot leader and reaches
+ * the participant through the guide's "What you must supply before filing"
+ * table, which is the treatment this build already gives race, gender, the SSN
+ * last four, the arrest or booking number, the SID number, the agency item
+ * number and the driver's licence number.
+ */
 const FIXTURES = Object.freeze({
   canonical: {
     "participant.full_legal_name": "Jordan Avery Reyes",
@@ -397,14 +421,8 @@ const FIXTURES = Object.freeze({
     "case.division": "Division A",
     "case.arrest_date": "2019-03-08",
     "case.arresting_law_enforcement_agency": "Tangipahoa Parish Sheriff's Office",
-    "case.original_arrest_charges": "Original arrest charge and statute for each count exactly as they appear on the state rap sheet",
     "case.charge_count": "One charge on one arrest",
-    "case.disposition_type": "Disposition wording from the canonical fixture court record",
     "case.disposition_date": "2019-09-12",
-    "case.underlying_entitlement": "Article 977 - misdemeanor conviction, as the fixture court record states it",
-    "case.other_individuals_named": "One other individual is named in the record of this arrest, as the fixture record states",
-    "case.others_entitled": "Not known to the fixture participant",
-    "case.record_locations": "The clerk of court for the parish, the arresting agency and the Louisiana Bureau of Criminal Identification and Information, as far as the fixture participant knows",
     "case.hard_labor_custody": "No",
     "case.background_check_ordered_on": "2026-08-20"
   },
@@ -417,14 +435,8 @@ const FIXTURES = Object.freeze({
     "case.division": "Division Z-Long",
     "case.arrest_date": "2013-12-31",
     "case.arresting_law_enforcement_agency": "Saint John the Baptist Parish Sheriff's Office, Criminal Patrol Division",
-    "case.original_arrest_charges": "Original arrest charge and statute for each count exactly as they appear on the state rap sheet, including the full charge description carried by the boundary fixture record for every count on the arrest",
     "case.charge_count": "Three charges on one arrest",
-    "case.disposition_type": "Disposition wording exactly as it appears on the boundary fixture court record, including the full court-record description of how each count was finally disposed of",
     "case.disposition_date": "2014-06-30",
-    "case.underlying_entitlement": "Article 976 - arrest without conviction, as the boundary fixture court record states it",
-    "case.other_individuals_named": "Three other individuals are named in the record of this arrest, as the boundary fixture record states, and the record of the arrest is a single shared report covering all four",
-    "case.others_entitled": "Not known to the boundary fixture participant",
-    "case.record_locations": "The clerk of court for the parish, the arresting agency, the district attorney's office and the Louisiana Bureau of Criminal Identification and Information, as far as the boundary fixture participant knows",
     "case.hard_labor_custody": "No",
     "case.background_check_ordered_on": "2026-08-01"
   }
@@ -487,13 +499,13 @@ const courtRow = (document, id, label, why, page = 1) => ({
 
 const attorneyRow = (document, id, label, page = 1) => ({
   ...base(document, id, label, page),
-  reason: "attorney-only block; the fixture records no representation, so it is not populated with participant data",
+  reason: "attorney-only block; this packet holds no record that the mover is represented, so it is not populated with participant data",
   category: null,
   completenessClass: null,
   class: null,
   completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
   requiredBeforeFiling: false,
-  why: "the mover is unrepresented on this fixture and the attorney block belongs to counsel"
+  why: "this packet holds no record that the mover is represented, and the attorney block belongs to counsel"
 });
 
 const CAPTION_WRITES = (document) => [
@@ -512,15 +524,59 @@ const CAPTION_WRITES = (document) => [
  * 976 (an arrest without conviction), 977 or 978, so a conviction offence and a
  * conviction date are not facts this track can assume it has. The committed
  * memo asks the participant for the original arrest charge for every count and
- * for how the case ended, and those are what is written.
+ * for how the case ended, and the platform holds neither answer, so both are
+ * left blank for the participant rather than written.
  */
 const RECORD_WRITES = (document, page = 1) => [
   write(document, "arrest_date", "Date of arrest", "case.arrest_date", page),
   write(document, "arresting_law_enforcement_agency", "Arresting law enforcement agency", "case.arresting_law_enforcement_agency", page),
-  write(document, "original_arrest_charges", "Original arrest charge and statute for every count as they appear on the state rap sheet", "case.original_arrest_charges", page),
   write(document, "charge_count", "How many separate charges or counts this arrest carries", "case.charge_count", page),
-  write(document, "disposition_type", "How the case against the mover ended", "case.disposition_type", page),
   write(document, "disposition_date", "Date the case ended that way", "case.disposition_date", page)
+];
+
+/*
+ * The two identifiers of the record that only the participant can give, on
+ * every document that prints them.
+ *
+ * The memo makes both REQUIRED participantInputs and the platform holds no
+ * value for either, so each prints as an empty dot leader and is named in the
+ * guide's supply table. The original arrest charge carries its own warning
+ * because the memo's question carries it: the ORIGINAL charge for EVERY count,
+ * not the amended charge and not the charge finally convicted of.
+ */
+const RECORD_SUPPLIES = (document, page = 1) => [
+  supply(document, "original_arrest_charges", "Original arrest charge and statute for every count as they appear on the state rap sheet",
+    "each charge at the time of arrest — the original arrest charge and statute for every count, exactly as the state rap sheet writes them, not the charge you were finally convicted of and not the amended charge, and not leaving a count out",
+    "the committed memo makes originalArrestCharges a required participant input and the platform holds no value for it; it is the mover's own averment about the record and no packet may supply it",
+    page),
+  supply(document, "disposition_type", "How the case against the mover ended",
+    "how the case against you ended, in the words your own court record uses",
+    "the committed memo makes dispositionType a required participant input and the platform holds no value for it",
+    page)
+];
+
+/*
+ * The Article 985 facts about the shared record: who else the record names,
+ * whether anyone else named is also entitled, and where the record sits.
+ *
+ * All three are REQUIRED participantInputs the platform does not hold. They are
+ * printed blank on every document that carries them — including the proposed
+ * Article 992 Order of Expungement, where the mover supplies the caption and
+ * the identifiers of the record and nothing else.
+ */
+const SHARED_RECORD_SUPPLIES = (document, page = 1) => [
+  supply(document, "other_individuals_named", "Who else is named in the record of this arrest or conviction",
+    "who else is named in the record of this arrest or conviction",
+    "the committed memo makes otherIndividualsNamed a required participant input and the platform holds no value for it; Article 985 relief turns on it",
+    page),
+  supply(document, "others_entitled", "Whether anyone else named in the record is also entitled to have it expunged, as far as the mover knows",
+    "whether, as far as you know, anyone else named in the record is also entitled to have it expunged",
+    "the committed memo makes othersEntitled a required participant input and the platform holds no value for it",
+    page),
+  supply(document, "record_locations", "Which agencies and offices hold records of this arrest or conviction, as far as the mover knows",
+    "which agencies and offices hold records of this arrest or conviction, as far as you know",
+    "the committed memo makes recordLocations a required participant input and the platform holds no value for it; it is what the court needs in front of it when it writes the Article 985 redaction paragraph",
+    page)
 ];
 
 function motionMap() {
@@ -528,14 +584,15 @@ function motionMap() {
     ...CAPTION_WRITES(MOTION),
     write(MOTION, "mover_date_of_birth", "Mover date of birth", "participant.date_of_birth"),
     ...RECORD_WRITES(MOTION),
-    write(MOTION, "underlying_entitlement", "The ordinary route that gives the mover the right to an expungement of this record", "case.underlying_entitlement"),
-    write(MOTION, "other_individuals_named", "Who else is named in the record of this arrest or conviction", "case.other_individuals_named"),
-    write(MOTION, "others_entitled", "Whether anyone else named in the record is also entitled to have it expunged, as far as the mover knows", "case.others_entitled"),
-    write(MOTION, "record_locations", "Which agencies and offices hold records of this arrest or conviction, as far as the mover knows", "case.record_locations"),
     write(MOTION, "hard_labor_custody", "Whether the mover is now in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour", "case.hard_labor_custody"),
     write(MOTION, "background_check_ordered_on", "Date the Louisiana criminal background check was ordered", "case.background_check_ordered_on")
   ];
   const blanks = [
+    ...RECORD_SUPPLIES(MOTION),
+    supply(MOTION, "underlying_entitlement", "The ordinary route that gives the mover the right to an expungement of this record",
+      "which ordinary route gives you the right to an expungement of this record — Article 976 for an arrest without conviction, Article 977 for a misdemeanour conviction, or Article 978 for a felony conviction",
+      "the committed memo makes underlyingEntitlement a required participant input and the platform holds no value for it; Article 985 is not an independent ground of eligibility, so which route entitles you is yours to state"),
+    ...SHARED_RECORD_SUPPLIES(MOTION),
     supply(MOTION, "race", "Race",
       "your race, written as the state rap sheet writes it, so Part I matches the record the Bureau holds",
       "the committed track registry lists race in Part I Defendant Information as required before filing, and the platform holds no value for it"),
@@ -627,11 +684,15 @@ function orderMap() {
 function expungementOrderMap() {
   const writes = [
     ...CAPTION_WRITES(EXPUNGEMENT_ORDER),
-    ...RECORD_WRITES(EXPUNGEMENT_ORDER),
-    write(EXPUNGEMENT_ORDER, "other_individuals_named", "Who else is named in the record of this arrest or conviction", "case.other_individuals_named"),
-    write(EXPUNGEMENT_ORDER, "record_locations", "Which agencies and offices hold records of this arrest or conviction, as far as the mover knows", "case.record_locations")
+    ...RECORD_WRITES(EXPUNGEMENT_ORDER)
   ];
   const blanks = [
+    // The mover-supplied identifiers this page carries are blanks here for the
+    // same reason they are blanks on the motion: they are required participant
+    // inputs the platform does not hold. Nothing on a proposed order a judge
+    // signs may carry a restatement of its own question in place of a fact.
+    ...RECORD_SUPPLIES(EXPUNGEMENT_ORDER),
+    ...SHARED_RECORD_SUPPLIES(EXPUNGEMENT_ORDER),
     courtRow(EXPUNGEMENT_ORDER, "granted_or_denied", "Whether the motion is granted or denied",
       "granting or denying the motion is the court's decision and this build makes none of it"),
     /*
@@ -647,8 +708,10 @@ function expungementOrderMap() {
      * the judge's and not the packet's."
      *
      * The mover-supplied identifiers the paragraph would need -- who else is
-     * named and which offices hold the record -- ARE written, above, so the
-     * judge has them in front of the paragraph rather than nowhere.
+     * named and which offices hold the record -- are PRINTED AS BLANKS above,
+     * so that once the mover has completed them the judge has them in front of
+     * the paragraph rather than nowhere. They are the mover's answers to give;
+     * this build holds none of them and writes none of them.
      */
     courtRow(EXPUNGEMENT_ORDER, "article_985_redaction_paragraph",
       "The Article 985 redaction paragraph, including the identification of each record location and the information to be redacted",
@@ -767,9 +830,10 @@ function recordBlock(facts) {
     "THE RECORD FOR WHICH EXPUNGEMENT BY REDACTION IS SOUGHT",
     `Date of arrest: ${facts["case.arrest_date"]}`,
     `Arresting law enforcement agency: ${facts["case.arresting_law_enforcement_agency"]}`,
-    `Original arrest charge and statute for every count as they appear on the state rap sheet: ${facts["case.original_arrest_charges"]}`,
+    "Original arrest charge and statute for every count as they appear on the state rap sheet:",
+    DOTS(74), DOTS(74),
     `How many separate charges or counts this arrest carries: ${facts["case.charge_count"]}`,
-    `How the case against the mover ended: ${facts["case.disposition_type"]}`,
+    `How the case against the mover ended: ${DOTS(34)}`,
     `Date the case ended that way: ${facts["case.disposition_date"]}`,
     ""
   );
@@ -781,9 +845,12 @@ function sharedRecordBlock(facts) {
     "THE SHARED RECORD - ARTICLE 985",
     "Article 985(A) provides that if a record includes the name of more than one individual and one or more of them is entitled to an expungement of an arrest or conviction under Title XXXIV, any individual so entitled may petition the court to have records related to that individual's arrest or conviction expunged by redaction.",
     "",
-    `Who else is named in the record of this arrest or conviction: ${facts["case.other_individuals_named"]}`,
-    `Whether anyone else named in the record is also entitled to have it expunged, as far as the mover knows: ${facts["case.others_entitled"]}`,
-    `Which agencies and offices hold records of this arrest or conviction, as far as the mover knows: ${facts["case.record_locations"]}`,
+    `Who else is named in the record of this arrest or conviction: ${DOTS(10)}`,
+    DOTS(74),
+    "Whether anyone else named in the record is also entitled to have it expunged, as far as the mover knows:",
+    DOTS(74),
+    "Which agencies and offices hold records of this arrest or conviction, as far as the mover knows:",
+    DOTS(74), DOTS(74),
     "",
     "Article 985(B) provides that if the court grants expungement by redaction, the name of the individual and all other identifying information regarding that individual shall be redacted from all records regarding the arrest and conviction, and the redacted records remain available for public access. The record is not sealed as to the other individuals named in it.",
     ""
@@ -820,7 +887,8 @@ function motionBody(facts) {
     sharedRecordBlock(facts),
     block(
       "PART II - THE UNDERLYING ENTITLEMENT",
-      `The ordinary route that gives the mover the right to an expungement of this record: ${facts["case.underlying_entitlement"]}`,
+      "The ordinary route that gives the mover the right to an expungement of this record:",
+      DOTS(74),
       `Date the Louisiana criminal background check was ordered: ${facts["case.background_check_ordered_on"]}`,
       "",
       "Article 985 is a form of relief for a person who is already entitled to an expungement of the arrest or conviction under Title XXXIV. It is not an independent ground of eligibility. The Part II section of the Article 989 form that matches the route named above is the section to complete, and whichever certification that route requires is the certification to attach.",
@@ -847,7 +915,7 @@ function motionBody(facts) {
       `Attorney telephone in the represented-mover block: ${DOTS(23)}`,
       `Attorney signature in the represented-mover block: ${DOTS(23)}`,
       "",
-      "This block is left entirely blank on this packet. The fixture records no representation, and an attorney block is completed by counsel or not at all.",
+      "This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel, and an attorney block is completed by counsel or not at all.",
       ""
     ),
     block(
@@ -924,7 +992,7 @@ function expungementOrderBody(facts) {
       "The Article 985 redaction paragraph, including the identification of each record location and the information to be redacted:",
       DOTS(74), DOTS(74), DOTS(74), DOTS(74),
       "",
-      "This paragraph is the court's. Article 985(C) relieves the clerk of liability where the order does not specifically identify all locations of the records to be expunged or specify the information to be redacted, which is precisely why the paragraph is written by the judge and not by this packet. The mover-supplied answers to who else is named in the record and which offices hold it are printed above so they are in front of the court when the paragraph is written.",
+      "This paragraph is the court's. Article 985(C) relieves the clerk of liability where the order does not specifically identify all locations of the records to be expunged or specify the information to be redacted, which is precisely why the paragraph is written by the judge and not by this packet. The lines above for who else is named in the record and which offices hold it are the mover's to complete before filing, so that the court has those answers in front of it when it writes this paragraph.",
       ""
     ),
     block(
@@ -964,6 +1032,44 @@ function participantInstructions(binding, rbf, name) {
   const continuation = memoTrack.components.find((c) => c.role === "continuation");
   const recordRequiredBeforeFiling = packetSet.requiredBeforeFiling ?? [];
 
+  /*
+   * A RECORD LINE THAT DESCRIBES A DOCUMENT THIS PACKET DOES NOT CONTAIN IS
+   * CARRIED WHOLE AND THEN RECONCILED, NEVER TRIMMED.
+   *
+   * Item 5 of the record's required-before-filing list says "The packet gives
+   * you the Article 988 form with your own fields filled in." The Article 988
+   * fee-waiver component is conditional and this packet does not generate it,
+   * which the guide already says twenty-two lines earlier, and the two
+   * statements were never reconciled. The stake is Article 983(A)'s
+   * five-hundred-and-fifty-dollar cap, non-refundable even on denial, because
+   * the same item tells the reader that filing without the exemption means
+   * paying the fee.
+   *
+   * The record's words are the record's and are printed unchanged. What is
+   * added is a correction beneath them, generated by matching the record's own
+   * "the packet gives you the Article N form" claim against the components this
+   * build actually rendered — so the next component that stops being generated
+   * is reconciled by the same code rather than by the next verifier.
+   */
+  const notGeneratedFormsByArticle = new Map();
+  for (const row of components) {
+    if (RENDERED_COMPONENTS.includes(row.componentId)) continue;
+    const article = /ART-(\d+)/.exec(row.officialFormId ?? "")?.[1];
+    if (article) notGeneratedFormsByArticle.set(article, row);
+  }
+  const reconcileNotGeneratedFormClaim = (text) => {
+    const claimed = [...String(text).matchAll(/packet gives you the Article (\d+) form/gi)].map((m) => m[1]);
+    const corrections = [];
+    for (const article of new Set(claimed)) {
+      const row = notGeneratedFormsByArticle.get(article);
+      if (!row) continue;
+      corrections.push(
+        `**This packet does not give you the Article ${article} form.** \`${row.componentId}\` is ${row.requirement} on the record, and the condition the record states is "${row.conditionDescription}" — a condition this packet does not meet, so the component is not generated and no Article ${article} form is enclosed. Everything else the item says still applies: where that condition applies to you, ask the clerk of court or the district attorney's office for the Article ${article} form, and take or send it to the district attorney before the motion is filed. If you file without it you pay the fee, and Article 983 makes the fee non-refundable even if the motion is denied.`
+      );
+    }
+    return corrections;
+  };
+
   const lines = [
     `# ${registryTrack.legalName}`,
     "",
@@ -994,7 +1100,7 @@ function participantInstructions(binding, rbf, name) {
     "",
     bullet("Article 985 is not a ground of eligibility of its own. You must already be entitled to an expungement of this arrest or conviction under Article 976, 977 or 978. The waiting period is whichever of those articles gives you that entitlement; Article 985 adds none."),
     bullet("Article 985(B) redacts your name and your other identifying information from the records. It does not seal the record. The redacted record stays available for public access as to everyone else named in it."),
-    bullet("The redaction paragraph is written by the judge, on the Article 992 Order. Article 985(C) relieves the clerk of liability where the order does not identify every location of the records or specify the information to be redacted, so the more completely you can tell the court which offices hold the record, the better the order can be written. Your answers to who else is named and which offices hold the record are printed on both the motion and the proposed order for that reason."),
+    bullet("The redaction paragraph is written by the judge, on the Article 992 Order. Article 985(C) relieves the clerk of liability where the order does not identify every location of the records or specify the information to be redacted, so the more completely you can tell the court which offices hold the record, the better the order can be written. Blank lines for who else is named and for which offices hold the record are printed on both the motion and the proposed Article 992 order for that reason: they are your answers to write, and this packet holds none of them."),
     bullet("If the record names only you, there is nothing to redact and the ordinary expungement track is the right one instead."),
     "",
     `## Everything the committed record requires to be in place before filing (all ${recordRequiredBeforeFiling.length} item(s) it lists)`,
@@ -1002,7 +1108,10 @@ function participantInstructions(binding, rbf, name) {
     "This list is the packet set's own. Some items are yours, some belong to the district attorney, the clerk or the judge. Every one of them is reproduced here, in the record's own words and in the record's own order, so that nothing on it reaches you shortened.",
     ""
   );
-  recordRequiredBeforeFiling.forEach((item, index) => lines.push(bullet(`Item ${index + 1} of ${recordRequiredBeforeFiling.length}: ${item}`)));
+  recordRequiredBeforeFiling.forEach((item, index) => {
+    lines.push(bullet(`Item ${index + 1} of ${recordRequiredBeforeFiling.length}: ${item}`));
+    for (const correction of reconcileNotGeneratedFormClaim(item)) lines.push(`  - ${correction}`);
+  });
 
   lines.push(
     "",
@@ -1020,6 +1129,7 @@ function participantInstructions(binding, rbf, name) {
     const qualifier = action.requirement === "conditional" && action.conditionDescription ? ` Condition: ${action.conditionDescription}` : "";
     const from = action.obtainedFrom ? ` Obtained from: ${action.obtainedFrom}.` : "";
     lines.push(bullet(`**${action.kind}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${action.description}${from}${qualifier}`));
+    for (const correction of reconcileNotGeneratedFormClaim(`${action.description} ${action.howToObtain ?? ""}`)) lines.push(`  - ${correction}`);
   }
 
   lines.push(
