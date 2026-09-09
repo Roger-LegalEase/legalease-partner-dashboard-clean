@@ -134,5 +134,65 @@
       "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/ND-SFN-14859/receipt.json",
       "acquiredStatus": "acquired"
     }
-  ]
+  ],
+  "status": "FULFILLED",
+  "fulfilledOn": "2026-09-09",
+  "howItWasFulfilled": "Not by re-acquisition. The original 2026-09-04 acquisition archive was recovered from the existing authenticated Drive custody and the seven originals were delivered as a transport package. No court website was fetched, no document converted, printed or regenerated, and the network policy that denies those hosts was not worked around.",
+  "verification": "Verified twice, independently. The package's own read-only verifier was audited before running (no network, no writes, path-contained) and reported 7/7 against this file plus 28/28 preserved archive members. Then every file was hashed again here against this record's own expectedSha256 and expectedByteLength: 7/7. After each copy the destination was re-hashed and asserted equal to the source.",
+  "materializedAt": [
+    {
+      "sourceId": "DE-CIV-EXP-02-B",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+      "sha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "DE-CIV-EXP-04-A",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+      "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "DE-CIV-EXP-08-A",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+      "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "DE-FORM-281",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+      "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "KY-AOC-275.18",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+      "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "ME-CR-308",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "outcome": "materialized"
+    },
+    {
+      "sourceId": "ND-SFN-14859",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+      "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+      "outcome": "materialized"
+    }
+  ],
+  "whereThosePathsComeFrom": "data/rcap-all50/local-source-corpus-index.json, matched by content digest rather than by filename. Each of the seven already had a committed index entry under custody nationwide_recovery_pool_2026_09_02 naming the exact path it belongs at, which is why no new registry was created and none was needed.",
+  "receiptsUnchanged": "Every committed acquisition receipt under data/rcap-codex/source-acquisition-2026-09-04/ was compared field for field with the recovered original and they agree exactly, so no receipt was replaced. The DE-FORM-281 date-provenance correction and every other adopted overlay stand untouched.",
+  "resolvesInEveryWorktree": "Confirmed by reading the same file through each lane's own mount: captain, pfa, pfb, pfc, pfd, pfe, pf14, pf23, v5c, v2mm, v9a and src1 all return the declared digest.",
+  "whatThisIsNot": "Source recovery is not a terminal verdict and not an approval. It removes the missing-bytes input from six families. Each still owes its build, its completeness audit, a central raster on its own digests and an independent read.",
+  "noteOnFormat": "DE-FORM-281 is a .doc, not a PDF. It was not converted. Whoever builds de_discretionary_family_court-set needs a Word path or a stop, not a silent conversion."
 }
