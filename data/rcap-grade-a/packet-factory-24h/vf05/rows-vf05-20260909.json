@@ -1,0 +1,155 @@
+[
+ {
+  "itemId": "mo-art-xiv-marijuana-set",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+  "implementationStrategy": "official_pdf_fill",
+  "postRepairReread": {
+   "priorIndependentVerdict": "FAIL_REPAIR_REQUIRED, lane vf20, verifiedAtBase 3687291a6, evidence data/rcap-grade-a/packet-factory-24h/vf20/rows.json, failed on CLIPPING_AND_OVERLAP (29 stroke-only flattened check-box appearances per fixture from pdf-lib's default appearance provider) and on a hardcoded literal 0 published as addedGlyphsReadFromOutputBytes.",
+   "repairClaim1_strokeOnlyFlattenedAppearances": "29 per fixture -> 0. TESTED AND CONFIRMED, not taken. I decompressed every page content stream of both delivered fixtures, resolved all 299 /FlatWidget-n XObjects per fixture, decompressed each appearance stream and tokenised it. Stroke-only (paint-operator-bearing, show-text-free) appearances: 0 in canonical.pdf and 0 in boundary.pdf. Stronger than the claim: the count of ALL path-painting operators (S s f F f* B B* b b* sh) across all 299 appearances is 0 in both fixtures. Of the 299, 198 are empty (zero-length, or exactly '/Tx BMC\\nEMC') and 101 carry show-text only; of those 101, 58 carry glyphs and 43 draw an empty string. No box border, tick, underline or rule was invented by the flatten.",
+   "repairClaim2_publishedGlyphReading": "887 of 1159. TESTED AND CONFIRMED as the measured quantity, not a literal. Counting non-whitespace characters in every show-text string (literal and hex) inside every flattened appearance of the delivered bytes, I read canonical = 887 and boundary = 1159 exactly, from raw totals of 958 and 1231 characters including 71 and 72 spaces respectively. reports/actual-writes.json publishes addedGlyphsReadFromOutputBytes 887 (canonical) and 1159 (boundary), which are the numbers I measured.",
+   "geometryCounterWarningHonoured": "I did not accept nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as evidence. I built the placement map myself: for every '... cm /FlatWidget-n Do' in every page content stream I carried the appearance's own text matrices back into page coordinates, then cross-referenced each inked placement against production-field-map.json's 58 write rects and 241 refusal rects independently of the builder's report. Result in BOTH fixtures: 58 inked placements, 58 matched to a declared write rect, 0 at any refusal rect, 0 unmatched, 0 overlapping ink runs. Stray ink at a census widget's own rect would have surfaced here as a placement matching a REFUSAL rect; there is none."
+  },
+  "nineCounters": {
+   "knownRequiredFieldsMissing": 0,
+   "requiredFactsNotCollected": 0,
+   "unclassifiedBlanks": 0,
+   "incompleteRows": 0,
+   "requiredOptionsMissing": 0,
+   "requiredComponentsMissing": 0,
+   "invisibleWrites": 0,
+   "protectedWrites": 0,
+   "visualDefects": 0
+  },
+  "countersHowMeasured": {
+   "knownRequiredFieldsMissing": "All 58 rows of production-field-map.json writes were located as ink in the delivered content streams of both fixtures by my own placement scan; every fact the memo track mo-art-xiv-marijuana names as route- or case-determined (judicial circuit, county, case number, petitioner name, circuit court division, MSHP CJIS, prosecuting attorney + county, not-incarcerated posture, full name, year of birth, address, two conviction rows x 5 cells, FI-05 case type code and description, party blocks, submitted-by block) is on the page. 0 missing.",
+   "requiredFactsNotCollected": "Cross-read the memo track's participantInputs/supportingDocuments against blanks-left-for-the-participant.json and the delivered pages. Every fact not written is either a genuine participant election (18), court-owned (2), later completion (2), optional (1), off-route (157) or required-before-filing and disclosed (62). No held fact was dropped. 0.",
+   "unclassifiedBlanks": "242 refusals in production-field-map.json, each carrying a refusalClass and a why; blanks-left-for-the-participant.json disposition histogram sums to exactly 242 (PROTECTED_FIELD 2, PARTICIPANT_ELECTION_GENUINE 18, LATER_COMPLETION 2, OPTIONAL_PARTICIPANT_CONTENT 1, NOT_APPLICABLE_ON_THIS_ROUTE 157, REQUIRED_BEFORE_FILING 62). No blank without a disposition. 0.",
+   "incompleteRows": "CR375's conviction table resolved by geometry from the field map rects: 9 rows x 5 cells, y descending monotonically 487.1, 457.8, 428.5, 399.2, 370.0, 340.7, 311.3, 282.0, 252.7 - so the AcroForm RowN index agrees with the printed row position and cannot label a charge onto another charge's line. Rows 1 and 2 carry 5 of 5 cells written; rows 3-9 carry 0 of 5. No row mixes written cells with blank required cells. 0.",
+   "requiredOptionsMissing": "Route-determined elections read as ink in the delivered bytes: the Circuit Court Division defendant box, the MSHP CJIS box, the Prosecuting Attorney box and the 'not currently incarcerated or on probation' box are each a ZapfDingbats check glyph at the widget's own rect; the paired 'currently incarcerated' box is unticked and declared NOT_APPLICABLE_ON_THIS_ROUTE with the route condition named. Self-identification boxes (sex, race, ethnicity, gender) are correctly left to the participant. 0.",
+   "requiredComponentsMissing": "reports/rendered-artifacts.json declares componentSet [primary_filing, cover_sheet, continuation]; I read all three out of the delivered 10 pages by extracted text and page manifest. The memo's fourth component, instructions (process_guidance), is delivered as filing-instructions.md + participant-instructions.md, both present and both covering unit 1 and unit 2. 0.",
+   "invisibleWrites": "Every one of the 58 ink runs was located in a decompressed appearance stream, its origin carried into page coordinates, and checked to lie inside the widget's own appearance BBox and inside the normalized /Rect from the field map - including the 3 writes whose source /Rect is written bottom-edge-last (FI-05 Party Type Description on packet pages 3 and 7 and Party Type Description_3 on page 3): those draw at y 587.589 and 327.189 inside normalized boxes 583.2-598.44 and 322.8-338.04. Nothing is drawn off-page, behind another object or at zero size. 0.",
+   "protectedWrites": "0 of the 241 refusal rects carries ink in either fixture, measured by my own placement cross-reference. Both PROTECTED_FIELD entries (CR375 Judge or Division; and the printed petitioner signature slot) are empty: pdftotext -layout of canonical.pdf shows 'Judge or Division:' and the \"Petitioner's Signature\" rule with nothing on them. Filing Date and SSN on both FI-05 sheets are blank. 0.",
+   "visualDefects": "Measured with Helvetica AFM advance widths against each write box: 0 runs wider than their own box in either fixture (the builder's runsWiderThanTheirOwnBox is empty and I reproduced it). 0 path-painting operators added anywhere. 0 overlapping ink runs. Source fidelity proven by stream diff: every one of the 8 content streams of CR375 source page 1 and the 1 stream of source page 2 is preserved byte-identically in delivered pages 1-2; the only additions are a 'q'/'Q' pair and one appended placement stream per page. 0."
+  },
+  "proofObligations": {
+   "ROUTE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "MASTER_QUEUE names two route keys, obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief and :mo-art-xiv-cr375-petition; production-field-map.json carries both. The delivered primary filing is the Supreme Court of Missouri CR375 'Petition for Expungement - Marijuana-Related Offense(s)', footer 'SJRC (10-24) CR375 ... Mo. Const. art. XIV, section 2' read from the delivered page, captioned 'IN THE 31st JUDICIAL CIRCUIT, Greene COUNTY, MISSOURI'. Unit 1 (no participant filing) is delivered as the 'The other half of this route' section of filing-instructions.md, which tells the participant to check Case.net and ask the clerk whether an order or certificate already exists before filing. Both units are answered."
+   },
+   "SOURCE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "CR375: sha256 recomputed here over the master library binary at STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__...__REV-2024-10__EN.pdf = 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780, matching MASTER_QUEUE.sourceHashes, source-receipt.json and the memo component sha. Stronger: a stream-level diff proves the delivered pages ARE those bytes - all 8 source content streams of page 1 and the 1 of page 2 survive byte-identically, none dropped, none altered. FI-05: its own binary is not reachable in this worktree (it lives in the Nationwide recovery pool, whose pool/files tree is not materialized here and which the brief says git sparse-checkout cannot produce), so I could not recompute 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e. I measured its identity instead out of the DELIVERED bytes, against every claim in source-receipt.fi05IdentityReadFromTheDocument: 4 pages, footers 'SJRC (04-23) FI-05' and 'SJRC (07-23)', title 'Confidential Case Filing Information Sheet - Non-Domestic Relations', Case Types List present, and the row 'Expunge Marijuana Criminal/Arrest Records X#' present. Every identity assertion the receipt makes was confirmed on the page. The composition source MO.memo.json also rehashes exactly: 53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934."
+   },
+   "COMPONENT_SET": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "Three components declared and three delivered, read from the 10 delivered pages: primary_filing CR375 pp1-2, cover_sheet FI-05 pp3-6, continuation FI-05 (additional sheet) pp7-10. RECORD DIVERGENCE RECORDED, not reconciled: MO.memo.json's components[] defines the continuation role as a CR375 continuation (officialFormId CR375, sha 2cfca7e9..., condition 'where the agency list or the case table exceeds the space on the form'), while the packet delivers a second FI-05 as the continuation. I measured against the delivered bytes and the memo. Nothing required is missing: the memo's CR375 continuation condition is NOT met in either fixture (2 of 9 case rows and 3 of 6 agency slots used), and the second FI-05 is directed by the form's own printed instruction, which I read on the delivered page: 'If additional space is needed, complete additional Confidential Case Filing Information Sheets.' FI-05 holds three party blocks and this petition has four parties. The builder discloses the substitution in source-receipt.whyTheSameBinaryTwice and raises it with counsel. The memo's fourth component, instructions (process_guidance), is delivered as the two instruction markdown files."
+   },
+   "KNOWN_PREFILLS": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "58 writes, every one read back as ink at its own widget rect in both fixtures by my placement scan, and every one role-correct. Deliberately checked for the two DEFECTS_NO_COUNTER_CAN_SEE name-channel classes: no alias or previous-name field exists on either form and none was invented; FI-05 party blocks 2, 3 and 4 carry AGENCY organization names (Circuit Court of Greene County Division 4; MSHP CJIS Division; Prosecuting Attorney of Greene County) and NOT the participant's name, address, DOB, phone or email - the participant's identity appears only in party block 1 and the Submitted by block, which are his. CR375 asks year of birth only and the packet writes 1991 and no more. OBSERVATION RECORDED, not scored as a failure: Case Type Code X# is written on every FI-05 sheet from route.case_type_code. FI-05's own Case Types List prints X# for 'Expunge Marijuana Criminal/Arrest Records' in the ASSOCIATE column while CR375 is captioned as a CIRCUIT filing; I confirmed on delivered page 6 that the neighbouring expungement rows carry XG and X5 in the CIRCUIT position and that this row's CIRCUIT position is empty. The build states X# on the census record alone, says so in build-findings.json, raises the division question with counsel in approval-request.json, and tells the participant 'If the clerk tells you a different case type applies, use the clerk's.' That is a disclosed open counsel question over a census-sourced value, not an invented fact."
+   },
+   "REQUIRED_BEFORE_FILING": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "The memo declares 1 requiredBeforeFiling supporting document and it is printed in participant-instructions.md with its own name and where to get it: 'Certified docket sheet and judgment for each case. Obtained from: Clerk of the court where the case was charged or the finding of guilt entered.' The 62 REQUIRED_BEFORE_FILING blanks are disclosed as a table with, for each, what the participant must supply - including the two that matter most: the full Social Security number required by Missouri Supreme Court Operating Rule 4.07 (blank on every sheet, disclosed, and I confirmed the SSN line is empty on delivered pages 3 and 7), and the Filing Date (blank because 'a date written before the filing happened would be false'). Style of Case and every Party Type Code are disclosed with the reason the packet does not guess them (the binary carries the Case Types List but not the Party Types List - which I confirmed: delivered pages 5-6 are the Case Types List and no Party Types List appears anywhere in the 10 pages). The two blanks the shared completeness contract misclassified as LATER_COMPLETION on the words 'Sheriff's Dept.'/'Municipal Police Dept.' are disclosed to the participant anyway, in their own labelled section."
+   },
+   "ROUTE_OPTIONS": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "Every election the route determines is made on the page and every election it does not is left open. Made: the three defendant-agency boxes and the 'not currently incarcerated or on probation' box, each a ZapfDingbats check glyph drawn at that widget's own /Rect (confirmed as ink in the delivered streams, and visible in pdftotext as the tick beside each line). The paired 'currently incarcerated' box is unticked and carries the route condition that puts it off-route - marking both would contradict the statement the packet makes. Left open and disclosed: county sheriff's department, municipal police department and the Other agency line (naming an agency that holds no record would put a false defendant on a sworn petition), and all sex/race/ethnicity/gender self-identification boxes. REPEATING_ROWS and ROUTE_OPTIONS were checked against the widgets' own geometry rather than against label order."
+   },
+   "REPEATING_ROWS": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "CR375 page 2 carries one repeating table: 9 rows x 5 cells (Case Number, Court Name, Approx. Date of Charge, County of Charge, Number and Description of Charge). I resolved every cell by its own /Rect y from the field map: rows 1-9 descend monotonically at 487.1, 457.8, 428.5, 399.2, 370.0, 340.7, 311.3, 282.0, 252.7 with 5 cells each and even ~29.3pt spacing, so the AcroForm RowN index and the printed row position agree - the ma-seal-court-set class of defect (an index disagreeing with the printed row) cannot be present, and the form prints no row numbers to disagree with. Rows 1 and 2 are complete (5/5) and carry two different convictions; rows 3-9 are wholly empty and every one of their 35 cells is disclosed in participant-instructions.md with the condition 'if you are asking the court to expunge more than the 2 marijuana convictions already listed'. No partially filled row."
+   },
+   "PROTECTED_FIELDS": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "No signature, signature date, court-only, clerk-only or prosecutor-only field carries ink in either fixture. Measured, not read: I cross-referenced all 58 inked placements against all 241 refusal rects in both canonical.pdf and boundary.pdf and got 0 hits, and separately confirmed on the extracted page that the CR375 declaration-under-penalty-of-perjury signature rule is blank, that 'Judge or Division:' is blank, that 'Case Number (For Court Use Only)' is blank on all four FI-05 pages, and that 'Bar ID (required if attorney)' is blank."
+   },
+   "ARTIFACTS": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "sha256sum recomputed here: fixtures/canonical.pdf = 44ffa83102e981e65144007f272ae480c2d4251a23ca2c6b30144f7d28a12397 (683896 bytes, 10 pages) and fixtures/boundary.pdf = 9db6f9ab18a5a9a6468095e855d3aba65dfa651083ac60c45cc393e874e28dc3 (684238 bytes, 10 pages). Both match reports/rendered-artifacts.json and approval-request.json exactly, and page counts match. These are the bytes the admitted RASTER_PASS is bound to; I did not re-run the raster."
+   },
+   "PAGE_ORDER": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "The 10-entry pageManifest was checked against the delivered pages by reading them, not by trusting the manifest: p1-2 CR375 pages 1-2 (footers '1 of 2' and '2 of 2'), p3 FI-05 page 1 (Confidential Case Filing Information Sheet, party blocks 1-3), p4 FI-05 page 2 (REDACTED INFORMATION + Submitted by), p5 FI-05 page 3 (CASE TYPES LIST, first sheet), p6 FI-05 page 4 (CASE TYPES LIST, second sheet, carrying the marijuana row), p7-10 the same four FI-05 pages again as the continuation. Order as manifested, no page duplicated out of place, no page missing."
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "The repaired obligation, re-measured from the bytes and clean. (1) Stroke-only flattened check-box appearances: 0 in canonical.pdf and 0 in boundary.pdf, against 29 per fixture pre-repair. Across all 299 flattened appearance XObjects per fixture the total count of path-painting operators (S s f F f* B B* b b* sh) is 0 - the flatten stamps no invented border, tick or rule at all. (2) No ink outside a measured write box: 58 inked placements per fixture, all 58 at a declared write rect, 0 at a refusal rect, 0 unmatched, and each run's origin inside its own appearance BBox and inside the normalized /Rect - including the three whose source rect is written bottom-edge-last. (3) No run wider than its own box in either fixture, measured with Helvetica AFM advance widths (I reproduced the builder's drawnWidthPt to within kerning). (4) No two ink runs overlap. (5) Source fidelity: every source content stream of CR375 pages 1-2 survives byte-identically in the delivered packet; the only additions are the flatten wrapper and one placement stream per page."
+   },
+   "FILING_DESTINATION": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "The memo's destination is 'Clerk of the Missouri court where the marijuana conviction was charged or the finding of guilt entered', with unit 1 having no filing destination. filing-instructions.md says exactly that: 'File the petition with the clerk of the Missouri circuit court where the conviction was charged or where you were found guilty - the court shown in the caption. Hand the clerk both Confidential Case Filing Information Sheets with it.' and separately explains that unit 1 involves no filing. It matches the delivered caption and CR375's own printed venue sentence, which I read on the page."
+   },
+   "FEE_AND_WAIVER": {
+    "measured": true,
+    "result": "FAIL",
+    "detail": "The fee half is right and the waiver half is missing, and the obligation is scored as one. FEE - correct: MO.memo.json rules.fees says 'Not fixed by Article XIV and county-variable ... No fee figure is published on this track', and filing-instructions.md publishes no figure: 'The held sources establish no filing fee for this petition and this packet states no amount. Ask the clerk.' That is the right answer for Missouri and this factory's own regression test (scripts/grade-a-packet-factory-24h/test-md-pardon-record-disclosures.mjs) names that sentence as true here. WAIVER - absent: MO.memo.json rules.feeWaiver names a waiver route for this track by form number and authority - 'GN10 under Rule 77.03 and section 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for.' The packet states that route NOWHERE. Measured by exhaustive case-insensitive search across every participant-facing byte this family delivers - participant-instructions.md, filing-instructions.md and the full pdftotext -layout extraction of canonical.pdf: zero occurrences of 'waiver', 'GN10', '514.040', '77.03', 'cannot pay', 'in forma pauperis' or 'indigen'. The word 'fee' appears twice in the whole delivered set, both in the two-line Fees section of filing-instructions.md. The record's stated reason bears on whether to GENERATE the form, not on whether to TELL the participant the route exists, and it concedes on its own face that some participants on this route do have a filing to pay for - which is exactly the population a waiver serves. A participant who cannot pay is told only to ask the clerk about an amount, and is never told Missouri has a statewide fee-waiver form or the rule that authorises it."
+   },
+   "SERVICE": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "MO.memo.json rules.service is 'None performed by the participant. CR375 carries no certificate of service', and rules.notice is 'Not prescribed for the participant ... the court and clerk handle notice as they do on the other petition routes. Article XIV prescribes no objection window and no prosecutorial notice period of its own.' The delivered packet matches on both limbs, verified on the page rather than in the report: the full text extraction of all 10 delivered pages contains no certificate of service, no certificate of mailing and no service block, and neither instruction file directs the participant to serve anyone. The three agencies named as Defendant(s) are named as record-holders whose records the order reaches, which is what the record says they are."
+   },
+   "SELF_HELP_STOP": {
+    "measured": true,
+    "result": "PASS",
+    "detail": "The memo declares 11 selfHelpStopConditions for this track. All 11 appear in participant-instructions.md VERBATIM, under a 'Stop conditions' heading that says in terms 'They are the conditions the Missouri record for this route states, in its own words' - I compared them string by string against MO.memo.json rather than reading the builder's claim, and this build refuses if the record stops declaring them (source-receipt.compositionSources pins MO.memo.json by sha, which I rehashed and it matches). Two further stops are added and correctly labelled as route boundaries rather than record conditions: a non-Missouri or non-marijuana conviction, and a still-pending charge. The packet also states where self-help ends inside the copy itself - 'If that is no longer true, stop: the other box applies to you, this packet is drafted for the wrong branch'."
+   }
+  },
+  "crossChecks": {
+   "DEFECTS_NO_COUNTER_CAN_SEE": "Checked all eight deliberately. map-honest-writes-not: cleared - I diffed the finalizer's ink against the map's writes myself and they agree exactly (58/58, 0 extra). a-participant-fact-written-into-a-field-about-someone-else: cleared - FI-05 party blocks 2/3/4 carry agency organization names only; the participant's identity is confined to party block 1 and the Submitted by block. acroform-index-is-not-the-printed-row: cleared by geometry - the 9 RowN indices descend monotonically in y and the form prints no row numbers. extracted-line-order-is-not-column-order: this is the live one on this family, and the BUILD read it correctly by x-position (X# in the ASSOCIATE column, not CIRCUIT); I confirmed the column reading on delivered page 6 and it is escalated to counsel rather than asserted. internal-record-text-printed-on-a-filing: cleared - I read all 10 delivered pages; the only text on them is CR375's and FI-05's own printed matter plus the 58 participant/case values. No record sentence, no builder-addressed analysis, no machine vocabulary appears on any filing page. a-published-zero-where-a-measurement-existed: this family is the named instance and the repair is confirmed - 887/1159 re-measured here. a-geometry-counter-with-no-teeth: honoured - I did not rely on nonWhitespaceGlyphsOutsideMeasuredWriteBoxes and built my own placement/refusal cross-reference instead. two-families-one-filing: see below.",
+   "CLONED_FAMILY_PACKETS": "mo-art-xiv-marijuana-set appears in no clonedDeliverables, nearClones or sharedDocuments group in CLONED_FAMILY_PACKETS.json (searched the whole file for the family id and directory). Its own internal near-duplication - FI-05 delivered twice, as cover_sheet and as continuation - is intended, disclosed in source-receipt.whyTheSameBinaryTwice, and the two copies are NOT identical in what they say: packet page 3 carries Petitioner + two Defendant agencies and page 7 carries the fourth party.",
+   "recordsThatDisagree": "Two disagreements recorded rather than reconciled. (1) MO.memo.json defines the continuation component as a CR375 continuation; the delivered continuation is a second FI-05. I measured against the delivered bytes and both records; nothing required is missing (see COMPONENT_SET). (2) MASTER_QUEUE carries allNineCountersZero true and completenessStatus PASS_COMPLETE for this family while approval-request.json raises five unresolved counsel questions including the ASSOCIATE/CIRCUIT division question. Those are different gates and I do not treat the queue's counters as answering counsel review. I did not edit either record."
+  },
+  "evidenceRead": [
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/canonical.pdf (decompressed content streams, all 299 flattened appearance XObjects, and pdftotext -layout of all 10 pages)",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/boundary.pdf (same treatment)",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/production-field-map.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/builder-completeness-counters.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/source-receipt.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/build-findings.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/approval-request.json",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/participant-instructions.md",
+   "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/filing-instructions.md",
+   "data/record-clearing/legal-design-intake/MO.memo.json (track mo-art-xiv-marijuana; sha256 rehashed here = 53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934)",
+   "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf (sha256 rehashed here = 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780; content streams diffed against the delivered pages)",
+   "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (family record, read only)",
+   "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+   "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json"
+  ],
+  "visualDefects": [],
+  "failedObligationNames": [
+   "FEE_AND_WAIVER"
+  ],
+  "failedObligations": [
+   {
+    "obligation": "FEE_AND_WAIVER",
+    "whatIsWrong": "The delivered packet states no fee-waiver route while its own bound controlling record names one by form number and authority.",
+    "recordSaid": "MO.memo.json, track mo-art-xiv-marijuana, rules.feeWaiver: 'GN10 under Rule 77.03 and section 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for.'",
+    "packetSaid": "filing-instructions.md, the entire Fees section: 'The held sources establish no filing fee for this petition and this packet states no amount. Ask the clerk.' Nothing else in the delivered set mentions cost at all.",
+    "howMeasured": "Case-insensitive search for waiver / GN10 / 514.040 / 77.03 / 'cannot pay' / 'in forma pauperis' / indigen across participant-instructions.md, filing-instructions.md and the full pdftotext -layout extraction of canonical.pdf: 0 occurrences in all three.",
+    "whatWouldDischargeIt": "State the waiver route in the participant-facing copy - the GN10 statewide fee-waiver form, Rule 77.03 and section 514.040, and that the filing court must accept it - alongside the existing (correct) statement that no fee figure is published. Generating GN10 is not required; the record's decision not to generate it by default stands."
+   }
+  ],
+  "grantsNothing": "An independent PASS or FAIL here proves only what was measured against this family's own controlling records. It approves no output, promotes no route, opens no commercial path and authorizes no fulfillment."
+ }
+]
