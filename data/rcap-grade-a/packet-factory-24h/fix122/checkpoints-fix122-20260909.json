@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-repair-lane-checkpoints/v1",
+  "lane": "FIX122",
+  "branch": "fix122-widget-placement-20260909",
+  "base": "25c56504af0a0041f467a3af10328ff276f2e6eb",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "act": "Verified the dispatched defect against the delivered bytes before changing anything.",
+      "method": "Decoded each page's content stream, walked q/Q/cm to the CTM at every '/FlatWidget Do', resolved the XObject and read its /BBox AND its /Matrix, then transformed the BBox corners by Matrix x CTM to get the page rectangle the ink actually occupies.",
+      "result": "The dispatched arithmetic test omitted the /Matrix term. Two of the three named families are not defective."
+    },
+    {
+      "checkpoint": 2,
+      "act": "Located the true cause.",
+      "result": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs (2,714 lines, form SCA-C907) reaches sanitizeAndFlatten through finalizeOfficialForm without asking for the 12.5.5 mapping: it neither calls normalizeWidgetAppearancePlacement nor passes fitAppearancesToRect. Its two siblings (SCA-C906) do call it. One builder on an unnormalized path."
+    },
+    {
+      "checkpoint": 3,
+      "act": "Proved the remedy in memory against the pinned source, writing nothing into the repository.",
+      "sourceSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+      "result": "Both candidate wirings produce BYTE-IDENTICAL output (sha256 0864836af0df872614192578e24bb187196e72c24fe1b0a3094ddabc2ecf4d75): all 13 checkboxes land on their own /Rect, none off paper. The unwired path gives d46603f993d264d1b21713d88cfb4a6186ea3c40fb381c7e44b23967839a79ad with 13 doubled and 4 off paper.",
+      "noOpProof": "57 of 70 placements are origin-anchored and are byte-for-byte identically placed with the correction on and off."
+    },
+    {
+      "checkpoint": 4,
+      "act": "Asserted the claim before writing to any family.",
+      "result": "All three refused. wv_conv_nonviolent_felony-set NOT_GRANTED (exit 6); the two siblings GRANTED_ELSEWHERE_BUT_RELEASED on FIX06/FIX07 (exit 8), which the tool itself says this lane may not transfer to itself. No family was rebuilt.",
+      "stop": "BLOCKED_BEFORE_CLAIM"
+    },
+    {
+      "checkpoint": 5,
+      "act": "Measured the second obligation rather than assuming the placement fix closes it.",
+      "result": "requiredOptionsMissing measures 0 on the current bytes, and the unticked eligibility recitals are a recorded legal refusal under W. Va. Code Sec. 61-11-26(p)(5), not a placement artifact. The placement fix closes CLIPPING_AND_OVERLAP only."
+    }
+  ],
+  "overlayDirectoriesModified": 0,
+  "sharedModulesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": "NO"
+}

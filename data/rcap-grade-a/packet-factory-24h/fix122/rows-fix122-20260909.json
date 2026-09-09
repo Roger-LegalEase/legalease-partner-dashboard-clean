@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-repair-lane-rows/v1",
+  "lane": "FIX122",
+  "laneKind": "repair",
+  "generatedAtBase": "25c56504af0a0041f467a3af10328ff276f2e6eb",
+  "branch": "fix122-widget-placement-20260909",
+  "whatThisLaneDid": "Verification only. No packet family was rebuilt, no overlay directory was written, and no shared module was edited. The lane was dispatched to repair three families for a defect that two of them do not have, and the one that does have it is not granted to any repair lane.",
+  "rows": [
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "status": "BLOCKED_BEFORE_CLAIM",
+      "repairedByThisLane": false,
+      "claimAssert": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX122 'wv_conv_nonviolent_felony-set'",
+      "claimRefusal": "NOT_GRANTED: no repair lane holds wv_conv_nonviolent_felony-set (exit 6)",
+      "heldInstead": "VF08 holds a LIVE, unreleased independent-verification claim on this family (claim-ledger.json: released false, releasedAt null). Rebuilding it would destroy the bytes an independent reader is measuring.",
+      "countersBefore": null,
+      "countersAfter": null,
+      "countersNote": "Null because this lane repaired nothing; there is no before/after pair to report. The nine counters measured read-only on the CURRENT committed bytes are in countersMeasuredOnCurrentBytes below.",
+      "countersMeasuredOnCurrentBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersMeasuredHow": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'wv_conv_nonviolent_felony-set' at base 25c56504a; exit 0, PASS_COMPLETE, 6/72 written, working tree unchanged afterwards. visualDefects is null rather than 0 because this lane is not an independent reader and rendered no pages for judgement.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "defectConfirmed": true,
+      "defectEvidence": "Read from the delivered bytes of both fixtures: 70 flattened widget placements, 13 with an absolute-page-coordinate BBox and NO /Matrix on the XObject, so the placement translate is not cancelled. Example page 1: BBox lower-left [91.6836, 324.912], cm translate [1 0 0 1 91.6836 324.912], /Matrix absent, ink lands at [183.367, 649.824]. Four of the 13 land off the paper.",
+      "openObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "state": "REPRODUCED_AND_REMEDY_PROVEN_BUT_NOT_APPLIED",
+          "finding": "Confirmed on the delivered bytes. The remedy was proven in memory against the pinned source and is a one-call-site wiring change; it was not applied because the family is not granted to this lane."
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN_AND_NOT_CLOSED_BY_THE_PLACEMENT_FIX",
+          "finding": "The dispatch stated VF08 counted requiredOptionsMissing = 11. That figure is not in the repository: vf08/rows.json carries no row for this family and vf08/repair-assignments.json carries no entry for it. Measured fresh here, requiredOptionsMissing is 0. Separately, the four page-1 eligibility recitals are left unticked BY DESIGN, not by misplacement: two are declared NOT_APPLICABLE_ON_THIS_ROUTE because they are the Sec. 61-11-26a branch and this family is Sec. 61-11-26, and the other two turn on the nonviolent determination and the same-transaction analysis, which the committed record calls legal conclusions and which Sec. 61-11-26(p)(5) makes express findings of the circuit court. Ticking them would assert a judicial finding on a petition sworn before a notary. The placement fix moves the court's own empty box outlines back onto their controls; it does not and must not make those elections."
+        }
+      ],
+      "obligationsBothClosed": false
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "status": "NOT_DEFECTIVE_NO_ACTION",
+      "repairedByThisLane": false,
+      "claimRefusal": "GRANTED_ELSEWHERE_BUT_RELEASED: recorded on FIX06 (exit 8)",
+      "countersBefore": null,
+      "countersAfter": null,
+      "finding": "Not affected. All 13 absolute-BBox placements carry /Matrix [1 0 0 1 -Rect.x -Rect.y], which cancels the placement translate exactly; every box lands on its own /Rect and none is off paper. Its builder calls normalizeWidgetAppearancePlacement at lines 466 and 549 before sanitizeAndFlatten.",
+      "rasterState": "BUILT_RASTER_PENDING"
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "status": "NOT_DEFECTIVE_NO_ACTION",
+      "repairedByThisLane": false,
+      "claimRefusal": "GRANTED_ELSEWHERE_BUT_RELEASED: recorded on FIX07 (exit 8)",
+      "countersBefore": null,
+      "countersAfter": null,
+      "finding": "Not affected, on the same measurement. Its builder is a four-line re-export of runWvFamily from the multiple-misdemeanors host, so it shares the normalized path.",
+      "rasterState": "BUILT_RASTER_PENDING"
+    }
+  ],
+  "sharedModuleVerdict": {
+    "module": "scripts/rcap-official-forms/rcap-widget-appearance-placement.mjs",
+    "edited": false,
+    "verdict": "CORRECT_AS_WRITTEN",
+    "why": "Matrix' = Matrix x A x translate(-Rect.x, -Rect.y) is exactly ISO 32000-1 12.5.5 less the translate pdf-lib's flatten() prepends. On an origin-anchored BBox with identity Matrix, A is translate(Rect.x, Rect.y) and Matrix' is the identity, so the correction is a proven no-op and is additionally skipped by MIN_CORRECTION_POINTS.",
+    "provenNoOp": "Against the pinned SCA-C907, 57 of 70 placements are origin-anchored: all 57 land on identical page coordinates with the correction on and off. Only the 13 malformed ones move."
+  },
+  "notAProductionClaim": "This lane released nothing, transferred nothing, opened no route and rebuilt no packet."
+}
