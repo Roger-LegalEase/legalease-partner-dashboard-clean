@@ -20576,6 +20576,619 @@
    "whyBlockedNotPass": "Everything this lane can settle from the record passes, and AL6-01 and AL6-02 are genuinely gone. AL6-03 remains: the same printed caption box is prefilled on nine pages and blank on two, and which case number that box means is established nowhere in AL.memo.json. Deciding it would be authoring an Alabama legal conclusion, which this lane does not do, so the family blocks rather than passes.",
    "whatWouldUnblockIt": "A legal-design answer in AL.memo.json stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing. Either answer makes the remaining defect mechanical and repairable.",
    "observedNotScored": "Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure."
+  },
+  {
+   "itemId": "de_mandatory_expungement-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-09 independent verification after repair",
+   "worker": "CLAUDE-VF01-VF05-VF03-INDEPENDENT-READ-20260909 (independent: this lane did not build, repair, raster or productize this family; it created no subagent, edited no overlay directory, no build script and no shared record, and released no claim)",
+   "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+   "verifiedAt": "2026-09-09",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "laneDisposition": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 de_mandatory_expungement-set (independent-verification, grant set def7c8ff77ef7a20)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false,
+    "whyNotReleased": "The Captain owns the ledger; this lane does not release or re-grant claims."
+   },
+   "whyThisFamilyWasReread": "It was repaired at 1b5a20e21 and the only verdict on record (vf01 rows[107], base ee60956ef) predates that repair. Nothing in that row is carried forward: every obligation below was measured again on the bytes at this base.",
+   "digestsConfirmedFirst": {
+    "order": "Both fixture digests were recomputed with sha256sum over fixtures/ before the memo, the field map, the instructions, the regression test or any page was opened.",
+    "canonicalSha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+    "boundarySha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+    "byteLengths": {
+     "fixtures/canonical.pdf": 13688,
+     "fixtures/boundary.pdf": 13761
+    },
+    "pageCounts": {
+     "canonical.pdf": 4,
+     "boundary.pdf": 4,
+     "method": "pdfinfo / pdftotext / pdftoppm (Poppler)"
+    },
+    "agreesWith": [
+     "reports/rendered-artifacts.json pdfs[].sha256, byteLength and pageCount for both fixtures"
+    ],
+    "bytesHaveMovedSinceTheLastLaneReturn": "The prior VF01 row read canonical f08e5968 / boundary f567de6c at 3 pages each. Those bytes no longer exist. These are the 1b5a20e21 bytes at 4 pages each."
+   },
+   "preflight": {
+    "environment": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY 12/12 passed, 0 failed, 5 not applicable",
+    "familyRow": "node scripts/verify-packet-build-environment.mjs --family de_mandatory_expungement-set -> READY 13/13; family_sources_bind ok: zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
+    "zeroBoundSourcesIsNotBlockedSource": "Zero bound document binaries is the correct count for this strategy. It is not scored here as a missing binding and this row is not BLOCKED_SOURCE.",
+    "browserEnvironmentExported": "RCAP_CHROMIUM_PATH is unexported in this container. Without --require-rasterizer the environment gate reports the browser checks as not applicable rather than failed; nothing in this row depends on a browser, because every page was rendered with pdftoppm and read as an image."
+   },
+   "rasterState": "BUILT_RASTER_PENDING",
+   "rasterStateBinding": {
+    "centralVerdict": "data/rcap-grade-a/launch-recovery-2026-09-07/central-raster/de_mandatory_expungement-set.verdict.json",
+    "doesNotCoverTheseBytes": "That verdict binds hashesBound.canonical f08e5968 and hashesBound.boundary f567de6c and measured 6 pages. The delivered bytes are fe611676 / 45f57fe5 at 8 pages. No central raster covers the current bytes, and build-status.json says so: rasterState BUILT_RASTER_PENDING, rasterPages 0.",
+    "localReadIsSeparate": "This lane rendered all 8 pages locally with pdftoppm at 110 dpi and read every one as an image (7 distinct: canonical page 4 and boundary page 4 are byte-identical rasters). The local render is evidence for this row; it is not offered as the central gate. Rasters were deleted."
+   },
+   "theRepairClaimsTestedOneByOne": {
+    "requiredBeforeFilingDocumentRestored": "TRUE. DE.memo.json tracks[1].supportingDocuments has exactly one entry with requiredBeforeFiling true - 'Certified Delaware criminal history'. Read straight out of the memo and matched against the delivered bytes, that exact string is now present in participant-instructions.md and on page 1 of both fixtures, under the heading 'Required before you use the agency process'. At 1b5a20e21^ it was absent from participant-instructions.md entirely; this lane recovered that file with git show and re-ran the same match to confirm the absence rather than taking it on report.",
+    "allNineStopConditionsPrintVerbatim": "TRUE, with one typographic substitution. All nine DE.memo.json tracks[1].selfHelpStopConditions are present verbatim in participant-instructions.md. In the two PDFs, six match verbatim and the remaining three - [3], [4] and [6] - match verbatim once the section sign is read as the packet renders it, 'Sec.' (the same transliteration the packet uses everywhere else, e.g. '11 Del. C. Sec. 4372(l)'). With that one substitution applied, 0 of 9 are missing from either fixture. They print as a nine-item list on page 3 of both, introduced as 'The committed Delaware record states these stop conditions for this route.'",
+    "builderRefusesToBuildIfTheRecordStopsDeclaringThem": "TRUE and it is a hard throw, not a warning. scripts/build-census-v1-de_mandatory_expungement-set.mjs lines 55-70 read DE.memo.json at build time and throw DE_MEMO_TRACK_ABSENT, DE_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT, DE_MEMO_HAS_NO_REQUIRED_BEFORE_FILING_LIMITATION, DE_MEMO_HAS_NO_FILING_RULE and DE_MEMO_HAS_NO_SELF_HELP_STOP_CONDITIONS.",
+    "canonicalGrewThreePagesToFour": "TRUE. Both fixtures are 4 pages, confirmed by pdfinfo and by rendering every page.",
+    "regressionTestExitsOneAgainstThePreRepairTree": "TRUE, and the guard is not vacuous. scripts/grade-a-packet-factory-24h/test-de-mandatory-expungement-record-disclosures.mjs exits 0 at this base with DE_MANDATORY_DISCLOSURES_OK. Re-running its own assertions against 1b5a20e21^'s participant-instructions.md gives 12 missing items on the instructions side (the document name, the required_before_filing limitation, rules.filing and all nine stops); the nine composed-page assertions bring the total to the 21 the repair reported.",
+    "theTwentySeventhS23VCustodyClaimIsAccurate": "TRUE, and this was checked against custody rather than against the commit message. reference/delaware/DE-Service-Code-Form_27S23V.pdf exists at this base, hashes to 963c85833f87a99563f2ed2ea3414332232c550f4c64bcd887f51a9d0039557a at 276670 bytes, is bound in source-receipt.json compositionSources at that exact digest, and git log shows it entered the tree at ea96a068f. The retired limb ('is not held here by hash') would therefore be false today, and the substituted limb - no printed revision is established, so the sheet is not evidence the codes and amounts are current, confirm with SBI - is what the packet prints. It is an accurate statement about our own custody, not a convenient one."
+   },
+   "whereIDifferFromTheCompletenessTool": {
+    "tool": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set prints PASS_COMPLETE 5/12 written with all nine counters at 0, including visualDefects 0.",
+    "difference1": "visualDefects 0 is a printed zero for a raster nobody ran centrally. The family's own build-status.json records rasterState BUILT_RASTER_PENDING and rasterPages 0. The 0 in this row's counter block is this lane's own measurement over 8 locally rendered pages, not the tool's.",
+    "difference2": "PASS_COMPLETE is not a description of this family. It was PASS_COMPLETE before the repair too, with the required document and all nine stop conditions missing. That is why REQUIRED_BEFORE_FILING was measured here directly against DE.memo.json and not read off the tool."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howEachWasMeasuredIndependently": {
+     "invisibleWrites": "Both PDFs were decompressed and scanned for text render mode and fill colour: no Tr operator of any kind appears and the only fill colour is '0 0 0 rg'. All five written values were read off the rendered page 1 of each fixture.",
+     "protectedWrites": "No signature, date, notary, clerk, prosecutor, court or agency field is completed anywhere. Page 4 of both fixtures prints 'Do not sign or date this guide' and 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.'",
+     "visualDefects": "All 8 pages rendered at 110 dpi and read as images. No clipping, no overlap, nothing past the right margin; the boundary fixture's 47-character address wraps inside the column and its 52-character e-mail sits inside it.",
+     "incompleteRows": "0 over an empty set: this family has no repeating-row structure at all.",
+     "requiredOptionsMissing": "0: routeSelectionsMade is empty, the guide offers the participant no election, and the route is fixed.",
+     "requiredComponentsMissing": "0 as the counter defines it, which is against this family's OWN componentSet of one agency_preparation_guide. Measured instead against DE.memo.json tracks[1].components[0] - role primary_filing, requirement required, officialFormId DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION - the count would be 1. That disagreement is the blockedLegalInput below, not a hardcoded zero here."
+    },
+    "nineCountersAreNotTheEvidenceHere": "All nine are genuinely zero and none of them measures the open question below. They range over twelve field-map rows; the open question is whether this family owes a document it does not deliver at all."
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "instruments": {
+    "delivered": "One composed document, agency_preparation_guide, four pages, assembled as canonical.pdf and boundary.pdf.",
+    "kind": "process guidance. Page 1 of both fixtures states: 'This is route-scoped process guidance only. It is not a Delaware SBI application, is not a court form, and is not filed or submitted anywhere.' and 'Do not print, sign, mail, upload, or file this guide as a substitute application.'"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a prints on page 1 and again in the page 4 trailer of both fixtures, and is the same key in production-field-map.json, source-receipt.json and product-wiring.json routeKey/routeKeys. Statutory authority 11 Del. C. Secs. 4373 and 4373A matches DE.memo.json tracks[1].",
+     "finding": "One route, printed twice, and every family record names the same one. Nothing in the text pleads the discretionary, juvenile, pardon or Attorney-General track."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "All nine compositionSources in source-receipt.json were rehashed against the tree at this base and all nine recompute byte-exact, so allSourcesExact true is true as stated. That includes the two retained DSP files - DE-Service-Code-Form_27S23V.pdf 963c8583 / 276670 B and sbi-process-20260907.html 47c8cc44 / 64690 B - and CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, whose pin the prior VF01 row recorded as stale (920b0c02 / 78277 B against a tree holding a5c912e7 / 81753 B). The repair corrected that pin and it now resolves.",
+     "finding": "The one source-receipt defect the prior read recorded is fixed and I confirmed it by recomputation rather than by reading the commit message. The descriptive repository label DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION is nowhere presented to the participant as an issuer form title; page 1 says in terms that it is 'an internal repository description, not a title or form number assigned by Delaware'."
+    },
+    "COMPONENT_SET": {
+     "result": "BLOCKED",
+     "evidence": "componentSet ['agency_preparation_guide'] agrees across production-field-map.json, reports/rendered-artifacts.json (components, documents and a pageManifest for all four pages of both fixtures) and product-wiring.json. Measured against the family's own declaration, one component is owed and one is delivered. Measured against DE.memo.json tracks[1].components[0] - role primary_filing, requirement REQUIRED, officialFormId DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION - a required primary filing is owed and is not delivered in any form.",
+     "finding": "This is the same conflict as blockedLegalInput below and it is scored here rather than passed. A guide cannot replace an owed application: the delivered document says on its own face that it is filed nowhere, so if the memo's reclassification governs, the required component of this packet set does not exist. This lane does not resolve which record governs and did not compose an application, because composing one would require asserting a form, format and submission destination SBI has not published and which CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json forbids inventing."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Five writes in each fixture - participant_name, participant_dob, participant_address, participant_phone, participant_email - each read off the rendered page 1 and matched to the builder's fixture value exactly, including the boundary fixture's hyphenated apostrophised name and its 'ext. 4417' telephone. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and refusedFieldsWithInk [] for both fixtures, which the page images confirm.",
+     "finding": "Only identity and contact facts the platform holds are written. No participant fact, signature, date, consent, returned record, prosecutor act, clerk assignment, judicial finding or professional adoption is fabricated anywhere in either fixture."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Page 4 of both fixtures carries a PROTECTED ITEMS block: 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs.' and 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.' No signature line, date line, notary jurat or agency block exists on any page to be written into.",
+     "finding": "No protected field is written and none is presented as if it had been completed."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "All 8 pages rendered at 110 dpi and read as images. The text column runs from a one-inch left margin to the right margin with no glyph past it; no line overlaps another; no descender is cut. The boundary fixture's longest values - a 47-character address and a 52-character e-mail - wrap or sit inside the column.",
+     "finding": "No clipping and no overlap in either fixture. No central raster covers these bytes, so this is a local read and is recorded as one."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "This is the obligation the prior VF01 row failed and the repair claims to have fixed, so it was measured from the record forward, not from the repair backward. DE.memo.json tracks[1].selfHelpStopConditions declares nine conditions; all nine are present verbatim in participant-instructions.md and all nine are present in both fixtures on page 3 (three of them after reading the memo's section sign as the packet's 'Sec.'). The two the prior row named specifically are now printed in the record's own words: '[2] A prior expungement was granted within ten years, or a felony conviction post-dates a prior felony expungement.' and '[4] The record involves a Sec. 4201(c) felony or a Beau Biden Act offense, where the only route is a pardon.' The earlier three-paragraph paraphrase is kept beside them rather than in place of them.",
+     "finding": "The stop list is now honest about what bars this route. A participant whose record was expunged within the last ten years, and one whose offence is pardon-only, are each told so in the committed record's own sentence."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "The guide names the Delaware State Police, State Bureau of Identification, Expungement Section, 302-739-5884 and https://dsp.delaware.gov/expungements/. DE.memo.json tracks[1] gives destination.kind agency and name 'State Bureau of Identification'. No mailing address, portal or submission method is asserted, and page 2 of both fixtures says so expressly: 'No mailing address, portal, or submission method is asserted here.'",
+     "finding": "The agency the statute directs the application to is the agency the guide names, with no invented address or portal, and the guide states its own silence rather than leaving it to be misread."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "DE.memo.json tracks[1].rules.service: 'The source review does not state a service requirement for the SBI application.' The delivered pages assert no service, no certificate of service and no service list, and no service component is declared.",
+     "finding": "Correctly silent. Nothing is claimed about service that the record does not establish."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Measured directly against the memo, not against verify-packet-completeness. DE.memo.json tracks[1].supportingDocuments contains exactly one entry with requiredBeforeFiling true: 'Certified Delaware criminal history'. That exact name now appears in participant-instructions.md and on page 1 of both fixtures in a paragraph headed 'Required before you use the agency process: obtain the Certified Delaware criminal history.' The memo's required_before_filing limitation ('Obtain the certified SBI history and submit it with the mandatory-expungement application...') and its rules.filing sentence are both quoted there verbatim. The repository's REQUIRED_BEFORE_FILING_CONDITIONS DISCLOSED test - 'the item is named in the packet's participant-instructions.md' - is met.",
+     "finding": "The regression is closed at the root, and I confirmed the root rather than the symptom: the builder derives this paragraph from DE.memo.json at build time and throws if the memo stops declaring it, so a repeat of ea96a068f's generator rewrite cannot silently delete it again.",
+     "onePointOfDivergenceFromThePriorRow": "The prior VF01 row's repair instruction was to keep the IdentoGo vendor name and its cost out. The restored paragraph puts both in, quoted from DE.memo.json supportingDocuments[0].obtainedFrom and howToObtain and attributed to the record in the same sentence. This lane does not score that a failure - it is a quotation from a committed legal record, it is attributed, and the packet immediately adds that the record does not state whether the certified history and the SBI expungement enrolment are one enrolment or two and that the participant must confirm with SBI before paying. It is recorded because the prior lane asked for the opposite and a reader comparing the two rows should see the change was deliberate."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Both declared fixtures exist, are 4 pages, and hash to the values in reports/rendered-artifacts.json, which also carries a pageManifest entry for every page of both. build-status.json is state_built / qa_review_pending, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, productionTouched false. product-wiring.json is DECLARED_NOT_INSTALLED, paymentEligible false, sponsorshipEligible false, and its lastIndependentVerification is now null - the phantom standing pass by a lane that does not exist, which the prior row recorded, has been cleared.",
+     "finding": "Every artifact the family declares is present and byte-bound. Two records inside the artifact set are stale and are recorded as discrepancies below rather than as missing artifacts."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Both fixtures read in the same composed order: page 1 title, route key, the 'agency-application preparation guide, not an official form and not a court filing' banner, the five identity writes, 'WHAT THIS GUIDE IS - AND IS NOT' and the start of 'EXACT SBI DESTINATION AND NEXT STEPS'; page 2 the remainder of that section, the SBI process costs, the Sec. 4372(l) fee-waiver limb and the start of 'SELF-HELP STOP'; page 3 the nine stop conditions; page 4 'FACTS YOU MUST CONFIRM BEFORE ACTING' (seven checkpoints kept whole by the family's KEEP_ON_ONE_PAGE rule), 'PROTECTED ITEMS' and the route trailer.",
+     "finding": "Order is correct and identical in both fixtures. Page 3 ends short because the seven checkpoints are deliberately kept together on page 4; that is the builder's declared layout rule, not a break defect."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "production-field-map.json routeSelectionsMade is empty and routeSelectionNote states the route is fixed and presents no alternate instrument for the participant to elect. The delivered pages offer no election, no checkbox and no branch: the mandatory/automatic split is described as SBI's determination and the discretionary branch is handed off as a stop rather than offered as an option.",
+     "finding": "No option is owed and none is missing."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "The family has no repeating-row structure: one composed document, twelve field-map rows, no table and no per-case or per-charge row set in either fixture.",
+     "finding": "Nothing to complete row-wise; incompleteRows 0 is measured over an empty set and is not a hardcoded zero."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Verified verbatim against the retained source rather than against the builder's account of it. reference/delaware/sbi-process-20260907.html (47c8cc44, binds exactly at this base) reads: 'The initial fee to apply for an expungement is $72.00... you must return your signed paperwork within 30 days of receipt and a money order payable to the Delaware State Police for $75.00... The service code to apply for an expungement is 27S23V', and separately identifies 27RVGT as the personal-use report. Page 2 of both fixtures states each of those, keeps the $75 conditional on SBI's notice, adds no court filing fee, warns against buying the personal-use report instead, and quotes the Sec. 4372(l) waive-or-convert limb in the memo's own words as a stop rather than a step. data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json binds exactly and is the record that supersedes the historical memo's extra court fee for this agency-only family.",
+     "finding": "Fees and the waiver limb match the pinned authority exactly, no payee, waiver form or fee amount is invented, and the receipt's whatThisReceiptDoesNotEstablish keeps the currency of the codes and amounts open."
+    }
+   },
+   "failedObligationNames": [],
+   "blockedObligationNames": [
+    "COMPONENT_SET"
+   ],
+   "passedObligationNames": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+   ],
+   "blockedLegalInput": [
+    {
+     "question": "Does this family owe a participant-facing application, or process guidance?",
+     "thisLanesReading": "A guide cannot replace an owed application. The delivered document is instructional prose that says on its own face it is not an application, is not a court form and is filed nowhere. DE.memo.json tracks[1] says the opposite in terms: legalDesignDecision.rationale records an express reclassification 'from process_guidance to a participant application packet' and adds 'LegalEase may generate the participant-facing application and instructions without reviewing the history itself'; limitations[1] adds 'Agency review does not make the participant application guidance-only'; and components[0] is role primary_filing, requirement required, officialFormId DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION. If that record governs, this packet does not deliver its required primary component, and no amount of guidance quality closes that gap. So it is scored as a blocked obligation and the family is not passed.",
+     "whatTheOtherRecordsSay": "Against the memo, CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json reconciliation42 sets exactNextAction 'Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF' and satisfiedWithoutStandaloneBinary for official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION - while at the same time carrying implementationStrategyOverride 'participant_agency_application', which pulls in the memo's direction rather than the delivered guide's. The acquisition receipt records no_public_binary_exposed. data/expungement-ai/route-product-metadata.json classifies the route formStrategy guidance_only, packetDocumentType guidance_only, filingForum 'automatic', userFiled false, isAdministrativeApplication false - a classification that describes only the Sec. 4373A automatic branch and not the Sec. 4373 application branch the memo's legalName is built on.",
+     "whyThisLaneDoesNotDecideIt": "Composing the application would require asserting a form, format and submission destination SBI has not published, which the same committed record forbids and which this lane may not fabricate. Choosing between the memo's reclassification and the source determination is an owner and counsel act. This lane records the mismatch, scores COMPONENT_SET blocked, and composes nothing.",
+     "whatWouldUnblockIt": "An owner or counsel determination naming which of the three records governs this route, and - if the memo governs - a source-approved SBI application form or an express instruction that a participant-facing application may be composed without one.",
+     "alsoStillOpen": "DE.memo.json tracks[1].unresolvedQuestions[0] (post-Cornette partial expungement) carries impact release_blocker and is untouched at this base."
+    }
+   ],
+   "recordDiscrepancies": [
+    {
+     "where": "production-field-map.json requiredBeforeFiling[] and maps[0].canonicalRefusals / boundaryRefusals",
+     "what": "All seven requiredBeforeFiling rows declare page 1 in both fixtures. In the delivered bytes all seven print on page 4: the string 'Check with:' occurs 0 times on pages 1, 2 and 3 and 7 times on page 4 of each fixture. The five writes, which also declare page 1, are correctly on page 1.",
+     "whyItMatters": "This is a source-authored default rather than a measurement, and the repair did not touch it. The prior VF01 row recorded the same seven rows as wrong when the guide was 3 pages and they printed on page 3; the guide is now 4 pages and they print on page 4, and the record still says page 1. A value that stayed 1 across two different paginations was never measured from the delivered pages at all, and it is the record that tells a downstream gate or a participant where a required blank prints.",
+     "notScoredAsAFailure": "Recorded as a record discrepancy for the repair lane, consistent with the prior row's treatment, because the seven blanks themselves are present, labelled and disclosed."
+    },
+    {
+     "where": "product-wiring.json binding.acceptanceReceipt",
+     "what": "It records verdict RASTER_PASS with workflowRunId 34078415178 bound to canonical f08e5968 - the pre-repair digest. The delivered canonical is fe611676. The same record's maintenanceRelationship.reRasterRequiredWhen says 'any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered', and the fixture bytes have moved.",
+     "whyItMatters": "The mismatch is detectable because the hash is stated, and build-status.json is honest (BUILT_RASTER_PENDING). But a promotion gate that reads verdict RASTER_PASS without recomputing the hash would read a pass for bytes that were never centrally rendered. binding.lastIndependentVerification is correctly null.",
+     "notScoredAsAFailure": "Recorded rather than scored, because no record asserts that an independent lane or a central raster has passed the current bytes."
+    }
+   ],
+   "notMeasurableHere": [
+    "Whether the Delaware SBI has changed the 27S23V service code, the $72 initial charge, the conditional $75 money order or its instructions since the 2026-09-07 source check. dsp.delaware.gov is not reached from this container and the retained page and sheet are the only evidence; the receipt already declines to establish their currency.",
+    "Whether the printed revision of the 27S23V service-code sheet is what the retained PDF shows. The record states no printed revision is established and nothing here can settle it.",
+    "Any counsel, owner or professional adoption question, including the guidance-versus-application determination above. This lane adopts nothing and approves nothing."
+   ],
+   "independence": "This lane did not build, repair, raster or productize de_mandatory_expungement-set. It read the delivered bytes, the memo, the pinned composition sources, the builder, the regression test, the claim ledger and the central raster verdict; it rendered every page locally and deleted the rasters; it wrote nothing outside this rows.json; it released and re-granted no claim and created no subagent.",
+   "whatThisRowDoesNotDo": "It approves nothing, adopts nothing, opens no commercial route, promotes no build status, and is not counsel review. It does not resolve the guidance-versus-application question and it composed no application.",
+   "selfVerified": false,
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimsReleased": 0,
+   "subagentsCreated": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "rastersDeleted": true,
+   "note": "BLOCKED_LEGAL_INPUT. The repair at 1b5a20e21 holds on every claim it made, tested one by one against the bytes and the memo rather than against the commit message: the certified Delaware criminal history is named and required, all nine stop conditions print verbatim, the builder now refuses to build without them, the guard fails 21 ways against the pre-repair tree, and the 27S23V custody statement is accurate. Fourteen obligations pass. The family is not passed because COMPONENT_SET cannot be: DE.memo.json declares a required primary_filing application this packet does not deliver in any form, and a guide cannot replace an owed application. That is an owner and counsel determination, not a builder or verifier act."
+  },
+  {
+   "itemId": "co_petition_seal_arrest-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-09 independent verification on current bytes",
+   "worker": "CLAUDE-VF01-VF05-VF03-INDEPENDENT-READ-20260909 (independent: this lane did not build, repair, raster or productize this family; it created no subagent, edited no overlay directory, no build script and no shared record, and released no claim)",
+   "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+   "verifiedAt": "2026-09-09",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 co_petition_seal_arrest-set (independent-verification, grant set def7c8ff77ef7a20)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false
+   },
+   "whyThisFamilyWasReread": "The verdict on record (vf01 rows[69], base 553966eaa, FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS and ROUTE_OPTIONS) was taken before FIX96 e9ebca63c moved the fixture bytes. Nothing from that row is carried forward.",
+   "digestsConfirmedFirst": {
+    "canonicalSha256": "a75ed07d8fe5c52be01fa584dff5dcad90fc0c39f44cbacca3cb41c4ac888728",
+    "boundarySha256": "1c267aea07c3f1a1910e5ea6ec60412dd7cd4445b641c0a728a040f7d1c9b351",
+    "pageCounts": {
+     "canonical.pdf": 5,
+     "boundary.pdf": 5
+    },
+    "assembly": "JDF-417 pages 1-3, JDF-418 pages 4-5, in both fixtures.",
+    "lastFixtureCommit": "e9ebca63c FIX96: CO arrest petition gets its title back and stops claiming an answer it never wrote"
+   },
+   "preflight": {
+    "environment": "PACKET_BUILD_ENVIRONMENT_READY 12/12, 0 failed",
+    "familyRow": "--family co_petition_seal_arrest-set -> READY 13/13; family_sources_bind ok, 2/2 sources bind by exact SHA-256 (custody_reconciliation)",
+    "sourcesRecomputedByThisLane": "Both bound sources were rehashed by this lane against the mounted Master Library and both match source-receipt.json exactly: JDF-417 e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4 / 1651354 B and JDF-418 b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993 / 542987 B."
+   },
+   "rasterState": "build-status.json records rasterEngine chromium_calibrated and rasterPages 10. This lane additionally rendered all 10 pages locally with pdftoppm at 100 dpi and read every one (7 distinct rasters; canonical and boundary page 2 and page 5 are identical images). Rasters were deleted.",
+   "thePriorTwoFailuresWereRetestedFirst": {
+    "KNOWN_PREFILLS_titleClaim": "REPAIRED AND CONFIRMED AT SOURCE. The prior row failed this because production-field-map.json claimed the packet wrote 'Petition' into JDF-417/Title when no such write existed. FIX96 reclassified it as source_authored_appearance_preserved. This lane tested that reclassification against the pinned binary rather than against the record: pdftotext on the Master Library JDF-417 at e0e1aefa prints 'JDF 417   Petition to Seal Arrest and Criminal Records' on its own page 1. The word is the issuer's, the packet writes nothing there, and the record now says so. selectionControls JDF-417/Title carries disposition explicit_refusal with the reason 'the pinned form already selects Petition, which is the route this packet was built for; leave it as it is'.",
+    "ROUTE_OPTIONS_4B0": "REPAIRED AND CONFIRMED ON THE PAGE. The prior row failed this because the record claimed section 4(b) was answered 'No.' when the delivered rectangle carried no ink. Page 3 of both fixtures still shows 'b) Were charges ever filed in court? (yes or no)' followed by an empty box - and the record now says exactly that: routeDeterminedAnswersThePacketDoesNotMark declares statedOnTheDeliveredPage null, writtenByThisPacket false, and explains that no allowlisted fact answers a sworn yes-or-no question. participant-instructions.md carries a dedicated heading, 'This is the no-charges-filed form, and section 4(b) is yours to answer', which tells the participant in bold that the packet left it blank, that the route implies No, and that if charges WERE filed this is the wrong form and they should not file it. A packet that declines to swear an answer and says so is the right behaviour, not a gap."
+   },
+   "whereIDifferFromTheCompletenessTool": {
+    "tool": "verify-packet-completeness.mjs --family co_petition_seal_arrest-set prints PASS_COMPLETE 17/80 written with all nine counters at 0.",
+    "difference": "I agree with all nine counters after measuring them independently, and I disagree that PASS_COMPLETE describes this family. Neither the required-before-filing document the Colorado memo declares nor its three self-help stop conditions is a field-map blank, so no counter can move for either. SELF_HELP_STOP fails below on evidence no counter reaches. This is the same shape of blindness that let Delaware print PASS_COMPLETE with a required document and nine stop conditions missing."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howEachWasMeasuredIndependently": {
+     "knownRequiredFieldsMissing": "0 and it is a real zero now: the prior 1 was the phantom Title write, which is source-authored and no longer claimed. The 17 writes across both documents were read off the rendered pages.",
+     "requiredOptionsMissing": "0 and it is a real zero: the prior 2 were Title and 4B.0, both of which are now correctly declared unmarked and both of which I confirmed unmarked on the page. No route-determined election remains that the packet claims to have made and did not.",
+     "incompleteRows": "0 over a fully-refused set: JDF-417 section 4a is a nine-row offence table and all eighteen cells (4A.1A through 4A.9B) are declared requiredBeforeFiling and are blank on page 2 of both fixtures. There is no partially-completed row.",
+     "invisibleWrites": "Both PDFs were decompressed and scanned: no Tr operator of any kind appears. Non-black fill colours are the issuer's own form ink - the blue instruction hints, the red '(Required)' beside the CBI line, the grey court-use box - all of which are visible in the rendered pages. Every one of the 17 written values was read off a rendered page.",
+     "protectedWrites": "No signature and no date is written anywhere. JDF-417 section 6 leaves Signature, Date and Counsel Signature blank (only 'Print Your Name' carries the participant's own name, which is not a signature); JDF-417 section 5's service date and method are blank; JDF-418's 'By:', 'Dated:' and the Judge/Magistrate boxes are blank on page 5 of both fixtures. reports/actual-writes.json records refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for all four document/fixture pairs, and the images agree.",
+     "visualDefects": "All 10 pages read as images. No clipping, no overlap. The boundary fixture's 39-character petitioner name and its 27-character supplemental case number are shrunk to fit inside their own widget boxes and remain legible; its 44-character e-mail sits inside its box."
+    }
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The single route key obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704 agrees across production-field-map.json, product-wiring.json and source-receipt.json, and participant-instructions.md prints it in its trailer with 'C.R.S. Sec. 24-72-704; Colorado Judicial Department forms JDF 417 and JDF 418'. The delivered page 1 states the route in the issuer's own words: 'Petition to Seal Arrest and Criminal Records / No Charges Filed - C.R.S. Sec. 24-72-704'.",
+     "finding": "One route, and the assembled paper states it on its face."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Two official forms, both rehashed first-hand by this lane from the mounted Master Library and both byte-exact against source-receipt.json (JDF-417 REV-2025-07-01 e0e1aefa / 1651354 B; JDF-418 REV-2024-03-20 b027be36 / 542987 B). The receipt's whyNotByDeclaredPath explains the custody substitution and it is correct: the identical binaries are indexed in both custodies at the identical digests.",
+     "finding": "The forms the packet fills are the forms the record names, at the revisions it names, verified by recomputation here."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Two components owed - the JDF 417 petition and the JDF 418 proposed order - and both are delivered whole in both fixtures (pages 1-3 and 4-5). product-wiring.json binding.packetComponents names both.",
+     "finding": "Nothing conditional is left unbuilt."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Nine writes on JDF-417 and eight on JDF-418, each read off the rendered page. On JDF-417 page 1: county, petitioner, case number, name, date of birth, mailing address, city/state/zip, phone, e-mail; on page 3, 'Print Your Name' only. On JDF-418 pages 4-5: county, petitioner/defendant, case number, full name, birth date, address, city, state, zip. Nothing beyond identity and matter facts the platform holds is written. The person-in-interest block in JDF-417 section 2 is deliberately left blank rather than filled with the participant's own details, and the instructions explain why: 'putting one person's identity into another person's block on a sworn petition would be a false statement, not a convenience.'",
+     "finding": "No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment or judicial finding is fabricated. The one prior failure here is repaired and was confirmed against the pinned source form."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read off the rendered pages: JDF-417 Signature, Date and Counsel Signature blank; the section 5 certificate-of-service date, method and 'Other' explanation blank; JDF-418 'By:', 'Dated:', the Judge and Magistrate boxes and the Other Orders lines all blank. The issuer's own proposed-order findings text on JDF-418 page 4 is the form's printed language, not a finding this packet asserts.",
+     "finding": "No protected field is written and none is presented as completed."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "All 10 pages rendered at 100 dpi and read. No glyph leaves its widget box and no line overlaps another in either fixture. The boundary fixture's long values shrink to fit and stay legible. The JDF-417 footer reads 'Page 3 of 2' on page 3, which is checked against the pinned source and is the issuer's own defect: pdftotext on the Master Library binary prints the identical 'Page 3 of 2' on its own third page. Preserving it is correct source fidelity, not a packet defect.",
+     "finding": "No clipping and no overlap introduced by this build."
+    },
+    "SELF_HELP_STOP": {
+     "result": "FAIL",
+     "evidence": "CO.memo.json track co_petition_seal_arrest declares three selfHelpStopConditions: 'The district attorney objects.', 'The court sets a contested hearing.', and 'Immigration, licensing or firearm consequences are in play.' None of the three appears verbatim in participant-instructions.md or in either fixture, and two of the three appear nowhere in substance either. Measured string by string over the delivered bytes at this base: the words 'immigration', 'firearm' and 'licensing' return zero matches in participant-instructions.md and zero in both PDFs; 'contested hearing' returns zero, and the only occurrences of 'hearing' anywhere in the packet are the issuer's own JDF-418 background text ('presented at a hearing') and JDF-417 section 6 ('I request a hearing to present my request'), neither of which is a stop; the district attorney appears only twice and both times as something other than a stop - once as a records custodian to tick in section 3 and once as the holder of a diversion record. There is no 'stop and get help' section in this packet at all. The repository's own truth check agrees: re-running scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs against these bytes scores this family conditionsHeld 3, conditionsCarriedVerbatim 0, conditionsCarriedInSubstance 1, conditionsNotRepresented 2, immigrationConditionsNotRepresented 1, result FAIL, failures B1_STOP_CONDITION_NOT_CARRIED_VERBATIM and B1B_STOP_CONDITION_NOT_REPRESENTED_AT_ALL.",
+     "finding": "This is a new finding, not one carried forward. The committed TRUTH4_FINDINGS.json has no check-B entry for this family at all - it lists it under notMeasurable on the ground that 'no census-v1 family directory exists', which is stale, since the directory exists and holds five delivered pages. The failure was found by measuring the memo against the delivered bytes here. Its consequence is concrete: a participant whose petition the district attorney opposes, or whom the court sets down for a contested hearing, is nowhere told that self-help ends there, and a non-citizen or a licence holder is nowhere warned that sealing carries immigration, licensing or firearm consequences. The instructions do end by saying 'if anyone opposes the petition, that is the point to get a lawyer' - one condition in substance - and that sentence is why conditionsCarriedInSubstance is 1 rather than 0.",
+     "repairIsFromTheCommittedRecord": "All three conditions are already in CO.memo.json in the record's own words, so this is repairable without new legal input."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "CO.memo.json rules.filing: 'File JDF 417 in the district court of the district where the arrest and criminal-record information is located.' participant-instructions.md has a heading 'Where you file this' and says to file both forms with the clerk of the Colorado court in the county where the arrest happened, and expressly declines to state a courthouse address because 'the platform holds no court directory and an unsourced address in a filing instruction is worse than none.'",
+     "finding": "Correct destination, and the silence about the street address is stated rather than left to be misread."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "CO.memo.json rules.service: 'The source review does not state a separate service requirement beyond the court's process.' The packet asserts no service rule of its own; it points the participant at JDF-417's own certificate of service in section 5, tells them to serve every agency they ticked in section 3 and to complete the certificate afterwards - 'Do it after you have served, not before' - and the selection control GroupCoS is refused with the reason 'you tick the method after you have served, not before'.",
+     "finding": "Nothing is claimed about service that the record does not establish, and the form's own service step is not pre-answered."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Measured directly against CO.memo.json, not against verify-packet-completeness. The track declares exactly one supporting document: 'Colorado criminal-history report', requirement conditional, requiredBeforeFiling true, with conditionDescription 'Where the official form requires a history or exhibit' and howToObtain 'Request a criminal-history report from CBI and attach it if the form requires it.' That name is absent from participant-instructions.md and from both fixtures. This lane does not score it a failure, because the condition that would make it owed is not met on this form: the pinned JDF-417 at e0e1aefa contains no attachment requirement at all - the strings 'attach', 'exhibit' and 'criminal history' return zero matches over its three pages, and its only related text is 'Arrest/Summons Number: (from fingerprint card)'. The memo's own required_before_filing limitation is conditioned the same way: 'Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing.' The form requires neither. Separately, the packet's 40-item requiredBeforeFiling declaration is disclosed in full in participant-instructions.md, item by item, with the form, the section and the printed words beside each blank.",
+     "finding": "Nothing is owed and the silence is correct. This is recorded at length because a name-match test of the kind that caught Delaware and Missouri would fire here and would be wrong, and because if a future revision of JDF 417 adds a history or exhibit requirement this disclosure becomes owed immediately."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Both declared fixtures exist at 5 pages and hash to the values in reports/rendered-artifacts.json. build-status.json is state_built / qa_review_pending, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, productionTouched false, independentVerificationStatus PENDING.",
+     "finding": "Every artifact the family declares is present and byte-bound."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Petition first (JDF-417 pages 1-3), proposed order second (JDF-418 pages 4-5), identical in both fixtures, and each source document's own internal page order is preserved.",
+     "finding": "The order is the order a Colorado filing takes."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "Eleven selection controls on JDF-417 and one on JDF-418. Every one is declared explicit_refusal with routeDetermined false, and every one is unmarked on the rendered pages: section 2's four-way 'I am ... (check only one)', the interpreter and attendance choices in section 1, all five agency boxes in section 3, the certificate-of-service method in section 5, and JDF-418's Judge/Magistrate pair. The one control the route does determine, JDF-417/Title, is already selected by the issuer's own form. The record no longer claims any election the packet did not make.",
+     "finding": "No route-determined election is owed and unmade. Each refused election is disclosed to the participant with the reason: section 2 under its own heading with 'Tick one'; the CBI box under 'The Colorado Bureau of Investigation is not optional', which quotes the form's own red '(Required)' marking and says 'Tick it'.",
+     "oneObservationNotScored": "Section 2's 'check only one' election and the CBI box both carry requiredBeforeFiling false on their field-map rows, so neither appears in the 40-item requiredBeforeFiling declaration a downstream gate reads, even though both are mandatory on the issuer's own form. Both are disclosed to the participant under their own headings, which is why this is an observation and not a failure - but the declaration and the disclosure disagree about them."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "JDF-417 section 4a is a nine-row offence table. All nine 'Listed Offense' cells and all nine 'Misdemeanor or Felony' cells are declared requiredBeforeFiling and every one is blank on page 2 of both fixtures. participant-instructions.md instructs 'List every offence in section 4a exactly as the record writes it, and say for each whether it was a misdemeanor or a felony.'",
+     "finding": "No row is half-completed. The platform holds no charge for this participant and invents none."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "CO.memo.json rules.fees: 'The filing fee for this petition remains unresolved.' rules.feeWaiver: 'The source review does not address a fee waiver for this petition.' participant-instructions.md prints no figure and says so in terms: 'Ask the clerk what fee applies, and what to do if you cannot pay it. The fee position for a petition to seal an arrest record is not established in any source this packet holds, so it is not stated here.'",
+     "finding": "No fee and no waiver is invented, and the packet names the office that answers both."
+    }
+   },
+   "failedObligationNames": [
+    "SELF_HELP_STOP"
+   ],
+   "passedObligationNames": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+   ],
+   "recordDiscrepancies": [
+    {
+     "where": "data/rcap-grade-a/truth-checks/TRUTH4_FINDINGS.json",
+     "what": "The committed file records this family under checks A, C and D as NOT_MEASURABLE_HERE because 'no census-v1 family directory exists', and has no check-B entry for it at all. The directory exists and holds two five-page fixtures. Re-running the truth checks against the current tree produces check-B failingFamilyCount 149 against the committed 128, familiesWithRegistryStopConditions 234 against the committed 158, and hearingInversionCount 9 against the committed 5.",
+     "whyItMatters": "The committed record understates the self-help stop gap across the fleet by 21 families and reports this family as unmeasurable when it is measurable and failing.",
+     "thisLaneMadeNoEdit": "Running check-b-self-help-stop-coverage.mjs rewrote that file as a side effect. This lane reverted it with git checkout so the shared record is byte-identical to HEAD, and reports the difference here instead of committing it."
+    },
+    {
+     "where": "production-field-map.json selectionControls JDF-417/2 and JDF-417/3C",
+     "what": "Section 2's mandatory 'check only one' election and the CBI box the form itself marks '(Required)' in red both carry requiredBeforeFiling false, so neither is in the family's 40-item requiredBeforeFiling declaration.",
+     "whyItMatters": "A gate reading the declaration would not learn that two mandatory marks are left for the participant. Both are disclosed in participant-instructions.md under their own headings, which is why this is recorded rather than scored."
+    }
+   ],
+   "notMeasurableHere": [
+    "Whether the Colorado Judicial Department has revised JDF 417 or JDF 418 since the pinned revisions (REV-2025-07-01 and REV-2024-03-20). No network source is reachable from this container.",
+    "The filing fee for this petition and whether a waiver exists, which no committed record establishes.",
+    "Any counsel, owner or professional adoption question."
+   ],
+   "independence": "This lane did not build, repair, raster or productize co_petition_seal_arrest-set. It read the delivered bytes, both pinned source binaries, CO.memo.json, the field map, the instructions and the claim ledger; it rendered every page locally and deleted the rasters; it made no edit to any packet, builder or shared record.",
+   "whatThisRowDoesNotDo": "It approves nothing, opens no commercial route, promotes no build status, and is not counsel review. A FAIL here is a finding with evidence; this lane changed no packet byte.",
+   "selfVerified": false,
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimsReleased": 0,
+   "subagentsCreated": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "rastersDeleted": true,
+   "note": "FAIL_REPAIR_REQUIRED on a different obligation from the one the prior row failed. FIX96 genuinely repaired both prior failures and I confirmed each against the pinned source form and the rendered pages rather than against the record that claims them. Fourteen obligations pass. SELF_HELP_STOP fails: all three stop conditions CO.memo.json declares are absent from the delivered bytes, two of them in substance as well as verbatim, and the packet has no stop-and-get-help section at all. All nine counters are zero and none of them can see it."
+  },
+  {
+   "itemId": "pa_pardon_expungement-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-09 independent verification on current bytes",
+   "worker": "CLAUDE-VF01-VF05-VF03-INDEPENDENT-READ-20260909 (independent: this lane did not build, repair, raster or productize this family; it created no subagent, edited no overlay directory, no build script and no shared record, and released no claim)",
+   "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+   "verifiedAt": "2026-09-09",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 pa_pardon_expungement-set (independent-verification, grant set def7c8ff77ef7a20)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false
+   },
+   "whyThisFamilyWasReread": "The bytes moved after the verdict at 4f5af4e71 and product-wiring.json binding.lastIndependentVerification currently reads verdict BLOCKED_BEFORE_CLAIM, lane vf04, base 9c2b39327. The prior VF01 substantive verdict (rows[106], base 683e8e31a) failed COMPONENT_SET. Nothing from either is carried forward; every obligation was measured on the bytes at this base.",
+   "theBlockedBeforeClaimStateIsCleared": "This lane asserted CLAIM_OK for VF01 on this family before opening any family content, and the family row gate passes, so nothing blocked this read. product-wiring.json's standing BLOCKED_BEFORE_CLAIM entry describes a lane that could not reach the family; it is superseded by this row.",
+   "digestsConfirmedFirst": {
+    "canonicalSha256": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+    "boundarySha256": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+    "pageCounts": {
+     "canonical.pdf": 5,
+     "boundary.pdf": 5
+    },
+    "standaloneComponents": {
+     "canonical--PA-RCRIM-P-790-PETITION.pdf": "8f33808244acef558c2489e47ddccf1804f02c0d9cb50d258697306b2b7e0ca2 / 1 page",
+     "canonical--PA-RCRIM-P-790-ORDER.pdf": "d2e76d06368f4f12e215b914fe41be0a9f86231cac55fd4d2367c3acd2be9fbc / 2 pages",
+     "boundary--PA-RCRIM-P-790-PETITION.pdf": "2bd7c82a74549352d2fa06daef448a34405b33fbbf2236f2250e7b0f62c73148 / 1 page",
+     "boundary--PA-RCRIM-P-790-ORDER.pdf": "4ad89343b3454360298c87a8319bc7c6d252f8e26319e496a6cf3c47b5f0c270 / 2 pages"
+    }
+   },
+   "preflight": {
+    "environment": "PACKET_BUILD_ENVIRONMENT_READY; the one FAIL seen on a mid-run invocation was worktree_clean, caused by this lane's own read-only run of a truth-check script that writes its output file. That file was reverted with git checkout and the gate passes clean.",
+    "familyRow": "--family pa_pardon_expungement-set -> family_sources_bind ok, 2/2 sources bind by exact SHA-256 (census_form_number_against_committed_index); stale_artifact_block ok"
+   },
+   "rasterState": "This lane rendered all 10 assembled pages locally with pdftoppm at 100 dpi and read every one (9 distinct; canonical and boundary page 5 are identical images). Poppler emitted 'XObject subtype is missing or wrong type' warnings on both fixtures; every page nevertheless rendered fully and legibly. Rasters were deleted.",
+   "whereIDifferFromTheCompletenessTool": {
+    "tool": "verify-packet-completeness.mjs --family pa_pardon_expungement-set prints PASS_COMPLETE 17/109 written with all nine counters at 0.",
+    "difference1": "knownRequiredFieldsMissing 0 is wrong on the boundary fixture. Two facts the platform holds and the field map declares written are absent from the delivered boundary bytes - see KNOWN_PREFILLS below. The tool does not catch it.",
+    "difference2": "requiredComponentsMissing 0 is measured against production-field-map.json and reports/rendered-artifacts.json, both of which name all three components. It never compares product-wiring.json binding.packetComponents against the committed packet-set manifest, which is where this family's component declaration is wrong. The prior VF01 row made the same point and it still holds."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 2,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 1,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": false,
+    "measuredHere": true,
+    "howEachWasMeasuredIndependently": {
+     "knownRequiredFieldsMissing": "2, measured on the boundary fixture. The builder's boundary facts include participant.state 'Pennsylvania' and participant.zip '18702-2214'; production-field-map.json declares AddrState and AddrZip under boundaryWrites; reports/actual-writes.json reports only 7 values for the boundary petition against 9 for the canonical, and neither AddrState nor AddrZip is among them. Read off the page, boundary page 1 shows 'Wilkes-Barre Township' with nothing after it, where canonical page 1 shows 'Philadelphia   PA  19107'. The string '18702' occurs nowhere in the boundary packet.",
+     "requiredComponentsMissing": "1, measured against the committed packet-set manifest rather than against the family's own field map. See COMPONENT_SET.",
+     "invisibleWrites": "Both assembled PDFs were decompressed and scanned; no Tr operator appears. Every written value was read off a rendered page.",
+     "protectedWrites": "No signature and no date anywhere: JDF-equivalent Rule 790 petition 'Signature of Petitioner' and 'Date' blank on page 1; the order's 'AND NOW, this ___ day of ____, 20__' blanks, its three relief checkboxes, 'presented by', the disposition blank and 'BY THE COURT:' signature line all blank on page 2; the Rule 790 information page's items are blank. No judicial finding, clerk assignment or prosecutor act is asserted; the order's 'The Court has read the Petition...' text is the issuer's own printed proposed-order language.",
+     "visualDefects": "All 10 pages read as images. No clipping and no overlap in either fixture; the boundary fixture's 39-character petitioner name shrinks to fit inside the order's caption box and its 45-character address shrinks inside the petition's address widget.",
+     "incompleteRows": "0 over an empty set: neither Rule 790 form carries a repeating row structure."
+    }
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "This family carries two route keys and both are printed. production-field-map.json and product-wiring.json both name obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition under routeSelectionId pa-pardon-expungement-rule-790-complete-set. The guidance page trailer prints both and distinguishes them: 'Route carried by this page: ...pa_pardon_automatic_route / Route carried by the petition in this packet: ...pa_pardon_fallback_petition'.",
+     "finding": "Two routes, both named, and the packet says which of its own pages carries which. Nothing is silently merged."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Two official forms bind by exact SHA-256 against the committed corpus index (family row gate: 2/2, census_form_number_against_committed_index). The delivered pages carry the issuer's own footers - 'AOPC Form Updated Rev 3/09/12' on the petition and 'AOPC Rev. 07/21/21' on the order - unaltered.",
+     "finding": "The forms the packet fills are the forms the record names."
+    },
+    "COMPONENT_SET": {
+     "result": "FAIL",
+     "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[362] declares three components for pa_pardon_expungement-set: order 1 pa_pardon_expungement-process-guidance-1, role process_guidance, requirement REQUIRED; order 2 pa_pardon_expungement-primary-filing-2, role primary_filing, requirement conditional ('Generated only where the automatic route has not cleared the record after the quarterly cycle'); order 3 pa_pardon_expungement-proposed-order-3, role proposed_order, requirement conditional ('Accompanies the fallback petition'). product-wiring.json binding.packetComponents at this base names two - component:pa_pardon_expungement-primary-filing-2 and component:pa_pardon_expungement-proposed-order-3 - and omits the required one. Separately, production-field-map.json componentConditions is null, so the manifest's conditional-generation rule for the two forms is not carried in the delivered record at all.",
+     "finding": "The defect the prior row recorded reproduces on the current bytes and was not repaired. The wiring record that a promotion would be read off omits the only component this packet set marks required, and declares both conditional components as though they were unconditional. The guidance content itself IS delivered - reports/rendered-artifacts.json componentSet names all three and pages 4-5 carry it - so this is a declaration defect, not a missing page, and it is repairable from the manifest."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "evidence": "The canonical petition writes nine values including AddrState 'PA' and AddrZip '19107'. The boundary petition writes seven: AddrState and AddrZip are absent. The builder holds both facts for the boundary fixture ('participant.state': 'Pennsylvania', 'participant.zip': '18702-2214'). production-field-map.json lists AddrState and AddrZip under boundaryWrites - i.e. the record says the boundary fixture writes them. reports/actual-writes.json for the boundary petition reports valuesReportedByFinalizer 7 and lists neither, and records no refusal for either. Read off the rendered page, boundary page 1 shows 'Wilkes-Barre Township' with the state and ZIP positions empty; '18702' occurs nowhere in the boundary packet, and the only occurrences of 'Pennsylvania' are the form's own printed text.",
+     "finding": "Two known facts are dropped silently on exactly the fixture that exists to test long values, with no refusal record and no disclosure, while the field map declares them written. The finalizer is capable of shrinking to fit - it shrinks a 39-character name into the order's caption box and a 45-character address into the petition's address widget on the same fixture - so this is a drop, not a policy. It is a source-authored default in boundaryWrites contradicted by the delivered appearance, and it is the class of defect that a reader of the record would never see.",
+     "notFabrication": "Nothing is invented anywhere; the failure is omission, and no participant fact, signature, notarization, consent, prosecutor act, clerk assignment or judicial finding is asserted in either fixture."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read off all 10 rendered pages. Petition: 'Signature of Petitioner' and 'Date' blank; the two Pennsylvania State Police criminal-history checkboxes unmarked; the fine/costs Yes and No boxes unmarked. Order: the day/month/year blanks, 'presented by', the disposition blank, all three relief checkboxes and 'BY THE COURT:' all blank. Rule 790 information page: judge, affiant, OTN, charges, reason and agencies-to-be-served all blank.",
+     "finding": "No protected field is written and none is presented as completed. The guidance page states it directly: 'The order in this packet is tendered WITH the petition -- it is the order the judge signs, not a document you fill in or sign. The platform has written only the style of the case into it. Do not sign the order.'"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "All 10 pages rendered at 100 dpi and read as images. No glyph leaves its box and no line overlaps another in either fixture. Long boundary values are shrunk to fit and remain legible.",
+     "finding": "No clipping and no overlap. No central raster covers these bytes; this is a local read and is recorded as one."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "Measured directly against PA.memo.json track pa_pardon_expungement, which declares three selfHelpStopConditions. All three are carried, under a heading 'Stop and get help' in participant-instructions.md and under 'STOP AND GET HELP' on the delivered guidance page 5 of both fixtures: 'The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.' / 'You cannot determine from the pardon document whether it is conditional or unconditional.' / 'The record still appears after the quarterly cycle and it is unclear whether the fallback Rule 790 petition is available.' Each is the memo's own condition rewritten only from third person to second.",
+     "finding": "The stop list is complete and it is on the delivered page, not only in the instructions file."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "PA.memo.json rules.filing: 'Nothing is filed on the automatic route. On the fallback route, file the verified Rule 790 petition and blank order with the clerk of courts.' The guidance page says 'File the petition with the Clerk of Courts' and, before that, 'If the automatic route has already cleared the record, there is nothing here to file.'",
+     "finding": "Both branches of the destination are stated, including the branch on which nothing is filed."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "PA.memo.json rules.service: 'None on the automatic route; service on the attorney for the Commonwealth on the fallback route', and rules.notice adds the 60-day response window under Rule 790. participant-instructions.md states it: 'After you file, the petition is served on the Commonwealth -- the District Attorney, as the attorney for the Commonwealth -- and the Commonwealth then has 60 days from service to consent, object, or do nothing.' The petition's own printed line, 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth', is preserved on page 1.",
+     "finding": "Service is stated for the branch that has one and correctly absent for the branch that does not."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Measured directly against PA.memo.json, not against verify-packet-completeness. The track declares two supporting documents with requiredBeforeFiling true. 'Copy of the pardon' appears by that exact name in participant-instructions.md and on the delivered guidance page. 'Pennsylvania State Police criminal history report obtained within 60 days before filing' does not appear as that exact string, but it is disclosed in substance and with more operational detail than the memo string carries: participant-instructions.md line 13 is a dedicated bold paragraph - 'Before you file, order your Pennsylvania State Police criminal history report. Rule 790 requires a report obtained within 60 days before filing to be attached, unless the Commonwealth waives it. Because of that 60-day window, order it late in your preparation rather than first. If you do not attach one, the petition has a blank asking you to say why' - and step 8 of the numbered before-you-file list repeats it. The DISCLOSED condition, 'the item is named in the packet's participant-instructions.md', is met for both.",
+     "finding": "Both required-before-filing documents are named and the 60-day window, which is the part a participant can get wrong by ordering too early, is called out. The exact-string mismatch on the second is recorded so a future name-match guard is not read as a regression."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Both assembled fixtures and all four standalone component PDFs exist and hash to the values in reports/rendered-artifacts.json, which carries a pageManifest for every page. product-wiring.json is DECLARED_NOT_INSTALLED with paymentEligible false and sponsorshipEligible false; its acceptanceReceipt is bound to the current canonical fc67ec72, which recomputes.",
+     "finding": "Every artifact the family declares is present and byte-bound, and the acceptance receipt binds the bytes that are actually there."
+    },
+    "PAGE_ORDER": {
+     "result": "FAIL",
+     "evidence": "The committed manifest declares component order 1 process_guidance, 2 primary_filing, 3 proposed_order. reports/rendered-artifacts.json pageManifest for both fixtures records the delivered assembly as page 1 primary_filing, pages 2-3 proposed_order, pages 4-5 process_guidance, and the rendered pages confirm it. production-field-map.json componentSet is written in the delivered order rather than the declared one, so the family's own record agrees with itself and disagrees with the manifest.",
+     "finding": "The guidance page is bound last and its own first heading is 'READ THIS BEFORE YOU FILE ANYTHING'. Its content is the part that tells the participant whether they need to file at all - 'If the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.' A participant who reads the packet in the order it is bound reaches the petition first and that sentence fourth. No record in the family declares a rationale for the inversion.",
+     "repairIsFromTheCommittedRecord": "The manifest already states the order; this is repairable without new legal input."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "The petition's fine/costs Yes-No pair and the two criminal-history checkboxes are participant facts, not route elections, and all four are unmarked. The order's three relief checkboxes and the Judge/Magistrate pair are the court's. production-field-map.json routeSelectionsMade is empty and the packet asks the participant to elect nothing that the route decides.",
+     "finding": "No route-determined election is owed and unmade."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "Neither Rule 790 form carries a repeating row structure. The petition's charge table is a free-text block ('List specific charges, as they appear on the charging document'), left blank and declared.",
+     "finding": "Nothing to complete row-wise; the zero is measured over an empty set."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "PA.memo.json rules.fees: 'No fee on the automatic route. County filing fees apply to the fallback petition and vary.' rules.feeWaiver: 'In forma pauperis relief is available for the fallback petition.' The packet prints no figure.",
+     "finding": "No fee amount is invented and the county variation is stated rather than resolved."
+    }
+   },
+   "failedObligationNames": [
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "PAGE_ORDER"
+   ],
+   "passedObligationNames": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+   ],
+   "recordDiscrepancies": [
+    {
+     "where": "production-field-map.json maps[PA-RCRIM-P-790-ORDER].canonicalRefusals PetitionersAddress",
+     "what": "Item 3 of the Rule 790 information page, 'Petitioner's Address', is refused with blankTreatment REQUIRED_BEFORE_FILING and the reason 'the participant supplies this before filing: your address, as the Rule 790 information page asks for it'. The platform holds the address and writes it on the petition in the same packet (Addr1, AddrCity and, on the canonical fixture, AddrState and AddrZip).",
+     "whyItMatters": "The completeness contract's REQUIRED_BEFORE_FILING_CONDITIONS require GENUINELY UNAVAILABLE and say in terms that 'a fact written anywhere else in the same packet is available, and refusing it here is a missing known fact'. The address on the order page is a composite of four separately-held facts rather than one factId, which is why this is recorded as a discrepancy rather than scored as a third known-fact failure - but the participant is asked to re-write on page 3 an address the packet already printed on page 1.",
+     "notScoredAsAFailure": true
+    },
+    {
+     "where": "product-wiring.json binding.lastIndependentVerification",
+     "what": "It records verdict BLOCKED_BEFORE_CLAIM by lane vf04 at base 9c2b39327. That is a record that a lane could not reach the family, standing in the field a promotion would read for an independent verdict.",
+     "whyItMatters": "A blocked read is not a verdict on the bytes. This row supersedes it with a measured verdict on the current bytes."
+    }
+   ],
+   "notMeasurableHere": [
+    "Whether AOPC has revised the Rule 790 petition or the blank expungement order since the pinned revisions. No network source is reachable from this container.",
+    "The county filing fee for the fallback petition, which the committed record declines to fix.",
+    "Any counsel, owner or professional adoption question."
+   ],
+   "independence": "This lane did not build, repair, raster or productize pa_pardon_expungement-set. It read the delivered bytes, the packet-set manifest, PA.memo.json, the field map, the writes report, the builder's fixture facts and the instructions; it rendered every page locally and deleted the rasters; it made no edit to any packet, builder or shared record.",
+   "whatThisRowDoesNotDo": "It approves nothing, opens no commercial route, promotes no build status, and is not counsel review. This lane changed no packet byte.",
+   "selfVerified": false,
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimsReleased": 0,
+   "subagentsCreated": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "rastersDeleted": true,
+   "note": "FAIL_REPAIR_REQUIRED on three obligations. The COMPONENT_SET defect the prior row recorded reproduces unrepaired on the current bytes: the wiring record still omits the only component the packet-set manifest marks required. Two further failures are found here for the first time - the boundary petition silently drops the participant's state and ZIP, two facts the platform holds and the field map declares written, with no refusal record and no disclosure; and the assembly binds the required guidance page last, behind the two conditional forms, against the manifest's declared order and against that page's own instruction to read it before filing anything. All three are repairable from committed records. Twelve obligations pass, including all three self-help stop conditions and both required-before-filing documents measured directly against PA.memo.json."
   }
  ],
  "supersededLaneMembership": {
