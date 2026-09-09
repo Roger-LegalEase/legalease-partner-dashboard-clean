@@ -474,10 +474,23 @@ const reconcileReceiptCoverage = (receipt, row) => {
     coversTheWholeFamily: cov.complete === true,
     everyCanonicalDocumentRendered: cov.complete === true,
     documentsCovered: cov.rastered ?? receipt.documentsCovered ?? [],
+    /*
+     * TWO DIFFERENT QUESTIONS, AND THEY MUST NOT BE MERGED.
+     *
+     * documentsNotCovered means "a canonical document this gate was asked for
+     * and did not render" — evaluateAcceptance fails a row outright on a
+     * non-empty list, and rightly so. whatThisGateDidNotRender means "a
+     * declared fixture this gate never renders by design", which is the
+     * boundary artifact on nearly every family. Filling the first from the
+     * second demoted de_mandatory_expungement-set out of GUIDANCE_READY for
+     * having an ordinary boundary fixture. So notRastered feeds the first and
+     * notRenderedByThisGate the second, and the sentence beside them says which
+     * is which.
+     */
+    documentsNotCovered: cov.notRastered ?? receipt.documentsNotCovered ?? [],
     ...(measuredTheEdge
-      ? { documentsNotCovered: unrendered, whatThisGateDidNotRender: unrendered, whatCompleteMeansHere: cov.whatCompleteMeansHere }
+      ? { whatThisGateDidNotRender: unrendered, whatCompleteMeansHere: cov.whatCompleteMeansHere }
       : {
-        documentsNotCovered: null,
         whatThisGateDidNotRender: null,
         whatCompleteMeansHere: "unknown for this row: it was frozen into history before the queue measured which declared fixtures a gate leaves unrendered, so an empty list here would be an assertion it never made. Read it as every canonical document rendered and the edge of the gate unrecorded.",
       }),
@@ -486,6 +499,7 @@ const reconcileReceiptCoverage = (receipt, row) => {
   const drifted = JSON.stringify(wasClaimed.documentsNotCovered) !== JSON.stringify(reconciled.documentsNotCovered)
     || JSON.stringify(wasClaimed.whatThisGateDidNotRender) !== JSON.stringify(reconciled.whatThisGateDidNotRender)
     || wasClaimed.coversTheWholeFamily !== reconciled.coversTheWholeFamily;
+  if (drifted) reconciled.theTwoCoverageQuestions = "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.";
   if (drifted) {
     reconciled.coverageReconciledFromTheRow = {
       why: "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run",

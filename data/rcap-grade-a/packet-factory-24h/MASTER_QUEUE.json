@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+  "minimumCaptainSha": "cee5c6d8b7af7352a925f6d3bf894df54ef2953e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,7 +72,7 @@
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 1,
+    "verifyPending": 5,
     "repairRequired": 23,
     "sumsToDenominator": true
   },
@@ -86,9 +86,8 @@
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 1,
-    "WRONG_DELIVERY_TYPE": 1,
-    "BUILT_RASTER_PENDING": 4
+    "VERIFY_PENDING": 5,
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -29075,9 +29074,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf12",
-        "verifiedAtBase": "f78191545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+        "lane": "vf13",
+        "verifiedAtBase": "ea720b40f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -29147,8 +29146,8 @@
       "failedObligations": [
         {
           "obligation": "ARTIFACTS",
-          "finding": "FAIL: every digest, byte length and page count now pins what is on disk, and the settled question is correctly retired and true of delivered page 5 — but the acceptance receipt as transcribed overclaims. It reports a gate that rendered canonical.pdf only as documentsNotCovered [] and coversTheWholeFamily true beside the boundary digest it binds, and drops the source row's own statement that boundary.pdf was not rendered by that gate and that a defect appearing only there is not something RASTER_PASS excluded. What raster acceptance does not establish is therefore not stated where it is claimed.",
-          "evidence": "Measured fresh; this is the obligation this read owes. WHAT IS NOW CORRECT. Recomputed from the bytes: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845, 33154 B, 11 pages; boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58, 33493 B, 11 pages, with pdfinfo, an independent /Type /Page scan and the page tree's /Count all agreeing on 11 and 11. product-wiring.json censusV1Representation.fixtures now pins exactly those six values; reports/rendered-artifacts.json artifacts[] and pdfs[] pin exactly those six values; RASTER_QUEUE historicalRasterRows[31] canonicalPdfSha256/boundaryPdfSha256, documents[].pageCount and expectedPages agree; source-receipt.json names no artifact bytes at all and so carried no residue. The three stale keys VF04 named — whyAcceptanceReceiptIsNull, openCounselQuestion, howTheOpenQuestionIsTreated — are gone from product-wiring.json; the only surviving occurrence of the superseded pair 0441d16c… / 379dae5a… anywhere in the family directory is inside the labelled supersededFixtures.tenPagePairSupersededByFix107 block. approval-request.json no longer raises the notarisation question: it sits in counselQuestionsSettled with its answer, its controlling inputs (specification 2.0.0 notarisationRequired true; Roger Roman's direction of 2026-09-03, SHA-256 88497978c1…) and an express scope limit, and the four other questions remain raised. The retirement's factual basis was tested rather than trusted: delivered page 5 of BOTH fixtures is the VERIFICATION on oath with jurat, on its own sheet, under the petition caption — so the retired sentence 'No verification block and no notarial certificate was added' is indeed false of the delivered bytes, and the replacement notarisationTreatment sentence is true of them. WHAT IS STILL WRONG. censusV1Representation.acceptanceReceipt is the right receipt reported with the wrong reach. It asserts, in one object, documentsCovered ['canonical.pdf'] together with documentsNotCovered [] and coversTheWholeFamily true, while binding boundToBoundarySha256 87e4bf90… and sitting directly beneath a fixtures block that lists boundary.pdf as a delivered fixture of this family. documentsNotCovered [] is false on the record's own face: it names one covered document where the family and the queue row both carry two. The queue row this receipt is copied from states the limit plainly and the copy drops it — coverage.notRenderedByThisGate ['boundary.pdf'] and coverage.whatCompleteMeansHere 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.' Neither sentence, nor any equivalent, appears anywhere in product-wiring.json. whatItDoesNotEstablish states three real limits (not an independent semantic review, not counsel approval, not commercial authority) and omits the one limit that is specific to these exact bytes. Supporting, not independently disqualifying: whyThisReceiptIsTheOne says 'RASTER_QUEUE.json carries exactly this receipt for this family' without saying that the queue carries it as historicalRasterRows with historicalOnly true and currentGateAuthority false, while listing ms-nonconv-set at notEligible[92]. VF04 itself recorded the boundary carve-out in its own row under whatTheReceiptDoesNotCover and compensated by rastering both fixtures locally; the corrected family record does neither."
+          "finding": "FAIL: the acceptance receipt now states the raster's reach correctly, and the family record still misstates the receipt's relationship to the record it cites. whyThisReceiptIsTheOne says the queue carries exactly this receipt; the queue carries the pre-correction receipt for the same run, with coversTheWholeFamily true and documentsNotCovered [], and a commercial-authority generator reads that field as live evidence. Correcting one of two records that describe the same run, while the corrected one asserts they are identical and cannot drift, moves the overclaim rather than removing it. The repair is narrow: bring historicalRasterRows[31].rasterReceipt into line with the family's corrected block, or qualify whyThisReceiptIsTheOne and wordsTakenFrom to say which record was corrected and which was not.",
+          "evidence": "Measured fresh; this is the obligation this read owes, and it is the only one measured fresh. WHAT IS NOW RIGHT, EACH RECOMPUTED RATHER THAN READ. canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 / 33154 B / 11 pages and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 / 33493 B / 11 pages, with pdfinfo, pdf-lib and the decompressed page-tree /Count all agreeing on 11 and 11. censusV1Representation.fixtures pins exactly those six values. reports/rendered-artifacts.json pins exactly those six values in artifacts[] and pdfs[], its pageManifest assigns all 11 pages correctly, and its everyPageRastered false / rasterSkipped true / rasterPages [] / independentVerificationPending true are honest about the build-time gate and consistent with the corrected block rather than in tension with it. source-receipt.json names no artifact bytes at all. approval-request.json contains no raster claim, no coversTheWholeFamily, and no reference to either fixture; its one settled counsel question carries an express scope limit and its four other questions remain raised. The superseded 10-page and 8-page digests appear nowhere in the family except inside the labelled supersededFixtures block. The corrected acceptanceReceipt block itself is accurate: see receiptReachRuling.onItsOwnFace. Searched across the whole family, 'coversTheWholeFamily' now occurs exactly once, at product-wiring.json line 332, inside correctedOn.was. WHAT IS STILL WRONG. censusV1Representation.whyThisReceiptIsTheOne states 'RASTER_QUEUE.json carries exactly this receipt for this family, bound by hash to the two fixtures above.' Measured against the queue at this base, that is false. historicalRasterRows[31].rasterReceipt describes the identical run — workflow, run 34058277654, job 101554484258, jobConclusion success, rendered commit 2495d6d9b595a53c4e3cdf3cbeebea94b891d151, both bound digests, all nine identifiers equal — and still carries coversTheWholeFamily true, documentsNotCovered [] and whatThisGateDidNotRender [], the three fields 8bb1b82f0 removed or inverted on the family side. The corrected block's own coverage.wordsTakenFrom sends the reader to that same row on the stated ground that copying means 'the two records cannot drift'; the two records drifted at the moment of the copy, in the exact field the copy existed to fix. This is not a bookkeeping nicety: scripts/generate-rcap-grade-a-fulfillment-authority.mjs line 1406 reads raster.rasterReceipt.coversTheWholeFamily === true as the evidence that the raster covered the whole family, and scripts/rcap-route-productization/generate-proven-family-productization-census.mjs line 290 raises problem P21 when it is anything else. For ms-nonconv-set that field is still true. The exposure is latent rather than active — the family sits at notEligible[92], approval-request.json status PENDING_INDEPENDENT_VERIFICATION, approvedForLive false, live false, commercialRoutesOpened 0 — but the record those gates read is the claim VF12 proved false, and it is the record the corrected family block points at. Two supporting points, neither independently disqualifying. First, the same overclaim shape was tested here rather than taken on the commit message's word: across all 255 product-wiring.json files under data/rcap-all50/overlays/census-v1, zero acceptanceReceipt blocks carry it, so 8bb1b82f0's claim that this was the one block is TRUE of family records; across RASTER_QUEUE.json it holds in 167 of 249 rows, so the shape is a factory-wide queue condition and this family's own row is one of them. Second, censusV1Representation.independentVerificationOwed still records VF04 as the only prior read ('VF04 read this family at 513f43c82 ... A re-read of ARTIFACTS against these records is owed before the family can be a complete independent pass'), and does not record VF12's read at f78191545 or its FAIL, even though the correctedOn block four keys earlier is expressly 'on VF12's independent finding'. A reader of that block would count one prior failed read where there are two."
         }
       ],
       "continuationResult": null,
@@ -39150,9 +39149,7 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39219,7 +39216,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
@@ -39319,9 +39316,7 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39388,7 +39383,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -39488,9 +39483,7 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39557,7 +39550,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -39750,9 +39743,7 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39819,7 +39810,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",

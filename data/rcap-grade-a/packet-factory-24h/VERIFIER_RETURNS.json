@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 985,
+    "rows": 986,
     "independentVerdicts": 252,
     "failRepairRequired": 39,
     "passIndependent": 194
@@ -11805,6 +11805,28 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ea720b40f",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL: the acceptance receipt now states the raster's reach correctly, and the family record still misstates the receipt's relationship to the record it cites. whyThisReceiptIsTheOne says the queue carries exactly this receipt; the queue carries the pre-correction receipt for the same run, with coversTheWholeFamily true and documentsNotCovered [], and a commercial-authority generator reads that field as live evidence. Correcting one of two records that describe the same run, while the corrected one asserts they are identical and cannot drift, moves the overclaim rather than removing it. The repair is narrow: bring historicalRasterRows[31].rasterReceipt into line with the family's corrected block, or qualify whyThisReceiptIsTheOne and wordsTakenFrom to say which record was corrected and which was not.",
+          "evidence": "Measured fresh; this is the obligation this read owes, and it is the only one measured fresh. WHAT IS NOW RIGHT, EACH RECOMPUTED RATHER THAN READ. canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 / 33154 B / 11 pages and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 / 33493 B / 11 pages, with pdfinfo, pdf-lib and the decompressed page-tree /Count all agreeing on 11 and 11. censusV1Representation.fixtures pins exactly those six values. reports/rendered-artifacts.json pins exactly those six values in artifacts[] and pdfs[], its pageManifest assigns all 11 pages correctly, and its everyPageRastered false / rasterSkipped true / rasterPages [] / independentVerificationPending true are honest about the build-time gate and consistent with the corrected block rather than in tension with it. source-receipt.json names no artifact bytes at all. approval-request.json contains no raster claim, no coversTheWholeFamily, and no reference to either fixture; its one settled counsel question carries an express scope limit and its four other questions remain raised. The superseded 10-page and 8-page digests appear nowhere in the family except inside the labelled supersededFixtures block. The corrected acceptanceReceipt block itself is accurate: see receiptReachRuling.onItsOwnFace. Searched across the whole family, 'coversTheWholeFamily' now occurs exactly once, at product-wiring.json line 332, inside correctedOn.was. WHAT IS STILL WRONG. censusV1Representation.whyThisReceiptIsTheOne states 'RASTER_QUEUE.json carries exactly this receipt for this family, bound by hash to the two fixtures above.' Measured against the queue at this base, that is false. historicalRasterRows[31].rasterReceipt describes the identical run — workflow, run 34058277654, job 101554484258, jobConclusion success, rendered commit 2495d6d9b595a53c4e3cdf3cbeebea94b891d151, both bound digests, all nine identifiers equal — and still carries coversTheWholeFamily true, documentsNotCovered [] and whatThisGateDidNotRender [], the three fields 8bb1b82f0 removed or inverted on the family side. The corrected block's own coverage.wordsTakenFrom sends the reader to that same row on the stated ground that copying means 'the two records cannot drift'; the two records drifted at the moment of the copy, in the exact field the copy existed to fix. This is not a bookkeeping nicety: scripts/generate-rcap-grade-a-fulfillment-authority.mjs line 1406 reads raster.rasterReceipt.coversTheWholeFamily === true as the evidence that the raster covered the whole family, and scripts/rcap-route-productization/generate-proven-family-productization-census.mjs line 290 raises problem P21 when it is anything else. For ms-nonconv-set that field is still true. The exposure is latent rather than active — the family sits at notEligible[92], approval-request.json status PENDING_INDEPENDENT_VERIFICATION, approvedForLive false, live false, commercialRoutesOpened 0 — but the record those gates read is the claim VF12 proved false, and it is the record the corrected family block points at. Two supporting points, neither independently disqualifying. First, the same overclaim shape was tested here rather than taken on the commit message's word: across all 255 product-wiring.json files under data/rcap-all50/overlays/census-v1, zero acceptanceReceipt blocks carry it, so 8bb1b82f0's claim that this was the one block is TRUE of family records; across RASTER_QUEUE.json it holds in 167 of 249 rows, so the shape is a factory-wide queue condition and this family's own row is one of them. Second, censusV1Representation.independentVerificationOwed still records VF04 as the only prior read ('VF04 read this family at 513f43c82 ... A re-read of ARTIFACTS against these records is owed before the family can be a complete independent pass'), and does not record VF12's read at f78191545 or its FAIL, even though the correctedOn block four keys earlier is expressly 'on VF12's independent finding'. A reader of that block would count one prior failed read where there are two."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": false
     },
