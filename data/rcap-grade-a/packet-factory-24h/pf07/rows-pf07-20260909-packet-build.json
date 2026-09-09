@@ -1,0 +1,383 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "PF07",
+  "workerId": "PF07 packet-build, worktree /home/user/v9b-worktree, branch pf07-20260909",
+  "lane": "packet-build",
+  "engine": "Claude Code (local worktree, not Codex Cloud)",
+  "writtenAlongsideRatherThanOverwriting": "data/rcap-grade-a/packet-factory-24h/pf07/rows.json already held an earlier PF07 shift return covering ma-expunge-time-set, ms-fel-set and tx_nd_dwi_probation-set. It was left untouched and this return was written beside it under a distinct name.",
+  "shiftBaseSha": "18b5f4270",
+  "familiesAssigned": [
+    "al-pardon-set",
+    "az_certificate_second_chance-set",
+    "me-seal-gen-set",
+    "nc_145_5_misdemeanor-set"
+  ],
+  "rowsReturned": 4,
+  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
+  "selfVerification": {
+    "packetsSelfVerified": 0,
+    "note": "This lane built these packets and issues no verdict on them. verify-packet-completeness.mjs was run as the focused check PF07.md names; it is a necessary check and not a verdict, and it returned PASS_COMPLETE with nine zeros on packets that were, at the time, missing values from the page."
+  },
+  "rasterRule": {
+    "rasterState": "BUILT_RASTER_PENDING on all three built families",
+    "note": "A browser IS resolvable in this container (chromium at /opt/pw-browsers/chromium-1223, which rendered a calibration page), but RCAP_CHROMIUM_PATH is not exported, so browser_environment_exported fails. Rasters were produced only into a scratch directory for this lane's own measurement and deleted; no raster directory was written into any overlay. The central raster workflow renders against the exact bytes the hashes above pin. visualDefects is 0 because it was measured by comparing vector paint operations against the pinned sources, not because anyone has looked at a page image."
+  },
+  "sourceMeasurementThisLaneMade": {
+    "why": "Two coordinator messages named different families as source-missing and disagreed with each other and with SOURCE_READY_BUILDABILITY.json. The sound test is to resolve each declared digest against the mounts directly, so that is what was done before any builder was written.",
+    "filesHashed": 1857,
+    "mountsSearched": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+      "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+    ],
+    "result": {
+      "al-pardon-set": "official-form:ABPP-3 874e738a… — 0 hits. BLOCKED_SOURCE.",
+      "az_certificate_second_chance-set": "AOCCRSA3F-103023 4e2b06d4… — 4 hits; AOCCRSA4F-103023 b3aae63f… — 4 hits. Held.",
+      "me-seal-gen-set": "CR-218 82a9e808… — 1 hit, in the nationwide recovery pool. Held.",
+      "nc_145_5_misdemeanor-set": "AOC-CR-298 8f526257… — 3 hits; its instructions 5d648de0… — 4 hits; AOC-CV-226 74057a13… — 3 hits. Held."
+    }
+  },
+  "sharedCentralArtifactsRegenerated": 0,
+  "claimsReleased": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "otherLaneWorktreesTouched": 0,
+  "rows": [
+    {
+      "itemId": "al-pardon-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AL",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "buildScript": null,
+      "buildScriptWritten": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "allNineCountersZero": null,
+      "whyCountersAreNull": "Nothing was built, so nothing was measured. An unmeasured quantity is null and never zero.",
+      "artifacts": [],
+      "blockedSource": {
+        "sourceId": "official-form:ABPP-3",
+        "declaredSha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+        "declaredPath": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "declaredCustody": "src05_worker_materialization_2026_09_02",
+        "hitsByContentDigestAcrossEveryMountedRoot": 0,
+        "filesHashedInThatSearch": 1857,
+        "mountsSearched": [
+          "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+          "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+        ],
+        "howThisWasMeasured": "Every file under every mounted custody root the buildability record names was hashed with sha256sum and the declared digest was searched for by CONTENT, not by declared path. 1857 files were hashed and none carries this digest. The declared path resolves into no mounted custody.",
+        "corroboration": [
+          "data/rcap-all50/local-source-corpus-index.json declares custody src05_worker_materialization_2026_09_02 as EPHEMERAL_WORKER_MATERIALIZATION_NOT_PERSISTED with bytesHeldByAnyMountedCustody false.",
+          "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json verdict NOT_MEASURABLE_HERE, source kind not_present_in_a_custody_mounted_here: \"No file under any mounted root hashes to this digest, by declared path or by content.\"",
+          "scripts/verify-packet-build-environment.mjs --family al-pardon-set returns family_sources_bind FAIL, 1 of 1 source(s) do not bind."
+        ],
+        "whatWasNotDone": "No source was acquired from the network, no other binary was substituted for ABPP-3, and no packet was built around a source this container does not hold."
+      },
+      "notes": [
+        "MASTER_QUEUE.json and ACTIVE_ASSIGNMENTS.json both record this family as SOURCE_BOUND_BY_HELD_BYTES with custodyClass SOURCE_ALREADY_HELD. Measured here, that is not true in this container. Not corrected: both are shared central artifacts.",
+        "The overlay directory was never created, so the stop leaves it byte-for-byte unchanged by construction."
+      ]
+    },
+    {
+      "itemId": "az_certificate_second_chance-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AZ",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-az_certificate_second_chance-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:AZ:az_certificate_second_chance"
+      ],
+      "componentSet": [
+        "application",
+        "proposed_order"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:AOCCRSA3F-103023",
+          "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a",
+          "custodySupplyingTheBytes": "master_library",
+          "supersedes": "official-form:AOCCRSA3F-010122"
+        },
+        {
+          "sourceId": "official-form:AOCCRSA4F-103023",
+          "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e",
+          "custodySupplyingTheBytes": "master_library",
+          "supersedes": "official-form:AOCCRSA4F-010122"
+        }
+      ],
+      "recordsBound": [
+        "packet-set-manifest:az_certificate_second_chance-set",
+        "track-registry:az_certificate_second_chance",
+        "captain-source-identity-determination:DET-AZ-SECOND-CHANCE-CURRENT-EDITION-IS-HELD"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+          "byteLength": 378707,
+          "pageCount": 5,
+          "documents": [
+            "AOCCRSA3F-103023",
+            "AOCCRSA4F-103023"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+          "byteLength": 378893,
+          "pageCount": 5,
+          "documents": [
+            "AOCCRSA3F-103023",
+            "AOCCRSA4F-103023"
+          ]
+        }
+      ],
+      "measuredOnTheDeliveredBytes": {
+        "mapWritesThatLanded": "19 of 19; 0 refused, 0 unfittable, on both fixtures",
+        "everyWrittenValuePresentWholeInBothFixtures": true,
+        "longestValueWrittenWhole": "a 76-character composed mailing address and a 61-character email, shrunk to 8pt to fit rather than clipped",
+        "surplusVectorSegmentsAgainstThePinnedSources": 0,
+        "sourceSegmentsLost": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "recordDeclaredRequiredBeforeFilingItemsPrintedVerbatim": "5 of 5, with the record's SHA-256 beside them",
+        "rebuildFromTheSameInputsIsByteIdentical": true
+      },
+      "defectsFoundAndRepairedInThisLane": [
+        "the applicant's name was missing from the \"Person Filing:\" line of BOTH forms, refused by the shared binder as no_allowlisted_fact_matches and invisible to all nine counters",
+        "the mailing address was missing from the declaration block on application page 2, refused as explicit_mapping_conflicts_with_field_name and invisible to all nine counters",
+        "a map label of this lane's own wording made the completeness contract classify a held address written on the form's own rule as a protected field written"
+      ],
+      "safeguardAdded": "FLAT_CELL_BINDING_NOT_DECLARED — a flat cell that would be refused by the shared binder, or that binds a different fact than it declares without saying so, now stops the family before a byte is rendered",
+      "openBlockerCarriedNotDissolved": "AZ-8, form currency for AOCCRSA3F and AOCCRSA4F, is a RELEASE blocker and is carried in the source receipt and the approval request. The family's legalInputStatus is SETTLED.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "me-seal-gen-set",
+      "status": "COMPLETED",
+      "jurisdiction": "ME",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-me-seal-gen-set.mjs",
+      "routeKeys": [
+        "obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing"
+      ],
+      "componentSet": [
+        "motion"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:CR-218",
+          "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+          "custodySupplyingTheBytes": "nationwide_recovery_pool_2026_09_02",
+          "transport": {
+            "why": "the pinned official binary is an encrypted PDF; pdf-lib throws in PDFCatalog.Pages and cannot read it",
+            "method": "pikepdf.open(exact_pinned_source).save(derivative, deterministic_id=True), at build time",
+            "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+            "officialSha256UnchangedByTheRead": true,
+            "derivativeIsNotAnIdentity": true,
+            "derivativeIsNotCommitted": true,
+            "precedent": "scripts/build-census-v1-ca-1203-4-set.mjs over five encrypted California forms"
+          }
+        }
+      ],
+      "recordsBound": [
+        "packet-set-manifest:me-seal-gen-set",
+        "track-registry:me-seal-gen"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+          "byteLength": 171623,
+          "pageCount": 1,
+          "documents": [
+            "CR-218"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+          "byteLength": 171667,
+          "pageCount": 1,
+          "documents": [
+            "CR-218"
+          ]
+        }
+      ],
+      "measuredOnTheDeliveredBytes": {
+        "mapWritesThatLanded": "6 of 6; 9 refusals matching the map's 9 blanks, 0 unfittable, on both fixtures",
+        "everyWrittenValuePresentWholeInBothFixtures": true,
+        "longestValueWrittenWhole": "a 42-character street address and a 35-character name",
+        "surplusVectorSegmentsAgainstTheProvenEquivalentSource": 0,
+        "sourceSegmentsLost": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "dateOfBirthRenderedInThePrintedOrder": "11/06/1990 where the form prints mm/dd/yyyy; the stored ISO string appears nowhere on the page",
+        "recordDeclaredRequiredBeforeFilingItemsPrintedVerbatim": "11 of 11, with the record's SHA-256 beside them",
+        "forbiddenJurisdictionWordOccurrences": "4, every one inside a sentence saying Maine does not have expungement"
+      },
+      "defectsFoundAndRepairedInThisLane": [
+        "A MIS-WRITE: the participant's NAME was drawn on the date-of-conviction rule of paragraph 1 of a sworn motion, because the caption capture returned the truncated opening of the line above and its word \"Defendant\" matched the full-name descriptor. Now refused by role as well as by a corrected caption.",
+        "the defendant's mailing address was absent from the motion while the platform held it, both address lines having been captured with the attorney line's protected parenthetical",
+        "the docket number was absent from the caption of a motion filed in an existing criminal case",
+        "this lane's own forbidden-word gate fired AFTER the fixtures were written; the guide is now built and gated before the output directory is created at all"
+      ],
+      "safeguardsAdded": [
+        "FORBIDDEN_JURISDICTION_WORD_IN_PARTICIPANT_COPY",
+        "RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS",
+        "UNLOCKED_DERIVATIVE_IS_NOT_EQUIVALENT_TO_THE_OFFICIAL_BINARY"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nc_145_5_misdemeanor-set",
+      "status": "COMPLETED",
+      "jurisdiction": "NC",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nc_145_5_misdemeanor-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:NC:nc_145_5_misdemeanor"
+      ],
+      "componentSet": [
+        "petition",
+        "instructions",
+        "fee_waiver"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:AOC-CR-298",
+          "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+          "custodySupplyingTheBytes": "master_library"
+        },
+        {
+          "sourceId": "official-form:AOC-CR-298-INSTRUCTIONS",
+          "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+          "custodySupplyingTheBytes": "master_library"
+        },
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "custodySupplyingTheBytes": "master_library"
+        }
+      ],
+      "recordsBound": [
+        "packet-set-manifest:nc_145_5_misdemeanor-set",
+        "track-registry:nc_145_5_misdemeanor"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+          "byteLength": 764739,
+          "pageCount": 5,
+          "documents": [
+            "AOC-CR-298",
+            "AOC-CR-298-INSTRUCTIONS",
+            "AOC-CV-226"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+          "byteLength": 764942,
+          "pageCount": 5,
+          "documents": [
+            "AOC-CR-298",
+            "AOC-CR-298-INSTRUCTIONS",
+            "AOC-CV-226"
+          ]
+        }
+      ],
+      "measuredOnTheDeliveredBytes": {
+        "mapWritesThatLanded": "17 of 17 across two forms; 168 blanks classified, 0 unfittable",
+        "everyWrittenValuePresentWholeInBothFixtures": true,
+        "longestValueWrittenWhole": "a 60-character street address and a 46-character name",
+        "surplusVectorSegmentsAgainstThePinnedSources": 0,
+        "sourceSegmentsLost": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "recordDeclaredRequiredBeforeFilingItemsPrintedVerbatim": "18 of 18, with the record's SHA-256 beside them",
+        "everySourcePageDeliveredWhole": "5 pages: AOC-CR-298 p1-2, its instruction sheet p1, AOC-CV-226 p1-2"
+      },
+      "findingsRecordedForTheReviewer": [
+        "AOC-CR-298 carries the FELONY form's field names on its two waiting-period boxes (OneNonviolentFelonyWaitingPeriodCkBox, TwoOrThreeNonviolentFeloniesWaitingPeriodCkBox) while the page prints the three-year and seven-year MISDEMEANOR branches. Every caption in the map is quoted from the printed page, so nothing in the packet states a felony tier, and neither box is ticked.",
+        "the shared caption capture reads the identifier rows one blank out of step; two corrections applied, each measured from this form's own page-1 content stream"
+      ],
+      "safeguardAdded": "RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
