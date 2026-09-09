@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8eded88ec33954e26ca7e95c56e0da5d89d790d5",
+  "generatedAtCommit": "63fc9860ae413ec39d6e3c851d8ab487f390453f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1443,8 +1443,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T19:07:50.174Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1607,7 +1607,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.014Z"
@@ -1653,7 +1653,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.118Z"
@@ -2459,7 +2459,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -3150,7 +3150,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T17:55:10.866Z"
@@ -14008,7 +14008,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8b7b632be395387a9e7cdf0c192df9ac30f7237ee47317ae53639a14049e5714",
+  "claimsDigest": "354bac375d007b251502d2da90131ef06c293ba363d83f78c8b74694e009cb7a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43164,6 +43164,16 @@
       "previouslyReleasedAt": "2026-09-09T16:42:21.523Z",
       "reissuedAt": "2026-09-09T19:52:10.098Z",
       "reason": "ARTIFACTS: 146 dangling indirect references per fixture, one fault in the shared EXP-AD build path, measured by VF01-VF03 and present before FIX118."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-09T19:07:50.174Z",
+      "reissuedAt": "2026-09-09T20:20:16.567Z",
+      "reason": "FIX120's repair landed and cannot be seen: the builder emits neither output-byte reading, so invisibleWrites and visualDefects are null, allNineCountersZero is false and the supersede predicate refuses. The unmet requirement is the measurement, not another repair."
     }
   ],
   "transfers": [
