@@ -11,6 +11,85 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## The stale-bytes question is closed: 34 of 36 proven families reproduce (2026-09-09)
+
+Both sweeps are in. The screen that started this — 54 families whose builder is
+newer than their delivered canonical, 36 of them `COMPLETE_PACKET_PROVEN` — is
+answered.
+
+| | first pass (25) | second pass (29) | together |
+|---|---|---|---|
+| Proven families measured | 14 | 22 | **36** |
+| Of those, packet PDFs reproduce byte for byte | 14 | 20 | **34** |
+
+The two proven exceptions are named below. **No proven family was found
+delivering bytes that are wrong.** The one substantive divergence in each sweep
+sits in a family already `FAIL_REPAIR_REQUIRED`.
+
+The wall-clock category, empty in the first sweep, has two entries in the second:
+`co_pardoned_conviction_seal-set` and `pa_age70_deceased-set` differ in exactly
+14 and 16 bytes, every one inside `/ModDate` and `/CreationDate`. Byte-identical
+once normalised, `pdftotext` identical. The builders now write a pinned date, so
+the delivered bytes are stale and the defect is already repaired upstream.
+
+### The two that need work
+
+**`wv_conv_multiple_misdemeanors-set` — `COMPLETE_PACKET_PROVEN`, and today's
+builder produces a poorer packet.** It exits 1 from its shared host's byte gate
+with 26 blocking findings, all one check —
+`selection_control_carries_artifact_derived_text_or_vector_mark` — across 13
+selection controls on SCA-C906 in both fixtures. The delivered
+`build-findings.json` records `blocking: []`.
+
+Not source drift: delivered and rebuilt receipts both bind SCA-C906 at
+`43b5606c9faf…`, 176072 bytes, `exactHashVerified: true`. Rastered at 100 dpi and
+compared pixel by pixel, **pages 1–3 hold ink the rebuild does not reproduce —
+7013, 7516 and 662 pixels inked only in the delivered fixture, against 409 inked
+only in the rebuild.** That establishes the delivered bytes cannot be reproduced,
+NOT that they are wrong. A repair lane and an independent reader settle it.
+
+**`sd_arrest_expungement-set` — the rebuild would delete a record.** The packet
+difference is inert: 51 bytes in one empty text-widget appearance stream whose
+body is `/Tx BMC EMC` and paints nothing; `pdftotext -layout` identical. What
+moves is the sidecars — `product-wiring.json` goes 97 lines to 17, dropping the
+whole 17-key `binding` block including `paymentEligible`, `sponsorshipEligible`,
+`whyPaymentIsClosed`, `lastIndependentVerification` and the three-stage
+`binding.routeKeys`. And the delivered `build-findings.json` asserts *"107
+field(s) … surfaced in participant-instructions.md rather than guessed"* while
+that file — byte-identical in both directories — lists **9**. Neither 107 nor the
+rebuild's 28 matches the document being cited.
+
+### One a participant would see
+
+**`ut_pet_acquittal-set`** ships a `participant-instructions.md` citing
+`src/lib/rcap-engine/compiled/profiles/UT-utah.json` at `73dd7ea9…`/345529 bytes.
+That file is now `8d5cf401…`/346575, moved by `78e79be41` on 2026-09-05, after
+the delivered canonical was built. **The packet cites a source hash that cannot
+be verified against the repository's own committed file.** Six further families
+pin `legal-design-packet-set-manifests.json` at a digest it has moved past; those
+are internal and invisible to a participant.
+
+### Tool repairs, and an honest note on one of them
+
+`measure-build-reproducibility.mjs` gained `--out` (a subset sweep can no longer
+overwrite a completed sweep's record — the reason the 87-row record kept being
+clobbered), `--families` (one run over a named set instead of a loop that
+replaces its own output each time), and top-level entry-point discovery. Every
+row now carries `builderRewroteOwnDirectory`, and all 28 buildable families did,
+so no "reproduces" here is a script that merely exited cleanly.
+
+The entry-point repair **changed no outcome in this set** — it fired for no
+family. `sd_arrest_expungement-set`, the only builder with that shape, was
+already reaching the right invocation through a coincidence: a
+`const target = "sd_arrest_expungement-set"` inside its `--instruction-repair-only`
+branch resolved the `runFamilyById(target, [])` call. Its stored
+`invocationBasis` claims a direct-invocation guard that does not exist. The
+invocation is right and the explanation is not, and that is recorded rather than
+tidied away.
+
+`BUILD_REPRODUCIBILITY.json` still hashes as it did and still carries all 87
+rows. Every rebuilt family was restored and verified byte-identical.
+
 ## Nebraska passed the central raster and cannot be admitted from this session (2026-09-09)
 
 `ne-seal-pardoned-set` has everything the admission criteria ask for except a
