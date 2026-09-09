@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2e75cdec9595da934b758e9ef25233ce67754466` (or the newer dispatch base)
+**Minimum required ancestor:** `b83b49d6688b3d30cb6c27a757509893e2ba7670` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'al-diversion-set' \
+  --family 'fl-10yr-bridge-set' \
   --codex-cloud \
-  --minimum-captain-sha 2e75cdec9595da934b758e9ef25233ce67754466
+  --minimum-captain-sha b83b49d6688b3d30cb6c27a757509893e2ba7670
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,12 +38,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'al-diversion-set'`
+- Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'fl-10yr-bridge-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ca-17b-reduction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'il-exp-precompletion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ri_multiple_misdemeanors-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'al-diversion-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'co_motion_seal_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ri_first_offender_misdemeanor-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,13 +60,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 4 families
 
-- `al-diversion-set`
 - `fl-10yr-bridge-set`
-- `ca-17b-reduction-set`
-- `il-exp-precompletion-set`
-- `ri_multiple_misdemeanors-set`
+- `al-diversion-set`
+- `co_motion_seal_nonconviction-set`
+- `ri_first_offender_misdemeanor-set`
 
 ## What you receive
 
@@ -80,15 +78,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
-- `scripts/build-census-v1-il-exp-precompletion-set.mjs`
-- `scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs`
+- `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs`
 
 ## Never write here
 
