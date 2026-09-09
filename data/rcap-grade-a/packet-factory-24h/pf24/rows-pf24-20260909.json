@@ -1,0 +1,667 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF24",
+  "workerId": "PF24",
+  "lane": "packet-build",
+  "workerBranch": "pfd-20260909",
+  "engine": "Claude Opus 5 (Claude Code)",
+  "returnFilename": "rows-pf24-20260909.json",
+  "worktree": "/home/user/pfd-worktree",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "familiesAssignedByPrompt": 4,
+  "familiesGrantedByClaimLedger": 4,
+  "rowsReturned": 4,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": "none — MASTER_QUEUE.json, VERIFIER_RETURNS.json, RASTER_QUEUE.json, the custody reconciliation and the build worklist were read only; no claim was released and no shared script under scripts/grade-a-packet-factory-24h/ was edited",
+  "grantsNothing": "A built family is review evidence. It is not verified, not approved and not sellable, and it opens no commercial route. This lane issues no verdict; RASTER_PASS comes from the central workflow.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rows": [
+    {
+      "itemId": "wa_blake_vacatur_and_lfo_refund-set",
+      "status": "STOPPED",
+      "stopClass": "SOURCE_VEHICLE_ROLE_MISMATCH",
+      "jurisdiction": "WA",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+      ],
+      "builtBy": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "buildStatus": "official_forms_ingested",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 wa_blake_vacatur_and_lfo_refund-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. At the shift base commit the builder could not run to any result at all: it aborted in loadDocuments before reading a single page.",
+      "defectsFoundAndRepairedInTheBuilder": [
+        {
+          "defect": "DUPLICATE_CUSTODY_BINDING_READ_AS_A_MISSING_FOURTH_DOCUMENT",
+          "demonstratedBy": "node scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs --check at 52988d70 exits with WashingtonPacketBuildError: source absent from verified corpus: private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+          "whyItIsADefect": "The custody row binds BLAKE-001 twice — by form label at STATES/WA/02_PACKET_FORMS/... and by content hash at the import-pack path. Both bindings carry SHA-256 a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f, so they are one document held at two paths in two custody roots. loadDocuments resolved every binding against the Master Library root alone and read the second binding as a fourth document missing from the corpus.",
+          "repair": "loadDocuments now keys loaded documents by SHA-256. A later binding with an already-loaded digest is verified against the committed corpus index (path, SHA-256, byte length, page count), recorded on the document as an additionalCustodyBinding, and its bytes are not re-opened from a mount this container does not hold. Form number, byte length and page count must agree or the build still fails.",
+          "noSubstitutionWasMade": "No file was substituted, no revision was swapped and no locator page was accepted for a form. Every document still comes from bytes hashed in this container and checked against the pinned custody SHA-256.",
+          "scopeOfTheChange": "The dedup path only triggers when two custody bindings share a digest. Of the ten Washington families this script serves, only wa_blake_vacatur_and_lfo_refund-set has a content_hash binding, so the other nine load exactly as before."
+        },
+        {
+          "defect": "SELF_TEST_FAILED_AT_THE_SHIFT_BASE_COMMIT",
+          "demonstratedBy": "node scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs --self-test at 52988d70 exits with AssertionError 4 !== 3 at selfTest (dry.sourceCount).",
+          "whyItIsADefect": "--dry-run reported records.custody.documentSources.length, which counts custody bindings, while the self-test asserted the document count. The two diverged the moment a second binding of one document entered the custody row, and the self-test has been red since.",
+          "repair": "--dry-run now reports custodyBindingCount (4) and sourceCount as distinct documents by digest (3); the self-test asserts both. It now passes: WA_PACKET_BUILDER_SELF_TEST_OK."
+        }
+      ],
+      "whyThisFamilyIsStillStopped": {
+        "stopArtifact": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json",
+        "firstFinding": "The build worklist assigns 'lfo_refund_claim: Blake-002'. The pinned BLAKE-002 bytes print their own footer as '(04/2026) CLJ Blake Motion' and their title as 'Blake Motion to Vacate Drug Possession Conviction and Refund Paid LFO Amounts'. BLAKE-002 is the courts-of-limited-jurisdiction counterpart of BLAKE-001, not a separate refund-claim vehicle. This finding was already in the builder; reading the bytes in this shift confirmed it.",
+        "secondFindingMeasuredInThisShift": "BLAKE-001 prints '(04/2026) Superior Court Blake Motion (MT)' and the only held order, BLAKE-005, prints '(05/2025) Blake Full Vacat e Order CLJ'. The held order matches the CLJ motion, not the Superior Court motion the worklist names as the primary filing. No Superior Court Blake vacate order is bound to this family, so the declared primary filing has no matching proposed order in custody.",
+        "whyNotBuiltAnyway": "Delivering a Superior Court motion with a courts-of-limited-jurisdiction order, or writing a Superior Court order that is not held, would invent packet topology and would tell a participant to file the wrong instrument in the wrong court. Neither was done and no component was inferred."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced, so there is nothing to count. Zero would assert a measurement of a delivered packet that does not exist.",
+      "sourceCensusMeasuredFromTheBytes": [
+        {
+          "formNumber": "BLAKE-001",
+          "role": "participant_filing",
+          "pages": 4,
+          "measuredBlanks": 28,
+          "selectionControls": 0,
+          "writableAnchors": 2,
+          "withheld": 7,
+          "footerTag": "(04/2026) Superior Court Blake Motion (MT)"
+        },
+        {
+          "formNumber": "BLAKE-002",
+          "role": "participant_filing",
+          "pages": 4,
+          "measuredBlanks": 29,
+          "selectionControls": 0,
+          "writableAnchors": 2,
+          "withheld": 7,
+          "footerTag": "(04/2026) CLJ Blake Motion"
+        },
+        {
+          "formNumber": "BLAKE-005",
+          "role": "court_order",
+          "pages": 5,
+          "measuredBlanks": 24,
+          "selectionControls": 8,
+          "writableAnchors": 1,
+          "withheld": 23,
+          "footerTag": "(05/2025) Blake Full Vacat e Order CLJ"
+        }
+      ],
+      "sourceCensusIsNotAPacket": "These are geometry readings of the pinned sources, taken with --inspect. They are not fixture output and carry no glyph readings, because no fixture was written.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:Blake-001",
+            "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+          ],
+          "formNumber": "BLAKE-001",
+          "revision": "REV-2026-04",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+          "byteLength": 171772,
+          "pageCount": 4,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 2
+        },
+        {
+          "sourceIds": [
+            "official-form:Blake-002"
+          ],
+          "formNumber": "BLAKE-002",
+          "revision": "REV-2026-04",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
+          "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+          "byteLength": 171925,
+          "pageCount": 4,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 1
+        },
+        {
+          "sourceIds": [
+            "official-form:Blake-005"
+          ],
+          "formNumber": "BLAKE-005",
+          "revision": "REV-2025-05",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+          "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+          "byteLength": 413907,
+          "pageCount": 5,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 1
+        }
+      ],
+      "allSourcesExact": true,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No canonical fixture, no boundary fixture, no field map, no field census, no instructions and no glyph readings were produced, because the build stopped before any output byte was written.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[wa_blake_vacatur_and_lfo_refund-set].executionReclassification",
+          "says": "executionOwner CAPTAIN; nextExecutableAction 'Build from the exact held BLAKE-001, BLAKE-002, and BLAKE-005 bindings; treat component selection as packet mapping, not external source acquisition.'",
+          "measured": "This lane did not research or reacquire anything, so the acquisition half of that decision is satisfied. The mapping half cannot be executed honestly on the held bytes: the same queue row still carries an open laneReturnLegalHold asking whether BLAKE-002 is the CLJ alternative or a separate lfo_refund_claim, and the held order is the CLJ order while the declared primary filing is the Superior Court motion. Escalated to the Captain rather than resolved here, because the worklist and the queue are central manifests this lane does not own."
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "field": "rows[wa_blake_vacatur_and_lfo_refund-set].documentSources",
+          "says": "four resolved document sources",
+          "measured": "three distinct documents; the fourth entry is a second binding of BLAKE-001 at a second custody root, same SHA-256."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[wa_blake_vacatur_and_lfo_refund-set]",
+          "says": "buildScriptExists true, documentSourcesNamed 4, documentSourcesResolved 4",
+          "measured": "the count of 4 counts custody bindings, not documents; three documents are held."
+        }
+      ]
+    },
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "jurisdiction": "ND",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief"
+      ],
+      "builtBy": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "claim": "CLAIM_OK PF24 nd-summary-marijuana-pardon-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. The committed build-findings.json recorded status BLOCKED_NON_FILING_HOLD: finalizeOfficialForm had refused to fill SFN-61663 because the shared non-filing-notice detector matched the form's closing legal-advice disclaimer. Only source-receipt.json, field-census.census-v1.json and that stale block record were committed; no fixture, no field map, no instructions.",
+      "whatTheRunActuallyShowed": "The hold no longer fires. scripts/rcap-official-forms/rcap-source-notice.mjs has since been corrected by the lane that owns it, and the builder ran unchanged to a complete packet on the first invocation. The block record was stale, not live. It was replaced by this run's own findings; nothing was edited to get past a gate.",
+      "defectFoundInTheDeliveredBytesAndRepaired": {
+        "defect": "CAPTION_EVIDENCE_ATTRIBUTED_THE_FIELD_NAMES_TO_THE_WRONG_STATE",
+        "where": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json",
+        "demonstratedBy": "The delivered record said the printed captions were \"corroborated by Colorado's authored field name\" and cited \"two of this packet's sibling Colorado forms\". This is a North Dakota packet built from one North Dakota form, and no Colorado document is bound to it.",
+        "whyItIsADefect": "The caption-evidence record exists so a reviewer can tell a checked caption basis from a guessed one. Naming the wrong authority for the authored field names, and citing sibling documents that are not in the packet, makes the evidence unreadable as evidence. It is copy-paste residue in the builder, not a rendering fault.",
+        "repair": "The builder now names the authority that actually authored the AcroForm field names — the North Dakota Department of Corrections and Rehabilitation, in SFN 61663 — and the false sibling-forms sentence is gone. Nothing else changed: both fixture SHA-256s are byte-identical before and after the repair.",
+        "counterImpact": "none; this is prose in an evidence record, and it moved no counter"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "countersMeasuredBy": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json, computed by the builder over its own field map, byte proof, rendered artifacts and participant-instructions.md",
+      "countersAreNotAVerdict": "This lane built these bytes and sets no verdict. PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central workflow and an independent verification lane.",
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 23,
+        "PROTECTED_FIELD": 5,
+        "PARTICIPANT_ELECTION_GENUINE": 2
+      },
+      "officialForm": {
+        "documentId": "SFN-61663",
+        "editionFooter": "SFN 61663 (02-2020)",
+        "officialFormFamily": "North Dakota Pardon Advisory Board Application to Pardon Eligible Marijuana Offenses"
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:SFN-61663"
+          ],
+          "pathInArchive": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+          "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+          "custodyRoot": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "boundBy": "exact_content_sha256",
+          "receipt": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json"
+        }
+      ],
+      "allSourcesExact": true,
+      "networkAcquisitions": 0,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+          "byteLength": 40720,
+          "pageCount": 2,
+          "digestTakenWith": "sha256sum"
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf",
+          "byteLength": 40590,
+          "pageCount": 2,
+          "digestTakenWith": "sha256sum"
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 60,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "acroFormFieldsRemainingInTheOutput": 0,
+          "documentAuthoredAppearances": 0,
+          "refusedFieldsWithInk": 0,
+          "selectionsMarked": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 115,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "acroFormFieldsRemainingInTheOutput": 0,
+          "documentAuthoredAppearances": 0,
+          "refusedFieldsWithInk": 0,
+          "selectionsMarked": []
+        }
+      ],
+      "glyphReadingsMeasuredFrom": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json, read back at every measured /Rect of the finalized bytes rather than from the finalizer's own report",
+      "totals": {
+        "terminalFields": 36,
+        "written": 6,
+        "blank": 30
+      },
+      "routeSelectionsMade": 0,
+      "requiredBeforeFiling": 26,
+      "boundaryOnlyRefusals": [
+        {
+          "field": "SFN-61663/State",
+          "factId": "participant.state",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measuredWhy": "the box the form prints is 34.32 points wide and the boundary value \"North Dakota\" needs 35.5 points at 6 point, the smallest size that stays readable, so it was refused rather than allowed to cross the rule"
+        }
+      ],
+      "requiredArtifactsPresent": {
+        "canonicalFixturePdf": true,
+        "boundaryFixturePdf": true,
+        "fieldMap": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/production-field-map.json",
+        "fieldCensus": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/field-census.census-v1.json",
+        "participantAndFilingInstructions": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/participant-instructions.md",
+        "completenessCounters": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json",
+        "actualWrites": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json",
+        "blanks": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "captionEvidence": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json",
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json",
+        "bothGlyphReadingsPerArtifact": true
+      },
+      "filingInstructionsNote": "This builder delivers participant and filing instructions as one document. participant-instructions.md is headed \"Filing instructions\" and carries the filing destination, the three submission channels the form prints, the 90-day deadline, the required attachments and the signature requirement. There is no separate filing-instructions.md.",
+      "appearanceLevelInspection": {
+        "method": "both fixtures re-opened from the committed bytes; page rasters read as images; text extracted per page",
+        "acroFormFieldsRemaining": 0,
+        "sourceAuthoredDefaultsFound": 0,
+        "invisibleWritesFound": 0,
+        "signatureBlocksPrefilled": 0,
+        "observed": "In both fixtures the \"Signature of Applicant\" and \"Date\" cells are empty, both Check Applicable Response boxes are unticked, and all eighteen cells of the item 5 offence table are empty. Every written value sits inside its printed rule. In the boundary fixture the State cell is empty because the refusal above fired; nothing overflows.",
+        "inspectedBy": "PF24, the lane that built it — this is a build-side read, not verification"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 4,
+      "rasterNote": "Four pages were rastered locally with the repository's calibrated Chromium rasteriser and read at appearance level; the PNGs are committed as the builder wrote them. A local render is not a receipt. The authoritative render is the central hash-bound workflow, on the two fixture SHA-256s recorded above.",
+      "determinism": "the builder was run three times; both fixture SHA-256s were identical on every run",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-findings.json (at the shift base commit)",
+          "says": "status BLOCKED_NON_FILING_HOLD — the shared detector refuses to fill SFN-61663",
+          "measured": "the detector does not fire; the builder ran unchanged to a complete packet. The committed block was stale."
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[nd-summary-marijuana-pardon-set].rasterEnrolmentRefusal",
+          "says": "no fixtures directory; packet build has not completed; no completeness audit",
+          "measured": "all three are now false: fixtures/, a completeness-counters record and a full packet exist at the paths above."
+        }
+      ]
+    },
+    {
+      "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "whyNoOverlayDirectory": "The builder's own design is to create nothing for a family it refuses to build, and this lane did not change that. The measurements below are the family's evidence and they live in this return.",
+      "routeKeys": [
+        "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-automatic-and-verification",
+        "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-recovery-letter"
+      ],
+      "builtBy": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "buildStatus": "official_forms_ingested",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 tx_nd_automatic_misdemeanor_deferred-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. In this worktree it stopped on the wrong thing: it reported that the custody holding the Statement of Inability is not mounted here, so the refusal it was written to record was never reached and never checked.",
+      "defectFoundAndRepairedInTheBuilder": {
+        "defect": "A HELD SOURCE WAS REPORTED UNMOUNTED BECAUSE ITS CUSTODY IS RESOLVED INSIDE THE CHECKOUT",
+        "demonstratedBy": "At the shift base the builder returned failedSourceIdentities: [{ sourceIdentity: 'official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond', why: 'the custody holding private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf is not mounted here' }]. The bytes are held, and hash to the pinned bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d.",
+        "whyItIsADefect": "The corpus index declares the human_source_returns custody with pathsRelativeTo 'repositoryRoot', so the shared resolver joins the path onto whichever checkout is running. private/human-source-returns is untracked in every checkout — it is a mount, not repository content — and git sparse-checkout cannot materialise it, so from a worktree the resolver always reports a held source as unmounted. That is the false-corruption failure mode the resolver's own header warns about, arriving from the other direction.",
+        "repair": "This builder now falls back, per custody, to a root named in the environment — RCAP_HUMAN_SOURCE_RETURNS_DIR, and RCAP_D_SOURCE_DIR for the D packs, the variable scripts/build-census-v1-ar-*.mjs already use for exactly this. The override changes only where the bytes are looked for: the committed index still pins the digest, the bytes are still hashed in this container, and a mismatch still fails. A stop now also names the custody, the paths tried, and the variable that would resolve it.",
+        "sharedModuleNotEdited": "scripts/lib/corpus-index-paths.mjs has the same blind spot for every family whose source sits in a repositoryRoot-relative custody. It is a shared module with one writer and was NOT edited. Reported to the Captain instead.",
+        "invocationThatReproduces": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs"
+      },
+      "whyThisFamilyIsStillStopped": {
+        "blockedComponent": "component:tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+        "blockedSourceIdentity": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "finding": "The form cannot record two elections this route determines. Group10 is ONE top-level radio field with four kid widgets: two on page 3 and two on page 9. A radio group holds one selection, so marking one question unmarks the other, whatever tool the filer uses.",
+        "verifiedFirstHandInThisShift": "Measured from the pinned bytes rather than taken from the builder's prose. Group10 pagesSpanned [3, 9]; widgets at page 3 y=304.1 and y=135.7 and page 9 y=317 and y=288.5. The text extracted at those coordinates is, in order: 'I am being represented in this case for free by an attorney who works for a legal aid provider...' (page 3, under 'Check only one box.'), 'I am not represented by legal aid.' (page 3), 'I cannot afford to pay court costs.' (page 9), and 'I cannot furnish an appeal bond or pay a cash deposit to appeal a justice court decision, and I cannot afford to pay court costs.' (page 9). This packet is drafted for a self-represented filer who cannot afford court costs, so both answers are route-determined and the form can hold only one.",
+        "whatWasNotDone": "The two elections were not relabelled as participant elections to keep a counter at zero; no marks were drawn into page content beside the widgets, on a declaration sworn under penalty of perjury, through a control the form does not provide; and the binary the Supreme Court of Texas approved was not re-fielded.",
+        "whatWouldUnblockIt": [
+          "a Statement of Inability binary whose item-3 and item-9 elections are separate AcroForm fields, or",
+          "an owner determination that this packet may mark those two elections outside the form's own controls, or",
+          "an owner determination that the fee-waiver component may be dropped from this family's declared set and replaced by the fee the OCA instructions name as its alternative"
+        ]
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced, so nothing was measured. A zero would be a claim about a packet that does not exist.",
+      "componentsBuildable": [
+        "recovery_letter",
+        "proposed_order"
+      ],
+      "componentsBlocked": [
+        "fee_waiver_statement"
+      ],
+      "measurementsCarriedForwardSoTheNextLaneNeedNotResurvey": {
+        "recoveryLetter": {
+          "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "encryptedInTheCustody": true,
+          "pdfLibCanOpenItDirectly": false,
+          "pikepdfDerivativeSha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
+          "pikepdfDerivativeByteLength": 251614,
+          "pageCount": 7,
+          "acroFormFields": 25,
+          "deterministic": "two runs in this container produced the identical derivative digest",
+          "buildable": true
+        },
+        "proposedOrder": {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "pageCount": 3,
+          "acroFormFields": 0,
+          "buildable": true,
+          "note": "a flat proposed order the court completes; nothing on it is the participant's to fill"
+        },
+        "feeWaiverStatement": {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "pageCount": 12,
+          "radioGroupsMeasured": [
+            {
+              "name": "Choice 1",
+              "options": 5,
+              "pagesSpanned": [
+                1
+              ]
+            },
+            {
+              "name": "Group12",
+              "options": 2,
+              "pagesSpanned": [
+                4
+              ]
+            },
+            {
+              "name": "Group10",
+              "options": 4,
+              "pagesSpanned": [
+                3,
+                9
+              ]
+            }
+          ],
+          "sourceCarriedDefaultsThatAnyBuildMustClear": [
+            {
+              "field": "Today",
+              "sourceCarriedValue": "12/15/2022",
+              "why": "it sits on the line beneath a declaration made under penalty of perjury; delivered as-is it would date a sworn statement to a day the filer did not sign"
+            },
+            {
+              "field": "Value / Valor 11",
+              "sourceCarriedValue": "0",
+              "why": "a computed total that reads as a statement the filer owns nothing"
+            },
+            {
+              "field": "Amount Cantidad 15",
+              "sourceCarriedValue": "0",
+              "why": "a computed total that reads as a statement the filer spends nothing"
+            }
+          ],
+          "buildable": false
+        }
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072"
+          ],
+          "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "custody": "master_library",
+          "resolved": true,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:OCA Model Order of Nondisclosure under Section 411.072"
+          ],
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "custody": "master_library",
+          "resolved": true,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+          ],
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "resolved": true,
+          "boundBy": "exact_content_sha256",
+          "resolvedThrough": "RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns, a custody mount this container holds and the buildability record's own mountsSearched names"
+        }
+      ],
+      "allSourcesExact": true,
+      "allThreeSourcesResolvedAndHashedInThisContainer": true,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No fixture, no field map, no census, no instructions and no glyph readings were produced. The family was not built.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[tx_nd_automatic_misdemeanor_deferred-set].buildScriptExists",
+          "says": "false",
+          "measured": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs exists at the shift base commit and runs. The field is stale; MASTER_QUEUE has it right."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json and MASTER_QUEUE.json",
+          "field": "sourceStatus / verdict",
+          "says": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF, SOURCE_BOUND_BY_HELD_BYTES, 3/3 resolved",
+          "measured": "True, and this lane confirms it by hashing all three. But three-of-three held is not three-of-three usable: one of the three cannot record two elections this route determines, and no source record in this repository says so. Held-ness and buildability are different measurements and the queue reports only the first."
+        }
+      ]
+    },
+    {
+      "itemId": "al-pardon-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AL",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "routeKeys": [
+        "obligation:track-only:AL:al-pardon"
+      ],
+      "packetComponents": [
+        "component:al-pardon-primary-filing-1"
+      ],
+      "builtBy": "scripts/build-census-v1-al-pardon-set.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "buildStatus": "not_started",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "No build script existed. The assignment described this family as SOURCE_READY with the source already held, 1/1 resolved.",
+      "theAssignmentPremiseDidNotHold": {
+        "assignmentSaid": "SOURCE_ALREADY_HELD, 1/1 resolved",
+        "measured": "The one bound source is not held in this container. No file under any mounted custody root hashes to 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327, by declared path or by content.",
+        "thisWasNotTakenOnTrustFromAnyRecord": "Searched twice and independently. First by hand: every file under the Master Library mount, the whole private/ tree of the primary checkout and the whole worktree was enumerated, every file in the 100-200 KiB band was hashed, and separately every file of exactly 160009 bytes and every path matching *abpp* was listed. 6273 files seen, 630 hashed in the size band, 0 hits, 0 files of that exact byte length, 0 files named for ABPP. Then by the builder itself, which walks every mounted custody root and compares by content."
+      },
+      "blockedSource": {
+        "sourceIdentity": "official-form:ABPP-3",
+        "officialFormId": "ABPP-3",
+        "declaredPath": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "declaredSha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+        "declaredByteLength": 160009,
+        "declaredPageCount": 4,
+        "declaredAcroFieldCount": 30,
+        "custody": "src05_worker_materialization_2026_09_02",
+        "custodyRootsSearchedByContent": [
+          {
+            "custody": "master_library",
+            "root": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+            "mounted": true
+          },
+          {
+            "custody": "human_source_returns",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+            "mounted": true
+          },
+          {
+            "custody": "d_source_packs",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+            "mounted": true
+          },
+          {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+            "mounted": true
+          },
+          {
+            "custody": "src05_worker_materialization_2026_09_02",
+            "root": "private/source-imports/src05-worker-materialization-2026-09-02",
+            "mounted": false
+          }
+        ],
+        "otherWorktreesWereNotSearched": "/home/user/captain-worktree and the other lane worktrees appear in the buildability record's mountsSearched but are other agents' live workspaces, and the lane brief forbids reading them. If the Captain holds these bytes there, that is a fact this lane cannot and did not check.",
+        "whatWasNotDone": "No similarly named file, no other revision and no locator page was accepted in its place. No network acquisition was attempted."
+      },
+      "whyTheCentralRecordsDisagreeAndWhichIsRight": "The corpus index's own custody declaration settles it. ABPP-3 is filed under src05_worker_materialization_2026_09_02, whose declaration in that same index reads custodyType EPHEMERAL_WORKER_MATERIALIZATION_NOT_PERSISTED and bytesHeldByAnyMountedCustody false: fourteen binaries were fetched into a worker's ephemeral copy of the Master Library tree and were never staged, committed or released. Three of the fourteen were later found elsewhere in the repository and are listed by path. ABPP-3 is not one of the three. So the index, the buildability row and this lane's own search all agree; only the queue summary and the assignment say the source is held.",
+      "reAcquisitionIsExecutableByTheOwner": {
+        "record": "data/rcap-grade-a/packet-factory-24h/src05/SOURCE_MATERIALIZATION_RETURN.json",
+        "storedTitle": "CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
+        "fileId": "1gtsVBXAjLedr0MzrF6eMNWBw3rw-NVkh",
+        "visibility": "owner_only",
+        "digestVerifiedAtAcquisition": true,
+        "byteLengthVerifiedAtAcquisition": true,
+        "note": "Recorded here because the blocker is recoverable, not permanent. Fetching it is an owner action; this lane performed no network acquisition."
+      },
+      "whatThisLaneWroteInstead": {
+        "file": "scripts/build-census-v1-al-pardon-set.mjs",
+        "whatItIs": "The family's source binding and its refusal. It resolves ABPP-3 by digest through the committed corpus index and the custody declaration, falls back to an environment-named root per custody, and if the declared path fails it searches every mounted custody root BY CONTENT before refusing. The refusal names the sourceId, the digest, the declared path, the custody, the paths tried, the roots searched and the owner-recoverable handle.",
+        "whatItIsNot": "It is not a fill pipeline. No field census, no field map, no overlay and no fixture is implemented in it, and none is claimed. The bytes have never been present in any container this repository runs in, so a fill drafted against this form would be untested code asserting a capability that was never exercised. If the bytes arrive, the builder binds them, reads the page count and AcroForm field count back out of the binary, compares both against the committed index, and stops at NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING so that nothing downstream can mistake a bound source for a built packet.",
+        "thatSecondPathHasNeverExecuted": "Stated plainly rather than left to be discovered: the resolved branch of this builder has never run, because the source has never resolved. Only the refusal branch is exercised.",
+        "invocationThatReproducesTheRefusal": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns RCAP_D_SOURCE_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12 RCAP_NATIONWIDE_POOL_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02 node scripts/build-census-v1-al-pardon-set.mjs"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced and the source was never opened, so nothing was measured. A zero would be a claim about a packet that does not exist.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:ABPP-3"
+          ],
+          "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+          "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+          "custody": "src05_worker_materialization_2026_09_02",
+          "resolved": false,
+          "boundBy": "declared digest; not held in this container"
+        }
+      ],
+      "allSourcesExact": false,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No fixture, no field map, no census, no instructions and no glyph readings. The source was never opened.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[al-pardon-set].sourceStatus, sourceBound, sourceReadiness.custodyClass, state",
+          "says": "SOURCE_BOUND_BY_HELD_BYTES; sourceBound true; SOURCE_ALREADY_HELD; state SOURCE_READY",
+          "measured": "The bytes are not held in any mounted custody. The queue row's own boundSources entry names the src05 path, and the corpus index declares that custody bytesHeldByAnyMountedCustody false. The queue summary contradicts the index it is derived from."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[al-pardon-set]",
+          "says": "custodyClass SOURCE_ALREADY_HELD, documentSourcesResolved 1, declaredReady true",
+          "measured": "The same row's per-source measurement says kind: not_present_in_a_custody_mounted_here and verdict NOT_MEASURABLE_HERE. The scalar summary and the per-source measurement inside ONE record disagree, and the per-source measurement is the one that matches the bytes. documentSourcesResolved counts a declared binding, not a resolved one."
+        }
+      ]
+    }
+  ],
+  "familiesCompleted": 1,
+  "familiesStopped": 3,
+  "blockedSource": [
+    "al-pardon-set",
+    "tx_nd_automatic_misdemeanor_deferred-set"
+  ],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 1,
+  "overlayDirectoriesTouchedByAStoppedFamilyNote": "wa_blake_vacatur_and_lfo_refund-set only, whose own builder writes its stop evidence into its overlay directory and did so before this shift. The Texas and Alabama builders create nothing for a family they refuse, and this lane did not change that.",
+  "headShaAtReturn": "the commit that carries this file; see git log for pfd-20260909"
+}

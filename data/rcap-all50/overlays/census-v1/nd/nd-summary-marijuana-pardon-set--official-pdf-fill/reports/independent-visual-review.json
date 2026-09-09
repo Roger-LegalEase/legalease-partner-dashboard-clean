@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "nd-summary-marijuana-pardon-set",
+  "required": true,
+  "granted": false,
+  "reviewedBy": null,
+  "note": "Every page of both fixtures is rastered for a human who did not build this family. The check that matters most here is the offence table: it must be entirely empty, and a single value in it would be the defect this build took the most care to avoid.",
+  "whatToLookAt": [
+    "The applicant block: the name, the date of birth, the street address, the city, the state and the ZIP each under the caption they belong to.",
+    "The social security number, place of birth and race boxes: ALL THREE EMPTY. The platform holds none of them and must not.",
+    "All three telephone boxes empty. This is deliberate — the form distinguishes home, work and mobile, and the platform holds one unqualified number.",
+    "The List of Former Names or Aliases box empty, and in particular NOT carrying the applicant's current name. A field name containing the word Names is exactly the shape that attracts a name fact.",
+    "Item 5, the offence table: EVERY ONE of the eighteen cells empty across all three rows — judge, prosecutor, defence, city or county, offence and case number. Look hardest at the City or County column and the Case Number column: both bind a participant fact by field name and both are refused by role, so a value in either is a blocking finding rather than a cosmetic one.",
+    "The signature line and the date beside it empty.",
+    "Page 2 carries the statute text and no widgets; it should be unchanged from the pinned source."
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+      "pageCount": 2
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf",
+      "pageCount": 2
+    }
+  ],
+  "rasterPages": [
+    {
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/raster/canonical/page-01/page.png",
+      "sha256": "e3885f9b3da8127b35e1b0acf9b3d4a02d234aabf130bbddb3c1b9b6b9a835e8"
+    },
+    {
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/raster/canonical/page-02/page.png",
+      "sha256": "599d5413897a4518584b9c2b05452e6314fe90daad76130108e3963ca1cc1a1e"
+    },
+    {
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/raster/boundary/page-01/page.png",
+      "sha256": "a6e16b66e09f5a5d8b2f1a208f258ccd245b3f99990363b70b166b010d6f59f8"
+    },
+    {
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/raster/boundary/page-02/page.png",
+      "sha256": "599d5413897a4518584b9c2b05452e6314fe90daad76130108e3963ca1cc1a1e"
+    }
+  ]
+}

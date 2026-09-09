@@ -122,6 +122,37 @@ const SOURCES = Object.freeze({
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 
+// A custody the corpus index files under `repositoryRoot` resolves inside the
+// checkout that is running. A sparse worktree does not carry `private/`, and
+// `private/human-source-returns` is untracked in every checkout — it is a mount,
+// not repository content — so in a worktree the bytes are held somewhere this
+// path does not reach. Naming that root in the environment is how the D source
+// packs are already reached (RCAP_D_SOURCE_DIR, scripts/build-census-v1-ar-*).
+// The override changes WHERE the bytes are looked for and nothing else: the
+// committed index still pins the digest, and the bytes are still hashed here and
+// must equal it.
+const CUSTODY_ROOT_OVERRIDES = Object.freeze({
+  human_source_returns: process.env.RCAP_HUMAN_SOURCE_RETURNS_DIR ?? null,
+  d_source_packs: process.env.RCAP_D_SOURCE_DIR ?? null
+});
+
+/** The same entry, looked for under an environment-named root for its custody. */
+function overridePathFor(index, entry) {
+  const custodyId = entry?.custody ?? null;
+  const overrideRoot = custodyId ? CUSTODY_ROOT_OVERRIDES[custodyId] : null;
+  if (!overrideRoot) return null;
+  const custody = (index.custodies ?? []).find((row) => row.id === custodyId);
+  if (!custody) return null;
+  const withinCustody = custody.pathsRelativeTo === "repositoryRoot"
+    ? path.relative(custody.root, entry.path)
+    : entry.path;
+  if (!withinCustody || withinCustody.startsWith("..") || path.isAbsolute(withinCustody)) return null;
+  const base = path.resolve(overrideRoot);
+  const candidate = path.resolve(base, withinCustody);
+  if (!candidate.startsWith(`${base}${path.sep}`)) return null;
+  return candidate;
+}
+
 function resolveSources() {
   const index = readJson(CORPUS_INDEX);
   const resolver = makeCorpusEntryResolver(index, { repoRoot: ROOT, masterLibraryRoot: process.env.MASTER_LIBRARY_SOURCE_DIR });
@@ -131,12 +162,30 @@ function resolveSources() {
     const entry = (index.entries ?? []).find((row) => row.path === want.path);
     if (!entry) { failures.push({ sourceIdentity: want.sourceId, why: `no committed index entry at ${want.path}` }); continue; }
     if (entry.sha256 !== want.sha256) { failures.push({ sourceIdentity: want.sourceId, why: `the committed index pins ${entry.sha256}` }); continue; }
-    const absolute = resolver.resolve(entry);
-    if (!absolute || !fs.existsSync(absolute)) { failures.push({ sourceIdentity: want.sourceId, why: `the custody holding ${want.path} is not mounted here` }); continue; }
+    let absolute = resolver.resolve(entry);
+    let resolvedThrough = "the corpus index custody declaration";
+    if (!absolute || !fs.existsSync(absolute)) {
+      const override = overridePathFor(index, entry);
+      if (override && fs.existsSync(override)) {
+        absolute = override;
+        resolvedThrough = `an environment-named root for custody ${entry.custody}`;
+      }
+    }
+    if (!absolute || !fs.existsSync(absolute)) {
+      failures.push({
+        sourceIdentity: want.sourceId,
+        why: `the custody holding ${want.path} is not mounted here`,
+        custody: entry.custody ?? "master_library",
+        lookedFor: [resolver.resolve(entry), overridePathFor(index, entry)].filter(Boolean),
+        namingItsRootWouldResolveIt: entry.custody === "human_source_returns"
+          ? "RCAP_HUMAN_SOURCE_RETURNS_DIR" : entry.custody === "d_source_packs" ? "RCAP_D_SOURCE_DIR" : null
+      });
+      continue;
+    }
     const bytes = fs.readFileSync(absolute);
     const digest = sha256(bytes);
     if (digest !== want.sha256) { failures.push({ sourceIdentity: want.sourceId, why: `SHA-256 drift: the corpus binary hashes ${digest}` }); continue; }
-    resolved[key] = { ...want, absolute, bytes, byteLength: bytes.length, custody: entry.custody };
+    resolved[key] = { ...want, absolute, bytes, byteLength: bytes.length, custody: entry.custody, resolvedThrough };
   }
   return { resolved, failures };
 }
