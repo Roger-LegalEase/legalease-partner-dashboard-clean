@@ -1,3 +1,90 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T01:25Z -->
+# Captain checkpoint — 196/346; two counters that could not fail, both now can
+
+Only the changed facts. The 01:00Z block below is the previous checkpoint and
+stays true of the moment it describes.
+
+**Heads.** Captain local and remote = `0cc3c9b5c`.
+
+**Census: 196/346 terminal.** 175 COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2
+HANDOFF_READY, 5 OUT_OF_SCOPE. Nonterminal: 73 SOURCE_READY, 34
+FAIL_REPAIR_REQUIRED, 18 PRODUCT_PATH_PENDING, 13 LEGAL_BLOCKED, 6
+SOURCE_BLOCKED, 5 VERIFY_PENDING, 1 WRONG_DELIVERY_TYPE.
+
+**Rhode Island four: repaired, rastered, awaiting a reader.** FIX120 closed
+RI-B-01/02/03/04/05; run 34297296663 rendered all four green with the canary in
+the same run; they are VERIFY_PENDING under VF02-VF05. Two remain
+BLOCKED_SOURCE on RI-B-07 (the District filing charge) and the felony family
+carries RI-B-06 open (the Superior-55 "single misdemeanor" oath). **Both are
+disclosed, not answered, and the reader's job includes ruling on whether the
+disclosure is truthful.** ri.gov is 403 through the proxy, so every statutory
+reading in that repair is labelled relayed-from-review, not fetched.
+
+**New Jersey three: the row was the defect, not the election.** FIX121
+established, four ways, that item (d) is one sworn sentence with nine blanks of
+which the platform holds three — and that three of the six missing are collected
+by NO QUESTION on any track: the final sentence imposed, the incarceration term
+(the pinned binary's dropdown offers no "none"), and the DATE fines were paid,
+which intake asks whether but never when. So the election is correctly withheld;
+the lane printed no mark and reported requiredOptionsMissing 1 rather than curing
+it. Two are BLOCKED_LEGAL_INPUT, one PARTIAL with COMPONENT_SET repaired. **The
+executable next step is new intake questions, not a packet change.**
+
+**MISSISSIPPI IS ON ITS FOURTH READER AND THE CHAIN IS CONVERGING, NOT
+LOOPING.** VF04 found stale records; VF12 found one receipt block overclaiming;
+VF13 found the SAME receipt uncorrected in the queue's own copy, while the
+corrected block cited that queue row as drift-proof. Each repair is smaller than
+the last. The Captain's "no other family carries this shape" after VF12 was
+WRONG, and wrong because the scan walked family directories and never opened the
+queue: 141 live rows and 22 historical ones carried it. **Lesson: when a record
+is duplicated, enumerate every copy before claiming the shape is unique.**
+
+**Second counter that could not fail, now fixed** (the first was the route
+election, at `d89411ea2`). A carried rasterReceipt is now reconciled against the
+row's own measured coverage on every generation, live and historical, at
+`508723c5b`. TWO FIELDS ANSWER TWO DIFFERENT QUESTIONS and merging them costs a
+family: `documentsNotCovered` means a CANONICAL document the gate was asked for
+and did not render — evaluateAcceptance fails a row outright on a non-empty list
+— while `whatThisGateDidNotRender` means a declared fixture it never renders by
+design, normally boundary.pdf. The first version merged them and demoted
+de_mandatory_expungement-set out of GUIDANCE_READY for having an ordinary
+boundary fixture; separated at `1e95f1f06`, caught by diffing the census against
+the previous commit. `coversTheWholeFamily` was re-derived rather than deleted
+because generate-rcap-grade-a-fulfillment-authority.mjs requires it true. The
+ingest tool is fixed at source: it read `coverage.edge.notRenderedByThisGate`
+while coverageOf spreads `edge` flat, so that path was always undefined.
+
+**PRODUCTION: a new image is owed and the reason is mechanical.** Three
+worker-packaged inputs have changed since the accepted source `c065d248` — the
+packet-set manifests, and the fulfillment authority registry and observation
+snapshot that generator itself writes. So `rebuildRequired` is true, the record
+correctly dropped ms-nonconv-set's provider.imageDigest, and the accepted digest
+must not be restamped. Publish run 34298919203 is building from `1e95f1f06`.
+**Dispatch the publish with `ref: claude/legalease-sprint-captain-utucnw`, NOT
+`main`:** the copy of the workflow on main sets RELEASE_INTEGRATION_BRANCH to
+`claude/rcap-48h-launch-integration` and refuses a Captain-branch SHA outright
+(run 34298649365). Note the self-reference: the authority registry is both a
+worker-packaged input and this generator's own output, so every regeneration
+makes a rebuild required. That is worth solving and is not solved here.
+
+**F1 staging is now 15 of 16 by construction.** `route_scoped_refuses_outsiders`
+required the in-scope identity to reach 402, but requireCurrentPacketVerification
+sits between admission and payment and the stack has never seeded a verification
+— so 402 was unreachable from the day the case was written and it was failing for
+a reason unrelated to scoping. It now asserts admission itself
+(`scripts/f1-scope-admission.mjs`, eight regression tests); a scope that refuses
+still fails. Seeding a real verification so the strict 402 returns would prove
+more and is not done. **Phase 50 is the one case still needing Roger:** it uses
+plain `CREATE TRIGGER` over five triggers an earlier migration already creates,
+and it is a hash-gated authorized migration bound to an authorizationId.
+
+**Lane minting, two rules learned the hard way.** `--grant` is refused for a
+released grant; use `--transfer` or `--reissue`, which keep the release reason.
+And an independent-verification claim must go to THE LANE THE DISPATCH ALREADY
+NAMES — the Rhode Island four went back to VF02-VF05 individually rather than
+onto one new lane id, because a claim on an undispatched lane is unassertable and
+makes `generate` refuse.
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T01:00Z -->
 # Captain checkpoint — 196/346 published; the completeness counter can now see a missing route election
 
