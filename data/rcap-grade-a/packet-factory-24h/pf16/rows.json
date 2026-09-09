@@ -164,7 +164,441 @@
         "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
         "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ]
+    },
+    {
+      "itemId": "il-prb-cert-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "cohort": "PF16-BUILD-20260909",
+      "jurisdiction": "IL",
+      "implementationStrategy": "official_pdf_fill",
+      "routeCount": 5,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent, exactly as at the base commit 91977e016b8bba80b7c20f69202a3e1de55fdf53",
+      "buildScript": "scripts/build-census-v1-il-prb-cert-set.mjs",
+      "buildScriptWritten": false,
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable — family_sources_bind ok, 1/1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "whyTheRowGatePassedAndTheFamilyStillStops": "The row gate resolves this family through source-custody-reconciliation, where exactly one document source is resolved to a committed index entry. It measured that one source and it binds. It does not measure the four PRB forms, because they resolve to no committed index entry at all, and it makes no statement about whether a bound source is a fillable PDF. Binding is a byte-identity statement. This family's blocker is custody of bytes, which the gate did not ask about.",
+      "reason": "Four of the five official forms this official_pdf_fill family names have no bytes in any custody mounted in this container. MASTER_QUEUE.json now binds all four PRB forms by exact SHA-256 — a real advance over the previous PF16 cohort, which found the labels identified no document at all — but it binds them to Google Drive locators, not to files. The committed acquisition return that produced those hashes records sourceBodiesCommittedToApplicationRepository: 0 and failureClassification PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION, so the bodies were acquired into a Codex staging root and an owner-only Drive folder and never reached this repository. Components il-prb-cert-primary-filing-1 and il-prb-cert-attachment-2 both carry requirement 'required' and both depend on those bytes. The builder contract's first item is to bind every source by exact SHA-256 and stop the family rather than build on a source that does not bind, so the family stops.",
+      "absenceVerifiedNotAssumed": [
+        "None of the four PRB SHA-256 digests appears anywhere in data/rcap-all50/local-source-corpus-index.json (984 entries).",
+        "The index carries 6 Illinois entries across two custodies and they are three distinct documents: EXP-AD Request, EXP-AD Order Granting, and the civil fee-waiver application. None is a PRB certificate.",
+        "find over the whole container for any path matching *prb* returns no PDF: only JSON returns and composed-route directories.",
+        "The mounted Master Library holds exactly three IL PDFs, listed above.",
+        "This is not an inference from a name. Each of the four digests was searched for directly."
+      ],
+      "theCaptainMeasuredThisIndependently": {
+        "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "row": "rows[23] familyId il-prb-cert-set",
+        "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+        "whatItRecords": "All four PRB sources carry kind 'locator_not_a_file', scheme 'google-drive'. Only EXP-AD Request is kind 'held_pdf'.",
+        "measuredOn": "2026-09-08",
+        "mountsSearched": "the same three mounts this lane has",
+        "whyItExists": "The record states its own reason: 'PF16 was dispatched at three families that all read ready true with no reasons, and stopped on held-source facts.' It was written after the previous PF16 cohort and before this one. This lane reached the same finding independently before reading it, and records it here as corroboration rather than as its source.",
+        "itIsNotAStateChange": "The record says so itself: not a state change, not a source determination, not a gate. It does not stop this family; the absent bytes do."
+      },
+      "blockedSourceIdentities": [
+        {
+          "sourceId": "official-form:PRB Certificate of Sealing Application",
+          "componentId": "il-prb-cert-primary-filing-1",
+          "requirement": "required",
+          "pinnedSha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+          "boundPath": "google-drive:1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
+          "pathKind": "locator_not_a_file",
+          "bytesReachableFromThisLane": false,
+          "expectedShape": "5 pages, AcroForm, 226488 bytes, revision 09/18/2024, per the acquisition return"
+        },
+        {
+          "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+          "componentId": "il-prb-cert-attachment-2",
+          "requirement": "required",
+          "pinnedSha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+          "boundPath": "google-drive:1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
+          "pathKind": "locator_not_a_file",
+          "bytesReachableFromThisLane": false,
+          "expectedShape": "2 pages, AcroForm, 89530 bytes, undated"
+        },
+        {
+          "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
+          "componentId": "il-prb-cert-primary-filing-3",
+          "requirement": "conditional",
+          "pinnedSha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+          "boundPath": "google-drive:1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
+          "pathKind": "locator_not_a_file",
+          "bytesReachableFromThisLane": false,
+          "expectedShape": "5 pages, AcroForm, 222490 bytes, revision 09/18/2024"
+        },
+        {
+          "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+          "componentId": "il-prb-cert-attachment-4",
+          "requirement": "conditional",
+          "pinnedSha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+          "boundPath": "google-drive:1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
+          "pathKind": "locator_not_a_file",
+          "bytesReachableFromThisLane": false,
+          "expectedShape": "2 pages, AcroForm, 84623 bytes, revision 08/11/2014"
+        }
+      ],
+      "heldSources": [
+        {
+          "sourceId": "official-form:EXP-AD Request",
+          "componentId": "il-prb-cert-primary-filing-5",
+          "requirement": "conditional",
+          "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+          "boundByExactSha256": true,
+          "verifiedByThisLane": true
+        }
+      ],
+      "noSubstituteWasDrafted": "Every one of this family's five packet components carries requiredOutput 'official_form_dependency' and draftingProhibited.prohibited true in its committed dependency record. Nothing was drafted, replicated or field-mapped for any of them.",
+      "additionalBlocker": {
+        "class": "BLOCKED_LEGAL_INPUT",
+        "routeKey": "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+        "openInput": "The non-military certificate of eligibility for expungement under § 5.2(e-6) has no recorded output treatment. Its component record il-prb-cert-nonmilitary-expungement-6 carries outputStrategy null, outputStrategyStatus 'unresolved', available false, and draftingProhibited true; MASTER_QUEUE still renders its instrumentKind as '(output treatment not recorded)'. The registry's own unavailableReason states no official non-military certificate-of-eligibility-for-expungement application has been located, that the Certificate of Sealing application does not cover it, and that the military application is expressly military-specific.",
+        "independentOfTheSourceBlocker": true,
+        "note": "This blocker survives delivery of the four PRB PDFs. Acquiring the bytes alone would not make this family complete across all five of its routes.",
+        "researched": false,
+        "guessed": false
+      },
+      "whatWouldUnblockThis": "Deliver the four PRB PDF bodies into a custody this lane can mount, at the four pinned digests above, and record an output treatment for the § 5.2(e-6) non-military branch. Neither is a build-lane act.",
+      "counters": {
+        "measured": false,
+        "measurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'il-prb-cert-set' returned: REFUSED: --family il-prb-cert-set matches no auditable family. 252 are auditable at this head.",
+        "why": "No overlay directory and no packet bytes exist, so there is nothing to audit. These are NOT MEASURED, not zero. Zeros here would read as a clean packet and there is no packet.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifacts": [],
+      "canonicalFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "boundaryFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "rasterState": "NOT_APPLICABLE",
+      "rasterStateNote": "Not BUILT_RASTER_PENDING. Nothing was built, so there are no bytes to enrol and no hashes for a central gate to bind. Raster is also not this family's blocker: the page rasterizer resolves and executes in this container (chromium at /opt/pw-browsers/chromium-1223/chrome-linux/chrome rendered a 2040x2640px page under scripts/raster/pdf-page-raster.mjs). The blocker is source custody alone.",
+      "selfVerified": false
+    },
+    {
+      "itemId": "mt_misdemeanor_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "cohort": "PF16-BUILD-20260909",
+      "jurisdiction": "MT",
+      "implementationStrategy": "custom_pleading",
+      "routeCount": 2,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent, exactly as at the base commit 91977e016b8bba80b7c20f69202a3e1de55fdf53",
+      "buildScript": "scripts/build-census-v1-mt_misdemeanor_expungement-set.mjs",
+      "buildScriptWritten": false,
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable — family_sources_bind ok, 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+      "whyTheRowGatePassedAndTheFamilyStillStops": "The one named source binds: its bytes are the pinned bytes and this lane confirmed the digest itself. Binding is a byte-identity statement and not a fillability statement. The bound bytes are a Microsoft Word document, and this family's only required official_pdf_fill component has nothing to fill.",
+      "reason": "Component mt_misdemeanor_expungement-primary-filing-5 carries requirement 'required' and outputStrategy 'official_pdf_fill' against officialFormId EXPUNGEMENTREMOVALREQUESTFORM.DOCX. The held bytes bind by exact SHA-256 and are a Microsoft Word 2007+ document, confirmed by file magic in this container. The Master Library asset manifest records that file as structural_class 'docx', generation_allowed 'no', runtime_status 'runtime_disabled'. A DOCX is not an official_pdf_fill source, no PDF rendition exists in any mounted custody, and converting or recreating an official form is not a build-lane act. A required component of this family therefore cannot be rendered, so requiredComponentsMissing could not reach zero and the family stops.",
+      "blockedSourceIdentities": [
+        {
+          "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "componentId": "mt_misdemeanor_expungement-primary-filing-5",
+          "requirement": "required",
+          "componentOutputStrategy": "official_pdf_fill",
+          "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+          "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "bytesBindByExactSha256": true,
+          "digestVerifiedByThisLane": true,
+          "fileMagic": "Microsoft Word 2007+",
+          "assetClass": "supporting_process",
+          "structuralClass": "docx",
+          "generationAllowed": "no",
+          "runtimeStatus": "runtime_disabled",
+          "blocker": "bound bytes are a DOCX, not a fillable PDF; no PDF rendition is held anywhere in the mounted corpus"
+        }
+      ],
+      "everyMontanaSourceWasCheckedNotJustThisOne": "All seven files under STATES/MT in the mounted Master Library were hashed and typed by this lane. The four document sources are all 'Microsoft Word 2007+'. Montana holds no PDF form of any kind.",
+      "theCaptainMeasuredThisIndependently": {
+        "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "row": "rows[46] familyId mt_misdemeanor_expungement-set",
+        "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+        "whatItRecords": "The single source is kind 'held_not_pdf', extension '.docx', 84539 bytes, mount master_library."
+      },
+      "componentsNotRendered": [
+        {
+          "componentId": "mt_misdemeanor_expungement-primary-filing-5",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "reason": "BLOCKED_SOURCE: the DOJ CRISS form is a DOCX; conversion and recreation are not authorized"
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-primary-filing-1",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "reason": "not rendered because the family stopped; see thePleadingSideWasNotBuiltEither"
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-certificate-of-service-2",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "reason": "as primary-filing-1"
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-proposed-order-3",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "reason": "as primary-filing-1"
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-continuation-4",
+          "requirement": "conditional",
+          "outputStrategy": "custom_pleading",
+          "reason": "as primary-filing-1"
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-instructions-6",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "reason": "as primary-filing-1"
+        }
+      ],
+      "thePleadingSideWasNotBuiltEither": {
+        "whyThisNeedsSaying": "This family's strategy is custom_pleading, so a reader may reasonably ask why the three required pleading components were not composed and the family returned partially built. They were not, for two reasons, and neither is 'the lane ran out of time'.",
+        "first": "Rendering the pleading components while the required DOJ CRISS component stayed missing would produce an overlay directory that reads as a built family with a missing companion form. The builder contract names that exact failure: a document mapped and not rendered is a missing companion form. A half-built packet that reads as built is worse than one that was never started.",
+        "second": "Composing them would require legal design this lane does not hold. All three carry outputStrategyStatus null in the registry, and the route-obligation census records this route's signatureRequirements, notarizationRequirements, affidavitOrVerification, serviceMethod, serviceTiming, filingMethod, filingFee, feeWaiverTreatment, laterCompletionFields, schedulesOrContinuationPages, coverSheet, notice, filingDeadline, postFilingInstructions, waitingPeriodCalculation, uncontestedHearingTreatment and contestedHearingOrOppositionHandoff all as 'not_recorded'. Supplying any of them would be guessing a legal answer, which the stop conditions forbid.",
+        "authorityChecked": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json carries seven determinations — LA-STATUTORY-FORMS, FL-RULE-3989, AZ-R-26-0001, UT-ACQUITTAL, CA-CRM-307, CA-CR-106-401, RI-OFF-APPEARANCE. None is Montana. No owner record authorizes composing a Montana pleading for this family.",
+        "recordedClass": "BLOCKED_LEGAL_INPUT, independent of and additional to the BLOCKED_SOURCE stop class. The source blocker alone is sufficient to stop the family; this one is recorded because it survives acquisition of a fillable DOJ form.",
+        "researched": false,
+        "guessed": false
+      },
+      "whatWouldUnblockThis": "A PDF rendition of the DOJ CRISS Expungement/Removal Request at a pinned digest in a mounted custody, plus a recorded output treatment for the three required pleading components. Neither is a build-lane act.",
+      "counters": {
+        "measured": false,
+        "measurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mt_misdemeanor_expungement-set' returned: REFUSED: --family mt_misdemeanor_expungement-set matches no auditable family. 252 are auditable at this head.",
+        "why": "No overlay directory and no packet bytes exist. NOT MEASURED, not zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifacts": [],
+      "canonicalFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "boundaryFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "rasterState": "NOT_APPLICABLE",
+      "rasterStateNote": "Not BUILT_RASTER_PENDING. Nothing was built, so there are no bytes to enrol. The page rasterizer resolves and executes in this container, so raster is not this family's blocker.",
+      "selfVerified": false
+    },
+    {
+      "itemId": "mt_mmrta_completed-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "cohort": "PF16-BUILD-20260909",
+      "jurisdiction": "MT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeCount": 2,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent, exactly as at the base commit 91977e016b8bba80b7c20f69202a3e1de55fdf53",
+      "buildScript": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+      "buildScriptWritten": false,
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable — family_sources_bind ok, 6/6 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "whyTheRowGatePassedAndTheFamilyStillStops": "Six of six bind, and this lane re-hashed every one of them: all six digests are exact. Every single one is a Microsoft Word document. Six-of-six binding is the strongest byte-identity statement the gate can make and it is still not a statement that anything here can be filled.",
+      "reason": "This family is declared official_pdf_fill and every official form it names is a Microsoft Word document, confirmed by file magic in this container. No PDF exists for any of them anywhere in the mounted corpus. MT-FORM-B, the MMRTA certificate of service and the MMRTA proposed order additionally sit under 05_SOURCE_GATED, and the Master Library's own governance states at rule 6: 'Source-gated files must never be selected by the packet resolver.' All four carry generation_allowed 'no' and runtime_status 'runtime_disabled'. Components primary-filing-1, certificate-of-service-2 and proposed-order-3 all carry requirement 'required'. There is nothing to fill, selecting these files is affirmatively prohibited, and converting or recreating them is not a build-lane act, so the family stops.",
+      "twoIndependentGroundsNotOne": [
+        "Shape: every named official form is a DOCX and this family fills PDFs. Delivering PDF renditions would answer this ground.",
+        "Governance: three of the four are asset_class source_gated, which the Master Library forbids the packet resolver to select at all. This ground survives a PDF conversion and is the one an acquisition lane must not quietly step over."
+      ],
+      "blockedSourceIdentities": [
+        {
+          "sourceId": "official-form:MT-FORM-B",
+          "componentId": "mt_mmrta_completed-primary-filing-1",
+          "requirement": "required",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+          "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "bytesBindByExactSha256": true,
+          "digestVerifiedByThisLane": true,
+          "fileMagic": "Microsoft Word 2007+",
+          "assetClass": "source_gated",
+          "generationAllowed": "no",
+          "runtimeStatus": "runtime_disabled",
+          "blocker": "DOCX, not a fillable PDF; and source_gated, which the packet resolver must never select"
+        },
+        {
+          "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+          "componentId": "mt_mmrta_completed-certificate-of-service-2",
+          "requirement": "required",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "bytesBindByExactSha256": true,
+          "digestVerifiedByThisLane": true,
+          "fileMagic": "Microsoft Word 2007+",
+          "assetClass": "source_gated",
+          "generationAllowed": "no",
+          "runtimeStatus": "runtime_disabled",
+          "blocker": "DOCX, not a fillable PDF; source_gated. The custody reconciliation separately records this form label as unresolved, absence 'label_does_not_identify_a_document'; it binds here only through its content hash.",
+          "identityNote": "The label MT-MMRTA-CERTIFICATE-OF-SERVICE resolves to no document. The bytes are reachable only as source-sha256:d9096c17..., under the shared form number MT-OCA-MMRTA. MASTER_QUEUE records the split as sourceReplacements: official-form:MT-OCA-MMRTA becomes MT-MMRTA-PROPOSED-ORDER plus MT-MMRTA-CERTIFICATE-OF-SERVICE."
+        },
+        {
+          "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+          "componentId": "mt_mmrta_completed-proposed-order-3",
+          "requirement": "required",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "bytesBindByExactSha256": true,
+          "digestVerifiedByThisLane": true,
+          "fileMagic": "Microsoft Word 2007+",
+          "assetClass": "source_gated",
+          "generationAllowed": "no",
+          "runtimeStatus": "runtime_disabled",
+          "blocker": "DOCX, not a fillable PDF; source_gated. Custody reconciliation records the label as unresolved, absence 'label_does_not_identify_a_document'.",
+          "protectedFieldNote": "The census records that this proposed order leaves every judicial finding and the signature blank. No judicial finding, signature or clerk act was composed, because nothing was composed."
+        },
+        {
+          "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "componentId": "mt_mmrta_completed-primary-filing-5",
+          "requirement": "conditional",
+          "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+          "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "bytesBindByExactSha256": true,
+          "digestVerifiedByThisLane": true,
+          "fileMagic": "Microsoft Word 2007+",
+          "assetClass": "supporting_process",
+          "generationAllowed": "no",
+          "runtimeStatus": "runtime_disabled",
+          "blocker": "DOCX, not a fillable PDF"
+        }
+      ],
+      "theCaptainMeasuredThisIndependently": {
+        "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "row": "rows[47] familyId mt_mmrta_completed-set",
+        "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+        "whatItRecords": "All eight bound sources are kind 'held_not_pdf', extension '.docx', mount master_library."
+      },
+      "componentsNotRendered": [
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-1",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "reason": "BLOCKED_SOURCE: MT-FORM-B is a source-gated DOCX"
+        },
+        {
+          "componentId": "mt_mmrta_completed-certificate-of-service-2",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "reason": "BLOCKED_SOURCE: the MMRTA certificate of service is a source-gated DOCX"
+        },
+        {
+          "componentId": "mt_mmrta_completed-proposed-order-3",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "reason": "BLOCKED_SOURCE: the MMRTA proposed order is a source-gated DOCX"
+        },
+        {
+          "componentId": "mt_mmrta_completed-attachment-4",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "reason": "not rendered; guidance alone would read as a built family while the petition, certificate of service and proposed order were all absent"
+        },
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-5",
+          "requirement": "conditional",
+          "outputStrategy": "official_pdf_fill",
+          "reason": "BLOCKED_SOURCE: the DOJ CRISS form is a DOCX"
+        },
+        {
+          "componentId": "mt_mmrta_completed-instructions-6",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "reason": "as attachment-4"
+        }
+      ],
+      "whatWouldUnblockThis": "An owner decision on the source-gated class for these three MMRTA documents, and PDF renditions at pinned digests in a mounted custody. The governance rule is the first gate and it is not a build-lane decision to lift.",
+      "counters": {
+        "measured": false,
+        "measurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mt_mmrta_completed-set' returned: REFUSED: --family mt_mmrta_completed-set matches no auditable family. 252 are auditable at this head.",
+        "why": "No overlay directory and no packet bytes exist. NOT MEASURED, not zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifacts": [],
+      "canonicalFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "boundaryFixture": {
+        "sha256": null,
+        "pageCount": null,
+        "reason": "not produced; family stopped before any build"
+      },
+      "rasterState": "NOT_APPLICABLE",
+      "rasterStateNote": "Not BUILT_RASTER_PENDING. Nothing was built, so there are no bytes to enrol. The page rasterizer resolves and executes in this container, so raster is not this family's blocker.",
+      "selfVerified": false
     }
   ],
-  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15.",
+  "appendRecord": {
+    "whyThisKeyExists": "This file already carried the PF-C cohort's two committed rows when the PF16 packet-build lane of 2026-09-09 was dispatched. The dispatch required appending to this exact path with every earlier row byte-identical, so the three new rows were spliced into the rows array and no existing byte was rewritten. The keys above this one — including familiesAssigned: 2 — are PF-C's own statements about PF-C's own shift and were deliberately left untouched. Read familiesAssigned against the cohort that wrote it, not against the length of the rows array.",
+    "cohorts": [
+      {
+        "cohort": "PF-C",
+        "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+        "familiesAssigned": 2,
+        "rowsInThisFile": [
+          "mi_setaside_marihuana-set",
+          "ak-courtview-set"
+        ],
+        "status": "2 COMPLETED"
+      },
+      {
+        "cohort": "PF16-BUILD-20260909",
+        "shiftBaseSha": "91977e016b8bba80b7c20f69202a3e1de55fdf53",
+        "branch": "pf16-build-20260909",
+        "familiesAssigned": 3,
+        "rowsInThisFile": [
+          "il-prb-cert-set",
+          "mt_misdemeanor_expungement-set",
+          "mt_mmrta_completed-set"
+        ],
+        "status": "3 STOPPED, all BLOCKED_SOURCE"
+      }
+    ],
+    "rowsInThisFile": 5,
+    "itemsInBoth": [],
+    "whereTheCohortsDisagree": "nowhere. The two cohorts describe disjoint sets of families, so neither contradicts the other on any family, counter, hash or verdict.",
+    "otherFilesInThisDirectory": "build-b-rows.json (BUILD-B, 1 STOPPED) and pf16-il-prb-mt-two-rows.json (PF16-IL-PRB-MT-TWO, 3 STOPPED) were written beside this file by earlier cohorts that met the same collision and chose not to splice. pf16-il-prb-mt-two-rows.json covers the SAME three families as the PF16-BUILD-20260909 cohort, at the earlier base 609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b, and also stopped all three. The two returns agree on the disposition and differ on the reason for il-prb-cert-set, because the source identity moved between the two bases: see thatCohortAndThisOne below.",
+    "thatCohortAndThisOne": {
+      "il-prb-cert-set": "At 609f648c the four PRB labels resolved to no document at all — absence 'label_does_not_identify_a_document'. At 91977e01 they are resolved and pinned to four exact SHA-256 digests through a committed acquisition return. The identity blocker was answered; the custody blocker was not, because that return records sourceBodiesCommittedToApplicationRepository: 0 and the bodies live behind google-drive locators. The finding moved from 'we do not know what this form is' to 'we know exactly what it is and we do not hold it'.",
+      "mt_misdemeanor_expungement-set": "unchanged between the two bases: the one required official_pdf_fill source is still a DOCX.",
+      "mt_mmrta_completed-set": "unchanged between the two bases: all four official forms are still DOCX and three are still source-gated."
+    }
+  }
 }

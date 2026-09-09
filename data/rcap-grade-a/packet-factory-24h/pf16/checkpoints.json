@@ -20,9 +20,83 @@
       "familiesStoppedSoFar": [],
       "familiesRemaining": [],
       "note": "MC 227a built. It writes two facts and that is the form's honest maximum: it has no separate name, address or telephone field, and everything else on it is a court or police record fact. The sworn certificate of mailing is left blank and the instructions carry the court's own four-step order, in which it is filled in last. PF16 returns two rows for two assigned families, both COMPLETED, neither self-verified."
+    },
+    {
+      "checkpoint": 3,
+      "cohort": "PF16-BUILD-20260909",
+      "at": "2026-09-09T00:00:00Z",
+      "family": "il-prb-cert-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": [
+        "il-prb-cert-set"
+      ],
+      "familiesRemaining": [
+        "mt_misdemeanor_expungement-set",
+        "mt_mmrta_completed-set"
+      ],
+      "note": "STOPPED BLOCKED_SOURCE. The row gate passes and reports 1/1 binding, and the family still cannot be built: the gate measures the single source that resolves to a committed index entry and says nothing about the other four. Since the previous PF16 cohort the four PRB forms have gained real identities — four exact SHA-256 digests from a committed acquisition return — but the bodies never reached this repository. That return records sourceBodiesCommittedToApplicationRepository 0 and PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION, and the four bound paths are google-drive locators, not files. Verified by direct digest search, not inferred from names: none of the four digests appears in the 984-entry corpus index, and no PRB PDF exists anywhere in this container. Two required components depend on those bytes. The § 5.2(e-6) non-military branch remains a separate open legal input, outputStrategy null and available false. Nothing was drafted; every component of this family carries draftingProhibited true. The overlay directory was not created."
+    },
+    {
+      "checkpoint": 4,
+      "cohort": "PF16-BUILD-20260909",
+      "at": "2026-09-09T00:00:00Z",
+      "family": "mt_misdemeanor_expungement-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": [
+        "il-prb-cert-set",
+        "mt_misdemeanor_expungement-set"
+      ],
+      "familiesRemaining": [
+        "mt_mmrta_completed-set"
+      ],
+      "note": "STOPPED BLOCKED_SOURCE. The single named source binds by exact SHA-256 and this lane re-hashed it to confirm. The bound bytes are a Microsoft Word 2007+ document — generation_allowed no, runtime_status runtime_disabled — and the component that needs them, primary-filing-5, is requirement required with outputStrategy official_pdf_fill. A required component with no fillable source means requiredComponentsMissing cannot reach zero. The three required custom_pleading components were deliberately NOT composed on their own: doing so would leave an overlay directory that reads as a built family with a missing companion form, and their legal design is not recorded — outputStrategyStatus null on all three, and seventeen deliverable fields including signature, notarization, verification, service method and service timing all read not_recorded. No Montana owner determination exists. The overlay directory was not created."
+    },
+    {
+      "checkpoint": 5,
+      "cohort": "PF16-BUILD-20260909",
+      "at": "2026-09-09T00:00:00Z",
+      "family": "mt_mmrta_completed-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": [
+        "il-prb-cert-set",
+        "mt_misdemeanor_expungement-set",
+        "mt_mmrta_completed-set"
+      ],
+      "familiesRemaining": [],
+      "note": "STOPPED BLOCKED_SOURCE. Six of six sources bind and this lane re-hashed every one: all six digests exact, and every one a Microsoft Word document. Six-of-six binding is the strongest byte-identity statement the gate makes and it is still not a fillability statement. Two independent grounds, not one: the shape is wrong for an official_pdf_fill family, and three of the four forms are asset_class source_gated, which the Master Library governance forbids the packet resolver to select at all — a rule that survives any later PDF conversion. All three required filing components depend on them. The lane returns three rows for three assigned families, all STOPPED, none self-verified, no overlay directory touched and no packet bytes anywhere."
     }
   ],
   "laneComplete": true,
   "familiesAssigned": 2,
-  "rowsReturned": 2
+  "rowsReturned": 2,
+  "appendRecord": {
+    "whyThisKeyExists": "This file already carried the PF-C cohort's checkpoint record. The PF16 packet-build lane of 2026-09-09 appended checkpoints 3-5 into the same array rather than overwriting, and rewrote none of PF-C's bytes. The keys above — checkpointRule, laneComplete, familiesAssigned: 2, rowsReturned: 2 — are PF-C's statements about PF-C's shift and were left untouched.",
+    "cohorts": [
+      {
+        "cohort": "PF-C",
+        "checkpoints": [
+          1,
+          2
+        ],
+        "familiesAssigned": 2,
+        "rowsReturned": 2,
+        "laneComplete": true
+      },
+      {
+        "cohort": "PF16-BUILD-20260909",
+        "checkpoints": [
+          3,
+          4,
+          5
+        ],
+        "familiesAssigned": 3,
+        "rowsReturned": 3,
+        "familiesCompleted": 0,
+        "familiesStopped": 3,
+        "laneComplete": true,
+        "laneNote": "The lane completed. All three assigned families returned STOPPED before any build began. No overlay directory was created, no builder script was written, no packet bytes exist and nothing was rastered. Blocked rows are the finding, not a failure of the lane. No verdict is issued on this lane's own work, no commercial route is opened and nothing in production is touched.",
+        "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This cohort carries three families and checkpoints per family."
+      }
+    ]
+  }
 }
