@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "bf6f32958d484adc12e81900220bf5c477f07027",
+  "generatedAtCommit": "dcb9d292dfb9b934dbcb3f8962c5e2e217399b1b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5065,21 +5065,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "md_10105_early-set",
-      "familyId": "md_10105_early-set",
-      "itemId": null,
-      "familyIds": [
-        "md_10105_early-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "md_10110_conviction-set",
       "familyId": "md_10110_conviction-set",
       "itemId": null,
@@ -5310,21 +5295,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "me-seal-survivor-set",
-      "familyId": "me-seal-survivor-set",
-      "itemId": null,
-      "familyIds": [
-        "me-seal-survivor-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "mi_setaside_marihuana-set",
       "familyId": "mi_setaside_marihuana-set",
       "itemId": null,
@@ -5404,21 +5374,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "mn_petition_15218-set",
-      "familyId": "mn_petition_15218-set",
-      "itemId": null,
-      "familyIds": [
-        "mn_petition_15218-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "mn_petition_609a02_subd3-set",
       "familyId": "mn_petition_609a02_subd3-set",
       "itemId": null,
@@ -5429,21 +5384,6 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mn_petition_juvenile_as_adult-set",
-      "familyId": "mn_petition_juvenile_as_adult-set",
-      "itemId": null,
-      "familyIds": [
-        "mn_petition_juvenile_as_adult-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
     },
@@ -14110,7 +14050,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "68a665634f7e38b009c30aecb5079a641ca982a63019283e7d6b984e9f2911f5",
+  "claimsDigest": "5b24b3c9c5c543f78deae43f7b9a0e8a5eaf35f212bf6b05ee4799bc57b43b71",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56527,6 +56467,38 @@
       "operation": "packet-build",
       "lane": "PF04",
       "withdrawnAt": "2026-09-09T21:30:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_early-set",
+      "operation": "packet-build",
+      "lane": "PF10",
+      "withdrawnAt": "2026-09-09T22:02:26Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
+      "operation": "packet-build",
+      "lane": "PF08",
+      "withdrawnAt": "2026-09-09T22:02:26Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "packet-build",
+      "lane": "PF08",
+      "withdrawnAt": "2026-09-09T22:02:26Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "operation": "packet-build",
+      "lane": "PF08",
+      "withdrawnAt": "2026-09-09T22:02:26Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
