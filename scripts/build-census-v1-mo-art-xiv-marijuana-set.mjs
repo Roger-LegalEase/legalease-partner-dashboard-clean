@@ -103,6 +103,8 @@ import { fileURLToPath } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS, classifyField }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { suppressSynthesizedSelectionAppearances }
+  from "./rcap-official-forms/rcap-active-content.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -915,7 +917,34 @@ function detachAnnotation(pdf, page, dict) {
   if (kept.length !== annots.size()) page.node.set(PDFName.of("Annots"), pdf.context.obj(kept));
 }
 
-function flattenWithoutDeleting(pdf, form) {
+function flattenWithoutDeleting(pdf, form, writtenFields = new Set()) {
+  /*
+   * FIX01, CLIPPING_AND_OVERLAP. A BORDER THE OFFICIAL FORM DOES NOT PRINT.
+   *
+   * updateFieldAppearances() below regenerates an appearance for any check-box
+   * or radio widget whose current /AS state has no entry in /AP /N, using
+   * pdf-lib's default provider -- which paints a stroked square the size of the
+   * widget /Rect. A form that ships only an on-state appearance and leaves the
+   * widget at /Off has no /Off stream, so every unticked box on it acquires a
+   * square, and the flatten below stamps that square onto the filing. Under
+   * ISO 32000-1 12.5.5 a conforming viewer paints nothing at such a widget, so
+   * the square is ink this build ADDS rather than ink the issuer authored.
+   *
+   * VF20 measured it on this family at 3687291a6: 29 refused widgets, a
+   * directional 150 dpi diff against each page's own source page counting only
+   * darker pixels, and a 300 dpi look. It is not caught by any of the nine
+   * counters, because the counters read glyphs and this defect draws no glyph.
+   *
+   * suppressSynthesizedSelectionAppearances installs an EMPTY appearance for
+   * the missing state, so needsAppearancesUpdate() is false and pdf-lib
+   * regenerates nothing. A widget that ships its own /Off appearance is
+   * untouched, and so is a box this run actually ticked -- hence writtenFields.
+   * This is the same helper, called the same way and in the same position, that
+   * the shared finalizer runs for its own callers behind
+   * `suppressSynthesizedAppearances`; it is imported rather than reimplemented
+   * so that this family and the finalizer's families cannot drift apart.
+   */
+  const synthesisSuppressed = suppressSynthesizedSelectionAppearances(pdf, form, writtenFields);
   form.updateFieldAppearances();
   const fields = form.getFields();
   for (const field of fields) {
@@ -937,6 +966,7 @@ function flattenWithoutDeleting(pdf, form) {
     form.acroForm.removeField(field.acroField);
   }
   pdf.catalog.delete(PDFName.of("AcroForm"));
+  return synthesisSuppressed;
 }
 
 async function fillDocument(sourceBytes, spec) {
@@ -1067,8 +1097,10 @@ async function fillDocument(sourceBytes, spec) {
     form.acroForm.removeField(field.acroField);
     viewerControlsRemoved.push({ name, pages, kind: "push_button", detachedNotDeleted: true });
   }
-  flattenWithoutDeleting(pdf, form);
-  return { pdf, drawn, cleared, viewerControlsRemoved, geometry };
+  const synthesizedSelectionAppearancesSuppressed =
+    flattenWithoutDeleting(pdf, form, new Set(spec.writes.map((row) => row.name)));
+  return { pdf, drawn, cleared, viewerControlsRemoved, geometry,
+    synthesizedSelectionAppearancesSuppressed };
 }
 
 /* ---- assembly ------------------------------------------------------------ */
@@ -1663,7 +1695,17 @@ async function build(argv = process.argv.slice(2)) {
   const artifactCounters = Object.entries(fixtures).map(([fixture, f]) => ({
     fixture,
     valuesReportedByFinalizer: f.drawnCount,
-    addedGlyphsReadFromOutputBytes: 0,
+    /*
+     * FIX01. This was the literal 0, beside a real reading of the same quantity
+     * carried under flattenedShowTextGlyphsReadFromOutputBytes below. Every
+     * reader in this factory looks for the canonical name, so the packet
+     * published a source-authored zero where it held a measurement. The number
+     * is f.addedGlyphs either way: non-whitespace glyphs decoded from the show-
+     * text operators of the flattened appearance streams of the SAVED bytes,
+     * with the streams the source page already carried excluded. The sibling
+     * key is kept so nothing that reads it breaks.
+     */
+    addedGlyphsReadFromOutputBytes: f.addedGlyphs,
     flattenedWidgetAppearancesReadFromOutputBytes: f.addedGlyphs + f.vectorMarks,
     flattenedShowTextGlyphsReadFromOutputBytes: f.addedGlyphs,
     flattenedVectorMarksReadFromOutputBytes: f.vectorMarks,
