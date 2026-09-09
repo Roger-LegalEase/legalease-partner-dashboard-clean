@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF02",
+  "cohort": "Delaware expungement set, consolidated onto one writer",
+  "laneBaseSha": "537fd26ff624d812c095fc504c724adda0022211",
+  "branch": "v5c-src-20260909",
+  "rowsFile": "data/rcap-grade-a/packet-factory-24h/pf02/rows-pf02-de-20260909.json",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This cohort is three families; each is returned the moment it is decided.",
+  "assignedFamilies": [
+    "de_pardon_expungement-set",
+    "de_discretionary_superior_court-set",
+    "de_discretionary_family_court-set"
+  ],
+  "alsoOnThisLaneButNotBuilt": {
+    "familyId": "mo-610-140-conviction-set",
+    "action": "not touched, not claimed, not read",
+    "why": "The assignment withholds it: its CR370 sits in a custody that is not mounted here."
+  },
+  "checkpoints": [
+    {
+      "n": 1,
+      "familiesDecidedAtThisPoint": 1,
+      "families": ["de_pardon_expungement-set"],
+      "completed": 0,
+      "stopped": 1,
+      "note": "Returned on its own rather than held with the other two. The stop is BLOCKED_SOURCE on an encrypted-source defect measured through the factory's own finalize entry points, not on missing bytes: the recovered 2026-09-04 originals are mounted and re-hash correctly here."
+    }
+  ],
+  "finalReturn": null,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
