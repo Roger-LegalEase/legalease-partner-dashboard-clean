@@ -1820,10 +1820,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T19:07:50.294Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5195,10 +5195,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T22:10:56.482Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14198,7 +14198,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4ebf4beb84bc8b7242d032c37ae6c87e81624be45f497405758fa9e06acd6a86",
+  "claimsDigest": "ccf83f3611f0fb844276b462afeddfb737beef7b3a82ec4008fb0e17d07a08ac",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52412,6 +52412,28 @@
       "previouslyReleasedAt": "2026-09-09T23:02:04.306Z",
       "transferredAt": "2026-09-09T23:02:04.430Z",
       "reason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_pardon_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX01",
+      "previouslyReleasedAt": "2026-09-09T22:10:56.482Z",
+      "transferredAt": "2026-09-09T23:44:13.533Z",
+      "reason": "FIX06's grant is released and FIX06 is at capacity on Illinois, North Dakota and Kentucky. VF01 failed this family on KNOWN_PREFILLS and ROUTE_OPTIONS and confirmed its 56-to-6 outline repair holds; FIX01 is the lane with a live worker on the same defect family"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX01",
+      "previouslyReleasedAt": "2026-09-09T19:07:50.294Z",
+      "transferredAt": "2026-09-09T23:44:13.642Z",
+      "reason": "FIX04's grant is released. This family carries the synthesized check-box outline defect FIX01 is repairing on me-seal-survivor-set with the Maryland-proven repair; one worker, one defect class"
     }
   ],
   "grants": [
