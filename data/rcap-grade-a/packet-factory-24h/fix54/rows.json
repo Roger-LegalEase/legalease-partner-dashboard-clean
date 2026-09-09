@@ -249,6 +249,195 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "This row repairs one obligation on one family. It promotes nothing, opens no route, and grants no approval."
+    },
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "jurisdiction": "DE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "returnSequence": 2,
+      "worker": {
+        "workerId": "CLAUDE-DEX-DE-REQUIRED-BEFORE-FILING-AND-SELF-HELP-STOP",
+        "dispatchedAsLane": "FIX54",
+        "worktree": "/home/user/dex-worktree",
+        "branch": "dex-20260909",
+        "assignedBase": "7f386ab54",
+        "returnedAt": "2026-09-09",
+        "otherWorktreesTouched": 0,
+        "subagentsCreated": 0
+      },
+      "grantsConfirmed": [],
+      "grantCouldNotBeAsserted": {
+        "whatWasAsked": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX54 de_mandatory_expungement-set",
+        "answer": "GRANTED_ELSEWHERE_BUT_RELEASED (exit 8): de_mandatory_expungement-set is recorded on FIX07, not FIX54, and FIX07 RELEASED it at 2026-09-06T21:08:59.710Z. No lane is executing it.",
+        "thenAsked": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 de_mandatory_expungement-set",
+        "answer2": "ALREADY_RELEASED (exit 9) at 2026-09-06T21:08:59.710Z.",
+        "soTheFact": "At 7f386ab54 the ledger holds NO live repair grant on this family, and FIX54 holds nothing at all -- its grant was released at d7795c55e, transferred on to FIX111 at 2026-09-06T20:33:07.946Z, and released again. This lane did not grant, re-issue, transfer or release anything: the Captain owns the ledger, and claim.mjs itself records that choosing a released grant's destination is a dispatch act.",
+        "aLedgerAnomalyToLookAt": "The single repair claim row for this subject reads lane FIX07, but no FIX07 grant appears anywhere in this family's release or transfer history. The transfer chain is FIX03 -> FIX02 -> FIX48 -> FIX54 -> FIX111, and ledger.releases records the release at 2026-09-06T21:08:59.710Z -- the exact timestamp on that claim row -- under lane FIX111, not FIX07. The row's lane field and the lineage disagree. That is why an --assert on the lane this work was dispatched to reports a lane nobody dispatched.",
+        "whatCaptainMustDoBeforeThisIsIntegrated": "Reconcile the repair claim row's lane against the FIX111 lineage, then transfer or re-issue the repair grant onto the lane that is to hold this return. This row is submitted with that gap stated rather than papered over, and no claim was minted to make it disappear."
+      },
+      "preflight": {
+        "environmentGate": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family de_mandatory_expungement-set",
+          "verdict": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+          "runBeforeAnyEdit": true,
+          "familySourcesBind": "de_mandatory_expungement-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder, not document bytes here. 0 bound document sources is the RIGHT count for participant_agency_application, not a missing binding, and this family is not BLOCKED_SOURCE.",
+          "notApplicable": "assigned_branch_tip_visible (no --branch given), and the three rasterizer checks -- this invocation renders no raster. RCAP_CHROMIUM_PATH is not exported in this container and no rasterizer was run.",
+          "masterLibrary": "mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; 499 files, 329 PDFs, 51 jurisdictions; private/ ignored and tracking nothing"
+        },
+        "rowGate": "the same family-scoped invocation; this is the row gate for this family and it is the verdict recorded above"
+      },
+      "theRegression": {
+        "reportedBy": "VF01, FAIL_REPAIR_REQUIRED on the current ea96a068f bytes",
+        "reproducedHereBeforeAnyEdit": true,
+        "one": "REQUIRED_BEFORE_FILING. DE.memo.json tracks[1] marks exactly one supporting document requiredBeforeFiling: true -- \"Certified Delaware criminal history\" -- and rules.filing and legalDesignDecision.limitations[0] restate it. The delivered participant-instructions.md contained ZERO occurrences of \"certified Delaware criminal history\"; its only \"certified\" string was \"certified court and correctional records\", inside a table row about dates. The repository's own REQUIRED_BEFORE_FILING_CONDITIONS require DISCLOSED: \"the item is named in the packet's participant-instructions.md\".",
+        "two": "SELF_HELP_STOP. Measured verbatim against DE.memo.json tracks[1].selfHelpStopConditions and against the identical list in data/record-clearing/legal-design-track-registry.json tracks[83]: not two but ALL NINE conditions were absent verbatim from the delivered instructions and from both fixtures. VF01 named the two that were absent in substance as well as in words -- [2], a prior expungement GRANTED within ten years, and [4], a Sec. 4201(c)/Beau Biden Act offence \"where the only route is a pardon\". Measured here pre-repair: \"ten years\", \"prior expungement\", \"expungement was granted\", \"pardon\", \"4201\" and \"Beau Biden\" all returned zero matches in participant-instructions.md AND in both fixtures' extracted text. The guide's nearest line spoke of \"uncertainty about ... prior or later convictions\", which is about convictions, and it is a prior GRANTED expungement that bars the route; [4] survived only as the words \"a violent felony\"."
+      },
+      "didEa96a068fRemoveTheGeneratorOrOnlyTheOutput": {
+        "answer": "THE GENERATOR. ea96a068f rewrote this family's own builder source, scripts/build-census-v1-de_mandatory_expungement-set.mjs, not merely the delivered markdown.",
+        "evidence": "git show ea96a068f -- scripts/build-census-v1-de_mandatory_expungement-set.mjs. Under an unrelated fee-scope correction it replaced instructions[1] -- the paragraph beginning \"Required before you use the agency process: obtain the certified Delaware criminal history.\" -- with a rewrite that never names the certified Delaware criminal history at all, and replaced the matching paragraph in the \"Exact SBI destination and next steps\" section the same way. The delivered bytes were then regenerated from the rewritten source, so the output was correct FOR THAT SOURCE. There was nothing left in the generator to restore from and nothing to notice the loss.",
+        "soTheDefectIsNotOnlyADeletedParagraph": "It is also the composition method. The nine self-help stops were never bound to the record at all: this builder carried a three-paragraph hand-written PROSE PARAPHRASE of them, and a paraphrase silently drops whatever it does not happen to mention. That is a second, older root cause than ea96a068f, and it is why [2] and [4] were missing in substance rather than merely in wording.",
+        "whatEa96a068fDidNotDo": "It did not touch the shared composed host (scripts/rcap-custom-pleading/composed-family-host.mjs) or the shared agency-guidance treatment (makeAgencyGuidanceFamily). Neither was edited by this lane either."
+      },
+      "whatWasRestoredAndFromWhichCommittedRecord": {
+        "method": "The builder now READS data/record-clearing/legal-design-intake/DE.memo.json at build time and derives both disclosures from it, instead of carrying retyped prose. DE.memo.json was already a compositionSource, so it is hashed into source-receipt.json at build time and this text can now move only when that hash moves. Nothing was restored from any lane's own knowledge of Delaware practice.",
+        "requiredBeforeFiling": [
+          "the document name \"Certified Delaware criminal history\" -- DE.memo.json tracks[1].supportingDocuments[0].name",
+          "\"Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.\" -- tracks[1].legalDesignDecision.limitations[0].statement, quoted verbatim",
+          "\"Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.\" -- tracks[1].rules.filing, quoted verbatim",
+          "\"Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.\" -- tracks[1].supportingDocuments[0].howToObtain, quoted verbatim, with obtainedFrom \"IdentoGo, service code 27S23V\"",
+          "the charge-answer check (\"Check your answer to 'What were the exact charges and statute sections...' against the certified Delaware criminal history\") -- the prior accepted text at ea96a068f^, which FIX54 had put there from the same record's confirms: offenceTypeAndSection"
+        ],
+        "selfHelpStop": "All nine tracks[1].selfHelpStopConditions are printed verbatim, on the composed guide page and in participant-instructions.md. The builder asserts first that DE.memo.json and legal-design-track-registry.json state the same nine, so a divergence between the two committed records cannot be hidden by silently preferring one.",
+        "nothingWasTradedAway": "The three route-boundary paragraphs the family already carried are KEPT beside the nine. They say what the record does not -- that an SBI denial or a referral to a court petition leaves this guidance-only route. The restoration is additive; no existing safeguard was weakened, reworded away or replaced.",
+        "theOneComparisonThatIsNotAQuotation": "The restored text observes that the service code the memo names for the certified history, 27S23V, is the same code this guide states for the SBI expungement enrolment. That is a comparison of two literal strings both held in this repository, and it is immediately followed by the statement that the committed record does NOT say whether those are one enrolment or two, or whether one charge or two is due, and by an instruction to confirm with SBI before enrolling or paying. This lane did not settle that and may not."
+      },
+      "theHashCautionThatCouldNotBeRestoredVerbatim": {
+        "priorText": "The paragraph deleted by ea96a068f cautioned that the 27S23V service-code sheet \"is not held here by hash and its printed revision is not established, so confirm the current instructions, codes and amounts with SBI before you enroll, pay, or send anything.\"",
+        "whyTheFirstLimbCouldNotBeRestoredAsWritten": "It is no longer true of this repository. ea96a068f itself acquired the sheet: reference/delaware/DE-Service-Code-Form_27S23V.pdf is committed at SHA-256 963c85833f87a99563f2ed2ea3414332232c550f4c64bcd887f51a9d0039557a, 276670 bytes, and is a declared compositionSource hashed into source-receipt.json. Re-asserting \"not held here by hash\" would state a falsehood about this repository's own custody, which is fabrication, not restoration.",
+        "whatWasRestoredInstead": "The caution's operative limb, in full and strengthened: \"The 27S23V service-code sheet is retained in this repository by SHA-256, but no printed revision of it is established, so it is not evidence that the codes, amounts or instructions on it are current. Confirm the current instructions, codes and amounts with SBI before you enroll, pay, or send anything.\" That is exactly what the acquisition record supports -- data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json carries printedServiceSheetRevision: null and filenameDateIsNotPrintedRevision: true, and its counselApproval and outputApproval are both false.",
+        "recordedForTheOwnerRatherThanDecidedHere": "Whether holding a binary by hash without an established printed revision is enough to stop saying so to a participant is a wording question for the owner and counsel. The safeguard's function -- confirm the codes and amounts with SBI before paying anything -- survives intact either way."
+      },
+      "aThirdDefectFoundWhileRebuilding": {
+        "what": "The delivered source-receipt.json declared a STALE hash for one of its own composition sources. It recorded data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json at 920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78, 78277 bytes, while the copy committed in this tree at 7f386ab54 is a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a, 81753 bytes.",
+        "howItHappened": "The determinations file moved in a later commit and this family was never rebuilt against it, so the receipt's binding pointed at bytes that are no longer in the tree.",
+        "nowCorrect": "The rebuild recomputed it from the committed file. No source was added or removed; the receipt now binds what the tree actually holds.",
+        "notThisLanesToJudge": "Whether that stale binding also affects other families rebuilt before that commit is outside this family and is not asserted here."
+      },
+      "whatChanged": {
+        "scripts/build-census-v1-de_mandatory_expungement-set.mjs": "This family's own single-family builder, the file ea96a068f rewrote. It now loads DE.memo.json's de_mandatory_expungement track at build time and derives the required-before-filing disclosure and the nine self-help stops from it, refusing to build (DE_MEMO_TRACK_ABSENT / DE_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT / DE_MEMO_HAS_NO_REQUIRED_BEFORE_FILING_LIMITATION / DE_MEMO_HAS_NO_FILING_RULE / DE_MEMO_HAS_NO_SELF_HELP_STOP_CONDITIONS) if the record stops declaring them.",
+        "scripts/grade-a-packet-factory-24h/test-de-mandatory-expungement-record-disclosures.mjs": "New. Regression protection, described below.",
+        ".github/workflows/rcap-chatgpt-recovery.yml": "One line: runs the new test beside test-de-reviewed-guidance.mjs. That workflow is the one that validates recovery commits of exactly ea96a068f's kind, so it is where this guard belongs.",
+        "delivered bytes": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill -- both fixtures, participant-instructions.md, reports/rendered-artifacts.json, source-receipt.json.",
+        "notTouched": "The shared composed host, the shared agency-guidance treatment, the route key, production-field-map.json, reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/completeness-counters.json, every legal record, every other family, and every queue and ledger. DE.memo.json and legal-design-track-registry.json were READ and not edited."
+      },
+      "regressionProtection": {
+        "test": "scripts/grade-a-packet-factory-24h/test-de-mandatory-expungement-record-disclosures.mjs",
+        "asserts": [
+          "every DE.memo.json tracks[1] supportingDocuments entry with requiredBeforeFiling === true is NAMED in the delivered participant-instructions.md",
+          "the memo's required_before_filing limitation statement and its rules.filing statement are both stated in the delivered participant-instructions.md",
+          "DE.memo.json and legal-design-track-registry.json still state the SAME nine self-help stop conditions, so a divergence between the two records fails rather than being silently resolved",
+          "every selfHelpStopConditions entry is present in the delivered participant-instructions.md and on the composed guide page (compared through the host's own sanitizePdfText, so the PDF's Sec.-for-section-sign substitution is not mistaken for absence)"
+        ],
+        "measuredAgainstThePreRepairTree": "FAILS. Run at 7f386ab54 with only the test file added, and re-run a second time after restoring the pre-repair builder and bytes from git: exit 1 both times, DE_MANDATORY_DISCLOSURES_MISSING, 21 declared items absent -- the certified Delaware criminal history, the memo's required_before_filing limitation, the memo's rules.filing statement, and all nine stop conditions in both the instructions and the guide page. Post-repair it exits 0.",
+        "whyItReadsTheDELIVEREDFileRatherThanTheBuildersIntent": "A builder that composes the right paragraph into bytes nobody shipped is the same defect from the participant's side. Both deletions reached delivered bytes, so the delivered bytes are what the test measures."
+      },
+      "digests": {
+        "before": {
+          "base": "7f386ab54",
+          "fixtures/canonical.pdf": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+          "fixtures/boundary.pdf": "f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a",
+          "participant-instructions.md": "92df4610a915e3cf495a1e86370ee5aa2353d55a8532dbe40ca480110dec7002",
+          "source-receipt.json": "c220f449a839e0fc1b0af75ac439c8291b8e1395cf3570615f117c01cd4ae673",
+          "reports/rendered-artifacts.json": "e0cdb5cf6969dc8a13b524be7a38bba2b3c2c8b219cf2cb34ee64e68f4402dfd"
+        },
+        "after": {
+          "fixtures/canonical.pdf": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+          "fixtures/boundary.pdf": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+          "participant-instructions.md": "bb170f6435c0a36f2a0f742cdcc507cc8a0bd813fa1e4010c3a84fdcc90754ad",
+          "source-receipt.json": "16d56694661c464a68e79078a6b40a24e50a6158641ac116c6859269818a0343",
+          "reports/rendered-artifacts.json": "f9e1a9c5a16b42cbd29cda273a42332795af5fb6f9dd7febf0599abc41c7bdf5"
+        },
+        "unchangedByThisRepair": [
+          "production-field-map.json e4576e66de9dc3d207af50dd7214ae6aed6bdfea1e6794d67c5c009e0b10d71d",
+          "reports/actual-writes.json a6220331aca9035400ef42482d88bb0ed7671235c3fa8cfe1c7f4caf9bab54ab",
+          "reports/blanks-left-for-the-participant.json a03b88e9a077961f24c771847d5ebb3f5189bd897bdf810cd143ada58b359e44",
+          "reports/completeness-counters.json b9c952af02355cb837553044450ae70ce085529d76eb84c0aac74f754a0ab8f6",
+          "approval-request.json 94b7d443ba7644a8dd03966c25b4b234e95f04c8412c52d7482011ee7324fbac",
+          "build-status.json 44dddaedae1e07b7867f2443a88b732b8d407494aabe9dd5025fd98edc489546",
+          "build-findings.json b3ba73e55f462c76ed1bb26203f83662ccf040d57683390cd747c3d786a1e015",
+          "product-wiring.json 687753228bd739dcbd229cc05401b265875fadf37406909d69430dfbc4351aa9"
+        ]
+      },
+      "deterministicRebuild": "The builder was run twice after the repair and all 13 files in the family directory are byte-identical between the two runs, compared by SHA-256. The bytes recorded above are the second run's.",
+      "pagination": "3 pages -> 4 pages, both fixtures (canonical 10625 -> 13688 bytes, boundary 10756 -> 13761). Read at appearance level from the delivered PDFs, not from the builder's report: the restored disclosure opens the SBI-destination section on page 1-2, the nine stops print as a labelled list on page 3, and the KEEP_ON_ONE_PAGE block still holds all seven record checkpoints together on page 4 with their writing lines and \"Check with\" text. Both fixtures carry all nine stops and name the certified Delaware criminal history three times.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set, over the repaired delivered bytes: PASS_COMPLETE, 5/12 written.",
+        "whyVisualDefectsIsNullAndNotZero": "No central raster ran. RCAP_CHROMIUM_PATH is not exported in this container and this lane rendered nothing. The 0 the verifier prints for visualDefects is derived from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes in the write proof, which is not a rasterised visual review, and this lane produced these bytes. A counter this lane could not measure is null.",
+        "THE_COUNTERS_DO_NOT_MEASURE_WHAT_WAS_REPAIRED": "Stated plainly: none of the nine counters measures either defect. They range over this family's twelve field-map rows, and both defects are ABSENT CONTENT rather than a field-map blank. verify-packet-completeness.mjs returned PASS_COMPLETE on this family BEFORE the repair, with eight counters at zero, while the certified Delaware criminal history and all nine self-help stops were missing from the delivered bytes. The counters were green throughout and prove nothing about this repair. What proves it is the new test, the extracted text of both fixtures, and an independent re-read."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "verdict": null,
+      "whyNoVerdict": "This lane repaired this family, so it does not verify it. No verdict is set, no PASS is claimed, and the nine counters above are a measurement, not a verdict. A central raster and an independent re-read by a lane that neither built nor repaired this family are both still owed.",
+      "openAndNotResolvedHere": {
+        "guidanceVersusApplication": {
+          "recordedAndLeftOPEN": true,
+          "theMismatch": "DE.memo.json tracks[1].legalDesignDecision expressly reclassifies this route \"from process_guidance to a participant application packet\" and states that \"LegalEase may generate the participant-facing application and instructions without reviewing the history itself.\" What is delivered says on its face: \"This is route-scoped process guidance only. It is not a Delaware SBI application, is not a court form, and is not filed or submitted anywhere.\"",
+          "whatStandsAgainstTheMemo": [
+            "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json: exactNextAction \"Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF\"",
+            "the DE-SBI-MANDATORY acquisition receipt: no_public_binary_exposed",
+            "data/expungement-ai/route-product-metadata.json: formStrategy guidance_only"
+          ],
+          "whatThisLaneDid": "Nothing. No application was composed. Composing one would assert a form and a destination SBI has not published, which the source record forbids, and a guide cannot replace an owed application or petition either. The mismatch is an owner and counsel decision and it stays open.",
+          "consequenceWhileItStaysOpen": "If the owner resolves it toward the memo, this family owes a participant application and this guide does not discharge it. Nothing in this repair should be read as having answered that."
+        },
+        "unresolvedQuestionsZero": {
+          "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
+          "impact": "release_blocker",
+          "status": "OPEN. Not touched, not narrowed, not resolved by this repair.",
+          "note": "selfHelpStopConditions[5] -- the Cornette/Gieck partial-expungement stop -- is now printed verbatim, which surfaces the question to the participant. Printing the stop does not answer the release blocker."
+        },
+        "feeOrderingWordingNote": "VF01's earlier release recorded an owner/counsel wording note: the packet's treatment of the ordering and cost of the certified history sits between tracks[1].unresolvedQuestions[0] and limitations[2]/tracks[0].rules.fees. The restored text quotes the memo verbatim and states expressly that the record does not settle whether the certified history and the SBI application are one enrolment or two. It does not resolve the note.",
+        "supersessionInPlaceAndNotDisturbed": "data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json supersedes the memo's extra court-filing-fee statement FOR THIS FAMILY ONLY, with counselApproval false and outputApproval false. This repair did not undo it and did not extend it; the delivered fee text is unchanged from the pre-repair bytes."
+      },
+      "verifiers": {
+        "familyScopedRun": "verify-packet-completeness.mjs --family de_mandatory_expungement-set: PASS_COMPLETE, 5/12 written -- and see THE_COUNTERS_DO_NOT_MEASURE_WHAT_WAS_REPAIRED above, because it returned the same before the repair.",
+        "newTest": "test-de-mandatory-expungement-record-disclosures.mjs: DE_MANDATORY_DISCLOSURES_OK after; 21 missing items and exit 1 before.",
+        "othersRun": "scripts/rcap-packet-recovery/test-recovery.mjs PASS.",
+        "preExistingFailuresNotCausedHere": [
+          "scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs fails at 7f386ab54 with the repaired bytes reverted, identically: VERIFIER_RETURNS.json has no unsuperseded row for this family, so assessDeReviewedGuidance returns null. Pre-existing state of the returns file, not this repair.",
+          "scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs fails at 7f386ab54 too, and names Vermont (vt-exp-decriminalized-set), not Delaware. The Delaware receipt carries no identity-refresh annotation and the rebuild erased none: the only field that moved in it is the corrected CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS hash.",
+          "scripts/verify-tracked-mutation-safety.mjs reports the dirty worktree while this repair is uncommitted; it is a clean-tree check, not a defect finding."
+        ]
+      },
+      "whatWasNotDone": [
+        "No verdict was set and no packet was self-verified by this lane.",
+        "No raster was produced; RCAP_CHROMIUM_PATH is not exported here.",
+        "No claim was granted, re-issued, transferred or released.",
+        "No application, petition, form, destination, signature, notarization, consent, returned record, prosecutor act, clerk assignment, judicial finding, professional adoption or review approval was composed, asserted or fabricated.",
+        "No shared host, treatment, route key, legal record, queue, manifest, other family or other worktree was edited.",
+        "No safeguard was weakened, no counter was hardcoded, and no verdict was edited."
+      ],
+      "queuesTouched": 0,
+      "legalRecordsTouched": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rebuilt packet is review evidence. This repair authorizes no fulfillment, opens no commercial route, and does not promote this route. The guidance-versus-application question and the release_blocker unresolved question both remain open."
     }
-  ]
+  ],
+  "subsequentReturns": "The header fields above (workerId, assignedBase, branch, scope, grantsConfirmed, preflight, fixtureIdentityConfirmedBeforeAnyEdit) describe the FIRST return only -- FIX54's 2026-09-05 repair at 4447f8683, integrated at 61e208dd1. A second, later return by a different worker is appended to rows[] as returnSequence 2 and carries its own worker, base, branch, preflight and grant record on the row itself. Neither return is rewritten to look like the other."
 }

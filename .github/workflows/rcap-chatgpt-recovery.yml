@@ -39,6 +39,7 @@ jobs:
           node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$RUNNER_TEMP/recovery-validation/readiness-summary.log"
           node scripts/grade-a-packet-factory-24h/test-chat-review-inputs.mjs | tee "$RUNNER_TEMP/recovery-validation/review-reader.log"
           node scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs | tee "$RUNNER_TEMP/recovery-validation/de-custody.log"
+          node scripts/grade-a-packet-factory-24h/test-de-mandatory-expungement-record-disclosures.mjs | tee "$RUNNER_TEMP/recovery-validation/de-mandatory-disclosures.log"
           node scripts/grade-a-packet-factory-24h/test-ky-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ky-declared.log"
           node scripts/grade-a-packet-factory-24h/test-md-favorable-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/md-declared.log"
           node scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs | tee "$RUNNER_TEMP/recovery-validation/declared-review-anchors.log"
