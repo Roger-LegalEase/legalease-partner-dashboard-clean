@@ -1,3 +1,48 @@
+# pdf-lib stamps a border the form does not print, and the counter that should see it counts glyphs
+
+**Measured 2026-09-09** by VF20 (`05cde650f`) on `mo-art-xiv-marijuana-set` and
+`md_pardon_expungement-set`, and this entry stands above the earlier one because
+it is a shared-host defect on the delivered bytes rather than an unread repair.
+
+pdf-lib's default appearance provider paints a stroked square the size of the
+widget `/Rect` for every check box whose `/AS` state carries no `/AP /N` entry,
+and `flatten()` stamps it into the page. Under ISO 32000-1 12.5.5 a conforming
+viewer paints nothing there, so it is ink the official form does not print. On
+FI-05 at 300 dpi the 13.34x17.27 rect draws a plain second rectangle around the
+court's own box; on CC-DC-089 the DENIED box comes out visibly heavier than the
+source's.
+
+Measured, not inferred: FIX50's scanner puts both families in the cohort -- 33
+selection widgets in Missouri, 56 in Maryland, none shipping its own `/Off`
+appearance and neither builder passing `suppressSynthesizedAppearances` --
+leaving **29** synthesised squares in Missouri and **50** in Maryland. A
+directional 150 dpi raster diff, added ink only, masked by the declared write
+rects, finds 2767 stray pixels in Missouri on exactly the four pages carrying
+unmarked selection widgets and 2681 in Maryland on all four, of which **654 sit
+in a column on the judge's order page** at Granted / Granted In Part / Denied /
+Frivolous and the financial-eligibility control. Identical on both fixtures,
+same poppler build on both sides.
+
+**`verify-packet-completeness.mjs` is structurally blind to it.** It raises
+`visualDefects` only from `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes`, which
+counts **glyphs**. A synthesised square is a stroked rectangle and no glyph, so
+the counter reads 0 on bytes carrying 2767 stray pixels. Nothing is rounded to
+zero here; the instrument does not range over the quantity. It returns
+PASS_COMPLETE with nine zeros for both families, before and after their repair.
+
+Neither this defect nor its remedy needs legal input or a new source, and the
+repair that just landed on these two families neither caused nor touched it.
+
+Also recorded by that lane, not scored: ten CC-DC-089 widgets the source carries
+as check boxes with `/AP /N` states -- all on the order page, Granted through
+Frivolous -- are typed `acroform_text_field` in Maryland's
+`production-field-map.json`. Nothing is written to them, but the record
+misdescribes the judge's disposition controls, and any check reasoning over
+`kind=selection_control` will not see them. The same cross-check on Missouri
+finds zero.
+
+---
+
 # Twenty-two of the thirty-six failing families carry a repair nobody has read
 
 **Measured 2026-09-09** at `d4984cbc5`, by asking git a narrow question for each

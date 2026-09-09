@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 1023,
+    "rows": 1025,
     "independentVerdicts": 255,
     "failRepairRequired": 33,
     "passIndependent": 202
@@ -11446,6 +11446,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3687291a6",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The delivered pages carry ink the official forms do not print, at 50 refused check-box widgets, on both fixtures, and on this family it reaches the judge's own order page. the shared sanitizer calls pdf-lib's updateFieldAppearances() before flatten(); pdf-lib regenerates an appearance for any check-box widget whose current /AS state has no entry in /AP /N, and its default provider paints a stroked square the size of the widget /Rect, which flatten stamps onto the page. ISO 32000-1 12.5.5 says a viewer draws the stream named by /AS, so where there is none a conforming viewer paints nothing: the square is ink the official form does not print. FIX50 gave the sanitizer the opt-in `suppressSynthesizedAppearances`, which installs an empty appearance for the missing state instead, and opted Vermont's non-conviction sealing set in. Neither builder here passes it. Measured three ways. (1) FIX50's scanner, re-run in this container, puts this family IN the cohort: 56 selection widgets across CC-DC-CR-072B (15) and CC-DC-089 (41), all 56 with no appearance for their current /Off state, none shipping its own /Off appearance, builder optsIn false; 6 widgets are written and take the source's own On stream, leaving 50 synthesized. (2) A directional raster diff at 150 dpi of each delivered page against its own source page, counting only pixels where the delivered page is darker, finds 2681 added pixels outside every declared write rect, spread over ALL FOUR pages: 380 on the petition, 1400 and 247 on the affidavit pages, and 654 on packet page 4 in a narrow column at x 127.7-163.2 running from yTop 111.8 to 641.3. That column maps onto the court's own controls: Meets and Does Not Meet Financial Eligibility, Unable and Not Unable to Pay due to Poverty, Not Frivolous and Frivolous, Other Findings, Granted, Granted In Part and Denied - every one role=court, refusalClass=court_prosecutor_clerk_or_agency_owned. (3) Looked at, at 300 dpi: the 'DENIED' box on the order page is visibly heavier in the delivered packet than in the source, because the synthesized square is stroked over the court's printed 7x7 box. It is deterministic - canonical and boundary give identical counts - and it is not a renderer difference, since the source page and the delivered page were rasterised by the same poppler build at the same dpi. It fabricates no finding: the boxes stay empty. But it is unauthorised ink drawn onto a judicial order page, and a packet has no business thickening the lines a judge ticks. THIS CORRECTS MY OWN EARLIER READ, which recorded the condition under observedNotScored with the claim that the delivered page and the source render the same boxes. They do not. The repair did not cause this and did not touch it; the remedy needs no legal input and no new source. Separately, there is no clipping or overlap of TEXT: every added word, including the boundary fixture's 'Maria-Alejandra O'Shaughnessy-Whitfield' and its 16-character case number, is fully contained in its declared write rect to 0.5pt in x and 2pt in y.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set",
       "superseded": false
     },
     {
@@ -12021,6 +12044,29 @@
         "REQUIRED_BEFORE_FILING",
         "ROUTE_OPTIONS",
         "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3687291a6",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The delivered pages carry ink the official forms do not print, at 29 refused check-box widgets, on both fixtures. the shared sanitizer calls pdf-lib's updateFieldAppearances() before flatten(); pdf-lib regenerates an appearance for any check-box widget whose current /AS state has no entry in /AP /N, and its default provider paints a stroked square the size of the widget /Rect, which flatten stamps onto the page. ISO 32000-1 12.5.5 says a viewer draws the stream named by /AS, so where there is none a conforming viewer paints nothing: the square is ink the official form does not print. FIX50 gave the sanitizer the opt-in `suppressSynthesizedAppearances`, which installs an empty appearance for the missing state instead, and opted Vermont's non-conviction sealing set in. Neither builder here passes it. I measured it three ways here. (1) FIX50's own scanner, re-run in this container, puts this family IN the cohort: 33 selection widgets across CR375 and the two FI-05 sheets, all 33 with no appearance for their current /Off state, none shipping its own /Off appearance, builder optsIn false. 4 selection fields are written and take the source's own On stream, leaving 29 refused widgets to be synthesized. (2) A directional raster diff at 150 dpi of every delivered page against its own source page, counting only pixels where the delivered page is darker, finds 2767 added pixels lying outside every declared write rect, on packet pages 1, 2, 3 and 7 and on no others - exactly the pages that carry unmarked selection widgets (CR375 pages 1-2 hold 19, FI-05 page 1 holds 7 and appears twice). (3) Looked at, at 300 dpi. On FI-05 the widget /Rect is 13.342 x 17.269 where the form's printed box is about 9pt square, so the delivered page shows a visible SECOND rectangle drawn around the court's own box - e.g. field 'The unredacted document is attached to this filing sheet in' at rect x 317.451 y 650.698. This is not a difference in how two renderers paint the same thing: the source page and the delivered page were rasterised by the same poppler build at the same dpi. It is deterministic - canonical and boundary give identical counts. THIS CORRECTS MY OWN EARLIER READ. At 7f386ab54 I recorded this under observedNotScored and wrote that 'rendered side by side, the delivered page and the source binary show the same boxes, because poppler paints the source's /MK border too'. That is wrong, and it was wrong then: the committed PDF digests have not moved. Measured at 300 dpi rather than 110, the delivered page carries an extra stroked rectangle the source does not. I also mis-stated the count as 27; it is 29. The repair did not cause this and did not touch it. The remedy exists, needs no legal input and no new source: pass suppressSynthesizedAppearances, as Vermont's set already does. Separately from the counters, no drawn string exceeds its box: every added word is fully contained in a declared write rect to 0.5pt in x and 2pt in y on both fixtures, including the boundary fixture's long values, so there is no clipping and no overlap of TEXT.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
