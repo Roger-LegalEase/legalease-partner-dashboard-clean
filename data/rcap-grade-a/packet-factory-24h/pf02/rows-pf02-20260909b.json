@@ -1,0 +1,327 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF02",
+  "returnId": "pf02-20260909b",
+  "branch": "pf02-20260909",
+  "baseSha": "cdd3b23edd9a8eed45cd1c8913bc2cd771793417",
+  "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "familiesAssigned": 3,
+  "rowsReturned": 3,
+  "familiesCompleted": 0,
+  "familiesStopped": 2,
+  "familiesBlockedBeforeClaim": 1,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "buildScriptsWritten": 0,
+  "whyNoBuildScriptWasWritten": "A build script is the second act. The first is a source that binds by content. Neither claimable family has one, and writing a builder against bytes this container does not hold would produce a script whose only possible output is a packet missing a component the controlling record names as part of the delivery.",
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "rasterState": "NOT_BUILT_NOTHING_TO_RASTER",
+      "jurisdiction": "DE",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375"
+      ],
+      "claim": "CLAIM_OK PF02 de_pardon_expungement-set (packet-build, grant set 354bac375d007b25)",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "buildScriptWritten": false,
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet was built, so no counter was measured. A zero on any of these would be a claim about a packet that does not exist.",
+      "artifacts": [],
+      "rowGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family de_pardon_expungement-set",
+        "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable",
+        "failingCheck": "family_sources_bind",
+        "failingDetail": "de_pardon_expungement-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable."
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
+        "exactOutput": "REFUSED: --family de_pardon_expungement-set matches no auditable family. 271 are auditable at this head.",
+        "exitCode": 0,
+        "reading": "The family has no overlay directory, no production-field-map.json and no fixture PDF, so it is not discoverable as built. This is the correct answer for a family that was never built; it is not a verdict on the packet."
+      },
+      "sourcesResolvedByContent": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "role": "primary_filing",
+          "pinnedSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "boundByContent": true,
+          "howResolved": "SHA-256 content match, not filename. The pinned digest was searched across every mounted root; the bytes are byte-exact at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf, which is the single committed corpus-index entry carrying this digest (custody nationwide_recovery_pool_2026_09_02, formNumber null).",
+          "heldAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+          "butTheControllingRecordSaysOtherwise": "source-custody-reconciliation.json records this source resolved:false, heldAs:null. The bytes are held; the controlling custody record does not know it."
+        }
+      ],
+      "sourceIdentityThatDidNotBind": {
+        "sourceId": "official-form:CIV_EXP_08_A",
+        "role": "proposed_order",
+        "requirementInControllingRecord": "required",
+        "documentTitle": "Expungement New Order Granting after Pardon (SC New Order Granting Expungement After Pardon)",
+        "pinnedSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+        "pinnedByteLength": 1128070,
+        "declaredPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+        "declaredCustody": "nationwide_recovery_pool_2026_09_02",
+        "presentAtDeclaredPath": false,
+        "howItWasSearchedFor": "By content digest, not by filename. Two independent sweeps: (1) every file in the Master Library at MASTER_LIBRARY_SOURCE_DIR (501 files) hashed and indexed; (2) every regular file larger than 1 KiB under /home/user, /root, /opt, /srv, /data and /mnt, excluding node_modules and .git, hashed and grepped for this exact digest. Zero hits in both. An earlier targeted pass over all 11,234 PDFs and DOCX files on disk also returned zero.",
+        "whyItDoesNotBind": "The bytes are absent from this container. The acquisition receipt at data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-08-A/receipt.json (sha256 416333de641417af1086e3a17d93d947f5f166a2094e2fa30fe5f0209186b4af) records status 'acquired' on 2026-09-04T11:14:56Z at exactly this digest and byte length, so the document was fetched once and never materialized into a custody mounted here."
+      },
+      "componentSetOpenQuestion": {
+        "questionAsAssigned": "Whether the de_pardon_expungement route delivers a guidance instrument or an application.",
+        "settledByTheHeldRecord": true,
+        "answer": "An application, not a guidance instrument. The route delivers an official-PDF-fill petition (CIV_EXP_02_A) as primary_filing, an official-PDF-fill proposed order (CIV_EXP_08_A), and a custom_pleading cover sheet. All three are requirement 'required'.",
+        "citations": [
+          {
+            "record": "data/record-clearing/legal-design-track-registry.json",
+            "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+            "locator": "trackId de_pardon_expungement",
+            "states": "outputStrategy 'official_pdf_fill'; legalName 'Petition for Expungement After a Pardon, 11 Del. C. § 4375'; packetSet.components = [de_pardon_expungement-primary-filing-1 (primary_filing, required, official_pdf_fill, CIV_EXP_02_A), de_pardon_expungement-proposed-order-2 (proposed_order, required, official_pdf_fill, CIV_EXP_08_A), de_pardon_expungement-cover-sheet-3 (cover_sheet, required, custom_pleading, no officialFormId)]"
+          },
+          {
+            "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+            "locator": "packetSets[] where packetSetId == 'de_pardon_expungement-set', version 1.0.0",
+            "states": "The identical three-component set, component for component and requirement for requirement."
+          }
+        ],
+        "consequence": "The family is NOT stopped as an open legal question. Both controlling records agree and neither leaves the instrument kind open. It is stopped on source, and the settled answer is the reason the source blocker is fatal rather than survivable: the proposed order is a REQUIRED component of a three-component application, so no honest partial build exists. A packet rendered from CIV_EXP_02_A alone would omit a component the record names as required, which is the missing-companion-form defect, and calling it delivered would shrink an owed delivery."
+      },
+      "foundAndNotFixed": [
+        {
+          "kind": "CONTROLLING_RECORD_CONFLICT",
+          "where": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json vs data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json (sha256 c60d47b329d4a92587a9ace12426f1595b0e02fc3f3713de4a1dac4037f6fad1)",
+          "what": "MASTER_QUEUE records this family sourceStatus 'SOURCE_BOUND_BY_HELD_BYTES', sourceBound true, sourceReadiness.ready true, boundCount 2, with both sources resolvedBy 'captain_shared_exact_binding'. The custody reconciliation records custodyClass 'SOURCE_GENUINELY_MISSING' with 0 of 2 documentSources resolved and heldAs null on both. The queue's claim is falsifiable and, for CIV_EXP_08_A, false in this container: the digest it pins exists nowhere on this machine.",
+          "alsoNote": "MASTER_QUEUE.packetComponents lists only 2 components for this family (primary-filing-1, proposed-order-2) while its own instrumentKinds lists 3 roles (cover_sheet, primary_filing, proposed_order) and both controlling records name 3 components. The cover_sheet component de_pardon_expungement-cover-sheet-3 is missing from the queue row.",
+          "notFixedBecause": "MASTER_QUEUE.json and source-custody-reconciliation.json are shared central artifacts and controlling records this lane does not own. Reported for the Captain rather than edited."
+        },
+        {
+          "kind": "SOURCE_HELD_BUT_RECORDED_UNRESOLVED",
+          "what": "CIV_EXP_02_A binds by content in the mounted nationwide recovery pool but the custody reconciliation records it unresolved, because the pool stores it under a human filename ('download.aspx.pdf') with formNumber null rather than under its form number. Because the DE family HAS a custody row, the row gate's resolver returns at tier custody_reconciliation and never reaches the digest fallback that would find it. That is why the gate says 'names no resolved document source' rather than '1 of 2 do not bind'.",
+          "notFixedBecause": "It changes a controlling record, and it is not the blocker: fixing it would still leave CIV_EXP_08_A absent."
+        },
+        {
+          "kind": "DUPLICATE_DISPATCH",
+          "what": "This family was already returned STOPPED / BLOCKED_SOURCE by lane PF06 on the same blocker, at data/rcap-grade-a/packet-factory-24h/pf06/pf06-20260909-rows.json. PF02's claim assert nevertheless succeeded. The two returns were measured independently and agree on the digest, the declared path, the absent custody and the consequence.",
+          "notFixedBecause": "claim-ledger.json is a shared central artifact and this lane never releases a claim."
+        }
+      ],
+      "whatWouldUnblockIt": "One document. Materialize CIV_EXP_08_A at digest 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b into a governed custody that is mounted for build lanes, and record CIV_EXP_02_A as resolved in source-custody-reconciliation.json against the pool bytes it already holds. Both sources would then bind and the three-component set is buildable.",
+      "networkAcquisitionAttempted": false
+    },
+    {
+      "itemId": "mo-610-140-conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "rasterState": "NOT_BUILT_NOTHING_TO_RASTER",
+      "jurisdiction": "MO",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:MO:mo-610-140-conviction:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      ],
+      "claim": "CLAIM_OK PF02 mo-610-140-conviction-set (packet-build, grant set 354bac375d007b25)",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "buildScriptWritten": false,
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet was built, so no counter was measured. A zero on any of these would be a claim about a packet that does not exist.",
+      "artifacts": [],
+      "rowGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family mo-610-140-conviction-set",
+        "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable",
+        "failingCheck": "family_sources_bind",
+        "failingDetail": "1 of 4 source(s) do not bind"
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-conviction-set",
+        "exactOutput": "REFUSED: --family mo-610-140-conviction-set matches no auditable family. 271 are auditable at this head.",
+        "exitCode": 0,
+        "reading": "The family has no overlay directory, no production-field-map.json and no fixture PDF, so it is not discoverable as built. This is the correct answer for a family that was never built; it is not a verdict on the packet."
+      },
+      "sourcesResolvedByContent": [
+        {
+          "sourceId": "official-form:CR360",
+          "role": "primary_filing (required) and continuation (conditional)",
+          "pinnedSha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+          "boundByContent": true,
+          "howResolved": "SHA-256 content match, not filename. Byte-exact at two mounted paths carrying one identity: private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf (custody master_library, formNumber CR360) and the same document in custody d_source_packs. Identical digests are one identity.",
+          "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf"
+        },
+        {
+          "sourceId": "official-form:FI-05",
+          "role": "cover_sheet (required)",
+          "pinnedSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+          "boundByContent": true,
+          "howResolved": "SHA-256 content match, and only by content: the committed corpus index carries no entry with formNumber FI-05. The single index entry with this digest is in custody nationwide_recovery_pool_2026_09_02 with formNumber null, held under a human filename. The row gate reaches it through its queue-pin-to-committed-index digest fallback. A filename search for 'FI-05' in the Master Library returns nothing.",
+          "heldAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+          "alsoHeldInRepositoryAt": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf, byte-identical"
+        },
+        {
+          "sourceId": "official-form:GN10",
+          "role": "fee_waiver (conditional)",
+          "pinnedSha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+          "boundByContent": true,
+          "howResolved": "SHA-256 content match, not filename. Byte-exact at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx (custody master_library) and the same identity in custody d_source_packs. This is the statewide SJRC (07-15) revision the packet-set manifest requires, not the Jackson County variant.",
+          "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx"
+        }
+      ],
+      "sourceIdentityThatDidNotBind": {
+        "sourceId": "official-form:CR370",
+        "role": "proposed_order",
+        "requirementInControllingRecord": "conditional",
+        "documentTitle": "Judgment and Order of Expungement",
+        "pinnedSha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+        "declaredPath": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase Missouri/MO_CR370.pdf",
+        "declaredCustody": "src05_worker_materialization_2026_09_02",
+        "presentAtDeclaredPath": false,
+        "howItWasSearchedFor": "By content digest, not by filename. Same two sweeps as the Delaware row: the full Master Library index, and every regular file over 1 KiB under /home/user, /root, /opt, /srv, /data and /mnt outside node_modules and .git. Zero hits. The committed corpus index carries exactly one entry for formNumber CR370 and it names this custody.",
+        "whyItDoesNotBind": "src05_worker_materialization_2026_09_02 is the one custody the committed corpus index names that is not mounted in this container. The environment gate's own corpus check says so in its passing line: '24 sampled entries verify byte-exact; src05_worker_materialization_2026_09_02 not mounted here and not compared'. The digest fallback across every mounted custody finds it in none of them."
+      },
+      "whyAConditionalComponentStillStopsTheFamily": {
+        "controllingRecord": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId mo-610-140-conviction-set, sha256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+        "reasoning": "CR370 carries requirement 'conditional', not 'required', so a first reading suggests the three bound sources are enough for a canonical build. They are not, for two reasons the record itself states. First, the condition is a real participant population, not an edge case: 'Generated where the participant's court expects the petitioner to tender a proposed judgment. Missouri circuits differ: some clerks and judges prepare the judgment themselves under Rule 155.05, others expect it with the petition.' Building only the no-order variant would silently deny every participant in a tendering circuit the component their court expects. Second, the same record's requiredBeforeFiling list names CR370 twice as part of the owed delivery: 'The case number in the caption — CR360, FI-05, CR370 and GN10 captions' and 'The judge's findings, granting language, date and signature — CR370, Judgment and Order of Expungement.'",
+        "conclusion": "Dropping the CR370 route variant to make three-of-four sources sufficient would shrink an owed delivery, and doing it inside a build script rather than in the controlling record would hide the shrink behind green counters. The route genuinely delivers a with-order variant, so it is stopped rather than trimmed.",
+        "whatWasNotDone": "The packet-set manifest was not edited to reclassify or remove the component. It is a controlling record this lane does not own."
+      },
+      "foundAndNotFixed": [
+        {
+          "kind": "CONTROLLING_RECORD_OVERSTATES_BINDING",
+          "where": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "what": "The queue row records sourceStatus 'SOURCE_BOUND_BY_HELD_BYTES', sourceBound true, sourceReadiness.ready true, boundCount 4, and gives CR370 tier 'exact_form_number' with resolvedBy 'census_form_number_against_committed_index_one_identity_at_several_paths'. Only three of the four bind here, and CR370 exists at no path in any mounted custody, so 'one identity at several paths' describes paths that are not present.",
+          "notFixedBecause": "MASTER_QUEUE.json is a shared central artifact this lane must not regenerate."
+        },
+        {
+          "kind": "DUPLICATE_DISPATCH",
+          "what": "This family was already returned STOPPED / BLOCKED_SOURCE by lane PF13 on the same blocker, at data/rcap-grade-a/packet-factory-24h/pf13/rows.pf13-20260909.json, and PF14 hit an adjacent form of it on mo-art-xiv-marijuana-set. PF02's claim assert nevertheless succeeded. Measured independently here and in agreement on the digest, the custody and the consequence.",
+          "notFixedBecause": "claim-ledger.json is a shared central artifact and this lane never releases a claim."
+        }
+      ],
+      "whatWouldUnblockIt": "One document. Mount custody src05_worker_materialization_2026_09_02, or materialize CR370 at digest 8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6 into a custody that build lanes mount. The other three sources are held and byte-exact today.",
+      "networkAcquisitionAttempted": false
+    },
+    {
+      "itemId": "nc_145_8a_youthful-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "rasterState": "NOT_BUILT_NOTHING_TO_RASTER",
+      "jurisdiction": "NC",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 'nc_145_8a_youthful-set'",
+      "exactRefusal": "ALREADY_RELEASED: nc_145_8a_youthful-set at 2026-09-04T23:50:16.437Z",
+      "exitCode": 9,
+      "artifactsRead": 0,
+      "overlayDirectoryTouched": false,
+      "buildScriptWritten": false,
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "The claim was refused, so no artifact of this family was read and nothing was measured.",
+      "artifacts": [],
+      "foundAndNotFixed": [
+        {
+          "kind": "ASSIGNMENT_DISAGREES_WITH_THE_LEDGER",
+          "what": "The dispatch named nc_145_8a_youthful-set as PF02's third candidate, but 'claim.mjs --status PF02' reports the lane's three live grants as de_pardon_expungement-set, mo-610-140-conviction-set and ut_pet_special_certificate-set. The North Carolina grant was released on 2026-09-04 and the Utah family stands in its place. No read of nc_145_8a_youthful-set was performed.",
+          "notFixedBecause": "claim-ledger.json and ACTIVE_ASSIGNMENTS.json are shared central artifacts and this lane never releases or creates a claim."
+        }
+      ],
+      "notAlsoDone": "ut_pet_special_certificate-set is a live PF02 grant per the ledger but was not named in this dispatch, so it was neither claimed nor read. It is available for a subsequent dispatch."
+    }
+  ],
+  "sweepMethod": {
+    "question": "Do the declared sources resolve by content, rather than by name?",
+    "why": "A name-based search has returned the wrong file before, so every binding in this return is a SHA-256 identity and every non-binding is the absence of that digest.",
+    "passes": [
+      "Every file in MASTER_LIBRARY_SOURCE_DIR hashed: 501 files.",
+      "Every .pdf and .docx on disk hashed: 11,234 files.",
+      "Every regular file over 1 KiB under /home/user, /root, /opt, /srv, /data, /mnt excluding node_modules and .git, hashed and matched against the two missing digests: 118,026 candidates, zero hits.",
+      "The committed corpus index data/rcap-all50/local-source-corpus-index.json (sha256 e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472) resolved entry by entry through its own declared custody path shapes."
+    ],
+    "result": "4 of 6 declared official-form sources across the two claimable families bind by content. 2 do not, and each is the component that makes its family unbuildable."
+  },
+  "disciplineDeclaration": {
+    "packetsSelfVerified": 0,
+    "claimsReleased": 0,
+    "sharedCentralArtifactsWritten": 0,
+    "sharedCentralArtifactsNamedAndLeftAlone": [
+      "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+      "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+      "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-track-registry.json"
+    ],
+    "scanSynthesizedWidgetBordersRun": false,
+    "whyNot": "It writes a shared central artifact as a side effect and there were no produced bytes to scan.",
+    "rasterAttempted": false,
+    "factsInvented": 0,
+    "grantsNothing": "A blocked row is a finding about source custody in this container. It is not a defect in either packet, and it makes no assertion about what either packet would measure once its missing document is mounted."
+  }
+}
