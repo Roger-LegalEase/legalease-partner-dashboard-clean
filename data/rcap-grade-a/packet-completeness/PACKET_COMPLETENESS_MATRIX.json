@@ -15,13 +15,13 @@
     "FAIL_COMPONENT_SET",
     "FAIL_CURRENTNESS"
   ],
-  "familiesAudited": 272,
+  "familiesAudited": 279,
   "byResult": {
-    "PASS_COMPLETE": 241,
-    "NOT_MEASURABLE_HERE": 23,
+    "PASS_COMPLETE": 248,
+    "FAIL_MISSING_PREFILLS": 2,
+    "NOT_MEASURABLE_HERE": 22,
     "FAIL_ROUTE_SELECTION": 4,
     "FAIL_COMPONENT_SET": 2,
-    "FAIL_MISSING_PREFILLS": 1,
     "FAIL_MISSING_REQUIRED_FACTS": 1
   },
   "counterTotals": {
@@ -931,6 +931,93 @@
       "findingsTruncated": 0
     },
     {
+      "familyId": "ar-misdemeanor-seal-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "result": "FAIL_MISSING_PREFILLS",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [
+        "unclassifiedBlanks"
+      ],
+      "totals": {
+        "terminalFields": 90,
+        "written": 15,
+        "blank": 75,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 18,
+          "OPTIONAL_PARTICIPANT_CONTENT": 2,
+          "UNCLASSIFIED_BLANK": 6,
+          "PROTECTED_FIELD": 38,
+          "PARTICIPANT_ELECTION_GENUINE": 11
+        },
+        "rowsInspected": 1,
+        "fieldMapSchema": "documents-and-decisions"
+      },
+      "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "2",
+          "label": "_____________________________________________________",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence.",
+          "reasonGiven": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "guilty of the offenses of 2",
+          "label": "______________________________________________________",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case.",
+          "reasonGiven": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "guilty of the offenses of 3",
+          "label": "______________________________________________________",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The third rule of the same paragraph 2 list, on the same footing.",
+          "reasonGiven": "The third rule of the same paragraph 2 list, on the same footing."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "FBI No if known",
+          "label": "FBI No. (if kno",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it.",
+          "reasonGiven": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Defendant Address 02",
+          "label": "_____________________________",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line.",
+          "reasonGiven": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "FBI No if known",
+          "label": "FBI No. (if kno",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it.",
+          "reasonGiven": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+        }
+      ],
+      "findingsTruncated": 0
+    },
+    {
       "familyId": "ar-nonconviction-seal-set",
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
       "result": "PASS_COMPLETE",
@@ -1395,7 +1482,7 @@
     {
       "familyId": "ca-17b-reduction-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
-      "result": "NOT_MEASURABLE_HERE",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -1404,9 +1491,9 @@
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": null
+        "visualDefects": 0
       },
       "failedCounters": [],
       "totals": {
@@ -1496,6 +1583,39 @@
         "fieldMapSchema": "writes-and-refusals"
       },
       "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "directory": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 14,
+        "written": 7,
+        "blank": 7,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 5,
+          "PROTECTED_FIELD": 2
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
       "sourceCurrentness": "EXACT",
       "findings": [],
       "findingsTruncated": 0
@@ -12865,6 +12985,40 @@
       "findingsTruncated": 0
     },
     {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 81,
+        "written": 35,
+        "blank": 46,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 16,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 4,
+          "PROTECTED_FIELD": 26
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
       "familyId": "la-977-misdemeanor-conviction-set",
       "directory": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading",
       "result": "PASS_COMPLETE",
@@ -13024,6 +13178,41 @@
         "blanksByDisposition": {
           "REQUIRED_BEFORE_FILING": 6,
           "PROTECTED_FIELD": 2
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 38,
+        "written": 1,
+        "blank": 37,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 24,
+          "LATER_COMPLETION": 4,
+          "PARTICIPANT_ELECTION_GENUINE": 8,
+          "PROTECTED_FIELD": 1
         },
         "rowsInspected": 0,
         "fieldMapSchema": "maps-with-canonical-and-boundary"
@@ -22028,6 +22217,42 @@
       "findingsTruncated": 0
     },
     {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 132,
+        "written": 21,
+        "blank": 111,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 56,
+          "PROTECTED_FIELD": 40,
+          "PARTICIPANT_ELECTION_GENUINE": 8,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 5,
+          "LATER_COMPLETION": 2
+        },
+        "rowsInspected": 6,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
       "familyId": "mn_prosecutor_agreed-set",
       "directory": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading",
       "result": "PASS_COMPLETE",
@@ -23816,6 +24041,42 @@
         "blanksByDisposition": {
           "REQUIRED_BEFORE_FILING": 9,
           "PROTECTED_FIELD": 2
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "directory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 220,
+        "written": 40,
+        "blank": 180,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 114,
+          "PROTECTED_FIELD": 50,
+          "OPTIONAL_PARTICIPANT_CONTENT": 5,
+          "LATER_COMPLETION": 6,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 5
         },
         "rowsInspected": 0,
         "fieldMapSchema": "maps-with-canonical-and-boundary"
@@ -26079,6 +26340,42 @@
         "fieldMapSchema": "maps-with-canonical-and-boundary"
       },
       "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 72,
+        "written": 6,
+        "blank": 66,
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+          "REQUIRED_BEFORE_FILING": 43,
+          "PARTICIPANT_ELECTION_GENUINE": 6,
+          "PROTECTED_FIELD": 7,
+          "LATER_COMPLETION": 2
+        },
+        "rowsInspected": 4,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
       "sourceCurrentness": "EXACT",
       "findings": [],
       "findingsTruncated": 0
