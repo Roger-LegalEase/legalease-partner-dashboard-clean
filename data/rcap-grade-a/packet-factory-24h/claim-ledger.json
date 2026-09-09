@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b311ef0660e4f2dbb406ce8b5d19e0f7354d7169",
+  "generatedAtCommit": "c9b955a1862d44e6bc64b21109985329ed9d053a",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4734,9 +4734,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF20",
+      "lane": "PF14",
       "laneKind": "packet-build",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
     },
     {
       "subjectType": "packet-family",
@@ -4763,10 +4765,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF03",
+      "lane": "PF14",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T09:49:13.073Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4995,9 +4997,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF12",
+      "lane": "PF23",
       "laneKind": "packet-build",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
     },
     {
       "subjectType": "packet-family",
@@ -9557,10 +9561,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF24",
+      "lane": "PF23",
       "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
     },
     {
       "subjectType": "packet-family",
@@ -14014,7 +14019,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0aa4a25b7880f293619dfae68f7c2ef760d777b444aa97ed42cae8a2d78a81ee",
+  "claimsDigest": "015bca8790f8534b3c960c9d4591adfcc8848611eeacf6b394633ec09391406d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34630,6 +34635,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T20:50:15.519Z",
       "reason": "Consolidating the five families that fail CLIPPING_AND_OVERLAP onto one repair lane: the obligation is the same on all five and a shared cause is repaired once, by one writer, then validated per family."
+    },
+    {
+      "lane": "PF20",
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T20:59:00.768Z",
+      "reason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+    },
+    {
+      "lane": "PF12",
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T20:59:01.218Z",
+      "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+    },
+    {
+      "lane": "PF24",
+      "subjectType": "packet-family",
+      "subjectId": "wv_acc_treatment_job_readiness-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T20:59:01.466Z",
+      "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
     }
   ],
   "reissues": [
@@ -51742,6 +51774,50 @@
       "previouslyReleasedAt": "2026-09-06T17:55:10.866Z",
       "transferredAt": "2026-09-09T20:50:15.725Z",
       "reason": "Consolidating the five families that fail CLIPPING_AND_OVERLAP onto one repair lane: the obligation is the same on all five and a shared cause is repaired once, by one writer, then validated per family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF20",
+      "toLane": "PF14",
+      "previouslyReleasedAt": "2026-09-09T20:59:00.768Z",
+      "transferredAt": "2026-09-09T20:59:00.871Z",
+      "reason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF03",
+      "toLane": "PF14",
+      "previouslyReleasedAt": "2026-09-05T09:49:13.073Z",
+      "transferredAt": "2026-09-09T20:59:01.027Z",
+      "reason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF12",
+      "toLane": "PF23",
+      "previouslyReleasedAt": "2026-09-09T20:59:01.218Z",
+      "transferredAt": "2026-09-09T20:59:01.337Z",
+      "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_acc_treatment_job_readiness-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF24",
+      "toLane": "PF23",
+      "previouslyReleasedAt": "2026-09-09T20:59:01.466Z",
+      "transferredAt": "2026-09-09T20:59:01.594Z",
+      "reason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
     }
   ],
   "grants": [
