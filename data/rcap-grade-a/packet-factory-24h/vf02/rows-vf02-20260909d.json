@@ -1,0 +1,305 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-verifier-rows/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "shift": "20260909d",
+  "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+  "independence": "VF02 did not build, repair or previously read any family in this return. Every family was asserted with scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 before any artifact of it was opened.",
+  "measurementNote": "Every counter and every obligation here was measured by this lane from the delivered PDF bytes and the committed records. No number is copied from a builder's completeness-counters.json or actual-writes.json; where a builder's report agrees with my measurement I say so, and where it does not I say that instead.",
+  "preflight": "node scripts/verify-packet-build-environment.mjs --family 'census-pending-family:ME:juvenile-sealing' --codex-cloud --minimum-captain-sha bf6f32958d484adc12e81900220bf5c477f07027 returned PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable. The two failures are private_is_git_ignored (private/ is NOT git-ignored in this worktree) and family_sources_bind for census-pending-family:ME:juvenile-sealing. Reported rather than worked around: neither was repaired by this lane, and the second is contradicted by the bytes as recorded in that family's row.",
+  "rows": [
+    {
+      "itemId": "census-pending-family:ME:juvenile-sealing",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill, AcroForm filled and flattened onto a pikepdf-decrypted derivative of the pinned encrypted official binary",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "Enumerated all 14 AcroForm fields from the pikepdf-decrypted official binary, then read every flattened widget XObject in the delivered canonical.pdf. Seven fields carry ink and they are exactly the seven the platform holds facts for (juvenile name, DOB, printed name, two address lines, telephone, email). The seven unwritten fields are facts the platform does not hold (court location, docket number, three gender boxes) or protected (signature, signature date). Zero known facts are missing from the page.",
+        "requiredFactsNotCollected": "Compared the nine required-before-filing items the route contract declares (printed verbatim in participant-instructions.md and re-read by me from src/lib/legal-authority/routes/single-routes.json, sha256 6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8) against the guide's own list. All nine are present.",
+        "unclassifiedBlanks": "14 fields accounted for exactly: 7 written (production-field-map.json disposition composed_text), 5 REQUIRED_BEFORE_FILING, 2 protected. No field is unclassified.",
+        "incompleteRows": "JV-043 has no repeating row structure: I enumerated its 14 widgets and none form an indexed row group. Zero rows exist, so zero rows are incomplete.",
+        "requiredOptionsMissing": "The only election on the form is the three-way gender box group, which the field map and blanks record classify REQUIRED_BEFORE_FILING because it is a fact about the person rather than a route-determined election. No route-determined election is left unselected.",
+        "requiredComponentsMissing": "The route contract declares two components: the JV-043 petition (primary_filing) and proof of final discharge (participant_obtained_record). The petition is rendered whole as packet page 1. The discharge proof cannot be rendered by any builder and is disclosed in the guide's 'Documents you must obtain first' table with where to get it and why the three-year clock depends on it. Nothing declared is silently dropped.",
+        "invisibleWrites": "For each of the seven flattened widget XObjects I parsed the clip path (W n), the BBox, the Tf size and the hex Tj string, and computed the drawn text width from Helvetica AFM metrics. Every string ends inside its own clip window in both fixtures; smallest margin is 9.11pt (boundary email, auto-shrunk from 11pt to 10pt). Nothing is drawn and then clipped away.",
+        "protectedWrites": "The two protected widgets are 'Date mmddyyyy' (rect 139.56,405.24,259.8,421.68) and the unnamed signature widget 'undefined' (rect 328.56,405.24,580.2,421.68). Their flattened XObjects contain only '/Tx BMC \\nEMC' - 13 bytes, no text operator. The printed marker at y=408.7 is the form's own glyph, present identically in the decrypted source page. No protected field carries ink.",
+        "visualDefects": "The central raster gate holds a RASTER_PASS against canonical.pdf sha256 fa7bd28a... which is the exact byte string on disk. Independently, I measured page geometry (MediaBox 612x792, Rotate 0, one page, matching the source) and confirmed every write sits inside its own widget rect. I found no defect; I did not re-raster, and this counter records that the central gate looked and I measured geometry, not that I produced a second image."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Route key obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition. MASTER_QUEUE.json, source-receipt.json and production-field-map.json all record implementationStrategy official_pdf_fill and the directory is --official-pdf-fill, so there is no strategy disagreement on this family. 15 M.R.S. 3308-C has two branches and the packet is unambiguously built for the narrow one: JV-043 prints the murder / Class A, B, C / OUI restriction on its own face, and participant-instructions.md opens by telling the reader the automatic branch exists, that Class D, Class E and civil-type matters seal automatically within 5 business days of a Notice of Discharge, and not to file this petition if their matter is in that group."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One official source. I recomputed it from the bytes: private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-jv-043.pdf = 79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7, 173449 bytes, and it carries /Encrypt (V5 R6 AES-256). That is exactly the sha256 the source receipt, rendered-artifacts.json and the MASTER_QUEUE row bind. It is the OFFICIAL ENCRYPTED BINARY and not a review derivative: data/rcap-all50/overlays/rescued-encrypted-pdfs/maine-mjb-form-jv-043-rescued.pdf hashes to e41e19e41c01a57c782a27c5a4c28591e2badf5b193272718fe3287fbd4981ca, which appears nowhere in this family's records. I also reproduced the build-time transport myself with pikepdf 10.12.0 - pikepdf.open(pinned).save(deterministic_id=True) - and got 5136136142d315affed76fcd85536a769bfec6d0ab2e6acd592eb6d391cd5b47 at 172380 bytes, matching the receipt's derivedSha256 and derivedByteLength exactly, with 1 page and the same 14 AcroForm fields. The derivative is not committed and is not the bound identity.",
+          "observation": "One inaccuracy in the receipt, not a misbinding: documents[0].byteLength is 172380, which is the DERIVATIVE's length; the official binary whose sha256 sits beside it is 173449 bytes. The binding is by SHA-256 and the SHA-256 is exact, so identity holds, but the byteLength field describes a different file from the digest it accompanies."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two components declared by the route contract. 'Petition under 3308-C' (primary_filing, official_pdf_fill, JV-043) is rendered as the single packet page. 'Final discharge proof' (participant_obtained_record, obtained_by_the_participant) is not renderable by a builder and is disclosed twice in the guide - in 'Documents you must obtain first' and again in the component table with the explicit sentence that it is not in the PDF and is not silently dropped."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Seven values, read out of the flattened widget XObjects of the delivered canonical.pdf and mapped to their own source widget rects: 'Casey Lorraine Thibodeau' at x=32.08 y=660.07 in Juvenile [31.08,655.8,243.12,672.24]; '11/06/2004' at 350.66,584.7 in the DOB rect [349.658,582.0,502.44,595.298]; 'Casey Lorraine Thibodeau' in Printed Name; '34 Winter Harbor Road' in Mailing Address 1; 'Bangor, ME 04401' in Mailing Address 2; '207-555-0142' in Telephone; 'casey.thibodeau@example.org' in Email. Each lands in the field it belongs to. Checked deliberately against the DEFECTS_NO_COUNTER_CAN_SEE defect 'map-honest-writes-not', to which this family is exposed as a finalizeOfficialForm build: production-field-map.json declares exactly these seven fields composed_text and nothing else, so the map and the finalizer agree field for field. There is no alias or address-history line on this form for a legal name to be written onto twice."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature and signature date both empty; their flattened XObjects carry no text operator at all. No certificate of mailing, court-only or prosecutor-only field exists on JV-043."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured rather than taken from the builder's zero. Each flattened widget clips to its BBox inset 1pt (W n at 1,1 to W-1,H-1). Computing drawn width from Helvetica AFM metrics: canonical margins run from 79.43pt to 180.15pt of slack; boundary, which uses deliberately long values, still clears - 'jean.baptiste.ouellette.michaud@longmailexample.org' is auto-shrunk to 10pt and ends 9.11pt inside its clip, '1785 Presque Isle Ridge Road, Apartment 3B' clears by 25.47pt. No ink is drawn outside a measured write box and none is drawn and then clipped."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md carries a 'When to stop and get help' section with seven named stops, including the wrong-branch case, a later adjudication or adult conviction, pending matters, the three-year clock not having run, reliance on sealing to remove a firearm prohibition (grounded in the compiled record's sentence that firearm prohibitions are not removed by sealing), anyone claiming sealing erases the record, and immigration consequences."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide names the Juvenile Court, quoting JV-043's own opening sentence. It then states in bold that no committed record it binds establishes WHICH court location takes it and that the route-obligation census records this route's destination as 'not recorded', and directs the reader to write in the town from their own case caption and ask a clerk. It names the court the route names and refuses to invent the location rather than guessing one."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide states the service position and grounds it in the paper: no committed record it binds states a service requirement, and JV-043 carries no certificate-of-service block of any kind - which I confirmed by reading all 14 widgets and the full page text. It directs the reader to ask the clerk. It also records that no committed record states a notarization requirement and that the form carries a plain signature line rather than a jurat, which matches the page. No service rule, deadline or clerk practice is fabricated."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Five items in blanks-left-for-the-participant.json - the three gender boxes, Docket No. and Location (Town) - and all five appear in the guide's 'The items you must supply' table, each with the printed context and what to write. Separately the nine route-contract required facts are printed verbatim with the source file's sha256 quoted. Checked against the file, not the count."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical.pdf = fa7bd28a1f28cfb38f3f1da3a98d97f2ba3e7827e1c813a43ee51560f225144d, 168354 bytes, 1 page; boundary.pdf = 69618b989b84945c1f0bf121430b589ecbec6368087cf620901c5a286c45aabb, 168440 bytes, 1 page. Both recomputed by me from the bytes on disk and both agree with reports/rendered-artifacts.json AND with the RASTER_QUEUE.json row that carries this family's RASTER_PASS, so the admitted raster is bound to the bytes I read."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One page. The manifest declares packetPage 1 = component petition, documentId JV-043, sourcePage 1, sourceSha256 79d0e40d..., and the delivered page is that form: 'MAINE JUDICIAL BRANCH', 'PETITION TO SEAL JUVENILE CASE RECORDS', '15 M.R.S. 3308-C(10)(A)', footer 'JV-043, Rev. 12/21 Page 1 of 1'."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route contract declares no route-determined election on this single-branch petition. The one option group on the paper is the three gender boxes, and the build deliberately marks none, recording that gender is a fact about the person that the platform does not hold and that it will not mark a box on a petition on the participant's behalf. Nothing route-determined is left unselected."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "JV-043 carries no repeating row structure. I enumerated all 14 widgets from the decrypted source and none form an indexed row group, so there is no row on which written cells could sit beside required blank cells. Recorded as not measurable here rather than as a pass, because there is nothing on this paper to measure. Note the blanks record independently flags that the shared binder reads the bare 'Docket No.' caption as a repeating charge-row label, and the build declined that reading for this one-case petition."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide states in bold that no committed record it binds states a filing fee for this petition AND that none states there is no fee, and quotes no figure. It separately records that the compiled Maine profile names the Judicial Branch's fee-waiver instruments CV-067 and CV-191, states plainly that neither is bound to this family and neither is in this packet, and tells the reader to ask the clerk for them if there is a fee they cannot pay. No fee is fabricated."
+        }
+      },
+      "failedObligationNames": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "Not listed in familiesDeliveringACloneOfAnother and no me/ family appears in the record at all. This is the only ME juvenile-sealing family in my set and its single page is the JV-043 petition, which no other family I read delivers.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately against each listed defect. 'map-honest-writes-not': field map and delivered writes agree on all seven fields, and the form has no alias or address-history line. 'acroform-index-is-not-the-printed-row': no row table on this form. 'extracted-line-order-is-not-column-order': read by x-position, single-column caption and contact block, no column ambiguity. 'internal-record-text-printed-on-a-filing': the delivered page text is byte-for-byte the official form's own text plus seven participant values and nothing else, so no record analysis reached the page. 'published-zero-where-a-measurement-existed': I did not accept nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 - I recomputed clip margins from AFM metrics myself.",
+        "PAGE_TEXT_VS_PINNED_SOURCE": "I extracted the full page text of the decrypted source and of both delivered fixtures. Outside the seven flattened widget XObjects the delivered page text is identical to the source form's, so this build added exactly its seven values and altered no printed word of the Judicial Branch's form.",
+        "RECORDS_THAT_DISAGREE": "Two committed records disagree with each other about this family's source and I record both rather than reconciling them. (1) MASTER_QUEUE.json carries sourceStatus SOURCE_BOUND_BY_HELD_BYTES with sourceReadiness.ready true, while the SAME row's sourceReconciliation reads disposition SOURCE_BLOCKED, custodyClass SOURCE_IDENTITY_UNRESOLVED, and exactResidual 'The compiled route profile names JV-043, but its current official binary is not held.' (2) The preflight check family_sources_bind FAILS for this family, saying it is not resolvable from source-custody-reconciliation.json or packet-family-build-worklist.json and that the Captain must resolve its sources before dispatch. I measured against the BYTES: the binary is held in this worktree and hashes exactly to the pinned digest, so the SOURCE_BLOCKED disposition and the preflight refusal are contradicted by the file on disk. Also note MASTER_QUEUE names the source path as reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf, which does not exist in this checkout; the byte-identical file is at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-jv-043.pdf, which is the path the source receipt itself names. Identity binds by digest and the digest is exact."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/canonical.pdf (page text, all 14 flattened widget XObjects, geometry)",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/boundary.pdf (same, boundary values)",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-jv-043.pdf (hashed, decrypted with pikepdf, fields and page text read)",
+        "data/rcap-all50/overlays/rescued-encrypted-pdfs/maine-mjb-form-jv-043-rescued.pdf (hashed only, to prove it is NOT what this family binds)",
+        "data/rcap-grade-a/packet-factory-24h/ENCRYPTED_SOURCE_PATTERN.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (this family's raster row)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This independent PASS proves the packet complete against its own controlling records. It approves no output for participant delivery, promotes no route, opens no commercial path, and settles no question of Maine law."
+    },
+    {
+      "itemId": "mn_petition_609a02_subd3-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "26ab5d8641c0e366dfed8d75a34c3bf6690ffa7f",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "implementationStrategy": "official_pdf_fill per the three records inside the family directory; custom_pleading per the MASTER_QUEUE row and the directory name. Both recorded below; I measured against the delivered bytes.",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine measure zero here and the family still fails. The decisive defect is a false statement in participant-instructions.md about which agencies EXP104 requires be served. No counter reads participant copy against the form's own printed page."
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "The build declares 21 known-fact writes. I found all 21 in the delivered canonical bytes at the pages and positions they belong to, by extracting page text and comparing every page against its pinned source. No known fact the platform holds is absent from the page it belongs to.",
+        "requiredFactsNotCollected": "The 60 declared requiredBeforeFiling items were checked one by one against participant-instructions.md by exact string match on each item's disclosureLabel. All 60 appear verbatim. Zero uncollected.",
+        "unclassifiedBlanks": "60 requiredBeforeFiling plus 51 protectedBlanks are declared and each carries a disposition. I found no blank on any of the 25 pages that the map leaves unclassified.",
+        "incompleteRows": "The two row structures are EXP102 item 7's six-row criminal-record table and EXP104's fifteen-box service list. This build writes into neither - the page diff shows zero added text on packet pages 3, 4, 5, 8 and on both EXP104 pages beyond the caption - so no row carries written cells beside required blank cells. Zero.",
+        "requiredOptionsMissing": "EXP102 item 9 carries eleven options. Eight map to EXP105 (subdivision 3) and are the route's own clause set; three map elsewhere (two to EXP106 for subdivisions 1 or 2, one to EXP107 for inherent authority) and the field map declares those three not applicable on this route against a named condition, which I confirmed against the printed bracketed instruction beside each option on packet pages 4 and 5. Which of the eight subdivision-3 clauses applies is a fact of the case, not a route election. Nothing route-determined is unselected.",
+        "requiredComponentsMissing": "Five components declared, five rendered: pages 1-6 EXP102, 7-8 EXP104, 9-12 EXP105, 13-19 EXP101, 20-25 FEE102. Each page's own printed footer confirms its form and its internal page number in unbroken sequence.",
+        "invisibleWrites": "For every one of the 21 writes in BOTH fixtures I computed the drawn width from Helvetica metrics and compared the end x against the page's right margin and against the x of the next printed item on the same baseline. Zero writes pass the margin and zero collide, including the boundary fixture's 58-character email and 52-character street address.",
+        "protectedWrites": "51 protected blanks are declared, covering the seven court-owned Notice of Hearing fields, the participant's sworn narrative and legal elections, every signature and signature date, and the whole of EXP105's findings. The page-diff proves the point directly: across all 25 pages exactly 21 text values were added and every one is a caption or contact-block value. EXP105 received only the defendant name and date of birth in its caption; not one finding, election or signature line on the proposed order carries ink. EXP104 received only the caption defendant.",
+        "visualDefects": "A RASTER_PASS is admitted against canonical.pdf sha256 52680b1f..., which is the exact byte string on disk. Independently I confirmed all 25 pages are 612x792 with Rotate 0 and measured every write for margin overflow and collision. I found no visual defect. The decisive defect on this family is textual, not visual, and would survive any raster."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key is unanimous across every record: obligation:track-pathway:MN:mn_petition_609a02_subd3:petition-based-expungement-under-609a-02-03, in MASTER_QUEUE.json, production-field-map.json and source-receipt.json. The delivered paper states the route three times - EXP102's title block, EXP105's title block printing 'Minn. Stat. 609A.02, subd. 3' on packet page 9, and the bracketed instruction beside each item-9 option naming EXP105 for the eight subdivision-3 clauses and EXP106/EXP107 for the three that are off-route. The packet is built for the route the records name.",
+          "recordsDisagreeOnStrategyLabel": "Two committed records disagree and I record both rather than reconciling them. MASTER_QUEUE.json's family row reads implementationStrategy 'custom_pleading' and the overlay directory is named '--custom-pleading'. Three records inside that directory - production-field-map.json, source-receipt.json and build-status.json - all read 'official_pdf_fill'. I measured against the delivered bytes: all 25 pages are official Minnesota Judicial Branch forms carrying the Branch's own footers (EXP102 Rev 7/24, EXP104 Rev 1/25, EXP105 Rev 7/24, EXP101 Rev 7/24, FEE102 Rev 07/24), filled by measured overlay and assembled. Not one page is a pleading composed by this build. The delivered artefact is official_pdf_fill, which agrees with the three family records and disagrees with the queue row and the directory name. This is a bookkeeping disagreement, not a wrong route, and MASTER_QUEUE has one writer and it is not this lane."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Five official sources, all recomputed by me from the bytes in this worktree and all exact. EXP101 = 0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de (7 pages); EXP102 = c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541 (6); EXP104 = 0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c (2); EXP105 = 754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0 (4); FEE102 = b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8 (6). Each matches the digest bound in rendered-artifacts.json, the field map's officialSource block and the MASTER_QUEUE row, and the five page counts sum to the delivered 25. Note the MASTER_QUEUE paths for the four EXP forms read 'private/Nationwide Record Clearing/LegalEase Minnesota/...' and no such directory exists in this checkout; the byte-identical files are at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/. Identity binds by digest and every digest is exact."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Five components declared and five delivered whole, in component-index order, at the page ranges the manifest names. The guide's component table describes each one accurately, including that EXP101 is the Judicial Branch's own seven-page instructions delivered exactly as published and that FEE102 is conditional on the participant being unable to pay."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "21 values, each located by me in the delivered bytes: packet page 1 caption defendant; page 2 first/middle/last name, date of birth, street address, city-state-zip; page 6 declaration name, address, city-state-zip, phone, email; page 7 EXP104 caption defendant; page 9 EXP105 caption defendant and date of birth; page 20 FEE102 caption defendant; page 25 FEE102 declaration name, address, city-state-zip, phone, email. Checked against the DEFECTS_NO_COUNTER_CAN_SEE defect 'map-honest-writes-not': the field map's canonicalWrites declare exactly these 21 and the page diff adds exactly these 21, so map and finalizer agree. In particular the build writes NOTHING into EXP102 item 2 ('any other legal names or aliases') or item 5 ('all the other addresses you have lived at'), which are the two lines the WV defect was about - both are left blank and disclosed to the participant.",
+          "observation": "The date of birth is written in ISO form, '1991-04-17', on packet pages 2 and 9. Neither printed label prescribes a format - EXP102 item 3 reads 'List your date of birth:' and EXP105 reads 'Date of Birth:' - so nothing on the paper is contradicted, and the value is unambiguous. Recorded because a US district court filing conventionally carries mm/dd/yyyy and a human reviewer should see the choice; it is not scored as a failure."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven by whole-page diff rather than by trusting the map. Across all 25 pages exactly 21 text values were added and every one is a caption or contact-block value. The Notice of Hearing's seven court-owned fields (hearing date, time, format, Zoom id and passcode, courthouse address, courtroom) are empty. EXP105, the proposed order, carries only the defendant name and date of birth in its caption across pages 9-12; every finding, every election and the judge's signature line are untouched. EXP104's proof of service carries only the caption - the server's name, the service date and the mailing city are all blank, which is correct because a proof of service certifies a mailing that has not happened. No signature or signature date anywhere in the packet carries ink."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured here rather than read from the builder's zero. For all 21 writes in both fixtures I computed drawn width from Helvetica metrics and tested the end x against the page right margin and against the x of the next printed item on the same baseline. Zero overflows and zero collisions, including the boundary fixture's 'maria.alejandra.oshaughnessy.whitfield@longmailexample.org' and '1188 Upper Tallahatchie Crossing Road, Apartment 14B'."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md carries a 'When to stop and get help' section, and the guide opens by telling the participant to run the automatic routes first - Clean Slate, automatic cannabis expungement, or a Cannabis Expungement Board action - and not to pay for a petition already covered. It also states the clear-and-convincing burden EXP105 carries for conviction cases under subdivision 3(a)(3)-(8)."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "'The district court administrator in the county of the case', with venue quoted from the committed record as 'The district court in the county where the case was decided', and the filing sequence quoted: file EXP102 with the district court administrator in the county where the case was decided, serve, then file EXP104 as proof of service. This matches the route the records name."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The guide's account of who must be served is false against EXP104's own printed page, which is delivered in this packet as pages 7 and 8. It states: 'The service list is EXP104's fifteen numbered boxes. Three of them are marked (Required) on the form itself and already carry their addresses printed: the MN Bureau of Criminal Apprehension, the Office of the MN Attorney General, and the MN Department of Human Services / Office of Inspector General. The rest are checked and completed only where they relate to your case.' I read every box on the delivered page by x-position and y-band and mapped each printed box number to the marker printed beneath it. SIX boxes are marked (Required), not three: box 1 MN Bureau of Criminal Apprehension, box 2 Office of the MN Attorney General, box 3 MN Dept. of Corrections, box 4 ______ County Attorney's Office, box 5 ______ County Dept. of Corrections (Probation), box 6 ______ County Sheriff's Office. The six boxes marked '(check box & use if related to your case)' are 7, 8, 9, 10, 11 and 12. So the third agency the guide names as Required - MN Department of Human Services / Office of Inspector General - is box 9, and box 9 is one of the CONDITIONAL boxes; and the guide's sentence 'The rest are checked and completed only where they relate to your case' tells the participant that boxes 3, 4, 5 and 6 are optional when the form marks all four (Required). Box 4 is the County Attorney's Office, which the guide's own disclosure table elsewhere calls 'the prosecuting authority the committed record requires you to serve'. A participant following this paragraph would treat service on the prosecuting authority, the county probation department and the county sheriff as discretionary."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 60 declared requiredBeforeFiling items were matched against participant-instructions.md by exact string on each disclosureLabel and all 60 appear verbatim, so nothing declared is omitted. Passing on the obligation's own terms.",
+          "observation": "One item's printed context names the wrong box, which is the DEFECTS_NO_COUNTER_CAN_SEE pattern 'an AcroForm index is not a printed row number' occurring at disclosure level rather than at ink level. The field mn_petition_609a02_subd3-certificate-of-service-2.service_county_attorney carries printedContext and disclosureLabel 'Service list box 8 - ______ County Attorney's Office (Prosecutor) name and address'. On the delivered page the County Attorney's Office is box 4 and is marked (Required); box 8 is the ______ City Attorney's Office (Prosecutor) and is marked (check box & use if related to your case). The sibling field service_city_attorney is ALSO labelled 'Service list box 8', so two different fields claim box 8 and box 4 is claimed by nothing and named nowhere in the guide under its printed number. Carried as the second limb of the SERVICE failure rather than scored here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical.pdf = 52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71, 1213693 bytes, 25 pages; boundary.pdf = 46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9, 1214100 bytes, 25 pages. Both recomputed by me and both agree with reports/rendered-artifacts.json and with the RASTER_QUEUE.json row carrying this family's RASTER_PASS. This is the largest receipt in my set and every page is accounted for."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Checked myself rather than taken from the manifest. The manifest declares EXP102 pages 1-6, EXP104 7-8, EXP105 9-12, EXP101 13-19, FEE102 20-25. I read the delivered footer of every one of the 25 pages and each states its own form and internal page number in unbroken order: 'EXP102 ... Page 1of 6' through 'Page 6of 6', 'EXP104 ... Page 1 of 2' and 'Page 2 of 2', 'EXP105 ... Page 1of 4' through '4of 4', 'EXP101 ... Page 1 of 7' through '7 of 7', 'FEE102 ... Page 1of 6' through '6of 6'. The delivered order matches the manifest exactly and matches component-index order."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The three item-9 options that are not subdivision 3 are declared not applicable on this route against a named condition, and I confirmed the condition on the paper: each of those options prints its own bracketed instruction directing the reader to EXP106 (subdivision 1 or 2) or EXP107 (inherent authority), neither of which is the order bound in this packet. The eight subdivision-3 clauses are left unticked because which one applies is a fact of the participant's record, and each of the eight is disclosed separately with the form's own wording and the registry's waiting period. Nothing route-determined is left unselected."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two row structures and this build writes into neither, so no row carries written cells beside required blank cells. EXP102 item 7's six-row criminal-record table is disclosed row by row, each row naming all six of its printed columns (Case #, County-State, Type of Charge, Conviction Yes/No, Date of Offense, Date of Conviction). EXP104's fifteen-box service list is disclosed for exactly the seven boxes that carry write-in blanks. I verified the disclosure's box numbers against the numbers printed beside the boxes on the delivered page: boxes 5, 6, 7, 13, 14 and 15 are correctly numbered; box 8 is not, and that mislabel is recorded under SERVICE."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide quotes the committed record's fee rule without inventing a figure - 'A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies' - and tells the participant to ask the district court administrator what it charges. FEE102 is bound and delivered as packet pages 20-25; FEE103 is correctly described as not in the packet and needed only if the court asks for further detail. The guide also notes FEE102 is marked CONFIDENTIAL on every page, which the delivered pages confirm - all six carry CONFIDENTIAL at y=740.8."
+        }
+      },
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "SERVICE",
+          "decisiveDefect": "participant-instructions.md states that three of EXP104's fifteen service boxes are marked (Required) and names them as the MN Bureau of Criminal Apprehension, the Office of the MN Attorney General and the MN Department of Human Services / Office of Inspector General, then says 'The rest are checked and completed only where they relate to your case'. On the delivered page SIX boxes are marked (Required) - 1 BCA, 2 MN Attorney General, 3 MN Dept. of Corrections, 4 County Attorney's Office, 5 County Dept. of Corrections (Probation), 6 County Sheriff's Office - and the MN Dept. of Human Services / Office of Inspector General is box 9, which is marked '(check box & use if related to your case)'.",
+          "whyItMatters": "The paragraph tells a participant that service on the prosecuting authority (box 4, the County Attorney's Office), on county probation (box 5) and on the county sheriff (box 6) is discretionary, when the court's own form marks all three Required. Under-service of the prosecuting authority is not a cosmetic error on a petition whose record states that the prosecuting authority and each agency holding records receive notice and may object.",
+          "secondLimb": "The blanks record and the guide both label the field service_county_attorney 'Service list box 8 - ______ County Attorney's Office (Prosecutor)'. The County Attorney's Office is box 4 on the form; box 8 is the ______ City Attorney's Office (Prosecutor). The sibling field service_city_attorney is also labelled 'Service list box 8', so two fields claim box 8 and box 4 is named nowhere under its printed number.",
+          "whereToLookFirst": "The source of both limbs is the same: the service-list box numbering in the builder's EXP104 map. Correcting the printed box numbers and the (Required) set should be done against the delivered page, reading each marker by its x-column and y-band, not against an ordinal index over the field list.",
+          "notRepairedHere": "This lane does not repair what it verifies. No file in the overlay directory and no build script was touched."
+        }
+      ],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "Not listed in familiesDeliveringACloneOfAnother, and no mn/ family appears in the record. This is the only Minnesota family in my set. Its 25-page shape is unlike any other family I read.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately against each listed defect. 'map-honest-writes-not': map and finalizer agree on all 21 writes, and item 2 (aliases) and item 5 (address history) - the exact two line kinds the WV defect was about - are left blank and disclosed. 'acroform-index-is-not-the-printed-row': PRESENT here in the disclosure layer, on EXP104's service list, and it is the second limb of the SERVICE failure. 'extracted-line-order-is-not-column-order': I read EXP104's three-column grid by x-position and mapped each printed box number to the marker beneath it; reading it as extracted lines is exactly what produces the wrong answer here. 'internal-record-text-printed-on-a-filing': cleared decisively by whole-page diff - the proposed order EXP105 received two caption values and nothing else, and no sentence of any controlling record reached any page. 'published-zero-where-a-measurement-existed': I did not accept the builder's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 and recomputed margins and collisions myself.",
+        "PAGE_TEXT_VS_PINNED_SOURCE": "I extracted the text of all five pinned sources and of all 25 delivered pages and diffed each delivered page against the source page the manifest maps it to. Exactly 21 lines are added across the whole packet and every one is a participant value on the page it belongs to. Not one printed word of any Minnesota Judicial Branch form was altered, dropped or reordered.",
+        "BUILDER_CLAIMS_I_RECHECKED": "The builder reported fixing a reference builder that sorted the participant's disclosure list alphabetically by field id, printing item 16 above item 10. I checked the delivered guide: the EXP102 list runs Caption, item 2, 5, 6, 7 rows 1-6, 8, 9 options c-j, 10, 11, 13, 16, declaration - correct numeric order, with item 16 last. FEE102 runs items 3, 4-5, 5, 6, 7, 8, 9, 10, 11-13, 14, and EXP104 runs boxes 5, 6, 7, 8, 8, 13, 14, 15. Under an alphabetical sort 'Item 10' would precede 'Item 2'; it does not. The fix is real and holds in the delivered file. The builder's report of the queue-versus-records strategy disagreement is also accurate and I confirmed both sides of it."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/canonical.pdf (all 25 pages, full text by position, geometry)",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/boundary.pdf (all 25 pages, overflow and collision measurement)",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/rendered-artifacts.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP101.pdf, EXP102_Current-2.pdf, EXP104_Current.pdf, EXP105_Current.pdf (hashed, page-counted, text extracted)",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf (same)",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (this family's raster row)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This FAIL is a measurement and a repair assignment. It promotes nothing, approves nothing, and settles no question of Minnesota law."
+    }
+  ]
+}
