@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "cee5c6d8b7af7352a925f6d3bf894df54ef2953e",
+  "generatedAtCommit": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5443,11 +5443,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF13",
+      "lane": "VF15",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF12 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at 8cda05196: fixtures byte-unchanged, thirteen of VF04's fourteen carried on that identity, SOURCE_IDENTITY re-established fresh, nine counters measured zero, and the single failure was the acceptance receipt claiming to cover the whole family while naming only canonical.pdf. Lane finished."
+      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at cc9c11cf0: fixtures byte-unchanged, fourteen obligations carried on that identity, nine counters zero, and the single failure was the queue's own rasterReceipt still claiming a coverage the row did not measure. Lane finished."
     },
     {
       "subjectType": "packet-family",
@@ -5474,9 +5474,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-09T01:19:16.058Z"
     },
     {
       "subjectType": "packet-family",
@@ -7425,8 +7426,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-07T18:09:39.384Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7471,8 +7472,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-07T18:09:39.154Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7517,8 +7518,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-07T18:09:39.268Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7578,8 +7579,8 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-07T18:09:39.497Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13700,7 +13701,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "db2ed7bef1c7bf485a5f683d4e8aa2806f972a9e9ad5b88042057c5c340be7c5",
+  "claimsDigest": "6ec0e973623a7b0e1a24d7722fb4916eac9c13e33b6612d0f4c77fc868a72bf6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32957,6 +32958,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T00:49:31.916Z",
       "reason": "VF12 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at 8cda05196: fixtures byte-unchanged, thirteen of VF04's fourteen carried on that identity, SOURCE_IDENTITY re-established fresh, nine counters measured zero, and the single failure was the acceptance receipt claiming to cover the whole family while naming only canonical.pdf. Lane finished."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T01:19:16.058Z",
+      "reason": "The ARTIFACTS repair VF13 required was performed by the Captain at 508723c5b: the queue's own rasterReceipt no longer claims a coverage the row did not measure, and the ingest tool that wrote the overclaim is corrected at source. No packet byte moved. The repair is complete and what is owed now is an independent read, not more repair."
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T01:20:09.657Z",
+      "reason": "VF13 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at cc9c11cf0: fixtures byte-unchanged, fourteen obligations carried on that identity, nine counters zero, and the single failure was the queue's own rasterReceipt still claiming a coverage the row did not measure. Lane finished."
     }
   ],
   "reissues": [
@@ -40693,6 +40712,46 @@
       "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
       "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
       "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-07T18:09:39.384Z",
+      "reissuedAt": "2026-09-09T01:18:55.854Z",
+      "reason": "FIX120 repaired this family against the 2026-09-07 independent review and central raster run 34297296663 accepted the new bytes, so an independent read is owed on bytes no prior verdict saw. Reissued to the lane the dispatch already names rather than minted on a new lane id, which would leave the dispatch unassertable."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-07T18:09:39.154Z",
+      "reissuedAt": "2026-09-09T01:18:55.959Z",
+      "reason": "FIX120 repaired this family against the 2026-09-07 independent review and central raster run 34297296663 accepted the new bytes, so an independent read is owed on bytes no prior verdict saw. Reissued to the lane the dispatch already names rather than minted on a new lane id, which would leave the dispatch unassertable."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-07T18:09:39.268Z",
+      "reissuedAt": "2026-09-09T01:18:56.060Z",
+      "reason": "FIX120 repaired this family against the 2026-09-07 independent review and central raster run 34297296663 accepted the new bytes, so an independent read is owed on bytes no prior verdict saw. Reissued to the lane the dispatch already names rather than minted on a new lane id, which would leave the dispatch unassertable."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-07T18:09:39.497Z",
+      "reissuedAt": "2026-09-09T01:18:56.162Z",
+      "reason": "FIX120 repaired this family against the 2026-09-07 independent review and central raster run 34297296663 accepted the new bytes, so an independent read is owed on bytes no prior verdict saw. Reissued to the lane the dispatch already names rather than minted on a new lane id, which would leave the dispatch unassertable."
     }
   ],
   "transfers": [
@@ -48868,6 +48927,17 @@
       "previouslyReleasedAt": "2026-09-09T00:49:31.916Z",
       "transferredAt": "2026-09-09T00:49:32.014Z",
       "reason": "The Captain corrected the receipt VF12 failed, directly at 8bb1b82f0, so VF12 cannot be the reader of its own finding's repair. VF13 reads bytes and records it did not touch."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF13",
+      "toLane": "VF15",
+      "previouslyReleasedAt": "2026-09-09T01:20:09.657Z",
+      "transferredAt": "2026-09-09T01:20:09.778Z",
+      "reason": "The Captain repaired what VF13 found, at 508723c5b, so VF13 cannot read its own finding's repair. VF15 is the third reader in this chain and each repair has been smaller than the last: stale records, then one receipt block, then the queue's copy of that receipt."
     }
   ],
   "grants": [
