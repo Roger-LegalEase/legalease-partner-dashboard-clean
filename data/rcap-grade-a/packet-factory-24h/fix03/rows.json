@@ -775,6 +775,159 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "lane": "FIX03",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
+      "base": "1d4b3f384",
+      "branch": "il-five-rebuild-20260909",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 il-cannabis-vacate-set -> CLAIM_OK FIX03 il-cannabis-vacate-set (repair, grant set 2c840336e7f0a24a), exit 0. The grant was NOT released and the claim ledger was NOT committed.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable. ok repo_identity il-five-rebuild-20260909 at 1d4b3f38; ok clone_is_complete; ok worktree_clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; ok private_is_git_ignored; ok master_library_mounted; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; ok corpus_matches_committed_index (24 sampled entries byte-exact; src05_worker_materialization_2026_09_02 not mounted here and not compared); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted (12 hashes, 6 families, 7 refused capabilities).",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family il-cannabis-vacate-set -> PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 6/6 source(s) bind by exact SHA-256 (custody_reconciliation); stale_artifact_block_consulted 0 artifact(s) under this family clear.",
+      "sourcesRehashedByMe": {
+        "count": 6,
+        "allExact": true,
+        "method": "I resolved every declared source through data/rcap-all50/local-source-corpus-index.json with the repository's own makeCorpusEntryResolver, read the bytes, computed sha256 myself and compared it to the digest the builder declares, then loaded each file with pdf-lib and read its page count and AcroForm field count and checked the %PDF header and %%EOF trailer. Every one matched. Across the five families 11 distinct sources were re-hashed; 8 of them resolve through custody nationwide_recovery_pool_2026_09_02 at private/source-imports/Nationwide_Recovery_Pool_2026-09-02, which is the custody FIX94 could not mount, so those 8 bound for the first time here.",
+        "custodyCaveat": "The recovery pool is a PARTIAL custody: 513 of 583 files, completeOperationalCorpus false. It held every byte these five families needed, and that is all it proves. It is not evidence that any corpus is complete.",
+        "sources": [
+          {
+            "documentId": "CXP Motion to Vacate and Expunge",
+            "path": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+            "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+            "byteLength": 227699,
+            "pages": 3,
+            "acroFields": 138,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "CXP Additional Cannabis Convictions",
+            "path": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+            "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+            "byteLength": 396270,
+            "pages": 2,
+            "acroFields": 109,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "CXP Getting Started Motion to Vacate and Expunge",
+            "path": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+            "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+            "byteLength": 150220,
+            "pages": 1,
+            "acroFields": 2,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "CXP Notice of Court Date for Motion",
+            "path": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+            "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+            "byteLength": 370872,
+            "pages": 2,
+            "acroFields": 53,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "CXP Additional Notice of Court Date",
+            "path": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+            "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+            "byteLength": 283605,
+            "pages": 1,
+            "acroFields": 55,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "CXP Order Granting or Denying Motion",
+            "path": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+            "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+            "byteLength": 332731,
+            "pages": 2,
+            "acroFields": 82,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          }
+        ]
+      },
+      "canonicalSha256": "9abcd6ace9091a29fcf808b7dec25d5974496316565f49a3ed0dda5593e1b943",
+      "boundarySha256": "b8b724c2e4b5837b6336b3eaaa4dcdaa3c17f07df6bdd6687dc0cbbeb7471799",
+      "priorDeliveredCanonicalSha256": "193f946a37e357f34e4453c30efaa00913026e972b7f02c1da2c620ac86544de",
+      "priorDeliveredBoundarySha256": "3782c17a6e8a069cb6d666cf92c885d646558e7235333929db1fa212edf41055",
+      "deliveredBytesChangedByThisRun": true,
+      "determinismTwoRuns": {
+        "runsExecuted": 2,
+        "byteIdentical": true,
+        "method": "The builder was run, the whole family directory copied aside, the builder run again, and the two trees compared with diff -r. No file differed.",
+        "note": "The builder stamps a fixed FIXED_DATE 2026-09-03T00:00:00.000Z into every PDF's creation and modification date rather than a wall clock, which is why the digests are stable under a hash-bound receipt."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+        "result": "PASS_COMPLETE",
+        "allNineReportedNotJustTheFirst": true,
+        "whatTheseCountersDoNotSee": "VF01 recorded this engine's blind spot for exactly these families and it still holds: the counters trust the declared fact-to-field mapping and the builder's own visualDefects flag. They read zero on this family before this lane ran and they read zero now, so they did not distinguish the repaired bytes from the faulted ones. Every finding in this row that matters came from looking at rastered pages, not from these nine numbers."
+      },
+      "pagesInspected": [
+        "The PAGE_ORDER repair was checked by rastering the first page of every component in the assembled canonical packet at 316-384 dpi and reading its printed title. Packet p1 MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS; p4 ADDITIONAL CANNABIS CONVICTIONS; p6 Getting Started; p7 NOTICE OF COURT DATE FOR MOTION TO VACATE & EXPUNGE ELIGIBLE CANNABIS CONVICTIONS; p9 ADDITIONAL NOTICE OF COURT DATE...; p10 ORDER GRANTING OR DENYING MOTION... That is the manifest's component order 1-6, not the alphabetic order the faulted packet carried, and it is 11 pages as declared.",
+        "The 'For Court Use Only' box on the Motion, the Additional Cannabis, the Notice, the Additional Notice and the Order is blank on every one of those pages. No court-owned caption is prefilled.",
+        "Cook renders as the county on each component's caption block, complete and unclipped."
+      ],
+      "rasterMethod": "Rastered at 307-384 dpi through scripts/raster/pdf-page-raster.mjs against the Chromium at PLAYWRIGHT_BROWSERS_PATH. No playwright install, no apt-get, no pdftoppm. Full-page render tops out at 287 dpi because the harness viewport is 2448x3168, so each page I ruled on was re-mediaboxed to the region of interest and rendered through the same calibrated path, which still measures paper bounds and calibration marks and refuses any mapping whose two estimates disagree by more than 1.5px -- it refused several of my crops and I moved the region or the magnification rather than lowering the tolerance. All rasters were written under /tmp and deleted; none was committed.",
+      "whatChanged": [
+        "The builder ran for the first time in this repository and produced bytes; all six CXP sources bound through the recovery pool for the first time.",
+        "The delivered canonical digest moved from 193f946a37e357f34e4453c30efaa00913026e972b7f02c1da2c620ac86544de to 9abcd6ace9091a29fcf808b7dec25d5974496316565f49a3ed0dda5593e1b943 and the boundary from 3782c17a6e8a069cb6d666cf92c885d646558e7235333929db1fa212edf41055 to b8b724c2e4b5837b6336b3eaaa4dcdaa3c17f07df6bdd6687dc0cbbeb7471799.",
+        "PAGE_ORDER is now correct in the delivered bytes and I confirmed it by reading the rendered page titles rather than the SOURCES array. The builder also re-derives that order from legal-design-packet-set-manifests.json at build time and asserts SOURCES matches, so a future reordering fails the build.",
+        "FEE_AND_WAIVER, SERVICE and REQUIRED_BEFORE_FILING now reach the delivered guides: participant-instructions.md and filing-instructions.md carry the controlling record's fee sentence including the $60 ISP order-processing charge, the Rule 298 waiver route, the clerk-service sentence under section 5.2(i)(3) with its express warning that the adult suite's clerk-service model does not carry over because the cannabis suite uses petitioner-completed Notice of Court Date forms, and the notice sentence naming the State's Attorney and the 60-day objection period.",
+        "62 writes and 360 classified blanks over 422 recorded fields, 266 of them declared REQUIRED_BEFORE_FILING; 11 pages per fixture."
+      ],
+      "whatThisRowDoesNotDischarge": [
+        "I read the guides for the record's own wording and I rastered the component boundaries, but I did not raster all 11 pages of both fixtures field by field. A page I did not look at, I do not vouch for.",
+        "266 REQUIRED_BEFORE_FILING refusals are declared and disclosed, not discharged -- including the ISP Access and Review statewide transcript, the case-number compare-and-correct step against it, and proof the sentence and conditions are complete. Naming an owed fact is not obtaining it.",
+        "The Notice of Court Date forms are petitioner-completed in this suite. The court date, the service the petitioner must perform and the hearing itself are participant and court acts this packet leaves entirely blank; no clerk act, fee, consent or judicial finding was fabricated.",
+        "This row is a builder's report on its own output and discharges no obligation. I ran these builders, so my verdict is not a verdict: an independent lane reading the committed bytes decides. The self-test in each builder passed, and a builder's self-test is the builder agreeing with itself. The nine counters read zero, and they read zero on the faulted bytes too."
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateMeans": "My raster is my own check, not central acceptance. Central raster acceptance has not run on these bytes.",
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "grantsNothing": "This row opens no route, promotes no status and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one.",
+      "builderSha256": "f61ce88f2253b30d5a60fb258a41ac1042964a030f4bb255a36dd43923fead58",
+      "builderSha256MatchesFix94Record": true,
+      "builderSelfTest": "node scripts/build-census-v1-il-cannabis-vacate-set.mjs --self-test -> 'il-cannabis-vacate-set self-test passed'.",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-cannabis-vacate:cannabis-specific-automatic-or-petition-expungement"
+      ],
+      "componentOrderDelivered": [
+        "CXP Motion to Vacate and Expunge",
+        "CXP Additional Cannabis Convictions",
+        "CXP Getting Started Motion to Vacate and Expunge",
+        "CXP Notice of Court Date for Motion",
+        "CXP Additional Notice of Court Date",
+        "CXP Order Granting or Denying Motion"
+      ],
+      "firstExecutionEver": true
     }
   ],
   "reportedNotRepaired": [

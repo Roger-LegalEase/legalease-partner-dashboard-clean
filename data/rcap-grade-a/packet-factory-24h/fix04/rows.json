@@ -519,6 +519,144 @@
       "factoryState": "BUILT_RASTER_PENDING",
       "commit": null,
       "commitNote": "No commit: this family needed no change. It is reported so the standing FAIL verdict is answered on the record rather than left open."
+    },
+    {
+      "itemId": "il-exp-nonconv-set",
+      "lane": "FIX04",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
+      "base": "1d4b3f384",
+      "branch": "il-five-rebuild-20260909",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 il-exp-nonconv-set -> CLAIM_OK FIX04 il-exp-nonconv-set (repair, grant set 2c840336e7f0a24a), exit 0. The grant was NOT released and the claim ledger was NOT committed.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable. ok repo_identity il-five-rebuild-20260909 at 1d4b3f38; ok clone_is_complete; ok worktree_clean; ok node_toolchain node 22.22.2; ok pdf_lib_importable pdf-lib 1.17.1; ok private_is_git_ignored; ok master_library_mounted; ok master_library_complete 501 files, 329 PDFs, 51 jurisdictions; ok corpus_matches_committed_index (24 sampled entries byte-exact; src05_worker_materialization_2026_09_02 not mounted here and not compared); ok master_library_not_at_operational_path; ok absent_is_not_empty; ok stale_artifact_block_consulted (12 hashes, 6 families, 7 refused capabilities).",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family il-exp-nonconv-set -> PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 5/5 source(s) bind by exact SHA-256 (custody_reconciliation); stale_artifact_block_consulted 0 artifact(s) under this family clear.",
+      "sourcesRehashedByMe": {
+        "count": 5,
+        "allExact": true,
+        "method": "I resolved every declared source through data/rcap-all50/local-source-corpus-index.json with the repository's own makeCorpusEntryResolver, read the bytes, computed sha256 myself and compared it to the digest the builder declares, then loaded each file with pdf-lib and read its page count and AcroForm field count and checked the %PDF header and %%EOF trailer. Every one matched. Across the five families 11 distinct sources were re-hashed; 8 of them resolve through custody nationwide_recovery_pool_2026_09_02 at private/source-imports/Nationwide_Recovery_Pool_2026-09-02, which is the custody FIX94 could not mount, so those 8 bound for the first time here.",
+        "custodyCaveat": "The recovery pool is a PARTIAL custody: 513 of 583 files, completeOperationalCorpus false. It held every byte these five families needed, and that is all it proves. It is not evidence that any corpus is complete.",
+        "sources": [
+          {
+            "documentId": "EXP-AD Request",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+            "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+            "byteLength": 1015247,
+            "pages": 6,
+            "acroFields": 151,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "EXP-AD Case List",
+            "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+            "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "byteLength": 744328,
+            "pages": 1,
+            "acroFields": 78,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "EXP-AD Additional Cases Expungement",
+            "path": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+            "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+            "byteLength": 821758,
+            "pages": 1,
+            "acroFields": 45,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "EXP-AD Order Granting",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+            "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+            "byteLength": 823679,
+            "pages": 2,
+            "acroFields": 74,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "FW-CIV-APPLICATION",
+            "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+            "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+            "byteLength": 1051549,
+            "pages": 4,
+            "acroFields": 121,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          }
+        ]
+      },
+      "canonicalSha256": "47b78db13ca551279a383f90af30ddbb159dcb03526869922d72db8ce55e3df2",
+      "boundarySha256": "295d3e0e254f95632d6002804f934e1810d985bf081b37ac0e3fb2b8016380f0",
+      "priorDeliveredCanonicalSha256": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba",
+      "priorDeliveredBoundarySha256": "eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5",
+      "deliveredBytesChangedByThisRun": true,
+      "determinismTwoRuns": {
+        "runsExecuted": 2,
+        "byteIdentical": true,
+        "method": "The builder was run, the whole family directory copied aside, the builder run again, and the two trees compared with diff -r. No file differed.",
+        "note": "The builder stamps a fixed FIXED_DATE 2026-09-03T00:00:00.000Z into every PDF's creation and modification date rather than a wall clock, which is why the digests are stable under a hash-bound receipt."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-nonconv-set",
+        "result": "PASS_COMPLETE",
+        "allNineReportedNotJustTheFirst": true,
+        "whatTheseCountersDoNotSee": "VF01 recorded this engine's blind spot for exactly these families and it still holds: the counters trust the declared fact-to-field mapping and the builder's own visualDefects flag. They read zero on this family before this lane ran and they read zero now, so they did not distinguish the repaired bytes from the faulted ones. Every finding in this row that matters came from looking at rastered pages, not from these nine numbers."
+      },
+      "pagesInspected": [
+        "canonical p1 Section 1 expunge election: Yes ticked, No clear -- one box, not both, so the two widgets of that single field carry distinct /Yes and /No states and check() reached only the intended one.",
+        "canonical p2 expungement case table rows 1-2 at 314 dpi: row 1 complete and correctly columned -- 2021-CF-004217 in Arrest or Case Number, Chicago Police Department in Arresting Agency, the CHARGE in the charge column, 03/12/2021, Dismissed. Row 2 wholly blank. The KNOWN_PREFILLS and REPEATING_ROWS repairs are visibly in effect.",
+        "boundary p2 rows 1-2 at 314 dpi: the long values are complete and wrapped, not sliced and not ellipsized -- 'Springfield Police Department Records Division', 'Complete charge exactly as printed on the certified disposition', 'Acquitted or dismissed as certified' all render in full. The CLIPPING_AND_OVERLAP repair holds at the boundary fixture.",
+        "canonical p4 Section 12 at 307 dpi: NEITHER Yes nor No ticked.",
+        "canonical p4 Section 13 sealing table rows 1-2 at 307 dpi: row 1 fully populated, row 2 wholly blank.",
+        "canonical p7 EXP-AD Case List first column at 384 dpi: the heading reads 'Arrest or Case Numbers of all Eligible Criminal Offenses on your...' over a grid of ruled lines; only the first line carries 2021-CF-004217 and every other line is blank. I also read the widget geometry from the source: arrest1..arrest14 all sit at x=53.1 and step down in y, and arrest15 starts a new column at x=153.5, so they are successive ROWS in one column and not five columns of one row. The repair's reading of that grid is the correct one.",
+        "source EXP-AD Request p6 signature block at 316 dpi, compared against the same region of the delivered packet: the '/s/' that appears on the signature rule is printed on the blank official form itself, not a builder write and not a field default -- I checked every text field in the source form and zero carry a source-authored default value. The signature field itself is blank in the delivered packet. No signature is fabricated."
+      ],
+      "rasterMethod": "Rastered at 307-384 dpi through scripts/raster/pdf-page-raster.mjs against the Chromium at PLAYWRIGHT_BROWSERS_PATH. No playwright install, no apt-get, no pdftoppm. Full-page render tops out at 287 dpi because the harness viewport is 2448x3168, so each page I ruled on was re-mediaboxed to the region of interest and rendered through the same calibrated path, which still measures paper bounds and calibration marks and refuses any mapping whose two estimates disagree by more than 1.5px -- it refused several of my crops and I moved the region or the magnification rather than lowering the tolerance. All rasters were written under /tmp and deleted; none was committed.",
+      "whatChanged": [
+        "The builder ran for the first time in this repository and produced bytes. Every artifact under the family directory is new: fixtures/canonical.pdf, fixtures/boundary.pdf, production-field-map.json, source-receipt.json, participant-instructions.md, filing-instructions.md, reports/actual-writes.json, reports/rendered-artifacts.json, reports/build-summary.json, approval-request.json.",
+        "The delivered canonical digest moved from be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba to 47b78db13ca551279a383f90af30ddbb159dcb03526869922d72db8ce55e3df2 and the boundary from eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5 to 295d3e0e254f95632d6002804f934e1810d985bf081b37ac0e3fb2b8016380f0. FIX94's five source repairs are now in the delivered bytes rather than only in the script.",
+        "51 writes and 418 classified blanks over 469 recorded fields, 113 of them declared REQUIRED_BEFORE_FILING; 14 pages per fixture. No blank is unclassified.",
+        "Confirmed by looking, not by counter: no charge cell carries a case number; unused Request rows and the whole Additional Cases continuation grid are wholly blank; the Case List carries one value; the five clerk-assigned '<n> - Case Number' captions are refused as court-owned; no held value is ellipsized."
+      ],
+      "whatThisRowDoesNotDischarge": [
+        "I read the form. Request page 4 is headed REQUEST TO SEAL CRIMINAL RECORDS and prints, in a ruled box directly under that heading: \"If you are only requesting to expunge cases, check the 'No' box in Section 12, skip to the bottom of the form and sign it.\" Section 12 then reads \"I am requesting to seal records.  [ ] Yes   [ ] No (If no, skip Sections 13 - 23.)\", and Section 13 is the sealing case table -- the fields these builders name with the \"4 - \" prefix. The \"section 4\" of FIX94's question is that table. In the AcroForm, \"12 - Seal Records\" is a SINGLE field carrying TWO widgets: a /Yes widget at x=81.0 and a /No widget at x=162.0. \"No\" is therefore electronically expressible, but pdf-lib's check() only ever sets a field to its on-value (/Yes), so on an expungement route the No box is unreachable and both boxes stay Off. WHAT THE DELIVERED PAGE SHOWS, rastered at 307 dpi and 384 dpi and looked at: Section 12 has NEITHER box ticked, and row 1 of the Section 13 sealing table is fully populated with the participant's case number, arresting agency, charge, arrest date and outcome. WHAT THE FORM REQUIRES OF THIS ROUTE: on its face, an expunge-only petitioner answers Section 12 \"No\" and skips Sections 13-23, which would leave the Section 13 table blank and the No box ticked. On that reading VF01's finding against il-exp-qualprob-set -- \"the inactive sealing table is populated\" -- reads correctly, and the mirrored treatment in il-seal-2yr-set and il-seal-3yr-set is the consistent one. WHAT REMAINS A JUDGEMENT, AND IS NOT MINE TO SETTLE: the form is a combined Request to Expunge AND/OR Seal, so a petitioner may genuinely be asking to expunge some cases and seal others on one Request, in which case Section 12 is \"Yes\" and a populated Section 13 row is right -- but then the route identity, the route summary and the participant instructions would have to say so, and here they do not. I am not deciding which remedy this route asks for. I am reporting that the state now delivered -- Section 12 unanswered while Section 13 is populated -- is not a state the form's printed instruction contemplates on any reading, and that this is a legal-design question for whoever holds the route, not a rendering bug I should have quietly picked a side on.",
+        "REQUIRED_BEFORE_FILING is declared, not discharged. 113 refusals are named as facts the participant still owes, and participant-instructions.md prints the controlling record's requiredBeforeFiling steps in the record's own words. Naming an owed fact is not obtaining it.",
+        "The 'I am completing this form for myself' checkbox is ticked by the builder as participant.self_represented. That is a participant assertion the platform is making on the fixture's behalf. It is declared, and it is consistent with a self-represented fixture, but it is a participant election and a reader should see it as one. No signature, notarization, consent, clerk act, fee or judicial finding was fabricated anywhere in this packet.",
+        "The route summary's expunge-versus-seal election is left to the participant, and this row does not decide it.",
+        "This row is a builder's report on its own output and discharges no obligation. I ran these builders, so my verdict is not a verdict: an independent lane reading the committed bytes decides. The self-test in each builder passed, and a builder's self-test is the builder agreeing with itself. The nine counters read zero, and they read zero on the faulted bytes too."
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateMeans": "My raster is my own check, not central acceptance. Central raster acceptance has not run on these bytes.",
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "grantsNothing": "This row opens no route, promotes no status and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one.",
+      "builderSha256": "3ddbe12a2554360df2438e1c78445305f5455291d6b1b4793035a1b37f4f2792",
+      "builderSha256MatchesFix94Record": true,
+      "builderSelfTest": "node scripts/build-census-v1-il-exp-nonconv-set.mjs --self-test -> 'il-exp-nonconv-set self-test passed'. A builder agreeing with itself; recorded, not relied on.",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-exp-nonconv:adult-non-conviction-expungement"
+      ],
+      "firstExecutionEver": true
     }
   ],
   "currentDispatchAppend": {
