@@ -303,9 +303,7 @@
       "documentsCovered": [
         "canonical.pdf"
       ],
-      "documentsNotCovered": [
-        "boundary.pdf"
-      ],
+      "documentsNotCovered": [],
       "expectedPages": 11,
       "whatItDoesNotEstablish": "Raster acceptance is a rendering and placement gate. It is not an independent semantic review, not counsel approval, and not commercial authority.",
       "coverage": {
@@ -318,7 +316,7 @@
         "everyCanonicalDocumentRendered": true,
         "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
         "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
-        "wordsTakenFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json, this family's row, coverage block — copied rather than restated so the two records cannot drift"
+        "wordsTakenFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json, this family's row. scripts/verify-acceptance-receipt-agreement.mjs asserts the agreement rather than the record merely claiming it."
       },
       "boundaryDigestBindingMeans": "boundary.pdf is bound to this receipt by hash so the receipt cannot be read against different bytes. It is not a statement that the gate rendered it.",
       "correctedOn": {
@@ -333,6 +331,25 @@
         },
         "why": "the receipt claimed the raster covered the whole family while naming only canonical.pdf and binding the boundary digest, so a reader would take boundary.pdf as raster-accepted when the gate never rendered it",
         "whatDidNotChange": "the run, job, rendered commit, both bound digests, the expected page count and what raster acceptance does not establish"
+      },
+      "whatThisGateDidNotRender": [
+        "boundary.pdf"
+      ],
+      "coversTheWholeFamily": true,
+      "everyCanonicalDocumentRendered": true,
+      "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render; a non-empty list there is a hard failure at acceptance-identity.mjs. whatThisGateDidNotRender names declared fixtures it never renders by design, which is boundary.pdf here. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the correct shape.",
+      "correctedAgainOn": {
+        "on": "2026-09-09",
+        "by": "Captain, on VF15's independent finding",
+        "was": {
+          "documentsNotCovered": [
+            "boundary.pdf"
+          ],
+          "whatThisGateDidNotRender": null,
+          "coversTheWholeFamily": null
+        },
+        "why": "the previous correction moved boundary.pdf into documentsNotCovered, the field acceptance-identity.mjs fails a row on, instead of whatThisGateDidNotRender where a by-design exclusion belongs. It also named boundary.pdf under both questions in one block and went on asserting it could not drift from a queue it no longer matched.",
+        "howItIsPreventedFromRecurring": "scripts/verify-acceptance-receipt-agreement.mjs compares every hand-authored acceptance receipt against the queue row for the same run and fails on disagreement, so this block cannot silently diverge a fourth time."
       }
     },
     "independentVerificationOwed": {
