@@ -559,6 +559,143 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ky_protective_order_record_expungement-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:KY:ky_protective_order_record_expungement"
+      ],
+      "jurisdiction": "KY",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+      "lane": "PF08",
+      "claim": "CLAIM_OK PF08 ky_protective_order_record_expungement-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set (read only)",
+      "countersResult": "PASS_COMPLETE",
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 8,
+        "PARTICIPANT_ELECTION_GENUINE": 3
+      },
+      "sourceRecovery": {
+        "previouslyReturned": "STOPPED / BLOCKED_SOURCE by an earlier lane because the bytes were not mounted in that container",
+        "nowMounted": true,
+        "digestUnchanged": true,
+        "hashedByThisLaneBeforeBinding": true,
+        "observedSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+        "observedByteLength": 192243,
+        "matchesCommittedIndex": true,
+        "acquisitionCommissioned": false
+      },
+      "officialForms": [
+        {
+          "formNumber": "AOC-275.18",
+          "pageCount": 1,
+          "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+          "acroFieldCount": 16,
+          "structuralClassObserved": "acroform"
+        }
+      ],
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:AOC-275.18"
+          ],
+          "pathInArchive": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+          "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+          "byteLength": 192243,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "boundBy": "exact_content_sha256",
+          "structuralClassObserved": "acroform",
+          "acroFieldCount": 16
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1",
+          "byteLength": 163760,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7",
+          "byteLength": 163784,
+          "pageCount": 1
+        }
+      ],
+      "totals": {
+        "terminalFields": 14,
+        "written": 3,
+        "blank": 11
+      },
+      "routeSelectionsMade": 0,
+      "requiredBeforeFiling": 8,
+      "boundaryOnlyRequiredBeforeFiling": [
+        {
+          "field": "Case  No",
+          "label": "Case No.",
+          "measuredWhy": "the widget the form draws is 111.16 points wide and this value cannot be printed inside it at the smallest size that stays readable"
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 38,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+          "deliveredChoiceValues": [],
+          "selectionsMarked": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 2,
+          "addedGlyphsReadFromOutputBytes": 63,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+          "deliveredChoiceValues": [],
+          "selectionsMarked": []
+        }
+      ],
+      "sourceCarriedDefaultHandled": {
+        "field": "Case.County",
+        "shippedValue": "000",
+        "optionCount": 121,
+        "isOneOfItsOwnOptions": false,
+        "reachedByTheSharedChooserPromptSuppression": false,
+        "whyNot": "the shared finalizer suppresses a chooser that ships showing its own prompt, decided by isChooserPrompt. Measured against this field's own option list, isChooserPrompt(\"000\", options) returns false: it is not punctuation, it does not begin with choose/select/pick, and it is not the list's first option. Only this build writing a real county over it displaces it, and the delivered bytes are asserted for that after both fixtures are produced."
+      },
+      "ownerDeterminationRequested": {
+        "question": "On this route, is the participant the PETITIONER or the RESPONDENT in the protective-order case?",
+        "whyItMatters": "It decides which of AOC-275.18's two caption blocks carries the participant's name. Until it is answered both blocks are carried to the participant, and the packet still builds.",
+        "blocksThisPacket": false
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }

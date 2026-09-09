@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "ky_protective_order_record_expungement-set",
+  "blocking": [],
+  "findingCount": 0,
+  "observations": [
+    "AOC-275.18 is an AcroForm. Every write box is the /Rect of the source's own widget and no coordinate is hand-entered.",
+    "The Case.County chooser ships selected on \"000\", which is not one of its own 121 options. The shared finalizer's chooser-prompt suppression does not reach it — isChooserPrompt(\"000\", options) is false — so the only thing that displaces it is this build writing a real county over it. The delivered bytes of both fixtures are re-read and asserted to carry no choice value outside its own option list, and the build stops rather than shipping 000 as ink. This is a gap in a shared module, reported to the Captain rather than edited from this lane.",
+    "All six caption name fields are carried to the participant. The form captions PETITIONER and RESPONDENT, the platform holds one person, and nothing in the committed record establishes which of the two blocks that person occupies. The free-text `movant` field IS written, because the form's own sentence is \"The movant, ____, seeks expungement\" and the movant is whoever files.",
+    "WHICH PARTY THE PARTICIPANT IS ON THIS ROUTE IS AN OWNER DETERMINATION. It is recorded here so a reviewer can answer it rather than discover it, and reports/caption-evidence.json carries the same finding beside the fields it decides.",
+    "No box is checked. Items 1, 2 and 3 are sworn allegations sitting directly above the movant's signature; screening establishes eligibility and a signature establishes an allegation, and item 3 asks about a protective-order history the platform does not hold.",
+    "The form's lower half carries no widgets at all — the signature line, the date line, the three address-and-telephone rules and the whole NOTIFICATION OF EXPUNGEMENT HEARING block. They are not terminal fields, they are not counted as such, and they are disclosed by their printed words in participant-instructions.md.",
+    "Print and Reset are push buttons. They are suppressed before the flatten and the delivered bytes are asserted to carry neither caption."
+  ],
+  "countyChooserShippedDefault": {
+    "field": "Case.County",
+    "shippedValue": "000",
+    "optionCount": 121,
+    "isOneOfItsOwnOptions": false,
+    "reachedByTheSharedChooserPromptSuppression": false,
+    "whyNot": "the shared finalizer suppresses a chooser that ships showing its own prompt, decided by isChooserPrompt. Measured against this field's own option list, isChooserPrompt(\"000\", options) returns false: it is not punctuation, it does not begin with choose/select/pick, and it is not the list's first option. Only this build writing a real county over it displaces it, and the delivered bytes are asserted for that after both fixtures are produced."
+  }
+}
