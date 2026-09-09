@@ -419,6 +419,81 @@ const priorByFamily = new Map([
   ...(previous.rows ?? []),
 ].map((r) => [r.familyId, r]));
 let carried = 0, invalidated = 0;
+/*
+ * THE RECEIPT MUST NOT CLAIM MORE COVERAGE THAN THE ROW MEASURED.
+ *
+ * coverageOf above already fixed this overclaim for the row: a receipt that
+ * said it covered the whole family while the gate rendered only the canonical
+ * document is how an orphan page in an Oklahoma boundary fixture and a split
+ * contact block in eleven North Dakota PDFs survived a green gate. The row now
+ * names what went unrendered.
+ *
+ * The RECEIPT never got the same treatment. It is ingested once and carried
+ * forward verbatim, so 141 live rows still carried `coversTheWholeFamily: true`
+ * beside `documentsNotCovered: []` and `whatThisGateDidNotRender: []` while the
+ * row beside them named boundary.pdf as unrendered. A verification lane found
+ * the two records contradicting each other on ms-nonconv-set and failed the
+ * family for it, which is the right outcome and would have recurred on any of
+ * the other 140 the moment someone read them side by side.
+ *
+ * So the carried receipt's coverage claims are re-derived from the row's own
+ * measured coverage on every generation. Nothing else in the receipt is
+ * touched: the run, the job, the rendered commit, the bound digests, the
+ * verdict and the canary precondition are the gate's own record and are carried
+ * exactly as ingested. The pre-reconciliation claim is kept beside it, because
+ * what a receipt once said is part of the record.
+ */
+const reconcileReceiptCoverage = (receipt, row) => {
+  const cov = row.coverage;
+  if (!receipt || !cov) return receipt;
+  const wasClaimed = {
+    coversTheWholeFamily: receipt.coversTheWholeFamily ?? null,
+    documentsCovered: receipt.documentsCovered ?? null,
+    documentsNotCovered: receipt.documentsNotCovered ?? null,
+    whatThisGateDidNotRender: receipt.whatThisGateDidNotRender ?? null,
+  };
+  /*
+   * coversTheWholeFamily STAYS, and is re-derived rather than deleted.
+   * generate-rcap-grade-a-fulfillment-authority.mjs requires it true before a
+   * family carries fulfillment authority, so removing it would fail that gate
+   * closed for every family — a far worse outcome than the ambiguity being
+   * fixed. Its honest value is the row's own `complete`: every canonical
+   * document rendered. What made it read as more than that was the empty
+   * documentsNotCovered beside it, and that is what changes here.
+   */
+  /*
+   * A frozen history row from before coverageOf learned to name unrendered
+   * fixtures has no notRenderedByThisGate key at all. Writing [] there would
+   * assert a measurement that row never made — the same overclaim in a new
+   * place — so the absence is named instead of filled in.
+   */
+  const measuredTheEdge = Object.hasOwn(cov, "notRenderedByThisGate");
+  const unrendered = measuredTheEdge ? (cov.notRenderedByThisGate ?? []) : null;
+  const reconciled = {
+    ...receipt,
+    coversTheWholeFamily: cov.complete === true,
+    everyCanonicalDocumentRendered: cov.complete === true,
+    documentsCovered: cov.rastered ?? receipt.documentsCovered ?? [],
+    ...(measuredTheEdge
+      ? { documentsNotCovered: unrendered, whatThisGateDidNotRender: unrendered, whatCompleteMeansHere: cov.whatCompleteMeansHere }
+      : {
+        documentsNotCovered: null,
+        whatThisGateDidNotRender: null,
+        whatCompleteMeansHere: "unknown for this row: it was frozen into history before the queue measured which declared fixtures a gate leaves unrendered, so an empty list here would be an assertion it never made. Read it as every canonical document rendered and the edge of the gate unrecorded.",
+      }),
+    coverageBasis: cov.basis,
+  };
+  const drifted = JSON.stringify(wasClaimed.documentsNotCovered) !== JSON.stringify(reconciled.documentsNotCovered)
+    || JSON.stringify(wasClaimed.whatThisGateDidNotRender) !== JSON.stringify(reconciled.whatThisGateDidNotRender)
+    || wasClaimed.coversTheWholeFamily !== reconciled.coversTheWholeFamily;
+  if (drifted) {
+    reconciled.coverageReconciledFromTheRow = {
+      why: "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run",
+      wasClaimed,
+    };
+  }
+  return reconciled;
+};
 const carryVerdict = (row) => {
   const prior = priorByFamily.get(row.familyId);
   if (!prior?.rasterReceipt) {
@@ -491,7 +566,7 @@ const carryVerdict = (row) => {
     ...row,
     currentRasterState: prior.currentRasterState,
     nextOwner: prior.nextOwner,
-    rasterReceipt: prior.rasterReceipt,
+    rasterReceipt: reconcileReceiptCoverage(prior.rasterReceipt, row),
     ...((prior.supersededReceipts ?? []).length ? { supersededReceipts: prior.supersededReceipts } : {}),
   };
 };
@@ -627,6 +702,14 @@ const historicalRasterRows = [...historicalByFamily.values()]
       historicalPacketCommitSha: historicalPacketCommitSha ?? packetCommitSha ?? null,
       historicalOnly: true,
       currentGateAuthority: false,
+      /* A row in history is still read — a verification lane read exactly this
+       * one on ms-nonconv-set and failed the family because the receipt here
+       * claimed a coverage the row beside it did not measure. Leaving history
+       * uncorrected would keep every such contradiction in place for the next
+       * reader, so the same reconciliation the live rows get is applied here.
+       * The row's own measured coverage travels with it into history, so this
+       * needs nothing the record does not already hold. */
+      ...(evidence.rasterReceipt ? { rasterReceipt: reconcileReceiptCoverage(evidence.rasterReceipt, evidence) } : {}),
       currentIneligibility: currentIneligibility.get(r.familyId) ?? ["not present in the current live raster matrix"],
     };
   })
