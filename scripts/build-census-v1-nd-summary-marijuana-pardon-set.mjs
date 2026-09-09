@@ -71,7 +71,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { finalizeOfficialForm, NonFilingHoldError } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
@@ -849,6 +849,65 @@ export async function runFamily(argv = process.argv.slice(2)) {
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "raster"), { recursive: true });
 
+  /*
+   * THE RECEIPT AND THE CENSUS ARE WRITTEN BEFORE ANY FIXTURE IS RENDERED.
+   *
+   * They are measurements of the source, not results of the fill: the receipt
+   * records what bound and by which digest, and the census records the widget
+   * geometry and the per-field policy. Neither reads a render report. Writing
+   * them first means a build that stops at the fill still leaves the evidence
+   * behind, so a later lane inherits the measurement instead of repeating it.
+   * Nothing here asserts a packet was produced; the fixtures and the field map
+   * are the only artifacts that claim that, and they are written below.
+   */
+  writeJson(`${OUT}/source-receipt.json`, {
+    schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
+    jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
+    custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
+    corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
+    bindingMethod: "the committed corpus index's own form number, then exact SHA-256 against the bytes on disk, over every indexed path in deterministic order",
+    whyNotByTheQueuesFormNumber:
+      "MASTER_QUEUE names this source `official-form:SFN-61663`, the number printed on the paper. The committed corpus "
+      + "index files the same binary under the slug ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA and classes it "
+      + "SUPPORT rather than FORM, because it is an application to an agency rather than a court form. Matching the "
+      + "queue's number against the index finds nothing while the binary sits there byte-exact. Both identifiers are "
+      + "recorded below so the two names are never read as two documents.",
+    routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
+    allSourcesExact: true,
+    documents: resolved.map((r) => ({
+      sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
+      pathInArchive: r.pathInArchive, boundFromCustody: r.boundFromCustody, custody: r.custody,
+      sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
+    })),
+    sourceBinaryCommitted: false, commercialRoutesOpened: 0
+  });
+
+  writeJson(`${OUT}/field-census.census-v1.json`, {
+    schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
+    captionBasis:
+      "The printed caption read from this form's own text stream at each widget's coordinate, corroborated by the "
+      + "field names the Department of Corrections authored, which are the printed captions verbatim — `Applicant "
+      + "Name`, `Social Security Number`, `Home Telephone Number`, `List of Former Names or Aliases`. Text extraction "
+      + "on this form is clean, so the caption claim is evidence rather than an assumption.",
+    documents: censuses.map(({ source, census }) => ({
+      documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
+      captionsExtractCleanly: source.captionsExtractCleanly === true,
+      pageCount: census.pageCount, fieldCount: census.rows.length,
+      corpusIndexDeclaresFieldCount: source.acroFieldCount,
+      widgetsCarryingTheHiddenFlag: census.rows.filter((r) => r.hiddenUntilTheFormRevealsIt).length,
+      fields: census.rows.map((r) => ({
+        field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, pdfType: r.type,
+        annotationFlags: r.widgets.map((w) => w.annotationFlags),
+        hiddenUntilTheFormRevealsIt: r.hiddenUntilTheFormRevealsIt === true,
+        isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
+        section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
+        sourceValue: r.sourceValue,
+        printedTextAtCoordinate: r.printedTextAtCoordinate
+      }))
+    }))
+  });
+
+
   const sourceInkByForm = new Map();
   for (const { source } of censuses) sourceInkByForm.set(source.formNumber, await sourceInkOf(source));
 
@@ -857,6 +916,43 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rasterPages = [];
   const maps = [];
 
+  /*
+   * THE FILL IS GUARDED BY THE SOURCE'S OWN NOTICE, AND THE GUARD IS NOT MINE
+   * TO OVERRULE.
+   *
+   * finalizeOfficialForm refuses to write onto a document whose printed text
+   * says the document is not the one you file. SFN 61663 trips that refusal on
+   * the footer sentence "This is provided for informational purposes only and
+   * not for the purpose of providing legal advice."
+   *
+   * That sentence is a legal-advice disclaimer attached to the two advisory
+   * notes printed above it -- Open Record Notice, and Effect of Pardon with
+   * Removal of Guilt. It is not the form describing itself as a reference copy.
+   * The same page prints "If you fail to complete this application in full,
+   * including the needed attachments, it will be returned to you", gives three
+   * submission channels, carries a Signature of Applicant widget, and is the
+   * form prescribed under N.D.C.C. 12-55-1.06. The repo's own earlier and
+   * narrower detector agrees: NON_FILING_PATTERNS in rcap-non-filing-notice.mjs
+   * anchors on "THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY" -- a claim whose
+   * subject is the form -- and returns false on this footer while still
+   * matching the North Carolina notice it was written for.
+   *
+   * So this is very probably a false positive in rcap-source-notice.mjs, whose
+   * pattern list dropped that subject anchor to a bare substring. It is still
+   * not this lane's call. That detector is shared by every official_pdf_fill
+   * family and is outside the paths this build owns, and the two ways a build
+   * lane could get past it from in here -- editing the detector, or passing the
+   * finalizer a trimmed documentTextLines -- are respectively somebody else's
+   * decision and a lie to a safety gate. Filling the form by withholding the
+   * sentence that stopped the fill is exactly the defect this factory exists to
+   * catch.
+   *
+   * The hold is therefore recorded as a finding, with the evidence a reviewer
+   * needs to adjudicate it, and NO fixture is written. The receipt and the
+   * census above are already on disk and stay: they measure the source and
+   * claim nothing about a packet.
+   */
+  try {
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
@@ -917,57 +1013,66 @@ export async function runFamily(argv = process.argv.slice(2)) {
       });
     }
   }
+  } catch (error) {
+    if (!(error instanceof NonFilingHoldError)) throw error;
+    writeJson(`${OUT}/build-findings.json`, {
+      schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID,
+      status: "BLOCKED_NON_FILING_HOLD",
+      buildStatus: "official_forms_ingested",
+      packetRendered: false, fixturesWritten: 0, commercialRoutesOpened: 0,
+      approvalRequested: false, promotionRequested: false,
+      finding: {
+        what: "finalizeOfficialForm refused to fill SFN-61663: the source's printed text matched a non-filing notice pattern.",
+        matchedText: error.notice ?? String(error.message ?? ""),
+        matchedBy: "scripts/rcap-official-forms/rcap-source-notice.mjs NON_FILING_NOTICE_PATTERNS id=informational_purposes_only",
+        printedWhere: "SFN 61663 page 1 footer, below the Open Record Notice and the Effect of Pardon with Removal of Guilt paragraphs.",
+        assessment: "Probable false positive. The matched sentence disclaims legal advice about the advisory notes above it; it does not say the form is a reference copy.",
+        evidenceThatThisIsTheFilingCopy: [
+          "Prescribed state form number SFN 61663 (02-2020); N.D.C.C. 12-55-1.06 requires the application be made on a form prescribed by the pardon clerk.",
+          "Printed instruction: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you.'",
+          "Printed submission channels: fax 701-328-6780, P.O. Box 1898 Bismarck ND 58502-1898, pardonclerk@nd.gov.",
+          "36 AcroForm widgets including 'Signature of Applicant'.",
+          "No 'sample', 'specimen', 'draft' or 'do not file' text anywhere in the document."
+        ],
+        corroboratingDetector: "NON_FILING_PATTERNS in scripts/rcap-official-forms/rcap-non-filing-notice.mjs is subject-anchored on 'THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY' and returns false on this footer, while still matching the North Carolina translation notice it was written for.",
+        whyThisLaneDidNotProceed: "The detector is shared by every official_pdf_fill family and lies outside this build's assigned paths. Editing it is another lane's decision, and trimming documentTextLines to dodge the hold would be withholding evidence from a safety gate.",
+        ownedBy: "the lane that owns scripts/rcap-official-forms/rcap-source-notice.mjs",
+        suggestedRemedy: "Restore the subject anchor on the informational_purposes_only pattern so it matches a document describing itself, not a legal-advice disclaimer. Re-run this builder unchanged afterwards; the census is already clean at 36/36 fields."
+      },
+      censusIsComplete: true,
+      censusSummary: censuses.map(({ source, census }) => ({
+        formNumber: source.formNumber, sha256: source.sha256,
+        pages: census.pageCount, fields: census.rows.length,
+        writes: census.rows.filter((r) => r.policy === "write").length,
+        supply: census.rows.filter((r) => r.policy === "supply").length,
+        elections: census.rows.filter((r) => r.policy === "election").length,
+        protected: census.rows.filter((r) => r.policy === "protect").length,
+        unmapped: census.unmapped.length, staleDictionaryEntries: census.stale.length
+      })),
+      whatThisDoesNotClaim: [
+        "No packet was produced. No fixture, no field map, no participant instructions were written.",
+        "No verification was performed and none is asserted. This lane does not verify its own work.",
+        "No promotion, approval or route change is requested, and none is authorized by this file.",
+        "The family's terminal state is not set here."
+      ]
+    });
+    for (const empty of [`${OUT}/fixtures`, `${OUT}/raster`, `${OUT}/reports`]) {
+      const dir = path.join(ROOT, empty);
+      if (fs.existsSync(dir) && fs.readdirSync(dir).length === 0) fs.rmdirSync(dir);
+    }
+    return {
+      familyId: FAMILY_ID, status: "BLOCKED_NON_FILING_HOLD",
+      why: "the source's printed text tripped the shared non-filing notice gate; no fixture was rendered",
+      matchedText: error.notice ?? String(error.message ?? ""),
+      directory: OUT, overlayDirectoryTouched: true,
+      receiptAndCensusWritten: true, fixturesWritten: 0,
+      findings: `${OUT}/build-findings.json`
+    };
+  }
 
   const rbf = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbf);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
-
-  writeJson(`${OUT}/source-receipt.json`, {
-    schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
-    jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
-    custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
-    corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
-    bindingMethod: "the committed corpus index's own form number, then exact SHA-256 against the bytes on disk, over every indexed path in deterministic order",
-    whyNotByTheQueuesFormNumber:
-      "MASTER_QUEUE names this source `official-form:SFN-61663`, the number printed on the paper. The committed corpus "
-      + "index files the same binary under the slug ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA and classes it "
-      + "SUPPORT rather than FORM, because it is an application to an agency rather than a court form. Matching the "
-      + "queue's number against the index finds nothing while the binary sits there byte-exact. Both identifiers are "
-      + "recorded below so the two names are never read as two documents.",
-    routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
-    allSourcesExact: true,
-    documents: resolved.map((r) => ({
-      sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
-      pathInArchive: r.pathInArchive, boundFromCustody: r.boundFromCustody, custody: r.custody,
-      sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
-    })),
-    sourceBinaryCommitted: false, commercialRoutesOpened: 0
-  });
-
-  writeJson(`${OUT}/field-census.census-v1.json`, {
-    schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
-    captionBasis:
-      "The printed caption read from this form's own text stream at each widget's coordinate, corroborated by the "
-      + "field names the Department of Corrections authored, which are the printed captions verbatim — `Applicant "
-      + "Name`, `Social Security Number`, `Home Telephone Number`, `List of Former Names or Aliases`. Text extraction "
-      + "on this form is clean, so the caption claim is evidence rather than an assumption.",
-    documents: censuses.map(({ source, census }) => ({
-      documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
-      captionsExtractCleanly: source.captionsExtractCleanly === true,
-      pageCount: census.pageCount, fieldCount: census.rows.length,
-      corpusIndexDeclaresFieldCount: source.acroFieldCount,
-      widgetsCarryingTheHiddenFlag: census.rows.filter((r) => r.hiddenUntilTheFormRevealsIt).length,
-      fields: census.rows.map((r) => ({
-        field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, pdfType: r.type,
-        annotationFlags: r.widgets.map((w) => w.annotationFlags),
-        hiddenUntilTheFormRevealsIt: r.hiddenUntilTheFormRevealsIt === true,
-        isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
-        section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
-        sourceValue: r.sourceValue,
-        printedTextAtCoordinate: r.printedTextAtCoordinate
-      }))
-    }))
-  });
 
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
@@ -1258,6 +1363,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
   runFamily()
-    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .then((r) => {
+      console.log(JSON.stringify(r, null, 2));
+      /*
+       * A build that did not build exits non-zero.
+       *
+       * Both blocked paths -- a source that will not bind, and the source's own
+       * non-filing notice -- returned their status object and then exited 0,
+       * which reads to any sweep, wrapper or CI step as a completed build. The
+       * status is in the JSON, but nothing downstream is obliged to parse the
+       * JSON, and a green exit code from a build that produced no fixture is the
+       * kind of success message this factory is told never to report from.
+       */
+      const built = r.status === "COMPLETED" || r.status === "CHECK_ONLY";
+      if (!built) process.exit(2);
+    })
     .catch((e) => { console.error(e); process.exit(1); });
 }

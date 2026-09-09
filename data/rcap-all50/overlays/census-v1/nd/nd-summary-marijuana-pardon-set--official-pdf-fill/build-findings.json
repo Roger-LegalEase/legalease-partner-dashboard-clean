@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nd-summary-marijuana-pardon-set",
+  "status": "BLOCKED_NON_FILING_HOLD",
+  "buildStatus": "official_forms_ingested",
+  "packetRendered": false,
+  "fixturesWritten": 0,
+  "commercialRoutesOpened": 0,
+  "approvalRequested": false,
+  "promotionRequested": false,
+  "finding": {
+    "what": "finalizeOfficialForm refused to fill SFN-61663: the source's printed text matched a non-filing notice pattern.",
+    "matchedText": "This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to",
+    "matchedBy": "scripts/rcap-official-forms/rcap-source-notice.mjs NON_FILING_NOTICE_PATTERNS id=informational_purposes_only",
+    "printedWhere": "SFN 61663 page 1 footer, below the Open Record Notice and the Effect of Pardon with Removal of Guilt paragraphs.",
+    "assessment": "Probable false positive. The matched sentence disclaims legal advice about the advisory notes above it; it does not say the form is a reference copy.",
+    "evidenceThatThisIsTheFilingCopy": [
+      "Prescribed state form number SFN 61663 (02-2020); N.D.C.C. 12-55-1.06 requires the application be made on a form prescribed by the pardon clerk.",
+      "Printed instruction: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you.'",
+      "Printed submission channels: fax 701-328-6780, P.O. Box 1898 Bismarck ND 58502-1898, pardonclerk@nd.gov.",
+      "36 AcroForm widgets including 'Signature of Applicant'.",
+      "No 'sample', 'specimen', 'draft' or 'do not file' text anywhere in the document."
+    ],
+    "corroboratingDetector": "NON_FILING_PATTERNS in scripts/rcap-official-forms/rcap-non-filing-notice.mjs is subject-anchored on 'THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY' and returns false on this footer, while still matching the North Carolina translation notice it was written for.",
+    "whyThisLaneDidNotProceed": "The detector is shared by every official_pdf_fill family and lies outside this build's assigned paths. Editing it is another lane's decision, and trimming documentTextLines to dodge the hold would be withholding evidence from a safety gate.",
+    "ownedBy": "the lane that owns scripts/rcap-official-forms/rcap-source-notice.mjs",
+    "suggestedRemedy": "Restore the subject anchor on the informational_purposes_only pattern so it matches a document describing itself, not a legal-advice disclaimer. Re-run this builder unchanged afterwards; the census is already clean at 36/36 fields."
+  },
+  "censusIsComplete": true,
+  "censusSummary": [
+    {
+      "formNumber": "SFN-61663",
+      "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+      "pages": 2,
+      "fields": 36,
+      "writes": 6,
+      "supply": 26,
+      "elections": 2,
+      "protected": 2,
+      "unmapped": 0,
+      "staleDictionaryEntries": 0
+    }
+  ],
+  "whatThisDoesNotClaim": [
+    "No packet was produced. No fixture, no field map, no participant instructions were written.",
+    "No verification was performed and none is asserted. This lane does not verify its own work.",
+    "No promotion, approval or route change is requested, and none is authorized by this file.",
+    "The family's terminal state is not set here."
+  ]
+}
