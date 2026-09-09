@@ -26,6 +26,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { hostAllowed, ALLOWED_HOST_SUFFIXES, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "../lib/official-host-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -34,19 +35,38 @@ const CHECK = process.argv.includes("--check");
 const OUT = "data/rcap-grade-a/packet-factory-24h/SOURCE_URL_PROMOTION_CANDIDATES.json";
 const MASTER = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const MANIFEST = "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json";
-const ACQUIRE = "scripts/rcap-acquire-official-source.mjs";
+const POLICY = "scripts/lib/official-host-policy.mjs";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const master = read(MASTER);
 const manifest = read(MANIFEST);
 const alreadyQueued = new Set(manifest.entries.map((e) => e.officialUrl));
 
-/* The host policy, read from its one authority. */
-const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE), "utf8");
-const suffixes = [...(/const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText)?.[1] ?? "").matchAll(/"([^"]+)"/g)].map((m) => m[1]);
-const exact = new Set([...(/const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText)?.[1] ?? "").matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]));
-const refused = new Set([...(/const REFUSED_HOSTS = new Set\(\[([\s\S]*?)\]\);/.exec(acquireText)?.[1] ?? "").matchAll(/"([^"]+)"/g)].map((m) => m[1]));
-const hostAllowed = (h) => exact.has(h) || suffixes.some((s) => h === s.replace(/^\./, "") || h.endsWith(s));
+/*
+ * The host policy, IMPORTED from its one authority rather than scraped out of
+ * another script's source text.
+ *
+ * It used to be scraped: three regexes over rcap-acquire-official-source.mjs,
+ * pulling ALLOWED_HOST_SUFFIXES, ALLOWED_EXACT_HOSTS and REFUSED_HOSTS out of
+ * that file's characters. When those constants moved into
+ * scripts/lib/official-host-policy.mjs the regexes stopped matching, and every
+ * one of the three came back EMPTY. hostAllowed then answered false for every
+ * host in the world — www.txcourts.gov included, a host already carried in the
+ * manifest — so this generator refused 210 of the 242 URLs the repository holds
+ * and produced zero promotion candidates while reporting itself green.
+ *
+ * The empty REFUSED_HOSTS is the sharper half. The failure happened to fail
+ * closed, but it disarmed the reseller list at the same time: had any suffix
+ * survived the scrape, www.uslegalforms.com would have passed.
+ *
+ * The policy module's own header names this exact hazard — "a policy expressed
+ * once as data and once as a regex over source code is a policy that can
+ * silently disagree with itself" — and this consumer is the one that was never
+ * migrated.
+ */
+const suffixes = ALLOWED_HOST_SUFFIXES;
+const exact = new Set(ALLOWED_EXACT_HOSTS.keys());
+const refused = new Set(REFUSED_HOSTS);
 
 const EVIDENCE_ROOTS = ["data/rcap-all50", "data/rcap-grade-a", "data/record-clearing"];
 const CANDIDATE_MARKER = /route-obligation-census-candidate|-candidate\.json$|\/candidate/i;
@@ -170,7 +190,7 @@ const doc = {
   answer: `${candidates.length} corroborated official URLs on allowlisted government hosts that are not queued, against a manifest of ${manifest.entries.length}.`,
   whyTheseAreNotManifestEntries: "The URLs sit in prose beside their titles. A regex can pair them correctly and can also pair them wrongly two sentences later, and a mis-paired entry does not fail loudly — it fetches a real PDF from a real court and files a receipt binding those bytes to a form number they do not belong to. Ranking, corroboration and the host check are mechanical. Whether this URL is that form is not, and a DISC lane confirms it before anything is queued.",
   corroborationRule: `At least ${CORROBORATION_THRESHOLD} distinct NON-CANDIDATE committed files must carry the URL. A URL in one file is a guess with a filename, and candidate records do not count toward corroboration at all.`,
-  hostPolicyAuthority: ACQUIRE,
+  hostPolicyAuthority: POLICY,
   counts: {
     distinctUrlsSeen: seen.size,
     alreadyInManifest: manifest.entries.length,
