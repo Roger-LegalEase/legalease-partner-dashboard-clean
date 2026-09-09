@@ -11751,6 +11751,135 @@
    "whyBlockedNotPass": "Everything this lane can settle from the record passes, and AL6-01 and AL6-02 are genuinely gone. AL6-03 remains: the same printed caption box is prefilled on nine pages and blank on two, and which case number that box means is established nowhere in AL.memo.json. Deciding it would be authoring an Alabama legal conclusion, which this lane does not do, so the family blocks rather than passes.",
    "whatWouldUnblockIt": "A legal-design answer in AL.memo.json stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing. Either answer makes the remaining defect mechanical and repairable.",
    "observedNotScored": "Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure."
+  },
+  {
+   "worker": "ADM",
+   "verifiedAtBase": "7f386ab54",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "packetsModified": 0,
+   "overlayDirectoriesModified": 0,
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "verify-packet-completeness.mjs run here for the counters, then each one re-derived: the five writes located in the delivered bytes, the response lines confirmed empty, every page rasterised and read, and every pinned composition source recomputed.",
+    "whyRequiredComponentsMissingIsZeroAndNotOne": "The counter measures the component set the field map DECLARES against what is present, and the single declared component (agency_preparation_guide) is present in both fixtures. The route-contract gap below is a different question - whether a guide is the deliverable this route owes - and it is carried in COMPONENT_SET's finding rather than forced into a counter that does not mean that."
+   },
+   "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+   "lane": "VF05",
+   "verdict": "PRODUCT_PATH_PENDING",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+   "tracks": [
+    "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+   ],
+   "claim": {
+    "asserted": false,
+    "assertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF05 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+    "result": "ALREADY_RELEASED: at 2026-09-04T16:25:56.033Z",
+    "detail": "The VF05 independent-verification grant on this subject was released on 2026-09-04 when vf05 returned PRODUCT_PATH_PENDING. Re-opening it is --reissue, which is a dispatch act, so I did not: the Captain owns the ledger. This second read is read-only and wrote no packet byte."
+   },
+   "whichDirectoryIsTheDeliverable": "Two directories exist for this family. The current deliverable is data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill: it carries fixtures/, production-field-map.json, product-wiring.json and four reports, and was last committed 2026-09-09 (8f4cea65e, the commit that ingested the raster). A pre-namespacing directory ct-absolute-pardon--agency-application also exists, has no fixtures at all, no field map and no product wiring, and was last committed 2026-09-02 (5deb0a43f). Only the current directory can be the deliverable: it is the only one that carries bytes, and it is the one the RASTER_QUEUE receipt and the recorded vf05 row both name by path.",
+   "doTheRecordedFailuresHold": "Partly. vf05 held this family on three non-PASS obligations. The one my dispatch asked about, CLIPPING_AND_OVERLAP FAIL on the ground that 'the exact current hashes have no governed raster receipt: RASTER_QUEUE records RASTER_PENDING and nextOwner RAS02', is superseded: data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json now carries currentRasterState RASTER_PASS for this family with a rasterReceipt bound to boundToCanonicalSha256 26cfafce... and boundToBoundarySha256 e078c042..., ingested 2026-09-09T03:21:13.432Z from job 102321966409 with conclusion success, at renderedCommitSha 71cac8fc and packetCommitSha 7fc59895. I recomputed both fixture digests from disk and they are exactly those two values, so the receipt binds the exact current bytes and not an ancestor. The other two grounds - ROUTE_IDENTITY and COMPONENT_SET PRODUCT_PATH_PENDING, that the deliverable type does not satisfy the route's participant_agency_application contract and that the guide expressly disclaims being the application - were never about the raster receipt or the pins, and they hold unchanged against these bytes. The verdict therefore stays PRODUCT_PATH_PENDING, on two grounds instead of three.",
+   "whatThisGateDidNotRender": [
+    "The governed raster gate rendered canonical.pdf only. Its own coverage block records boundary.pdf under notRenderedByThisGate, and its receipt says the PNG receipts were not read in the session that ingested them because the artifact download redirects to blob storage the egress proxy denies. I rendered both fixtures here with pdftoppm and read every page, which is local evidence and does not substitute for the governed gate."
+   ],
+   "documentsNotCovered": [],
+   "documentsNotCoveredNote": "The family ships one assembled canonical packet and the gate rendered it, so no canonical document of this family is uncovered. boundary.pdf being unrendered by the central gate is a rendering-scope fact, recorded above, not a missed canonical document.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PRODUCT_PATH_PENDING",
+     "finding": "The guide prints the exact route key and describes the right pathway, including the on-or-after-October 1, 1974 erasure branch under C.G.S. Sec. 54-142a(d) and its separation from the earlier Superior Court petition branch. The route-obligation census pinned by this very packet (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, f6fc0814..., which the receipt hashes and which recomputes equal here) records currentOutputStrategy 'participant_agency_application' for this route and a participantFacingInstrument that is an application or written request, not a guide. The delivered artifact is an agency_preparation_guide headed 'NOT AN OFFICIAL FORM AND NOT A COURT FILING' which states 'this guide is not a substitute' for the Board's own ePardon application. A guide cannot replace an owed application. This is the ground vf05 recorded and it is unchanged."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Every pinned composition source in the current directory's source-receipt.json recomputes byte-exact here: CT.memo.json 90d96d9d..., route-obligation-candidate.json f6fc0814..., completed-output-counsel-manifest.json fbf9bfef..., ct-application-instructions.html.gz e4a00f1b..., ct-pardon-faq.html.gz c2038ec7... - 5 of 5. This is the obligation the recorded failure turned on, and it no longer holds. The recorded failure named data/rcap-ledger/completed-output-counsel-manifest.json pinned at 99e80291.../321161 bytes against an actual fbf9bfef.../321306. That 99e80291 digest is not in the current directory at all - it is what the pre-namespacing ct-absolute-pardon--agency-application directory still pins - and the current receipt carries a dated identityRefresh block for the move (2026-09-05), recording that the ledger was rewritten around this anchor by an unrelated Virginia route-mapping commit, that it holds 57 family rows before and after, and that the only Connecticut row in it is byte-identical. route-obligation-candidate.json carries a second identityRefresh (2026-09-08) from 9816a479... to f6fc0814..., recording that the exact full CT route object hashes identically across the drift. Both pins now recompute equal. Superseded."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PRODUCT_PATH_PENDING",
+     "finding": "The single declared component, agency_preparation_guide, is present and complete in both fixtures and CT.memo.json names exactly one component for this track, role process_guidance, requirement required. Against the census route contract the owed instrument, a participant-signed absolute-pardon application submitted through the Board's portal, is absent and the guide says it cannot be generated. Unchanged from vf05."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Five values are written, and they are exactly the five the participant-instructions declare: full legal name, date of birth, mailing address, telephone and email. reports/actual-writes.json reports 5 for both fixtures with zero non-whitespace glyphs outside the measured write boxes and zero refused fields carrying ink, and the rasterised identity block matches."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The guide prints 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs' and 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.' Read from the bytes, that is true: the only ink beyond the composed body text is the five-fact identity block, and every response line is an empty dotted rule."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures rasterised in full at 110 dpi and read. Both fixtures are two pages and the break falls between the erasure-consequence section and the 'FACTS YOU MUST CONFIRM BEFORE ACTING' heading. Every 'label / dotted response line / Check with:' triple is intact on one page; no label is orphaned from its response line across a page break, and each page break falls at a section boundary. This is the obligation the destruction-request failure turned on - an avoidable split that put a label at the foot of one page and its dotted line and 'Check with' on the next - and it is not in these bytes."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All three of the memo's selfHelpStopConditions are carried: 'Stop for counsel if a hearing is set or any immigration issue exists' covers the hearing and the immigration matter, and the unverified-figures condition is carried as the refusal to quote a number. The guide adds the pre-October 1, 1974 boundary, which keeps the participant off the separate Superior Court petition branch."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The guide sends the participant to https://epardonportal.ct.gov/portal and to the Board's current Absolute Pardon instructions at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions. CT.memo.json gives the same destination, the ePardon portal, and records that no stable participant application document has been identified that LegalEase could lawfully generate and submit."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "CT.memo.json records 'No service. This is an executive-branch application, not a court filing.' The guide states it is not a court filing and asks for no service."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "CT.memo.json names one supporting document, the SPBI criminal history record search form DPS-0846-C, requirement required and requiredBeforeFiling false, so nothing is owed before acting. production-field-map.json declares requiredBeforeFilingCount 5 and every one of the five confirm-lines carries a participantMustSupply sentence and a named source, all five printed on page 2. Recorded as an observation and not scored: the delivered copy refers to 'the participant's complete criminal-history record' but never names DPS-0846-C or DESPP's State Police Bureau of Identification."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "canonical recomputes 26cfafce...505a765e and boundary recomputes e078c042...525fc195f from the committed bytes. Both read by poppler without a warning."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Two pages: exact pathway and erasure consequence on page 1, confirm-before-acting list and protected-items block on page 2, ending with the route key. Same order in both fixtures, and the RASTER_QUEUE row's expectedPages 2 matches what pdf-lib and poppler both read from the bytes."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The field map records routeSelectionsMade as empty and the guide makes no election on the participant's behalf. There is no select-one control anywhere in the deliverable, so there is no option to get wrong."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No repeating row structure exists in a composed guide. The 'FACTS YOU MUST CONFIRM BEFORE ACTING' block is a flat list; every entry carries its label, its response line and its 'Check with:' source, and none is half-formed."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "CT.memo.json records fees 'Claimed to be none by the internal reference. Not verified' and feeWaiver 'Not applicable if no fee is charged, which is unverified.' The guide refuses to repeat the unverified claim: 'The waiting-period figures and no-fee claim in the committed review are unverified, so this guide quotes none.' It carries a confirm-line for the Board's current application, attachments, hearing rules and fee. That is the right handling of an unverified fee."
+    }
+   },
+   "failedProofObligations": [],
+   "blockedProofObligations": [
+    "ROUTE_IDENTITY",
+    "COMPONENT_SET"
+   ],
+   "notMeasurableHere": [],
+   "whyProductPathPendingNotPass": "Thirteen of fifteen obligations pass on the current bytes, and the CLIPPING_AND_OVERLAP failure vf05 recorded is discharged by a governed raster receipt that binds these exact hashes. The family stays held on the two product-path grounds vf05 also recorded, which no repair inside this directory can clear.",
+   "whatWouldResolveIt": "An owner or counsel decision on what an agency-application-treatment route delivers when the agency's instrument is an online portal application. Not a repair to these bytes.",
+   "whatThisVerdictDoesNotDo": "It opens no route, promotes nothing, repairs nothing, and does not release or re-grant any claim."
   }
  ],
  "supersededLaneMembership": {

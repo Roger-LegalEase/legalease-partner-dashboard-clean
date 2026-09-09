@@ -35,14 +35,12 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 1004,
-    "independentVerdicts": 252,
+    "rows": 1010,
+    "independentVerdicts": 255,
     "failRepairRequired": 38,
-    "passIndependent": 196
+    "passIndependent": 197
   },
   "failRepairRequiredFamilies": [
-    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
-    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
@@ -67,6 +65,8 @@
     "il-seal-edu-set",
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "nj_ordinance-set",
@@ -428,6 +428,21 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "exactRouteDeliveryDefect": null,
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
       "superseded": false
     },
     {
@@ -451,6 +466,21 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "exactRouteDeliveryDefect": null,
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "superseded": false
     },
     {
@@ -472,6 +502,21 @@
       ],
       "unmeasuredObligations": [],
       "exactRouteDeliveryDefect": "The current route-obligation record requires currentOutputStrategy participant_agency_application and a participant-signed absolute-pardon application submitted through the Board of Pardons and Paroles portal, but the only delivered component is agency_preparation_guide. The PDF expressly says it is not an official form, not a court filing and not a substitute for the Board's application; the route record still has packetFamilyId null, packetSetId null, existingArtifactIds [], and missingImplementationWork requiring the participant-facing agency-application workflow and an exact route output artifact.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "exactRouteDeliveryDefect": null,
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
@@ -11135,6 +11180,36 @@
       "superseded": false
     },
     {
+      "familyId": "md_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MD.memo.json track md_pardon_expungement lists three selfHelpStopConditions: the ten-year filing deadline being close or passed, more than one conviction putting the 'only one criminal act' condition in issue, and 'The State's Attorney objects.' The first two are carried into participant-instructions.md. The third is absent: case-insensitive search of participant-instructions.md and filing-instructions.md returns zero occurrences of \"State's Attorney\". The memo also records that the court serves the State's Attorney and that a 30-day objection period runs, so the participant is given the victim-objection notice from the form but is never told that a prosecutor's objection is a stop-and-get-a-lawyer condition.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "filing-instructions.md tells the participant 'Maryland charges a filing fee for an expungement petition on a guilty disposition. This packet does not state an amount, because no held source establishes one; ask the clerk.' MD.memo.json track md_pardon_expungement records rules.fees as '$30 (CC-DC-CR-072B).' - a held source that does establish the amount, keyed to this exact form - and the delivered petition itself prints 'Filing Fees Are Not Refundable' across the top of page 1. The sentence is the same boilerplate the Missouri family uses, where it is true because MO's memo says no fee figure is published on that track; carried into Maryland it asserts an absence the controlling memo contradicts. The waiver half is sound: CC-DC-089 is the memo's named waiver form and it is in the packet, and the MDJ-008 companion the form requires is flagged in both instruction files.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "md_second_chance_shielding-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf12",
@@ -11675,6 +11750,43 @@
       "supersedesEvidencePath": null,
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-145-mistaken-identity-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The two source binaries themselves are exact: CR375 recomputes 2cfca7e9... and FI-05 recomputes 53f1e04e... from the mounted custodies, matching the receipt. The FI-05 identity claim also holds when read from the document: 4 pages, page 1 headed 'Confidential Case Filing Information Sheet - Non-Domestic Relations', footed 'SJRC (04-23) FI-05', printing the continuation instruction and the Case Types List. What does NOT hold is the recorded characterisation of that list. production-field-map.json states twice (selectionBasis on both FI-05 Case Type Code writes) and build-findings.json states once that the binary 'carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest Records  X#\"' on 'pages 3 and 4'. Measured from the bytes: the row is printed on page 4 only, and X# occupies xMin 213.48 to xMax 224.36 - the ASSOCIATE column, whose header spans x 197-244. The CIRCUIT column sits at x 257-284, where the neighbouring row 'Expungement of Crim/Arrest Record' carries XG and where the marijuana row carries no code at all. CR375's own caption is 'IN THE ____ JUDICIAL CIRCUIT, ____ COUNTY, MISSOURI'. A reviewer told the source says CIRCUIT would not check the column that decides which division the case type belongs to.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO.memo.json track mo-art-xiv-marijuana marks exactly one supporting document requiredBeforeFiling true: 'Certified docket sheet and judgment for each case', obtained from the clerk of the court where the case was charged or the finding of guilt entered, and the memo says it is often the only place a marijuana case's quantity appears. Neither participant-instructions.md nor filing-instructions.md names it. Case-insensitive search of both files returns zero occurrences of 'certified', 'docket' or 'judgment'. filing-instructions.md mentions a certificate of expungement, which is a different document the memo marks conditional and requiredBeforeFiling false. This is the Delaware-shaped regression: a document the memo owes before filing that the participant copy never tells the participant to obtain or submit.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Three elections are made by the packet rather than the participant. Two are sound: the three record-holding agencies named as Defendant(s), and the not-incarcerated posture taken from a held screening fact. The third, FI-05 Case Type Code X#, is written on the strength of two grounds, and only one of them survives the bytes. The census does record this route as filed 'with FI-05 at case type X#', so the value is not unfounded. But the second recorded ground - that the binary's own Case Types List 'carries the CIRCUIT row' for that description - is false, and it is the ground a reviewer would rely on to decide the code is right for a petition captioned in the judicial circuit. X# is printed in the ASSOCIATE column; the CIRCUIT column carries no code for that row. Repair the recorded basis and put the ASSOCIATE/CIRCUIT question to counsel; approval-request.json already asks counsel to confirm the code is current, which is the right place for it.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set",
       "superseded": false
     },
     {
@@ -13578,6 +13690,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-seal-enforcement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-seal-pardoned-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f386ab54",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-seal-pardoned-set",
       "superseded": false
     },
     {
