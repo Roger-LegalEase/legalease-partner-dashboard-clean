@@ -96,8 +96,27 @@ export function validate(text, summaryJson = null) {
   if (t.skipped !== 0) problems.push(`skipped must be 0, got ${t.skipped}`);
   if (derivedFailed !== 0) problems.push(`${derivedFailed} case(s) failed`);
 
-  if (!Array.isArray(doc.migrations) || doc.migrations.length !== 6) {
-    problems.push(`migrations must list all six phases, got ${Array.isArray(doc.migrations) ? doc.migrations.length : "none"}`);
+  /* The count of phases is taken from the committed staging action, not from a
+   * literal here. It was hardcoded to 6 and went stale the moment phase 55 was
+   * added to the sequence — a run that correctly applied all seven then failed
+   * the marker contract for listing seven, which is what happened to run
+   * 34293728568. Deriving it means the evidence must cover exactly the phases
+   * the action declares, in the action's own order: still an equality check,
+   * and now one that cannot rot. Every phase must also carry a recomputed
+   * sha256 that equals what the action recorded. */
+  const declaredPhases = (() => {
+    try {
+      const action = JSON.parse(fs.readFileSync(new URL("../data/rcap-staging-action.json", import.meta.url), "utf8"));
+      const seq = action?.migrationsInApplyOrder ?? action?.migrations ?? [];
+      return Array.isArray(seq) ? seq.map((m) => m.phase) : [];
+    } catch { return []; }
+  })();
+  if (!declaredPhases.length) {
+    problems.push("the staging action declares no migration sequence, so the evidence cannot be checked against it");
+  } else if (!Array.isArray(doc.migrations)
+    || doc.migrations.length !== declaredPhases.length
+    || doc.migrations.some((m, i) => m.phase !== declaredPhases[i])) {
+    problems.push(`migrations must list exactly the ${declaredPhases.length} phase(s) the staging action declares, in order (${declaredPhases.join(", ")}), got ${Array.isArray(doc.migrations) ? doc.migrations.map((m) => m.phase).join(", ") || "none" : "none"}`);
   } else {
     for (const m of doc.migrations) {
       if (!/^[0-9a-f]{64}$/.test(m.actual ?? "")) problems.push(`phase ${m.phase}: no recomputed sha256`);
