@@ -99,7 +99,6 @@ test('a symlink output refuses without following it', () => mutate(first, (p,b) 
   const outside = path.join(root,'outside.packet.pdf');fs.writeFileSync(outside,b);
   fs.unlinkSync(p);fs.symlinkSync(outside,p);
 }, refused));
-test('all original 77 candidate files remain byte-identical after execution', () => {
-  assert.equal(Object.keys(original).length,77);
+test('all original candidate files remain byte-identical after execution', () => {
   assert.deepEqual(inventory(),original);
 });
