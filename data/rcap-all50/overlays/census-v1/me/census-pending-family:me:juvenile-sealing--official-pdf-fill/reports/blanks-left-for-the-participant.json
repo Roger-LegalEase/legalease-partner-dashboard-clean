@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "census-pending-family:ME:juvenile-sealing",
+  "requiredBeforeFiling": [
+    {
+      "document": "petition",
+      "documentId": "JV-043",
+      "field": "petition.Check Box1",
+      "page": 1,
+      "printedContext": "Gender on the caption line - the box for male",
+      "disclosureLabel": "Gender on the caption line - the box for male",
+      "identity": "petition field Check Box1",
+      "why": "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf",
+      "participantMustSupply": "mark ONE of the three gender boxes on the caption line: male, female or other. This one is male"
+    },
+    {
+      "document": "petition",
+      "documentId": "JV-043",
+      "field": "petition.Check Box2",
+      "page": 1,
+      "printedContext": "Gender on the caption line - the box for female",
+      "disclosureLabel": "Gender on the caption line - the box for female",
+      "identity": "petition field Check Box2",
+      "why": "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf",
+      "participantMustSupply": "mark ONE of the three gender boxes on the caption line: male, female or other. This one is female"
+    },
+    {
+      "document": "petition",
+      "documentId": "JV-043",
+      "field": "petition.Check Box3",
+      "page": 1,
+      "printedContext": "Gender on the caption line - the box for other",
+      "disclosureLabel": "Gender on the caption line - the box for other",
+      "identity": "petition field Check Box3",
+      "why": "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf",
+      "participantMustSupply": "mark ONE of the three gender boxes on the caption line: male, female or other. This one is other"
+    },
+    {
+      "document": "petition",
+      "documentId": "JV-043",
+      "field": "petition.Docket No",
+      "page": 1,
+      "printedContext": "Docket No.: in the caption at the head of the petition",
+      "disclosureLabel": "Docket No.: in the caption at the head of the petition",
+      "identity": "petition field Docket No",
+      "why": "the platform holds no docket number for any juvenile matter, and the shared binder additionally reads a bare \"Docket No.\" caption as a repeating charge-row label demanding an indexed fact this one-case petition does not have",
+      "participantMustSupply": "the docket number of the juvenile case you want sealed, from the court's own file or from the paperwork you were given"
+    },
+    {
+      "document": "petition",
+      "documentId": "JV-043",
+      "field": "petition.Location Town",
+      "page": 1,
+      "printedContext": "Location (Town): in the caption at the head of the petition",
+      "disclosureLabel": "Location (Town): in the caption at the head of the petition",
+      "identity": "petition field Location Town",
+      "why": "no committed record this family binds establishes the court location for any particular Maine juvenile case, and the route-obligation census records this route's destination as \"not recorded\"",
+      "participantMustSupply": "the town in which the Juvenile Court that handled your case sits, as the caption of your own case names it. Ask a court clerk if you are not sure"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "petition",
+      "field": "petition.Date mmddyyyy",
+      "label": "Date (mm/dd/yyyy) beside the juvenile's signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false; the field is also declared unwritable by role, which the finalizer checks before any name or caption match"
+    },
+    {
+      "document": "petition",
+      "field": "petition.undefined",
+      "label": "Signature of Juvenile - the widget the Judicial Branch leaves unnamed, captioned \"Signature of Juvenile\" printed directly beneath it",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the juvenile signs the petition personally and this build never signs for anyone; the field is also declared unwritable by role, so no rename and no caption change can reach it"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/participant-instructions.md"
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "census-pending-family:ME:juvenile-sealing",
+  "worklistGroupId": "census-pending-family:ME:juvenile-sealing",
+  "jurisdiction": "ME",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read from the committed bytes as an anchor, and every official agency document bound by exact SHA-256 resolved through the committed corpus index and its declared custody roots",
+  "routeKeys": [
+    "obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition"
+  ],
+  "statutoryAuthority": [
+    "15 M.R.S. § 3308-C",
+    "15 M.R.S. § 3308-C(10)(A)",
+    "29-A M.R.S. § 2411"
+  ],
+  "legalName": "Petition to Seal Juvenile Case Records, 15 M.R.S. § 3308-C(10)(A)",
+  "allSourcesExact": true,
+  "formIdentityNote": "JV-043 is the Maine Judicial Branch's own published Petition to Seal Juvenile Case Records, Rev. 12/21, one page, bound by exact SHA-256 through the committed corpus index - resolved BY DIGEST rather than by form number or filename - and delivered as the Judicial Branch issues it. The pinned binary is an encrypted PDF; this build carries it through a deterministic pikepdf decryption proved equivalent to the official binary page for page, field for field and content stream for content stream, and stops rather than rendering if that proof fails. The bound identity is the official encrypted binary and its SHA-256 is recomputed from the file on disk before and after the read. Nothing is composed, substituted or invented.",
+  "agencyTreatmentNote": null,
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:ME:juvenile-sealing:serious_or_oui_three_year_petition",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census entry for this exact route: its statutory authority, its participant-facing instrument, the fact that the participant initiates it, and the recorded note that the three-year petition branch is limited to murder, Class A, B or C juvenile crimes and OUI matters while the qualifying lower-class and civil-type matters enter the automatic branch instead",
+      "anchorStatementsVerified": 5
+    },
+    {
+      "sourceIds": [
+        "committed-record:src/lib/legal-authority/routes/single-routes.json"
+      ],
+      "recordId": "route-contract:ME:juvenile-sealing",
+      "pathInRepository": "src/lib/legal-authority/routes/single-routes.json",
+      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+      "byteLength": 100125,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route contract: the mechanism, the statute, the single-stage shape, the participant_packet outcome mode, the three-year elapsed-eligibility clock and the fact it is anchored to final discharge, the required facts, the exclusions and the two components of the packet family",
+      "anchorStatementsVerified": 8
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "track-registry:me-seal-gen:maine-wide-packet-instruction",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+      "byteLength": 16778727,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed Maine track registry, bound for one jurisdiction-wide packet instruction this family is held to as much as any other Maine packet: that Maine seals rather than expunges, that the record is not completely erased, and that the word is never used in Maine participant copy. The generated guide is gated against that sentence before it is written",
+      "anchorStatementsVerified": 1
+    },
+    {
+      "sourceIds": [
+        "committed-record:src/lib/rcap-engine/compiled/profiles/ME-maine.json"
+      ],
+      "recordId": "compiled-profile:ME-maine#juvenile-sealing",
+      "pathInRepository": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+      "sha256": "f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d",
+      "byteLength": 156951,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the compiled Maine profile's juvenile-sealing pathway: the automatic branch and its five-business-day court period, the three petition conditions, the court's discretion and the standard it exercises it against, what sealing does and does not do, who can still reach a sealed juvenile record, the firearm statement, and the Judicial Branch form number for this petition",
+      "anchorStatementsVerified": 6
+    }
+  ],
+  "transport": [
+    {
+      "sourceId": "official-form:JV-043",
+      "documentId": "JV-043",
+      "ok": true,
+      "sourceSha256Before": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+      "sourceSha256After": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+      "sourceUnchanged": true,
+      "sourceEncrypted": true,
+      "derivedSha256": "5136136142d315affed76fcd85536a769bfec6d0ab2e6acd592eb6d391cd5b47",
+      "derivedByteLength": 172380,
+      "derivedEncrypted": false,
+      "equivalent": true,
+      "delta": {
+        "pageCount": null,
+        "pageGeometry": [],
+        "fieldsOnlyInOfficial": [],
+        "fieldsOnlyInDerivative": [],
+        "fieldDifferences": [],
+        "contentStreamIdenticalPages": [
+          0
+        ],
+        "contentStreamChangedPages": []
+      },
+      "pikepdfVersion": "10.12.0",
+      "libqpdfVersion": "12.3.2",
+      "createdBy": "pikepdf.open(exact_pinned_source).save(derived, deterministic_id=True)",
+      "fidelityLogic": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py"
+    }
+  ],
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:JV-043"
+      ],
+      "documentId": "JV-043",
+      "formNumber": "JV-043",
+      "officialTitle": "Petition to Seal Juvenile Case Records",
+      "revision": "REV-2021-12",
+      "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+      "byteLength": 172380,
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "pathInCustody": "LegalEase Maine/MJB-Form-jv-043.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "transport": {
+        "why": "the pinned official binary is an encrypted PDF (/Filter /Standard, /R 6, AES-256, /StmF /StdCF /StrF /StdCF); pdf-lib throws \"Expected instance of PDFDict, but got instance of undefined\" in PDFCatalog.Pages before it reaches a page, and ignoreEncryption: true suppresses the throw without decrypting anything, so neither a census nor an ink audit is possible against those bytes directly. The committed corpus index already records structuralClassObserved \"unreadable\" for this entry.",
+        "method": "pikepdf.open(exact_pinned_source).save(derived, deterministic_id=True)",
+        "derivedSha256": "5136136142d315affed76fcd85536a769bfec6d0ab2e6acd592eb6d391cd5b47",
+        "derivedByteLength": 172380,
+        "sourceEncrypted": true,
+        "derivedEncrypted": false,
+        "officialSha256UnchangedByTheRead": true,
+        "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+        "equivalenceDelta": {
+          "pageCount": null,
+          "pageGeometry": [],
+          "fieldsOnlyInOfficial": [],
+          "fieldsOnlyInDerivative": [],
+          "fieldDifferences": [],
+          "contentStreamIdenticalPages": [
+            0
+          ],
+          "contentStreamChangedPages": []
+        },
+        "pikepdfVersion": "10.12.0",
+        "libqpdfVersion": "12.3.2",
+        "derivativeIsNotAnIdentity": "the bound identity is the official binary above; this derivative is a build-time transport copy, is not committed, and is deleted when the build ends"
+      },
+      "corpusIndexAgrees": false,
+      "pageCount": 1,
+      "acroFieldCount": 14,
+      "structuralClassObserved": "unreadable",
+      "instrumentKind": "Maine § 3308-C(10)(A) juvenile sealing petition",
+      "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family prepares for",
+    "that any juvenile adjudication falls on the three-year petition branch rather than the automatic branch",
+    "that three years have run from final discharge, or that any clean-record or no-pending-matter condition is met",
+    "that any court location or docket number is the right one for a particular juvenile case"
+  ]
+}

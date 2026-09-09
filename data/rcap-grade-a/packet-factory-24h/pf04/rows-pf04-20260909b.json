@@ -13,14 +13,15 @@
     "This return is written alongside the existing rows.json, checkpoints.json, PFB_SHIFT_RETURN.json and SESSION08_KY_INSTALLED_RETURN.json in this directory. Nothing already there was read for content, edited or removed.",
     "Three families were granted to this run: mt_deferred_dismissal-set, mn_petition_609a02_subd3-set and ar-veterans-court-set. All three asserted CLAIM_OK before any family artifact was read.",
     "No packet in this return was verified by this lane. A builder verdict is not a verdict.",
-    "A STOPPED family here carries its nine counters as null rather than 0. The counters were never measured because no packet was built, and a counter you could not measure is null, never 0. The post-repair reader in generate.mjs consumes only COMPLETED rows, so no null reaches it."
+    "A STOPPED family here carries its nine counters as null rather than 0. The counters were never measured because no packet was built, and a counter you could not measure is null, never 0. The post-repair reader in generate.mjs consumes only COMPLETED rows, so no null reaches it.",
+    "The Captain added census-pending-family:ME:juvenile-sealing and wv_conv_nonviolent_felony-set mid-shift, and independently confirmed the mt_deferred_dismissal-set finding. Both additions were claimed CLAIM_OK before any family content was read, and the branch was rebased onto captain tip 60e695ef2 first."
   ],
   "packetsSelfVerified": 0,
   "otherPfPromptsExecutedInThisWorktree": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and a stopped one authorizes nothing either.",
-  "familiesAssigned": 3,
+  "familiesAssigned": 5,
   "rows": [
     {
       "itemId": "mt_deferred_dismissal-set",
@@ -353,11 +354,152 @@
         "MASTER_QUEUE.json records this family SOURCE_READY with boundCount 2 on the strength of an acquisition return whose own uploadFailure says the upload failed and whose own receipt says the artifact is owner-only and unshared. MASTER_QUEUE.json is a shared central artifact and was not edited."
       ],
       "nextHandoff": "Source custody, not packet build. Nothing about this family's legal design or its petition is blocked; only the order binary is."
+    },
+    {
+      "itemId": "census-pending-family:ME:juvenile-sealing",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersBeforeAreNull": "No packet had ever been built for this family, so there was nothing to measure before this build.",
+      "countersAfterMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'census-pending-family:ME:juvenile-sealing' (no --write), which returned PASS_COMPLETE with all nine counters zero and none unmeasurable. The builder's own independent count agrees.",
+      "focusedCheckOutput": "ok   census-pending-family:ME:juvenile-sealing      PASS_COMPLETE                7/14 written · 1 famil(ies) audited · 1 PASS_COMPLETE · counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill",
+      "overlayDirectoryTouched": true,
+      "buildScript": "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
+      "implementationStrategyBuilt": "official_pdf_fill",
+      "claim": "CLAIM_OK PF04 census-pending-family:ME:juvenile-sealing (packet-build, grant set 015bca8790f8534b)",
+      "legalInputStatus": "SETTLED.",
+      "packetsSelfVerified": 0,
+      "rowGate": "The row gate FAILS on this family and the failure is the tier-ordering defect the Captain's sweep names, not a source problem: \"census-pending-family:ME:juvenile-sealing names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.\" familySources() returns at the custody_reconciliation tier, where the row is SOURCE_IDENTITY_UNRESOLVED, and never reaches the digest fallback below it. Bound by digest instead, on the Captain's instruction and on the sweep's measurement: the declared SHA-256 resolves to exactly one committed corpus-index entry and the bytes on disk re-hash to it.",
+      "sourcesResolvedByContent": [
+        {
+          "sourceId": "official-form:JV-043",
+          "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk before and after the read. The declared path in MASTER_QUEUE (reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf) is a captain-worktree reference path that does not exist in this checkout; the digest does.",
+          "heldAt": "LegalEase Maine/MJB-Form-jv-043.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pages": 1,
+          "acroFieldCount": 14,
+          "structuralClassInIndex": "unreadable"
+        }
+      ],
+      "sourcesResolvedByFilename": "none.",
+      "committedRecordsBoundByDigest": [
+        {
+          "recordId": "route-obligation-census:ME:juvenile-sealing:serious_or_oui_three_year_petition",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+        },
+        {
+          "recordId": "route-contract:ME:juvenile-sealing",
+          "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8"
+        },
+        {
+          "recordId": "track-registry:me-seal-gen:maine-wide-packet-instruction",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "recordId": "compiled-profile:ME-maine#juvenile-sealing",
+          "sha256": "f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d"
+        }
+      ],
+      "theSourceIsEncryptedAndHowThatWasHandled": "JV-043 as published is an ENCRYPTED PDF - /Filter /Standard, /R 6, AES-256, /StmF /StdCF /StrF /StdCF - and pdf-lib cannot read it: it throws \"Expected instance of PDFDict, but got instance of undefined\" in PDFCatalog.Pages, and ignoreEncryption: true suppresses the throw without decrypting anything. The committed corpus index already records structuralClassObserved \"unreadable\" for the entry; the sweep's acroFieldCount of 14 came from a reader that is not the one every builder in this factory uses. The bytes are carried through the repository's already-proven transport unlock - pikepdf opens the exact pinned source and saves a derivative with deterministic_id, and the derivative is proved equivalent to the official binary by the repository's own fidelity reader before anything renders. Measured on this build: page count identical, page geometry identical, no field present on only one side, no field difference, content stream identical on the single page, derivative not encrypted, and the source SHA-256 unchanged before and after the read. The derivative is build-time only, is never committed and is deleted when the build ends. Precedent: the same treatment on Maine's own encrypted CR-218 in scripts/build-census-v1-me-seal-gen-set.mjs, itself following five encrypted California forms.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "fa7bd28a1f28cfb38f3f1da3a98d97f2ba3e7827e1c813a43ee51560f225144d",
+          "byteLength": 168354,
+          "pageCount": 1,
+          "documents": [
+            "JV-043"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "69618b989b84945c1f0bf121430b589ecbec6368087cf620901c5a286c45aabb",
+          "byteLength": 168440,
+          "pageCount": 1,
+          "documents": [
+            "JV-043"
+          ]
+        }
+      ],
+      "routeVariants": "none. One route key, one instrument, one page; the committed route contract names no branch this route delivers differently.",
+      "otherOutputs": [
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/approval-request.json"
+      ],
+      "measurementEmitted": {
+        "perArtifact": [
+          {
+            "fixture": "canonical",
+            "valuesReportedByFinalizer": 7,
+            "addedGlyphsReadFromOutputBytes": 125,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": 0
+          },
+          {
+            "fixture": "boundary",
+            "valuesReportedByFinalizer": 7,
+            "addedGlyphsReadFromOutputBytes": 208,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": 0
+          }
+        ],
+        "why": "Both keys the assignment named are emitted per artifact and both are real readings, so neither counter reads UNMEASURED."
+      },
+      "appearanceLevelInspection": "The delivered PDFs were read back and diffed item by item against the proved-equivalent unlock of the pinned source. Both fixtures carry EXACTLY 7 added text items and nothing else: the caption name, the date of birth, the printed name, the two mailing-address lines, the telephone and the email. No ink on the signature line, the date beside it, either caption line or any of the three gender boxes. The two address widgets carry the street on the first and the city, state and ZIP on the second rather than the street twice.",
+      "aDefectTheNineCountersCannotSee": "The FIRST build of this family passed all nine counters and was wrong on the page. It rendered the date of birth as \"2004-11-06\" onto a line whose own printed caption reads \"whose date of birth is (mm/dd/yyyy)\". Every counter was satisfied - the value was present, visible, inside its widget and bound to the right fact - because nothing in the completeness contract compares a rendered value against the order the form prints beneath it. Diffing the delivered page against the pinned source found it. The finalizer's own printedDateOrderByField channel is now declared for that field and the page renders 11/06/2004. Recorded in build-findings.json as a defect class the counters do not reach.",
+      "whatThePacketRefusesToDecide": "Nothing on JV-043 is ticked. The three caption checkboxes are the juvenile's gender - a fact about the person, not a choice of route - and the platform holds no gender fact, so all three are disclosed to the participant as required-before-filing with the instruction to mark one. The signature widget is NAMED \"undefined\" on this form, because the Judicial Branch left it unnamed, so it and the date beside it are declared unwritable BY ROLE - which the finalizer checks before any name or caption match - as well as protected in the field map. A refusal resting on a name that is not a name is one rename away from signing a petition for somebody.",
+      "whatIsOwedAndNotRendered": "The committed route contract names TWO packet components: \"Petition under § 3308-C\" and \"Final discharge proof\". Only the first is a document this platform can produce. Proof of final discharge is carried as a document the participant must obtain, named in participant-instructions.md with where to get it and why the three-year clock depends on it, and printed in the guide's own component table straight from the record. It is not silently dropped and it is not invented.",
+      "theWarningTheGuideOpensWith": "Section 3308-C has two branches and only one of them is a filing. A Class D, Class E or civil-type juvenile matter is sealed AUTOMATICALLY within five business days of a Notice of Discharge, with no petition and no wait. The guide's first paragraph says so, in the record's own words, before anything else - because a participant on the automatic branch who files this petition is paying for a filing the statute already gave them.",
+      "foundAndFixedInThisFamilysOwnScript": [
+        "THE COPIED HOST DEMANDED A PACKET-SET MANIFEST THIS FAMILY DOES NOT HAVE. me-seal-gen-set's core reads its participant-facing required-before-filing list and its component table out of data/record-clearing/legal-design-packet-set-manifests.json keyed by packetSetId, and stops the family if the record no longer declares them. This family has packetSetId null and trackId null and there is no legal-design track for ME juvenile sealing, so the host would have reported the record as having stopped declaring something it never declared. In this family's own copy the same function reads the COMMITTED ROUTE CONTRACT instead - src/lib/legal-authority/routes/single-routes.json#ME:juvenile-sealing, which is where this route's required facts, eligibility anchor and packet components actually live - and prints them with the record's path and SHA-256 beside them on exactly the host's own terms.",
+        "THE DATE OF BIRTH RENDERED IN ISO ORDER ONTO AN (mm/dd/yyyy) LINE. See aDefectTheNineCountersCannotSee above."
+      ],
+      "foundAndNotFixed": [
+        "family_sources_bind refuses this family outright - \"names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.\" - while the source is held byte-exact and has been all along. familySources() in scripts/verify-packet-build-environment.mjs returns at the custody_reconciliation tier and never reaches the digest fallback beneath it, so a family with a custody row masks a held document. This is the defect the Captain's sweep identified across 30 families and 51 sources; the script is not an owned path of this lane and was not edited.",
+        "Three of JV-043's fourteen fields cannot bind through the shared descriptor channel and are written through the finalizer's own narrativeAcrossFields channel instead. `Juvenile` is the caption's name line and neither its field name nor its printed caption is among the party words scripts/rcap-official-forms/rcap-field-semantics.mjs knows. `Mailing Address 1` and `Mailing Address 2` BOTH match the street-address descriptor, so the ordinary channel would write the street line onto both and deliver a mailing address with no city, state or ZIP. Reported for the lane that owns that module, which this lane does not open."
+      ],
+      "nextHandoff": "Central raster of the two hashes above, then independent verification by a lane that did not build this packet."
     }
   ],
-  "rowsReturned": 3,
+  "rowsReturned": 4,
   "familiesCompleted": [
-    "mn_petition_609a02_subd3-set"
+    "mn_petition_609a02_subd3-set",
+    "census-pending-family:ME:juvenile-sealing"
   ],
   "familiesStopped": [
     "mt_deferred_dismissal-set",
