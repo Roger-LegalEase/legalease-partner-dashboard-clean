@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "nd-regular-pardon-set",
+  "worklistGroupId": "nd-regular-pardon-set",
+  "jurisdiction": "ND",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_REMATERIALIZED_FROM_RECOVERED_ACQUISITION_ARCHIVE",
+  "acquisitionCommissioned": false,
+  "howTheseBytesReachedCustody": "Not by re-acquisition. data/rcap-grade-a/packet-factory-24h/SOURCE_REMATERIALIZATION_REQUEST.json records that the 2026-09-04 acquisition archive was recovered from the existing authenticated Drive custody and the original delivered as a transport package; no court website was fetched and no document was converted, printed or regenerated. This build did not acquire anything either: it hashed the bytes already on disk.",
+  "bindingMethod": "exact SHA-256 against the bytes on disk, over every committed index path carrying that digest plus the declared path, in deterministic order, across both mounted custody roots. Not by filename and not by form number.",
+  "whyNotByFormNumber": "The committed corpus index carries this binary with formNumber null and assetClass null, because the recovery pool is indexed by the filename the file was downloaded under rather than under a form slug. There is no form number in the index to match SFN-14859 against. The digest is the identity and it is the same digest in the queue row, the acquisition receipt, the index entry and the rematerialization record.",
+  "queueRowDisagreement": "MASTER_QUEUE.json's row for this family says sourceBound true and sourceReadiness.ready true while its own sourceReadiness.custodyClass says SOURCE_GENUINELY_MISSING, and data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json answers GENUINELY_ABSENT with resolvedSourceCount 0. Both predate the materialization. Measured here: the file is present, hashes to the declared digest at the declared byte length, and carries the declared 8 pages and 229 AcroForm fields.",
+  "routeKey": "obligation:track-only:ND:nd-regular-pardon",
+  "routeSelectionId": "nd-regular-pardon-set-sfn-14859",
+  "statutoryAuthority": "N.D.C.C. ch. 12-55.1; North Dakota Department of Corrections and Rehabilitation form SFN 14859 (12-2020)",
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:SFN-14859",
+        "ND-SFN-14859"
+      ],
+      "documentId": "SFN-14859",
+      "formNumber": "SFN-14859",
+      "revision": null,
+      "pathInArchive": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+      "boundFromCustody": "NATIONWIDE_RECOVERY_POOL",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "custodyType": "PARTIAL_NATIONWIDE_RECOVERY_POOL",
+      "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+      "byteLength": 211478,
+      "instrumentKind": "primary_filing",
+      "declaredSha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+      "digestMatchesDeclared": true,
+      "pageCountFromIndex": 8,
+      "acroFieldCountFromIndex": 229
+    }
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "Binding a source makes a build possible. It opens no route, promotes no family and approves nothing."
+}
