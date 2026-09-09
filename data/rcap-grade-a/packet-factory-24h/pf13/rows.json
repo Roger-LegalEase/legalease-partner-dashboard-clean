@@ -1,525 +1,209 @@
 {
-  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
-  "assignmentId": "PF13",
-  "workerId": "FABLE-PD",
-  "workerBranch": "fable/pd",
-  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
-  "lane": "packet-build",
-  "captainBranch": "claude/legalease-sprint-captain-utucnw",
-  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
-  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
-  "laneGate": {
-    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
-    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
-    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
-  },
-  "laneNotes": [
-    "One family assigned, one row returned, completed.",
-    "The one agency treatment in this grant that binds a real form: the controlling decision names the published Request to Correct Criminal Justice Information, and the route census names it as this route's requiredSourceId. DPS Form CRI-103 is delivered as the Department issues it.",
-    "CRI-103 carries no AcroForm, so every write box is one horizontal stroke measured from the page content stream by its own y, start x and end x, with the box ceiling taken from the lowest printed baseline above it inside its own span. Twelve blanks measured, six written."
-  ],
-  "packetsSelfVerified": 0,
-  "otherPfPromptsExecutedInThisWorktree": 0,
-  "commercialRoutesOpened": 0,
-  "productionTouched": false,
-  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
-  "familiesAssigned": 2,
-  "rowsReturned": 2,
-  "familiesCompleted": [
-    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
-    "ar-drug-court-set"
-  ],
-  "familiesStopped": [],
-  "blockedSource": [],
-  "blockedLegalInput": [],
-  "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "focusedCheck": {
-    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
-    "result": "PASS_COMPLETE"
+  "schemaVersion": "rcap-packet-build-rows/v1",
+  "lane": "PF13",
+  "laneKind": "packet-build",
+  "baseSha": "22fd681c6",
+  "grantSet": "6ec0e973623a7b0e",
+  "supersedes": {
+    "note": "This file is the PF13 lane return slot and previously held a different shift's rows. That content is not lost; it is in git history at 22fd681c6.",
+    "previousWorkerId": "FABLE-PD",
+    "previousShiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+    "previousFamilies": [
+      "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "ar-drug-court-set"
+    ],
+    "relationshipToThisShift": "None. Different families, different base, different worker. This shift was assigned one family, nd-summary-marijuana-pardon-set, and returns one row for it. Nothing in the previous rows was re-verified, re-asserted or carried forward."
   },
   "rows": [
     {
-      "itemId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
-      "status": "COMPLETED",
-      "familyKind": "AGENCY_APPLICATION_TREATMENT",
-      "implementationStrategy": "participant_agency_application",
-      "directory": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
-      "routeKeys": [
-        "obligation:unattached-decision-route:AK:ak-correct-record"
-      ],
-      "componentSet": [
-        "agency_route_sheet",
-        "dps_correction_request",
-        "evidence_checklist"
-      ],
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "allNineCountersZero": true,
-      "focusedCheck": {
-        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
-        "result": "PASS_COMPLETE"
-      },
-      "sourcesBound": {
-        "committedRecords": [
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "lane": "PF13",
+      "status": "BLOCKED_SOURCE",
+      "builtByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "builtAtBase": "22fd681c6",
+      "statusIsNotAboutTheSourceBeingWrong": "Read this status with the sourceBinding block below. The source is present, is the correct document for this family, and binds byte-exact. BLOCKED_SOURCE is used because the stop is the shared source-notice gate refusing to write onto the source, which is the nearest class in the permitted vocabulary. It does not mean the source is missing, wrong, or unbound.",
+      "claim": "CLAIM_OK PF13 nd-summary-marijuana-pardon-set (packet-build, grant set 6ec0e973623a7b0e)",
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family nd-summary-marijuana-pardon-set",
+        "runOnceBeforeAnyWork": true,
+        "exitCode": 1,
+        "verbatim": [
+          "  ok  repo_identity                          pf13-nd-summary-marijuana at 22fd681c",
+          "  ok  clone_is_complete                      full clone, all heads fetchable",
+          "  -  assigned_branch_tip_visible            no --branch given; check not applicable",
+          "  ok  worktree_clean                         clean",
+          "  ok  node_toolchain                         node 22.22.2",
+          "  ok  pdf_lib_importable                     pdf-lib 1.17.1",
+          "  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.",
+          "  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.",
+          "  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.",
+          "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+          "  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions",
+          "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled",
+          "  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+          "  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library",
+          "  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []",
+          "  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear",
+          "",
+          "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable"
+        ],
+        "twoFailuresDiagnosedNeitherTouchesThisFamily": [
           {
-            "recordId": "legal-decision:2026-08-28:research-track:ak-correct-record",
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "anchorStatementsVerified": 14
+            "check": "private_is_git_ignored",
+            "diagnosis": "An artifact of the symlink the assignment prescribes. The check runs `git check-ignore -q private/` with a trailing slash; `private` here is a symlink to /home/user/legalease-partner-dashboard-clean/private, and git answers `fatal: pathspec 'private/' is beyond a symbolic link` (exit 128), which the check reads as not-ignored.",
+            "substantivePropertyHolds": "`git ls-files private/` returns nothing, `git status` is clean, and .gitignore line 53 carries `private/`. No source byte can enter a commit from this lane: every add in this lane was by explicit file name.",
+            "actionTaken": "None. .gitignore is not this lane's path and was not edited."
           },
           {
-            "recordId": "compiled-profile:AK-alaska",
-            "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
-            "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
-            "anchorStatementsVerified": 3
+            "check": "corpus_matches_committed_index",
+            "diagnosis": "The one absent entry of the 24 sampled is `LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf`. Reproduced by replaying the check's own deterministic sample.",
+            "substantivePropertyHolds": "An Alabama entry, unrelated to ND and to this family. This family's single source binds byte-exact and the preflight says so on the line above it.",
+            "actionTaken": "None. The committed corpus index is not this lane's path and was not edited. Reported for whoever owns it."
           }
         ],
-        "officialDocuments": [
+        "laterPreflightRunsAlsoShowWorktreeClean": "A preflight re-run after the build attempt additionally reports `FAIL worktree_clean 2 uncommitted path(s)`. That is this lane's own in-progress work, not an environment defect. The verbatim block above is the single pre-work run the assignment asked for."
+      },
+      "whatTheExistingScriptDid": {
+        "scriptPath": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
+        "linesAtBase": 1263,
+        "firstRunUnchanged": "It threw and exited 1, before writing a single file. Verbatim: `NonFilingHoldError: document states it is not for filing: This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to` — raised at scripts/rcap-official-forms/rcap-official-form-finalize.mjs:1008 in finalizeOfficialForm, from renderDocument at build script line 406, from runFamily at line 865.",
+        "sideEffects": "It created three empty directories (fixtures/, raster/, reports/) under the overlay path and wrote no files. Nothing was tracked; git status stayed clean.",
+        "diagnosisBeforeAnyEdit": "The failure is not the script's. Run with --check, which censuses without rendering, the same unmodified script returned CHECK_ONLY and a clean census: SFN-61663, 36 fields censused against 36 declared by the committed corpus index, 2 pages, 0 unmapped widgets, 0 stale dictionary entries, 0 hidden widgets, 0 writes landing on hidden widgets — 6 writes, 26 supply, 2 elections, 2 protected, 0 attorney. The research the script encodes is sound and specific: it refuses both election checkboxes as genuine participant elections, refuses Social Security Number and Race as facts the platform does not hold and will not infer, refuses all three telephone boxes including the two that would bind by field name (because one held unqualified number asserted as a home number is a statement the fact does not support), and protects the signature and signature date. It also records why the queue's form number finds nothing in the corpus index while the binary sits there byte-exact. None of it fabricates. A rewrite would have destroyed all of it."
+      },
+      "whatYouChangedInIt": {
+        "summary": "Three changes, all inside the one assigned script. No shared module, no other family's overlay, no manifest, no ledger, no route was touched. The non-filing gate was NOT bypassed.",
+        "changes": [
           {
-            "documentId": "DPS-CRI-103",
-            "sourceIds": [
-              "official-form:Request to Correct Criminal Justice Information"
-            ],
-            "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
-            "custody": "master_library",
-            "renderStrategy": "measured_flat_overlay"
+            "change": "Moved the source-receipt.json and field-census.census-v1.json writes from after the fixture-render loop to before it, with a comment saying why.",
+            "why": "Both are measurements of the source: the receipt records what bound and by which digest, the census records widget geometry and per-field policy. Neither reads a render report, so neither depended on being written later. Written first, a build that stops at the fill still leaves the measurement behind for the next lane instead of making it repeat the work. Neither file claims a packet was produced."
+          },
+          {
+            "change": "Wrapped the fixture-render loop in a guard that catches NonFilingHoldError, writes build-findings.json recording the hold with its evidence, removes the empty fixtures/raster/reports directories, and returns a structured BLOCKED_NON_FILING_HOLD result.",
+            "why": "A stack trace is not a finding. The hold is a real refusal that a reviewer has to adjudicate, so it is recorded with the matched text, where it is printed, what it is, and who owns the fix. The guard records the hold; it does not suppress it. No fixture, no field map, no participant instructions and no approval request are written on this path."
+          },
+          {
+            "change": "Made the CLI wrapper exit 2 on any status that is not COMPLETED or CHECK_ONLY.",
+            "why": "Pre-existing latent defect in the same script, in this lane's path: both blocked paths — including the already-present BLOCKED_SOURCE return for a source that will not bind — printed their status object and then exited 0. A green exit code from a build that produced no fixture reads as a completed build to any sweep or CI step that does not parse the JSON. Verified: blocked run now exits 2, --check still exits 0."
           }
+        ],
+        "whatWasDeliberatelyNotChanged": "The field dictionary, the fact map, the fixtures definition, the census logic and every refusal reason are exactly as the original author wrote them. Nothing was retuned to move a counter."
+      },
+      "reliefIdentityFinding": {
+        "question": "The route key names both pardon and sealing relief, and the only held source is a pardon application. Which relief does this family deliver, and to which body?",
+        "answer": "An application for EXECUTIVE CLEMENCY — an unconditional pardon with removal of guilt — filed with an AGENCY, not a court. It is not sealing and not expungement.",
+        "isThisWrongDeliveryType": false,
+        "why": "The route key's pathway segment `marijuana-specific-summary-pardon-or-sealing-relief` is a disjunctive obligation label covering however a jurisdiction answers that obligation. North Dakota answers it on the pardon branch, and the record says so in four independent places rather than only on the form's title.",
+        "recordedBasis": [
+          "data/record-clearing/legal-design-track-registry.json, ND track nd-summary-marijuana-pardon — legalName `Application to Pardon Eligible Marijuana Offences (N.D.C.C. ch. 12-55.1; SFN 61663)`; publicName `Apply for North Dakota's summary marijuana pardon`; venue `No court venue. The application goes to the Pardon Advisory Board through the pardon clerk.`; destination.kind `agency`, destination.name `Clerk, Pardon Advisory Board, North Dakota Department of Corrections and Rehabilitation`. Its mechanism states in terms that `the form warns in terms that a pardon request will not expunge a criminal history record`.",
+          "data/record-clearing/legal-design-packet-set-manifests.json — the same single official_pdf_fill component on SFN-61663, with attachment_instructions and deadline_instructions as process_guidance. Consistent with the registry; no sealing component anywhere in the set.",
+          "data/record-clearing/legal-design-intake/ND.memo.json, track nd-summary-marijuana-pardon — nodeType `supporting_action`, not a relief track. legalDesignDecision.rationale: `It is a supporting action rather than a relief track because it clears no record itself; it produces the unconditional pardon that is the eligibility ground for the pardoned-conviction seal.` A packet_instruction limitation states `A pardon will not expunge a criminal history record`, citing N.D.C.C. § 12-55.1-01(4).",
+          "The source document's own face, read at 300-dpi-equivalent text extraction from the bound bytes. First printed instruction bullet, page 1: `A REQUEST FOR A PARDON WILL NOT EXPUNGE AN INDIVIDUAL'S CRIMINAL HISTORY RECORD.` Page 2 reproduces N.D.C.C. 12-55-1.01(4): `A pardon does not remove the fact of that person's conviction or plea or finding of guilt for an offense unless specifically stated in the certificate of pardon.`"
+        ],
+        "theSealingRouteIsADifferentRoute": "ND.memo.json lists as a self-help stop condition: `A participant confusing the executive pardon with the court sealing route under N.D.C.C. § 19-03.1-23(9).` The court sealing route is a separate route and is not this family. Any participant-facing copy this family ever ships must lead with the form's own non-expungement warning and must never present itself as sealing or expungement.",
+        "otherMaterialFactsOnTheSourceFace": [
+          "Open Record Notice: on the Department's receipt the application becomes public record, and participation is documented in the Board's published agenda and minutes. This is a participant-facing consequence that belongs in any instructions this family ever ships.",
+          "The Board meets in April and November and the form must be received 90 days before the Board convenes.",
+          "Items 1 to 4 on the form are certifications and a consent to a criminal-history background check. They are printed text, not widgets, and are attested by the applicant's own signature. Nothing in this lane pre-attested any of them; no fill was performed at all."
         ]
       },
-      "artifacts": [
+      "sourceBinding": {
+        "sourceId": "official-form:SFN-61663",
+        "expectedSha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+        "recomputedFromCustody": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+        "matches": true,
+        "recomputedHow": "sha256sum run directly against the file in the mounted Master Library, independently of the build script and of the preflight.",
+        "pathInCustody": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+        "custody": "master_library",
+        "byteLength": 46054,
+        "tier": "exact_identity_confirmed_from_document_text",
+        "documentIsTheRightDocument": "Confirmed from the document's own text, not from its filename: page 1 header `NORTH DAKOTA PARDON ADVISORY BOARD APPLICATION TO PARDON ELIGIBLE MARIJUANA OFFENSES`, `SFN 61663 (02-2020)`, 2 pages, 36 AcroForm widgets.",
+        "sourceBinaryCommitted": false
+      },
+      "canonicalSha256": null,
+      "boundarySha256": null,
+      "pageCounts": {
+        "sourceDocumentPages": 2,
+        "canonicalFixturePages": null,
+        "boundaryFixturePages": null,
+        "note": "Null because no fixture was rendered. Not zero — zero would be a measurement, and there is nothing to measure."
+      },
+      "componentsRendered": 0,
+      "componentsInFamily": 3,
+      "componentsRenderedNote": "0 of 3. The primary_filing component (component:nd-summary-marijuana-pardon-primary-filing-1, official_pdf_fill on SFN-61663) is the one the hold stops, and the two process_guidance components were not rendered either because a guidance-only packet with no primary filing is not this family.",
+      "nineCounters": {
+        "measured": false,
+        "values": null,
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-summary-marijuana-pardon-set",
+        "exitCode": 2,
+        "verbatim": "REFUSED: --family nd-summary-marijuana-pardon-set matches no auditable family. 252 are auditable at this head.",
+        "why": "The verifier's auditability test (verify-packet-completeness.mjs looksBuilt, line 663) requires production-field-map.json AND at least one .pdf under fixtures/. Neither exists, because nothing was rendered. The family is correctly not auditable.",
+        "notReportedAsZeros": "Nine zeros are what an unbuilt family would look like if the counters were reported anyway, and that reading would be false. The counters are NOT MEASURABLE for this family at this head, and that is the measurement."
+      },
+      "blockers": [
         {
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
-          "byteLength": 160071,
-          "pageCount": 5,
-          "documents": [
-            "agency_route_sheet",
-            "DPS-CRI-103",
-            "evidence_checklist"
-          ]
+          "rank": 1,
+          "kind": "TOOLING_GATE_ON_SOURCE_TEXT",
+          "blocking": true,
+          "what": "finalizeOfficialForm refuses to write onto SFN-61663. detectNonFilingNotice matched the pattern id `informational_purposes_only` against the page-1 footer sentence `This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to obtain advice with respect to any particular issue or problem.`",
+          "assessment": "Probable false positive, with high confidence.",
+          "reasoning": "The matched sentence is a legal-advice disclaimer whose subject is the two advisory notes printed immediately above it — `Open Record Notice:` and `Effect of Pardon with Removal of Guilt:`. It is not the form describing itself as a reference copy. The same page instructs `If you fail to complete this application in full, including the needed attachments, it will be returned to you`, gives three submission channels (fax 701-328-6780, P.O. Box 1898 Bismarck ND 58502-1898, pardonclerk@nd.gov), carries a `Signature of Applicant` widget among 36 fillable widgets, and is the form prescribed under N.D.C.C. 12-55-1.06. The words sample, specimen, draft and `do not file` appear nowhere in the document.",
+          "corroboratedByTheRepoItself": "The repo's earlier and narrower detector agrees. NON_FILING_PATTERNS in scripts/rcap-official-forms/rcap-non-filing-notice.mjs is subject-anchored on `THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY` — a claim whose subject is the form. Run against this footer all four of its patterns return false, while it still matches the North Carolina translation notice it was written for. The looser list in scripts/rcap-official-forms/rcap-source-notice.mjs reduced that to the bare substring `for informational purposes only`, dropping the subject anchor. Its own header comment states the intended test as `a document that says any one of them about itself` — the implementation no longer enforces `about itself`.",
+          "whyThisLaneDidNotProceed": "scripts/rcap-official-forms/rcap-source-notice.mjs is shared by every official_pdf_fill family and is outside this lane's two assigned paths. The only two ways past the gate from inside this build were to edit that detector — another lane's decision, on a gate that protects real non-filing documents — or to pass finalizeOfficialForm a trimmed documentTextLines, which is withholding evidence from a safety gate to make it pass. Filling a form by suppressing the sentence that stopped the fill is the defect this factory exists to catch, so neither was done.",
+          "ownedBy": "the lane that owns scripts/rcap-official-forms/rcap-source-notice.mjs",
+          "suggestedRemedy": "Restore the subject anchor on the informational_purposes_only pattern so it matches a document describing itself rather than any legal-advice disclaimer, then re-run this builder unchanged. The census is already clean at 36/36 fields, so the family should build without further work on this script. A repo-wide re-check is worth doing at the same time: any other official form carrying an ordinary legal-advice disclaimer is being held by the same over-match.",
+          "notVerifiedByThisLane": "This assessment is this lane's reasoning and evidence. It is not an adjudication, and this lane does not clear its own blocker."
         },
         {
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
-          "byteLength": 160235,
-          "pageCount": 5,
-          "documents": [
-            "agency_route_sheet",
-            "DPS-CRI-103",
-            "evidence_checklist"
-          ]
+          "rank": 2,
+          "kind": "OPEN_COUNSEL_CLASSIFICATION",
+          "blocking": "not for drafting; blocking for ship",
+          "what": "data/record-clearing/legal-design-intake/ND.memo.json records an unresolved question with impact `counsel_classification_required` on affectedElement `output_strategy`: `The controlling review states at Part 4 that LegalEase cannot complete any pardon application.` The memo argues this is a scope restriction rather than a legal or product-model bar, and states `The classification must be settled before the route ships, and if counsel affirms the restriction this node should be downgraded to a routing node.`",
+          "controllingReview": "ND__LEGAL-REVIEW__STATEWIDE__north-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md, Edition 1.2, Part 4 — PROCESS-GUIDANCE SPECIFICATION.",
+          "howThisLaneTreatedIt": "As a live open item carried forward, not as a build stop. AGENTS.md's build-first review model makes counsel review a blocker for approved_for_live and live, not for overlay drafting. It is recorded here because it bears directly on whether this family may ever be filled at all, and because it points the same way as blocker 1: if counsel affirms the restriction, this node becomes a routing node and the fill question is moot.",
+          "secondOpenItem": "The same memo records a second unresolved question with impact `release_blocker`: the fax number printed on the face of SFN 61663 differs from the one the Department of Corrections publishes on its pardon web page. The memo's resolution is that the form's number governs and the conflict is recorded. Anything this family ever ships must carry the form's number."
         }
       ],
-      "byteProof": [
-        {
-          "fixture": "canonical",
-          "writesProvedFromOutputBytes": 8,
-          "addedGlyphsReadFromOutputBytes": 127,
-          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-          "refusedFieldsWithInk": 0
-        },
-        {
-          "fixture": "boundary",
-          "writesProvedFromOutputBytes": 8,
-          "addedGlyphsReadFromOutputBytes": 286,
-          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-          "refusedFieldsWithInk": 0
-        }
-      ],
-      "requiredBeforeFilingDeclaredAndDisclosed": 21,
-      "determinism": {
-        "proof": "built twice in this container; every fixture SHA-256 identical across both builds",
-        "byteIdentical": true
+      "whatWasWrittenToTheOverlayDirectory": {
+        "files": [
+          "source-receipt.json — the source binding, recomputed and byte-exact. Claims nothing about a packet. sourceBinaryCommitted false, commercialRoutesOpened 0.",
+          "field-census.census-v1.json — measured widget geometry, printed caption at each coordinate, and per-field policy for all 36 fields. A measurement of the source.",
+          "build-findings.json — the hold, its matched text, where it is printed, the evidence that this is the filing copy, who owns the fix, and what this does not claim."
+        ],
+        "filesDeliberatelyAbsent": [
+          "fixtures/canonical.pdf and fixtures/boundary.pdf — nothing was rendered.",
+          "production-field-map.json — a field map is a record of decisions applied to a document. With no fill performed it would be a plan presented as a record.",
+          "reports/rendered-artifacts.json and reports/actual-writes.json — there are no rendered artifacts and no actual writes. Empty files here would read as a build that wrote nothing rather than a build that did not run.",
+          "participant-instructions.md — no packet exists for a participant to be instructed about.",
+          "approval-request.json — this lane requests no approval and no promotion."
+        ],
+        "emptyDirectoriesRemoved": "The fixtures/, raster/ and reports/ directories the first run left behind were removed by the guard, so nothing on disk suggests a rendered packet."
       },
-      "rasterState": "BUILT_RASTER_PENDING",
-      "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
-      "selfVerified": false,
-      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
-    },
-    {
-      "itemId": "ar-drug-court-set",
-      "status": "COMPLETED",
-      "verdict": "BUILT_RASTER_PENDING",
-      "workerId": "CODEX-CS2-WORKER-B",
-      "workerBranch": "codex/cs2-worker-b-ar-drug-court",
-      "continuationBaseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-ar-drug-court-set.mjs",
-      "routeKeys": [
-        "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-1",
-        "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-2"
-      ],
-      "routeSelectionId": "ar-drug-court-pre-or-post-pair",
-      "componentSet": [
-        "ar-drug-court-process-guidance-1",
-        "ar-drug-court-primary-filing-2",
-        "ar-drug-court-proposed-order-3"
-      ],
-      "sources": [
-        {
-          "documentId": "ACIC-PETITION-DRUG-COURT-PRE",
-          "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
-          "byteLength": 356744
-        },
-        {
-          "documentId": "ACIC-PETITION-DRUG-COURT-POST",
-          "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
-          "byteLength": 1026997
-        },
-        {
-          "documentId": "ACIC-ORDER-DRUG-COURT-PRE",
-          "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
-          "byteLength": 312762
-        },
-        {
-          "documentId": "ACIC-ORDER-DRUG-COURT-POST",
-          "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
-          "byteLength": 603002
-        }
-      ],
-      "sourceCustody": "read-only shared rcap-d-source-packs-2026-08-12/D1; no source copied or acquired",
-      "artifacts": [
-        {
-          "packetId": "pre-adjudication-canonical",
-          "posture": "pre-adjudication",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
-          "sha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
-          "byteLength": 692600,
-          "pageCount": 9,
-          "documents": [
-            "ar-drug-court-process-guidance-1",
-            "ACIC-PETITION-DRUG-COURT-PRE",
-            "ACIC-ORDER-DRUG-COURT-PRE"
-          ]
-        },
-        {
-          "packetId": "pre-adjudication-boundary",
-          "posture": "pre-adjudication",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
-          "sha256": "cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98",
-          "byteLength": 693129,
-          "pageCount": 9,
-          "documents": [
-            "ar-drug-court-process-guidance-1",
-            "ACIC-PETITION-DRUG-COURT-PRE",
-            "ACIC-ORDER-DRUG-COURT-PRE"
-          ]
-        },
-        {
-          "packetId": "post-adjudication-canonical",
-          "posture": "post-adjudication",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-canonical.pdf",
-          "sha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
-          "byteLength": 1430391,
-          "pageCount": 9,
-          "documents": [
-            "ar-drug-court-process-guidance-1",
-            "ACIC-PETITION-DRUG-COURT-POST",
-            "ACIC-ORDER-DRUG-COURT-POST"
-          ]
-        },
-        {
-          "packetId": "post-adjudication-boundary",
-          "posture": "post-adjudication",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-boundary.pdf",
-          "sha256": "5ee9b46cac392fd7f6af81179084cf92906ed38d05578656057566d9f0dedd0f",
-          "byteLength": 1430836,
-          "pageCount": 9,
-          "documents": [
-            "ar-drug-court-process-guidance-1",
-            "ACIC-PETITION-DRUG-COURT-POST",
-            "ACIC-ORDER-DRUG-COURT-POST"
-          ]
-        }
-      ],
-      "fieldCensus": {
-        "terminalFields": 190,
-        "written": 22,
-        "classifiedBlanks": 168
+      "rasters": {
+        "produced": 0,
+        "note": "No page was rendered, so none was rasterized and there was nothing to delete. No PNG was written anywhere by this lane, under /tmp or in the tree."
       },
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "nineCountersZero": true,
-      "completenessResult": "PASS_COMPLETE",
-      "focusedChecks": [
-        {
-          "command": "node --check scripts/build-census-v1-ar-drug-court-set.mjs",
-          "result": "PASS"
-        },
-        {
-          "command": "node scripts/build-census-v1-ar-drug-court-set.mjs --check",
-          "result": "CHECK_OK"
-        },
-        {
-          "command": "node scripts/build-census-v1-ar-drug-court-set.mjs --self-test",
-          "result": "SELF_TEST_OK"
-        },
-        {
-          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set",
-          "result": "PASS_COMPLETE; all nine counters zero"
-        },
-        {
-          "command": "git diff --check",
-          "result": "PASS"
-        }
+      "whatIsStillOpen": [
+        "The non-filing gate over-match in scripts/rcap-official-forms/rcap-source-notice.mjs. Owned by that file's lane. Until it is adjudicated, this family cannot render its primary filing.",
+        "The counsel classification on whether LegalEase may complete a pardon application at all (ND controlling review Part 4). If counsel affirms the restriction, this node is downgraded to a routing node and the packet should not be built.",
+        "The SFN 61663 fax-number conflict against the Department's published number, recorded in ND.memo.json as a release_blocker.",
+        "The preflight's corpus_matches_committed_index failure on LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. Unrelated to ND; reported for whoever owns the committed corpus index.",
+        "Everything downstream of a render: fixtures, field map, participant instructions, write proofs, raster inspection, the nine counters, and independent verification. None of it has been done, because the render did not happen.",
+        "The three offence-table Judge/Prosecutor/Defense cells the original author flagged for reviewer challenge remain unexamined by this lane, since they could not be exercised without a fill."
       ],
-      "determinism": {
-        "proved": true,
-        "rebuildsCompared": 2,
-        "result": "all four assembled packet SHA-256 values and byte lengths identical"
-      },
-      "rasterState": "BUILT_RASTER_PENDING",
-      "independentVerificationStatus": "PENDING",
-      "claimReleased": false,
-      "selfVerified": false,
-      "centralStateEdits": 0,
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "grantsNothing": "A built family is not independently verified, approved for live, or commercially deliverable."
-    },
-    {
-      "itemId": "ar-felony-seal-set",
-      "status": "COMPLETED",
-      "verdict": "BUILT_RASTER_PENDING",
-      "workerId": "CODEX-CS2-WORKER-B",
-      "workerBranch": "codex/cs2-worker-b-ar-felony-seal",
-      "continuationBaseSha": "3faaa1b8364505b1a511021f4c18c1eb1e992489",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-ar-felony-seal-set.mjs",
-      "routeKeys": [
-        "obligation:track-pathway:AR:ar-felony-seal:situation-c-felony-convictions"
+      "whatThisDoesNotClaim": [
+        "No packet was built. No fixture, field map, participant instructions or write proof exists for this family.",
+        "No page was rendered and no page was looked at, because there was no rendered page to look at. No visual inspection is claimed.",
+        "The nine counters were not measured and are not reported as zeros. The verifier refused the family as not auditable, and that refusal is quoted verbatim above.",
+        "This lane did not verify its own work, asserts no PASS, requests no promotion, and touched no independent-verification row.",
+        "The family's terminal state is not set here. state, artifactStatus and completenessStatus are left as this lane found them: SOURCE_READY, NOT_RENDERED, NOT_BUILT.",
+        "The assessment that the non-filing hold is a false positive is this lane's reasoning with its evidence attached. It is not an adjudication and it does not clear the gate.",
+        "No shared module, no other family's overlay, no manifest, no route, no ledger and no claim ledger was modified. The four other ND family directories were read as references only and were not touched. The grant was not released.",
+        "PF13's other three grants are untouched and unexamined by this task."
       ],
-      "componentSet": [
-        "ar-felony-seal-primary-filing-1",
-        "ar-felony-seal-proposed-order-2"
-      ],
-      "sources": [
-        {
-          "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
-          "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-          "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
-          "byteLength": 178947,
-          "pageCount": 4
-        },
-        {
-          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
-          "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-          "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
-          "byteLength": 240203,
-          "pageCount": 3
-        }
-      ],
-      "sourceCustody": "read-only shared rcap-d-source-packs-2026-08-12/D1; no source copied or acquired",
-      "artifacts": [
-        {
-          "fixture": "canonical",
-          "packetId": "ar-felony-seal-set-canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
-          "byteLength": 415348,
-          "pageCount": 7,
-          "documents": [
-            "ACIC-UNIFORM-PETITION-TO-SEAL",
-            "ACIC-UNIFORM-ORDER-TO-SEAL"
-          ],
-          "components": [
-            "ar-felony-seal-primary-filing-1",
-            "ar-felony-seal-proposed-order-2"
-          ],
-          "pageManifest": [
-            {
-              "packetPage": 1,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 1,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 2,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 2,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 3,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 3,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 4,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 4,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 5,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 1,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            },
-            {
-              "packetPage": 6,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 2,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            },
-            {
-              "packetPage": 7,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 3,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            }
-          ]
-        },
-        {
-          "fixture": "boundary",
-          "packetId": "ar-felony-seal-set-boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb",
-          "byteLength": 415570,
-          "pageCount": 7,
-          "documents": [
-            "ACIC-UNIFORM-PETITION-TO-SEAL",
-            "ACIC-UNIFORM-ORDER-TO-SEAL"
-          ],
-          "components": [
-            "ar-felony-seal-primary-filing-1",
-            "ar-felony-seal-proposed-order-2"
-          ],
-          "pageManifest": [
-            {
-              "packetPage": 1,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 1,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 2,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 2,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 3,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 3,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 4,
-              "component": "ar-felony-seal-primary-filing-1",
-              "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
-              "sourcePage": 4,
-              "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
-            },
-            {
-              "packetPage": 5,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 1,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            },
-            {
-              "packetPage": 6,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 2,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            },
-            {
-              "packetPage": 7,
-              "component": "ar-felony-seal-proposed-order-2",
-              "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
-              "sourcePage": 3,
-              "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
-            }
-          ]
-        }
-      ],
-      "fieldCensus": {
-        "terminalFields": 96,
-        "written": 40,
-        "classifiedBlanks": 56,
-        "requiredBeforeFilingDeclaredAndDisclosed": 4
-      },
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "allNineCountersZero": true,
-      "deterministicBuild": {
-        "proved": true,
-        "rebuildsCompared": 2,
-        "result": "two separate builder processes produced identical sorted PDF path/SHA-256/byte-length manifests"
-      },
-      "rasterState": "BUILT_RASTER_PENDING",
-      "independentVerificationStatus": "PENDING",
-      "claimReleased": false,
-      "selfVerified": false,
-      "centralStateEdits": 0,
-      "commercialRoutesOpened": 0,
-      "productionTouched": false,
-      "grantsNothing": "A built family is not independently verified, approved for live, or commercially deliverable."
+      "grantsNothing": "A build lane's row grants nothing. It is not completeness verification, visual approval, counsel approval, source-freshness approval, live approval, or commercial authority. Commercial authority comes only from a Grade-A fulfillment record keyed to an exact route and packet family, and this family has none. No route was changed and no route was opened: commercialRoutesOpened is 0. A blocked family is a refusal, not a gap to be filled by assumption."
     }
-  ],
-  "currentRun": {
-    "workerId": "CODEX-CS2-WORKER-B",
-    "workerBranch": "codex/cs2-worker-b-ar-drug-court",
-    "continuationBaseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
-    "familiesAssigned": [
-      "ar-drug-court-set"
-    ],
-    "familiesCompleted": [
-      "ar-drug-court-set"
-    ],
-    "familiesStopped": [],
-    "rowsReturned": 1,
-    "rasterState": "BUILT_RASTER_PENDING",
-    "claimsReleased": 0,
-    "packetsSelfVerified": 0,
-    "commercialRoutesOpened": 0,
-    "productionTouched": false
-  }
+  ]
 }
