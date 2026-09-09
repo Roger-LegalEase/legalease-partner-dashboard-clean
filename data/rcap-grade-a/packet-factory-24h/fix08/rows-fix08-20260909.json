@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "FIX08",
+  "laneKind": "repair",
+  "wave": "packet-factory-24h/FIX08 (2026-09-09)",
+  "generatedBy": "CLAUDE-FIX08 (repair lane; dispatched to this lane after the coordinator withdrew the invented lane id FIX121B)",
+  "repairedAtBase": "cd27ee4c4903be1b1adcb459c37954dd9206f3b9",
+  "branch": "fix121b-20260909b",
+  "worktree": "/home/user/v5c-worktree",
+  "laneIdHistory": {
+    "note": "This lane first asserted these families as FIX121B and read their artifacts under two live FIX121B grants. The coordinator then withdrew FIX121B as a lane id the roster does not know, re-dispatched ri_first_offender_misdemeanor-set to FIX08 and ri_multiple_misdemeanors-set to FIX01, and instructed a re-assert. Both re-asserts returned CLAIM_OK before any artifact was written. No claim was released, transferred or reissued by this lane.",
+    "firstAssert": "CLAIM_OK FIX121B ri_first_offender_misdemeanor-set (repair, grant set 519ac8835edea969), exit 0",
+    "dispatchedAssert": "CLAIM_OK FIX08 ri_first_offender_misdemeanor-set (repair, grant set b9e21f29c4803cf3), exit 0"
+  },
+  "rows": [
+    {
+      "itemId": "ri_first_offender_misdemeanor-set",
+      "status": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 ri_first_offender_misdemeanor-set returned CLAIM_OK FIX08 ri_first_offender_misdemeanor-set (repair, grant set b9e21f29c4803cf3), exit 0. No release, no transfer, no ledger write; claim-ledger.json is not touched by this return.",
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "obligationCoverage": "FEE_AND_WAIVER is the only obligation this family failed and it is the only obligation this row addresses.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS — no raster was performed by this lane. The two PDFs are byte-identical to the bytes VF04 read, but this lane looked at no page image and visualDefects records that nobody here looked, not that there is nothing to see.",
+        "RI-B-07 itself — the open District Court filing-charge question. This repair scopes the Superior Court answer away from this District route; it does not establish what the Rhode Island District Court charges. No District-specific official source and no clerk response was obtained, and none is held.",
+        "Counsel review and any release approval. This row opens no commercial route."
+      ],
+      "whatWasActuallyWrong": {
+        "carriedFinding": "MASTER_QUEUE.json failedObligations[0] for this family, read live at base cd27ee4c4, reproduces the VF04/VF05 finding: the 2026-09-06 owner-relayed research applied the Rhode Island SUPERIOR COURT expungement-FAQ no-fee answer to all four Chapter 12-1.3 tracks through two limbs, FIX120 pass 2 corrected only the researchResolvedQuestions limb on the two DISTRICT tracks, and rules.fees plus rules.researchParticipantText.fee survived unscoped in four locations per District track.",
+        "thoseFourLocationsWereAlreadyRepairedBeforeThisLaneStarted": "TRUE, and measured rather than assumed. Commit d4984cbc5 ('Scope the eight surviving Rhode Island fee copies to the Superior Court') already rewrote legal-design-track-registry.json tracks[365] and tracks[367] and RI.memo.json tracks[0] and tracks[2]. This lane read all four at base cd27ee4c4 and confirms each now names the District Court, names RI-B-07, prints no District figure, and revives neither the repealed $100 grant charge nor the civil schedule. Those four are NOT re-reported here: a finding a later repair already closed is not a defect.",
+        "whatThisLaneFoundStillOpen": "The same defect, on the same obligation, on the same two families, in a place the earlier record sweep did not reach: the families' OWN committed artifacts. The prior enumeration searched three central legal records (legal-design-track-registry.json, RI.memo.json, legal-design-packet-set-manifests.json) and never reached the overlay directories. In BOTH District families, source-receipt.json groundingRecords[4] bound the Superior FAQ as 'the fee source for this packet, as a recorded authority statement' and asserted it 'is the only fee authority this family binds' — on a DISTRICT route, with no District scope limit and no reference to RI-B-07 on that grounding record. The same file contradicted itself at whatThisReceiptDoesNotEstablish[6], which already said the Superior no-fee answer 'does not establish it (independent review finding RI-B-07, which this build does not close)'. Two voices in one delivered file. approval-request.json carried the matching defect: its fee question asked counsel to 'Confirm that answer for this route' — i.e. to confirm the Superior no-fee answer for a District route, which is precisely what RI-B-07 holds cannot be done from that source — and never named RI-B-07.",
+        "whyThisIsTheSameMechanismAndNotANewOne": "It is the one-copy-fixed-duplicate-left pattern, third occurrence, from the same 2026-09-06 owner direction, on the same two tracks. The verifier's own finding predicted it in reverse: it reasoned that 'the only reason no District packet byte carries it today is that scripts/build-census-v1-ri_decriminalized-set.mjs never reads rules.fees or researchParticipantText'. That reasoning is correct about the FIELD and wrong about the BYTES. This lane grepped the host and confirms it never reads either field — and also found the host HARDCODES the identical claim into the generated receipt. The defect reached the delivered artifacts by hardcoding rather than by field reference, which is the exact trap the finding named and then did not measure for."
+      },
+      "oneMechanismOrTwo": {
+        "question": "Two Rhode Island families failing the same single obligation — one mechanism or two?",
+        "answer": "ONE mechanism, established before repairing anything. Both families' failedObligations entries in MASTER_QUEUE.json are character-for-character identical. Both are District Court routes on DC-33. Both are members of the same DISTRICT_COURT_CHARGE_NOT_ESTABLISHED set in the same shared build host, and both receive the defective grounding record from the same single code site. The repair is therefore one gated change at one site, not two.",
+        "measuredHow": "Byte comparison of the two failedObligations.finding strings, plus reading the shared host."
+      },
+      "whichRecordGoverns": {
+        "theCautionThisAddresses": "The dispatch warned that the registry has been observed to carry two voices on whether a fee figure may be shown to a participant, and that an Illinois county fee-table release blocker stands in tension with a verbatim-printing requirement. Both were checked against this route.",
+        "theTwoCandidateRecords": [
+          "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json — owner-RELAYED research, 2026-09-06, applied the Superior Court FAQ no-fee answer to all four Chapter 12-1.3 motion tracks.",
+          "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json finding RI-B-07 — independent review, 2026-09-07."
+        ],
+        "governingRecord": "RI-B-07 governs this route, and the conflict is resolved rather than genuine.",
+        "quotedHolding": "RI-B-07, type BOUNDED_FEE_SOURCE_LIMIT, families ['ri_first_offender_misdemeanor-set','ri_multiple_misdemeanors-set']: 'The Superior Court FAQ affirmatively says no expungement fee. It has now been directly checked instead of merely owner-relayed. It is not, by itself, an independently verified District Court filing-fee schedule. Current section 12-1.3-3(c) contains no former $100 grant charge.'",
+        "quotedRemainingQuestion": "RI-B-07 exactRemainingQuestion: 'For these District Court filings, confirm the present filing charge, if any, from a District-specific official source or actual clerk response. Do not reintroduce the repealed $100 grant charge, apply civil fees, or ask counsel to find a nonexistent official proposed-order form.'",
+        "whyRI_B_07WinsHere": "It is later (09-07 v 09-06); it was taken from the page directly rather than relayed; it names these two families by id, where the owner record addressed all four tracks generically; and the repository has already adopted it on this route in the track registry, in RI.memo.json and in the build host's own DISTRICT_COURT_CHARGE_NOT_ESTABLISHED gate. The owner record is preserved, not deleted, and remains correct on the two Superior Court tracks.",
+        "illinoisTension": "Does not reach this route. The Illinois hits for the no-fee phrasing are Supreme Court Rule 298 fee-waiver text in Illinois families and legal-design-specifications.json officialFormAssignments; no Illinois record is bound by this family, and this repair prints and withholds no dollar figure — it scopes an authority claim.",
+        "noFigureQuestionArises": "This repair does not turn on printing or withholding a specific dollar figure. No figure is printed before or after, on the page or in the records. The repealed $100 charge appears in the repaired bytes only inside RI-B-07's own prohibition against reintroducing it."
+      },
+      "theRepair": {
+        "site": "scripts/build-census-v1-ri_decriminalized-set.mjs — the shared Rhode Island build host, at the two code sites that emit the fee grounding record into source-receipt.json and the fee question into approval-request.json.",
+        "gating": "Both changes are gated on DISTRICT_COURT_CHARGE_NOT_ESTABLISHED, whose membership is exactly ri_first_offender_misdemeanor and ri_multiple_misdemeanors — this lane's two families and no others. The Superior Court branch text is preserved verbatim in the else-arm.",
+        "whatChanged": [
+          "source-receipt.json groundingRecords[4].boundAs — no longer 'the fee source for this packet'. It now states that the Superior no-fee answer is carried as context and provenance, is NOT this family's filing-fee authority, that this route files in the District Court on DC-33, quotes RI-B-07's holding, and states that this family binds no District Court filing-fee authority and prints no District figure.",
+          "source-receipt.json groundingRecords[4].read — no longer 'it is the only fee authority this family binds'. The Superior answer is preserved verbatim with its support, supportUrl and provenance; the record now says it does not reach this District route, is not this family's fee authority, and clears no release blocker for this track.",
+          "source-receipt.json groundingRecords[4] — added clearsReleaseBlockerForThisTrack false, scopeLimitedTo 'the identified Rhode Island SUPERIOR COURT routes', doesNotReachThisTrackBecause (quoting RI-B-07 and explaining why it governs over the 2026-09-06 record), remainingOpenQuestionFindingId 'RI-B-07', exactRemainingQuestion verbatim, and whatThisBuildDidNotDoAboutIt. This is the same scoping vocabulary the track registry already uses on these two tracks.",
+          "source-receipt.json groundingRecords[4].provenanceLimit — the tail 'a District Court or Family Court filing needs that court's clerk to confirm it applies' is replaced on District routes by a statement that under RI-B-07 the Superior answer does not establish what this District Court charges, that the participant is sent to the District Court clerk, and that no figure is printed.",
+          "approval-request.json counselQuestionsRaised — the fee question no longer asks counsel to confirm the Superior answer for this route. It states that this is a District Court route, that no District figure is printed, names RI-B-07 as open, states the remaining question, and asks counsel instead to confirm that carrying the Superior answer attributed-and-scoped is the right treatment."
+        ],
+        "whatWasDeliberatelyNotChanged": "The participant-facing prose. Neither the PDF filing-instructions fee section nor participant-instructions.md was altered. An independent reader rendered page 11 of both fixtures at 300 dpi and read it, and this lane cannot raster; overturning a measured page reading from a text-level reading, in a change nobody here can visually verify, is not a repair this lane is entitled to make. The delivered pages already name the Superior Court as the source of the no-fee answer, then state in terms that the participant's case is in the District Court and the Superior answer does not establish what the District Court charges.",
+        "nothingWasShrunk": "No fee or waiver notice owed to the participant was removed or narrowed. The Superior answer, its support, its supportUrl and its provenance are all preserved. The $5 BCI state-check charge is untouched and still stated as a charge for the record and expressly not a court filing fee. No participant-facing sentence was deleted."
+      },
+      "builderAssertionsRemoved": "None. No builder assertion pinned this defect in place; the host emits the grounding record unconditionally for the four fee-answer tracks and needed only a District branch. Nothing was deleted to make an obligation pass.",
+      "control": {
+        "script": "data/rcap-grade-a/packet-factory-24h/fix08/control-ri-district-fee-scope-20260909.mjs",
+        "whatItMeasures": "For each District family: that no grounding record in source-receipt.json binds the Superior FAQ as this family's fee authority; that the fee grounding record ITSELF (not merely the file) carries the District scope limit and names RI-B-07; that no grounding field revives the repealed $100 charge outside a refusal of it; and that the approval-request fee question does not ask counsel to confirm the Superior answer for this route and does name RI-B-07.",
+        "readingOnPreRepairBytes": "CONTROL FIRES: 8 finding(s), exit 1 — 4 on this family (source-receipt boundAs/read binding the Superior FAQ as this District family's fee authority; fee grounding carrying no RI-B-07 District scope limit; approval-request asking counsel to confirm the Superior answer for this District route; approval-request fee question not naming RI-B-07) and 4 identically on ri_multiple_misdemeanors-set.",
+        "readingOnPostRepairBytes": "CONTROL PASSES, exit 0.",
+        "bothReadingsTakenWithTheSameScript": true,
+        "howThePreRepairReadingWasTaken": "git stash push of the two overlay directories, control run against the restored committed bytes, then git stash pop. The build host edit was left in place during the stash, so the pre-repair reading is a reading of the pre-repair DATA, which is what the control measures.",
+        "aFalsePositiveThatWasCorrectedBeforeUse": "The first draft of the control fired post-repair on the string '$100' inside RI-B-07's own prohibition against reintroducing that charge. A refusal of a figure is not a revival of it, so the check was narrowed to fire only where $100 appears without a refusal in the same string. The corrected control was then re-run against the pre-repair bytes and still fires 8, so the narrowing did not blunt it."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set (no --write), and corroborated by MASTER_QUEUE.json counters at this base",
+        "note": "All nine counters were already zero before this repair. FEE_AND_WAIVER is a proof obligation carried in failedObligationNames, not one of the nine counters; the family read PASS_COMPLETE on counters and FAIL_REPAIR_REQUIRED on the obligation at the same time."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set (no --write), run after the repair at base cd27ee4c4 plus this lane's working tree",
+        "verifierLine": "ok   ri_first_offender_misdemeanor-set              PASS_COMPLETE                13/136 written",
+        "allNineZero": true,
+        "visualDefectsCaveat": "The verifier reports visualDefects 0. This lane rendered no page image and that 0 is the tool's reading, not a look. Read it as 'nobody here looked', consistent with BUILT_RASTER_PENDING."
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206",
+          "changedByThisRepair": false,
+          "note": "Byte-identical to the canonical VF04 and VF05 read and hashed. Confirmed twice: once by a full rebuild before any edit, which reproduced this digest exactly, and once by the post-repair rebuild."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "90987141136b5406403ff179368715c6071b43a1f170b81ddf773f5dbbda6c00",
+          "changedByThisRepair": false,
+          "note": "Byte-identical to the boundary VF04 and VF05 read and hashed."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/source-receipt.json",
+          "sha256": "84e7013d5eb2a76c289412dbf45092b5002c27e6b1fc28d9aaaad3ef8a2955fa",
+          "changedByThisRepair": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/approval-request.json",
+          "sha256": "f92abb6b9406c0a5adea2cdb78ec3bdb414f20b1e24389e0f6d5250a2e17e9ea",
+          "changedByThisRepair": true
+        }
+      ],
+      "noPacketByteMoved": "The repair changes two committed family records and no rendered page. Both PDFs hash to the digests VF04 and VF05 recorded, so the raster receipts already bound to those digests remain bound to exactly these bytes.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBinding": "build-status.json for this family reads rasterState BUILT_RASTER_PENDING, rasterEngine 'not rendered in this run', rasterPages 0 — unchanged from the committed bytes. The rebuild was run with --no-raster precisely to hold it there: an unflagged run in this container DOES find a browser and flips the family to RASTER_LOCAL_PENDING_CENTRAL with 30 raster pages, which this lane is not permitted to produce. That first unflagged run was discarded in full and its raster/ output deleted; nothing from it is committed.",
+      "browserNote": "Contrary to the FIX03 container assumption, this worktree's environment DOES resolve a Chromium the rasterizer can execute. This lane still performed no raster, because its dispatch forbids one. Reported so Captain knows the constraint here was a lane rule and not an environment limit.",
+      "overlayDirectoriesModified": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill"
+      ],
+      "buildScriptsModified": [
+        "scripts/build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "sharedRecordsModified": [],
+      "centralArtifactsModified": [],
+      "sharedHostSafety": {
+        "hostIsSharedByTheseFiveFamilies": [
+          "ri_decriminalized-set",
+          "ri_first_offender_felony-set",
+          "ri_first_offender_misdemeanor-set",
+          "ri_multiple_misdemeanors-set",
+          "ri_deferred_sentence-set"
+        ],
+        "howTheOtherFamiliesAreProtected": "Both edits sit inside a DISTRICT_COURT_CHARGE_NOT_ESTABLISHED membership test whose contents are exactly the two families this lane holds. Every other track takes the else-arm, whose text is byte-identical to the pre-repair text. No other family's build was run and no other family's directory was written.",
+        "measuredNotAssumed": "git status over data/rcap-all50/overlays/census-v1/ri/ after both rebuilds shows modifications in exactly two directories; the three other Rhode Island family directories on this host are untouched in the working tree.",
+        "hostMembershipMeasuredBy": "grep for runRhodeIslandFamily across scripts/*.mjs: exactly four thin wrappers import the host, plus the host's own family. ri_nonconviction_sealing-set does NOT use this host and is unaffected."
+      },
+      "independence": "This lane repaired this family and returns no verdict on it. It must be verified by a reader that neither built nor repaired it. Captain routes that; this lane does not choose it.",
+      "grantsNothing": "This row opens no commercial route, promotes no status, releases no claim and approves nothing for participant delivery. RI-B-07 remains open on this route.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
