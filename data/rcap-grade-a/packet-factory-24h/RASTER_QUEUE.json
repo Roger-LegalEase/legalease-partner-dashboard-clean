@@ -24913,21 +24913,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/fixtures/canonical.pdf",
       "canonicalPdfSha256": "38fd3de68ae770fc3351533516e28b24562c483d8c0bec948af17373436639dd",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -24965,9 +24964,37 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS04",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "e673b058867e4ccd335314ef845a5a88362b89bb",
-      "requestedScale": 2.5
+      "requestedScale": 2.5,
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34413372916",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "0cb44ee92a33b4d7b48b145ae57e192ef5c2c438",
+        "jobId": "102673423043",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "38fd3de68ae770fc3351533516e28b24562c483d8c0bec948af17373436639dd",
+        "boundToBoundarySha256": "780f4e79189048e1ac854bb231f1868e24153f10639dac5aaa2b418c1da59790",
+        "documentsDigest": "43f38455d96d69ed46ad4a55371dc5997fe97fa8066a2410492166220e1d381e",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 38,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10128430691",
+          "name": "rcap-raster-la-977d-marijuana-first-offense-set-34413372916",
+          "zipSha256": "sha256:902f2e20fea09a49c6792fa14512dc096a6fd2482edc0e5f5ff5f4247ba6961e"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-977d-marijuana-first-offense-set/la-977d-marijuana-first-offense-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-977d-marijuana-first-offense-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/la/la-978-felony-conviction-set--custom-pleading/fixtures/boundary.pdf",
