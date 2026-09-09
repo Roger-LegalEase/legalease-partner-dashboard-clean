@@ -2271,6 +2271,42 @@ export async function runFamily(argv = process.argv.slice(2)) {
             evaluateDeclaredMinimumSize: true,
             alignWidgetFontSizeToFit: true,
             /*
+             * WHERE A FLATTENED CHECKBOX LANDS.
+             *
+             * SCA-C907 writes its thirteen checkbox appearances with a /BBox in
+             * ABSOLUTE PAGE COORDINATES and no /Matrix. pdf-lib's flatten()
+             * places every appearance with `q 1 0 0 1 Rect.x Rect.y cm ... Do Q`
+             * regardless, so on this form the translate is applied a second time
+             * to coordinates that already carry it and each box draws at roughly
+             * twice its intended position. Read from the delivered bytes before
+             * this flag was passed: the page-1 recital box whose /Rect is
+             * (91.684, 324.912) drew at (183.367, 649.824), and four of the
+             * thirteen left the paper entirely -- so the participant had no box
+             * to tick for the eligibility recital, none for the order elections
+             * and none for the service method the certificate requires, while
+             * opaque squares were stamped over the form's own title, the
+             * petitioner's name line and the body of the statutory recital.
+             *
+             * Passing this gives each appearance the BBox-to-Rect mapping ISO
+             * 32000-1 12.5.5 requires, before the flatten. It is a no-op on a
+             * well-formed appearance and is measured to be one here: of this
+             * form's 70 flattened placements, the 57 origin-anchored ones land
+             * on byte-for-byte identical page coordinates with the flag on and
+             * off, and only the 13 malformed ones move.
+             *
+             * This family's two SCA-C906 siblings reach the same correction by
+             * calling normalizeWidgetAppearancePlacement themselves, because
+             * their host calls sanitizeAndFlatten directly and never reaches
+             * this finalizer. Measured against the pinned SCA-C907 the two
+             * routes produce byte-identical output, so this is the same repair
+             * spelled for the host this builder actually uses -- not a second
+             * one. The shared module is correct as written and is untouched.
+             *
+             * The flag is opt-in, so no other family sharing this finalizer is
+             * affected by this call passing it.
+             */
+            fitAppearancesToRect: true,
+            /*
              * SYNTHESIZED CHECKBOX SQUARES, REFUSED BEFORE THEY ARE DRAWN.
              *
              * pdf-lib's default appearance provider paints a black stroked
