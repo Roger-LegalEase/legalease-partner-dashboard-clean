@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "assignmentId": "PF04-20260909b",
+  "workerId": "PF04",
+  "lane": "packet-build",
+  "workerBranch": "pf04-20260909",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "0b1f0750ae641f6669f65b1f3b903e9d66574cc7",
+  "minimumCaptainSha": "63fc9860ae413ec39d6e3c851d8ab487f390453f",
+  "engine": "Claude Code remote session, real origin present; each family pushed as it finished",
+  "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+  "laneNotes": [
+    "This return is written alongside the existing rows.json, checkpoints.json, PFB_SHIFT_RETURN.json and SESSION08_KY_INSTALLED_RETURN.json in this directory. Nothing already there was read for content, edited or removed.",
+    "Three families were granted to this run: mt_deferred_dismissal-set, mn_petition_609a02_subd3-set and ar-veterans-court-set. All three asserted CLAIM_OK before any family artifact was read.",
+    "No packet in this return was verified by this lane. A builder verdict is not a verdict.",
+    "A STOPPED family here carries its nine counters as null rather than 0. The counters were never measured because no packet was built, and a counter you could not measure is null, never 0. The post-repair reader in generate.mjs consumes only COMPLETED rows, so no null reaches it."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and a stopped one authorizes nothing either.",
+  "familiesAssigned": 3,
+  "rows": [
+    {
+      "itemId": "mt_deferred_dismissal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "rasterState": "NOT_BUILT",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyTheCountersAreNull": "No packet was built, so none of the nine was measured. Writing 0 here would report nine clean measurements that were never taken.",
+      "overlayDirectoryTouched": false,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading",
+      "overlayDirectoryState": "does not exist; this run created no mt/ directory and wrote no byte under data/rcap-all50/overlays/census-v1/mt",
+      "buildScriptWritten": false,
+      "artifacts": [],
+      "claim": "CLAIM_OK PF04 mt_deferred_dismissal-set (packet-build)",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok, 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+      "legalInputStatus": "SETTLED. buildBlockers [] and legalDesignBlockers [] on the committed track registry. This is not a legal stop.",
+      "sourcesResolvedByContent": [
+        {
+          "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "pinnedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "resolved": true,
+          "how": "content digest, not filename: every .pdf/.docx/.doc under the mounted Master Library was hashed and exactly one file carried this digest",
+          "heldAt": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+          "custody": "master_library",
+          "byteLength": 84539,
+          "fileType": "Microsoft Word 2007+ (.docx). Not a PDF."
+        }
+      ],
+      "whyStopped": "The family's one pinned source binds byte-exact and is held. It cannot back the component it is mapped to. The committed packet set for mt_deferred_dismissal-set has FIVE required components, and the fourth, `mt_deferred_dismissal-primary-filing-4`, is declared outputStrategy `official_pdf_fill` against officialFormId `EXPUNGEMENTREMOVALREQUESTFORM.DOCX` - a Microsoft Word document. There is no PDF representation of those pinned bytes in any custody mounted here, so there is no page to overlay and no widget to fill.",
+      "theThreeRecordsThatAgreeOnTheComponentSet": [
+        "data/record-clearing/legal-design-track-registry.json - track mt_deferred_dismissal, packetSet.components: five components, component 4 outputStrategy official_pdf_fill / officialFormId EXPUNGEMENTREMOVALREQUESTFORM.DOCX, requirement \"required\"",
+        "data/record-clearing/legal-design-packet-set-manifests.json - packetSetId mt_deferred_dismissal-set: the identical five-component set",
+        "data/record-clearing/legal-design-specifications.json - officialFormAssignments carries component 4 with mappingStatus \"not_mapped\"; customPleadingSpecs carries components 1, 2 and 3 with templateStatus \"not_drafted\""
+      ],
+      "whyNotConvertedOrSubstituted": [
+        "CONVERTING IS NOT BINDING. LibreOffice is present in this container, so a DOCX-to-PDF conversion was technically available and was not used. A converted page is not the official form's bytes: its layout is renderer- and font-dependent, no committed record attests it, and a source-receipt binding the DOCX digest to pages that are not those bytes is a misleading receipt, not a bound one. Overlay coordinates measured against a locally-rendered document are also not reproducible by the Captain or by an independent verifier.",
+        "THE 2023 PDF IS NOT THIS SOURCE. The Nationwide recovery pool does hold a PDF of this form - `LegalEase Montana/2023-Updated-ExpungementRemovalRequestForm.pdf`, sha256 0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee - and it is the wrong edition. The committed track registry resolves the point expressly: \"Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only.\" The two editions also differ on what the participant must enclose: the 2023 version requires photo identification and the \"Original Court Order\"; the 2024 version drops the photo-ID requirement, requires the \"Original Court Judgement\" instead, and adds \"Deferred Prosecution\" to the fourth request type. Building the participant's DOJ submission on the superseded edition would tell them to enclose the wrong documents, and CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json states the governing rule directly: a determination \"never satisfies one identity by binding the binary of another\".",
+        "COMPOSING A REPLACEMENT IS INVENTING A DOJ FORM. The committed unit description for mt-deferred-criss-submission calls the CRISS Expungement/Removal Request Form \"the required and only vehicle for the DOJ stage of four Montana tracks\". A composed page bearing the shape of a Department of Justice form is a fabricated agency instrument."
+      ],
+      "whyNotBuiltWithoutThatComponent": "Dropping component 4 and shipping the four composed pages would zero the counters and shrink the delivery. The committed record names that exact outcome as the Montana failure mode: \"A Montana packet that stops at a signed court order leaves the conviction sitting on the participant's background check.\" Section 46-18-204(2) puts the DOJ submission on the participant, and a packet that silently omits it is worse than one that was never started. The builder contract reaches the same answer mechanically - a component the map names and no artifact renders is requiredComponentsMissing.",
+      "aCommittedReleaseBlockerAlreadySaysThis": "The track registry carries this as a named release blocker, in its own words: \"Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. ... The mapping is retained rather than dropped ... and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified.\" This lane owns neither the Master Library edition nor the authority gate, so it reports the mismatch rather than editing around it.",
+      "correctedRecordFinding": {
+        "finding": "data/record-clearing/source-artifact-registry.json records this artifact as technicalClass \"no_pdf_required\", fieldCount null, role null - it was never inventoried as a fillable form.",
+        "consequence": "The queue row's officialFormFamily and the packet set's component 4 both point at an asset the artifact registry never classed as a packet form. Resolving that is a source determination, not a build decision."
+      },
+      "whatTheNextLaneStartsWith": [
+        "The one pinned source binds byte-exact and is held; nothing needs acquiring for it.",
+        "Three of the five components are custom_pleading (motion, certificate of service, proposed order) and the fifth is process_guidance. All four are composable today from committed records, on the shared composed-pleading host this lane already reuses.",
+        "The legal inputs are settled and unusually complete: fifteen generationRequirements with the participant question for each, four participantFilingRequirements, seven manualCompletionItems, seven selfHelpStopConditions, the venue, the exact DOJ CRISS mailing address and phone and email, and the express rules that no motion fee is identified and that notarization is replaced by a declaration under penalty of perjury.",
+        "The build turns on ONE decision that is not this lane's: whether component 4 may be satisfied by the held 2024 DOCX (which needs a governed PDF rendering of the pinned bytes, or an Edition 1.2 reclassification), or whether the component is restated as a participant-obtained document. Either answer unblocks the family; guessing between them does not.",
+        "Two participant-facing constraints must survive into any build: the packet must say \"sealed and treated as confidential criminal justice information\" and never \"destroyed\" or \"erased\"; and it must not reproduce DS-100 or DS-200, which carry a non-commercial-use restriction."
+      ],
+      "foundAndNotFixed": [
+        "MASTER_QUEUE.json lists this family's packetComponents as exactly one entry, `component:mt_deferred_dismissal-primary-filing-4`, while all three committed legal-design records list five components. The queue row understates the packet set by four components. Not edited: MASTER_QUEUE.json is a shared central artifact.",
+        "The custody reconciliation table data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json carries no row at all for worklistGroupId mt_deferred_dismissal-set, so family_sources_bind fell through to the census/form-number tier. It bound correctly, but the family has no custody-class determination of its own."
+      ]
+    }
+  ],
+  "rowsReturned": 1,
+  "familiesCompleted": [],
+  "familiesStopped": [
+    "mt_deferred_dismissal-set"
+  ],
+  "blockedSource": [
+    "mt_deferred_dismissal-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0
+}
