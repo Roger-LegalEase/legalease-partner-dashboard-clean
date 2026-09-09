@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "mn_petition_juvenile_as_adult-set",
+  "blocking": [],
+  "findingCount": 0,
+  "observations": [
+    "All four bound binaries are flat: no AcroForm, no widget, no /Rect. Every write box is a horizontal rule the source itself draws and every selection box is the source's own ballot-box glyph outline, read from the embedded font program.",
+    "EXP106 is the district court's own order and is filled to its caption only. Its findings, its ordering paragraphs, the agencies it names and the judicial signature are the judge's.",
+    "EXP104 is filled to its caption only. Checking a recipient box or writing a recipient address on it asserts, under Minn. Stat. § 358.116, a mailing that has not happened.",
+    "No cell of EXP102 item 7 is written. The form requires the participant's whole criminal record from every jurisdiction; the platform holds one matter, and one row beside five blanks reads as a complete record when it is not.",
+    "FEE102 is filled to its caption only. Household size, income, public assistance, property and monthly expenses are protected categories the platform does not hold and does not guess.",
+    "Two selections are made, both determined by the packet rather than by the participant: EXP102 item 9 box 2, the certification or reference for prosecution as an adult under Minn. Stat. § 260B.125 that this family is built for, and FEE102 item 2's statement that the affidavit accompanies pleadings. Each is asserted against the form's own printed line before it is drawn.",
+    "This family and mn_petition_15218-set bind source sets that are identical by content digest. That was re-measured against the printed face of the binaries rather than taken from the queue: EXP102 item 9 boxes 1 and 2 are the only two qualification boxes that route to EXP106, and EXP106 finding 1 carries the matching pair of branches, § 152.18 and § 260B.125. The pair is genuine and this family is the § 260B.125 half of it.",
+    "The ballot box on these forms is one two-byte CID <0706> mapped by its own ToUnicode to U+2610. The shared anchor-capture path reports it as two one-byte characters and marks metricsExact false. The combined span and the summed advance are correct, so the geometry holds; the character decoding does not. Reported to the Captain rather than edited from this lane.",
+    "10 item(s) the filing needs are classified required-before-filing and named in participant-instructions.md rather than guessed."
+  ]
+}
