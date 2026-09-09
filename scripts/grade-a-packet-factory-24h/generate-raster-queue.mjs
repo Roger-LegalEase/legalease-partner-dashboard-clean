@@ -1054,9 +1054,32 @@ const promptFor = (lane) => {
   for (const f of fams) {
     const r = rows.find((x) => x.familyId === f);
     p.push(`### ${f}`, "");
-    p.push(`- canonical \`${r.canonicalPdfPath}\` — \`${r.canonicalPdfSha256}\``);
-    p.push(`- boundary \`${r.boundaryPdfPath}\` — \`${r.boundaryPdfSha256}\``);
-    p.push(`- expected pages ${r.expectedPages ?? "unread"} · requested scale ${r.requestedScale}`);
+    /*
+     * NAME EVERY DOCUMENT THE JOB RENDERS, not the primary pair.
+     *
+     * This printed canonicalPdfPath and boundaryPdfPath and nothing else, which
+     * was the whole row while a family was a pair. It has not been for some
+     * time: nc_146_dismissal_petition-set renders ten documents,
+     * dc_seal_conviction-set four, and al-trafficking-set, ne-seal-pre2017-set
+     * and rcap-or-official-pdf-fill four, six and four. The row carries
+     * `documents` and rcap-raster-batch.mjs renders each of them, so the gate
+     * was right and the prompt was thin -- it told a reader to check two
+     * documents of a receipt covering ten, and "every expected page has a PNG"
+     * cannot be checked against a page count for one of them.
+     */
+    const docs = r.documents ?? [];
+    if (docs.length > 2) {
+      p.push(`- **${docs.length} documents**, and the receipt must cover every one of them:`);
+      for (const d of docs) p.push(`  - ${d.role} \`${d.path}\` — \`${d.sha256}\` · ${d.pageCount ?? "unread"} page(s)`);
+      p.push(`- the row pins \`${r.canonicalPdfPath}\` and \`${r.boundaryPdfPath}\` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered`);
+    } else {
+      p.push(`- canonical \`${r.canonicalPdfPath}\` — \`${r.canonicalPdfSha256}\``);
+      p.push(`- boundary \`${r.boundaryPdfPath}\` — \`${r.boundaryPdfSha256}\``);
+    }
+    const pages = docs.length > 2
+      ? docs.reduce((n, d) => n + (d.pageCount ?? 0), 0) || null
+      : r.expectedPages;
+    p.push(`- expected pages ${pages ?? "unread"}${docs.length > 2 ? " across all documents" : ""} · requested scale ${r.requestedScale}`);
     p.push(`- built by ${r.builderAssignment ?? "(no builder lane recorded)"}`, "");
   }
   p.push("## What you check, per family", "");
