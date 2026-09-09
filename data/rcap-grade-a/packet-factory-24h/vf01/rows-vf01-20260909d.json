@@ -184,6 +184,191 @@
         "REQUIRED_BEFORE_FILING"
       ],
       "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "al-trafficking-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 3,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId al-trafficking-set is identical in source-receipt.json, production-field-map.json, reports/rendered-artifacts.json and the MASTER_QUEUE.json family row, and the single routeKey obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement is identical in the field map and the MASTER_QUEUE row. The instrument matches the route: the field map's two statutoryVariants are Ala. Code s 15-27-1(a)(8) at CR-65 Section I option 8 and s 15-27-2(a)(8) at CR-65 Section III option 8, and the delivered bytes carry exactly that (see ROUTE_OPTIONS). RECORD DISAGREEMENT RECORDED, NOT RECONCILED: production-field-map.json declares implementationStrategy official_pdf_fill, while the MASTER_QUEUE row declares custom_pleading and the family directory is named --custom-pleading. The delivered bytes settle what they are — both documents are the official CR-65 and C-10-CRIMINAL binaries with values filled into their own widget rects, nothing composed — so I measured against official_pdf_fill and record the queue's contrary scalar for whoever owns it."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared sources recompute exactly, first-hand, from two different custody roots. CR-65: private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf = c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, matching the receipt, the MASTER_QUEUE sourceHashes row and the declared byteLength 468056; I read the binary and it carries 8 pages and 65 AcroForm fields. C-10-CRIMINAL: MASTER_LIBRARY_SOURCE_DIR/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf = 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8, matching the receipt and the queue, byteLength 711433, 3 pages and 93 AcroForm fields. Both controlling records the receipt binds also rehash exactly: AL.memo.json = 7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391 as declared. The delivered page footers agree with the bound editions: every CR-65 page prints 'Form CR-65 Rev. 10/2024' and every C-10 page prints 'Form C-10-CRIMINAL ... Rev. 5/2024'."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet-set manifest declares three components: al-trafficking-primary-filing-1 (primary_filing, required, CR-65), al-trafficking-certificate-of-service-2 (certificate_of_service, required, CR-65) and al-trafficking-fee-waiver-3 (fee_waiver, CONDITIONAL, 'Where indigency is claimed.', C-10-CRIMINAL). All three are present in all four fixtures, identified from each page's own printed footer rather than from the manifest: CR-65 printed pages 1-6 carry the petition, CR-65 printed page 7 is headed '(Certificate of Service)', CR-65 printed page 8 is the form's own '(Instructions for Petitioner)', and packet pages 9-11 are C-10-CRIMINAL printed pages 1 of 3 through 3 of 3, the last headed 'ORDER ON AFFIDAVIT OF SUBSTANTIAL HARDSHIP'. requiredComponentsMissing 0. NOTE ON THE ASSIGNMENT'S FRAMING: my assignment described this as a four-document declared set. The controlling manifest declares three components over two source documents, and that is what I measured against; four is the fixture count (canonical and boundary in each of the misdemeanor and felony variants), and 4 fixtures x 11 pages is the 44 pages the raster receipt measured."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by a pdftotext -bbox word-box diff of each of the four fixtures against a page-aligned concatenation of the two pinned sources (CR-65 pages 1-8 then C-10 pages 1-3), so every added word is ink this build put on the paper. Canonical fixtures add 44 words, boundary fixtures 54, and every declared fact prints complete. Canonical: CC-2021-004217 on packet pages 1-6, 9 and 10, plus Montgomery, Reyes / Jordan / Avery, 412 Magnolia Avenue, jordan.reyes@example.org, Montgomery, AL 36104, 334-555-0142, 06/14/1988, the printed petitioner name on page 6, and the C-10 caption set on page 9. Boundary long values print whole and untruncated with no ellipsis: 'CC-2024-000001.99', 'Montgomery-Washington' as a surname, '1188 Martin Luther King Junior Boulevard Apartment 1407', 'alexandria.montgomery.washington@example.org', 'Birmingham, AL 35203-4417'. Zero source words are removed from any page of any fixture, so nothing the official form prints was displaced by a write. knownRequiredFieldsMissing 0."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the ink diff, not from the field map's roles. Across all four fixtures the added ink touches packet pages 1-6, 9 and 10 only. NOTHING is written on packet page 7 (the certificate of service, whose service date, method, recipient, address and server signature must all follow actual service), NOTHING on packet page 8 (the court's own instruction sheet) and NOTHING on packet page 11 (ORDER ON AFFIDAVIT OF SUBSTANTIAL HARDSHIP, which is the judge's order). On page 6 the signature rule, the 'Sworn to and subscribed before me this ___ day of ___' jurat, the notary's own name and commission-expiry lines and the whole attorney column are all blank; the only write there is the petitioner's own printed name in the slot the form itself captions '(Printed Name of Petitioner)'. No signature, no date, no notarization and no attorney appearance is asserted anywhere in any fixture. protectedWrites 0."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every added word in every fixture was tested against the widget rectangles I read first-hand from the two pinned binaries, converted to page-top coordinates. Result: 0 added words fall outside a source widget rect, on all four fixtures. The only overlaps between added ink and printed source glyphs are with the form's own underscore fill rules (for example 'Circuit' over '__________________________________' on the C-10 caption), which is where the text belongs. I also checked for the synthesized-widget-border defect this lane failed co_petition_seal_arrest-set on: the delivery is fully flattened, retaining no /AcroForm dictionary and no widget annotation, but rendering delivered CR-65 page 6 at 130 dpi shows every unticked box drawing as the form's own printed square-bracket pair '[ ]' and no box gaining a stroked rectangle it does not have in the source. The 13 annotations that do survive on packet pages 2, 3 and 4 are all Subtype /Link with no /FT, no /AP and no appearance state - the official form's own statute cross-references - and they draw no ink."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md carries a 'Stop and get help' section naming five triggers to stop using automated assistance and speak with an Alabama lawyer: opposition to the petition, contested evidence about the participant's own victimisation, a hearing at which the preponderance showing must be made, any individualized advocacy, and immigration consequences. The guide additionally hands off the Section IV violent-felony-conviction branch in terms ('this packet is not scoped to it; speak with an Alabama lawyer'). No fixture and neither instruction file asserts an eligibility outcome or a review approval."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both instruction files carry the destination verbatim from the controlling record, which I rehashed: AL.memo.json (7d484d636a...) rules.filing, 'File CR-65 in the criminal division of the circuit court in the county where the charges were filed.' filing-instructions.md adds the venue and the compiled profile's own line about the destination being court-controlled on a preponderance standard. The delivered caption is consistent with it: CR-65 page 1 prints 'IN THE CIRCUIT COURT OF ____ COUNTY, ALABAMA' with the county written in, and the C-10 caption elects 'Circuit' and 'STATE OF ALABAMA' rather than the municipal branch, which the field map refuses with the stated reason that this petition is filed in the circuit court."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states only 'A certificate of service page per entity served', and the guide carries that verbatim and then refuses to improve on it: 'The held record does not state which recipients Alabama requires for this petition, nor which service method, nor the timing - the build worklist records serviceRecipients, serviceMethod and serviceTiming as \"not recorded\" - and this packet will not guess any of them. Ask the circuit clerk in the filing county who must be served and by what method before you serve.' No recipient, method, deadline or clerk practice is fabricated. The certificate-of-service page is delivered blank and the guide instructs completion only after service has actually happened, which matches the delivered bytes: zero ink on packet page 7 in all four fixtures."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "THE TEXT BLANKS PASS AND THE SELECTIONS FAIL. First the part that passes, so the failure is not overstated: the field map carries 57 refusals dispositioned REQUIRED_BEFORE_FILING and I found all 57 of their effectiveLabel strings verbatim in participant-instructions.md, and both of the controlling manifest's obtain_document items - supporting evidence of trafficking, and the certified ALEA criminal record - are disclosed as numbered steps 1 and 2 of 'Do these before you file'. WHAT FAILS: the official CR-65 prints, in the delivered bytes, three elections it marks mandatory, and the packet neither makes them nor tells the participant to. (1) Packet page 6, under the printed heading 'I swear or affirm, under the penalty of perjury:', item '(3) (Select one of the following):' offers '[ ] that I have not previously applied for an expungement in this or any other jurisdiction.' and '[ ] that I have previously filed for an expungement.' In all four delivered fixtures BOTH boxes are blank. I confirmed this at appearance level by rendering delivered page 6 at 130 dpi and reading it. (2) Packet page 5 prints 'Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)' over three boxes - certified record of arrest, certified record of disposition, and certified official criminal record from ALEA. All three are blank in all four fixtures, so neither the either-1-or-2 requirement nor the always-required item 3 is elected. NOW THE DISCLOSURE: I grepped both instruction files for 'select one', 'previously applied', 'previously filed', 'pro se', 'granted', 'denied', 'penalty of perjury', 'swear' and 'attach'. The only hit in either file is the closing line of filing-instructions.md, 'Do not sign or date the petition until every required blank and every attachment is complete' - which names no election and no attachment. Neither file names item (3), neither names the attachment boxes, and neither names the 'was [ ] granted [ ] denied' pair or the '[ ] pro se (Not represented by an attorney)' box, all of which are also blank on page 6. THE MECHANISM THAT KEEPS THE COUNTERS GREEN: the field map holds 50 selection-control refusals and 46 of them carry the identical boilerplate reason, 'A genuine participant election not determined by this route. This petition elects one statutory ground only.' That sentence is factually untrue of the page-5 attachment boxes, of the page-6 sworn select-one, of granted/denied and of pro se - none of them is a statutory ground. Worse, all 50 carry an effectiveLabel that is only the raw AcroForm field name ('Participant choice: Check Box2.0 (selection)'), so the record never states what any of these blanks says on the paper, and I confirmed that 0 of the 50 labels appears anywhere in participant-instructions.md. Every one of the 50 is recorded with requiredBeforeFiling false, which drops the mandatory ones out of the required-before-filing set entirely and is why nothing downstream can see them. A participant who follows this guide files a sworn CR-65 whose perjury clause has an unelected item (3) and whose attachment certification is unelected."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four declared fixtures exist and every declared digest recomputes exactly: canonical--misdemeanor 735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0 (906087 bytes), boundary--misdemeanor 039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b (906308), canonical--felony e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7 (905834), boundary--felony f919d1ab62928c921ce8292079efd2baf7af243dfcfbc7ae7453dd91bdf9778d (906055). pdfinfo reports 11 pages on each, matching every declared pageCount and summing to the 44 pages the admitted raster receipt measured. RECORD DISAGREEMENT RECORDED, NOT RECONCILED: this family's own reports/rendered-artifacts.json carries rasterState BUILT_RASTER_PENDING and says 'visualDefects stays null because nobody has looked', while data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/al-trafficking-set/al-trafficking-set.verdict.json carries RASTER_PASS with coversTheWholeFamily true over the exact canonical--misdemeanor and boundary--misdemeanor digests I recomputed. The local record is stale against the central admitted receipt; I measured the pages myself and record both."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Verified from each delivered page's own printed footer rather than from any manifest. In all four fixtures the order is CR-65 printed pages 1, 2, 3, 4, 5, 6, 7, 8 followed by C-10-CRIMINAL printed pages 1 of 3, 2 of 3, 3 of 3 - eleven pages, ascending within each document, primary filing before certificate of service before fee waiver, which is the manifest's own component order 1, 2, 3. The sections fall where the source puts them: Section I on packet pages 1-2, Sections II and III on 2-3, Sections IV and V on 3-4. No page is duplicated, transposed or dropped, and the delivered page count equals the sum of the two sources' page counts (8 + 3)."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The four route-determined selections the field map records are all carried out in the delivered bytes and all land on the correct printed sentence, which I verified by reading the text around each tick rather than by trusting the checkbox name. (1) and (2) are the statutory variant: canonical--misdemeanor and boundary--misdemeanor tick the box beside 'I can prove by a preponderance of the evidence that I was a victim of human trafficking, and committed the MISDEMEANOR offense, violation, traffic violation, or municipal ordinance violation...' in Section I on packet page 2, and canonical--felony and boundary--felony tick the box beside 'I can prove ... and committed the FELONY offense during the period I was being trafficked' in Section III on packet page 3. Each fixture ticks exactly one box in the petition, which is what CR-65 itself demands: 'Check ONLY one (1) of the eight (8) options below'. (3) The C-10 caption elects 'STATE OF ALABAMA' rather than 'MUNICIPALITY OF', matching the circuit-court filing. (4) The C-10 elects the third of its three printed requests, waiver of the expungement petition administrative filing fee, and leaves the court-appointed-attorney and ignition-interlock requests blank with stated reasons. The out-of-scope refusals also carry real reasons rather than boilerplate: Section IV is named and declined as an owner scoping determination. I ALSO CHECKED THE NEAR-CLONE QUESTION THE BRIEF ASKS TO BE RAISED EVEN WHEN THE CHECK CLEARS IT. Whitespace-normalised packet text of the felony and misdemeanor fixtures differs by exactly one character in each pair, and I diffed them: the entire difference is that the tick moves from Section I option 8 to Section III option 8. That is the correct and complete expression of the two statutes, so the near-identity is the right answer here rather than a defect. Recorded as raised and answered. SEPARATELY RECORDED, NOT SCORED HERE: 46 of the 50 selection-control refusals carry no printed label at all, only the raw AcroForm field name, and a single boilerplate reason that is untrue of several of them; that finding is scored under REQUIRED_BEFORE_FILING, where its consequence falls."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "CR-65 carries one genuinely repeating structure and several paired line blanks, and both are handled. The repeating structure is the certificate of service, which the form itself describes: 'A separate form should be filled out and signed by the person who served the party. Include as many copies of this page as necessary to show service on all parties, persons, or entities.' The packet delivers exactly one copy of that page, blank, and participant-instructions.md states the repetition rule - 'Use a separate CR-65 page 7 certificate of service for each recipient' - so the participant is told to duplicate it. The paired blanks (the charge, the grounds, the arresting agency and any detaining agency each get a line 1 and a line 2) are all uniformly blank in all four fixtures and all eight labels appear individually in the guide's 'Blanks you must fill in' list, so no row is half-written and none is silently dropped. incompleteRows 0."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee figure is not invented: it is carried by the controlling record - AL.memo.json rules.fees, '$500, or C-10-Criminal where indigency is claimed' - and it is also printed on the delivered paper itself, which I read out of packet page 4: 'If the Court does not determine the Petitioner to be indigent and does not waive the $500.00 filing fee...'. The waiver instrument the record names, C-10-Criminal Affidavit of Substantial Hardship and Order, is the fee_waiver component and it is delivered. The election on it is correct and the sworn part of it is handled honestly: the packet ticks the printed request for waiver of the expungement petition administrative filing fee, and participant-instructions.md step 5 tells the participant 'If you are NOT claiming financial hardship, remove the affidavit from the packet and pay the filing fee instead - the hardship statement is yours, and you make it by signing it.' Every one of the roughly forty financial blanks on the affidavit (income, expenses, assets) is left blank and every one is disclosed individually in the guide's list, and the affidavit's order page is left entirely to the judge, which filing-instructions.md states in terms."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. The field map declares 30 writes for the fixture it describes; the word-box ink diff against the two pinned sources shows every declared fact value present and readable in all four fixtures, and no declared value is absent or partial.",
+        "requiredFactsNotCollected": "0. Both obtain_document items in the controlling packet-set manifest and track registry (supporting evidence of trafficking; certified ALEA criminal record) are disclosed as numbered steps 1 and 2 of the guide's 'Do these before you file', with the source agency named for each. Unlike ma-expunge-k-set, nothing in the manifest's participantActionRequired list is silently dropped.",
+        "unclassifiedBlanks": "0. All 186 refusals carry a disposition - 57 REQUIRED_BEFORE_FILING, 50 selection controls, and the remainder attorney-only, protected or route-inapplicable - so none is literally unclassified. Recorded rather than counted here: 46 of the 50 selection refusals carry a reason that is boilerplate and demonstrably untrue of several of them, and none of the 50 carries the printed label of the blank it refuses. That is scored under REQUIRED_BEFORE_FILING.",
+        "incompleteRows": "0. Every paired line blank on CR-65 (charge, grounds, arresting agency, detaining agency, each line 1 and line 2) is uniformly blank in all four fixtures; no row carries a first line without its second.",
+        "requiredOptionsMissing": "3, measured by reading the printed instructions on the delivered pages. (1) CR-65 page 6 item (3), 'Select one of the following', under the perjury clause - neither box elected in any fixture and named in neither instruction file. (2) CR-65 page 5, 'Petition must include either item 1 or item 2' - neither the certified record of arrest box nor the certified record of disposition box elected, and undisclosed. (3) CR-65 page 5, 'All Petitions must include item 3' - the certified ALEA criminal record box not elected, and undisclosed as a box even though obtaining the record itself is disclosed at step 2. Counted as options the completed filing requires and the delivered packet neither makes nor hands to the participant to make.",
+        "requiredComponentsMissing": "0. All three manifest components are present in all four fixtures, each identified from the delivered page's own printed footer.",
+        "invisibleWrites": "0. Every added word is readable in the delivered text layer and every one falls inside a widget rectangle I read from the pinned source; there is no write drawn without producing a readable word.",
+        "protectedWrites": "0. Zero added ink on the certificate of service, on the form's instruction sheet, on the affidavit's order page, on any signature or date rule, on the notary jurat's own lines, or in the attorney column. Zero source words removed from any page of any fixture.",
+        "visualDefects": "0. Measured by me. Zero added words outside a source widget rect across all four fixtures; the only ink-over-print overlaps are with the form's own underscore fill rules. Delivered CR-65 page 6 rendered at 130 dpi and read: no synthesized tick, no synthesized widget border, no clipping, no overlap. The admitted raster receipt over these digests reports RASTER_PASS across 44 pages with problems [].",
+        "note": "No counter in this row is null; every one was measured here."
+      },
+      "crossChecks": {
+        "clonedFamilyPackets": "Checked against data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json AND re-measured independently. I extracted the layout text of all 26 AL fixtures across all 11 AL family directories, whitespace-normalised each and grouped by SHA-256. My grouping reproduces the committed finding exactly: al-felony-nonconviction-90-set and al-pardoned-felony-set share both their canonical text (eb537b2d6a0deeed...) and their boundary text (5e2fe7d32a8c55c8...), and no other AL families collide. al-trafficking-set's four fixtures produce four distinct hashes, none of which matches any other AL family. So this family is not a clone. The near-clone WITHIN it (felony vs misdemeanor differing by one character) is raised and answered under ROUTE_OPTIONS.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/al-trafficking-set/al-trafficking-set.verdict.json, RASTER_PASS, pagesMeasured 44, coversTheWholeFamily true, problems [], packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490, workflowRunId 34407406641; its pinned digests equal the digests I recomputed. It contradicts the family's own rendered-artifacts.json, which still says BUILT_RASTER_PENDING; both recorded under ARTIFACTS.",
+        "recordDisagreementImplementationStrategy": "production-field-map.json says official_pdf_fill; MASTER_QUEUE.json and the directory name say custom_pleading. The delivered bytes are official binaries filled in place. Both recorded; not reconciled by me and no central artifact edited.",
+        "sectionVCheck": "The brief flags that a sibling AL family ticks zero of the eight boxes its own CR-65 Section V requires. I read Section V in these delivered bytes: it is the pardoned-felony CONVICTION branch ('was convicted ... a felony, and more than one expungement has not been granted (AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement)'). This family is a CHARGE route under ss 15-27-1(a)(8)/15-27-2(a)(8), so Section V is correctly left blank and its emptiness is not the sibling defect. Recorded because the guide's 'What this packet deliberately does not tick' names Section IV but not Section V or Section II, which are likewise unused conviction branches."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/production-field-map.json",
+          "sha256": "81fcf7dcfc156f8b4502f9ce75ea0f5c8c3bca3950d50f898b46090d31f2c793"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/participant-instructions.md",
+          "sha256": "0026772945f232bb832a5c870ddb2c290da463dbfab1e4faa079139d9ac42c5d"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/filing-instructions.md",
+          "sha256": "047760961fbb6eded4bd57777ba28788489142dce0fa7fa07647dac99e1f5596"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/source-receipt.json",
+          "sha256": "3eaa4841964c052a8162bce0cd0a4780c1e6a5ba0b39f6c23d757f94866e46a3"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/reports/actual-writes.json",
+          "sha256": "3d69b37e4e94f8ea3a22ecf40a1d48434dcfe4736c3047e4ae5b7a28bf67907c"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "c703859cfdf3297eef20af11fa288bb7e56f11eeac35c7cbc985e48693c91b11"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/reports/build-summary.json",
+          "sha256": "5f55a6321df280cf23241d454840a83979dc54961971c4e191bb4a917ed03803"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--misdemeanor.pdf",
+          "sha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--misdemeanor.pdf",
+          "sha256": "039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--felony.pdf",
+          "sha256": "e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--felony.pdf",
+          "sha256": "f919d1ab62928c921ce8292079efd2baf7af243dfcfbc7ae7453dd91bdf9778d"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+          "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8"
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/AL.memo.json",
+          "sha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391"
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
     }
   ]
 }
