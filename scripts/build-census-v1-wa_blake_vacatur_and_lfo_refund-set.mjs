@@ -838,6 +838,13 @@ function semanticRole(blank, document) {
 async function loadDocuments(familyId, records, sourceRoot) {
   const index = readJson(CORPUS_INDEX);
   const documents = [];
+  // A custody row may bind the same document twice: once by form label at its
+  // Master Library path and once by content hash at the import-pack path it
+  // arrived on. Those are two custody bindings of one document, not two
+  // documents. Sources are bound by digest, so the second binding is recorded
+  // against the already-loaded document and its bytes are not re-opened from a
+  // mount this container does not hold.
+  const byDigest = new Map();
   for (const source of records.custody.documentSources ?? []) {
     if (!source.resolved || !source.heldAs?.path || !source.heldAs?.sha256) {
       fail("custody row contains an unresolved document source", source.sourceId);
@@ -846,6 +853,25 @@ async function loadDocuments(familyId, records, sourceRoot) {
     if (!entry) fail("custody source absent from committed corpus index", source.heldAs.path);
     if (entry.sha256 !== source.heldAs.sha256) {
       fail("custody/index source mismatch", `${source.heldAs.formNumber}: ${source.heldAs.sha256} != ${entry.sha256}`);
+    }
+    const alreadyLoaded = byDigest.get(source.heldAs.sha256);
+    if (alreadyLoaded) {
+      if (String(source.heldAs.formNumber) !== String(alreadyLoaded.formNumber)) {
+        fail("two custody bindings share a digest but disagree on form number",
+          `${source.heldAs.sha256}: ${alreadyLoaded.formNumber} != ${source.heldAs.formNumber}`);
+      }
+      if (entry.byteLength !== alreadyLoaded.byteLength || entry.pageCount !== alreadyLoaded.pageCount) {
+        fail("duplicate custody binding disagrees with the loaded source",
+          `${source.heldAs.formNumber}: ${entry.byteLength}/${entry.pageCount} != ${alreadyLoaded.byteLength}/${alreadyLoaded.pageCount}`);
+      }
+      alreadyLoaded.additionalCustodyBindings.push({
+        sourceId: source.sourceId, kind: source.kind ?? null, tier: source.tier ?? null,
+        pathInArchive: source.heldAs.path, sha256: source.heldAs.sha256,
+        verifiedAgainst: "committed corpus index entry (path, SHA-256, byte length, page count)",
+        bytesReopened: false,
+        note: "same bytes as the form-label binding of this document; recorded, not re-read"
+      });
+      continue;
     }
     const sourcePath = safeSourcePath(sourceRoot, source.heldAs.path);
     if (!fs.existsSync(sourcePath)) fail("source absent from verified corpus", source.heldAs.path);
@@ -887,8 +913,10 @@ async function loadDocuments(familyId, records, sourceRoot) {
       // now so the filing-obligations derivation can prove — rather than assert
       // — that the packet's own delivered forms state no fee (A4).
       moneyLines: measuredMoneyLines(pdf),
-      acroFieldCount
+      acroFieldCount,
+      additionalCustodyBindings: []
     });
+    byDigest.set(source.heldAs.sha256, documents[documents.length - 1]);
   }
   if (!documents.length) fail("custody row resolves no documents", familyId);
   return documents;
@@ -1351,7 +1379,8 @@ function sourceReceipt(familyId, records, documents) {
       roleObservedFromSourceTitle: document.role, observedTitleLines: document.observedTitleLines,
       pathInArchive: document.pathInArchive, sha256: document.expectedSha256,
       byteLength: document.byteLength, pageCount: document.pageCount,
-      acroFieldCountReadFromBytes: document.acroFieldCount, matchedBy: "exact_pinned_sha256"
+      acroFieldCountReadFromBytes: document.acroFieldCount, matchedBy: "exact_pinned_sha256",
+      additionalCustodyBindings: document.additionalCustodyBindings ?? []
     })),
     ...(P2_FAMILY_IDS.includes(familyId) ? {
       completenessRepairBinding: {
@@ -1371,8 +1400,16 @@ function writeBlakeVehicleStop(familyId, records, documents) {
   fs.rmSync(absFor(out), { recursive: true, force: true });
   fs.mkdirSync(absFor(out), { recursive: true });
   const blake002 = documents.find((document) => document.formNumber === "BLAKE-002");
+  const blake001 = documents.find((document) => document.formNumber === "BLAKE-001");
+  const blake005 = documents.find((document) => document.formNumber === "BLAKE-005");
   const requiredEntry = records.worklist.reusableFamilyDeliverable
     ?.primaryOfficialFormOrComposedPleading?.entries?.find((entry) => /lfo_refund_claim/i.test(entry)) ?? null;
+  const orderEntry = records.worklist.reusableFamilyDeliverable
+    ?.proposedOrder?.entries?.find((entry) => /proposed_order/i.test(entry)) ?? null;
+  // Read the court-of-issue tag each pinned source prints in its own footer.
+  const courtTagOf = (document) => (document?.observedTitleLines ?? [])
+    .filter((line) => /^\(\d{2}\/\d{4}\)/.test(line))
+    .map((line) => line.trim());
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, records, documents));
   writeJson(`${out}/source-vehicle-stop.json`, {
     schemaVersion: "rcap-source-vehicle-stop/v1", familyId, status: "STOPPED",
@@ -1389,9 +1426,44 @@ function writeBlakeVehicleStop(familyId, records, documents) {
     whyBuildStopped:
       "C11 requires a stop when source identity or output vehicle is unresolved. No replacement form, role, or "
       + "inferred component was invented.",
+    additionalMeasuredFindings: [
+      {
+        findingClass: "PROPOSED_ORDER_COURT_OF_ISSUE_MISMATCH",
+        worklistRelationship: orderEntry,
+        measuredFrom: "the court-of-issue tag each pinned source prints in its own first-page footer",
+        observed: {
+          "BLAKE-001": courtTagOf(blake001),
+          "BLAKE-002": courtTagOf(blake002),
+          "BLAKE-005": courtTagOf(blake005)
+        },
+        finding:
+          "BLAKE-001 prints a Superior Court motion footer and BLAKE-005 prints a courts-of-limited-jurisdiction "
+          + "full-vacate order footer. The only held order matches the CLJ motion, not the Superior Court motion the "
+          + "worklist names as the primary filing. No Superior Court Blake vacate order is bound to this family, so "
+          + "the primary filing has no matching proposed order in custody.",
+        whyThisIsNotResolvedHere:
+          "Pairing a Superior Court motion with a CLJ order, or writing a Superior Court order that is not held, "
+          + "would invent packet topology. Neither was done."
+      },
+      {
+        findingClass: "DUPLICATE_CUSTODY_BINDING_OF_ONE_DOCUMENT",
+        measuredFrom: "the committed custody row and corpus index, compared by SHA-256",
+        observed: (blake001?.additionalCustodyBindings ?? []).map((binding) => ({
+          sourceId: binding.sourceId, pathInArchive: binding.pathInArchive, sha256: binding.sha256
+        })),
+        finding:
+          "The custody row binds BLAKE-001 twice — once by form label at its Master Library path and once by content "
+          + "hash at the import-pack path. Both bindings carry the same SHA-256, so they are one document. The build "
+          + "previously read this as a fourth document and failed before producing any measured result.",
+        whyThisIsNotResolvedHere:
+          "Recorded here and handled in the loader by digest. The custody record itself is a central manifest this "
+          + "lane does not own and was not edited."
+      }
+    ],
     neededToResume: [
       "Correct the worklist relationship if BLAKE-002 is intended as the CLJ alternative to BLAKE-001, or",
-      "identify and bind the actual separate LFO-refund claim source if one is required."
+      "identify and bind the actual separate LFO-refund claim source if one is required.",
+      "Bind a Superior Court Blake vacate order, or reassign the primary filing to the CLJ motion the held order matches."
     ],
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
@@ -2604,7 +2676,14 @@ async function buildOfficialFamily(familyId, records, documents) {
 export async function buildWaFamily(familyId, argv = process.argv.slice(2)) {
   const records = familyRecords(familyId);
   if (argv.includes("--dry-run")) {
-    return { familyId, status: "DRY_RUN", sourceCount: records.custody.documentSources.length,
+    // A custody row counts bindings, not documents: the same bytes may be bound
+    // twice, once by form label and once by content hash. Report both so the
+    // difference is visible instead of being read as a missing source.
+    const custodyBindings = records.custody.documentSources ?? [];
+    const distinctDocuments = new Set(custodyBindings.map((source) => source.heldAs?.sha256)).size;
+    return { familyId, status: "DRY_RUN",
+      custodyBindingCount: custodyBindings.length,
+      sourceCount: distinctDocuments,
       routeCount: records.worklist.routeKeys.length };
   }
   const sourceRoot = corpusRoot();
@@ -2745,6 +2824,7 @@ async function selfTest() {
   assert.equal(FAMILY_IDS.size, 10);
   const dry = await buildWaFamily(ANCHOR_FAMILY, ["--dry-run"]);
   assert.equal(dry.status, "DRY_RUN");
+  assert.equal(dry.custodyBindingCount, 4);
   assert.equal(dry.sourceCount, 3);
   assert.throws(() => safeSourcePath("/tmp/corpus", "../outside.pdf"), /escapes the verified corpus/);
   assert.throws(() => safeSourcePath("/tmp/corpus", "/absolute.pdf"), /invalid corpus-relative/);

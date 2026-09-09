@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF24",
+  "workerId": "PF24",
+  "lane": "packet-build",
+  "workerBranch": "pfd-20260909",
+  "engine": "Claude Opus 5 (Claude Code)",
+  "returnFilename": "rows-pf24-20260909.json",
+  "worktree": "/home/user/pfd-worktree",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "familiesAssignedByPrompt": 4,
+  "familiesGrantedByClaimLedger": null,
+  "rowsReturned": 1,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": "none — MASTER_QUEUE.json, VERIFIER_RETURNS.json, RASTER_QUEUE.json, the custody reconciliation and the build worklist were read only; no claim was released and no shared script under scripts/grade-a-packet-factory-24h/ was edited",
+  "grantsNothing": "A built family is review evidence. It is not verified, not approved and not sellable, and it opens no commercial route. This lane issues no verdict; RASTER_PASS comes from the central workflow.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rows": [
+    {
+      "itemId": "wa_blake_vacatur_and_lfo_refund-set",
+      "status": "STOPPED",
+      "stopClass": "SOURCE_VEHICLE_ROLE_MISMATCH",
+      "jurisdiction": "WA",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+      ],
+      "builtBy": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "buildStatus": "official_forms_ingested",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 wa_blake_vacatur_and_lfo_refund-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. At the shift base commit the builder could not run to any result at all: it aborted in loadDocuments before reading a single page.",
+      "defectsFoundAndRepairedInTheBuilder": [
+        {
+          "defect": "DUPLICATE_CUSTODY_BINDING_READ_AS_A_MISSING_FOURTH_DOCUMENT",
+          "demonstratedBy": "node scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs --check at 52988d70 exits with WashingtonPacketBuildError: source absent from verified corpus: private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+          "whyItIsADefect": "The custody row binds BLAKE-001 twice — by form label at STATES/WA/02_PACKET_FORMS/... and by content hash at the import-pack path. Both bindings carry SHA-256 a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f, so they are one document held at two paths in two custody roots. loadDocuments resolved every binding against the Master Library root alone and read the second binding as a fourth document missing from the corpus.",
+          "repair": "loadDocuments now keys loaded documents by SHA-256. A later binding with an already-loaded digest is verified against the committed corpus index (path, SHA-256, byte length, page count), recorded on the document as an additionalCustodyBinding, and its bytes are not re-opened from a mount this container does not hold. Form number, byte length and page count must agree or the build still fails.",
+          "noSubstitutionWasMade": "No file was substituted, no revision was swapped and no locator page was accepted for a form. Every document still comes from bytes hashed in this container and checked against the pinned custody SHA-256.",
+          "scopeOfTheChange": "The dedup path only triggers when two custody bindings share a digest. Of the ten Washington families this script serves, only wa_blake_vacatur_and_lfo_refund-set has a content_hash binding, so the other nine load exactly as before."
+        },
+        {
+          "defect": "SELF_TEST_FAILED_AT_THE_SHIFT_BASE_COMMIT",
+          "demonstratedBy": "node scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs --self-test at 52988d70 exits with AssertionError 4 !== 3 at selfTest (dry.sourceCount).",
+          "whyItIsADefect": "--dry-run reported records.custody.documentSources.length, which counts custody bindings, while the self-test asserted the document count. The two diverged the moment a second binding of one document entered the custody row, and the self-test has been red since.",
+          "repair": "--dry-run now reports custodyBindingCount (4) and sourceCount as distinct documents by digest (3); the self-test asserts both. It now passes: WA_PACKET_BUILDER_SELF_TEST_OK."
+        }
+      ],
+      "whyThisFamilyIsStillStopped": {
+        "stopArtifact": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json",
+        "firstFinding": "The build worklist assigns 'lfo_refund_claim: Blake-002'. The pinned BLAKE-002 bytes print their own footer as '(04/2026) CLJ Blake Motion' and their title as 'Blake Motion to Vacate Drug Possession Conviction and Refund Paid LFO Amounts'. BLAKE-002 is the courts-of-limited-jurisdiction counterpart of BLAKE-001, not a separate refund-claim vehicle. This finding was already in the builder; reading the bytes in this shift confirmed it.",
+        "secondFindingMeasuredInThisShift": "BLAKE-001 prints '(04/2026) Superior Court Blake Motion (MT)' and the only held order, BLAKE-005, prints '(05/2025) Blake Full Vacat e Order CLJ'. The held order matches the CLJ motion, not the Superior Court motion the worklist names as the primary filing. No Superior Court Blake vacate order is bound to this family, so the declared primary filing has no matching proposed order in custody.",
+        "whyNotBuiltAnyway": "Delivering a Superior Court motion with a courts-of-limited-jurisdiction order, or writing a Superior Court order that is not held, would invent packet topology and would tell a participant to file the wrong instrument in the wrong court. Neither was done and no component was inferred."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced, so there is nothing to count. Zero would assert a measurement of a delivered packet that does not exist.",
+      "sourceCensusMeasuredFromTheBytes": [
+        {
+          "formNumber": "BLAKE-001",
+          "role": "participant_filing",
+          "pages": 4,
+          "measuredBlanks": 28,
+          "selectionControls": 0,
+          "writableAnchors": 2,
+          "withheld": 7,
+          "footerTag": "(04/2026) Superior Court Blake Motion (MT)"
+        },
+        {
+          "formNumber": "BLAKE-002",
+          "role": "participant_filing",
+          "pages": 4,
+          "measuredBlanks": 29,
+          "selectionControls": 0,
+          "writableAnchors": 2,
+          "withheld": 7,
+          "footerTag": "(04/2026) CLJ Blake Motion"
+        },
+        {
+          "formNumber": "BLAKE-005",
+          "role": "court_order",
+          "pages": 5,
+          "measuredBlanks": 24,
+          "selectionControls": 8,
+          "writableAnchors": 1,
+          "withheld": 23,
+          "footerTag": "(05/2025) Blake Full Vacat e Order CLJ"
+        }
+      ],
+      "sourceCensusIsNotAPacket": "These are geometry readings of the pinned sources, taken with --inspect. They are not fixture output and carry no glyph readings, because no fixture was written.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:Blake-001",
+            "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+          ],
+          "formNumber": "BLAKE-001",
+          "revision": "REV-2026-04",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+          "byteLength": 171772,
+          "pageCount": 4,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 2
+        },
+        {
+          "sourceIds": [
+            "official-form:Blake-002"
+          ],
+          "formNumber": "BLAKE-002",
+          "revision": "REV-2026-04",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
+          "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+          "byteLength": 171925,
+          "pageCount": 4,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 1
+        },
+        {
+          "sourceIds": [
+            "official-form:Blake-005"
+          ],
+          "formNumber": "BLAKE-005",
+          "revision": "REV-2025-05",
+          "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+          "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+          "byteLength": 413907,
+          "pageCount": 5,
+          "boundBy": "exact_content_sha256",
+          "custodyBindings": 1
+        }
+      ],
+      "allSourcesExact": true,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No canonical fixture, no boundary fixture, no field map, no field census, no instructions and no glyph readings were produced, because the build stopped before any output byte was written.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[wa_blake_vacatur_and_lfo_refund-set].executionReclassification",
+          "says": "executionOwner CAPTAIN; nextExecutableAction 'Build from the exact held BLAKE-001, BLAKE-002, and BLAKE-005 bindings; treat component selection as packet mapping, not external source acquisition.'",
+          "measured": "This lane did not research or reacquire anything, so the acquisition half of that decision is satisfied. The mapping half cannot be executed honestly on the held bytes: the same queue row still carries an open laneReturnLegalHold asking whether BLAKE-002 is the CLJ alternative or a separate lfo_refund_claim, and the held order is the CLJ order while the declared primary filing is the Superior Court motion. Escalated to the Captain rather than resolved here, because the worklist and the queue are central manifests this lane does not own."
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "field": "rows[wa_blake_vacatur_and_lfo_refund-set].documentSources",
+          "says": "four resolved document sources",
+          "measured": "three distinct documents; the fourth entry is a second binding of BLAKE-001 at a second custody root, same SHA-256."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[wa_blake_vacatur_and_lfo_refund-set]",
+          "says": "buildScriptExists true, documentSourcesNamed 4, documentSourcesResolved 4",
+          "measured": "the count of 4 counts custody bindings, not documents; three documents are held."
+        }
+      ]
+    }
+  ],
+  "familiesCompleted": 0,
+  "familiesStopped": 1
+}
