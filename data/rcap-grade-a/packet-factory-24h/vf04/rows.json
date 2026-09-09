@@ -16081,6 +16081,570 @@
       "note": "This reader built and repaired nothing in these four families. The only writes made anywhere are the four independent-verification rows, one to each lane's own file. Rasters were written under /tmp/vfri-raster only and deleted; no raster PNG was committed and no delete touched any directory this reader did not create."
     },
     "grantsNothing": "This row is a reader's measurement. It opens no commercial route, promotes nothing, approves no output, releases no grant and does not commit the claim ledger. A RASTER_PASS and nine zero counters are not counsel approval and not a Grade-A fulfillment record."
+  },
+  {
+   "itemId": "ut_pet_limitations-set",
+   "lane": "VF04",
+   "laneKind": "independent-verification",
+   "wave": "OWNER-WITHHOLDING-LIFT-UT-20260909",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+   "verifier": "VF04 independent-verification lane, 2026-09-09. Third and final step of the owner withholding's own lift procedure. This lane built nothing, repaired nothing, rendered no committed raster, and edited no family record and no OWNER_CORRECTIONS_REQUIRED.json entry.",
+   "verifiedAtBase": "9bf6117c3",
+   "worktree": "/home/user/vf04ut-worktree, branch vf04-ut-limitations-read",
+   "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 ut_pet_limitations-set -> CLAIM_OK VF04 ut_pet_limitations-set (independent-verification, grant set 77b524008f638d29), exit 0. Asserted BEFORE any family artifact was read. The grant is NOT released here and the claim ledger is NOT committed.",
+   "digestsConfirmedFirst": {
+    "order": "SHA-256, byte lengths and page counts were recomputed over fixtures/ before any substantive read of the family, as instructed.",
+    "method": "sha256sum and stat -c%s over the committed bytes; pdfinfo for page counts. No hash was copied from any report.",
+    "canonicalSha256": "c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9",
+    "boundarySha256": "d609fb3de01fb5e5b736e1d63753088bee559767f1dabf9f5aa8127a6c4f8909",
+    "byteLengths": {
+     "canonical": 3024934,
+     "boundary": 3025562
+    },
+    "pageCountsRecomputed": {
+     "canonical": 19,
+     "boundary": 19
+    },
+    "agreesWithFix83RecordedAfterHashes": true,
+    "note": "The recomputed canonical hash is c949b633fc0f..., NOT the ba7fe75c2165... the live raster receipt binds. That mismatch was confirmed by measurement here before anything else was read."
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ut_pet_limitations-set",
+    "resultVerbatim": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "exitCode": 1,
+    "runOnce": true,
+    "theTwoFailures": [
+     "private_is_git_ignored: 'private/ is NOT git-ignored'. Recorded rather than argued away. In this worktree private/ is a symlink to the read-only source tree and .gitignore line 53 carries the directory form 'private/', which does not match a symlink. git status is clean throughout and this lane tracked, staged and committed nothing under private/.",
+     "corpus_matches_committed_index: '1 absent, 0 mismatched of 24 sampled'. The absent file touches no Utah source: family_sources_bind passed 9/9 by exact SHA-256 (custody_reconciliation) for this family, and this lane independently rehashed all nine (see SOURCE_IDENTITY)."
+    ],
+    "whatPassed": "repo_identity (vf04-ut-limitations-read at 9bf6117c), clone_is_complete, worktree_clean, node 22.22.2, pdf-lib 1.17.1, master_library_mounted (501 files, 329 PDFs, 51 jurisdictions), master_library_complete, family_sources_bind 9/9, master_library_not_at_operational_path, absent_is_not_empty, stale_artifact_block_consulted (0 artifacts under this family clear).",
+    "sparseCheckoutSkippedFiles": 0
+   },
+   "nineCounters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
+    "resultVerbatim": "ok   ut_pet_limitations-set  PASS_COMPLETE  38/445 written; 1 famil(ies) audited · 1 PASS_COMPLETE",
+    "exitCode": 0,
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "whyNineZerosIsNotByItselfThePass": "The counters read the field map and the write report. They cannot see whether a fee the owner withheld on is published in prose, which is what this correction is about. The prose was read separately and by eye."
+   },
+   "sweepSensitivityProof": {
+    "firstAttempt": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set --mutations REFUSED this family, verbatim: 'REFUSED: no audited family carries a top-level writes[]/refusals[] field map, which is the shape every mutation below injects into. This is not a pass.' Exit 1. Reported rather than skipped.",
+    "whyItRefused": "This family's production-field-map.json is the maps-with-canonical-and-boundary schema (maps[].canonicalWrites / roleRefusals / selectionControls), not the writes[]/refusals[] schema the built-in cases inject into.",
+    "whatWasDoneInstead": "Every built-in case was re-expressed against this family's own map shape and against reports/actual-writes.json, then run through the unmodified verifier. Each mutation was applied to a copy, the verifier run, and the file restored; production-field-map.json and reports/actual-writes.json were each confirmed back at their exact original SHA-256 after every case, and git status was clean afterwards.",
+    "restoredShaConfirmed": {
+     "production-field-map.json": "9f9545be4d3fac8dc7ab239a9c528daf9353045a2d0f33200463bdea015cd4ba",
+     "reports/actual-writes.json": "restored and confirmed identical"
+    },
+    "casesRunAndCaught": [
+     {
+      "case": "a missing participant name is caught",
+      "counter": "knownRequiredFieldsMissing",
+      "injectedInto": "maps[0].roleRefusals",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "a missing mailing address is caught",
+      "counter": "knownRequiredFieldsMissing",
+      "injectedInto": "maps[0].roleRefusals",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "a missing court identity is caught",
+      "counter": "knownRequiredFieldsMissing",
+      "injectedInto": "maps[0].roleRefusals",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "an unexplained blank is caught",
+      "counter": "unclassifiedBlanks",
+      "injectedInto": "maps[0].roleRefusals",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "a missing route checkbox is caught",
+      "counter": "requiredOptionsMissing",
+      "injectedInto": "maps[0].selectionControls",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "an incomplete offence row is caught",
+      "counter": "incompleteRows",
+      "injectedInto": "maps[0].canonicalWrites + roleRefusals, with fieldName carrying the Item9[0].Row7[0] row marker and sourceLabel carrying a REQUIRED_KNOWN caption",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true,
+      "note": "The first re-expression MISSED, because the maps reader takes the row key from fieldName and the requirement from sourceLabel; it was corrected and re-run rather than reported as caught."
+     },
+     {
+      "case": "a missing companion form is caught",
+      "counter": "requiredComponentsMissing",
+      "injectedInto": "a new maps[] entry naming a form that appears in no rendered artifact",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true,
+      "note": "The first re-expression removed a map instead of adding an unrendered one and MISSED; the counter fires on a named-but-unrendered document, so the case was corrected and re-run."
+     },
+     {
+      "case": "a required-before-filing fact never asked of the participant",
+      "counter": "requiredFactsNotCollected",
+      "injectedInto": "maps[0].roleRefusals with a REQUIRED_BEFORE_FILING disposition and a caption absent from participant-instructions.md",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "a protected write is caught",
+      "counter": "protectedWrites",
+      "injectedInto": "maps[0].canonicalWrites with the caption \"Petitioner's Signature\"",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "an invisible field value is caught",
+      "counter": "invisibleWrites",
+      "injectedInto": "reports/actual-writes.json artifacts[0]",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     },
+     {
+      "case": "an unintended graphic outside every write box is caught",
+      "counter": "visualDefects",
+      "injectedInto": "reports/actual-writes.json artifacts[0]",
+      "baseline": 0,
+      "mutated": 1,
+      "caught": true
+     }
+    ],
+    "countersProvenSensitive": 9,
+    "ofNine": 9,
+    "conclusion": "All nine counters were shown to fire on an injected defect against THIS family's actual map shape, so the nine measured zeros are a measurement and not an absence of instrument. Two of the eleven cases missed on their first re-expression and are recorded as missing rather than quietly re-tuned."
+   },
+   "feeEnumeration": {
+    "whatWasSearched": "Every fee sentence and every currency figure, enumerated by this lane independently of FIX83's list, across (a) the delivered fixture bytes page by page, (b) the whole family directory, and (c) the whole repository excluding .git, node_modules and private/.",
+    "inTheDeliveredBytes": {
+     "method": "pdftotext -layout, page by page, over both committed fixtures at the hashes recomputed above.",
+     "canonicalAndBoundaryIdentical": true,
+     "occurrences": [
+      {
+       "figure": "$65.00",
+       "packetPages": [
+        1,
+        2
+       ],
+       "count": 3,
+       "classification": "official-printed",
+       "whose": "BCI's own Application for Certificate of Eligibility and its printed instruction sheet",
+       "verifiedVisually": "Rendered by this lane at 300 dpi and read: 'The application fee is $65.00 and non-refundable.' is BCI's own printed red text on BCI's own form. Not a LegalEase assertion."
+      },
+      {
+       "figure": "the whole 1044XX civil filing-fee schedule, including two occurrences of $150",
+       "packetPages": [
+        4,
+        5
+       ],
+       "count": "55 figures across the two cover-sheet pages",
+       "classification": "official-printed",
+       "whose": "Utah district court cover sheet 1044XX, footer 'Revised May 6, 2026'",
+       "verifiedVisually": "Rendered at 300 dpi and read: the row prints '$150  [x]  Expungement Petition - Criminal (E)'. The $150 is the form's own printed text; the packet's only contribution is the x inside the form's own pre-printed bracket pair, on the row this route belongs to. The adjacent '$150 [ ] Expungement Petition - Eviction (E)' row is left unmarked."
+      }
+     ],
+     "legalEaseAssertedFiguresInTheDeliveredPdfs": 0,
+     "finding": "Every currency figure in the delivered bytes is printed by an enclosed official form. The packet asserts no figure of its own anywhere in either fixture."
+    },
+    "inTheParticipantGuide": {
+     "file": "participant-instructions.md",
+     "sha256": "81b01e6977c78948ffdb876f6f527b74740141a8f8ec462c0b3a769cf9b9f8a2",
+     "refusals": [
+      "'**This packet does not publish a filing fee.**' (line 18), followed by the design's own reason: Utah Courts direct filers to the cover sheet rather than publishing an amount.",
+      "'**This packet does not publish a BCI application fee.**' (line 26), followed by the reason: BCI's fees are set through the Utah Code 63J-1-504 process rather than by a number in the statute.",
+      "'**The certificate itself may carry a further BCI charge, and no held source states an amount for this route.**' (line 32) - the refusal no longer quotes a figure to make its point."
+     ],
+     "attributedQuotationsOfOfficialPrintedText": [
+      "line 20: names form 1044XX, revision 2026-05-06, states that page 2 prints the row '$150 [ ] Expungement Petition - Criminal (E)', discloses that THIS PACKET HAS ALREADY MARKED THAT ROW, and then says in terms: 'That is what the form says, on the revision this packet holds; it is not this packet certifying the amount is current, and the clerk is the one who can tell you that.'",
+      "line 28: quotes the BCI application's own text, 'The application fee is $65.00 and non-refundable', notes the held copy carries no revision date, and directs the reader to treat it as what the form in their hands says rather than a confirmed current price."
+     ],
+     "falseDenialTest": {
+      "rule": "DET-FEE-AND-WAIVER-001 amendment A4: a packet may never tell a participant that it does not state something it does state.",
+      "result": "PASSES. The guide does not deny stating an amount; it refuses to PUBLISH one as its own figure and then discloses, on the same screen, exactly what each enclosed form prints and where. This is the precise defect VF11 failed this family on at base ab82f102a ('this packet does not state an amount because BCI sets it per applicant', while the delivered pages printed $65.00 three times), and that sentence is gone from the current bytes."
+     }
+    },
+    "myOwnRepositoryWideCount": {
+     "searchedFor": "the exact packet-authored assertion the owner's correction withdrew: 'The court filing fee is $150'",
+     "scope": "grep -rn --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=private, whole repository",
+     "matchingLinesFound": 16,
+     "insideTheHeldFamily": 0,
+     "classified": [
+      {
+       "class": "live packet copy on families NOT under this correction",
+       "lines": 6,
+       "detail": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:2158 (the else-branch of the ownerFeeCorrection gate) and the five rendered sibling participant-instructions.md files: dismissed_without_prejudice:18, acquittal:41, dismissed_with_prejudice:18, conviction:18, no_charges:18. Legitimately different: those five families are not under this owner correction and this lane holds no grant on them. Verified, not accepted: the flag gating them was read in the source.",
+       "isADefectHere": false
+      },
+      {
+       "class": "dated independent-verification records quoting the text as it stood when each lane read it",
+       "lines": 8,
+       "detail": "vf03:3984; vf05:1379, 2265, 2780; vf06:1294, 1864; vf10:2398; vf11:2361. Evidence of past reads, not live packet copy; rewriting them would destroy the evidence trail.",
+       "isADefectHere": false
+      },
+      {
+       "class": "FIX83's own repair return quoting the sentence it searched for",
+       "lines": 2,
+       "detail": "data/rcap-grade-a/packet-factory-24h/fix83/rows.json:1424 and :1465.",
+       "isADefectHere": false
+      }
+     ],
+     "insideTheHeldFamilyDetail": "grep across the whole family directory for 'filing fee is', 'application fee is $', 'fee is $', 'costs $' and 'pay $' returns exactly 2 lines, both in build-findings.json and both the NEGATED form: 'The court filing fee is NO LONGER PUBLISHED as this packet's own figure, per OWNER_CORRECTIONS_REQUIRED.json Q4' and the same for the BCI application fee. Zero surviving assertions. The family's field-census.census-v1.json also carries $150 strings, but they are the OCR'd captions of 1044XX's own printed fee table in a build artifact that is not delivered to the participant; classified official-printed, not participant-facing.",
+     "howThisComparesToFix83": "FIX83 reported ELEVEN copies (six live, five in dated verifier rows). I count SIXTEEN MATCHING LINES. The difference is a counting unit, not a disagreement about the world: my six live copies are byte-for-byte the same six FIX83 names; FIX83's 'five in dated verifier rows' counts FILES (vf03, vf05, vf06, vf10, vf11) where those five files actually carry EIGHT matching lines; and FIX83 omitted the TWO occurrences inside its own return, which its search would have matched. On the only question that decides the lift the two enumerations agree exactly and independently: ZERO surviving inside the held family, and the two build-findings hits are the negated form. Reported as a difference either way, per assignment."
+    }
+   },
+   "ownerCorrectionRuling": {
+    "record": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+    "decision": "OWN-ADOPT-2026-09-02-BATCH-53, Roger Roman, 2026-09-02",
+    "ownerDecision": "DO NOT PUBLISH AN UNCONFIRMED FEE. Follow the controlling design's refusal and direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it.",
+    "correctionRequired": "Remove the published figure and carry the controlling design's own refusal, directing the participant to the specific clerk or agency for the current amount. A figure may be added only when current primary authority or the official form supports it.",
+    "ruling": "THE NAMED CORRECTION IS MADE.",
+    "isUnsupportedFeePublishedToTheParticipantAnywhere": "No. Measured, not inferred. Zero LegalEase-asserted figures exist in either delivered fixture; every figure in the bytes is an enclosed official form's own printed text. In the guide, each amount appears only as an attributed quotation of a named form and revision, which is the one basis on which the owner's decision permits a figure at all ('or the official form supports it'), and each is preceded by an express refusal to publish it as the packet's own.",
+    "doesThePacketCarryTheControllingDesignsRefusal": "Yes, and the design's own words were read rather than assumed. UT.memo.json track ut_pet_limitations rules.fees reads: 'A court filing fee set by Utah Code 78A-2-301 applies. The Utah Courts page directs filers to the cover sheet for the current amount rather than publishing a figure, so the packet does not quote one. The exact current amount is an open release-blocking question.' The guide now matches that refusal in substance and in direction.",
+    "theOneJudgementCallAndWhyItIsNotAPublication": "The packet MARKS the $150 row on the cover sheet it delivers, so the participant files a sheet carrying that figure. That is not LegalEase publishing an unconfirmed fee: the figure is the form's own printed text, the mark selects the CASE TYPE row this route belongs to ('Expungement Petition - Criminal (E)') rather than asserting a price, the packet discloses the mark to the participant in terms on line 20, and it refuses to certify the amount is current. Every other priced row on that sheet is left unmarked, which I verified visually at 300 dpi, including the $250 jury-demand row (the packet marks 'Jury Demand [x] No') and the $187.50 damages row (the packet marks '[x] No monetary damages are requested').",
+    "whatThisRulingIs": "This ruling is the lift the record's liftedHow calls for: the named correction was made at origin (417f6d281), the family was rebuilt, and an independent verifier who is neither its builder nor its repairer has now read it again.",
+    "whatThisRulingIsNot": "It does not remove the entry from OWNER_CORRECTIONS_REQUIRED.json. This lane edited no legal-decision record and no family record; removal is the owner's or the Captain's act, not a verifier's."
+   },
+   "referralRuling": {
+    "ruling": "THE REFERRAL REMAINS, AND IT WORKS AS A REFERRAL RATHER THAN AS A SUBSTITUTE FOR AN ANSWER.",
+    "clerkReferral": "'**Ask the clerk of the district court where your case was heard - the court named above - what this petition costs today, before you file.**' It names a SPECIFIC office (the clerk of the court named in the caption), a specific act, and a time ('before you file'), rather than a generic direction to seek advice.",
+    "bciReferral": "'**Ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what the application fee is today before you mail anything.**' plus a second, distinct referral for the certificate price: 'Ask the Bureau of Criminal Identification what a certificate will cost on your case ... and ask at the same time whether its indigency waiver covers the issuance fee as well as the application fee.' bci.utah.gov appears 3 times in the guide, and BCI's own printed instruction sheet carries bci.utah.gov/expungements on the delivered face as well (packet page 1, read at 300 dpi).",
+    "whyItIsNotASubstituteForAnAnswer": "The referral does not stand in place of information the packet holds. It is accompanied by everything the packet CAN say: what each enclosed form prints, on which revision, with the row already marked; both waiver routes named with their authority; and an express warning that the two offices are separate. A referral that offloads a question the packet could answer would be a defect; this one hands over the single fact no held source establishes - the CURRENT amount - and answers everything around it.",
+    "waiverRoutesNamed": [
+     "Court: Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, with the form's own title-block citation '(Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508)'. The guide states plainly that 1305GE is NOT enclosed in this fixture and tells the participant where to get it, so no uncontained form is misrepresented as delivered.",
+     "BCI: the indigency waiver, with the sequencing rule quoted from the application's own instructions - the participant 'MUST complete the fee waiver form before submitting your application' - and the warning not to assume the court's waiver covers BCI's fee."
+    ]
+   },
+   "rasterGap": {
+    "isThereACurrentCentralRasterForTheseBytes": "NO. There is none, and this lane did not treat one as existing.",
+    "theReceipt": "The live rasterReceipt for this family in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json is workflow run 34001777533 (job 101402126153, verdict RASTER_PASS), bound to boundToCanonicalSha256 ba7fe75c2165e0975b1e77b2434696717309e510b9314e281383129f7c36c4f8.",
+    "whyItDoesNotBind": "The canonical bytes on disk, recomputed FIRST by this lane, are c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9. THE RECEIPT DOES NOT BIND THE DELIVERED BYTES. It is true only of bytes this family no longer ships.",
+    "secondIndependentReason": "That receipt records documentsCovered ['canonical.pdf'] and whatThisGateDidNotRender ['boundary.pdf'], so it never rendered the boundary fixture at all. Even for the bytes it does bind, half the family was never rastered centrally.",
+    "whatThisLaneDidInstead": "Rendered packet pages 1, 2, 4, 5 and 6 of the CANONICAL fixture itself at 300 dpi with poppler pdftoppm, under /tmp/vf04ut-raster, a directory this lane created, and read them by eye. THIS IS THIS LANE'S OWN LOCAL RENDER AND IS NOT CENTRAL RASTER ACCEPTANCE. No PNG under any committed path was written, moved or deleted; the local directory was deleted after reading, scoped to itself and never by a glob.",
+    "outstandingRequirement": "A fresh central raster of BOTH fixtures at the current hashes through .github/workflows/rcap-packet-raster-acceptance-batch.yml, dispatched centrally. This lane claims no raster acceptance and takes none. This is recorded as an outstanding requirement on the family, and this PASS does not supply it.",
+    "rasterAcceptanceClaimedByThisLane": false
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "routeKeys": [
+       "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-bci-certificate",
+       "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-court-petition"
+      ],
+      "routeSelectionId": "ut-limitations-bci-plus-court",
+      "agreementChecked": [
+       "production-field-map.json",
+       "product-wiring.json",
+       "approval-request.json",
+       "source-receipt.json"
+      ],
+      "disagreements": 0
+     },
+     "finding": "The same ordered pair of routeKeys and the same routeSelectionId appear in the field map, the product wiring, the approval request and the source receipt, with no disagreement. generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in all of them."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "boundSources": 9,
+      "rehashedByThisLane": 9,
+      "hashMismatches": 0,
+      "byteLengthMismatches": 0,
+      "absentFromCorpus": 0,
+      "notInCommittedCorpusIndex": 0
+     },
+     "finding": "Measured, not deferred. All nine bound documents were re-read from the mounted Master Library in this lane and SHA-256 recomputed: 9 of 9 equal the source-receipt hash, 9 of 9 byte lengths agree, and 9 of 9 appear in the committed corpus index data/rcap-all50/local-source-corpus-index.json. The preflight's corpus_matches_committed_index failure touches no source of this family."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": {
+      "receiptForms": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "componentsInRenderedManifest": 9,
+      "setsIdentical": true,
+      "requiredComponentsMissing": 0
+     },
+     "finding": "The nine documents the receipt binds are exactly the nine in the rendered page manifest of both fixtures, with none extra and none missing. The UT memo's open question about the number-to-title mapping of 1044XX/1146XX/1148XX/1149XX/1169XX was tested rather than carried: each form's own printed face was read out of the delivered bytes and states its title and revision - 1146XX 'Acceptance of Service - Expungement' (Revised May 1, 2019), 1148XX 'Consent and Waiver of Hearing - Expungement', 1149XX \"Victim's or Prosecutor's Statement\" (Approved Board of District Court Judges October 2012, Revised May 1, 2019), 1169XX \"Reply to Victim's Statement or Prosecutor's Statement or AP&P Response\" (Approved July 16, 2010, Revised May 1, 2019). The titles the packet uses match the faces of the documents it delivers."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": {
+      "canonical": {
+       "writes": 38,
+       "reportedByFinalizer": 38,
+       "notFoundInExtractedText": 0,
+       "flattenedWidgetAppearances": 0,
+       "refusedFieldsWithInk": 0
+      },
+      "boundary": {
+       "writes": 38,
+       "reportedByFinalizer": 38,
+       "notFoundInExtractedText": 0,
+       "flattenedWidgetAppearances": 0,
+       "refusedFieldsWithInk": 0
+      }
+     },
+     "finding": "Read back from the bytes rather than trusted. Every value reports/actual-writes.json records as written was searched for in text extracted from that fixture's own PDF in this lane: all 38 found in canonical and all 38 in boundary. The finalizer's reported count equals the recorded write count in both. invisibleWrites 0 and knownRequiredFieldsMissing 0 on the fresh run."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": {
+      "requiredOptionsMissing": 0,
+      "routeSelectionFactId": "route.case",
+      "selectionWritesReadFromBytes": 8,
+      "companionFormsWithZeroWrites": [
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX"
+      ],
+      "companionFormPolicy": "no_fill, with a stated reason per form"
+     },
+     "finding": "The elections the route determines are marked and were verified on the page, not just in the map. Visually at 300 dpi: 'Jury Demand [ ]Yes [x] No' with the $250 jury-demand row unmarked; '[x] No monetary damages are requested (URCP 26; Tier 2)' with the $187.50 row unmarked; and '$150 [x] Expungement Petition - Criminal (E)' with the adjacent Eviction row unmarked. A candidate defect was chased and dismissed by measurement: the '[ ] District [ ] Justice Court of Utah' election is marked District on packet pages 6 and 8 but blank on pages 11, 12, 14 and 17. That is not an inconsistency - those four forms carry an explicit documentPolicy mode 'no_fill' with a per-form reason (the acceptance of service belongs to the recipient, the consent to the responding party, the statement to the victim or prosecutor, the reply to the participant's own legal assertions) and this lane confirmed zero writes on packet pages 10-19. The blank election there is a documented refusal, not an omission."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": {
+      "incompleteRows": 0,
+      "counterProvenToFire": true
+     },
+     "finding": "incompleteRows measured 0 - the counter that groups written anchors and withheld blanks into row bands and fires where a band carries written cells beside a required cell left blank. No such band exists in either fixture, and this lane proved the counter fires by injecting one against this family's own map shape."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": {
+       "canonical": 0,
+       "boundary": 0
+      },
+      "counterProvenToFire": true
+     },
+     "finding": "No protected field carries ink. protectedWrites measured 0, refusedFieldsWithInk is empty for both fixtures, and the judge's signature line, the prosecutor's consent and the participant's own signature and date lines are delivered blank. The counter was proven sensitive here by injecting a write captioned \"Petitioner's Signature\", which it caught."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": {
+      "canonicalSha256": "c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9",
+      "boundarySha256": "d609fb3de01fb5e5b736e1d63753088bee559767f1dabf9f5aa8127a6c4f8909",
+      "byteLengths": {
+       "canonical": 3024934,
+       "boundary": 3025562
+      },
+      "pageCounts": {
+       "canonical": 19,
+       "boundary": 19
+      }
+     },
+     "finding": "Both fixtures exist, are non-empty, are 19 pages each, and hash to the values recomputed first in this lane, which equal the after-hashes FIX83 recorded. Deterministic-rebuild identity is carried from FIX83 and is labelled as carried, not re-measured here; this lane rebuilt nothing, by design, since a verifier who rebuilds is no longer independent of the build."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": {
+      "renderedOrder": [
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE",
+       "1044XX",
+       "1000EX",
+       "1020EX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX"
+      ],
+      "pageSpans": "BCI application 1-2, third-party release 3, cover sheet 4-5, petition 6-7, proposed order 8-10, acceptance of service 11, consent and waiver 12-13, victim/prosecutor statement 14-16, reply 17-19",
+      "totalPages": 19,
+      "setsIdentical": true
+     },
+     "finding": "The rendered order is the two-stage legal sequence the design requires: the BCI stage-one submission first, then the court filing with the cover sheet ahead of the petition and the proposed order, then the companion forms. Nine components account for all 19 pages with no gap and no overlap, confirmed by reading each component's own printed face at its span. The receipt lists the same nine in a different order, but the receipt is a binding manifest and not an asserted page order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": {
+      "wordsOutsidePageBox": {
+       "canonical": 0,
+       "boundary": 0
+      },
+      "trueSameLineTextOnTextOverlaps": {
+       "canonical": 0,
+       "boundary": 0
+      },
+      "detectorCalibration": "Run unchanged against ut-pet-conviction-set it reports 5 overlaps (values on their own printed rules, up to 38.90pt) and against ut-pet-acquittal-set 5. The detector fires; this family's zero is a measurement, not a broken instrument.",
+      "pagesReadVisuallyAt300dpi": [
+       1,
+       2,
+       4,
+       5,
+       6
+      ]
+     },
+     "finding": "Measured geometrically over all 19 pages of BOTH fixtures with pdftotext -bbox, pairing only words whose y-band edges agree within 1.5pt so that wrapped paragraph lines are not miscounted as collisions. Zero true text-on-text overlaps and zero words outside the page box. The specific defect VF11 failed this family on was re-measured and is repaired: on the BCI declaration line the pre-printed 'I' occupies x[49.74,52.74] and the participant's name now begins at x=55.50, a 2.76pt CLEARANCE where VF11 measured a 2.24pt overlap. Read at 300 dpi the line renders 'I Jordan Avery Reyes , declare under criminal penalty of the State of Utah', with the first-person subject intact. Page 6's caption was also read: values sit on their rules and the descenders in 'Avery' and 'Springfield' clear the printed underline."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": {
+      "destinationsNamed": 2,
+      "sequence": "BCI certificate first, then the court petition",
+      "deadlineStated": "180 days, including weekends and holidays, from the date on the BCI letter",
+      "designRule": "UT.memo track ut_pet_limitations destination: 'the district or justice court that decided the case'"
+     },
+     "finding": "The guide names both destinations affirmatively and in order, quotes BCI's own direction to file the cover sheet, petition and order 'with the appropriate court', states the 180-day certificate validity between the stages, and tells the participant which two facts (judicial district number and court street address) are theirs to write and that the clerk will confirm both. The design's destination is the district OR justice court that decided the case, while the packet names the district court and pre-marks that caption; that scope limitation is recorded under observationsThatFailNoObligation rather than as a defect in these bytes, because it is identical to the treatment already held as PASS on the COMPLETE_PACKET_PROVEN sibling ut_pet_traffic-set, and applying a stricter yardstick to this family than to its proven sibling would be inconsistency rather than independence."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": {
+      "legalEaseAssertedFiguresInDeliveredBytes": 0,
+      "officialPrintedFiguresInDeliveredBytes": "all of them",
+      "refusalSentencesInGuide": 3,
+      "specificOfficeReferrals": [
+       "clerk of the district court named in the caption",
+       "Bureau of Criminal Identification at bci.utah.gov/expungements"
+      ],
+      "waiverRoutesNamed": [
+       "1305GE under Utah Code 78A-2-302 and CJA Rule 4-508",
+       "BCI indigency waiver, with its must-complete-first sequencing rule"
+      ],
+      "survivingAssertionsInsideTheFamily": 0,
+      "falseDenialUnderA4": "none"
+     },
+     "finding": "THIS IS THE OBLIGATION THE OWNER WITHHELD ON, AND IT PASSES. No unsupported fee is published to the participant anywhere in the delivered bytes: every currency figure in both fixtures is the printed text of an enclosed official form, verified page by page and confirmed by eye at 300 dpi on the two pages that carry the amounts at issue. The guide refuses to publish either fee as its own figure, gives the controlling design's own reason for each refusal, discloses exactly what each enclosed form prints with its form number and revision, and refers the participant to two specifically named offices for the current amounts. Both waiver routes are named with their authority, and the guide warns that the court's waiver and BCI's are two different offices. The false-denial defect VF11 failed this family on is gone from the current bytes."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": {
+      "rule": "The court sends the filing to the prosecuting attorney; the petitioner does not serve.",
+      "sourceOfRule": "the committed track registry, quoted in terms in the guide",
+      "acceptanceOfServiceFormDelivered": "1146XX, delivered blank",
+      "certificateOfServiceBlocks": "left blank"
+     },
+     "finding": "The guide states the rule correctly and in bold - 'You do not serve the prosecutor. The court does.' - and quotes the registry rather than paraphrasing it. It handles the one real trap on this route explicitly: the enclosed BCI instruction sheet contains a line telling applicants to mail or email the prosecutor copies, and the guide names that line, says the registry's rule governs instead, and warns that the Utah Courts general service-of-process page must not be wired to this track because it would import a summons, a process server and a 120-day deadline this track does not have. The certificate-of-service blocks are delivered blank, with an express instruction that a certificate dated before service is a false statement."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": {
+      "stopConditionsInTrack": 8,
+      "presentVerbatimInGuide": 8,
+      "method": "whitespace-normalized containment check of each condition against participant-instructions.md, run in this lane"
+     },
+     "finding": "All 8 of the track's self-help stop conditions appear verbatim in the guide, including the two that matter most on this route: the point where the prosecutor or a victim objects or the court schedules a hearing, and the express refusal to calculate whether the limitations period has run - which is this track's distinguishing design decision, that the certificate stage applies the screen and BCI's refusal is the answer."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": {
+      "manifestItemsChecked": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ut_pet_limitations-set",
+      "itemsVf11FoundAbsent": 2,
+      "itemsNowPresent": 2,
+      "requiredFactsNotCollected": 0,
+      "counterProvenToFire": true
+     },
+     "finding": "The two requiredBeforeFiling items VF11 failed this family on - items held by the family's own committed manifest and absent from the instructions - are both now present and were located by this lane. Line 67 carries the paid-in-full bar in full, including the Office of State Debt Collection check and the warning that an unpaid balance defeats the petition and the BCI certificate. Line 68 carries the all-states case list, including previously expunged cases, with the consequence stated: an incomplete list produces a denial rather than a certificate. The counter that would fire on such an omission was proven sensitive here."
+    }
+   },
+   "failedObligationNames": [],
+   "obligationsScored": 15,
+   "obligationsPassing": 15,
+   "carriedVersusFreshlyMeasured": {
+    "freshlyMeasuredInThisLane": [
+     "SHA-256, byte lengths and page counts of both fixtures (recomputed first, before any substantive read)",
+     "the nine completeness counters",
+     "sensitivity of all nine counters, by eleven mutation cases re-expressed against this family's own map shape",
+     "SHA-256 of all nine bound sources, re-read from the mounted Master Library",
+     "read-back of all 38 declared writes from each fixture's own bytes",
+     "the complete currency enumeration of both fixtures, page by page",
+     "the repository-wide fee-sentence enumeration and its classification",
+     "geometric clipping and overlap over all 19 pages of both fixtures, with the detector calibrated on two sibling families",
+     "300 dpi rendering and visual reading of packet pages 1, 2, 4, 5 and 6",
+     "the 8 self-help stop conditions, compared against the track record",
+     "the two manifest requiredBeforeFiling items, located in the guide",
+     "the printed titles and revisions of the ancillary forms, read off the delivered faces",
+     "the district/justice election state on all six forms that carry it, and the no_fill policy of the four companions",
+     "the preflight, run once and recorded verbatim"
+    ],
+    "carriedAndLabelledAsCarried": [
+     "Deterministic rebuild byte-identity across all fifty family files (FIX83, CONFIRMED_NO_CHANGE at 4d709ceb7). Carried because a verifier who rebuilds the family is no longer independent of the build. Its consequence was checked instead: the bytes on disk hash to the values FIX83 recorded, which this lane recomputed first.",
+     "Byte-identity of all seven Utah families across the shared host. Carried; not re-measured, and it decides nothing in this row.",
+     "The provenance of the correction itself in commit 417f6d281. Carried as history; what this lane ruled on is the state of the delivered bytes now, which is the only thing a reread can rule on."
+    ],
+    "claimsOfFix83ThatThisLaneTestedRatherThanAccepted": [
+     "'Zero surviving inside the held family' - INDEPENDENTLY CONFIRMED by my own enumeration.",
+     "'the two build-findings hits are the negated form' - CONFIRMED by reading both lines.",
+     "'eleven copies' - NOT CONFIRMED AS COUNTED. I find sixteen matching lines. The difference is a counting unit and is set out in full under feeEnumeration.howThisComparesToFix83; it changes no ruling.",
+     "'page 5 shows $150 marked on form 1044XX rev. 2026-05-06' - CONFIRMED visually at 300 dpi, including that the adjacent Eviction row is unmarked.",
+     "'page 1 carries BCI's own $65.00 with the waiver and bci.utah.gov' - CONFIRMED visually at 300 dpi."
+    ]
+   },
+   "observationsThatFailNoObligation": [
+    {
+     "observation": "The packet names the DISTRICT court as the filing destination and pre-marks '[X] District' on the petition and the proposed order, writing that election from factId route.case, while the controlling design's destination for this track is 'the district or justice court that decided the case' - a fact of the participant's own case rather than of the route.",
+     "whyItIsRecordedAndNotScored": "The identical treatment on the identical forms holds a PASS on ut_pet_traffic-set, which is COMPLETE_PACKET_PROVEN under the same decision and was read by the same prior lane. Scoring it a defect here while it stands as a pass there would be inconsistency, not independence. It is recorded so the question is visible to whoever settles it.",
+     "relatedOpenQuestionOnTheRecord": "UT.memo.json records, without resolution: 'form 1044XX is by its own title a District Court cover sheet although the self-help page lists it for all four tracks including justice court cases.' FIX83 named the same thing as a remaining gate: 'Legal-design resolution of limitations district/justice election, destination and 1044XX district-court title suitability.'",
+     "whoShouldSettleIt": "Legal design, not a verification lane. It is an approved_for_live blocker carried in common with the proven sibling, not a defect this lane found in these bytes."
+    },
+    {
+     "observation": "Two of the track's three unresolvedQuestions in UT.memo.json are fee questions marked impact 'release_blocker' on affectedElement 'participant_instructions' - the current BCI application and issuance fees, and the current court filing fee.",
+     "whyItIsRecordedAndNotScored": "The owner's decision is the later and controlling instrument and it resolves how the packet must BEHAVE while those questions stay open: publish no figure of its own, refer to the named office, and quote a figure only where the official form supports it. The packet now does exactly that, so the open questions bar approved_for_live without making these bytes defective. They are recorded because a reader of this PASS should not mistake it for the fee being confirmed - it is not, and the packet says so."
+    },
+    {
+     "observation": "The family's field-census.census-v1.json carries $150 and many other figures as OCR'd captions of 1044XX's printed fee table, some with garbled character order ('$215 [ ] Damages $2001 - 999$9').",
+     "whyItIsRecordedAndNotScored": "It is a build artifact, not delivered to the participant, and the garbling is in the census caption rather than in the rendered page - the delivered page 4 renders those rows correctly, which was confirmed at 300 dpi. No obligation reaches it."
+    },
+    {
+     "observation": "The preflight fails private_is_git_ignored because private/ is a symlink here rather than a directory, so .gitignore line 53's directory form does not match it.",
+     "whyItIsRecordedAndNotScored": "It is an artefact of the prescribed worktree setup, not of the family. Nothing under private/ was tracked, staged or committed; git status was clean throughout."
+    }
+   ],
+   "independence": {
+    "builtThisFamily": false,
+    "repairedThisFamily": false,
+    "renderedAnyCommittedRasterForThisFamily": false,
+    "editedAnyFamilyRecord": false,
+    "editedOwnerCorrectionsRequired": false,
+    "editedAnyOtherLanesRow": false,
+    "artifactBytesMovedByThisLane": 0,
+    "filesWrittenByThisLane": [
+     "data/rcap-grade-a/packet-factory-24h/vf04/rows.json (this row, appended)"
+    ],
+    "temporaryMutationsDuringSensitivityProof": "production-field-map.json and reports/actual-writes.json were each temporarily mutated in place to prove the counters fire, then restored; both were confirmed back at their exact original SHA-256 and git status was clean before committing. No mutated state was committed.",
+    "disqualifyingRelationships": "none",
+    "whyThisLaneCanIssueTheLift": "The record's liftedHow requires a reread by an independent verifier who is neither builder nor repairer. FIX83 built and repaired and expressly disqualified itself from the third step. This lane did neither and is the reader that step calls for."
+   },
+   "grantsNothing": "This is an independent verification finding on exact bytes and nothing else. It is not counsel approval, not output legal approval, not visual acceptance, not central raster acceptance, and not a Grade-A fulfillment record. It opens no route, changes no price, and grants no commercial authority: the family's own records still read generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, status BUILT_REVIEW_PENDING, and approval-request status REQUESTED with grantedBy null. It does not remove the entry from OWNER_CORRECTIONS_REQUIRED.json; it supplies the independent reread that entry's liftedHow requires, and the removal is the owner's or the Captain's act. The two fee release-blockers and the district/justice question remain open against approved_for_live, and a fresh central raster of both fixtures is still owed."
   }
  ],
  "supersededLaneMembership": {
