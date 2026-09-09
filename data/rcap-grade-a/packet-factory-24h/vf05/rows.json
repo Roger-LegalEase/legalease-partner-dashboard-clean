@@ -11567,6 +11567,163 @@
     "note": "This reader built and repaired none of these three families and executed no build script. The only writes made anywhere are the three independent-verification rows, one to each lane's own file, appended without altering any earlier row. Rasters were written under /tmp/rireread only and deleted after measuring; no raster PNG was committed and no delete touched any directory this reader did not create. The three grants were asserted, not released, and the claim ledger is not committed."
    },
    "grantsNothing": "This row is a reader's measurement. It opens no commercial route, promotes no build status, approves no output, releases no grant and does not commit the claim ledger. Nine zero counters, a live or absent raster receipt and a clean rebuild are not counsel approval and not a Grade-A fulfillment record."
+  },
+  {
+   "itemId": "al-misd-dwop-set",
+   "lane": "VF05",
+   "wave": "packet-factory-24h/2026-09-09",
+   "worker": "VF05 independent verification 2026-09-09; this lane did not build, repair or raster this packet, and made no edit to it",
+   "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+   "packetBytesReadAtCommit": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+   "dispatchNamedRebuildCommit": {
+    "sha": "2e59aad82ca5fa832cb07f1324e3db20c336efc1",
+    "note": "The dispatch named 2e59aad82 as the rebuild commit. That commit is not an ancestor of alv-20260909; the rebuild in this branch's history is b83b49d66, which carries the identical commit subject. git diff between the two over the Alabama overlay directories is empty, so the bytes read here are the bytes the dispatch describes."
+   },
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "laneDisposition": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill",
+   "queueStateAtRead": "FAIL_REPAIR_REQUIRED",
+   "legalInputStatusAtRead": "SETTLED",
+   "rasterStateAtRead": "BUILT_RASTER_PENDING; this family is in RASTER_QUEUE.notEligible, and the only historicalRasterRows entry for it binds the pre-repair hashes, so no central raster receipt exists for the current bytes",
+   "claim": {
+    "assertion": "CLAIM_OK VF05 al-misd-dwop-set (independent-verification, grant set 1d35e377c6e39f67)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false,
+    "whyNotReleased": "The Captain owns the ledger; this lane does not release or re-grant claims."
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "31/216",
+    "visualDefectsScope": "Geometry was measured exhaustively: every drawn string on all 11 pages of both fixtures was checked against its own clip box horizontally and vertically, 0 defects. Ink-over-printed-text overlap was inspected only on the pages this lane rastered, listed in whatThisGateDidNotRender.",
+    "whyZeroIsNotTheVerdict": "All nine counters read zero on these same six families both before and after AL6-01, while the boundary packet printed a clipped and semantically false case number on the sworn SSN line. Zero counters decided nothing in this row; the verdict comes from the bytes, the rasters and AL.memo.json.",
+    "measuredBy": "Measured in this lane from the delivered bytes, not read from the builder's report. scripts/rcap-packet-completeness/verify-packet-completeness.mjs prints all nine as 0 for this family including visualDefects 0, while the family's own reports/build-summary.json honestly records visualDefects null under BUILT_RASTER_PENDING. That tool prints 0 for a raster nobody ran; its zero is not evidence and did not decide anything here. requiredOptionsMissing can only fire for a field whose map decision is literally measured_route_selection - no Alabama field is one - so its zero proves nothing about this route's elections, which were checked by hand against the memo instead."
+   },
+   "whereIDifferFromTheCompletenessTool": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set prints PASS_COMPLETE 31/216 with all nine counters at 0, including visualDefects 0. That last figure is wrong on its face: the family's own reports/build-summary.json records visualDefects null under result BUILT_RASTER_PENDING, and RASTER_QUEUE.builtRasterPending says in terms that the state \"records that nobody has looked, not that there is nothing to see\". The tool prints a zero for a raster it never ran. I agree with its other eight counters after measuring them independently, and I disagree that PASS_COMPLETE describes this family.",
+   "whatThisGateDidNotRender": [
+    "Rastered at 150 dpi and inspected by eye: CR-65 page 1 and page 7 of al-diversion-set boundary; CR-65 page 4 of al-pardoned-felony-set canonical; CR-65 page 2 of al-misd-conviction-set canonical; CR-65 page 3 of al-felony-nonconviction-90-set and al-felony-dwop-set canonical.",
+    "Not rastered: the remaining pages of this family's two fixtures. Their drawn strings were measured computationally against their clip boxes and their text extracted per page, but no human looked at them as images. This is a rendering gap in this gate, not a canonical document the gate missed.",
+    "No page of any C-10-CRIMINAL component was rastered; its ink was measured computationally and extracted as text only."
+   ],
+   "documentsNotCovered": [],
+   "documentsNotCoveredNote": "Zero. Both canonical documents the route names, CR-65 and C-10-CRIMINAL, are rendered, mapped and read here. This key is kept strictly separate from whatThisGateDidNotRender above.",
+   "evidence": {
+    "sourceBytes": [
+     "CR-65: 468056 bytes, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, independently rehashed from private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+     "C-10-CRIMINAL: 711433 bytes, sha256 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8, independently rehashed from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf"
+    ],
+    "artifacts": {
+     "canonical": "905851 bytes, 11 pages, sha256 d29b3da197d38df0f347b41335261fd3564b1cb20c93491b384ccbc7ade01780, recomputed in this lane before any other read",
+     "boundary": "906092 bytes, 11 pages, sha256 d87dfb4612e487f3b0b23e1db743795208a06f7e70638fe575f74cf37e182b82, recomputed in this lane before any other read"
+    },
+    "memo": "data/record-clearing/legal-design-intake/AL.memo.json track al-misd-dwop, read directly rather than through the packet's quotation of it",
+    "howTheBytesWereRead": "The fixtures are flattened: they carry no AcroForm. Each filled widget survives as a Form XObject placed by \"1 0 0 1 x y cm /FlatWidget-n Do\", carrying its own clip path and its own BT/Tf/Tm/Tj. Ink, font size, clip geometry and emptiness were read from those XObjects; page text was cross-read with pdftotext -layout; pages were rastered with pdftoppm at 150 dpi."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The route key(s) obligation:track-only:AL:al-misd-dwop agree across MASTER_QUEUE.json, product-wiring.json, approval-request.json and production-field-map.json, and the packet is built for AL.memo.json track al-misd-dwop. No cross-route contamination found."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both official sources were rehashed by me from the mounted custodies and match source-receipt.json, product-wiring.json sourceVersion and the family row gate byte for byte. node scripts/verify-packet-build-environment.mjs --family al-misd-dwop-set reports family_sources_bind 2/2 by exact SHA-256 (custody_reconciliation), 13/13 passed. CR-65 binds at tier exact_identity_confirmed_from_document_text; C-10-CRIMINAL at exact_form_number."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "AL.memo.json names primary_filing (CR-65, required), certificate_of_service (CR-65, required) and fee_waiver (C-10-CRIMINAL, conditional). Both fixtures render all three: CR-65 pages 1-8 including the page-7 certificate of service, then C-10-CRIMINAL pages 1-3. documentsNotCovered is 0: every documentId in source-receipt.json appears in production-field-map.json, and every one of the 216 AcroForm widgets in the two source PDFs is either a write or a classified refusal - zero source fields are unaccounted for."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "detail": "AL6-01 is genuinely gone from the bytes. CR-65 Text2 is the Social Security line - the blank after the printed \"XXX - XX -\" under \"(Social Security Number, Last four digits only)\", widget box 67.24 x 15.69 at (124.70, 525.04) on page 1. It is no longer a write. In production-field-map.json it is a refusal with effectiveLabel \"Last four digits of your Social Security Number\", completenessDisposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, role participant, and that exact label appears in participant-instructions.md, so the blank is named for the participant rather than opaque. In the flattened widget XObject the field draws \"<> Tj\" - an empty string - so no glyph reaches the page. I rastered page 1 of the boundary fixture at 150 dpi and looked at it: the SSN line reads \"XXX - XX -\" followed by empty rule. No case number reaches that field on either fixture. The remaining open question on this obligation is AL6-03. AL6-03, unrepaired and not decided here. CR-65's caption box is printed \"Court Case Number\" over \"(Assigned by Clerk)\". The packet writes matter.case_number into it on CR-65 pages 1, 2, 3, 4, 5, 6 and 8 (fields Text1, Text4, Text7, Text5, \"Court Case Number\", \"Court Case Number_2\", \"Court Case Number_4\") and on C-10-CRIMINAL pages 1 and 2, and leaves the identical box empty on CR-65 page 7 (\"Court Case Number_3\", x=445.44 y=691.32 w=129.00 - the same x and width as the boxes it does fill on pages 6 and 8) and on C-10-CRIMINAL page 3. I rastered both: page 1 shows CC-2024-000001.99 above the printed \"(Assigned by Clerk)\"; page 7 shows an empty box. AL.memo.json track establishes nothing about which case number that box means. CR-65 page 1 separately prints \"COURT CASE NUMBER TO BE EXPUNGED:\" as its own line, which the packet also fills, so the caption box arguably means the expungement case the clerk assigns - but that is an Alabama forms-practice conclusion, not a fact in the held record, and this lane does not author it. Either reading yields a defect (prefilled on nine pages that should be blank, or blank on two pages that should be prefilled); only the direction is open. Marked BLOCKED_LEGAL_INPUT on this obligation rather than decided."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Zero protected writes on both fixtures, measured by mapping each of the 41 role=protected and 28 role=court refusals to its source widget rectangle and checking for ink at that rectangle in the flattened PDF. Every signature, signature date, notary block, certificate-of-mailing field and court-or-judge-owned field on CR-65 page 6, CR-65 page 7 and C-10-CRIMINAL pages 2-3 is empty; rastered CR-65 page 7 and confirmed the Petitioner's/Server's Signature, Address and Telephone lines and the DATED-this line are all blank. Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "AL6-02 is genuinely gone from the bytes. I measured every drawn string independently: for all 11 pages of both fixtures I decoded each flattened widget XObject, read its clip path and its \"/Helvetica <size> Tf\" plus \"1 0 0 1 x y Tm <hex> Tj\" operators, and compared the Helvetica advance width of the decoded string at the size actually used against the clip's right edge, and the ascent/descent against its top and bottom. Result: 31 inked draws, 0 horizontal overflows, 0 vertical overflows. The boundary case number CC-2024-000001.99 measures 72.48pt of Helvetica 8; on this family it is drawn into boxes 114.74pt and wider, so it fits. pdftotext extraction returns the full 17-character string on every page it appears - never the truncated CC-2024-000001.9 the defect produced - and the 150 dpi raster of page 1 shows it complete inside its box. The stepping repair is live and exercised, not dead code: on CR-65 page 6 the boundary name \"Alexandria Catherine Montgomery-Washington\" would measure 166.20pt at Helvetica 8 against a 144.00pt box, and is drawn at Helvetica 6 measuring 124.65pt."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet states where self-help ends. All memo selfHelpStopConditions appear verbatim in participant-instructions.md under \"## Stop and get help\"."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md names the criminal division of the Alabama circuit court in the county where the charges were filed, which is the destination AL.memo.json records for this track (destination.kind court, name \"Criminal division of the circuit court, county where the charges were filed\")."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "participant-instructions.md names who must be served - the district attorney, the law-enforcement agency whose records are sought, and the clerk of the court for the filing county - and directs a separate CR-65 page 7 certificate of service per recipient, matching the memo's rules.service \"A certificate of service page per entity served.\" and CR-65 page 7's own printed instruction \"Include as many copies of this page as necessary\". Service date, method, recipient, address and server signature are left blank for completion after service actually happens."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Checked against AL.memo.json directly, not against the builder's report. Both documents the memo marks requiredBeforeFiling true for this track are named in participant-instructions.md as things to obtain and submit, with the source and the method, not merely as a cross-check. All 58 refusals carrying completenessDisposition REQUIRED_BEFORE_FILING appear in the guide's blank list under a plain-language label; zero opaque Text-n or undefined-n labels remain."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "I recomputed both digests before reading anything else. canonical d29b3da197d38df0f347b41335261fd3564b1cb20c93491b384ccbc7ade01780, 905851 bytes, 11 pages. boundary d87dfb4612e487f3b0b23e1db743795208a06f7e70638fe575f74cf37e182b82, 906092 bytes, 11 pages. Both match the dispatch prefixes and reports/rendered-artifacts.json, reports/build-summary.json, approval-request.json and product-wiring.json exactly."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures are 11 pages in manifest order: CR-65 pages 1-8 (page 7 the certificate of service, page 8 the instructions page) followed by C-10-CRIMINAL pages 1-3, matching the source page counts 8 and 3 and the component order primary_filing, certificate_of_service, fee_waiver."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Checked by hand against the memo, because requiredOptionsMissing cannot see Alabama at all. CR-65 Check Box8.6 (Section I: charge dismissed without prejudice more than one year ago, not refiled, two-year conviction-free period) is the only Section I box ticked and is the exact branch the route names. The C-10-CRIMINAL circuit-court caption branch (Check Box1.0), which the route determines, is selected. No route-determined election is left blank and no election beyond what the route determines is made."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No repeating row carries written cells beside required cells left blank. The only repeated structures are the CR-65 page 5 two-line narrative continuations and the C-10-CRIMINAL income and expense schedules; both are wholly unwritten and wholly named in the guide, so no row is half-filled."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md and participant-instructions.md both state the $500 filing fee and the C-10-CRIMINAL Affidavit of Substantial Hardship and Order as the indigency route, quoting the memo's rules.fees and rules.feeWaiver, and both say the judge rather than the participant completes the order page. The C-10 order page (packet page 11) is rendered and entirely blank."
+    }
+   },
+   "failedProofObligations": [],
+   "blockedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "al6Status": {
+    "AL6-01": "GONE from the delivered bytes. CR-65:Text2 is a named REQUIRED_BEFORE_FILING blank labelled \"Last four digits of your Social Security Number\", draws an empty string, and shows as an empty rule under \"(Social Security Number, Last four digits only)\" in the raster. Confirmed on both fixtures.",
+    "AL6-02": "GONE from the delivered bytes. 0 horizontal and 0 vertical clip overflows across all 31 inked draws on both fixtures, measured string by string. The 8/7/6/5 stepping is exercised, not dead: CR-65 page 6 drops to Helvetica 6 for the boundary name.",
+    "AL6-03": "PRESENT and not decided here; see KNOWN_PREFILLS. Marked BLOCKED_LEGAL_INPUT on that obligation."
+   },
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "packetsModified": 0,
+   "overlayDirectoriesModified": 0,
+   "whatThisVerdictDoesNotDo": "This row approves no output, opens no commercial route, and creates no Grade-A fulfillment record.",
+   "whyBlockedNotPass": "Everything this lane can settle from the record passes, and AL6-01 and AL6-02 are genuinely gone. AL6-03 remains: the same printed caption box is prefilled on nine pages and blank on two, and which case number that box means is established nowhere in AL.memo.json. Deciding it would be authoring an Alabama legal conclusion, which this lane does not do, so the family blocks rather than passes.",
+   "whatWouldUnblockIt": "A legal-design answer in AL.memo.json stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing. Either answer makes the remaining defect mechanical and repairable.",
+   "observedNotScored": "Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure."
   }
  ],
  "supersededLaneMembership": {

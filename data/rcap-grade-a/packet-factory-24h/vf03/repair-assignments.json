@@ -1326,6 +1326,40 @@
    ],
    "requiredChange": "Make the election and the row move together. Either (a) suppress the selection mark whenever the row it elects is withdrawn, so an emptied paragraph is wholly untouched exactly as the guide's held-but-not-printed table already promises ('a row is completed or left untouched'), and disclose the unmade election to the participant as a required-before-filing item naming the box to tick; or (b) keep the mark and write the row, which needs the missing cells rather than the held ones -- the held guiltyDt, guiltyOff1 and guiltyCrt are not what is missing. Option (a) is the one the existing repair method already supports. Whichever is chosen, extend the row rule so a selection control counts as a cell of the row it sits in, in the build path and in --check identically, the way NJ_ORDER_ARREST_ROW_1 treats its text cells; then rebuild, re-raster centrally and re-read. Do not resolve this by writing a statute, a sentence or a completion date the platform does not hold onto a petition verified under N.J.S.A. 2C:52-7. SEPARATELY, render a self-help-ends section for this track from its own committed selfHelpStopConditions, carrying all 12 in the record's own words, the way nj_arrest_no_conviction-set, nj_disorderly_persons-set and nj_indictable_conviction-set already do on the same host. The ordinance-classification stop must be among them under that heading and not only inside a technical bullet.",
    "reverification": "Re-read both fixtures at 300 dpi after the central re-raster for the row, and re-test all 12 stop conditions as exact substrings of the rebuilt participant-instructions.md."
+  },
+  {
+   "assignmentId": "VF03-REPAIR-AL-FELONY-NONCONVICTION-90-INVERTED-NOTARIZATION-INVARIANT",
+   "itemId": "al-felony-nonconviction-90-set",
+   "lane": "VF03",
+   "raisedBy": "VF03 independent verification 2026-09-09; this lane did not build, repair or raster this packet, and made no edit to it",
+   "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+   "packetBytesReadAtCommit": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+   "canonicalSha256": "e7cd495ccdfc8ecb171a0ce59d4687c428c0c825618598311b354ecfe83332dd",
+   "boundarySha256": "8c9374e14f5695ea7499bbf71ca7c09d0c82202392869ade7951f9de62f79784",
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "blockedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "decisiveDefect": "The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form. participant-instructions.md repeats it: \"Complete the participant signature only after every fact and attachment is complete, and sign under oath before a notary or other authorized officer.\" Worse, this builder pins the defect in place: scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 318 asserts assert.match(instructions, /notary/i), so its own repair invariant REQUIRES the unsupported notarization direction to be present. That is an inverted safeguard, not a missing one.",
+   "whatRepairIsAuthorised": "Two edits, and the second is the one that matters. (1) Delete the notarization direction from both filing-instructions.md and participant-instructions.md and replace it with the memo-quoting text the four sibling Alabama families already ship. (2) Remove or invert the assertion at scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 318, assert.match(instructions, /notary/i): as written, that invariant requires the unsupported direction to be present, so any repair of the text alone will fail the builder's own check and be reverted. It should become the shared host's assert.doesNotMatch(instructions, /sign .{0,40}(under oath|before).{0,40}(notary|authorized officer)/i) or the equivalent. Then restore the missing guide sections and the verbatim stop conditions.",
+   "whatThisAssignmentDoesNotAuthorise": "It authorises no change to AL.memo.json's legal content, no new participant fact, no signature, no notarization, no route promotion and no commercial route. It does not authorise deciding AL6-03; that stays BLOCKED_LEGAL_INPUT until legal design answers it.",
+   "nineCountersAtRead": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "whyTheCountersDidNotCatchIt": "All nine counters read zero on these same six families both before and after AL6-01, while the boundary packet printed a clipped and semantically false case number on the sworn SSN line. Zero counters decided nothing in this row; the verdict comes from the bytes, the rasters and AL.memo.json.",
+   "reVerificationRequired": "The repaired bytes must be independently re-read by a lane that did not repair them."
   }
  ],
  "supersededLaneMembership": {
