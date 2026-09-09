@@ -6,74 +6,11 @@ Education-based sealing after completion of the last sentence and every printed 
 
 ## Required before filing
 
-Obtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires. Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.
+Obtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires.
 
-- Complete arrest60 on EXP-AD Case List page 1
-- Complete arrest61 on EXP-AD Case List page 1
-- Complete arrest62 on EXP-AD Case List page 1
-- Complete arrest63 on EXP-AD Case List page 1
-- Complete arrest64 on EXP-AD Case List page 1
-- Complete arrest65 on EXP-AD Case List page 1
-- Complete arrest66 on EXP-AD Case List page 1
-- Complete arrest67 on EXP-AD Case List page 1
-- Complete arrest68 on EXP-AD Case List page 1
-- Complete arrest69 on EXP-AD Case List page 1
-- Complete arrest70 on EXP-AD Case List page 1
-- Complete arrest/case number 1 on EXP-AD Order Granting page 1
-- Complete arrest/case number 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number 28 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 2 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 3 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 4 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 5 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 6 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 7 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 8 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 9 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 10 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 11 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 12 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 13 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 14 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 15 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 16 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 17 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 18 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 19 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 20 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 21 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 22 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 23 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 24 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 25 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 26 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 27 on EXP-AD Order Granting page 1
-- Complete arrest/case number - Sealing 28 on EXP-AD Order Granting page 1
+**The Outcome column.** The case table carries FC, "Felony Conviction". Item 22, the election this packet ticks, asks the court to seal eligible felony convictions, and FC is the Outcome Abbreviations for Sealing legend's own shortened form for a felony conviction. The full printed legend on that page is: MC (Misdemeanor Conviction), FC (Felony Conviction), CE (Certificate of Eligibility for Sealing from PRB), QP (Qualified Probation Successfully Completed). Check it against your certified disposition before you sign, and change it only to another value printed on that legend.
+ Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.
+
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
