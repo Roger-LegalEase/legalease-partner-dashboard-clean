@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ne-seal-pardoned-set",
+  "routeKey": "obligation:track-pathway:NE:ne-seal-pardoned:pardon-then-seal",
+  "routeKeys": [
+    "obligation:track-pathway:NE:ne-seal-pardoned:pardon-then-seal"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ne-seal-pardoned-set",
+    "jurisdiction": "NE",
+    "routeKeys": [
+      "obligation:track-pathway:NE:ne-seal-pardoned:pardon-then-seal"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver",
+      "instructions",
+      "pardon_document_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:ne-seal-pardoned-instructions-2",
+      "component:ne-seal-pardoned-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-6-12",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CC-6-12a",
+        "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ne-seal-pardoned-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ne-seal-pardoned-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "CC 6:12",
+        "file": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "06f5fae3ff55d3d23302157f847153ade429a221a879beb865639b55f7666979",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ne-seal-pardoned-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "CC 6:12a",
+        "file": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "06f5fae3ff55d3d23302157f847153ade429a221a879beb865639b55f7666979",
+        "requirement": "required"
+      }
+    ]
+  }
+}

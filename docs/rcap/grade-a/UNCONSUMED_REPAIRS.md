@@ -11,6 +11,52 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## Four families deliver packets whose form fields are still live (2026-09-09)
+
+The build lane observed in passing, outside its grants, that four delivered
+canonical fixtures still report `Form: AcroForm`. Screened with `pdfinfo` over
+every delivered fixture in the corpus — canonical and boundary — the set is
+exactly four families and no others, in both fixtures each:
+
+| Family | State |
+|---|---|
+| `hi_712_1200_deferred_expungement-set` | SOURCE_READY |
+| `hi_dag_danc_expungement-set` | **COMPLETE_PACKET_PROVEN** |
+| `ia-12347-set` | SOURCE_READY |
+| `ia-7251-set` | **COMPLETE_PACKET_PROVEN** |
+
+Every other delivered fixture reports `Form: none`, so this is a defect in four
+families rather than a corpus-wide convention.
+
+### Why it matters
+
+A delivered packet whose fields are still interactive does not carry its values
+as ink. It carries them as field values with generated appearances, which a
+viewer can alter, which some printers and e-filing pipelines drop or re-render,
+and which a participant can change after the page they sign is produced. Two of
+the four are recorded `COMPLETE_PACKET_PROVEN`.
+
+It also weakens the evidence over those bytes rather than just the bytes: a
+raster receipt hash-bound to a file whose appearances are generated at view time
+proves what one renderer chose to draw, not what the file fixes.
+
+### What is NOT established
+
+That the delivered values are wrong, or that any of the four renders
+incorrectly today. The screen establishes only that the fields survived
+flattening in these four and in no others. Whether each family's builder skips
+the flatten, flattens and leaves the AcroForm dictionary behind, or writes the
+values a different way is a per-builder question nobody has asked yet.
+
+The related repair the same lane made on the Maryland host is the likely shape
+of the fix and the reason to be careful with it: `pdf-lib`'s `form.flatten()`
+DELETES each field's objects, after which the writer emits an xref with entries
+for object numbers that no longer exist — poppler reported `Invalid XRef entry
+93`. Its builder now draws what pdf-lib draws, operator for operator, and
+DETACHES instead of deleting. A naive "just call flatten()" fix on these four
+would trade live fields for a broken cross-reference table, which is the defect
+VF13 independently found across every Illinois fixture.
+
 ## Repaired in source, never rebuilt: a screen over 25 families (2026-09-09)
 
 The Illinois repair lane found, outside its own grants, that
