@@ -9626,8 +9626,9 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T22:29:59.427Z",
+      "releaseReason": "VF08 has returned its FAIL_REPAIR_REQUIRED read on this family; releasing so the repair can proceed on bytes nobody is measuring."
     },
     {
       "subjectType": "packet-family",
@@ -14033,9 +14034,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "itemId": null,
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "familyIds": [
+        "wv_conv_nonviolent_felony-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "b91338052fa62ae36288290f17c0121897bea4698dd2353c25a21ffd9b7a7e38",
+  "claimsDigest": "6d62f0296763f70a864ebacae4cb20eba0b7bc830e5621db6ecef0267ed1b1a6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34795,6 +34811,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T22:24:09.265Z",
       "reason": "Withdrawn. My measurement omitted the XObject /Matrix, which cancels the placement translate on both of these families. They are not affected and need no re-read; returning the grant to the lane that held it."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T22:29:59.427Z",
+      "reason": "VF08 has returned its FAIL_REPAIR_REQUIRED read on this family; releasing so the repair can proceed on bytes nobody is measuring."
     }
   ],
   "reissues": [
@@ -52277,6 +52302,17 @@
       "grantedAt": "2026-09-09T13:46:52.496Z",
       "grantedBy": "Captain",
       "reason": "probe",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-09T22:29:59.554Z",
+      "grantedBy": "Captain",
+      "reason": "One line at one call site: this family goes through finalizeOfficialForm, which already carries fitAppearancesToRect default-off, and its thirteen checkbox appearances carry no /Matrix so the placement translate is applied twice. FIX122 proved the corrected bytes identical to the siblings' normalized path and proved all 57 origin-anchored placements unmoved.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
