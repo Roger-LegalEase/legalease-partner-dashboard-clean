@@ -3064,6 +3064,17 @@ function glyphInsideMeasuredField(glyph, field) {
     && glyph.x >= field.measured.x0 - 1 && glyph.x + glyph.width <= field.measured.x1 + 2;
 }
 
+/*
+ * Non-whitespace glyphs carried by a set of flattened widget appearances, read
+ * out of the appearance streams of the saved file. Shared by every reading on
+ * the CA path so the glyph count and the geometry count cannot disagree about
+ * what a glyph is.
+ */
+function glyphsIn(appearances) {
+  return appearances.reduce((total, appearance) =>
+    total + String(appearance.text ?? "").replace(/\s/g, "").length, 0);
+}
+
 function proofText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
@@ -4146,6 +4157,31 @@ async function verifyCaArtifact({ familyId, formNumber, formCensus, fieldMap,
   outputFile, outputBytes, report, facts, fixture, variant, routeTextReport,
   selectionReport, pdfLibWarnings }) {
   const drawn = await flattenedWidgets(abs(outputFile));
+  /*
+   * The measured write boxes: every widget rectangle of the finalizer census,
+   * which is the same geometry every other reading on this path is taken
+   * against. An appearance placed at none of them is outside all of them.
+   */
+  const measuredWriteBoxes = caFinalizerCensus(formCensus)
+    .flatMap((field) => (field.widgets ?? []).map((widget) => ({ page: widget.page, rect: widget.rect })));
+  const appearancesOutsideMeasuredWriteBoxes = drawn
+    .filter((appearance) => glyphsIn([appearance]) > 0)
+    .filter((appearance) => !measuredWriteBoxes.some((box) => box.page === appearance.page
+      && Math.abs(appearance.x - box.rect.x) <= 3 && Math.abs(appearance.y - box.rect.y) <= 3));
+  /*
+   * Pushbutton widgets, read off the exact census: these are viewer controls,
+   * so a flattened appearance at one of them is chrome on a filing.
+   */
+  const controlChromeBoxes = caFinalizerCensus(formCensus)
+    .filter((field) => {
+      const exact = formCensus.fields.find((candidate) => candidate.name === field.name);
+      return exact?.fieldType === "/Btn" && exact.flags?.includes("pushButton");
+    })
+    .flatMap((field) => (field.widgets ?? []).map((widget) => ({ page: widget.page, rect: widget.rect })));
+  const controlChromeAppearances = drawn
+    .filter((appearance) => glyphsIn([appearance]) > 0)
+    .filter((appearance) => controlChromeBoxes.some((box) => box.page === appearance.page
+      && Math.abs(appearance.x - box.rect.x) <= 3 && Math.abs(appearance.y - box.rect.y) <= 3));
   const writtenByName = new Map(report.written.map((row) => [row.field, row]));
   const refusedByName = new Map(report.refused.map((row) => [row.field, row]));
   const mappedByName = new Map(fieldMap.writes
@@ -4237,6 +4273,56 @@ async function verifyCaArtifact({ familyId, formNumber, formCensus, fieldMap,
     finalizerRefused: report.refused,
     selectionReport,
     flattenedAppearanceCount: drawn.length,
+    /*
+     * FIX01. THE TWO OUTPUT-BYTE READINGS THIS PATH NEVER EMITTED.
+     *
+     * verify-packet-completeness decides whether invisibleWrites and
+     * visualDefects were MEASURED by looking for exactly these two keys on an
+     * artifact record. This path emitted flattenedAppearanceCount and
+     * writtenProof instead, so both counters were unmeasured, and the verifier
+     * -- correctly -- returned NOT_MEASURABLE_HERE rather than a pass with two
+     * zeros for questions nobody asked. Twenty-five overlay directories emit no
+     * glyph reading and thirty emit no geometry reading; this closes it for
+     * every family that renders through verifyCaArtifact rather than in one
+     * builder, so the CA families on this host cannot drift apart on it.
+     *
+     * Both are read from the SAVED bytes, not from the finalizer's report of
+     * what it meant to write. `drawn` is flattenedWidgets() over the written
+     * file: every appearance XObject actually placed on a page, with the text
+     * decoded out of its own stream.
+     *
+     * WHAT THE GEOMETRY READING DOES NOT COVER, measured rather than assumed.
+     *
+     * Every flattened appearance is placed at its widget's rectangle, so this
+     * counts ink sitting where the measured census has no widget at all. I
+     * checked whether it would have caught the CR-180 banner VF05 scored, and
+     * it would NOT have: the banner is drawn at the Warning pushbutton's own
+     * rect, page 3 x=36 y=12.78, and that field IS in the finalizer census, so
+     * the appearance lands inside a measured box and this counter reads zero
+     * with the defect present. Saying otherwise would be claiming a proof this
+     * number does not carry.
+     *
+     * The banner class is chrome delivered at its own widget, not ink outside a
+     * box, so it needs its own reading and gets one below:
+     * flattenedControlChromeGlyphsReadFromOutputBytes. Measured on the bytes at
+     * d4653b258, before FIX14: CR-180 carried 83 flattened appearances and 250
+     * glyphs, of which 126 glyphs across 4 pushbutton widgets were chrome. It
+     * now carries 78 appearances and 107 glyphs, and 0 chrome.
+     */
+    addedGlyphsReadFromOutputBytes: glyphsIn(drawn),
+    nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: glyphsIn(appearancesOutsideMeasuredWriteBoxes),
+    appearancesOutsideMeasuredWriteBoxes,
+    measuredWriteBoxesReadFromCensus: measuredWriteBoxes.length,
+    /*
+     * Viewer chrome delivered onto a filed page: glyphs drawn by a flattened
+     * appearance sitting at a pushbutton's rect. A pushbutton is a control a
+     * reader clicks on screen, never filing content, so any glyph here is ink
+     * the packet put on a court document. This is the reading that covers the
+     * CR-180 privacy banner, and the one a future lane should watch: it reads
+     * 0 on these bytes and reads 126, at 4 widgets, on the pre-FIX14 bytes.
+     */
+    flattenedControlChromeGlyphsReadFromOutputBytes: glyphsIn(controlChromeAppearances),
+    controlChromeAppearances,
     writtenProof, exactBindingProof, statutorySelectionProof, routeTextReport,
     statutoryTextControlProof,
     fieldObservations: observations,
