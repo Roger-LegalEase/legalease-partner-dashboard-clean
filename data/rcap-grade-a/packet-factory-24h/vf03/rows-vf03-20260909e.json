@@ -1,0 +1,234 @@
+{
+ "schemaVersion": "rcap-verifier-lane-return/v1",
+ "lane": "VF03",
+ "laneKind": "independent-verification",
+ "shift": "20260909e",
+ "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+ "worktree": "/home/user/pfd-worktree",
+ "branch": "pfd-vf2-20260909",
+ "writtenAlongsideRatherThanOver": "rows-vf03-20260909b.json, rows-vf03-20260909c.json, rows-vf03-20260909d.json, checkpoints-vf03-20260909d.json, checkpoint-blocked-before-claim.json, repair-assignments.json, rows.json and nm-three-20260906/ all survive byte-for-byte. This lane wrote only rows-vf03-20260909e.json and checkpoints-vf03-20260909e.json.",
+ "independence": "This lane did not build, repair, rerender or raster either family below. It edited no packet, builder, overlay directory, manifest, registry or central artifact, dispatched no workflow, and released no claim. Both families were asserted with claim.mjs --assert VF03 before any artifact of them was opened.",
+ "measurementNote": "Every counter and obligation below was measured in this container from the committed artifact bytes and the controlling committed records: sha256 recomputation of every bound source and every fixture; pdftotext -layout page by page on both the delivered packet and the pinned sources, diffed against each other; PDF content streams decompressed with pdf-lib and zlib and traced for text matrices, glyph origins, fill colours, rendering modes and path operators; pdf-lib enumeration of AcroForm fields and document metadata. verify-packet-completeness.mjs is recorded only as a cross-check, never as the measurement.",
+ "rows": [
+  {
+   "itemId": "mn_petition_juvenile_as_adult-set",
+   "lane": "VF03",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "postRepairReread": false,
+   "postRepairNote": "First independent read of this family. No prior verification row exists for it; product-wiring.json carries lastIndependentVerification null.",
+   "theNearCloneQuestionAnswered": "THE QUESTION PUT TO ME: does mn_petition_juvenile_as_adult-set's petition state its own statutory ground on its own face? I did not read mn_petition_15218-set and I hold no claim on it; every sentence below is measured on my own family's bytes and on the pinned sources it binds.\n\nANSWER, PART ONE -- YES, AND THE TICK IS GENUINELY THE WHOLE ELECTION ON THIS FORM. EXP102 item 9 is titled 'Qualification for Expungement. Why do you qualify for an expungement?' and prints eleven ballot boxes: eight on packet page 4 and three on packet page 5. I read all eleven on the delivered page and can give a reason for each. I traced the page-4 content stream with a text-matrix interpreter and the eight box glyphs sit at baselines y 660.00, 572.00, 516.00, 475.20, 403.20, 315.20, 227.20 and 136.80, all at x 90.4, glyph advance 12, cid <0706> mapped to U+2610. The only vector ink this build adds to that page is six path tokens -- '0 0 0 RG / 93.2 573.2 m / 99.66 579.61 l / S' and its mirror -- an X spanning x 93.2-99.66, y 573.2-579.61. The census's own outline for the box at baseline 572.00, taken from the embedded glyf bbox, is x0 92, y0 572, x1 100.86, y1 580.81. The X is inside that outline on both axes and inside no other. So the mark lands on item 9 box 2, which prints 'You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile.' That IS this route's statutory ground and it IS on the face of the petition.\n\nWHY A TICK IS ENOUGH HERE, AND WHY ONLY TWO OF ELEVEN BOXES COULD EVER HAVE BEEN THIS FAMILY'S: each item-9 box prints its own bracketed order instruction. Box 1 (controlled substance dismissed and discharged under Minn. Stat. Sec. 152.18) and box 2 (certification or reference for adult prosecution) BOTH print '[Use Order Concerning Sealing/Expunging of Record - Minn. Stat. Sec. 609A.02, subd. 1 or 2 (court form EXP106).]'. Boxes 3, 4, 5, 6, 7, 8, 9 and 10 all print '[... (court form EXP105).]' and box 11 prints '[... (court form EXP107).]'. This family binds EXP106 and binds neither EXP105 nor EXP107, so nine of the eleven boxes are structurally unavailable to it and the census records all ten unelected boxes as NOT_APPLICABLE_ON_THIS_ROUTE. EXP106 packet page 9 finding 1 then carries the matching pair as two mutually exclusive limbs -- 'and was sentenced pursuant to Minn. Sec. 152.18' OR 'following certification or reference to district court for prosecution pursuant to Minn. Stat. Sec. 260B.125' -- and EXP106 is the judge's instrument, correctly filled to its caption only, so neither limb is elected by the build. On this form suite the petition's election point is item 9 and nowhere else: EXP102 prints no other statutory-ground field. Item 6 asks for the authority in prose, and the packet leaves it to the participant, which I address under KNOWN_PREFILLS and REQUIRED_BEFORE_FILING below rather than treating as an election defect. So the pair is real, the tick is the election, and the near-clone gate is right not to flag it.\n\nANSWER, PART TWO -- AND THE PETITION REFUTES ITS OWN TICK TWO PAGES LATER. This is the finding, and it is on my family alone. The delivered petition swears at item 3 (packet page 2) 'List your date of birth: 1991-04-17' and at item 10 (packet page 5) 'Date of offense: 2019-08-04'. That participant was 28 years, 3 months and 18 days old on the date of the offence. The box ticked two pages earlier says the crime was committed 'when you were a juvenile'. A court reading pages 4 and 5 of this petition together reads an election the same document's own sworn facts make impossible. Item 10 also swears 'Type of offense: Fifth-degree possession of a controlled substance' -- which is the subject matter of item 9 box 1, the Sec. 152.18 branch, not of box 2. The boundary fixture is worse: it keeps the same date of birth and the same offence date and extends the charge to 'Fifth-degree possession of a controlled substance, aiding and abetting, continued for dismissal', a continued-for-dismissal disposition, on a petition that elects certification for adult prosecution. Nothing anywhere in this family's collected fact set bears on juvenile status, on age at the offence, or on a Sec. 260B.125 certification; the controlling registry names this track's one disposition as 'adult_conviction_after_certification' and that disposition appears on neither delivered fixture. I read the build script's CANONICAL and BOUNDARY objects and neither contains a certification fact or any age-consistency assertion. So: the whole of the distinction between this remedy and an ordinary petition is one tick and seventeen pages of prose that describe a different remedy. The tick is correct and the paper under it is not.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 1,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Route key obligation:track-only:MN:mn_petition_juvenile_as_adult is identical in source-receipt.json, product-wiring.json (both routeKeys and binding.routeKeys), production-field-map.json and MASTER_QUEUE.json families[197]; routeSelectionId mn-exp102-juvenile-certified-as-adult is identical in the receipt, the wiring and the census. The controlling record data/record-clearing/legal-design-track-registry.json tracks[234] carries trackId mn_petition_juvenile_as_adult, legalName 'Petition to Expunge a Conviction Following Certification for Adult Prosecution', authority ['Minn. Stat. ch. 609A','Minn. Stat. Sec. 260B.125'] -- the same authority string pair the receipt declares -- and mechanism 'An adult conviction resulting from certification for adult prosecution ... This is an adult conviction route, not juvenile delinquency relief.' On the delivered bytes the elected item-9 box is the certification box and the bound proposed order is EXP106, the Sec. 609A.02 subd. 1 or 2 order that box's own printed bracket names. Identity is coherent across every record I read and against the paper. The defect I record under KNOWN_PREFILLS is not an identity mismatch: the route is correctly named everywhere and the facts printed on it are wrong for it."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Four bound sources, all four re-hashed by me on disk in this container. EXP102 Rev 7/24 c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541, EXP104 Rev 1/25 0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c and EXP106 Rev 1/24 da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85 from the mounted custody at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/ (EXP102_Current-2.pdf, EXP104_Current.pdf, EXP106_Current.pdf); FEE102 Rev 07/24 b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8 from $MASTER_LIBRARY_SOURCE_DIR/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf. Every one matches the receipt's sha256 exactly and every one is an official Minnesota Judicial Branch form, not a derivative. pdf-lib reports 0 AcroForm fields on all four, agreeing with the receipt's structuralClassObserved flat_pdf and acroFieldCount 0. The receipt's declaredPathsInTheQueueAreStale note is accurate and I verified its substance: the queue's declared 'private/Nationwide Record Clearing/LegalEase Minnesota/...' paths do not exist in this worktree, the content digests resolve inside the mounted recovery pool, and substitutionMade is correctly false because the bytes are identical."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Four declared, four delivered. The controlling registry tracks[234].packetSet and legal-design-packet-set-manifests.json packetSets[234] both declare exactly four components -- primary-filing-1 EXP102 required, certificate-of-service-2 EXP104 required, proposed-order-3 EXP106 required, fee-waiver-4 FEE102 conditional ('Where the participant cannot pay the filing fee and no statutory waiver applies') -- in that order. MASTER_QUEUE families[197] lists the same four componentIds and the same four instrumentKinds, and product-wiring.json binding lists the same four. The delivered canonical.pdf carries 17 pages and I confirmed each form's identity from its own printed footer rather than from the manifest: pages 1-6 print 'EXP102 ... Page N of 6', 7-8 'EXP104 ... Page N of 2', 9-11 'EXP106 ... Page N of 3', 12-17 'FEE102 ... Page N of 6'. No component is missing, none is duplicated, and the conditional fee-waiver component is delivered with participant-instructions.md saying why it is there and that FEE103 is not."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "FAIL. Placement is exact and the values are honestly reported; the value SET is wrong for the route this packet elects, and the contradiction is legible on the delivered page. I diffed all 17 delivered pages against the four pinned sources with pdftotext -layout, whitespace-normalised, and the delivered packet differs from its sources by exactly the 28 declared write values and by nothing else -- no source text removed, no caption altered, no unreported string added. Each write's rect sits inside the measured source rule it names and each value's non-whitespace glyph count reconciles: 262 on EXP102, 42 on EXP104, 52 on EXP106, 42 on FEE102, summing to the 398 the artifact report publishes, which I recomputed from the values rather than copying. THE FAILURE: three of those prefills contradict the route's elected ground on the same document. EXP102 item 3 is written 'participant.date_of_birth = 1991-04-17' and item 10 'matter.offense_date = 2019-08-04', making the petitioner 28 years, 3 months and 18 days old on the date of the offence, on a petition whose ticked item-9 box asserts the crime was committed 'when you were a juvenile'. Item 10 is also written 'matter.charge = Fifth-degree possession of a controlled substance', which is the subject matter of item 9 box 1 (the Sec. 152.18 branch) and not of box 2. The date of birth is written twice -- EXP102 page 2 and EXP106 page 1 -- so the proposed order carries the same refutation. The boundary fixture repeats both dates unchanged and extends the charge to '... aiding and abetting, continued for dismissal'. The controlling registry names this track's only disposition as 'adult_conviction_after_certification' and no delivered fact expresses it. This is invisible to every counter: each value is present, in its box, in its declared field, and the field map is honest about all three."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Zero protected writes, measured two independent ways. First: the census classifies 107 measured controls PROTECTED_FIELD and blanks.json groups 67 protected entries in two categories -- 31 court_prosecutor_clerk_or_agency_owned and 36 signature_or_date_participant_completion. I intersected every protected id with the 30 written ids (28 text writes plus 2 selections) and the intersection is empty; the same intersection is empty against requiredBeforeFiling, laterCompletion, participantElections and notApplicableOnThisRoute. Second, and not relying on that: my source-versus-delivered text diff shows no signature line, no date line, no 'County and state where signed', no hearing date, time, courtroom, Zoom id or passcode, no EXP104 recipient box or address, no EXP106 finding, ordering paragraph, agency box or 'Judge of District Court' line changed at all. I read the three signature blocks on the delivered pages: EXP102 page 6 prints its Sec. 358.116 declaration with Date and Signature blank and only the separate printed-name and contact lines filled, so the petition reads as unsigned; EXP104 page 2 and FEE102 page 6 are wholly blank including their Name lines; EXP106 page 3 'Dated: / Judge of District Court' is blank. Neither form requires notarisation -- both declarations are Minn. Stat. Sec. 358.116 -- so there is no jurat to have falsified."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No clipped value, no overlap, and the refusal path is exercised and correct. On the canonical fixture every written value's rect lies inside the source rule the map measures for it and every delivered line extracts cleanly as caption-then-value with no run-together into neighbouring printed text. The boundary fixture is the real test and it behaves: the 40-character court file number '0123-45-2026-CR-900123.00-AB-CDE/2201' is REFUSED on all three forms that print that caption rather than clipped, and blanks.json.valuesTooLongForTheRuleTheFormDraws states the measurement for each -- EXP102 rule 122.4pt, 106.4pt usable, 118pt required at the 6pt floor; EXP104 116.4/100.4/118; EXP106 123/107/118. I confirmed on the delivered boundary bytes that 'Court File Number:' is followed by nothing on those three pages, so the refusal is real and not merely reported. The long name, the 76-character street address and the 72-character email all print inside their rules and extract as single unbroken lines. I did not treat nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 as evidence; the only vector ink either fixture adds is the four tick strokes, and I placed both X marks inside their own glyph outlines by coordinate."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Three stops, each on the delivered guidance and each pointed at a real limit. participant-instructions.md: 'If you were not certified or referenced into district court under Minn. Stat. Sec. 260B.125, this is the wrong packet and you should not file it' -- a route-fit stop stated before the required-before-filing list. filing-instructions.md: 'If an agency or the prosecuting authority objects, the court sets a contested hearing. Automated assistance ends there and you need a lawyer.' And on the fee: 'This packet does not state the amount of the fee, because the amount is set by the court and the committed record for this route does not carry it. Ask the court administrator ... before you pay it', with 'The committed record for this route does not state a service method, a service deadline or a filing deadline, so this packet states none.' No fee, deadline, clerk practice or outcome is invented anywhere in either document; I grepped both for currency amounts and day counts and the only number that appears is the form's own printed 60-day objection window, quoted as the form prints it."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md: 'File with the district court administrator in the county where the case was decided -- the district court you were certified or referenced into, not the juvenile court. The caption of every form in this packet names that county and that court file number.' Measured against the controlling registry tracks[234], whose venue is 'The district court in the county where the case was decided.' and whose destination is {kind: clerk, name: 'District court administrator in the county of the case'}. Those agree exactly. The 'not the juvenile court' gloss adds nothing the registry does not carry -- the same track record states 'This is an adult conviction route, not juvenile delinquency relief' and excludes juvenile delinquency adjudications -- and it is the one place in the packet where the route's juvenile dimension is stated correctly. The caption claim is true on the bytes: matter.county and matter.case_number are written on EXP102, EXP104, EXP106 and FEE102 alike, twelve of the 28 writes."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The Minnesota service finding I was asked to look for does NOT recur in this family. I read EXP104's printed face on delivered packet pages 7-8 and counted its (Required) markers directly rather than trusting any record: recipients 1 MN Bureau of Criminal Apprehension (CJIS-CCH-Court Orders/Petitions, 1430 Maryland Avenue East, St. Paul 55106), 2 Office of the MN Attorney General (Suite 1400, 445 Minnesota Street, St. Paul 55101), 3 MN Department of Corrections (Attn: Records, 1450 Energy Park Drive Ste. 200, St. Paul 55108-5219), 4 __ County Attorney's Office (Attn: Criminal Records), 5 __ County Dept. of Corrections (Probation) and 6 __ County Sheriff's Office (Attn: Records) each print '(Required)'. Recipients 7 through 15 -- Police Dept., City Attorney's Office (Prosecutor), DHS Office of Inspector General, MN Dept. of Health, MN DNR, MN Driver and Vehicle Services, MN State Patrol and the two write-in slots -- each print '(check box & use if related to your case)'. Six required, nine conditional. filing-instructions.md says 'Six of them are marked (Required) on the form itself', which is the number I counted; it names no conditional box as required, and the County Attorney's Office -- the prosecuting authority the registry's destination detail requires be served -- is inside the six and is nowhere described as discretionary. The registry's destination detail 'Served on the agencies holding the records and on the prosecuting authority. The court sets a hearing.' is satisfied by the form's own printed list plus the 60-day objection notice EXP102 page 1 prints. The packet leaves EXP104 wholly blank below its caption -- no recipient box ticked, no address written -- and states the reason on the delivered guidance: the form swears under Minn. Stat. Sec. 358.116 that service HAS happened, so it is completed after mailing and signed by whoever mailed. No service method, deadline or filing deadline is asserted, and filing-instructions.md says so explicitly rather than inventing one."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "FAIL. Ten measured blanks are classified REQUIRED_BEFORE_FILING and all ten are reproduced verbatim in participant-instructions.md under 'You must supply these before you file', each with the words the form uses and a reason -- judicial district on EXP102, EXP106 and FEE102, item 2 aliases, item 5 addresses, item 7 criminal-record table, item 8 earlier requests, item 11 victims, the FEE102 plaintiff caption and the FEE102 financial lines. That part is complete and honest, and item 2 in particular is genuinely blank on the delivered bytes rather than filled with the legal name. THE FAILURE is what the controlling record requires and the packet omits. legal-design-packet-set-manifests.json packetSets[234].participantActionRequired and the identical block in legal-design-track-registry.json tracks[234].packetSet declare TWO actions with requiredBeforeFiling true: (1) kind obtain_document -- 'Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO ... LegalEase never collects, inspects or authenticates them', obtainedFrom 'Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online'; and (2) kind confirm_answer -- 'Check your answer to \"What is the court file number?\" against [those records], and correct the packet if they disagree.' Neither reaches the participant. I grepped the whole family directory for BCA, 'Bureau of Criminal', MCRO, 'Records Online', 'criminal history' and 'participantAction': the only hits are printed source text inside EXP106's ordering boxes in the census and field map. I also grepped the builder, scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs, and it never reads participantActionRequired at all. The second omission is consequential on these exact bytes: the packet PREFILLS matter.case_number '62-CR-20-1234' onto all four forms, twelve times, and the controlling record requires the participant be told to check that number against MCRO and correct it. They are not told."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Two fixtures, both present, both readable, both bound. I recomputed sha256 on disk: canonical.pdf 9a2680a8a4b0994ad8f3a8e979b8b85eca2bbfaa37391cd904b36182dd788fb5, 909391 bytes, 17 pages; boundary.pdf 2d2157a4b0bf2fde0818e82a5bfeb820afff57fdf0fe6a662b5943a01c9fac3a, 909797 bytes, 17 pages. Both equal the digests in reports/rendered-artifacts.json and both equal the pinned digests in the admitted raster verdict raster-runs/admitted/mn_petition_juvenile_as_adult-set/mn_petition_juvenile_as_adult-set.verdict.json (RASTER_PASS, workflowRunId 34413372916, packetCommitSha 0cb44ee92a33b4d7b48b145ae57e192ef5c2c438, pagesMeasured 34 = 17 x 2, problems 0, coversTheWholeFamily true), so the raster covers the exact bytes I read. The admission proof records artifactId 10128414815 and 34 page images. pdf-lib loads both fixtures with 0 AcroForm fields and no /Title metadata string, and the activeContentScan hit list is empty on both, which I re-checked by scanning the decompressed streams for JavaScript, OpenAction and Launch and finding none. addedGlyphs 398 canonical and 950 boundary are real measurements, not published zeros: I reconstructed the canonical 398 from the per-value non-whitespace glyph counts."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "17 pages in the order the controlling manifest declares. I did not take the pageManifest's word for it: I extracted each delivered page individually and read its own printed footer. Packet pages 1-6 print 'EXP102 ... Page 1 of 6' through 'Page 6 of 6'; 7-8 print 'EXP104 ... Page 1 of 2', 'Page 2 of 2'; 9-11 print 'EXP106 ... Page 1 of 3' through '3 of 3'; 12-17 print 'FEE102 ... Page 1 of 6' through '6 of 6'. No page repeats, none is dropped, no form's internal sequence is broken, and the packet order petition -> proof of service -> proposed order -> fee waiver equals the manifest's component order values 1, 2, 3, 4 and the order filing-instructions.md lists under 'What each document is'. Each page's sourceSha256 in the manifest matches the source whose footer that page prints."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Exactly the elections the route requires, and no more. Two selection controls are marked across 95 measured on the four forms, both recorded in blanks.json.routeElectionsMade with an authority and a reason, and both confirmed by me from the vector ink rather than from the record. (1) EXP102 item 9 box 2 at glyph outline x 92-100.86, y 572-580.81, marked by an X at x 93.2-99.66, y 573.2-579.61 -- the certification-for-adult-prosecution box, authority Minn. Stat. Sec. 260B.125 and Sec. 609A.02 subd. 1 or 2. Item 9 requires exactly one qualification; exactly one is made; the other ten are recorded NOT_APPLICABLE_ON_THIS_ROUTE and I verified all ten are unmarked on the bytes. (2) FEE102 item 2 first box at outline x 108.88-116.57, y 350-357.69, marked by an X at x 110.08-115.37, y 351.2-356.49 -- 'I am including my pleadings with this Affidavit', which is a fact about the packet rather than a participant choice, and its mutually exclusive alternative at y 266.58 is correctly unmarked. Every other selection control on all four forms -- the hearing-notice boxes the court fills, the EXP104 recipient boxes, all 36 EXP106 finding and ordering boxes, and every FEE102 financial box -- is unmarked, which is right: each is either the court's, or a Sec. 358.116 sworn answer the platform does not hold. Scored PASS on the election mechanics. That the elected box is contradicted by the facts printed beside it is a different failure and is scored on KNOWN_PREFILLS."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "One repeating table, measured and correctly left whole. EXP102 item 7 is a 6-row by 6-column criminal-record grid; I read its cell geometry out of the census and the six columns are constant across all six rows at x0 72, 147.2, 247.2, 346.4, 411.2 and 468.8, matching the printed headings Case # / County-State / Type of Charge / Date of Offense / Conviction Yes-No / Date of Conviction read left to right by x-position. All 36 cells are measured, zero are written, and no row is partially written, so there is no incomplete row and no value stranded on a line whose siblings are empty. The reason is stated on the delivered page's own guidance: 'the form requires every conviction and every charge, from Minnesota and from any other state, federal court or foreign country ... LegalEase holds the one case you screened and not the rest, and a row filled in from that one case would read as a complete record when it is not, so the whole table is left for you.' Because these binaries carry no AcroForm at all, the MA-style defect of an index disagreeing with the printed row number cannot arise here; there is no index, only measured geometry, and nothing is placed. FEE102's income and dependants tables are likewise measured and wholly unwritten as protected financial categories."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The fee waiver is delivered and no fee is invented. FEE102 Rev 07/24, Affidavit to Request Fee Waiver under Minn. Stat. Sec. 563.01, is the manifest's conditional fee-waiver component and ships as packet pages 12-17, filled to its caption only -- county, court file number and the party line -- with every financial, household, public-assistance, property and expense item left blank and named to the participant. filing-instructions.md states 'A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies. This packet does not state the amount of the fee, because the amount is set by the court and the committed record for this route does not carry it. Ask the court administrator ...', and adds that FEE103 exists for further detail and is not in this packet. I checked the registry and the manifest and neither carries a fee amount for this track, so the refusal to state one is accurate rather than evasive. participant-instructions.md additionally warns that FEE102 prints CONFIDENTIAL on every page and should be handed to the administrator separately -- true on the delivered bytes, the banner prints on all six pages. The one FEE102 route election, item 2's 'including my pleadings' box, is correct for a packet that contains a petition, a proof of service and a proposed order."
+    }
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "0. I diffed all 17 delivered pages against the four pinned sources with pdftotext -layout and enumerated every difference; there are exactly 28 and all 28 are declared writes. I then walked the 436 measured controls in field-census.census-v1.json and checked, for every control carrying a factId, whether that fact is written. All 28 fact-bearing blanks are written and none is left empty. The FEE102 page 1 Plaintiff/Petitioner caption is NOT counted here: FEE102 is the generic civil affidavit and prints no party, and 'State of Minnesota' is not in this route's participant fact set, so the packet names it required-before-filing and tells the participant to copy it exactly as EXP102 prints it. That is a conservative refusal, not a missing known field.",
+    "requiredFactsNotCollected": "1. The route elects Minn. Stat. Sec. 260B.125 certification for adult prosecution and collects no fact bearing on it: not the certification order, not its date, not the juvenile court file, not the participant's age at the offence. I established this by reading the builder's CANONICAL and BOUNDARY fact objects (17 keys, all identity, contact, county, case number, offence date and charge), by walking every factId in production-field-map.json, and by confirming EXP102 prints no blank anywhere that would receive such a fact outside item 6. Consequence measured on the bytes: the two facts the route DOES collect that bear on the question -- date of birth 1991-04-17 and offence date 2019-08-04 -- refute the elected ground, and nothing in the pipeline compares them. I deliberately did not inflate this counter with the two participantActionRequired omissions or with the item 7 criminal record: the criminal record is disclosed to the participant as theirs, and the BCA/MCRO and case-number-confirmation omissions are guidance failures scored under REQUIRED_BEFORE_FILING, not uncollected facts.",
+    "unclassifiedBlanks": "0, reconciled exhaustively rather than asserted. field-census.census-v1.json measures 436 controls across the four documents (EXP102 128 blanks + 27 selections, EXP104 50 + 0, EXP106 32 + 36, FEE102 131 + 32). Their dispositions total: REQUIRED_BEFORE_FILING 167, PROTECTED_FIELD 107, PARTICIPANT_ELECTION_GENUINE 71, NOT_A_FIELD 51, NOT_APPLICABLE_ON_THIS_ROUTE 10, ROUTE_ELECTION_MADE 2, and 28 carrying no disposition because they carry a factId and are written -- 167+107+71+51+10+2+28 = 436 exactly. I inspected the 51 NOT_A_FIELD entries individually and they are section rules and borders, not blanks: the EXP102 header underline beneath 'See Instructions (EXP101)', the 'Hearing Information' and 'Petition for Expungement' band dividers, the item 7 table's own header and footer borders, the 'Add another sheet if needed' rules, the FEE102 CONFIDENTIAL banner rule and its instruction-block dividers. None is a writable line.",
+    "incompleteRows": "0. The only repeating table on any of the four forms is EXP102 item 7. I read its geometry from the census: 6 printed rows at baselines 332.8, 317.6, 303.2, 288, 272.8 and 257.6, each with the same 6 column positions. Zero of the 36 cells are written and no row holds a value while its siblings are empty. FEE102's income rows and its dependants Name/Monthly Income rows are likewise measured and wholly unwritten.",
+    "requiredOptionsMissing": "0. Two option groups on these forms require an election. EXP102 item 9 requires exactly one of eleven qualification boxes; exactly one is marked and it is box 2, the box this route names, verified from the vector path coordinates against the box's own embedded-glyph outline. FEE102 item 2 requires one of two mutually exclusive statements; the 'including my pleadings' box is marked and the copy-fees-only box is not, which is correct for a packet that ships pleadings. Every other selection control on the four forms is either the court's to make or a Sec. 358.116 sworn answer the platform does not hold, and all are unmarked.",
+    "requiredComponentsMissing": "0. Registry tracks[234].packetSet, packetSets[234] in the manifest, MASTER_QUEUE families[197] and product-wiring.json all declare the same four components, and all four are delivered. I confirmed each form's presence from its own printed footer on the delivered page rather than from the pageManifest.",
+    "invisibleWrites": "0, read from the decompressed content streams of both fixtures rather than from any report. Every overlay text run is emitted as 'BT / 0 0 0 rg / /Helvetica-<n> <size> Tf / 1 0 0 1 x y Tm / <hex> Tj / ET' at 10pt on EXP102, EXP104 and EXP106 and 10.98pt on FEE102. Pure black fill, no text rendering mode set (no '3 Tr', no invisible mode anywhere in either fixture), no clipping path around any write, no zero-size or off-page text matrix, and every Tm origin falls inside the page mediabox 0 0 612 792. The two added vector marks are stroked '0 0 0 RG ... S' and are the ticks.",
+    "protectedWrites": "0. The 107 census PROTECTED_FIELD ids and the 67 blanks.json protected entries were intersected with the 30 written ids and the intersection is empty. Independently, the source-versus-delivered text diff shows no protected line changed at all -- no signature, no date, no hearing detail, no EXP104 recipient, no EXP106 finding, ordering paragraph, agency box or judicial signature line.",
+    "visualDefects": "0 at the level this container can measure, and I did not take the geometry counter's zero as the answer. I placed both tick marks inside their own glyph outlines by coordinate, confirmed the boundary fixture refuses rather than clips its over-long value, and read every delivered page's extracted text for values running into printed text or into a neighbouring rule and found none. The page images themselves were rasterised centrally (RASTER_PASS, run 34413372916, 34 pages, problems 0); I read the bytes and the geometry, not the PNGs. The two defects I record are legal and informational, not visual, and I have not dressed them up as visual ones."
+   },
+   "crossChecks": {
+    "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_juvenile_as_adult-set returns PASS_COMPLETE, 30/385 written, all nine counters zero. Green, and the family still fails: no counter asks whether the facts a packet prefills are consistent with the statutory ground it elects, and no counter reads the controlling manifest's participantActionRequired block. Recorded as a cross-check only; every number in this row is my own measurement.",
+    "rasterReceipt": "raster-runs/admitted/mn_petition_juvenile_as_adult-set/mn_petition_juvenile_as_adult-set.verdict.json: RASTER_PASS, workflowRunId 34413372916, packetCommitSha 0cb44ee92a33b4d7b48b145ae57e192ef5c2c438, pagesMeasured 34, problems 0, coversTheWholeFamily true, decryptionTransforms empty. Its two pinned digests equal the digests I recomputed on disk, so the raster covers the exact bytes I read. admission-proof.json records artifactId 10128414815, 34 measured page images, and states plainly that the PNG bodies were never read anywhere because artifact blob storage was unreachable -- so the raster is a render-and-crop receipt and nothing more, which is what the brief says it is.",
+    "clonedFamilyPackets": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json names neither mn_petition_juvenile_as_adult-set nor mn_petition_15218-set anywhere -- not in clonedDeliverables (13 groups), not in nearClones (5 groups), not in sharedDocuments (30 groups). I checked deliberately rather than assuming. That absence is correct by that record's own construction: its near-clone test groups by the SHA-256 of the pair of extracted-text and mark-position sets, and this pair's mark sets differ, so a pair distinguished by one tick falls outside it. The registry's own note says as much -- 'on some forms the tick IS the filing ... a whole-fixture identity test cannot surface it by construction'. My answer to that question is in theNearCloneQuestionAnswered above, and it is that the tick genuinely is the election here.",
+    "defectsNoCounterCanSee": "I checked this family against all eight classes in DEFECTS_NO_COUNTER_CAN_SEE.json one at a time. map-honest-writes-not: absent -- item 2 'other legal names or aliases' and item 5 'other addresses' are both genuinely blank on the delivered bytes and both named required-before-filing, and the source-versus-delivered diff proves the finalizer wrote nothing the map did not declare. participant-fact-in-someone-else's-field: absent -- item 11's victim list is blank and no participant fact is written into any third-party field. acroform-index-is-not-the-printed-row: cannot arise -- all four binaries carry 0 AcroForm fields, there is no index, and item 7's 36 cells are unwritten. extracted-line-order-is-not-column-order: I read item 7's six columns by x-position (72, 147.2, 247.2, 346.4, 411.2, 468.8) and they agree with the printed headings left to right; nothing is placed regardless. internal-record-text-printed-on-a-filing: absent -- the diff shows zero added text beyond the 28 declared values, and EXP106 is filled to its caption only, so no record analysis is recited on the proposed order. published-zero-where-a-measurement-existed: not present -- I reconstructed the published 398 from the per-value glyph counts (262+42+52+42) and it is a real reading. geometry-counter-with-no-teeth: I did not rely on nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0; I diffed the pages and placed both ticks by coordinate. two-families-one-filing: not applicable -- neither fixture carries a /Title metadata string and the pair is distinguished by ink, not by metadata. The two defects I DID find are a ninth and tenth of this kind: a fact set that contradicts its own route election, and a controlling record's requiredBeforeFiling participant actions that the builder never reads.",
+    "queueVersusControllingRecords": "No contradiction to report on this family. MASTER_QUEUE families[197] agrees with registry tracks[234], with packetSets[234] and with product-wiring.json on the route key, the strategy, the four componentIds and the four instrumentKinds. The one stale thing is disclosed by the builder and true: the queue and route census declare source paths under 'private/Nationwide Record Clearing/LegalEase Minnesota/' that no mounted custody carries, and the sources resolve byte-exact inside private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/ instead. I measured against the content digests, which is the binding this factory uses, and confirmed all four.",
+    "priorMinnesotaServiceFinding": "The finding reported from another Minnesota family -- a guide claiming three of fifteen EXP104 boxes are (Required) when six are, naming a conditional box as required, and calling the County Attorney's Office discretionary -- does not recur here. I counted the markers on the delivered EXP104 face myself: six (Required), nine conditional, County Attorney's Office at position 4 inside the six, and filing-instructions.md says six."
+   },
+   "evidenceRead": [
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256": "9a2680a8a4b0994ad8f3a8e979b8b85eca2bbfaa37391cd904b36182dd788fb5",
+     "howRead": "all 17 pages with pdftotext -layout, and every page's content stream decompressed and traced for text matrices, glyph positions and path operators"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256": "2d2157a4b0bf2fde0818e82a5bfeb820afff57fdf0fe6a662b5943a01c9fac3a",
+     "howRead": "all 17 pages with pdftotext -layout and content streams decompressed; used to confirm the over-long-value refusal path"
+    },
+    {
+     "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP102_Current-2.pdf",
+     "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541"
+    },
+    {
+     "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP104_Current.pdf",
+     "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c"
+    },
+    {
+     "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP106_Current.pdf",
+     "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85"
+    },
+    {
+     "path": "$MASTER_LIBRARY_SOURCE_DIR/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/source-receipt.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/product-wiring.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/production-field-map.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/field-census.census-v1.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/blanks.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/actual-writes.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/rendered-artifacts.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/build-findings.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/build-status.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/approval-request.json"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/participant-instructions.md"
+    },
+    {
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/filing-instructions.md"
+    },
+    {
+     "path": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+     "howRead": "read for the fixture fact objects and grepped for participantActionRequired, which it never reads"
+    },
+    {
+     "path": "data/record-clearing/legal-design-track-registry.json",
+     "howRead": "tracks[234]"
+    },
+    {
+     "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+     "howRead": "packetSets[234]"
+    },
+    {
+     "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+     "howRead": "families[197]"
+    },
+    {
+     "path": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json"
+    },
+    {
+     "path": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+    },
+    {
+     "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_juvenile_as_adult-set/mn_petition_juvenile_as_adult-set.verdict.json"
+    },
+    {
+     "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_juvenile_as_adult-set/admission-proof.json"
+    }
+   ],
+   "notRead": [
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill -- the sibling family. I hold no claim on it, I opened no file in it, and every statement in this row is measured on mn_petition_juvenile_as_adult-set's own bytes and on the records that govern it."
+   ],
+   "visualDefects": [],
+   "failedObligationNames": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "grantsNothing": "This lane read and measured. It built nothing, repaired nothing, rerendered nothing, edited no packet, builder, overlay, manifest, registry or central artifact, and released no claim. A FAIL here is a measurement and not a promotion; nothing in this row approves an output, promotes a route or opens a commercial path."
+  }
+ ]
+}
