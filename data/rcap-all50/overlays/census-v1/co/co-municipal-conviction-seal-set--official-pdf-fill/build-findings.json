@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_municipal_conviction_seal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "advisory",
+      "finding": "THE COMMITTED LEGAL-DESIGN RECORD FOR THIS TRACK CARRIES TWO OPEN BUILD BLOCKERS AND STATES NO FEE. In its own words: \"Section 24-72-708 was not read in full in this review. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building\", and \"Municipal form coverage and current municipal-court procedure.\" rules.fees reads \"Unconfirmed. The fee must be confirmed before building.\" MASTER_QUEUE nevertheless records legalInputStatus SETTLED for this family.",
+      "consequence": "The build proceeds under AGENTS.md's build-first review model, which makes counsel review a blocker for approved_for_live rather than for building. What it changes is the PROSE: this packet states no fee, no waiting period, no eligibility rule, no exclusion set, no objection mechanics and no service requirement, and its first instructions section says so and tells the participant to ask the clerk. The build asserts the record still says both things and stops if either sentence changes, so a later confirmation cannot leave this packet quietly silent. The disagreement between the queue's SETTLED and the track record's build blockers is reported and is not resolved by this lane."
+    },
+    {
+      "finding": "BOTH DOCUMENTS ARE FLAT. The committed corpus index records acroFieldCount 0 for JDF 683 and JDF 686, and this build confirms it from the bytes on every run.",
+      "consequence": "The family's declared strategy is official_pdf_fill and there is nothing to fill, so both documents go through finalizeFlatOverlay against measured geometry: every write box is a printed rule read out of that page's own content stream, re-measured on every build, and a rule that has moved by more than a point stops the build. No coordinate in this family was typed in by hand."
+    },
+    {
+      "severity": "advisory",
+      "owner": "scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs",
+      "finding": "rulesOfPage defaults to minLength 40. JDF 686 draws its section-1 State blank as a rule 31.25 points wide (page 1, y=378.38, x 391.93 to 423.18), which that default hides, while JDF 683 draws the same blank at 40.27 points and is seen. Measured on both binaries.",
+      "consequence": "This build narrows the threshold to 24 through the module's own published option rather than editing the shared module or hand-entering the coordinate, so the write box is still the form's own drawn rule and every anchor is still matched on y, x0 AND x1 to within a point. Without it the participant's city and ZIP would sit either side of an unwritten gap on a proposed order. Whether the module's default should move is its owner's call; the measurement is recorded here so it can be made on evidence."
+    },
+    {
+      "finding": "NEITHER FORM DRAWS A TICK BOX AS A STROKED PATH. checkboxCandidates finds zero on all five pages; the boxes are the glyph U+2751 in the text stream. There are twenty-two printed controls between the two documents, including item 1's four Petitioner options, item 3's six agency boxes, item 5's appeal answer, item 6's criminal-history answer, item 7's restitution answer and item 14's four service methods.",
+      "consequence": "Not one is marked, and none is invented: marking one would mean drawing ink at a hand-entered coordinate in white space. All twenty-two are enumerated with the words printed beside them, per document, in the field map and in the participant instructions, and the build asserts that zero stroked boxes are found on every run - so a future revision that draws them as paths fails here rather than silently continuing to leave every box to the participant."
+    },
+    {
+      "finding": "FOUR BLANKS ON JDF 683 PAGE 2 ARE PRINTED AS RUNS OF UNDERSCORE CHARACTERS RATHER THAN AS DRAWN RULES: the municipal violation line at item 4, and the appeal case number, appellate court and result/date lines at item 5.",
+      "consequence": "There is no measurable rule under any of them, so no write box exists and none is invented. All four are listed under printedBlanksNotMeasured with the printed text beside them and disclosed to the participant as blanks to fill by hand."
+    },
+    {
+      "finding": "THE CAPTION LINE ON BOTH FORMS READS \"Colorado City/Town or County\", and binds matter.county by name.",
+      "consequence": "On a municipal conviction the court is a city's or town's own court and the platform holds the county of the matter rather than the municipality, so writing the county there would name the wrong venue on the face of both documents. Refused by role on both and carried to the participant, with the distinction spelled out on its own instruction row. Recorded under nearMissesRefusedByRole rather than quietly avoided."
+    },
+    {
+      "finding": "JDF 683's item 1 asks who the Petitioner is and offers four choices, and this build writes the participant's own date of birth at item 2 on the basis that the Petitioner is the Defendant.",
+      "consequence": "That assumption is stated on the packet's own instructions page, with the instruction to tick the first box and to check the date of birth if somebody else is petitioning. The box itself is unmarkable, so the packet cannot state the answer on the form; saying it in the instructions is the most it can honestly do."
+    },
+    {
+      "finding": "The track record's release blocker reads \"JDF 683 with 682, 684, 685 and 686, the municipal set, have not been acquired.\" Measured here: JDF 683 and JDF 686 ARE held and bind by exact digest in this build.",
+      "consequence": "That sentence is stale for these two forms and is answered for them and for no others. JDF 682, 684 and 685 are not bound here and this build says nothing about them. Reported rather than edited: the record is not this lane's to change."
+    },
+    {
+      "finding": "The queue's source readiness records official-form:JDF-684 as SUPERSEDED by official-form:JDF-686, and its committed source reconciliation reads \"Build from JDF 683 and the corrected JDF 686 proposed granting-order component.\"",
+      "consequence": "That is exactly what this build renders. JDF 684 is bound nowhere in this family, and the substitution is recorded in the source receipt so a reviewer sees which order component was used and on whose determination."
+    },
+    {
+      "finding": "Both output-byte glyph readings are MEASURED. flattenedWidgetAppearancesReadFromOutputBytes is 0 on both documents and the report says why in the same object: a flat document has no widget to flatten, so that reading is structurally zero rather than an absent measurement, and the added-glyph reading beside it is the one that carries the proof.",
+      "consequence": "The ink is read back from the finalized page text at the coordinates of the rule each value was drawn on, with the pinned source's own text at those coordinates subtracted, and the outside-the-box reading is the same difference taken over the whole page. Both methods are recorded per document in reports/actual-writes.json."
+    }
+  ]
+}
