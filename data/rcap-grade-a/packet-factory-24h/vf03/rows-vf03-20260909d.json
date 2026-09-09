@@ -409,7 +409,7 @@
       "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
       "implementationStrategy": "official_pdf_fill",
       "postRepairReread": false,
-      "postRepairNote": "Not a post-repair reread of an independent verification: product wiring carries no lastIndependentVerification for this family and its independentVerificationStatus is PENDING. It IS a first read of bytes that were repaired in the build commit itself. acf2b6c4a ('PF24: build the North Dakota summary marijuana pardon packet and correct its caption evidence') records that reports/caption-evidence.json credited the authored AcroForm field names to Colorado and cited sibling Colorado forms not in this packet, and that the builder corrected it before committing. I verified the DELIVERED file rather than the claim -- see the captionEvidenceRead cross-check.",
+      "postRepairNote": "Not a post-repair reread of an independent verification: product wiring carries no lastIndependentVerification for this family and its independentVerificationStatus is PENDING. It IS a first read of bytes that were repaired in the build commit itself. acf2b6c4a ('PF24: build the North Dakota summary marijuana pardon packet and correct its caption evidence') records that reports/caption-evidence.json credited the authored AcroForm field names to Colorado and cited sibling Colorado forms not in this packet, and that the builder corrected it before committing. I verified the DELIVERED file rather than the claim -- see the captionEvidenceRead cross-check. AMENDED after writing: SERVICE and FEE_AND_WAIVER were first scored NOT_MEASURABLE_HERE. Both were in fact measured -- I read the whole source and the whole guide for each -- and both turn out trivially satisfied rather than unreachable, so both are now PASS with the reason recorded. The verdict is unchanged: the family still fails on KNOWN_PREFILLS.",
       "nineCounters": {
         "knownRequiredFieldsMissing": 1,
         "requiredFactsNotCollected": 0,
@@ -464,8 +464,8 @@
         },
         "SERVICE": {
           "measured": true,
-          "result": "NOT_MEASURABLE_HERE",
-          "detail": "There is no service obligation to measure. This is an application to an executive-branch agency board, not a court filing: SFN 61663 is submitted to the Pardon Advisory Board Clerk and there is no opposing party, no respondent and no proof-of-service instrument. The pinned source carries no service language, no certificate of service and no service field among its 36 widgets, and the registry route is a pardon application rather than a petition. Recorded as NOT_MEASURABLE_HERE rather than PASS because a PASS would assert that a service requirement was met, and there is none."
+          "result": "PASS",
+          "detail": "Measured and satisfied, and satisfied trivially rather than unreachably. This is an application to an executive-branch agency board, not a court filing, so there is no opposing party to serve and no proof-of-service instrument. I read both pages of the pinned source: SFN 61663 carries no service language, no certificate of service and no service field among its 36 widgets, and its own submission instruction is simply to send the completed form to the Pardon Advisory Board Clerk by fax, post or e-mail. The registry route is a pardon application rather than a petition. What the obligation actually tests here is whether the packet asserts a service step that does not exist or omits one that does. It does neither: participant-instructions.md gives the three submission channels verbatim from the form and states no service requirement, and no certificate of service is shipped. Nothing about service is fabricated and nothing is missing."
         },
         "REQUIRED_BEFORE_FILING": {
           "measured": true,
@@ -494,8 +494,8 @@
         },
         "FEE_AND_WAIVER": {
           "measured": true,
-          "result": "NOT_MEASURABLE_HERE",
-          "detail": "There is no fee to measure and the packet correctly invents none. The pinned SFN 61663 prints no fee anywhere on either page -- I read both -- and names no waiver, no fee schedule and no payment channel; its submission instructions are fax, post or e-mail to the Pardon Advisory Board Clerk with no charge stated. participant-instructions.md accordingly states no fee and no waiver, and no fee figure appears anywhere in the family directory. Recorded as NOT_MEASURABLE_HERE rather than PASS because a PASS would assert that a fee and waiver treatment was verified correct, and the correct treatment here is silence: the source is silent, so any figure would have been fabricated."
+          "result": "PASS",
+          "detail": "Measured and satisfied, and satisfied by the packet's silence being correct. I read both pages of the pinned source in full: SFN 61663 prints no fee, no fee schedule, no waiver provision and no payment channel anywhere, and its submission instructions are fax, post or e-mail to the Pardon Advisory Board Clerk with no charge stated. I then grepped the whole family directory for a fee figure and found none. participant-instructions.md states no fee and no waiver and ships no fee-waiver component. That is the correct treatment and the one the obligation is testing for: where the source establishes no fee, any figure would have been fabricated, and the brief forbids fabricating a filing fee. The packet neither invents one nor implies the application is free."
         }
       },
       "countersHowMeasured": {
