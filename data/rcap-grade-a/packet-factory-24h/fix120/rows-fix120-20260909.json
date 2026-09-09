@@ -285,6 +285,82 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "sharedCentralArtifactsWritten": []
+    },
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "repairedByThisLane": false,
+      "laneKind": "repair",
+      "obligationsRepaired": [],
+      "obligationCoverage": "This family's failedObligationNames is EMPTY. There was no failed obligation for this lane to discharge, so none is claimed.",
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_OPTIONS - blocked on legal input RI-B-06. Not repairable in this container and not repairable by this lane at all; see below.",
+        "Independent verification - the delivered bytes have moved past the base of the live verdict and no independent lane has read them."
+      ],
+      "whyNoRepairWasMade": {
+        "theAssignmentSaidToCheckItsOwnRecord": "The assignment named the failures for the other two families and told me to read this one's own record for what it fails. Its record says it fails nothing.",
+        "masterQueueRow": "failedObligationNames [], failedObligations [], failingCounters [], allNineCountersZero true, completenessStatus PASS_COMPLETE, state LEGAL_BLOCKED.",
+        "everyFailIsSuperseded": "All five verifier returns for this family were enumerated. The only NON-superseded one is vf03 BLOCKED_LEGAL_INPUT at base 0cc3c9b5c, with failedObligationNames [] and blockedLegalObligationNames [ROUTE_OPTIONS]. The three FAIL_REPAIR_REQUIRED rows (vf04 at d7e293f81, vf08 at 942cab9b5, both CLIPPING_AND_OVERLAP) and the earlier vf03 FEE_AND_WAIVER block are all marked superseded=true. FIX59 closed the clipping and FIX109 carried the Superior Court FAQ fee answer into the guide.",
+        "whatRemainsOpen": "RI-B-06. Superior-55 page 1 says Part Two is for a person 'convicted of a single FELONY offense'; the fourth box of Part Two on page 3 of the same form reads 'That I was convicted of a single MISDEMEANOR offense'. Both texts are on the form this route ships. A felony filer cannot truthfully mark the sworn box the route requires.",
+        "whyThisLaneCannotRepairIt": "The answer must come from an issuer correction by the Rhode Island Judiciary, which publishes the form, or from a qualified legal determination. No held source supplies corrected wording, an attachment or an acknowledged court handling. Supplying either from this container would be fabricating a judicial finding or a professional determination, which this lane must never do. A fact the record does not hold is a blocker to report, not a defect to close.",
+        "thePacketsCurrentResponseIsCorrectAndWasReadHere": "Confirmed at appearance level on the delivered canonical.pdf rather than taken from the verifier's word. The packet marks nothing in Part Two, prints both conflicting texts exactly as the issuer prints them, states 'LegalEase does not decide that and has marked nothing', tells the filer 'Do not mark a box that says something untrue of your case: ask the clerk of the Superior Court division you are filing in, or a lawyer', and says in terms 'WHAT WOULD SETTLE IT IS NOT IN THIS PACKET ... because none is established by any source this build holds'. Repairing this obligation would mean replacing that honest refusal with an answer nobody is entitled to give."
+      },
+      "bytesChangedByThisLane": "NONE. No file of this family was written, and no build was run for it. git status was empty after the read.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Before and after are the same reading because this lane changed nothing. Nine zeros here are a statement about the completeness counters only; they do not answer RI-B-06, which is a legal input and not a counter. visualDefects is left exactly as it stands and is not a claim that anyone has looked at the current bytes.",
+      "completenessRun": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+        "write": false,
+        "exit": 0,
+        "result": "PASS_COMPLETE, 13/129 written"
+      },
+      "control": {
+        "name": "not applicable - no repair was made",
+        "why": "Every repair in this return carries a control that fires on the pre-repair bytes. There is no repair here and therefore no control. Recording a passing control for a family this lane did not change would assert work that was not done.",
+        "controlFiresOnPreRepairBytes": null
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+          "changedByThisLane": false
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "afa8ec318bf716fd6d2657f90e14bdcf960a258f73f17da35001d3f444d669ef",
+          "changedByThisLane": false
+        }
+      ],
+      "forCaptain": "These two digests are the bytes on disk at fa6e03e89 and they are NOT the digests the live vf03 return pins (canonical 1a5aaac6..., boundary 7f379359... at base 5727d573f). The bytes moved after that verification, through FIX59 and FIX109. That is a re-read this family needs and not a repair; it is recorded here so the gap is visible rather than assumed closed.",
+      "pathsWritten": [],
+      "selfVerified": false,
+      "claimsReleased": 0,
+      "subagentsCreated": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "sharedCentralArtifactsWritten": []
     }
   ],
   "sharedCentralArtifactsDisclosure": {
