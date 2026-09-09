@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7ae4b8679346f39c977bb3f774af944732baff56",
+  "generatedAtCommit": "35e1f8191c276a0228daeed81098697d2f76ab5b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5085,10 +5085,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
     },
     {
       "subjectType": "packet-family",
@@ -5132,10 +5133,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
     },
     {
       "subjectType": "packet-family",
@@ -14212,7 +14214,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "13d882673c671fdd8c0ce95c225ad1fd674f58a00bd5a7e055f0baa0dac86b44",
+  "claimsDigest": "a2fe10778211e91e7cf36acec7f1739f97bbe29b9c9b9c6d8d4bf26bdd082911",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35008,6 +35010,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T23:00:22.142Z",
       "reason": "The generated dispatch assigns this family's post-repair read to this lane and the ledger named another, so the two disagreed and generate.mjs refused to write anything. Moving the claim to the lane the dispatch names."
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T23:02:04.058Z",
+      "reason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_early-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T23:02:04.306Z",
+      "reason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
     }
   ],
   "reissues": [
@@ -52376,6 +52396,28 @@
       "previouslyReleasedAt": "2026-09-09T23:00:22.142Z",
       "transferredAt": "2026-09-09T23:00:22.273Z",
       "reason": "The generated dispatch assigns this family's post-repair read to this lane and the ledger named another, so the two disagreed and generate.mjs refused to write anything. Moving the claim to the lane the dispatch names."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF07",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-09T23:02:04.058Z",
+      "transferredAt": "2026-09-09T23:02:04.168Z",
+      "reason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_early-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-09T23:02:04.306Z",
+      "transferredAt": "2026-09-09T23:02:04.430Z",
+      "reason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
     }
   ],
   "grants": [
