@@ -22,6 +22,7 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
+import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ARGS = process.argv.slice(2);
@@ -722,7 +723,23 @@ const built = new Set((c11?.families ?? []).filter((f) => f.classification === "
 const looksBuilt = (dir) => {
   const fixtures = path.join(ROOT, dir, "fixtures");
   if (!fs.existsSync(path.join(ROOT, dir, "production-field-map.json"))) return false;
-  if (!fs.existsSync(fixtures)) return false;
+  /*
+   * A fixtures/ directory is how most families ship, not how all of them do.
+   * mo-610-145-mistaken-identity-set ships a multi-variant native packet set at
+   * the family-directory root — canonical.packet.pdf, boundary.packet.pdf and
+   * eight route-variant packets — declared in its own packet manifest and
+   * rendered-artifact report. Requiring fixtures/ rejected it before the audit
+   * read a single report, and its terminal state then rested on a matrix row the
+   * current reader could no longer reproduce.
+   *
+   * The fallback is DISCOVERY ONLY and deliberately not generic: the helper
+   * matches one family id and one directory, then checks the declared variants
+   * against the actual files, their hashes and the report identities, refusing
+   * missing or corrupt PDFs, duplicates, mismatched identities, unsafe paths and
+   * symlinks. It awards no pass, touches no counter and bypasses nothing — the
+   * existing audit still decides completeness. See PR #242.
+   */
+  if (!fs.existsSync(fixtures)) return hasDeclaredMoPacketSet(ROOT, dir);
   return fs.readdirSync(fixtures, { recursive: true }).some((f) => String(f).endsWith(".pdf"));
 };
 const auditable = families.filter((f) => built.has(f.familyId) || looksBuilt(f.dir));
