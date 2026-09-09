@@ -175,7 +175,7 @@ function controllingRecord() {
 }
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFDict, PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts, decodePDFRawStream } = require("pdf-lib");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
@@ -384,7 +384,16 @@ function optionalUnusedSlot(documentId, name, page) {
     if (page !== ACTIVE_REQUEST_PAGE) return "inactive";
     return row > 1 ? "unused" : null;
   }
-  if (documentId === "EXP-AD Case List") return /^arrest(?:[2-9]|[1-5]\d)$/.test(name) ? "unused" : null;
+  // FIX118, REPEATING_ROWS. The Case List's arrest/case cells are ONE repeating
+  // group of seventy identically unlabelled cells, arrest1 through arrest70. The
+  // old test, /^arrest(?:[2-9]|[1-5]\d)$/, reached arrest59 and stopped, so
+  // arrest60 through arrest70 -- eleven cells of the same group, adjacent in the
+  // same column, indistinguishable on the printed form -- fell through to
+  // REQUIRED_BEFORE_FILING and were printed to the participant as "Complete
+  // arrest60 on EXP-AD Case List page 1" through "Complete arrest70", named by
+  // raw AcroForm identifiers that appear nowhere on the form. Nothing requires
+  // them: a petitioner with one case owes none of the sixty-nine unused rows.
+  if (documentId === "EXP-AD Case List") return caseListArrestSlot(name) > 1 ? "unused" : null;
   if (documentId === "EXP-AD Order Granting") {
     const slot = orderCaseSlot(name);
     if (slot === null) return null;
@@ -417,9 +426,91 @@ function setComplete(field, value, font) {
   return { drawnText: value, fontSize: size };
 }
 
+/** The 1-based cell number of a Case List arrest/case cell, or 0 if not one. */
+function caseListArrestSlot(name) {
+  const match = /^arrest(\d+)$/.exec(name);
+  return match ? Number(match[1]) : 0;
+}
+
+/*
+ * FIX118, CLIPPING_AND_OVERLAP. An unticked box must draw nothing at all.
+ *
+ * Measured on this family's delivered bytes before this change: each fixture
+ * carried 443 flattened Form XObjects, of which 91 were stroke-only -- each one
+ * "0 0 0 RG", "0 w", a single closed four-segment path, "S", and no text
+ * operator -- one for every check-box widget this route does not tick. Not one
+ * of them comes from the official form.
+ *
+ * All 94 Illinois check-box widgets in this packet set carry an /AP /N
+ * dictionary holding ONLY their on state (/Yes or /No) and no /Off entry, which
+ * is how a form says that an unticked box draws nothing. pdf-lib reads that
+ * absence as a missing appearance: PDFCheckBox.needsAppearancesUpdate() returns
+ * true whenever a widget's /AS is absent from /AP /N, so
+ * form.updateFieldAppearances() replaced every check box's appearance streams
+ * with its own -- an /Off state that strokes a hairline rectangle around the
+ * whole widget /Rect, and an on state that discards the form's own ZapfDingbats
+ * mark in favour of a 1.5 w drawn check.
+ *
+ * The form's own empty box is a glyph, not the widget rectangle. On Request
+ * page 1 the printed box is a 12 pt glyph on a baseline at y=343.5, while the
+ * widget /Rect spans y=341.175 to 353.179 and x=71.9114 to 84.0799, so
+ * pdf-lib's square prints as a second, larger, offset hairline box around the
+ * printed one. VF03 and VF04 scored 19 and 20 of these as visual defects from a
+ * raster of the delivered pages.
+ *
+ * Installing the /Off appearance the form omits -- an empty Form XObject the
+ * size of the widget -- makes needsAppearancesUpdate() false, so pdf-lib
+ * regenerates nothing: a ticked box flattens the official form's own mark, and
+ * an unticked box flattens an empty stream. This writes no participant fact and
+ * adds no ink. It removes ink the source never authored.
+ */
+const OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET = 94;
+function preserveOfficialCheckBoxAppearances(document, form) {
+  let installed = 0;
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFCheckBox)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      const normal = widget.getAppearances()?.normal;
+      assert.ok(normal instanceof PDFDict, `${field.getName()}: the official form states no check-box appearance dictionary; refusing to let pdf-lib invent one`);
+      if (normal.has(PDFName.of("Off"))) continue;
+      const { width, height } = widget.getRectangle();
+      normal.set(PDFName.of("Off"), document.context.register(document.context.formXObject([], { BBox: document.context.obj([0, 0, width, height]) })));
+      installed += 1;
+    }
+  }
+  return installed;
+}
+
+/*
+ * The negative control for the repair above, read from the delivered bytes.
+ *
+ * A flattened widget appearance that paints without drawing a glyph is ink no
+ * participant fact accounts for. On these four official forms the only such ink
+ * pdf-lib produced was the synthesized check-box border, so this must count
+ * zero after the repair -- and it counted 91 per fixture before it.
+ */
+function inkWithoutGlyphs(document) {
+  let count = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      if (/(?:^|\s)(?:S|s|f|F|f\*|B|B\*|b|b\*)(?=\s|$)/.test(body)) count += 1;
+    }
+  }
+  return count;
+}
+
 async function fillDocument(source, fixtureName, fixture) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
+  const emptyOffAppearances = preserveOfficialCheckBoxAppearances(document, form);
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
   const writes = [];
@@ -468,14 +559,14 @@ async function fillDocument(source, fixtureName, fixture) {
     }
   }
   form.updateFieldAppearances(font);
-  form.flatten();
+  form.flatten({ updateFieldAppearances: false });
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
   document.setCreator("LegalEase deterministic official-form builder");
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, emptyOffAppearances };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -496,7 +587,17 @@ async function buildPacket(sources, fixtureName, fixture) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), 13);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: 13, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  // FIX118, CLIPPING_AND_OVERLAP. Both halves of the repair are checked on the
+  // bytes that ship, not on the intention: every check-box widget the four
+  // official forms declare received the /Off appearance they omit, and the
+  // delivered packet contains no flattened appearance that paints without
+  // drawing a glyph. This second count was 91 per fixture before the repair.
+  const emptyOffAppearances = filled.reduce((total, item) => total + item.emptyOffAppearances, 0);
+  assert.equal(emptyOffAppearances, OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET,
+    `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
+  const strayInk = inkWithoutGlyphs(reopened);
+  assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
+  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 async function build() {
