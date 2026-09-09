@@ -48,6 +48,31 @@ Nothing here is inferred from the path shape alone.
    appears in `data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json`, and
    none is named in its `absentFromRecoveryPool` list of seventy.
 
+## Correction, same day: three of the fourteen are in the repository
+
+Hashing every file in the repository tree against the fourteen digests found
+three of them, at their exact bytes:
+
+| index path | repository path |
+|---|---|
+| LegalEase Utah/1001EX.pdf | reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf |
+| LegalEase Utah/1021EX.pdf | reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf |
+| LegalEase Missouri/MO_CR311.pdf | reference/chat-parallel-2026-09-07/chat7/CR311.pdf |
+
+So **eleven files are owed, not fourteen**, and the table below overstates the
+ask by those three rows. The custody's own record now carries this under
+`bytesAlsoPresentInTheRepositoryAt`.
+
+It does not make `bytesHeldByAnyMountedCustody` true. `reference/` is a
+committed working directory, not a declared source custody, and nothing here
+promotes it to one — the corpus index knows four custodies and that is not one
+of them. Promoting those three bytes into a governed custody is a source
+determination for whoever owns it, and until that happens the row gate will
+keep refusing the families that name them, correctly.
+
+The earlier sentence "no mounted custody holds them" was right about custody and
+wrong as a statement about the bytes. Both are now on the record.
+
 ## What the correction does, and does not do
 
 The fourteen entries move to a declared custody,

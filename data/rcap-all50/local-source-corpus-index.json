@@ -58,7 +58,26 @@
       "correctedOn": "2026-09-09",
       "correctionBasis": "Measured: no LegalEase <State>/ directory exists in either Master Library extraction; all 336 STATES/-shaped master_library entries verify byte-exact and all 14 of these are absent by path and by content hash across the whole tree; the generator's own custody table states that no custody but the Nationwide recovery pool produces a LegalEase <State>/ path; and 0 of the 14 appear in the recovery pool receipt, by path or in its absentFromRecoveryPool list.",
       "binariesIndexed": 14,
-      "pdfsIndexed": 14
+      "pdfsIndexed": 14,
+      "bytesAlsoPresentInTheRepositoryAt": {
+        "measuredOn": "2026-09-09",
+        "how": "every file in the repository tree was hashed and compared against these fourteen digests",
+        "found": [
+          {
+            "path": "LegalEase Utah/1001EX.pdf",
+            "repositoryPath": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf"
+          },
+          {
+            "path": "LegalEase Utah/1021EX.pdf",
+            "repositoryPath": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf"
+          },
+          {
+            "path": "LegalEase Missouri/MO_CR311.pdf",
+            "repositoryPath": "reference/chat-parallel-2026-09-07/chat7/CR311.pdf"
+          }
+        ],
+        "whatThisDoesAndDoesNotChange": "Three of the fourteen exist in the repository at their exact digest, so re-acquisition is owed for eleven and not fourteen. It does not make bytesHeldByAnyMountedCustody true: reference/ is a committed working directory, not a declared source custody, and nothing here promotes it to one. Promoting those three into a governed custody is a source determination for whoever owns it."
+      }
     }
   ],
   "corpusIsNotCommitted": "private/ is git-ignored. This index is the committed record of what the corpus contained; the corpus itself is a working input.",

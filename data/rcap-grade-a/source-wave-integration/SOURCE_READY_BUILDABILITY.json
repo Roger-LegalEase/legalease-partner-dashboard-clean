@@ -1,19 +1,20 @@
 {
   "schemaVersion": "rcap-source-ready-buildability/v1",
-  "measuredOn": "2026-09-08",
-  "measuredBy": "Captain, from the committed MASTER_QUEUE and packet-set manifests plus the files actually on disk",
+  "measuredOn": "2026-09-09",
+  "measuredBy": "Captain, re-measured after installing the D source packs and after resolving each source by content hash across every mounted root as well as by its declared path",
   "whatThisIs": "A dispatch aid. For every SOURCE_READY family it asks, per bound source, whether the path resolves to a file in a mounted custody and whether that file's first bytes are a PDF header, then compares the required components' official forms against the sources that are held PDFs.",
   "whatThisIsNot": "Not a state change, not a source determination, not a reclassification, and not a new gate. No family's state, source record, count or treatment is altered by this file, and a family listed here as unbuildable today may be perfectly buildable once its source is acquired or converted by whoever owns that decision.",
   "whyItExists": "sourceReadiness.ready reports that a source RESOLVED. PF16 was dispatched at three families that all read ready true with no reasons, and stopped on held-source facts: every Montana official form is a Word document, and four of five Illinois PRB form labels identify no document. Sending a build lane at a family in that state spends a worker to rediscover something measurable here in seconds.",
   "mountsSearched": [
-    "/home/user/captain-worktree",
-    "/home/user/legalease-partner-dashboard-clean",
-    "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1"
+    "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+    "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+    "/home/user/captain-worktree"
   ],
   "counts": {
-    "NOT_MEASURABLE_HERE": 51,
-    "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR": 16,
-    "EVERY_BOUND_SOURCE_IS_A_HELD_PDF": 6
+    "NOT_MEASURABLE_HERE": 43,
+    "EVERY_BOUND_SOURCE_IS_A_HELD_PDF": 25,
+    "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR": 5
   },
   "rows": [
     {
@@ -40,10 +41,12 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "al-trafficking-set",
@@ -69,9 +72,11 @@
           "sourceId": "official-form:C-10-CRIMINAL",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CR-65",
@@ -79,10 +84,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ar-act346-set",
@@ -107,20 +114,24 @@
           "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
           "path": "google-drive:1cVTkd6IS4iCaKzbwnmbdmmnMHFVzwCq_",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
           "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 307979,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "ar-misdemeanor-seal-set",
@@ -145,20 +156,24 @@
           "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
           "path": "google-drive:1mwzEVgJeCOCHlYmb1_jkdedLF2Ni1Yzx",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
           "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 327235,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "ar-veterans-court-set",
@@ -183,20 +198,24 @@
           "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
           "path": "google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
           "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 131167,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "az_certificate_second_chance-set",
@@ -225,20 +244,26 @@
           "sourceId": "official-form:AOCCRSA3F-103023",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:AOCCRSA4F-103023",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "ca-diversion-seal-set",
@@ -260,10 +285,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "census-pending-family:ME:juvenile-sealing",
@@ -284,12 +311,15 @@
           "path": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 173449,
           "extension": ".pdf",
-          "mount": "repository"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     },
     {
       "familyId": "co_municipal_conviction_seal-set",
@@ -313,21 +343,25 @@
           "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 82760,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:JDF-686",
           "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 63657,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     },
     {
       "familyId": "composed-treatment:nc_146_dismissal_petition",
@@ -348,53 +382,65 @@
           "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 257828,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:AOC-CV-226",
           "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 269426,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "de_discretionary_family_court-set",
@@ -420,19 +466,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".doc",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FORM-281E",
           "path": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 26118,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "de_discretionary_superior_court-set",
@@ -460,7 +509,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CIV_EXP_02_B",
@@ -468,7 +517,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CIV_EXP_04_A",
@@ -476,10 +525,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "de_pardon_expungement-set",
@@ -507,7 +558,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CIV_EXP_08_A",
@@ -515,10 +566,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "fl-expunction-set",
@@ -552,11 +605,14 @@
           "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
           "path": "google-drive:137cVeCPkL7bRTlicUQlLr1DhwMUnLv2T",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "fl-juvenile-diversion-set",
@@ -580,11 +636,14 @@
           "sourceId": "official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
           "path": "google-drive:1d3mIZRcxe-tfWuvmMwIPRtjf24lUGYST",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "fl-sealing-set",
@@ -618,11 +677,14 @@
           "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
           "path": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "fl-self-defense-set",
@@ -646,12 +708,16 @@
           "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "hi_712_1200_deferred_expungement-set",
@@ -677,10 +743,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "hi_nonconviction_expungement-set",
@@ -706,10 +774,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ia-12346-set",
@@ -733,11 +803,14 @@
           "sourceId": "official-form:Rule 2.86 Form 3",
           "path": "google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "ia-12347-set",
@@ -760,21 +833,25 @@
           "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 288751,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Rule 2.86 Form 4",
           "path": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 288751,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     },
     {
       "familyId": "ia-901c3-set",
@@ -798,11 +875,14 @@
           "sourceId": "official-form:Rule 2.86 Form 2",
           "path": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "ia-dci77-set",
@@ -828,18 +908,22 @@
           "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
           "path": "google-drive:1cgNkclodlyJ6MiMOMzLpHR4tdPcAirAt",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
           "path": "google-drive:15Ts_wps2vvJhPamwj-OFrez9IUZFsYac",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "il-prb-cert-set",
@@ -865,41 +949,48 @@
           "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
           "path": "google-drive:1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
           "path": "google-drive:1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:PRB Certificate of Sealing Application",
           "path": "google-drive:1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
           "path": "google-drive:1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP-AD Request",
           "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 1015247,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "ky_protective_order_record_expungement-set",
@@ -925,10 +1016,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "la-976-arrest-no-conviction-set",
@@ -960,20 +1053,26 @@
           "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "la-977d-marijuana-first-offense-set",
@@ -1005,20 +1104,26 @@
           "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "la-985-1-interim-expungement-set",
@@ -1047,20 +1152,26 @@
           "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "la-985-expungement-by-redaction-set",
@@ -1092,20 +1203,26 @@
           "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "ma-expunge-k-set",
@@ -1131,10 +1248,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ma-seal-admin-set",
@@ -1160,10 +1279,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ma-seal-court-set",
@@ -1189,10 +1310,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ma-seal-decrim-set",
@@ -1218,10 +1341,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "md_10105_early-set",
@@ -1246,9 +1371,10 @@
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 35270,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CC-DC-CR-072C",
@@ -1256,10 +1382,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "md_pardon_expungement-set",
@@ -1284,20 +1412,25 @@
           "path": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 1062198,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CC-DC-CR-072B",
           "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "me-seal-gen-set",
@@ -1323,10 +1456,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "me-seal-survivor-set",
@@ -1352,9 +1487,10 @@
           "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 175213,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CR-308",
@@ -1362,19 +1498,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "source-sha256:c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
           "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 175213,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mn_petition_15218-set",
@@ -1404,7 +1543,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP104",
@@ -1412,7 +1551,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP106",
@@ -1420,18 +1559,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FEE102",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mn_petition_609a02_subd3-set",
@@ -1463,7 +1606,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP102",
@@ -1471,7 +1614,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP104",
@@ -1479,7 +1622,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP105",
@@ -1487,18 +1630,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FEE102",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mn_petition_juvenile_as_adult-set",
@@ -1528,7 +1675,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP104",
@@ -1536,7 +1683,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:EXP106",
@@ -1544,18 +1691,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FEE102",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mo-575-120-identity-theft-correction-set",
@@ -1579,9 +1730,11 @@
           "sourceId": "official-form:CR300",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__CR300__petition-for-correction-of-arrest-court-records-identity-theft__REV-2010-04__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CR310",
@@ -1589,26 +1742,32 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         },
         {
           "sourceId": "official-form:GN10",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mo-610-122-arrest-expungement-set",
@@ -1636,34 +1795,42 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CR145",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         },
         {
           "sourceId": "official-form:GN10",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mo-610-140-arrest-set",
@@ -1691,9 +1858,11 @@
           "sourceId": "official-form:CR360",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CR370",
@@ -1701,26 +1870,32 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         },
         {
           "sourceId": "official-form:GN10",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mo-610-140-conviction-set",
@@ -1746,9 +1921,11 @@
           "sourceId": "official-form:CR360",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CR370",
@@ -1756,26 +1933,32 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         },
         {
           "sourceId": "official-form:GN10",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "mo-art-xiv-marijuana-set",
@@ -1801,20 +1984,26 @@
           "sourceId": "official-form:CR375",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "mt_deferred_dismissal-set",
@@ -1838,13 +2027,16 @@
           "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": false
     },
     {
       "familyId": "mt_misdemeanor_expungement-set",
@@ -1868,13 +2060,16 @@
           "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": false
     },
     {
       "familyId": "mt_mmrta_completed-set",
@@ -1902,76 +2097,86 @@
           "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-FORM-B",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 23685,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 16815,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 21143,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 21143,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 23685,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 16815,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": false
     },
     {
       "familyId": "mt_mmrta_serving-set",
@@ -1999,76 +2204,86 @@
           "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-FORM-A",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 23777,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 16815,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 21143,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 21143,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
           "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 84539,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 23777,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         },
         {
           "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
           "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
           "tier": "exact_content_hash",
-          "kind": "held_not_pdf",
-          "bytes": 16815,
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "mount": "master_library"
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": false
     },
     {
       "familyId": "nc_145_5_misdemeanor-set",
@@ -2094,61 +2309,76 @@
           "sourceId": "official-form:AOC-CR-298",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:AOC-CR-298-INSTRUCTIONS",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:AOC-CV-226",
           "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 269426,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:68fe0acc130a1a67eb045ad465fd06762167a5ee355a7e9dca046f5a6514c25e",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__NC-SBI-RIGHT-TO-REVIEW__north-carolina-sbi-right-to-review-criminal-history-instructions__REV-2025-12__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "nc_145_8a_youthful-set",
@@ -2176,7 +2406,7 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
@@ -2184,35 +2414,42 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:AOC-CV-226",
           "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 269426,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "nc_auto_146_a4_agency_followup-set",
@@ -2234,10 +2471,12 @@
           "tier": "exact_form_number",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "nd-prohibit-remote-public-access-set",
@@ -2267,32 +2506,38 @@
           "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
           "path": "google-drive:1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
           "path": "google-drive:1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
           "path": "google-drive:1BARTiKbxTJdej15_UbRWwO7133rzRNKX",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
           "path": "google-drive:1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "nd-regular-pardon-set",
@@ -2318,10 +2563,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "nd-summary-marijuana-pardon-set",
@@ -2344,12 +2591,15 @@
           "path": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 46054,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     },
     {
       "familyId": "ne-seal-pardoned-set",
@@ -2375,20 +2625,26 @@
           "sourceId": "official-form:CC-6-12",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CC-6-12a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "ne-seal-pre2017-set",
@@ -2414,28 +2670,36 @@
           "sourceId": "official-form:CC-6-12",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CC-6-15.1",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CC-6-12a",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "nh_conviction_standard-set",
@@ -2459,44 +2723,56 @@
           "sourceId": "official-form:NHJB-2311",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2956",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2317-DSe",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-3057-DSe",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "nh_conviction_streamlined-set",
@@ -2522,36 +2798,46 @@
           "sourceId": "official-form:NHJB-2311",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2956",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-3057-DSe",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "nh_marijuana_annulment-set",
@@ -2575,28 +2861,36 @@
           "sourceId": "official-form:NHJB-2311",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-2328",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:NHJB-3124-DS",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
@@ -2616,41 +2910,48 @@
           "sourceId": "official-form:CR-430",
           "path": "github-actions-artifact:9848937429",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "github-actions-artifact"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CR-431",
           "path": "github-actions-artifact:9848939927",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "github-actions-artifact"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CR-432",
           "path": "google-drive:1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "google-drive"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CR-430-INFO",
           "path": "github-actions-artifact:9848937283",
           "tier": "exact_content_hash",
-          "kind": "locator_not_a_file",
-          "scheme": "github-actions-artifact"
+          "kind": "not_present_in_a_custody_mounted_here",
+          "extension": null,
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:CR-106",
           "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 104278,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "verdictMoved": true
     },
     {
       "familyId": "rcap-hi-custom-pleading",
@@ -2672,10 +2973,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "rcap-in-custom-pleading",
@@ -2696,30 +2999,35 @@
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 2946894,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 2946894,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Confidential Information Form",
           "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 2946894,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     },
     {
       "familyId": "rcap-mo-custom-pleading",
@@ -2739,20 +3047,26 @@
           "sourceId": "official-form:FI-05",
           "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "content_hash_under_a_different_name_or_custody",
+          "note": null
         },
         {
           "sourceId": "official-form:GN10",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_but_not_a_pdf",
           "extension": ".docx",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "PK...",
+          "resolvedBy": "declared_path",
+          "note": "The bytes are held and hash exactly, and they are not a PDF. An official_pdf_fill route cannot overlay them; converting or acquiring a PDF is somebody's decision, not a build."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "A_BOUND_SOURCE_IS_HELD_BUT_IS_NOT_A_PDF_OR_IS_A_LOCATOR",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "rcap-or-official-pdf-fill",
@@ -2772,20 +3086,26 @@
           "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
@@ -2805,30 +3125,36 @@
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
           "tier": "exact_statute_section_and_document_kind",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
           "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 6667524,
           "extension": ".pdf",
-          "mount": "primary_checkout_private"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
           "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "held_pdf",
-          "bytes": 255245,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "tx_nd_dwi_conviction-set",
@@ -2855,28 +3181,32 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
           "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 199202,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
           "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 6667524,
           "extension": ".pdf",
-          "mount": "primary_checkout_private"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ut_pet_cannabis-set",
@@ -2908,33 +3238,41 @@
           "sourceId": "official-form:1003EX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1044XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1146XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1148XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1023EX",
@@ -2942,10 +3280,12 @@
           "tier": "exact_identity_confirmed_from_document_text",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "ut_pet_special_certificate-set",
@@ -2978,77 +3318,95 @@
           "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 112139,
           "extension": ".pdf",
-          "mount": "repository"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1021EX",
           "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 104276,
           "extension": ".pdf",
-          "mount": "repository"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1044XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1146XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1148XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1149XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:1169XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:UT-BCI-EXP-APPLICATION",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:UT-BCI-THIRD-PARTY-RELEASE",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
           "tier": "exact_form_number",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "wa_blake_vacatur_and_lfo_refund-set",
@@ -3073,38 +3431,45 @@
           "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 171772,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Blake-002",
           "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 171925,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:Blake-005",
           "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 413907,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
           "tier": "exact_content_hash",
-          "kind": "not_present_in_a_custody_mounted_here",
+          "kind": "held_pdf",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": true
     },
     {
       "familyId": "wv_acc_treatment_job_readiness-set",
@@ -3128,9 +3493,10 @@
           "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 176072,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         },
         {
           "sourceId": "official-form:SCA-C907",
@@ -3138,7 +3504,7 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
@@ -3146,19 +3512,22 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         },
         {
           "sourceId": "source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
           "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
           "tier": "exact_content_hash",
           "kind": "held_pdf",
-          "bytes": 176072,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "wv_conv_nonviolent_felony-set",
@@ -3188,10 +3557,12 @@
           "tier": "exact_content_hash",
           "kind": "not_present_in_a_custody_mounted_here",
           "extension": ".pdf",
-          "note": "The path did not resolve under any custody this session has mounted. That is a fact about this container, not a finding that the source is missing: several source records name a Drive-folder-relative location whose custody is not mounted here."
+          "note": "No file under any mounted root hashes to this digest, by declared path or by content. That is a fact about this container: the bytes may sit in a custody nobody has mounted here."
         }
       ],
-      "verdict": "NOT_MEASURABLE_HERE"
+      "verdict": "NOT_MEASURABLE_HERE",
+      "priorVerdict": "NOT_MEASURABLE_HERE",
+      "verdictMoved": false
     },
     {
       "familyId": "wv_nc_diversion_deferred-set",
@@ -3215,12 +3586,20 @@
           "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
           "tier": "exact_form_number",
           "kind": "held_pdf",
-          "bytes": 23275,
           "extension": ".pdf",
-          "mount": "master_library"
+          "firstBytes": "%PDF-",
+          "resolvedBy": "declared_path",
+          "note": null
         }
       ],
-      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF"
+      "verdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "priorVerdict": "EVERY_BOUND_SOURCE_IS_A_HELD_PDF",
+      "verdictMoved": false
     }
+  ],
+  "whatChangedSinceTheFirstPass": [
+    "The D source packs (rcap-d-source-packs-2026-08-12, three archives verified against pinned digests, 343 files) are installed and comparable; on 2026-09-08 that custody was not mounted.",
+    "A source is now resolved by content hash across the mounted roots as well as by its declared path. That is what the row gate does — it reports 'found by content hash because the declared path is in a custody that is not mounted here' and passes — so the first pass, which resolved only by declared path, understated what a builder can open.",
+    "PF16 was dispatched at three families this aid already classed unbuildable and spent a worker rediscovering it. That is the cost this record exists to prevent, and it is why the aid is kept current rather than written once."
   ]
 }
