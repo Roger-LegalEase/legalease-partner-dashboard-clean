@@ -1,3 +1,88 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T01:00Z -->
+# Captain checkpoint — 196/346 published; the completeness counter can now see a missing route election
+
+Only the changed facts are here. The 00:15Z block below is the previous
+checkpoint and remains true of the moment it describes; everything under it is
+the earlier record.
+
+**Heads.** Captain local and remote `claude/legalease-sprint-captain-utucnw` =
+`ea720b40f`.
+
+**Census: 196/346 terminal, +2 since the last checkpoint.** 175
+COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE.
+Nonterminal: 73 SOURCE_READY, 38 FAIL_REPAIR_REQUIRED, 18 PRODUCT_PATH_PENDING,
+13 LEGAL_BLOCKED, 6 SOURCE_BLOCKED, 1 VERIFY_PENDING, 1 WRONG_DELIVERY_TYPE.
+BUILT_RASTER_PENDING is empty.
+
+**Published: `vt_exp_decriminalized-set` and `nj_arrest_no_conviction-set`,** at
+`51c934b1a`. The `generate` refusal described in the previous checkpoint cleared
+by itself the moment VF11's return was integrated, exactly as predicted; no
+manifest was hand-edited.
+
+**The blocker the previous checkpoint did not know about, now fixed.**
+`requiredOptionsMissing` could not fail a packet for a missing route election,
+and never could. `readFieldRows` sends every documents-and-decisions row whose
+decision is not literally `refuse` into `writes`, and that counter is raised only
+from the blank classifier — so a row declaring `measured_route_selection` counted
+as an election already made. All six families that declare one measured zero,
+including three New Jersey families a reader had failed by hand for delivering no
+election at all. Fixed at `d89411ea2` with six regression tests
+(`scripts/rcap-packet-completeness/verify-route-election-is-made.test.mjs`).
+
+The rule is at the ROUTE level, not the fixture level, and the first attempt got
+that wrong: a fixture whose row is broken withholds its mark on purpose and
+records the withholding, which is FIX105 working as designed, and failing it per
+fixture wrongly flagged `nj_arrest_no_conviction-set`. What fails is a route that
+withholds on every fixture it can build. Measured across all 252 auditable
+families: 249 PASS_COMPLETE becomes 246, and the three that move are exactly the
+three the reader failed by hand. **Still open and measured but unaddressed:**
+`candidate_write`, 305 rows across 15 families, lands in `writes` by the same
+rule; whether each was actually written is a question for the finalizer's output,
+not the map.
+
+**Whole-file pin drift bit again, on a different record.** This census was the
+first to run since FIX96 edited `legal-design-packet-set-manifests.json`, and
+five receipts pinning that file by whole-file SHA-256 lapsed —
+`ar-nonconviction-seal-set`, the three North Carolina families and
+`ak-mistaken-identity-set`. FIX96 changed exactly one packet set,
+`co_motion_seal_conviction-set`, which none of the five anchors. Each anchored
+entry was recovered from the blob carrying its previous pin and compared
+object-for-object against disk before any pin moved. The tool is
+`scratchpad/refresh-manifest-pins.mjs`; it refuses a receipt whose own entry
+moved. **Expect this class again on any whole-file-pinned record: check the
+anchors, never refresh on trust.**
+
+**Active writers, three.** FIX120 (Rhode Island four, one shared host
+`build-census-v1-ri_decriminalized-set.mjs`, base `f78191545`); FIX121 (New
+Jersey three, base `ea720b40f`); VF13 (Mississippi re-read, base `ea720b40f`).
+FIX95, FIX96, FIX101, FIX105, PF16, VF10, VF11 and VF12 have returned and are
+integrated.
+
+**Mississippi is on its third reader and that is correct, not a loop.** VF04
+failed ARTIFACTS on stale records; the Captain repaired them at `3980df4d0`; VF12
+carried thirteen of fourteen on proven byte identity and failed ARTIFACTS again
+on one thing — the acceptance receipt claimed to cover the whole family while
+naming only `canonical.pdf` and binding the boundary digest. Corrected at
+`8bb1b82f0` from the RASTER_QUEUE row's own words. Every other family was scanned
+for that overclaim shape; there are none. VF13 reads it now. **The rule this
+chain demonstrates: a reader may not read the repair of its own finding, so each
+Captain repair costs a new reader — keep the repairs small enough that it
+converges.**
+
+**Lane minting: `--grant` is refused for a released grant.** Use `--transfer
+<FROM> <TO> <subject> --reason`, which keeps the release reason in the ledger
+instead of erasing it. FIX120, FIX121 and VF13 were all minted that way.
+
+**Production, unchanged since the last checkpoint and still the two same asks.**
+The worker image published from `c065d248` is accepted (run 34289593168) and
+fulfillment authority reads `published_input_equivalent`. F1 ephemeral staging
+passes 14 of 16. The two failures both still need Roger: phase 50 uses plain
+`CREATE TRIGGER` over five triggers an earlier migration already creates, and it
+is an authorized hash-gated migration bound to an authorizationId, so the
+`CREATE OR REPLACE TRIGGER` fix cannot be applied without his word; and
+`route_scoped_refuses_outsiders` admits no one because an in-scope authenticated
+identity is stopped at the payment gate rather than the delivery gate.
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T00:15Z -->
 # Captain checkpoint — 194/346 published; release track advanced, count not yet moved
 
