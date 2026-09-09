@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 982,
+    "rows": 984,
     "independentVerdicts": 252,
-    "failRepairRequired": 45,
-    "passIndependent": 192
+    "failRepairRequired": 44,
+    "passIndependent": 193
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -84,8 +84,7 @@
     "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
-    "sd_arrest_expungement-set",
-    "vt_exp_decriminalized-set"
+    "sd_arrest_expungement-set"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -26137,6 +26136,42 @@
     {
       "familyId": "vt_exp_decriminalized-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "23367bbad",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Four of the five records that name these bytes are correct and the fifth is not. Correct: reports/rendered-artifacts.json names 18 files and all 18 rehash to their recorded value, with byteLength matching where recorded and pageCount 8 for each fixture confirmed against the PDF bytes; product-wiring.json's proposedRepresentation component and binding.acceptanceReceipt.boundToCanonicalSha256 both name 4d9b64e0..., the canonical.pdf on disk; the RASTER_QUEUE row pins canonical 4d9b64e0... and boundary d56f5a0f... with pageCount 8 apiece, all four current; approval-request.json names no file bytes. The defect is in source-receipt.json. Its committedRecordsBound entry for legal-design-track-registry.json names sha256 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at byteLength 16586150, and the file at this base is baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc at 16740631 bytes. The companion entry, route-obligation-candidate.json at f6fc0814.../2629290, is current and correct. This is the same defect class FIX101 repaired, recurred rather than unrepaired: FIX101 recomputed this digest correctly as of its own return commit e536a146a, and six later commits -- 2f2e5f27d, 6a000b40b, ac5ca8766, 6aea851cd, 0489cca02 and 75647c890 -- moved the registry file again before this base. NOTHING LEGAL DRIFTED WITH IT: the vt_exp_decriminalized track subtree is byte-identical between e536a146a and HEAD, its eleven stopping conditions are unchanged, and all eleven still appear verbatim in the delivered pages. The delivered packet is therefore legally current, and what fails is the receipt's whole-file pin, which claims a byte state that no longer exists. A receipt that names bytes the tree does not hold cannot be used to prove the packet was built from what it says it was built from, which is the entire function of the record.",
+          "evidence": "All 34 family files rehashed here; reports/rendered-artifacts.json walked entry by entry with every path+sha pair recomputed; canonical.pdf and boundary.pdf page counts parsed with pdf-lib 1.17.1; product-wiring.json, approval-request.json, the RASTER_QUEUE row and source-receipt.json read against those measurements; and the two committedRecordsBound inputs rehashed at their committed paths."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c024be0f6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf12",
       "isIndependentVerification": true,
       "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
@@ -26245,7 +26280,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
