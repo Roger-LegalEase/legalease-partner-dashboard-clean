@@ -26988,21 +26988,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -27040,9 +27039,37 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS02",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "e673b058867e4ccd335314ef845a5a88362b89bb",
-      "requestedScale": 2.5
+      "requestedScale": 2.5,
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34413372916",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "0cb44ee92a33b4d7b48b145ae57e192ef5c2c438",
+        "jobId": "102673422679",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+        "boundToBoundarySha256": "84d03dd83fa56368c2de6b3cd48fff764e18f88d3a0724a2321a6588d7e44f62",
+        "documentsDigest": "6a5be10b6bd6105ba06b480e8bf982f2c52e7250ab9826623bdb7f8a82dc70ed",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 6,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10128266840",
+          "name": "rcap-raster-me-seal-survivor-set-34413372916",
+          "zipSha256": "sha256:6f4ca21cc8c012a880ee0a1050844a8dc2afe0e316aaff548e0f378130c5c443"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-survivor-set/me-seal-survivor-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-survivor-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-application-set--official-pdf-fill/fixtures/boundary.pdf",
