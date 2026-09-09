@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF03",
+  "workerId": "PF03",
+  "lane": "packet-build",
+  "workerBranch": "pf03-20260909",
+  "engine": "Claude Opus 5 (Claude Code)",
+  "returnFilename": "rows-pf03-20260909.json",
+  "writtenAlongsideRatherThanOver": "rows.json (an earlier shift's PF03 return) and rows.pf-a-cohort-2026-09-04.json survive byte-for-byte; this return is a distinct file.",
+  "shiftBaseSha": "e0c78f7fa",
+  "headShaAtReturn": "2479a9d752b91f02c94c98c1dab5c69d0ede87cf",
+  "worktree": "/home/user/v2mm-worktree",
+  "familiesAssignedByPrompt": 3,
+  "familiesGrantedByClaimLedger": 2,
+  "rowsReturned": 3,
+  "familiesCompleted": 2,
+  "familiesStopped": 1,
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [
+    "tx_nd_automatic_misdemeanor_deferred-set"
+  ],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "custodyVerification": {
+    "method": "every declared digest searched for by CONTENT HASH across all files in every mounted custody root, not by declared path and not by any central record's custodyClass scalar",
+    "mountsSearched": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+      "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+    ],
+    "filesHashed": 1857,
+    "digestSought": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+    "hits": 1,
+    "hitPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+    "bothFamiliesShareThisOneSource": true,
+    "networkAcquisitions": 0,
+    "centralRecordDisagreement": "SOURCE_READY_BUILDABILITY.json and the MASTER_QUEUE rows classify both families SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0. The bytes are held. Reported, not corrected: those are shared central artifacts and the Captain's to fix."
+  },
+  "laneGate": {
+    "ran": false,
+    "why": "scripts/verify-packet-build-environment.mjs is the Codex Cloud lane gate named in PF03.md. This dispatch runs in a local worktree on branch pf03-20260909 with a real origin, not in the Codex container the gate is written for, so its result would not mean what the brief intends. Reported rather than claimed."
+  },
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "results": {
+      "ma-seal-admin-set": "PASS_COMPLETE (5/23 written, nine counters zero)",
+      "ma-seal-decrim-set": "PASS_COMPLETE (6/23 written, nine counters zero)"
+    },
+    "whatThisIsNot": "A verdict. This lane built these bytes and sets none. verify-packet-completeness.mjs reads canonical-side records and does not read participant-instructions.md against the controlling record at all; the delivered guides were read by hand and four defects in them were fixed before commit."
+  },
+  "negativeControls": {
+    "file": "data/rcap-grade-a/packet-factory-24h/pf03/negative-controls.mjs",
+    "record": "data/rcap-grade-a/packet-factory-24h/pf03/negative-controls-pf03-20260909.json",
+    "count": 5,
+    "everyOneReproducedItsDefect": true
+  },
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "Chromium resolves in this container, so both packets were rastered locally and read at appearance level; every raster was then deleted per dispatch and none is committed. The authoritative render is the central hash-bound workflow. BUILT_RASTER_PENDING zeroes nothing and waives nothing.",
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": "none — VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json, PACKET_COMPLETENESS_MATRIX.json and ACTIVE_ASSIGNMENTS.json were not written; no claim was released",
+  "grantsNothing": "A built family is review evidence. It is not verified, not approved and not sellable, and it opens no commercial route.",
+  "rows": [
+    {
+      "itemId": "ma-seal-admin-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:MA:ma-seal-admin:adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "obligation:track-pathway:MA:ma-seal-admin:juvenile-record-sealing-under-100b"
+      ],
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-ma-seal-admin-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 11,
+        "PROTECTED_FIELD": 3,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 1,
+        "PARTICIPANT_ELECTION_GENUINE": 3
+      },
+      "officialForm": {
+        "documentId": "OCP-4",
+        "editionFooter": "OCP 4/12",
+        "officialFormFamily": "Petition to Seal (Office of the Commissioner of Probation)"
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:Petition to Seal (Office of the Commissioner of Probation)"
+          ],
+          "pathInArchive": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "byteLength": 216883,
+          "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f01868bbe1716bbe6576d39431a0b77ef7310a4a2d10c025f040edbe72c58987",
+          "byteLength": 235707,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "fbaf27c950c8dc336c28a4d59bf1a35ac82309d338e86623b1ae2756f80767d5",
+          "byteLength": 235329,
+          "pageCount": 1
+        }
+      ],
+      "totals": {
+        "terminalFields": 23,
+        "written": 5,
+        "blank": 18
+      },
+      "routeSelectionsMade": 0,
+      "requiredBeforeFiling": 11,
+      "boundaryOnlyRequiredBeforeFiling": [
+        {
+          "field": "OCP-4/City",
+          "label": "City of your mailing address",
+          "measuredWhy": "the box the form prints is 100.08 points wide and the value held for you is 47 characters, which will not fit inside it even at the smallest size that stays readable (6 point)"
+        },
+        {
+          "field": "OCP-4/State",
+          "label": "State of your mailing address",
+          "measuredWhy": "the box the form prints is 40.08 points wide and the value held for you is 13 characters, which will not fit inside it even at the smallest size that stays readable (6 point)"
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 55,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+          "selectionsMarked": [],
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 3,
+          "addedGlyphsReadFromOutputBytes": 65,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+          "selectionsMarked": [],
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ma-seal-decrim-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:MA:ma-seal-decrim"
+      ],
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-ma-seal-decrim-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 8,
+        "PROTECTED_FIELD": 3,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 6
+      },
+      "officialForm": {
+        "documentId": "OCP-4",
+        "editionFooter": "OCP 4/12",
+        "officialFormFamily": "Petition to Seal (Office of the Commissioner of Probation)"
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:Petition to Seal (Office of the Commissioner of Probation)"
+          ],
+          "pathInArchive": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "byteLength": 216883,
+          "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "3ac87f6e248672399d482881f012b779101229664ef9bed10e1f6914edfda5f4",
+          "byteLength": 235922,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b2476975802790d46694f369ecf48b484451f328607938ebf4f366b5d4c4f08f",
+          "byteLength": 235544,
+          "pageCount": 1
+        }
+      ],
+      "totals": {
+        "terminalFields": 23,
+        "written": 6,
+        "blank": 17
+      },
+      "routeSelectionsMade": 1,
+      "requiredBeforeFiling": 8,
+      "boundaryOnlyRequiredBeforeFiling": [
+        {
+          "field": "OCP-4/City",
+          "label": "City of your mailing address",
+          "measuredWhy": "the box the form prints is 100.08 points wide and the value held for you is 47 characters, which will not fit inside it even at the smallest size that stays readable (6 point)"
+        },
+        {
+          "field": "OCP-4/State",
+          "label": "State of your mailing address",
+          "measuredWhy": "the box the form prints is 40.08 points wide and the value held for you is 13 characters, which will not fit inside it even at the smallest size that stays readable (6 point)"
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 56,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+          "selectionsMarked": [
+            "Check Box4"
+          ],
+          "refusedFieldsWithInk": 0
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 66,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+          "selectionsMarked": [
+            "Check Box4"
+          ],
+          "refusedFieldsWithInk": 0
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "verdict": null,
+      "jurisdiction": "TX",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "countersAreNullBecause": "nothing was built and nothing was measured; an unmeasured quantity is null, never 0",
+      "why": "PF03.md names this family, but the claim ledger does not grant it to this lane. node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF03 tx_nd_automatic_misdemeanor_deferred-set answered ALREADY_RELEASED: tx_nd_automatic_misdemeanor_deferred-set at 2026-09-09T07:39:39.272Z. A family this lane cannot assert is not this lane's to build, so no artifact of it was read or written.",
+      "claimAssertion": "ALREADY_RELEASED at 2026-09-09T07:39:39.272Z",
+      "artifactsRead": 0,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
