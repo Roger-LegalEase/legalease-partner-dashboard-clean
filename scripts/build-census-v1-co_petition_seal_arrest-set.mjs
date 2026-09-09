@@ -97,6 +97,59 @@ const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs")
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
+
+/*
+ * WHERE THIS PACKET'S SELF-HELP ENDS.
+ *
+ * CO.memo.json declares three selfHelpStopConditions for track
+ * co_petition_seal_arrest, and none of them reached the participant. Measured
+ * over the delivered bytes: "immigration", "firearm" and "licensing" returned
+ * zero matches in participant-instructions.md and zero in both fixtures;
+ * "contested hearing" returned zero; the district attorney appeared only as a
+ * records custodian to tick in section 3. There was no stop-and-get-help
+ * section in this packet at all, and the repository's own
+ * scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs scored the
+ * family FAIL -- conditionsCarriedVerbatim 0, conditionsCarriedInSubstance 1,
+ * conditionsNotRepresented 2.
+ *
+ * The consequence is concrete. A participant whose petition the district
+ * attorney opposes, or whom the court sets down for a contested hearing, was
+ * nowhere told that self-help ends there; a non-citizen or a licence holder was
+ * nowhere warned that sealing carries immigration, licensing or firearm
+ * consequences.
+ *
+ * The conditions are READ FROM THE COMMITTED MEMO at build time and printed in
+ * the memo's own words. They are not transcribed into this file and not
+ * paraphrased: a stop condition is a legal boundary, and the record states it.
+ * The build refuses if the memo no longer declares them, so this cannot go
+ * quietly stale.
+ *
+ * This packet delivers two official Judicial Department forms and composes no
+ * page of its own, so the disclosure goes in participant-instructions.md --
+ * this build does not write onto the issuer's forms.
+ */
+const CO_MEMO = "data/record-clearing/legal-design-intake/CO.memo.json";
+
+function selfHelpStopConditions(trackId) {
+  const memo = JSON.parse(fs.readFileSync(path.join(ROOT, CO_MEMO), "utf8"));
+  const tracks = Array.isArray(memo.tracks) ? memo.tracks : Object.values(memo.tracks ?? {});
+  const track = tracks.find((t) => (t.trackId ?? t.id) === trackId);
+  assert.ok(track, `${CO_MEMO} declares no track ${trackId}`);
+  const conditions = track.selfHelpStopConditions ?? [];
+  assert.ok(conditions.length > 0,
+    `${CO_MEMO} track ${trackId} declares no selfHelpStopConditions; this build prints the record's own words and has none to print`);
+  const bytes = fs.readFileSync(path.join(ROOT, CO_MEMO));
+  return {
+    conditions,
+    source: {
+      pathInRepository: CO_MEMO,
+      sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+      byteLength: bytes.length,
+      recordId: `legal-design-intake:CO#${trackId}.selfHelpStopConditions`,
+      role: "the committed Colorado legal-design memo: this track's self-help stop conditions, printed verbatim"
+    }
+  };
+}
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -129,6 +182,9 @@ const ROUTE = Object.freeze({
   jurisdiction: "CO",
   routeKey: "obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704",
   routeSelectionId: "co-petition-seal-arrest-set-jdf-417-jdf-418",
+  /* The CO.memo.json track this route belongs to, and therefore the track whose
+   * selfHelpStopConditions this packet must carry. */
+  trackId: "co_petition_seal_arrest",
   publicLabel: "Petition to seal arrest and criminal records where no charges were filed",
   authority: "C.R.S. § 24-72-704; Colorado Judicial Department forms JDF 417 and JDF 418",
   documents: [
@@ -882,7 +938,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf) {
+function participantInstructions(maps, rbf, stopConditions) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -944,6 +1000,30 @@ function participantInstructions(maps, rbf) {
     + "and the form asks for them only if that is not you. The packet left them blank rather than copying your own "
     + "details into them: putting one person's identity into another person's block on a sworn petition would be a "
     + "false statement, not a convenience. If you ticked the first box, leave all four blank.", ""
+  );
+
+  /* The record's own words, printed before the numbered steps: a participant
+   * who is inside one of these should learn it before they start filling
+   * blanks, not after. */
+  out.push("## Stop and get help", "");
+  out.push(
+    "This packet is self-help. There are points past which it cannot take you, and the Colorado legal-design record "
+    + "names them. **If any of the following is true, stop and get a lawyer before you go further.** These are the "
+    + "record's own words:", ""
+  );
+  for (const c of stopConditions.conditions) out.push(`- ${c}`);
+  out.push("");
+  out.push(
+    "Two of these need saying plainly. **If the district attorney objects, or the court sets your petition down for a "
+    + "contested hearing, this packet stops being enough** — a contested sealing hearing is a hearing you have to argue, "
+    + "and nothing in this packet argues it for you. And **sealing a record can carry consequences beyond the record "
+    + "itself**: if you are not a United States citizen, or you hold or are seeking a professional or occupational "
+    + "licence, or you own or want to own a firearm, get advice about what sealing does and does not do for you before "
+    + "you file. This packet does not assess any of those, and it does not tell you that sealing solves them.", ""
+  );
+  out.push(
+    `_The three conditions above are quoted from \`${stopConditions.source.pathInRepository}\`, track `
+    + `\`${ROUTE.trackId}\`, at SHA-256 \`${stopConditions.source.sha256}\`._`, ""
   );
 
   out.push("## What you must do before you file", "");
@@ -1125,7 +1205,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+  const stopConditions = selfHelpStopConditions(ROUTE.trackId);
+  const instructionsText = participantInstructions(maps, rbf, stopConditions);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1147,6 +1228,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
       pathInArchive: r.pathInArchive, boundFromCustody: r.boundFromCustody, custody: r.custody,
       sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
     })),
+    /* The packet prints three sentences the participant acts on -- the self-help
+     * stop conditions -- out of a COMMITTED repository record rather than out of
+     * an official form binary. It is bound here by exact SHA-256, on the same
+     * footing as the two forms, so a reader can tell where those words came
+     * from and a rebuild refuses if the record no longer declares them. */
+    committedRecords: [{
+      sourceIds: [`committed-record:${stopConditions.source.pathInRepository}`],
+      recordId: stopConditions.source.recordId,
+      pathInRepository: stopConditions.source.pathInRepository,
+      sha256: stopConditions.source.sha256, byteLength: stopConditions.source.byteLength,
+      instrumentKind: "committed_record_bound_as_authority",
+      role: stopConditions.source.role,
+      statementsPrintedVerbatim: stopConditions.conditions.length
+    }],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
 

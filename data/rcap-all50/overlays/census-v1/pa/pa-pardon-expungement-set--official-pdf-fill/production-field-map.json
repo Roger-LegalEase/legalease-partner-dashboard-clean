@@ -14,15 +14,41 @@
     "PA-RCRIM-P-790-ORDER"
   ],
   "componentSet": [
+    "process_guidance",
     "primary_filing",
-    "proposed_order",
-    "process_guidance"
+    "proposed_order"
   ],
   "documentOfComponent": {
     "primary_filing": "PA-RCRIM-P-790-PETITION",
     "proposed_order": "PA-RCRIM-P-790-ORDER",
     "process_guidance": "process_guidance"
   },
+  "componentConditions": [
+    {
+      "componentId": "pa_pardon_expungement-process-guidance-1",
+      "role": "process_guidance",
+      "order": 1,
+      "requirement": "required",
+      "conditionDescription": null,
+      "basis": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=pa_pardon_expungement-set].components"
+    },
+    {
+      "componentId": "pa_pardon_expungement-primary-filing-2",
+      "role": "primary_filing",
+      "order": 2,
+      "requirement": "conditional",
+      "conditionDescription": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
+      "basis": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=pa_pardon_expungement-set].components"
+    },
+    {
+      "componentId": "pa_pardon_expungement-proposed-order-3",
+      "role": "proposed_order",
+      "order": 3,
+      "requirement": "conditional",
+      "conditionDescription": "Accompanies the fallback petition.",
+      "basis": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=pa_pardon_expungement-set].components"
+    }
+  ],
   "captionBasis": "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
@@ -33,6 +59,39 @@
   "routeSelectionNote": "No box is marked on either form, and routeSelectionsMade is empty in consequence. The two routes this family carries -- a Rule 790 petition where the automatic post-pardon route has not cleared the record, and no filing at all where it has -- are told apart by something neither form asks: whether the Board of Pardons / AOPC quarterly transmission has already produced an expungement order. Nothing on the petition and nothing on the order elects between them, so this family marks nothing and carries the second route as a composed process-guidance component instead of inventing an election to satisfy a counter.",
   "requiredBeforeFilingCount": 81,
   "requiredBeforeFiling": [
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.pardon_copy",
+      "page": 1,
+      "y": null,
+      "printedContext": "First obtain a copy of the pardon",
+      "disclosureLabel": "Copy of the pardon",
+      "identity": "process_guidance action pardon_copy",
+      "why": "the held packet manifest requires the pardon document before this route is selected",
+      "participantMustSupply": "obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.pardon_type_confirmation",
+      "page": 1,
+      "y": null,
+      "printedContext": "Confirm from that copy whether the pardon is unconditional or conditional",
+      "disclosureLabel": "Pardon type confirmation",
+      "identity": "process_guidance action pardon_type_confirmation",
+      "why": "the held route sends conditional and unconditional pardons to different relief",
+      "participantMustSupply": "compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.quarterly_verification_date",
+      "page": 1,
+      "y": null,
+      "printedContext": "Quarterly verification date",
+      "disclosureLabel": "Quarterly verification date",
+      "identity": "process_guidance action quarterly_verification_date",
+      "why": "the held packet manifest requires the participant to record when they checked whether the automatic quarterly route cleared the record",
+      "participantMustSupply": "record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record"
+    },
     {
       "document": "PA-RCRIM-P-790-PETITION",
       "field": "District#",
@@ -890,42 +949,80 @@
       "identity": "PA-RCRIM-P-790-ORDER field AgenciesServed",
       "why": "the platform holds no value for this and the participant supplies it before filing: the criminal justice agencies on which the order should be served, so the court can name them in its order",
       "participantMustSupply": "the criminal justice agencies on which the order should be served, so the court can name them in its order"
-    },
-    {
-      "document": "process_guidance",
-      "field": "process_guidance.pardon_copy",
-      "page": 1,
-      "y": null,
-      "printedContext": "First obtain a copy of the pardon",
-      "disclosureLabel": "Copy of the pardon",
-      "identity": "process_guidance action pardon_copy",
-      "why": "the held packet manifest requires the pardon document before this route is selected",
-      "participantMustSupply": "obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it"
-    },
-    {
-      "document": "process_guidance",
-      "field": "process_guidance.pardon_type_confirmation",
-      "page": 1,
-      "y": null,
-      "printedContext": "Confirm from that copy whether the pardon is unconditional or conditional",
-      "disclosureLabel": "Pardon type confirmation",
-      "identity": "process_guidance action pardon_type_confirmation",
-      "why": "the held route sends conditional and unconditional pardons to different relief",
-      "participantMustSupply": "compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree"
-    },
-    {
-      "document": "process_guidance",
-      "field": "process_guidance.quarterly_verification_date",
-      "page": 1,
-      "y": null,
-      "printedContext": "Quarterly verification date",
-      "disclosureLabel": "Quarterly verification date",
-      "identity": "process_guidance action quarterly_verification_date",
-      "why": "the held packet manifest requires the participant to record when they checked whether the automatic quarterly route cleared the record",
-      "participantMustSupply": "record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record"
     }
   ],
   "maps": [
+    {
+      "formNumber": "process_guidance",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route"
+      },
+      "structuralClass": "composed_document",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "process_guidance.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        },
+        {
+          "field": "process_guidance.case_number",
+          "page": 1,
+          "printedLabel": "Case No. printed on this page",
+          "printedLine": "Case No. printed on this page",
+          "effectiveLabel": "Case No. printed on this page",
+          "regionHeading": "Case No. printed on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "matter.case_number",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "process_guidance.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        },
+        {
+          "field": "process_guidance.case_number",
+          "page": 1,
+          "printedLabel": "Case No. printed on this page",
+          "printedLine": "Case No. printed on this page",
+          "effectiveLabel": "Case No. printed on this page",
+          "regionHeading": "Case No. printed on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "matter.case_number",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        }
+      ],
+      "boundaryRefusals": []
+    },
     {
       "formNumber": "PA-RCRIM-P-790-PETITION",
       "documentPolicy": {
@@ -3725,56 +3822,6 @@
           "document": "PA-RCRIM-P-790-PETITION"
         },
         {
-          "field": "AddrState",
-          "widgetName": "AddrState",
-          "page": 1,
-          "rect": {
-            "x": 207.72,
-            "y": 551.76,
-            "width": 18.21,
-            "height": 10.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "CASE INFORMATION",
-          "printedLine": "CASE INFORMATION",
-          "regionHeading": "Address, state",
-          "sectionHeading": null,
-          "effectiveLabel": "Address, state",
-          "captionReadAt": {
-            "page": 1,
-            "y": 539,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.state",
-          "kind": "text",
-          "document": "PA-RCRIM-P-790-PETITION"
-        },
-        {
-          "field": "AddrZip",
-          "widgetName": "AddrZip",
-          "page": 1,
-          "rect": {
-            "x": 227.75,
-            "y": 552.5,
-            "width": 31.85,
-            "height": 10.22
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "CASE INFORMATION",
-          "printedLine": "CASE INFORMATION",
-          "regionHeading": "Address, ZIP",
-          "sectionHeading": null,
-          "effectiveLabel": "Address, ZIP",
-          "captionReadAt": {
-            "page": 1,
-            "y": 539,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.zip",
-          "kind": "text",
-          "document": "PA-RCRIM-P-790-PETITION"
-        },
-        {
           "field": "CPDocketNumber",
           "widgetName": "CPDocketNumber",
           "page": 1,
@@ -6010,8 +6057,97 @@
           "document": "PA-RCRIM-P-790-PETITION",
           "why": "the platform holds no value for this and the participant supplies it before filing: what the form asks for beside \"Docket No: CP- ---20\"",
           "participantMustSupply": "what the form asks for beside \"Docket No: CP- ---20\""
+        },
+        {
+          "field": "AddrState",
+          "widgetName": "AddrState",
+          "page": 1,
+          "rect": {
+            "x": 207.72,
+            "y": 551.76,
+            "width": 18.21,
+            "height": 10.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "CASE INFORMATION",
+          "printedLine": "CASE INFORMATION",
+          "regionHeading": "Address, state",
+          "sectionHeading": null,
+          "effectiveLabel": "Address, state",
+          "captionReadAt": {
+            "page": 1,
+            "y": 539,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "kind": "text",
+          "document": "PA-RCRIM-P-790-PETITION",
+          "factId": "participant.state",
+          "reason": "value_exceeds_form_max_length",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field AddrState",
+          "heldButNotPrinted": "Pennsylvania",
+          "refusalMeasurement": {
+            "maxLength": 2,
+            "valueLength": 12,
+            "minFontSize": null,
+            "requiredWidthAtMin": null,
+            "usableWidth": 14.21,
+            "horizontalPadding": 4,
+            "widgetRectWidth": 18.21
+          },
+          "why": "the platform HOLDS this value and the form's own blank cannot carry it: value_exceeds_form_max_length. It is not truncated and it is not shrunk below the readable-font floor, so the blank is left for the participant to complete by hand before filing.",
+          "participantMustSupply": "Address, state"
+        },
+        {
+          "field": "AddrZip",
+          "widgetName": "AddrZip",
+          "page": 1,
+          "rect": {
+            "x": 227.75,
+            "y": 552.5,
+            "width": 31.85,
+            "height": 10.22
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "CASE INFORMATION",
+          "printedLine": "CASE INFORMATION",
+          "regionHeading": "Address, ZIP",
+          "sectionHeading": null,
+          "effectiveLabel": "Address, ZIP",
+          "captionReadAt": {
+            "page": 1,
+            "y": 539,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "kind": "text",
+          "document": "PA-RCRIM-P-790-PETITION",
+          "factId": "participant.zip",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field AddrZip",
+          "heldButNotPrinted": "18702-2214",
+          "refusalMeasurement": {
+            "maxLength": null,
+            "valueLength": 10,
+            "minFontSize": 6,
+            "requiredWidthAtMin": 32,
+            "usableWidth": 27.85,
+            "horizontalPadding": 4,
+            "widgetRectWidth": 31.85
+          },
+          "why": "the platform HOLDS this value and the form's own blank cannot carry it: value_exceeds_widget_width_at_minimum_font. It is not truncated and it is not shrunk below the readable-font floor, so the blank is left for the participant to complete by hand before filing.",
+          "participantMustSupply": "Address, ZIP"
         }
-      ]
+      ],
+      "boundaryColumnsMeasured": true
     },
     {
       "formNumber": "PA-RCRIM-P-790-ORDER",
@@ -7769,78 +7905,8 @@
           "why": "the platform holds no value for this and the participant supplies it before filing: the amount of any fine, costs or restitution still due, or nothing if none is",
           "participantMustSupply": "the amount of any fine, costs or restitution still due, or nothing if none is"
         }
-      ]
-    },
-    {
-      "formNumber": "process_guidance",
-      "documentPolicy": {
-        "mode": "participant",
-        "captionOnly": false,
-        "documentAcceptsFill": true,
-        "routeKey": "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route"
-      },
-      "structuralClass": "composed_document",
-      "explicitMappings": {},
-      "roleRefusals": [],
-      "selectionControls": [],
-      "canonicalWrites": [
-        {
-          "field": "process_guidance.petitioner_name",
-          "page": 1,
-          "printedLabel": "Petitioner named on this page",
-          "printedLine": "Petitioner named on this page",
-          "effectiveLabel": "Petitioner named on this page",
-          "regionHeading": "Petitioner named on this page",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "factId": "participant.full_legal_name",
-          "kind": "composed_text",
-          "document": "process_guidance"
-        },
-        {
-          "field": "process_guidance.case_number",
-          "page": 1,
-          "printedLabel": "Case No. printed on this page",
-          "printedLine": "Case No. printed on this page",
-          "effectiveLabel": "Case No. printed on this page",
-          "regionHeading": "Case No. printed on this page",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "factId": "matter.case_number",
-          "kind": "composed_text",
-          "document": "process_guidance"
-        }
       ],
-      "canonicalRefusals": [],
-      "boundaryWrites": [
-        {
-          "field": "process_guidance.petitioner_name",
-          "page": 1,
-          "printedLabel": "Petitioner named on this page",
-          "printedLine": "Petitioner named on this page",
-          "effectiveLabel": "Petitioner named on this page",
-          "regionHeading": "Petitioner named on this page",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "factId": "participant.full_legal_name",
-          "kind": "composed_text",
-          "document": "process_guidance"
-        },
-        {
-          "field": "process_guidance.case_number",
-          "page": 1,
-          "printedLabel": "Case No. printed on this page",
-          "printedLine": "Case No. printed on this page",
-          "effectiveLabel": "Case No. printed on this page",
-          "regionHeading": "Case No. printed on this page",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "factId": "matter.case_number",
-          "kind": "composed_text",
-          "document": "process_guidance"
-        }
-      ],
-      "boundaryRefusals": []
+      "boundaryColumnsMeasured": true
     }
   ],
   "generationAllowed": false,

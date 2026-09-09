@@ -209,6 +209,34 @@ const FAMILIES = Object.freeze({
      * not set on them.
      */
     withdrawRouteTextControlsForRowIntegrity: true,
+    /*
+     * FIX14, CLIPPING_AND_OVERLAP on all four delivered CR-180s.
+     *
+     * The CR-409 shape FIX06 root-caused and VF07 confirmed on CR-400, on the
+     * last CR-180 family that still carried it. CR-180's AcroForm /Fields array
+     * holds one nested root and its footer controls hang below it, so the flat
+     * scan in detachFromAcroForm removed nothing, updateFieldAppearances
+     * regenerated the privacy banner from its caption, and flatten() stamped it
+     * BELOW the form's own "CR-180 [Rev. January 1, 2024] PETITION FOR DISMISSAL
+     * Page 3 of 3" footer: one clipped line reading "otection and privacy,
+     * please press the Clear This Form button after you have Print", cut at both
+     * ends, with the Print/Save/Clear captions overprinting it ("printedthis /
+     * the form / form").
+     *
+     * It is introduced here and not preserved from the source. Page 3 of the
+     * pinned Master Library CR-180 at 06c1b643 and of this family's own
+     * derived-sources/cr-180-pikepdf-unlocked.pdf both lay the banner out
+     * correctly, on two lines, as live viewer chrome. The finalizer already
+     * classifies these controls SUPPRESS_CONTROL_APPEARANCE and already calls
+     * the detachment; only the nesting defeated it. With the flag set, page 3
+     * ends at the issuer's own footer, which is what the four sibling CR-180
+     * families (ca-1203-41/42/43/4a) already deliver.
+     *
+     * "Press the Clear This Form button" is a viewer instruction, not filing
+     * content: suppressing it removes no petition text and no issuer statement
+     * a filer acts on.
+     */
+    detachNestedControlFields: true,
   },
   "ca-851-91-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",

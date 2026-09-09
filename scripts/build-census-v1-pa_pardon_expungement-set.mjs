@@ -51,6 +51,7 @@ import { finalizeOfficialForm, PARTICIPANT_INK, SELECTION_INSET, SELECTION_LINE_
 import { extractPageGeometry } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
+import { HORIZONTAL_PADDING, usableWidthOf } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -122,7 +123,7 @@ const DOCUMENT_OF_COMPONENT = {
  * a regeneration of product-wiring.json from the queue would drop the guidance
  * component again until the census names it.
  */
-function packetComponentsFromManifest(familyId) {
+function declaredComponents(familyId) {
   const manifests = JSON.parse(fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFESTS), "utf8"));
   const set = (manifests.packetSets ?? []).find((p) => p.packetSetId === familyId);
   assert.ok(set, `${PACKET_SET_MANIFESTS} declares no packet set ${familyId}`);
@@ -134,7 +135,52 @@ function packetComponentsFromManifest(familyId) {
   for (const role of roles) {
     assert.ok(COMPONENTS.includes(role), `the manifest declares a ${role} component this builder does not render`);
   }
-  return declared.map((c) => `component:${c.componentId}`);
+  return declared;
+}
+
+function packetComponentsFromManifest(familyId) {
+  return declaredComponents(familyId).map((c) => `component:${c.componentId}`);
+}
+
+/*
+ * THE ORDER THE PACKET IS BOUND IN, TAKEN FROM THE MANIFEST RATHER THAN FROM A
+ * CONSTANT IN THIS FILE.
+ *
+ * The manifest declares process_guidance at order 1, the petition at 2 and the
+ * order at 3. This builder used to append the two official forms first and the
+ * composed guidance pages last, because the assembly loop ran over the resolved
+ * SOURCES and the guidance -- which has no source -- was added after the loop
+ * ended. Nothing chose that order; it fell out of the loop's shape, and no
+ * record in the family declared a rationale for it.
+ *
+ * The consequence was on the paper. The guidance page's own first heading is
+ * READ THIS BEFORE YOU FILE ANYTHING, and its content is the part that tells
+ * the participant whether they need to file at all -- for an unconditional
+ * pardon the AOPC quarterly route may already have cleared the record, in which
+ * case there is nothing here to file and nothing to pay for. A participant
+ * reading the packet in the order it was bound met the petition first and that
+ * sentence on page 4.
+ *
+ * So the order is read from the manifest and the assembly follows it. The
+ * manifest is the authority on what this packet set contains and in what
+ * sequence; this file is not.
+ */
+function componentOrderFromManifest(familyId) {
+  return declaredComponents(familyId).map((c) => c.role);
+}
+
+/* What the manifest says about WHETHER each component is generated. The field
+ * map carried componentConditions null, so the manifest's conditional-generation
+ * rule -- both official forms are generated only where the automatic route has
+ * not cleared the record -- was not carried in the delivered record at all, and
+ * a reader of the map would take all three components for unconditional. */
+function componentConditionsFromManifest(familyId) {
+  return declaredComponents(familyId).map((c) => ({
+    componentId: c.componentId, role: c.role, order: c.order ?? null,
+    requirement: c.requirement ?? null,
+    conditionDescription: c.conditionDescription ?? null,
+    basis: `${PACKET_SET_MANIFESTS} packetSets[packetSetId=${familyId}].components`
+  }));
 }
 
 function declarePacketComponents(outDir, familyId) {
@@ -583,7 +629,7 @@ async function byteProof(source, census, file, report, fixtureName) {
 }
 
 /* ---- the composed instructions component ---------------------------------- */
-function composedBody(config, facts, resolved) {
+function composedBody(config, facts, resolved, heldButNotPrinted = []) {
   const L = [];
   L.push("PROCESS GUIDANCE: WHICH OF THE TWO ROUTES YOU ARE IN", "");
   L.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
@@ -603,6 +649,24 @@ function composedBody(config, facts, resolved) {
   L.push("IF YOU DO FILE", "");
   L.push("File the petition with the Clerk of Courts. The order in this packet is tendered WITH the petition -- it is the order the judge signs, not a document you fill in or sign. The platform has written only the style of the case into it. Do not sign the order.", "");
   L.push("The petition asks for a great deal the platform does not hold: the presiding official who heard the case and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, and every charge row with its title, section, subsection, description, counts, grade and disposition. All of it is listed in this packet's participant instructions, by the words printed beside each blank.", "");
+  /*
+   * A blank the packet HOLDS a value for and could not print is a different
+   * thing from a blank nobody holds anything for, and the participant is the
+   * only person who can close it. It is stated here, on the paper they are
+   * handed, and not only in participant-instructions.md -- a blank disclosed
+   * solely in a file that does not travel with the packet is not disclosed to
+   * the person filing it. The list is measured from THIS fixture's own render,
+   * so a packet with nothing to report says nothing.
+   */
+  if (heldButNotPrinted.length > 0) {
+    L.push("BLANKS THIS PACKET HOLDS A VALUE FOR AND COULD NOT PRINT", "");
+    L.push("The blanks below are ones the platform has your answer for. It did not print them, because your answer is longer than the blank the official form draws, and this packet will not shorten one of your own details to make it fit or print it too small to read. Write each one in by hand, in the shorter form the blank has room for, before you file:", "");
+    for (const h of heldButNotPrinted) {
+      L.push(`- ${h.form}, "${h.label}"${h.held ? `: the packet holds ${h.held}` : ""}.`);
+    }
+    L.push("");
+    L.push("Nothing was truncated and nothing was guessed. This packet's field map records each of these blanks against the value held and the measurement that would not fit.", "");
+  }
   L.push("STOP AND GET HELP", "");
   L.push("- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.");
   L.push("- You cannot determine from the pardon document whether it is conditional or unconditional.");
@@ -664,9 +728,45 @@ function composedMap(config) {
 /* ---- field map ------------------------------------------------------------ */
 const OFFROUTE_REASON = (why) => `${why}; this branch of the form is never populated with participant data on this route`;
 
-function officialFieldMap(source, census, report, config, marks = []) {
+/*
+ * THE BOUNDARY COLUMNS ARE MEASURED, NOT COPIED.
+ *
+ * This function used to end with `boundaryWrites: canonicalWrites,
+ * boundaryRefusals: canonicalRefusals` -- the canonical fixture's results
+ * relabelled as the boundary fixture's. It was only ever handed the CANONICAL
+ * render's report, so the invariant below ("mapped as a write and the finalizer
+ * did not write it") could only ever be true of the canonical fixture, and the
+ * boundary columns asserted writes that nothing had measured.
+ *
+ * That is a source-authored default, and on this family it was contradicted by
+ * the delivered page. The boundary fixture holds participant.state
+ * "Pennsylvania" and participant.zip "18702-2214". The finalizer refused both,
+ * correctly and for reasons it recorded: the petition's AddrState widget offers
+ * 14.21pt of usable width and carries the form's own /MaxLen, and "Pennsylvania"
+ * needs 35.23pt at the 6pt minimum readable size; AddrZip offers 27.85pt and
+ * "18702-2214" needs 32.02pt at the same minimum. Neither value can be printed
+ * in the blank the issuer drew without either truncating a participant's fact or
+ * dropping below the readable-font floor, and this build does neither. But the
+ * map said both were written, no refusal was recorded anywhere, and the page
+ * showed "Wilkes-Barre Township" and nothing after it.
+ *
+ * So the boundary report is passed in and the boundary columns are built from
+ * it. A mapped write that the boundary render refused now appears as a boundary
+ * refusal carrying the finalizer's own reason and its measured numbers, and the
+ * assertion below is extended to the boundary fixture in the only form that can
+ * hold there: a mapped write must be EITHER written OR recorded as refused. It
+ * may not simply be missing from both.
+ */
+function officialFieldMap(source, census, report, config, marks = [], boundaryReport = null, boundaryFacts = null) {
   const written = new Set(report.written.map((w) => w.field));
+  const boundaryWritten = new Set((boundaryReport?.written ?? []).map((w) => w.field));
+  const boundaryRefusedBy = new Map((boundaryReport?.refused ?? []).map((r) => [r.field, r]));
+  /* report.refused carries the reason; report.unfittable carries the numbers the
+   * reason was measured against. A refusal a reader cannot check is a refusal a
+   * reader is right to reject, so both are disclosed. */
+  const boundaryUnfittable = new Map((boundaryReport?.unfittable ?? []).map((r) => [r.field, r]));
   const canonicalWrites = []; const canonicalRefusals = []; const selectionControls = [];
+  const boundaryWrites = []; const boundaryRefusals = [];
   for (const r of census.rows) {
     const base = {
       field: r.key, widgetName: r.name, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
@@ -677,6 +777,37 @@ function officialFieldMap(source, census, report, config, marks = []) {
     if (r.policy === "write") {
       assert.ok(written.has(r.name), `${source.formNumber} ${r.key} is mapped as a write and the finalizer did not write it`);
       canonicalWrites.push({ ...base, factId: r.fact, kind: r.type, document: source.formNumber });
+      if (boundaryReport) {
+        if (boundaryWritten.has(r.name)) {
+          boundaryWrites.push({ ...base, factId: r.fact, kind: r.type, document: source.formNumber });
+        } else {
+          const refusal = boundaryRefusedBy.get(r.name);
+          assert.ok(refusal, `${source.formNumber} ${r.key} is mapped as a write, the boundary render did not write it, and the finalizer recorded no refusal for it`);
+          const held = boundaryFacts ? boundaryFacts[r.fact] : undefined;
+          const fit = boundaryUnfittable.get(r.name) ?? {};
+          boundaryRefusals.push({
+            ...base, kind: r.type, document: source.formNumber, factId: r.fact,
+            reason: refusal.reason,
+            category: null, completenessClass: null, class: null,
+            requiredBeforeFiling: true, routeDetermined: false,
+            identity: `${source.formNumber} field ${r.key}`,
+            heldButNotPrinted: held === undefined || held === null ? null : String(held),
+            refusalMeasurement: {
+              maxLength: refusal.maxLength ?? fit.maxLength ?? null,
+              valueLength: refusal.valueLength ?? (held === undefined || held === null ? null : String(held).length),
+              minFontSize: refusal.minFontSize ?? fit.minFontSize ?? null,
+              requiredWidthAtMin: refusal.requiredWidthAtMin ?? fit.requiredWidthAtMin ?? null,
+              usableWidth: typeof r.rect?.width === "number" ? usableWidthOf(r.rect) : null,
+              horizontalPadding: HORIZONTAL_PADDING,
+              widgetRectWidth: r.rect?.width ?? null
+            },
+            why: `the platform HOLDS this value and the form's own blank cannot carry it: ${refusal.reason}. `
+              + "It is not truncated and it is not shrunk below the readable-font floor, so the blank is left for "
+              + "the participant to complete by hand before filing.",
+            participantMustSupply: r.effectiveLabel
+          });
+        }
+      }
       continue;
     }
     if (r.policy === "select") {
@@ -743,7 +874,12 @@ function officialFieldMap(source, census, report, config, marks = []) {
     component: FORMS[source.formNumber].component,
     explicitMappings: Object.fromEntries(census.rows.filter((r) => r.policy === "write").map((r) => [r.name, r.fact])),
     roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
-    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+    /* Both fixtures refuse the same POLICY blanks -- a signature is protected on
+     * every fixture -- so the canonical refusals carry over. What does not carry
+     * over is a mapped write, which is measured per fixture above. */
+    boundaryWrites: boundaryReport ? boundaryWrites : canonicalWrites,
+    boundaryRefusals: boundaryReport ? [...canonicalRefusals, ...boundaryRefusals] : canonicalRefusals,
+    boundaryColumnsMeasured: Boolean(boundaryReport)
   };
 }
 
@@ -816,7 +952,9 @@ function builderCounters(maps, actualWrites, instructionsText) {
 }
 
 function requiredBeforeFilingItems(maps, config) {
-  const order = Object.fromEntries([...ORDER_OF_DOCUMENTS, "process_guidance"].map((f, i) => [f, i]));
+  /* The order the participant meets the blanks in, which is the order the
+   * packet is bound in: the manifest puts process_guidance first. */
+  const order = Object.fromEntries(["process_guidance", ...ORDER_OF_DOCUMENTS].map((f, i) => [f, i]));
   const widgetItems = maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
     document: m.formNumber, field: r.field, page: r.page, y: r.rect?.y ?? null,
     printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
@@ -860,6 +998,10 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Clerk of Courts of the judicial district where the charges were disposed** — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the **Court of Common Pleas** of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.", "");
   out.push("The petition prints a `Judicial District number` and a `County of ______` line on page 1, and those identify the district you are filing in. If you do not know which district your case was in, the docket number on your paperwork identifies it, and the Clerk of Courts can tell you from the docket number.", "");
+  out.push("## Check the address block on page 1 of the petition before you file", "");
+  out.push("The platform prints your address into the `CASE INFORMATION` block on page 1 of the petition. Two of those blanks are very small: the state blank is a **two-character** blank — the form itself declares that limit — and the ZIP blank is about 28 points wide, which is a five-digit ZIP and no more.", "");
+  out.push("Where the value the platform holds for you is longer than the blank the form draws, **this packet leaves that blank empty rather than shortening your address to make it fit.** It will not print `Pennsylvania` as `PA`, and it will not print a ZIP+4 such as `18702-2214` with the last four digits cut off, because a shortened address on a sworn petition is a different address from the one you gave. Nothing is truncated and nothing is printed at a size too small to read.", "");
+  out.push("So look at that block before you file. **If the state or the ZIP is blank, write it in by hand** in the form the blank has room for — the two-letter state abbreviation, and the five-digit ZIP. The packet's field map records each such blank against the value the platform holds and the measurement that would not fit, so you can check for yourself that nothing was lost silently.", "");
   out.push("**Before you file, order your Pennsylvania State Police criminal history report.** Rule 790 requires a report obtained **within 60 days before filing** to be attached, unless the Commonwealth waives it. Because of that 60-day window, order it late in your preparation rather than first. If you do not attach one, the petition has a blank asking you to say why.", "");
   out.push("**After you file, the petition is served on the Commonwealth** — the District Attorney, as the attorney for the Commonwealth — and the Commonwealth then has **60 days** from service to consent, object, or do nothing. After that window the judge grants the petition, denies it, or schedules a hearing. If it is granted without the Commonwealth's consent, the order is **stayed for 30 days** while an appeal may be taken. Keep your proof of service with your copy of the packet.", "");
   out.push("**What filing costs.** Pennsylvania filing fees are set county by county, and no held source in this repository states the fee for your county. Across the state they are reported in the range of roughly **$132 to $215**, with expungement petitions typically costing more than limited-access petitions; treat that as a range to expect, not as your county's figure. Ask the **Clerk of Courts of the judicial district where the charges were disposed** for the current fee. If you cannot pay it, Pennsylvania publishes statewide *in forma pauperis* forms for the Court of Common Pleas; this packet does **not** include one, and the same Clerk of Courts can tell you how to file that way.", "");
@@ -900,14 +1042,16 @@ function instructionsMarkdown(config, resolved, rbf) {
 
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
-  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped } = ctx;
+  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped,
+    componentOrder, componentConditions } = ctx;
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId, routeKeys: config.routeKeys, routeSelectionId: config.routeSelectionId,
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
-    componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
+    componentSet: componentOrder, documentOfComponent: DOCUMENT_OF_COMPONENT,
+    componentConditions,
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: [],
@@ -928,7 +1072,7 @@ function writeArtifacts(ctx) {
   }, null, 2)}\n`);
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
-    componentSet: COMPONENTS, artifacts,
+    componentSet: componentOrder, artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
@@ -1029,6 +1173,9 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const sub of ["fixtures", "reports", "raster"]) fs.mkdirSync(path.join(ROOT, outDir, sub), { recursive: true });
   const maps = []; const artifacts = []; const writeProofs = []; const rasterPages = [];
+  const renderRecord = { canonical: [], boundary: [] };
+  const componentOrder = componentOrderFromManifest(familyId);
+  const componentConditions = componentConditionsFromManifest(familyId);
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
@@ -1040,6 +1187,12 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     const packetFixedDate = new Date(FIXED_DATE);
     packet.setCreationDate(packetFixedDate); packet.setModificationDate(packetFixedDate);
     const pageManifest = []; const documents = [];
+
+    /* The forms are FILLED first and BOUND second. Filling first is what lets the
+     * guidance page state, on the paper, which blanks this fixture's own render
+     * could not carry; binding second is what puts that page where the manifest
+     * declares it, at order 1. */
+    const filledForms = [];
     for (const { source, census } of censuses) {
       const { bytes: filled, report } = await renderDocument(source, census, fixtureName);
       const selections = census.rows.filter((r) => r.policy === "select")
@@ -1068,22 +1221,42 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
         nonTextAppearancesNotCounted: proof.nonTextAppearances,
         actualWrites: proof.actualWrites
       });
-      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      for (const [i, p] of (await packet.copyPages(doc, doc.getPageIndices())).entries()) {
-        packet.addPage(p);
-        pageManifest.push({ packetPage: packet.getPageCount(), component: FORMS[source.formNumber].component, documentId: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
-      }
-      documents.push(FORMS[source.formNumber].component, source.formNumber);
-      if (fixtureName === "canonical") maps.push(officialFieldMap(source, census, report, config, marks));
+      filledForms.push({ source, census, bytes, report, marks });
+      renderRecord[fixtureName].push({ source, census, report, marks });
     }
-    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved), "Process Guidance: Which of the Two Routes You Are In");
+
+    /* THE BIND, IN THE MANIFEST'S DECLARED COMPONENT ORDER.
+     *
+     * process_guidance is order 1, so it is bound first and the participant
+     * meets READ THIS BEFORE YOU FILE ANYTHING on page 1 rather than on page 4
+     * behind two conditional forms. */
+    assert.equal(componentOrder[0], "process_guidance",
+      `the manifest declares ${componentOrder[0]} at order 1 and this builder binds process_guidance first; the two no longer agree`);
+    const heldButNotPrinted = filledForms.flatMap(({ source, census, report }) => {
+      const written = new Set(report.written.map((w) => w.field));
+      return census.rows
+        .filter((r) => r.policy === "write" && !written.has(r.name))
+        .map((r) => ({
+          form: source.formNumber, label: r.effectiveLabel,
+          held: facts[r.fact] === undefined || facts[r.fact] === null ? null : String(facts[r.fact])
+        }));
+    });
+    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved, heldButNotPrinted), "Process Guidance: Which of the Two Routes You Are In");
     const instrDoc = await PDFDocument.load(instrBytes, { ignoreEncryption: true });
-    for (const [i, p] of (await packet.copyPages(instrDoc, instrDoc.getPageIndices())).entries()) {
-      packet.addPage(p);
+    for (const [i, pg] of (await packet.copyPages(instrDoc, instrDoc.getPageIndices())).entries()) {
+      packet.addPage(pg);
       pageManifest.push({ packetPage: packet.getPageCount(), component: "process_guidance", documentId: "process_guidance", sourcePage: i + 1, sourceSha256: null });
     }
     documents.push("process_guidance");
-    if (fixtureName === "canonical") maps.push(composedMap(config));
+
+    for (const { source, bytes } of filledForms) {
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      for (const [i, pg] of (await packet.copyPages(doc, doc.getPageIndices())).entries()) {
+        packet.addPage(pg);
+        pageManifest.push({ packetPage: packet.getPageCount(), component: FORMS[source.formNumber].component, documentId: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
+      }
+      documents.push(FORMS[source.formNumber].component, source.formNumber);
+    }
 
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${outDir}/fixtures/${fixtureName}.pdf`;
@@ -1092,7 +1265,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       fixture: fixtureName, file,
       sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
-      documents, components: COMPONENTS
+      documents, components: componentOrder
     });
 
     if (!skipRaster) {
@@ -1119,6 +1292,16 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
+  /* Maps are built AFTER both fixtures have rendered, in the manifest's declared
+   * component order, so the boundary columns can be measured from the boundary
+   * render rather than copied from the canonical one. */
+  maps.push(composedMap(config));
+  for (const { source, census, report, marks } of renderRecord.canonical) {
+    const boundary = renderRecord.boundary.find((b) => b.source.formNumber === source.formNumber);
+    assert.ok(boundary, `no boundary render was recorded for ${source.formNumber}`);
+    maps.push(officialFieldMap(source, census, report, config, marks, boundary.report, FIXTURES.boundary));
+  }
+
   const rbf = requiredBeforeFilingItems(maps, config);
   const instructions = instructionsMarkdown(config, resolved, rbf);
   const audit = builderCounters(maps, {
@@ -1130,7 +1313,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }))
   }, instructions);
 
-  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped: skipRaster });
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped: skipRaster,
+    componentOrder, componentConditions });
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   return {
     familyId, status: allZero ? "COMPLETED" : "STOPPED",
