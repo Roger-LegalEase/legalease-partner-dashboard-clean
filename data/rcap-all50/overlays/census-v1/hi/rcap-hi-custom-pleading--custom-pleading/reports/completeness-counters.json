@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-builder-completeness-counters/v1",
+  "familyId": "rcap-hi-custom-pleading",
+  "whatThisIs": "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract functions over this family's field map, its byte-derived glyph readings and its participant-instructions.md.",
+  "whatThisIsNot": "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central raster workflow.",
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "allNineZero": true,
+  "howEachWasMeasured": {
+    "knownRequiredFieldsMissing": "classifyBlank over every blank in the field map",
+    "requiredFactsNotCollected": "every required-before-filing blank searched for by label, id and identity in participant-instructions.md",
+    "unclassifiedBlanks": "classifyBlank over every blank in the field map",
+    "incompleteRows": "rowKeyOf over every field; this packet declares no repeating table, so no row group was formed and none could be partly written",
+    "requiredOptionsMissing": "classifyBlank over every blank in the field map",
+    "requiredComponentsMissing": "the committed registry's own packetSet for each of the five routes, compared against the components this build produced",
+    "invisibleWrites": "per artifact and per page, from the byte-derived glyph readings; a component that declares writes and added no glyph to its page is counted",
+    "protectedWrites": "classifyField over every write's printed label",
+    "visualDefects": "the byte-derived count of added glyphs landing outside a measured write box"
+  },
+  "findings": [],
+  "blankDispositions": {
+    "REQUIRED_BEFORE_FILING": 114,
+    "PROTECTED_FIELD": 50,
+    "OPTIONAL_PARTICIPANT_CONTENT": 5,
+    "LATER_COMPLETION": 6,
+    "NOT_APPLICABLE_ON_THIS_ROUTE": 5
+  }
+}
