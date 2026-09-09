@@ -33,6 +33,8 @@ The petitioner signs and verifies the Request. A wet signature is expected. The 
 
 Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
 
+This packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.
+
 - Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
 - Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
 - Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
@@ -92,6 +94,61 @@ Complete every applicable case, outcome, financial, and participant item listed 
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
 
+### The boxes only you can tick
+
+The list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.
+
+This packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:
+
+- 5 - Checkboxes — FW-CIV-APPLICATION page 1
+- 10 - SSI — FW-CIV-APPLICATION page 1
+- 11 - AABD — FW-CIV-APPLICATION page 1
+- 12 - GA — FW-CIV-APPLICATION page 1
+- 13 - SNAP — FW-CIV-APPLICATION page 1
+- 14 - TANF — FW-CIV-APPLICATION page 1
+- 15 - Checkboxes — FW-CIV-APPLICATION page 2
+- 16 - Checkboxes — FW-CIV-APPLICATION page 2
+- 17 - No Income — FW-CIV-APPLICATION page 2
+- 18 - My Employment — FW-CIV-APPLICATION page 2
+- 20 - Social Security — FW-CIV-APPLICATION page 2
+- 22 - Child Support — FW-CIV-APPLICATION page 2
+- 24 - Unemployment — FW-CIV-APPLICATION page 2
+- 26 - Pension — FW-CIV-APPLICATION page 2
+- 28 - Money from Other Household Members — FW-CIV-APPLICATION page 2
+- 30 - Other Income — FW-CIV-APPLICATION page 2
+- 38 - No Income — FW-CIV-APPLICATION page 2
+- 39 - My Employment — FW-CIV-APPLICATION page 2
+- 41 - Social Security — FW-CIV-APPLICATION page 2
+- 43 - Child Support — FW-CIV-APPLICATION page 2
+- 45 - Unemployment — FW-CIV-APPLICATION page 2
+- 47 - Pension — FW-CIV-APPLICATION page 2
+- 49 - Money from Other Household Members — FW-CIV-APPLICATION page 2
+- 51 - Other Income — FW-CIV-APPLICATION page 2
+- 59 - Rent — FW-CIV-APPLICATION page 3
+- 61 - Home Mortgage — FW-CIV-APPLICATION page 3
+- 63 - Other Mortgage — FW-CIV-APPLICATION page 3
+- 65 - Utilities — FW-CIV-APPLICATION page 3
+- 67 - Food — FW-CIV-APPLICATION page 3
+- 69 - Medical — FW-CIV-APPLICATION page 3
+- 71 - Vehicle — FW-CIV-APPLICATION page 3
+- 73 - Childcare — FW-CIV-APPLICATION page 3
+- 75 - Child Support — FW-CIV-APPLICATION page 3
+- 77 - Other Checkbox — FW-CIV-APPLICATION page 3
+- 85 - None of the Above — FW-CIV-APPLICATION page 3
+- 86 - Bank Accounts and Cash — FW-CIV-APPLICATION page 3
+- 88 - Home — FW-CIV-APPLICATION page 3
+- 91 - Other Real Estate — FW-CIV-APPLICATION page 3
+- 93 - 1st Vehicle Worth — FW-CIV-APPLICATION page 3
+- 95 - Yes/No — FW-CIV-APPLICATION page 3
+- 96 - 2nd Vehicle Worth — FW-CIV-APPLICATION page 3
+- 98 - Yes/No — FW-CIV-APPLICATION page 3
+- 99 - Other — FW-CIV-APPLICATION page 3
+- 106 - Other — FW-CIV-APPLICATION page 3
+- 111 - Checkboxes — FW-CIV-APPLICATION page 4
+- Last - Lawyer completing the form checkbox — FW-CIV-APPLICATION page 4
+
+Do not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.
+
 Attach certified dispositions and any route-specific evidence identified above.
 
 ## What it costs, and the waiver
@@ -116,4 +173,15 @@ The filing destination is the Circuit clerk of the county of arrest or charge. F
 
 ## Stop and get help
 
-Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.
+Stop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.
+
+- The State's Attorney, ISP, the arresting agency or the chief legal officer files an objection.
+- The court sets a contested hearing.
+- The disposition on the transcript is ambiguous or contested.
+- A case appears on the transcript that the participant does not recognize, which may indicate identity theft.
+- The participant has federal or out-of-state records, which an Illinois court cannot reach.
+- Immigration consequences are in play.
+- A motion to vacate, modify or reconsider is filed under § 5.2(d)(12).
+- The petition is denied.
+
+Two of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.
