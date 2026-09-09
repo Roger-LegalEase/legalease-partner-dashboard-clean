@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e18e837bd5a789f634633124cef6665967aae9d5",
+  "generatedAtCommit": "e673b058867e4ccd335314ef845a5a88362b89bb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4808,21 +4808,6 @@
         "la-985-expungement-by-redaction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "la-985-expungement-by-redaction-set",
-      "familyId": "la-985-expungement-by-redaction-set",
-      "itemId": null,
-      "familyIds": [
-        "la-985-expungement-by-redaction-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF13",
       "laneKind": "packet-build",
@@ -7103,11 +7088,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T13:21:40.396Z",
-      "releaseReason": "FIX14 b01cc697f: repaired and measured on the bytes, each with a negative control that fires pre-repair"
+      "releasedAt": "2026-09-09T13:21:40.396Z"
     },
     {
       "subjectType": "packet-family",
@@ -14049,7 +14033,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "66293974978683773de31a27812b348b2769dd72fbe405e7d650d605342282e0",
+  "claimsDigest": "1952ef9c0ac1498320e37baa58fa5f4ae5a4a2f5b3cbb257b17cf05454f59ff2",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56675,6 +56659,14 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "withdrawnAt": "2026-09-09T22:31:08Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "withdrawnAt": "2026-09-09T22:35:58Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

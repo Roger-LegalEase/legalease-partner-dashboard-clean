@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e18e837bd5a789f634633124cef6665967aae9d5",
+  "minimumCaptainSha": "e673b058867e4ccd335314ef845a5a88362b89bb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "edf3ee9c1ef657ab802186b455687182787878e6f12c9064b31956236ff67492",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "f342cafa6e611ff6ac395b5bcbc74d14867744110d2a6ef1539b99045728d36b",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -69,22 +69,22 @@
     "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
     "remaining": 337,
-    "sourceReady": 35,
+    "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 18,
-    "verifyPending": 15,
-    "repairRequired": 14,
+    "verifyPending": 12,
+    "repairRequired": 16,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 191,
+    "COMPLETE_PACKET_PROVEN": 192,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 18,
-    "BUILT_RASTER_PENDING": 19,
-    "SOURCE_READY": 35,
-    "VERIFY_PENDING": 15,
-    "FAIL_REPAIR_REQUIRED": 23,
+    "BUILT_RASTER_PENDING": 21,
+    "SOURCE_READY": 33,
+    "VERIFY_PENDING": 12,
+    "FAIL_REPAIR_REQUIRED": 25,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -168,10 +168,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 35,
-    "familiesPerBuilder": 1.5,
+    "sourceReadyFamilies": 33,
+    "familiesPerBuilder": 1.4,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 35 do, so a full roster of 24 builders averages 1.5 families each rather than 15 to 25.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 24 builders averages 1.4 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 8 source obligations across 24 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -23823,10 +23823,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909c.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -23857,27 +23857,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "All 37 declared writes produce readable ink and print on the page they belong to; that half is sound. Six of them, however, are not facts. On the Article 989 motion the build writes: original_arrest_charges = 'Original arrest charge and statute for each count exactly as they appear on the state rap sheet', which is the field's own printed prompt written back into the field as its answer; disposition_type = 'Disposition wording from the canonical fixture court record'; underlying_entitlement = 'Article 977 - misdemeanor conviction, as the fixture court record states it'; other_individuals_named = 'One other individual is named in the record of this arrest, as the fixture record states'; others_entitled = 'Not known to the fixture participant'; record_locations = '...as far as the fixture participant knows'. Five of the six are written a second time onto the Article 992 PROPOSED ORDER OF EXPUNGEMENT, the document a judge signs, at packet page 5. The boundary fixture repeats the pattern with longer prompt-restatements. Every one of the six is a REQUIRED participantInput on the controlling record - originalArrestCharges, dispositionType, underlyingEntitlement, otherIndividualsNamed, othersEntitled, recordLocations - so these are facts the route needs and the platform did not hold. The correct treatment was available and the same builder used it seven times over: race, gender, the last four SSN digits, the arrest or booking number, the SID number, the agency item number and the driver's licence number are all classified REQUIRED_BEFORE_FILING, left visibly blank, and named in the guide's 'What you must supply before filing' table. These six were instead classified written, so not one of them appears in that table, and the guide's lead-in tells the participant to 'Check every prefilled fact against your own court record', framing them as facts to check rather than prompts to replace. Two consequences make this an output defect rather than a fixture nicety. The build-harness word 'fixture' is printed four times on the face of a motion and a proposed order. And the cell the Louisiana State Police list of common fatal errors singles out - the original arrest charge, which the guide itself warns at line 141 must not be the amended charge and must not omit counts - carries nothing but a restatement of its own question. No other family I read this shift does this: az_certificate_second_chance-set, fl-self-defense-set, hi_nonconviction_expungement-set and all three Illinois families supply real-shaped participant facts in every written cell.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Coverage is otherwise very good: the guide carries all 20 registry items, all 6 selfHelpStopConditions, all 3 exclusions and all 4 unresolvedQuestions verbatim, numbered, with the count printed beside them, and all 7 blanks the field map classes REQUIRED_BEFORE_FILING appear in the 'What you must supply before filing' table with what to write. The failure is a false statement about this packet inside a required-before-filing item. participant-instructions.md item 5 of 18, and again at the obtain_document entry, prints the record's howToObtain verbatim: 'The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed.' This packet does not give the participant the Article 988 form. The guide itself says so 22 lines earlier, under 'What is not generated, and the condition the record states': the fee-waiver component 'is not generated'. The two statements are never reconciled, and the stakes are the Article 983(A) five-hundred-and-fifty-dollar cap, non-refundable even if the motion is denied, because item 5 also says 'Filing without it means paying the fee.' The builder solved exactly this problem for the OTHER not-generated component one line later - for the Article 993 supplemental sheet it adds 'ask the clerk of court for the Article 993 supplemental sheet rather than adding pages of your own' - and did not do the same for Article 988.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs",
@@ -24663,11 +24647,7 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24681,20 +24661,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-seal-court-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill",
       "ownedPaths": [
@@ -36691,11 +36681,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf08",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36725,33 +36717,40 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
         "KNOWN_PREFILLS",
-        "PAGE_ORDER"
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": "The defect the prior row recorded reproduces on the current bytes and was not repaired. The wiring record that a promotion would be read off omits the only component this packet set marks required, and declares both conditional components as though they were unconditional. The guidance content itself IS delivered - reports/rendered-artifacts.json componentSet names all three and pages 4-5 carry it - so this is a declaration defect, not a missing page, and it is repairable from the manifest.",
-          "findingReadFrom": "finding",
-          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[362] declares three components for pa_pardon_expungement-set: order 1 pa_pardon_expungement-process-guidance-1, role process_guidance, requirement REQUIRED; order 2 pa_pardon_expungement-primary-filing-2, role primary_filing, requirement conditional ('Generated only where the automatic route has not cleared the record after the quarterly cycle'); order 3 pa_pardon_expungement-proposed-order-3, role proposed_order, requirement conditional ('Accompanies the fallback petition'). product-wiring.json binding.packetComponents at this base names two - component:pa_pardon_expungement-primary-filing-2 and component:pa_pardon_expungement-proposed-order-3 - and omits the required one. Separately, production-field-map.json componentConditions is null, so the manifest's conditional-generation rule for the two forms is not carried in the delivered record at all."
-        },
-        {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "Two known facts are dropped silently on exactly the fixture that exists to test long values, with no refusal record and no disclosure, while the field map declares them written. The finalizer is capable of shrinking to fit - it shrinks a 39-character name into the order's caption box and a 45-character address into the petition's address widget on the same fixture - so this is a drop, not a policy. It is a source-authored default in boundaryWrites contradicted by the delivered appearance, and it is the class of defect that a reader of the record would never see.",
-          "findingReadFrom": "finding",
-          "evidence": "The canonical petition writes nine values including AddrState 'PA' and AddrZip '19107'. The boundary petition writes seven: AddrState and AddrZip are absent. The builder holds both facts for the boundary fixture ('participant.state': 'Pennsylvania', 'participant.zip': '18702-2214'). production-field-map.json lists AddrState and AddrZip under boundaryWrites - i.e. the record says the boundary fixture writes them. reports/actual-writes.json for the boundary petition reports valuesReportedByFinalizer 7 and lists neither, and records no refusal for either. Read off the rendered page, boundary page 1 shows 'Wilkes-Barre Township' with the state and ZIP positions empty; '18702' occurs nowhere in the boundary packet, and the only occurrences of 'Pennsylvania' are the form's own printed text."
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         },
         {
-          "obligation": "PAGE_ORDER",
-          "finding": "The guidance page is bound last and its own first heading is 'READ THIS BEFORE YOU FILE ANYTHING'. Its content is the part that tells the participant whether they need to file at all - 'If the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.' A participant who reads the packet in the order it is bound reaches the petition first and that sentence fourth. No record in the family declares a rationale for the inversion.",
-          "findingReadFrom": "finding",
-          "evidence": "The committed manifest declares component order 1 process_guidance, 2 primary_filing, 3 proposed_order. reports/rendered-artifacts.json pageManifest for both fixtures records the delivered assembly as page 1 primary_filing, pages 2-3 proposed_order, pages 4-5 process_guidance, and the rendered pages confirm it. production-field-map.json componentSet is written in the delivered order rather than the declared one, so the family's own record agrees with itself and disagrees with the manifest."
+          "obligation": "PROTECTED_FIELDS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
@@ -48239,11 +48238,7 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -48257,20 +48252,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading",
       "ownedPaths": [
@@ -48494,8 +48499,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf08",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -48524,11 +48536,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
@@ -49108,9 +49136,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 35,
+    "familiesAssignedToBuilders": 33,
     "sourceObligationsAssigned": 8,
-    "actualPromotedAndReleased": 35,
+    "actualPromotedAndReleased": 33,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
