@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f9ae4dccf3dd4cc7721b37fe3ba3091f57cbf3fd",
+  "minimumCaptainSha": "d3d26124001facaf59856ea4d61975f56849f973",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,14 +73,14 @@
     "sourceBlocked": 6,
     "legalBlocked": 14,
     "verifyPending": 1,
-    "repairRequired": 23,
+    "repairRequired": 22,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 175,
+    "COMPLETE_PACKET_PROVEN": 176,
     "GUIDANCE_READY": 14,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 37,
+    "FAIL_REPAIR_REQUIRED": 36,
     "SOURCE_READY": 73,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 6,
@@ -29076,14 +29076,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf15",
-        "verifiedAtBase": "0cc3c9b5c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf16",
+        "verifiedAtBase": "8eb587840",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29143,19 +29141,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "FAIL. A third record still disagrees about run 34058277654, and it is the family's own product record. It places a by-design boundary exclusion into documentsNotCovered, the field that means a canonical document the gate was asked for and did not render and on which acceptance-identity.mjs:257 fails a row outright - the same merge of the two questions that 1e95f1f06 records as having demoted de_mandatory_expungement-set. It names boundary.pdf under both questions inside one block. And it continues to assert, in wordsTakenFrom and whyThisReceiptIsTheOne, that it cannot drift from the queue and that the queue carries exactly this receipt; both are now false. No byte, digest, page count, run, job or rendered commit is implicated. The repair is records-only and narrow.",
-          "evidence": "MEASURED FRESH. This is the one obligation this read owes and the only one measured fresh. What is right, each recomputed rather than read: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 / 33154 B / 11 pages and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 / 33493 B / 11 pages. product-wiring censusV1Representation.fixtures pins exactly those six values; reports/rendered-artifacts.json pins exactly those six values in pdfs[]; the RASTER_QUEUE row pins the same two digests, expectedPages 11 and pageCountEvidence 11 for each document. Every digest and page count in every record agrees with an independent recomputation. What is wrong is not a byte and not a count: the records describing run 34058277654 do not say the same thing. The queue's rasterReceipt carries documentsNotCovered [], whatThisGateDidNotRender ['boundary.pdf'], coversTheWholeFamily true, everyCanonicalDocumentRendered true. product-wiring.json's acceptanceReceipt for the same run carries documentsNotCovered ['boundary.pdf'] and has no whatThisGateDidNotRender, no coversTheWholeFamily and no everyCanonicalDocumentRendered key. git log confirms product-wiring.json's last touch is 8bb1b82f0 and that neither 508723c5b nor 1e95f1f06 touched any family record."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
@@ -31485,7 +31475,7 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
+        "no fixtures directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -39152,7 +39142,9 @@
         "verifiedAtBase": "0cc3c9b5c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39321,7 +39313,9 @@
         "verifiedAtBase": "0cc3c9b5c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39488,7 +39482,9 @@
         "verifiedAtBase": "0cc3c9b5c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39750,7 +39746,9 @@
         "verifiedAtBase": "0cc3c9b5c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
