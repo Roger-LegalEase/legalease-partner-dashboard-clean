@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
+  "why": "Run 34378560072 completed successfully on all five jobs and its receipts cannot be read from this session. The Actions API answers here; the artifact blob store does not, and the signed URL from download_workflow_run_artifact fails at the egress proxy with CONNECT tunnel failed, response 403. Everything below was read from the API here so that whoever can reach the blob store has the exact identities to pull and can prove they pulled the right bytes.",
+  "runId": "34378560072",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowDefinitionHeadSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "packetCommitSha": "a77595707ec97a980306d184ac07b549884ce038",
+  "runStatus": "completed",
+  "runConclusion": "success",
+  "whatThisRunIs": "The first raster of the Illinois three on their REPAIRED bytes. FIX118 rounds one and two moved these packets: the synthesized check-box borders were removed (inkWithoutGlyphs 91 to 0 on all six fixtures), and the guides and the field map changed. The verdicts of VF03, VF04 and VF05 were measured on the pre-repair bytes, so this is a first measurement of the current ones rather than a replacement of anything.",
+  "families": ["il-seal-2yr-set", "il-seal-3yr-set", "il-exp-qualprob-set"],
+  "jobs": {
+    "Synthetic canary and live negative controls": "102557443108",
+    "Plan the family matrix": "102558149484",
+    "il-seal-2yr-set": "102558454601",
+    "il-seal-3yr-set": "102558454689",
+    "il-exp-qualprob-set": "102558454875"
+  },
+  "everyJobConclusion": "success",
+  "artifacts": [
+    {
+      "artifactId": "10115256023",
+      "name": "rcap-raster-il-seal-2yr-set-34378560072",
+      "sizeInBytes": 12915012,
+      "digest": "sha256:3c591136533669acf7bdabd7c0b8c02324d15105d21c9e7fbd2a1b2bf75b6b3d",
+      "expiresAt": "2026-09-23T16:53:25Z"
+    },
+    {
+      "artifactId": "10115252168",
+      "name": "rcap-raster-il-seal-3yr-set-34378560072",
+      "sizeInBytes": 12915562,
+      "digest": "sha256:dba1a5a1a528b4b88bee36a459ba04356a209d0a3c99f43395b377fee2e07cdb",
+      "expiresAt": "2026-09-23T16:53:19Z"
+    },
+    {
+      "artifactId": "10115254078",
+      "name": "rcap-raster-il-exp-qualprob-set-34378560072",
+      "sizeInBytes": 12911442,
+      "digest": "sha256:2abdee0457cffb8969c9636d259c2d1bce4702fc53abcf2de55da45081056c70",
+      "expiresAt": "2026-09-23T16:53:22Z"
+    },
+    {
+      "artifactId": "10114955974",
+      "name": "rcap-raster-canary",
+      "sizeInBytes": 5957,
+      "digest": "sha256:cf05e6025b06875a98ad9695049c4bc35f8e5eb576c5b84fb004cba3cd39bb86",
+      "expiresAt": "2026-09-23T16:45:59Z"
+    }
+  ],
+  "whatToSendBack": "The same bundle shape consumed twice already: a tar.xz carrying <runId>/<family>.verdict.json for each family plus the canary, negative-control and runtime receipts, a PAGE_IMAGES_SHA256.json inventory (runId, familyId, member, bytes, sha256, pngWidth, pngHeight per page image), and a TRANSPORT.json naming the run, artifact, job and canary identities. The PNG bodies are not needed; the inventory is what the identity path of the importer reads, and it records per image that the bytes were not read here.",
+  "doNot": "Do not rerender. The packet bytes these receipts are bound to are the ones at a77595707 and they have not moved.",
+  "alsoOutstanding": "RECOVERY_REQUEST_34373388204.json, fl-self-defense-set, same shape.",
+  "recordedBy": "Captain, 2026-09-09, from mcp__github__actions_get and mcp__github__actions_list",
+  "admittedHere": false,
+  "newTerminalPromotions": 0
+}
