@@ -7906,6 +7906,185 @@
    "measuredHow": "Measured in this lane at the declared base from the committed bytes. Artifact SHA-256 recomputed with node:crypto; page text and per-word geometry extracted with poppler pdftotext (-layout and -bbox); page counts read from the extracted page stream; row grouping computed by importing the repository's own rowKeyOf from scripts/rcap-packet-completeness/completeness-contract.mjs; route-key footers matched after collapsing ALL whitespace, so a footer wrapped across lines is not read as absent.",
    "alsoObservedNotScoredAsAFailure": "production-field-map.json declares participantFacingObligations as an empty array, where the other five families in this cohort declare FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP as typed entries. The content is present and complete in participant-instructions.md, so no participant-facing obligation fails; but the typed declaration is the surface other tools read, and its emptiness here means those four obligations are not machine-checkable for this family. Worth closing alongside the source-identity repair.",
    "grantsNothing": "A FAIL is a repair assignment. It promotes nothing and opens no commercial route."
+  },
+{
+   "itemId": "vt_exp_decriminalized-set",
+   "lane": "VF10",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+   "verifier": "VF10 (independent-verification; this lane built nothing and repaired nothing in this family, and is not FIX101, VF35, VF31, VF12 or VF07)",
+   "verifiedAtBase": "23367bbad",
+   "claim": "CLAIM_OK VF10 vt_exp_decriminalized-set (independent-verification, grant set a1160e2a755757dc). Asserted inside /home/user/vf10-worktree before any family artifact was read; exit 0. Not released, and the claim ledger is not committed by this lane.",
+   "canonicalSha256": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0",
+   "boundarySha256": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d",
+   "digestsConfirmedFirst": {
+    "method": "All 34 files under the family directory were hashed with sha256sum and sized with stat BEFORE any record that names them was opened, so no field could steer the measurement. Every digest quoted in this row was recomputed here rather than read from a record.",
+    "fixturesMoved": false,
+    "fixtureNoByteMovementIndependentlyConfirmed": "FIX101 claims it repaired this family without moving a fixture byte. Confirmed three ways and it holds. (1) On disk at this base canonical.pdf is 4d9b64e0... at 849812 bytes and boundary.pdf is d56f5a0f... at 850846 bytes. (2) git show at VF35's read base 5c718222cf837e14ae51146b268f4f82ec018f6b, at FIX101's return commit e536a146a and at HEAD 23367bbadd22eac599f8769f1f38eb8350d2c44d yields those same two digests, so neither fixture moved across the repair. (3) The RASTER_QUEUE row and its RASTER_PASS receipt already pinned exactly these two digests. The six per-component fixture PDFs are likewise unchanged. No fixture byte has moved.",
+    "whatDidMove": "Four raster PNGs only -- raster/canonical/page-07, canonical/page-08, boundary/page-07, boundary/page-08 -- which FIX101 disclosed as renderer-level regeneration. They are local evidence, not delivered packet bytes, and reports/rendered-artifacts.json names the four regenerated files at their current digests. Because those four pages are NOT pixel-identical to the PNGs VF35 read, no carry was taken from VF35 on any page; this lane rendered its own 300 dpi rasters of both fixtures and looked at all eight canonical pages."
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_exp_decriminalized-set",
+    "exitCode": 1,
+    "resultVerbatim": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "passed": [
+     "ok  repo_identity                          vf10-vt-decrim-read at 23367bba",
+     "ok  clone_is_complete                      full clone, all heads fetchable",
+     "ok  worktree_clean                         clean",
+     "ok  node_toolchain                         node 22.22.2",
+     "ok  pdf_lib_importable                     pdf-lib 1.17.1",
+     "ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+     "ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions",
+     "ok  family_sources_bind                    3/3 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 3 found by content hash because the declared path is in a custody that is not mounted here",
+     "ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library",
+     "ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []",
+     "ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear"
+    ],
+    "failedVerbatim": [
+     "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+     "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled"
+    ],
+    "notApplicableVerbatim": [
+     "-  assigned_branch_tip_visible            no --branch given; check not applicable",
+     "-  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.",
+     "-  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.",
+     "-  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used."
+    ],
+    "whyTheTwoFailuresDoNotChangeAMeasurement": "private_is_git_ignored fails because this worktree reaches the source inventory through a read-only symlink into the primary checkout, which is the prescribed layout for this lane; nothing under private/ was written or committed. corpus_matches_committed_index samples 24 corpus entries repository-wide and reports one absent; none of the three Vermont sources this family binds is among them, and all three were independently recomputed here from the mounted Master Library and bind exactly. Recorded because the assignment requires the preflight verbatim, not because either failure is this family's."
+   },
+   "nineCounters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+    "verifierResult": "PASS_COMPLETE 26/169 written",
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "nineZeroIsNotAVerdict": "All nine are zero and this family still fails ARTIFACTS. The counters measure the packet's blanks against the closed disposition vocabulary; they do not read whether the records that name the delivered bytes still name them correctly."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": {
+    "boundToCanonicalSha256": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0",
+    "boundToBoundarySha256": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d",
+    "current": true,
+    "basis": "Both digests the central receipt binds were recomputed here from the bytes on disk and match. workflowRunId 33836771479, jobId 100911322162, 2 documents and 16 pages measured, 0 problems, coversTheWholeFamily true. product-wiring.json's binding.acceptanceReceipt names the same canonical digest.",
+    "reRasterOwed": false,
+    "whyNotOwed": "Central re-acceptance is owed when a fixture byte moves. No fixture byte moved in this repair, so the standing receipt still binds the delivered bytes. The four regenerated local PNGs are local evidence and do not put the central receipt out of date."
+   },
+   "sourceResolution": {
+    "officialFormsBound": 3,
+    "resolvedFrom": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "recomputedHere": [
+     "official-form:200-00129 at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf = 6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5, 2000422 bytes",
+     "official-form:200-00132A at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf = 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec, 1959576 bytes",
+     "official-form:600-00228 at STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654, 2871072 bytes"
+    ],
+    "advanceOnThePriorRead": "VF35 recorded SOURCE_IDENTITY as NOT_MEASURABLE_HERE because the source binaries were absent from its checkout, and FIX101 expressly did not discharge it. The Master Library is mounted for this lane, so all three were opened at the exact pathInArchive that source-receipt.json declares and rehashed from their own custody. Each matched source-receipt.json's sha256 AND its byteLength. This is a fresh first-hand measurement, not a carry."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "production-field-map.json (routeKeys and each documentPolicy.routeKey), product-wiring.json (routeKey, routeKeys and binding.routeKeys), source-receipt.json (routeSelectionId vt-exp-decriminalized-200-00129-complete-set), the MASTER_QUEUE family entry (routeCount 1) and route-obligation-candidate.json.",
+     "finding": "One route only: obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route. It is the sole vt_exp_decriminalized track-pathway key anywhere in the committed route-obligation census, and the family declares it and nothing else. The delivered instruction pages name the same route in words: 'Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. Sec. 7602'. No obsolete or second key survives anywhere in the family."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The three official Vermont binaries opened directly in the mounted Master Library at the pathInArchive source-receipt.json declares, and rehashed here with sha256sum.",
+     "finding": "All three bind by exact SHA-256 recomputed from the bytes, and all three byte lengths match as well: 200-00129 6b855b19.../2000422, 200-00132A 9f530430.../1959576, 600-00228 263d4e19.../2871072. Each of the eight canonical pageManifest entries that has a source names one of these three digests. The fee-waiver bound here is the current 04/2026 two-page object the memo requires, not the superseded 11/2019 129-field object the memo warns must not be bound; the delivered pages 5 and 6 print the 04/2026 footer. Measured first hand, so the NOT_MEASURABLE_HERE that VF35 recorded and FIX101 left open is now closed as a PASS."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "legal-design-packet-set-manifests.json packetSets[450], the MASTER_QUEUE packetComponents, reports/rendered-artifacts.json componentSet and pageManifest, and the printed footers read off this lane's own 300 dpi rasters of all eight pages.",
+     "finding": "The manifest names four components in order 1-4 -- petition 200-00129, stipulation_and_proposed_order 200-00132A, fee_waiver_application 600-00228, filing_and_expectation_instructions -- and all four are present in both fixtures, each occupying its declared two pages. No component of another Vermont route (200-00130, 200-00132, 200-00131, 200-00631) appears anywhere in either packet."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json (derivedFromArtifactBytes true), the writes read back off this lane's own rasters of canonical pages 1-6, and pdftotext of both fixtures' pages 7-8.",
+     "finding": "Twenty-four form writes plus two composed-page writes, all readable on the page they belong to and all matching their held value: case number, name, DOB on all three forms, and the participant address block on each. The only value the platform holds and did not print is boundary/200-00132A field 34i (participant.email), refused for value_exceeds_widget_width_at_minimum_font. That refusal is not a silent drop: it is recorded in reports/rendered-artifacts.json, and pdftotext of the BOUNDARY packet's own bound instruction pages shows it named under 'VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT ... WRITE EACH ONE IN BY HAND before you file', beside '200-00132A, page 1, beside \"Email Address\"'. The canonical packet has no refusal and correctly omits that section, so the disclosure tracks the fixture rather than being boilerplate."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "production-field-map.json requiredBeforeFiling (48 items) checked item by item against participant-instructions.md.",
+     "finding": "48 declared, 48 disclosed, 0 undisclosed. Every item was matched against the file by its own participantMustSupply sentence or its identity string, not by a summary count. Each declared row also carries a printed label and a field identity, declares routeDetermined false, and names no held value, so none of them launders an available fact or a route election into a participant blank."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "production-field-map.json routeSelectionsMade (empty) and routeSelectionNote, build-findings.json finding 3, and the committed VT.memo.json legalDesignDecision and manualCompletionItems, read against the delivered petition page 1 and instruction page 7.",
+     "finding": "The one election that could be route-determined is question 2(d) of 200-00129, whether the conduct is no longer prohibited by law. The family leaves both boxes for the participant. The committed legal record settles that this is correct rather than a route selection left unmade: VT.memo.json's legalDesignDecision states 'The decriminalisation showing is a manual completion item authored by the participant, because the Judiciary's filing guide makes it something the petitioner must prove and the review forbids the engine concluding it', and manualCompletionItems carries the same item, adding that the engine 'must not conclude decriminalisation on its own'. The delivered instruction page says so to the participant in terms: 'Question 2(d) of the petition is where you say so ... the platform does not tick it for you and does not decide whether it is true of your record.' No route-determined election is left unmade."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "reports/actual-writes.json against the four repeating tables seen on this lane's rasters of canonical pages 1, 2 and 3.",
+     "finding": "No row anywhere carries a written cell beside a required cell left blank. The petition's three-row charge table, its four-column new-charges table and its state-agency table, and the stipulation's four-column offence table, are each entirely unwritten -- every write in the family lands in the caption block or the participant address block, never in a table cell. The failure this obligation exists to catch, a written cell making an unfinished row look finished, does not occur here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "This lane's 300 dpi rasters of canonical pages 2, 3, 4 and 6, and production-field-map.json fields 37 and 37a.",
+     "finding": "No protected field carries ink. On the petition, 'Signature of Defendant' and 'Date of Signature' are blank. On the stipulation, the Defendant signature and date are blank, the entire State's Attorney block -- date, signature, printed name -- is blank, and page 4, the court's ORDER page, carries no participant ink at all. On the fee-waiver, 'Applicant Signature' and its date are blank. That matches the memo's manual completion items exactly, which reserve the prosecutor's signature and the whole order page to others."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "evidence": "All 34 family files rehashed here; reports/rendered-artifacts.json walked entry by entry with every path+sha pair recomputed; canonical.pdf and boundary.pdf page counts parsed with pdf-lib 1.17.1; product-wiring.json, approval-request.json, the RASTER_QUEUE row and source-receipt.json read against those measurements; and the two committedRecordsBound inputs rehashed at their committed paths.",
+     "finding": "Four of the five records that name these bytes are correct and the fifth is not. Correct: reports/rendered-artifacts.json names 18 files and all 18 rehash to their recorded value, with byteLength matching where recorded and pageCount 8 for each fixture confirmed against the PDF bytes; product-wiring.json's proposedRepresentation component and binding.acceptanceReceipt.boundToCanonicalSha256 both name 4d9b64e0..., the canonical.pdf on disk; the RASTER_QUEUE row pins canonical 4d9b64e0... and boundary d56f5a0f... with pageCount 8 apiece, all four current; approval-request.json names no file bytes. The defect is in source-receipt.json. Its committedRecordsBound entry for legal-design-track-registry.json names sha256 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at byteLength 16586150, and the file at this base is baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc at 16740631 bytes. The companion entry, route-obligation-candidate.json at f6fc0814.../2629290, is current and correct. This is the same defect class FIX101 repaired, recurred rather than unrepaired: FIX101 recomputed this digest correctly as of its own return commit e536a146a, and six later commits -- 2f2e5f27d, 6a000b40b, ac5ca8766, 6aea851cd, 0489cca02 and 75647c890 -- moved the registry file again before this base. NOTHING LEGAL DRIFTED WITH IT: the vt_exp_decriminalized track subtree is byte-identical between e536a146a and HEAD, its eleven stopping conditions are unchanged, and all eleven still appear verbatim in the delivered pages. The delivered packet is therefore legally current, and what fails is the receipt's whole-file pin, which claims a byte state that no longer exists. A receipt that names bytes the tree does not hold cannot be used to prove the packet was built from what it says it was built from, which is the entire function of the record."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "reports/rendered-artifacts.json pageManifest for both fixtures against the printed footers read off this lane's own rasters of all eight canonical pages, and pdftotext of the boundary fixture.",
+     "finding": "The rendered order matches the manifest page for page in both fixtures: pages 1-2 '200-00129 - Petition to Expunge Criminal History (07/2025)' pages 1 and 2 of 2, pages 3-4 '200-00132A - Stipulation to Expunge Criminal History Record + Order (07/2025)' pages 1 and 2 of 2, pages 5-6 '600-00228 - Application to Waive Filing Fees & Service Costs (04/2026)' pages 1 and 2 of 2, pages 7-8 the composed filing and expectation instructions. Contiguous, in manifest order, eight pages, no page repeated, reordered or dropped."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "This lane's own 300 dpi Poppler pdftoppm 24.02.0 rasters of all eight canonical pages, looked at page by page, plus reports/actual-writes.json nonWhitespaceGlyphsOutsideMeasuredWriteBoxes for all six documents.",
+     "finding": "No ink outside a measured write box on any page: the counter is 0 for all six documents, and inspection agrees. Every written value sits on its own rule, inside its own box, and no value collides with printed form text or with another write. The two pages whose stored PNGs were regenerated, 7 and 8, were rendered fresh from the delivered PDF and read in full rather than carried; both are clean. The one value that would not have fitted its box was refused rather than printed over the rule, which is why the boundary fixture also carries no clipped ink."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "Delivered canonical page 7 read at 300 dpi, against the destination in VT.memo.json and in the route-obligation census entry quoted by source-receipt.json.",
+     "finding": "The instructions name the destination the route names: 'File the completed packet with the VERMONT SUPERIOR COURT, CRIMINAL DIVISION, in the unit where your case was decided', and then tell the participant how to identify that unit from the docket number or from the clerk of any Superior Court unit. That is the committed destination, 'Criminal Division of the Vermont Superior Court, in the county that handled the case'. Page 8 separately names the prosecuting office in the census's own words, State's Attorney or Attorney General under Sec. 7602(a)(3)."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Delivered canonical page 7 read at 300 dpi, production-field-map.json componentRequirements, and the delivered fee-waiver pages 5-6.",
+     "finding": "A sourced no-fee statement, not silence: 'There is no filing fee for this petition. Under 32 V.S.A. Sec. 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a); it does not apply to this expungement under 13 V.S.A. Sec. 7602.' The waiver route is stated and correctly scoped: 600-00228 is carried as conditional with filingDispositionForThisTrack 'do_not_file', is listed in WHAT THIS PACKET CONTAINS as conditional, and the participant is told 'No fee is charged on this track, so do not complete or file the fee-waiver form for this petition.' The form is bound at its current 04/2026 revision and is nowhere presented as required."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Delivered canonical pages 7 and 8 read at 300 dpi.",
+     "finding": "Who must be served and how, stated accurately and with the participant's own duty distinguished from the court's. Under 'NO PARTICIPANT SERVICE OF PROCESS': 'You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor.' The stipulation path is separated from it -- take or send it to the office that prosecuted the case, the State's Attorney or the Attorney General; the prosecutor signs and files it, and under 13 V.S.A. Sec. 7602(a)(4) the respondent files it. The packet does not describe the stipulation as a formality: it says plainly that if the prosecutor will not stipulate the petition is filed on its own and a scheduled hearing is a stopping condition, which is the expectation-setting limit the memo requires."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "pdftotext of delivered canonical pages 7-8 and of participant-instructions.md, each compared string by string against the eleven selfHelpStopConditions in the CURRENT legal-design-track-registry.json at this base.",
+     "finding": "The packet states where self-help ends, under 'WHEN TO STOP AND GET A LAWYER', and all eleven committed conditions appear verbatim in both surfaces: 0 of 11 missing on the delivered pages and 0 of 11 missing in participant-instructions.md. Checked against the registry as it stands at this base, not as source-receipt.json pins it, precisely because that pin is stale; the eleven conditions themselves did not change, so the printed text is current."
+    }
+   },
+   "failedObligationNames": [
+    "ARTIFACTS"
+   ],
+   "carriedVersusFreshlyMeasured": {
+    "carried": [],
+    "freshlyMeasured": [
+     "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS",
+     "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS",
+     "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
+     "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"
+    ],
+    "whyNothingWasCarried": "A carry is allowed only for pages pixel-identical to the bytes the prior independent row read. Four of the sixteen stored rasters moved after VF35's read, including both pages that carry the filing destination, the fee rule, the service statement and all eleven stopping conditions, so a carry on those was not available. Rather than carry six pages and measure two, this lane rendered both fixtures itself at 300 dpi with Poppler pdftoppm 24.02.0 and read all eight canonical pages, so every one of the fifteen results is asserted on a first-hand measurement of the current bytes. SOURCE_IDENTITY was newly measurable here and is a genuine advance on VF35's NOT_MEASURABLE_HERE rather than a carry of it."
+   },
+   "observationsThatFailNoObligation": [
+    "approval-request.json still carries, as an open question for counsel, 'Question 2(d) of 200-00129 is left for the participant ... If counsel considers it route-determined for a decriminalized-conduct packet, it becomes a route selection and this family needs a repair.' The committed legal record settles that question in the packet's favour: VT.memo.json's legalDesignDecision and manualCompletionItems both make the decriminalisation showing a participant-authored item and forbid the engine concluding it. Recorded as residue of a settled question in a record the assignment put in scope, and worth clearing when ARTIFACTS is repaired, but it is not scored as the ARTIFACTS failure: approval-request.json names no file bytes, and the packet's behaviour already matches the settled answer, so no participant-facing surface is wrong.",
+    "The six per-component fixture PDFs -- canonical--200-00129.pdf, canonical--200-00132A.pdf, canonical--600-00228.pdf and the three boundary equivalents -- are named by no record in the family. reports/rendered-artifacts.json names 18 files, the two assembled packets and the sixteen raster pages, and nothing pins the six component PDFs. They are unchanged and consistent with the assembled packets, so nothing is wrong with the bytes; but they are the one part of the delivered directory no digest record covers, and a future move of one of them would be invisible to every check that reads these records.",
+    "VT.memo.json carries two release_blocker unresolvedQuestions on this track -- whether Sec. 7602(a)(5) bars a CDL holder from the expungement route as well as the sealing routes, and whether a stipulated expungement is available under Sec. 7602(a)(4). Both are handled the conservative way the review directs rather than being answered by the build: the CDL bar is stopping condition 5 and a required participant question, and the stipulation is shipped as a conditional component the packet describes as a request the prosecutor may refuse. legalInputStatus for the family reads SETTLED. Noted so that a later reader does not mistake the memo's open research questions for an unmeasured legal input; they block approved_for_live, not this read.",
+    "FIX101's four regenerated PNGs are correctly named by reports/rendered-artifacts.json at their current digests, and the four superseded PNG digests survive only inside lane-return history files (fix101/rows.json and codex-cloud/fix16-vermont-repair/return.json), where they are evidence rather than residue. No record that names the delivered bytes still points at a superseded pair."
+   ],
+   "independence": "This lane built nothing and repaired nothing in this family, and holds no earlier row for it. It is not FIX101, which performed the repair under review, and not VF35, VF31, VF12 or VF07, the prior independent readers. Every digest, page count, counter and page image quoted above was produced by this lane inside /home/user/vf10-worktree at base 23367bbadd22eac599f8769f1f38eb8350d2c44d; no builder self-report was accepted as a measurement, and where a builder or repair record is quoted it is quoted as the claim being tested. FIX101's central claim, that it moved no fixture byte, was tested and is true. The single failure found is one FIX101 could not have prevented, because the input moved after its return. Rasters were written under /tmp and deleted after they were read; no raster PNG was committed. No fixture, packet byte, build script, central queue or claim ledger was modified by this lane.",
+   "grantsNothing": "This row is a measurement. A FAIL is a repair assignment and a PASS would have been evidence only. It promotes no route, opens no commercial route, consumes no packet credit, creates no fulfillment record and approves no output. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record. Visual review by a person and counsel review remain owed and are unaffected by anything here."
   }
  ],
  "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
