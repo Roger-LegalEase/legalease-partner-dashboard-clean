@@ -10,8 +10,8 @@
   "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
   "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
   "familiesAssignedByPrompt": 4,
-  "familiesGrantedByClaimLedger": null,
-  "rowsReturned": 3,
+  "familiesGrantedByClaimLedger": 4,
+  "rowsReturned": 4,
   "packetsSelfVerified": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -523,8 +523,145 @@
           "measured": "True, and this lane confirms it by hashing all three. But three-of-three held is not three-of-three usable: one of the three cannot record two elections this route determines, and no source record in this repository says so. Held-ness and buildability are different measurements and the queue reports only the first."
         }
       ]
+    },
+    {
+      "itemId": "al-pardon-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AL",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "routeKeys": [
+        "obligation:track-only:AL:al-pardon"
+      ],
+      "packetComponents": [
+        "component:al-pardon-primary-filing-1"
+      ],
+      "builtBy": "scripts/build-census-v1-al-pardon-set.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "buildStatus": "not_started",
+      "reviewStatus": "not_applicable_build_stopped",
+      "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "No build script existed. The assignment described this family as SOURCE_READY with the source already held, 1/1 resolved.",
+      "theAssignmentPremiseDidNotHold": {
+        "assignmentSaid": "SOURCE_ALREADY_HELD, 1/1 resolved",
+        "measured": "The one bound source is not held in this container. No file under any mounted custody root hashes to 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327, by declared path or by content.",
+        "thisWasNotTakenOnTrustFromAnyRecord": "Searched twice and independently. First by hand: every file under the Master Library mount, the whole private/ tree of the primary checkout and the whole worktree was enumerated, every file in the 100-200 KiB band was hashed, and separately every file of exactly 160009 bytes and every path matching *abpp* was listed. 6273 files seen, 630 hashed in the size band, 0 hits, 0 files of that exact byte length, 0 files named for ABPP. Then by the builder itself, which walks every mounted custody root and compares by content."
+      },
+      "blockedSource": {
+        "sourceIdentity": "official-form:ABPP-3",
+        "officialFormId": "ABPP-3",
+        "declaredPath": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "declaredSha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+        "declaredByteLength": 160009,
+        "declaredPageCount": 4,
+        "declaredAcroFieldCount": 30,
+        "custody": "src05_worker_materialization_2026_09_02",
+        "custodyRootsSearchedByContent": [
+          {
+            "custody": "master_library",
+            "root": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+            "mounted": true
+          },
+          {
+            "custody": "human_source_returns",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+            "mounted": true
+          },
+          {
+            "custody": "d_source_packs",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+            "mounted": true
+          },
+          {
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+            "mounted": true
+          },
+          {
+            "custody": "src05_worker_materialization_2026_09_02",
+            "root": "private/source-imports/src05-worker-materialization-2026-09-02",
+            "mounted": false
+          }
+        ],
+        "otherWorktreesWereNotSearched": "/home/user/captain-worktree and the other lane worktrees appear in the buildability record's mountsSearched but are other agents' live workspaces, and the lane brief forbids reading them. If the Captain holds these bytes there, that is a fact this lane cannot and did not check.",
+        "whatWasNotDone": "No similarly named file, no other revision and no locator page was accepted in its place. No network acquisition was attempted."
+      },
+      "whyTheCentralRecordsDisagreeAndWhichIsRight": "The corpus index's own custody declaration settles it. ABPP-3 is filed under src05_worker_materialization_2026_09_02, whose declaration in that same index reads custodyType EPHEMERAL_WORKER_MATERIALIZATION_NOT_PERSISTED and bytesHeldByAnyMountedCustody false: fourteen binaries were fetched into a worker's ephemeral copy of the Master Library tree and were never staged, committed or released. Three of the fourteen were later found elsewhere in the repository and are listed by path. ABPP-3 is not one of the three. So the index, the buildability row and this lane's own search all agree; only the queue summary and the assignment say the source is held.",
+      "reAcquisitionIsExecutableByTheOwner": {
+        "record": "data/rcap-grade-a/packet-factory-24h/src05/SOURCE_MATERIALIZATION_RETURN.json",
+        "storedTitle": "CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
+        "fileId": "1gtsVBXAjLedr0MzrF6eMNWBw3rw-NVkh",
+        "visibility": "owner_only",
+        "digestVerifiedAtAcquisition": true,
+        "byteLengthVerifiedAtAcquisition": true,
+        "note": "Recorded here because the blocker is recoverable, not permanent. Fetching it is an owner action; this lane performed no network acquisition."
+      },
+      "whatThisLaneWroteInstead": {
+        "file": "scripts/build-census-v1-al-pardon-set.mjs",
+        "whatItIs": "The family's source binding and its refusal. It resolves ABPP-3 by digest through the committed corpus index and the custody declaration, falls back to an environment-named root per custody, and if the declared path fails it searches every mounted custody root BY CONTENT before refusing. The refusal names the sourceId, the digest, the declared path, the custody, the paths tried, the roots searched and the owner-recoverable handle.",
+        "whatItIsNot": "It is not a fill pipeline. No field census, no field map, no overlay and no fixture is implemented in it, and none is claimed. The bytes have never been present in any container this repository runs in, so a fill drafted against this form would be untested code asserting a capability that was never exercised. If the bytes arrive, the builder binds them, reads the page count and AcroForm field count back out of the binary, compares both against the committed index, and stops at NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING so that nothing downstream can mistake a bound source for a built packet.",
+        "thatSecondPathHasNeverExecuted": "Stated plainly rather than left to be discovered: the resolved branch of this builder has never run, because the source has never resolved. Only the refusal branch is exercised.",
+        "invocationThatReproducesTheRefusal": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=/home/user/legalease-partner-dashboard-clean/private/human-source-returns RCAP_D_SOURCE_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12 RCAP_NATIONWIDE_POOL_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02 node scripts/build-census-v1-al-pardon-set.mjs"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyEveryCounterIsNull": "No packet artifact was produced and the source was never opened, so nothing was measured. A zero would be a claim about a packet that does not exist.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:ABPP-3"
+          ],
+          "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+          "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+          "custody": "src05_worker_materialization_2026_09_02",
+          "resolved": false,
+          "boundBy": "declared digest; not held in this container"
+        }
+      ],
+      "allSourcesExact": false,
+      "networkAcquisitions": 0,
+      "artifacts": [],
+      "artifactsNote": "No fixture, no field map, no census, no instructions and no glyph readings. The source was never opened.",
+      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[al-pardon-set].sourceStatus, sourceBound, sourceReadiness.custodyClass, state",
+          "says": "SOURCE_BOUND_BY_HELD_BYTES; sourceBound true; SOURCE_ALREADY_HELD; state SOURCE_READY",
+          "measured": "The bytes are not held in any mounted custody. The queue row's own boundSources entry names the src05 path, and the corpus index declares that custody bytesHeldByAnyMountedCustody false. The queue summary contradicts the index it is derived from."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[al-pardon-set]",
+          "says": "custodyClass SOURCE_ALREADY_HELD, documentSourcesResolved 1, declaredReady true",
+          "measured": "The same row's per-source measurement says kind: not_present_in_a_custody_mounted_here and verdict NOT_MEASURABLE_HERE. The scalar summary and the per-source measurement inside ONE record disagree, and the per-source measurement is the one that matches the bytes. documentSourcesResolved counts a declared binding, not a resolved one."
+        }
+      ]
     }
   ],
   "familiesCompleted": 1,
-  "familiesStopped": 2
+  "familiesStopped": 3,
+  "blockedSource": [
+    "al-pardon-set",
+    "tx_nd_automatic_misdemeanor_deferred-set"
+  ],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 1,
+  "overlayDirectoriesTouchedByAStoppedFamilyNote": "wa_blake_vacatur_and_lfo_refund-set only, whose own builder writes its stop evidence into its overlay directory and did so before this shift. The Texas and Alabama builders create nothing for a family they refuse, and this lane did not change that.",
+  "headShaAtReturn": "the commit that carries this file; see git log for pfd-20260909"
 }
