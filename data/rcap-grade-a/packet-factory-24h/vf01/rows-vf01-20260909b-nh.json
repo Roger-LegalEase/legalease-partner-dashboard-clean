@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF01",
+  "shift": "20260909b-nh",
+  "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "packetCommit": "e0c78f7fa",
+  "independence": "First independent read of this family. It was built today by lane PF11; this lane did not build, repair or raster it and released no grant of its own. The two things PF11 recorded for challenge were tested rather than inherited.",
+  "measurementNote": "Measured in this container from the committed artifact bytes and the controlling records. verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros for this family; that reading is recorded as necessary and not sufficient and is not the basis of any result here.",
+  "rows": [
+    {
+      "itemId": "nh_conviction_standard-set",
+      "lane": "VF01",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId nh_conviction_standard-set agrees across the field map, the source receipt and the MASTER_QUEUE row. The family serves two runtime routes, conviction-annulment-under-rsa-651-5 and dwi-dui-annulment, and the guide states both route keys on its face and explains that one packet serves both because the record gives them the same five forms, the same court and the same statute."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All five declared sources recompute exact. I indexed the Master Library by SHA-256 and each digest resolves to one file which re-hashes to it: NHJB-2317 2fc2e1ed..., NHJB-3057 02310e85..., NHJB-2311 f8b5df13..., NHJB-2328 b4384b41..., NHJB-2956 c8e5e9fe... The receipt is candid that the assignment's own paths are in custodies this container does not mount and that binding is by digest into the Master Library copy; that binding holds under recomputation."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record names 8 packetSet components: 5 official forms and 3 process_guidance components (post_filing_instructions, whole_record_disclosure, effect_and_limits_disclosure), all required. All 5 forms render across 13 pages, and all 3 guidance components are delivered as their own sections of participant-instructions.md -- 'What happens after you file', 'Why your whole record decides this, not just this one charge', and 'What annulment does, and what it does not do'. Nothing declared is unrendered."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 37 canonical values and all 24 boundary values print complete in the delivered bytes; nothing is ellipsized or shortened. The 13-value difference is not dropped writes: the boundary fixture deliberately carries a 33-character case number and a 24-character telephone number against official widgets that declare /MaxLen 17 and /MaxLen 15, and the packet delivers those 9 boxes BLANK rather than cut. That is the correct direction -- a value that cannot be printed whole is a failure to surface, never a value silently shortened -- and it is surfaced twice over: each is recorded in the byte proof as unfittable with the field, the form's /MaxLen and the value length, and the guide carries a table 'Boxes the form itself is too short to hold' naming every one by form, section, box and limit, telling the participant to write it in by hand, and explaining that a case number cut to fit reads as a whole one and is how the clerk matches the petition, the fee-waiver motion and the statement of assets to one case. The canonical fixture has zero unfittable boxes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 12 items of packetSet.requiredBeforeFiling appear VERBATIM in the delivered instructions, checked string by string against the registry. Separately, all 103 required-before-filing form blanks the family classifies are disclosed verbatim in participant-instructions.md, and all 27 participant elections likewise. I found no record obligation, form blank or election that the participant is not told about."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing is ticked anywhere in the packet, by either mechanism: no ZapfDingbats, Wingdings or Webdings glyph runs at all, and zero vector stroke paths inside any flattened widget. The 17 SymbolMT runs are identical in both fixtures and are the forms' own bullet furniture. That is the right outcome here -- the 27 elections are the petition's sworn certifications (time requirements met, sentence completed, no charges pending, not a violent crime, no enhanced penalty) and each is disclosed with the reason that the participant swears it under penalties of law and the platform does not hold the fact."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row table is written. The NHJB-2328 asset and liability schedules are uniformly blank and disclosed line by line, so no row states part of a financial fact."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read from the artifact bytes and independently significant. Every Applicant's Signature, Counsel's Signature, signature Date, Signature of Judge and FOR COURT USE ONLY block across all five forms carries no ink, on both fixtures, and the byte proof records refusedFieldsWithInk empty and zero non-whitespace glyphs outside measured write boxes for all ten artifact-document pairs. The strongest evidence is a source-authored default the builder removed rather than inherited: the official NHJB-2328 ships three fields with the value '0' already set -- 12.total, money.total and monthly.total -- and I confirmed that from the source binary's own field values. The delivered packet leaves all three Total $ lines empty. A zero total for income, available money and monthly expenses would have been a sworn answer under penalty of perjury that the participant never gave, and the guide states exactly that reasoning."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both artifacts recomputed from the committed bytes and hash and byte-length to the record: canonical bd2a4c278778d4b61cdee81110ecccfe2ba93a3f794e04f8a929ffdafcadebe3, boundary 78908658fd0dc118ea0112c03bcec2bd0b6f7ab3a4c6b878bdaa8a1d6d91383f, both 13 pages."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 13 pages follow the manifest exactly: NHJB-2317 pages 1-3, NHJB-3057 pages 1-4, NHJB-2311 pages 1-2, NHJB-2328 pages 1-3, NHJB-2956 page 1."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No synthesized widget border and no ink the forms do not print. Measured directly rather than taken from the scanner: across all 194 flattened widget appearance streams the ONLY path paint operators present are W and n -- clip and no-op -- and there is not one S, s, f, B or b anywhere among them. The construction paths are closed and then discarded at Q without being painted. scan-synthesized-widget-borders.mjs independently reports this family outside the FIX80 cohort with 0 widgets exposed. Nothing is truncated, and every written value sits inside its own widget rect."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's destination is the Clerk of the disposing court, and the instructions name it together with the record's own filing rule, one petition per charge with the clerk of each disposing court. The guide declines to print a courthouse address and says why: the platform holds no sourced New Hampshire directory and an invented address in a filing instruction is worse than none."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Here the record DOES state the fees, so stating them is correct and required, and the guide carries rules.fees verbatim: $125.00 per court location, the $100 Department of Corrections investigation fee under RSA 651:5, IX unless indigent, the $100 Department of Safety fee and the state police fee not to exceed $100 under X(d). The waiver route is named and both papers are prepared and delivered, NHJB-2311 with NHJB-2328. Two refinements are carried that a fee sentence alone would miss: one filing fee per COURT LOCATION rather than per petition for petitions filed together, and the record's own unresolved question whether the Department of Safety fee and the state police fee are one charge or two, stated as an open question rather than answered."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's service rule is 'None by the participant' and the notice rule has the court provide the copy to the prosecutor under RSA 651:5, IX. The guide states both, and handles the trap correctly: NHJB-2328 page 3 does carry a certificate of service ('I state that on this date I am sending a copy of this document as required by the rules of the Circuit Court'), which I confirmed on the source binary, and the guide explains it stays blank because on THIS route the participant has nobody to certify sending a copy to, the box being present only because the same form is used where a filer does have to serve. The box is blank in the bytes."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 19 of the record's selfHelpStopConditions are printed in the record's own words, and the two court-only determinations are named separately as findings that are neither the participant's nor the platform's to make. Four are then repeated in plain terms because they cost money or mislead: the RSA 651:5, IV three-year bar on a further petition, that an annulment is not recognised federally or for immigration, that RSA 651:5, XVII does not oblige a private background-check company to remove the record, and that annulment does not restore firearm rights. The guide states that it names no legal-aid organisation or referral line because the platform holds no sourced New Hampshire directory; I checked the record and it holds no referral destination for this track, so that refusal is honest rather than a withheld answer."
+        }
+      },
+      "failedObligationNames": [],
+      "couldNotMeasure": [],
+      "challengeAdjudicated": {
+        "challenge": "PF11 recorded that this family ships BOTH petitions because the conviction date selects between them and the platform does not hold it, and asked whether stating the route and asking for the fact is adequate or whether shipping two petitions is a route the participant cannot resolve.",
+        "outcome": "ADEQUATE",
+        "reasoning": "Shipping both is adequate and is the better of the available options. (1) The guide devotes a section to it, prints each form's conditionDescription from the record verbatim in a table, states 'This packet contains both, and you file one', and ends 'do not file both' -- so the failure mode of filing two petitions is closed. (2) The selecting fact for the ordinary case is a single objective date test at 1 January 2019, not a legal judgment; it is on the participant's own court record, the guide names the clerk of the disposing court as where to get it, and it is declared required-before-filing on both petitions and left blank on both, which I confirmed in the bytes. (3) The alternative would require the platform to assert a conviction date it does not hold, which the hard rules forbid and which would be far worse on a sworn petition. (4) The harder second limb of NHJB-3057's condition, that the offence 'was not the highest offense of conviction, so the streamlined mandatory route does not apply', IS a legal characterisation rather than a date test -- and it is not left to the participant to guess: the qualifier is reproduced in the eligibility and waiting-period table, 'Any record with more than one conviction where the whole-record analysis is not clean' is one of the 19 stop conditions, and a whole section explains why the whole record decides this. A participant for whom that limb is live is routed to a New Hampshire lawyer rather than to a form."
+      },
+      "challengesRecorded": [
+        "Recorded caution, not scored as a failure: the guide states that this packet is not the streamlined mandatory route and that each route has its own packet, and it prints NHJB-3057's condition including the 'not the highest offense of conviction' qualifier, but it nowhere states the converse instruction in one place -- that a participant whose conviction is on or after 1 January 2019 AND was the highest offence of conviction is on the streamlined route and holding the wrong packet. The condition as printed is faithful to the record, and the record itself does not supply that converse, so the obligation is met; a single added sentence would close the inference the reader is currently left to make."
+      ]
+    }
+  ]
+}
