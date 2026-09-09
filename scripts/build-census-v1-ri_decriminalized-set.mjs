@@ -1043,13 +1043,29 @@ function noticeSection(route) {
   return L;
 }
 
-function certifiedCopySection() {
+function certifiedCopySection(route) {
   const L = [];
   L.push("WHAT HAPPENS AFTER THE COURT GRANTS THE MOTION - AND THE PART THAT IS YOURS TO DO.", "");
   L.push(`The court's own form says it, on page 1, instruction 8: "${INSTRUCTION_8}"`, "");
   L.push("So, in order:", "");
-  L.push("1. PAY EVERYTHING OFF. Fines, fees, costs, restitution and assessments must be paid in full before "
-    + "the expungement is complete. A granted motion with an unpaid balance is not a finished expungement.");
+  if (POST_GRANT_CHECKLIST_FOLLOWS_THE_ORDER.has(route.trackId)) {
+    L.push("1. SATISFY WHAT YOUR CASE ACTUALLY LEAVES OWING, AS THE COURT'S ORDER LEAVES IT. The court's own "
+      + "instruction is quoted above and nothing in it is changed here. What you have to satisfy is what the "
+      + "order in your case leaves owing: where a court has REDUCED OR WAIVED costs or fines by order, the "
+      + "balance that order leaves is the balance, and this packet does not tell you to pay a sum a judge has "
+      + "already remitted. Where no order reduces or waives anything, the full balance stands.");
+    L.push("   RESTITUTION IS NOT THE SAME AS COSTS AND FINES. Restitution is owed to the person harmed, and a "
+      + "court's remission of costs and fines does not remit it. Treat them separately when you ask what is "
+      + "outstanding.");
+    L.push("   ASK THE CLERK, AND BRING THE ORDER. Ask the clerk of the sentencing court for a record of what is "
+      + "outstanding, and take any waiver or reduction order with you. YOU CANNOT DECLARE AN OBLIGATION WAIVED. "
+      + "Only a court order does that, and the clerk works from the order rather than from your account of it. "
+      + "If you cannot pay what is genuinely left, that is a question to raise with the court, not a reason to "
+      + "swear that it is paid.");
+  } else {
+    L.push("1. PAY EVERYTHING OFF. Fines, fees, costs, restitution and assessments must be paid in full before "
+      + "the expungement is complete. A granted motion with an unpaid balance is not a finished expungement.");
+  }
   L.push("2. ASK THE CLERK'S OFFICE FOR THE THREE CERTIFIED COPIES. The clerk's office prepares them once every "
     + "condition is satisfied. Certified copies are the clerk's to make; do not photocopy the order yourself and "
     + "expect it to be accepted.");
@@ -1079,6 +1095,60 @@ function certifiedCopySection() {
  * record says otherwise about that route. It is research relayed by the owner,
  * not counsel approval, and it opens nothing.
  */
+/*
+ * THE FOUR ROUTES WHOSE BCI ACQUISITION STEP NAMES THE EXPUNGEMENT-PURPOSE
+ * REQUEST AND ITS OWN COST.
+ *
+ * Independent review finding RI-B-01 (2026-09-07, packet snapshot
+ * 32cb0b474c200cd0c9c96e9e10253696d7a0ee6d) read the required BCI step on all
+ * four of these routes and found it asked for "a criminal history" without
+ * saying WHICH report, what it now takes to get one, or that it carries a cost
+ * of its own. The corrected instruction is in the committed track registry -
+ * it originates there and is corrected there - and this paragraph says where
+ * the requirements came from and what this build did not do to get them.
+ * ri_decriminalized is not on this list: its own acquisition sentence is a
+ * different one, that family is outside this lane's grant, and its output is
+ * held byte-identical.
+ */
+const BCI_EXPUNGEMENT_PURPOSE_TRACKS = new Set([
+  "ri_first_offender_misdemeanor",
+  "ri_first_offender_felony",
+  "ri_multiple_misdemeanors",
+  "ri_deferred_sentence"
+]);
+
+/*
+ * THE TWO FIRST-OFFENDER ROUTES WHOSE POST-GRANT CHECKLIST FOLLOWS THE COURT'S
+ * ORDER RATHER THAN COMMANDING PAYMENT IN FULL.
+ *
+ * Finding RI-B-02. The form's own instruction 8 is quoted unchanged above the
+ * checklist; what was wrong was the checklist LegalEase added under it, which
+ * told the participant to pay every original sum notwithstanding a court order
+ * that had already reduced or waived some of it - while the same packet's fee
+ * section correctly recognises court-approved reduction and waiver. The
+ * reviewer restricted this correction to these two routes and said in terms
+ * that it must not be applied to the deferred-sentence route, whose own
+ * eligibility condition is compliance with the deferral agreement.
+ */
+const POST_GRANT_CHECKLIST_FOLLOWS_THE_ORDER = new Set([
+  "ri_first_offender_felony",
+  "ri_first_offender_misdemeanor"
+]);
+
+/*
+ * THE TWO DISTRICT COURT ROUTES WHERE THE FILING CHARGE IS NOT ESTABLISHED.
+ *
+ * Finding RI-B-07 is a BOUNDED SOURCE LIMIT and this build does not close it.
+ * The Superior Court FAQ answer is the SUPERIOR COURT's, and it is not a
+ * District Court fee schedule. No District-specific official source and no
+ * clerk response is held here, so the packet says so plainly and sends the
+ * participant to the clerk who can answer it. No figure is printed.
+ */
+const DISTRICT_COURT_CHARGE_NOT_ESTABLISHED = new Set([
+  "ri_first_offender_misdemeanor",
+  "ri_multiple_misdemeanors"
+]);
+
 const FEE_ANSWER_CARRIED_TRACKS = new Set([
   "ri_first_offender_misdemeanor",
   "ri_first_offender_felony",
@@ -1109,6 +1179,21 @@ function feeSection(route) {
         + "If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it "
         + "applies to your filing before you go. No dollar figure appears on the court's motion form, and none "
         + "is printed here.", "");
+      L.push("That FAQ answer was read again on 2026-09-07, in the independent review recorded at "
+        + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. This build did not "
+        + "fetch the page: courts.ri.gov is refused by this container's egress proxy, so no bytes of it are held "
+        + "here and the answer reaches this packet through committed records rather than through a fetch.", "");
+      if (DISTRICT_COURT_CHARGE_NOT_ESTABLISHED.has(route.trackId)) {
+        L.push("WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT. Your case is in the DISTRICT COURT, and "
+          + "no District Court filing-fee schedule is held by this repository. The Superior Court's no-fee "
+          + "answer does not establish what the District Court charges, if anything, for this motion, and no "
+          + "District Court figure is printed here because none is held. Two things this packet also will not "
+          + "do: it does not revive the $100 charge on a grant that older material describes and that the "
+          + "current text of Sec. 12-1.3-3(c) does not carry, and it does not apply the civil filing-fee "
+          + "schedule, which is a different schedule. ASK THE CLERK of the District Court division where you "
+          + "are filing what this motion costs, before you go, and take the answer from that clerk rather than "
+          + "from a Superior Court page or from this paragraph.", "");
+      }
     } else {
       L.push("THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. The committed record "
         + "for this route says, in terms: \"Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in "
@@ -1161,6 +1246,25 @@ function filingInstructionsBody(route, facts) {
   L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.", "");
   for (const d of t.documents) L.push(`- ${d.name}. From: ${d.from}. ${d.how}`);
   L.push("");
+  if (BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId)) {
+    L.push("WHERE THE BCI INSTRUCTIONS ABOVE COME FROM, AND WHAT WAS NOT CHECKED HERE. The acquisition "
+      + "requirements and the $5 state-check cost are the Rhode Island Department of Attorney General's own, "
+      + "published at https://riag.ri.gov/i-want/get-background-check. That page was read on 2026-09-07 in the "
+      + "independent review recorded at "
+      + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. THIS BUILD DID NOT "
+      + "FETCH IT: riag.ri.gov is refused by this container's egress proxy, so no bytes of that page are held "
+      + "here. Read the page yourself before you go, because a cost or a procedure can change and this packet "
+      + "would not know.", "");
+    L.push("THE $5 IS NOT A COURT FEE, AND IT IS NOT A COURT OBLIGATION. It is what the state charges for the "
+      + "criminal records check itself. It is separate from anything the court charges to file this motion, and "
+      + "separate again from the fines, costs, restitution and assessments ordered in your case.", "");
+    L.push("A CLEAR REPORT IS NOT A FINDING THAT THERE IS NOTHING TO FIND. A state criminal records check "
+      + "reports what Rhode Island holds; it is not a determination that no relevant arrest, charge or "
+      + "disposition exists anywhere. The docket from the court that heard your case is required as well, and "
+      + "the sworn statements in the affidavit are still yours to check against both.", "");
+    L.push("EVERY SIGNATURE AND RELEASE ON THAT REQUEST IS YOURS. LegalEase does not request, receive, hold or "
+      + "authenticate your criminal history, and it does not sign a release for you.", "");
+  }
   L.push("THE WAITING PERIOD AND THE LOOKBACK, AS THE COMMITTED RECORD STATES THEM.", "");
   for (const w of t.waits) L.push(`- ${w}`);
   L.push("");
@@ -1172,7 +1276,8 @@ function filingInstructionsBody(route, facts) {
     + "the court sets, the signature, the date of entry, the certification - is blank, because none of that is "
     + "yours or ours to write.", "");
   if (route.discrepancies.length) {
-    L.push("A DISAGREEMENT ON THE COURT'S OWN FORM. READ THIS BEFORE YOU SWEAR TO ANYTHING.", "");
+    L.push(route.discrepancyHeading
+      ?? "A DISAGREEMENT ON THE COURT'S OWN FORM. READ THIS BEFORE YOU SWEAR TO ANYTHING.", "");
     for (const d of route.discrepancies) L.push(d, "");
   }
   L.push("WHO IS EXCLUDED FROM THIS ROUTE, IN THE COMMITTED RECORD'S OWN WORDS.", "");
@@ -1184,7 +1289,7 @@ function filingInstructionsBody(route, facts) {
   L.push("");
   if (route.singleGuidanceComponent) {
     L.push(...noticeSection(route));
-    L.push(...certifiedCopySection());
+    L.push(...certifiedCopySection(route));
   }
   L.push("WHAT THIS PACKET IS NOT. It is the state's own motion and affidavit, a proposed order composed for the "
     + "hearing because the state publishes none, and instructions. It is not legal advice, it is not filed for "
@@ -1217,7 +1322,7 @@ function certifiedCopyChecklistBody(route, facts) {
   L.push("CERTIFIED COPIES OF THE ORDER - WHAT TO DELIVER, AND TO WHOM", "");
   L.push(`Prepared for: ${name}`, "");
   L.push("This page is guidance. It is not a filing and there is nothing here to hand to a clerk.", "");
-  L.push(...certifiedCopySection());
+  L.push(...certifiedCopySection(route));
   L.push("Nothing on this checklist can be done before the court grants the motion, and none of it is done by "
     + "the court for you.", "");
   L.push(`Route: ${route.routeKeys.join(" ; ")}`);
@@ -1365,14 +1470,23 @@ const FAMILIES = {
     convictionExpungementWhy: CONVICTION_ROUTE_RELIEF,
     notAConvictionBranchWhy: NOT_A_NONCONVICTION_ROUTE,
     discrepancies: [
-      "HOW MANY MISDEMEANORS THIS PART REACHES IS NOT SETTLED, AND THE FORM DISAGREES WITH ITSELF. Page 1 of the "
-      + "court's own form says Part Three B is for a person \"convicted of more than one (1) but less than six "
-      + "(6) misdemeanor offenses\". The sixth box of Part Three B on page 4 of the same form reads \"That I have "
-      + "not been convicted of more than six (6) misdemeanors preceding the filing of this motion\". More than "
-      + "one and fewer than six is at most FIVE; not more than six is SIX. The committed record already records "
-      + "the ceiling as unresolved, and names any count near it as a point where self-help ends - together with "
-      + "the separate, unresolved question of whether the count includes convictions you are not asking to "
-      + "expunge. If your count is five or six, get advice before you swear to that box."
+      "HOW MANY MISDEMEANORS THIS PART REACHES, AND WHERE THE COURT'S OWN FORM DISAGREES WITH ITSELF. This "
+      + "route is the statutory one for a person convicted of MORE THAN ONE BUT FEWER THAN SIX misdemeanors - "
+      + "two, three, four or five - who has not been convicted of a felony, and who meets the other conditions "
+      + "of the subsection. Sec. 12-1.3-2(b) lets the motion ask for ANY OR ALL of those misdemeanors. Page 1 of "
+      + "the court's own form says the same thing: Part Three B is for a person \"convicted of more than one (1) "
+      + "but less than six (6) misdemeanor offenses\". The sixth box of Part Three B, on page 4 of the same "
+      + "form, reads \"That I have not been convicted of more than six (6) misdemeanors preceding the filing of "
+      + "this motion\". THAT BOX'S WORDING DOES NOT ENLARGE THE ROUTE. Six misdemeanor convictions is not two "
+      + "through five, and a sixth conviction is outside this Part however the box is worded. Nothing on the "
+      + "court's form is altered here, no box is marked for you, and the form is filed as the court publishes "
+      + "it.",
+      "COUNT YOUR RECORD, NOT ONLY THIS MOTION. The count is of the misdemeanor convictions on your record, not "
+      + "only of the ones you are asking the court to expunge: a conviction you leave out of the motion still "
+      + "counts toward the number. If one of your convictions may have been reclassified by the General "
+      + "Assembly, may already have been cleared, or is recorded in a way you dispute, that is a question to "
+      + "settle before you swear to this Part - it is not arithmetic, and it is one of the points where this "
+      + "packet tells you to stop and get advice."
     ]
   },
   "ri_first_offender_felony-set": {
@@ -1401,7 +1515,11 @@ const FAMILIES = {
       + "like a drafting error carried over from the District Court form. LegalEase does not decide that and has "
       + "marked nothing. Do not mark a box that says something untrue of your case: ask the clerk of the "
       + "Superior Court division you are filing in, or a lawyer, which text that court applies, before you swear "
-      + "to this affidavit.",
+      + "to this affidavit. WHAT WOULD SETTLE IT IS NOT IN THIS PACKET. No corrected affidavit wording, no "
+      + "attachment and no court-approved handling for a felony filer is written here, because none is "
+      + "established by any source this build holds: that comes from a correction by the Rhode Island Judiciary, "
+      + "which publishes this form, or from a qualified legal determination for your case. Nothing in this "
+      + "packet permits you to swear to a statement that is not true of your case.",
       "ONE MORE NUMBER THAT DOES NOT AGREE WITH ITSELF. The committed record's exclusion list for this route "
       + "carries the sentence \"Any felony or misdemeanor arrest or conviction during the five-year lookback\", "
       + "while the same record's waiting-period entry for this route says TEN years from completion of sentence "
@@ -1430,17 +1548,29 @@ const FAMILIES = {
     notAConvictionBranchWhy:
       "This route is brought under Chapter 12-1.3, through Sec. 12-1.3-2(e), together with Sec. 12-19-19, and "
       + "the motion's other relief bullet is the Sec. 12-1-12 and Sec. 12-1-12.1 branch, which cites neither.",
+    discrepancyHeading:
+      "WHY THIS PACKET MARKS THE RELIEF BULLET IT MARKS. READ THIS BEFORE YOU SWEAR TO ANYTHING.",
     discrepancies: [
-      "THE RELIEF BULLET THIS PACKET MARKS SAYS \"CONVICTION\", AND YOUR ROUTE IS A DEFERRED SENTENCE. The "
-      + "Superior Court motion page offers exactly two forms of relief. The second - the one this packet marks - "
-      + "asks that \"all records and records of conviction relating to the conviction of the above-referenced "
-      + "case be expunged ... pursuant to G.L. 1956 Sec. 12-1.3-3(c) or (e)\". It is marked because it is the "
-      + "only one of the two that cites Chapter 12-1.3, which is the chapter your route runs on through Sec. "
-      + "12-1.3-2(e); the other bullet is the Sec. 12-1-12 destruction-of-identification-records relief. No held "
-      + "record in this repository states which bullet a Rhode Island Superior Court expects on a deferred-"
-      + "sentence motion, and whether a completed deferred sentence is a \"conviction\" for this chapter is a "
-      + "question of Rhode Island law that this packet does not answer. It is a mark on YOUR motion: ask the "
-      + "clerk of the division you are filing in, and change it before you file if that division says otherwise."
+      "THE MECHANISM THIS ROUTE RUNS ON IS CHAPTER 12-1.3 EXPUNGEMENT, AFTER THE COMPLIANCE HEARING. You "
+      + "complete the deferred sentence; Sec. 12-19-19(c) then gives the court a hearing on whether you "
+      + "complied with all the terms of the deferral agreement, including the money terms; and on that finding "
+      + "you become eligible for consideration for expungement under Chapter 12-1.3, through Sec. 12-1.3-2(e). "
+      + "It is not the separate Sec. 12-1-12 destruction-of-identification-records route.",
+      "THAT IS WHY THE SECOND RELIEF BULLET IS THE ONE MARKED. The Superior Court motion page offers exactly "
+      + "two forms of relief. The second - the one this packet marks - asks that \"all records and records of "
+      + "conviction relating to the conviction of the above-referenced case be expunged ... pursuant to G.L. "
+      + "1956 Sec. 12-1.3-3(c) or (e)\". That is the Chapter 12-1.3 expungement request, which is the relief "
+      + "this route seeks; the first bullet is the Sec. 12-1-12 and Sec. 12-1-12.1 destruction-and-sealing "
+      + "branch, a different mechanism that this route does not use. Nothing here adds a requirement that you "
+      + "have been convicted of anything: the bullet is quoted from the court's own page and the route's own "
+      + "eligibility conditions are the ones set out in this packet.",
+      "WHAT THIS PACKET STILL DOES NOT CLAIM. No Rhode Island clerk, court or lawyer has approved this packet, "
+      + "this proposed order, or the mark on this bullet. The reading above is the statutes' and the court "
+      + "form's, recorded in the independent review of 2026-09-07 at "
+      + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json; the statutes were not "
+      + "fetched by this build, because webserver.rilegislature.gov is refused by this container's egress "
+      + "proxy. It is a mark on YOUR motion. If the division where you file tells you it wants a "
+      + "deferred-sentence motion presented differently, change it before you file."
     ]
   }
 };
@@ -2467,6 +2597,43 @@ function participantInstructions(route, maps, rbf, elections) {
   out.push("| Document | Where you get it |", "| --- | --- |");
   for (const d of t.documents) out.push(`| ${d.name} | ${d.from}. ${d.how} |`);
   out.push("");
+  if (BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId)) {
+    out.push("**The BCI record is the expungement-purpose one, and it has a cost of its own.** Tell BCI the "
+      + "request is for an expungement. The requirements above — valid photo identification, and a request made "
+      + "in person or by mail — and the **$5** state-check cost are the Rhode Island Department of Attorney "
+      + "General's own, published at <https://riag.ri.gov/i-want/get-background-check>. That $5 is what the "
+      + "state charges for the record. It is **not** a court filing fee and it is not one of the fines, costs, "
+      + "restitution or assessments ordered in your case. Do not order the fingerprint-based national check "
+      + "used for employment instead of it.", "");
+    out.push("**A clear report is not proof that there is nothing to find.** The state check reports what Rhode "
+      + "Island holds; it does not establish that no relevant arrest, charge or disposition exists anywhere. "
+      + "You still need the docket from the court that heard your case, and the sworn statements in the "
+      + "affidavit are still yours to check against both records.", "");
+    out.push("**Where those requirements come from.** That Attorney General page was read on 2026-09-07 in the "
+      + "independent review recorded at "
+      + "`data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json`. This build did not "
+      + "fetch it — riag.ri.gov is refused by this container's egress proxy — so read the page yourself before "
+      + "you go: a cost or a procedure can change and this packet would not know. The request is yours to make "
+      + "and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal "
+      + "history.", "");
+  }
+  if (FEE_ANSWER_CARRIED_TRACKS.has(route.trackId)) {
+    out.push("## What it costs to file, and what is not established", "");
+    out.push("The Rhode Island **Superior Court** says on its own expungement FAQ that there is no expungement "
+      + "filing fee. That is the Superior Court's answer, read there on 2026-09-07 in the independent review "
+      + "named above; this build did not fetch the page, because courts.ri.gov is refused by this container's "
+      + "egress proxy. A no-fee filing does not cancel any fine, cost, restitution or assessment already "
+      + "ordered in your case.", "");
+    if (DISTRICT_COURT_CHARGE_NOT_ESTABLISHED.has(route.trackId)) {
+      out.push("**Your case is in the District Court, and what the District Court charges for this motion is "
+        + "not established here.** No District Court fee schedule is held by this repository, and the Superior "
+        + "Court's answer does not establish the District Court's. No figure is printed here because none is "
+        + "held. This packet does not revive the $100 charge on a grant that older material describes and that "
+        + "the current text of § 12-1.3-3(c) does not carry, and it does not apply the civil filing-fee "
+        + "schedule, which is a different schedule. **Ask the clerk of the District Court division where you "
+        + "are filing** what this motion costs, if anything, before you go.", "");
+    }
+  }
   if (rbf.length > 0) {
     out.push("## The items you must supply", "");
     out.push("Each is a blank on the document named beside it. Fill every one that belongs to the document you "
@@ -2487,7 +2654,11 @@ function participantInstructions(route, maps, rbf, elections) {
   }
   out.push("## What you do, in order", "");
   out.push("1. **Get your Rhode Island BCI criminal history record** from the Department of Attorney General's "
-    + "Bureau of Criminal Identification, and **get the docket and judgment** from the clerk of the court that "
+    + "Bureau of Criminal Identification"
+    + (BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId)
+      ? " — the state check, requested for an expungement, on the terms set out above — "
+      : ", ")
+    + "and **get the docket and judgment** from the clerk of the court that "
     + "handled the case. Every blank in the table above comes off one of those two records.");
   out.push("2. **Fill in the motion**: the case number, the BCI number, the judicial complex, and every count, "
     + "charge and disposition you are asking the court to expunge.");
@@ -2503,9 +2674,19 @@ function participantInstructions(route, maps, rbf, elections) {
     + "at least ten days before the hearing — then, and only then, complete the certification line on the motion "
     + "with the date you gave notice and the name of that police force.");
   out.push("8. **Take the proposed order with you to the hearing.** Instruction 7 on page 1 says so.");
-  out.push("9. **After a grant**, pay every fine, fee, cost, assessment and restitution in full, ask the clerk's "
-    + "office for the three certified copies, keep one, and deliver one to the Attorney General's BCI unit and "
-    + "one to the police department that charged the case. Delivering them is your responsibility.", "");
+  if (POST_GRANT_CHECKLIST_FOLLOWS_THE_ORDER.has(route.trackId)) {
+    out.push("9. **After a grant**, satisfy what your case actually leaves owing — the balance the order in "
+      + "your case leaves after any court-approved reduction or waiver, not a sum a judge has already remitted, "
+      + "and remembering that restitution is owed to the person harmed and is not remitted by a remission of "
+      + "costs and fines. Ask the clerk of the sentencing court what is outstanding and bring any waiver or "
+      + "reduction order; you cannot declare an obligation waived yourself. Then ask the clerk's office for the "
+      + "three certified copies, keep one, and deliver one to the Attorney General's BCI unit and one to the "
+      + "police department that charged the case. Delivering them is your responsibility.", "");
+  } else {
+    out.push("9. **After a grant**, pay every fine, fee, cost, assessment and restitution in full, ask the clerk's "
+      + "office for the three certified copies, keep one, and deliver one to the Attorney General's BCI unit and "
+      + "one to the police department that charged the case. Delivering them is your responsibility.", "");
+  }
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **Your signature, and every date beside it**, on the motion and on the sworn affidavit.");
   out.push("- **Every box on the affidavit**, in your Part and in every other.");
@@ -2825,6 +3006,20 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
           + "requirement that it never be presented as an official Rhode Island form" },
       { record: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
         read: "the route keys, the destination and the component set this family owes" },
+      ...(BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId) ? [{
+        record: "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+        recordId: "CHATB20260907",
+        boundAs: "the independent review this packet was repaired against, at packet snapshot "
+          + "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+        read: "the findings that bind this family, and the pinpoint readings of the Rhode Island statutes, the "
+          + "Superior Court FAQ and the Attorney General's background-check page that the reviewer made on "
+          + "2026-09-07",
+        pageBytesHeld: false,
+        provenanceLimit: "riag.ri.gov and webserver.rilegislature.gov are both refused by this container's "
+          + "egress proxy (CONNECT tunnel failed, response 403). Every statute and agency-page reading this "
+          + "packet relies on is RELAYED FROM THAT REVIEW and was not fetched here. The two official court "
+          + "forms are different: their bytes are held in the Master Library and bound by exact SHA-256 above."
+      }] : []),
       ...(FEE_ANSWER_CARRIED_TRACKS.has(route.trackId) ? [{
         record: "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
         recordId: "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
@@ -2861,7 +3056,24 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
            "that a Rhode Island District Court or Family Court clerk has confirmed that the Superior Court's "
             + "no-fee answer applies to a filing in that court"]
         : ["what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee"]),
-      "which relief bullet a particular Rhode Island division expects on a deferred-sentence motion",
+      ...(route.trackId === "ri_deferred_sentence"
+        ? ["that any Rhode Island clerk, court or lawyer has approved this packet, its proposed order, or the "
+            + "relief bullet it marks - the mechanism stated in the packet (Chapter 12-1.3 expungement after "
+            + "the Sec. 12-19-19(c) compliance hearing, rather than Sec. 12-1-12 destruction of identification "
+            + "records) is the reading recorded in the independent review of 2026-09-07, finding RI-B-05, and "
+            + "the statutes behind it were not fetched by this build"]
+        : ["which relief bullet a particular Rhode Island division expects on a deferred-sentence motion"]),
+      ...(BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId)
+        ? ["that the Rhode Island Attorney General's background-check page was fetched, hashed or held by this "
+            + "build - riag.ri.gov is refused by this container's egress proxy, and the acquisition "
+            + "requirements and the $5 state-check cost this packet prints are carried from the independent "
+            + "review of 2026-09-07, source RI-S4"]
+        : []),
+      ...(DISTRICT_COURT_CHARGE_NOT_ESTABLISHED.has(route.trackId)
+        ? ["what a Rhode Island District Court charges, if anything, to file this motion - no District Court "
+            + "fee schedule and no clerk response is held, and the Superior Court's no-fee answer does not "
+            + "establish it (independent review finding RI-B-07, which this build does not close)"]
+        : []),
       "whether the Part Two wording on Superior-55 that reads 'misdemeanor' where page 1 of the same form reads "
         + "'felony' is a drafting error, which is a question of Rhode Island practice this build does not answer",
       "whether the participant is eligible on this route"

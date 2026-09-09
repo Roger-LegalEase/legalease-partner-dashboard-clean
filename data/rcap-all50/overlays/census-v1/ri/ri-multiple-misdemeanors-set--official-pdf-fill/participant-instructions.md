@@ -31,16 +31,30 @@ The boxes in the other Parts of the same affidavit belong to other statutory bra
 
 ## Read this before you swear to anything
 
-HOW MANY MISDEMEANORS THIS PART REACHES IS NOT SETTLED, AND THE FORM DISAGREES WITH ITSELF. Page 1 of the court's own form says Part Three B is for a person "convicted of more than one (1) but less than six (6) misdemeanor offenses". The sixth box of Part Three B on page 4 of the same form reads "That I have not been convicted of more than six (6) misdemeanors preceding the filing of this motion". More than one and fewer than six is at most FIVE; not more than six is SIX. The committed record already records the ceiling as unresolved, and names any count near it as a point where self-help ends - together with the separate, unresolved question of whether the count includes convictions you are not asking to expunge. If your count is five or six, get advice before you swear to that box.
+HOW MANY MISDEMEANORS THIS PART REACHES, AND WHERE THE COURT'S OWN FORM DISAGREES WITH ITSELF. This route is the statutory one for a person convicted of MORE THAN ONE BUT FEWER THAN SIX misdemeanors - two, three, four or five - who has not been convicted of a felony, and who meets the other conditions of the subsection. Sec. 12-1.3-2(b) lets the motion ask for ANY OR ALL of those misdemeanors. Page 1 of the court's own form says the same thing: Part Three B is for a person "convicted of more than one (1) but less than six (6) misdemeanor offenses". The sixth box of Part Three B, on page 4 of the same form, reads "That I have not been convicted of more than six (6) misdemeanors preceding the filing of this motion". THAT BOX'S WORDING DOES NOT ENLARGE THE ROUTE. Six misdemeanor convictions is not two through five, and a sixth conviction is outside this Part however the box is worded. Nothing on the court's form is altered here, no box is marked for you, and the form is filed as the court publishes it.
+
+COUNT YOUR RECORD, NOT ONLY THIS MOTION. The count is of the misdemeanor convictions on your record, not only of the ones you are asking the court to expunge: a conviction you leave out of the motion still counts toward the number. If one of your convictions may have been reclassified by the General Assembly, may already have been cleared, or is recorded in a way you dispute, that is a question to settle before you swear to this Part - it is not arithmetic, and it is one of the points where this packet tells you to stop and get advice.
 
 ## Documents you must obtain first
 
 | Document | Where you get it |
 | --- | --- |
-| Rhode Island BCI criminal history record | Rhode Island Department of Attorney General, Bureau of Criminal Identification. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you. |
+| Rhode Island BCI criminal history record | Rhode Island Department of Attorney General, Bureau of Criminal Identification. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours. |
 | Court docket showing counts, charges and dispositions | Clerk of the District, Superior or Family Court where the case occurred. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires. |
 | Proof that sentence and probation are complete | Clerk of the sentencing court, or the probation department. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out. |
 | Proof that financial obligations are paid, waived or reduced by court order | Clerk of the sentencing court. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them. |
+
+**The BCI record is the expungement-purpose one, and it has a cost of its own.** Tell BCI the request is for an expungement. The requirements above — valid photo identification, and a request made in person or by mail — and the **$5** state-check cost are the Rhode Island Department of Attorney General's own, published at <https://riag.ri.gov/i-want/get-background-check>. That $5 is what the state charges for the record. It is **not** a court filing fee and it is not one of the fines, costs, restitution or assessments ordered in your case. Do not order the fingerprint-based national check used for employment instead of it.
+
+**A clear report is not proof that there is nothing to find.** The state check reports what Rhode Island holds; it does not establish that no relevant arrest, charge or disposition exists anywhere. You still need the docket from the court that heard your case, and the sworn statements in the affidavit are still yours to check against both records.
+
+**Where those requirements come from.** That Attorney General page was read on 2026-09-07 in the independent review recorded at `data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json`. This build did not fetch it — riag.ri.gov is refused by this container's egress proxy — so read the page yourself before you go: a cost or a procedure can change and this packet would not know. The request is yours to make and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal history.
+
+## What it costs to file, and what is not established
+
+The Rhode Island **Superior Court** says on its own expungement FAQ that there is no expungement filing fee. That is the Superior Court's answer, read there on 2026-09-07 in the independent review named above; this build did not fetch the page, because courts.ri.gov is refused by this container's egress proxy. A no-fee filing does not cancel any fine, cost, restitution or assessment already ordered in your case.
+
+**Your case is in the District Court, and what the District Court charges for this motion is not established here.** No District Court fee schedule is held by this repository, and the Superior Court's answer does not establish the District Court's. No figure is printed here because none is held. This packet does not revive the $100 charge on a grant that older material describes and that the current text of § 12-1.3-3(c) does not carry, and it does not apply the civil filing-fee schedule, which is a different schedule. **Ask the clerk of the District Court division where you are filing** what this motion costs, if anything, before you go.
 
 ## The items you must supply
 
@@ -104,7 +118,7 @@ None of these is marked for you, and none of them is a choice this route makes.
 
 ## What you do, in order
 
-1. **Get your Rhode Island BCI criminal history record** from the Department of Attorney General's Bureau of Criminal Identification, and **get the docket and judgment** from the clerk of the court that handled the case. Every blank in the table above comes off one of those two records.
+1. **Get your Rhode Island BCI criminal history record** from the Department of Attorney General's Bureau of Criminal Identification — the state check, requested for an expungement, on the terms set out above — and **get the docket and judgment** from the clerk of the court that handled the case. Every blank in the table above comes off one of those two records.
 2. **Fill in the motion**: the case number, the BCI number, the judicial complex, and every count, charge and disposition you are asking the court to expunge.
 3. **Fill in the affidavit's Part Three B: Multiple Convictions** — the boxes that are true of your case — and leave the other Parts alone.
 4. **Sign the affidavit in front of a notary public or a clerk.** It is sworn, and the signature must be witnessed in person. Do not sign it in advance and do not date it in advance; the notary completes the whole certificate at the foot of it.
@@ -129,7 +143,7 @@ None of these is marked for you, and none of them is a choice this route makes.
 The committed track registry for this route records these as the points where self-help ends, in its own words. If any of them describes your case, stop here and get advice before you file:
 
 - Any crime of violence, which bars conviction expungement outright.
-- Any prior conviction or prior probation, which defeats first-offender status.
+- Any felony conviction, which takes this route away entirely. The additional MISDEMEANOR convictions this route exists to clear are not themselves a stop: section 12-1.3-2(b) is the route for a person convicted of more than one but fewer than six of them.
 - Any arrest during the lookback period, even without a conviction.
 - Unpaid or unclear court financial obligations.
 - Any pending criminal proceeding.
@@ -137,7 +151,7 @@ The committed track registry for this route records these as the points where se
 - Immigration exposure. Rhode Island expungement does not resolve immigration consequences.
 - Any goal involving law enforcement employment, bar admission or bar character and fitness, a teaching certificate, a coaching certificate, or early childhood education work, where disclosure survives expungement.
 - Federal, out-of-state, military and tribal records, which Rhode Island relief does not reach.
-- Any count near the five-conviction ceiling, because whether 'fewer than six' means up to five and whether the count includes convictions not being expunged are both unresolved.
+- A misdemeanor count you cannot establish from the record. This route is for two through five misdemeanor convictions with no felony, counted across your record and not only across the convictions named in this motion. A conviction that may have been reclassified, may already have been cleared, or is recorded in a way you dispute has to be settled before you swear to the count.
 - Every domestic violence, DUI and chemical test refusal conviction. These exclusions are specific to this subsection and must be escalated for exact statutory review rather than treated as a bar on every route.
 
 ## What this packet is not
