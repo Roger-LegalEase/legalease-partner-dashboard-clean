@@ -11,6 +11,54 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## Repaired in source, never rebuilt: a screen over 25 families (2026-09-09)
+
+The Illinois repair lane found, outside its own grants, that
+`il-exp-pardon-set`'s **delivered** fixtures are still the original build from
+`78474b174`. Its builder carries the repair everyone has been citing as the
+precedent for the Order item-3 and charge-cell adjudications; the artifacts were
+never regenerated. Its `reports/actual-writes.json` shows **20 charge cells
+holding the case number** and **zero** Order item-3 writes. The source precedent
+is real; the delivered bytes are not.
+
+Screened the whole corpus for the same shape — every family whose builder has a
+commit newer than its delivered `fixtures/canonical.pdf`:
+
+| | |
+|---|---|
+| Families matching the screen | **25** |
+| Of those, `COMPLETE_PACKET_PROVEN` | **14** |
+| `FAIL_REPAIR_REQUIRED` | 6 |
+| Other states | 5 |
+
+The fourteen proven on bytes older than their builder: `ar-nonconviction-seal-set`,
+`ct-decriminalized-set`, `ct-missed-erasure-set`, `ct-pardon-erasure-set`,
+`ga-jail-k2-set`, `il-prostitution-j-vacate-set`, and the eight custom-pleading
+families `rcap-ks`, `rcap-ms`, `rcap-nd`, `rcap-ok`, `rcap-tn`,
+`rcap-wa-clean-tracks`, `rcap-wi`, `rcap-wv`.
+
+### This is a screen, not a finding
+
+A newer builder commit does not mean the output would differ. Twelve of the 25
+point at one commit, `64f2dbb8e` — "Integrate GATE01, PROD-D and FIX28: bytes are
+re-hashed before they are called proven" — which touched many builders and may
+well change no output at all. `d5450b1c8` ("Repair the four Illinois EXP-AD
+builders") is the one already shown to be substantive, by reading the delivered
+bytes rather than the dates.
+
+The only thing that settles it is rebuilding and comparing. **Do not act on this
+table as though it were a verdict, and do not quietly widen it into one.** What it
+supports is a bounded measurement: rebuild the 25, diff against the delivered
+bytes, and report which actually moved.
+
+`scripts/measure-build-reproducibility.mjs` is that measurement, with one trap
+already paid for: **it rewrites its whole record on every run**, so running it
+once per family in a loop replaces an 87-row measurement with a 1-row one. Run it
+once over the set, or in a throwaway worktree.
+
+`il-exp-precompletion-set` and `il-seal-nonconv-set` share the Illinois host and
+are the likeliest true positives after `il-exp-pardon-set`.
+
 ## An inverted safeguard: a builder invariant that REQUIRES the defect (2026-09-09)
 
 `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs:318` reads:
