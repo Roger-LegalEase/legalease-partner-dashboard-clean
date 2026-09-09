@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "11cc7c621ab83d405e9170e78777a7e68e1f45e6",
+  "minimumCaptainSha": "2e75cdec9595da934b758e9ef25233ce67754466",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,21 +72,20 @@
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 1,
-    "repairRequired": 25,
+    "verifyPending": 0,
+    "repairRequired": 26,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 178,
     "GUIDANCE_READY": 13,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 36,
+    "FAIL_REPAIR_REQUIRED": 37,
     "SOURCE_READY": 73,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -13686,17 +13685,14 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "de-current-review-reconciliation",
-        "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
-        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "ee60956ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "reviewedGuidanceAdmission": {
-        "eligible": false,
-        "reason": "other source registry content changed\n+ actual - expected\n... Skipped lines\n\n  {\n    determinations: [\n      {\n        determination: 'Re-point both obligations to the 10/30/2023 edition and bind the held copies. ACQUIRE_EXACT_SOURCE -> ATTACH_HELD_SOURCE.',\n        families: [\n...\n        affectedProofs: 'None of the three families is COMPLETE_PACKET_PROVEN; each is FAIL_REPAIR_REQUIRED on other findings. No proven family binds this obligation.',\n+       candidatesExcluded: [\n+         {\n+           acquisitionRunId: '34315889273',\n+           excludedBecause: 'byte-identical to the held Sixth-District copy',\n+           sha256: '809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a',\n+           url: 'https://selfrepresentation.nmcourts.gov/wp-content/uploads/sites/24/2024/03/Application-and-Order-for-Free-Process-Fillable.pdf'\n+         },\n+         {\n+           acquisitionRunId: '34316000746',\n+           excludedBecause: '200 text/html soft-404; the NMRA publisher does not publish Form 4-222 at the pattern its ten sibling Rule 4 forms use',\n+           sha256: '35b3c0b4c50d762aa98bc47c36e2c8b1bd872691284cea05f8ebf6784f3945ca',\n+           url: 'https://supremecourt.nmcourts.gov/wp-content/uploads/sites/2/2025/10/Form-4-222-NMRA.pdf'\n+         }\n+       ],\n        determination: \"SOURCE_UNRESOLVED. The held binary bound as official-form:4-222 (sha256 809c66a7b7b6..., NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf) prints SIXTH JUDICIAL DISTRICT COURT as static caption text, so it is the Sixth Judicial District's copy of the statewide Application for Free Process and Affidavit of Indigency, not the statewide form: a participant in the Second (Bernalillo) or Seventh (Sierra) district would file a caption naming the wrong court. The held 4-953 petition (2ee3d41243e0...) prints a blank JUDICIAL DISTRICT COURT line and is not affected. A district-local copy may not be promoted statewide. ACQUIRE_EXACT_SOURCE: the statewide 4-222 with its printed district line blank, placed in governed custody by content hash.\",\n        evidence: [\n          'pdftotext of the held 809c66a7 bytes, page 1 lines 3-5: STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT',\n          'VF01 at 48449fe39 (nm_release_without_conviction-set): pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under written counties in the Second and Seventh',\n          'VF04 at a667d6de0 (nm_conviction-set): page 20 and 24 deliver COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT; VF05 (nm_identity_theft-set): the same on page 11',\n+         \"ACQUISITION 34315889273 (2026-09-09): the publisher's own self-representation site, https://selfrepresentation.nmcourts.gov/wp-content/uploads/sites/24/2024/03/Application-and-Order-for-Free-Process-Fillable.pdf, returned 200 application/pdf, 1088817 bytes, sha256 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a — byte-identical to the held binary. The statewide-looking URL serves the Sixth Judicial District's copy; this candidate does not resolve the obligation.\",\n+         'ACQUISITION 34316000746 (2026-09-09): the NMRA rules publisher, https://supremecourt.nmcourts.gov/wp-content/uploads/sites/2/2025/10/Form-4-222-NMRA.pdf — the exact path pattern under which ten sibling Rule 4 forms (4-951 through 4-960.3) are published and already in the promotion set — returned 200 text/html, 12145 bytes, structure not_a_pdf: a WordPress soft-404. Form 4-222 is not published there.'\n        ],\n        families: [\n          'nm_conviction-set',\n          'nm_identity_theft-set',\n          'nm_release_without_conviction-set'\n...\n        ],\n+       ownerAction: \"Acquire a statewide 4-222 whose printed district line is blank, and place it in governed custody. The one candidate URL in the promotion set is now excluded by acquisition 34315889273: it serves the held bytes exactly. No published statewide copy with a blank district line has been located, and it may not exist — New Mexico may publish this form only per district. If it does not, the three families need a decision that is not an acquisition: either a per-district source set, or the form's caption treated as a participant-completed field. That decision is the owner's.\",\n-       ownerAction: \"Acquire the statewide 4-222 binary (the official New Mexico courts site is refused by this container's proxy) and place it in governed custody; the three families then rebuild against it and re-enter raster and verification.\",\n        recordedBy: 'Claude Code Captain',\n        recordedOn: '2026-09-05',\n        whatThisDoesNotEstablish: \"It does not establish that the Sixth District's copy differs from the statewide form in any other respect, or that the statewide form is published with the district line blank; it establishes only that the held bytes name one district and are bound to three statewide routes. The three families also carry repair verdicts on their host (item-2 branch writes, case number not written) that are independent of this source question and are held with their repair lanes.\"\n      }\n    ],\n",
-        "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
-      },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -13725,11 +13721,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The stop list is not honest about what bars this route. A participant whose record was expunged within the last ten years reads a guide that tells them to enrol, pay $72 and wait, with no stop pointed at the one fact that disqualifies them.",
+          "evidence": "DE.memo.json tracks[1].selfHelpStopConditions declares nine conditions. Condition [2] - 'A prior expungement was granted within ten years, or a felony conviction post-dates a prior felony expungement' - is printed nowhere in either fixture and nowhere in participant-instructions.md: the strings 'ten years', 'prior expungement' and 'expungement was granted' return zero matches in the extracted text of canonical.pdf and in the instructions file. The guide's nearest sentence, 'uncertainty about ... prior or later convictions', is about convictions and does not reach a prior GRANTED expungement, which is the fact that bars this route. Condition [4] - the Sec. 4201(c) / Beau Biden Act offence 'where the only route is a pardon' - is reduced to the words 'a violent felony' in a general uncertainty list; 'pardon', '4201' and 'Beau Biden' return zero matches, so the participant is never told that route is pardon-only."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The one document the committed record marks required before filing is no longer surfaced to the participant as required. Repair from DE.memo.json tracks[1].supportingDocuments[0], legalDesignDecision.limitations[0] and rules.filing, in the record's own words, and keep the not-source-approved IdentoGo vendor name and its cost out, as prior repairs did.",
+          "evidence": "DE.memo.json tracks[1].supportingDocuments[0] is 'Certified Delaware criminal history', requirement 'required', requiredBeforeFiling TRUE - the only document the memo marks required before filing. The same obligation is restated twice more: legalDesignDecision.limitations[0] (classification required_before_filing) 'Obtain the certified SBI history and submit it with the mandatory-expungement application', and rules.filing 'Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.' In the delivered bytes the certified Delaware criminal history is named once, and only as a cross-check of one answer: 'Check your answer to \"What were the exact charges and statute sections ...\" against the certified Delaware criminal history, and correct the packet if they disagree.' It is never stated as a document to obtain and submit. In participant-instructions.md it is not named at all: the only 'certified' string in the file is 'certified court and correctional records' in the disposition-dates table row, and the section actually headed 'Required before you use the agency process' lists only the seven field-map blanks. The repository's own REQUIRED_BEFORE_FILING_CONDITIONS require DISCLOSED - 'the item is named in the packet's participant-instructions.md' - and for this document it is not."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",

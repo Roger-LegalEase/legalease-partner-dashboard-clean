@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 997,
+    "rows": 998,
     "independentVerdicts": 252,
-    "failRepairRequired": 40,
-    "passIndependent": 197
+    "failRepairRequired": 41,
+    "passIndependent": 196
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -58,6 +58,7 @@
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+    "de_mandatory_expungement-set",
     "fl-early-juvenile-set",
     "il-cannabis-vacate-set",
     "il-exp-nonconv-set",
@@ -7478,7 +7479,7 @@
       "supersedesEvidencePath": null,
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "de_mandatory_expungement-set",
@@ -7593,6 +7594,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
       "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ee60956ef",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The stop list is not honest about what bars this route. A participant whose record was expunged within the last ten years reads a guide that tells them to enrol, pay $72 and wait, with no stop pointed at the one fact that disqualifies them.",
+          "evidence": "DE.memo.json tracks[1].selfHelpStopConditions declares nine conditions. Condition [2] - 'A prior expungement was granted within ten years, or a felony conviction post-dates a prior felony expungement' - is printed nowhere in either fixture and nowhere in participant-instructions.md: the strings 'ten years', 'prior expungement' and 'expungement was granted' return zero matches in the extracted text of canonical.pdf and in the instructions file. The guide's nearest sentence, 'uncertainty about ... prior or later convictions', is about convictions and does not reach a prior GRANTED expungement, which is the fact that bars this route. Condition [4] - the Sec. 4201(c) / Beau Biden Act offence 'where the only route is a pardon' - is reduced to the words 'a violent felony' in a general uncertainty list; 'pardon', '4201' and 'Beau Biden' return zero matches, so the participant is never told that route is pardon-only."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The one document the committed record marks required before filing is no longer surfaced to the participant as required. Repair from DE.memo.json tracks[1].supportingDocuments[0], legalDesignDecision.limitations[0] and rules.filing, in the record's own words, and keep the not-source-approved IdentoGo vendor name and its cost out, as prior repairs did.",
+          "evidence": "DE.memo.json tracks[1].supportingDocuments[0] is 'Certified Delaware criminal history', requirement 'required', requiredBeforeFiling TRUE - the only document the memo marks required before filing. The same obligation is restated twice more: legalDesignDecision.limitations[0] (classification required_before_filing) 'Obtain the certified SBI history and submit it with the mandatory-expungement application', and rules.filing 'Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.' In the delivered bytes the certified Delaware criminal history is named once, and only as a cross-check of one answer: 'Check your answer to \"What were the exact charges and statute sections ...\" against the certified Delaware criminal history, and correct the packet if they disagree.' It is never stated as a document to obtain and submit. In participant-instructions.md it is not named at all: the only 'certified' string in the file is 'certified court and correctional records' in the disposition-dates table row, and the section actually headed 'Required before you use the agency process' lists only the seven field-map blanks. The repository's own REQUIRED_BEFORE_FILING_CONDITIONS require DISCLOSED - 'the item is named in the packet's participant-instructions.md' - and for this document it is not."
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": false
     },
     {
       "familyId": "fl-10yr-bridge-set",
@@ -30118,7 +30147,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 21,
+  "rowsRefused": 26,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
@@ -30137,6 +30166,11 @@
     "vf11/in_arrest_no_charges-set: undeclared verdict FAIL",
     "vf11/rcap-ms-custom-pleading: undeclared verdict FAIL",
     "vf12/tx_nd_conviction_no_supervision-set: undeclared verdict FAIL",
+    "vf13/il-exp-nonconv-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
+    "vf13/il-exp-qualprob-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
+    "vf13/il-seal-2yr-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
+    "vf13/il-seal-3yr-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
+    "vf13/il-cannabis-vacate-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_felony-set: bounded review no longer describes both current PDFs",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_misdemeanor-set: bounded review no longer describes both current PDFs",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_deferred_sentence-set: bounded review no longer describes both current PDFs",
