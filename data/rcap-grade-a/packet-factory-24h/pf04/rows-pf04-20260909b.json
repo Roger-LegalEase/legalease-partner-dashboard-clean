@@ -98,10 +98,192 @@
         "MASTER_QUEUE.json lists this family's packetComponents as exactly one entry, `component:mt_deferred_dismissal-primary-filing-4`, while all three committed legal-design records list five components. The queue row understates the packet set by four components. Not edited: MASTER_QUEUE.json is a shared central artifact.",
         "The custody reconciliation table data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json carries no row at all for worklistGroupId mt_deferred_dismissal-set, so family_sources_bind fell through to the census/form-number tier. It bound correctly, but the family has no custody-class determination of its own."
       ]
+    },
+    {
+      "itemId": "mn_petition_609a02_subd3-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersBeforeAreNull": "No packet had ever been built for this family, so there was nothing to measure before this build. Writing 0 there would report nine clean measurements of an artifact that did not exist.",
+      "countersAfterMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set (no --write), which returned PASS_COMPLETE with all nine counters zero and none unmeasurable. The builder's own independent count agrees.",
+      "focusedCheckOutput": "ok   mn_petition_609a02_subd3-set                   PASS_COMPLETE                21/132 written · 1 famil(ies) audited · 1 PASS_COMPLETE · counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "overlayDirectoryTouched": true,
+      "buildScript": "scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs",
+      "implementationStrategyBuilt": "official_pdf_fill",
+      "claim": "CLAIM_OK PF04 mn_petition_609a02_subd3-set (packet-build)",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok, 5/5 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "legalInputStatus": "SETTLED. buildBlockers [] and openLegalQuestions [] on the committed track registry; its four blockers are the output-review, visual-review, technical-proof and source-staleness gates, none of which blocks a build.",
+      "packetsSelfVerified": 0,
+      "visualDefectsNotWaived": "visualDefects reads 0 because the geometry pass measured it and found no glyph outside a measured write box. It is not a statement that anyone has looked at a page. No raster was produced here; the central raster gate owns that.",
+      "sourcesResolvedByContent": [
+        {
+          "sourceId": "official-form:EXP102",
+          "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk",
+          "heldAt": "LegalEase Minnesota/EXP102_Current-2.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pages": 6,
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:EXP104",
+          "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk",
+          "heldAt": "LegalEase Minnesota/EXP104_Current.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pages": 2,
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:EXP105",
+          "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk",
+          "heldAt": "LegalEase Minnesota/EXP105_Current.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pages": 4,
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:EXP101",
+          "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk",
+          "heldAt": "LegalEase Minnesota/EXP101.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pages": 7,
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:FEE102",
+          "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+          "how": "content digest queried against the committed corpus index, then re-hashed from the bytes on disk; one identity at three paths with identical bytes, the Master Library copy taken",
+          "heldAt": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+          "custody": "master_library",
+          "pages": 6,
+          "acroFieldCount": 0
+        }
+      ],
+      "sourcesResolvedByFilename": "none. Every one was found by asking the committed corpus index which entry carries this exact SHA-256, and every one was re-hashed from the bytes on disk before a single value was drawn. No lookup anywhere in this build is by form number or by filename.",
+      "committedRecordsBoundByDigest": [
+        {
+          "recordId": "legal-design-track-registry:mn_petition_609a02_subd3",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "anchorStatementsVerified": 22
+        },
+        {
+          "recordId": "legal-design-packet-set-manifests:mn_petition_609a02_subd3-set",
+          "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+          "anchorStatementsVerified": 7
+        },
+        {
+          "recordId": "route-obligation-census:mn_petition_609a02_subd3",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "anchorStatementsVerified": 1
+        }
+      ],
+      "guideGeneratedFromTheControllingRecord": "participant-instructions.md is generated at build time from the three committed records above, each bound by SHA-256 with all 30 relied-on statements re-read from the committed bytes before anything is composed. The venue, the destination, the fee rule, the fee-waiver rule, the notice rule, the service rule, the notarization rule, the four packet instructions, the nine self-help stop conditions and the eight statutory waiting periods are each carried in the record's own words. A drifted record fails the build rather than shipping stale prose.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+          "byteLength": 1213693,
+          "pageCount": 25,
+          "documents": [
+            "EXP102",
+            "EXP104",
+            "EXP105",
+            "EXP101",
+            "FEE102"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+          "byteLength": 1214100,
+          "pageCount": 25,
+          "documents": [
+            "EXP102",
+            "EXP104",
+            "EXP105",
+            "EXP101",
+            "FEE102"
+          ]
+        }
+      ],
+      "routeVariants": "none, and that is the route rather than an omission: the family serves ONE route key and the committed packet-set manifest gives it ONE instrument set. There is no branch this route delivers differently, so canonical and boundary are the whole artifact set.",
+      "otherOutputs": [
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/approval-request.json"
+      ],
+      "measurementEmitted": {
+        "perArtifact": [
+          {
+            "fixture": "canonical",
+            "valuesReportedByFinalizer": 21,
+            "addedGlyphsReadFromOutputBytes": 294,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": 0
+          },
+          {
+            "fixture": "boundary",
+            "valuesReportedByFinalizer": 21,
+            "addedGlyphsReadFromOutputBytes": 700,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": 0
+          }
+        ],
+        "why": "Both keys the assignment named are emitted per artifact and both are real readings, so neither counter reads UNMEASURED. addedGlyphsReadFromOutputBytes is counted from the finished packet's own extracted text; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is the geometry pass's own output, produced by comparing every text item of each finished official document against the pinned source document's own items and testing what remains against every measured box."
+      },
+      "appearanceLevelInspection": "The delivered PDFs were read back and diffed item by item against the five pinned source documents, rather than trusting the finalizer's report. Both fixtures carry EXACTLY 21 added text items and nothing else across 25 pages: EXP102 page 1 the defendant caption; page 2 first, middle, last, date of birth, street address and city/state/zip; page 6 printed name, address, city/state/zip, phone and email; EXP104 page 1 the defendant caption and nothing anywhere else on that form; EXP105 page 1 the defendant caption and the date of birth and nothing on any of its four pages of findings and orders; EXP101 nothing at all on any of its seven pages; FEE102 page 1 the defendant caption and page 6 name, address, city/state/zip, phone and email. No ink on any signature line, any date line, any certificate of mailing, any qualification box or any judicial finding. Every value sits at rule-y plus two points, inside its measured box.",
+      "whatThePacketRefusesToDecide": "EXP102 item 9 lists eleven qualification options and this build ticks none. Three are declared NOT_APPLICABLE_ON_THIS_ROUTE against a named route condition, each of them directing the reader on its own printed face to a different court form - EXP106 for subdivisions 1 or 2, EXP107 for the court's inherent authority. The other eight ARE subdivision 3, which is the whole of this route, and which one applies is decided by the disposition and the discharge date rather than by the route. Each of the eight is declared required-before-filing with determinedByTheCaseNotTheRoute and the reason the route cannot settle it, and each is printed in participant-instructions.md with the form's own words and the waiting period the committed registry records. 60 required-before-filing items in total are disclosed; requiredFactsNotCollected is 0 because every one of them is named in the guide.",
+      "foundAndFixedInThisFamilysOwnScript": [
+        "THE SHARED BUILD HOST'S SELF-COUNT DROPPED THREE DECLARED CHANNELS. The host copied for this family forwarded neither routeConditionThatMakesItInapplicable nor determinedByTheCaseNotTheRoute nor whyTheRouteCannotDetermineIt from the field map into classifyBlank, so every row using either channel was self-counted as if it had declared nothing - eleven rows on EXP102 item 9 alone, reported as unclassifiedBlanks - while verify-packet-completeness.mjs, which forwards all three, reads the identical field map correctly. Repaired in this family's own exclusive script only.",
+        "THE SHARED BUILD HOST SORTED THE PARTICIPANT'S DISCLOSURE LIST ALPHABETICALLY BY FIELD ID. That is the exact defect the composed-pleading host's own comment warns about. Here it printed a sixty-item table with item 16 above item 10, item 2 below both, and item 9's eight qualification options in the order d, h, i, j, f, g, e, c - a table a participant reads top to bottom while working through a petition numbered 1 to 16. Now ordered by component, then page, then declaration order, which is the order the blanks are met. Repaired in this family's own exclusive script only."
+      ],
+      "foundAndNotFixed": [
+        "MASTER_QUEUE.json records implementationStrategy `custom_pleading` for this family. The committed track registry records outputStrategyDeclared `official_pdf_fill`, assigns an officialFormId to all five packet-set components, and carries an express scope restriction: \"The adopted memorandum classifies this expressly as a statewide official-form packet with EXP102, EXP104 and EXP105 as the core packet. A custom pleading would create service and order-content risk without adding value.\" The packet-set manifest agrees with the registry. The packet was built as the controlling records require; the queue row and the overlay directory name still read `custom-pleading`. MASTER_QUEUE.json is a shared central artifact and was not edited. The Captain owns the reconciliation, including whether the overlay directory should be renamed.",
+        "BOTH HOST DEFECTS ABOVE ARE STILL LIVE IN THE HOST THIS FAMILY COPIED, scripts/build-census-v1-ak-mistaken-identity-set.mjs, and in any family copied from it. The first can only report defects a family does not have, so it costs build time rather than correctness. The second reorders a participant-facing disclosure table and is a delivery defect wherever a family declares more than a handful of required-before-filing items. Neither was touched outside this family's own script."
+      ],
+      "nextHandoff": "Central raster of the two hashes above, then independent verification by a lane that did not build this packet."
     }
   ],
-  "rowsReturned": 1,
-  "familiesCompleted": [],
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "mn_petition_609a02_subd3-set"
+  ],
   "familiesStopped": [
     "mt_deferred_dismissal-set"
   ],
