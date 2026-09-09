@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "557bcdb27bd2199105277cab6baae24d992db2d9",
+  "generatedAtCommit": "6d30f576244539a2ec88fab1be2d00d8545e0249",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4986,21 +4986,6 @@
         "ma-seal-admin-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ma-seal-admin-set",
-      "familyId": "ma-seal-admin-set",
-      "itemId": null,
-      "familyIds": [
-        "ma-seal-admin-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF03",
       "laneKind": "packet-build",
@@ -5021,21 +5006,6 @@
       "lane": "PF12",
       "laneKind": "packet-build",
       "released": false
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ma-seal-decrim-set",
-      "familyId": "ma-seal-decrim-set",
-      "itemId": null,
-      "familyIds": [
-        "ma-seal-decrim-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5232,21 +5202,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:47:09.881Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-seal-gen-set",
-      "familyId": "me-seal-gen-set",
-      "itemId": null,
-      "familyIds": [
-        "me-seal-gen-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14063,7 +14018,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9464046a3ad8f721108474acfbfc4128db543d2e1111aedb42c7896dd8dde2c8",
+  "claimsDigest": "0fab6fe2810a066f8b599e9b6b960a6393f3459f6d107c0fe1b45826be585c2d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -55751,6 +55706,30 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "withdrawnAt": "2026-09-09T18:20:13Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-admin-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-09T18:27:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-decrim-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-09T18:27:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-gen-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-09T18:27:33Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
