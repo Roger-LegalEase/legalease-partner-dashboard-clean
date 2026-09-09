@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "la-977d-marijuana-first-offense-set",
+  "jurisdiction": "LA",
+  "trackId": "la-977d-marijuana-first-offense",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-977d-marijuana-first-offense:first-offense-marijuana-expungement-after-90-days-art-998"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "authorityDecision": "LA-STATUTORY-FORMS",
+  "composedFromAuthority": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+  ],
+  "controllingArticle": "La. C.Cr.P. art. 977(D)",
+  "mandatoryForm": {
+    "officialFormId": "LA-CCRP-ART-998",
+    "why": "Article 986 makes Article 998 the form to be used for this category, and the committed record says twice that the Article 989 form is not used here.",
+    "composedFrom": "the Article 998 statutory text held byte-exact in custody and bound to this packet by content digest",
+    "sha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+    "anchorsAssertedAgainstTheSourceBytes": [
+      "Art. 998. Motion for expungement form to be used for certain misdemeanor convictions",
+      "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST",
+      "OFFENSE POSSESSION OF MARIJUANA",
+      "I.DEFENDANT INFORMATION",
+      "II. MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF",
+      "Mover was convicted on",
+      "SID# (if available)",
+      "ARREST NUMBER (ATN)",
+      "AGENCY ITEM NO.",
+      "If not represented by counsel"
+    ],
+    "legislaturesOwnWordsReproduced": [
+      "the prayer paragraph",
+      "the ex parte paragraph"
+    ],
+    "whyReproducedRatherThanParaphrased": "the committed component note states that Article 986(A) makes the statutory forms exclusive, so the rendering must reproduce the Legislature's own words rather than paraphrase them, and that under Article 986(C) the court name is the only authorized variation.",
+    "fieldsDeliberatelyNotAddedToThisForm": [
+      "date of arrest",
+      "how many charges or counts the arrest carries",
+      "original arrest charge and statute for every count"
+    ],
+    "whyNotAdded": "the Article 998 statutory form prints no field for any of them and Article 986(C) allows only the name of the court to vary. They are required participant inputs on the committed memo and are carried on the Article 992 order, which identifies the record the decree reaches, and in the guide."
+  },
+  "components": [
+    {
+      "componentId": "la-977d-marijuana-first-offense-primary-filing-1",
+      "documentId": "LA-CCRP-ART-998",
+      "title": "Article 998 Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana, under Article 977(D)",
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "LA-CCRP-ART-998",
+      "order": 1,
+      "generated": true
+    },
+    {
+      "componentId": "la-977d-marijuana-first-offense-proposed-order-2",
+      "documentId": "LA-CCRP-ART-991",
+      "title": "Article 991 Order",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-991",
+      "order": 2,
+      "generated": true
+    },
+    {
+      "componentId": "la-977d-marijuana-first-offense-proposed-order-3",
+      "documentId": "LA-CCRP-ART-992",
+      "title": "Article 992 Order of Expungement of Arrest and Conviction Record",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-992",
+      "order": 3,
+      "generated": true
+    },
+    {
+      "componentId": "la-977d-marijuana-first-offense-fee-waiver-4",
+      "documentId": "LA-CCRP-ART-988",
+      "title": "Article 988 Motion for Fee Exemption under Article 983(F)",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-988",
+      "order": 4,
+      "generated": false
+    },
+    {
+      "componentId": "la-977d-marijuana-first-offense-instructions-5",
+      "documentId": "la-977d-marijuana-first-offense-instructions-5",
+      "title": "Article 977(D) Participant and Filing Instructions",
+      "role": "instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "order": 5,
+      "generated": true
+    }
+  ],
+  "componentsNotGenerated": [
+    {
+      "componentId": "la-977d-marijuana-first-offense-fee-waiver-4",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-988",
+      "conditionTheRecordStates": "Generated only where the participant may qualify for the Article 983(F) exemption, whose grounds are non-conviction grounds and so rarely reach this track.",
+      "generated": false,
+      "whyNotGenerated": "the condition is that the participant may qualify for the Article 983(F) exemption, whose grounds the record itself describes as non-conviction grounds that rarely reach this track. Article 977(D) is a CONVICTION track, so nothing on either fixture establishes the condition and the component is not generated. The record's own words about the exemption, the fifteen-day return and the non-refundable fee are carried in the participant and filing instructions, and item 4 of the record's required-before-filing list, which claims the packet gives the participant this form, is printed unchanged and corrected beneath."
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/filing-instructions.md"
+}

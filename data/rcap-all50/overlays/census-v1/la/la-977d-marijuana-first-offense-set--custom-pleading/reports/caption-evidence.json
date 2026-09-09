@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "la-977d-marijuana-first-offense-set",
+  "question": "Is the caption, the controlling authority, the eligibility recital, the FORM and the prayer on this packet this family's own, or a sibling's?",
+  "whyItIsAsked": "Louisiana runs six expungement tracks off six articles that share a caption shape and share the Article 991 and 992 orders. This track is the one that also uses a DIFFERENT primary form, and three lines of its own committed record name the sibling tracks' Article 989 motion.",
+  "controllingArticle": "La. C.Cr.P. art. 977(D)",
+  "mandatoryForm": "LA-CCRP-ART-998",
+  "legalNameFromTheRecord": "Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana (La. C.Cr.P. arts. 977(D), 998)",
+  "assertedAtBuildTime": [
+    "registryTrack.legalName matches /art(s?)\\. 977\\(D\\)/i",
+    "memoTrack.controllingAuthority.summary matches /Article 977\\(D\\)/",
+    "memoTrack.controllingAuthority.citations[0] === 'La. C.Cr.P. art. 977(D)'",
+    "the required primary filing component's officialFormId === 'LA-CCRP-ART-998'",
+    "registryTrack.rules.filing matches /the Article 989 form is not used here/i",
+    "all 10 Article 998 structural anchors are present in the bound source bytes"
+  ],
+  "captionFieldsWrittenOnEveryFilingDocument": [
+    {
+      "id": "court_name",
+      "label": "Name of court with trial jurisdiction over the offense",
+      "factId": "case.court_name"
+    },
+    {
+      "id": "parish",
+      "label": "Parish of conviction",
+      "factId": "case.parish"
+    },
+    {
+      "id": "docket_number",
+      "label": "Docket or case number",
+      "factId": "case.docket_number"
+    },
+    {
+      "id": "division",
+      "label": "Division of the court",
+      "factId": "case.division"
+    },
+    {
+      "id": "mover_full_legal_name",
+      "label": "Mover full legal name",
+      "factId": "participant.full_legal_name"
+    }
+  ],
+  "documentsCarryingTheCaption": [
+    "LA-CCRP-ART-998",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+  ],
+  "articleSpecificText": {
+    "motionTitle": "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
+    "partTwoHeading": "II. MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
+    "eligibilityRecital": "Article 977(D)'s ninety days from the date of conviction, replacing the Article 894(B) set-aside requirement and the Article 977(A) five-year wait",
+    "prayer": "the Legislature's own prayer paragraph, lifted verbatim from the bound Article 998 source bytes rather than paraphrased",
+    "whatIsNotOnThisPacket": "no Article 989 motion, no arrest-without-conviction recital, no Article 976(A) grounds list, no felony recital, no Article 985 redaction paragraph and no interim-expungement decree."
+  },
+  "recordLinesThatNameASiblingsFormAndAreCorrectedInTheGuide": [
+    "registryTrack.rules.participantSignature: \"The mover signs the Article 989 Motion in the block headed 'If not represented by counsel'.\"",
+    "packetSet.requiredBeforeFiling item 13: the same sentence",
+    "packetSet.participantActionRequired, kind=sign: the same sentence"
+  ],
+  "howTheyAreTreated": "printed verbatim and corrected beneath, by code that compares the article a line names against the officialFormId of this family's primary filing rather than by a hardcoded exception.",
+  "siblingFamiliesThisPacketMustNotResemble": [
+    "la-976-arrest-no-conviction-set",
+    "la-977-misdemeanor-conviction-set",
+    "la-978-felony-conviction-set",
+    "la-985-expungement-by-redaction-set",
+    "la-985-1-interim-expungement-set",
+    "la-987-set-aside-and-dismiss-set"
+  ]
+}

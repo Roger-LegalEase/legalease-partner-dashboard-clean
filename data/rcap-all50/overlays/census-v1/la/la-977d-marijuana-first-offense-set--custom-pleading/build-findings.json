@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "la-977d-marijuana-first-offense-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "This family was recorded SOURCE_IDENTITY_UNRESOLVED on the nested sourceReadiness.custodyClass of its own queue row, while the same row's top-level sourceStatus read SOURCE_BOUND_BY_HELD_BYTES and sourceBound true. It was held out of the build queue for that nested class.",
+      "treatment": "Both declared digests resolved by content digest across 5 mounted custody root(s) and were re-hashed from the resolved bytes. 2 of 2 resolved at the DECLARED path itself, in the declared custody, carrying the declared digest. The nested class is contradicted by measurement and is recorded in source-receipt.json rather than reconciled by this lane; MASTER_QUEUE.json is generated centrally and was not modified."
+    },
+    {
+      "finding": "The custody that holds the declared paths lives under private/, which is gitignored and therefore is not a git path at all.",
+      "treatment": "Its absence from a sparse worktree is a resolver artefact and never evidence that a source is missing, so this build resolves by content digest across every custody root that IS mounted and records, per source, whether the declared path was among them. A digest that resolves nowhere stops the build and is named with its sourceId."
+    },
+    {
+      "finding": "This family's composedFromAuthority names Articles 988, 991 and 992 and does NOT name Article 998, which is the officialFormId of the required primary filing on the same owner's packet-set manifest and is one of this family's two bound sources. MASTER_QUEUE.json omits it the same way in forms, sourceIds and sourceReadiness.satisfiedByAuthority.",
+      "treatment": "The determination's own operative text names art. 998 by number and directs that it be generated faithfully from the current codified article text. This build composed the Article 998 motion under that numbered range rather than under this family's own summary of it, asserted both halves at build time so neither can drift silently, and recorded the reading in source-receipt.json and as the first counsel question. No central record was modified."
+    },
+    {
+      "finding": "Article 986 makes Article 998 the form for this category and the committed record says twice that the Article 989 form is not used here, yet three of the registry's own lines for this track - rules.participantSignature, required-before-filing item 13 and the sign participant action - say the mover signs the ARTICLE 989 Motion.",
+      "treatment": "The record's words are printed unchanged and corrected beneath them, by code that compares the article a line names against the officialFormId of this family's primary filing rather than by a hardcoded exception. The memo's own manual-completion item names the Article 998 motion correctly, and the correction points the participant at the Article 998 motion actually enclosed. The registry is a central record and was not modified."
+    },
+    {
+      "finding": "The Article 998 primary filing is a mandatory statutory form, and the committed component note requires that a rendering reproduce the Legislature's own words rather than paraphrase them.",
+      "treatment": "The Article 998 statutory text is this family's second bound source and is held byte-exact. It is opened by digest at build time, 10 structural anchors are asserted against its bytes before anything is drawn, and the Legislature's own prayer and ex parte paragraph are lifted from those bytes and printed verbatim on the motion. Both are then read back from the finalized packet bytes and reported in reports/actual-writes.json. Because Article 986(C) allows only the court name to vary, no field the statutory form does not print was added to it: the arrest date, the count and the original arrest charges are carried on the Article 992 order and in the guide instead."
+    },
+    {
+      "finding": "The committed component note for Article 998 states that no template exists yet, none is counsel-approved and no implementation is authorized here.",
+      "treatment": "It is carried verbatim into participant-instructions.md and into approval-request.json for counsel. It is not read as a build blocker: registryTrack.buildBlockers and legalDesignBlockers are both empty and are asserted empty at build time, the gates the record itself lists are an output-review gate, a visual-review gate, a technical-proof gate and a release blocker, and the memo's own note says only a legal_design_blocker withholds a track. A build status is not a release, and this build claims no counsel approval and no court-ready rendering."
+    },
+    {
+      "finding": "The Article 988 fee-exemption component is conditional and its condition is not met on this track.",
+      "treatment": "It is not generated. The record's own condition says the Article 983(F) grounds are non-conviction grounds that rarely reach this track, and Article 977(D) is a conviction track. Item 4 of the record's required-before-filing list nonetheless says 'The packet gives you the Article 988 form with your own fields filled in'; those words are printed unchanged and corrected beneath them everywhere they appear, with the Article 983(A) non-refundable fee consequence stated. A neighbouring Louisiana family shipped that sentence uncorrected and an independent lane recorded it as a false statement about the packet."
+    },
+    {
+      "finding": "The three-hundred-dollar fee cap formerly in Article 983(M) terminated on 1 August 2026, and the committed limitation says the former 'file by 31 July 2026' advice is historical and must not be repeated as current guidance.",
+      "treatment": "The packet prints the ordinary Article 983(A) five-hundred-fifty-dollar cap as the current one, prints the three-hundred-dollar cap as historical, states plainly that what ended was the reduced fee and not the ninety-day route, and repeats the superseded filing-deadline advice nowhere. The build asserts that the committed fee rule still states the ordinary cap as current before it prints it."
+    },
+    {
+      "finding": "Whether the conviction was a FIRST offence for possession of marijuana is the whole eligibility test for this route, and it is the one blank on this packet that most looks like the packet's to fill.",
+      "treatment": "It is not written. It is declared REQUIRED_BEFORE_FILING and determinedByTheCaseNotTheRoute with the reason recorded in the field map, printed as an empty line on the motion and again on the proposed Article 992 order, disclosed in the guide's supply table, and named again as the first of the record's own self-help stop conditions. The conviction statute is treated the same way: the memo offers R.S. 40:966(C) as an example, and an example is not this case's answer."
+    },
+    {
+      "finding": "Every ordering paragraph, finding, election, date, place and judicial signature on the Article 991 and Article 992 orders belongs to the court, and both signature blocks the Article 998 statute prints must be carried.",
+      "treatment": "Each court field is classified court-owned, the proposed orders are visibly unexecuted, and no court or signature field carries ink. Both statutory signature blocks are printed: the attorney block is classified not-applicable-on-this-route because this packet holds no record that the mover is represented, and the unrepresented-mover block is left for the mover to sign, with its address and telephone lines declared required before filing because the platform holds neither."
+    },
+    {
+      "finding": "The memo holds 5 self-help stop conditions, 3 exclusions, 1 waiting period(s), 7 manual-completion items and 5 supporting documents; the registry holds 17 participant actions, 15 required-before-filing items and 8 legal-design limitations.",
+      "treatment": "Every one is carried verbatim and numbered in participant-instructions.md, with the count printed beside it so short carriage is visible to the participant rather than only to a report."
+    }
+  ]
+}
