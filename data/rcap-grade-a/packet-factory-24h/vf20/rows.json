@@ -847,6 +847,342 @@
       "whyProductPathPendingNotPass": "Thirteen of fifteen obligations pass on the current bytes and the recorded SOURCE_IDENTITY failure is discharged. The family is held because the route's declared output strategy is participant_agency_application and the deliverable is a guide that disclaims being that application.",
       "whatWouldResolveIt": "An owner or counsel decision on what an agency-application-treatment route delivers when the agency's instrument is an online portal application the platform cannot lawfully generate or submit. Not a repair to these bytes.",
       "whatThisVerdictDoesNotDo": "It opens no route, promotes nothing, and repairs nothing."
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "lane": "VF20",
+      "worker": "VERIFIER-VF20-POSTREPAIR",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "verifiedAtBase": "3687291a6",
+      "repairUnderTest": "10ef93ffd, cherry-picked to this branch as b72b0a24d",
+      "claim": {
+        "asserted": true,
+        "assertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF20 mo-art-xiv-marijuana-set",
+        "result": "CLAIM_OK VF20 mo-art-xiv-marijuana-set (independent-verification, grant set c88d49a6fe40c545)",
+        "detail": "Unlike the earlier read at 7f386ab54, VF20 now holds a live independent-verification grant on this subject. Nothing was granted, re-granted, transferred or released here."
+      },
+      "independence": "This lane built and repaired nothing. The repair commit's claims are the thing under test, not evidence: every claim below was re-measured from the committed bytes and from the source binaries in the mounted custodies.",
+      "tracks": [
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief",
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "rasterState": "BUILT_RASTER_PENDING",
+        "commercialRoutesOpened": 0,
+        "productionTouched": false
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 29,
+        "allZero": false,
+        "measuredHere": true,
+        "unitOfVisualDefects": "refused check-box widgets carrying a pdf-lib synthesized appearance square on the delivered page; identical on both fixtures",
+        "howMeasured": "58 of 58 declared writes located at their declared widget /Rect in both fixtures by pdftotext -bbox word boxes, with each multi-widget field checked at every one of its rects; 242 refusals checked for packet-authored ink by diffing the delivered page's word set against the corresponding SOURCE page's word set, so form print is excluded by construction: every one of the 133 (canonical) and 135 (boundary) words the delivered pages add beyond the source is FULLY CONTAINED, to 0.5pt in x and 2pt in y, inside a declared write rect, and none lands at a refused rect. visualDefects measured separately at 150 dpi as a directional raster diff of every delivered page against its own source page (added ink only: delivered darker than source), masked by every declared write rect."
+      },
+      "whereIDifferFromTheCompletenessTool": "verify-packet-completeness.mjs returns PASS_COMPLETE 58/300 written with all nine counters zero, here and at every earlier base. I reproduce eight of the nine and differ on visualDefects, which I measure at 29 rather than 0. The tool cannot see this: it raises visualDefects only from the artifact write record's `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes` key, which counts GLYPHS. A synthesized appearance square is a stroked vector rectangle and no glyph, so the counter is structurally blind to it. The four defects the repair addressed were likewise invisible to all nine, and the counters read 58/300 identically before and after the repair; they are not evidence either way here.",
+      "whatThisGateDidNotRender": [],
+      "documentsNotCovered": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'mo-art-xiv-marijuana-set' agrees across build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, approval-request.json and reports/*. Both unit route keys are carried verbatim. Unchanged by the repair and re-read here."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The FAIL I recorded at 7f386ab54 was not about the binaries but about a false characterisation of one of them, and it is discharged. Both binaries recompute from the mounted custodies in this container: CR375 sha256 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780 at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__...pdf, and FI-05 sha256 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf, both equal to source-receipt.json. I re-measured the withdrawn CIRCUIT claim myself with pdftotext -bbox against those exact bytes and reproduce the repair's figures independently: on FI-05 page 4 the sub-headers are ASSOCIATE spanning x 195.72-243.69 and CIRCUIT spanning x 250.08-284.02; the row 'Expunge Marijuana Criminal/Arrest Records' is printed on page 4 ONLY, with X# drawn at x 213.48-224.36, inside ASSOCIATE, and nothing in that row's CIRCUIT cell; the neighbouring rows carry XG at x 260.52-273.40 and X5 at x 261.48-272.36 in CIRCUIT. The false claim is gone from production-field-map.json (both selectionBasis strings), from build-findings.json and from the builder header, and no restatement of it survives anywhere in the family directory. One residual statement I checked rather than assumed: the field map still says FI-05 'prints the Case Types List on its pages 3 and 4', used to justify refusing the Party Type Code. That one is TRUE - page 3 carries the list's header and its DOMESTIC RELATIONS / FAMILY / CONTRACT categories with the same ASSOCIATE and CIRCUIT sub-headers, and page 4 continues it - so it is a correct statement about the list, not a survival of the withdrawn statement about the row.",
+          "onePrecisionNote": "The repair's build-findings.json records X5 at 'x 261.50-272.40'. Measured here it is 261.48-272.36. A rounding of 0.04pt, recorded because a coordinate offered as evidence should be the coordinate."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Three declared components - primary_filing CR375, cover_sheet FI-05, continuation FI-05 - all present in both fixtures. Untouched by the repair; verified again from the page mapping below."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "58 of 58 declared writes proved at their declared rects in both fixtures. X# in particular is drawn at x 63.34-76.79 on packet page 3 (and again on page 7), inside the FI-05 Case Type Code rect x 62.338 width 247.833, with 'Expunge Marijuana ...' in the adjacent Case Type Description; both are visible and correctly placed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No packet-authored VALUE reaches any refused field. Proved by construction rather than by inspection: the set of words the delivered pages add beyond their own source pages is 133 (canonical) and 135 (boundary), and every one of them is fully contained inside a declared write rect. The court-owned CR375 'Judge or Division' line, the signature and the filing dates are blank; FI-05's 'Case Number (For Court Use Only)' is blank on all four sheets. The synthesized square scored under CLIPPING_AND_OVERLAP carries no value and no tick and is not a protected write."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The delivered pages carry ink the official forms do not print, at 29 refused check-box widgets, on both fixtures. the shared sanitizer calls pdf-lib's updateFieldAppearances() before flatten(); pdf-lib regenerates an appearance for any check-box widget whose current /AS state has no entry in /AP /N, and its default provider paints a stroked square the size of the widget /Rect, which flatten stamps onto the page. ISO 32000-1 12.5.5 says a viewer draws the stream named by /AS, so where there is none a conforming viewer paints nothing: the square is ink the official form does not print. FIX50 gave the sanitizer the opt-in `suppressSynthesizedAppearances`, which installs an empty appearance for the missing state instead, and opted Vermont's non-conviction sealing set in. Neither builder here passes it. I measured it three ways here. (1) FIX50's own scanner, re-run in this container, puts this family IN the cohort: 33 selection widgets across CR375 and the two FI-05 sheets, all 33 with no appearance for their current /Off state, none shipping its own /Off appearance, builder optsIn false. 4 selection fields are written and take the source's own On stream, leaving 29 refused widgets to be synthesized. (2) A directional raster diff at 150 dpi of every delivered page against its own source page, counting only pixels where the delivered page is darker, finds 2767 added pixels lying outside every declared write rect, on packet pages 1, 2, 3 and 7 and on no others - exactly the pages that carry unmarked selection widgets (CR375 pages 1-2 hold 19, FI-05 page 1 holds 7 and appears twice). (3) Looked at, at 300 dpi. On FI-05 the widget /Rect is 13.342 x 17.269 where the form's printed box is about 9pt square, so the delivered page shows a visible SECOND rectangle drawn around the court's own box - e.g. field 'The unredacted document is attached to this filing sheet in' at rect x 317.451 y 650.698. This is not a difference in how two renderers paint the same thing: the source page and the delivered page were rasterised by the same poppler build at the same dpi. It is deterministic - canonical and boundary give identical counts. THIS CORRECTS MY OWN EARLIER READ. At 7f386ab54 I recorded this under observedNotScored and wrote that 'rendered side by side, the delivered page and the source binary show the same boxes, because poppler paints the source's /MK border too'. That is wrong, and it was wrong then: the committed PDF digests have not moved. Measured at 300 dpi rather than 110, the delivered page carries an extra stroked rectangle the source does not. I also mis-stated the count as 27; it is 29. The repair did not cause this and did not touch it. The remedy exists, needs no legal input and no new source: pass suppressSynthesizedAppearances, as Vermont's set already does. Separately from the counters, no drawn string exceeds its box: every added word is fully contained in a declared write rect to 0.5pt in x and 2pt in y on both fixtures, including the boundary fixture's long values, so there is no clipping and no overlap of TEXT."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Discharged, and this is the obligation my earlier read got wrong. MO.memo.json track mo-art-xiv-marijuana declares ELEVEN selfHelpStopConditions. I compared each one to the delivered participant-instructions.md as a byte string, normalising only whitespace and curly quotation marks, and ALL ELEVEN are present VERBATIM under a 'Stop conditions' heading that says they are the conditions the record states in its own words - including the seven that were absent in substance before (distribution or delivery to a minor; violence; operating a motor vehicle under the influence of marijuana; class A, B or C marijuana felony; more than three pounds or an unclear quantity; an arguable Article XIV sections 1 and 2 question; and Case.net disagreeing with the Highway Patrol record). Two further stops the memo does not declare - a non-marijuana conviction and a pending charge - are kept and correctly labelled route boundaries rather than record conditions. At 7f386ab54 I scored this PASS on a single hand-written sentence covering four of the eleven in substance and none verbatim; that PASS was wrong and this is not a re-affirmation of it but a fresh verbatim measurement."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "filing-instructions.md names the clerk of the Missouri circuit court where the conviction was charged or guilt was found - the court in the caption - and directs both FI-05 sheets to be handed over with the petition. That is the memo's destination."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "MO.memo.json records rules.service 'None performed by the participant. CR375 carries no certificate of service.' The packet asks the participant to serve nothing and prints no certificate of service. Confirmed on the delivered pages."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Discharged. MO.memo.json marks exactly one supporting document requiredBeforeFiling true, and participant-instructions.md now carries it under 'What you must obtain before you file' with all three of the record's strings present VERBATIM: the document 'Certified docket sheet and judgment for each case', its obtainedFrom 'Clerk of the court where the case was charged or the finding of guilt entered', and its howToObtain 'Ask the clerk for a certified copy of the docket and the judgment. It supplies the case number, the court, the offense grade and the charge description, and on a marijuana case it is often the only place the quantity appears.' The other three supporting documents are requiredBeforeFiling false and are correctly not presented as owed."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical recomputes 9f978890250062c03b69a31fd70c76ac15d2517120e5cf4789979e2349eb597e at 685343 bytes and boundary ba54902173f3b560fc4972f279f3de74be8238636bc23c65f56e36d8bb2fdb0b at 685685 bytes, both equal to approval-request.json and to what I recorded at 7f386ab54. The digests being UNCHANGED across the repair is correct and I confirmed the reason rather than accepting it: the packet composes no page of its own. Both fixtures are 10 pages, 612x792, Form: none, and every one of those 10 pages is a source form page - the word-set diff finds nothing on any page except the declared writes, so there is no cover sheet, no instruction page and nowhere the repaired copy could have been drawn. Neither instruction file's text occurs anywhere in the extracted text of either PDF. The repaired bytes are the markdown beside the fixtures, and that is where they belong."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 10-page order is reproduced from the bytes and independently confirmed by the page-by-page word-set diff, which only closes if each packet page is the source page the manifest claims: CR375 pp1-2, FI-05 pp1-4, FI-05 additional sheet pp1-4."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Discharged, and my decision on the X# write is that KEEPING IT IS RIGHT. The recorded basis is now honest in all three places: production-field-map.json's routeSelectionsMade and both Case Type Code selectionBasis strings, and build-findings.json, now say the value comes from the census and that FI-05 prints the code in the ASSOCIATE column and does not place the row in CIRCUIT, with the division question open. approval-request.json puts the ASSOCIATE/CIRCUIT question to counsel with the coordinates and does not answer it. On whether census support alone is enough: it is not census alone, and the record is stronger than the repair claims for itself. THREE independent supports carry the VALUE. (a) MO.memo.json's own rules.filing for this track states the route is filed 'on SJRC (10-24) CR375 with FI-05 at case type X#' - the controlling state memo, a support the repair does not cite. (b) The census destination record, which the repair does cite. (c) FI-05's own Case Types List, which prints X# beside exactly the description 'Expunge Marijuana Criminal/Arrest Records' and prints no other code on that row. What was withdrawn was a claim about the DIVISION, not about the value, and the source offers no competing code: the CIRCUIT cell of that row is EMPTY, not occupied by a different code, so refusing the write would not resolve the division question - it would only blank a clerk's cover-sheet field that three records fill. The write is also not a sworn participant fact (the declaration under penalty of perjury is on CR375; FI-05 is the clerk's cover sheet), and participant-instructions.md tells the participant 'If the clerk tells you a different case type applies, use the clerk's', so it is correctable at the counter. Refusing it would be the more dangerous act. The counsel question stands and blocks approved_for_live; it is not a reason to drop the write and not a repair condition."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Conviction rows 1 and 2 complete in all five cells on both fixtures; rows 3-9 wholly blank with every cell classified REQUIRED_BEFORE_FILING and a participantMustSupply sentence. No half-filled row. Untouched by the repair."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "MO.memo.json records that no fee figure is published on this track and that GN10 is not generated by default on this route. filing-instructions.md says the held sources establish no filing fee, states no amount, and sends the participant to the clerk; no GN10 is generated. Consistent with the record. Worth saying because Maryland's defect was this same sentence carried where it was false: here it is true, and it is true because THIS memo says so."
+        }
+      },
+      "failedProofObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "notMeasurableHere": [],
+      "repairClaimsTested": [
+        {
+          "claim": "the requiredBeforeFiling document now derives from the memo with its obtainedFrom and howToObtain",
+          "verdict": "TRUE, verbatim, all three strings"
+        },
+        {
+          "claim": "all eleven stop conditions print verbatim",
+          "verdict": "TRUE, all eleven, byte-compared"
+        },
+        {
+          "claim": "the CIRCUIT claim is withdrawn in all three places and in the builder header",
+          "verdict": "TRUE; I re-measured the coordinates independently and reproduce them"
+        },
+        {
+          "claim": "the builder reads MO.memo.json at build time and refuses if the record stops declaring the item",
+          "verdict": "TRUE as code: the memo is read at module load and the build throws MO_MEMO_TRACK_ABSENT, MO_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT, MO_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS or MO_MEMO_REQUIRED_DOCUMENT_INCOMPLETE before writing a byte. I did not exercise the refusal, because doing so means mutating a memo and rerunning a builder, and I verify rather than build."
+        },
+        {
+          "claim": "MO.memo.json is hashed into source-receipt.json as a compositionSource",
+          "verdict": "TRUE and it binds: sha256 53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934 at 494662 bytes recomputed from the committed file, equal to the receipt"
+        },
+        {
+          "claim": "the delivered PDF digests are unchanged and that is expected because the family composes no page of its own",
+          "verdict": "TRUE, and confirmed rather than assumed - see ARTIFACTS"
+        },
+        {
+          "claim": "test-mo-art-xiv-record-disclosures.mjs passes",
+          "verdict": "TRUE, exit 0, but it is not the verdict: it asserts the disclosures and the absence of the CIRCUIT string, and reads no page geometry"
+        }
+      ],
+      "observedNotScored": [
+        "The required-before-filing document and the eleven stop conditions reach participant-instructions.md only. filing-instructions.md's own 'Before you file' list does not name the certified docket sheet and judgment. Both files are delivered together and the obligation is met, but a filer working from the filing checklist alone would not meet the document there.",
+        "participant-instructions.md does not tell the participant that X# is printed in the ASSOCIATE column while CR375 is captioned in the judicial circuit. The memo declares no stop condition on it and a participant cannot act on a division question; the copy already gives the actionable handling ('If the clerk tells you a different case type applies, use the clerk's'). Recorded so the counsel question is not thought to be a participant disclosure gap.",
+        "The three route-determined agency names are written with the fixture's own county and division. Only the three CATEGORIES are route-determined; the identities come from the case. Carried forward from my earlier read, unchanged: the copy is loose rather than wrong."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0,
+      "whatThisVerdictDoesNotDo": "It opens no route, promotes nothing, repairs nothing and answers no counsel question. The four defects this repair was raised against are all discharged; the family fails on a fifth that predates the repair, that I under-read the first time, and that no counter can see."
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "lane": "VF20",
+      "worker": "VERIFIER-VF20-POSTREPAIR",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "verifiedAtBase": "3687291a6",
+      "repairUnderTest": "10ef93ffd, cherry-picked to this branch as b72b0a24d",
+      "claim": {
+        "asserted": true,
+        "assertion": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF20 md_pardon_expungement-set",
+        "result": "CLAIM_OK VF20 md_pardon_expungement-set (independent-verification, grant set c88d49a6fe40c545)",
+        "detail": "VF20 now holds a live independent-verification grant on this subject. Nothing was granted, re-granted, transferred or released here."
+      },
+      "independence": "This lane built and repaired nothing. The repair commit's claims are the thing under test, not evidence: every claim below was re-measured from the committed bytes and from the source binaries in the mounted custodies.",
+      "tracks": [
+        "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "rasterState": "BUILT_RASTER_PENDING",
+        "commercialRoutesOpened": 0,
+        "productionTouched": false
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 50,
+        "allZero": false,
+        "measuredHere": true,
+        "unitOfVisualDefects": "refused check-box widgets carrying a pdf-lib synthesized appearance square on the delivered page; identical on both fixtures",
+        "howMeasured": "31 of 32 declared writes located at their declared widget /Rect in both fixtures by pdftotext -bbox word boxes, with every multi-page field (CC-DC-089 Case Number, both party names, court city/county, District Court box) checked at each of its own widget rects. The 32nd is the 'Request a Waiver of the Prepaid Costs' check box, whose tick is a ZapfDingbats appearance that pdftotext cannot extract; it was proved instead at 300 dpi, where the box reads as a clean X inside its border and the companion 'No Anticipated Material Changes' box below it is empty. 114 refusals checked for packet-authored ink by diffing each delivered page's word set against its own SOURCE page's word set: all 101 (canonical) and 120 (boundary) added words are fully contained, to 0.5pt in x and 2pt in y, inside a declared write rect, and none lands at a refused rect. visualDefects measured separately at 150 dpi as a directional raster diff of every delivered page against its source page (added ink only), masked by every declared write rect."
+      },
+      "whereIDifferFromTheCompletenessTool": "verify-packet-completeness.mjs returns PASS_COMPLETE 32/146 written with all nine counters zero, here and at every earlier base. I reproduce eight of the nine and differ on visualDefects, which I measure at 50 rather than 0. The tool raises visualDefects only from the artifact write record's `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes` key, which counts GLYPHS; a synthesized appearance square is a stroked vector rectangle and no glyph, so the counter is structurally blind to it. The two defects the repair addressed were likewise invisible to all nine, and the counters read 32/146 identically before and after; they are not evidence either way here.",
+      "whatThisGateDidNotRender": [],
+      "documentsNotCovered": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'md_pardon_expungement-set' and the single route key agree across every record in the directory and both instruction files. Unchanged by the repair, re-read here."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both binaries recompute from the mounted custodies in this container: CC-DC-CR-072B sha256 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469 at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf, and CC-DC-089 sha256 eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384 at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf, both equal to source-receipt.json. The repair added MD.memo.json as a compositionSource: sha256 4e773ffb80e152ed18294aa19545e6ec2f27d3d239188b25340d63726b7a8faf at 137393 bytes, recomputed here and equal."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "MD.memo.json names two components and both are present: CC-DC-CR-072B primary_filing (required) and CC-DC-089 fee_waiver (conditional). Untouched by the repair."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "32 of 32 declared writes proved on both fixtures (31 from the text layer, the waiver-request tick at 300 dpi). Multi-page fields are drawn once per page at each widget's own rect with no stacked overprinting. On CC-DC-089 'State of Maryland' goes to Petitioner/Plaintiff and the participant's name to Respondent/Defendant, which is the right way round for a criminal caption. No incident narrative, income figure or date is invented."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No packet-authored VALUE reaches any refused field, proved by construction: every word the delivered pages add beyond their own source pages is fully contained inside a declared write rect, and none is at a refused rect. Packet page 4 is CC-DC-089's ORDER page and every judicial finding, the granted/denied election, the ordered amount, the judge line and the ID number are blank; both signature blocks and both attorney blocks are blank on both forms; the whole affidavit of income is blank, so no indigency is sworn on the participant's behalf. The synthesized square scored under CLIPPING_AND_OVERLAP carries no value and no tick and fabricates no finding; it is not a protected write."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The delivered pages carry ink the official forms do not print, at 50 refused check-box widgets, on both fixtures, and on this family it reaches the judge's own order page. the shared sanitizer calls pdf-lib's updateFieldAppearances() before flatten(); pdf-lib regenerates an appearance for any check-box widget whose current /AS state has no entry in /AP /N, and its default provider paints a stroked square the size of the widget /Rect, which flatten stamps onto the page. ISO 32000-1 12.5.5 says a viewer draws the stream named by /AS, so where there is none a conforming viewer paints nothing: the square is ink the official form does not print. FIX50 gave the sanitizer the opt-in `suppressSynthesizedAppearances`, which installs an empty appearance for the missing state instead, and opted Vermont's non-conviction sealing set in. Neither builder here passes it. Measured three ways. (1) FIX50's scanner, re-run in this container, puts this family IN the cohort: 56 selection widgets across CC-DC-CR-072B (15) and CC-DC-089 (41), all 56 with no appearance for their current /Off state, none shipping its own /Off appearance, builder optsIn false; 6 widgets are written and take the source's own On stream, leaving 50 synthesized. (2) A directional raster diff at 150 dpi of each delivered page against its own source page, counting only pixels where the delivered page is darker, finds 2681 added pixels outside every declared write rect, spread over ALL FOUR pages: 380 on the petition, 1400 and 247 on the affidavit pages, and 654 on packet page 4 in a narrow column at x 127.7-163.2 running from yTop 111.8 to 641.3. That column maps onto the court's own controls: Meets and Does Not Meet Financial Eligibility, Unable and Not Unable to Pay due to Poverty, Not Frivolous and Frivolous, Other Findings, Granted, Granted In Part and Denied - every one role=court, refusalClass=court_prosecutor_clerk_or_agency_owned. (3) Looked at, at 300 dpi: the 'DENIED' box on the order page is visibly heavier in the delivered packet than in the source, because the synthesized square is stroked over the court's printed 7x7 box. It is deterministic - canonical and boundary give identical counts - and it is not a renderer difference, since the source page and the delivered page were rasterised by the same poppler build at the same dpi. It fabricates no finding: the boxes stay empty. But it is unauthorised ink drawn onto a judicial order page, and a packet has no business thickening the lines a judge ticks. THIS CORRECTS MY OWN EARLIER READ, which recorded the condition under observedNotScored with the claim that the delivered page and the source render the same boxes. They do not. The repair did not cause this and did not touch it; the remedy needs no legal input and no new source. Separately, there is no clipping or overlap of TEXT: every added word, including the boundary fixture's 'Maria-Alejandra O'Shaughnessy-Whitfield' and its 16-character case number, is fully contained in its declared write rect to 0.5pt in x and 2pt in y."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Discharged. MD.memo.json track md_pardon_expungement declares three selfHelpStopConditions and ALL THREE are present VERBATIM in participant-instructions.md, byte-compared with only whitespace and curly quotation marks normalised: 'The 10-year filing deadline is close or has passed.', \"The participant has more than one conviction, which puts the 'only one criminal act' condition in issue.\" and 'The State's Attorney objects.' - the third being the one I found absent before, and which measured verbatim showed all three had been paraphrase. rules.notice is quoted beside them verbatim - 'The court serves the State's Attorney; 30-day objection period.' - with the copy explaining that the participant does not start that objection and the court's service does, after filing, which is what makes the third stop actionable. Four further stops the memo does not declare are kept and correctly labelled route boundaries."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "filing-instructions.md sends the petition to the clerk of the court in the caption unless the case was transferred or appealed, and flags items 4 and 5 as the two answers that decide where it goes. Matches the memo and the form's own printed notes."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "MD.memo.json records service 'The court serves.' The packet asks the participant to serve nothing and prints no certificate of service; the only service language is the form's own victim notice, quoted accurately."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The one memo document requiredBeforeFiling true is now derived from the record and all three strings are present VERBATIM under 'What you must obtain before you file': 'Copy of the signed gubernatorial pardon', its obtainedFrom \"Maryland Governor's Office or DPSCS\" and its howToObtain 'Obtain a copy of the executed pardon showing the signature date.' That closes the observation I recorded against the earlier build, where the document was named but its source was not, so a participant without it was not told where to get it."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical recomputes cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741 at 1169719 bytes and boundary c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90 at 1170165 bytes, both equal to the dispatch and to what I recorded at 7f386ab54. Both 4 pages, Form: none; pdfinfo, pdftotext and pdftoppm read both start to finish without a warning. The digests being UNCHANGED across the repair is correct and I confirmed the reason: the packet composes no page of its own. Every one of the four pages is a source form page - the page-by-page word-set diff finds nothing on any page but the declared writes - so there is no cover sheet and nowhere the repaired copy could have been drawn, and neither instruction file's text occurs in the extracted text of either PDF. Maryland's absent Reset button artwork was re-confirmed incidentally: the source render carries the Reset box on CC-DC-089 page 3 and the delivered page does not, which is the correct direction."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Page 1 is CC-DC-CR-072B page 1; pages 2-4 are CC-DC-089 pages 1-3 in order, ending on the court's order page. Independently confirmed by the word-set diff, which only closes if each packet page is the source page claimed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Item 3 says check all that apply; the packet marks the pardon ground and participant-instructions.md lists the other seven individually as the participant's to consider. The District Court box is marked from the held court-location fact, and CC-DC-089's waiver request is marked because that is what the form is, with the companion final-waiver election left unmarked and explained - both re-proved at 300 dpi. Untouched by the repair."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "CC-DC-089's income, property and debt tables are wholly blank, every row classified with the same reason, none partly filled. Untouched by the repair."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Discharged, and discharged in the right direction. MD.memo.json's rules.fees '$30 (CC-DC-CR-072B).' is now quoted VERBATIM in BOTH instruction files, and rules.feeWaiver 'Request for Waiver of Prepaid Costs, CC-DC-089.' with it. The Missouri sentence that asserted an absence this memo contradicts is gone from both files, and neither file now says any held source fails to establish a fee. What is genuinely unestablished is said precisely rather than as a blanket absence: the copy states that the petition prints no amount, that its only fee wording is 'Filing Fees Are Not Refundable', that the form is therefore not evidence the figure is current, and that the amount must be confirmed with the clerk before paying. source-receipt.json's whatThisReceiptDoesNotEstablish was corrected the same way rather than deleted, and now says the figure comes from the hashed memo and not from either form. The waiver half is unchanged and sound: CC-DC-089 is in the packet and the MDJ-008 companion it requires is flagged in both files as a gap the packet does not fill."
+        }
+      },
+      "failedProofObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "notMeasurableHere": [],
+      "repairClaimsTested": [
+        {
+          "claim": "rules.fees '$30 (CC-DC-CR-072B).' is quoted in both instruction files",
+          "verdict": "TRUE, verbatim in both"
+        },
+        {
+          "claim": "the caveat that neither form prints an amount, so the form is not evidence the figure is current",
+          "verdict": "TRUE, present in both files and in the receipt's whatThisReceiptDoesNotEstablish"
+        },
+        {
+          "claim": "all three stop conditions print verbatim with rules.notice beside them",
+          "verdict": "TRUE; all three verbatim and rules.notice quoted verbatim beside them"
+        },
+        {
+          "claim": "the requiredBeforeFiling pardon document is derived from the record with the Governor's Office or DPSCS as its source",
+          "verdict": "TRUE, verbatim, with howToObtain"
+        },
+        {
+          "claim": "the builder reads MD.memo.json at build time and refuses if the record stops declaring the item",
+          "verdict": "TRUE as code: the memo is read at module load and the build throws MD_MEMO_TRACK_ABSENT, MD_MEMO_STATES_NO_FEE, MD_MEMO_STATES_NO_FEE_WAIVER_RULE, MD_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS, MD_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT or MD_MEMO_REQUIRED_DOCUMENT_INCOMPLETE before writing a byte. I did not exercise the refusal, because doing so means mutating a memo and rerunning a builder, and I verify rather than build."
+        },
+        {
+          "claim": "MD.memo.json is hashed into source-receipt.json as a compositionSource",
+          "verdict": "TRUE and it binds: 4e773ffb...8faf at 137393 bytes recomputed here"
+        },
+        {
+          "claim": "the delivered PDF digests are unchanged and that is expected",
+          "verdict": "TRUE, and confirmed rather than assumed - see ARTIFACTS"
+        },
+        {
+          "claim": "test-md-pardon-record-disclosures.mjs passes",
+          "verdict": "TRUE, exit 0, but it is not the verdict: it reads no page geometry"
+        }
+      ],
+      "observedNotScored": [
+        "RECORD FIDELITY, not delivered ink: ten CC-DC-089 widgets that the source binary carries as check boxes with /AP /N states - Meets Financial Eligibility, Does Not Meet Financial Eligibility, Unable to Pay due to Poverty, Not Unable to Pay due Poverty, Not Frivolous, Frivolous, Other Findings, Granted, Granted In Part and Denied, all on the order page - are typed 'acroform_text_field' in production-field-map.json. All ten are correctly refused as court-owned so nothing is written to them, but the family's own record misdescribes the judge's disposition controls, and any downstream check that reasons over kind=selection_control will not see them. The same cross-check against Missouri's field map finds zero mistyped widgets, so this is Maryland's alone.",
+        "The three stop conditions and the required pardon document reach participant-instructions.md only; filing-instructions.md's own 'Before you file' list does not repeat them. Both files ship together and the obligation is met, but a filer working from the filing checklist alone would not meet them there.",
+        "CC-DC-089 is delivered pre-marked as a waiver request in both fixtures. participant-instructions.md tells the participant to leave it out if they do not need it, which is the right handling, but the packet ships a marked request either way. Carried forward unchanged from my earlier read."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetsModified": 0,
+      "overlayDirectoriesModified": 0,
+      "whatThisVerdictDoesNotDo": "It opens no route, promotes nothing and repairs nothing. Both defects this repair was raised against are discharged; the family fails on a third that predates the repair, that I under-read the first time, and that no counter can see."
     }
   ],
   "admIndependentAppend20260909": {
@@ -868,5 +1204,32 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "whyEarlierTopLevelKeysAreUnchanged": "verdictSummary and the other keys above describe the rows that were already here and are left byte-identical. This key describes the appended rows."
+  },
+  "vf20PostRepairAppend20260909": {
+    "lane": "VF20",
+    "worker": "VERIFIER-VF20-POSTREPAIR",
+    "appendedOn": "2026-09-09",
+    "baseSha": "3687291a6",
+    "repairUnderTest": "10ef93ffd (on this branch as b72b0a24d)",
+    "rowsAppended": 2,
+    "verdicts": {
+      "FAIL_REPAIR_REQUIRED": 2
+    },
+    "grantSet": "c88d49a6fe40c545",
+    "claimsAsserted": [
+      "CLAIM_OK VF20 mo-art-xiv-marijuana-set",
+      "CLAIM_OK VF20 md_pardon_expungement-set"
+    ],
+    "independence": "This lane built and repaired neither family and inherited no verdict, including its own earlier ones. The two FAIL rows already in this file are the claim the repair answers; they are not evidence, and every obligation was re-measured here from the committed bytes at 3687291a6.",
+    "measuredBy": "Every obligation re-measured in this container from the committed bytes. Memo obligations compared to the delivered instruction files as BYTE STRINGS, normalising only whitespace and curly quotation marks, never by substance and never by whether a paraphrase gestures at them. Every artifact and source SHA-256 recomputed - the two MO binaries and the two MD binaries from the mounted custodies under private/source-imports/, and both memos as the new compositionSources. Declared writes located at their declared widget /Rect with pdftotext -bbox, at every rect of every multi-widget field. Packet-authored ink separated from form print by diffing each delivered page word set against the word set of its own SOURCE page, which excludes printed labels by construction; every added word checked for full containment in a declared write rect at 0.5pt in x and 2pt in y. Added ink of any kind, glyph or vector, measured by a directional 150 dpi raster diff of every delivered page against its source page, masked by the declared write rects, with 300 dpi crops looked at where it mattered. FIX50 scan-synthesized-off-appearances.mjs re-run here, read-only, writing outside the repository. All rasters deleted before committing.",
+    "whatChangedFromTheEarlierVF20Rows": "All six defects the two earlier FAIL rows and the repair record between them identify are discharged, verbatim: Missouri required-before-filing document and all ELEVEN stop conditions, and the withdrawal of the false CIRCUIT corroboration; Maryland three stop conditions, the $30 fee keyed to CC-DC-CR-072B, and the pardon document source. Both families nevertheless FAIL, on an obligation neither earlier row scored and the repair never touched: a pdf-lib synthesized appearance square is stamped onto the delivered pages at 29 refused check-box widgets in Missouri and 50 in Maryland, ten of Maryland on the judge own order page. My earlier rows recorded that condition under observedNotScored with the claim that the delivered page and the source binary render the same boxes. That claim is wrong, and it was wrong then - the PDF digests have not moved - and this append corrects it.",
+    "visualDefectsIsNotZero": "29 for Missouri and 50 for Maryland. Nothing here was rounded to zero and no counter was hardcoded; the eight other counters are measured zeros and are reported as zeros.",
+    "browserEnvironmentExported": false,
+    "whyThatDoesNotLimitThisRead": "RCAP_CHROMIUM_PATH is unexported in this container so browser_environment_exported FAILs, but neither family renders through a browser: both are official_pdf_fill overlays and every measurement above was taken with poppler, which is present and was used throughout.",
+    "overlayDirectoriesModified": 0,
+    "packetsBuiltOrRepairedHere": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "whyEarlierTopLevelKeysAreUnchanged": "verdictSummary, admIndependentAppend20260909 and the other keys above describe rows that were already here and are left byte-identical. This key describes the two appended rows."
   }
 }
