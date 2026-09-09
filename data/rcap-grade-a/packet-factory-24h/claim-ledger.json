@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c727310bd855303a02d86d8e98c5c7e994c72d5b",
+  "generatedAtCommit": "5f78f6f329313b96076a116371bdb61789b4f1b6",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1730,11 +1730,10 @@
         "co_municipal_conviction_seal-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -1745,10 +1744,11 @@
         "co_municipal_conviction_seal-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3109,11 +3109,10 @@
         "de_pardon_expungement-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3124,10 +3123,11 @@
         "de_pardon_expungement-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": false
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5195,11 +5195,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T22:10:56.482Z",
-      "releaseReason": "FIX01 returned this family COMPLETED with repairedByThisLane true and nine numeric zero counters. Releasing centrally so the repair is not stranded behind its own grant."
+      "releasedAt": "2026-09-09T22:10:56.482Z"
     },
     {
       "subjectType": "packet-family",
@@ -5378,9 +5377,9 @@
         "me-seal-survivor-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -5502,9 +5501,9 @@
         "mn_petition_juvenile_as_adult-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -7224,7 +7223,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -8075,7 +8074,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T18:52:48.212Z"
@@ -14199,7 +14198,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fbf9ac4d7fde33a69230bfb136929ac1c3d252db2c8e9625bc60ffb8deed773c",
+  "claimsDigest": "4ebf4beb84bc8b7242d032c37ae6c87e81624be45f497405758fa9e06acd6a86",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -57024,6 +57023,38 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "withdrawnAt": "2026-09-09T23:38:58Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-09T23:40:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-09T23:40:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-09T23:40:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-09T23:40:51Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
