@@ -47,6 +47,34 @@ if (!LIBRARY) {
 
 /* The chain, in the only order that works, with why each step is where it is. */
 const CHAIN = [
+  /*
+   * THE TWO TRIPWIRES RUN FIRST, AND THE CHAIN STOPS IF EITHER FAILS.
+   *
+   * 76 families carry 121 hand-written identityRefresh annotations, and 296
+   * product-wiring records carry governance state including 61 withdrawn
+   * receipts. Those annotations are the whole reason a family whose shared
+   * record drifted still reads as proven: strip one and the next integration
+   * withdraws the family, with nothing in the diff saying why.
+   *
+   * FIX165 found the hole they can go through. identity-refresh.mjs stops a
+   * SUCCESSFUL rebuild erasing an annotation. It does not stop a build that
+   * wipes its output directory, fails an assertion, and is followed by a
+   * successful one -- and that second build then reports success with all nine
+   * counters zero. Three builders this session were caught deleting before
+   * they render and not being crash-safe; one of them destroyed 97 files and
+   * another 23, both recovered only because someone checked git status.
+   *
+   * Neither tripwire was in this chain, so nothing checked between runs. They
+   * are cheap, they read HEAD rather than trusting the tree, and a failure here
+   * means a withdrawal is about to happen for a reason nobody would find later.
+   * That is worth stopping the chain for.
+   */
+  { name: "identity-refresh annotations survive",
+    argv: ["scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs"],
+    why: "121 annotations across 76 families are what keep drifted shared-record pins honest. A build that failed after wiping its output directory can destroy one, and the next successful build reports zeros over the gap." },
+  { name: "governance state survives",
+    argv: ["scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs"],
+    why: "296 product-wiring records carry governance state and 61 carry withdrawn receipts. A rebuild that strips an acceptance receipt is invisible in a diff and turns into a silent withdrawal at the next generate." },
   { name: "extract verifier returns",
     argv: ["scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs"],
     why: "Reads every lane's return and selects the current verdict per family. Must precede generate.mjs, which reads its output." },

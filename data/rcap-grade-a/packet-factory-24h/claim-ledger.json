@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9628eae8c673b7dc7585d6fd3d650e57fd335be7",
+  "generatedAtCommit": "6abfa62a124cec83fab5d79a4a633e7a984ef791",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1000,10 +1000,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX165",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T17:55:55.593Z"
     },
     {
       "subjectType": "packet-family",
@@ -1031,10 +1031,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX165",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T17:55:55.465Z"
     },
     {
       "subjectType": "packet-family",
@@ -1165,7 +1165,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:26:44.014Z"
@@ -1227,7 +1227,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.181Z"
@@ -1547,7 +1547,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.558Z"
@@ -1698,7 +1698,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:55:35.678Z"
@@ -1744,7 +1744,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:55:35.804Z"
@@ -3247,7 +3247,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:26:44.419Z"
@@ -3307,7 +3307,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.558Z"
@@ -14830,7 +14830,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0e806ec4bbc24e39b2516a55e27da5d3a5ae134d14cb97117200c96d64bf58f8",
+  "claimsDigest": "7670d60312a9c3859c2499ac759b30e79d790d857e1621e120abee781c1a651e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38718,6 +38718,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T17:31:48.044Z",
       "reason": "FIX162 returned at 89b1b0a00"
+    },
+    {
+      "lane": "FIX165",
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T17:55:55.465Z",
+      "reason": "FIX165 returned at cd4ac1e6f"
+    },
+    {
+      "lane": "FIX165",
+      "subjectType": "packet-family",
+      "subjectId": "ar-drug-court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T17:55:55.593Z",
+      "reason": "FIX165 returned at cd4ac1e6f"
     }
   ],
   "reissues": [
