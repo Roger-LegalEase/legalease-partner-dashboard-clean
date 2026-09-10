@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c81c0973f17d9e831a46198b6b9ab347d3dbae02",
+  "minimumCaptainSha": "f408bd06e035e5777b7993ff3c5f81288c7f67ad",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 18,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 328,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 5,
-    "repairRequired": 39,
+    "repairRequired": 35,
     "sumsToDenominator": true
   },
   "byState": {
@@ -111,14 +111,18 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "al-felony-dwop-set",
       "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
+      "al-trafficking-set",
       "ca-17b-reduction-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
       "fl-early-juvenile-set",
       "in_arrest_no_charges-set",
       "in_section1_petition-set",
+      "la-976-arrest-no-conviction-set",
+      "la-977d-marijuana-first-offense-set",
       "la-985-1-interim-expungement-set",
       "ne-setaside-custodial-set",
       "nj_disorderly_persons-set",
@@ -2717,8 +2721,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX151",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -2729,7 +2733,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -3685,8 +3690,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX151",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3697,7 +3702,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ar-act346-set",
@@ -23484,8 +23490,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX149",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -23496,7 +23502,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "la-977-misdemeanor-conviction-set",
@@ -23813,8 +23820,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX149",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -23825,7 +23832,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "la-978-felony-conviction-set",

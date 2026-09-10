@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c81c0973f17d9e831a46198b6b9ab347d3dbae02",
+  "generatedAtCommit": "f408bd06e035e5777b7993ff3c5f81288c7f67ad",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -985,7 +985,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:20.362Z"
@@ -1000,7 +1000,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -1135,7 +1135,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.052Z"
@@ -1181,7 +1181,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.181Z"
@@ -1652,7 +1652,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.309Z"
@@ -1698,7 +1698,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.658Z"
@@ -2537,7 +2537,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -3201,7 +3201,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:23.313Z"
@@ -3792,7 +3792,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -4328,7 +4328,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:23.973Z"
@@ -4655,8 +4655,9 @@
       "operation": "rapid-repair",
       "lane": "FIX150",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T13:43:23.309Z",
+      "releaseReason": "FIX150 finished and returned: the Indiana misdemeanour token is FD, the boundary fixture is the only byte that moved, and nine mutations each fail exactly one intended test. Closed at its return boundary; the independent read it asks for is dispatched separately."
     },
     {
       "subjectType": "packet-family",
@@ -4683,7 +4684,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -5271,7 +5272,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -5749,7 +5750,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:38.952Z"
@@ -5811,7 +5812,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:41:28.379Z"
@@ -5858,11 +5859,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T13:32:50.779Z",
-      "releaseReason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
+      "releasedAt": "2026-09-10T13:32:50.779Z"
     },
     {
       "subjectType": "packet-family",
@@ -6011,7 +6011,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:00:16.266Z"
@@ -7078,7 +7078,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.407Z"
@@ -7433,7 +7433,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.546Z"
@@ -7648,7 +7648,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8545,7 +8545,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.349Z"
@@ -8590,7 +8590,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -8636,7 +8636,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8697,7 +8697,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8744,7 +8744,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -8805,7 +8805,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -8851,7 +8851,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -8897,7 +8897,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -8943,11 +8943,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T13:32:50.779Z",
-      "releaseReason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
+      "releasedAt": "2026-09-10T13:32:50.779Z"
     },
     {
       "subjectType": "packet-family",
@@ -14743,7 +14742,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "25b4ad39e9b9f01909a3ad48edfae49bb6143760a99e6472a94ecacedd58f565",
+  "claimsDigest": "17a35d88ee4265aaa0ad8935f31b3c9eb69dc239342cec16c959cd5c947bea15",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37800,6 +37799,19 @@
         "file": "data/rcap-grade-a/packet-factory-24h/fix02/checkpoints-fix02-20260909-pfd.json",
         "committedAt": "63025cc0d8a8df3437c57d07638becce85377b7a",
         "rowFiles": 7
+      }
+    },
+    {
+      "lane": "FIX150",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:43:23.309Z",
+      "reason": "FIX150 finished and returned: the Indiana misdemeanour token is FD, the boundary fixture is the only byte that moved, and nine mutations each fail exactly one intended test. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "d0d7d155ea60cfb9bd7af566ff2524bea75a5f0c"
       }
     }
   ],
