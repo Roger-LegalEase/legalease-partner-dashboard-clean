@@ -76,10 +76,36 @@ const exactRasterFor = (familyId) => {
   return evaluation.proven ? evaluation.row : null;
 };
 const declaredDeliveryRefusals = [];
+/*
+ * A LANE THAT COULD NOT LOOK IS NOT THIS FAMILY'S LAST INDEPENDENT VERIFICATION.
+ *
+ * BLOCKED_BEFORE_CLAIM says the claim gate refused, so the lane opened no
+ * artifact. It is a true statement about the lane and says nothing about the
+ * packet. extract-verifier-returns.mjs keeps it out of the current-verdict
+ * contest for exactly that reason, and generate.mjs keeps it as a fail-closed
+ * fallback used only when nothing substantive exists.
+ *
+ * This loop did neither. It set the last non-superseded row it happened to walk,
+ * so on 22 families carrying both a refusal and a real reading, which one reached
+ * the DELIVERED binding depended on presentation order -- and on eight of them
+ * the refusal won. pa_pardon_expungement-set shipped
+ * lastIndependentVerification BLOCKED_BEFORE_CLAIM from vf12 while vf08 had
+ * recorded a substantive FAIL_REPAIR_REQUIRED against it.
+ *
+ * None of the 22 carries two conflicting substantive readings; every one of the
+ * 22 is a refusal against a single real verdict. So the rule is simply that a
+ * refusal never displaces a reading, and stands alone only where there is none.
+ */
+const NON_READING_VERDICTS = new Set(["BLOCKED_BEFORE_CLAIM"]);
 const currentVerdict = new Map();
+const preclaimRefusals = new Map();
 for (const r of verifierReturns.rows ?? []) {
   if (!r.isIndependentVerification || !r.verdict || r.superseded) continue;
+  if (NON_READING_VERDICTS.has(r.verdict)) { preclaimRefusals.set(r.familyId, r); continue; }
   currentVerdict.set(r.familyId, r);
+}
+for (const [familyId, refusal] of preclaimRefusals) {
+  if (!currentVerdict.has(familyId)) currentVerdict.set(familyId, refusal);
 }
 
 /*

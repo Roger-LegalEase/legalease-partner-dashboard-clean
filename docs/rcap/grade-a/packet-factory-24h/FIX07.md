@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `fe220d1f5ae027d060d6f79f17e3e05b71511c6b` (or the newer dispatch base)
+**Minimum required ancestor:** `6d06019cd4492d4b00526274eb843070ce8ffb3f` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ct-cleanslate-petition-set' \
   --codex-cloud \
-  --minimum-captain-sha fe220d1f5ae027d060d6f79f17e3e05b71511c6b
+  --minimum-captain-sha 6d06019cd4492d4b00526274eb843070ce8ffb3f
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
+- Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ct-cleanslate-petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'mn_petition_15218-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ri_decriminalized-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ne-setaside-custodial-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,12 +62,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 3 families
 
 - `ct-cleanslate-petition-set`
 - `mn_petition_15218-set`
 - `ri_decriminalized-set`
-- `ne-setaside-custodial-set`
 
 ## What you receive
 
@@ -84,7 +82,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ct-cleanslate-petition-set.mjs`
 - `scripts/build-census-v1-mn_petition_15218-set.mjs`
 
