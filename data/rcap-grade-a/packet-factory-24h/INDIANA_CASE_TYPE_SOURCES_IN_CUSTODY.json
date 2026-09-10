@@ -1,0 +1,49 @@
+{
+ "schemaVersion": "rcap-indiana-case-type-sources-in-custody/v1",
+ "generatedBy": "Captain, ingesting the two originals Roger supplied",
+ "whatThisIs": "A custody receipt for two Indiana publications, and the exact text each one was read for. It is not a packet approval and it opens no route.",
+ "receivedFrom": "Roger, uploaded in conversation on 2026-09-10, three ways: two direct uploads and one zip handoff.",
+ "theDigestsAgreeAcrossALLTHREEDELIVERIES": {
+  "why": "The zip's originals hash identically to the two direct uploads, and Roger's own SHA256SUMS.txt in the zip carries the same two values. Three deliveries, one pair of digests, and I hashed every copy myself rather than reading his.",
+  "court-frm-icor-qcsr-application.guide-2.pdf": "b0adb89723794d22f74db42fe457164de51619e99eaba7e0f78ed2313296ae9e",
+  "casetype-quick-reference.pdf": "d1dcef6e3415657387e58bc31ab85a6921f9d0beb8b7ebd343819b9c1080a113"
+ },
+ "heldAt": "private/human-source-returns/IN/ -- the bodies are not committed, per the manifest's commitBody: false",
+ "documents": [
+  {
+   "title": "Quarterly Case Status Reports (QCSR) Application Guide",
+   "editionAsPrinted": "August 2026",
+   "pages": 67,
+   "byteLength": 717009,
+   "whereTheRuleIs": "physical page 10, printed page 9 -- the printed folio reads 9 at the foot of that page, which is how the two numbers were reconciled",
+   "verbatim": "Each defendant is reflected in a single case [Admin. Rule 1(B)(4)]. When a person is charged contemporaneously with multiple criminal offenses or infractions arising out the same incident, or multiple incidents occurring on the same date, only one new filing will be reported in the category of the most serious charge against the defendant. The case will remain in that category even if charges are later amended or if the defendant is convicted of a lesser offense.",
+   "andTheSeriosnessOrder": "The same page states the descending order: Murder, Class A felony, Class B felony, Class C felony, Class D felony, Class A misdemeanor, Class B misdemeanor, Class C misdemeanor, infractions -- and from 1 July 2014, F1 through F6 then the misdemeanours.",
+   "correctionToMyOwnEarlierNote": "I first read PDF page 9 and found judicial-officer reporting. The rule is on PDF page 10. Roger's handoff record names both numbers correctly and mine did not."
+  },
+  {
+   "title": "Case Type Quick Reference Guide",
+   "editionAsPrinted": "1/1/2025",
+   "pages": 14,
+   "byteLength": 332172,
+   "whereTheTableIs": "printed page 8, the CRIMINAL, INFRACTIONS & ORDINANCE VIOLATIONS table",
+   "verbatimRows": [
+    "Felony Class B | committed on or after 1/1/2002 and before 6/30/14 | B Felony | FB",
+    "Felony Class D | committed on or after 1/1/2002 and before 6/30/14 | D Felony | FD",
+    "Criminal Misdemeanor | | Criminal Misdemeanor | CM"
+   ]
+  }
+ ],
+ "whatThisSETTLES": {
+  "theTokenTable": "FB is the Class B felony case type and FD is the Class D felony case type. That was previously carried on internal consistency alone.",
+  "theCategoryRule": "The category follows the most serious charge and REMAINS after later amendment or conviction of a lesser offence. So a case-type token that differs from the final conviction class is expected, and is not by itself a defect.",
+  "andThereforeTheD6FIXTURE": "in_conviction_d6-set's boundary now reads FD beside a Class D conviction, which the table and the rule both support directly.",
+  "andTheMISDFIXTURE": "in_conviction_misd-set's boundary pairs CM with 'Class A misdemeanor reduced from a Class D felony'. On these two documents the most serious charge was a Class D felony, so the category is FD and REMAINS FD after the lesser conviction. CM is the pairing the rule forbids. That family is deliberately not rastered and its repair is now unblocked."
+ },
+ "whatThisIsNOT": [
+  "Not an independently fetched issuer copy. This container cannot reach www.in.gov or rules.incourts.gov -- one bounded attempt per URL returned CONNECT tunnel failed, response 403 -- so these digests identify the bytes Roger supplied and assert no byte-for-byte match to a copy fetched from the issuer.",
+  "Not a packet approval, and not authority to promote any family.",
+  "Not a production rule. Nothing here equates a case-type token with a final conviction class, and no lane may add one: the rule says the opposite."
+ ],
+ "stillNotHeld": "Administrative Rule 8(B)(3) and Rule 1(B)(4)(a) themselves, as published at rules.incourts.gov. The QCSR guide CITES Rule 1(B)(4) and the quick reference states the table, so the two propositions are now supported by a held document -- but the rule text itself is still unretrieved, and the delivered Indiana petition asserts Rule 8(B)(3) to a court as settled authority. That remains a blocker for approved_for_live.",
+ "grantsNothing": "This records an acquisition and two readings."
+}

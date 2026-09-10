@@ -2502,8 +2502,8 @@
       "jurisdiction": "IN",
       "issuingAuthority": "Indiana Supreme Court, Division of State Court Administration",
       "urlKind": "official-publication",
-      "expectedSha256": null,
-      "expectedSha256Basis": "not established here and not to be invented: the digest is set when the body is retrieved and hashed under custody",
+      "expectedSha256": "b0adb89723794d22f74db42fe457164de51619e99eaba7e0f78ed2313296ae9e",
+      "expectedSha256Basis": "established by hashing the bytes Roger uploaded, in custody at the path below. Three independent deliveries of this document -- a direct upload, a second direct upload and a zip handoff -- all hash to this value, and Roger's own SHA256SUMS.txt agrees.",
       "host": "www.in.gov",
       "commitBody": false,
       "obligationKeys": [
@@ -2514,7 +2514,7 @@
       "exactBinaryUrlEstablished": false,
       "whyRequested": "The case-type token question two lanes could not settle from the corpus. Roger located the publications; the rule text they state has NOT yet been read against a retrieved document, and confirming it is part of the work.",
       "whatItSettles": "Rule 8(B)(3) identifies FB as Class B and FD as Class D. Rule 1(B)(4)(a)(iii) assigns the case category by the most serious charge. The QCSR Instructions explain the category remains after amended charges or a lesser conviction -- so a token differing from the final conviction class is expected, not a defect.",
-      "verification": "pending retrieval",
+      "verification": "verified in custody",
       "whatToConfirmOnRetrieval": "Printed page 9 / PDF index 9: the category follows the most serious original charge and remains after later amendments or a lesser conviction.",
       "retrievalAttempt": {
         "attemptedAt": "2026-09-10",
@@ -2522,7 +2522,13 @@
         "result": "REFUSED at the network egress proxy: CONNECT tunnel failed, response 403, for both rules.incourts.gov and www.in.gov. A WebFetch of the same URL returned EGRESS_BLOCKED.",
         "boundedTo": "one attempt per URL by curl and one by WebFetch. The hosts are not retried in every lane.",
         "atCommit": "c956bdbd094662264ab742df61d6a96f606c22d9"
-      }
+      },
+      "heldAt": "private/human-source-returns/IN/court-frm-icor-qcsr-application.guide-2.pdf",
+      "byteLength": 717009,
+      "pageCount": 67,
+      "whatWasReadAndWhere": "Physical page 10, printed page 9, verbatim: \"only one new filing will be reported in the category of the most serious charge against the defendant. The case will remain in that category even if charges are later amended or if the defendant is convicted of a lesser offense.\" The same page cites Admin. Rule 1(B)(4) and gives the descending seriousness order, with Class D felony above Class A misdemeanor.",
+      "verifiedAtCommit": "7fec9d1b7aaa8698a5713d710ba66c5b68fe3a45",
+      "whatThisIsNot": "This is the digest of the bytes Roger supplied. It is not an independently fetched issuer copy, and it asserts no byte-for-byte match to one -- this container cannot reach the issuer. It is also not a packet approval."
     },
     {
       "sourceId": "in-casetype-quick-reference-2025-01",
@@ -2534,8 +2540,8 @@
       "issuingAuthority": "Indiana Office of Judicial Administration",
       "urlKind": "official-publication",
       "edition": "printed 1/1/2025; 14 pages",
-      "expectedSha256": null,
-      "expectedSha256Basis": "not established here and never to be invented: an excerpt, a screenshot or a generated file is not the published bytes",
+      "expectedSha256": "d1dcef6e3415657387e58bc31ab85a6921f9d0beb8b7ebd343819b9c1080a113",
+      "expectedSha256Basis": "established by hashing the bytes Roger uploaded, in custody at the path below. Three independent deliveries of this document -- a direct upload, a second direct upload and a zip handoff -- all hash to this value, and Roger's own SHA256SUMS.txt agrees.",
       "whatToConfirmOnRetrieval": "Printed page 8: the case-type code table.",
       "commitBody": false,
       "obligationKeys": [
@@ -2544,7 +2550,7 @@
       "recordedIn": "docs/rcap/grade-a/owner-decisions/INDIANA_CAUSE_NUMBER_TOKEN_CONTRADICTS_THE_STATED_OFFENCE.md",
       "lastAcquisition": null,
       "exactBinaryUrlEstablished": false,
-      "verification": "pending retrieval",
+      "verification": "verified in custody",
       "retrievalAttempt": {
         "attemptedAt": "2026-09-10",
         "from": "the Captain worktree in this container",
@@ -2553,7 +2559,13 @@
         "atCommit": "c956bdbd094662264ab742df61d6a96f606c22d9"
       },
       "alternateUrlSeen": "https://www.in.gov/dA/8240b60638/casetype-quick-reference.pdf?language_id=1",
-      "whyTheUrlChanged": "Roger named the iocs/files path as the one to download from. Both were seen for the same publication; the digest is established from the bytes that arrive, and if the two paths serve different bytes that is itself a finding."
+      "whyTheUrlChanged": "Roger named the iocs/files path as the one to download from. Both were seen for the same publication; the digest is established from the bytes that arrive, and if the two paths serve different bytes that is itself a finding.",
+      "heldAt": "private/human-source-returns/IN/casetype-quick-reference.pdf",
+      "byteLength": 332172,
+      "pageCount": 14,
+      "whatWasReadAndWhere": "Printed page 8, the CRIMINAL, INFRACTIONS & ORDINANCE VIOLATIONS table, verbatim rows: \"Felony Class B ... B Felony ... FB\" and \"Felony Class D ... D Felony ... FD\", both qualified \"committed on or after 1/1/2002 and before 6/30/14\"; \"Criminal Misdemeanor ... CM\".",
+      "verifiedAtCommit": "7fec9d1b7aaa8698a5713d710ba66c5b68fe3a45",
+      "whatThisIsNot": "This is the digest of the bytes Roger supplied. It is not an independently fetched issuer copy, and it asserts no byte-for-byte match to one -- this container cannot reach the issuer. It is also not a packet approval."
     },
     {
       "sourceId": "in-admin-rule-8-case-type-codes",
