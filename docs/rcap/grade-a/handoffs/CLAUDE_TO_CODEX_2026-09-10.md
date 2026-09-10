@@ -448,3 +448,164 @@ taken. To consume it:
 2. Release or reassign both grants — VF66 deliberately did not, and said so.
 3. Re-run the integration chain. `ia-12347-set` should reach
    `BUILT_RASTER_PENDING`, not terminal, until a fresh whole-family raster lands.
+
+---
+
+# FREEZE CORRECTION 2 — all lanes stopped; two Captain findings corrected
+
+FIX175 and FIX176 both answered the stop. **All three lanes are now CONFIRMED
+STOPPED. No worker is ACTIVE/UNKNOWN.** Both committed WIP, both left grants
+live, neither applied any repair, and both branches are **pushed**.
+
+| lane | branch (pushed) | commit | tree | state |
+|---|---|---|---|---|
+| FIX175 | `lane-fix175-20260910` | `664deb17a9ed93c64912a489bb8cb27bcc4c0a85` | clean | diagnosed, **no repair applied**, 0 guards written |
+| FIX176 | `lane-fix176-20260910` | `c60fae635477889ad5d1f5d58c1826e0e4e64086` | clean | diagnosed, **no repair applied**, 0 guards written |
+| VF66 | `lane-vf66-20260910` | `3e16d8a0ccc574fd9743403f9031263eadc127d5` | clean | complete return, unintegrated |
+
+Neither repair lane ever applied a builder mutation, so there was nothing to
+restore; every build they ran was an unmodified determinism control, restored and
+re-hashed. `nj_arrest_no_conviction-set`, the family nobody owns, is byte-identical
+and reproduces byte-identically from an unmodified rebuild.
+
+## CORRECTION A — my reading of the New Jersey paragraph was methodologically wrong
+
+I reported, in commit `dc28df614` and to the owner, that "all twelve
+guilty-prefixed cells of that paragraph are null". **That measurement was
+invalid.** I read the `value` column of `production-field-map.json`, which is
+`null` for **all 179 fields** of that document — including `DefName`, the
+petitioner's own name, which is printed on every fixture. It is a map, not a
+render record. The column carrying the signal is `decision`.
+
+**VF62's "3 of 9" was right, including its denominator** (9 is the builder's own
+count, from `NJ_PETITION_CONVICTION_ROW`). FIX175 settled it from the bytes:
+`guiltyDt`, `guiltyOff1` and `guiltyCrt` carry ink; `guiltyStatute`,
+`guiltyFinal1`, `guiltyTimeType`, `guiltyDocCmpltDt`, `guiltyProbDt` and
+`guiltyFineDt` are blank under the ticked box.
+
+**The finding narrows but does not withdraw.** The election is drawn — 730 added
+px inside the court's checkbox on both fixtures, against a discriminating control
+of `dismissPti` and `contOwe` on the same page reading 0 in the same run. The
+paragraph is three-ninths filled under a sworn election, with the statute and the
+entire sentence blank, and **none of the six blanks is disclosed to the
+participant anywhere in the delivered kit.**
+
+FIX175 also recorded a wrong first pass of its own: its initial detector read
+delivered page 20 and returned 0 px for the whole page, which would have
+manufactured a finding that the mark is not drawn at all. `page: 19` is
+1-indexed, proved by `pdftotext -bbox` on the pinned source.
+
+### The repair already exists in the source
+
+FIX105 wrote `NJ_PETITION_CONVICTION_ROW` and `NJ_CONVICTION_BLANK_DECLARATIONS`
+with a comment stating the row and its election are withheld on every fixture.
+`nj_disorderly_persons-set`, `nj_indictable_conviction-set` and `nj_ordinance-set`
+all take it. **`nj_clean_slate-set` does not, and that is the entire reason it is
+the only one of the four that draws the mark.** The omission is codified in a live
+assertion at `scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2906` that
+sits behind `--self-test`, which nothing runs.
+
+**Exact next action** (FIX175's own, verbatim in intent): wire
+`repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW]`
+and `declarations: NJ_CONVICTION_BLANK_DECLARATIONS` onto `nj_clean_slate-set` at
+`:1803`, **together with** `declareWithdrawnElectionsInFieldMap` and
+`guardFieldMapSelectionsAgainstDeliveredMarks` in the same change — because
+withdrawing the mark without the map flag turns a currently-true
+`measured_route_selection` record into a false one. Then rebuild, re-measure the
+rect expecting 0 added px against the same three-checkbox control, and rewrite
+the family note, which currently claims "Only the measured participant conviction
+control is marked."
+
+Withdrawing the election leaves the clean-slate petition not stating which
+disposition item it elects on page 19. **That is a real loss and must be stated,
+not engineered around.** It is the house rule all three siblings already follow,
+and the alternative — filling the six cells — is the fabrication two lanes
+refused this session.
+
+### Two more things FIX175 found
+
+- **`nj_clean_slate-set` does not reproduce from its own builder** at this base.
+  Its committed petition prints `participant.phone` on the caption's third address
+  line where the builder at HEAD prints `state_zip` — FIX167's recorded deferral
+  at `:412-417`. **vf04's `PASS_COMPLETE_INDEPENDENT` was taken against bytes the
+  builder no longer produces.**
+- My grant premise was wrong: **not all four families share boundary `23a571af…`.**
+  Three do. `nj_clean_slate-set`'s fixtures are unique (`b71de1df…` / `cb536e97…`).
+  `nj_ordinance-set` and `nj_indictable_conviction-set` are currently byte-identical
+  to each other on both fixtures. Finding 2 was **not measured** on
+  `nj_indictable_conviction-set` — recorded `null`, not clear.
+
+## CORRECTION B — the Minnesota audit finding was misattributed, and so was my dispatch
+
+FIX176 settled item 9 box 1 from the bytes, by replaying every path-construction
+operator through the `q`/`Q`/`cm` stack into page space — not from any builder
+report. **The packet does tick it. The audit is wrong and the field map is the
+defect.**
+
+- 15218, `p4-cb-y660-x90.4`: an X in canonical and boundary
+  (`m(93.19,661.2)→l(99.65,667.61)` and `m(93.19,667.61)→l(99.65,661.20)`).
+  Pinned source EXP102 page 4, same box: **0 path operators.**
+- FEE102 `p1-cb-y350-x108` on both families: ticked in both fixtures; pinned
+  source 0 operators.
+- **My dispatch named the wrong control on the juvenile family.** There
+  `p4-cb-y660-x90.4` is correctly empty; the failing control is
+  `p4-cb-y572-x90.41`, item 9 **box 2**, the juvenile certification.
+
+The map's defect is precise: the ticked row carries `marked: true`,
+`routeDetermined: true`, `approvedDisposition: "ROUTE_ELECTION_MADE"` and **no
+`disposition` key**. `readFieldRows` decides write-vs-blank solely on
+`String(c.disposition ?? "").toLowerCase().startsWith("select")`, so it lands on
+the blank side and the contract calls a route-determined blank
+`ROUTE_OPTION_NOT_SELECTED`. The **same control** is published a second time in
+`writableAnchors`, where the same reader counts it as a write. **The map
+contradicts itself.**
+
+My reader fix (`ba57b99ce`) is still correct — `selectionControls` must be read —
+but the two findings it surfaced are a **field-map defect**, not unmade
+elections. `mn_petition_juvenile_as_adult-set`'s demotion from
+COMPLETE_PACKET_PROVEN stands on the ten null reasons, not on these two.
+
+**The case-determined exception does not apply** to FEE102 item 2: it resolves to
+`REQUIRED_BEFORE_FILING`, a blank the participant must fill, and this box is not
+blank. Declaring it so would publish a record the artifact contradicts and trade
+one counter for a disclosure obligation on a blank that does not exist — the
+trade `completeness-contract.mjs` warns about by name.
+
+### Two more things FIX176 found
+
+- **The juvenile family's rebuild erases governance state**: `product-wiring.json`
+  loses `binding.acceptanceReceiptWithdrawn` — the withdrawal record for
+  superseded RASTER_PASS `34413372916` — and upgrades FEE102's `sourceVersion`
+  tier from `exact_form_number` to `exact_content_hash`, a stronger claim than
+  MASTER_QUEUE holds. Restored, never committed.
+- **Its committed census is stale and its builder publishes a zero for a missing
+  measurement.** `field-census.census-v1.json` fails determinism: all 95 controls'
+  `glyphAdvance` 12/10.98 → 0. `build-census-v1-mn_petition_juvenile_as_adult-set.mjs:517`
+  reads `(chars[i].w ?? 0) + (chars[i + 1].w ?? 0)` — the sibling builder already
+  refuses exactly this under the comment *"AN ADVANCE THIS BUILD CANNOT MEASURE IS
+  null, NOT ZERO"*.
+
+**Exact next action** (FIX176's): port the sibling's null-not-zero advance fix
+into the juvenile builder at `:517` **before** any rebuild, because the repair
+requires a rebuild and the builder as it stands would publish 95 zeros. Then emit
+`disposition` on every `selectionControls` row: `"selected_route_option"` where
+`marked === true`, otherwise the row's existing `completenessDisposition`. Then
+write the ten juvenile reasons from the captured printed face and re-run the
+verifier expecting `requiredOptionsMissing` 2 → 0 with all other counters unmoved
+and both fixture digests unchanged.
+
+Also confirmed: neither Minnesota builder contains `rmSync` or any delete-first,
+so a failed build leaves prior output intact.
+
+## Revised first action for the successor
+
+The freeze holds and none of this was integrated. Three lane branches are on the
+remote and ready to consume, in this order of value:
+
+1. `3e16d8a0ccc574fd9743403f9031263eadc127d5` — VF66, a complete return.
+2. `c60fae635477889ad5d1f5d58c1826e0e4e64086` — FIX176's WIP row: the item 9
+   diagnosis, worth having before anyone re-measures it.
+3. `664deb17a9ed93c64912a489bb8cb27bcc4c0a85` — FIX175's WIP row: the New Jersey
+   diagnosis and the located repair.
+
+All grants remain live and must be released or reassigned by the successor.
