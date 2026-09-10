@@ -696,9 +696,16 @@ async function censusOf(source, corrections = null) {
  * page 2 reads +1083 at field 72 and +1083 at 73 -- six of six, zero removed at
  * every one, which is the doubled frame this remedy exists for. The same crops
  * on the already-repaired vt_seal_felony-set read 0 added and 0 removed.
+ *
+ * FIX130c, 2026-09-10, vt_seal_dui-set. Measured the same way on ITS OWN
+ * committed canonical bytes, not carried over from the family above: field 15
+ * +1083, 16 +947, 21 +1178, 22 +1536 on packet page 5 and 72 +1083, 73 +1083 on
+ * page 6, 0 removed at every one. All five families this host builds have now
+ * opted in, one at a time, each on its own measurement.
  */
 const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
   "vt_seal_18_to_21-set",
+  "vt_seal_dui-set",
   "vt_seal_felony-set",
   "vt_seal_misdemeanor-set",
   "vt_seal_pardon-set"
@@ -753,9 +760,21 @@ const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
  * x=41.64, "Your monthly household expenses" at x=320.40) and never from
  * extraction order, which interleaves the two columns line by line. The
  * re-derivation reproduces the committed corrections exactly and adds none.
+ *
+ * FIX130c, 2026-09-10, vt_seal_dui-set. Its source-receipt was read and its
+ * three bound sources re-hashed from the master library independently of the
+ * family above: 200-00130 ff914f49..., 200-00132 088116244572..., 600-00228
+ * 263d4e19..., custodyClass SOURCE_ALREADY_HELD, allSourcesExact true. Same
+ * three digests, so the same printed geometry, so the same derivation holds --
+ * and that is a measurement of this family's binding rather than an assumption
+ * from its siblings. Its widget sets match too: 52 widgets over 48 fields on
+ * 200-00130 with 26, 27, 30 and 31 each carrying two, 33 on 200-00132, 80 on
+ * 600-00228. Not one finished label on this family differs from the equivalent
+ * on the four already repaired.
  */
 const PRINTED_CAPTION_DISCLOSURE_LABELS = new Set([
   "vt_seal_18_to_21-set",
+  "vt_seal_dui-set",
   "vt_seal_felony-set",
   "vt_seal_misdemeanor-set",
   "vt_seal_pardon-set"
