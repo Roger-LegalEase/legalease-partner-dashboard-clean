@@ -19,52 +19,61 @@
   "integrationRule": "Read every step's exit status. A refused write is not a checkpoint and a stale count is not a new result. Repair the actual failure rather than moving ownership or evidence to get green.",
   "activeOwners": [
     {
+      "lane": "FIX03",
+      "kind": "repair",
+      "worktree": "/home/user/pfe-worktree",
+      "families": [
+        "in_conviction_d6-set",
+        "in_conviction_felony-set",
+        "in_conviction_misd-set"
+      ],
+      "why": "Demoted from terminal today. Component identifiers in a court caption, engineer directives on page 1 of the guide under an unlabelled READ THIS FIRST, and filing instructions telling the participant to sign a judge's order."
+    },
+    {
       "lane": "FIX130",
       "kind": "repair",
       "worktree": "/home/user/pfd-worktree",
       "families": [
         "vt_seal_misdemeanor-set",
         "vt_seal_dui-set"
-      ],
-      "why": "The only two families still carrying the shifted-caption defect on 600-00228, consolidated onto the lane that implemented the remedy."
+      ]
     },
     {
-      "lane": "FIX134",
+      "lane": "FIX135",
       "kind": "repair",
+      "worktree": "/home/user/v5c-worktree",
+      "families": [
+        "co_multiple_conviction_seal-set",
+        "ne-setaside-custodial-set"
+      ],
+      "why": "Colorado boxes sixteen writing rules the court declares as underlines; the remedy honorWidgetBorderStyle is in the shared module and two builders of ~300 pass it."
+    },
+    {
+      "lane": "PF25",
+      "kind": "packet-build",
+      "worktree": "/home/user/pfc-worktree",
+      "families": [
+        "wv_nc_acquittal_dismissal-set",
+        "wi_exp_cr266-set"
+      ]
+    },
+    {
+      "lane": "VF01",
+      "kind": "independent-verification",
       "worktree": "/home/user/pf23-worktree",
       "families": [
         "ri_deferred_sentence-set",
         "ri_first_offender_misdemeanor-set",
         "ri_multiple_misdemeanors-set"
-      ],
-      "why": "ROUTE_IDENTITY -- a machine route trailer printed on the composed proposed order. All three on one host, so one lane holds them."
+      ]
     },
     {
-      "lane": "FIX137",
-      "kind": "repair",
+      "lane": "VF31",
+      "kind": "independent-verification",
       "worktree": "/home/user/pfa-worktree",
       "families": [
         "ar-cs-possession-seal-set",
         "ar-nonconviction-seal-set"
-      ]
-    },
-    {
-      "lane": "VF29",
-      "kind": "independent-verification",
-      "worktree": "/home/user/v5c-worktree",
-      "families": [
-        "co_multiple_conviction_seal-set",
-        "ne-setaside-custodial-set"
-      ]
-    },
-    {
-      "lane": "VF30",
-      "kind": "independent-verification",
-      "worktree": "/home/user/pfe-worktree",
-      "families": [
-        "in_conviction_d6-set",
-        "in_conviction_felony-set",
-        "in_conviction_misd-set"
       ]
     }
   ],
@@ -120,21 +129,21 @@
   "grantsNothing": "This record opens no route, promotes nothing and approves no packet.",
   "lastUpdated": {
     "at": "2026-09-10",
-    "atCommit": "905e8acd20814b38d5e750052833260af0a1bf8f"
+    "atCommit": "85846c48db56a9916d68372becf3967dc2c9d02b"
   },
   "currentCounts": {
     "measuredBy": "MASTER_LIBRARY_SOURCE_DIR=... npm run rcap:integrate-packet-factory, every step exit 0",
-    "terminal": 194,
+    "terminal": 191,
     "of": 346,
-    "COMPLETE_PACKET_PROVEN": 177,
-    "FAIL_REPAIR_REQUIRED": 70,
+    "COMPLETE_PACKET_PROVEN": 174,
+    "FAIL_REPAIR_REQUIRED": 73,
     "SOURCE_READY": 33,
     "PRODUCT_PATH_PENDING": 21,
     "LEGAL_BLOCKED": 19,
     "SOURCE_BLOCKED": 6,
     "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
-    "movedThisSession": "191 -> 194. wv_conv_nonviolent_felony-set on a PASS whose digests had not moved. vt_seal_nonconviction-set on a fresh RASTER_PASS from run 34439698619. rcap-tx-custom-pleading on a fresh RASTER_PASS from run 34440467887."
+    "theArcThisSession": "191 -> 192 (wv_conv_nonviolent_felony-set) -> 193 (vt_seal_nonconviction-set) -> 194 (rcap-tx-custom-pleading) -> 191, the last step being three Indiana families withdrawn on unchanged bytes. Three families closed properly and three approvals invalidated by evidence nobody had gathered. The count is where it started and the record is not."
   },
   "supplyQueue": "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json -- 75 failing, 50 with a live repair owner, 25 unowned and dispatchable after one grant each, 4 that need a READ rather than a repair because no obligation was ever recorded against them.",
   "settledSinceLastCheckpoint": [
@@ -177,5 +186,18 @@
     "A central raster for each of those four once a read passes: none of their digests carries a RASTER_PASS.",
     "A central raster for co_multiple_conviction_seal-set once VF29 passes it -- its bytes moved and its receipt is withdrawn.",
     "An independent read of whatever FIX134 and FIX137 return."
+  ],
+  "measurementsThatBoundAPendingDecision": [
+    {
+      "what": "The isChooserPrompt rule-line deletion",
+      "record": "data/rcap-grade-a/packet-factory-24h/RULE_LINE_DEFAULTS.json",
+      "narrowedBy": "VF30 established that the three Indiana conviction families never call the finalizer -- they assemble with copyPages and flatten nothing -- so 102 of the 135 rule-line defaults are exposure that never became a defect. The live blast radius is the Section 1 pair and the Kansas-shaped question behind it, not four states."
+    },
+    {
+      "what": "Widgets the source declares as an underline",
+      "record": "data/rcap-grade-a/packet-factory-24h/DECLARED_UNDERLINE_WIDGETS.json",
+      "measured": "19 sources in CO, IN, KY and PA declare 358 underline widgets; 148 draw a single rule in their own /AP /N. The remedy honorWidgetBorderStyle exists in rcap-active-content.mjs and two builders pass it.",
+      "sameFormsAsTheOther": "Indiana's CCA inserts appear in BOTH scans. On those widgets the packet deletes the rule the court prints and draws a box where the court declared a line."
+    }
   ]
 }
