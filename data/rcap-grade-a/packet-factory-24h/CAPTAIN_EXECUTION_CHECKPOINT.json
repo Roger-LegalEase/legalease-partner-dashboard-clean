@@ -19,33 +19,24 @@
  "integrationRule": "Read every step's exit status. A refused write is not a checkpoint and a stale count is not a new result. Repair the actual failure rather than moving ownership or evidence to get green.",
  "activeOwners": [
   {
-   "lane": "VF36",
-   "kind": "independent-verification",
+   "lane": "FIX04",
+   "kind": "repair",
    "families": [
     "in_conviction_d6-set",
     "in_conviction_felony-set",
     "in_conviction_misd-set"
    ],
    "worktree": "/home/user/vfa-worktree",
-   "dispatchedAt": "94bb1eedd876817db87574ec87311a68786aac83"
+   "doing": "the seventh print site: engineer roadmap content on guidance pages 4 and 6"
   },
   {
-   "lane": "FIX05",
-   "kind": "repair",
-   "families": [
-    "vt_exp_decriminalized-set"
-   ],
-   "worktree": "/home/user/fixa-worktree",
-   "dispatchedAt": "94bb1eedd876817db87574ec87311a68786aac83"
-  },
-  {
-   "lane": "FIX01",
-   "kind": "repair",
+   "lane": "VF31",
+   "kind": "independent-verification",
    "families": [
     "ar-cs-possession-seal-set"
    ],
    "worktree": "/home/user/fixb-worktree",
-   "dispatchedAt": "94bb1eedd876817db87574ec87311a68786aac83"
+   "doing": "third read, after the both-captions repair"
   }
  ],
  "unresolvedBlockers": [
@@ -72,9 +63,10 @@
   "Four families need a READ rather than a repair because no obligation was ever recorded: ar-misdemeanor-seal-set, tx_nd_deferred_other-set, tx_nd_veterans_court-set, tx_nd_veterans_reemployment-set."
  ],
  "grantsNothing": "This record opens no route, promotes nothing and approves no packet.",
- "lastUpdated": "2026-09-10T07:58:44.710332Z",
+ "lastUpdated": "2026-09-10T10:03:58.674975Z",
  "currentCounts": {
-  "terminalOf346": null,
+  "terminalAsReportedByIntegration": 200,
+  "liveFamilyDenominator": 346,
   "byState": {
    "COMPLETE_PACKET_PROVEN": 183,
    "PRODUCT_PATH_PENDING": 21,
@@ -87,24 +79,30 @@
    "HANDOFF_READY": 2,
    "BUILT_RASTER_PENDING": 2,
    "WRONG_DELIVERY_TYPE": 1
-  },
-  "liveFamilyDenominator": 346,
-  "terminalAsReportedByIntegration": 200
+  }
  },
  "supplyQueue": "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json -- 75 failing, 50 with a live repair owner, 25 unowned and dispatchable after one grant each, 4 that need a READ rather than a repair because no obligation was ever recorded against them.",
  "settledSinceLastCheckpoint": [
-  "Rhode Island x3 terminal on run 34447319410 (195)",
-  "Vermont seal x5 terminal on run 34451155694 (200)",
-  "pdf-flattened-widgets.mjs predicate fixed; ar-cs-possession petitions read 41 not 125",
-  "claim.mjs gained read-only --can-assert; dispatch-preflight rebuilt as a wrapper around the real gate"
+  "Vermont seal x5 terminal (run 34451155694); Rhode Island x3 terminal (run 34447319410)",
+  "vt_seal_nonconviction-set: terminal -> withdrawn on evidence -> repaired -> independently read -> terminal again, digests never moved",
+  "pdf-flattened-widgets.mjs predicate fixed; ar-cs-possession publishes 41 not 125",
+  "claim.mjs gained --can-assert; dispatch-preflight rebuilt to run the real gate; claim.mjs now names its checkout and ledger on every call",
+  "provision-lane-worktree.mjs: lane worktrees get the corpus, and the ignore moved out of a stray scratchpad file into the repo info/exclude",
+  "FIX130 extracted the participant-blank locator into a shared module rather than a third inline copy"
  ],
  "rasterInFlight": null,
  "myOwnErrorsThisSession": [
-  "Dispatched three lanes against families held by returned-but-unreleased lanes, having trusted a filtered --status listing instead of the ledger. All three refused; zero work lost, three dispatches wasted.",
-  "Released two grants in my own worktree and dispatched from a commit that predated the release. A release I have not committed does not exist for the lane.",
-  "Built dispatch-preflight.mjs to fix that, and gave it the same class of defect: it modelled the gate instead of running it, and its \"no live grant -> can assert\" branch was unconditionally false for all 208 families with no live grant. Rebuilt to call the gate.",
-  "Repeated one lane's report of a deleted public/og-rcap.png into two other lanes' briefs without checking; it was not true in either worktree.",
-  "Reported earlier that 40 families publish an inflated flattened-widget count. Seven do. The other 33 publish the true number, publish nothing under that key, or measure it elsewhere."
+  "Dispatched three lanes against families held by returned-but-unreleased lanes; all three refused, correctly.",
+  "Released grants in my own worktree and dispatched from a commit that predated the release.",
+  "Built a preflight to fix that and gave it the same class of defect: it modelled the gate instead of running it, and its green branch was false for all 208 families with no live grant.",
+  "Repeated one lane's report of a deleted public/og-rcap.png into two other briefs without checking; untrue in both.",
+  "Said 40 families publish an inflated flattened-widget count. Seven do.",
+  "Said 268 of 299 families leak internal vocabulary, counting any snake_case token anywhere. Then 19, from the first 40 lines only, which made a whole print site invisible. Then published a record whose headline said 19 and whose list held 12, with the families that produced the finding filtered out of it.",
+  "Said 328 completeness-matrix rows. 294.",
+  "Said eight of nine Maryland counters are null and read that as unmeasurable. Backwards: eight were measured and then erased by an exception sink.",
+  "Gave a lane the wrong repair commit SHA; it caught it by reading the repository instead of my prose.",
+  "Wrote a commit message describing a record file the commit did not contain, because the script meant to write it threw before the write and I staged without checking.",
+  "Accepted FIX04's cause-number repair as discharging VF30's finding when it discharged only the collision, not the contradiction. VF36 caught it and withdrew its own pass with it."
  ],
  "owedAfterTheCurrentLanesReturn": [
   "An independent re-read of the four Vermont families FIX130 repaired (vt_exp_decriminalized-set and the three seal families), by a lane that is not FIX130. VF25 read them before the repair and failed four of five; it is a reader, not the repair author, so it may read them again.",
@@ -125,11 +123,20 @@
    "sameFormsAsTheOther": "Indiana's CCA inserts appear in BOTH scans. On those widgets the packet deletes the rule the court prints and draws a box where the court declared a line."
   }
  ],
- "captainHead": "94bb1eedd876817db87574ec87311a68786aac83",
+ "captainHead": "77064a2fc4a06549884b7f60ee7448d00952c5d4",
  "heldForRoger": [
-  "Five Vermont routes deliver one identical filing -- admitted, with the reasoning committed BEFORE the receipts landed; say the word and they go back to BUILT_RASTER_PENDING.",
-  "A null counter clearing the raster gate (3 options, recommendation given)",
-  "WV SCA-C903 has no acquittal ground (3 options)",
-  "PA COMPONENT_SET census question; screening-parity re-sign; Delaware Word-path; Kentucky COMPONENT_SET stop; two Alabama eligibility grounds"
+  "Which definition nonWhitespaceGlyphsOutsideMeasuredWriteBoxes carries factory-wide -- ruled containment, recorded so it can be overruled; 8 builders and 264 reports affected, plus a prior blocker (the module cannot measure multi-component packets at all)",
+  "Two Indiana fixtures bind one case-type token to two offence classes; needs a case-type table that exists nowhere in the repository or in custody",
+  "Five Vermont routes deliver one identical filing -- admitted, reasoning committed before the receipts landed, reversible on request",
+  "A null counter clearing the raster gate; WV SCA-C903 acquittal ground; PA COMPONENT_SET census; screening-parity re-sign; Delaware Word-path; Kentucky COMPONENT_SET stop; two Alabama eligibility grounds"
+ ],
+ "theShapeOfMostOfThoseErrors": "publishing a number derived from a convenient proxy instead of the artifact, and not checking that a headline and its evidence agree. Three lanes caught three of them; each time the lane was right.",
+ "scheduledNotIgnored": [
+  "Rewire the two Vermont hosts carrying hand copies to the shared locator AND port a premise table to each -- importing the module alone leaves the silent-fallback hole open",
+  "Six of seven remaining flattened-widget families still publish the pre-fix number until rebuilt",
+  "14 builders whose refusal prints \"Nothing was written.\" while files are on disk; FIX01 fixed its own, correctly did not sweep the rest",
+  "180 of 299 families carry a trailing Route(s) line with bare obligation keys -- its own dispatch, not folded into another",
+  "requiredComponentsMissing is an exception sink; the genuine component check has never fired",
+  "NOT_MEASURABLE_HERE is absent from the matrix resultClasses while 23 rows carry it"
  ]
 }
