@@ -1116,7 +1116,32 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     namedOfficialForms: named.length,
     effectiveOfficialSourceIds: named,
     boundCount: bound.length,
+    /*
+     * custodyClass IS THE ACQUISITION TASK'S STATUS, NOT A STATEMENT ABOUT NOW.
+     *
+     * It is copied verbatim from the acquisition record and never re-derived, so
+     * a family whose source was later acquired keeps a class saying the source is
+     * genuinely missing. 25 of the 26 families carrying SOURCE_GENUINELY_MISSING
+     * bind their sources today and are ready; nine of them are terminal. The
+     * queue's own bySourceStatus, which IS derived from readiness, counts that
+     * class once -- so the per-family field and the aggregate over it disagree 25
+     * times.
+     *
+     * A lane reading a row cannot be expected to know that precedence rule, and
+     * one lost an hour to exactly this pair of fields. The standing brief now
+     * warns about it, which is a workaround for a record that contradicts itself.
+     *
+     * The class is kept verbatim, because it is true history about the
+     * acquisition and deleting it would lose why the task existed. What is added
+     * is the contradiction, stated in the same object, so nobody has to hold the
+     * precedence rule in their head to read the row correctly.
+     */
     custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED",
+    custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody:
+      "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+    ...(custody?.custodyClass === "SOURCE_GENUINELY_MISSING" && (ready || bound.length > 0)
+      ? { custodyClassContradictedByThisRow: `custodyClass says SOURCE_GENUINELY_MISSING while this family binds ${bound.length} source(s) and readiness is ${ready ? "ready" : "not ready"}. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.` }
+      : {}),
     directAttachment: true
   }, reconciliation);
 }
