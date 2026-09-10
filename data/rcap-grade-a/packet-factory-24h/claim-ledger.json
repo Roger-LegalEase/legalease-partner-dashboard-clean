@@ -508,8 +508,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T07:04:02.175Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14224,9 +14224,54 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "itemId": null,
+      "familyId": "de_pardon_expungement-set",
+      "familyIds": [
+        "de_pardon_expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF20",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "itemId": null,
+      "familyId": "mn_petition_15218-set",
+      "familyIds": [
+        "mn_petition_15218-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF20",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "itemId": null,
+      "familyId": "mn_petition_609a02_subd3-set",
+      "familyIds": [
+        "mn_petition_609a02_subd3-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF20",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "d713667eda283902fd8eac366b99425e1f36cfe4ac3d159217c6cf5cacfda591",
+  "claimsDigest": "9ac192889b89fd14b0a439e79fcde0ff1b2df965e8aa55875e101ec20c8d5ff5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43746,6 +43791,16 @@
       "previouslyReleasedAt": "2026-09-09T18:52:48.212Z",
       "reissuedAt": "2026-09-09T23:46:12.212Z",
       "reason": "Released with the family still FAIL_REPAIR_REQUIRED; FIX08 is its own lane and is receiving a worker in this dispatch"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T07:04:02.175Z",
+      "reissuedAt": "2026-09-10T01:11:52.067Z",
+      "reason": "Released; the family now carries a fresh hash-bound RASTER_PASS from run 34418960259 and is VERIFY_PENDING. VF01 already holds its West Virginia batch-mate live, so both go to one reader"
     }
   ],
   "transfers": [
@@ -52670,6 +52725,39 @@
       "grantedAt": "2026-09-09T22:29:59.554Z",
       "grantedBy": "Captain",
       "reason": "One line at one call site: this family goes through finalizeOfficialForm, which already carries fitAppearancesToRect default-off, and its thirteen checkbox appearances carry no /Matrix so the placement translate is applied twice. FIX122 proved the corrected bytes identical to the siblings' normalized path and proved all 57 origin-anchored placements unmoved.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF20",
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:11:32.943Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired by FIX07/FIX05 with its canonical and boundary digests unchanged, so its committed RASTER_PASS still binds; it owes an independent read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF20",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:11:33.048Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired by FIX07/FIX05 with its canonical and boundary digests unchanged, so its committed RASTER_PASS still binds; it owes an independent read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF20",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:11:33.168Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired by FIX07/FIX05 with its canonical and boundary digests unchanged, so its committed RASTER_PASS still binds; it owes an independent read by a lane that neither built nor repaired it",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
