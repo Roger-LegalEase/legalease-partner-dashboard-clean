@@ -19,24 +19,6 @@
   "integrationRule": "Read every step's exit status. A refused write is not a checkpoint and a stale count is not a new result. Repair the actual failure rather than moving ownership or evidence to get green.",
   "activeOwners": [
     {
-      "lane": "FIX132",
-      "kind": "repair",
-      "worktree": "/home/user/pfc-worktree",
-      "families": [
-        "in_arrest_no_charges-set",
-        "in_section1_petition-set"
-      ]
-    },
-    {
-      "lane": "FIX135",
-      "kind": "repair",
-      "worktree": "/home/user/v5c-worktree",
-      "families": [
-        "co_multiple_conviction_seal-set",
-        "ne-setaside-custodial-set"
-      ]
-    },
-    {
       "lane": "FIX130",
       "kind": "repair",
       "worktree": "/home/user/pfd-worktree",
@@ -48,17 +30,53 @@
       ]
     },
     {
+      "lane": "FIX137",
+      "kind": "repair",
+      "worktree": "/home/user/pfa-worktree",
+      "families": [
+        "ar-cs-possession-seal-set",
+        "ar-nonconviction-seal-set"
+      ]
+    },
+    {
       "lane": "VF01",
       "kind": "independent-verification",
       "worktree": "/home/user/pf23-worktree",
       "families": [
         "ri_deferred_sentence-set",
         "ri_first_offender_misdemeanor-set"
+      ]
+    },
+    {
+      "lane": "VF29",
+      "kind": "independent-verification",
+      "worktree": "/home/user/v5c-worktree",
+      "families": [
+        "co_multiple_conviction_seal-set",
+        "ne-setaside-custodial-set"
+      ]
+    },
+    {
+      "lane": "VF30",
+      "kind": "independent-verification",
+      "worktree": "/home/user/pfe-worktree",
+      "families": [
+        "in_conviction_d6-set",
+        "in_conviction_felony-set",
+        "in_conviction_misd-set"
       ],
-      "why": "Repaired today by FIX134 on a dispatch premise of mine that was wrong; the read is told so and told to doubt me."
+      "why": "All three are COMPLETE_PACKET_PROVEN and their pinned inserts carry 102 rule-line defaults between them, the shape that erased 27,181 pixels of ruled writing lines from their Section 1 siblings. Exposure measured; the delivered pages are not."
     }
   ],
   "unresolvedBlockers": [
+    {
+      "what": "A shared finalizer deletes the court's own writing rule as if it were a chooser prompt",
+      "where": "rcap-official-form-finalize.mjs promptsSuppressed, via isChooserPrompt in rcap-field-semantics.mjs",
+      "measured": "data/rcap-grade-a/packet-factory-24h/RULE_LINE_DEFAULTS.json \u2014 329 sources scanned: 135 RULE_LINE (all Indiana, five forms), 2 WORD_PROMPT (both West Virginia), 0 ambiguous, 1 source unreadable.",
+      "whyItIsNotSimplyFixed": "Changing isChooserPrompt or gating promptsSuppressed moves delivered bytes. The measurement narrows it sharply -- the behaviour that would change is exercised by Indiana alone and the behaviour that must not change by West Virginia alone, on two fields -- but it is still a decision about delivered bytes for families whose readers are mid-flight.",
+      "whatFIX132Proved": "The caller-side remedy this repository provides does not work here: by the time it runs /AP is already deleted, so pdf-lib synthesizes one from /MK /BC and strokes a full rectangle with an empty Tj -- a boxed field on a filing where the court's own /BS /S /U declares an underline. Insert page 1 went 2450 added / 10372 removed to 16134 / 1812.",
+      "openOn": "in_conviction_d6-set, in_conviction_felony-set, in_conviction_misd-set \u2014 three terminal families, 102 rule-line defaults in their inserts, VF30 reading now."
+    },
     {
       "what": "The raster gate reads an unmeasured counter as zero, and a fail-closed sentinel as a count",
       "record": "docs/rcap/grade-a/owner-decisions/A_NULL_COUNTER_CLEARS_THE_RASTER_GATE.md",
@@ -102,21 +120,21 @@
   "grantsNothing": "This record opens no route, promotes nothing and approves no packet.",
   "lastUpdated": {
     "at": "2026-09-10",
-    "atCommit": "5971049ec2be4a6ed62d4f5173d48401b8c55c9a"
+    "atCommit": "4761ef4fdd9498093511ed2d94f8d90d6ae9fd03"
   },
   "currentCounts": {
     "measuredBy": "MASTER_LIBRARY_SOURCE_DIR=... npm run rcap:integrate-packet-factory, every step exit 0",
-    "terminal": 193,
+    "terminal": 194,
     "of": 346,
-    "COMPLETE_PACKET_PROVEN": 176,
+    "COMPLETE_PACKET_PROVEN": 177,
     "FAIL_REPAIR_REQUIRED": 70,
     "SOURCE_READY": 33,
     "PRODUCT_PATH_PENDING": 21,
     "LEGAL_BLOCKED": 19,
     "SOURCE_BLOCKED": 6,
-    "BUILT_RASTER_PENDING": 3,
+    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
-    "movedThisSession": "191 -> 193. wv_conv_nonviolent_felony-set on a PASS whose digests had not moved, so its committed RASTER_PASS still bound. vt_seal_nonconviction-set on a fresh RASTER_PASS from run 34439698619 over bytes that had moved in repair."
+    "movedThisSession": "191 -> 194. wv_conv_nonviolent_felony-set on a PASS whose digests had not moved. vt_seal_nonconviction-set on a fresh RASTER_PASS from run 34439698619. rcap-tx-custom-pleading on a fresh RASTER_PASS from run 34440467887."
   },
   "supplyQueue": "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json -- 75 failing, 50 with a live repair owner, 25 unowned and dispatchable after one grant each, 4 that need a READ rather than a repair because no obligation was ever recorded against them.",
   "settledSinceLastCheckpoint": [
@@ -151,12 +169,7 @@
       "effect": "Eight bindings named a lane that never opened the packet as their last independent verification. Two of the eight had a substantive FAIL against them."
     }
   ],
-  "rasterInFlight": {
-    "runId": "queued at commit 5971049ec \u2014 read the run list for its id",
-    "family": "rcap-tx-custom-pleading",
-    "why": "VF08 passed it on all fifteen obligations; a RASTER_PASS over its current bytes is the last terminal condition it lacks.",
-    "howToReadTheReceipt": "The artifact blob store answers 403 at this environment's egress proxy. Read the verdict from the job log server-side with get_job_logs(return_content, tail_lines 2000), which writes to a file, and parse the RCAP_RECEIPT_VERDICT payload programmatically. Assert its canonical, boundary and documents digests equal the queued row's before writing a receipt. Never transcribe a digest, a run id or a job id."
-  },
+  "rasterInFlight": null,
   "myOwnErrorsThisSession": [
     {
       "what": "I dispatched FIX134 onto the Rhode Island pair from REPAIR_SUPPLY_QUEUE.json v1, which I had recorded as stale in this very file an hour earlier, and added without checking that the accounting had been re-run and had not moved.",
