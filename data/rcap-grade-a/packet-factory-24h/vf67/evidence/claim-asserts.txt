@@ -1,0 +1,10 @@
+VF67 claim gate (read-only assertions completed before review)
+lane-vf67-codex-20260910; checkout=/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/vf67
+grantSet claimsDigest=48bc3544786e16cc87acc46af5f51f800dd5c18f76bc1194a8859178da3fd0ed
+ledger=1008 claims; generatedAtCommit=f8c4eaa0604fb9bf56eac6a38a6835e467cc156e
+
+node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF67 ks-21-6614-conviction-set -> CLAIM_OK
+node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF67 ks-21-6614-diversion-set -> CLAIM_OK
+node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF67 ks-21-6614-prostitution-coercion-set -> CLAIM_OK
+
+Claims were never dispatched as live grants and are not released by this worker.

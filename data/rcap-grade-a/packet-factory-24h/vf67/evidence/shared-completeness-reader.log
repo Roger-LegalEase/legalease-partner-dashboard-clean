@@ -1,0 +1,15 @@
+Command: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>
+
+FAMILY ks-21-6614-conviction-set
+FAIL ks-21-6614-conviction-set FAIL_MISSING_REQUIRED_FACTS 41/273 written
+counters: knownRequiredFieldsMissing 3 · requiredFactsNotCollected 0 · unclassifiedBlanks 43 · incompleteRows 0 · requiredOptionsMissing 1 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0
+
+FAMILY ks-21-6614-diversion-set
+FAIL ks-21-6614-diversion-set FAIL_MISSING_REQUIRED_FACTS 42/273 written
+counters: knownRequiredFieldsMissing 3 · requiredFactsNotCollected 0 · unclassifiedBlanks 43 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0
+
+FAMILY ks-21-6614-prostitution-coercion-set
+FAIL ks-21-6614-prostitution-coercion-set FAIL_MISSING_REQUIRED_FACTS 41/273 written
+counters: knownRequiredFieldsMissing 3 · requiredFactsNotCollected 0 · unclassifiedBlanks 43 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0
+
+Interpretation: this shared reader does not consume the six maps' selectionControls and refusal dispositions, while PF20's own byte-derived counters do. The discrepancy is recorded for maintainers and is not converted into independent family repairs. All commands were read-only (no --write, no --mutations).
