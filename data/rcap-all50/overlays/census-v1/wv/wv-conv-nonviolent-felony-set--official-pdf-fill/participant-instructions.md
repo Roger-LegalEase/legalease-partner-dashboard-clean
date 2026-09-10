@@ -135,6 +135,10 @@ These 17 items are printed word for word from the committed packet-set manifest 
 - The circuit clerk charges the § 59-1-11(a)(1) civil-action fee, which the official text sets at $200, and $100 is paid to the records division of the West Virginia State Police on grant under § 61-11-26(n).
 - none under § 61-11-26. The $100 State Police fee is waived only on a § 61-11-26a petition.
 
+### How to read the 3 items above that say "correct the packet if they disagree"
+
+The list above is the record's own words. This paragraph is not; it is this packet describing its own state. This packet writes 6 values onto the form and nothing else: your name in the caption and again on the verification's own name line, the county, the two address lines and the phone number. Every other answer on the petition is one you write. So where the record's list tells you to check an answer and correct the packet, the answer it means is the one you are about to write, not one this packet wrote for you. On item i — the restitution, protection, restraining or no-contact order — and on item m on page 3, this packet ticks neither Yes nor No, so there is nothing there to correct: what those items ask of you here is to MAKE the election, from the order or the expungement order you obtain, before you swear the verification.
+
 ### The components the same record declares for this packet set
 
 | Component | Role | Required | How it is produced | Official form |
@@ -167,6 +171,50 @@ The three `process_guidance` components are carried in this document rather than
 - **Your Social Security number.** The shared semantics refuse a government identifier on any form, and this one prints only the last four digits after "SSN: XXX-XX-".
 - **The three date-of-birth boxes on page 1.** See the note below.
 - **The circuit court case number.** The committed manifest names it as an item you complete from the court record.
+- **The three sworn yes/no elections — item i on page 2 (twice) and item m on page 3 — six boxes in all.** Each is a sworn answer only you can give, so this packet ticks none of the six. They are set out one by one in the generated table below.
+
+### Every blank this packet leaves unmarked, one by one
+
+These 19 rows are generated from this packet's own field map, not written out by hand, so a blank the packet leaves empty cannot be missing from them. The blanks listed under "The items you must supply" above are not repeated here.
+
+**Sworn yes/no elections this packet does not make for you**
+
+| The blank on the document | Page | Why this packet leaves it unmarked | What you do |
+| --- | --- | --- | --- |
+| Item i - is there a CURRENT restitution, protection, restraining or no-contact order - the Yes box | 2 | only the participant knows, and the form's own Yes branch requires the order to be attached to the petition; the route does not determine it | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+| Item i - is there a CURRENT restitution, protection, restraining or no-contact order - the No box | 2 | the negative half of the same election | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+| Item i - was there a PRIOR restitution, protection, restraining or no-contact order - the Yes box | 2 | only the participant knows; the route does not determine it | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+| Item i - was there a PRIOR restitution, protection, restraining or no-contact order - the No box | 2 | the negative half of the same election | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+| Item m - has petitioner ever been granted expungement or similar relief - the Yes box | 3 | only the participant knows; the form's own Yes branch requires the order to be attached, and the committed record records a prior expungement as a stop condition that likely exhausts the once-per-lifetime rule | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+| Item m - has petitioner ever been granted expungement or similar relief - the No box | 3 | the negative half of the same election | You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half. |
+
+**Boxes and dates belonging to a statutory route this petition is not brought under**
+
+| The blank on the document | Page | Why this packet leaves it unmarked | What you do |
+| --- | --- | --- | --- |
+| Eligibility recital - the box for a single felony under § 61-11-26a, the three-year branch | 1 | a recital whose own printed text is conditioned on § 61-11-26a(a)(1) or (a)(2) and on § 61-11-26a(b) documentation is not on the § 61-11-26 route this packet is built for | Leave it unmarked. It belongs to the § 61-11-26a three-year branch and this petition is not brought under it. |
+| Eligibility recital, single felony under § 61-11-26a - "The date of completion was: ____" | 1 | the completion date belonging to a recital this route does not use | Leave it unmarked. It belongs to the § 61-11-26a three-year branch and this petition is not brought under it. |
+| Eligibility recital - the box for multiple felonies under § 61-11-26a, the three-year branch (the Court's own spelling of the field name is kept) | 1 | a recital whose own printed text is conditioned on § 61-11-26a(a)(1) or (a)(2) and on § 61-11-26a(b) documentation is not on the § 61-11-26 route this packet is built for | Leave it unmarked. It belongs to the § 61-11-26a three-year branch and this petition is not brought under it. |
+| Eligibility recital, multiple felonies under § 61-11-26a - "The date of completion was: ____" (the Court's own spelling of the field name is kept, and this widget's own rectangle has a negative height) | 1 | the completion date belonging to a recital this route does not use | Leave it unmarked. It belongs to the § 61-11-26a three-year branch and this petition is not brought under it. |
+
+**Signature, date and certificate-of-service blocks**
+
+| The blank on the document | Page | Why this packet leaves it unmarked | What you do |
+| --- | --- | --- | --- |
+| Certificate of service - the name of the person certifying the service | 4 | this certifies a service that has not happened; the field is also declared unwritable by role, which the finalizer checks before any name or caption match, because it would otherwise bind the petitioner's own name | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the day of the month of service | 4 | a service date written before service would be false | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the month of service | 4 | a service date written before service would be false | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the year of service | 4 | a service date written before service would be false | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the First Class Mail delivery-method box | 4 | the delivery method certifies how a service that has not happened was carried out; the committed manifest names the delivery-method election as an item completed after service | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the Hand Delivery delivery-method box | 4 | the delivery method certifies how a service that has not happened was carried out | You complete it yourself, and only after the thing it records has actually happened. |
+| Certificate of service - the Certified Mail, Return Receipt delivery-method box | 4 | the delivery method certifies how a service that has not happened was carried out | You complete it yourself, and only after the thing it records has actually happened. |
+
+**Controls on the PDF that are not blanks on the filing**
+
+| The blank on the document | Page | Why this packet leaves it unmarked | What you do |
+| --- | --- | --- | --- |
+| Reset - a viewer control on the form, never a filing fact | 1 | the form's own button; it clears the form on screen and is not a blank on the filing | Nothing. It is a button in the PDF viewer, not a blank on the filing. |
+| Print this form - a viewer control, never a filing fact | 1 | the form's own button; it prints the form and is not a blank on the filing | Nothing. It is a button in the PDF viewer, not a blank on the filing. |
 
 ## What this packet does not tell you, and who does
 
