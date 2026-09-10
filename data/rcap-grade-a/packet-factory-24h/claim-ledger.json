@@ -4062,10 +4062,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX148",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T07:23:23.834Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4231,10 +4231,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX148",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T06:29:18.238Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4369,10 +4369,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX148",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T20:09:13.444Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Illinois ARTIFACTS repair integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
@@ -4462,10 +4462,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX148",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T09:58:26.218Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14709,7 +14709,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "79553d43a6a2000eff2212f7e1672ace9b3d1ec1e2c557f0c3525a004a6a645b",
+  "claimsDigest": "54dea1f0461f9b553569cb0125a14ce618b235d0af6fd7f6d33c1fbf6004295e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56766,6 +56766,50 @@
       "previouslyReleasedAt": "2026-09-10T12:22:33.975Z",
       "transferredAt": "2026-09-10T12:56:03.001Z",
       "reason": "Captain dispatch: VF43 returned and released this grant. FIX146 has since repaired the family and it needs a read by a lane that neither built nor previously passed it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX148",
+      "previouslyReleasedAt": "2026-09-09T07:23:23.834Z",
+      "transferredAt": "2026-09-10T13:06:23.918Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX148, which must establish whether the delivered app.launchURL actions are source-authored or build-introduced BEFORE repairing anything. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX148",
+      "previouslyReleasedAt": "2026-09-09T20:09:13.444Z",
+      "transferredAt": "2026-09-10T13:06:24.050Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX148, which must establish whether the delivered app.launchURL actions are source-authored or build-introduced BEFORE repairing anything. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX148",
+      "previouslyReleasedAt": "2026-09-09T09:58:26.218Z",
+      "transferredAt": "2026-09-10T13:06:24.186Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX148, which must establish whether the delivered app.launchURL actions are source-authored or build-introduced BEFORE repairing anything. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-supervision-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX148",
+      "previouslyReleasedAt": "2026-09-04T06:29:18.238Z",
+      "transferredAt": "2026-09-10T13:06:24.321Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX148, which must establish whether the delivered app.launchURL actions are source-authored or build-introduced BEFORE repairing anything. The transfer accepts, rejects and supersedes nothing."
     }
   ],
   "grants": [
