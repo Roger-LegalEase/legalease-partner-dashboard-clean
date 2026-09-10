@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e30be2eb47de0e9210b0b8fb2fe97a06290da666",
+  "minimumCaptainSha": "34944c649192b4da698f76866db4d7ece6984e6f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 13,
+    "activeFamiliesExcluded": 14,
     "guidanceOnly": 0,
-    "remaining": 333,
+    "remaining": 332,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
@@ -77,17 +77,17 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 184,
+    "COMPLETE_PACKET_PROVEN": 185,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 51,
+    "FAIL_REPAIR_REQUIRED": 52,
     "SOURCE_READY": 33,
     "VERIFY_PENDING": 8,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 6,
+    "BUILT_RASTER_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -119,6 +119,7 @@
       "fl-early-juvenile-set",
       "in_arrest_no_charges-set",
       "in_section1_petition-set",
+      "la-985-1-interim-expungement-set",
       "ne-setaside-custodial-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
@@ -17937,7 +17938,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -17967,7 +17971,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
@@ -22285,7 +22289,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -22315,7 +22322,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_expungement_certification-set.mjs",
@@ -24073,12 +24080,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf43",
-        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260910b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24107,13 +24116,29 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "PROTECTED_FIELDS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The packet writes into a line of the Article 995 proposed order that its own field map, four lines away, calls court-owned - and the contradiction is in the delivered record, in place. The statute's PLEASE SERVE block prints three identical rows, each a party role followed by a blank: '1. District Attorney ____', '2. Louisiana Bureau of Criminal Identification and Information ____', '3. Arresting Agency ____'. production-field-map.json refuses rows 1 and 2 as PROTECTED_FIELD with the reason 'Article 979 makes service the clerk's act; the serve list is completed by the clerk', and WRITES row 3 (LA-CCRP-ART-995.serve_arresting_agency, factId case.arresting_law_enforcement_agency). On delivered canonical page 5 that row reads '3. Arresting Agency Tangipahoa Parish Sheriff's Office' while rows 1 and 2 carry only dots. The stated reason for refusing rows 1 and 2 applies with equal force to row 3: if Article 979 makes the serve list the clerk's act, row 3 is the clerk's too. The same family's controlling boundary, reproduced verbatim on delivered guide page 17 and in judicialBoundaryOnTheOrder.statedByTheRecord, is 'LegalEase supplies the caption and the felony charge identifiers and nothing else.' This write is neither caption nor a felony charge identifier, so the delivered order carries a sixth write the delivered record says does not exist. The build script knows: its comment at lines 708-711 says the agency 'IS written, because the platform holds it and because the completeness contract refuses to let an agency name hide inside a court-owned refusal class'. That reasoning reaches no delivered record and no participant - a completeness counter is not a legal basis for writing on a proposed order. What the participant is told is narrower than what happened: participant-instructions.md line 175 says 'Leave the clerk's filed-on stamp, the clerk's certificate of service and the district attorney and Bureau lines of the PLEASE SERVE list blank', naming only rows 1 and 2 and never saying that the packet filled row 3 or why, while lines 130 and 157 of the same file tell the participant 'The participant does not serve anyone.' Actionable repair, for a lane that is not this one: settle the three rows the same way. Either refuse row 3 as court-owned like its two siblings, or write all three and restate the judicial boundary and the guide to match - but not one of each with opposite reasons on the same block of the same order.",
+          "findingReadFrom": "finding",
+          "evidence": "delivered canonical.pdf page 5 line '3. Arresting Agency Tangipahoa Parish Sheriff's Office'; production-field-map.json maps[LA-CCRP-ART-995].canonicalWrites[5] and canonicalRefusals[serve_district_attorney, serve_bureau]; participant-instructions.md lines 175, 130, 157, 213; scripts/build-census-v1-la-985-1-interim-expungement-set.mjs lines 700-742. Everything else on the order measures clean: the hearing-or-affidavits election, the granted-or-denied choice, both denial-reason boxes, the day, the month and year and the place all render as dots on both fixtures; the signature line carries the statute's own word JUDGE over a dotted rule with no ink and no label of this build's own; and the four felony-charge identifier lines are blank."
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "product-wiring.json, inside this family's own owned directory, states a canonical SHA-256 that no file in the tree has. It pins 34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5 on all three proposedRepresentation components and on binding.acceptanceReceipt.boundToCanonicalSha256; the delivered canonical.pdf hashes bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c. It also carries the superseded raster run 34413372916 as its acceptance receipt while the current central RASTER_PASS is run 34476556218 bound to the bytes that are actually here, and lastIndependentVerification as vf06 FAIL_REPAIR_REQUIRED, which VF43 has since superseded. The record was last written at commit deead9f25, two repairs ago; FIX142's rebuild moved the bytes and did not move it. The factory's own tool agrees, read-only and with no writes to the tree: `node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family la-985-1-interim-expungement-set` reports '1 acceptance receipt(s) WITHDRAWN ... bound to 34cb3e8ea4b3, the family now produces bc8ac1038527' and '3 component digest(s) re-pinned to the bytes on disk'. This is not a queue-wide regeneration lag: the sibling family md_pardon_expungement-set's product-wiring.json is current against its own bytes. It matters because the record's own proposedRepresentation calls itself 'A specification for a later lane', and a specification naming bytes that do not exist is the exact failure ADMITTED_RECEIPT_BINDS_BYTES_NOT_ON_DISK exists to name; nothing in the repository tracks this instance. Everything else under this obligation is sound: both fixtures exist, parse, are 19 pages, and hash to what reports/rendered-artifacts.json and component-page-manifest.json declare and to what the current raster receipt binds; the 19 text-bearing content streams map one-to-one onto the 19 pages with no orphaned stream carrying invisible text. Actionable repair, for a lane that is not this one: rerun generate-product-wiring.mjs for this family. THE OTHER LIMB OF VF43'S CONDITION, and why it cannot be discharged here: VF43 accepted the unmarked specimen docket No.: TEST-2026-000001 on condition that any route rendering this family for a real participant takes the docket from the participant record and proves it on the delivered bytes. The first half holds and is measured under KNOWN_PREFILLS. The second half cannot be tested, because no such route exists: product-wiring.json is status DECLARED_NOT_INSTALLED with generationAllowed false, paymentEligible false, and its own explicitNonGrants say it adds nothing to compiled runtime. There is nothing rendering this family for a real participant to check. That is not a defect in these bytes and it is not scored as one; it is the reason VF43's condition stays open, and it can only be discharged by the lane that installs the route, on that route's own delivered bytes.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX142",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24124,7 +24149,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "la-985-expungement-by-redaction-set",
@@ -25873,10 +25899,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909e.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260910b.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -25907,27 +25933,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The 38 values themselves are correct, complete and inside their boxes on both fixtures. The FAIL is that the delivered records and the delivered guide state, three times over, that the packet wrote nothing on the court's order page while it wrote five things there. production-field-map.json refuses 18 fields on packet page 4 (CC-DC-089 page 3) and gives every one of them the same reason: 'page 3 of this form is the court's order on the request and every field on it belongs to the court'. build-findings.json says 'Page 3 of CC-DC-089 is the court's order on the request. Every field on it is refused as court-owned.' participant-instructions.md tells the participant, under 'What is deliberately left blank': 'Page 3 of CC-DC-089 is the court's order and every line on it belongs to the court.' In the delivered bytes that page carries five writes from the same field map: the DISTRICT COURT OF MARYLAND caption box is TICKED, and Court's City/County, Case No., Petitioner/Plaintiff and Respondent/Defendant are all printed. I read them off the rendered page 4 and counted their ink. The same refusals array contradicts itself in place - its first page-4 entry refuses the CIRCUIT COURT box with the reason 'the packet states the other member of this select-one', which is the tick the blanket sentence says does not exist. This is the participant-facing consequence and it is why it is a FAIL rather than a note: the caption on a proposed order names the court that will sign it and the case it will be signed in, and the packet tells the person filing that nothing on that page is theirs to check. Repair is in the copy and the refusal basis, not in the geometry: the caption is correctly filled and should be described as filled.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "Every selection the packet makes is defensible on its face, and half of them are hidden from the person who signs. The packet ticks four controls: (1) item 3's pardon ground, with the pardon date written beside it - disclosed in its own section of the guide, with the warning to check the date against the pardon document; (2) CC-DC-089's 'I request a waiver of the prepaid costs' - disclosed in one sentence; (3) the DISTRICT COURT OF MARYLAND caption box, on the petition and on both CC-DC-089 widgets, on the field map's basis 'the court of conviction held by this fixture is a District Court location'; and (4) item 1's 'I was arrested', on the basis 'the held case fact is an arrest rather than a summons or a citation'. Selections 3 and 4 appear NOWHERE in participant-instructions.md or filing-instructions.md, and the field map's own routeSelectionsMade array lists only selections 1 and 2. Item 1 is the one that matters: the form prints '(Check one of the following boxes) On or about ___, I was [ ] arrested, [ ] served with a summons, [ ] or served with a citation', the packet answers that select-one from an inference (factId null, routeDetermined false), and the petition is affirmed under the penalties of perjury. The word 'arrest' reaches the participant only inside 'check the arrest date ... against your own case record'; nothing tells them the packet chose arrested over summons or citation. Actionable repair: list all four in routeSelectionsMade and disclose selections 3 and 4 to the participant in the same terms the other two already get. Correctly NOT ticked: the other seven grounds of item 3, which the form makes a check-all-that-apply and which the packet carries as genuine participant elections with the form's own words beside each; and items 4 and 5, the transfer and appeal questions that decide the court.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",

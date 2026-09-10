@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 174,
-    "rows": 1200,
+    "returnDirectories": 175,
+    "rows": 1202,
     "independentVerdicts": 292,
     "failRepairRequired": 56,
     "passIndependent": 214
@@ -67,9 +67,9 @@
     "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
     "la-977d-marijuana-first-offense-set",
+    "la-985-1-interim-expungement-set",
     "ma-expunge-k-set",
     "ma-seal-court-set",
-    "md_pardon_expungement-set",
     "me-seal-survivor-set",
     "mn_petition_15218-set",
     "ne-setaside-custodial-set",
@@ -12858,6 +12858,36 @@
     {
       "familyId": "la-985-1-interim-expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "failedObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The packet writes into a line of the Article 995 proposed order that its own field map, four lines away, calls court-owned - and the contradiction is in the delivered record, in place. The statute's PLEASE SERVE block prints three identical rows, each a party role followed by a blank: '1. District Attorney ____', '2. Louisiana Bureau of Criminal Identification and Information ____', '3. Arresting Agency ____'. production-field-map.json refuses rows 1 and 2 as PROTECTED_FIELD with the reason 'Article 979 makes service the clerk's act; the serve list is completed by the clerk', and WRITES row 3 (LA-CCRP-ART-995.serve_arresting_agency, factId case.arresting_law_enforcement_agency). On delivered canonical page 5 that row reads '3. Arresting Agency Tangipahoa Parish Sheriff's Office' while rows 1 and 2 carry only dots. The stated reason for refusing rows 1 and 2 applies with equal force to row 3: if Article 979 makes the serve list the clerk's act, row 3 is the clerk's too. The same family's controlling boundary, reproduced verbatim on delivered guide page 17 and in judicialBoundaryOnTheOrder.statedByTheRecord, is 'LegalEase supplies the caption and the felony charge identifiers and nothing else.' This write is neither caption nor a felony charge identifier, so the delivered order carries a sixth write the delivered record says does not exist. The build script knows: its comment at lines 708-711 says the agency 'IS written, because the platform holds it and because the completeness contract refuses to let an agency name hide inside a court-owned refusal class'. That reasoning reaches no delivered record and no participant - a completeness counter is not a legal basis for writing on a proposed order. What the participant is told is narrower than what happened: participant-instructions.md line 175 says 'Leave the clerk's filed-on stamp, the clerk's certificate of service and the district attorney and Bureau lines of the PLEASE SERVE list blank', naming only rows 1 and 2 and never saying that the packet filled row 3 or why, while lines 130 and 157 of the same file tell the participant 'The participant does not serve anyone.' Actionable repair, for a lane that is not this one: settle the three rows the same way. Either refuse row 3 as court-owned like its two siblings, or write all three and restate the judicial boundary and the guide to match - but not one of each with opposite reasons on the same block of the same order.",
+          "findingReadFrom": "finding",
+          "evidence": "delivered canonical.pdf page 5 line '3. Arresting Agency Tangipahoa Parish Sheriff's Office'; production-field-map.json maps[LA-CCRP-ART-995].canonicalWrites[5] and canonicalRefusals[serve_district_attorney, serve_bureau]; participant-instructions.md lines 175, 130, 157, 213; scripts/build-census-v1-la-985-1-interim-expungement-set.mjs lines 700-742. Everything else on the order measures clean: the hearing-or-affidavits election, the granted-or-denied choice, both denial-reason boxes, the day, the month and year and the place all render as dots on both fixtures; the signature line carries the statute's own word JUDGE over a dotted rule with no ink and no label of this build's own; and the four felony-charge identifier lines are blank."
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "product-wiring.json, inside this family's own owned directory, states a canonical SHA-256 that no file in the tree has. It pins 34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5 on all three proposedRepresentation components and on binding.acceptanceReceipt.boundToCanonicalSha256; the delivered canonical.pdf hashes bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c. It also carries the superseded raster run 34413372916 as its acceptance receipt while the current central RASTER_PASS is run 34476556218 bound to the bytes that are actually here, and lastIndependentVerification as vf06 FAIL_REPAIR_REQUIRED, which VF43 has since superseded. The record was last written at commit deead9f25, two repairs ago; FIX142's rebuild moved the bytes and did not move it. The factory's own tool agrees, read-only and with no writes to the tree: `node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family la-985-1-interim-expungement-set` reports '1 acceptance receipt(s) WITHDRAWN ... bound to 34cb3e8ea4b3, the family now produces bc8ac1038527' and '3 component digest(s) re-pinned to the bytes on disk'. This is not a queue-wide regeneration lag: the sibling family md_pardon_expungement-set's product-wiring.json is current against its own bytes. It matters because the record's own proposedRepresentation calls itself 'A specification for a later lane', and a specification naming bytes that do not exist is the exact failure ADMITTED_RECEIPT_BINDS_BYTES_NOT_ON_DISK exists to name; nothing in the repository tracks this instance. Everything else under this obligation is sound: both fixtures exist, parse, are 19 pages, and hash to what reports/rendered-artifacts.json and component-page-manifest.json declare and to what the current raster receipt binds; the 19 text-bearing content streams map one-to-one onto the 19 pages with no orphaned stream carrying invisible text. Actionable repair, for a lane that is not this one: rerun generate-product-wiring.mjs for this family. THE OTHER LIMB OF VF43'S CONDITION, and why it cannot be discharged here: VF43 accepted the unmarked specimen docket No.: TEST-2026-000001 on condition that any route rendering this family for a real participant takes the docket from the participant record and proves it on the delivered bytes. The first half holds and is measured under KNOWN_PREFILLS. The second half cannot be tested, because no such route exists: product-wiring.json is status DECLARED_NOT_INSTALLED with generationAllowed false, paymentEligible false, and its own explicitNonGrants say it adds nothing to compiled runtime. There is nothing rendering this family for a real participant to check. That is not a defect in these bytes and it is not scored as one; it is the reason VF43's condition stays open, and it can only be discharged by the lane that installs the route, on that route's own delivered bytes.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "PROTECTED_FIELDS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260910b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
       "isIndependentVerification": true,
       "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
@@ -12894,7 +12924,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "la-985-expungement-by-redaction-set",
@@ -13680,6 +13710,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909e.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_pardon_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260910b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set",
       "superseded": false
     },
