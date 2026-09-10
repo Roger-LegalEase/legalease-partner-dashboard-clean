@@ -1,0 +1,67 @@
+{
+ "schemaVersion": "rcap-packet-factory-lane-checkpoints/v1",
+ "lane": "FIX06",
+ "laneKind": "repair",
+ "shift": "20260910-ky",
+ "worktree": "/home/user/pfc-worktree",
+ "branch": "pfc-ky-20260910",
+ "baseSha": "2b45ac2be431a7fa9e197c6ee3da42d623ba6f37",
+ "headSha": "758b65fd931f50eade722958977d9ee6ff979c94",
+ "checkpoints": [
+  {
+   "at": "grant assertion, before reading any family artifact",
+   "what": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 ky_protective_order_record_expungement-set",
+   "result": "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set 32a79ceb6b593de1), exit 0. Read-only; git status unchanged after. The prior FIX06 attempt's NOT_GRANTED exit 6 was a base problem, not a lane problem: this worktree is at 2b45ac2be, which carries the grant."
+  },
+  {
+   "at": "the finding was tested before it was acted on",
+   "what": "Read data/record-clearing/legal-design-intake/KY.memo.json at track ky_protective_order_record_expungement in full, before editing anything, to decide whether VF04's premise held.",
+   "result": "It held. Five independent nodes establish the participant is the RESPONDENT: participantInputs.poRespondentName, participantInputs.poPetitionerName, controllingAuthority.summary, exclusions and destination.detail. The packet's own filing-instructions.md was already quoting the last of those verbatim, so the record was demonstrably in reach of this build when it printed the opposite."
+  },
+  {
+   "at": "governance checked BEFORE rebuilding",
+   "what": "Inspected the builder for a product-wiring.json write and the committed binding for the six governance keys, per dispatch, rather than discovering the loss afterwards.",
+   "result": "The builder regenerated product-wiring.json wholesale and carried none of the six. The committed binding held all six including a hash-bound RASTER_PASS receipt. It was one of the erasing builders. The shared mechanism was wired before the first rebuild, so no receipt was ever lost."
+  },
+  {
+   "at": "dry run",
+   "what": "node scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs --check after the binding change.",
+   "result": "blocking [] on both fixtures; canonicalTooLongToFit []; boundaryTooLongToFit names only Case No., which is the boundary fixture working as designed. All three name parts fit their widgets in both personas."
+  },
+  {
+   "at": "delivered bytes read, not the build report",
+   "what": "Loaded both produced PDFs and read ink per widget at exact /Rect bounds, plus a 2pt-tolerance pass to catch anything straying.",
+   "result": "canonical first/middle/last res = Jordan / Avery / Reyes (6/5/5 glyphs); boundary = Alexandrina-Katharine / Montgomery-Vandenberg-Oyelaran / Fitzwilliam III (21/30/14). first/middle/last pet = 0 ink in both, even at 2pt tolerance. No AcroForm survives the flatten in either file, no ZapfDingbats glyph, no Print or Reset caption, and the literal 000 appears nowhere."
+  },
+  {
+   "at": "the caption was resolved by geometry, not by field name",
+   "what": "Measured the printed caption labels and the widget rectangles in the pinned source before trusting the names 'first res' and 'first pet'.",
+   "result": "PETITIONER prints at y=637.40, inside the pet widgets' y 631.30-651.94 band; RESPONDENT prints at y=590.10, inside the res widgets' y 586.30-606.94 band. The names agree with the geometry. Had they disagreed, the geometry would have decided."
+  },
+  {
+   "at": "reading my own guide caught two defects in it",
+   "what": "Read the regenerated participant-instructions.md rather than trusting that the renderer had done what it was told.",
+   "result": "Two real defects in this lane's own output: a doubled full stop on 'Case No..' from appending a period to a label that already ended in one, and ragged hard-wrapping in the new caption section. Both fixed, the guide re-read, and the fixtures confirmed byte-identical afterwards -- the guide edit moved no packet byte."
+  },
+  {
+   "at": "governance verifier",
+   "what": "npm run rcap:verify-governance-preservation",
+   "result": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured, every one a path absent from this sparse checkout) and GOVERNANCE_PRESERVATION_OK, 16 checks. The committed receipt is under binding.acceptanceReceiptWithdrawn with both digests; the other five keys are carried verbatim."
+  },
+  {
+   "at": "idempotence",
+   "what": "Rebuilt twice from unchanged inputs and hashed the outputs.",
+   "result": "Byte-identical product-wiring.json and byte-identical fixtures across the second rebuild. Nothing in the preservation varies run to run, so a later rebuild will not produce a diff that says nothing."
+  },
+  {
+   "at": "blast radius",
+   "what": "git status and git diff --stat before staging; every path staged by name.",
+   "result": "13 files: this family's 12 artifacts and its own builder. No other family, no shared manifest, no queue row, no other lane's worktree, no admitted raster verdict. No git add . / -A / --all was used."
+  },
+  {
+   "at": "what this lane did not do",
+   "what": "Verification.",
+   "result": "No verdict set, no PASS issued, no obligation marked satisfied, no route changed, no build status promoted. visualDefects is published null rather than zero for the same reason. The family owes a read by a lane that neither built nor repaired it, and a fresh central raster."
+  }
+ ]
+}
