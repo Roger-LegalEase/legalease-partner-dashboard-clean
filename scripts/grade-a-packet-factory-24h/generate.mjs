@@ -2206,7 +2206,12 @@ for (const f of IN.scoreboard.familiesDetail) {
   /* Refused AND answered: the family rests in what it delivers, not in what it
    * may not. Refused and not yet answered stays WRONG_DELIVERY_TYPE, which is
    * where rcap-sc-custom-pleading correctly still sits. */
-  if (terminalTreatment) state = terminalTreatment.terminalTreatment;
+  // An explicit owner-directed containment suspends completion, not the
+  // adopted delivery restriction. Keep terminalTreatment and the refusal on
+  // the row so repairing a defective internal candidate cannot open checkout.
+  if (executionReclassification?.terminalClaimSuspended === true
+    && executionReclassification.stateOverride === "FAIL_REPAIR_REQUIRED") state = "FAIL_REPAIR_REQUIRED";
+  else if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
   else if (holdReclassificationNextState && comp && nineZero
     && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
