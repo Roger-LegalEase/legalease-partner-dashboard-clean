@@ -129,6 +129,7 @@ const BUILD_SCRIPT = "scripts/build-census-v1-ma-expunge-k-set.mjs";
 const MASTER_QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const SWEEP = "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
 
 /*
  * The form prints no form number anywhere on either page — only the edition
@@ -1444,6 +1445,49 @@ function printed(census, anchorId) {
   return text;
 }
 
+/*
+ * The participant acts the committed packet-set manifest marks
+ * requiredBeforeFiling.
+ *
+ * This build previously read only the route-obligation census and the form
+ * itself. Neither carries participantActionRequired, so the manifest's FIRST
+ * required-before-filing item for this packet set -- obtain your own CORI from
+ * DCJIS -- and the confirm_answer cross-check paired with it reached no page of
+ * the guide. The three places a CORI was mentioned all named it as an optional
+ * alternative source to COPY FROM, which is the opposite role.
+ *
+ * No counter sees this. reports/blanks-left-for-the-participant.json asserts
+ * everyRequiredBeforeFilingItemIsDisclosed true, and it is true of its own
+ * sixteen entries -- every one a blank on the petition face. The manifest's
+ * participant acts were never in its scope.
+ *
+ * Only the two document-shaped kinds are surfaced. The manifest's other
+ * required entries for this packet set carry descriptions such as "Required."
+ * and "None identified in the review."; printing those as participant steps
+ * would put an empty instruction in front of a reader, which is worse than
+ * none. They are already covered by the form-blank list and the fee section.
+ */
+const PARTICIPANT_ACT_KINDS = ["obtain_document", "confirm_answer"];
+
+function participantActsRequiredBeforeFiling() {
+  const bytes = fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFESTS));
+  const manifest = JSON.parse(bytes.toString("utf8"));
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  assert.ok(set, `${PACKET_SET_MANIFESTS} carries no packetSet ${FAMILY_ID}`);
+  const acts = (set.participantActionRequired ?? [])
+    .filter((a) => a.requiredBeforeFiling === true && PARTICIPANT_ACT_KINDS.includes(a.kind));
+  assert.ok(acts.length > 0,
+    `${PACKET_SET_MANIFESTS} marks no document-shaped participant act required before filing for ${FAMILY_ID}`);
+  for (const act of acts) {
+    assert.ok(String(act.description ?? "").trim().length > 0,
+      `a required-before-filing ${act.kind} for ${FAMILY_ID} carries an empty description; this packet will not print an empty instruction`);
+    /* The manifest's own strings must also be the ones the guide prints. */
+    assert.ok((set.requiredBeforeFiling ?? []).includes(act.description),
+      `a required-before-filing ${act.kind} is absent from ${FAMILY_ID}'s own requiredBeforeFiling list: ${act.description}`);
+  }
+  return { acts, digest: crypto.createHash("sha256").update(bytes).digest("hex") };
+}
+
 function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, census) {
   const elections = maps.flatMap((m) => m.selectionControls.filter((c) => c.disposition === "participant_election"));
   const grounds = rbf.filter((r) => r.groundNumber).sort((a, b) => a.groundNumber - b.groundNumber);
@@ -1539,17 +1583,49 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, cens
   );
   out.push("");
 
+  const { acts: participantActs, digest: manifestDigest } = participantActsRequiredBeforeFiling();
+  const obtain = participantActs.filter((a) => a.kind === "obtain_document");
+  const confirm = participantActs.filter((a) => a.kind === "confirm_answer");
+
+  out.push("## Get this before you start", "");
+  out.push(
+    "The committed packet-set record for this packet marks the item below **required before filing**. It is not "
+    + "one of the blanks on the form and no part of this packet supplies it: you obtain it yourself, before you "
+    + "fill anything in. Quoted verbatim from "
+    + `\`${PACKET_SET_MANIFESTS}\`, packetSet \`${FAMILY_ID}\` (sha256 ${manifestDigest}):`, ""
+  );
+  for (const act of obtain) {
+    out.push(`> ${act.description}`, "");
+    if (act.obtainedFrom) out.push(`**Where from:** ${act.obtainedFrom}`, "");
+  }
+  if (confirm.length > 0) {
+    out.push("The same record pairs it with a check, also marked required before filing:", "");
+    for (const act of confirm) out.push(`> ${act.description}`, "");
+    out.push(
+      "That check is the reason to get it first. The docket number is the blank that points the petition at a file, "
+      + "and this packet holds no docket number to check yours against.", ""
+    );
+  }
+
   out.push("## What you must do, in order", "");
-  out.push("1. **Write in the docket number and the charges** from your own court papers or your CORI.");
-  out.push("2. **Tick the one court department that heard the case**, and write its division.");
-  out.push("3. **Tick the ground or grounds that fit your record**, from the table above.");
-  out.push("4. **Write your explanation** in the `Specifically` box — as much detail as you can give.");
-  out.push("5. **Decide whether to ask for a hearing**, and whether you are attaching documents.");
-  out.push(`6. **Sign and date the petition.** The route record: _"${quote(route.signatureRequirements[0], "signature requirements")}"_ `
+  let step = 0;
+  for (const act of obtain) {
+    out.push(`${++step}. **Get it before you write anything.** ${act.description}`
+      + `${act.obtainedFrom ? ` **Where from:** ${act.obtainedFrom}` : ""}`);
+  }
+  out.push(`${++step}. **Write in the docket number and the charges** from your own court papers or your CORI.`);
+  for (const act of confirm) {
+    out.push(`${++step}. **Check it against what you obtained.** ${act.description}`);
+  }
+  out.push(`${++step}. **Tick the one court department that heard the case**, and write its division.`);
+  out.push(`${++step}. **Tick the ground or grounds that fit your record**, from the table above.`);
+  out.push(`${++step}. **Write your explanation** in the \`Specifically\` box — as much detail as you can give.`);
+  out.push(`${++step}. **Decide whether to ask for a hearing**, and whether you are attaching documents.`);
+  out.push(`${++step}. **Sign and date the petition.** The route record: _"${quote(route.signatureRequirements[0], "signature requirements")}"_ `
     + "Page 1 prints `DATE:` and `PETITIONER'S SIGNATURE` on a rule at the foot — **that rule carries no fillable "
     + "box at all**, on this form, so you sign and date it by hand on paper.");
-  out.push("7. **Give the district attorney's office a copy**, then tick the method and write the date on page 1.");
-  out.push("8. **File it at the clerk's office of the court where the case was heard.**");
+  out.push(`${++step}. **Give the district attorney's office a copy**, then tick the method and write the date on page 1.`);
+  out.push(`${++step}. **File it at the clerk's office of the court where the case was heard.**`);
   out.push("");
 
   out.push("## What this packet already filled in", "");
@@ -1743,8 +1819,32 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const canonicalFields = new Set(rbf.map((r) => r.field));
   const boundaryOnlyRbf = boundaryRbf.filter((r) => !canonicalFields.has(r.field));
 
+  const participantActs = participantActsRequiredBeforeFiling();
   const instructionsText = participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, census);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  /*
+   * A required-before-filing act the record holds must reach the page the
+   * participant reads, verbatim, and it must be an instruction to OBTAIN the
+   * document rather than a mention of it in some other role.
+   *
+   * Both assertions fire on the guide this family shipped before this repair:
+   * the manifest's CORI sentence appeared nowhere in it, and its three
+   * references to a CORI were all "copy the docket number from your court
+   * papers or your CORI" -- an alternative source, not a document to get.
+   */
+  for (const act of participantActs.acts) {
+    assert.ok(instructionsText.includes(act.description),
+      `a required-before-filing ${act.kind} the packet-set manifest holds is not carried into the guide verbatim: ${act.description}`);
+    if (act.obtainedFrom) {
+      assert.ok(instructionsText.includes(act.obtainedFrom),
+        `the guide names no source for a required-before-filing document: ${act.obtainedFrom}`);
+    }
+  }
+  assert.match(instructionsText, /^## Get this before you start$/m,
+    "the guide must carry a section naming what the participant obtains before filling anything in");
+  assert.match(instructionsText, /^\d+\. \*\*Get it before you write anything\.\*\*/m,
+    "obtaining the required document must be a numbered step in the guide's own ordered list, not only a section");
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
@@ -1912,7 +2012,33 @@ export async function runFamily(argv = process.argv.slice(2)) {
     protectedBlanks: maps.flatMap((m) => m.canonicalRefusals
       .filter((r) => r.requiredBeforeFiling !== true && r.category === SIGNATURE)
       .map((r) => ({ document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why }))),
-    everyRequiredBeforeFilingItemIsDisclosed: true,
+    /*
+     * The manifest's participant ACTS, which are required before filing and are
+     * not blanks on the form. They were outside this report's scope until this
+     * repair, which is why the flag below could read true while the guide never
+     * told the participant to obtain a CORI at all.
+     */
+    participantActsRequiredBeforeFiling: participantActs.acts.map((a) => ({
+      kind: a.kind, requirement: a.requirement, description: a.description,
+      ...(a.obtainedFrom ? { obtainedFrom: a.obtainedFrom } : {}),
+      source: `${PACKET_SET_MANIFESTS}#packetSets[packetSetId=${FAMILY_ID}]`,
+      sourceSha256: participantActs.digest,
+      disclosedVerbatimInGuide: instructionsText.includes(a.description)
+    })),
+    /*
+     * MEASURED, not asserted. Every form blank this report lists, and every
+     * participant act the manifest marks required before filing, tested as a
+     * byte substring of the delivered guide.
+     */
+    everyRequiredBeforeFilingItemIsDisclosed:
+      [...rbf, ...boundaryOnlyRbf].every((r) => instructionsText.includes(r.effectiveLabel ?? r.label ?? ""))
+      && participantActs.acts.every((a) => instructionsText.includes(a.description)),
+    whatThatFlagCovers:
+      "every form blank listed in requiredBeforeFiling and boundaryOnlyRequiredBeforeFiling, AND every "
+      + "participantActionRequired entry the committed packet-set manifest marks requiredBeforeFiling with a "
+      + "document-shaped kind. It does not cover the manifest's sign, pay_fee or apply_fee_waiver entries, whose "
+      + "recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and "
+      + "\"None identified.\" -- printing those as participant steps would be an empty instruction.",
     disclosedIn: `${OUT}/participant-instructions.md`
   });
 

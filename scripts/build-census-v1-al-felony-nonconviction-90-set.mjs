@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import zlib from "node:zlib";
 import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -427,8 +428,161 @@ async function buildPacket(sources, fixtureName, fixture, config) {
  * honest residue; notarization as a question for the clerk rather than a
  * direction; and every stop condition the record holds, verbatim.
  */
+/*
+ * CR-65 prints elections that this route does not determine, so this packet
+ * ticks none of them. Until this repair the guide named none of them either.
+ *
+ * The mechanism: production-field-map.json classifies every one of them as
+ * `participant_sworn_narrative_or_legal_election` with `requiredBeforeFiling`
+ * false, and "Blanks you must fill in" prints only refusals carrying
+ * `requiredBeforeFiling` true. So a MANDATORY sworn selection, on the page
+ * headed "I swear or affirm, under the penalty of perjury:", reached no page
+ * the participant reads -- while the two blanks that hang off its SECOND
+ * branch were printed in that list unconditionally, under the sentence "Fill
+ * every one ... before filing". A participant who has never sought an
+ * expungement and follows that literally writes a county and a case number for
+ * a prior expungement that does not exist, on a sworn page, while the
+ * attestation governing those two blanks stays empty.
+ *
+ * No counter sees this. requiredOptionsMissing reads the field map as its
+ * classification authority, and the field map says these are not required.
+ *
+ * Every string below is a line CR-65 ITSELF prints. None of them is this
+ * packet's characterisation of Alabama law: "must", "either item 1 or item 2"
+ * and "Select one of the following" are the form's own words. They are re-read
+ * out of the DELIVERED bytes on every build by assertPrintedElections(), which
+ * refuses the build if a quoted line is no longer printed on the page this
+ * guide attributes it to.
+ */
+const PRINTED_ELECTIONS = {
+  attachments: {
+    page: 5,
+    heading: "Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)",
+    options: [
+      "[ ] (1) a certified record of arrest from the appropriate agency for the court record I seek to have",
+      "[ ] (2) a certified record of disposition or a certified record of the case action summary from the",
+      "[ ] (3) a certified official criminal record obtained from the Alabama Law Enforcement Agency (ALEA)."
+    ]
+  },
+  swornSelectOne: {
+    page: 6,
+    oath: "I swear or affirm, under the penalty of perjury:",
+    heading: "(3)(Select one of the following):",
+    firstBranch: "[ ] that I have not previously applied for an expungement in this or any other jurisdiction.",
+    secondBranchOpening: "[ ] that I have previously filed for an expungement. My previous expungement was filed in",
+    grantedDenied: "was [ ] granted [ ] denied."
+  },
+  proSe: { page: 6, line: "[ ] pro se (Not represented by an attorney)" }
+};
+
+/* Every quoted line, with the delivered page it is attributed to. */
+function quotedElectionLines() {
+  const { attachments: a, swornSelectOne: s, proSe: p } = PRINTED_ELECTIONS;
+  return [
+    [a.page, a.heading], ...a.options.map((line) => [a.page, line]),
+    [s.page, s.oath], [s.page, s.heading], [s.page, s.firstBranch],
+    [s.page, s.secondBranchOpening], [s.page, s.grantedDenied],
+    [p.page, p.line]
+  ];
+}
+
+/*
+ * The two blanks that exist only on the SECOND branch of the page-6 select-one.
+ * Keyed by field id rather than by label so a label rewrite cannot silently
+ * drop the condition.
+ */
+const SECOND_BRANCH_ONLY = new Set([
+  "CR-65:COUNTY and it was given Court Case Number",
+  "CR-65:was     granted"
+]);
+const SECOND_BRANCH_CONDITION = "only if you tick the SECOND box in item (3) on CR-65 page 6";
+
+function electionsSection() {
+  const a = PRINTED_ELECTIONS.attachments;
+  const s = PRINTED_ELECTIONS.swornSelectOne;
+  return `## Elections on CR-65 that this packet has not made
+
+CR-65 prints choices that turn on facts this packet does not hold. It ticks
+none of them, and the list above does not name them, because the field map
+classifies them as elections rather than as blanks owed before filing. They are
+still choices the form makes you make. Every line quoted below was read back
+out of the delivered petition at build time, on the page named beside it.
+
+**Page ${a.page} - what you attach.** The form prints:
+
+> ${a.heading}
+
+and three boxes under it:
+
+${a.options.map((line) => `> ${line}`).join("\n>\n")}
+
+All three are blank in this packet. Tick them yourself to match what you are
+actually attaching, following the rule the form prints above them.
+
+**Page ${s.page} - the sworn select-one.** Under the printed line
+
+> ${s.oath}
+
+the form prints
+
+> ${s.heading}
+
+and offers two boxes. The first reads:
+
+> ${s.firstBranch}
+
+The second begins:
+
+> ${s.secondBranchOpening}
+
+and runs on into a blank for the county it was filed in, a blank for its court
+case number, and the printed pair
+
+> ${s.grantedDenied}
+
+Both boxes are blank in this packet, on both fixtures. Tick the one that is
+true of you. It sits under the perjury line, so tick it before you sign.
+
+The county, the case number and the granted-or-denied pair belong to the second
+box alone. If you tick the first box, leave all three of them empty - that is
+why they are listed above marked "${SECOND_BRANCH_CONDITION}".
+
+**Page ${PRINTED_ELECTIONS.proSe.page} - the pro se box.** Beside the signature line the form prints:
+
+> ${PRINTED_ELECTIONS.proSe.line}
+
+It is blank in this packet, and this packet writes nothing into the attorney
+block beside it, because it holds no representation fact for you.`;
+}
+
+/*
+ * Read the delivered PDF's own printed lines back out of its page content
+ * streams. A quotation this packet attributes to a printed page must be on
+ * that printed page.
+ */
+async function printedLinesOf(file, page) {
+  const doc = await PDFDocument.load(fs.readFileSync(file), { updateMetadata: false });
+  const target = doc.getPages()[page - 1];
+  assert.ok(target, `${path.basename(file)} has no page ${page}`);
+  return groupIntoLines(extractTextItems(target)).map((line) => String(line.text ?? "").replace(/\s+/g, " ").trim());
+}
+
+async function assertPrintedElections(out) {
+  for (const fixture of ["canonical.pdf", "boundary.pdf"]) {
+    const file = path.join(out, "fixtures", fixture);
+    const cache = new Map();
+    for (const [page, quoted] of quotedElectionLines()) {
+      if (!cache.has(page)) cache.set(page, await printedLinesOf(file, page));
+      const want = quoted.replace(/\s+/g, " ").trim();
+      assert.ok(cache.get(page).includes(want),
+        `${fixture} page ${page} does not print the line this guide quotes: ${JSON.stringify(quoted)}`);
+    }
+  }
+}
+
 function writeGuides({ out, familyId, config, rules, track, memoDigest, required }) {
-  const requiredList = required.map((row) => `- ${row.effectiveLabel}`).join("\n");
+  const requiredList = required.map((row) =>
+    `- ${row.effectiveLabel}${SECOND_BRANCH_ONLY.has(row.fieldId) ? ` - ${SECOND_BRANCH_CONDITION}` : ""}`).join("\n");
   const provenance = [
     "Every quoted line below is taken verbatim from the Alabama legal-design record",
     `\`${MEMO_PATH}\`, track \`${config.trackId}\` (sha256 ${memoDigest}).`,
@@ -473,9 +627,13 @@ ${beforeFiling}
 
 Each line names a blank on the paper that this packet did not fill because it
 does not hold that fact. Fill every one on both the canonical and the
-boundary-style packet before filing.
+boundary-style packet before filing - except the lines that carry an "only if"
+condition, which belong to a box on page 6 you may not be ticking. The section
+below names that box.
 
 ${requiredList}
+
+${electionsSection()}
 
 ## Service
 
@@ -523,7 +681,7 @@ attachment above is complete.
 `);
 }
 
-function assertRepairInvariants(out) {
+async function assertRepairInvariants(out) {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
   const instructions = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
   const written = new Set(fieldMap.writes.map((row) => row.fieldId));
@@ -599,6 +757,42 @@ function assertRepairInvariants(out) {
   for (const disposition of track.eligibleDispositions ?? []) {
     assert.ok(instructions.includes(disposition), `eligible disposition missing from the guide: ${disposition}`);
   }
+
+  /*
+   * The sworn elections CR-65 makes the participant make.
+   *
+   * These four assertions each fire on the bytes this family shipped before
+   * this repair: the guide named none of the page-5 attachment boxes, none of
+   * the page-6 select-one, and none of the pro se box, and it listed the two
+   * second-branch blanks with no condition on them at all.
+   */
+  for (const [, quoted] of quotedElectionLines()) {
+    assert.ok(instructions.includes(quoted),
+      `the guide does not carry the line CR-65 prints: ${JSON.stringify(quoted)}`);
+  }
+  assert.ok(instructions.includes(SECOND_BRANCH_CONDITION),
+    "the guide must state the condition the two previous-expungement blanks hang on");
+  for (const fieldId of SECOND_BRANCH_ONLY) {
+    const row = fieldMap.refusals.find((r) => r.fieldId === fieldId);
+    assert.ok(row, `a second-branch blank left the field map: ${fieldId}`);
+    const line = instructions.split("\n").find((l) => l.startsWith(`- ${row.effectiveLabel}`));
+    assert.ok(line, `a second-branch blank left the guide's blank list: ${fieldId}`);
+    assert.ok(line.includes(SECOND_BRANCH_CONDITION),
+      `a conditional blank is listed unconditionally: ${row.effectiveLabel}`);
+  }
+  /*
+   * And none of the elections the guide now discloses may be ticked FOR the
+   * participant on the pages it discloses them on. Disclosure and refusal are
+   * two halves of the same statement; either one alone is false.
+   */
+  for (const row of fieldMap.refusals) {
+    if (!row.isSelectionControl) continue;
+    if (row.documentId !== "CR-65") continue;
+    if (![PRINTED_ELECTIONS.attachments.page, PRINTED_ELECTIONS.swornSelectOne.page].includes(row.page)) continue;
+    assert.ok(!written.has(row.fieldId),
+      `a page-${row.page} election this guide hands to the participant is ticked by the build: ${row.fieldId}`);
+  }
+  await assertPrintedElections(out);
 
   // SELF_HELP_STOP: every stop the record holds, verbatim, not a paraphrase.
   for (const stop of track.selfHelpStopConditions ?? []) {
@@ -678,10 +872,10 @@ export async function buildAlabamaFamily(familyId) {
 if (pathToFileURL(process.argv[1]).href === import.meta.url) {
   const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill");
   if (process.argv.includes("--check") || process.argv.includes("--self-test")) {
-    assertRepairInvariants(out);
+    await assertRepairInvariants(out);
     console.log("al-felony-nonconviction-90-set: repair invariants PASS");
   } else {
     await buildAlabamaFamily("al-felony-nonconviction-90-set");
-    assertRepairInvariants(out);
+    await assertRepairInvariants(out);
   }
 }

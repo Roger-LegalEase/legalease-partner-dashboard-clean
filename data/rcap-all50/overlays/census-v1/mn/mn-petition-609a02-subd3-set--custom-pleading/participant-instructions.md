@@ -148,6 +148,52 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Item 14 - other reasons why you cannot afford to pay the court fees | unusual medical expenses, emergencies, credit card payments, student loans, reasons the listed money is not available to you, or other circumstances that would help the judicial officer understand your situation |
 | Declaration block county and state where signed | the county and state you are physically in when you sign the affidavit |
 
+## Choices the forms make you make, and this packet has not
+
+Every blank in the tables above is a fact you write in. These are different: each is a box a form prints for you to TICK. This packet ticks none of them, because the route does not determine them, and they are not in those tables because those tables print the items recorded as required before filing and an election is not recorded that way. They are still choices the forms make you make.
+
+### FEE102 item 2 - the form says choose one
+
+FEE102 page 1 prints:
+
+> 2. I believe that I have good reasons for making this request.
+
+> Choose one:
+
+> I am including my pleadings with this Affidavit (or I have already filed my pleadings but have not yet paid the filing fee).
+
+> OR
+
+> I only want to have copy fees waived. I do not have any pleadings to file at this time.
+
+**Both boxes are blank in this packet, on both fixtures.** Which of the two you tick is recorded in this packet's own field map as yours: _"which of the two the participant is asking for is theirs to choose"_. The affidavit is sworn under penalty of perjury, so tick the one that is true of you, and tick it before you sign.
+
+The header of that page points you at the Fee Waiver Instructions, FEE101. FEE101 is **not in this packet** - do not look for it here.
+
+### Every box in this packet that is yours to tick
+
+| Document | Page | The box | Why this packet did not tick it |
+| --- | --- | --- | --- |
+| EXP102 | 3 | Item 8 past requests - have you ever asked for an expungement, pardon, or sealing of a criminal record before | only the participant knows whether they have asked before, and the route does not determine it |
+| EXP102 | 4 | Item 9 qualification option (a) - controlled substance case dismissed and discharged under Minn. Stat. § 152.18 | an option whose own printed text sends the reader to EXP106 under subdivisions 1 or 2 is not on the subdivision 3 route this packet is built for |
+| EXP102 | 4 | Item 9 qualification option (b) - certified or referenced for prosecution as an adult for a crime committed as a juvenile | an option whose own printed text sends the reader to EXP106 under subdivisions 1 or 2 is not on the subdivision 3 route this packet is built for |
+| EXP102 | 4 | Item 9 qualification option (c) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 4 | Item 9 qualification option (d) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 4 | Item 9 qualification option (e) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 4 | Item 9 qualification option (f) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 4 | Item 9 qualification option (g) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 4 | Item 9 qualification option (h) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 5 | Item 9 qualification option (i) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 5 | Item 9 qualification option (j) - Minn. Stat. § 609A.02, subd. 3 | the platform holds no disposition, no sentence-discharge date and no new-conviction history for this participant, so it cannot know which subdivision 3 clause applies |
+| EXP102 | 5 | Item 9 qualification option (k) - the offence does not qualify under subd. 3 but you believe you have rehabilitated yourself | an option whose own printed text sends the reader to EXP107 under the court's inherent authority is not on the subdivision 3 statutory route this packet is built for |
+| EXP102 | 5 | Item 11 victims - were there any identifiable victims in this case | whether the case had identifiable victims is a fact of the record and a legal characterisation the participant makes; the route does not determine it |
+| EXP102 | 5 | Item 12 - is there now, or has there ever been, an Order for Protection, Restraining Order or other No-Contact Order prohibiting you from contacting the victims | only the participant knows, and the form's own Yes branch requires copies of the orders to be included with the petition; the route does not determine it |
+| EXP102 | 6 | Item 14 - do you want to ask the court to seal any private or confidential data submitted by the responding jurisdictions | a request the participant chooses to make or not make under Minn. Stat. § 609A.03, subd. 3(d); the route does not determine it |
+| EXP102 | 6 | Item 15 - do you want each recipient of the order to send you a letter confirming receipt and that the record has been expunged | a request the participant chooses to make or not make under Minn. Stat. § 609A.03, subd. 8(b); the route does not determine it |
+| EXP104 | 1 | Service list - which of the fifteen boxes are checked | the form marks six boxes (Required) -- 1 MN Bureau of Criminal Apprehension, 2 Office of the MN Attorney General, 3 MN Dept. of Corrections, 4 ______ County Attorney's Office, 5 ______ County Dept. of Corrections (Probation) and 6 ______ County Sheriff's Office -- and all six are served; the remaining nine, boxes 7 to 15, each say "check box & use if related to your case", and which of those agencies hold records from a particular case is the participant's to determine |
+| FEE102 | 1 | Item 2 choose one - I am including my pleadings with this Affidavit, or I only want copy fees waived | which of the two the participant is asking for is theirs to choose |
+| FEE102 | 1 | Item 3 - the box stating that you have a lawyer through a civil legal services program or volunteer program | whether the participant has a legal-services lawyer is a fact only they hold, and the route does not determine it. If the box is ticked the form tells the reader to skip to the end and sign the last page |
+
 ## What you do, in order
 
 1. **Check the automatic routes first.** If Clean Slate, automatic cannabis expungement or the Cannabis Expungement Board already covers your case, you should not be paying for a petition at all.

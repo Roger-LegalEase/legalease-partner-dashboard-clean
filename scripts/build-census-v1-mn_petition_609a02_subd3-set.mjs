@@ -1668,6 +1668,116 @@ function requiredBeforeFilingItems(maps) {
     .map(({ declarationIndex, ...rest }) => rest);
 }
 
+/*
+ * The choices the FORMS make the participant make, which this packet does not
+ * make for them -- and, until this repair, did not name either.
+ *
+ * The mechanism: participantInstructions() prints its per-document tables from
+ * requiredBeforeFilingItems(), which selects refusals carrying
+ * requiredBeforeFiling === true. h.election() sets requiredBeforeFiling false
+ * by design, because an election is not a fact the participant supplies. The
+ * consequence was that FEE102 page 1 item 2 -- which the court's own form
+ * heads "Choose one:" -- was named nowhere in participant copy at all: the
+ * words "pleadings", "copy fee" and "Choose one" returned zero hits in the
+ * delivered guide, and the FEE102 table listed items 3 through 14 and the
+ * declaration block, every printed item except item 2. The affidavit went out
+ * with the choose-one unanswered and the participant untold.
+ *
+ * No counter sees this. requiredOptionsMissing is computed over the
+ * required-before-filing set, and an election is not in it.
+ *
+ * The lines quoted below are FEE102's own printed words. They are re-read out
+ * of the DELIVERED bytes on every build by assertFee102ChooseOneIsPrinted().
+ */
+const FEE102_CHOOSE_ONE = {
+  component: "mn_petition_609a02_subd3-fee-waiver-5",
+  field: "pleadings_or_copy_fees_election",
+  printed: [
+    "2. I believe that I have good reasons for making this request.",
+    "Choose one:",
+    "I am including my pleadings with this Affidavit (or I have already filed my pleadings but have not yet paid the filing fee).",
+    "OR",
+    "I only want to have copy fees waived. I do not have any pleadings to file at this time."
+  ]
+};
+
+/*
+ * FEE102's page-1 header points the reader at FEE101, the Fee Waiver
+ * Instructions, and this packet does not carry FEE101. Stated so the reader
+ * does not go looking through the packet for a form that is not in it.
+ */
+const FEE_WAIVER_INSTRUCTIONS_FORM = "FEE101";
+
+/*
+ * The normalised printed text of one delivered page. The check-box glyphs on
+ * these forms are drawn from a symbol font and decode to control codes, so
+ * those are replaced by a space before the printed sentences are compared.
+ */
+function pageTextOf(doc, pageNumber) {
+  const page = doc.getPages()[pageNumber - 1];
+  assert.ok(page, `the delivered packet has no page ${pageNumber}`);
+  return groupIntoLines(extractTextItems(page))
+    .map((line) => String(line.text ?? ""))
+    .join(" ")
+    .replace(/[\u0000-\u001f]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/*
+ * Re-read FEE102's printed choose-one out of the DELIVERED packet, on every
+ * fixture, at the packet page the page manifest says FEE102 starts on. A
+ * quotation this packet attributes to the court's form must be on the court's
+ * form as this packet ships it.
+ */
+async function assertFee102ChooseOneIsPrinted(artifacts) {
+  assert.ok(artifacts.length > 0, "no delivered fixture to read the printed choose-one back out of");
+  for (const artifact of artifacts) {
+    const entry = (artifact.pageManifest ?? [])
+      .find((m) => m.component === FEE102_CHOOSE_ONE.component && m.sourcePage === 1);
+    assert.ok(entry, `${artifact.fixture}: the page manifest does not place FEE102 page 1 in the delivered packet`);
+    const doc = await PDFDocument.load(fs.readFileSync(path.join(ROOT, artifact.file)), { updateMetadata: false });
+    const text = pageTextOf(doc, entry.packetPage);
+    for (const line of FEE102_CHOOSE_ONE.printed) {
+      assert.ok(text.includes(line),
+        `${artifact.fixture} delivered page ${entry.packetPage} does not print the line this guide quotes: ${JSON.stringify(line)}`);
+    }
+  }
+}
+
+function electionsSection(maps) {
+  const rows = maps.flatMap((m) => (m.canonicalRefusals ?? [])
+    .filter((r) => r.isSelectionControl === true)
+    .map((r) => ({ document: m.documentId ?? m.documentRole, page: r.page, label: r.effectiveLabel, why: r.why })));
+  const f = FEE102_CHOOSE_ONE;
+  const out = [];
+  out.push("## Choices the forms make you make, and this packet has not", "");
+  out.push(
+    "Every blank in the tables above is a fact you write in. These are different: each is a box a form prints for "
+    + "you to TICK. This packet ticks none of them, because the route does not determine them, and they are not in "
+    + "those tables because those tables print the items recorded as required before filing and an election is not "
+    + "recorded that way. They are still choices the forms make you make.", ""
+  );
+  out.push("### FEE102 item 2 - the form says choose one", "");
+  out.push("FEE102 page 1 prints:", "");
+  for (const line of f.printed) out.push(`> ${line}`, "");
+  out.push(
+    "**Both boxes are blank in this packet, on both fixtures.** Which of the two you tick is recorded in this "
+    + "packet's own field map as yours: _\"which of the two the participant is asking for is theirs to choose\"_. "
+    + "The affidavit is sworn under penalty of perjury, so tick the one that is true of you, and tick it before you "
+    + "sign.", ""
+  );
+  out.push(
+    `The header of that page points you at the Fee Waiver Instructions, ${FEE_WAIVER_INSTRUCTIONS_FORM}. `
+    + `${FEE_WAIVER_INSTRUCTIONS_FORM} is **not in this packet** - do not look for it here.`, ""
+  );
+  out.push("### Every box in this packet that is yours to tick", "");
+  out.push("| Document | Page | The box | Why this packet did not tick it |", "| --- | --- | --- | --- |");
+  for (const r of rows) out.push(`| ${r.document} | ${r.page} | ${r.label} | ${r.why} |`);
+  out.push("");
+  return out;
+}
+
 function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
@@ -1708,6 +1818,8 @@ function participantInstructions(maps, rbf) {
     for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
   }
+
+  for (const line of electionsSection(maps)) out.push(line);
 
   out.push("## What you do, in order", "");
   for (const [i, s] of SPEC.steps.entries()) out.push(`${i + 1}. ${s}`);
@@ -2019,6 +2131,37 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rbf = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbf);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  /*
+   * A choice a court form makes the participant make must reach the page the
+   * participant reads.
+   *
+   * Every assertion below fires on the guide this family shipped before this
+   * repair: it contained no occurrence of "Choose one", "pleadings" or "copy
+   * fee", and no election of any document was named anywhere in it.
+   */
+  await assertFee102ChooseOneIsPrinted(artifacts);
+  for (const line of FEE102_CHOOSE_ONE.printed) {
+    assert.ok(instructionsText.includes(line),
+      `the guide does not carry the line FEE102 prints: ${JSON.stringify(line)}`);
+  }
+  const declaredElections = maps.flatMap((m) => (m.canonicalRefusals ?? [])
+    .filter((r) => r.isSelectionControl === true));
+  assert.ok(declaredElections.length > 0, "this packet declares no election at all; that is not this family");
+  for (const election of declaredElections) {
+    assert.ok(instructionsText.includes(election.effectiveLabel),
+      `an election the field map records is named nowhere in participant copy: ${election.effectiveLabel}`);
+  }
+  /*
+   * The guide tells the reader FEE101 is not in this packet. Measured against
+   * the official document ids actually bound into the delivered fixtures, not
+   * against a list that could be empty and make this check unfailable.
+   */
+  const boundFormIds = Object.values(OFFICIAL).map((o) => o.documentId);
+  assert.ok(boundFormIds.length === SPEC.components.length,
+    `every component must bind an official form id; ${boundFormIds.length} of ${SPEC.components.length} do`);
+  assert.ok(!boundFormIds.includes(FEE_WAIVER_INSTRUCTIONS_FORM),
+    `${FEE_WAIVER_INSTRUCTIONS_FORM} is now bound into this packet and the guide still says it is not`);
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: SPEC.familyId, worklistGroupId: SPEC.worklistGroupId,
