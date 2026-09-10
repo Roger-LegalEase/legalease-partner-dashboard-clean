@@ -1,0 +1,387 @@
+{
+  "schemaVersion": "rcap-grade-a-independent-verification-row/v1",
+  "lane": "VF65",
+  "role": "independent-verification",
+  "worker": "VF65 independent acceptance lane",
+  "reviewDate": "2026-09-10",
+  "branch": "lane-vf65-20260910",
+  "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+  "assignment": "For each of three CT process_guidance families, close the currently selected PRODUCT_PATH_PENDING independent finding with evidence, or uphold it.",
+  "outcome": "ALL THREE UPHELD. No verdict closed. closedCurrentVerdicts written nowhere; SESSION10_CT_GUIDANCE_ROWS.json not edited.",
+  "independence": {
+    "authoredNeitherCandidateNorAnyPriorReview": true,
+    "isNotVf03Vf04Vf05Vf20OrTheSession10Reviewer": true,
+    "builtRepairedOrRenderedNoneOfThesePackets": true,
+    "editsNothingItVerifies": true,
+    "createsNoApproval": true,
+    "opensNoRoute": true
+  },
+  "claimGate": {
+    "checkedBeforeAnyFamilyContent": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF65 <familyId>",
+    "result": "REFUSED(8) GRANTED_ELSEWHERE_BUT_RELEASED on all three families.",
+    "detail": "ct-destruction-request and ct-provisional-pardon are recorded on VF20, released 2026-09-09T11:48:43.129Z and ...227Z respectively. ct-absolute-pardon is recorded on VF05, released 2026-09-09T11:48:42.386Z. No lane is executing any of them. The gate names --transfer as the Captain’s remedy and states that choosing a released grant’s destination is a dispatch act. I did not transfer, reissue, mint or release anything. The ledger was not written. The analysis below was performed anyway, as instructed, and is offered as a read - it asserts no grant.",
+    "ledgerUnchanged": true
+  },
+  "assessmentValidation": {
+    "command": "assessConnecticutReviewedGuidance(root, familyId) from scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs, run in this worktree at HEAD",
+    "eligibleForAllThreeFamilies": true,
+    "note": "The assessment already returns eligible:true for all three families and did so before I touched anything. Eligibility was never the blocker.",
+    "gateProof": "I then ran applyConnecticutGuidanceAcceptance with the real selected return and a maximally favourable context (readiness ready, nineZero true, no legal block, no delivery-type refusal, no source hold). It returned PRODUCT_PATH_PENDING for all three - held solely because closedCurrentVerdicts is empty and the selected identity is not priorSelectedReturn. In a read-only in-memory counterfactual that added a correctly shaped closure carrying the verdictSha256 values recorded above, the same call returned GUIDANCE_READY for all three. That confirms the digests I computed are the exact ones the gate compares against, and that the only missing thing is a closure I decline to write. Nothing was written to disk by that experiment."
+  },
+  "whereClosureEntriesWouldHaveToLive": {
+    "answer": "Inside SESSION10_CT_GUIDANCE_ROWS.json itself. A separate successor record is not an option without a code change.",
+    "readFromCode": "CT_GUIDANCE_REVIEW is a hardcoded constant at ct-reviewed-guidance.mjs line 8. assessConnecticutReviewedGuidance reads that one path (line 120), selects the family row from review.families (line 134), and takes closedCurrentVerdicts from row.closedCurrentVerdicts and nowhere else (lines 159, 170, 188). I grepped the whole scripts and src trees: the only other reader is the test harness. There is no override for the review path and no successor path is consulted.",
+    "inertSuccessorKeys": "SESSION10_CT_GUIDANCE_ROWS.json carries top-level sourceOnlySuccessor and provisionalCurrentDeltaSuccessor blocks that look like successor plumbing. They are inert: grep finds no code that reads either key. They are documentation of how the review itself was layered, not a channel the checker follows.",
+    "doesEditingItBreakItsOwnPin": "No - and this is worth stating precisely so nobody avoids the edit for the wrong reason. The review is not pinned to a constant digest. reviewSha256 is computed from the bytes read (line 185). The two publication assertions (lines 127-128) compare the file against itself at HEAD and at `git log -1 -- <that path>`, both of which recompute after any commit touching it. So a commit that edits the review satisfies both assertions by construction. The real objection to editing it is authorship, not hashing: it is another lane’s review record, and a third lane writing findings into it would misattribute them to the session10 reviewer.",
+    "recommendation": "If the Captain ever wants current-verdict closure to be possible without one lane writing into another lane’s review record, the fix is a code change to ct-reviewed-guidance.mjs adding an explicit successor-record path with its own attribution and its own publication assertions - not a data edit. No such change is needed for this dispatch, because I am closing nothing."
+  },
+  "deltaMeasurement": {
+    "verdictBase": "7f386ab54b59f67abccbc51dbae3606d7edee680",
+    "verdictBaseDate": "2026-09-09 09:38:49 +0000",
+    "headMeasuredAt": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+    "method": "git diff --stat <verdictBase> HEAD -- <path> for each family directory and each controlling source.",
+    "familyDirectories": "Each of the three shows exactly one changed file: product-wiring.json. In every case the only changed lines are the lastIndependentVerification block, updated to record the verdict now under review (destruction: vf03/FAIL_REPAIR_REQUIRED@21d53521 -> vf20/PRODUCT_PATH_PENDING@7f386ab54; absolute: vf05/PRODUCT_PATH_PENDING@706dbbd2 -> vf05/PRODUCT_PATH_PENDING@7f386ab54). Fixtures, participant-instructions.md, production-field-map.json, source-receipt.json and all reports are byte-identical.",
+    "controllingSources": "CT.memo.json, route-obligation-candidate.json and completed-output-counsel-manifest.json: no diff at all.",
+    "conclusion": "There is no delta. CLOSED_BY_INDEPENDENT_DELTA is unavailable on these facts for all three families."
+  },
+  "whatICouldNotMeasure": [
+    "I did not rasterise the three boundary fixtures. I hashed them and read their text layer; their visualDefects zero rests on the verifier run here and on the prior governed raster receipt, not on my own page viewing.",
+    "I did not attempt to reach any Connecticut agency, portal or statute source over the network, so I did not verify that the URLs the guides print still resolve or that the Board’s current required-document list still matches what the guides describe. Source freshness is a separate gate and is not blocking at this build status.",
+    "I did not re-derive the governed raster receipt or re-run the central raster job; I confirmed only that the two absolute-pardon fixture digests I computed from disk equal the two the receipt is recorded as binding.",
+    "Whether vf20 and vf05 had actually read the session10 review before recording their findings is not something I can measure. I report only the commit timeline, which is that the review was published 2026-09-08 and the findings recorded 2026-09-09."
+  ],
+  "wroteNoPacketByte": true,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "packetsModified": 0,
+  "overlayDirectoriesModified": 0,
+  "ledgerModified": false,
+  "reviewRecordsModified": false,
+  "families": [
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:CT:ct-destruction-request"
+      ],
+      "currentSelectedVerdictUnderReview": {
+        "lane": "vf20",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "heldOnObligations": [
+          "ROUTE_IDENTITY",
+          "COMPONENT_SET"
+        ],
+        "verdictSha256": "9bf15491f6db8814f33932edc58bdd4ac18c2ba9efdebd706c556f11b8a5cac7",
+        "verdictSha256HowComputed": "ctGuidanceObjectSha256(ctGuidanceVerdictIdentity(row)) imported from scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs and applied to the non-superseded VERIFIER_RETURNS.json row for this family. Not computed by hand."
+      },
+      "myVerdict": "PRODUCT_PATH_PENDING",
+      "myVerdictConcursWith": "vf20",
+      "closureDecision": "UPHELD_NOT_CLOSED",
+      "closedCurrentVerdicts": [],
+      "whyNotClosed": [
+        "The result token the checker requires is CLOSED_BY_INDEPENDENT_DELTA. A closure therefore has to rest on a delta. There is none. Between 7f386ab54b59f67abccbc51dbae3606d7edee680 (the base at which the controlling verdict was taken, 2026-09-09 09:38 UTC) and this lane HEAD, git diff over the family directory reports exactly one changed file, product-wiring.json, and the only changed lines are its lastIndependentVerification block, which records the very verdict under review. The two fixtures, participant-instructions.md, production-field-map.json, source-receipt.json and every report are byte-identical. CT.memo.json, route-obligation-candidate.json and completed-output-counsel-manifest.json are byte-identical.",
+        "The condition the finding names is present in the bytes today. I read the route object out of route-obligation-candidate.json myself: it still carries currentOutputStrategy \"participant_agency_application\", a participantFacingInstrument that is an application or written request, packetFamilyId null, packetSetId null, existingArtifactIds [], currentCommercialState \"NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP\", and a missingImplementationWork list still containing \"Implement the participant-facing agency application workflow without representing it as a court petition.\"",
+        "The delivered artifact is still a guide that disclaims being the instrument. I read the canonical PDF of this family: it is headed \"THIS IS AN AGENCY-APPLICATION PREPARATION GUIDE, NOT AN OFFICIAL FORM AND NOT A COURT FILING\" and directs the participant to the agency’s own application. That is a correct thing for a guide to say and it is exactly why the mismatch the finding names is still real.",
+        "Sequence forecloses using the session10 review as the delta. SESSION10_CT_GUIDANCE_ROWS.json was published 2026-09-08 (commits 7340af598d012f8d2f04384ae14f021a74bbcd52, e6f3c76533a3227926f841c1cfc31a5be8ae431c, 390416dfe0d5a2c9cd38e92cacddb48af802a6c6). The verdict in force was taken at a base dated 2026-09-09 09:38 and recorded 2026-09-09 10:30 in commit 24ee51fe79f739c6a8f2da076a3b5e4d508d0001, whose own message reads \"the Connecticut three are superseded but still not passing\". A review that predates a finding cannot be the independent delta that closes it."
+      ],
+      "whatWouldCureIt": {
+        "notRepairableInTheDirectory": "No edit to the overlay directory discharges this. The guide is not defective; the mismatch is between what the census says the route owes and what a guide can be. Repairing bytes here would change nothing the finding measures.",
+        "routeA": "An owner decision recorded against the exact route that the authorised output strategy for this route is process_guidance rather than participant_agency_application - i.e. amend currentOutputStrategy and participantFacingInstrument in route-obligation-candidate.json, or record an equivalent legal-decision record, so the census and CT.memo.json (which authorises process_guidance for this track) stop contradicting each other. That is an owner and source act, not a build act, and not mine.",
+        "routeB": "Or build what the census’s missingImplementationWork names: the participant-facing agency-application workflow, plus an exact route output artifact and a packet-family/packet-set identity to replace the nulls.",
+        "thenWhat": "Either route creates a real delta at a commit later than 7f386ab54. An independent lane that authored neither the candidate nor this row could then close the current verdict against that delta, in the shape the checker demands."
+      },
+      "censusAsReadHere": {
+        "currentOutputStrategy": "participant_agency_application",
+        "participantFacingInstrument": "participant request to the clerk for destruction of the eligible record; exact form or format is not recorded",
+        "packetFamilyId": null,
+        "packetSetId": null,
+        "existingArtifactIds": [],
+        "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+      },
+      "guidanceQualityMeasuredHere": "Sound. Single page, no clipping. Quotes the record rather than paraphrasing it: the three-year bar, the C.G.S. Sec. 54-142a(j) federal-proof warning, and the clerk-destination statement all track CT.memo.json. It states in terms that the committed review does not confirm an accepted statewide form, written-request format or destination, rather than inventing one. It asserts nothing about a submitted request, an approved relief, an installed runtime or a commercial route. No signature or date block. No fee figure invented.",
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "byteLength": 2629290
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "sha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+          "byteLength": 214369
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+          "sha256": "cdb3b6175d1cbcdc61336cf8cfb1ac754bb1b6670b6dc09b24709c0c437c7db9",
+          "byteLength": 3042448
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+          "byteLength": 5074
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "d05de02906fe2632b75d1a91acb2d2cd84a073c1d918e11aed57556d2742872c",
+          "byteLength": 5186
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/participant-instructions.md",
+          "sha256": "430a5474184923b94db1ccaaf31c5decbad4c4788842d3ca28abeb25163c9aa0",
+          "byteLength": 2556
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/product-wiring.json",
+          "sha256": "503eb358e8b53a083932ce7f34fbd027b1c355fcb3333d719e274f3c1a41ae42",
+          "byteLength": 4757
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run in this worktree at HEAD; it returned PASS_COMPLETE and printed all nine counters at zero. I additionally re-hashed both fixtures and participant-instructions.md from disk, read both PDFs at the text layer, and viewed the rendered canonical page.",
+        "visualDefectsScope": "I rendered the canonical fixture of each family at 110 dpi with pdftoppm and viewed every rendered page as an image (5 pages across the three families: destruction 1, provisional 2, absolute 2). No clipping, no overlapping ink, no label orphaned from its dotted response line or its \"Check with:\" source, and no signature or date block anywhere. The boundary fixtures I read at the text layer with pdftotext -layout and hashed, but did NOT rasterise here; their visualDefects zero rests on the verifier run and the governed raster receipt, not on my own page viewing."
+      },
+      "additionalObservations": []
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:CT:ct-provisional-pardon"
+      ],
+      "currentSelectedVerdictUnderReview": {
+        "lane": "vf20",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "heldOnObligations": [
+          "ROUTE_IDENTITY",
+          "COMPONENT_SET"
+        ],
+        "verdictSha256": "c9de241cfd3537a83e152cae8b36926fddf96b401293d4863233fa70fbeda6ff",
+        "verdictSha256HowComputed": "ctGuidanceObjectSha256(ctGuidanceVerdictIdentity(row)) imported from ct-reviewed-guidance.mjs, applied to the non-superseded VERIFIER_RETURNS.json row. Not computed by hand."
+      },
+      "myVerdict": "PRODUCT_PATH_PENDING",
+      "myVerdictConcursWith": "vf20",
+      "closureDecision": "UPHELD_NOT_CLOSED",
+      "closedCurrentVerdicts": [],
+      "whyNotClosed": [
+        "The result token the checker requires is CLOSED_BY_INDEPENDENT_DELTA. A closure therefore has to rest on a delta. There is none. Between 7f386ab54b59f67abccbc51dbae3606d7edee680 (the base at which the controlling verdict was taken, 2026-09-09 09:38 UTC) and this lane HEAD, git diff over the family directory reports exactly one changed file, product-wiring.json, and the only changed lines are its lastIndependentVerification block, which records the very verdict under review. The two fixtures, participant-instructions.md, production-field-map.json, source-receipt.json and every report are byte-identical. CT.memo.json, route-obligation-candidate.json and completed-output-counsel-manifest.json are byte-identical.",
+        "The condition the finding names is present in the bytes today. I read the route object out of route-obligation-candidate.json myself: it still carries currentOutputStrategy \"participant_agency_application\", a participantFacingInstrument that is an application or written request, packetFamilyId null, packetSetId null, existingArtifactIds [], currentCommercialState \"NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP\", and a missingImplementationWork list still containing \"Implement the participant-facing agency application workflow without representing it as a court petition.\"",
+        "The delivered artifact is still a guide that disclaims being the instrument. I read the canonical PDF of this family: it is headed \"THIS IS AN AGENCY-APPLICATION PREPARATION GUIDE, NOT AN OFFICIAL FORM AND NOT A COURT FILING\" and directs the participant to the agency’s own application. That is a correct thing for a guide to say and it is exactly why the mismatch the finding names is still real.",
+        "Sequence forecloses using the session10 review as the delta. SESSION10_CT_GUIDANCE_ROWS.json was published 2026-09-08 (commits 7340af598d012f8d2f04384ae14f021a74bbcd52, e6f3c76533a3227926f841c1cfc31a5be8ae431c, 390416dfe0d5a2c9cd38e92cacddb48af802a6c6). The verdict in force was taken at a base dated 2026-09-09 09:38 and recorded 2026-09-09 10:30 in commit 24ee51fe79f739c6a8f2da076a3b5e4d508d0001, whose own message reads \"the Connecticut three are superseded but still not passing\". A review that predates a finding cannot be the independent delta that closes it."
+      ],
+      "whatWouldCureIt": {
+        "notRepairableInTheDirectory": "No edit to the overlay directory discharges this. The guide is not defective; the mismatch is between what the census says the route owes and what a guide can be. Repairing bytes here would change nothing the finding measures.",
+        "routeA": "An owner decision recorded against the exact route that the authorised output strategy for this route is process_guidance rather than participant_agency_application - i.e. amend currentOutputStrategy and participantFacingInstrument in route-obligation-candidate.json, or record an equivalent legal-decision record, so the census and CT.memo.json (which authorises process_guidance for this track) stop contradicting each other. That is an owner and source act, not a build act, and not mine.",
+        "routeB": "Or build what the census’s missingImplementationWork names: the participant-facing agency-application workflow, plus an exact route output artifact and a packet-family/packet-set identity to replace the nulls.",
+        "thenWhat": "Either route creates a real delta at a commit later than 7f386ab54. An independent lane that authored neither the candidate nor this row could then close the current verdict against that delta, in the shape the checker demands."
+      },
+      "censusAsReadHere": {
+        "currentOutputStrategy": "participant_agency_application",
+        "participantFacingInstrument": "participant-signed provisional-pardon application submitted through the Board of Pardons and Paroles portal",
+        "packetFamilyId": null,
+        "packetSetId": null,
+        "existingArtifactIds": [],
+        "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+      },
+      "guidanceQualityMeasuredHere": "Sound. Two pages, break falls at the FACTS YOU MUST CONFIRM BEFORE ACTING heading, all five label/line/Check-with triples intact on page 2. The relief boundary is correct and quoted rather than paraphrased: it does not erase anything, the conviction remains. The supervision handoff is stated with its exact threshold (\"more than 90 days\", and \"Exactly 90 days does not satisfy this more-than-90-day handoff\"), and the guide instructs the participant not to complete the supervising officer’s questionnaire answers. It refuses unverified figures explicitly rather than guessing. Asserts nothing about a submitted application, a Board decision, a runtime or a commercial route.",
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "byteLength": 2629290
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "sha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+          "byteLength": 214369
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+          "sha256": "cdb3b6175d1cbcdc61336cf8cfb1ac754bb1b6670b6dc09b24709c0c437c7db9",
+          "byteLength": 3042448
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7",
+          "byteLength": 6739
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c",
+          "byteLength": 6866
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/participant-instructions.md",
+          "sha256": "b17a5b1a112d8141db664b659470e2907e97849bb0fca0ca70606b191744eaa9",
+          "byteLength": 3751
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/product-wiring.json",
+          "sha256": "9660c7f476fe313bcd50089dd3ab93176a1b8739b93322fbe61759bdaee11522",
+          "byteLength": 4744
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run in this worktree at HEAD; it returned PASS_COMPLETE and printed all nine counters at zero. I additionally re-hashed both fixtures and participant-instructions.md from disk, read both PDFs at the text layer, and viewed both rendered canonical pages.",
+        "visualDefectsScope": "I rendered the canonical fixture of each family at 110 dpi with pdftoppm and viewed every rendered page as an image (5 pages across the three families: destruction 1, provisional 2, absolute 2). No clipping, no overlapping ink, no label orphaned from its dotted response line or its \"Check with:\" source, and no signature or date block anywhere. The boundary fixtures I read at the text layer with pdftotext -layout and hashed, but did NOT rasterise here; their visualDefects zero rests on the verifier run and the governed raster receipt, not on my own page viewing."
+      },
+      "additionalObservations": [
+        {
+          "id": "SUPPORTING_DOCUMENT_NOT_NAMED_IN_DELIVERED_COPY",
+          "scored": false,
+          "doesNotChangeTheVerdict": true,
+          "measured": "CT.memo.json records for this track one supporting document: name \"SPBI criminal history record search, form DPS-0846-C\", obtainedFrom \"DESPP, Division of State Police, State Police Bureau of Identification\", requirement \"conditional\", requiredBeforeFiling false, with a howToObtain naming a mailing address. I grepped the delivered bytes: \"DPS-0846\", \"SPBI\", \"DESPP\" and \"Middletown\" each occur 0 times in canonical.pdf, 0 times in boundary.pdf and 0 times in participant-instructions.md. The delivered copy says only \"the participant’s complete criminal-history record\".",
+          "whyNotScored": "The memo marks this document conditional and requiredBeforeFiling false, so no catalogued obligation is breached, and the guide correctly points the participant at the Board’s own current required-document list by URL. Nothing false is asserted; this is an omission, not a misstatement. I record it so it is not lost, not to move a verdict.",
+          "suggestedCure": "When this family is next opened for any reason, name the form and its issuing office in the Check-with line, in the record’s own words: \"form DPS-0846-C, from DESPP, Division of State Police, State Police Bureau of Identification\"."
+        }
+      ]
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "currentSelectedVerdictUnderReview": {
+        "lane": "vf05",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "heldOnObligations": [
+          "ROUTE_IDENTITY",
+          "COMPONENT_SET"
+        ],
+        "verdictSha256": "ac97171d975ab2c5ecc0e35cf9804108126b47ce2f67d2b5ed8b2fb6a5aebfd6",
+        "verdictSha256HowComputed": "ctGuidanceObjectSha256(ctGuidanceVerdictIdentity(row)) imported from ct-reviewed-guidance.mjs, applied to the non-superseded VERIFIER_RETURNS.json row. Not computed by hand.",
+        "noteOnSession10": "session10 did close ROUTE_IDENTITY and COMPONENT_SET for this family - but as closedPriorFindings against the ORIGINAL vf05 row at 706dbbd2439b2fdd8f5580cef46f7cc448b5c5da, on the reasoning that the CT memo limits the track to process guidance. A later independent read reached the same ground against the current bytes and re-recorded it. Session10’s closure of the original finding is intact and I do not disturb it; it simply does not reach this verdict, which is a different verdict identity taken at a later base."
+      },
+      "myVerdict": "PRODUCT_PATH_PENDING",
+      "myVerdictConcursWith": "vf05",
+      "closureDecision": "UPHELD_NOT_CLOSED",
+      "closedCurrentVerdicts": [],
+      "whyNotClosed": [
+        "The result token the checker requires is CLOSED_BY_INDEPENDENT_DELTA. A closure therefore has to rest on a delta. There is none. Between 7f386ab54b59f67abccbc51dbae3606d7edee680 (the base at which the controlling verdict was taken, 2026-09-09 09:38 UTC) and this lane HEAD, git diff over the family directory reports exactly one changed file, product-wiring.json, and the only changed lines are its lastIndependentVerification block, which records the very verdict under review. The two fixtures, participant-instructions.md, production-field-map.json, source-receipt.json and every report are byte-identical. CT.memo.json, route-obligation-candidate.json and completed-output-counsel-manifest.json are byte-identical.",
+        "The condition the finding names is present in the bytes today. I read the route object out of route-obligation-candidate.json myself: it still carries currentOutputStrategy \"participant_agency_application\", a participantFacingInstrument that is an application or written request, packetFamilyId null, packetSetId null, existingArtifactIds [], currentCommercialState \"NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP\", and a missingImplementationWork list still containing \"Implement the participant-facing agency application workflow without representing it as a court petition.\"",
+        "The delivered artifact is still a guide that disclaims being the instrument. I read the canonical PDF of this family: it is headed \"THIS IS AN AGENCY-APPLICATION PREPARATION GUIDE, NOT AN OFFICIAL FORM AND NOT A COURT FILING\" and directs the participant to the agency’s own application. That is a correct thing for a guide to say and it is exactly why the mismatch the finding names is still real.",
+        "Sequence forecloses using the session10 review as the delta. SESSION10_CT_GUIDANCE_ROWS.json was published 2026-09-08 (commits 7340af598d012f8d2f04384ae14f021a74bbcd52, e6f3c76533a3227926f841c1cfc31a5be8ae431c, 390416dfe0d5a2c9cd38e92cacddb48af802a6c6). The verdict in force was taken at a base dated 2026-09-09 09:38 and recorded 2026-09-09 10:30 in commit 24ee51fe79f739c6a8f2da076a3b5e4d508d0001, whose own message reads \"the Connecticut three are superseded but still not passing\". A review that predates a finding cannot be the independent delta that closes it."
+      ],
+      "whatWouldCureIt": {
+        "notRepairableInTheDirectory": "No edit to the overlay directory discharges this. The guide is not defective; the mismatch is between what the census says the route owes and what a guide can be. Repairing bytes here would change nothing the finding measures.",
+        "routeA": "An owner decision recorded against the exact route that the authorised output strategy for this route is process_guidance rather than participant_agency_application - i.e. amend currentOutputStrategy and participantFacingInstrument in route-obligation-candidate.json, or record an equivalent legal-decision record, so the census and CT.memo.json (which authorises process_guidance for this track) stop contradicting each other. That is an owner and source act, not a build act, and not mine.",
+        "routeB": "Or build what the census’s missingImplementationWork names: the participant-facing agency-application workflow, plus an exact route output artifact and a packet-family/packet-set identity to replace the nulls.",
+        "thenWhat": "Either route creates a real delta at a commit later than 7f386ab54. An independent lane that authored neither the candidate nor this row could then close the current verdict against that delta, in the shape the checker demands."
+      },
+      "censusAsReadHere": {
+        "currentOutputStrategy": "participant_agency_application",
+        "participantFacingInstrument": "participant-signed absolute-pardon application submitted through the Board of Pardons and Paroles portal",
+        "packetFamilyId": null,
+        "packetSetId": null,
+        "existingArtifactIds": []
+      },
+      "guidanceQualityMeasuredHere": "Sound. Two pages, break at the FACTS YOU MUST CONFIRM BEFORE ACTING heading, all five triples intact on page 2. The on-or-after-October 1, 1974 erasure branch under C.G.S. Sec. 54-142a(d) is stated as the committed record states it, and the pre-1974 Superior Court petition branch is expressly excluded, which keeps the participant off the wrong route. It says \"No stable participant application document has been identified that LegalEase could lawfully generate and submit\" and \"this guide is not a substitute\". It says the Board decides whether a hearing is required and that there is no separate expedited application. It refuses the unverified waiting-period and no-fee figures rather than reproducing them. Asserts no submitted application, no Board decision, no runtime, no commercial route.",
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "byteLength": 2629290
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+          "sha256": "b3a191d533e6226d5df5905bcd312a62cd56a847ff073f4171cc7a8fa4296ffc",
+          "byteLength": 1615637
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+          "sha256": "cdb3b6175d1cbcdc61336cf8cfb1ac754bb1b6670b6dc09b24709c0c437c7db9",
+          "byteLength": 3042448
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e",
+          "byteLength": 6285
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e078c042fdf813b611b633effa9408edd62bcf3b14545222c55592f525fc195f",
+          "byteLength": 6414
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/participant-instructions.md",
+          "sha256": "06f395490d82a70fe8c89c8198cf912619f987b2e1e32ce7df5e2683d1325317",
+          "byteLength": 3364
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/product-wiring.json",
+          "sha256": "c97639ae20c1f604dd07d48ed195f13ad4ab0906553507aa0a95b2a0436f7739",
+          "byteLength": 5251
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run in this worktree at HEAD; it returned PASS_COMPLETE and printed all nine counters at zero. I additionally re-hashed both fixtures and participant-instructions.md from disk, read both PDFs at the text layer, and viewed both rendered canonical pages. The canonical digest 26cfafce... and boundary digest e078c042... I recomputed here are the same two values the governed raster receipt binds.",
+        "visualDefectsScope": "I rendered the canonical fixture of each family at 110 dpi with pdftoppm and viewed every rendered page as an image (5 pages across the three families: destruction 1, provisional 2, absolute 2). No clipping, no overlapping ink, no label orphaned from its dotted response line or its \"Check with:\" source, and no signature or date block anywhere. The boundary fixtures I read at the text layer with pdftotext -layout and hashed, but did NOT rasterise here; their visualDefects zero rests on the verifier run and the governed raster receipt, not on my own page viewing."
+      },
+      "additionalObservations": [
+        {
+          "id": "SUPPORTING_DOCUMENT_NOT_NAMED_IN_DELIVERED_COPY",
+          "scored": false,
+          "doesNotChangeTheVerdict": true,
+          "measured": "CT.memo.json records for this track one supporting document with requirement \"required\" (not conditional): name \"SPBI criminal history record search, form DPS-0846-C\", obtainedFrom \"DESPP, Division of State Police, State Police Bureau of Identification\", requiredBeforeFiling false, howToObtain \"Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request and does not obtain, receive or inspect the record.\" I grepped the delivered bytes: \"DPS-0846\", \"SPBI\", \"DESPP\" and \"Middletown\" each occur 0 times in canonical.pdf, 0 times in boundary.pdf and 0 times in participant-instructions.md. The delivered Check-with line reads only \"the court records and the participant’s complete criminal-history record\", which I confirmed by viewing the rendered page.",
+          "whyNotScored": "requiredBeforeFiling is false, so nothing is owed before the participant acts and the REQUIRED_BEFORE_FILING obligation as scoped is satisfied; the guide defers attachment identification to the Board’s own current materials. Forcing this into that counter would be the same category error vf20 avoided elsewhere. Nothing false is asserted. But this is the one place I found where the record is specific and actionable and the delivered copy is generic, and two prior independent lanes each noticed it and each declined to score it - so I name it plainly rather than let a third silence settle it.",
+          "suggestedCure": "Name the form and issuing office in the record’s own words in the Check-with line for \"Every conviction included in the absolute-pardon application\", and carry the howToObtain sentence into participant-instructions.md. That is a source-fidelity repair inside the directory and does not touch the standing product-path hold."
+        }
+      ]
+    }
+  ]
+}
