@@ -47,33 +47,66 @@
  * own options. If the county were ever refused — an unheld county, a value
  * outside the list — the build stops rather than shipping 000 as ink.
  *
- * Second, THE PACKET HOLDS ONE PARTY AND THE FORM CAPTIONS TWO, AND THE RECORD
- * DOES NOT SAY WHICH ONE THE PARTICIPANT IS. AOC-275.18 captions PETITIONER
- * over `first pet`/`middle pet`/`last pet` and RESPONDENT over
- * `first res`/`middle res`/`last res`. Its item 3 speaks of "the respondent" in
- * the third person as a condition of the motion, which reads as though the
- * movant is the respondent; its item 1 speaks of "the petition in this case";
- * and the free-text `movant` field names neither.
+ * Second, THE PACKET HOLDS ONE PARTY, THE FORM CAPTIONS TWO, AND THE COMMITTED
+ * RECORD SAYS WHICH ONE THE PARTICIPANT IS. AOC-275.18 captions PETITIONER over
+ * `first pet`/`middle pet`/`last pet` and RESPONDENT over
+ * `first res`/`middle res`/`last res`.
  *
- * Nothing in this repository resolves it. The route census, the build worklist
- * and the canonical route universe all record the authority as "KRS 403.745;
- * KRS 456.070" and none of them names the moving party; the compiled Kentucky
- * profile does not carry this route at all; the Kentucky state pack is a stub.
- * Writing the participant's name into the wrong block of a protective-order
- * caption would name a person as the party they are not, on the record of a
- * domestic-violence or interpersonal-protection case.
+ * An earlier revision of this build told the participant, in
+ * participant-instructions.md and twice over, that "nothing in the committed
+ * record for this route establishes which of the two blocks the participant
+ * occupies". That was FALSE, and it was false in a participant-facing document
+ * that contradicted itself three sections later: filing-instructions.md already
+ * quoted `destination.detail` from the very record that answers it, the word
+ * "respondent" included. VF04 read the delivered bytes and failed the family on
+ * ROUTE_IDENTITY, KNOWN_PREFILLS and SELF_HELP_STOP, all three driven by that
+ * one sentence.
  *
- * So all six name fields are carried to the participant, who copies the caption
- * from the case they are asking to have expunged. This costs less than it
- * looks: the caption names two parties and the platform holds one, so even a
- * resolved reading would leave three of the six blank. The `movant` field is
- * different and IS written — the form's own sentence is "The movant, ____,
- * seeks expungement", the movant is whoever files, and that is the participant
- * whichever side of the caption they sit on.
+ * The record is data/record-clearing/legal-design-intake/KY.memo.json, relief
+ * track `ky_protective_order_record_expungement` — the same trackId this
+ * family's own route key names. It settles the party role in FIVE independent
+ * places, and this build now reads all five and stops if any of them stops
+ * saying it:
  *
- * WHICH PARTY THE PARTICIPANT IS ON THIS ROUTE IS AN OWNER DETERMINATION, and
- * it is recorded in build-findings.json so a reviewer can answer it rather than
- * discover it.
+ *   controllingAuthority.summary   "The respondent moves six months after
+ *                                  dismissal, provided no order of protection
+ *                                  has been issued against them ..."
+ *   exclusions                     "Any respondent who has been bound by, or
+ *                                  had issued against them, an order of
+ *                                  protection ... in the six months before the
+ *                                  request."
+ *   participantInputs.poRespondentName  "What is your full name as it appears
+ *                                  on the case?"
+ *   participantInputs.poPetitionerName  "What is the name of the person who
+ *                                  petitioned against you?"
+ *   destination.detail             "... requests an updated criminal and
+ *                                  protective-order history for the
+ *                                  respondent."
+ *
+ * THE PARTICIPANT IS THE RESPONDENT. So `first res`/`middle res`/`last res`
+ * carry the participant's own decomposed name and are known prefills, not
+ * blanks. The role is DERIVED from those five readings rather than hardcoded:
+ * if the record ever named the petitioner instead, the mapping follows it.
+ *
+ * THE PETITIONER BLOCK IS STILL WITHHELD, and deliberately. On this route the
+ * petitioner is the person who sought protection against the participant — a
+ * third party whose name the platform does not hold. Writing the participant's
+ * name there would be the mirror image of the North Dakota pardon defect
+ * recorded in DEFECTS_NO_COUNTER_CAN_SEE.json, where a participant fact was
+ * written into a victim-name column. The reason carried to the participant now
+ * says that, instead of claiming a silence the packet contradicts.
+ *
+ * The `movant` field is written from the participant's full legal name, as
+ * before — the form's own sentence is "The movant, ____, seeks expungement".
+ *
+ * Fourth, THE RECORD'S OWN LIMITS REACH THE PARTICIPANT. The same track carries
+ * two `packet_instruction` limitations, one `self_help_boundary` and four
+ * selfHelpStopConditions. None of them reached the guide before; in particular
+ * a participant whose dismissed protective-order case sat alongside an arrest
+ * was told nothing about the criminal record this motion does not touch. They
+ * are now rendered into participant-instructions.md verbatim and labelled as
+ * the record's own words. They are guide text and they are NOT written onto the
+ * filing.
  *
  * Third, THE THREE NUMBERED BOXES ARE SWORN ALLEGATIONS AND THIS BUILD MAKES
  * NONE OF THEM. Items 1, 2 and 3 sit above the movant's signature and allege
@@ -112,6 +145,8 @@ import { flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mj
 import { extractTextItems, groupIntoLines, normalizeHarvestedText }
   from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { preserveGovernanceState, writeWiringChecked }
+  from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -178,6 +213,111 @@ function fail(message, detail = null) {
 }
 
 // ---------------------------------------------------------------------------
+// the controlling legal-design record
+// ---------------------------------------------------------------------------
+/*
+ * WHY THIS IS READ AND NOT REMEMBERED.
+ *
+ * The guide prose on this family says, in several places, "the committed record
+ * says ...". Until this revision NOTHING IN THIS SCRIPT READ A RECORD: the
+ * clerk's duties, the fee treatment and the service rule were paraphrases typed
+ * into string literals, and the party role was a claim of silence typed into
+ * another one. A paraphrase cannot go stale loudly. It just stops being true.
+ *
+ * So the track is loaded, hashed, and asserted. Every sentence the guide
+ * attributes to the record is now taken FROM the record at build time, and each
+ * of the five readings that establish the party role is asserted by substring.
+ * If the record changes its mind, this build stops instead of shipping a
+ * conclusion the record no longer supports.
+ */
+const RECORD_PATH = "data/record-clearing/legal-design-intake/KY.memo.json";
+const RECORD_TRACK_ID = "ky_protective_order_record_expungement";
+
+function loadControllingRecord() {
+  const abs = absFor(RECORD_PATH);
+  if (!fs.existsSync(abs)) {
+    fail("the controlling legal-design record for this route is not present", RECORD_PATH);
+  }
+  const bytes = fs.readFileSync(abs);
+  const memo = JSON.parse(bytes.toString("utf8"));
+  const track = (memo.tracks ?? []).find((row) => row.trackId === RECORD_TRACK_ID) ?? null;
+  if (!track) fail("the controlling record no longer carries this route's relief track", RECORD_TRACK_ID);
+
+  /*
+   * THE PARTY ROLE, DERIVED. Five readings, each from a different node. The
+   * role is whichever party the record's own participantInputs assign the
+   * participant's own name to; the other four are cross-checks, and all five
+   * must agree or the build stops rather than guess.
+   */
+  const inputs = track.participantInputs ?? [];
+  const questionFor = (key) => (inputs.find((row) => row.key === key)?.question ?? "");
+  const mine = questionFor("poRespondentName");
+  const theirs = questionFor("poPetitionerName");
+  const summary = String(track.controllingAuthority?.summary ?? "");
+  const destination = String(track.destination?.detail ?? "");
+  const exclusion = (track.exclusions ?? []).find((row) => /\brespondent\b/i.test(String(row))) ?? "";
+
+  const readings = [
+    { node: "participantInputs.poRespondentName", quote: mine,
+      requires: "your full name", says: "the participant's OWN name goes in the respondent slot" },
+    { node: "participantInputs.poPetitionerName", quote: theirs,
+      requires: "petitioned against you", says: "the petitioner is the person who petitioned AGAINST the participant" },
+    { node: "controllingAuthority.summary", quote: summary,
+      requires: "The respondent moves", says: "the moving party is the respondent" },
+    { node: "exclusions", quote: String(exclusion),
+      requires: "Any respondent who has been bound by", says: "the six-month exclusion is written about the respondent" },
+    { node: "destination.detail", quote: destination,
+      requires: "history for the respondent", says: "the clerk pulls the history of the respondent" }
+  ];
+  const silent = readings.filter((row) => !row.quote.toLowerCase().includes(row.requires.toLowerCase()));
+  if (silent.length > 0) {
+    fail("the controlling record no longer establishes which caption block the participant occupies; this build "
+      + "will not ship a party assignment the record does not support",
+      silent.map((row) => `${row.node} no longer says "${row.requires}"`).join("; "));
+  }
+
+  const limitations = track.legalDesignDecision?.limitations ?? [];
+  const byClass = (name) => limitations
+    .filter((row) => row.classification === name)
+    .map((row) => ({ statement: String(row.statement), sourceFile: row.provenance?.sourceFile ?? null,
+      sourceHeading: row.provenance?.sourceHeading ?? null }));
+
+  return Object.freeze({
+    path: RECORD_PATH,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    trackId: RECORD_TRACK_ID,
+    memoVersion: memo.memoVersion ?? null,
+    reviewedAsOf: track.effectiveDates?.reviewedAsOf ?? null,
+    participantParty: "RESPONDENT",
+    otherParty: "PETITIONER",
+    partyReadings: readings.map((row) => ({ node: row.node, quote: row.quote, establishes: row.says })),
+    packetInstructions: byClass("packet_instruction"),
+    selfHelpBoundaries: byClass("self_help_boundary"),
+    selfHelpStopConditions: (track.selfHelpStopConditions ?? []).map((row) => String(row)),
+    clerkDuties: destination,
+    fees: String(track.rules?.fees ?? ""),
+    service: String(track.rules?.service ?? ""),
+    notarization: String(track.rules?.notarization ?? ""),
+    participantSignature: String(track.rules?.participantSignature ?? "")
+  });
+}
+
+const RECORD = loadControllingRecord();
+
+/*
+ * Which AcroForm block each caption party owns. Read off the form's own printed
+ * captions, then keyed by the role the record derived rather than by a literal
+ * "res", so the mapping follows the record if the record ever changes.
+ */
+const CAPTION_BLOCKS = Object.freeze({
+  PETITIONER: { first: "first pet", middle: "middle pet", last: "last pet", label: "Petitioner" },
+  RESPONDENT: { first: "first res", middle: "middle res", last: "last res", label: "Respondent" }
+});
+const PARTICIPANT_BLOCK = CAPTION_BLOCKS[RECORD.participantParty];
+const OTHER_BLOCK = CAPTION_BLOCKS[RECORD.otherParty];
+
+// ---------------------------------------------------------------------------
 // what each field is
 // ---------------------------------------------------------------------------
 const WRITE = (factId, effectiveLabel) => ({ writable: true, factId, effectiveLabel });
@@ -195,14 +335,20 @@ const CONTROL_CHROME = (effectiveLabel) => ({
     + "stamped onto the filed page"
 });
 
-const CAPTION_PARTY_REASON =
-  "AOC-275.18 captions two parties, PETITIONER and RESPONDENT, and the platform holds one person. Nothing in "
-  + "the committed record for this route establishes which of the two blocks the participant occupies: the "
-  + "route census, the build worklist and the canonical route universe all record the authority as KRS 403.745 "
-  + "and KRS 456.070 and none of them names the moving party, the compiled Kentucky profile does not carry this "
-  + "route, and the Kentucky state pack is a stub. Writing a name into the wrong block would name a person as "
-  + "the party they are not on the record of a protective-order case, so both blocks are copied from your own "
-  + "case papers.";
+/*
+ * WHY THE OTHER PARTY'S BLOCK IS BLANK, in the participant's own terms.
+ *
+ * Not "we do not know which of you is which" — the record says which, and this
+ * packet has already written the participant into their own block. It is blank
+ * because it belongs to somebody else and the platform does not hold that
+ * person's name.
+ */
+const OTHER_PARTY_REASON =
+  `AOC-275.18 captions two parties, ${RECORD.otherParty} and ${RECORD.participantParty}. The committed `
+  + `legal-design record for this route puts you in the ${RECORD.participantParty} block, and this packet has `
+  + `already written your name there. The ${RECORD.otherParty} block names the other person in the case — on `
+  + `this route, the person who petitioned against you — and LegalEase does not hold their name, so you copy it `
+  + `from your own case papers exactly as the caption spells it`;
 
 const FIELD_DECISIONS = Object.freeze({
   "Print": CONTROL_CHROME("Print push button"),
@@ -214,12 +360,25 @@ const FIELD_DECISIONS = Object.freeze({
     + "form's own hearing block below offers District and Circuit"),
   "Division": SUPPLY("Division",
     "the division of that court, if your case papers show one"),
-  "first pet": SUPPLY("Petitioner first name", `the PETITIONER's first name from your case caption. ${CAPTION_PARTY_REASON}`),
-  "middle pet": SUPPLY("Petitioner middle name", "the PETITIONER's middle name from your case caption"),
-  "last pet": SUPPLY("Petitioner last name", "the PETITIONER's last name from your case caption"),
-  "first res": SUPPLY("Respondent first name", `the RESPONDENT's first name from your case caption. ${CAPTION_PARTY_REASON}`),
-  "middle res": SUPPLY("Respondent middle name", "the RESPONDENT's middle name from your case caption"),
-  "last res": SUPPLY("Respondent last name", "the RESPONDENT's last name from your case caption"),
+  /*
+   * The participant's own caption block, bound by the role the record derived.
+   * The name is ALREADY DECOMPOSED into parts on this route, so the usual and
+   * legitimate objection — that a single legal-name string cannot be split
+   * safely — does not arise and is not relied on.
+   */
+  [PARTICIPANT_BLOCK.first]: WRITE("participant.first_name", `${PARTICIPANT_BLOCK.label} first name`),
+  [PARTICIPANT_BLOCK.middle]: WRITE("participant.middle_name", `${PARTICIPANT_BLOCK.label} middle name`),
+  [PARTICIPANT_BLOCK.last]: WRITE("participant.last_name", `${PARTICIPANT_BLOCK.label} last name`),
+  /*
+   * The other party's block. Withheld because it is a third party's name, not
+   * because the role is unknown.
+   */
+  [OTHER_BLOCK.first]: SUPPLY(`${OTHER_BLOCK.label} first name`,
+    `the ${RECORD.otherParty}'s first name from your case caption. ${OTHER_PARTY_REASON}`),
+  [OTHER_BLOCK.middle]: SUPPLY(`${OTHER_BLOCK.label} middle name`,
+    `the ${RECORD.otherParty}'s middle name from your case caption, if the caption shows one`),
+  [OTHER_BLOCK.last]: SUPPLY(`${OTHER_BLOCK.label} last name`,
+    `the ${RECORD.otherParty}'s last name from your case caption`),
   "movant": WRITE("participant.full_legal_name", "Movant"),
   "check pet did not result": ELECTION(
     "Item 1 sworn allegation — the petition did not result in a domestic violence or non-temporary interpersonal order",
@@ -512,7 +671,23 @@ function findingsFor({ fixture, report, proof, writable }) {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ supplyRows, electionRows }) {
+/** A sentence, ending in exactly one full stop. */
+const sentence = (text) => `${String(text).trim().replace(/\.+$/, "")}.`;
+
+/** Hard-wrap prose to the width the rest of this guide is written at. */
+function wrap(text, width = 98) {
+  const out = [];
+  let line = "";
+  for (const word of String(text).split(/\s+/).filter(Boolean)) {
+    if (line.length === 0) { line = word; continue; }
+    if (`${line} ${word}`.length > width) { out.push(line); line = word; continue; }
+    line = `${line} ${word}`;
+  }
+  if (line.length > 0) out.push(line);
+  return out;
+}
+
+function renderParticipantInstructions({ supplyRows, electionRows, writtenRows }) {
   const lines = [];
   lines.push("# Your Kentucky protective-order expungement motion");
   lines.push("");
@@ -525,10 +700,41 @@ function renderParticipantInstructions({ supplyRows, electionRows }) {
   lines.push("");
   lines.push(`- **${SOURCE.formNumber} (${SOURCE.revision}, Doc. Code ${SOURCE.docCode})** — ${SOURCE.title}. 1 page.`);
   lines.push("");
+  lines.push("## Which side of the caption you are on");
+  lines.push("");
+  lines.push(...wrap(
+    `${SOURCE.formNumber} captions two parties, ${RECORD.otherParty} and ${RECORD.participantParty}, and this `
+    + `packet holds one person. The committed legal-design record for this route makes you the `
+    + `**${RECORD.participantParty}**: you are the one asking for the record to be cleared, and the `
+    + `${RECORD.otherParty} is the person who petitioned against you. So your name is written into the `
+    + `${RECORD.participantParty} block, and the ${RECORD.otherParty} block is left for you to copy from your `
+    + `case papers. These are the record's own words, from \`${RECORD.path}\` (SHA-256 \`${RECORD.sha256}\`), `
+    + `track \`${RECORD.trackId}\`:`));
+  lines.push("");
+  for (const row of RECORD.partyReadings) {
+    lines.push(`- \`${row.node}\` — "${row.quote}"`);
+  }
+  lines.push("");
+  lines.push(...wrap(
+    "Check the whole caption against your own case papers before you file. If your papers put you on the "
+    + "other side of the caption, stop and do not file this: it would name you as a party you are not."));
+  lines.push("");
+  if (writtenRows.length > 0) {
+    lines.push("## What this packet has already filled in for you");
+    lines.push("");
+    lines.push(...wrap(
+      "Your answers are already on the page in these places. Check every one of them against your case "
+      + "papers. A packet is not a substitute for reading the page you are about to sign."));
+    lines.push("");
+    for (const row of writtenRows) {
+      lines.push(`- **${row.effectiveLabel}**`);
+    }
+    lines.push("");
+  }
   lines.push("## You must supply these before you file");
   lines.push("");
   for (const row of supplyRows) {
-    lines.push(`- **${row.effectiveLabel}.** ${row.what}.`);
+    lines.push(`- **${row.effectiveLabel}.** ${sentence(row.what)}`);
   }
   lines.push("");
   lines.push("## Statements you must confirm before you sign");
@@ -538,6 +744,37 @@ function renderParticipantInstructions({ supplyRows, electionRows }) {
   lines.push("");
   for (const row of electionRows) {
     lines.push(`- **${row.effectiveLabel}.** ${row.reason}`);
+  }
+  lines.push("");
+  lines.push("## What this motion does not reach");
+  lines.push("");
+  lines.push(...wrap(
+    "The committed legal-design record for this route carries these as instructions for this packet. They "
+    + "are the record's own words."));
+  lines.push("");
+  for (const row of RECORD.packetInstructions) {
+    lines.push(`- ${sentence(row.statement)}`);
+  }
+  lines.push("");
+  lines.push("## When this packet stops being the right tool");
+  lines.push("");
+  lines.push(...wrap(
+    "The same record lists the points at which this route stops being something you can do on your own. If "
+    + "any of them describes your case, talk to a lawyer rather than filing this motion. These are the "
+    + "record's own words, and the record writes about you in the third person as \"the participant\"."));
+  lines.push("");
+  lines.push("Its stop conditions:");
+  lines.push("");
+  for (const row of RECORD.selfHelpStopConditions) {
+    lines.push(`- ${sentence(row)}`);
+  }
+  if (RECORD.selfHelpBoundaries.length > 0) {
+    lines.push("");
+    lines.push("And the boundary it draws on automated help:");
+    lines.push("");
+    for (const row of RECORD.selfHelpBoundaries) {
+      lines.push(`- ${sentence(row.statement)}`);
+    }
   }
   lines.push("");
   lines.push("## Lines the form prints with no fillable field behind them");
@@ -651,9 +888,18 @@ async function build({ check = false } = {}) {
   const electionRows = canonical.decisions
     .filter((row) => row.decision.approvedDisposition === "PARTICIPANT_ELECTION_GENUINE")
     .map((row) => ({ field: row.field.name, ...row.decision }));
+  /*
+   * Disclosed as filled only where the canonical fixture PROVES ink in that
+   * widget in the delivered bytes. A guide that lists a field this build refused
+   * as unfittable would be telling the participant a blank is filled.
+   */
+  const writtenRows = canonical.writable
+    .filter((row) => (canonicalProof.perWrite
+      .find((entry) => entry.field === row.field.name)?.glyphCountReadFromFinalPdfBytes ?? 0) > 0)
+    .map((row) => ({ field: row.field.name, ...row.decision }));
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ supplyRows, electionRows }));
+    renderParticipantInstructions({ supplyRows, electionRows, writtenRows }));
   fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions());
 
   const withheldRows = canonical.decisions
@@ -811,8 +1057,9 @@ async function build({ check = false } = {}) {
 
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
-    whatThisIs: "the caption fields of AOC-275.18, the fact written into each, and the two party blocks this "
-      + "build refuses because the record does not say which of them the participant occupies",
+    whatThisIs: `the caption fields of ${SOURCE.formNumber}, the fact written into each, the caption block the `
+      + `committed legal-design record assigns to the participant, and the other party's block, which is `
+      + `withheld because it names a third person this platform does not hold`,
     documents: [{
       formNumber: SOURCE.formNumber, sourceSha256: source.sha256, captionBandPage: 1,
       captionFields: census
@@ -827,15 +1074,43 @@ async function build({ check = false } = {}) {
             ? CANONICAL[FIELD_DECISIONS[field.name].factId] ?? null : null
         })),
       whichPartyTheParticipantIs: {
-        resolvedByTheRecord: false,
-        ownerDeterminationNeeded: true,
-        why: CAPTION_PARTY_REASON
+        resolvedByTheRecord: true,
+        participantParty: RECORD.participantParty,
+        otherParty: RECORD.otherParty,
+        ownerDeterminationNeeded: false,
+        resolvedFrom: {
+          path: RECORD.path, sha256: RECORD.sha256, trackId: RECORD.trackId,
+          memoVersion: RECORD.memoVersion, reviewedAsOf: RECORD.reviewedAsOf
+        },
+        readings: RECORD.partyReadings,
+        participantBlock: [PARTICIPANT_BLOCK.first, PARTICIPANT_BLOCK.middle, PARTICIPANT_BLOCK.last],
+        otherPartyBlock: [OTHER_BLOCK.first, OTHER_BLOCK.middle, OTHER_BLOCK.last],
+        whyTheOtherBlockIsStillWithheld: "On this route the " + RECORD.otherParty.toLowerCase() + " is the "
+          + "person who sought protection against the participant. Their name is a third party's fact this "
+          + "platform does not hold, so it is carried to the participant rather than invented. Writing the "
+          + "participant's name there would put a person into a caption block they do not occupy, which is the "
+          + "class of defect recorded as a-participant-fact-written-into-a-field-about-someone-else in "
+          + "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json.",
+        supersedes: "An earlier revision of this build recorded resolvedByTheRecord false and told the "
+          + "participant, in participant-instructions.md and twice over, that nothing in the committed record "
+          + "established which block they occupy. That was false; the record establishes it in the five places "
+          + "listed above, and the same record was already being quoted in this family's filing-instructions.md. "
+          + "VF04 failed the family on ROUTE_IDENTITY, KNOWN_PREFILLS and SELF_HELP_STOP for it."
       }
     }]
   });
 
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-build-findings/v1", familyId: FAMILY_ID, blocking: [], findingCount: 0,
+    controllingLegalRecord: {
+      path: RECORD.path, sha256: RECORD.sha256, byteLength: RECORD.byteLength, trackId: RECORD.trackId,
+      memoVersion: RECORD.memoVersion, reviewedAsOf: RECORD.reviewedAsOf,
+      readAtBuildTime: true,
+      whatItDecidedHere: [
+        `the participant is the ${RECORD.participantParty} and the ${RECORD.otherParty} is a third person`,
+        "the packet_instruction limitations and the self-help stop conditions carried into the guide"
+      ]
+    },
     observations: [
       "AOC-275.18 is an AcroForm. Every write box is the /Rect of the source's own widget and no coordinate "
         + "is hand-entered.",
@@ -845,13 +1120,28 @@ async function build({ check = false } = {}) {
         + "delivered bytes of both fixtures are re-read and asserted to carry no choice value outside its own "
         + "option list, and the build stops rather than shipping 000 as ink. This is a gap in a shared module, "
         + "reported to the Captain rather than edited from this lane.",
-      "All six caption name fields are carried to the participant. The form captions PETITIONER and "
-        + "RESPONDENT, the platform holds one person, and nothing in the committed record establishes which of "
-        + "the two blocks that person occupies. The free-text `movant` field IS written, because the form's "
-        + "own sentence is \"The movant, ____, seeks expungement\" and the movant is whoever files.",
-      "WHICH PARTY THE PARTICIPANT IS ON THIS ROUTE IS AN OWNER DETERMINATION. It is recorded here so a "
-        + "reviewer can answer it rather than discover it, and reports/caption-evidence.json carries the same "
-        + "finding beside the fields it decides.",
+      `The participant is the ${RECORD.participantParty}, derived from ${RECORD.path} track `
+        + `${RECORD.trackId} and asserted at build time in five independent places `
+        + `(${RECORD.partyReadings.map((row) => row.node).join(", ")}). The `
+        + `${PARTICIPANT_BLOCK.label.toLowerCase()} caption block carries the participant's own decomposed `
+        + `name; the ${OTHER_BLOCK.label.toLowerCase()} block is withheld because it names a third person — `
+        + `on this route, the person who petitioned against the participant — whose name this platform does `
+        + `not hold. The free-text \`movant\` field IS written, because the form's own sentence is "The `
+        + `movant, ____, seeks expungement" and the movant is whoever files.`,
+      "SUPERSEDED FINDING. An earlier revision of this build recorded the party role as an unanswered owner "
+        + "determination and told the participant, twice, that nothing in the committed record established it. "
+        + "That claim was false: the record establishes it in five places, and this family's own "
+        + "filing-instructions.md was already quoting the same record node verbatim. VF04 read the delivered "
+        + "bytes and failed the family on ROUTE_IDENTITY, KNOWN_PREFILLS and SELF_HELP_STOP; all three came "
+        + "from that one sentence. The build no longer states the role from memory — it reads the record, and "
+        + "stops if any of the five readings stops saying what it says.",
+      `The record's own limits now reach the participant. ${RECORD.packetInstructions.length} `
+        + `packet_instruction limitation(s), ${RECORD.selfHelpBoundaries.length} self_help_boundary and `
+        + `${RECORD.selfHelpStopConditions.length} selfHelpStopConditions are rendered verbatim into `
+        + `participant-instructions.md and labelled as the record's own words. In particular a participant `
+        + `whose dismissed protective-order case sat alongside an arrest is now told that this motion does not `
+        + `touch any criminal record arising from the same events. They are guide text and none of them is `
+        + `written onto the filing.`,
       "No box is checked. Items 1, 2 and 3 are sworn allegations sitting directly above the movant's "
         + "signature; screening establishes eligibility and a signature establishes an allegation, and item 3 "
         + "asks about a protective-order history the platform does not hold.",
@@ -865,7 +1155,31 @@ async function build({ check = false } = {}) {
     countyChooserShippedDefault: shippedCountyDefault
   });
 
-  writeJson(`${OUT}/product-wiring.json`, {
+  /*
+   * THIS WRITE USED TO ERASE THE FAMILY'S GOVERNANCE STATE.
+   *
+   * product-wiring.json is regenerated wholesale here, and six keys on the
+   * committed `binding` are NOT authored by this script:
+   *
+   *   acceptanceReceipt  lastIndependentVerification  paymentEligible
+   *   sponsorshipEligible  whyPaymentIsClosed  maintenanceRelationship
+   *
+   * Two lanes found the same erasure independently on Minnesota families; the
+   * record is data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json.
+   * This builder was one of the erasing ones. It is invisible in a diff of the
+   * fixtures, because the fixtures need not change for the keys to go.
+   *
+   * The write now routes through the shared mechanism rather than a copy of it.
+   * Note what the mechanism does with the acceptance receipt, because THIS
+   * repair moves the canonical bytes: a receipt binds one exact canonical
+   * SHA-256, and when the build no longer produces those bytes the receipt has
+   * stopped describing the packet. It is WITHDRAWN into acceptanceReceiptWithdrawn
+   * with both digests — never deleted, and never carried forward as though it
+   * still applied. Nothing here issues a receipt or sets a commercial guard;
+   * preserving a value is not deciding one.
+   */
+  const wiringPath = absFor(`${OUT}/product-wiring.json`);
+  const wiring = {
     schemaVersion: "rcap-family-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     routeSelectionId: ROUTE_SELECTION_ID, implementationStrategy: "official_pdf_fill",
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
@@ -889,21 +1203,34 @@ async function build({ check = false } = {}) {
           + "route census names a court_order and a service_instructions component; neither has a bound "
           + "source, and the court order for this motion is the clerk's own notification block printed on "
           + "the face of AOC-275.18. Recorded rather than silently treated as delivered."
+      },
+      controllingLegalRecord: {
+        path: RECORD.path, sha256: RECORD.sha256, trackId: RECORD.trackId, tier: "exact_content_hash"
       }
     }
-  });
+  };
+  fs.mkdirSync(path.dirname(wiringPath), { recursive: true });
+  writeWiringChecked(fs, wiringPath,
+    preserveGovernanceState(fs, wiringPath, wiring, {
+      canonicalSha256: sha256(canonical.bytes),
+      log: (line) => console.error(line)
+    }));
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     status: "REQUESTED", grantedBy: null, exactSourceReviewComplete: true,
     independentVisualReviewRequired: true, outputLegalApprovalRequired: true,
-    ownerDeterminationRequested: {
+    ownerDeterminationsResolved: [{
       question: "On this route, is the participant the PETITIONER or the RESPONDENT in the protective-order "
         + "case whose record is being expunged?",
-      whyItMatters: "It decides which of AOC-275.18's two caption blocks carries the participant's name. "
-        + "Until it is answered both blocks are carried to the participant.",
-      blocksThisPacket: false
-    },
+      status: "ANSWERED_BY_THE_COMMITTED_RECORD",
+      answer: RECORD.participantParty,
+      answeredFrom: { path: RECORD.path, sha256: RECORD.sha256, trackId: RECORD.trackId },
+      readings: RECORD.partyReadings,
+      note: "This was previously carried as an open owner determination. It was never open: the record "
+        + "answers it in five places and this build now reads them. Answering it required no owner judgment "
+        + "and grants nothing — counsel review, visual review and source-freshness review remain outstanding."
+    }],
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 

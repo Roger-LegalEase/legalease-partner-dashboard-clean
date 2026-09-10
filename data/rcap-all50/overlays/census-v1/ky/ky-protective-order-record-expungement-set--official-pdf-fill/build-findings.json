@@ -3,11 +3,25 @@
   "familyId": "ky_protective_order_record_expungement-set",
   "blocking": [],
   "findingCount": 0,
+  "controllingLegalRecord": {
+    "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+    "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+    "byteLength": 202583,
+    "trackId": "ky_protective_order_record_expungement",
+    "memoVersion": "1.0.0",
+    "reviewedAsOf": "2026-08-06",
+    "readAtBuildTime": true,
+    "whatItDecidedHere": [
+      "the participant is the RESPONDENT and the PETITIONER is a third person",
+      "the packet_instruction limitations and the self-help stop conditions carried into the guide"
+    ]
+  },
   "observations": [
     "AOC-275.18 is an AcroForm. Every write box is the /Rect of the source's own widget and no coordinate is hand-entered.",
     "The Case.County chooser ships selected on \"000\", which is not one of its own 121 options. The shared finalizer's chooser-prompt suppression does not reach it — isChooserPrompt(\"000\", options) is false — so the only thing that displaces it is this build writing a real county over it. The delivered bytes of both fixtures are re-read and asserted to carry no choice value outside its own option list, and the build stops rather than shipping 000 as ink. This is a gap in a shared module, reported to the Captain rather than edited from this lane.",
-    "All six caption name fields are carried to the participant. The form captions PETITIONER and RESPONDENT, the platform holds one person, and nothing in the committed record establishes which of the two blocks that person occupies. The free-text `movant` field IS written, because the form's own sentence is \"The movant, ____, seeks expungement\" and the movant is whoever files.",
-    "WHICH PARTY THE PARTICIPANT IS ON THIS ROUTE IS AN OWNER DETERMINATION. It is recorded here so a reviewer can answer it rather than discover it, and reports/caption-evidence.json carries the same finding beside the fields it decides.",
+    "The participant is the RESPONDENT, derived from data/record-clearing/legal-design-intake/KY.memo.json track ky_protective_order_record_expungement and asserted at build time in five independent places (participantInputs.poRespondentName, participantInputs.poPetitionerName, controllingAuthority.summary, exclusions, destination.detail). The respondent caption block carries the participant's own decomposed name; the petitioner block is withheld because it names a third person — on this route, the person who petitioned against the participant — whose name this platform does not hold. The free-text `movant` field IS written, because the form's own sentence is \"The movant, ____, seeks expungement\" and the movant is whoever files.",
+    "SUPERSEDED FINDING. An earlier revision of this build recorded the party role as an unanswered owner determination and told the participant, twice, that nothing in the committed record established it. That claim was false: the record establishes it in five places, and this family's own filing-instructions.md was already quoting the same record node verbatim. VF04 read the delivered bytes and failed the family on ROUTE_IDENTITY, KNOWN_PREFILLS and SELF_HELP_STOP; all three came from that one sentence. The build no longer states the role from memory — it reads the record, and stops if any of the five readings stops saying what it says.",
+    "The record's own limits now reach the participant. 2 packet_instruction limitation(s), 1 self_help_boundary and 4 selfHelpStopConditions are rendered verbatim into participant-instructions.md and labelled as the record's own words. In particular a participant whose dismissed protective-order case sat alongside an arrest is now told that this motion does not touch any criminal record arising from the same events. They are guide text and none of them is written onto the filing.",
     "No box is checked. Items 1, 2 and 3 are sworn allegations sitting directly above the movant's signature; screening establishes eligibility and a signature establishes an allegation, and item 3 asks about a protective-order history the platform does not hold.",
     "The form's lower half carries no widgets at all — the signature line, the date line, the three address-and-telephone rules and the whole NOTIFICATION OF EXPUNGEMENT HEARING block. They are not terminal fields, they are not counted as such, and they are disclosed by their printed words in participant-instructions.md.",
     "Print and Reset are push buttons. They are suppressed before the flatten and the delivered bytes are asserted to carry neither caption."

@@ -9,11 +9,46 @@
   "exactSourceReviewComplete": true,
   "independentVisualReviewRequired": true,
   "outputLegalApprovalRequired": true,
-  "ownerDeterminationRequested": {
-    "question": "On this route, is the participant the PETITIONER or the RESPONDENT in the protective-order case whose record is being expunged?",
-    "whyItMatters": "It decides which of AOC-275.18's two caption blocks carries the participant's name. Until it is answered both blocks are carried to the participant.",
-    "blocksThisPacket": false
-  },
+  "ownerDeterminationsResolved": [
+    {
+      "question": "On this route, is the participant the PETITIONER or the RESPONDENT in the protective-order case whose record is being expunged?",
+      "status": "ANSWERED_BY_THE_COMMITTED_RECORD",
+      "answer": "RESPONDENT",
+      "answeredFrom": {
+        "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+        "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+        "trackId": "ky_protective_order_record_expungement"
+      },
+      "readings": [
+        {
+          "node": "participantInputs.poRespondentName",
+          "quote": "What is your full name as it appears on the case?",
+          "establishes": "the participant's OWN name goes in the respondent slot"
+        },
+        {
+          "node": "participantInputs.poPetitionerName",
+          "quote": "What is the name of the person who petitioned against you?",
+          "establishes": "the petitioner is the person who petitioned AGAINST the participant"
+        },
+        {
+          "node": "controllingAuthority.summary",
+          "quote": "Where a protective-order petition did not result in the issuance of a domestic violence order or a non-temporary interpersonal protective order and the case was dismissed, the court may for good cause shown order expunged all records in the case in the custody of the court and any such records, including law enforcement records, in the custody of any other agency or official. The respondent moves six months after dismissal, provided no order of protection has been issued against them in the preceding six months.",
+          "establishes": "the moving party is the respondent"
+        },
+        {
+          "node": "exclusions",
+          "quote": "Any respondent who has been bound by, or had issued against them, an order of protection for the protection of any person in the six months before the request.",
+          "establishes": "the six-month exclusion is written about the respondent"
+        },
+        {
+          "node": "destination.detail",
+          "quote": "Filed in the protective-order case. The clerk verifies the signature, applies the filed stamp, completes the notification-of-hearing section on the face of the form, creates the scheduled event and requests an updated criminal and protective-order history for the respondent.",
+          "establishes": "the clerk pulls the history of the respondent"
+        }
+      ],
+      "note": "This was previously carried as an open owner determination. It was never open: the record answers it in five places and this build now reads them. Answering it required no owner judgment and grants nothing — counsel review, visual review and source-freshness review remain outstanding."
+    }
+  ],
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0
