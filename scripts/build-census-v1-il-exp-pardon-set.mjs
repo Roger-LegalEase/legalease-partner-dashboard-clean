@@ -783,6 +783,9 @@ export async function buildIllinoisFamily(familyId) {
   fs.writeFileSync(path.join(out, "participant-instructions.md"), participantInstructions(config, record, requiredList, routeKeys[0]));
   fs.writeFileSync(path.join(out, "filing-instructions.md"), filingInstructions(config, record));
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. All nine are null because this file measures none of them: they belong to the completeness verifier and to an independent lane counting from the delivered bytes. They used to ship as eight zeros and one null, which reported a clean measurement nobody had taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
+  /* FIX173: the last write has happened, so read the delivered packet back and
+   * assert it before this build may report success. */
+  assertDeliveredPacket(familyId);
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
 }
 
@@ -791,7 +794,20 @@ export async function buildIllinoisFamily(familyId) {
  * container that does not mount every custody. Against defective bytes it fails
  * and names the defect.
  */
-export function selfTest(familyId) {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion here reads a file buildIllinoisFamily() has just
+ * written into this family's own directory -- reports/actual-writes.json,
+ * production-field-map.json and participant-instructions.md -- and it is
+ * already parameterised by familyId, so it is an invariant of whichever of
+ * this engine's three families was built. It ran only under --self-test,
+ * which nothing in CI or the integration chain passes, and only ever for
+ * il-exp-pardon-set: il-exp-precompletion-set and il-seal-nonconv-set import
+ * this engine and never reached it at all. build() now calls it for the
+ * family it just built.
+ */
+function assertDeliveredPacket(familyId) {
   const base = FAMILY_CONFIG[familyId];
   assert.ok(base, `unsupported Illinois family: ${familyId}`);
   const config = { familyId, ...base };
@@ -887,6 +903,10 @@ export function selfTest(familyId) {
   assert.ok(!/Complete arrest\d+ on/.test(instructions), "an interior AcroForm name is not a caption a participant can find on the page");
   assert.ok(instructions.includes(printedLegend(config.mode)), "the guide must print this table's own Outcome legend so the participant can choose from it");
 
+}
+
+export function selfTest(familyId) {
+  assertDeliveredPacket(familyId);
   console.log(`${familyId} self-test passed`);
 }
 
