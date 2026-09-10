@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b69af9242c3c97f639fec28171e605c1ad5b69d5",
+  "generatedAtCommit": "e94fcfaa6fcaf31f276158004b9479a2c4e201f4",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -536,11 +536,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX119",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T18:19:12.920Z",
-      "releaseReason": "FIX119 return integrated: the repair is in the tree and the released grant is what lets the post-repair transition read as causal."
+      "releasedAt": "2026-09-09T18:19:12.920Z"
     },
     {
       "subjectType": "packet-family",
@@ -1485,7 +1484,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.688Z"
@@ -1748,6 +1747,21 @@
       "released": true,
       "releasedAt": "2026-09-06T00:00:27.364Z",
       "releaseReason": "Repaired CLIPPING_AND_OVERLAP at its source: a new default-off opt-in suppressSynthesizedWidgetBorders stops pdf-lib synthesizing a border from /MK /BC and /MK /BG at a widget the packet does not write, and packet page 4 fell from 8,344 added dark pixels to 0 and is now pixel-identical to the pinned JDF 641; a central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix80/rows.json (Replayed by Captain from FIX80 commit 243ba2f27.)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "itemId": null,
+      "familyId": "co_municipal_conviction_seal-set",
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF22",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2518,7 +2532,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -5459,6 +5473,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "me-seal-survivor-set",
+      "itemId": null,
+      "familyId": "me-seal-survivor-set",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF22",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
       "familyId": "me-seal-survivor-set",
       "itemId": null,
       "familyIds": [
@@ -5613,6 +5642,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mn_petition_juvenile_as_adult-set",
+      "itemId": null,
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "familyIds": [
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
       "familyId": "mn_petition_juvenile_as_adult-set",
       "itemId": null,
       "familyIds": [
@@ -5756,7 +5800,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.596Z"
@@ -6292,6 +6336,21 @@
       "operation": "packet-build",
       "lane": "PF24",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-summary-marijuana-pardon-set",
+      "itemId": null,
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "familyIds": [
+        "nd-summary-marijuana-pardon-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -7355,7 +7414,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -9911,8 +9970,8 @@
     {
       "subjectType": "packet-family",
       "subjectId": "wv_conv_nonviolent_felony-set",
-      "itemId": null,
       "familyId": "wv_conv_nonviolent_felony-set",
+      "itemId": null,
       "familyIds": [
         "wv_conv_nonviolent_felony-set"
       ],
@@ -9920,9 +9979,7 @@
       "operation": "rapid-repair",
       "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T22:39:30.247Z",
-      "releaseReason": "The placement repair is complete and measured: all thirteen absolute-BBox appearances now land on their own /Rect, four that were off the paper are back on it, and all 57 origin-anchored placements are byte-identical before and after. Releasing so the repair is not stranded behind its own grant."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -14328,69 +14385,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-seal-survivor-set",
-      "itemId": null,
-      "familyId": "me-seal-survivor-set",
-      "familyIds": [
-        "me-seal-survivor-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF22",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "co_municipal_conviction_seal-set",
-      "itemId": null,
-      "familyId": "co_municipal_conviction_seal-set",
-      "familyIds": [
-        "co_municipal_conviction_seal-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF22",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nd-summary-marijuana-pardon-set",
-      "itemId": null,
-      "familyId": "nd-summary-marijuana-pardon-set",
-      "familyIds": [
-        "nd-summary-marijuana-pardon-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF23",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mn_petition_juvenile_as_adult-set",
-      "itemId": null,
-      "familyId": "mn_petition_juvenile_as_adult-set",
-      "familyIds": [
-        "mn_petition_juvenile_as_adult-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF23",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "405b193452815940be28a757200c4379981470d0ef8eb86240b07b2f78fdd419",
+  "claimsDigest": "9a2fd13d8bd5bf084f414fa07778b98c18a7a37e2d37322bcfd37f2a41a79b5c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43940,6 +43937,16 @@
       "previouslyReleasedAt": "2026-09-09T18:19:13.044Z",
       "reissuedAt": "2026-09-10T01:13:38.415Z",
       "reason": "Refused at admission on 2026-09-10 for a defect no counter and no raster can see: it ticks no eligibility ground on the CR-65 it files, and it delivers the same petition as its sibling, 22 of 22 page images byte-identical. FIX119 repaired this family before and its grant is released"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_nonviolent_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T01:44:05Z",
+      "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

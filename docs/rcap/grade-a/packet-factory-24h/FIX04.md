@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `b69af9242c3c97f639fec28171e605c1ad5b69d5` (or the newer dispatch base)
+**Minimum required ancestor:** `e94fcfaa6fcaf31f276158004b9479a2c4e201f4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'co_municipal_conviction_seal-set' \
   --codex-cloud \
-  --minimum-captain-sha b69af9242c3c97f639fec28171e605c1ad5b69d5
+  --minimum-captain-sha e94fcfaa6fcaf31f276158004b9479a2c4e201f4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,7 +41,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'co_municipal_conviction_seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ma-seal-court-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'pa_pardon_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'mo-art-xiv-marijuana-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,7 +66,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `co_municipal_conviction_seal-set`
 - `ma-seal-court-set`
-- `pa_pardon_expungement-set`
+- `mo-art-xiv-marijuana-set`
 
 ## What you receive
 
@@ -81,10 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/**`
 - `scripts/build-census-v1-co_municipal_conviction_seal-set.mjs`
 - `scripts/build-census-v1-ma-seal-court-set.mjs`
-- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
+- `scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs`
 
 ## Never write here
 

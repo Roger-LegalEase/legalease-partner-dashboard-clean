@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 142,
-    "rows": 1088,
+    "returnDirectories": 144,
+    "rows": 1090,
     "independentVerdicts": 291,
     "failRepairRequired": 51,
     "passIndependent": 219
@@ -1069,6 +1069,43 @@
     {
       "familyId": "al-felony-dwop-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "THE DELIVERED PETITION ERASES PART OF THE OFFICIAL FORM'S PRINTED ELIGIBILITY TEXT ON THE PAGE THE ROUTE TURNS ON. On packet page 3, CR-65's page-3 check box named '2' carries the source /Rect [45.317, 623.137, 56.5341, 608.779] — the only inverted (y1 > y2) widget rectangle in either pinned source, out of 229. PDF requires /Rect to be normalized before use; the flatten did not normalize it and emitted 'q 1 0 0 1 45.317 623.137 cm /FlatWidget-5373953175 Do Q', taking the rectangle's TOP as its origin. The appearance stream is '1 g 0 0 11.2171 14.3578 re f' — a white filled rectangle — so it is painted 14.358 pt, exactly one box height, above the box it belongs to, over the running text of eligibility ground (1). The other six page-3 check boxes are each placed at their own /Rect exactly.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THREE MANDATORY SELECTIONS ARE UNMADE AND THE GUIDE NEVER NAMES ANY OF THEM, AND TWO CONDITIONAL SUB-BLANKS ARE DIRECTED UNCONDITIONALLY. (a) CR-65 page 6 prints '(3) (Select one of the following)' under 'I swear or affirm, under the penalty of perjury' — 'that I have not previously applied for an expungement in this or any other jurisdiction' / 'that I have previously filed for an expungement'. Neither Check Box2.0 nor Check Box2.1 is ticked in either fixture, so a sworn selection is delivered unmade. (b) CR-65 page 5 prints 'Petition must include either item 1 or item 2; All Petitions must include item 3' over Check Box1.0/1.1/1.2. None is ticked. The route may not make either election for the participant, and the field map refuses all five correctly as 'A genuine participant election not determined by this route' — but that refusal class never reaches the guide. participant-instructions.md contains zero occurrences of 'Select one', 'previously applied', 'previously filed', 'pro se', 'swear' or 'perjury' (case-insensitive). (c) WORSE, the guide's 'Blanks you must fill in' list opens 'Fill every one on both the canonical and the boundary-style packet before filing' and then lists 'County where any previous expungement was filed' and 'Court case number of any previous expungement' — the two blanks that exist only on the branch a petitioner who has never filed before is not on. A petitioner following the guide as written is told to fill in a prior expungement they do not have, on the page they swear to under penalty of perjury.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "A PUBLISHED ZERO WHERE A MEASUREMENT EXISTED, which is defect 'a-published-zero-where-a-measurement-existed' in DEFECTS_NO_COUNTER_CAN_SEE.json. reports/actual-writes.json publishes, for BOTH fixtures, 'addedGlyphsReadFromOutputBytes': 0 beside 'flattenedWidgetAppearancesReadFromOutputBytes': 31. The second is a real reading of the delivered bytes; the first is zero and the same bytes read 403 added glyphs (387 non-whitespace) in canonical and 653 (627 non-whitespace) in boundary, measured with the factory's own classify-flattened-widget-appearances.mjs. The same file publishes 'nonWhitespaceGlyphsOutsideMeasuredWriteBoxes': 0, which is arithmetically honest but is not the proof it reads as: the geometry defect this lane found draws no glyphs at all.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910a.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
@@ -1147,7 +1184,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-dwop-set",
@@ -32904,6 +32941,36 @@
     {
       "familyId": "wv_conv_nonviolent_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d5c21a6a80e453c05d33d032920ba3a4bc7e67cf",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THREE SWORN YES/NO ANSWERS ARE UNMADE ON A VERIFIED PETITION AND THE GUIDE NEVER TELLS THE PARTICIPANT TO MAKE THEM. SCA-C907 page 2 item i asks two questions — 'Is there a current order for restitution, protection, restraining order or other no contact order prohibiting the petitioner from contacting victim(s)?' and 'Was there a prior order...?' — each with its own Yes and No box, and page 3 item m asks 'Has petitioner ever been granted expungement or similar relief regarding a criminal conviction by any court in this state, in any other state, or by any federal court?' with the same pair. All six boxes are blank in both fixtures. They appear in NEITHER of the two places the guide tells a participant to look: not in 'The items you must supply', the table the guide's own step 3 points at ('Fill in every blank listed below'), and not in 'Things the platform deliberately left blank'. A participant who follows this guide exactly files a petition, verified under oath before a notary, with three mandatory questions unanswered.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "A PUBLISHED ZERO THAT THE DELIVERED BYTES CONTRADICT, with a confident explanation attached to it. reports/actual-writes.json publishes, for both fixtures and both document rows, 'flattenedWidgetAppearancesReadFromOutputBytes': 0 with the note 'zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet, and a flat overlay draws into page content to begin with, so every mark this family makes is counted as a glyph in the column beside this one'. That is false of these bytes. The delivered canonical.pdf carries 70 XObjects named /FlatWidget-<digits>, each invoked by name from its own page's content stream as 'q <cm> /FlatWidget-... Do Q' — counted 70 XObjects and 70 invocations with pikepdf, and 70 flattened appearances independently by the factory's own classify-flattened-widget-appearances.mjs. The pinned source carries 0 such XObjects, 72 annotations and an /AcroForm; the delivered packet carries 70 such XObjects, 0 annotations and no /AcroForm. This build's own flatten created every one of them, and the count is not zero. This is the catalogued 'a-published-zero-where-a-measurement-existed' shape: a zero published beside a real reading, with a rationale that reads as proof.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910b.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_nonviolent_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
       "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
@@ -32929,7 +32996,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_nonviolent_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",

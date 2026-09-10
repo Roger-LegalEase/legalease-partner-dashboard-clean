@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b69af9242c3c97f639fec28171e605c1ad5b69d5",
+  "minimumCaptainSha": "e94fcfaa6fcaf31f276158004b9479a2c4e201f4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,8 +72,8 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 18,
-    "verifyPending": 23,
-    "repairRequired": 36,
+    "verifyPending": 21,
+    "repairRequired": 38,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,9 +81,9 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 18,
-    "VERIFY_PENDING": 23,
-    "FAIL_REPAIR_REQUIRED": 47,
+    "FAIL_REPAIR_REQUIRED": 49,
     "SOURCE_READY": 33,
+    "VERIFY_PENDING": 21,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -2637,11 +2637,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910a.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -2671,19 +2673,33 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
         "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "THE DELIVERED PETITION ERASES PART OF THE OFFICIAL FORM'S PRINTED ELIGIBILITY TEXT ON THE PAGE THE ROUTE TURNS ON. On packet page 3, CR-65's page-3 check box named '2' carries the source /Rect [45.317, 623.137, 56.5341, 608.779] — the only inverted (y1 > y2) widget rectangle in either pinned source, out of 229. PDF requires /Rect to be normalized before use; the flatten did not normalize it and emitted 'q 1 0 0 1 45.317 623.137 cm /FlatWidget-5373953175 Do Q', taking the rectangle's TOP as its origin. The appearance stream is '1 g 0 0 11.2171 14.3578 re f' — a white filled rectangle — so it is painted 14.358 pt, exactly one box height, above the box it belongs to, over the running text of eligibility ground (1). The other six page-3 check boxes are each placed at their own /Rect exactly.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Checked against AL.memo.json directly, not against the builder's report. Both documents the memo marks requiredBeforeFiling true for this track are named in participant-instructions.md as things to obtain and submit, with the source and the method, not merely as a cross-check. All 58 refusals carrying completenessDisposition REQUIRED_BEFORE_FILING appear in the guide's blank list under a plain-language label; zero opaque Text-n or undefined-n labels remain. That part passes. The obligation fails on a step the packet adds that the record refuses. The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form. This family's participant-instructions.md is also structurally degraded against its four siblings: it has no \"## What the held record establishes\" section (so the filing court, fee, fee waiver, notice, service, signing and notarization lines are not quoted from the memo with its digest), no \"## Do these before you file\" numbered sequence, and no \"## Notarization\" section. Its self-help stops are paraphrased into one sentence rather than carried verbatim from the memo; I checked the substance and all four memo stops are covered, but \"The court sets a hearing\" is narrowed to \"the court sets a contested hearing\".",
-          "findingReadFrom": "detail",
+          "finding": "THREE MANDATORY SELECTIONS ARE UNMADE AND THE GUIDE NEVER NAMES ANY OF THEM, AND TWO CONDITIONAL SUB-BLANKS ARE DIRECTED UNCONDITIONALLY. (a) CR-65 page 6 prints '(3) (Select one of the following)' under 'I swear or affirm, under the penalty of perjury' — 'that I have not previously applied for an expungement in this or any other jurisdiction' / 'that I have previously filed for an expungement'. Neither Check Box2.0 nor Check Box2.1 is ticked in either fixture, so a sworn selection is delivered unmade. (b) CR-65 page 5 prints 'Petition must include either item 1 or item 2; All Petitions must include item 3' over Check Box1.0/1.1/1.2. None is ticked. The route may not make either election for the participant, and the field map refuses all five correctly as 'A genuine participant election not determined by this route' — but that refusal class never reaches the guide. participant-instructions.md contains zero occurrences of 'Select one', 'previously applied', 'previously filed', 'pro se', 'swear' or 'perjury' (case-insensitive). (c) WORSE, the guide's 'Blanks you must fill in' list opens 'Fill every one on both the canonical and the boundary-style packet before filing' and then lists 'County where any previous expungement was filed' and 'Court case number of any previous expungement' — the two blanks that exist only on the branch a petitioner who has never filed before is not on. A petitioner following the guide as written is told to fill in a prior expungement they do not have, on the page they swear to under penalty of perjury.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "A PUBLISHED ZERO WHERE A MEASUREMENT EXISTED, which is defect 'a-published-zero-where-a-measurement-existed' in DEFECTS_NO_COUNTER_CAN_SEE.json. reports/actual-writes.json publishes, for BOTH fixtures, 'addedGlyphsReadFromOutputBytes': 0 beside 'flattenedWidgetAppearancesReadFromOutputBytes': 31. The second is a real reading of the delivered bytes; the first is zero and the same bytes read 403 added glyphs (387 non-whitespace) in canonical and 653 (627 non-whitespace) in boundary, measured with the factory's own classify-flattened-widget-appearances.mjs. The same file publishes 'nonWhitespaceGlyphsOutsideMeasuredWriteBoxes': 0, which is arithmetically honest but is not the proof it reads as: the geometry defect this lane found draws no glyphs at all.",
+          "findingReadFrom": "finding",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
@@ -49125,11 +49141,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json"
+        "lane": "vf01",
+        "verifiedAtBase": "d5c21a6a80e453c05d33d032920ba3a4bc7e67cf",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -49159,26 +49177,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "ROUTE_OPTIONS"
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "findingReadFrom": null,
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THREE SWORN YES/NO ANSWERS ARE UNMADE ON A VERIFIED PETITION AND THE GUIDE NEVER TELLS THE PARTICIPANT TO MAKE THEM. SCA-C907 page 2 item i asks two questions — 'Is there a current order for restitution, protection, restraining order or other no contact order prohibiting the petitioner from contacting victim(s)?' and 'Was there a prior order...?' — each with its own Yes and No box, and page 3 item m asks 'Has petitioner ever been granted expungement or similar relief regarding a criminal conviction by any court in this state, in any other state, or by any federal court?' with the same pair. All six boxes are blank in both fixtures. They appear in NEITHER of the two places the guide tells a participant to look: not in 'The items you must supply', the table the guide's own step 3 points at ('Fill in every blank listed below'), and not in 'Things the platform deliberately left blank'. A participant who follows this guide exactly files a petition, verified under oath before a notary, with three mandatory questions unanswered.",
+          "findingReadFrom": "finding",
           "evidence": null
         },
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
+          "obligation": "ARTIFACTS",
+          "finding": "A PUBLISHED ZERO THAT THE DELIVERED BYTES CONTRADICT, with a confident explanation attached to it. reports/actual-writes.json publishes, for both fixtures and both document rows, 'flattenedWidgetAppearancesReadFromOutputBytes': 0 with the note 'zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet, and a flat overlay draws into page content to begin with, so every mark this family makes is counted as a glyph in the column beside this one'. That is false of these bytes. The delivered canonical.pdf carries 70 XObjects named /FlatWidget-<digits>, each invoked by name from its own page's content stream as 'q <cm> /FlatWidget-... Do Q' — counted 70 XObjects and 70 invocations with pikepdf, and 70 flattened appearances independently by the factory's own classify-flattened-widget-appearances.mjs. The pinned source carries 0 such XObjects, 72 annotations and an /AcroForm; the delivered packet carries 70 such XObjects, 0 annotations and no /AcroForm. This build's own flatten created every one of them, and the count is not zero. This is the catalogued 'a-published-zero-where-a-measurement-existed' shape: a zero published beside a real reading, with a rationale that reads as proof.",
+          "findingReadFrom": "finding",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
