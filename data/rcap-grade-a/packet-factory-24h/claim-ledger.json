@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "086232b11aa3143dfe2035c43b25be944340a08b",
+  "generatedAtCommit": "f8c4eaa0604fb9bf56eac6a38a6835e467cc156e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3854,8 +3854,9 @@
       "operation": "rapid-repair",
       "lane": "FIXCXI1",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T21:39:27.917Z",
+      "releaseReason": "FIXCXI1 completed and stopped, committed 4e329e14a4c06481b3133388b7dca3fb7b4efeb8 consumed d50c10218. Guard-only correction; VF66 semantic review retained on identical artifacts."
     },
     {
       "subjectType": "packet-family",
@@ -4480,7 +4481,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:06:03.477Z"
@@ -4573,7 +4574,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.393Z"
@@ -4758,7 +4759,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:47:15.166Z"
@@ -4804,10 +4805,25 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.393Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-conviction-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-conviction-set",
+      "familyIds": [
+        "ks-21-6614-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4848,6 +4864,21 @@
         "ks-21-6614-diversion-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-diversion-set",
+      "familyIds": [
+        "ks-21-6614-diversion-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF20",
       "laneKind": "packet-build",
@@ -4866,6 +4897,21 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "familyIds": [
+        "ks-21-6614-prostitution-coercion-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -7211,11 +7257,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX175",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T20:46:55.323Z",
-      "releaseReason": "FIX175 confirmed stopped and committed diagnosis-only return 664deb17a9ed93c64912a489bb8cb27bcc4c0a85; no repair applied"
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain first integration generated this live FIX07 reservation from released FIX175 grant; no FIX07 worker dispatched in this session. Reassigning to one explicit isolated NJ shared-host writer."
     },
     {
       "subjectType": "packet-family",
@@ -7274,11 +7320,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX175",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T20:46:55.323Z",
-      "releaseReason": "FIX175 confirmed stopped and committed diagnosis-only return 664deb17a9ed93c64912a489bb8cb27bcc4c0a85; no repair applied"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7306,11 +7351,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX175",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T20:46:55.323Z",
-      "releaseReason": "FIX175 confirmed stopped and committed diagnosis-only return 664deb17a9ed93c64912a489bb8cb27bcc4c0a85; no repair applied"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7879,7 +7923,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8564,8 +8608,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-10T11:23:30.444Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T11:23:30.444Z"
     },
     {
       "subjectType": "packet-family",
@@ -8608,11 +8651,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T11:48:41.999Z",
-      "releaseReason": "Verification complete: BLOCKED_LEGAL_INPUT returned and is on record against these exact bytes, and no worker holds it. Obsolete dispatch released; the verdict stands."
+      "releasedAt": "2026-09-09T11:48:41.999Z"
     },
     {
       "subjectType": "packet-family",
@@ -8655,11 +8697,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-10T11:23:30.846Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T11:23:30.846Z"
     },
     {
       "subjectType": "packet-family",
@@ -8717,11 +8758,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-10T11:23:31.107Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T11:23:31.107Z"
     },
     {
       "subjectType": "packet-family",
@@ -8779,7 +8819,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:59:33.013Z"
@@ -8824,7 +8864,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.619Z"
@@ -8870,7 +8910,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8931,7 +8971,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8978,7 +9018,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -9039,7 +9079,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -9085,7 +9125,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -9131,7 +9171,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -9177,7 +9217,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T13:32:50.779Z"
@@ -9224,7 +9264,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.112Z"
@@ -15000,54 +15040,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ks-21-6614-conviction-set",
-      "itemId": null,
-      "familyId": "ks-21-6614-conviction-set",
-      "familyIds": [
-        "ks-21-6614-conviction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF67",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ks-21-6614-diversion-set",
-      "itemId": null,
-      "familyId": "ks-21-6614-diversion-set",
-      "familyIds": [
-        "ks-21-6614-diversion-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF67",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ks-21-6614-prostitution-coercion-set",
-      "itemId": null,
-      "familyId": "ks-21-6614-prostitution-coercion-set",
-      "familyIds": [
-        "ks-21-6614-prostitution-coercion-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF67",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "66fe465475e9a055f8e386a17d8e3d689b30702d53262fa56b36951bc2e2df7e",
+  "claimsDigest": "48bc3544786e16cc87acc46af5f51f800dd5c18f76bc1194a8859178da3fd0ed",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39382,6 +39377,24 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-10T21:26:54.281Z",
       "reason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
+    },
+    {
+      "lane": "FIXCXI1",
+      "subjectType": "packet-family",
+      "subjectId": "ia-12347-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T21:39:27.917Z",
+      "reason": "FIXCXI1 completed and stopped, committed 4e329e14a4c06481b3133388b7dca3fb7b4efeb8 consumed d50c10218. Guard-only correction; VF66 semantic review retained on identical artifacts."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "nj_clean_slate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T21:41:21.342Z",
+      "reason": "Captain first integration generated this live FIX07 reservation from released FIX175 grant; no FIX07 worker dispatched in this session. Reassigning to one explicit isolated NJ shared-host writer."
     }
   ],
   "reissues": [
@@ -48760,6 +48773,16 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-10T17:20:12Z",
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_clean_slate-set",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T21:37:06Z",
+      "reason": "the current dispatch names FIX07 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -59850,6 +59873,39 @@
       "previouslyReleasedAt": "2026-09-10T17:59:19.291Z",
       "transferredAt": "2026-09-10T21:33:20.772Z",
       "reason": "Released repair grant; VF66 confirmed stopped. Correct only VF66 subsection prose guard counterexample with normal-entrypoint mutation proof; preserve delivered bytes."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_clean_slate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T21:41:21.342Z",
+      "transferredAt": "2026-09-10T21:41:21.497Z",
+      "reason": "Exclusive NJ shared-host repair of complete known FIX175 finding set; prior worker confirmed stopped, current generated FIX07 never dispatched."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T20:46:55.323Z",
+      "transferredAt": "2026-09-10T21:41:21.642Z",
+      "reason": "Released FIX175 repair now roster FIX08, confirmed stopped; consolidate exact known NJ shared-host correction under FIXCXN1."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T20:46:55.323Z",
+      "transferredAt": "2026-09-10T21:41:21.799Z",
+      "reason": "Released FIX175 repair now roster FIX01, confirmed stopped; consolidate exact known NJ shared-host correction under FIXCXN1."
     }
   ],
   "grants": [
