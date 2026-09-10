@@ -292,7 +292,7 @@
         "theAcceptanceReceipt": "There was no live acceptance receipt to withdraw. acceptanceReceipt was ALREADY null at this base: the receipt bound to canonical 48cf9bf5cf44 (RASTER_PASS, workflow run 34000217746) was withdrawn at the earlier FIX135 repair and is on the record under acceptanceReceiptWithdrawn with both digests -- boundToCanonicalSha256 48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de, replacedByCanonicalSha256 b73f1b3c3121c3a8d7d1142002957383d25a9fcaaebd5a4c41d63edbf17bf7c5. That history is preserved verbatim by this write. I did not author a withdrawal I did not cause: no receipt bound b73f1b3c3121, so nothing new was withdrawn when the canonical moved to dd8a44b18681. No RASTER_PASS binds the bytes this row records.",
         "verifier": "npm run rcap:verify-governance-preservation",
         "verifierExitStatus": 0,
-        "verifierOutput": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks. 295 product-wiring records carry governance state and 279 of them are NOT PRESENT IN THIS SPARSE WORKING TREE, so the run says nothing about them. That is a limit of the worktree, not a pass: only 16 were measured.",
+        "verifierOutput": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks. 295 product-wiring records carry governance state and 279 of them are NOT PRESENT IN THIS SPARSE WORKING TREE, so the run says nothing about them. That is a limit of the worktree, not a pass: only 16 were measured. Re-run at the end of this lane, after the sparse cone was widened to include data/rcap-all50/overlays/census-v1/wv and data/rcap-grade-a/route-obligation-census-v1 so the Nebraska siblings could be rebuilt: same exit 0, and 272 not measured instead of 279 because 7 more records became readable. The number that is NOT measured is a property of the checkout, and it changed only because the checkout did.",
         "rasterReceipt": "None. The bytes moved in this repair, no RASTER_PASS binds dd8a44b18681 or c1c6377deca4, and this row dispatches no raster and requests none. rasterState is BUILT_RASTER_PENDING."
       },
       "rasterImagesRemoved": "The 14 committed raster PNGs under raster/ depicted the SUPERSEDED bytes (b73f1b3c / acf6d40f) and showed the sixteen boxed fields. This rebuild ran with --no-raster, as instructed, so nothing replaced them and reports/rendered-artifacts.json now records rasterPages 0 and everyPageRastered false. Leaving 14 orphaned images of a packet that no longer exists, with no record pointing at them, is a defect a visual reviewer would have read as the packet. They were removed with git rm, and rendered-artifacts.json and independent-visual-review.json now say in words that no page was rastered in this run and why.",
@@ -330,6 +330,241 @@
       ],
       "whatThisRowDoesNotDo": "It sets no verdict and issues no PASS. It dispatched no raster, opened no pull request, edited no central artifact and no shared module, released and transferred no claim, and opened no commercial route. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
       "grantsNothing": "A rebuilt packet is review evidence. It authorizes no fulfillment, promotes no route and opens no commercial path."
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "status": "STOPPED",
+      "stopCode": "BLOCKED_REBUILD_SHARED_MODULE_REGRESSION",
+      "rasterState": "not applicable; no byte of this family moved and no raster was rendered or dispatched",
+      "claim": "CLAIM_OK FIX135 ne-setaside-custodial-set (repair, grant set 26f8666a03fab4fc)",
+      "workedAtBase": "cac0c40c93dc72fa5551438d11ec7e1ce7fa5331",
+      "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "whatVf29Failed": [
+        "ARTIFACTS",
+        "PAGE_ORDER"
+      ],
+      "packetBytesMoved": false,
+      "canonicalSha256": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+      "boundarySha256": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+      "canonicalPageCount": 5,
+      "boundaryPageCount": 5,
+      "pageCountMeasuredBy": "pdfinfo",
+      "digestsMeasuredBy": "sha256sum on the committed fixtures after every experiment was reverted; they are the digests this family had at base and still has",
+      "theBlocker": {
+        "what": "This family cannot be rebuilt at this base, and the refusal is not mine and not new.",
+        "howItShows": "The unmodified builder at cac0c40c9, with no change of mine applied, throws: 'ne-setaside-custodial-set: 4 disclosed blank(s) carry no plain meaning and would reach the participant as a harvested fragment: DC-1-15/Text44, DC-1-15/Text46, DC-1-15/Text1, DC-1-15/Text74'. I confirmed that on the clean tree before touching anything.",
+        "cause": "Commit e258e47a0 'Measure a drawn string with the font the page actually uses' (2026-09-09) changed the shared module scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs so groupIntoLines emits run.x2 as NULL rather than x + 0 for a run it cannot measure. captureWidgetContext, in that same module, harvests a widget's printed caption with `if (run.x2 > rect.x + 1) continue;` and then `gap = rect.x - run.x2`. With x2 null that test is false and the gap coerces to rect.x, so the caption is discarded. DC 1:15's caption runs are exactly the ones that became unmeasurable -- the same commit's own message names 'NE DC-1-15' as the two-byte-code case.",
+        "proof": "Decisive, and run both ways in this worktree. With the PRE-e258e47a0 version of that one file checked out and NOTHING else changed, the unmodified builder rebuilds this family to its EXACT committed digests: canonical dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb and boundary 07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2. With the current version it refuses. The file was restored immediately and is unmodified in this branch.",
+        "whyIDidNotBuildThroughIt": "Because the assertion is right and the packet it would refuse is worse than no packet. Rebuilding on the current module loses the printed label on 26 of this family's 102 mapped rows and, because the role classification is derived from that label, turns NINE court- and service-owned blanks into tasks handed to the participant: requiredBeforeFilingCount goes from 21 to 30, and DC-1-15 Text44 -- printed label '__________________________, Judge of the ___________________' -- goes from 'court-owned field: the court, clerk or prosecutor completes it, not the participant' to 'a participant or case fact the filing needs ... must be supplied before filing'. That is the judge's own signature line and the certificate-of-service block being printed in the participant's to-do list. I will not ship that to fix a page order, and I will not paper over it by declaring plain meanings for four fields whose classification the census no longer supports.",
+        "whatWouldUnblockIt": "A lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs teaching captureWidgetContext to refuse a null x2 explicitly instead of coercing it, and then rebuilding the families whose census depends on it. That is a shared module used by roughly three hundred builders and it is not this lane's to change: e258e47a0 says in terms that it 'rebuilt nothing'."
+      },
+      "repairsWrittenIntoTheBuilderAndNotYetDeliverable": {
+        "note": "These are committed in scripts/build-census-v1-ne-setaside-custodial-set.mjs and NOT in any packet byte. The delivered artifacts and the delivered packet still agree with each other -- product-wiring.json's componentDisposition still records CC 6:11a at packet page 3, which is where the delivered packet still puts it -- so nothing committed here claims a packet that does not exist. The builder is ahead of the artifact, deliberately, so the lane that clears the blocker gets the repair rather than the diagnosis.",
+        "PAGE_ORDER": {
+          "defect": "The committed packet-set manifest declares ne-setaside-custodial-notice-and-certificate-of-service-3 (DC-1-15) at order 3 and ne-setaside-custodial-instructions-4 (CC-6-11a) at order 4. The packet delivers them 4 then 3. I confirmed the delivered order against the forms' own printed footers with pdftotext rather than against a report: p1 'CC 6:11', p2 'CC 6:11.2', p3 'CC 6:11a', p4-5 'DC 1:15'.",
+          "fix": "sourceIds for this family, which is the assembly order combinePacket walks, now reads CC-6-11, CC-6-11.2, DC-1-15, CC-6-11a. The componentDisposition where-strings move with it: DC 1:15 to packet pages 3 and 4, CC 6:11a to packet page 5. Nothing in participant-instructions.md names a packet page number, so no guidance sentence is invalidated: the guide's only page reference is to 'page two of DC 1:15', which is that form's own page and unchanged.",
+          "theAssertionThatCouldNotFail": "assertComponentDispositionMatchesTheManifest compares the DECLARATION table to the manifest, and the declaration table was hand-written in manifest order, so it agreed while the packet did not. Replaced -- not removed -- by assertAssembledPagesFollowTheManifest, which loads the SAVED PACKET BYTES back, recovers which pinned source each assembled page came from by matching that page's own decompressed content stream against the per-document rendered bytes, and compares the recovered sequence to the manifest. Recovery is by content, not by the pageManifest the same loop wrote, because a manifest built beside the pages it describes agrees with them by construction.",
+          "provedItCanFail": "Not asserted, run. With the old sourceIds order it throws: 'the assembled packet delivers CC-6-11, CC-6-11.2, CC-6-11A, DC-1-15 and the committed packet-set manifest declares CC-6-11, CC-6-11.2, DC-1-15, CC-6-11A'. With the new order it prints 'assembled order CC-6-11 -> CC-6-11.2 -> DC-1-15 -> CC-6-11A matches the manifest' on both fixtures. It also caught its own first draft being wrong, which is recorded below."
+        },
+        "ARTIFACTS_glyphReadings": {
+          "defect": "Neither output-byte glyph reading on any of the four documents. reports/actual-writes.json publishes proofSummary.addedGlyphs as null for CC-6-11, CC-6-11.2 and DC-1-15, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears nowhere in the family directory.",
+          "fix": "Both are now read through the shared FIX137 module scripts/rcap-official-forms/rcap-output-glyph-reading.mjs from each document's produced bytes, with placement measured against that document's own pinned source. I read the module first: it fits exactly, it returns null rather than 0 when no source is supplied, and it is the same semantics an independent lane would use.",
+          "gatedHow": "config.emitOutputByteGlyphReadings, declared by ne-setaside-custodial-set and by no other family in FAMILY_CONFIGS -- the same shape as referenceOnlyDocuments, classifyNonFilingSourceControls and preservePrintedSourceButtons already used on this host."
+        },
+        "ARTIFACTS_phantomControls": {
+          "defect": "production-field-map.json lists 16 'selectionControls' for CC-6-11a, a flat scanned instruction sheet with zero AcroForm fields, zero writes and zero refusals. Their identifiers are prose fragments harvested off the page -- 'drop-down lists.', 'case number.', 'you are asking to', 'exactly as it was' -- and one is 'bnter the original', a corrupted label rather than a control. They are the geometric census reading painted-path boxes out of the ILLUSTRATION the sheet prints.",
+          "fix": "A document declared reference-only publishes no detected controls at all, dropped at the census before the policy, the field map, the roleRefusals array and the census document ever see them. Removed rather than described. Gated on config.referenceOnlyDocuments, declared by this family alone.",
+          "exercised": "Run: 'ne-setaside-custodial-set/canonical/CC-6-11A: writes=0 refusals=0', and the rebuilt field map carries 0 selectionControls and 0 roleRefusals for CC-6-11A where it carried 16 and 16. CC-6-11A's census fieldCount goes from 16 to 0, which is what a sheet with nothing to fill has."
+        }
+      },
+      "theSharedHostAndTheFourSiblings": {
+        "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs, exclusiveScript false",
+        "importedBy": [
+          "ne-setaside-noncustodial-set",
+          "ne-trafficking-setaside-and-seal-set",
+          "wv_conv_multiple_misdemeanors-set",
+          "wv_conv_single_misdemeanor-set"
+        ],
+        "whatIWasAskedToProve": "that the four siblings rebuild to their exact committed digests",
+        "whatIsActuallyTrue": "They do not, and they did not before I touched anything. I rebuilt all four on the CLEAN tree at cac0c40c9 before making a single edit. wv_conv_multiple_misdemeanors-set and wv_conv_single_misdemeanor-set each moved BOTH fixtures and then threw with 26 blocking findings, all of class 'selection_control_carries_artifact_derived_text_or_vector_mark'. Committed canonical 31a49f2d2216fd2c... rebuilds to 19d8544e87bc605a..., committed boundary 2a0b701a523d3f7c... to cfcd7eccccc061ba...; committed canonical 37764d50ba8f7616... rebuilds to 0bdd0ff765d1da8d..., committed boundary c51fde179db7a9bf... to 6d0425f5e376388d.... The two terminal Nebraska siblings rewrote their STOP records and their product-wiring. Every one of those experiments was reverted with git checkout and the four directories are byte-identical to HEAD in this branch.",
+        "worseThanNonReproducible": "A rebuild of ANY of the four DELETES the whole `binding` block from its product-wiring.json. Measured with governanceLostBetween from scripts/rcap-packet-completeness/governance-preservation.mjs, whose own header names this builder as one of the four implementations it was written to replace. Lost on all four: lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed, maintenanceRelationship. Lost on the two WV families additionally: a LIVE acceptance receipt, deleted rather than withdrawn -- RASTER_PASS workflow run 33791677725 bound to canonical 31a49f2d2216fd2c... on wv_conv_multiple_misdemeanors-set, and RASTER_PASS workflow run 33935771571 bound to canonical 37764d50ba8f7616... on wv_conv_single_misdemeanor-set. ne-setaside-noncustodial-set also reverts implementationStrategy from official_pdf_fill back to custom_pleading and drops the note recording that correction. None of this is mine and none of it is committed by me; it is what the host does today.",
+        "whatIProvedInstead": "That my change moves nothing. I hashed every file in all four sibling directories after a rebuild on the CLEAN builder (52 files), reverted, applied my change, rebuilt all four again, and hashed the same 52 files. The two lists are IDENTICAL, byte for byte, including the two WV families' moved fixtures, their raster PNGs and their build findings. Each sibling still fails or stops exactly as it did before. Then I reverted again, and the four directories are at HEAD.",
+        "oneThingMyChangeDidBreakAndIFixed": "My first draft of assertAssembledPagesFollowTheManifest was NOT gated and was WRONG for a family whose manifest names one form for several components. It refused both WV families: 'the assembled packet delivers SCA-C906 and the committed packet-set manifest declares SCA-C906, SCA-C906, SCA-C906'. Their manifests name SCA-C906 for three components each, so three declared rows are one delivered document. Fixed by collapsing consecutive duplicates on BOTH sides, and then ALSO put behind a per-family opt-in (config.assertAssembledOrderAgainstTheManifest, declared by this family alone), because a check this lane cannot exercise on families it does not hold must not fire for them -- a new assertion throwing first would have hidden the 26 findings those two families actually have. Recorded because it was a real defect I introduced and caught by running it, not by reading it."
+      },
+      "howTheSourceWasRendered": "The four pinned sources were rendered WITH annotations drawn: poppler pdftoppm 24.02.0 at -r 600 -gray -png with NO -hide-annotations flag. Proved on THIS FAMILY'S OWN SOURCE, not only on Colorado's: CC-6-11 page 1 renders 1,089,478 dark pixels with annotations and 1,039,749 with -hide-annotations, so 49,729 dark pixels on that page exist only inside widget /AP /N appearance streams and this render draws them. The same tooling reproduced the Colorado proof exactly (725,313 against 521,645 on JDF-641 page 5, and 60,688 against 0 inside field 11.1's /Rect). A zero from this render is a measurement.",
+      "directionalRasterAgainstThePinnedSources": {
+        "measuredOn": "the COMMITTED, UNMOVED bytes dd1cde67 / 07a9b4ab -- this family was not rebuilt",
+        "dpi": 600,
+        "threshold": "grey < 128 is dark",
+        "perPageCanonical": [
+          {
+            "packetPage": 1,
+            "form": "CC-6-11",
+            "sourcePage": 1,
+            "sourceDark": 1089478,
+            "deliveredDark": 1167487,
+            "added": 100336,
+            "removed": 22327
+          },
+          {
+            "packetPage": 2,
+            "form": "CC-6-11.2",
+            "sourcePage": 1,
+            "sourceDark": 718242,
+            "deliveredDark": 733632,
+            "added": 37717,
+            "removed": 22327
+          },
+          {
+            "packetPage": 3,
+            "form": "CC-6-11A",
+            "sourcePage": 1,
+            "sourceDark": 2528767,
+            "deliveredDark": 2528767,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "DC-1-15",
+            "sourcePage": 1,
+            "sourceDark": 907689,
+            "deliveredDark": 758173,
+            "added": 116109,
+            "removed": 265625
+          },
+          {
+            "packetPage": 5,
+            "form": "DC-1-15",
+            "sourcePage": 2,
+            "sourceDark": 379965,
+            "deliveredDark": 442582,
+            "added": 62617,
+            "removed": 0
+          }
+        ],
+        "perPageBoundary": [
+          {
+            "packetPage": 1,
+            "form": "CC-6-11",
+            "sourcePage": 1,
+            "sourceDark": 1089478,
+            "deliveredDark": 1251585,
+            "added": 184434,
+            "removed": 22327
+          },
+          {
+            "packetPage": 2,
+            "form": "CC-6-11.2",
+            "sourcePage": 1,
+            "sourceDark": 718242,
+            "deliveredDark": 728580,
+            "added": 32665,
+            "removed": 22327
+          },
+          {
+            "packetPage": 3,
+            "form": "CC-6-11A",
+            "sourcePage": 1,
+            "sourceDark": 2528767,
+            "deliveredDark": 2528767,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "DC-1-15",
+            "sourcePage": 1,
+            "sourceDark": 907689,
+            "deliveredDark": 842273,
+            "added": 200209,
+            "removed": 265625
+          },
+          {
+            "packetPage": 5,
+            "form": "DC-1-15",
+            "sourcePage": 2,
+            "sourceDark": 379965,
+            "deliveredDark": 531734,
+            "added": 151769,
+            "removed": 0
+          }
+        ],
+        "negativeControl": "Packet page 3, the CC 6:11a instruction sheet, is a page this packet writes nothing on. It gains nothing and loses nothing in either fixture and its source and delivered dark totals are identical to the pixel at 2,528,767.",
+        "removedInk": "Every figure above reproduces VF29 to the pixel and it reproduces my own earlier reading. The removed ink is accounted for and none of it is court ink erased from page content: 10,219 is the two chooser widgets (/F 0, so the form itself does not print them), 12,108 on pages 1 and 2 and 15,274 on page 4 is TYPEOFCOURTRESULTS, the source's own 'IN THE'/'COURT OF' caption words that the packet REPLACES in that same field with the resolved 'IN THE DISTRICT COURT OF', and page 4's remainder is the Text20 'Type of Case' panel and the Button4 RESET FORM push button, both /F 0. I carry VF29's correction of my earlier split rather than re-deriving it: measured in each widget's own non-overlapping rect the button is 27,805 and the panel 212,327, not 66,690 and 173,442. The sum, 240,132, and the exhaustive close at 265,625 are unchanged.",
+        "strongerClaimVf29Tested": "VF29 asked the harder question -- whether ANY removed pixel falls outside EVERY source widget rect, not merely outside a selection widget -- and found none, on all three pages. I did not re-run that sweep; I record that it is the claim that matters and that it is VF29's measurement, not mine."
+      },
+      "perArtifactOutputByteGlyphReadings": {
+        "measuredOn": "the committed, unmoved packet fixtures, by me, in this worktree",
+        "canonical": {
+          "flattenedWidgetAppearancePlacementsReadFromOutputBytes": 62,
+          "addedGlyphsReadFromOutputBytes_includingWhitespace": 956,
+          "nonWhitespaceGlyphsInAllFlattenedAppearances": 787,
+          "nonWhitespaceGlyphsThePinnedSourcesThemselvesShip": 385,
+          "addedNonWhitespaceGlyphs": 402,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        },
+        "boundary": {
+          "flattenedWidgetAppearancePlacementsReadFromOutputBytes": 62,
+          "addedGlyphsReadFromOutputBytes_includingWhitespace": 1721,
+          "nonWhitespaceGlyphsInAllFlattenedAppearances": 1513,
+          "nonWhitespaceGlyphsThePinnedSourcesThemselvesShip": 385,
+          "addedNonWhitespaceGlyphs": 1128,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        },
+        "reconciliation": "787 - 385 = 402 and 1,513 - 385 = 1,128, which are VF29's two figures exactly. My earlier report of 218 and 599 for the same quantity on the same unmoved bytes was wrong and I am carrying VF29's correction rather than re-deriving it. The 402 reproduces by hand from the eight written values across their placements. Both placement readings are measurements and not literals: all 62 placements sit at a pinned-source widget rectangle to within 0.01 pt, and a placement that did not would have its non-whitespace glyphs counted.",
+        "whyTheyAreStillNotInTheArtifact": "Because emitting them requires a rebuild and the rebuild is blocked. The builder now reads them; the delivered reports/actual-writes.json still does not carry them, and it will not until the blocker above is cleared."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "Every one is null and none is 0. This lane produced no build of this family: the builder refuses at this base for the reason set out under theBlocker, so there is no completeness count from this run to report. The committed reports/completeness-counters.json still holds the counts of the build that produced the committed bytes; those are that build's numbers and not this lane's, and a counter this lane could not measure is null.",
+      "governance": {
+        "ranCarryForwardGovernance": false,
+        "why": "No packet byte of this family moved, so there was nothing for carryForwardGovernance to decide. Its acceptance receipt, its lastIndependentVerification and its four other governance keys are exactly as committed, and I did not rewrite product-wiring.json for this family at all.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierNote": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (272 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks, at the end of this lane. Of 295 product-wiring records carrying governance state, 272 are not present in this sparse working tree and the run says nothing about them. That is a limit of the worktree, not a pass: only 23 were measured. Earlier in the lane the same command read 279 not measured, before the cone was widened to include the WV overlays."
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "packetFilesChanged": "none. Every fixture, report, map, guide and raster page in this family's directory is byte-identical to HEAD.",
+      "sharedModulesChanged": "none. rcap-pdf-anchor-capture.mjs was checked out at an older revision to PROVE the cause and restored immediately; it is unmodified in this branch. rcap-output-glyph-reading.mjs is imported, not edited.",
+      "centralArtifactsEdited": "none",
+      "recordsThatDisagreeWithWhatIMeasured": [
+        {
+          "about": "the committed Nebraska packet against its own builder",
+          "whatIMeasured": "The committed artifacts cannot be reproduced by the committed builder at this base. They CAN be reproduced exactly with one shared module rolled back to e258e47a0^. The family's own build-status.json records buildStatus state_built with no note that its builder no longer produces it."
+        },
+        {
+          "about": "MASTER_QUEUE.json failedObligationNames for this family",
+          "whatIMeasured": "It records ['ARTIFACTS'] with finding, evidence and findingReadFrom all null. PAGE_ORDER is the other live obligation and appears in no queue row. I edited no central artifact to say so."
+        },
+        {
+          "about": "the four sibling families on this shared host",
+          "whatIMeasured": "None of the four reproduces its committed state at this base, and a rebuild of any of them deletes the entire governance binding from its product-wiring.json, including two live RASTER_PASS acceptance receipts. Set out in full under theSharedHostAndTheFourSiblings. Nothing of this is committed by me."
+        },
+        {
+          "about": "reports/actual-writes.json recording no page and no rect per write",
+          "whatIMeasured": "It records neither, so the declared write boxes for a directional raster cannot be taken from it and were not: I read every widget rectangle first-hand from the four pinned binaries."
+        }
+      ],
+      "whatThisRowDoesNotDo": "It sets no verdict and issues no PASS. It moved no packet byte, dispatched no raster, opened no pull request, edited no central artifact and no shared module, released and transferred no claim, and opened no commercial route.",
+      "grantsNothing": "A builder repair that cannot be delivered is a repair nobody has seen on paper. It authorizes nothing.",
+      "sparseCheckoutWidened": "To rebuild the four siblings I widened the cone with `git sparse-checkout set` (never `add`) to include data/rcap-all50/overlays/census-v1/wv (16.9 MB, 139 files) and data/rcap-grade-a/route-obligation-census-v1 (3.0 MB, 19 files), which the shared host reads and which was absent. df -h /home/user read 4.0 GB free before and 4.0 GB free after. Both are left in the cone; neither is a committed change."
     }
   ]
 }
