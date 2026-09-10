@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX152",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/fixb-worktree",
+  "branch": "lane-fix152-20260910",
+  "repairedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+  "respondingTo": "VF49, rows-vf49-20260910.json, familyId ky_expungement_certification-set, verdict FAIL_REPAIR_REQUIRED at base 023abbf4c584b488b521894af814142cd6b119a7 on FEE_AND_WAIVER, SELF_HELP_STOP and REQUIRED_BEFORE_FILING, plus a CAUTION on FILING_DESTINATION.",
+  "grantSet": "d4f287cd5d8549bf. `claim.mjs --can-assert FIX152 ky_expungement_certification-set` first -- 1 assertable, 0 would refuse -- then `--assert`, CLAIM_OK, against the ledger in this worktree (988 claims, generatedAtCommit 8bffaa9d50615970d1e8627412d76b2db56902ac). Released at return.",
+  "theDispatchedClaimCommandWasMalformedAndIsRecordedAsSuch": {
+    "whatWasDispatched": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX152 repair ky_expungement_certification-set",
+    "whatItAnswered": "NOT_GRANTED: no repair lane holds repair, exit 6.",
+    "whyThatIsNotARefusalOfThisFamily": "claim.mjs parses positionally as `--assert <LANE> <subjectId>`; the extra `repair` token became the subjectId, so the gate refused a subject named `repair` and never looked at this family. The refusal was real and correctly reported by the gate; it was not about ky_expungement_certification-set.",
+    "howItWasResolved": "The script's own argv dispatch was read before re-running -- `else if (mode === \"--assert\" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId)` -- and the correct three-token form was run read-only first with --can-assert, which agreed with the preflight this lane was given (1 assertable, 0 refused), then asserted. No ledger state was altered by the malformed call: --assert writes nothing on any path.",
+    "worthFixingInDispatch": "The same extra-token form would refuse any lane it is dealt to, on any family, with a message naming the operation rather than the family."
+  },
+  "scopeHeldTo": "Guidance only. VF49 established the delivered PDFs are correct and owed no raster; this lane rebuilt nothing and moved no PDF byte. The repair is in the builder's two markdown template literals and the two delivered markdown files they write.",
+  "builtAnything": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "owesAFreshCentralRaster": false,
+  "rasterEvidenceStillBound": "Run 34480387107, RASTER_PASS, bound to boundToCanonicalSha256 02e38d0d and boundToBoundarySha256 3d331308. Both digests are unchanged by this repair, so that binding is not disturbed.",
+  "theDeterminismControlRanFirst": {
+    "why": "The guidance is generated, not hand-written: scripts/build-census-v1-ky_expungement_certification-set.mjs writes participant-instructions.md and filing-instructions.md. Editing the delivered markdown alone would have been reverted by the next build, and editing the builder is only safe if the builder reproduces the committed tree.",
+    "control": "The UNMODIFIED builder was run against a clean worktree before any edit. It reported canonical=02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78 boundary=3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3 and `git status --porcelain` returned EMPTY -- every file it writes, both PDFs and all six JSON reports included, came back byte-identical to the committed tree.",
+    "whatThatBought": "The builder could then be edited and re-run as the repair mechanism, with any PDF movement immediately visible as a working-tree change. There was none."
+  },
+  "howTheRepairWasMade": "Every added sentence is either interpolated from the committed record at build time or quoted from the issuer's own AOC-RU-009 text. The builder gained readRecord(), which reads data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-packet-set-manifests.json -- the same house pattern as scripts/build-census-v1-il-cannabis-vacate-set.mjs -- and asserts the shape each printed sentence depends on. No fee amount, deadline, criterion, phone number, URL, court practice or legal conclusion was typed from the dispatch brief or from VF49's row.",
+  "rows": [
+    {
+      "itemId": "ky_expungement_certification-set",
+      "familyId": "ky_expungement_certification-set",
+      "jurisdiction": "KY",
+      "disposition": "FAIL_REPRODUCED_AND_REPAIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill",
+      "bytesAfterRepair": {
+        "canonical": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+        "boundary": "3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3",
+        "identicalToTheBytesVF49Read": true,
+        "howChecked": "sha256sum on both fixtures after the final build, compared against the two digests in VF49's bytesRead."
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-ky_expungement_certification-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/filing-instructions.md"
+      ],
+      "filesDeliberatelyNotTouched": "fixtures/canonical.pdf, fixtures/boundary.pdf, production-field-map.json, source-receipt.json, approval-request.json and both reports/ files. The builder rewrites all of them on every run and all came back byte-identical, so none appears in the working tree.",
+      "obligationResults": {
+        "FEE_AND_WAIVER": "REPAIRED",
+        "SELF_HELP_STOP": "REPAIRED",
+        "REQUIRED_BEFORE_FILING": "REPAIRED",
+        "FILING_DESTINATION": "CAUTION_CLEARED"
+      },
+      "findings": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "vf49Severity": "FAIL",
+          "state": "REPAIRED",
+          "whatWasWrong": "filing-instructions.md sentence 3 read \"The committed route record identifies no fee-waiver treatment for this certification.\" The record says the opposite and carries the point as a release blocker whose affectedElement is participant_instructions.",
+          "whatIsThereNow": "That sentence is deleted. filing-instructions.md now interpolates track.rules.feeWaiver verbatim: \"AOC-RU-009 refers on its face to an exemption of fees if applicable. The criteria are not published and are recorded as an open question.\"",
+          "carriedIntoParticipantInstructions": "A new section, \"What it costs, and the exemption question\", prints track.rules.fees and track.rules.feeWaiver verbatim; the form's own sentence \"I have provided the basic information necessary to qualify for record processing and exemption of fees - if applicable.\"; and the release blocker's own unanswered question, interpolated from releaseBlockers[].provenance.counselQuestion: \"Does the AOC Records Unit waive or reduce the $40 expungement certification fee on indigency, and what does the participant have to supply to ask?\"",
+          "theOpenQuestionWasNotResolved": "The packet states no waiver criterion and names no channel for asking, because the record publishes neither. It says in terms that it does not tell the participant who qualifies or how to ask, because the controlling record does not.",
+          "whatItTellsThemToDoMeanwhile": "Treat the $40 as payable, grounded on the form's own printed fee sentence, which warns that failure to comply results in the request being returned unprocessed. That is the issuer speaking, not a LegalEase conclusion about indigency.",
+          "verbatimMatchAfterRepair": true
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "vf49Severity": "FAIL",
+          "state": "REPAIRED",
+          "whatWasWrong": "The record declares three selfHelpStopConditions; the packet carried none, and had no stop section at all.",
+          "whatIsThereNow": "A \"## Stop and get help\" section in participant-instructions.md, modelled on il-cannabis-vacate-set, printing all three conditions verbatim from track.selfHelpStopConditions.",
+          "conditionsCarried": 3,
+          "conditionsDeclared": 3,
+          "perCondition": [
+            "(a) adverse certification, participant wants to file anyway -- printed verbatim, with the record's own packetInstructions reason attached beneath it: \"An adverse certification is advisory. The Clerks' Manual directs the clerk to file the petition regardless; the judge decides eligibility.\"",
+            "(b) certification lists convictions that are not theirs or are wrong -- printed verbatim, with the issuer's clerical-correction channel quoted from the form's own page text: \"If you suspect information contained on the record is incorrect, please contact the Records Unit at (502) 573-1682 or (800) 928-6381.\" The two are kept distinct: the channel is presented as the AOC's route for a record believed wrong, and the record's listing of this as a stop-and-get-help point is stated separately. The packet does not claim the phone call resolves the stop condition.",
+            "(c) the 30-day filing window has run -- printed verbatim, with nothing added. The record prescribes no remedy and this lane invented none."
+          ],
+          "processingTimeExpectationAdded": "The Timing section now also prints track.postGenerationHandoffs[0] verbatim: \"Processing takes roughly four to five months. The packet waits on the certification; the participant is told to expect that and is reminded when the 30-day filing window opens.\" It sits directly beneath the 30-day sentence, which is the gap VF49 named."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "vf49Severity": "FAIL",
+          "state": "REPAIRED",
+          "whatWasWrong": "Zero of the manifest's eight requiredBeforeFiling entries appeared verbatim; the \"Required before sending\" section listed two widget-level items (SSN, DLN).",
+          "entriesVerbatimBefore": 0,
+          "entriesVerbatimAfter": 8,
+          "entriesDeclared": 8,
+          "howMeasured": "Whitespace-normalised exact substring match of each manifest entry against participant-instructions.md + filing-instructions.md concatenated -- the same measurement VF49 used to score 0 of 8.",
+          "theTwoSubstantiveAbsencesNamedByVF49": [
+            "The confirm_answer step now prints verbatim, em dash and embedded question intact.",
+            "The precursor participantFilingRequirement now has its own section, \"Get your conviction records first\", printing the record's obtain_document description verbatim: \"Obtain Records of the convictions you want cleared. Ask the circuit court clerk in the county where the case was heard for the case number and the disposition. You need these to describe the records on the request form.\""
+          ],
+          "theAdditionalInformationBoxGapAlsoClosed": "VF49 noted the packet refuses AOC-RU-009's optional Additional Information box without telling the participant what goes in it. That section now quotes the form's own printed instruction for the box, which names county of origin, approximate date, type of case(s)/charge(s) and case number(s).",
+          "theTwoSensitiveIdentityItemsWereKept": "SSN and DLN still print, now as a second list beneath the record's eight rather than instead of them. They are the fill step's own refusals and are a different fact from the record's array.",
+          "aReadabilityDefectFoundInThisLanesOwnFirstDraftAndFixed": "Printed bare, two of the eight verbatim entries are unreadable standing alone: \"none required.\" (the notarize step) and \"$40 for the certification.\" (the pay_fee step). A participant reading \"- none required.\" in a required-before-sending list learns nothing. Each verbatim line now carries an indented continuation naming the record's own step kind for that entry, resolved by matching the entry against participantActionRequired and asserted to match for all eight. The verbatim line itself is untouched, so exact-string verification still scores 8 of 8."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "vf49Severity": "CAUTION",
+          "state": "CAUTION_CLEARED",
+          "whatWasWrong": "The record's destination.detail names the portal as kcoj.kycourts.net/RecordRequest and both guidance files said only \"the official AOC record-request portal\".",
+          "whatIsThereNow": "filing-instructions.md names the portal URL, and participant-instructions.md prints track.destination.name and track.destination.detail verbatim, which carries the URL in the record's own sentence.",
+          "howTheStringWasVerified": "The URL was NOT typed from the dispatch brief. It is a build-time constant asserted against the committed record -- `assert.ok(track.destination.detail.includes(PORTAL_URL))` -- so the build fails rather than publishing a portal address the record does not contain."
+        }
+      ],
+      "aDefectInThisLanesOwnOutputCaughtByReadingTheDeliveredPageRatherThanTheBuildLog": {
+        "what": "The first repaired build completed cleanly, reported both expected PDF digests and exited 0, and published the literal string \"undefined\" into participant-instructions.md, inside the sentence carrying the release blocker's question.",
+        "cause": "counselQuestion lives at releaseBlockers[].provenance.counselQuestion, not on the blocker object. The template read feeExemptionQuestion.counselQuestion.",
+        "whyNoCounterWouldHaveCaughtIt": "The build exited 0, the digests were right, the file was written and the completeness verifier's verdict was unchanged. Nothing in the counters looks at the sentence. It was found by reading the delivered markdown end to end.",
+        "fixed": "The path is corrected and readRecord() now asserts `typeof feeExemptionQuestion.provenance?.counselQuestion === \"string\"`, so this cannot be republished silently. The delivered files were re-read afterwards and scanned for undefined / NaN / [object -- zero hits."
+      },
+      "theConnecticutFailureModeChecked": "Both guidance files were re-scanned after the repair for print/save/reset/clear/submit form, /Btn, push button and 65536: 0 hits in each, matching VF49's pre-repair reading. Nothing this lane added describes a viewer control, and no stale assertion about the PDFs was introduced.",
+      "countersThisLaneDidNotMeasure": {
+        "note": "This lane repaired guidance and measured guidance. It re-read no pixels and re-counted no widgets: VF49 measured those at these exact digests and the digests did not move. Every counter below is null because it was NOT measured here, never because it was measured as zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "perWidgetFlattenedAppearanceCount": null
+      },
+      "countersThisLaneDidMeasure": {
+        "requiredBeforeFilingEntriesVerbatim": 8,
+        "requiredBeforeFilingEntriesDeclared": 8,
+        "selfHelpStopConditionsCarried": 3,
+        "selfHelpStopConditionsDeclared": 3,
+        "pdfFilesWhoseBytesMoved": 0,
+        "viewerChromeMentionsInGuidance": 0,
+        "placeholderLeaksInDeliveredGuidance": 0,
+        "falseStatementsAboutTheRouteRecordRemaining": 0
+      }
+    }
+  ],
+  "verifierRun": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_expungement_certification-set",
+    "exitStatus": 0,
+    "verdictPrinted": "FAIL ky_expungement_certification-set  NOT_MEASURABLE_HERE  12/19 written",
+    "countersPrinted": "knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites UNMEASURED · protectedWrites 0 · visualDefects UNMEASURED",
+    "theExitCodeAndTheVerdictDisagreeAndBothAreReported": "The process exits 0 while printing FAIL. The exit status is not evidence the family passed, and it is recorded here as the status actually observed rather than being reported as a pass.",
+    "isThisVerdictCausedByThisRepair": "No. The identical verdict, counters and 12/19 were produced by stashing this lane's three changed files and re-running the verifier against the committed base. Before and after are the same line.",
+    "whatDrivesIt": "The two UNMEASURED counters, invisibleWrites and visualDefects. They are null in reports/build-summary.json because FIX147 correctly refused to publish a measurement this builder does not take. NOT_MEASURABLE_HERE is that refusal being honoured, not a defect in the packet, and not something a guidance repair can clear.",
+    "whatWouldClearIt": "A byte-reading pass that measures those two counters from the delivered PDFs -- not this lane's grant, and not achievable without moving off guidance."
+  },
+  "whatThisLaneCouldNotRepair": [
+    {
+      "item": "NOT_MEASURABLE_HERE from the completeness verifier",
+      "reason": "Driven by invisibleWrites and visualDefects being unmeasured in build-summary.json, which is a byte-reading obligation and outside a guidance repair. Pre-existing and unchanged by this lane, confirmed by running the verifier against the stashed base.",
+      "owedTo": "a byte-reading lane, or the central raster path"
+    },
+    {
+      "item": "The fee-exemption criteria themselves",
+      "reason": "The record records them as an open question and a release blocker awaiting counsel confirmation. This lane carried the question as open and invented nothing. It remains a release blocker; this repair does not clear it and authorises no promotion.",
+      "owedTo": "counsel"
+    },
+    {
+      "item": "production-field-map.json labelling the second viewer control \"Clear Form 2 viewer UI control\"",
+      "reason": "DELIBERATELY NOT CHANGED. The dispatch permitted correcting it. The label is generated at scripts/build-census-v1-ky_expungement_certification-set.mjs from the AcroForm field NAME, and the string is accurate as a field name -- the map records fieldName beside it -- while the issuer's appearance stream paints \"Reset Form\". VF49 recorded it as harmless because the control is detached and prints nothing. Changing it would rewrite production-field-map.json, which this lane was told not to touch on widget semantics, for no participant-visible gain. Recorded here so the next reader knows it was considered and left, not missed.",
+      "owedTo": "whoever next has a grant over that map"
+    }
+  ],
+  "grantsNothing": "This is a repair return. It admits no packet, opens no commercial route, promotes no status and clears no release blocker. Independent verification of the repaired family is owed to a lane that is neither this one nor FIX147."
+}

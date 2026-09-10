@@ -322,6 +322,115 @@ async function buildPacket(sources, fixtureName, fixture, config) {
   return { bytes, pageCount: reopened.getPageCount(), controlsDetached, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
+/*
+ * FIX152. THE GUIDANCE NOW READS THE CONTROLLING RECORD INSTEAD OF PARAPHRASING IT.
+ *
+ * VF49 failed this family on three guidance obligations at base 023abbf4c, none
+ * of which touch the delivered bytes:
+ *
+ *   FEE_AND_WAIVER. filing-instructions.md asserted "The committed route record
+ *   identifies no fee-waiver treatment for this certification." The record says
+ *   the opposite: rules.feeWaiver records an exemption the form refers to on its
+ *   face, with unpublished criteria, as an OPEN QUESTION -- and carries it as a
+ *   release blocker whose affectedElement is participant_instructions. The
+ *   packet was converting an open, release-blocking question into a settled
+ *   negative, on the page where the blocker lands, while the participant holds a
+ *   form that prints "exemption of fees - if applicable" in the issuer's own
+ *   words. That sentence is now the record's own, interpolated, not retyped.
+ *
+ *   SELF_HELP_STOP. The record declares three selfHelpStopConditions and the
+ *   packet carried none of them: there was no stop section at all. All three are
+ *   now printed verbatim, with the record's own packetInstructions reason
+ *   attached to the adverse-certification one, and the four-to-five-month
+ *   processing expectation the record's postGenerationHandoffs says the
+ *   participant IS TOLD.
+ *
+ *   REQUIRED_BEFORE_FILING. Zero of the manifest's eight requiredBeforeFiling
+ *   entries appeared verbatim; the section listed two widget-level items. All
+ *   eight now print from the record, alongside -- not instead of -- the two
+ *   sensitive identity blanks the fill step refuses.
+ *
+ * WHY READ RATHER THAN RETYPE. Every sentence added here is either interpolated
+ * from the committed record or quoted from the issuer's own form text, so the
+ * guidance cannot drift from the record without this build failing. The open
+ * question is carried as open: this file states no waiver criterion, because the
+ * record publishes none.
+ *
+ * NOTHING HERE MOVES A PDF BYTE. These two template literals are written after
+ * the packets are assembled and are not inputs to them; canonical
+ * 02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78 and boundary
+ * 3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3 are unchanged
+ * by this repair, and run 34480387107's raster stays bound.
+ */
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const MANIFESTS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_ID = "ky_expungement_certification";
+const PACKET_SET_ID = "ky_expungement_certification-set";
+const PORTAL_URL = "kcoj.kycourts.net/RecordRequest";
+
+/*
+ * The issuer's own text, transcribed from AOC-RU-009 page 1 and re-read out of
+ * the delivered bytes with pdftotext, so a quotation is checkable against the
+ * paper rather than against this file. Nothing here is a LegalEase statement
+ * about Kentucky practice; each is the form speaking.
+ */
+const FORM_TEXT = {
+  feeSentence: "A fee of $40.00 is to be paid to the order of the KENTUCKY STATE TREASURER by check or money order ONLY. FAILURE TO COMPLY WITH THESE PROCEDURES WILL RESULT IN THE REQUEST BEING RETURNED UNPROCESSED.",
+  exemptionSentence: "I have provided the basic information necessary to qualify for record processing and exemption of fees - if applicable.",
+  correctionChannel: "If you suspect information contained on the record is incorrect, please contact the Records Unit at (502) 573-1682 or (800) 928-6381.",
+  additionalInformationBox: "(OPTIONAL) For Expungement Certification requests only, provide additional information to identify the type of case(s)/charge(s) to be expunged. If available, provide the county of origin, approximate date, type of case(s)/charge(s) and case number(s)."
+};
+
+/*
+ * Read the controlling record and assert the shape the guidance depends on.
+ *
+ * Every assertion here exists because the corresponding sentence below would
+ * otherwise be published from a record that no longer says it. A silent
+ * fallback would reintroduce exactly the class of defect VF49 found.
+ */
+function readRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY_PATH), "utf8"));
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
+  const manifests = JSON.parse(fs.readFileSync(path.join(ROOT, MANIFESTS_PATH), "utf8"));
+  const manifest = manifests.packetSets.find((entry) => entry.packetSetId === PACKET_SET_ID);
+  assert.ok(manifest, `packet-set manifest absent: ${PACKET_SET_ID}`);
+  assert.deepEqual(manifest.requiredBeforeFiling, track.packetSet.requiredBeforeFiling,
+    "the manifest and the registry must state the same requiredBeforeFiling; the guidance prints one of them");
+  assert.equal(manifest.requiredBeforeFiling.length, 8, "the record declares eight requiredBeforeFiling entries");
+  assert.equal(track.selfHelpStopConditions.length, 3, "the record declares three selfHelpStopConditions");
+  const obtainRecords = track.packetSet.participantActionRequired.find((entry) => entry.kind === "obtain_document");
+  assert.ok(obtainRecords, "the record's obtain_document precursor is missing");
+  const adverseCertification = track.packetInstructions.find((line) => line.startsWith("An adverse certification is advisory"));
+  assert.ok(adverseCertification, "the record's adverse-certification instruction is missing");
+  const processingTime = track.postGenerationHandoffs.find((line) => line.startsWith("Processing takes"));
+  assert.ok(processingTime, "the record's processing-time handoff is missing");
+  const feeExemptionQuestion = track.releaseBlockers.find((entry) => entry.affectedElement === "participant_instructions");
+  assert.ok(feeExemptionQuestion, "the fee-exemption release blocker is missing");
+  /* The counsel question lives under provenance, not on the blocker itself. The
+   * first draft of this repair read it off the blocker and published the string
+   * "undefined" into the participant's own page -- the exact class of defect this
+   * lane was sent to remove. It is asserted, not assumed. */
+  assert.equal(typeof feeExemptionQuestion.provenance?.counselQuestion, "string",
+    "the fee-exemption blocker must carry provenance.counselQuestion; the guidance prints it");
+  /* Each requiredBeforeFiling line is printed verbatim, so a line like "none
+   * required." arrives with no subject attached. The record knows what each one
+   * IS -- it is a participantActionRequired step with a kind -- so the kind is
+   * printed beside the verbatim line rather than the line being reworded. */
+  const stepKinds = manifest.requiredBeforeFiling.map((line) => {
+    const step = track.packetSet.participantActionRequired.find((entry) => entry.description === line && entry.requiredBeforeFiling);
+    assert.ok(step, `no requiredBeforeFiling participantActionRequired step matches: ${line}`);
+    return step.kind;
+  });
+  /* VF49's FILING_DESTINATION caution: both guidance files said only "the official
+   * AOC record-request portal" and gave no URL, though the record names one. It is
+   * printed now, and asserted against destination.detail rather than trusted from
+   * a report, so the guidance can never carry a portal address the record does not. */
+  assert.ok(track.destination.detail.includes(PORTAL_URL),
+    `the record's destination.detail must contain the portal URL this guidance prints: ${PORTAL_URL}`);
+  return { track, manifest, obtainRecords, adverseCertification, processingTime, feeExemptionQuestion, stepKinds };
+}
+
 export async function buildIllinoisFamily(familyId) {
   const base = FAMILY_CONFIG[familyId];
   assert.ok(base, `unsupported Illinois family: ${familyId}`);
@@ -343,8 +452,16 @@ export async function buildIllinoisFamily(familyId) {
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING", packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(out, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Kentucky expungement certification request - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before sending\n\nComplete the following sensitive identity items yourself. Do not send the request until every required item is complete.\n\n${requiredList}\n\nThe form's company and additional-case-information areas are optional and remain blank unless they apply. Add the date only when you sign or mail the request.\n\n## Send or request online\n\nMail the completed AOC-RU-009 with a $40 check or money order payable to the Kentucky State Treasurer to Administrative Office of the Courts, Records Unit, 1001 Vandalay Drive, Frankfort, Kentucky 40601. The official AOC record-request portal is an alternative channel for the same certification and requires an account and card payment.\n\n## Timing\n\nThere is no waiting period to request the certification. After it is issued, the certification must reach the circuit court clerk with the later expungement filing within 30 days of receipt.\n`);
-  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\nThis packet requests the statewide Kentucky expungement certification; it is not the later circuit-court expungement application. Mail AOC-RU-009 with the $40 check or money order to the AOC Records Unit at 1001 Vandalay Drive, Frankfort, Kentucky 40601, or use the official AOC record-request portal. The committed route record identifies no fee-waiver treatment for this certification. Once received, use the certification with the later circuit-court filing within 30 days.\n`);
+  const { track, manifest, obtainRecords, adverseCertification, processingTime, feeExemptionQuestion, stepKinds } = readRecord();
+  const beforeSending = manifest.requiredBeforeFiling.map((line, i) => `- ${line}\n  (the record's ${stepKinds[i]} step)`).join("\n");
+  const [adverseStop, wrongRecordStop, windowRunStop] = track.selfHelpStopConditions;
+  const stopAndGetHelp = [
+    `- ${adverseStop}\n  ${adverseCertification}`,
+    `- ${wrongRecordStop}\n  The form gives the AOC's own channel for a record it believes is wrong: "${FORM_TEXT.correctionChannel}" Use it, and get help as well: the controlling record lists this as a point to stop and get help.`,
+    `- ${windowRunStop}`
+  ].join("\n");
+  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Kentucky expungement certification request - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Get your conviction records first\n\n${obtainRecords.description}\n\nThis applies where you cannot supply the case number or the exact charge from memory. Those facts go in the form's optional Additional Information box, which prints its own instruction: "${FORM_TEXT.additionalInformationBox}"\n\n## Required before sending\n\nThe controlling record requires each of these before this request is sent. They are printed here in the record's own words.\n\n${beforeSending}\n\nComplete the following sensitive identity items yourself as well. Do not send the request until every required item is complete.\n\n${requiredList}\n\nThe form's company and additional-case-information areas are optional and remain blank unless they apply. Add the date only when you sign or mail the request.\n\n## What it costs, and the exemption question\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\nThe form puts it in its own words: "${FORM_TEXT.exemptionSentence}"\n\nThis packet does not tell you who qualifies for that exemption or how to ask, because the controlling record does not. The question it records, unanswered, is: "${feeExemptionQuestion.provenance.counselQuestion}" Until it is answered, treat the $40 as payable: the form prints "${FORM_TEXT.feeSentence}"\n\n## Send or request online\n\nMail the completed AOC-RU-009 with a $40 check or money order payable to the Kentucky State Treasurer to Administrative Office of the Courts, Records Unit, 1001 Vandalay Drive, Frankfort, Kentucky 40601. The official AOC record-request portal is an alternative channel for the same certification and requires an account and card payment.\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Timing\n\nThere is no waiting period to request the certification. After it is issued, the certification must reach the circuit court clerk with the later expungement filing within 30 days of receipt.\n\n${processingTime}\n\n## Stop and get help\n\nThe controlling record declares these stop conditions. They are printed here in the record's own words.\n\n${stopAndGetHelp}\n`);
+  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\nThis packet requests the statewide Kentucky expungement certification; it is not the later circuit-court expungement application. Mail AOC-RU-009 with the $40 check or money order to the AOC Records Unit at 1001 Vandalay Drive, Frankfort, Kentucky 40601, or use the official AOC record-request portal at ${PORTAL_URL}. ${track.rules.feeWaiver} Once received, use the certification with the later circuit-court filing within 30 days.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. Eight of them used to be written as zeros, which reported a clean measurement that had never been taken.", artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
