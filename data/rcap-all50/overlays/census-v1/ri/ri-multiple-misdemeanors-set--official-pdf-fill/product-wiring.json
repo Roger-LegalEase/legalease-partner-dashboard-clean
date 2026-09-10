@@ -54,14 +54,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34297296663",
-      "jobId": "102297334414",
-      "artifactId": null,
-      "boundToCanonicalSha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
@@ -75,7 +68,22 @@
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "replacedByCanonicalSha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34297296663",
+          "jobId": "102297334414",
+          "artifactId": null,
+          "boundToCanonicalSha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -88,7 +96,7 @@
         "order": 1,
         "documentId": "ri_multiple_misdemeanors-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "sha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
         "requirement": "required"
       },
       {
@@ -97,7 +105,7 @@
         "order": 2,
         "documentId": "ri_multiple_misdemeanors-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "sha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
         "requirement": "required"
       },
       {
@@ -106,7 +114,7 @@
         "order": 3,
         "documentId": "ri_multiple_misdemeanors-notice-package-3",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "sha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
         "requirement": "required"
       },
       {
@@ -115,7 +123,7 @@
         "order": 4,
         "documentId": "ri_multiple_misdemeanors-filing-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "sha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
         "requirement": "required"
       },
       {
@@ -124,7 +132,7 @@
         "order": 5,
         "documentId": "ri_multiple_misdemeanors-certified-copy-delivery-checklist-5",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+        "sha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
         "requirement": "required"
       }
     ]
