@@ -706,6 +706,109 @@ function normalAppearanceRefForFlatten(pdfDoc, field, widget) {
 }
 
 /**
+ * A WIDGET RECTANGLE STORED UPSIDE DOWN, AND AN APPEARANCE STAMPED A BOX HIGH.
+ *
+ * ISO 32000-1 7.9.5 is explicit that a rectangle array is NOT required to be
+ * written lower-left-then-upper-right: "although rectangles are conventionally
+ * specified by their lower-left and upper-right corners, it is acceptable to
+ * specify any two diagonally opposite corners", and a consumer "shall normalise
+ * such rectangles in situ" before using them. A widget whose /Rect is written
+ * [x1 y1 x2 y2] with y2 < y1 is therefore a WELL-FORMED widget, and every
+ * conforming viewer draws it in the box between y2 and y1.
+ *
+ * pdf-lib normalises nothing. PDFAcroField.getRectangle() returns
+ * { x: x1, y: y1, width: x2-x1, height: y2-y1 }, so on an inverted rectangle
+ * `y` is the TOP edge and `height` is negative; PDFForm.flatten() then emits
+ *
+ *     q  1 0 0 1 x1 y1 cm  /FlatWidget Do  Q
+ *
+ * and the appearance is painted from the top edge upward -- exactly one box
+ * height above where the form draws it.
+ *
+ * Alabama's CR-65 is the measured case. Page 3 check box `Check Box10.2` carries
+ * /Rect [45.317 623.137 56.5341 608.779] -- the only inverted rectangle among
+ * that form's 108 widgets -- and its unticked /N /Off appearance is
+ * `1 g / 0 0 11.2171 14.3578 re / f`, a WHITE FILLED RECTANGLE. Flattened at
+ * 623.137 instead of 608.779 it lands 14.3578pt high, over the running text of
+ * the first eligibility ground, and paints out the word "expired" in
+ * "expired or the prosecuting agency confirms that the charge or charges will
+ * not be refiled."
+ *
+ * NO COUNTER CAN SEE IT, and that is why it survived. The appearance draws no
+ * glyphs, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is honestly zero; and
+ * the stream is byte-identical to the form's own /AP, so stroke-only source
+ * accounting returns MATCHED. Only a directional raster difference against a
+ * render of the pinned source finds it.
+ *
+ * This normalises the rectangle in situ, which is what 7.9.5 asks a consumer to
+ * do, and it is the single fix at cause: every later step -- the appearance
+ * regeneration, the 12.5.5 fit, and flatten's own translate -- reads the widget
+ * rectangle back through the same accessor, so correcting the stored array
+ * corrects all of them at once. In particular fitAppearanceStreamsToRect
+ * computes its mapping against a NORMALISED rectangle while flatten prepends the
+ * RAW origin; on an inverted rectangle those two disagree by the box height, and
+ * normalising first is what makes them agree.
+ *
+ * It is not a substitute for the 12.5.5 fit and does not overlap it. Measured on
+ * CR-65: fitAppearanceStreamsToRect corrects four appearances and `Check Box10.2`
+ * is not among them, because that widget's BBox already maps onto its rectangle
+ * with an identity mapping. The two defects are independent.
+ *
+ * A rectangle already written lower-left-then-upper-right is left alone, byte
+ * for byte.
+ *
+ * Opt-in, on the same reasoning as the options above: the families sharing this
+ * module are rebuilt by different workers at different times, and a repair lane
+ * holding one family does not get to decide what the others' next rebuild
+ * produces. Every caller that does not pass this keeps the bytes it has.
+ *
+ * CAPTAIN DECISION: like fitAppearancesToRect, this implements a clause of the
+ * specification rather than a judgement about ink, and should not stay opt-in a
+ * day longer than the corpus needs to be rebuilt together. Two inverted
+ * rectangles were found in the pinned sources the fleet binds; the population is
+ * small, but a white box over a statutory ground is not a small defect.
+ */
+export function normalizeInvertedWidgetRectangles(pdfDoc, form) {
+  const report = { widgetsExamined: 0, normalized: [], normalizedCount: 0, malformedRectangles: 0 };
+  for (const field of form.getFields()) {
+    const name = field.getName();
+    for (const widget of field.acroField.getWidgets()) {
+      report.widgetsExamined += 1;
+      const array = pdfDoc.context.lookup(widget.dict.get(PDFName.of("Rect")));
+      if (!(array instanceof PDFArray) || array.size() !== 4) { report.malformedRectangles += 1; continue; }
+      const values = [];
+      for (let index = 0; index < 4; index += 1) {
+        const entry = pdfDoc.context.lookup(array.get(index));
+        if (!(entry instanceof PDFNumber)) { values.length = 0; break; }
+        values.push(entry.asNumber());
+      }
+      if (values.length !== 4) { report.malformedRectangles += 1; continue; }
+      const [x1, y1, x2, y2] = values;
+      const xInverted = x2 < x1;
+      const yInverted = y2 < y1;
+      if (!xInverted && !yInverted) continue;
+      const normalized = [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)];
+      widget.dict.set(PDFName.of("Rect"), pdfDoc.context.obj(normalized));
+      report.normalized.push({
+        field: name,
+        rectBefore: values,
+        rectAfter: normalized,
+        xInverted,
+        yInverted,
+        // What flatten() would have translated by, and what it will translate by
+        // now. The difference is the misplacement this removes.
+        placementOriginBefore: { x: x1, y: y1 },
+        placementOriginAfter: { x: normalized[0], y: normalized[1] },
+        misplacementPoints: { x: Number((x1 - normalized[0]).toFixed(4)), y: Number((y1 - normalized[1]).toFixed(4)) },
+        reason: "widget /Rect is written with diagonally opposite corners in the inverted order, which ISO 32000-1 7.9.5 permits and requires a consumer to normalise in situ; pdf-lib places the flattened appearance from the raw first corner instead"
+      });
+    }
+  }
+  report.normalizedCount = report.normalized.length;
+  return report;
+}
+
+/**
  * APPLIES THE BBox-TO-Rect MAPPING ISO 32000-1 12.5.5 REQUIRES, WHICH pdf-lib's
  * flatten() DOES NOT.
  *
@@ -1339,6 +1442,24 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    */
   fitAppearancesToRect = false,
   /*
+   * Whether a widget whose /Rect is stored with its corners in the inverted
+   * order is normalised in situ before anything reads it.
+   *
+   * ISO 32000-1 7.9.5 permits either corner order and requires a consumer to
+   * normalise; pdf-lib normalises nothing and flatten() places the appearance
+   * from the raw first corner, so an inverted rectangle stamps its appearance
+   * exactly one box height (or one box width) away from the control it draws.
+   *
+   * Off by default and deliberately, on exactly the reasoning the options above
+   * give: the families sharing this module are rebuilt by different workers at
+   * different times, and a repair lane holding one family does not get to
+   * decide what the others' next rebuild produces. A caller that does not pass
+   * this keeps the bytes it has, to the byte -- and so does a form whose every
+   * rectangle is already written lower-left-then-upper-right, even when it is
+   * passed. See normalizeInvertedWidgetRectangles for the measured case.
+   */
+  normalizeInvertedWidgetRects = false,
+  /*
    * Whether a widget belonging to a field this run did NOT write is stopped
    * from acquiring a border and background pdf-lib synthesises from its
    * `/MK /BC` and `/MK /BG` -- by keeping the silent appearance the source
@@ -1406,6 +1527,14 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
     // the field count decides.
     const fieldCount = form.getFields().length;
     if (fieldCount > 0) {
+      // FIRST, before any other step reads a widget rectangle: appearance
+      // regeneration, the 12.5.5 fit and flatten's own translate all resolve the
+      // rectangle through the same accessor, so a rectangle corrected here is
+      // corrected for every one of them. Correcting it later would leave each of
+      // those steps to disagree about where the widget is.
+      if (normalizeInvertedWidgetRects) {
+        report.invertedWidgetRectanglesNormalized = normalizeInvertedWidgetRectangles(pdfDoc, form);
+      }
       report.defaultAppearancesRepaired = ensureDefaultAppearances(form);
       // Before appearances are generated, not after: pdf-lib builds the
       // background rectangle into the stream it generates, so removing the
