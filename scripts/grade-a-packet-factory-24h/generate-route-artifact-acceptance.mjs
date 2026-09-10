@@ -185,7 +185,7 @@ for (const c of completeness.results) {
       pending: true,
       whyThisLaneMayNotClose: c.familyAssemblyIsRouteArtifact
         ? "The family and route bytes are identical, but this lane only proved that scope equivalence. It did not independently re-read the route under the fifteen obligations, so the existing family verdict is cited as upstream evidence and not silently promoted into a new route verdict."
-        : "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
+        : "This generator assembles existing route measurements; it does not independently assess the fifteen obligations or close their verification record. Applicable independent evidence must be consumed through its own review path.",
       verdictVocabulary: ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"],
       measureTheseFifteenRouteScoped: FIFTEEN,
       readThese: [
