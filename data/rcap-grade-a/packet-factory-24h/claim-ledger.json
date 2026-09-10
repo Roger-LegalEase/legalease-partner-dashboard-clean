@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "24471379bdcc98e5aa8f551b627641ec94a4be32",
+  "generatedAtCommit": "02ee4f1a11127cdcf79c9d087dc8314f6fc2f372",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -9917,6 +9917,21 @@
         "wi_exp_cr266-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF33",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wi_exp_cr266-set",
+      "itemId": null,
+      "familyId": "wi_exp_cr266-set",
+      "familyIds": [
+        "wi_exp_cr266-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF25",
       "laneKind": "packet-build",
@@ -14492,24 +14507,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wi_exp_cr266-set",
-      "itemId": null,
-      "familyId": "wi_exp_cr266-set",
-      "familyIds": [
-        "wi_exp_cr266-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF33",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "3aa1e2152431cc54cfa211c2568b6753537a100c51d66eec01c3097bdd4e22a7",
+  "claimsDigest": "df454445d188df8a2764d0c2782cbd29066bfb955ee599663d5c725870b9dffa",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
