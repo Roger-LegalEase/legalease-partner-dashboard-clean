@@ -1,0 +1,307 @@
+{
+  "lane": "VF25",
+  "laneKind": "independent-verification",
+  "shift": "packet-factory-24h",
+  "verifiedAtBase": "c569a2f75f5af3141904bc0f67633968c81ac71f",
+  "branch": "lane-fixa-20260910",
+  "worktree": "/home/user/fixa-worktree",
+  "assignedFamilies": [
+    "vt_seal_nonconviction-set"
+  ],
+  "claimsAsserted": {
+    "granted": [
+      "vt_seal_nonconviction-set"
+    ],
+    "refused": [],
+    "grantSet": "f7823562c29b2093"
+  },
+  "packetsRepairedByThisLane": 0,
+  "packetsSelfVerified": 0,
+  "builderRun": false,
+  "productionTouched": false,
+  "centralManifestsTouched": [],
+  "supersedes": {
+    "priorRow": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json",
+    "what": "That row listed vt_seal_nonconviction-set under notThisLanes and never ran the disclosure-collision query against it. This row is the first VF25 read of this family and it is an independent read at a later base.",
+    "priorTerminalState": "COMPLETE_PACKET_PROVEN on a live RASTER_PASS from run 34439698619. This row is a downward correction on accurate evidence and does not disturb the raster receipt; see rasterReceiptStillBinds."
+  },
+  "grantsNothing": "An independent verification proves or disproves a packet against its own controlling records. It approves no output, promotes no route, opens no commercial path and is not a raster receipt. A FAIL here retires no asset and authorizes no repair by this lane; dispatch is the Captain's.",
+  "sourceRenderMethod": {
+    "engine": "pdftoppm, Poppler 24.02.0",
+    "invocation": "pdftoppm -r 150 -gray -png -f <page> -l <page> <pdf> <prefix>",
+    "resolutionDpi": 150,
+    "greyThreshold": "a pixel counts as ink at grey <= 200 on the 8-bit grey channel (0 = black, 255 = white). Every pixel count in this row is at 150 dpi and that threshold unless the line says otherwise.",
+    "annotationsDrawn": "WITH ANNOTATIONS. -hide-annotations was never passed on any measuring render. It was passed exactly twice, both times as the control arm of the positive control below, never on a page whose ink was being counted.",
+    "positiveControlBecauseAZeroIsAmbiguous": {
+      "whyItWasNeeded": "The pinned 200-00130 page 1 rendered identically with and without -hide-annotations: 107739 ink px both ways, delta 0. That zero is exactly the ambiguous case - it can mean 'nothing painted' or 'the reader is blind to widget appearances'. It was not trusted.",
+      "howItWasResolved": "A control artifact was built in the scratchpad with pdf-lib: a copy of the pinned 200-00130 with text set into field '1', updateFieldAppearances() called and the document deliberately NOT flattened, so the ink lives only in the widget /AP /N. Rendered both ways on the same page, same dpi, same threshold: 107739 ink px with -hide-annotations against 110659 with annotations, onlyB = 2920 added px in 6 bands, the largest being y[521..536] x[154..457] px = the value set into field 1, the other five being checkbox widget appearances.",
+      "conclusion": "This reader draws widget /AP /N ink on this exact page at this dpi and threshold. The blank-source zero was 'nothing painted', not blindness. Every zero reported below is therefore a measured zero.",
+      "andTheDeliveredSideHasNoWidgetsAtAll": "pdfinfo reports Form: none on both delivered fixtures. Every mark on a delivered page is content-stream ink, so the annotation question only ever arose on the source side, where the control above settles it.",
+      "controlArtifactDisposition": "written to the scratchpad, measured, deleted. The family was never touched."
+    }
+  },
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "c569a2f75f5af3141904bc0f67633968c81ac71f",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+
+      "measuredDigests": {
+        "canonicalSha256": "951d18666bcfd19d917c88a1604214696f1340cb49d8a55a75a3646688005967",
+        "boundarySha256": "c97b47dfbde20fdfe935a56d37280dd9e8a4c9ba03611cd609b3b6deaadb6fb5",
+        "canonicalBytes": 861533,
+        "boundaryBytes": 861900,
+        "measuredWith": "sha256sum on the working-tree fixture bytes AND, independently, sha256 over `git show HEAD:<path>` for every file under fixtures/. The two agree on all eight fixture files and `git status --porcelain` on the family directory is empty, so the bytes measured are the bytes committed at this base.",
+        "digestsMovedSinceTheRasterReceipt": false,
+        "allEightFixtureFiles": {
+          "canonical.pdf": "951d18666bcfd19d917c88a1604214696f1340cb49d8a55a75a3646688005967",
+          "boundary.pdf": "c97b47dfbde20fdfe935a56d37280dd9e8a4c9ba03611cd609b3b6deaadb6fb5",
+          "canonical--200-00130.pdf": "c59b8753bc34fe899ba7cd643a5b9d53a426ff46ebd6dc14f851c6ebc53ef0f2",
+          "canonical--200-00132.pdf": "10d9adde949dba683f46e8638b77c2b1abae7d323003d186cc533b5b789f1d29",
+          "canonical--600-00228.pdf": "1154b317e5ab6f6aebd3dda18d136ae256111582fc2212edf55c32c6dc9a242d",
+          "boundary--200-00130.pdf": "6720e4647b5b1905131aa70001b37aa525548103f1ed63f0770ad66b3f4a4d85",
+          "boundary--200-00132.pdf": "e108d33e4fe5789e145c2ed9f1b9ea5b420b5c2a85c59cf697b0c3d6f9d47401",
+          "boundary--600-00228.pdf": "1154b317e5ab6f6aebd3dda18d136ae256111582fc2212edf55c32c6dc9a242d"
+        },
+        "noteOnTheIdenticalFeeWaiverDigest": "canonical--600-00228.pdf and boundary--600-00228.pdf carry the SAME digest, 1154b317..., in both fixtures. That is the correct result for a form the packet writes nothing on: the fixture that varies the participant facts cannot vary a document that carries none.",
+        "pageCount": 9,
+        "pageOrderRead": "p1-2 200-00130 petition, p3-4 200-00132 stipulation + order, p5-6 600-00228 fee waiver (delivered blank), p7-8 composed PROCESS GUIDANCE, p9 composed INTERESTS-OF-JUSTICE PROMPTS"
+      },
+
+      "rasterReceiptStillBinds": {
+        "question": "Whether the existing RASTER_PASS from run 34439698619 still binds the bytes this row failed.",
+        "answer": "Yes. Both delivered digests are unmoved and identical to the values declared in reports/rendered-artifacts.json, re-measured here from the committed blobs. All 18 committed raster PNGs re-hash to their declared sha256 (18 declared, 18 on disk, 0 mismatched, 0 missing). No fresh raster is owed by this FAIL.",
+        "whyThatFollows": "The defect this row fails on is not in the PDF bytes at all. It is in participant-instructions.md, a sibling artifact the raster never covered. Nothing this row found would change a single rendered pixel.",
+        "andSoTheRepairShouldNotMoveThem": "A repair confined to the disclosure list should leave both PDF digests and all 18 raster digests exactly where they are, as FIX05 achieved on vt_exp_decriminalized-set. A repair that moves them has done more than the finding asks for."
+      },
+
+      "theCollisionCountEstablished": {
+        "theNumber": 15,
+        "againstWhichArtifact": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md, at this base, counting across BOTH tables headed `| Page | The blank on the form | What to write |` - the one under `### 200-00130` and the one under `### 200-00132`.",
+        "howCounted": "Parsed the file, collected every row of every table under that exact header, keyed each row by (form section, page, column-2 text), and counted a colliding group as one key holding more than one row. 46 items, 15 colliding groups, 0 disambiguators in column 2.",
+        "reconcilingTheTwoPriorMeasurements": {
+          "FIX05_reported_15": "Correct at family scope. 15 is the count across both forms and both tables, and it is the number this row independently establishes.",
+          "captain_reported_9_of_28": "Correct arithmetic on a narrower slice. 28 items and 9 colliding groups is exactly the FIRST table alone, the one under `### 200-00130`. The second table, 18 items under `### 200-00132`, contributes the other 6 groups and was not in that count. 28 + 18 = 46 and 9 + 6 = 15.",
+          "soNeitherIsWrong": "Neither measurement was wrong; they were taken at different scopes and neither scope was stated with the number. The family-scope figure is 15.",
+          "andTheCaptainsSiblingFigures": "The captain's '30 items' for the other Vermont families is likewise a first-table-only figure. At family scope, parsed the same way at the same base: vt-exp-decriminalized-set 48 items / 0 colliding, and each of vt-seal-18-to-21, -dui, -felony, -misdemeanor, -pardon 112 items / 0 colliding across 3 tables. vt-exp-deferred-sentence-set and vt-seal-under-25-set are custom_pleading families and carry no table under this header, so the Vermont set is nine families, of which seven carry one, and this is the only one of the seven that collides."
+        },
+        "theFifteenGroups": [
+          "200-00130 p1 'Description of Offense' x3",
+          "200-00130 p1 'Year' x3",
+          "200-00130 p1 'Docket Number (If Any)' x3",
+          "200-00130 p1 'Offense (new charges since)' x3",
+          "200-00130 p1 'Date of Offense (new charges since)' x3",
+          "200-00130 p1 'Date of Charge (new charges since)' x3",
+          "200-00130 p1 'Date of Conviction (new charges since)' x3",
+          "200-00130 p2 'State Agency (other state entities to notify)' x2",
+          "200-00130 p2 'Address (other state entities to notify)' x2",
+          "200-00132 p1 'Description of Offense' x3",
+          "200-00132 p1 'Date of Offense' x3",
+          "200-00132 p1 'Incident Number' x3",
+          "200-00132 p1 'Docket Number (if any)' x3",
+          "200-00132 p1 'Address (other state entities to notify)' x2",
+          "200-00132 p1 'State Agency (other state entities to notify)' x2"
+        ],
+        "aFinerNumberThatMattersMore": {
+          "why": "Column 2 is not all the participant reads. Column 3 carries an ordinal on many rows ('the description of the first offence'), and where every member of a colliding group carries a DISTINCT ordinal there, the group is resolved for a reader who reads across. Counting only column 2 overstates the harm; ignoring column 2 understates it. So both were measured.",
+          "collidingGroupsOnColumn2": 15,
+          "groupsFullyRESOLVEDByColumn3": 7,
+          "groupsSTILLAMBIGUOUSAfterReadingAllThreeColumns": 8,
+          "rowsInsideThoseStillAmbiguousGroups": 20,
+          "whyTheEightDoNotResolve": "In every one of the eight, the FIRST member carries no ordinal at all while its siblings carry 'second' and 'third'. The reader is left to infer that the unmarked row is the first - e.g. 'any new offence since the offence in question 1' / 'a second new offence...' / 'a third new offence...', and 'the name of any other state agency the court should notify' / 'a second agency the court should notify'.",
+          "theEight": [
+            "200-00130 p1 'Offense (new charges since)' x3",
+            "200-00130 p1 'Date of Offense (new charges since)' x3",
+            "200-00130 p1 'Date of Charge (new charges since)' x3",
+            "200-00130 p1 'Date of Conviction (new charges since)' x3",
+            "200-00130 p2 'State Agency (other state entities to notify)' x2",
+            "200-00130 p2 'Address (other state entities to notify)' x2",
+            "200-00132 p1 'Address (other state entities to notify)' x2",
+            "200-00132 p1 'State Agency (other state entities to notify)' x2"
+          ]
+        }
+      },
+
+      "whyThisFails": {
+        "theDefect": "The delivered participant item list discloses 46 blanks, and 15 groups of them are named by a caption that names more than one blank on the same form and the same page, with nothing in the naming column to tell them apart. 8 of those groups stay ambiguous even after reading the third column. The list is the only thing that tells a participant which blank on a printed form to write in, and for 20 of its 46 rows it does not do that.",
+        "sameConditionAsTheSiblingThisLaneAlreadyFailed": "VF25 failed vt_exp_decriminalized-set on REQUIRED_BEFORE_FILING for this exact condition at base cf4c808019d9812dff5d3ea1523dc9c500157d33 (row: data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json). FIX05 has since repaired that family to 0. The same condition cannot be a FAIL on one Vermont family and invisible on another.",
+        "whyItSurvivedHere": "FIX130 scoped its repair with an opt-in Set inside scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, the host that builds the five families now reading 0. This family has its own host, scripts/build-census-v1-vt_seal_nonconviction-set.mjs (named in build-status.json), and was never reached.",
+        "theFormItselfPrintsTheDisambiguatorOnOneOfTheTwoForms": "Rendered the delivered canonical page 1 and read it: the question-1 charge table on 200-00130 prints '1.', '2.' and '3.' down its left margin, one per row. The committed field map already carries those printed numbers - production-field-map.json requiredBeforeFiling gives printedContext '1.' for fields 1/2/3, '2.' for 4/5/6 and '3.' for 7/8/9. The form offers a printed distinguisher for nine of these blanks, the map has already read it out of the pinned binary, and the delivered list drops it.",
+        "andTheMapCarriesAUniqueIdentityForEveryRow": "Every requiredBeforeFiling entry already carries a unique `identity` ('200-00130 field 26@p1y127') and its own `y` read from the pinned binary. All 46 identities are distinct. The disambiguating data is present in the committed map and is discarded at render time. This is a rendering defect, not a mapping defect - which is why no counter over the map can see it.",
+        "whatARepairWouldNeedToDo": "Carry into column 2 what the map already holds: the printed row number where the form prints one (200-00130 question 1), and the row position where it does not (200-00130 question 3, and the 200-00132 offence table, which prints three ruled rows and numbers none of them). This is the shape of repair FIX05 applied to the sibling, and it should move no PDF byte."
+      },
+
+      "aSecondFindingInTheSameArtifact": {
+        "name": "Two rows of the 200-00132 table are emitted in reverse reading order, so a demonstrative precedes its antecedent",
+        "whatTheDeliveredPageSays": "In the `### 200-00132` table the row 'Address (other state entities to notify) | that agency's address' is printed ABOVE 'State Agency (other state entities to notify) | the name of any other state agency the court should notify, if you know of one'. It happens twice, for both rows of that block. A participant reading down the list meets 'that agency's address' before any agency has been named.",
+        "measuredCause": "The list is ordered by descending y and ignores x. On 200-00132 page 1 the two blanks of each notify row sit on ONE printed line: State Agency at x=53.17 y=356.30 and Address at x=254.61 y=356.35 - 0.05 pt apart in y, and the right-hand blank sorts first. The second pair is State Agency x=53.97 y=340.06 and Address x=254.30 y=341.28, 1.22 pt apart, and flips the same way.",
+        "whyTheOtherFormIsFine": "The identical block on 200-00130 page 2 has State Agency at y=565.62 and Address at y=563.66 - 1.96 pt apart, enough for the y-sort to land them in printed order. So the defect is not systemic ordering; it is a tie-break failure that appears only where two side-by-side blanks are within about 1.2 pt of each other.",
+        "confirmedVisually": "Rendered boundary page 3 and read it. The form prints the 'State Agency' column heading on the left and 'Address' on the right, exactly as the rects say. The delivered list reverses them.",
+        "scope": "4 of the 46 rows. It is recorded here rather than as a separate failed obligation because it is the same artifact and the same rendering step as the failure above, and a repair to that step should fix both."
+      },
+
+      "whatIsCorrectOnThisFamily": {
+        "theDeliveredPDFsAreClean": "Every measurement made on the delivered bytes passed. The failure is confined to one markdown artifact.",
+        "highlights": [
+          "The fee-waiver form 600-00228 really is delivered blank. Zero added ink on both its pages in BOTH fixtures at 150 dpi / grey<=200, and its extracted text is byte-identical to the published source. The instructions' claim that the platform wrote nothing on it is true as measured, not merely asserted.",
+          "The proposed-order page (packet page 4) carries zero added ink in both fixtures. No judicial finding, no clerk assignment, no prosecutor act was written.",
+          "Every signature line and every date-of-signature line is blank in both fixtures, on all three forms, confirmed both by refusal classification and by looking at the rendered page.",
+          "Exactly one of the twenty checkboxes is marked, it is the one the route determines ('I was not convicted for the offenses listed above.'), it carries a stated reason, and the two diagonal strokes land strictly inside the court's own box without redrawing it.",
+          "The interests-of-justice prompts page asks eight questions and drafts nothing. No example statement, no suggested ground, no sentence a participant could sign."
+        ]
+      },
+
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": "familyId, packetSetId and trackId agree across five committed records read independently: production-field-map.json, source-receipt.json, build-status.json, data/record-clearing/legal-design-packet-set-manifests.json packetSets[455] (packetSetId vt_seal_nonconviction-set, trackId vt_seal_nonconviction, jurisdiction VT) and data/record-clearing/legal-design-track-registry.json tracks[455]. routeSelectionId vt-seal-nonconviction-200-00130-complete-set; statute 13 V.S.A. Sec. 7603. Three routeKeys are declared and the registry carries the same three unitIds (vt-nonconviction-automatic-and-verification, -stipulated-petition, -ordinary-petition). generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, approvedForLive false, live false, buildStatus state_built, reviewStatus qa_review_pending."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": "The corpus is present in this worktree, so this was measured rather than deferred. All three declared sources re-hashed by me with sha256sum at their exact archive paths under private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1: 200-00130 ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes), 200-00132 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317), 600-00228 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072). All three match source-receipt.json exactly on digest AND byte length. No substitution and no similarly-named neighbour."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": "The packet-set manifest declares five components. All five reach a page and each page's identity was confirmed by reading the page's own printed footer rather than by trusting the report: 200-00130 pages 1-2, 200-00132 pages 3-4, 600-00228 pages 5-6, composed PROCESS GUIDANCE pages 7-8, composed INTERESTS-OF-JUSTICE PROMPTS page 9. The one component the manifest marks `required`, automatic_sealing_verification_guidance, is carried by section 3 of the guidance page ('THE ROUTE THAT FILES NOTHING'), which I read: it states the 60-day Sec. 7603(a)(1) clock, its three triggers, the interests-of-justice objection that converts it to a Sec. 7603(b) hearing, and Form 200-00331 as how the participant checks. It is substantive, not a placeholder."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": "Eight writes on 200-00130 and eight on 200-00132 in each fixture, zero on 600-00228. Every value was read back out of the delivered bytes with pdftotext and matched in full: canonical 'Jordan Avery Reyes' x4, '1991-04-17' x2, '123-4-21 Cncr' x2, '42 Maple Street' x2, 'Burlington, VT 05401' x2, '802-555-0142' x2, 'jordan.reyes@example.org' x2; boundary the same seven slots with its long values, including the 58-character email in full. Diffing the delivered text layer against the pinned source text yields ONLY those declared values - no added string is unaccounted for in either direction. No refusal on any of the three forms carries a factId that went unwritten (0 on 200-00130, 0 on 200-00132, 0 on 600-00228), so there is no fact the platform holds that a form asks for and the packet left blank."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": "Across all twelve delivered-vs-source page comparisons (6 pages x 2 fixtures) the count of source ink present in the source and ABSENT from the delivered page is 0. Nothing the court printed was overpainted, erased or displaced; every difference is additive. Packet page 4, the proposed order, shows 0 added ink in both fixtures. Six widgets are classified signature_or_date_participant_completion (200-00130 fields 37, 37a; 200-00132 34b, 34c; 600-00228 two more) and three court_prosecutor_clerk_or_agency_owned (200-00132 34j, 34k, 34l - the State's Attorney's date, signature and printed name), all refused with a stated reason and all confirmed blank by looking at the rendered page. No signature, no date of signature, no notarization, no returned record, no prosecutor act, no clerk assignment and no judicial finding is written anywhere in either fixture."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": "Every band of added ink lies inside the declared /Rect of the field it belongs to. The boundary fixture is the hard case and it holds: on 200-00132 the printed-name band reaches x=1170 px against a field edge at 1188 px, and the merged address/phone/email band reaches x=1172 px against the same edge; page width is 1275 px and nothing approaches it. The long values are shrunk to fit rather than clipped, and pdftotext returns all of them complete - the 58-character email and the 44-character street address are present in full in the delivered bytes and visible in the render. Removed-ink is 0 on every page of both fixtures, so no written value sits on top of printed text in a way that destroys it. The one route mark occupies x 56.6-67.7 pt, y 294.2-305.3 pt, strictly inside the court's printed box at x 55.11-69.51, y 292.33-306.73, consistent with the declared inset of 2, and the box outline itself is unchanged."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": "The instructions carry six stop conditions and they match data/record-clearing/legal-design-track-registry.json tracks[455].selfHelpStopConditions one for one, in the registry's own words: the interests-of-justice objection converting to a Sec. 7603(b) hearing, prosecutor opposition or a scheduled hearing, any pending charge anywhere, an unclear Sec. 7603(a)(1) trigger, expecting expungement rather than sealing (Act 60 having repealed the no-conviction expungement routes), and immigration consequences. A scheduled hearing is named as the point where the packet's self-help ends, and immigration is given its own paragraph telling a non-citizen to ask an immigration lawyer before filing."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": "The instructions send the participant to the Vermont Superior Court, Criminal Division, in the unit where the case was decided, which matches the registry's venue and destination.detail. The Unit blank is disclosed as a participant supply on both forms, and the instructions tell a participant who does not know the unit that the docket number identifies it and any clerk can read it. Observation, not a failure: the heading says 'File the completed packet', while three of the five delivered components are not filed - the fee waiver, the guidance page and the prompts page. The document disambiguates each of the three later, and the prompts page says of itself that it 'is not filed and is not part of what the court reads'."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": "The participant serves no process. The instructions and the guidance page both say so and both give the mechanism: on the petition route the court provides a copy to the prosecutor; on the stipulated route the participant takes or sends the signed stipulation to the prosecuting office and the prosecutor signs and files it. That matches the registry. There is no service step the packet asks the participant to perform and none it omits.",
+          "openLegalQuestionRecordedNotResolved": "The committed registry carries a release blocker on affectedElement notice_or_service: whether victims receive notice on the Sec. 7603(a)(1) court-initiated route, since 13 V.S.A. Sec. 7608 requires the respondent to notify a known victim at the time a petition is filed and by its terms that duty does not attach where no petition is filed. The packet's participant-facing text does not mention victim notice on any route. That is not a misstatement of the participant's own service obligation - the duty, where it attaches, is the respondent's - so it does not fail this obligation. It is recorded here because the participant filing a petition is the case where the registry reads the duty as attaching, and what the participant is told to expect is a counsel question already open in the record."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": "46 items disclosed across two tables in participant-instructions.md. Grouping by (form, page, column-2 caption) yields 15 groups holding more than one row and 0 disambiguators in that column. Reading column 3 as well resolves 7 of the 15; 8 groups covering 20 of the 46 rows remain ambiguous on the whole delivered page, because in each of the eight the first member carries no ordinal while its siblings carry 'second' and 'third'. Three blanks are each disclosed as 'Description of Offense', three as 'Year', three as 'Docket Number (If Any)' and so on, with nothing to tell them apart. The disambiguating data exists in the committed field map and is discarded at render time: every requiredBeforeFiling entry already carries a distinct `identity` and its own pinned-binary `y`, and for nine of these blanks the map already carries the row number the form itself prints ('1.', '2.', '3.'). Separately, four rows of the 200-00132 table are emitted in reverse reading order, printing 'that agency's address' above the row that names the agency. See theCollisionCountEstablished and aSecondFindingInTheSameArtifact."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": "Both delivered packet PDFs re-hashed and matched reports/rendered-artifacts.json on digest and byte length. All 18 committed raster PNGs re-hashed: 18 declared, 18 present on disk, 18 matching, 0 mismatched, 0 missing. Every file the reports claim exists, exists and carries the bytes claimed. The six per-form fixtures are present and consistent, including the identical fee-waiver digest across both fixtures noted above."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": "Each of packet pages 1-6 was rendered against its declared source page and matched as the same page - added ink only, removed ink 0 - so the page manifest's claim about which source page sits where is verified by pixels rather than trusted: p1-p2 are 200-00130 pages 1-2, p3-p4 are 200-00132 pages 1-2, p5-p6 are 600-00228 pages 1-2. Pages 7-9 were read as text and are the declared composed components in the declared order: PROCESS GUIDANCE over two pages, then INTERESTS-OF-JUSTICE PROMPTS. Nine pages, matching the declared pageCount, in both fixtures."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": "The three sources carry 20 checkbox widgets in total (12 + 2 + 6, enumerated from the pinned binaries with pdf-lib). Exactly one is marked: 200-00130 field 18, 'I was not convicted for the offenses listed above.', with a stated route reason, and it is the one answer the route legitimately determines for a non-conviction sealing family. The other 19 are left to the participant. All 20 appear in the instructions' checkbox table with the words printed beside them and an instruction for each, and the count of table rows is 20, matching. The three Sec. 7603(a)(1) endings are explicitly left to the participant with 'tick only one', and the instructions say in terms which part the route decided and which it did not. No participant fact, consent or election is asserted on their behalf."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": "Every row of every repeater is enumerated, none silently dropped. 200-00130: 3 of 3 charge rows (fields 1-9), 3 of 3 new-charge rows (22-33), 2 of 2 notify rows. 200-00132: 3 of 3 offence rows (22-33) and 2 of 2 notify rows. I first misread the rendered stipulation as printing only two offence rows and measured it rather than reporting the eyeball: scanning the pinned 200-00132 page 1 at 150 dpi for horizontal dark runs across each column's x-range finds THREE printed rules, at pdf y 564.5, 549.6 and 534.7, one under each of the three widget rows at y 562.08, 547.88 and 534.15, in all four columns. The third rule is a single pixel where the first two are two, which is why it read as absent at lower resolution. Three rows exist and three are enumerated. The labelling of these rows is the failure recorded under REQUIRED_BEFORE_FILING; their enumeration is complete."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": "The packet states there is no filing fee on this track and gives the reasoning from statute: under 32 V.S.A. Sec. 1431(e) the $90 fee reaches only sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a), and this track seals no conviction. Form 600-00228 is carried as a conditional component whose condition componentRequirements records as NOT met, with filingDispositionForThisTrack do_not_file and deliveryTreatment delivered_unfilled. That claim is verified, not accepted: both its pages carry 0 added ink in BOTH fixtures at 150 dpi / grey<=200, and their extracted text is identical to the published source. Its digest is the same in both fixtures. Nothing is written on a form whose page 2 is a sworn financial declaration and which the participant is told not to file, and the instructions say why in the participant's own terms."
+        }
+      },
+
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+
+      "countersHowMeasured": {
+        "everyCounterHereWasMeasured": "No counter in this row is carried over from reports/builder-completeness-counters.json. Each was recomputed independently from the pinned sources and the delivered bytes. They agree with the builder's nine, and the agreement is the result rather than the method.",
+        "knownRequiredFieldsMissing": "0. Every one of the 46 requiredBeforeFiling entries resolves to a real widget in the pinned source it names, and no refusal on any of the three forms carries a factId that went unwritten. There is no field the platform could have filled from held facts and did not.",
+        "requiredFactsNotCollected": "0. The six held facts - legal name, date of birth, street address, city/state/zip, telephone, email - plus the docket number are all written where the forms ask for them, in both fixtures, verified from the delivered text layer.",
+        "unclassifiedBlanks": "0. Enumerated every AcroForm field in all three pinned sources with pdf-lib and checked each against the field map: 200-00130 48 fields / 52 widgets, 200-00132 33 / 33, 600-00228 80 / 80. Source fields absent from the map: 0, 0, 0. Map keys with no field in the source: 0, 0, 0. Every widget is written, disclosed as a participant item, marked as a route selection, or refused with a stated reason.",
+        "incompleteRows": "0. All repeating rows enumerated in full, including the third stipulation offence row whose printed rule I verified by pixel scan rather than by eye. See REPEATING_ROWS.",
+        "requiredOptionsMissing": "0. 20 checkbox widgets in the sources, 20 rows in the delivered checkbox table, 1 marked by the route with a reason, 19 disclosed as the participant's with an instruction each.",
+        "requiredComponentsMissing": "0. Five components declared in the packet-set manifest, five delivered and located on the page, including the one marked required.",
+        "invisibleWrites": "0. Measured two ways, because a write can hide either by being absent from the raster or by being absent from the text layer. First: the delivered text layer was diffed against the pinned source text, and every added string is one of the 16 declared values - there is no text in the delivered bytes that does not appear as ink on the page. Second: every band of added ink found by raster comparison is accounted for by a declared write or the one declared route mark, and no band is unexplained. The zeros on packet pages 4, 5 and 6 are trustworthy because the positive control proved this reader draws widget appearance ink, and because pages 1, 2 and 3 of the same PDF in the same render invocation returned positive deltas.",
+        "protectedWrites": "0. Removed-ink is 0 on all twelve page comparisons, and every signature, date-of-signature, State's Attorney and court-order field is blank in both fixtures by classification and by inspection.",
+        "visualDefects": "0, and the scope of that zero is stated. It counts defects in the 18 rendered packet pages, which is where this counter has been read in this lane's earlier rows, and those pages are clean: nothing clipped, nothing overlapping, nothing outside a field box, the route mark inside the court's box, all long boundary values fitted and legible. The two defects this row records are in participant-instructions.md, a markdown artifact the raster does not cover. They are recorded in whyThisFails and aSecondFindingInTheSameArtifact rather than folded into this counter, so that this row stays comparable with the sibling row that used the same convention."
+      },
+
+      "pixelMeasurements": {
+        "resolutionDpi": 150,
+        "greyThreshold": "grey <= 200 counts as ink, 8-bit grey, 0 = black",
+        "engine": "pdftoppm 24.02.0, -gray -png, WITH ANNOTATIONS on every measuring render",
+        "positiveControl": "live widget /AP /N on pinned 200-00130 p1: 107739 ink px with -hide-annotations vs 110659 with annotations, 2920 added px in 6 bands. The reader is not blind.",
+        "canonicalVsPinnedSource": [
+          { "packetPage": 1, "source": "200-00130 p1", "sourceInk": 107739, "deliveredInk": 110558, "added": 2819, "removed": 0, "bands": 3, "bandsAre": "docket number; defendant name + DOB on one line; the route-selection mark at y[1014..1037] x[118..141], 173 px" },
+          { "packetPage": 2, "source": "200-00130 p2", "sourceInk": 75307, "deliveredInk": 81340, "added": 6033, "removed": 0, "bands": 5, "bandsAre": "the five signature-block supplies: printed name, address, city/state/zip, phone, email, all at x>=678 px" },
+          { "packetPage": 3, "source": "200-00132 p1", "sourceInk": 130320, "deliveredInk": 139004, "added": 8684, "removed": 0, "bands": 5, "bandsAre": "docket; name + DOB; printed name; phone; and one merged band carrying street, city/state/zip and email, which sit within 12 px of each other" },
+          { "packetPage": 4, "source": "200-00132 p2 (the ORDER)", "sourceInk": 34428, "deliveredInk": 34428, "added": 0, "removed": 0, "bands": 0 },
+          { "packetPage": 5, "source": "600-00228 p1", "sourceInk": 124567, "deliveredInk": 124567, "added": 0, "removed": 0, "bands": 0 },
+          { "packetPage": 6, "source": "600-00228 p2", "sourceInk": 91119, "deliveredInk": 91119, "added": 0, "removed": 0, "bands": 0 }
+        ],
+        "boundaryVsPinnedSource": [
+          { "packetPage": 1, "added": 4416, "removed": 0, "bands": 3, "maxAddedX": 1111 },
+          { "packetPage": 2, "added": 10951, "removed": 0, "bands": 5, "maxAddedX": 1117 },
+          { "packetPage": 3, "added": 14190, "removed": 0, "bands": 4, "maxAddedX": 1172 },
+          { "packetPage": 4, "added": 0, "removed": 0, "bands": 0 },
+          { "packetPage": 5, "added": 0, "removed": 0, "bands": 0 },
+          { "packetPage": 6, "added": 0, "removed": 0, "bands": 0 }
+        ],
+        "pageWidthPx": 1275,
+        "clippingHeadroom": "the widest added ink on any page of either fixture is 1172 px, against the nearest field edge at 1188 px and a page edge at 1275 px"
+      },
+
+      "crossChecks": {
+        "builderCountersAgree": "reports/builder-completeness-counters.json reports all nine at 0 with totals terminalFields 169, written 21, blank 148. My independent recomputation agrees on all nine. The builder's own file says a builder verdict is not a verdict; this row is the independent one.",
+        "buildFindingsAreHonest": "build-findings.json names eleven findings including four self-reported prior defects of this same family - a fee-waiver that had been prefilled while the instructions said not to file it, checkboxes declared without their printed captions, routeSelectionsMade declared empty while two diagonals were being drawn and a reason field carrying the literal string 'undefined', and a fifth manifest component that was neither rendered nor dispositioned. None of the eleven mentions the disclosure-label question, which is consistent with FIX130 never having reached this host.",
+        "approvalRequestOpensNothing": "approval-request.json requests visual and counsel review, raises three counsel questions, and records approvedForLive false, live false, commercialRoutesOpened 0.",
+        "vermontSetContext": "Nine Vermont families exist at this base. Seven carry a participant item table under this header; two are custom_pleading and carry none. Of the seven, this is the only one with a colliding group, and it is the only one of the seven whose build host is not build-census-v1-vt_seal_misdemeanor-set.mjs."
+      },
+
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/builder-completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/ (all eight PDFs)",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/ (all eighteen PNGs)",
+        "data/record-clearing/legal-design-packet-set-manifests.json packetSets[455]",
+        "data/record-clearing/legal-design-track-registry.json tracks[455]",
+        "the three pinned sources under private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/",
+        "participant-instructions.md of all eight sibling Vermont families, for the comparative collision count"
+      ],
+
+      "repairedByThisLane": false,
+      "builderRun": false,
+      "recordsEditedByThisLane": "none. The disagreement between the two prior collision counts is recorded above, not corrected in either lane's file.",
+      "grantsNothing": "This FAIL retires nothing, authorizes no repair by this lane, and disturbs no existing raster receipt. The delivered bytes are unmoved and the existing RASTER_PASS still binds them."
+    }
+  ]
+}
