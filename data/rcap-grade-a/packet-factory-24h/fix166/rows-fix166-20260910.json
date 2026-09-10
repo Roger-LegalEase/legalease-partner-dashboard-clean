@@ -1,0 +1,350 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX166",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/fixa-worktree",
+  "branch": "lane-fix166-20260910",
+  "repairedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+  "commits": [
+    {
+      "sha": "4d868f5b5074186c0a11e3a04aaa07684e7059b6",
+      "familyId": "il-seal-3yr-set",
+      "subject": "il-seal-3yr-set publishes what it read, and nothing it did not"
+    },
+    {
+      "sha": "7fc473abce694e9010727c5a6bf60ce0afbb1d4f",
+      "familyId": "il-seal-edu-set",
+      "subject": "il-seal-edu-set stops drawing 91 marks the court does not print, and carries the record it was built from"
+    }
+  ],
+  "grantSet": "0e806ec4bbc24e39. Two --assert calls in the three-token form, both CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 9628eae8c673b7dc7585d6fd3d650e57fd335be7). Released at return.",
+  "actedOnReturns": [
+    "VF58 rows-vf58-20260910.json, the independent verification of all three Illinois sealing families at ee90b3c3a. Its il-seal-2yr-set row (PASS_COMPLETE_INDEPENDENT, 15/15) was the reference implementation for both repairs.",
+    "FIX161, whose unpaid-fines repair this lane left untouched and re-measured, and whose account of WHERE the two statutory cites live this lane corrected in the shared library's own comment.",
+    "FIX118, whose check-box repair this lane ported into the third family.",
+    "FIX06, whose ROUTE_OPTIONS repair this lane ported into the third family."
+  ],
+  "builtAnything": true,
+  "repairsMade": 2,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None under data/rcap-grade-a/packet-factory-24h/ other than fix166/. RASTER_QUEUE.json was NOT edited, although il-seal-edu-set now owes a fresh central raster; that debt is recorded in the family's own product-wiring.json and in this row, and dispatching it is not this lane's to do. The claim ledger was written by --assert and --release only, through scripts/grade-a-packet-factory-24h/claim.mjs. One shared source file outside the two family directories was edited: scripts/lib/il-sealing-unpaid-financial-obligation.mjs, COMMENT ONLY -- a false provenance sentence corrected. Its two sibling builders' output is unaffected and il-seal-3yr-set was rebuilt afterwards to byte-identical fixtures to prove it.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "determinismControlBeforeEditing": "Both builders were run UNMODIFIED at the base before any edit. scripts/build-census-v1-il-seal-3yr-set.mjs reproduced canonical a41c124a... and boundary c8ca8931... exactly; scripts/build-census-v1-il-seal-edu-set.mjs reproduced canonical 1c7dd513... and boundary c20f67df... exactly. `git status --porcelain` was empty after each. Neither builder deletes before it renders in a way that lost a committed file in this lane; nothing had to be restored.",
+  "howBytesWereMeasured": {
+    "pixels": "pdftoppm -r 300 -gray writing binary P5 PGM directly, read by a reader written for this lane; never -png. Ink threshold: grey value < 200. Rect converted to raster space at 300 dpi with a 1pt allowance on every edge, the allowance VF58 published. Scope: named widget /Rect rectangles on delivered page 9 against pinned EXP-AD Order Granting page 2, and whole-page differences on all 13 delivered pages against the four pinned sources page by page.",
+    "positiveControlBeforeEveryZero": "Every zero reported below was read in the SAME RUN as a positive control on the SAME page. At the two judge's boxes the controls are the two declared writes on Order page 2: '3 - Name' read 6,000 added px and '3 - Address' 11,466 on the canonical, 7,303 on the boundary at '3 - Name', both before and after the repair. The negative controls on the same page, \"Judge's Name\" and \"Entered Date\", read 0 before and 0 after. The stroke-only appearance reader was run against the two sibling families as its own control and read 0 on each, against 91 on this family's pre-repair bytes.",
+    "glyphs": "Flattened widget Form XObjects decompressed with pdf-lib's decodePDFRawStream; an appearance counts as inked only when it draws at least one non-whitespace glyph through Tj/TJ. An independent re-implementation of the same reading, written outside the builder, reproduced every figure the builders now publish.",
+    "digests": "sha256sum on the files on disk, before and after every build."
+  },
+  "everyZeroHasAPositiveControl": true,
+  "rasterPixelCounts": {
+    "note": "Read in this lane at 300 dpi, grey<200, as set out above.",
+    "il-seal-edu-set": {
+      "judgeExpungementIsGrantedBoxAddedPxCanonicalBefore": 101,
+      "judgeExpungementIsGrantedBoxAddedPxCanonicalAfter": 0,
+      "judgeExpungementIsGrantedBoxAddedPxBoundaryBefore": 101,
+      "judgeExpungementIsGrantedBoxAddedPxBoundaryAfter": 0,
+      "judgeSealingIsGrantedBoxAddedPxCanonicalBefore": 101,
+      "judgeSealingIsGrantedBoxAddedPxCanonicalAfter": 0,
+      "judgeSealingIsGrantedBoxAddedPxBoundaryBefore": 101,
+      "judgeSealingIsGrantedBoxAddedPxBoundaryAfter": 0,
+      "totalAddedInkCanonicalBefore": 109198,
+      "totalAddedInkCanonicalAfter": 100444,
+      "totalAddedInkBoundaryBefore": 168281,
+      "totalAddedInkBoundaryAfter": 159527,
+      "printedSourceInkLostBefore": 0,
+      "printedSourceInkLostAfter": 0,
+      "pagePairsDifferenced": 26,
+      "pagesPixelIdenticalToSourceBefore": 0,
+      "pagesPixelIdenticalToSourceAfter": 4,
+      "pagesPixelIdenticalToSourceAfterWhich": "delivered pages 2, 3, 11 and 12, the four that declare no write -- which is what both siblings already read",
+      "aDISAGREEMENTWITHVF58STATEDRATHERTHANSMOOTHED": "This lane reproduced VF58's canonical figure EXACTLY -- 109,198 added ink px at 300 dpi grey<200 -- which licenses the method. It reads the BOUNDARY at 168,281 where VF58 published 163,545, a difference of 4,736, which is the same number VF58 attributes to the four write-free pages. This lane cannot reconstruct which scope VF58 used on the boundary and does not assert VF58 was wrong; both figures are reported with their definitions so a third lane can settle it. Nothing in either repair depends on the boundary total."
+    },
+    "il-seal-3yr-set": null,
+    "il-seal-3yr-setWhyNull": "Not measured in pixels by this lane. Its repair is a reader fix that moves no byte, so the pixel state VF58 published at ee90b3c3a is still the pixel state of the bytes on disk, unchanged and re-hashed here."
+  },
+  "visualDefects": null,
+  "visualDefectsWhyNull": "null because NOT MEASURED by this lane as a scored counter, never because measured as zero. This lane measured specific rectangles and whole-page differences and reports those numbers; it did not run the visual-defect classifier, and neither builder does. Both families' reports now publish nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as null for exactly that reason, which is why verify-packet-completeness.mjs prints visualDefects UNMEASURED for both.",
+  "rows": [
+    {
+      "itemId": "il-seal-3yr-set",
+      "familyId": "il-seal-3yr-set",
+      "jurisdiction": "IL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "commit": "4d868f5b5074186c0a11e3a04aaa07684e7059b6",
+      "failedObligationRepaired": "ARTIFACTS",
+      "headline": "The builder published three counters under names asserting a reading of the delivered bytes, and none was one: two hardcoded literal zeros and the finalizer's own write count. All three are now either read from the saved bytes or null. NO FIXTURE BYTE MOVED, so the RASTER_PASS receipt still binds on both roles and no raster is owed.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+        "fixtures/boundary.pdf": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb",
+        "participant-instructions.md": "cb4d7a67b365c0d015b1591607b6ea60f6ebe5f4beffe9020dba948b1c5cf382"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+        "fixtures/boundary.pdf": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb",
+        "participant-instructions.md": "cb4d7a67b365c0d015b1591607b6ea60f6ebe5f4beffe9020dba948b1c5cf382"
+      },
+      "whichRepairsMovedBytes": "NONE. This repair is a reader fix, exactly as the grant asked. The only file the build rewrote is reports/actual-writes.json. Both fixtures re-hash to the digests they carried before, byte length 1,726,367 and 1,727,058, 13 pages each.",
+      "countersBeforeAndAfter": {
+        "addedGlyphsReadFromOutputBytes_canonical": {
+          "before": 0,
+          "after": 622,
+          "beforeWasA": "hardcoded literal at line 667"
+        },
+        "addedGlyphsReadFromOutputBytes_boundary": {
+          "before": 0,
+          "after": 1251,
+          "beforeWasA": "hardcoded literal"
+        },
+        "flattenedWidgetAppearancesReadFromOutputBytes": {
+          "before": "packet.writes.length (44), the finalizer's own build intent",
+          "after": 44,
+          "afterIsA": "a reading: the flattened widget appearances that draw at least one non-whitespace glyph, proved equal to the write count by assert"
+        },
+        "flattenedWidgetFormXObjectsInDeliveredBytes": {
+          "before": "not published",
+          "after": 443,
+          "note": "NEW. The total, blank widgets included. This is the figure VF58 measured independently at 443 against a published 44; publishing both under names that say which is which settles the reconciliation permanently."
+        },
+        "officialWidgetsDeclaredByTheFourPinnedForms": {
+          "before": "not published",
+          "after": 443,
+          "note": "NEW. Counted on the official forms before flatten, and asserted equal to the delivered Form XObject count."
+        },
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": {
+          "before": 0,
+          "after": null,
+          "beforeWasA": "hardcoded literal at line 667",
+          "afterIsA": "null, because this builder performs no geometry pass. A counter nobody measured is null, never 0."
+        }
+      },
+      "whatWasActuallyMeasured": "The delivered bytes were reopened and every flattened widget Form XObject decompressed. 443 Form XObjects per fixture; 44 of them draw at least one non-whitespace glyph; those 44 draw 622 glyphs on the canonical and 1,251 on the boundary. An independent re-implementation written outside the builder read the same 443/44/622 and 443/44/1,251 off the files on disk. The reader's own control: run against the pinned unflattened EXP-AD Request it reads 0 Form XObjects, 0 appearances, 0 glyphs.",
+      "adifferenceFromVF58sGLYPHFIGURE": "VF58 measured 579 added glyphs canonical and 1,170 boundary by a per-page character-multiset difference against the pinned source pages using pdftotext. The builder publishes 622 and 1,251 by a show-text glyph count inside the flattened widget appearance streams. These are different definitions of 'added glyph' and VF58 said so in its own row, noting the same ~40 gap between its 563 and the sibling's published 603. The definition is now stated in the published record. Under EITHER definition the previous 0 was false.",
+      "rasterState": "The acceptance receipt RASTER_PASS, workflowRunId 34407406641, boundToCanonicalSha256 a41c124a..., STILL BINDS, on both roles, because no byte moved. Re-hashed off disk after the rebuild and compared. NO FRESH RASTER IS OWED on account of this lane. The limit the receipt itself states is unchanged: documentsCovered is ['canonical.pdf'] and whatThisGateDidNotRender is ['boundary.pdf'].",
+      "guardsAddedAndPROVEDTOFIRE": [
+        "inked appearances must equal the finalizer's write count -- broken by returning appearances-1; fired: 'every declared write must draw at least one glyph in the delivered bytes: 43 inked appearances for 44 writes'.",
+        "delivered Form XObjects must equal the official widget count read off the four pinned forms before flatten -- broken by returning total-1; fired: '442 for 443'.",
+        "addedGlyphsReadFromOutputBytes must be a positive integer, not a literal -- broken by republishing the ORIGINAL literal 0; fired: 'must be a reading of the delivered bytes, not a literal: 0'.",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes must be strictly null -- broken by republishing the ORIGINAL literal 0; fired: 'this builder performs no geometry pass, so this counter must be null rather than a number: 0'. This is the original defect reintroduced and caught.",
+        "the two fixtures write different values so their glyph counts must differ -- broken by publishing a constant 999 for both; fired: 'an added-glyph count read from their bytes cannot be the same number'."
+      ],
+      "theCOMPLETENESSVERIFIERBEFOREANDAFTER": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+        "before": "ok il-seal-3yr-set PASS_COMPLETE 44/424 written; invisibleWrites 0, visualDefects 0, exit 0",
+        "after": "FAIL il-seal-3yr-set NOT_MEASURABLE_HERE 44/424 written; invisibleWrites 0, visualDefects UNMEASURED, exit 0",
+        "whyTheAFTERISTHEBETTERRESULT": "The PASS_COMPLETE was computed from the fabricated fields. It was the ONLY Illinois family the tool called PASS_COMPLETE, and it earned that by inventing zeros while its two honest siblings printed UNMEASURED. The family now prints what its siblings print. invisibleWrites 0 is now a real measurement -- both output-byte readings are present and read -- and visualDefects is honestly UNMEASURED.",
+        "thisVERDICTISNOTEVIDENCEOFANYTHING": "The tool exits 0 on the word FAIL, has no FEE_AND_WAIVER limb and reads packetInstructions nowhere. It is reported because the grant asked for the printed verdict."
+      },
+      "obligationsNOTRE_SCORED": "This lane repaired ARTIFACTS. It did not re-score the other fourteen obligations VF58 passed; no byte moved, so VF58's readings of them stand on the same bytes.",
+      "whatCouldNotBeRepaired": [
+        "packetInstructions[4] -- that sealed records remain available to law enforcement, courts and certain licensing and fingerprint-based users -- is carried nowhere in this family: 0 hits for 'remain available' and for 'licensing' across the family directory and the delivered guide text. It is on all three Illinois tracks and carried in none of the three families. No obligation in the fifteen names it. Reported, not stretched to fit one, and not repaired in one family alone.",
+        "The 58 internal AcroForm field identifiers this guide prints under '### Every item this packet leaves for you'. Out of scope, and identical across all three families."
+      ]
+    },
+    {
+      "itemId": "il-seal-edu-set",
+      "familyId": "il-seal-edu-set",
+      "jurisdiction": "IL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+      "commit": "7fc473abce694e9010727c5a6bf60ce0afbb1d4f",
+      "failedObligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "ROUTE_OPTIONS",
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER"
+      ],
+      "headline": "All five repaired. The 91 synthesized borders are gone, including the two inside the judge's own decision boxes; the 77 boilerplate refusals are 15 route-specific ones with 5 disclosed alternatives; and the guide now carries the ten requiredBeforeFiling lines, the eight stop conditions, both fee records with the record's three dollar figures, and the sixth packetInstruction. THE REPAIR MOVED BOTH FIXTURES AND A FRESH CENTRAL RASTER IS OWED.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "fixtures/boundary.pdf": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518",
+        "participant-instructions.md": "efa544512a06c7fd888ff10f1d225284356b89a4b5cdf24f49a9dec84ebfe384",
+        "byteLengths": "1732604 canonical, 1733312 boundary"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
+        "fixtures/boundary.pdf": "601e2ca1935f260128b20014f91ca1d31c2194e5d628342e4fe740a2203909c3",
+        "participant-instructions.md": "4de674b23d0a6dc587d405f80c642a42a6a3339f77abe1c16c37c20c826c4571",
+        "byteLengths": "1726465 canonical, 1727173 boundary",
+        "pageCounts": "13 and 13, unchanged"
+      },
+      "whichRepairsMovedBytes": "ONE of the four. The FIX118 check-box repair moved both fixtures, and it is the only thing that did: removing 91 synthesized appearance streams per fixture removes 6,139 bytes from each. The ROUTE_OPTIONS field-map reasons, the guidance rewrite and the actual-writes readings move no PDF byte; they were applied after the FIX118 rebuild and the fixtures did not move again. Two consecutive full builds produced byte-identical fixtures, so the result is deterministic.",
+      "countersBeforeAndAfter": {
+        "strokeOnlyFlattenedAppearances_perFixture": {
+          "before": 91,
+          "after": 0,
+          "bothFixtures": true
+        },
+        "flattenedWidgetFormXObjects_perFixture": {
+          "before": 443,
+          "after": 443
+        },
+        "emptyOffAppearancesInstalledBeforeFlatten": {
+          "before": 0,
+          "after": 94
+        },
+        "addedInkNoDeclaredWriteAccountsFor_VF58sDefinition": {
+          "before": 8474,
+          "after": "not re-measured under VF58's write-attributed definition; the whole-page total fell by 8,754 per fixture and the stroke-only count is 0, so nothing remains for it to count"
+        },
+        "selectionControlRefusals": {
+          "before": 77,
+          "after": 77,
+          "note": "no further box is ticked; what changed is the reason on each"
+        },
+        "distinctRefusalReasonsAcrossSelectionControls": {
+          "before": 1,
+          "after": 15,
+          "siblingIlSeal2yr": 6
+        },
+        "refusalsMarkedIsAlternativeToElectedGround": {
+          "before": 0,
+          "after": 5,
+          "which": "Sections 16, 17, 19.a, 19.b and 19.c, each with its own alternativeSection and alternativeDispositions"
+        },
+        "requiredBeforeFilingEntriesLineAnchoredInDeliveredGuide": {
+          "before": 0,
+          "after": 10,
+          "of": 10
+        },
+        "requiredBeforeFilingEntriesSubstring": {
+          "before": 0,
+          "after": 10,
+          "of": 10
+        },
+        "selfHelpStopConditionsLineAnchoredInDeliveredGuide": {
+          "before": 0,
+          "after": 8,
+          "of": 8
+        },
+        "feeAndWaiverRecordsCarriedWholeLine": {
+          "before": 0,
+          "after": 2,
+          "of": 2
+        },
+        "dollarAmountsAnywhereInTheDeliveredGuide": {
+          "before": 0,
+          "after": 3,
+          "which": "$60, $235 and $136 -- the record's own figures, not a reconstruction"
+        },
+        "protectedRectanglesCarryingAddedInk": {
+          "before": 2,
+          "after": 0,
+          "of": 19
+        },
+        "packetInstructionsPrintedVerbatimToTheParticipant": {
+          "before": 0,
+          "after": 0,
+          "of": 6
+        },
+        "declaredWrites": {
+          "before": 45,
+          "after": 45
+        },
+        "inkedFlattenedAppearances": {
+          "before": 43,
+          "after": 45,
+          "why": "before the repair, pdf-lib's regenerated check-box appearances drew PATHS instead of the official form's own ZapfDingbats mark, so two ticked boxes drew no glyph. Restoring the /Off appearance restores the form's own mark and the delivered appearances now match the declared writes one for one."
+        },
+        "addedGlyphsReadFromOutputBytes": {
+          "before": null,
+          "after": {
+            "canonical": 607,
+            "boundary": 1251
+          },
+          "note": "null before was CORRECT and VF58 said so. It is now measured rather than null, because the FIX118 repair reopens the finalized bytes anyway. Nothing was turned from null into a zero."
+        },
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": {
+          "before": null,
+          "after": null,
+          "note": "stays null. This builder performs no geometry pass."
+        }
+      },
+      "theTWOJUDGESBOXES": {
+        "whatTheInkWAS": "One of the 91 synthesized borders, not a tick. The pinned source draws a two-device-row box outline at 300 dpi and the delivered page drew the same outline with one extra black row along its bottom edge, because the synthesized rectangle sat one row below the printed box. It asserted nothing and no reader would have mistaken it for a mark of election. It was still build-added ink inside a judicial decision control on a form the court prints, and both siblings read 0 there.",
+        "PageTwoExpungementIsGranted": {
+          "rect": [
+            70.81,
+            516.91,
+            82.81,
+            528.91
+          ],
+          "canonicalBefore": 101,
+          "canonicalAfter": 0,
+          "boundaryBefore": 101,
+          "boundaryAfter": 0
+        },
+        "PageTwoSealingIsGranted": {
+          "rect": [
+            69.76,
+            332.44,
+            81.79,
+            344.47
+          ],
+          "canonicalBefore": 101,
+          "canonicalAfter": 0,
+          "boundaryBefore": 101,
+          "boundaryAfter": 0
+        },
+        "measurement": "300 dpi, pdftoppm -gray, P5 PGM, grey<200, 1pt rect allowance, delivered page 9 against pinned EXP-AD Order Granting page 2.",
+        "positiveControlInTheSameRun": "'3 - Name' 6,000 added px and '3 - Address' 11,466 added px on the canonical, '3 - Name' 7,303 on the boundary -- unchanged before and after, so the zeros above are not a dead detector.",
+        "negativeControlInTheSameRun": "\"Judge's Name\" and \"Entered Date\", the two protected fields this packet does not write, read 0 before and 0 after."
+      },
+      "rasterState": "OWED. The acceptance receipt RASTER_PASS, workflowRunId 34352802308, bound canonical 1c7dd513... and, through raster-runs/admitted and RASTER_QUEUE.json, boundary c20f67df.... BOTH HASHES ARE NOW GONE. binding.maintenanceRelationship.reRasterRequiredWhen states the rule this triggers -- 'any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered'. The receipt is kept as history and marked in product-wiring.json with stillBinds:false, wholeFamilyReRasterRequired:true and the before/after digests. A FRESH CENTRAL RASTER IS OWED ON BOTH ROLES and this family cannot return to proven until it lands. RASTER_QUEUE.json is not this lane's to edit and was not edited; the debt needs dispatching by whoever owns that queue.",
+      "guardsAddedAndPROVEDTOFIRE": [
+        "every official check-box widget must carry an /Off appearance before flatten -- broken by removing the install; fired at 0 of 94.",
+        "flattened widget appearances must draw no ink of their own -- broken by removing the install AND neutralising the guard above so only this one could catch it; fired at EXACTLY 91, the number VF58 measured and this lane reproduced. The guard catches the real defect, not a proxy for it.",
+        "delivered Form XObjects must equal the official widget count -- broken by returning total-1; fired at '442 for 443'.",
+        "every unticked selection control must carry a route-specific reason -- broken by disabling one branch of the classifier; fired naming the first uncovered control, FW-CIV-APPLICATION:5 - Checkboxes.",
+        "the boilerplate refusal reason must not survive on any selection control -- FIRST BREAK WAS INEFFECTIVE and is reported: an object spread put the specific reason back, so nothing fired and nothing was credited. The break was corrected (distinct reasons confirmed back down to 1 in the written field map) and then the guard fired. FIX162 found a guard today that asserted the defect it should have caught; this is why a break is confirmed to have broken something before a guard is credited.",
+        "at least ten distinct selection-control reasons, and at least five alternatives each naming its printed section and record kinds -- carried with the guard above.",
+        "every packetSet.requiredBeforeFiling line must equal a whole line of the guide -- broken by dropping the record list; fired naming the first line.",
+        "every selfHelpStopConditions line must equal a whole line of the guide -- broken by restoring the old run-on paraphrase; fired naming the first condition.",
+        "rules.fees, rules.feeWaiver, rules.filing, rules.service and rules.notice must each be a whole line -- carried with the guard above.",
+        "the guide must carry $60, $235 and $136 and must have its own 'What it costs, and the waiver' section -- broken by restoring the old one-clause delegation; fired: 'the money statements must sit in their own section, not attached to a filing delegation'.",
+        "the guide must carry the registry's own denial sentence, and must NOT print the packetInstruction verbatim -- broken by removing the section; fired.",
+        "the guide title must name ONE remedy -- broken by restoring 'Illinois expungement or sealing packet'; fired.",
+        "no internal disposition identifier may reach the participant -- broken by printing the registry keys in the election lines; fired on supervision_successfully_completed.",
+        "the registry must still carry the track, its two enumerated lists, its six rules, the unpaid-fines directive and the denied-waiver directive -- broken three ways (unknown trackId; a denied-waiver predicate matching nothing; an unpaid-fines predicate matching nothing); all three refused the build rather than printing a statement the record no longer holds."
+      ],
+      "theSIXTHPACKETINSTRUCTION": "Carried. FIX161 flagged it unmeasured and VF58 answered that it was carried nowhere -- one 'denied' in the whole guide, about a different petition, and no 'forfeit' or 'accelerate'. The guide now has a section '## If this petition is denied' stating that the ordinary waiting period still applies to a later petition, that filing early and losing neither forfeits nor shortens the ordinary route, and quoting the registry's own mechanism sentence: 'If a petition under this subparagraph is denied, the ordinary (c)(3)(B) or (c)(3)(C) periods apply to any subsequent petition.' The build directive itself is not printed. The waiver it names is this route's WAITING-PERIOD waiver, not the Rule 298 fee waiver, which is what the registry mechanism settles.",
+      "theFIX161CORRECTION": "FIX161's rows state that both 20 ILCS 2630/5.2(a)(1)(M) and 5.2(d)(6)(C) sit in the 3yr and edu tracks' authority arrays. This lane read all three arrays itself and confirms VF58: il-seal-2yr carries both; il-seal-3yr's array is (c)(2)(D), (c)(2)(E), (c)(2)(F), (c)(3)(C), (a)(1)(F) and il-seal-edu's is (c)(3)(E), (c)(2)(C), (c)(2)(D), (c)(2)(E), (c)(2)(F) -- NEITHER cite in either. The same false sentence stood in the shared library's own doc comment, scripts/lib/il-sealing-unpaid-financial-obligation.mjs, where a later lane would meet it; it is corrected there with the three arrays written out. The delivered sentence is unaffected and still supported: (d)(6)(C) is quoted inside the directive on all three tracks, and (a)(1)(M) is named in the sourceStatement the intake memo attaches to THIS track's own copy of the packet_instruction, which this lane read at data/record-clearing/legal-design-intake/IL.memo.json.",
+      "theASYMMETRYFIX161NAMED": "Closed. il-seal-edu-set was the only one of the three builders that read no registry, so if the unpaid-fines directive ever left the record its two siblings would fail loudly and this one would keep printing the statement. It now calls assertRegistryStillDirectsTheUnpaidFinancialObligationNote, and the refusal was proved to fire.",
+      "theCOMPLETENESSVERIFIERBEFOREANDAFTER": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+        "before": "FAIL il-seal-edu-set NOT_MEASURABLE_HERE 45/424 written; requiredOptionsMissing 0, visualDefects UNMEASURED, exit 0",
+        "after": "FAIL il-seal-edu-set NOT_MEASURABLE_HERE 45/424 written; requiredOptionsMissing 0, visualDefects UNMEASURED, exit 0",
+        "whyITISNOTEVIDENCE": "It printed the SAME line before and after a repair that removed 91 marks the court does not print, replaced 77 boilerplate refusals and added the record the guide was missing. Its requiredOptionsMissing read 0 on this family while all 77 selection controls carried one boilerplate reason -- the very defect it scored 3 for on the sibling. A bare family name exits 2 with UNRECOGNISED_ARGUMENT, confirmed.",
+        "exitStatus": 0
+      },
+      "whatCouldNotBeRepaired": [
+        "packetInstructions[4] -- sealed records remain available to law enforcement, courts and certain licensing and fingerprint-based users -- is still carried nowhere in this family, and nowhere in the other two. Re-measured after the guidance rewrite: 0 hits for 'remain available' and 0 for 'licensing' in the delivered guide. No obligation in the fifteen names it, and carrying it in one family alone would leave the three Illinois families inconsistent on a directive all three tracks hold. It should be dispatched across all three together.",
+        "The fresh central raster this repair owes. Rendering it is not this lane's, and RASTER_QUEUE.json is outside this lane's writable boundary.",
+        "The 58 internal AcroForm field identifiers the guide prints under '### Every item this packet leaves for you'. VF58 recorded this out of scope and it is untouched. It is no longer the ENTIRE required-before-filing section, because the record's ten lines now stand above it in their own section, but the identifier list itself is unchanged and identical across all three families."
+      ]
+    }
+  ],
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "All three Illinois guides print 58 internal AcroForm field identifiers into the participant's task list -- lines of the form 'Complete 31 - Type on FW-CIV-APPLICATION page 2' and 'Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3'. The leading numbers are field identifiers, not item numbers the form prints: delivered page 11 carries '4. FINANCIAL INFORMATION' with lettered parts and unnumbered rows and shows no 19, no 31 and no 107. Recorded as VF58 recorded it; not acted on.",
+    "The conditional Chicago Police Department RAP sheet requirement is carried nowhere in any of the three guides. requiredBeforeFiling is false on it, so it is outside REQUIRED_BEFORE_FILING.",
+    "reports/actual-writes.json in both families publishes ONE actualWrites list describing the canonical values beside two artifacts entries; the boundary's own written values are enumerated nowhere. Unchanged by this lane.",
+    "verify-packet-completeness.mjs read requiredOptionsMissing 0 on il-seal-edu-set while all 77 selection controls carried one boilerplate reason and the guide named none of them. It scored the identical defect at 3 on the sibling. Whatever makes it blind here is worth a lane."
+  ],
+  "whatThisLaneCouldNotDo": [
+    "It could not render the fresh central raster il-seal-edu-set now owes.",
+    "It could not reconcile its boundary added-ink total (168,281) with VF58's (163,545). Its canonical figure reproduces VF58's exactly, so the method is licensed; the boundary difference is reported rather than smoothed.",
+    "It did not repair packetInstructions[4] on any of the three families, for the reasons given in both rows.",
+    "It did not re-score the obligations VF58 passed on il-seal-3yr-set. No byte moved there, so those readings stand on the same bytes."
+  ],
+  "grantsNothing": [
+    "This lane opened no commercial route and consumed no credit.",
+    "It marked no packet proven. il-seal-edu-set is FURTHER from proven than before, because it now owes a raster.",
+    "It touched no live RCAP route, no compiled runtime, no Supabase, no Stripe, no production environment.",
+    "It self-verified nothing. Both verdicts on these two families remain VF58's until a third lane reads them."
+  ],
+  "independentReVerificationOwed": "Owed on BOTH families, to a lane that is neither FIX166 nor VF58. il-seal-3yr-set: confirm ARTIFACTS on the published readings and confirm no byte moved. il-seal-edu-set: confirm all five repaired obligations on the NEW bytes, and note that a RASTER_PASS is a precondition, not a finding.",
+  "grantsReleased": "Both released at return: il-seal-3yr-set and il-seal-edu-set."
+}
