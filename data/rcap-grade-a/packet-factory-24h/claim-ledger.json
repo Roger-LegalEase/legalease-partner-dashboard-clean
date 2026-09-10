@@ -14606,9 +14606,39 @@
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "itemId": null,
+      "familyId": "al-trafficking-set",
+      "familyIds": [
+        "al-trafficking-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF41",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "itemId": null,
+      "familyId": "ma-expunge-k-set",
+      "familyIds": [
+        "ma-expunge-k-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF41",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "1ba9ca44548de3da60ec9829d2e6b0988c4c084b36c72f4e21be1b6e2feb3ea0",
+  "claimsDigest": "32c874727944b0fd5ebfcd4fb3e78003630fbbf48a1880c9db9b860dd1776c6a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56300,6 +56330,28 @@
       "grantedAt": "2026-09-10T11:51:25.670Z",
       "grantedBy": "Captain",
       "reason": "Captain dispatch: an independent read is owed on this family and no independent-verification grant exists for it. Minted so a lane that did not build it can read it.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF41",
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T11:53:54.165Z",
+      "grantedBy": "Captain",
+      "reason": "Captain dispatch: an independent read is owed on this family and no independent-verification grant existed for it. Minted so VF41 can read what FIX02 built. The refusal it hit was my dispatch error: --assert validates a grant, it never mints one.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF41",
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T11:53:54.326Z",
+      "grantedBy": "Captain",
+      "reason": "Captain dispatch: an independent read is owed on this family and no independent-verification grant existed for it. Minted so VF41 can read what FIX02 built. The refusal it hit was my dispatch error: --assert validates a grant, it never mints one.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
