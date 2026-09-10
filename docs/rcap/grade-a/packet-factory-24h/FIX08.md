@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d13b66d076e40706ff3a0143ab7b70210443a381` (or the newer dispatch base)
+**Minimum required ancestor:** `086232b11aa3143dfe2035c43b25be944340a08b` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'ma-seal-court-set' \
+  --family 'ks-21-6614-prostitution-coercion-set' \
   --codex-cloud \
-  --minimum-captain-sha d13b66d076e40706ff3a0143ab7b70210443a381
+  --minimum-captain-sha 086232b11aa3143dfe2035c43b25be944340a08b
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
+- Assert only these 6 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ks-21-6614-prostitution-coercion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ma-seal-court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'rcap-in-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'fl-early-juvenile-set'`
@@ -64,8 +65,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 6 families
 
+- `ks-21-6614-prostitution-coercion-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks
 - `ma-seal-court-set`
 - `rcap-in-custom-pleading`
 - `fl-early-juvenile-set`
@@ -83,11 +85,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
+- `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs`
 - `scripts/build-census-v1-ma-seal-court-set.mjs`
 - `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
 - `scripts/build-census-v1-fl-early-juvenile-set.mjs`

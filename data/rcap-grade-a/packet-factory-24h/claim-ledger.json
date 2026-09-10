@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "d13b66d076e40706ff3a0143ab7b70210443a381",
+  "generatedAtCommit": "086232b11aa3143dfe2035c43b25be944340a08b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4826,6 +4826,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-conviction-set",
+      "familyId": "ks-21-6614-conviction-set",
+      "itemId": null,
+      "familyIds": [
+        "ks-21-6614-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ks-21-6614-diversion-set",
       "itemId": null,
       "familyId": "ks-21-6614-diversion-set",
@@ -4836,6 +4851,21 @@
       "operation": "packet-build",
       "lane": "PF20",
       "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-10T19:58:47.113Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "familyId": "ks-21-6614-diversion-set",
+      "itemId": null,
+      "familyIds": [
+        "ks-21-6614-diversion-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -4851,6 +4881,21 @@
       "operation": "packet-build",
       "lane": "PF20",
       "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-10T19:58:47.247Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "itemId": null,
+      "familyIds": [
+        "ks-21-6614-prostitution-coercion-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -14947,9 +14992,54 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-conviction-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-conviction-set",
+      "familyIds": [
+        "ks-21-6614-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-diversion-set",
+      "familyIds": [
+        "ks-21-6614-diversion-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "familyIds": [
+        "ks-21-6614-prostitution-coercion-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "042f2c32875162fb9f145dc7903695b52f54b6eb6a20ffee29bfb6ffc7a5e9cc",
+  "claimsDigest": "58dd63e36b1c0bd76e5008ab51e4824ecc1deedb05408d0a4c79c513cc273082",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39129,6 +39219,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T19:55:03.078Z"
+    },
+    {
+      "lane": "PF20",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T19:58:47.113Z"
+    },
+    {
+      "lane": "PF20",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T19:58:47.247Z"
     }
   ],
   "reissues": [
@@ -60203,6 +60309,39 @@
       "grantedAt": "2026-09-10T19:51:29.866Z",
       "grantedBy": "Captain",
       "reason": "carries ten selection controls with reason null -- the defect FIX172 just repaired in its sibling -- plus the same two unmade route elections; it was COMPLETE_PACKET_PROVEN only because the anchors-and-withheld reader never looked at selection controls",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T20:00:59.747Z",
+      "grantedBy": "Captain",
+      "reason": "PF20 built this family from six pinned Kansas binaries; nothing a lane builds may be self-verified, and no independent-verification lane has ever held it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T20:00:59.882Z",
+      "grantedBy": "Captain",
+      "reason": "PF20 built this family from six pinned Kansas binaries; nothing a lane builds may be self-verified, and no independent-verification lane has ever held it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T20:01:00.008Z",
+      "grantedBy": "Captain",
+      "reason": "PF20 built this family from six pinned Kansas binaries; nothing a lane builds may be self-verified, and no independent-verification lane has ever held it",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
