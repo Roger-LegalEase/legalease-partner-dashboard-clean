@@ -12,7 +12,7 @@
     "provedNotAssumed": "The same command was run over the pinned JDF-641 and over a control copy of it with every page /Annots and the /AcroForm removed. JDF-641 page 5 renders 725,313 dark pixels normally and 521,645 with annotations removed, so 210,820 dark pixels on that page are drawn by annotations alone. Inside the /Rect of field 11.1 [147.6 488.654 540 553.334], whose /AP /N is `q 0 G 0.5 0.5 395 63.6794 re s Q`, the normal render carries 60,688 dark pixels and the annotation-free control carries 0. The court's writing box at 11.1 exists only inside that widget appearance, and this render draws it.",
     "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and /AcroForm dropped; used only as a control and never as a comparison baseline."
   },
-  "sharedModuleChanges": "none. No file under scripts/rcap-official-forms/, scripts/rcap-packet-completeness/ or scripts/grade-a-packet-factory-24h/ was modified by this lane. Both repairs are options passed at one caller's own finalizeOfficialForm call site, and both default to false in the shared module.",
+  "sharedModuleChanges": "none. No file under scripts/rcap-official-forms/, scripts/rcap-packet-completeness/ or scripts/grade-a-packet-factory-24h/ was modified, and scripts/build-census-v1-ne-setaside-custodial-set.mjs -- a SHARED build host imported by four families this lane does not own -- was read and not modified. The single Colorado change is an option passed at that family exclusive builder own finalizeOfficialForm call, and it defaults to false in the shared module.",
   "centralArtifactsEdited": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json and BORDER_COHORT_REMEDIATION.json were read and not written.",
   "packetsSelfVerified": 0,
   "verdictSet": "none. This lane repairs and measures; it issues no PASS and sets no verdict, and a repair author does not verify their own candidate.",
@@ -57,22 +57,162 @@
         "sourceRender": "see howTheSourceWasRendered -- annotations DRAWN, proved against an annotation-free control",
         "pageMapping": "reports/rendered-artifacts.json pageManifest, source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
         "perPageCanonical": [
-          { "packetPage": 1, "form": "JDF-641", "sourcePage": 1, "addedBefore": 247677, "addedAfter": 241113, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 2, "form": "JDF-641", "sourcePage": 2, "addedBefore": 6564, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 3, "form": "JDF-641", "sourcePage": 3, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 4, "form": "JDF-641", "sourcePage": 4, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 5, "form": "JDF-641", "sourcePage": 5, "addedBefore": 33253, "addedAfter": 33253, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 6, "form": "JDF-642", "sourcePage": 1, "addedBefore": 198200, "addedAfter": 198200, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 7, "form": "JDF-642", "sourcePage": 2, "addedBefore": 638, "addedAfter": 1, "addedOutsideDeclaredWriteBoxesBefore": 638, "addedOutsideDeclaredWriteBoxesAfter": 1, "removedBefore": 0, "removedAfter": 0 }
+          {
+            "packetPage": 1,
+            "form": "JDF-641",
+            "sourcePage": 1,
+            "addedBefore": 247677,
+            "addedAfter": 241113,
+            "addedOutsideDeclaredWriteBoxesBefore": 6564,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 2,
+            "form": "JDF-641",
+            "sourcePage": 2,
+            "addedBefore": 6564,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 6564,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 3,
+            "form": "JDF-641",
+            "sourcePage": 3,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "JDF-641",
+            "sourcePage": 4,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 5,
+            "form": "JDF-641",
+            "sourcePage": 5,
+            "addedBefore": 33253,
+            "addedAfter": 33253,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 6,
+            "form": "JDF-642",
+            "sourcePage": 1,
+            "addedBefore": 198200,
+            "addedAfter": 198200,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 7,
+            "form": "JDF-642",
+            "sourcePage": 2,
+            "addedBefore": 638,
+            "addedAfter": 1,
+            "addedOutsideDeclaredWriteBoxesBefore": 638,
+            "addedOutsideDeclaredWriteBoxesAfter": 1,
+            "removedBefore": 0,
+            "removedAfter": 0
+          }
         ],
         "perPageBoundary": [
-          { "packetPage": 1, "form": "JDF-641", "sourcePage": 1, "addedBefore": 324476, "addedAfter": 317912, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 2, "form": "JDF-641", "sourcePage": 2, "addedBefore": 6564, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 3, "form": "JDF-641", "sourcePage": 3, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 4, "form": "JDF-641", "sourcePage": 4, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 5, "form": "JDF-641", "sourcePage": 5, "addedBefore": 48815, "addedAfter": 48815, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 6, "form": "JDF-642", "sourcePage": 1, "addedBefore": 270108, "addedAfter": 270108, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
-          { "packetPage": 7, "form": "JDF-642", "sourcePage": 2, "addedBefore": 638, "addedAfter": 1, "addedOutsideDeclaredWriteBoxesBefore": 638, "addedOutsideDeclaredWriteBoxesAfter": 1, "removedBefore": 0, "removedAfter": 0 }
+          {
+            "packetPage": 1,
+            "form": "JDF-641",
+            "sourcePage": 1,
+            "addedBefore": 324476,
+            "addedAfter": 317912,
+            "addedOutsideDeclaredWriteBoxesBefore": 6564,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 2,
+            "form": "JDF-641",
+            "sourcePage": 2,
+            "addedBefore": 6564,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 6564,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 3,
+            "form": "JDF-641",
+            "sourcePage": 3,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "JDF-641",
+            "sourcePage": 4,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 5,
+            "form": "JDF-641",
+            "sourcePage": 5,
+            "addedBefore": 48815,
+            "addedAfter": 48815,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 6,
+            "form": "JDF-642",
+            "sourcePage": 1,
+            "addedBefore": 270108,
+            "addedAfter": 270108,
+            "addedOutsideDeclaredWriteBoxesBefore": 0,
+            "addedOutsideDeclaredWriteBoxesAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "packetPage": 7,
+            "form": "JDF-642",
+            "sourcePage": 2,
+            "addedBefore": 638,
+            "addedAfter": 1,
+            "addedOutsideDeclaredWriteBoxesBefore": 638,
+            "addedOutsideDeclaredWriteBoxesAfter": 1,
+            "removedBefore": 0,
+            "removedAfter": 0
+          }
         ],
         "removedTotalPerFixture": "0 on every page of both fixtures, before and after. Nothing the Colorado Judicial Department prints has been erased by this packet or by this repair.",
         "addedRemovedByThisRepair": "13,766 dark pixels per fixture, all of it the nine doubled outlines. Nine clusters before the repair, each an 8.9 x 9.1pt square at x 126.96: four on page 1 (1673, 1673, 1609, 1609 px), four on page 2 (1673, 1673, 1609, 1609 px) and one on page 7 (637 px).",
@@ -98,20 +238,60 @@
       },
       "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set on the rebuilt bytes: 'ok co_multiple_conviction_seal-set PASS_COMPLETE 14/132 written', exit 0, all nine printed zero.",
       "outputByteGlyphReadings": [
-        { "fixture": "canonical", "form": "JDF-641", "addedGlyphsReadFromOutputBytes": 136, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 122 },
-        { "fixture": "canonical", "form": "JDF-642", "addedGlyphsReadFromOutputBytes": 100, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 21 },
-        { "fixture": "boundary", "form": "JDF-641", "addedGlyphsReadFromOutputBytes": 285, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 122 },
-        { "fixture": "boundary", "form": "JDF-642", "addedGlyphsReadFromOutputBytes": 203, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 21 }
+        {
+          "fixture": "canonical",
+          "form": "JDF-641",
+          "addedGlyphsReadFromOutputBytes": 136,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 122
+        },
+        {
+          "fixture": "canonical",
+          "form": "JDF-642",
+          "addedGlyphsReadFromOutputBytes": 100,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 21
+        },
+        {
+          "fixture": "boundary",
+          "form": "JDF-641",
+          "addedGlyphsReadFromOutputBytes": 285,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 122
+        },
+        {
+          "fixture": "boundary",
+          "form": "JDF-642",
+          "addedGlyphsReadFromOutputBytes": 203,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 21
+        }
       ],
       "sourcesBoundByDigest": [
-        { "sourceId": "official-form:JDF-641", "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02", "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR", "recomputedByteExact": true },
-        { "sourceId": "official-form:JDF-642", "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c", "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR", "recomputedByteExact": true }
+        {
+          "sourceId": "official-form:JDF-641",
+          "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:JDF-642",
+          "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR",
+          "recomputedByteExact": true
+        }
       ],
       "governance": {
         "writtenThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs carryForwardGovernance",
         "canonicalMoved": true,
         "decision": "withdrew acceptanceReceipt -- bound to 48cf9bf5cf44, this write produced b73f1b3c3121. Kept whole under acceptanceReceiptWithdrawn with both digests, not deleted and not relabelled as covering the new output.",
-        "carriedForward": ["lastIndependentVerification", "paymentEligible", "sponsorshipEligible", "whyPaymentIsClosed", "maintenanceRelationship"],
+        "carriedForward": [
+          "lastIndependentVerification",
+          "paymentEligible",
+          "sponsorshipEligible",
+          "whyPaymentIsClosed",
+          "maintenanceRelationship"
+        ],
         "governanceLostBetween": [],
         "verifier": "npm run rcap:verify-governance-preservation",
         "verifierExitStatus": 0,
@@ -129,6 +309,236 @@
         "anInvertedWidgetRectangle": "this family appears nowhere in INVERTED_WIDGET_RECTANGLES.json, and the placement sweep finds 0 placements beyond the MediaBox."
       },
       "blastRadius": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs declares this family alone, MASTER_QUEUE records exclusiveScript true and importedBy empty for it, and nothing in scripts/ imports it. The one line added is an option that defaults to false in the shared module, so no other family's next rebuild moves a byte because this family passes it."
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "status": "COMPLETED",
+      "rasterState": "not applicable -- no packet byte was moved",
+      "outcome": "NO REPAIR WAS WARRANTED AND NONE WAS MADE. The stripped background fill is the honest negative: it was covering blank paper. The recorded CLIPPING_AND_OVERLAP does not reproduce.",
+      "claim": "CLAIM_OK FIX135 ne-setaside-custodial-set (repair, grant set 6cd30124b3679d3a)",
+      "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "canonicalSha256": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+      "boundarySha256": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+      "canonicalPageCount": 5,
+      "boundaryPageCount": 5,
+      "pageCountMeasuredBy": "pdfinfo",
+      "digestsMeasuredBy": "sha256sum on the committed files, before and after; unchanged, because nothing was rebuilt",
+      "theStrippedFillIsNotADefectHere": {
+        "theOneStream": "2 entries in the ledger are ONE distinct stream, /FlatWidget-7572533686, counted once in canonical.pdf and once in boundary.pdf. It is CC-6-11 field 'Check Box7', /Rect [105.381 128.027 123.381 146.027] on packet page 1, beside the printed sentence 'By checking this box, I am letting the court know I cannot receive emails.'",
+        "cause": "Check Box7 ships four appearance streams: /AP /N /Off and /Yes opening `1 g 0 0 10.08 10.08 re f` and /AP /D /Off and /Yes opening `0.749023 g`. The grey pair is the mouse-down appearance and never prints. stripOpaqueBackgroundPaint removed the white /N background exactly as its grey >= 0.9 test says it does, leaving `q\\n\\n0 G 0.5 0.5 9.08 9.08 re s Q`.",
+        "whyItIsNotAlsoAVisualDEFECT": "NOTHING IS PRINTED UNDERNEATH. Measured at 600 dpi in that widget's own /Rect with a 3pt pad: the pinned source rendered WITH annotations carries 8,548 dark pixels, the delivered canonical carries 8,548 and the delivered boundary carries 8,548. Added 0 and removed 0 in both fixtures. The same window in a control render of the source with every page /Annots and the /AcroForm removed carries 448 dark pixels, all of it neighbouring label text inside the pad -- Nebraska's page content draws NO BOX there at all. Read on the page: source shows one clean check box, the page-content-only control shows none, the delivered packet shows one clean check box identical to the source.",
+        "conclusion": "The white mask was covering blank paper. Removing it changed nothing on the page and restoring it would change nothing either, so restoring it is NOT in scope on this family and no byte was moved. Had it been acted on as invented ink, the remedy would still have been RESTORE and never REMOVE: deleting that stream would have erased the court's own check-box outline from the petition."
+      },
+      "byteAccountingReproducedIndependently": {
+        "method": "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs IMPORTED, not reimplemented; the pass script was not run because it rewrites the shared ledger.",
+        "sourceAppearanceStreamsInPool": 45,
+        "sourceStreamsWithTheirBackgroundFillNormalisedAway": 43,
+        "result": "0 matched byte-identically, 2 derived from a source stream minus its leading opaque background fill, 0 unmatched. This reproduces the committed ledger figure exactly.",
+        "unchangedAfterwards": "no rebuild was run, so these are the figures for the committed bytes."
+      },
+      "directionalRasterAgainstThePinnedSources": {
+        "dpi": 600,
+        "threshold": "grey < 128 is dark",
+        "sourceRender": "poppler pdftoppm with annotations DRAWN -- see the lane-level howTheSourceWasRendered. A removed count taken against an annotation-free render would have been zero by construction and would have hidden every finding below.",
+        "perPageCanonical": [
+          {
+            "packetPage": 1,
+            "form": "CC-6-11",
+            "sourcePage": 1,
+            "added": 100336,
+            "addedInsideDeclaredWriteBoxes": 100336,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 22327
+          },
+          {
+            "packetPage": 2,
+            "form": "CC-6-11.2",
+            "sourcePage": 1,
+            "added": 37717,
+            "addedInsideDeclaredWriteBoxes": 37717,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 22327
+          },
+          {
+            "packetPage": 3,
+            "form": "CC-6-11A",
+            "sourcePage": 1,
+            "added": 0,
+            "addedInsideDeclaredWriteBoxes": 0,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "DC-1-15",
+            "sourcePage": 1,
+            "added": 116109,
+            "addedInsideDeclaredWriteBoxes": 116109,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 265625
+          },
+          {
+            "packetPage": 5,
+            "form": "DC-1-15",
+            "sourcePage": 2,
+            "added": 62617,
+            "addedInsideDeclaredWriteBoxes": 62617,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 0
+          }
+        ],
+        "perPageBoundary": [
+          {
+            "packetPage": 1,
+            "form": "CC-6-11",
+            "sourcePage": 1,
+            "added": 184434,
+            "addedInsideDeclaredWriteBoxes": 184434,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 22327
+          },
+          {
+            "packetPage": 2,
+            "form": "CC-6-11.2",
+            "sourcePage": 1,
+            "added": 32665,
+            "addedInsideDeclaredWriteBoxes": 32665,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 22327
+          },
+          {
+            "packetPage": 3,
+            "form": "CC-6-11A",
+            "sourcePage": 1,
+            "added": 0,
+            "addedInsideDeclaredWriteBoxes": 0,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 4,
+            "form": "DC-1-15",
+            "sourcePage": 1,
+            "added": 200209,
+            "addedInsideDeclaredWriteBoxes": 200209,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 265625
+          },
+          {
+            "packetPage": 5,
+            "form": "DC-1-15",
+            "sourcePage": 2,
+            "added": 151769,
+            "addedInsideDeclaredWriteBoxes": 151769,
+            "addedOutsideDeclaredWriteBoxes": 0,
+            "removed": 0
+          }
+        ],
+        "negativeControl": "Packet page 3 is the CC-6-11A instructions sheet, a page this packet writes nothing on. It gains nothing and loses nothing: 0 added and 0 removed in both fixtures. Nothing was rebuilt in this family, so every page is also its own before-and-after control."
+      },
+      "removedInkAccountedForLineByLine": {
+        "why": "A repair lane reported 'removed 0' this morning against an annotation-free render while 27,981 pixels of an official form's own ink were missing from its delivered pages. These counts are NOT zero and every one of them is named.",
+        "method": "Exhaustive full-width horizontal bands over the delivered page against the source render, so no removed pixel can fall between two named regions.",
+        "packetPage1andPage2_22327eachAndNothingElse": {
+          "0": "everywhere above and everywhere below the caption block. No writing rule, no grid line and no table row is missing.",
+          "10219": "the two dropdown prompts 'Choose the court' and 'Choose the county', which are the form's instructions to the person filling it in and not filing text",
+          "12108": "the caption words IN THE and COURT OF, which the packet replaces with its own resolved caption 'IN THE DISTRICT COURT OF' written into the source's own calculated caption field TYPEOFCOURTRESULTS"
+        },
+        "packetPage4_265625Total": {
+          "0": "y 0-20 the page header, and y 134-792 THE WHOLE REST OF THE PAGE",
+          "10219": "the two dropdown prompts, as on pages 1 and 2",
+          "15274": "the caption words IN THE and COURT OF, as on pages 1 and 2",
+          "66690": "the RESET FORM push button. Measured on the source widget: Button4, Ff 65536 (pushbutton), /F 0 -- the Print flag is NOT set, so Nebraska's own form does not print it.",
+          "173442": "the 'Type of Case - Check only one' panel, which the Nebraska Judicial Branch's own DC 1:15 labels on its face, in its own words: 'The items in this box will NOT print on your form.'",
+          "totalAccounted": "265,625 of 265,625"
+        },
+        "finding": "Every removed pixel in this family is either a control the form itself marks non-printing, a prompt addressed to the person filling the form in, or a caption fragment the packet replaces with the resolved court name. No rule, grid, box or line the court prints has been erased."
+      },
+      "clippingAndOverlapAsRecorded": {
+        "whatTheRecordSays": "CLIPPING_AND_OVERLAP was recorded against this family by vf05 at base efda1c0aa5e8 and by vf08 at base 7b3214102, on canonical bb911fab / boundary 2d8254d4.",
+        "stateAtTheBaseIWasGiven": "Both rows are marked superseded and neither describes these bytes. FIX102 repaired the family and VF08 re-read it independently at base 43a934c74 on canonical dd1cde67 / boundary 07a9b4ab -- the exact digests on disk now -- recording CLIPPING_AND_OVERLAP as measured fresh and PASS.",
+        "measuredHereOnTheseBytes": "Does not reproduce. 0 added dark pixels outside every declared write box on all five pages of both fixtures at 600 dpi. A 12.5.5 placement sweep of the delivered bytes finds 62 placements per fixture and 0 beyond the MediaBox. 0 non-whitespace glyphs outside a measured write box in either fixture."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set, run read-only on the committed bytes: 'ok ne-setaside-custodial-set PASS_COMPLETE 20/162 written', exit 0, all nine printed zero.",
+      "outputByteGlyphReadings": {
+        "thisFamilysOwnReportsEmitNEITHER": "Confirmed by search: neither addedGlyphsReadFromOutputBytes nor nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears anywhere in this family's directory. Its reports/actual-writes.json carries proofSummary.addedGlyphs, and that is null for CC-6-11, CC-6-11.2 and DC-1-15. This family is one of the twenty-five that emit neither, and the fix belongs to whoever holds its shared build host -- see sharedHostStopped below.",
+        "soThisLaneMeasuredThemFromTheOutputBYTES": [
+          {
+            "fixture": "canonical",
+            "addedGlyphsReadFromOutputBytes": 218,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "glyphsInAppearancesThePinnedSourceItselfShips": 385
+          },
+          {
+            "fixture": "boundary",
+            "addedGlyphsReadFromOutputBytes": 599,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "glyphsInAppearancesThePinnedSourceItselfShips": 385
+          }
+        ],
+        "howTheSplitWasMade": "Every glyph-bearing flattened appearance was hashed against the pool of appearance streams the four pinned sources ship, with a leading opaque background fill normalised away on both sides. An appearance the source itself ships is the form's own preserved ink and is counted separately; only the remainder is charged as added. Counted without that split the outside-a-write-box figure reads 385, and all 385 are the court's own: the caption tail 'COUNTY, NEBRASKA', the party block's writing rules, four underscore rules and the printed Add-next-person button. Publishing 385 as ink outside a write box would have been a false alarm, and publishing 0 without the split would have been luck."
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:CC-6-11",
+          "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:CC-6-11.2",
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:DC-1-15",
+          "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:CC-6-11a",
+          "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+          "recomputedByteExact": true
+        }
+      ],
+      "governance": {
+        "canonicalMoved": false,
+        "decision": "Nothing written. The committed acceptanceReceipt binds boundToCanonicalSha256 dd1cde67dd6c, which recomputes byte-exact from canonical.pdf on disk, so it still describes this packet. A receipt that still describes the bytes is carried, not withdrawn, and this lane wrote no wiring for this family at all.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "against": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "aFieldMapHonestWhileTheFinalizerWritesSomethingElse": "not present. Every written value is a court, case or identity fact, read back per widget from the output bytes. No alias line, no signature, no date, no notarization and no fee.",
+        "aValueThatLooksDOUBLEDAndIsNot": "reports/actual-writes.json shows DC-1-15 printedname as 'Jordan Avery Reyes Jordan Avery Reyes', streetaddress as '118 Maple Street 118 Maple Street' and so on. Read from the record rather than from the string: each is ONE AcroForm field with TWO widgets, one on DC-1-15 page 1 and one on page 2, each carrying the value ONCE, and the top-level drawnText is a join across widgets. Nothing is doubled on the page.",
+        "anAcroFormIndexIsNotAPrintedRowNumber": "no numbered table row is written in this family.",
+        "internalRecordTextPrintedOnAFiling": "not present. Nothing recites a controlling record's analysis on any form's face.",
+        "aPublishedZeroWhereAMeasurementExisted": "FOUND, in the opposite direction: this family publishes proofSummary.addedGlyphs as null for three of its four documents where a real reading exists in the bytes, and publishes the second quantity not at all. Null is the honest value for a quantity nobody measured, so this is a gap rather than a false zero, and it is named above with the measured values.",
+        "aGeometryCounterWithNoTeeth": "acknowledged; the reading this row rests on is the 600 dpi directional raster, not a glyph counter.",
+        "anInvertedWidgetRectangle": "this family appears nowhere in INVERTED_WIDGET_RECTANGLES.json, and the placement sweep finds 0 placements beyond the MediaBox."
+      },
+      "forTheVisualAndCounselREVIEWER": {
+        "aScreenCommandBUTTONPrintsOnTheNoticeOfHearing": "Packet page 4 carries a grey 51.6 x 20.0pt push button labelled 'Add next person' in the left margin at PDF extent [13.93 468.88 65.58 488.90]. It is NOT ink this packet invented and NOT a defect this lane may decide: measured on the pinned DC 1:15, Button63.0 is Ff 65536 (pushbutton) with /F 4, so the PRINT FLAG IS SET and Nebraska's own form prints it; the three sibling buttons carry /F 6 and are Hidden, and the packet drops those. The builder records the decision in as many words at scripts/build-census-v1-ne-setaside-custodial-set.mjs preservePrintedSourceButtons, alongside nonprintingSourceControls which is why RESET FORM (Ff 65536, /F 0) is correctly absent. Reproducing what the court's own form prints is fidelity. Whether a filed Notice of Hearing should carry a JavaScript command control is a question for counsel and the court, not for a repair lane, and it is raised rather than changed.",
+        "theCaptionChangesTYPEFACE": "The source draws 'IN THE' and 'COURT OF' in TimesNewRoman 12 inside its calculated caption field; the packet writes 'IN THE DISTRICT COURT OF' into that same field and the regenerated appearance is Helvetica, while the untouched tail 'COUNTY, NEBRASKA' stays TimesNewRoman. The words are complete and correct and nothing is lost; the caption line simply mixes two faces. Pre-existing, not introduced here, and recorded for the visual reviewer."
+      },
+      "sharedHostStopped": {
+        "what": "scripts/build-census-v1-ne-setaside-custodial-set.mjs is NOT exclusive to this family. MASTER_QUEUE records exclusiveScript false and importedBy [ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, wv_conv_multiple_misdemeanors-set, wv_conv_single_misdemeanor-set].",
+        "consequence": "Editing it reaches four families this lane does not own and whose bytes it has not measured. So the one change this family arguably wants -- emitting addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes from the output bytes instead of a null -- is NAMED AND NOT MADE, per the dispatch. The measured values are published above so the gap costs no information.",
+        "andNothingElseWasNeeded": "No repair to this family's own builder was warranted on the evidence, so no per-caller option was added either."
+      },
+      "blastRadius": "Zero. Not one byte in this family's directory was written, and its build script was read and not modified."
     }
   ]
 }
