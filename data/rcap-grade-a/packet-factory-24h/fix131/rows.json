@@ -1,0 +1,91 @@
+{
+ "schemaVersion": "rcap-repair-return/v1",
+ "lane": "FIX131",
+ "laneKind": "complex-execution-repair",
+ "grantSet": "72df49332e34b061",
+ "whatThisLaneWasAskedToDo": "Establish the CAUSE of the stroke-only flattened widget appearances that VF90 recorded as matching no /AP /N stream in each family's pinned sources, and repair what the cause turns out to be. Invented ink is removed; the form's own ink is restored.",
+ "theCauseOnThisHost": {
+  "answer": "RESTORE, NOT REMOVE. On this build host every unaccounted stream is a source /AP /N /Off appearance minus its opaque background fill, and the fill is load-bearing.",
+  "howItWasEstablished": "The unaccounted streams across the five claimed families reduce to FOUR distinct byte sequences. Each was compared, token by token, against the /AP /N streams the pinned sources ship, with one leading opaque rectangle fill normalised away from both sides. Four of four resolve, nothing left over.",
+  "derivation": [
+   {"deliveredSha256": "65994cede8e44c54a01827a704dcddc1cf9b22ae9bd05320933158a9b3bb1000", "bytes": 130, "isSourceStream": "bb7f4e450d198ddfc01ab0916857f5a36ea217a996020f22057370fd12d55124", "sourceBytes": 147, "sourceState": "/AP /N /Off, 18x18", "shippedBy": "the OCA petition and the Statement of Inability", "minusThisOperator": "1 g / 0 0 18 18 re / f"},
+   {"deliveredSha256": "32ad6918ac2b728ad57f9f3f230e103d10e8fb4847566d6dc6dfcf8ed58bf1c8", "bytes": 24, "isSourceStream": "b5b8bff381c240d268ad0aa9a3a20ca17608e2d8891f32c77c2e1c3b8d92b4a8", "sourceBytes": 42, "sourceState": "/AP /N /Off, 18x18", "shippedBy": "the OCA model order", "minusThisOperator": "1 g / 0 0 18 18 re / f"},
+   {"deliveredSha256": "664b8cc992ddcf7b0d3249a90fba7a5fb3ca0146c4f3e7dc6f3eaf6b3dd7ae8d", "bytes": 158, "isSourceStream": "75e5c08cc7d141b9ea4623f135c3f93581f810a15b27b7edb0dec5044921fbe4", "sourceBytes": 179, "sourceState": "/AP /N /Off, 17.999x18", "shippedBy": "the Statement of Inability", "minusThisOperator": "1 g / 0 0 17.999 18 re / f"},
+   {"deliveredSha256": "fee290d0a388463a3adc0421c899214890d41cb013717839352afceca62472dc", "bytes": 165, "isSourceStream": "402ae6ac68188b4acc8c22cb52c079714fc2e5f192a9e757d349ef86ad40dfe2", "sourceBytes": 187, "sourceState": "/AP /N /Off, 18x18.0002", "shippedBy": "the Statement of Inability", "minusThisOperator": "1 g / 0 0 18 18.0002 re / f"}
+  ],
+  "whyTheAccountingToolCalledThemUNMATCHED": "Not because the fill colour was unrecognised -- its LEADING_FILL regex does match `1 g`. Two other gaps. FIRST, the regex is anchored at ^ and strips the fill together with the whitespace in front of it, so the SOURCE skeleton begins at `0.501953 g` while the DELIVERED stream, which had the fill removed in place, still begins with the two newlines left behind where it stood. The two skeletons then differ by two whitespace bytes and the SHA-256 comparison separates them. SECOND, the order's /Off opens `q` before its fill, so the fill is not at ^ at all and the regex never fires on that stream. Both are gaps in the normaliser, not evidence about provenance. account-stroke-only-against-pinned-sources.mjs was NOT run -- it rewrites the shared ledger for all 53 families and this lane holds five.",
+  "whatTheStrippedFillWasDoing": "It is not decoration and it is not invisible. Rendering the pinned Statement of Inability THREE ways at 600 dpi settles it: with every annotation removed, the court's own page prints a small square check box; as the source ships, the widget's /AP /N /Off paints an opaque white rectangle over that printed box and then strokes its own LARGER bevelled box, so the participant sees ONE box; in the delivered packet, with the fill stripped, the court's printed box shows through INSIDE the stamped appearance box. Two frames at every check box. This is the same defect FIX01 measured on co_petition_seal_arrest-set, on a different form.",
+  "soTheRemedy": "Restore the authored blank-state paint. Removing this ink would have erased a box the court itself prints -- the over-suppression the cohort has already paid for once."
+ },
+ "howTheRepairWasMade": {
+  "mechanism": "scripts/rcap-official-forms/rcap-active-content.mjs already carries the remedy: stripWidgetBackground({ preserveAuthoredPaint }), reached through the finalizeOfficialForm option preserveUnwrittenSelectionBackgrounds. The ledger's own builderOptsIn: false was the exact field. The repair is that opt-in in the family's builder and nothing else.",
+  "blastRadius": "The flag is opt-in and gated on unwritten AND (PDFCheckBox or PDFRadioGroup) AND disposition PRESERVE_SOURCE_APPEARANCE. /MK /BG is still cleared, so no background is ever requested that the source did not author. Written fields, other field types and every family that does not pass it are byte-unaffected.",
+  "notDoneHere": "No shared script was changed, no ledger shared with other families was rewritten, and no other family's builder was touched."
+ },
+ "rows": [
+  {
+   "familyId": "tx_nd_conviction_no_supervision-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+   "builderChanged": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+   "repairedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+   "recordedFailureRepaired": {
+    "obligation": "ARTIFACTS",
+    "recordedBy": "VF90, data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json, at base a09ef20d342929fb68141828508f38e65a5a8545",
+    "asRecorded": "strokeOnlyAppearances 72, matchingAPinnedSourceStream 32, matchingNothingInTheSources 40",
+    "reproduced": true,
+    "afterRepair": "matchingNothingInTheSources 0. All 40 are now byte-identical to the pinned source /AP /N /Off stream they are derived from: 22 to bb7f4e45..., 14 to b5b8bff3..., 2 to 75e5c08c..., 2 to 402ae6ac... across the two fixtures."
+   },
+   "artifacts": [
+    {"fixture": "canonical", "sha256": "b9ba48aad4748ed2fade6f6ea3da0bc6d6eede2a7135bf661173c578835367c1", "pageCount": 24, "sha256Before": "dd3c259471713851aa1bf607e3e75fcb6bc1ede719dd934212a0039dcd6f0dd6", "addedGlyphsReadFromOutputBytes": 262, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
+    {"fixture": "boundary", "sha256": "7c0194afb6e801acf09e1adcc3e8de34d91df9ac8d574e8a310e678755112841", "pageCount": 24, "sha256Before": "cc799883f128b0d113bbb448decf7b4fdd8f07640c777d0db9e340d32f4bb988", "addedGlyphsReadFromOutputBytes": 590, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+   ],
+   "digestsHowRecorded": "sha256sum over the committed files; no digest in this row was transcribed, padded or reconstructed by hand.",
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "eightOfNine": "the builder's own completeness-counters.json, computed with the repository's contract functions over this family's field map, byte proof and participant-instructions.md.",
+    "visualDefects": "measured by this lane, not taken from the builder, and the builder's own number was 0 BEFORE the repair while the doubled frames were on the page -- this is a defect no counter could see. Measured as a directional 600 dpi raster difference of every source-backed delivered page against a render of its pinned source page, read in BOTH directions, on BOTH fixtures.",
+    "notAVerdict": "These are measurements. This lane repaired these bytes and does not verify them. No verdict is set and no PASS is issued."
+   },
+   "acceptanceMeasurement": {
+    "resolution": "600 dpi grayscale, threshold 128, pdftoppm. The feature at issue is an 18pt box carrying a smaller printed box inside it; it is legible at this resolution and was also read as a crop.",
+    "pagesCompared": "20 of 24 delivered pages have a pinned source page. The other four (9, 22, 23, 24) are components this build authors and have no source page to difference against.",
+    "addedInkOutsideDeclaredWriteRects": {"canonical": 0, "boundary": 0, "tolerancePt": 1.5, "declaredRectsFrom": "reports/actual-writes.json"},
+    "negativeControl": {"pages": [2,3,4,7,8,12,13,14,15,18,19], "result": "11 pages the packet writes nothing on, each 0 pixels added and 0 pixels removed, on both fixtures."},
+    "removedInkAccountedLineByLine": {
+     "totalPixels": 22360,
+     "identicalBeforeAndAfterThisRepair": true,
+     "items": [
+      {"page": 1, "px": 8882, "what": "the source-authored default value `is not`, twice, in the petition's numbered blanks (11) and (12) -- `A copy of the judgment ... ___ (11) attached` and `Evidence of Petitioner's completion ... ___ (12) attached`.", "class": "source-authored default on an editable participant field, not printed form furniture", "whyRemovalIsCorrect": "the platform does not know whether the participant is attaching the judgment; shipping `is not` would assert on a filed petition that they are not. The blank is disclosed to the participant instead.", "notIntroducedByThisRepair": true},
+      {"page": 16, "px": 1426, "what": "the source-authored `0` in Total Value of Property, source rect [313.44 131.32 538.685 160.12]", "class": "source-authored default on an editable participant field", "notIntroducedByThisRepair": true},
+      {"page": 17, "px": 1426, "what": "the source-authored `0` in Total Monthly Expenses, source rect [318.218 91.2 538.68 120]", "class": "source-authored default on an editable participant field", "notIntroducedByThisRepair": true},
+      {"page": 20, "px": 10626, "what": "the source-authored `12/15/2022` on the date line of the Option 1 declaration under penalty of perjury, source rect [97.7522 302.312 247.752 324.312]", "class": "source-authored default on a PROTECTED_FIELD", "whyRemovalIsCorrect": "reports/blanks-left-for-the-participant.json classifies this blank PROTECTED_FIELD and participant-instructions.md tells the participant the date is left blank because they date it when they swear it. This is the removal VF05 required of the sibling family; it is already made here.", "notIntroducedByThisRepair": true}
+     ],
+     "formFurnitureRemoved": "none. No rule, box, leader, line art or printed word of the court's own is removed on any page, in either fixture."
+    },
+    "preservedByTheRepair": "every intended mark, every participant write and selection, and every signature, notary and jurat area. The Option 1 perjury declaration on page 20 keeps its signature rule untouched; only the stale source-authored date is absent, as this family's own participant page promises."
+   },
+   "governance": {
+    "doesThisBuilderRegenerateProductWiring": "NO. Measured, not assumed: the builder contains no reference to product-wiring, and the file's SHA-256 is 976d7b31bc0ac936fddf83727596e01f8d2d27024ef6d5b8486d639bc715574c both before and after the rebuild.",
+    "sixKeysBefore": "all six ABSENT -- acceptanceReceipt, lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed, maintenanceRelationship are none of them present in this family's product-wiring.json at base.",
+    "sixKeysAfter": "unchanged, still absent. Nothing was lost, nothing was invented, and no receipt was withdrawn because there was no receipt to withdraw. governance-preservation.mjs was not wired because there is no state here for it to carry and wiring it would have had to author values this lane has no business deciding.",
+    "verifier": "npm run rcap:verify-governance-preservation -- EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (235 records not readable in this sparse checkout, none of them this family) and GOVERNANCE_PRESERVATION_OK, 16 checks. Run before this commit.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+   },
+   "localRasterNote": "Built with --no-raster, so rasterState is BUILT_RASTER_PENDING. The local chromium rasteriser fails in this container (Page.captureScreenshot protocol error) and a local browser render is not a receipt in any case; RASTER_PASS comes from the central workflow bound to the exact SHA-256 recorded above."
+  }
+ ],
+ "grantsNothing": "This is a repair return. It opens no route, approves no packet, sets no verdict and issues no PASS."
+}
