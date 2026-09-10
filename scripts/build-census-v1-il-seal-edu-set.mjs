@@ -1039,10 +1039,30 @@ Two of those this packet cannot help with at all: an Illinois court cannot reach
   // paraphrasing a fee schedule beside it.
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. All nine are null because this file measures none of them; they used to ship as eight zeros and one null, which reported a clean measurement nobody had taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
+  /* FIX173: the last write has happened, so read the delivered packet back
+   * and assert it before this build may report success. */
+  assertDeliveredPacket();
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
 }
 
-function selfTest() {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion in this function reads a file build() has just
+ * written -- reports/actual-writes.json, production-field-map.json and
+ * participant-instructions.md -- and nothing else. There is no fixture
+ * harness here, no round trip and no scratch file, so all of it is an
+ * invariant of the delivered packet and belongs in the build path.
+ *
+ * It did not run there. Reaching selfTest() needed
+ * process.argv.includes("--self-test"), which nothing in CI or the
+ * integration chain passes; VF61 measured the consequence on the sibling
+ * il-seal-3yr-set by reintroducing a repaired defect and watching a plain
+ * build exit 0 and write it to disk. build() now calls this after its last
+ * write, and --self-test still runs the same function against the committed
+ * tree.
+ */
+function assertDeliveredPacket() {
   const report = JSON.parse(fs.readFileSync(path.join(OUT, "reports/actual-writes.json"), "utf8"));
   const writes = report.documents.flatMap((document) => document.actualWrites);
   const requestWrites = writes.filter((row) => row.documentId === "EXP-AD Request");
@@ -1163,6 +1183,10 @@ function selfTest() {
     assert.ok(row.alternativeSection && Array.isArray(row.alternativeDispositions) && row.alternativeDispositions.length,
       `an alternative must name its printed section and the record kinds it states: ${row.fieldName}`);
   }
+}
+
+function selfTest() {
+  assertDeliveredPacket();
   console.log("il-seal-edu-set self-test passed");
 }
 
