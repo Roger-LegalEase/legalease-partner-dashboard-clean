@@ -21,6 +21,40 @@ Check both against your own court record before you sign. You are signing under
 penalty of perjury. If either is not true of your case, this is the wrong
 packet, and you should stop and talk to a lawyer.
 
+## Stop and get help
+
+This packet is self-help. There are two points past which it cannot take you,
+and the Iowa legal-design record names them. **If either of the following is
+true, stop and get a lawyer before you go further.** These are the record's own
+words:
+
+- The county attorney opposes the application.
+- A disputed intervening conviction inside the two-year window.
+
+Both need saying plainly.
+
+**If the county attorney opposes the application, this packet stops being
+enough.** The county attorney is the notice recipient and may file a
+confidential response within 20 days after service unless the court orders
+otherwise. The court may conduct a hearing but none is required. If a response
+comes in, or the court sets your application down to be heard, you are being
+asked to answer an argument - and nothing in this packet answers one for you.
+Get a lawyer at that point, not after the hearing.
+
+**If there is any dispute about a conviction inside the two years after the
+PAULA conviction, stop here too.** The second sworn statement on page 1 says you
+had no criminal convictions in that window other than local traffic violations
+or simple misdemeanor violations under chapter 321. If you are not sure whether
+something on your record counts, or a record shows a conviction you believe is
+wrong or belongs to someone else, do not sign the statement and work it out with
+a lawyer first. You would be signing it under penalty of perjury.
+
+_The two conditions above are quoted from track `ia-12347` in
+`data/record-clearing/legal-design-track-registry.json` and in
+`data/record-clearing/legal-design-intake/IA.memo.json`; the build fails if
+either record stops carrying them word for word. That track is recorded as
+reviewed as of 2026-07-30._
+
 ## What you must do yourself, and nothing here can do for you
 
 - **I understand that I must provide a copy of this application to the county attorney.** the form prints "Please check each statement below after you have read it" above these boxes; reading is an act of the person filing and nothing here can perform it for them

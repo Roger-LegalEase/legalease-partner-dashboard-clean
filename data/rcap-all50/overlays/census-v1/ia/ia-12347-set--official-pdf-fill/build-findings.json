@@ -19,6 +19,10 @@
       "consequence": "Both are marked as route determinations and the conviction date is written, so the application states which route it proceeds under rather than asking the participant."
     },
     {
+      "finding": "The legal-design record names two self-help stop conditions for this track, and only one of them reached the participant.",
+      "consequence": "Both are now printed under \"## Stop and get help\" in participant-instructions.md, and the filing instructions name a county-attorney response as the point where this packet's help ends rather than as a thing that may happen. The two sentences are asserted verbatim against data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/IA.memo.json at build time; neither record is bound by a whole-file SHA-256, because both are shared records that unrelated route work rewrites, and a whole-file pin on either goes stale within days without saying whether these sentences moved."
+    },
+    {
       "finding": "The certification of service on page 2 is completed only after a copy is actually mailed or delivered.",
       "consequence": "Every field of it is left blank -- including the certifier's own printed name, which this packet holds -- because a certificate of mailing completed before the mailing happened would be false. The recipient's name and address are carried as disclosed required-before-filing items."
     },

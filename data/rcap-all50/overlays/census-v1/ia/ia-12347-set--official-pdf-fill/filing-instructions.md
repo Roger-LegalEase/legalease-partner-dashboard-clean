@@ -26,8 +26,17 @@ case number shown beside it. Check both against your court record.
 
 ## After filing
 
-The county attorney has an opportunity to respond. Keep a copy of everything you
-filed, including the completed certification of service if you filed on paper.
+Keep a copy of everything you filed, including the completed certification of
+service if you filed on paper.
+
+The county attorney is the notice recipient and may file a confidential
+response within 20 days after service unless the court orders otherwise. The
+court may conduct a hearing but none is required.
+
+**A response is where this packet's help ends.** If the county attorney
+opposes the application, or the court sets it down to be heard, stop and get a
+lawyer. This packet prepares an application; it does not argue a contested
+one, and there is nothing in it for you to file in reply.
 
 ## Fees and orders
 

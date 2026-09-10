@@ -67,10 +67,53 @@ const SOURCE = Object.freeze({
   sha256: "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45"
 });
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const STATE_MEMO = "data/record-clearing/legal-design-intake/IA.memo.json";
+const TRACK_ID = "ia-12347";
 const FIXED_DATE = new Date("2026-09-09T00:00:00.000Z");
+
+/*
+ * WHERE THIS PACKET'S HELP ENDS, SAID ON THE PAGE.
+ *
+ * The legal-design record names two conditions past which a self-represented
+ * filer should stop. Only the second reached the participant, and it reached
+ * them sideways -- as an instruction to check the two sworn statements against
+ * their own record. The first, county-attorney opposition, reached nobody: the
+ * delivered filing instructions said a response "may come" and never said that
+ * a contested application is where this packet stops being enough.
+ *
+ * These strings are held here as literals, and asserted verbatim against BOTH
+ * the track registry and the state memo at build time, so the page and the
+ * record cannot drift apart silently. They are deliberately NOT bound by a
+ * whole-file SHA-256: both records are shared, mutable, and rewritten by
+ * unrelated route work several times a week, so a whole-file pin on either one
+ * goes stale within days and says nothing about whether these two sentences
+ * moved. A verbatim content assertion is the thing this packet actually needs
+ * to be true.
+ */
+const SELF_HELP_STOP_CONDITIONS = Object.freeze([
+  "The county attorney opposes the application.",
+  "A disputed intervening conviction inside the two-year window."
+]);
+const COUNTY_ATTORNEY_RESPONSE = "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.";
 
 const SIGNATURE_CLASS = "signature_or_date_participant_completion";
 const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
+
+/* The delivered markdown is hard-wrapped. A sentence interpolated from a record
+ * arrives as one long line and reads as a defect on the page even though every
+ * counter stays green, so paragraphs that mix literal prose with record text
+ * are composed and wrapped here rather than typed inside the template. */
+const wrap = (text, width = 78) => {
+  const out = [];
+  let line = "";
+  for (const word of String(text).split(/\s+/).filter(Boolean)) {
+    if (line && (line.length + 1 + word.length) > width) { out.push(line); line = word; }
+    else line = line ? `${line} ${word}` : word;
+  }
+  if (line) out.push(line);
+  return out.join("\n");
+};
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
@@ -275,6 +318,41 @@ function custodyEvidence() {
   const sources = row.documentSources.filter((s) => s.resolved && s.heldAs?.sha256 === SOURCE.sha256);
   assert.equal(sources.length, 2, "both official-form labels must resolve to this one binary");
   return sources.map((s) => ({ sourceId: s.sourceId, tier: s.tier, identityEvidence: s.identityEvidence }));
+}
+
+/*
+ * Verify, against the records themselves, that the stop conditions this build
+ * prints are the record's own words -- in the track registry and in the state
+ * memo, both of which carry them. A mismatch fails the build rather than
+ * shipping a page that attributes words to a record that does not hold them.
+ */
+function verifyStopConditions() {
+  const registry = readJson(TRACK_REGISTRY);
+  const memo = readJson(STATE_MEMO);
+  const pick = (doc) => (doc.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  const rTrack = pick(registry);
+  const mTrack = pick(memo);
+  assert.ok(rTrack, `${TRACK_REGISTRY}: no track ${TRACK_ID}`);
+  assert.ok(mTrack, `${STATE_MEMO}: no track ${TRACK_ID}`);
+  for (const [label, track] of [["registry", rTrack], ["memo", mTrack]]) {
+    assert.deepEqual(
+      track.selfHelpStopConditions, [...SELF_HELP_STOP_CONDITIONS],
+      `${label}: selfHelpStopConditions for ${TRACK_ID} are not the two conditions this packet prints`
+    );
+  }
+  assert.equal(
+    JSON.stringify(mTrack).includes(COUNTY_ATTORNEY_RESPONSE), true,
+    `${STATE_MEMO}: the county-attorney response sentence this packet restates is not in the record`
+  );
+  return {
+    conditions: [...SELF_HELP_STOP_CONDITIONS],
+    verifiedVerbatimIn: [TRACK_REGISTRY, STATE_MEMO],
+    trackId: TRACK_ID,
+    reviewedAsOf: rTrack.reviewedAsOf ?? mTrack.reviewedAsOf ?? null,
+    reviewedAsOfReadFrom: rTrack.reviewedAsOf ? TRACK_REGISTRY : (mTrack.reviewedAsOf ? STATE_MEMO : null),
+    boundByWholeFileSha256: false,
+    whyNotBoundByWholeFileSha256: "both records are shared and are rewritten by unrelated route work; a whole-file pin on either goes stale within days without saying anything about whether these sentences moved. The build asserts the sentences verbatim instead."
+  };
 }
 
 /* ---- render -------------------------------------------------------------- */
@@ -530,7 +608,7 @@ function builderCounters(map, artifacts, instructions) {
 }
 
 /* ---- the two participant-facing documents -------------------------------- */
-function participantInstructions(ledger) {
+function participantInstructions(ledger, STOP) {
   const rbf = ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING");
   const elections = ledger.filter((x) => x.disposition === "PARTICIPANT_ELECTION_GENUINE");
   return `# Before you sign or file this application
@@ -555,6 +633,30 @@ that route:
 Check both against your own court record before you sign. You are signing under
 penalty of perjury. If either is not true of your case, this is the wrong
 packet, and you should stop and talk to a lawyer.
+
+## Stop and get help
+
+This packet is self-help. There are two points past which it cannot take you,
+and the Iowa legal-design record names them. **If either of the following is
+true, stop and get a lawyer before you go further.** These are the record's own
+words:
+
+- ${SELF_HELP_STOP_CONDITIONS[0]}
+- ${SELF_HELP_STOP_CONDITIONS[1]}
+
+Both need saying plainly.
+
+${wrap(`**If the county attorney opposes the application, this packet stops being enough.** ${COUNTY_ATTORNEY_RESPONSE} If a response comes in, or the court sets your application down to be heard, you are being asked to answer an argument - and nothing in this packet answers one for you. Get a lawyer at that point, not after the hearing.`)}
+
+**If there is any dispute about a conviction inside the two years after the
+PAULA conviction, stop here too.** The second sworn statement on page 1 says you
+had no criminal convictions in that window other than local traffic violations
+or simple misdemeanor violations under chapter 321. If you are not sure whether
+something on your record counts, or a record shows a conviction you believe is
+wrong or belongs to someone else, do not sign the statement and work it out with
+a lawyer first. You would be signing it under penalty of perjury.
+
+${wrap(`_The two conditions above are quoted from track \`${TRACK_ID}\` in \`${TRACK_REGISTRY}\` and in \`${STATE_MEMO}\`; the build fails if either record stops carrying them word for word.${STOP.reviewedAsOf ? ` That track is recorded as reviewed as of ${STOP.reviewedAsOf}.` : ""}_`)}
 
 ## What you must do yourself, and nothing here can do for you
 
@@ -617,8 +719,12 @@ case number shown beside it. Check both against your court record.
 
 ## After filing
 
-The county attorney has an opportunity to respond. Keep a copy of everything you
-filed, including the completed certification of service if you filed on paper.
+Keep a copy of everything you filed, including the completed certification of
+service if you filed on paper.
+
+${wrap(COUNTY_ATTORNEY_RESPONSE)}
+
+${wrap("**A response is where this packet's help ends.** If the county attorney opposes the application, or the court sets it down to be heard, stop and get a lawyer. This packet prepares an application; it does not argue a contested one, and there is nothing in it for you to file in reply.")}
 
 ## Fees and orders
 
@@ -643,6 +749,7 @@ async function build(argv = process.argv.slice(2)) {
       failedSourceIdentities: [source.failure], overlayDirectoryTouched: false };
   }
   const labels = custodyEvidence();
+  const STOP = verifyStopConditions();
   const out = path.join(ROOT, OUT_REL);
 
   const fixtures = {};
@@ -675,7 +782,7 @@ async function build(argv = process.argv.slice(2)) {
   }));
 
   const preliminary = builderCounters(map, artifactCounters, "");
-  const instructions = participantInstructions(preliminary.ledger);
+  const instructions = participantInstructions(preliminary.ledger, STOP);
   const audit = builderCounters(map, artifactCounters, instructions);
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   if (!allZero) {
@@ -757,6 +864,7 @@ async function build(argv = process.argv.slice(2)) {
       { finding: "The binary carries no AcroForm: 0 fields on 2 pages of 612x792.", consequence: "Values are drawn into page content at coordinates measured from the printed captions that name each slot. Every rect carries its own measurement basis in the field map." },
       { finding: "The form prints \"Please check each statement below after you have read it\" above the two Read Before Signing boxes.", consequence: "Both boxes are left unmarked and carried as genuine participant elections. Marking them would assert that a person had read something this build cannot know they read." },
       { finding: "The two numbered items are the statutory elements of the section 123.47(9) route this packet is built for.", consequence: "Both are marked as route determinations and the conviction date is written, so the application states which route it proceeds under rather than asking the participant." },
+      { finding: "The legal-design record names two self-help stop conditions for this track, and only one of them reached the participant.", consequence: "Both are now printed under \"## Stop and get help\" in participant-instructions.md, and the filing instructions name a county-attorney response as the point where this packet's help ends rather than as a thing that may happen. The two sentences are asserted verbatim against data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/IA.memo.json at build time; neither record is bound by a whole-file SHA-256, because both are shared records that unrelated route work rewrites, and a whole-file pin on either goes stale within days without saying whether these sentences moved." },
       { finding: "The certification of service on page 2 is completed only after a copy is actually mailed or delivered.", consequence: "Every field of it is left blank -- including the certifier's own printed name, which this packet holds -- because a certificate of mailing completed before the mailing happened would be false. The recipient's name and address are carried as disclosed required-before-filing items." },
       { finding: "The A/B representation election is not answered by this packet.", consequence: "The self-represented block is drafted for review and the election is carried as a participant election. The attorney block is refused as attorney-only on every field." }
     ]
