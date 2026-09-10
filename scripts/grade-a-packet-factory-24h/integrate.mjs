@@ -78,6 +78,28 @@ const CHAIN = [
   { name: "governance state survives",
     argv: ["scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs"],
     why: "296 product-wiring records carry governance state and 61 carry withdrawn receipts. A rebuild that strips an acceptance receipt is invisible in a diff and turns into a silent withdrawal at the next generate." },
+  /*
+   * THE THIRD TRIPWIRE, ADDED BY FIX173, AND THE SAME SHAPE AS THE OTHER TWO.
+   *
+   * 619 assertions across 14 builders sat inside a selfTest() reachable only
+   * through process.argv.includes("--self-test"), and nothing in .github/ or
+   * this chain passed that flag: the only --self-test in .github/ belongs to
+   * summarize-readiness-steps.mjs, which is not a builder. Repair lanes had
+   * been writing guards there and crediting them as protecting the repair.
+   *
+   * VF61 measured what that cost rather than inferring it. It put back the
+   * exact defect FIX166 had just repaired in il-seal-3yr-set, and a plain
+   * `node scripts/build-census-v1-il-seal-3yr-set.mjs` exited 0 and wrote the
+   * fabricated literals to disk; the same tree with --self-test exited 1.
+   * FIX173 moved the delivered-output invariants into the build paths that
+   * produce the artifacts, and this gate holds the line for whatever is still
+   * behind the flag: it discovers its scope by reading builder sources rather
+   * than from a list, so a builder that grows a dormant guard is covered the
+   * day it does, and it restores only what a self-test wrote.
+   */
+  { name: "builder self-tests actually run",
+    argv: ["scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs"],
+    why: "A guard nothing invokes is not a guard. Assertions written to protect a repaired packet sat behind a flag no CI job and no chain step passed, and VF61 proved a repaired defect walks straight back into the delivered bytes with the build reporting success." },
   { name: "extract verifier returns",
     argv: ["scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs"],
     why: "Reads every lane's return and selects the current verdict per family. Must precede generate.mjs, which reads its output." },

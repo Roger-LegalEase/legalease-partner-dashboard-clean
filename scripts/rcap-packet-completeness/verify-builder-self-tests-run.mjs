@@ -19,7 +19,11 @@
  * guide, because the guard was in selfTest() and the build had no reason to
  * refuse it.
  *
- * 676 assertions sit behind that flag across 14 builders. This runs them.
+ * 619 assertions sat behind that flag across 14 builders at 63a28b5f -- the
+ * figure this file first carried, 676, was not a reading of this tree. FIX173
+ * moved the delivered-output invariants of nine of those builders into the
+ * build paths that produce the artifacts, so the scope this reports shrinks as
+ * builders are repaired: what it counts is what is still dormant. This runs it.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -54,8 +58,44 @@ export function buildersWithAFlagGatedSelfTest(scriptsDir) {
   return out;
 }
 
+/* What is already modified or untracked under the overlays, as `git status`
+ * reports it. Anything in this set was not put there by a self-test. */
+function dirtyUnderOverlays() {
+  try {
+    const out = execFileSync("git", ["status", "--porcelain", "--", "data/rcap-all50"],
+      { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"], encoding: "utf8" });
+    return new Set(out.split("\n").filter(Boolean).map((line) => line.slice(3).trim()));
+  } catch { return null; }
+}
+
+/*
+ * A builder's self-test may write into its own output directory, and leaving
+ * that behind would make the next reader think a build happened. Restoring it
+ * with a blanket `git checkout -- data/rcap-all50` would be worse: FIX173 put
+ * this checker in the integration chain, where it runs inside a worktree that
+ * may hold a lane's uncommitted packet work, and a blanket checkout would
+ * discard it without a word. So only paths that were clean before this run and
+ * are dirty after it are restored -- what a self-test wrote, and nothing else.
+ */
+function restore(before) {
+  if (before === null) return;
+  const after = dirtyUnderOverlays();
+  if (after === null) return;
+  const written = [...after].filter((entry) => !before.has(entry));
+  if (!written.length) return;
+  for (const entry of written) {
+    const absolute = path.join(ROOT, entry);
+    try { execFileSync("git", ["checkout", "--", entry], { cwd: ROOT, stdio: "pipe" }); }
+    catch {
+      /* Untracked: git has no version to restore, so remove what the run added. */
+      try { fs.rmSync(absolute, { recursive: true, force: true }); } catch { /* already gone */ }
+    }
+  }
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const scope = buildersWithAFlagGatedSelfTest(SCRIPTS);
+  const dirtyBefore = dirtyUnderOverlays();
   const failures = [];
   for (const { builder } of scope) {
     try {
@@ -68,9 +108,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       failures.push({ builder, why: line.slice(0, 240) });
     }
   }
-  /* A builder's self-test may write into its own output directory. Leaving that
-   * behind would make the next reader think a build happened. */
-  try { execFileSync("git", ["checkout", "--", "data/rcap-all50"], { cwd: ROOT, stdio: "pipe" }); } catch { /* nothing to restore */ }
+  restore(dirtyBefore);
 
   const total = scope.reduce((a, b) => a + b.assertions, 0);
   if (!failures.length) {
