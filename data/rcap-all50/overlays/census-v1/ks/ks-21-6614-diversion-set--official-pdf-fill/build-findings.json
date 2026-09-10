@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ks-21-6614-diversion-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The Kansas Judicial Council republication restriction is unresolved and this build does not resolve it.",
+      "detail": "The committed track registry records that the Judicial Council states its forms are for non-commercial use and may not be sold, republished or transferred for value without express permission, and that every Kansas official-form route is source-gated on that licence until permission is confirmed. MASTER_QUEUE carries the same hold as sourceReconciliation.permissionHold with the exact next action \"Resolve Kansas Judicial Council commercial reuse and republication treatment\". These artifacts are internal build and review evidence; generationAllowed is false and no commercial route is opened. The hold is an owner and counsel determination and remains open.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": true
+    },
+    {
+      "finding": "Five of the six official binaries stand behind a PARTIAL custody.",
+      "detail": "The operational Nationwide Record Clearing tree is not mounted in this container. Five of the six sources resolve through private/source-imports/Nationwide_Recovery_Pool_2026-09-02, whose own declaration in data/rcap-all50/local-source-corpus-index.json says it \"satisfies an individual source obligation and never a completeness assertion\". Each of the five was verified byte-for-byte against the digest MASTER_QUEUE pins, which is an individual source obligation and nothing more. No completeness claim about the Kansas corpus is made anywhere in this family.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    },
+    {
+      "finding": "The shared field-semantics registry carries no Kansas entries, and that is why several facts the platform collects are printed as blanks rather than written.",
+      "detail": "scripts/rcap-official-forms/rcap-field-semantics.mjs binds a value to a field only through FACT_DESCRIPTORS, and relaxes its protect rules only through PARTICIPANT_STATED_SUBJECT, whose entries are keyed to the exact printed captions of particular Alabama and Oregon forms. Kansas has none. The consequence, measured on these six binaries: the arresting agency, the crime charged, the offence of conviction, the conviction date, the convicting court, the date of final discharge, the arrest county, the arrest date, the year of birth and the name at the time of the case are all refused by the shared semantics, and this family declares each of them REQUIRED_BEFORE_FILING and discloses it. That is the same treatment 104 committed refusals across this corpus already give an arresting-agency blank. A later lane that owns rcap-field-semantics.mjs could add Kansas captions and promote several of these blanks to writes; this lane does not own that module and changing it would move other families' bytes.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    },
+    {
+      "finding": "MASTER_QUEUE's packetComponents for this family omits the process-guidance component the committed registry declares required.",
+      "detail": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json lists six packetComponents for ks-21-6614-diversion-set. The committed legal-design track registry declares seven for packetSet ks-21-6614-diversion-set, the seventh being ks-21-6614-diversion-process-guidance-7 with role process_guidance and requirement required, and the registry's packetInstructions say in terms that the packet carries a hearing-preparation document putting the four K.S.A. 21-6614(h) findings in plain language. This build produces all seven and counts requiredComponentsMissing against the registry, which is the controlling record. The queue row is the one that is short.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    },
+    {
+      "finding": "This family states its own route election, and the sibling conviction family cannot.",
+      "detail": "The Judicial Council petition opens with two mutually exclusive boxes: \"an order of expungement of my [ ] conviction and related arrest records OR [ ] diversion record and related arrest records\". The election is determined by the statutory route, and this build marks the DIVERSION box from held facts, guarded against a held disposition that contradicts it. The sibling family ks-21-6614-conviction-set marks nothing there and stops with requiredOptionsMissing at one, on the same form and the same line, because its caption carries the word \"conviction\" and the shared disposition_or_hearing protect rule matches it while nothing in this one's caption does. The asymmetry is an accident of vocabulary rather than a difference in what the two packets are entitled to state, and a reader comparing the two families should know that this one passed the same gate its sibling failed, for that reason and no other. Neither family reworded a caption and neither edited the shared module.",
+      "blastRadiusIfTheSiblingIsFixed": "Across the 295 committed census-v1 production field maps in this tree, 14,231 write and refusal labels were scanned for the phrase \"expungement of my\". Three carry it: the two Kansas boxes, and one Vermont label reading \"expungement of my criminal history is in the interests of justice\", which a caption regex anchored on \"and related arrest records\" does not reach. A Kansas PARTICIPANT_STATED_SUBJECT entry that unblocks the conviction family therefore moves no other family's bytes, and would not move this family's either: this box is already marked.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    },
+    {
+      "finding": "A label this family authored suppressed five held writes, and the counter did not notice until the counting was changed.",
+      "detail": "The petition's own contact block — Name (Print), Address 1, City State Zip, Telephone Number, E-mail Address, printed under the \"Defendant, Pro Se\" line — was first labelled \"Signature block — ...\" by this family. protectCategoryOf read the word \"Signature\" and refused all five writes; classifyBlank then read the same label, called each blank an allowed PROTECTED_FIELD, and reported knownRequiredFieldsMissing as zero while five facts the platform holds were missing from the paper. Two changes came out of it, and both are in the build path: the labels now name the block the form actually prints, and a declared write the saved artifact does not carry is counted as a missing known fact from the fact of the suppression, before the blank is handed to classifyBlank at all, so no label can launder it again.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    },
+    {
+      "finding": "The harvested caption channel binds four values wrongly on these binaries, which is why this family authors every label.",
+      "detail": "Measured with the repository's own captureWidgetContext and decideBinding, with no authored labels: the petition's Year of Birth blank binds matter.county; the petition's and the notice's Fax Number blanks bind participant.email; the Criminal Cover Sheet's DL OR STATE ID NO binds participant.state; the notice's division and room blanks bind matter.county; and on the Order for Expungement the blank at \"The petitioner was granted a diversion for the crime of\" binds participant.full_legal_name. Every one of those would be a wrong value in a box a court reads, on documents signed under penalty of perjury. This family authors a label for every field of every binary and censusOf refuses a field the table does not name.",
+      "blocksBuild": false,
+      "blocksApprovalForLive": false
+    }
+  ]
+}

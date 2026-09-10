@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-builder-completeness-counters/v1",
+  "familyId": "ks-21-6614-diversion-set",
+  "whatThisIs": "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract functions over this family's field map, its byte proof and participant-instructions.md.",
+  "whatThisIsNot": "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires an independent fifteen-obligation verification and a hash-bound RASTER_PASS from the central raster workflow.",
+  "howEachCounterWasTaken": {
+    "knownRequiredFieldsMissing": "classifyBlank from scripts/rcap-packet-completeness/completeness-contract.mjs, run over every refusal row of the canonical field map, counting KNOWN_FACT_NOT_WRITTEN.",
+    "requiredFactsNotCollected": "every blank the contract classified REQUIRED_BEFORE_FILING, checked by substring against the generated text of participant-instructions.md.",
+    "unclassifiedBlanks": "the same classifyBlank pass, counting UNCLASSIFIED_BLANK.",
+    "incompleteRows": "rowKeyOf over written and blank rows together; a row with any written cell and a REQUIRED_KNOWN blank cell is counted.",
+    "requiredOptionsMissing": "the same classifyBlank pass, counting ROUTE_OPTION_NOT_SELECTED.",
+    "requiredComponentsMissing": "the seven components the committed track registry declares for this family, minus the components this run actually produced bytes for.",
+    "invisibleWrites": "per artifact, the finalizer's written count against the glyphs and flattened widget appearances READ BACK from the saved artifact bytes; a document reporting writes with no readable ink is counted.",
+    "protectedWrites": "classifyField over every WRITTEN row's label; a write onto a field the contract classes PROTECTED is counted.",
+    "visualDefects": "per artifact, the count of refused fields found carrying printed text at their own measured rectangle in the saved bytes, plus non-whitespace glyphs measured outside the write boxes.",
+    "everyCounterIsMeasured": "No counter here is a literal. Each is the length of a findings list produced by the pass named beside it, over this run's own rows and this run's own saved bytes. A pass that could not run would leave its counter null and stop the build rather than report zero."
+  },
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "allNineZero": true,
+  "findings": [],
+  "terminalFields": 227,
+  "written": 42,
+  "blank": 185,
+  "blankDispositions": {
+    "OPTIONAL_PARTICIPANT_CONTENT": 6,
+    "REQUIRED_BEFORE_FILING": 50,
+    "PARTICIPANT_ELECTION_GENUINE": 18,
+    "LATER_COMPLETION": 14,
+    "NOT_APPLICABLE_ON_THIS_ROUTE": 23,
+    "PROTECTED_FIELD": 74
+  }
+}
