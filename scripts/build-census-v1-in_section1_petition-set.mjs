@@ -97,7 +97,8 @@ import { extractTextItems, groupIntoLines, captureWidgetContext, normalizeHarves
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
-import { participantInstructionsMarkdown as renderIndianaCcaSection1Guide, measureDelivery, assertRepairInvariants }
+import { participantInstructionsMarkdown as renderIndianaCcaSection1Guide, measureDelivery, assertRepairInvariants,
+  leftBlankDisclosures, blanksMissingFromTheGuide, readTrackWaitingPeriods }
   from "./lib/indiana-cca-section1-guide.mjs";
 import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
@@ -1201,15 +1202,56 @@ The committed track registry for this route — \`data/record-clearing/legal-des
 - Immigration, firearm, licensing or CDL consequences are in play.
 - The person wants to attack the underlying conviction rather than expunge it.`;
 
-function participantInstructionsMarkdown() {
-  return renderIndianaCcaSection1Guide({
+/*
+ * FIX132/SERVICE + REQUIRED_BEFORE_FILING + ROUTE_IDENTITY.
+ *
+ * Two things reach the guide from records rather than from prose typed here.
+ *
+ * `track` is THIS route's own waiting-period record. The bullet that states when
+ * the participant may file used to be one hard-coded sentence shared by both
+ * Indiana families, and it stated the SIBLING route's rule -- an early-filing
+ * exception on the prosecutor's written agreement that this track does not
+ * grant. It is now generated from the registry entry for TRACK_ID, and where
+ * that record states no exception the guide states none.
+ *
+ * `disclosures` is the build's own list of every blank it left. The guide
+ * refuses to render if a blank cannot be placed in a named group, and the family
+ * STOPS below if any blank fails to reach the finished text -- a refusal is only
+ * correct when what it refuses is disclosed.
+ */
+const TRACK_ID = "in_section1_petition";
+
+async function participantInstructionsMarkdown() {
+  const disclosures = leftBlankDisclosures({ rootDir, outRel: OUT });
+  if (disclosures.unclassified.length > 0) {
+    fail(
+      "REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE: the build left a blank whose kind the guide has no disclosure "
+      + "wording for, so it would have had to be left out of the participant's list. A blank nobody can describe "
+      + "is a blank nobody discloses",
+      JSON.stringify(disclosures.unclassified)
+    );
+  }
+  const markdown = renderIndianaCcaSection1Guide({
     routeLabel: ROUTE_LABEL,
     routeEligibility: ROUTE_ELIGIBILITY,
     routeKeys: ROUTE_KEYS,
     routeStatutes: ROUTE_STATUTES,
     selfHelpTail: SELF_HELP_TAIL,
-    delivered: measureDelivery({ rootDir, outRel: OUT })
+    delivered: await measureDelivery({ rootDir, outRel: OUT }),
+    track: readTrackWaitingPeriods({ rootDir, trackId: TRACK_ID }),
+    disclosures
   });
+  const undisclosed = blanksMissingFromTheGuide(disclosures, markdown);
+  if (undisclosed.length > 0) {
+    fail(
+      "REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE: a blank this packet leaves unmarked reaches the participant "
+      + "nowhere in the generated guide, neither by its own box name nor through the group it was placed in. An "
+      + "independent verifier failed this family for exactly that on the proposed order's law-enforcement service "
+      + "list; the guide is now checked against the whole blanks report before a byte of it is written",
+      JSON.stringify(undisclosed)
+    );
+  }
+  return markdown;
 }
 // ---- main --------------------------------------------------------------------
 async function main() {
@@ -1570,6 +1612,14 @@ async function main() {
       document: doc.documentId,
       field: f.name,
       page: f.widgets?.[0]?.page ?? null,
+      /*
+       * FIX132. `page` records only the FIRST widget, and on this bundle that
+       * under-discloses where the participant actually meets the blank: LEA1,
+       * LEA2 and LEA3 each have a widget on the PETITION's page 5 as well as on
+       * the order's page 12, and `County` reaches pages 5, 12, 13 and 14. The
+       * guide groups and counts from this list, so it needs all of them.
+       */
+      pages: [...new Set((f.widgets ?? []).map((w) => w.page))].sort((a, b) => a - b),
       effectiveLabel: f.effectiveLabel,
       reason: refusedBy.get(f.name)?.reason ?? "not_reached",
       category: refusedBy.get(f.name)?.category ?? null,
@@ -1614,7 +1664,7 @@ async function main() {
       + "each of them, so the participant knows the inserts are here and where each one goes."
   });
 
-  fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`), participantInstructionsMarkdown());
+  fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`), await participantInstructionsMarkdown());
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1",

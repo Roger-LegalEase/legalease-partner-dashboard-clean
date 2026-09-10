@@ -37,6 +37,7 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
+import { extractTextItems } from "../rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const BUNDLE_DOCUMENT_ID = "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE";
 const INSERT_DOCUMENT_ID = "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS";
@@ -87,7 +88,7 @@ const englishList = (items) =>
  * from anybody's memory of the form. Everything the guide says about placement is
  * rendered from this object.
  */
-export function measureDelivery({ rootDir, outRel }) {
+export async function measureDelivery({ rootDir, outRel }) {
   const out = path.join(rootDir, outRel);
   const census = JSON.parse(fs.readFileSync(path.join(out, "field-census.census-v1.json"), "utf8"));
   const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
@@ -148,8 +149,39 @@ export function measureDelivery({ rootDir, outRel }) {
     courtTypePages: pagesOf("DD-cap-CourtType"),
     fullSsnPages: pagesOf("PetFullSSN"),
     insertFieldCount:
-      (census.documents.find((d) => d.documentId === INSERT_DOCUMENT_ID)?.fields ?? []).length
+      (census.documents.find((d) => d.documentId === INSERT_DOCUMENT_ID)?.fields ?? []).length,
+    /*
+     * FIX132. The number of blank printed rules the participant actually meets
+     * under "Law Enforcement Agencies:" on the proposed order, counted in the
+     * DELIVERED canonical bundle by geometry rather than typed here: every text
+     * run of ten or more underscores whose origin falls inside the census
+     * rectangle of List-MailingAddresses_LEA. The guide states this number, so
+     * if the form changes the number changes with it.
+     */
+    leaServiceRules: await countLeaServiceRules({ rootDir, outRel, bundleCensus })
   };
+}
+
+/*
+ * Counted from the bytes this build just produced. Returns null rather than a
+ * guess when the field or its page is not there, and the caller refuses to
+ * render a sentence around a null.
+ */
+async function countLeaServiceRules({ rootDir, outRel, bundleCensus }) {
+  const field = bundleCensus.fields.find((f) => f.name === "List-MailingAddresses_LEA");
+  const widget = field?.widgets?.[0];
+  if (!widget) return null;
+  const file = path.join(rootDir, outRel, "fixtures/packet-canonical-filled.pdf");
+  if (!fs.existsSync(file)) return null;
+  const { PDFDocument } = require("pdf-lib");
+  const doc = await PDFDocument.load(fs.readFileSync(file), { ignoreEncryption: true, updateMetadata: false });
+  const page = doc.getPages()[widget.page - 1];
+  if (!page) return null;
+  const r = widget.rect;
+  return extractTextItems(page).filter((item) =>
+    /^_{10,}$/.test(String(item.text ?? "").trim())
+    && item.x >= r.x - 2 && item.x <= r.x + r.width + 2
+    && item.y >= r.y - 2 && item.y <= r.y + r.height + 2).length;
 }
 
 /* ---- the generated paragraphs ------------------------------------------------ */
@@ -230,10 +262,146 @@ function ssnStep() {
 function orderStep(delivered) {
   const address = delivered.written.find((w) => w.field === "Address");
   const onThirteen = delivered.written.filter((w) => w.pages.includes(13)).map((w) => LABELS[w.field] ?? w.field);
-  return `8. **Leave the proposed order's findings and decree alone.** Its findings, its decree and its directions to the Indiana State Police, the county sheriff and the other agencies are the court's, and this packet writes none of them. It is not true that the packet writes nothing below the order's caption: ${englishList(onThirteen)} are printed in the order's **distribution list on page 13**, which is the list of who the clerk sends the signed order to, and your name is also printed in the order's opening line and its FINDINGS paragraph 1 on page 9 because those are the same caption box. Check those and leave the rest.`;
+  return `8. **Leave the proposed order's findings and its decree alone — but not the whole of it, and this is the correction that matters most in this guide.** The order's FINDINGS, its decree and the words of its directions to the Indiana State Police, the county sheriff and the other agencies are the court's, and this packet writes none of them. Three things below the order's caption are nonetheless **not** the court's and are **not** filled in for you:
+
+   - **the addresses the signed order is to be sent to, on pages 13 and 14** — the county prosecutor's and the county sheriff's on page 13, the county clerk's on page 14, and the block of printed rules under the heading **"Law Enforcement Agencies:"** on page 14. That block alone is ${delivered.leaServiceRules} blank printed rules and this packet writes nothing in any of them;
+   - **the agencies whose records you are asking the court to order removed** — WHEREFORE item 1, sub-items **(b) to (e)** on the petition's page 5, and the same item copied into the order on page 12;
+   - ${englishList(onThirteen)}, which **are** printed in the order's **distribution list on page 13** because they come from the same caption boxes that fill the rest of the bundle, as is your name in the order's opening line and its FINDINGS paragraph 1 on page 9.
+
+   **The committed route record for this packet does not say who completes those address blanks.** It says only that "The court serves the prosecuting attorney" and that the appearance form nonetheless carries a certificate of service — nothing at all about the order's distribution list or the law-enforcement list. **Ask the clerk of the court where you file** whether that court expects you to complete them before you lodge the proposed order. Do not guess, and do not leave them out on the assumption that somebody else fills them.`;
 }
 
-function leftBlankSection() {
+/* ---- every blank, and who fills it ------------------------------------------- */
+
+/*
+ * FIX132/SERVICE + REQUIRED_BEFORE_FILING.
+ *
+ * An independent read of the delivered bytes found that this guide disclosed no
+ * blank on any page above 8. The proposed order's law-enforcement service list
+ * on page 14 -- the block of printed rules under the heading "Law Enforcement
+ * Agencies:" -- was refused by the build, correctly, because the shared binder
+ * had been writing the PETITIONER'S HOME ADDRESS into it. But the refusal was
+ * recorded only in reports/blanks-left-for-the-participant.json, whose `why`
+ * says "The participant lists the agencies from their own records" -- a duty the
+ * participant was never told they had. Step 8 told them the opposite: that the
+ * order's directions to the agencies are the court's and to "leave the rest".
+ * The same silence covered the petition's WHEREFORE agency blanks, items 1(b)
+ * to 1(e) on page 5, and their copies inside the order on page 12.
+ *
+ * A refusal is only correct when what it refuses is disclosed. So every blank in
+ * the build's own report is classified into a named group here, the groups are
+ * rendered into the guide, and a blank this module cannot place in a group stops
+ * the family rather than shipping an incomplete list: a blank nobody can
+ * describe is a blank nobody discloses.
+ */
+
+const INSERT_GROUP = "insert_pages";
+
+/*
+ * The groups, each with the phrase that must appear in the finished guide for
+ * the group to count as disclosed. The anchor is checked against the rendered
+ * markdown, so deleting a section without deleting its group fails the build.
+ */
+export const LEFT_BLANK_GROUPS = Object.freeze({
+  caption_court_type: { anchor: "the caption's court type", whoFillsIt: "you" },
+  caption_cause_number: { anchor: "the cause number the clerk gives you", whoFillsIt: "you, after the clerk assigns it" },
+  appearance_details: { anchor: "Appearance —", whoFillsIt: "you" },
+  related_cases_table: { anchor: "the related-cases table, six Caption and Case No. pairs", whoFillsIt: "you, if there are related cases" },
+  certificate_of_service: { anchor: "the certificate of service, both limbs", whoFillsIt: "you, after you have served" },
+  identity_numbers: { anchor: "the last four digits of your Social Security number", whoFillsIt: "you" },
+  aliases_and_dob: { anchor: "any other names you have used", whoFillsIt: "you" },
+  petition_relief_elections: { anchor: "mark the relief you are asking the court to order", whoFillsIt: "you" },
+  other_case_numbers: { anchor: "The related criminal cause numbers and the appellate cause numbers", whoFillsIt: "you, if there are any" },
+  court_findings_and_elections: { anchor: "These are the court's own findings", whoFillsIt: "the court" },
+  agency_records_to_be_removed: { anchor: "the agencies whose records you are asking the court to order removed", whoFillsIt: "you" },
+  order_distribution_list: { anchor: "the proposed order's distribution list", whoFillsIt: "not stated by the committed record" },
+  order_service_addresses: { anchor: "Law Enforcement Agencies", whoFillsIt: "not stated by the committed record" },
+  [INSERT_GROUP]: { anchor: "everything on them is yours to write", whoFillsIt: "you" }
+});
+
+/*
+ * Which group a blank belongs to, decided from the box name and the page the
+ * form puts it on -- never from the guide's own prose. Returns null when this
+ * module cannot name a group, which stops the build.
+ */
+function leftBlankGroupOf(blank, isInsertDocument) {
+  if (isInsertDocument) return INSERT_GROUP;
+  const f = blank.field;
+  const pages = blank.pages ?? (blank.page == null ? [] : [blank.page]);
+  const on = (n) => pages.includes(n);
+
+  if (f === "DD-cap-CourtType") return "caption_court_type";
+  if (/^Caption\d+$/.test(f) || /^CauseNumber\d+$/.test(f)) return "related_cases_table";
+  if (f === "Check Box3" || f === "Check Box4") return "related_cases_table";
+  if (f === "Check Box1" || f === "Check Box2" || f === "Fax" || f === "AdditionalInformation") return "appearance_details";
+  // The three certificates of service and their e-filing limbs, on pages 2, 6 and 7.
+  if (/^(County|Date|ProsecutorAddress)\d+$/.test(f) && (on(2) || on(6) || on(7))) return "certificate_of_service";
+  if (["Check Box6", "Check Box7", "Check Box11", "Check Box12", "Check Box13", "Check Box14"].includes(f)) {
+    return "certificate_of_service";
+  }
+  if (["PetSSN-Last4", "PetFullSSN", "PetDLorStateID#"].includes(f)) return "identity_numbers";
+  if (f === "PetitionerAliases" || f === "PetDOB") return "aliases_and_dob";
+  if (f === "Check Box9" || f === "Check Box10") return "petition_relief_elections";
+  if (f === "RelatedCriminalCauseNumbers" || f === "AppellateCauseNumbers") return "other_case_numbers";
+  if (f === "Check Box8" || f === "Check Box31") return "court_findings_and_elections";
+  // The agencies named in WHEREFORE item 1 of the petition (page 5) and copied
+  // into the same item of the proposed order (page 12).
+  if (/^LEA[123]$/.test(f) || (f === "County" && (on(5) || on(12)))) return "agency_records_to_be_removed";
+  if (["Prosecutor", "ProsecutorMailingAddress", "MailAddressSheriff"].includes(f)) return "order_distribution_list";
+  if (["CountyClerkAddress", "List-MailingAddresses_LEA", "Check Box32", "Check Box33", "Check Box34"].includes(f)) {
+    return "order_service_addresses";
+  }
+  return null;
+}
+
+/**
+ * Every blank this build left, grouped, read from the build's OWN report rather
+ * than from anything typed here. `unclassified` is returned instead of being
+ * skipped so the caller can stop the family.
+ */
+export function leftBlankDisclosures({ rootDir, outRel }) {
+  const report = JSON.parse(
+    fs.readFileSync(path.join(rootDir, outRel, "reports/blanks-left-for-the-participant.json"), "utf8")
+  );
+  const rows = [];
+  const unclassified = [];
+  for (const blank of report.blanks ?? []) {
+    const isInsert = blank.document === INSERT_DOCUMENT_ID;
+    const group = leftBlankGroupOf(blank, isInsert);
+    if (group === null || !LEFT_BLANK_GROUPS[group]) {
+      unclassified.push({ document: blank.document, field: blank.field, page: blank.page, reason: blank.reason });
+      continue;
+    }
+    rows.push({
+      group,
+      document: blank.document,
+      field: blank.field,
+      pages: blank.pages ?? (blank.page == null ? [] : [blank.page]),
+      reason: blank.reason,
+      why: blank.why ?? null
+    });
+  }
+  return { rows, unclassified, countedFromReport: (report.blanks ?? []).length };
+}
+
+/**
+ * Every blank must be reachable from the finished guide: by its own box name, or
+ * through the anchor phrase of the group it was placed in. A blank in neither is
+ * returned, and the caller stops the family rather than shipping it.
+ */
+export function blanksMissingFromTheGuide(disclosures, markdown) {
+  const hay = String(markdown ?? "");
+  const missing = [];
+  for (const row of disclosures.rows) {
+    if (hay.includes(`\`${row.field}\``)) continue;
+    const anchor = LEFT_BLANK_GROUPS[row.group]?.anchor ?? null;
+    if (anchor && hay.includes(anchor)) continue;
+    missing.push({ field: row.field, pages: row.pages, group: row.group, anchorLookedFor: anchor });
+  }
+  return missing;
+}
+
+function leftBlankSection(delivered) {
   return `## What the platform deliberately left blank
 
 - **Every signature in the bundle, and every date beside one.** You make the statements; the petition's AFFIRMATION is made under penalties for perjury.
@@ -241,15 +409,172 @@ function leftBlankSection() {
 - **Your Social Security number in all three of its blanks** — the petition's last-four blank on page 3, the Confidential Information Form's whole-number blank on page 8, and the order's findings paragraph 2 on page 9 — and your driver licence number. The platform holds none of them.
 - **Your aliases.** The shared field binder would have written your own legal name into the “other names or aliases” blank in the proposed order's findings, which asserts you have used your own name as an alias. It is refused for that reason.
 - **The related criminal cause numbers and the appellate cause numbers** in the proposed order. Both would have received *this* matter's cause number, and both ask for other cases' numbers.
-- **The findings, the decree and the agency directions in the proposed order**, which belong to the court. The order is not untouched: your name and current address are printed in its distribution list on page 13, and your name in its caption, its opening line and its findings paragraph 1 on page 9, all from the same caption boxes that fill the rest of the bundle.
+- **The findings, the decree and the WORDS of the agency directions in the proposed order**, which belong to the court. This does **not** extend to the addresses those directions are sent to, which are separate blanks and are listed above and below.
+- **Every agency address in the proposed order.** On page 13, the county prosecutor's name and mailing address and the county sheriff's department address; on page 14, the county clerk's address and the ${delivered.leaServiceRules} printed rules under **"Law Enforcement Agencies"**. The platform holds no agency mailing addresses. This is also a refusal made on purpose: the shared field binder matched the participant's own street address onto the law-enforcement block — its printed label reads to the census as two control characters rather than as words — so an earlier build printed **the petitioner's home address as a law-enforcement agency's service address** inside the order a judge signs. The write is refused; the blanks are yours to know about, and **the committed record does not say who completes them**.
+- **The agencies in WHEREFORE item 1**, sub-items (b) to (e) on petition page 5 and in the order on page 12. The petition asks the court to order your records removed by named agencies, and only sub-item (a), the Indiana State Police, is printed. The platform holds no list of the agencies that hold records of your arrest.
+- **The order is not untouched.** Your name and current address are printed in its distribution list on page 13, and your name in its caption, its opening line and its findings paragraph 1 on page 9, all from the same caption boxes that fill the rest of the bundle.
 - **The cause number, everywhere.** The bundle has no box for it and the clerk assigns it when you file.`;
+}
+
+/* ---- the generated ledger of every blank -------------------------------------- */
+
+const GROUP_TITLES = Object.freeze({
+  caption_court_type: "The caption's court type",
+  caption_cause_number: "The cause number",
+  appearance_details: "The Appearance's own boxes",
+  related_cases_table: "The Appearance's related-cases question and table",
+  certificate_of_service: "The four certificates of service",
+  identity_numbers: "Your Social Security and identification numbers",
+  aliases_and_dob: "Your other names and your date of birth",
+  petition_relief_elections: "The petition's WHEREFORE election squares",
+  other_case_numbers: "Other cases' cause numbers",
+  court_findings_and_elections: "The court's own findings and election squares",
+  agency_records_to_be_removed: "The agencies whose records you are asking the court to order removed",
+  order_distribution_list: "The proposed order's distribution list",
+  order_service_addresses: "The proposed order's service addresses, including the law-enforcement list",
+  insert_pages: "The four insert pages"
+});
+
+/*
+ * Rendered from leftBlankDisclosures(), which reads the build's own blanks
+ * report. Nothing here is typed per blank, so a blank that appears in a future
+ * build appears here too -- and one this module cannot classify stops the build
+ * before this renders at all.
+ */
+function leftBlankLedger(disclosures) {
+  const byGroup = new Map();
+  for (const row of disclosures.rows) {
+    const key = row.group;
+    const entry = byGroup.get(key) ?? { fields: new Set(), pages: new Set() };
+    entry.fields.add(row.field);
+    for (const page of row.pages) entry.pages.add(page);
+    byGroup.set(key, entry);
+  }
+  const lines = [...byGroup.entries()]
+    .sort((a, b) => (GROUP_TITLES[a[0]] ?? a[0]).localeCompare(GROUP_TITLES[b[0]] ?? b[0]))
+    .map(([group, entry]) => {
+      const pages = [...entry.pages].sort((a, b) => a - b);
+      const where = group === INSERT_GROUP
+        ? `all four insert pages`
+        : listPages(pages);
+      return `| ${GROUP_TITLES[group] ?? group} | ${where} | ${entry.fields.size} | ${LEFT_BLANK_GROUPS[group].whoFillsIt} |`;
+    });
+  return `## Every blank in this packet, counted
+
+**This table is generated from the build's own record of what it did not fill**, \`reports/blanks-left-for-the-participant.json\`, and it covers **all ${disclosures.countedFromReport}** of them. Nothing this packet left blank is missing from it. Where the last column says the committed record does not state who fills a blank, that is what the record does — it is not an omission in this guide.
+
+| The blanks | Where | How many box names | Who fills it |
+| --- | --- | --- | --- |
+${lines.join("\n")}
+${sharedNamesNote(disclosures)}`;
+}
+
+/*
+ * A box name that reaches several pages is listed under the group where the
+ * participant's duty arises, and the "Where" column names every page that box
+ * name reaches -- which on this bundle is not always the same thing. `County` is
+ * one box name on four pages in three different roles: the agency county in
+ * WHEREFORE item 1 on pages 5 and 12, the prosecutor's county on page 13 and the
+ * clerk's on page 14. Saying so is better than quietly trimming the pages,
+ * because the participant meets the box on all of them.
+ */
+function sharedNamesNote(disclosures) {
+  const shared = disclosures.rows
+    .filter((r) => r.document !== INSERT_DOCUMENT_ID && r.pages.length > 1)
+    .sort((a, b) => b.pages.length - a.pages.length || a.field.localeCompare(b.field))
+    .map((r) => `\`${r.field}\` (${listPages(r.pages)})`);
+  if (shared.length === 0) return "";
+  return `
+**${ordinalWord(shared.length)} of the box names above reach more than one page**, because the Coalition's form binds one name to several boxes: ${englishList(shared)}. Each is listed under the group where your duty to fill it arises, and the "Where" column names every page that box name reaches. On the flattened copy you were given, each printed line is separate — fill the ones the tables above tell you to fill, on the pages they name.`;
+}
+
+/* ---- the waiting period, from the route's OWN committed record ---------------- */
+
+/*
+ * FIX132/ROUTE_IDENTITY.
+ *
+ * This bullet used to be one hard-coded sentence, shared by both families:
+ * "one year from the arrest, charge or allegation, whichever is later" with an
+ * exception for "the written agreement of the prosecuting attorney". That is
+ * true of in_section1_petition and FALSE of in_arrest_no_charges, whose track in
+ * data/record-clearing/legal-design-track-registry.json carries exactly one
+ * waitingPeriods entry -- "The arrest, with no charges pending" / "One year" --
+ * and no early-filing exception at all; the prosecutor's written agreement is a
+ * required generationRequirement of the sibling track only. The arrest family's
+ * guide therefore told the participant they could file early on a term its own
+ * route does not grant, and contradicted its own eligibility paragraph nineteen
+ * lines above.
+ *
+ * So the bullet is generated from the track record each builder reads, and every
+ * clause in it is quoted from that record. Where the record states no exception,
+ * nothing is said about one: a rule the record does not state is not written.
+ */
+export function readTrackWaitingPeriods({ rootDir, trackId }) {
+  const registry = JSON.parse(
+    fs.readFileSync(path.join(rootDir, "data/record-clearing/legal-design-track-registry.json"), "utf8")
+  );
+  let found = null;
+  const walk = (node) => {
+    if (!node || typeof node !== "object") return;
+    if (!Array.isArray(node) && (node.trackId === trackId || node.id === trackId)) found = node;
+    for (const value of Object.values(node)) walk(value);
+  };
+  walk(registry);
+  assert.ok(found, `the track registry carries no track ${trackId}`);
+  const waitingPeriods = found.waitingPeriods ?? [];
+  assert.ok(waitingPeriods.length > 0, `track ${trackId} states no waiting period; the guide will not invent one`);
+  const requirementKeys = (found.generationRequirements ?? []).map((r) => r.key);
+  return {
+    trackId,
+    waitingPeriods: waitingPeriods.map((w) => ({ condition: String(w.condition), duration: String(w.duration) })),
+    requiresProsecutorWrittenAgreementEarlyFiling: requirementKeys.includes("prosecutorWrittenAgreementEarlyFiling")
+  };
+}
+
+/*
+ * An entry whose CONDITION is itself the exception rather than a period -- the
+ * sibling track's {condition: "Written agreement of the prosecuting attorney",
+ * duration: "Early filing permitted"} -- is read as an exception; anything else
+ * is read as a waiting period. Decided on the record's own words, not on the
+ * family.
+ */
+const isEarlyFilingException = (entry) => /early filing/i.test(entry.duration);
+
+function waitingPeriodBullet(track) {
+  const periods = track.waitingPeriods.filter((w) => !isEarlyFilingException(w));
+  const exceptions = track.waitingPeriods.filter(isEarlyFilingException);
+  const said = periods
+    .map((w) => `**${w.duration}** measured from “${w.condition}”`)
+    .join("; or ");
+  const head = `- **the waiting period has not run.** The committed record for *this* route states it in its own words: ${said}.`;
+  if (exceptions.length === 0) {
+    // Silence in the record is reported as silence. Nothing is inferred from the
+    // sibling route, which is exactly the defect this replaced.
+    return `${head} **The record for this route states no exception and no early-filing term**, so this guide states none either. If you believe your case should be treated differently, that is a question for a lawyer and not something this packet decides;`;
+  }
+  const saidExceptions = exceptions
+    .map((w) => `**${w.duration.toLowerCase()}** on “${w.condition}”`)
+    .join("; and ");
+  const agreement = track.requiresProsecutorWrittenAgreementEarlyFiling
+    ? " The same record makes that agreement a required answer before this packet is generated at all."
+    : "";
+  return `${head} The same record states ${exceptions.length === 1 ? "one exception" : `${exceptions.length} exceptions`}: ${saidExceptions}.${agreement} Obtaining that agreement is not something this packet does;`;
 }
 
 /* ---- the guide --------------------------------------------------------------- */
 
 export function participantInstructionsMarkdown({
-  routeLabel, routeEligibility, routeKeys, routeStatutes, selfHelpTail, delivered
+  routeLabel, routeEligibility, routeKeys, routeStatutes, selfHelpTail, delivered, track, disclosures
 }) {
+  assert.ok(track && Array.isArray(track.waitingPeriods) && track.waitingPeriods.length > 0,
+    "the guide will not render without this route's own waiting-period record");
+  assert.ok(Number.isInteger(delivered.leaServiceRules) && delivered.leaServiceRules > 0,
+    "the guide states the number of law-enforcement service rules on the order and cannot state a number it did not measure");
+  const LEA_RULE_COUNT = delivered.leaServiceRules;
+  assert.ok(disclosures && Array.isArray(disclosures.rows) && disclosures.rows.length > 0,
+    "the guide will not render without the build's own list of the blanks it left");
+  assert.equal(disclosures.unclassified.length, 0,
+    `the guide will not render around a blank it cannot describe: ${JSON.stringify(disclosures.unclassified)}`);
   return `# Filing instructions — ${routeLabel} (Indiana, I.C. § 35-38-9-1)
 
 This packet is one PDF published by the Coalition for Court Access and approved for use in Indiana courts. It contains five documents:
@@ -351,6 +676,11 @@ ${orderStep(delivered)}
 | 6 | Petition — the certificate of service, both limbs | as on page 2, **after you have served** |
 | 7 | Form ACR — the certificate of service, both limbs | as above, **after you have served** |
 | 8 | Confidential Information Form — full Social Security Number (\`PetFullSSN\`) | your whole Social Security number. This form is filed as a confidential document, and its “PETITIONER’S NAME” line is already printed |
+| 5, 12 | Petition WHEREFORE item 1 and its copy in the order — sub-items (b) to (e), "removed by the following agencies" (\`County\`, \`LEA1\`, \`LEA2\`, \`LEA3\`) | the county sheriff's department, and up to three further agencies whose records you are asking the court to order removed. Sub-item (a), the Indiana State Police, is already printed |
+| 9, 12 | the proposed order — related criminal cause numbers and appellate cause numbers (\`RelatedCriminalCauseNumbers\`, \`AppellateCauseNumbers\`) | other cases' numbers, if there are any. This packet writes neither, because both would otherwise receive *this* matter's number |
+| 13 | the proposed order's distribution list — the county prosecutor's name and mailing address and the county sheriff's department address (\`Prosecutor\`, \`ProsecutorMailingAddress\`, \`MailAddressSheriff\`) | the mailing addresses the signed order is to be sent to. The platform holds none of them. **The committed record does not say who completes this list — ask the clerk** |
+| 14 | the proposed order — the county clerk's address and its election square (\`CountyClerkAddress\`, \`Check Box32\`, \`Check Box33\`, \`Check Box34\`) | the clerk's address, and the squares beside the transferred-probation, appellate and no-contact-order addresses, each of which the form says to mark only in the case its own printed note describes |
+| 14 | the proposed order — **"Law Enforcement Agencies:"**, ${LEA_RULE_COUNT} blank printed rules (\`List-MailingAddresses_LEA\`) | the mailing address of every law-enforcement agency the signed order must be served on. **This packet writes nothing here at all.** The platform holds no agency addresses, and an earlier build wrote your own home address into this block — see the note below |
 
 ## The insert pages: everything on them is yours to write, and here is why
 
@@ -370,7 +700,26 @@ So fill all four insert pages by hand, from your court and arrest records and no
 | 4 | Exhibit A — the records to be expunged | \`Criminal Cause Number\`, \`CountyCityArrest\`, \`Date of Dismissal\` | the criminal cause number, the county and city of the arrest, and the date of dismissal |
 | 4 | Exhibit A — the offence grid and dispositions | \`OffenseDescript-Exhibit-Ct5\`, \`OffenseDescript-Exhibit-Ct6\`, \`OffenseDescript-Exhibit-Ct7\`, \`DD-LevelChoice-Ct5\`, \`DD-LevelChoice-Ct6\`, \`DD-LevelChoice-Ct7\`, \`DD-ChargeLevel-Ct5\`, \`DD-ChargeLevel-Ct6\`, \`DD-ChargeLevel-Ct7\`, \`DD-Misd/Felony-Ct5\`, \`DD-Misd/Felony-Ct6\`, \`DD-Misd/Felony-Ct7\`, \`ChargeDisposition-Ct1\`, \`ChargeDisposition-Ct2\`, \`ChargeDisposition-Ct3\`, \`ChargeDisposition-Ct4\`, \`ChargeDisposition-Ct5\`, \`ChargeDisposition-Ct6\`, \`ChargeDisposition-Ct7\` | any further counts, and the disposition of every count |
 
-${leftBlankSection()}
+## The proposed order asks for addresses, and this packet supplies none of them
+
+**This is the part of the packet that was previously not described to you at all, and it is the part most likely to stop a filing.**
+
+The proposed order at pages 9 to 15 is what you are asking the judge to sign. Its findings and its decree are the court's. **Its address blocks are not findings.** They are the list of who the signed order is sent to, and they are printed as empty rules:
+
+| Page | The block | How many blanks | What this packet wrote in them |
+| --- | --- | --- | --- |
+| 5, 12 | WHEREFORE item 1, "removed by the following agencies" — sub-items (b), (c), (d) and (e) | four, one of them a county name | nothing |
+| 13 | "_______ County Prosecutor / Attn: ____" and "_______ County Sheriff's Dept." | three | nothing |
+| 14 | "☐ ______ County Clerk" and its address | three, plus three election squares | nothing |
+| 14 | **"Law Enforcement Agencies:"** | ${LEA_RULE_COUNT} printed rules | nothing |
+
+**Why this packet writes nothing there.** LegalEase holds no mailing address for the Indiana State Police, a county sheriff, a county clerk or any other agency, and it holds no list of which agencies hold records of your arrest. It is also a refusal made deliberately after a defect: the form's own label for the law-enforcement block reads to the software as two control characters rather than as words, and the shared field binder matched **your own street address** onto it — so an earlier build printed the petitioner's home address as a law-enforcement agency's service address inside an order for a judge to sign. That write is now refused outright.
+
+**Who completes them is not stated by any record this packet is built from.** The committed route record says only that "The court serves the prosecuting attorney" and that the appearance form nonetheless carries its own certificate of service — it says nothing about the order's distribution list, nothing about the law-enforcement list, and nothing about the WHEREFORE agencies. **This guide will not guess.** Ask the clerk of the court where you file whether that court expects you to complete these blocks before you lodge the proposed order, and get the addresses from that clerk's office or from the agencies themselves.
+
+${leftBlankSection(delivered)}
+
+${leftBlankLedger(disclosures)}
 
 ## Where self-help ends
 
@@ -379,7 +728,7 @@ This packet prepares official forms; it does not decide anything. Stop and get a
 - **you are not sure which of the insert pages your case needs, or how to complete them.** All four are in this packet, and every blank on them is yours to fill from your own court and arrest records;
 - **there will be a hearing and you are not ready for one.** The committed record for this packet records that "The court sets a hearing" on this route;
 - charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true;
-- **less than a year has passed.** The committed record records the waiting period as one year from the arrest, charge or allegation, whichever is later — and records one exception: early filing is permitted on the **written agreement of the prosecuting attorney**. Obtaining that agreement is not something this packet does;
+${waitingPeriodBullet(track)}
 - your case ended in a conviction. This packet is for an arrest, criminal charge or juvenile delinquency allegation that did **not** result in a conviction, and the proposed order says so on its face;
 - you want appellate records sealed. The petition and the order both have a place for appellate cause numbers and this packet writes neither, because an appellate cause number is issued by a different court and the platform holds none.
 ${selfHelpTail}
@@ -408,7 +757,7 @@ export async function assertRepairInvariants({ rootDir, outRel, familyId }) {
   const { PDFDocument } = require("pdf-lib");
   const out = path.join(rootDir, outRel);
   const guide = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
-  const delivered = measureDelivery({ rootDir, outRel });
+  const delivered = await measureDelivery({ rootDir, outRel });
 
   assert.equal(delivered.familyId, familyId, `${outRel}: the census names a different family`);
 
