@@ -4773,9 +4773,23 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   ].filter(([, present]) => !present).map(([label]) => label);
   assert.deepEqual(missingP1P2FixContracts, [],
     `missing WEST P1/P2 fix contracts: ${missingP1P2FixContracts.join("; ")}`);
+  /*
+   * FIX173. This literal was copied from the sibling WEST engine
+   * (build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, whose
+   * FAMILIES legitimately holds these nine) and was never updated when this
+   * copy took ownership of its namesake tenth family. ca-1203-4-set belongs in
+   * FAMILIES: it is this engine's FIRST_FAMILY, it is the only CA family here
+   * carrying an assignmentOwnedPath (the marker of a family this copy builds
+   * rather than reads), it has the matching per-family entries in
+   * CA_ROUTE_VARIANTS and CA_PARTICIPANT_GUIDANCE and its own
+   * scripts/census-v1-ca-1203-4-set/ readers, and its overlay directory is
+   * committed. Removing it from FAMILIES would break the CA_ROUTE_VARIANTS
+   * census below instead. The expectation was stale; the registry was right.
+   */
   assert.deepEqual(Object.keys(FAMILIES).sort(), [
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_marijuana_expungement_superior_court-set",
+    "ca-1203-4-set",
     "ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set",
     "ca-17b-reduction-set", "ca-851-91-set", "ca-prop64-set",
   ].sort());
@@ -5005,14 +5019,33 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     "FillText10", "FillText11", "FillText13", "FillText14", "FillText7", "FillText8",
     "FillText9", "NoticeFooter1", "NoticeHeader1",
   ]);
+  /* FIX173: same stale copy as the FAMILIES census above. Every CA family whose
+   * formNumbers carry MC-031 takes the measured MC-031 labels, and
+   * ca-1203-4-set carries MC-031; ca-1203-43-set, which does not, is correctly
+   * absent. The invariant is asserted directly below the literal. */
   assert.deepEqual(Object.entries(FAMILIES)
     .filter(([, family]) => family.useMeasuredMc031Labels === true)
     .map(([familyId]) => familyId).sort(), [
-    "ca-1203-41-set", "ca-1203-42-set", "ca-1203-4a-set", "ca-851-91-set",
-  ]);
+    "ca-1203-41-set", "ca-1203-42-set", "ca-1203-4-set", "ca-1203-4a-set", "ca-851-91-set",
+  ].sort());
+  assert.deepEqual(Object.entries(FAMILIES)
+    .filter(([, family]) => family.useMeasuredMc031Labels === true)
+    .map(([familyId]) => familyId).sort(),
+  Object.entries(FAMILIES)
+    .filter(([, family]) => family.jurisdiction === "ca" && family.formNumbers.includes("MC-031"))
+    .map(([familyId]) => familyId).sort(),
+  "a CA family carrying MC-031 must read its measured MC-031 labels");
+  /* FIX173: this engine's namesake family carries the same CR-106 measured-label
+   * and nested-control-detachment repair as its four siblings, and its
+   * committed production-field-map.json proves it -- the measured CR-106
+   * caption basis appears there exactly as it does for ca-1203-41-set, and not
+   * at all for ca-17b-reduction-set, which does not take the repair. The
+   * literal was copied from the sibling AZ engine, where ca-1203-4-set is not
+   * a member of FAMILIES at all, and never grew the tenth entry. */
   const repaired1203Families = [
+    "ca-1203-4-set",
     "ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set",
-  ];
+  ].sort();
   assert.deepEqual(Object.entries(FAMILIES)
     .filter(([, family]) => family.useMeasuredCr106Labels === true)
     .map(([familyId]) => familyId).sort(), repaired1203Families);
