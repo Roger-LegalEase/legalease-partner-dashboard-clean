@@ -3,7 +3,7 @@
 This packet is two ACIC forms, filed together:
 
 - **Petition to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — what you file. It is **sworn**: page 4 is a VERIFICATION you sign in front of a notary.
-- **Order to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — the proposed order you hand the court to sign. Its thirteen recital paragraphs, its GRANTED decree, its direction to the clerk, the judge's signature and the date beside it are the court's alone; this packet writes nothing there.
+- **Order to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — the proposed order you hand the court to sign. Below its caption this packet fills exactly two blanks, both of which identify you rather than decide anything: **your legal name in the Defendant blank inside the GRANTED decree** — the sentence reads "the Petition of the Defendant, ______, to Seal the above referenced felony conviction(s) ... should be, and hereby is GRANTED" — and **your date of birth in the identification block** at the foot of the last page. Everything else below the caption is the court's alone and this packet writes nothing there: its thirteen recital paragraphs, its election boxes, the finding the decree pronounces, its direction to the clerk, the judge's signature and the date beside it.
 
 The petition asks the court to seal a **felony** conviction — its own prayer on page 3 says "to seal the above referenced felony conviction(s) pursuant to A.C.A. § 16-90-1407".
 
@@ -53,7 +53,7 @@ After — and only after — you have actually served both, complete the Certifi
 6. **Sign the page 4 VERIFICATION in front of a notary.** The petition is sworn: page 4 reads "Comes the Petitioner, ______, under oath and states that the foregoing Petition is true and correct to the best of my knowledge and belief", and below it "Subscribed and sworn to before me on this ___ day of ______, 20__" with the notary's own signature and commission-expiry lines. **Your name is filled in the "Comes the Petitioner" line; the signature rule above the word "Petitioner" is yours to sign, in front of the notary and not before.** The county in "STATE OF ARKANSAS / COUNTY OF ______" is the county where you are sworn, which nobody can know in advance — you or the notary write it at the swearing. The jurat date and everything below it belong to the notary.
 7. **Sign and date the petition on page 3 as well.** That signature and its date are yours and are left blank.
 8. **Serve the prosecuting attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on page 5.
-9. **Leave the order alone below its caption.** The recitals, the election boxes, the decree, the clerk's distribution direction, the judge's signature and the date beside it are the court's.
+9. **Leave the order alone below its caption, apart from the two blanks already filled for you.** Your legal name is printed in the Defendant blank inside the GRANTED decree, and your date of birth in the identification block on the last page — read both and correct them if either is wrong. The recitals, the election boxes, the finding the decree pronounces, the clerk's distribution direction, the judge's signature and the date beside it are the court's.
 
 ## Petition — the items you must supply
 
