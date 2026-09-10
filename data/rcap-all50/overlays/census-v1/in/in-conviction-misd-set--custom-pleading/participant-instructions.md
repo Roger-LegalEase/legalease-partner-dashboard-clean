@@ -42,35 +42,35 @@ Check every prefilled fact against your own court record and your certified limi
 - **Complete a field** (required, required before filing): Section classification — Petition, offence classification.
 - **Complete a field** (required, required before filing): Additional-information narrative — Petition, additional information.
 - **Complete a field** (required, required before filing): Full Social Security number — Confidential Information Form.
-- **Sign** (required, required before filing): The petition is verified and signed by the petitioner.
-- **Pay a fee** (required, required before filing): A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.
-- **Apply for a fee waiver** (conditional, required before filing): Unresolved. Indigency waiver availability has not been confirmed. Condition: Applies only if you cannot pay the filing fee.
+- **Sign** (required, required before filing): The petition is verified, and you sign it yourself.
+- **Pay a fee** (required, required before filing): A civil filing fee applies to Sections 2 through 5. This packet has not confirmed the amount, whether it is charged separately in each county, or whether an indigency waiver is available.
+- **Apply for a fee waiver** (conditional, required before filing): This packet has not confirmed whether an indigency waiver is available to you. Condition: Applies only if you cannot pay the filing fee.
 - **Serve a party** (required): Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.
 - **File** (required): File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.
 
 ## Where this is filed
 
-- Venue: A circuit or superior court in the county of conviction. A person with convictions in more than one county files in each, and those filings count as one petition only if they fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).
+- Venue: A circuit or superior court in the county of conviction. If you have convictions in more than one county you file in each of them, and those filings count as a single petition only if they all fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).
 - Destination (court): Circuit or superior court in the county of conviction
 - The petition is served on the prosecuting attorney under the Trial Rules. Where the prosecutor does not object or waives objection, the court may grant without a hearing under § 35-38-9-9(a). A victim may submit an oral or written statement.
 - Filing: File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.
 
 ## What it costs
 
-- Fees: A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.
-- Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.
+- Fees: A civil filing fee applies to Sections 2 through 5. This packet has not confirmed the amount, whether it is charged separately in each county, or whether an indigency waiver is available.
+- Fee waiver: This packet has not confirmed whether an indigency waiver is available to you.
 - The record held here does not state the amount, whether it is charged per county, or whether an indigency waiver exists. This packet does not guess at any of the three. Ask the clerk of the court you are filing in for the current civil filing fee and for whatever waiver that court accepts.
 
 ## Notice, objection and service
 
-- Notice: The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, with no right of cross-examination by the petitioner.
+- Notice: The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, and you have no right to cross-examine them on it.
 - Service: Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.
 - The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing, so this packet states none.
 
 ## Signing
 
-- Signature: The petition is verified and signed by the petitioner.
-- Notarization: none
+- Signature: The petition is verified, and you sign it yourself.
+- Notarization: Not required.
 
 ## Rules and limits that apply to your petition (6 rules)
 
@@ -112,7 +112,7 @@ Check every prefilled fact against your own court record and your certified limi
 
 ## Hard eligibility limits (4 exclusions)
 
-- Convictions excluded by the statutory exclusion structure, which must be verified against the current text of §§ 35-38-9-2 through 5.
+- Convictions excluded by the statutory exclusion structure of §§ 35-38-9-2 through 5.
 - Charges pending anywhere.
 - Unpaid fines, fees, court costs or unsatisfied restitution.
 - A conviction within the applicable period, or within a shorter period the prosecutor agreed to.

@@ -47,6 +47,26 @@
  * do it again. If a record changes, the build stops and a person decides what
  * the participant is told.
  *
+ * THE GUARANTEE WAS HALF A GUARANTEE, AND THAT IS WHY THE LEAK REGREW
+ *
+ * When this file was first written only three of its tables were read through
+ * the refusing lookup. ACTION_TEXT_WORDING, ACTION_CONDITION_WORDING and
+ * ORDER_BLANK_WHY_WORDING were read as `table.get(key) ?? raw`, so any sentence
+ * nobody had decided was printed to the participant unchanged -- including on
+ * the page-2 action block where the original leak was found. A guarantee with a
+ * fallback is not a guarantee; it is a default that happens to be quiet.
+ *
+ * Worse, `filingInstructions()` -- which builds pages 6-7 of every guidance PDF
+ * -- imported none of this and printed the record straight through behind five
+ * fallbacks that invented factory prose for a missing field. A sentence that
+ * this module refuses on page 2 was printed unrefused on page 6.
+ *
+ * Every table is now read through `participantWording`, and every sentence
+ * either function prints is decided here. A row whose committed text already
+ * speaks properly to the reader is recorded WITH that text as its decision
+ * rather than being allowed through by fallback, so the audit distinguishes
+ * "read and kept" from "never read".
+ *
  * `say: null` means the line was judged wholly internal and is not printed.
  * `judgement` is recorded into build-findings.json so the per-line calls can be
  * audited without re-deriving them.
@@ -211,9 +231,12 @@ export const STOP_CONDITION_WORDING = new Map([
 /* registryTrack.packetSet.participantActionRequired                   */
 /* ------------------------------------------------------------------ */
 
-/** Only the action rows whose committed text speaks to the factory or about the
- *  reader in the third person are held here. Everything else is printed as the
- *  record states it, so this map is consulted and not required. */
+/** EVERY action row is decided here, and the lookup refuses an unknown one.
+ *  This table used to be consulted with `?? raw`, so a row nobody had read was
+ *  printed to a participant unchanged -- on the very block where the first leak
+ *  was found. A row whose committed text already speaks properly to the reader
+ *  is recorded with that text as its decision, so "decided" and "unchanged" stay
+ *  distinguishable in the audit rather than collapsing into a silent fallback. */
 export const ACTION_TEXT_WORDING = new Map([
   [
     "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
@@ -221,6 +244,118 @@ export const ACTION_TEXT_WORDING = new Map([
       say: "Request a certified limited criminal history from the Indiana State Police. What it costs and how long it takes both change, so confirm the current fee and turnaround with the State Police when you request it.",
       removed: "\"Confirm the current charge and turnaround at build time\", which told this system's builders to re-check the fee when the packet is generated.",
       judgement: "Participant-facing once re-addressed. The participant is the one making the request, and the fee and turnaround are theirs to confirm; the repeated document name was also collapsed to one mention."
+    }
+  ],
+  [
+    "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+    {
+      say: "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+      removed: null,
+      judgement: "Printed as the record states it. It already addresses the reader in the second person, names an act only they can perform, and carries no direction to this system."
+    }
+  ],
+  [
+    "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+    {
+      say: "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+      removed: null,
+      judgement: "Printed as the record states it. Both sentences are imperatives addressed to the reader and name an act only they can perform."
+    }
+  ],
+  [
+    "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+    {
+      say: "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+      removed: null,
+      judgement: "Printed as the record states it. Second person throughout, and the act is the participant's."
+    }
+  ],
+  [
+    "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+    {
+      say: "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+      removed: null,
+      judgement: "Printed as the record states it. \"Silence is not consent\" is a rule the participant needs before they read a non-answer as agreement, and this packet asserts no consent has been given."
+    }
+  ],
+  [
+    "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+    {
+      say: "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+      removed: null,
+      judgement: "Printed as the record states it. Second person, and it asks the participant to check rather than asserting any prosecutor act."
+    }
+  ],
+  [
+    "Verification and signature — Petition, verification block.",
+    {
+      say: "Verification and signature — Petition, verification block.",
+      removed: null,
+      judgement: "Printed as the record states it. It names a blank on a document the participant is holding and where on it that blank sits; it addresses nobody in the third person and directs nothing to this system."
+    }
+  ],
+  [
+    "Section classification — Petition, offence classification.",
+    {
+      say: "Section classification — Petition, offence classification.",
+      removed: null,
+      judgement: "Printed as the record states it, on the same ground as the verification block."
+    }
+  ],
+  [
+    "Additional-information narrative — Petition, additional information.",
+    {
+      say: "Additional-information narrative — Petition, additional information.",
+      removed: null,
+      judgement: "Printed as the record states it, on the same ground as the verification block."
+    }
+  ],
+  [
+    "Full Social Security number — Confidential Information Form.",
+    {
+      say: "Full Social Security number — Confidential Information Form.",
+      removed: null,
+      judgement: "Printed as the record states it. The rule that constrains it -- last four digits on the petition, full number only on the confidential form -- is stated to the participant in the limitations section."
+    }
+  ],
+  [
+    "The petition is verified and signed by the petitioner.",
+    {
+      say: "The petition is verified, and you sign it yourself.",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. Nothing was withheld: the sentence described the reader as \"the petitioner\" in a list of acts the reader must perform, which is the same third-person address repaired elsewhere in this packet. It states the requirement and asserts no signature has been made."
+    }
+  ],
+  [
+    "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+    {
+      say: "A civil filing fee applies to Sections 2 through 5. This packet has not confirmed the amount, whether it is charged separately in each county, or whether an indigency waiver is available.",
+      removed: null,
+      judgement: "Participant-facing once the gap is owned. \"Are unresolved\" left it ambiguous whether the statute is unsettled or this packet simply has not checked; it is the second, and saying so keeps the participant from reading a research gap as a statement of Indiana law. The remedy -- ask the clerk -- is carried by the fee section and the open questions."
+    }
+  ],
+  [
+    "Unresolved. Indigency waiver availability has not been confirmed.",
+    {
+      say: "This packet has not confirmed whether an indigency waiver is available to you.",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. A bare status token led a step marked required before filing, which reads as a verdict on the participant's own case rather than on this packet's research; the following sentence rescued it, but only after the reader had already met the word. Recast in the second person with the remedy this packet states elsewhere."
+    }
+  ],
+  [
+    "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+    {
+      say: "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+      removed: null,
+      judgement: "Printed as the record states it. It states a rule and directs the reader to the form; nothing in it speaks to this system."
+    }
+  ],
+  [
+    "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+    {
+      say: "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+      removed: null,
+      judgement: "Printed as the record states it. It is an imperative naming the documents and the destination, and it is the act the participant performs."
     }
   ]
 ]);
@@ -249,11 +384,202 @@ export const ACTION_CONDITION_WORDING = new Map([
 
 /** The field map is an internal artifact and "this build" is accurate there, so
  *  the map is left alone and the wording is translated only where the guidance
- *  prints it to a participant. */
+ *  prints it to a participant. Every `why` the guidance prints is decided here
+ *  and the lookup refuses an unknown one; the six that already describe an act
+ *  of the court or the clerk are recorded with their own text, so a new one
+ *  cannot arrive by fallback. */
 export const ORDER_BLANK_WHY_WORDING = new Map([
   [
     "granting or denying the petition is the court's decision and this build makes none of it",
     "granting or denying the petition is the court's decision, and nothing in this packet decides it"
+  ],
+  [
+    "the findings are the court's, made by a preponderance on the statutory conditions",
+    "the findings are the court's, made by a preponderance on the statutory conditions"
+  ],
+  [
+    "the decretal paragraphs are the court's judgment",
+    "the decretal paragraphs are the court's judgment"
+  ],
+  [
+    "the sealing directives are the court's, and the related arrest records are ordered expunged by the same order under I.C. 35-38-9-6(g) and 35-38-9-7(e)",
+    "the sealing directives are the court's, and the related arrest records are ordered expunged by the same order under I.C. 35-38-9-6(g) and 35-38-9-7(e)"
+  ],
+  [
+    "the court dates its own order",
+    "the court dates its own order"
+  ],
+  [
+    "the judge signs if and when the court enters the order",
+    "the judge signs if and when the court enters the order"
+  ],
+  [
+    "distribution of a signed order is the clerk's act",
+    "distribution of a signed order is the clerk's act"
+  ]
+]);
+
+/* ------------------------------------------------------------------ */
+/* memoTrack.exclusions                                                */
+/* ------------------------------------------------------------------ */
+
+/** The exclusions block printed the committed strings straight through. One of
+ *  them carried the passive remnant of a build-time instruction -- "Verify each
+ *  against the current text before the evaluator uses them" survived as "to be
+ *  verified against the current text", actorless, in a list of bars a
+ *  participant is reading to decide whether they are eligible at all. The bar is
+ *  kept; the remnant is not, because the open-questions section of this packet
+ *  already tells the participant, in the second person, that this exclusion list
+ *  has not been traced to the statute and that they should check any bar that
+ *  might apply to them with legal help. Saying it twice, once without an actor,
+ *  weakened the place it is said properly. */
+export const EXCLUSION_WORDING = new Map([
+  [
+    "Offences involving serious bodily injury.",
+    {
+      say: "Offences involving serious bodily injury.",
+      removed: null,
+      judgement: "Printed as the record states it. It names the bar and nothing else."
+    }
+  ],
+  [
+    "Convictions excluded by the statutory exclusion structure, to be verified against the current text.",
+    {
+      say: "Convictions excluded by the statutory exclusion structure.",
+      removed: "\"to be verified against the current text\", the actorless remnant of the build-time instruction \"Verify each against the current text before the evaluator uses them\". It named no one who must verify, and this packet's open-questions section states the same caveat to the participant directly, with the remedy.",
+      judgement: "The bar is participant-facing and is kept. The trailing clause was direction to this system's own eligibility work, left standing in the passive voice; it told the reader nothing they could act on and blunted the properly-addressed warning that follows."
+    }
+  ],
+  [
+    "Convictions excluded by the statutory exclusion structure, which must be verified against the current text of §§ 35-38-9-2 through 5.",
+    {
+      say: "Convictions excluded by the statutory exclusion structure of §§ 35-38-9-2 through 5.",
+      removed: "\"which must be verified against the current text\", the same actorless remnant. The statutory citation it carried is kept, because it tells the participant where the bar is written.",
+      judgement: "As above. The citation is participant-facing and is preserved; the unattributed verification duty is not."
+    }
+  ],
+  [
+    "Charges pending anywhere.",
+    {
+      say: "Charges pending anywhere.",
+      removed: null,
+      judgement: "Printed as the record states it."
+    }
+  ],
+  [
+    "Unpaid fines, fees, court costs or unsatisfied restitution.",
+    {
+      say: "Unpaid fines, fees, court costs or unsatisfied restitution.",
+      removed: null,
+      judgement: "Printed as the record states it."
+    }
+  ],
+  [
+    "A conviction within the applicable period, or within a shorter period the prosecutor agreed to.",
+    {
+      say: "A conviction within the applicable period, or within a shorter period the prosecutor agreed to.",
+      removed: null,
+      judgement: "Printed as the record states it. It states the condition without asserting that any prosecutor has agreed to anything."
+    }
+  ]
+]);
+
+/* ------------------------------------------------------------------ */
+/* registryTrack.venue, .destination.detail and .rules                 */
+/* ------------------------------------------------------------------ */
+
+/** WHY THIS TABLE HAD TO EXIST BEFORE THE FILING PAGE COULD BE CLOSED.
+ *
+ * `filingInstructions()` builds pages 6-7 of every guidance PDF and called none
+ * of this module. It printed the venue, the destination detail and four action
+ * descriptions straight from the record, each behind a `??` fallback that
+ * invented factory prose ("the committed record holds no filing action for this
+ * track.") if the field were ever absent. The guidance page printed the same
+ * `rules` fields the same way.
+ *
+ * Two sentences therefore reached the participant twice, in the defective form,
+ * from two different functions:
+ *
+ *   "The petition is verified and signed by the petitioner."   (rules.participantSignature
+ *                                                               and the `sign` action)
+ *   "Unresolved. Indigency waiver availability has not been confirmed."
+ *                                                              (rules.feeWaiver
+ *                                                               and the `apply_fee_waiver` action)
+ *
+ * Deciding them in one table and one voice is the point: a reader meets each
+ * sentence once, said the same way, wherever in the document it appears. */
+export const RULE_WORDING = new Map([
+  [
+    "A circuit or superior court in the county of conviction. A person with convictions in more than one county files in each, and those filings count as one petition only if they fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).",
+    {
+      say: "A circuit or superior court in the county of conviction. If you have convictions in more than one county you file in each of them, and those filings count as a single petition only if they all fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. Nothing was withheld: \"A person with convictions in more than one county files in each\" described the reader in the third person while stating the rule that decides where the reader files, which is the same address defect repaired elsewhere in this packet."
+    }
+  ],
+  [
+    "The petition is served on the prosecuting attorney under the Trial Rules. Where the prosecutor does not object or waives objection, the court may grant without a hearing under § 35-38-9-9(a). A victim may submit an oral or written statement.",
+    {
+      say: "The petition is served on the prosecuting attorney under the Trial Rules. Where the prosecutor does not object or waives objection, the court may grant without a hearing under § 35-38-9-9(a). A victim may submit an oral or written statement.",
+      removed: null,
+      judgement: "Printed as the record states it. It states what happens to the petition and what the court and a victim may do; it describes no act of the reader in the third person and directs nothing to this system."
+    }
+  ],
+  [
+    "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+    {
+      say: "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+      removed: null,
+      judgement: "Printed as the record states it. An imperative naming the documents and the destination; the act is the participant's."
+    }
+  ],
+  [
+    "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+    {
+      say: "A civil filing fee applies to Sections 2 through 5. This packet has not confirmed the amount, whether it is charged separately in each county, or whether an indigency waiver is available.",
+      removed: null,
+      judgement: "Participant-facing once the gap is owned. \"Are unresolved\" left it open whether Indiana law is unsettled or this packet simply has not checked; it is the second. Naming the packet as the thing that has not checked keeps a research gap from being read as a statement of law."
+    }
+  ],
+  [
+    "Unresolved. Indigency waiver availability has not been confirmed.",
+    {
+      say: "This packet has not confirmed whether an indigency waiver is available to you.",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. A bare status token led a step marked required before filing, which reads as a verdict on the reader's own case before the sentence that rescues it arrives. The remedy - ask the clerk of the court you are filing in - is stated twice elsewhere in this same document, so it is not repeated here."
+    }
+  ],
+  [
+    "The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, with no right of cross-examination by the petitioner.",
+    {
+      say: "The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, and you have no right to cross-examine them on it.",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. \"The petitioner\" is the reader, and the clause states a limit on what the reader may do at their own hearing - among the worst places to make them work out that a third party is themselves."
+    }
+  ],
+  [
+    "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+    {
+      say: "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+      removed: null,
+      judgement: "Printed as the record states it. It states the rule and directs the reader to the form."
+    }
+  ],
+  [
+    "The petition is verified and signed by the petitioner.",
+    {
+      say: "The petition is verified, and you sign it yourself.",
+      removed: null,
+      judgement: "Participant-facing once re-addressed. Nothing was withheld. It asserts no signature has been made; it states that the signature is the reader's to make."
+    }
+  ],
+  [
+    "none",
+    {
+      say: "Not required.",
+      removed: null,
+      judgement: "The record's own enum value. Printed bare it read as \"Notarization: none\", which does not tell a participant whether notarisation is not required or simply not recorded here. It is the first. No statement is added about what the petition is instead; the signature line above already carries that."
+    }
   ]
 ]);
 

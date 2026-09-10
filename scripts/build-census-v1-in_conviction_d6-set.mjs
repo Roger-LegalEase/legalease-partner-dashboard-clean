@@ -71,7 +71,8 @@ import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-readin
 import { PASS_COUNTERS, BLANK_DISPOSITIONS, classifyBlank, classifyField, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 import { LIMITATION_WORDING, OPEN_QUESTION_WORDING, STOP_CONDITION_WORDING, ACTION_TEXT_WORDING,
-  ACTION_CONDITION_WORDING, ORDER_BLANK_WHY_WORDING, participantWording, wordingAudit }
+  ACTION_CONDITION_WORDING, ORDER_BLANK_WHY_WORDING, EXCLUSION_WORDING, RULE_WORDING,
+  participantWording, wordingAudit }
   from "./rcap-in-conviction-participant-wording.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -342,29 +343,50 @@ const FIXTURES = Object.freeze({
     "participant.date_of_birth": "1968-12-31",
     "matter.court_name": "Lake Circuit Court sitting at Crown Point, Criminal Division",
     "matter.county": "County of Lake",
-    /* This boundary cause number was byte-identical to the boundary cause number
-     * of in_conviction_felony-set, where it sits beside "Class B felony under the
-     * pre-2014 sentencing scheme" while here it sits beside "Class D felony ...
-     * treated as a Level 6 felony conviction". One string asserted as the cause
-     * number of two different convictions in two families is the collision VF30
-     * withdrew these families on; FIX04 discharges it by moving the sequence.
+    /* WHAT CASE THIS FIXTURE MODELS: a Class D felony that was the most serious
+     * ORIGINAL CHARGE and also the conviction. No amended or reduced charge, no
+     * higher original charge. That scenario is stated here in terms because it
+     * was previously left to be inferred from the offence level, and inferring
+     * it wrongly is what produced the case-type dispute recorded below.
      *
-     * THE CASE-TYPE TOKEN IS DELIBERATELY NOT MOVED, AND NEITHER IS THE OFFENCE
-     * LEVEL. No Indiana conviction case-type token table exists in this
-     * repository or in mounted custody: the one Indiana case type the held
-     * source publishes is "XP (Admin. Rule 8(B)(3))", which is the type of the
-     * expungement case this packet opens, not of the underlying conviction. So
-     * "FB" cannot be shown wrong, and no replacement -- FD, F6 or any other --
-     * could be shown right without asserting clerk practice as record fact.
-     * (F6 would additionally be anachronistic on a 2008 cause number.) That
-     * leaves the token/offence-level pairing unsettled here on exactly the ground
-     * the factory already used to leave the misd boundary "CM" / "reduced from a
-     * Class D felony" pairing unsettled and unscored. The sequence carries no
-     * charge-level claim, so moving it discharges the collision and asserts
-     * nothing new. The 17-digit padded width is preserved because stressing that
-     * width is what makes this the boundary fixture.
+     * THE CASE-TYPE TOKEN IS "FD", ON A PUBLISHED RULE. Under Admin. Rule
+     * 8(B)(3), "FD" identifies a Class D felony and "FB" identifies a Class B
+     * felony. Under Admin. Rule 1(B)(4)(a)(iii) the case category is assigned by
+     * the most serious charge, and per the QCSR Instructions (August 2026, p.9)
+     * that category REMAINS after an amended charge or a conviction of a lesser
+     * offence. On the simple case this fixture models -- Class D charged, Class D
+     * convicted -- Rule 8(B)(3) gives "FD".
+     *
+     * An earlier comment here said "FB" could not be shown wrong and no
+     * replacement could be shown right without asserting clerk practice as record
+     * fact. That was true when written, before the publication was located; it is
+     * false now, and it is replaced rather than left standing.
+     *
+     * WHAT THIS DOES NOT ESTABLISH. It does not make "FB" beside a Class D
+     * conviction an error in general -- under 1(B)(4)(a)(iii) and the QCSR
+     * Instructions a case charged at Class B and resolved by a Class D conviction
+     * KEEPS "FB", and that is an ordinary outcome the rules exist to describe.
+     * No rule anywhere in this repository may reject or rewrite a real identifier
+     * because its token differs from the conviction class; doing so would corrupt
+     * exactly those cases. This fixture is "FD" because of what THIS fixture
+     * models, not because the token must track the conviction.
+     *
+     * The sequence "...654321" was moved earlier to discharge a byte-identical
+     * collision with the in_conviction_felony-set boundary cause number, and it
+     * stays moved. The felony boundary keeps "FB" beside its Class B conviction,
+     * which those same rules make correct. The 17-digit padded width is preserved
+     * because stressing that width is what makes this the boundary fixture; it is
+     * width-stress coverage and not a realistic docket number.
+     *
+     * Owner decision: docs/rcap/grade-a/owner-decisions/
+     * INDIANA_CAUSE_NUMBER_TOKEN_CONTRADICTS_THE_STATED_OFFENCE.md
+     * Sources, pending retrieval: in-admin-rules-case-type-and-category,
+     * in-qcsr-instructions-2026-08 (SOURCE_ACQUISITION_MANIFEST.json). The rule
+     * text above is as the owner supplied it and has NOT yet been read against a
+     * retrieved document.
      */
-    "matter.cause_number": "45C01-0812-FB-00000000000654321",
+    "matter.offense_charged_most_serious": "Class D felony under the pre-2014 sentencing scheme; no higher original charge, and no amended or reduced charge",
+    "matter.cause_number": "45C01-0812-FD-00000000000654321",
     "matter.conviction_date": "2009-02-28",
     "matter.offense_description": "Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record",
     "matter.offense_level": "Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction",
@@ -902,15 +924,22 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
 
   lines.push("", `## What you must obtain or confirm before filing (${countOf(actions.length, "item")})`, "");
   for (const action of actions) {
-    /* Two committed action rows speak past the participant: one tells this
-     * system's builders to re-check a fee "at build time", and one states its
-     * condition about "the participant" in the third person. Where a row is
-     * decided in the wording tables the participant is told the decided form;
-     * every other row is printed exactly as the record states it. */
-    const decidedText = ACTION_TEXT_WORDING.get(action.description) ?? null;
-    if (decidedText) audit.push({ what: "participant action", source: action.description, decided: decidedText });
-    const description = decidedText ? decidedText.say : action.description;
-    const decidedCondition = action.conditionDescription ? (ACTION_CONDITION_WORDING.get(action.conditionDescription) ?? null) : null;
+    /* EVERY action row is decided, and an undecided one stops the build.
+     *
+     * This block used to read the wording tables as `.get(key) ?? raw`, with a
+     * comment saying every other row is printed exactly as the record states it.
+     * That inverted the guarantee on the very block where the leak was first
+     * found: a sentence the module refuses elsewhere was printed here unrefused,
+     * so the next unreviewed row would reach a participant in silence. The
+     * fallback is gone. A row whose committed text already speaks properly to
+     * the reader is recorded in the table WITH that text, so "read and kept" is
+     * distinguishable from "never read". */
+    const decidedText = participantWording(ACTION_TEXT_WORDING, action.description, `${action.kind} action carried by this track`);
+    audit.push({ what: "participant action", source: action.description, decided: decidedText });
+    const description = decidedText.say;
+    const decidedCondition = action.conditionDescription
+      ? participantWording(ACTION_CONDITION_WORDING, action.conditionDescription, `condition on the ${action.kind} action`)
+      : null;
     if (decidedCondition) audit.push({ what: "action condition", source: action.conditionDescription, decided: decidedCondition });
     const conditionText = decidedCondition ? decidedCondition.say : action.conditionDescription;
     const qualifier = action.requirement === "conditional" && action.conditionDescription ? ` Condition: ${conditionText}` : "";
@@ -918,23 +947,42 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
     lines.push(bullet(`**${actionKind(action.kind)}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${description}${from}${qualifier}`));
   }
 
+  /* THESE BULLETS ALSO HAD NO REFUSAL, AND TWO OF THEM LEAKED TWICE.
+   *
+   * Each `rules` field was printed raw behind a `??` fallback that invented
+   * factory prose for an absent field ("the committed record states no fee rule
+   * for this track."). Two of the sentences are byte-identical to action rows
+   * printed on page 2, so the same defect reached the participant twice from two
+   * functions: "The petition is verified and signed by the petitioner." and
+   * "Unresolved. Indigency waiver availability has not been confirmed."
+   *
+   * All of them are decided in RULE_WORDING now, in one voice, and an undecided
+   * one stops the build instead of being papered over with a sentence about this
+   * system's own records. */
+  const rule = (value, what) => {
+    assert.ok(value !== undefined && value !== null && value !== "",
+      `the committed record carries no ${what} for this track, and this build will not invent a sentence saying so to a participant`);
+    const decided = participantWording(RULE_WORDING, value, what);
+    audit.push({ what, source: value, decided });
+    return decided.say;
+  };
   lines.push(
     "", "## Where this is filed", "",
-    bullet(`Venue: ${registryTrack.venue}`),
+    bullet(`Venue: ${rule(registryTrack.venue, "venue rule")}`),
     bullet(`Destination (${registryTrack.destination.kind}): ${registryTrack.destination.name}`),
-    bullet(registryTrack.destination.detail),
-    bullet(`Filing: ${rules.filing ?? "the committed record states no filing rule for this track."}`),
+    bullet(rule(registryTrack.destination.detail, "destination detail")),
+    bullet(`Filing: ${rule(rules.filing, "filing rule")}`),
     "", "## What it costs", "",
-    bullet(`Fees: ${rules.fees ?? "the committed record states no fee for this track."}`),
-    bullet(`Fee waiver: ${rules.feeWaiver ?? "the committed record states no fee waiver for this track."}`),
+    bullet(`Fees: ${rule(rules.fees, "fee rule")}`),
+    bullet(`Fee waiver: ${rule(rules.feeWaiver, "fee waiver rule")}`),
     bullet("The record held here does not state the amount, whether it is charged per county, or whether an indigency waiver exists. This packet does not guess at any of the three. Ask the clerk of the court you are filing in for the current civil filing fee and for whatever waiver that court accepts."),
     "", "## Notice, objection and service", "",
-    bullet(`Notice: ${rules.notice ?? "the committed record states no notice rule for this track."}`),
-    bullet(`Service: ${rules.service ?? "the committed record states no service rule for this track."}`),
+    bullet(`Notice: ${rule(rules.notice, "notice rule")}`),
+    bullet(`Service: ${rule(rules.service, "service rule")}`),
     bullet("The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing, so this packet states none."),
     "", "## Signing", "",
-    bullet(`Signature: ${rules.participantSignature ?? "the committed record states no signature rule for this track."}`),
-    bullet(`Notarization: ${rules.notarization ?? "the committed record states no notarization rule for this track."}`),
+    bullet(`Signature: ${rule(rules.participantSignature, "participant signature rule")}`),
+    bullet(`Notarization: ${rule(rules.notarization, "notarization rule")}`),
     ""
   );
   /* DECIDED LINE BY LINE, NOT STRIPPED.
@@ -963,8 +1011,13 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
     bullet(`Do not sign, date or complete any part of the proposed order. It is delivered unexecuted, and its page prints "${ORDER_COURT_USE_BANNER}" Every line listed below is printed on that order under the label shown here, and every one of them is the court's or the clerk's to complete:`),
     /* The field map is an internal artifact and "this build" is accurate there,
      * so the map is left as it is and the wording is translated only here, where
-     * a participant reads it. */
-    ...orderBlanks.map((row) => bullet(`"${row.effectiveLabel}" on the proposed order - ${ORDER_BLANK_WHY_WORDING.get(row.why) ?? row.why}`)),
+     * a participant reads it. Every `why` printed is decided; an undecided one
+     * stops the build rather than falling through to the map's own wording. */
+    ...orderBlanks.map((row) => {
+      const decided = participantWording(ORDER_BLANK_WHY_WORDING, row.why, `reason the "${row.effectiveLabel}" order blank is left for the court`);
+      audit.push({ what: "order blank reason", source: row.why, decided });
+      return bullet(`"${row.effectiveLabel}" on the proposed order - ${decided.say}`);
+    }),
     bullet("Leave the XP cause number and the filed-on stamp blank. The clerk supplies both when the petition is filed."),
     "", `## Stop and get legal help before you file (all ${stops.length})`, "");
   /* Every stop condition is kept. The defect here was address, not content: a
@@ -978,7 +1031,18 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
 
   const exclusions = memoTrack.exclusions ?? [];
   lines.push("", `## Hard eligibility limits (${countOf(exclusions.length, "exclusion")})`, "");
-  for (const exclusion of exclusions) lines.push(bullet(exclusion));
+  /* One committed exclusion carried the passive remnant of a build-time
+   * instruction -- "to be verified against the current text", actorless, in the
+   * list of bars a participant reads to decide whether they are eligible at all.
+   * It named nobody who must verify and it blunted the open-questions section,
+   * which states the same caveat to the participant properly and with a remedy.
+   * The bar is kept and the remnant is not; every exclusion is decided, and an
+   * undecided one stops the build. */
+  for (const exclusion of exclusions) {
+    const decided = participantWording(EXCLUSION_WORDING, exclusion, "hard eligibility exclusion carried by this track");
+    audit.push({ what: "eligibility exclusion", source: exclusion, decided });
+    if (decided.say) lines.push(bullet(decided.say));
+  }
   lines.push("", "Waiting periods:", "");
   for (const period of memoTrack.waitingPeriods ?? []) lines.push(bullet(`${period.condition}: ${period.duration}`));
 
@@ -1004,23 +1068,57 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
   return lines.join("\n");
 }
 
-function filingInstructions(binding, retainedSummary, name) {
+/* THIS PAGE NEVER CALLED THE THING THAT REFUSES, AND THAT IS WHY THE LEAK REGREW.
+ *
+ * `filingInstructions()` builds pages 6-7 of every guidance PDF. It imported no
+ * part of the participant-wording module, so a sentence refused on page 2 was
+ * printed here unrefused. Two defects lived in that gap.
+ *
+ * The first was a heading. "What the registry says about filing:" named this
+ * factory's own record-keeping to the participant -- the same class of leak
+ * repaired at four other headings -- and the bullet under it repeated, verbatim,
+ * the "Filing:" bullet three lines above it. Both the naming and the repetition
+ * are gone: the line is deleted, not reworded, because the sentence it printed
+ * is already on the page.
+ *
+ * The second was five fallbacks that would invent factory prose for a missing
+ * field -- "the committed record holds no filing action for this track." Nothing
+ * reached a participant through them today, which is exactly why they survived
+ * five reviews. A record that goes absent must stop this build, not quietly hand
+ * the participant a sentence about our own storage.
+ *
+ * Every committed sentence this page prints is now decided in the wording module
+ * and audited alongside the page-2 decisions. */
+function filingInstructions(binding, retainedSummary, name, audit = []) {
   const { registryTrack } = binding;
   const rules = registryTrack.rules ?? {};
   const actions = registryTrack.packetSet?.participantActionRequired ?? [];
-  const pick = (kind) => actions.find((a) => a.kind === kind)?.description ?? null;
+  const rule = (value, what) => {
+    assert.ok(value !== undefined && value !== null && value !== "",
+      `the committed record carries no ${what} for this track, and this build will not invent a sentence saying so to a participant`);
+    const decided = participantWording(RULE_WORDING, value, what);
+    audit.push({ what, source: value, decided });
+    return decided.say;
+  };
+  const action = (kind, what) => {
+    const row = actions.find((a) => a.kind === kind);
+    assert.ok(row?.description,
+      `the committed record carries no ${kind} action for this track, and this build will not invent a sentence saying so to a participant`);
+    const decided = participantWording(ACTION_TEXT_WORDING, row.description, what);
+    audit.push({ what, source: row.description, decided });
+    return decided.say;
+  };
   const lines = [
     `# Filing instructions - ${registryTrack.legalName}`,
     "",
     `Prepared for **${name}**.`,
     "",
-    bullet(`Filing: ${rules.filing ?? "the committed record states no filing rule."}`),
-    bullet(`Where: ${registryTrack.destination.name}. ${registryTrack.destination.detail}`),
-    bullet(`Venue: ${registryTrack.venue}`),
-    bullet(`What the registry says about filing: ${pick("file") ?? "the committed record holds no filing action for this track."}`),
-    bullet(`What it costs: ${pick("pay_fee") ?? "the committed record holds no fee action for this track."}`),
-    bullet(`Fee waiver: ${pick("apply_fee_waiver") ?? "the committed record holds no fee-waiver action for this track."}`),
-    bullet(`Service: ${pick("serve_party") ?? "the committed record holds no service action for this track."}`),
+    bullet(`Filing: ${rule(rules.filing, "filing rule")}`),
+    bullet(`Where: ${registryTrack.destination.name}. ${rule(registryTrack.destination.detail, "destination detail")}`),
+    bullet(`Venue: ${rule(registryTrack.venue, "venue rule")}`),
+    bullet(`What it costs: ${action("pay_fee", "filing fee, on the filing page")}`),
+    bullet(`Fee waiver: ${action("apply_fee_waiver", "fee waiver, on the filing page")}`),
+    bullet(`Service: ${action("serve_party", "service, on the filing page")}`),
     "",
     "What you file, in order:",
     ""
@@ -1493,7 +1591,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   for (const fixture of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixture];
     const participantText = participantInstructions(binding, rbf, retainedSummary, facts["participant.full_legal_name"], orderBlanks);
-    const filingText = filingInstructions(binding, retainedSummary, facts["participant.full_legal_name"]);
+    const filingText = filingInstructions(binding, retainedSummary, facts["participant.full_legal_name"], []);
 
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
@@ -1602,7 +1700,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const canonicalName = FIXTURES.canonical["participant.full_legal_name"];
   const wordingDecisions = [];
   const participantText = participantInstructions(binding, rbf, retainedSummary, canonicalName, orderBlanks, wordingDecisions);
-  const filingText = filingInstructions(binding, retainedSummary, canonicalName);
+  const filingText = filingInstructions(binding, retainedSummary, canonicalName, wordingDecisions);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), participantText);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingText);
 
@@ -1677,7 +1775,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     familyId: FAMILY_ID,
     question: "What is on the official forms this packet delivers without filling them?",
     whatThisIs: "every AcroForm widget on every retained page, with the caption harvested at that widget's own measured position and the basis of the harvest",
-    whatThisIsNot: "a field map. No disposition is claimed for any widget below, and none of them is counted by the nine completeness counters, which measure the two documents this build authored.",
+    whatThisIsNot: "a field map. No disposition is claimed for any widget below, and none of them is counted by the nine completeness counters, which measure two of the three documents this build authors - the petition and the proposed order, not the participant guidance PDF.",
     whyNoFieldMapIsClaimed: "the harvested captions on these forms are fragments, and two of the insert's three pages are the court's findings and order rather than the participant's to complete; classifying that from captions would read as authoritative and would not be. A field-level map belongs to the official_pdf_fill treatment and is recorded as owed.",
     documents: retained.map((row) => ({
       componentId: row.spec.componentId,
@@ -1863,8 +1961,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/completeness-counters.json`, {
     schemaVersion: "rcap-builder-completeness-counters/v1",
     familyId: FAMILY_ID,
-    whatThisIs: "the builder's own count using the repository completeness contract, over the two documents this build authored",
-    whatThisIsNot: "independent verification, a raster verdict, a release verdict, or a measurement of the four retained official forms",
+    whatThisIs: "the builder's own count using the repository completeness contract, over two of the three documents this build authors: the petition and the proposed order",
+    whatThisIsNot: "independent verification, a raster verdict, a release verdict, a measurement of the four retained official forms, or any measurement of the third document this build authors - the participant guidance PDF, which carries no completeness-contract fields and which these nine counters therefore do not measure at all",
     counters: counted.counters,
     allNineZero,
     findings: counted.findings,
