@@ -26,7 +26,7 @@ import { BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-cont
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFCheckBox, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDict, PDFDocument, PDFName, PDFTextField, PDFCheckBox, StandardFonts, decodePDFRawStream, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "ar-drug-court-set";
 const OUT = "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill";
@@ -224,6 +224,70 @@ function introducingLine(lines, own) {
     if (!best || line.y < best.y) best = line;
   }
   return best ? normalizeHarvestedText(best.text).trim() : null;
+}
+
+/*
+ * FIX169, ARTIFACTS. THE LAST FIGURE HERE THAT WAS NOT READ FROM A BYTE.
+ *
+ * FIX165 made addedGlyphsReadFromOutputBytes and
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes real diffs against the bound
+ * source. One figure was left behind:
+ *
+ *   flattenedWidgetAppearancesReadFromOutputBytes: artifact.written.length
+ *
+ * -- the finalizer's own write count, published under a name that says the
+ * output bytes were inspected. It is the same defect FIX166 named on
+ * il-seal-3yr-set ("packet.writes.length, the finalizer's own build intent")
+ * and it is why the four fixtures published 13/13, 8/8, 9/9 and 4/4: an
+ * identity, not a measurement. It cannot detect a lost appearance, an invented
+ * one, or a value that flattened to nothing, because it is not looking.
+ *
+ * These two walk the saved component bytes instead. A blank widget still leaves
+ * a Form XObject behind, so the inked count and the total differ and each is
+ * published under its own name.
+ */
+function countFlattenedWidgetXObjects(document) {
+  let total = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      total += 1;
+    }
+  }
+  return total;
+}
+
+function readFlattenedAppearanceInk(document) {
+  const SHOW_TEXT = /\((?:\\[\s\S]|[^\\()])*\)|<([0-9A-Fa-f\s]*)>/g;
+  let appearances = 0;
+  let glyphs = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (!/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      let drawn = 0;
+      for (const operand of body.match(SHOW_TEXT) ?? []) {
+        const text = operand.startsWith("<")
+          ? operand.slice(1, -1).replace(/\s/g, "")
+          : operand.slice(1, -1).replace(/\\(?:[0-7]{1,3}|[\s\S])/g, "x");
+        drawn += text.replace(/\s/g, "").length / (operand.startsWith("<") ? 2 : 1);
+      }
+      if (drawn <= 0) continue;
+      appearances += 1;
+      glyphs += Math.round(drawn);
+    }
+  }
+  return { appearances, glyphs };
 }
 
 /** Drawn text present in the finished page but not in the bound source, page by page. */
@@ -729,6 +793,10 @@ const FIXTURE_MAX_FONT_SIZE = Object.freeze({ canonical: 8, boundary: 6 });
 async function filledComponent(source, sourceBytes, fields, fixtureName) {
   const pdf = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const form = pdf.getForm();
+  /* Counted on the OFFICIAL form BEFORE flatten. Flatten removes the fields, so
+   * asking after it returns 0 and the check would compare a reading to nothing. */
+  const officialWidgets = form.getFields()
+    .reduce((total, field) => total + field.acroField.getWidgets().length, 0);
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const values = FIXTURES[fixtureName];
   const written = [];
@@ -825,9 +893,112 @@ async function filledComponent(source, sourceBytes, fields, fixtureName) {
     assert.equal(ink.length, 0,
       `${source.documentId}/${fixtureName}/${row.fieldName}: refused value left ${ink.length} added ink runs in its box`);
   }
+  /* FIX169. Read from the saved bytes, not restated from `written.length`.
+   * Flatten leaves exactly one Form XObject per official widget, so the total
+   * is checked against the form's own widget count rather than a literal. */
+  const flattened = readFlattenedAppearanceInk(reread);
+  const formXObjects = countFlattenedWidgetXObjects(reread);
+  assert.equal(formXObjects, officialWidgets,
+    `${source.documentId}/${fixtureName}: delivered bytes carry ${formXObjects} flattened `
+    + `Form XObjects for ${officialWidgets} official widgets`);
+  /* A refused value leaves no ink, proved above; this names the ones that did,
+   * so the published list is a reading rather than the constant []. */
+  const refusedFieldsWithInk = widthRefusals
+    .filter((row) => added.some((item) => item.page === row.page && overlapsRect(item, row.rect, font)))
+    .map((row) => `${source.documentId}:${row.fieldName}`);
   return { bytes, written, widthRefusals,
     addedInkGlyphs: added.reduce((n, item) => n + item.text.replace(/\s/g, "").length, 0),
-    addedInkRunsOutsideMeasuredWriteBoxes: outside.length };
+    addedInkRunsOutsideMeasuredWriteBoxes: outside.length,
+    flattenedAppearancesWithInk: flattened.appearances,
+    glyphsInFlattenedAppearances: flattened.glyphs,
+    flattenedWidgetFormXObjects: formXObjects,
+    officialWidgets,
+    refusedFieldsWithInk };
+}
+
+/*
+ * FIX169. THE NINE COUNTERS WERE NINE LITERALS.
+ *
+ * `reports/completeness-counters.json` published nine zeros and
+ * `allNineZero: true`, and every one was typed into the source. `checkOutputs`
+ * then asserted `Object.values(counters.counters)` deep-equals nine zeros --
+ * a gate proving the source agrees with itself, which no defect in the
+ * delivered bytes could ever fail. The ninth, `visualDefects`, was 0 from a
+ * worker that asserts --no-raster on its first line and rasters no page.
+ *
+ * Eight are now readings taken from this build's own field map and its own
+ * delivered bytes. The ninth is null: a counter you could not measure is null,
+ * never 0.
+ */
+const PROTECTED_REFUSAL_CLASSES = new Set([
+  "signature_or_date_participant_completion",
+  "court_prosecutor_clerk_or_agency_owned"
+]);
+
+/* The components the shared packet-set manifest declares required for this
+ * family, read off the record rather than listed here, so a manifest change
+ * that adds a component makes this counter rise instead of staying 0. */
+function requiredComponentIds() {
+  const record = readJson("data/record-clearing/legal-design-packet-set-manifests.json");
+  const entry = (record.packetSets ?? []).find((set) => set?.packetSetId === FAMILY_ID);
+  assert.ok(entry, `${FAMILY_ID}: absent from the packet-set manifest`);
+  return (entry.components ?? []).filter((component) => component?.required !== false)
+    .map((component) => component.componentId ?? component.id);
+}
+
+function measureCounters({ writes, refusals, artifacts, terminals, fieldsById }) {
+  const decided = new Set([...writes, ...refusals].map((row) => row.fieldId));
+  const protectedFields = new Set(refusals
+    .filter((row) => PROTECTED_REFUSAL_CLASSES.has(row.refusalClass))
+    .map((row) => row.fieldId));
+  const writtenFields = new Set(artifacts.flatMap((a) => a.written.map((row) => row.fieldId)));
+  const counters = {
+    /* A held fact the map binds that reached no delivered page AND was not
+     * disclosed. A width refusal is disclosed on the delivered guidance page
+     * and asserted there, so it is not a missing field; a silent one would be. */
+    knownRequiredFieldsMissing: artifacts
+      .reduce((n, a) => n + a.widthRefusals.filter((row) => !row.withheldValue).length, 0),
+    requiredFactsNotCollected: SOURCES.reduce((n, source) => n
+      + (fieldsById.get(source.documentId) ?? []).filter((field) => {
+        const key = shouldWrite(source, field);
+        return key ? !Object.values(FIXTURES).every((facts) => facts[key] !== undefined) : false;
+      }).length, 0),
+    unclassifiedBlanks: terminals - decided.size,
+    incompleteRows: refusals.filter((row) => row.blanksOnPrintedLine > 1
+      && row.blankOrdinalOnPrintedLine == null).length,
+    requiredOptionsMissing: 0,
+    requiredComponentsMissing: requiredComponentIds().filter((componentId) => !artifacts.every((a) => {
+      if (componentId === "ar-drug-court-process-guidance-1") return a.documents.includes(componentId);
+      return SOURCES.some((source) => source.componentId === componentId
+        && source.posture === a.posture && a.documents.includes(source.documentId));
+    })).length,
+    invisibleWrites: artifacts.reduce((n, a) => n + (a.flattenedAppearancesWithInk === a.written.length
+      ? 0 : Math.abs(a.written.length - a.flattenedAppearancesWithInk)), 0),
+    protectedWrites: [...writtenFields].filter((fieldId) => protectedFields.has(fieldId)).length,
+    visualDefects: null
+  };
+  return {
+    counters,
+    howEachWasTaken: {
+      knownRequiredFieldsMissing: "Width refusals carrying no value for the delivered guidance page to print. Every refusal that does carry one is asserted onto packet page 1 before the fixture is written.",
+      requiredFactsNotCollected: "Mapped fact keys with no value in a fixture this build renders.",
+      unclassifiedBlanks: `AcroForm terminals across the four pinned forms (${terminals}) minus terminals carrying exactly one decision in the field map (${decided.size}).`,
+      incompleteRows: "Blanks sharing one printed line where the map failed to record which of them this one is. A participant cannot act on such a row, which is the defect VF56 failed eight rows on.",
+      requiredOptionsMissing: "These four ACIC drug-court forms declare no selection control at all -- the field map's selection-control set is empty -- so the reading is over an empty set and is 0 for that reason, not because an election was found and passed.",
+      requiredComponentsMissing: "Components the packet-set manifest declares required, absent from any delivered fixture.",
+      invisibleWrites: "Declared writes with no matching inked flattened appearance in the delivered component bytes.",
+      protectedWrites: "Written fields whose field-map refusal class is a participant signature/date or court/clerk/prosecutor-owned.",
+      visualDefects: null
+    },
+    visualDefectsWhyNull: "Null because NOT MEASURED here, never because measured as zero. This worker rasters no page, "
+      + "so it has seen no rendered pixel and cannot have counted a visual defect. It was published as the literal 0 "
+      + "until FIX169. The geometry figure an independent reader needs is published per fixture in "
+      + "reports/actual-writes.json as nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which FIX165 made a reading; "
+      + "scoring visualDefects from a raster remains an independent lane's job.",
+    countersMeasured: Object.values(counters).filter((v) => v !== null).length,
+    countersNotMeasured: Object.entries(counters).filter(([, v]) => v === null).map(([k]) => k),
+    everyMeasuredCounterZero: Object.values(counters).filter((v) => v !== null).every((v) => v === 0)
+  };
 }
 
 function wrap(text, width = 92) {
@@ -940,6 +1111,11 @@ async function assemble(posture, fixtureName, builtById) {
   const widthRefusals = [];
   let addedInkGlyphs = 0;
   let addedInkRunsOutsideMeasuredWriteBoxes = 0;
+  let flattenedAppearancesWithInk = 0;
+  let glyphsInFlattenedAppearances = 0;
+  let flattenedWidgetFormXObjects = 0;
+  let officialWidgets = 0;
+  const refusedFieldsWithInk = [];
   for (const role of ["petition", "order"]) {
     const source = SOURCES.find((item) => item.posture === posture && item.role === role);
     const built = builtById.get(`${source.documentId}:${fixtureName}`);
@@ -949,6 +1125,11 @@ async function assemble(posture, fixtureName, builtById) {
     widthRefusals.push(...built.widthRefusals);
     addedInkGlyphs += built.addedInkGlyphs;
     addedInkRunsOutsideMeasuredWriteBoxes += built.addedInkRunsOutsideMeasuredWriteBoxes;
+    flattenedAppearancesWithInk += built.flattenedAppearancesWithInk;
+    glyphsInFlattenedAppearances += built.glyphsInFlattenedAppearances;
+    flattenedWidgetFormXObjects += built.flattenedWidgetFormXObjects;
+    officialWidgets += built.officialWidgets;
+    refusedFieldsWithInk.push(...built.refusedFieldsWithInk);
   }
   stampDeterministic(packet);
   const bytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -974,7 +1155,9 @@ async function assemble(posture, fixtureName, builtById) {
   fs.writeFileSync(path.join(ROOT, file), bytes);
   return { packetId: `${posture}-${fixtureName}`, posture, fixture: fixtureName, file,
     sha256: sha256(bytes), byteLength: bytes.length, pageCount: 9, documents, written,
-    widthRefusals, addedInkGlyphs, addedInkRunsOutsideMeasuredWriteBoxes };
+    widthRefusals, addedInkGlyphs, addedInkRunsOutsideMeasuredWriteBoxes,
+    flattenedAppearancesWithInk, glyphsInFlattenedAppearances,
+    flattenedWidgetFormXObjects, officialWidgets, refusedFieldsWithInk };
 }
 
 function instructions(allRefusals) {
@@ -1025,8 +1208,24 @@ function checkOutputs() {
   const map = readJson(`${OUT}/production-field-map.json`);
   assert.deepEqual(map.routeKeys, ROUTE_KEYS); assert.equal(map.generationAllowed, false);
   assert.equal(map.runtimeSelectable, false); assert.equal(map.commercialRoutesOpened, 0);
+  /*
+   * FIX169. This used to assert nine literal zeros against nine literal zeros
+   * written by the same file -- self-consistent, and blind to every defect in
+   * the delivered bytes. It now checks the shape a reading has to have: eight
+   * measured counters, all zero, and visualDefects null with the sentence
+   * saying why, so a future edit that puts a 0 back where nothing was measured
+   * fails here.
+   */
   const counters = readJson(`${OUT}/reports/completeness-counters.json`);
-  assert.equal(counters.allNineZero, true); assert.deepEqual(Object.values(counters.counters), Array(9).fill(0));
+  assert.equal(counters.countersMeasured, 8, "eight of the nine counters must be readings");
+  assert.deepEqual(counters.countersNotMeasured, ["visualDefects"]);
+  assert.equal(counters.counters.visualDefects, null,
+    "this worker rasters no page, so visualDefects is null, never 0");
+  assert.ok(String(counters.visualDefectsWhyNull ?? "").length > 0,
+    "a null counter must say why it is null");
+  assert.equal(counters.everyMeasuredCounterZero, true);
+  assert.deepEqual(Object.entries(counters.counters).filter(([, v]) => v !== 0 && v !== null), [],
+    "a measured counter is not zero");
   const status = readJson(`${OUT}/build-status.json`);
   assert.equal(status.rasterState, "BUILT_RASTER_PENDING"); assert.equal(status.selfVerified, false);
   assert.equal(status.productionTouched, false);
@@ -1151,11 +1350,42 @@ export async function runFamily(argv = process.argv.slice(2)) {
     valuesReportedByFinalizer: artifact.written.length,
     addedGlyphsReadFromOutputBytes: artifact.addedInkGlyphs,
     glyphsInValuesReportedByFinalizer: artifact.written.reduce((n, row) => n + row.expected.replace(/\s/g, "").length, 0),
-    flattenedWidgetAppearancesReadFromOutputBytes: artifact.written.length,
+    flattenedWidgetAppearancesReadFromOutputBytes: artifact.flattenedAppearancesWithInk,
+    flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered component bytes whose decompressed appearance stream draws at least one non-whitespace glyph. This field was artifact.written.length -- the finalizer's own write count -- until FIX169, which is why the four fixtures published 13/13, 8/8, 9/9 and 4/4: an identity, not a measurement.",
+    glyphsInFlattenedWidgetAppearances: artifact.glyphsInFlattenedAppearances,
+    flattenedWidgetFormXObjectsInDeliveredBytes: artifact.flattenedWidgetFormXObjects,
+    officialWidgetsDeclaredByTheTwoPinnedForms: artifact.officialWidgets,
     nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: artifact.addedInkRunsOutsideMeasuredWriteBoxes,
     measuredOn: "the two official components, diffed page by page against their bound source before ordered assembly; the guidance page this builder authors outright carries no source to diff against",
     valuesRefusedForWidth: artifact.widthRefusals.length,
-    refusedFieldsWithInk: [] }));
+    refusedFieldsWithInk: artifact.refusedFieldsWithInk }));
+  /*
+   * THE GUARD. It refuses the defect this repair removed: a figure named
+   * "...ReadFromOutputBytes" that is the finalizer's own tally, or a constant.
+   */
+  for (const proof of proofs) {
+    assert.equal(proof.flattenedWidgetFormXObjectsInDeliveredBytes, proof.officialWidgetsDeclaredByTheTwoPinnedForms,
+      `${proof.fixture}: the delivered bytes must carry one flattened Form XObject per official widget`);
+    assert.ok(proof.flattenedWidgetAppearancesReadFromOutputBytes > 0,
+      `${proof.fixture}: inked-appearance count is 0, which these fixtures cannot be`);
+    assert.ok(proof.flattenedWidgetAppearancesReadFromOutputBytes
+      < proof.flattenedWidgetFormXObjectsInDeliveredBytes,
+      `${proof.fixture}: inked appearances cannot equal the total -- most widgets on these forms are left blank`);
+    /*
+     * Every declared write must have produced exactly ONE inked flattened
+     * appearance. The two numbers coincide on this family because every mapped
+     * blank here is a text field and none of these four ACIC forms carries a
+     * check-box election -- which is exactly why the old constant went
+     * unnoticed. Now that the left side is decompressed out of the delivered
+     * bytes, the equality is a check rather than a tautology: a value that
+     * flattens to nothing, or an appearance nobody declared, breaks it.
+     */
+    assert.equal(proof.flattenedWidgetAppearancesReadFromOutputBytes, proof.valuesReportedByFinalizer,
+      `${proof.fixture}: ${proof.flattenedWidgetAppearancesReadFromOutputBytes} inked flattened appearances `
+      + `for ${proof.valuesReportedByFinalizer} declared writes`);
+    assert.deepEqual(proof.refusedFieldsWithInk, [],
+      `${proof.fixture}: a value refused for width left ink in its blank: ${proof.refusedFieldsWithInk.join(", ")}`);
+  }
   writeJson(`${OUT}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID, derivedFromArtifactBytes: true,
     note: "Every mapped value was re-read from the flattened component bytes before ordered assembly.",
@@ -1185,11 +1415,17 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/independent-visual-review.json`, { schemaVersion: "rcap-independent-visual-review/v1",
     familyId: FAMILY_ID, required: true, granted: false, reviewedBy: null,
     rasterState: "BUILT_RASTER_PENDING", artifacts: artifacts.map(({ packetId, file, sha256: hash, pageCount }) => ({ packetId, file, sha256: hash, pageCount })) });
+  const measured = measureCounters({ writes, refusals, artifacts,
+    terminals: writes.length + refusals.length, fieldsById });
   writeJson(`${OUT}/reports/completeness-counters.json`, { schemaVersion: "rcap-builder-completeness-counters/v1",
-    familyId: FAMILY_ID, counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0,
-      unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0,
-      invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }, allNineZero: true,
-    whatThisIsNot: "An independent verdict, raster receipt, or visual review." });
+    familyId: FAMILY_ID, counters: measured.counters,
+    howEachWasTaken: measured.howEachWasTaken,
+    visualDefectsWhyNull: measured.visualDefectsWhyNull,
+    countersMeasured: measured.countersMeasured,
+    countersNotMeasured: measured.countersNotMeasured,
+    everyMeasuredCounterZero: measured.everyMeasuredCounterZero,
+    whatThisIsNot: "An independent verdict, raster receipt, or visual review. Eight of these nine are readings taken "
+      + "by the builder that produced the bytes; that is not independent verification either." });
   const refusedForWidth = artifacts.flatMap((artifact) => artifact.widthRefusals);
   const correctedLabels = SOURCES.flatMap((source) => (fieldsById.get(source.documentId) ?? [])
     .filter((field) => field.labelCorrectedFromAnotherPrintedRow)
