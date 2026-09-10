@@ -433,6 +433,413 @@
     "ARTIFACTS"
    ],
    "grantsNothing": "This row is a measurement of delivered bytes at one commit. It is a FAIL, so it approves nothing, promotes no route, opens no commercial path and creates no fulfillment record. It makes this family eligible for no central raster: the bytes moved in FIX135's repair and no RASTER_PASS binds them, and a raster dispatch is the Captain's to make and not this lane's. This lane repaired nothing, released no claim, edited no central artifact and moved no packet byte."
+  },
+  {
+   "itemId": "ne-setaside-custodial-set",
+   "lane": "VF29",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "postRepairReread": false,
+   "firstIndependentRead": false,
+   "whyThisIsNotAPostRepairReread": "FIX135 held this family today and concluded no repair was warranted; it moved no byte, so there is no repair to re-read. This row is an independent read of the same unchanged bytes, which a conclusion that nothing was wrong is owed exactly as much as a repair is.",
+   "repairAuthorWasNotThisLane": "This lane built nothing here, repaired nothing here, edited no builder, edited no overlay directory and moved no packet byte. It names a remedy in a shared builder without applying it, for the same reason FIX135 did not: that builder is imported by four families this lane does not hold.",
+   "claimStatus": {
+    "assertedBeforeAnyRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF29 'ne-setaside-custodial-set'",
+    "result": "CLAIM_OK VF29 ne-setaside-custodial-set (independent-verification, grant set 7af138b097153cc1)"
+   },
+   "digestsAsIMeasuredThem": {
+    "measuredWith": "sha256sum on the two committed fixtures in this worktree at 9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+    "canonicalSha256": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+    "boundarySha256": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+    "canonicalPageCount": 5,
+    "boundaryPageCount": 5,
+    "pageCountMeasuredBy": "pdfinfo",
+    "digestsMovedSinceTheRasterWasAdmitted": false,
+    "whatThatMeans": "These are the digests FIX135 recorded and the digests the committed acceptance receipt binds, so no byte has moved on this family today and the existing raster receipt still describes these bytes. This row is a FAIL, so it dispatches no raster and requests none."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 3
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "0. The map declares 20 canonical writes and the output carries exactly those 20; it declares 17 boundary writes and the output carries exactly those 17, with the three differences (Text2 on CC-6-11, Text2 on CC-6-11.2, Text38 on DC-1-15) each individually refused in that fixture's own boundaryRefusals with a stated reason. The set difference is empty in both directions on both fixtures.",
+    "requiredFactsNotCollected": "0. The facts bound are the resolved court line, the party names, the case number, the printed name, the street address, the city/state/zip, the telephone number and the e-mail address. I read every one back out of the delivered stream bytes as a hex string operand at its own widget, and each matches its expected value. The one fact the platform holds no match for - the county - is refused rather than guessed, and the refusal is explained to the participant in its own paragraph of the guide.",
+    "unclassifiedBlanks": "0. Denominator counted by me from the pinned binaries: 19 fields on CC-6-11, 9 on CC-6-11.2, 74 on DC-1-15 and 0 on the flat CC-6-11a, 102 in total. 20 are written on the canonical fixture and 82 refused, 20 + 82 = 102. I then checked every one of the 82 refusals for a reason string and all 82 carry one; none is empty and none is missing.",
+    "incompleteRows": "0. The one real repeating table is DC-1-15's five-row two-column party block, present on both of its pages and both of its delivered packet pages. I resolved all twenty cells by geometry from the source widget rects rather than by the AcroForm suffix, and all twenty are blank on both fixtures, so no row is partially filled.",
+    "requiredOptionsMissing": "0. Eight selection controls exist on the three fillable forms and this builder makes none of them. Six of the eight carry /F 0 in the source, so Nebraska's own form does not print them and the packet correctly drops them; the guide explains that in terms. The two that a printed form does show - CC-6-11 Check Box7 and DC-1-15 Group27 - are delivered unmarked, and Check Box7 is disclosed to the participant by its own printed sentence in the guide's first blanks bullet. No control this route may determine is left silently unmade.",
+    "requiredComponentsMissing": "0. Six components declared, six accounted for: four delivered as packet pages, one refused with a stated reason (fee_waiver, because DC 6:7.1 does not fit and the mismatch is a release blocker), one delivered as process guidance in the guide (local_rules_check). I checked each against the delivered pages, not against the disposition table.",
+    "invisibleWrites": "0. 25 added glyph-bearing appearances on canonical and 22 on boundary, once the appearances the source itself ships are separated out. I parsed each stream for its font operator, its fill and its text render mode: every one is a positive font size, a fill at or near black, and no Tr 3. There is no white-on-white write and no invisible-render write.",
+    "protectedWrites": "0. None of the 82 refused blanks is written on either fixture, and the 600 dpi raster finds 0 added dark pixels outside every declared write box on all five pages of both fixtures, so no refused field carries ink this packet put there.",
+    "visualDefects": "3, MEASURED. The caption line mixes two typefaces on each of the three filing pages - packet pages 1, 2 and 4. The source draws its whole caption in TimesNewRoman 12 inside the calculated field TYPEOFCOURTRESULTS ('/TimesNewRoman 12 Tf ... (IN ) Tj (THE ) Tj (COURT ) Tj (OF) Tj'); the packet writes the resolved 'IN THE DISTRICT COURT OF' into that same field and the regenerated appearance is '/Helvetica 10 Tf', while the untouched printed tail 'COUNTY, NEBRASKA' stays TimesNewRoman in the page content. I confirmed it in the delivered bytes and by cropping the caption at 600 dpi in both renders. The words are complete, correct and more specific than the source's, and nothing is lost - this is a cosmetic inconsistency on the face of a filing, three occurrences, raised for the visual reviewer. None of the fifteen proof obligations is the home for a typeface change, so it is recorded as a counter and as a reviewer item and NOT as a failed obligation; the two failures on this family are named separately.",
+    "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": "MEASURED INDEPENDENTLY, because this family emits it nowhere. 0 on canonical and 0 on boundary. Method: every delivered page content stream is the source page's own content plus a glyph-free tail, so no glyph is drawn directly on any page; every added glyph therefore sits inside a Form XObject clipped to its own /BBox. I enumerated all 62 placements per fixture, computed each placed rectangle from its CTM, /Matrix and /BBox, separated the appearances the pinned sources themselves ship from the appearances this run added, and found every added glyph inside a declared write box, with 0 placements beyond the MediaBox. FIX135's warning is confirmed and worth repeating: counting WITHOUT that separation reads 385 outside a write box on this family, and all 385 are the court's own preserved ink."
+   },
+   "perArtifactOutputByteGlyphReadings": [
+    {
+     "fixture": "canonical",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 402,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "glyphsInAppearancesThePinnedSourcesThemselvesShip": 385,
+     "xobjectPlacementsReadFromOutputBytes": 62,
+     "glyphBearingPlacements": 34
+    },
+    {
+     "fixture": "boundary",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 1128,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "glyphsInAppearancesThePinnedSourcesThemselvesShip": 385,
+     "xobjectPlacementsReadFromOutputBytes": 62,
+     "glyphBearingPlacements": 31
+    },
+    {
+     "note": "These are NON-WHITESPACE glyph counts read from the produced bytes. They DISAGREE with FIX135, which reported canonical 218 and boundary 599 for the same quantity on the same unmoved bytes; the 385 figure for the sources' own preserved ink agrees exactly. My canonical 402 reproduces by hand from the eight distinct written values across their placements: CC-6-11 129 (12+16+16+14+19+8+24+20), CC-6-11.2 48 (12+16+20), DC-1-15 page 1 144 (15+16+12+20+16+14+19+8+24) and DC-1-15 page 2 82 (16+14+19+8+24), which sums to 402 on the nose. The two readings are recorded and not reconciled."
+    }
+   ],
+   "howTheSourceWasRendered": "The four pinned sources were rendered WITH annotations drawn: poppler pdftoppm 24.02.0 at -r 600 -gray -png with NO -hide-annotations flag, so widget /AP /N appearance streams are drawn under ISO 32000-1 12.5.5. The render was PROVED before any zero from it was trusted, and proved twice: against pdftoppm -hide-annotations and against a pdf-lib control copy with every page /Annots deleted and /AcroForm dropped. On JDF-641 page 5 (the same proof FIX135 used, run here on my own tooling) the annotation-drawing render carries 725,313 dark pixels and BOTH controls carry 521,645, agreeing to the pixel, while inside field 11.1's /Rect the drawing render carries 60,688 and both controls carry 0. The same proof was then repeated ON THIS FAMILY'S OWN SOURCE: inside CC-6-11 Check Box7's /Rect with a 3 pt pad, the annotation-drawing render of CC-6-11 carries 8,548 dark pixels and the annotation-free control of the SAME file carries 448, all of it neighbouring label text - Nebraska's page content draws no box there at all. This render draws widget ink on this family's own bytes, so its zeros are measurements.",
+   "directionalRasterAgainstThePinnedSources": {
+    "dpi": 600,
+    "threshold": "grey < 128 is dark",
+    "declaredWriteBoxes": "the /Rect of every widget of every written field, read first-hand from the four pinned binaries. This family's reports/actual-writes.json records no page and no rect per write, so the boxes could not be taken from it and were not.",
+    "perPageCanonical": [
+     {
+      "packetPage": 1,
+      "form": "CC-6-11",
+      "sourcePage": 1,
+      "sourceDark": 1089478,
+      "deliveredDark": 1167487,
+      "added": 100336,
+      "addedInsideWriteBoxes": 100336,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 22327
+     },
+     {
+      "packetPage": 2,
+      "form": "CC-6-11.2",
+      "sourcePage": 1,
+      "sourceDark": 718242,
+      "deliveredDark": 733632,
+      "added": 37717,
+      "addedInsideWriteBoxes": 37717,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 22327
+     },
+     {
+      "packetPage": 3,
+      "form": "CC-6-11A",
+      "sourcePage": 1,
+      "sourceDark": 2528767,
+      "deliveredDark": 2528767,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 4,
+      "form": "DC-1-15",
+      "sourcePage": 1,
+      "sourceDark": 907689,
+      "deliveredDark": 758173,
+      "added": 116109,
+      "addedInsideWriteBoxes": 116109,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 265625
+     },
+     {
+      "packetPage": 5,
+      "form": "DC-1-15",
+      "sourcePage": 2,
+      "sourceDark": 379965,
+      "deliveredDark": 442582,
+      "added": 62617,
+      "addedInsideWriteBoxes": 62617,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     }
+    ],
+    "perPageBoundary": [
+     {
+      "packetPage": 1,
+      "form": "CC-6-11",
+      "sourcePage": 1,
+      "sourceDark": 1089478,
+      "deliveredDark": 1251585,
+      "added": 184434,
+      "addedInsideWriteBoxes": 184434,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 22327
+     },
+     {
+      "packetPage": 2,
+      "form": "CC-6-11.2",
+      "sourcePage": 1,
+      "sourceDark": 718242,
+      "deliveredDark": 728580,
+      "added": 32665,
+      "addedInsideWriteBoxes": 32665,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 22327
+     },
+     {
+      "packetPage": 3,
+      "form": "CC-6-11A",
+      "sourcePage": 1,
+      "sourceDark": 2528767,
+      "deliveredDark": 2528767,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 4,
+      "form": "DC-1-15",
+      "sourcePage": 1,
+      "sourceDark": 907689,
+      "deliveredDark": 842273,
+      "added": 200209,
+      "addedInsideWriteBoxes": 200209,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 265625
+     },
+     {
+      "packetPage": 5,
+      "form": "DC-1-15",
+      "sourcePage": 2,
+      "sourceDark": 379965,
+      "deliveredDark": 531734,
+      "added": 151769,
+      "addedInsideWriteBoxes": 151769,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     }
+    ],
+    "negativeControl": "Packet page 3 is the CC-6-11a instruction sheet, a page this packet writes nothing on. It gains nothing and loses nothing: 0 added and 0 removed in both fixtures, with source and delivered dark totals identical at 2,528,767.",
+    "removedInkAccountedFor": {
+     "why": "A removed count is the only check this factory has for over-suppression, and this family removes a great deal. FIX135 accounted for it by exhaustive full-width bands; I tested that with a stronger instrument and then reproduced the bands.",
+     "theStrongerTest": "For every removed dark pixel on packet pages 1, 2 and 4, I asked whether it lies inside the /Rect of ANY widget the pinned source ships - not merely inside a selection widget, which is the narrower claim the brief warns about. RESULT: removed OUTSIDE EVERY source widget rect is 0 on page 1, 0 on page 2 and 0 on page 4. Every one of the 22,327 + 22,327 + 265,625 removed pixels lies inside a source widget rectangle. No rule, grid line, box, caption or any other mark the Nebraska Judicial Branch prints in page content has been erased anywhere in this packet.",
+     "packetPages1and2": {
+      "total": 22327,
+      "10219": "the two chooser widgets, TYPEOFCOURTDROPDOWN (4,862) and DROPDOWNCOUNTY2 (5,357), both /F 0 so the form itself does not print them",
+      "12108": "TYPEOFCOURTRESULTS, the source's own 'IN THE' and 'COURT OF' caption words, which the packet replaces in that same field with the resolved 'IN THE DISTRICT COURT OF'",
+      "closes": "10,219 + 12,108 = 22,327 exactly, on both pages, on both fixtures. This reproduces FIX135's figures to the pixel."
+     },
+     "packetPage4": {
+      "total": 265625,
+      "byExhaustiveFullWidthBands": [
+       {
+        "band": "y 0 to 658 pt from the bottom - the whole rest of the page",
+        "removed": 0
+       },
+       {
+        "band": "y 658.0 to 674.3",
+        "removed": 10219,
+        "what": "the two chooser widgets, /F 0"
+       },
+       {
+        "band": "y 674.3 to 690.5",
+        "removed": 15274,
+        "what": "TYPEOFCOURTRESULTS, the caption words the packet replaces"
+       },
+       {
+        "band": "y 690.5 to 748.6",
+        "removed": 212327,
+        "what": "Text20, the 'Type of Case - Check only one' panel, /F 0"
+       },
+       {
+        "band": "y 748.6 to 772.0",
+        "removed": 27805,
+        "what": "Button4, the RESET FORM push button, Ff 65536 pushbutton with /F 0"
+       },
+       {
+        "band": "y 772.0 to 792",
+        "removed": 0
+       }
+      ],
+      "closes": "0 + 10,219 + 15,274 + 212,327 + 27,805 + 0 = 265,625 exactly.",
+      "theFormSaysSoItself": "I read the panel's own printed face out of the source with pdftotext and it says, in the Nebraska Judicial Branch's own words: 'The items in this box will NOT print on your form.' Every widget in that band carries /F 0, so the Print flag is not set on any of them, and I read those flags from the pinned binary myself rather than from a report.",
+      "whereIDISAGREEwithFIX135": "The total is identical and the conclusion is identical, but two of its four named figures are misattributed. FIX135 reports '66,690 the RESET FORM push button' and '173,442 a panel whose own face reads...'. Measured against each widget's own /Rect - and the two rects do not overlap, Button4 sitting at y 750.163-770.163 and Text20 at y 698.053-748.583 - the button carries 27,805 and the panel carries 212,327. The two sum to 240,132 either way, so nothing escapes the accounting and the exhaustive close still holds; the split between the two named regions is wrong by 38,885 pixels in each direction. Recorded, not reconciled."
+     },
+     "removedElsewhere": "0. Packet pages 3 and 5 remove nothing at all in either fixture."
+    }
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "One route and it is carried identically everywhere I looked: obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less is in production-field-map.json routeKeys, in every documentPolicy on the map, in product-wiring.json, in approval-request.json, in MASTER_QUEUE.json, and it is the first line of participant-instructions.md. routeSelectionId is ne-custodial-cc-6-11-complete-set in both the field map and the source receipt. The committed manifest carries trackId ne-setaside-custodial with packetSetId ne-setaside-custodial-set. No second route, no route election, and the guide names the relief correctly in the statute's own words - Neb. Rev. Stat. 29-2264(5) - with its own section telling the participant to say SET ASIDE and never expunge, clear or erase."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All four sources resolve byte-exact under MASTER_LIBRARY_SOURCE_DIR, recomputed by me with sha256sum, and all four match MASTER_QUEUE sourceHashes, source-receipt.json and reports/rendered-artifacts.json pageManifest: CC-6-11 c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492, CC-6-11.2 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6, DC-1-15 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b, CC-6-11a 615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac. I proved page identity as well as file identity: on both fixtures, packet pages 1, 2, 4 and 5 each decompress to EXACTLY 'q' plus the pinned source page's own decompressed content stream plus a tail, and page 3 contains its source's content stream verbatim; the five tails carry 1299, 432, 12, 2568 and 1043 bytes and ZERO text-showing glyphs between them. Not one byte of the Nebraska Judicial Branch's own printed page content has been altered or removed on any page. I record without reconciling it that MASTER_QUEUE lists CC-6-11a's path as 'STATES/NE/03_INSTRUCTIONS/...' with no 'private/source-imports/...' prefix while the other three carry one, and gives its resolvedBy as custody_reconciliation rather than the census route the others use. The digest resolves either way, so this is a path-record inconsistency and not a custody gap."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Six components declared in legal-design-packet-set-manifests.json and six accounted for, which I checked one by one against the delivered pages rather than against the disposition table. primary_filing (required, CC-6-11) is packet page 1; proposed_order (required, CC-6-11.2) is packet page 2; instructions (required, CC-6-11a) is packet page 3; notice_and_certificate_of_service (conditional, DC-1-15) is packet pages 4 and 5, and its condition is stated to the participant in the guide's 'Who must receive a copy, and how' - district court cases only, because in county court the clerk schedules the hearing and mails the notice. fee_waiver (conditional) is not generated, with a reason that is stated to the participant rather than hidden: no fitting official form exists, DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type, and the mismatch is carried as a release blocker. local_rules_check (required, process_guidance) is delivered in the guide's 'Confirm what the filing court requires before you file', quoting the committed legal-design memo for this track. Every one is delivered, conditional and explained, or refused with a reason. requiredComponentsMissing 0. Their ORDER is a separate matter and is scored under PAGE_ORDER."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "20 writes on the canonical fixture and 17 on the boundary, and the map and the output agree in both directions on both. The map declares canonicalWrites 8 + 3 + 9 across CC-6-11, CC-6-11.2 and DC-1-15 and reports/actual-writes.json records exactly those 20; the boundary fixture writes three fewer and the three are not silently dropped - Text2 on CC-6-11, Text2 on CC-6-11.2 and Text38 on DC-1-15 each appear in that fixture's own boundaryRefusals with the reason 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. That is the boundary case exercising the no-case-number path, disclosed. I read every value back out of the delivered stream bytes as hex string operands: <494E2054484520444953545249435420434F555254204F46> = 'IN THE DISTRICT COURT OF', and the party, case-number, address, telephone and e-mail values likewise, each matching its expected value. The DEFECTS registry's doubled-value trap is the one that bites here and it is NOT present: reports/actual-writes.json shows DC-1-15 printedname as 'Jordan Avery Reyes Jordan Avery Reyes' and streetaddress as '118 Maple Street 118 Maple Street', and I confirmed from the pinned binary that printedname, streetaddress, citystatezip, 'telephone number' and emailaddress each have TWO widgets on DC-1-15, one on page 1 and one on page 2, so the report's top-level string is a join across widgets and each widget carries the value exactly once. Nothing is doubled on the page. No alias line, no signature, no date, no notarization and no fee is written anywhere."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The map refuses 82 blanks on the canonical fixture, of which 20 are role refusals across the three fillable forms (court, clerk, prosecutor, service, signature and judicial-officer fields) and 5 more are named in blanksWithheldFromParticipantTasks with a basis. None of the 82 is written on either fixture. I tested for ink rather than for intent: the 600 dpi directional raster finds 0 added dark pixels outside every declared write box on all five pages of both fixtures, so no signature line, no certificate-of-service line, no hearing date, time, courtroom or judge line and no clerk field carries any ink this packet put there. The guide states the same thing to the participant in its own voice: 'The hearing date, time, courtroom and judge on DC 1:15 are blank on purpose - the bailiff gives you those, and the platform cannot know them', and 'Sign that certificate only after you have actually mailed the copy.'"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured fresh on these bytes and it does not reproduce. 0 added dark pixels outside every declared write box on all five pages of BOTH fixtures at 600 dpi against an annotation-drawing source render, and 0 non-whitespace added glyphs outside a write box. A full placement sweep of the delivered bytes finds 62 placements per fixture and 0 beyond the 612x792 MediaBox. I also went looking specifically for the defect I found on this lane's other family - a written text field delivered as a synthesized rectangle where the source declares an underline - and it cannot arise here, for a reason in the source rather than by luck: every written widget on CC-6-11, CC-6-11.2 and DC-1-15 carries NO /MK /BC and NO /BS at all, so there is no border colour for pdf-lib to build a rectangle from. I confirmed it on the delivered bytes too - each regenerated appearance opens '0 w [] 0 d ... h h Q' with a zero line width and no stroke operator, painting no border. The recorded CLIPPING_AND_OVERLAP rows for this family (vf05 at base efda1c0aa5e8 and vf08 at base 7b3214102) were taken on canonical bb911fab / boundary 2d8254d4, which are not the digests on disk; both are marked superseded and neither describes these bytes."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present, prominent and unusually specific: a dedicated section 'Stop, and take this to a lawyer, if any of these is true' with eleven named triggers, including a contested hearing or prosecutor opposition, a prior denial, revoked or violated probation, wanting the conviction VACATED rather than set aside, firearm-rights restoration, sex-offender registration, immigration exposure, out-of-state, federal or tribal records, possible motor-vehicle offences under the Rules of the Road, consecutive sentences exceeding one year, and needing representation. A second section, 'What this relief is, and is not', tells the participant to say SET ASIDE and never expunge, clear or erase, and states that a set-aside does not seal, erase or remove the record and that Neb. Rev. Stat. 29-2264(6) lists the purposes for which the conviction still counts. Nothing asserts eligibility or predicts an outcome."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated precisely and with the one thing that most often goes wrong on this route called out: 'File the petition and the proposed order in your EXISTING criminal case, with the clerk of the sentencing court. This is not a new case: it goes into the case file that already exists.' It identifies the sentencing court as the Nebraska county or district court that imposed the sentence, tells the participant the court type is prefilled and to check it against the sentencing record, states how filing may be done (in person, by mail, or by fax if filing for oneself), and adds 'One petition per conviction.' No courthouse address is invented. The county is deliberately left blank and the guide gives it a paragraph of its own explaining that DC 1:15 prints a ruled line there while CC 6:11 and CC 6:11.2 print nothing at all, so the participant knows where to write it on each page. I confirmed that on the rendered pages."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Instructed, correctly sequenced, and correctly split by court. 'In DISTRICT court: you obtain a hearing date from the judge's bailiff, then file the Notice of Hearing (DC 1:15) and give a copy to the prosecutor. Service is BY MAIL on the prosecutor, and the certificate of service on page two of DC 1:15 is how you evidence it. Sign that certificate only after you have actually mailed the copy.' And: 'In COUNTY court: you do not schedule or serve the notice. The clerk schedules the hearing and mails the notice. The DC 1:15 pages in this packet are for a district-court case; leave them alone in a county-court case.' The certificate-of-service block on packet page 5 is delivered blank, and my raster confirms no ink was placed in it. No service deadline is stated, which is correct because no bound source establishes one."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "21 items are declared required before filing and 21 are disclosed, and I checked the disclosure item by item rather than by the count: every one of the 21 (document, field) pairs in production-field-map.json requiredBeforeFiling has its field identifier named in the guide's 'The blanks on these forms that you must complete', which carries exactly 21 bullets. The 5 blanks in blanksWithheldFromParticipantTasks are disclosed separately under 'Blanks this packet does not fill, and does not ask you to supply', with a basis each. The guide additionally carries the manifest's own 11 participantActionRequired steps in a section that says so - checking the offence, the case number and the probation discharge against named record sources, the signature and date on the petition, the date and judge lines on the proposed order, and the hearing details and certificate on the notice. Denominator checked independently from the pinned binaries: 19 + 9 + 74 = 102 distinct AcroForm fields across the three fillable forms (CC-6-11a is a flat scanned sheet with none), 20 written and 82 refused on the canonical fixture, 20 + 82 = 102."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The recorded ground for this obligation IS discharged, and a second one survives. WHAT IS DISCHARGED: VF90 recorded ARTIFACTS on this family because 2 stroke-only flattened appearances matched no /AP /N stream the pinned sources ship, and named its own clearing condition - 'a family whose unaccounted streams are all shown to be the form's own ink, correctly placed, is cleared without a byte moving'. I reproduced the classification independently, with my own parser and my own normaliser: 63 XObject placements per fixture, of which exactly 2 are painting and carry no glyph, and they are (a) CC-6-11 Check Box7's own /AP /N /Off stream with its leading opaque white fill '1 g 0 0 10.08 10.08 re f' removed, leaving the court's own stroke '0 G 0.5 0.5 9.08 9.08 re s' intact, and (b) Im0 on packet page 3, which is the CC-6-11a instruction sheet's own JPEG and not a widget appearance at all. Correctly placed, proved on the page: inside Check Box7's own /Rect with a 3 pt pad at 600 dpi the source with annotations, the delivered canonical and the delivered boundary each carry 8,548 dark pixels, added 0 and removed 0, while the page-content-only control of the same source carries 448, all of it neighbouring label text - Nebraska prints no box there. I cropped it and looked: source one clean check box, page-content control none at all, delivered one clean check box. The white mask was covering blank paper and FIX135's decision not to move a byte was right. WHAT SURVIVES: this family's delivered artifact set carries NEITHER required output-byte glyph reading on ANY document. reports/actual-writes.json publishes proofSummary.addedGlyphs as null for CC-6-11, CC-6-11.2 and DC-1-15, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears nowhere in the family directory at all. Null is the honest value for a quantity nobody measured, so this is a gap rather than a false zero - but both quantities are trivially readable from the produced bytes and I read them in minutes (see countersHowMeasured), so the artifact ships without a reading that exists. Corroborating, on the same artifact: production-field-map.json lists 16 'selectionControls' for CC-6-11a, a flat scanned sheet with zero AcroForm fields, whose field identifiers are prose fragments harvested off the page - 'drop-down lists.', 'case number.', 'you are asking to', and one garbled 'bnter the original'. None of them reaches the participant, because CC-6-11a has zero writes and zero refusals and the guide never lists them, but they are 16 phantom controls in a committed record. The remedy for the glyph readings is one emit in scripts/build-census-v1-ne-setaside-custodial-set.mjs, which MASTER_QUEUE records as exclusiveScript false with importedBy [ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, wv_conv_multiple_misdemeanors-set, wv_conv_single_misdemeanor-set] - four families this lane does not hold - so FIX135 was right to name it and not make it, and so am I."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The delivered packet does not follow the component order the committed manifest declares, and I measured it against the forms' own printed footers rather than against any report. pdftotext reads: packet page 1 'CC 6:11 Rev. 04/2024, Page 1 of 1'; page 2 'CC 6:11.2 Rev. 12/2020, Page 1 of 1'; page 3 'CC 6:11a Rev. 06/2024, Page 1 of 1'; page 4 'DC 1:15 NEW 08/19, Page 1 of 2'; page 5 'DC 1:15 NEW 08/19, Page 2 of 2'. data/record-clearing/legal-design-packet-set-manifests.json declares ne-setaside-custodial-notice-and-certificate-of-service-3 (DC-1-15) at order 3 and ne-setaside-custodial-instructions-4 (CC-6-11a) at order 4. The packet delivers them 4 then 3. Components 1 and 2 are in declared order; components 3 and 4 are transposed. Nothing is missing, duplicated or misfiled and every page is the right page of the right form - this is an ordering divergence from a controlling record and nothing more. It is undisclosed: neither participant-instructions.md nor product-wiring.json gives any reason for departing from the declared order, and product-wiring.json's componentDisposition simply records the delivered positions ('packet page 3 (CC 6:11a...)', 'packet pages 4 and 5 (DC 1:15...)') as though they agreed. WHY NO EXISTING CHECK CAUGHT IT, which is the part worth having: the builder asserts its componentDisposition table against the manifest at build time and its own comment says the rows 'must equal that manifest's six rows exactly, in order' - but the assertion compares componentIds, roles and requirements in the DECLARATION table, and the declaration table is in manifest order while the assembled pages are not. The check reads the record and cannot see the artifact. I record without deciding it that the source receipt lists its four documents in the DELIVERED order (CC-6-11, CC-6-11.2, CC-6-11A, DC-1-15), so a reader could reasonably conclude the remedy is to amend the manifest rather than to reorder the packet; that is a call for whoever owns the manifest, not for this lane. What I can say is that the only committed record that declares an assembly order declares one the packet does not follow, and that this family's sibling on this lane, co_multiple_conviction_seal-set, does follow its own manifest's order exactly."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "A measurement, not a not-applicable. 8 selection controls exist on the three fillable forms - CC-6-11 Check Box7, TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2; CC-6-11.2 TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2; DC-1-15 Group27, TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 - and this builder makes none of them, which its own build-findings states as policy: 'No checkbox or radio election is made by this builder; an election the route determines is named as unmade rather than described as the participant's.' The one election the participant may need is disclosed by its own printed sentence: Check Box7 is the first bullet of the guide's blanks table, quoted in full - 'By checking this box, I am letting the court know that I do not have the ability to receive emails' - with the instruction to leave it alone if an e-mail address was given. The six chooser controls are a different thing and the packet handles them correctly: all six carry /F 0 in the source, so the Nebraska Judicial Branch's own form does not print them, and the guide says so in terms - 'The official forms do carry a Choose the county prompt there, but only on a screen, in a drop-down control the form marks as not-for-printing. It is absent from this packet because it is absent from any printed copy of these forms.' The DC-1-15 Group27 radio set is the 'Type of Case - Check only one' panel, also /F 0. No option the route determines is left silently unmade. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "There is a real repeating table here, so this is a measurement. DC-1-15 carries a five-row two-column party block on EACH of its two pages, and the packet delivers both (packet pages 4 and 5). I resolved the rows by geometry from the pinned binary rather than trusting the AcroForm suffix, because the DEFECTS registry's 'acroform-index-is-not-the-printed-row' entry applies wherever an index exists: on packet page 4 the left column runs Text59.0 y0 468.111, .1 446.927, .2 425.744, .3 404.561, .4 383.377 and the right column Text60.0 y0 468.496 down to .4 383.762 - five bands in strict descending page order, index ascending with printed position, one left cell and one right cell each, columns at a consistent x of 108.44-286.38 and 291.00-504.00. Packet page 5 is the same structure at y 503.713 down to 418.980. All 20 cells are blank on both fixtures, so no row is partially filled and no person's details can land on another's line. This is also the structure the source's own 'Add next person' button serves."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured, and it is the strongest refusal I read on either family. The guide states: 'No fee amount is stated here, because no held source states one for this filing. The committed track registry records it in terms: the statewide fee schedule carries no line item for a petition filed inside an existing criminal case, so no figure may be shown to you. This packet will not guess one.' It then names an office the participant can actually reach - 'Ask the clerk of the sentencing court what this filing costs, before you file' - and adds 'Ask about each petition separately if you are filing more than one.' On the waiver it states the authority without overclaiming: 'a waiver exists in principle. Neb. Rev. Stat. 25-2301.01 provides for proceeding in forma pauperis and reaches criminal cases in any county or state court. This packet does not include a waiver form: the registry records that the official DC 6:7.1 form does not fit this filing, and that mismatch is recorded as a release blocker rather than papered over.' That matches the manifest, which declares fee_waiver conditional, and product-wiring.json, which records it not_generated_with_a_reason naming DC 6:7.1's scope. No fee, no waiver rule, no deadline and no clerk practice is fabricated anywhere."
+    }
+   },
+   "crossChecks": {
+    "DEFECTS_NO_COUNTER_CAN_SEE": "All ten entries checked deliberately against these bytes. 'a-published-zero-where-a-measurement-existed' is FOUND in its null variant and is the ground of the ARTIFACTS failure above: three of four documents publish proofSummary.addedGlyphs as null and the family publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes nowhere, while real values sit in the bytes. 'annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink' - NOT present, and this is the family where it would have mattered most, because this packet removes 310,279 dark pixels across its two fixtures; my source render draws annotations and I proved it twice, once on JDF-641 page 5 and once on this family's own CC-6-11 Check Box7. 'map-honest-writes-not' - NOT present; declared and actual writes are identical sets on both fixtures and no alias, signature, date, notarization or fee is written. The doubled-value trap - NOT present, and it looks present in the report: DC-1-15 printedname reads 'Jordan Avery Reyes Jordan Avery Reyes' because that field has two widgets, one per page, each carrying the value once, which I confirmed from the pinned binary. 'acroform-index-is-not-the-printed-row' - NOT present; measured on the real five-row party block by geometry on both pages, index agrees with printed position on all ten rows, and all twenty cells are blank anyway. 'extracted-line-order-is-not-column-order' - NOT present; the party block's two columns sit at consistent x on every row. 'internal-record-text-printed-on-a-filing' - NOT present; every delivered page's content stream is the source's own, byte for byte, and the only added text is court, case and identity facts plus the resolved court line. 'a-geometry-counter-with-no-teeth' - acknowledged; the reading this row rests on is the 600 dpi directional raster and the removed-pixel attribution, not a glyph counter. 'an-inverted-widget-rectangle' - this family is absent from INVERTED_WIDGET_RECTANGLES.json and my own sweep finds 0 placements beyond the MediaBox. 'two-families-one-filing' - see below.",
+    "CLONED_FAMILY_PACKETS": "This family is named nowhere in CLONED_FAMILY_PACKETS.json. Checked myself as well: the four Nebraska overlay directories at this base deliver four different canonical digests (b3ad99b4a1ae, 611825ac4bd0, 06f5fae3ff55 and this family's dd1cde67dd6c), two of the other three are custom_pleading rather than official_pdf_fill, and this is the only Nebraska family built on CC-6-11, CC-6-11.2, CC-6-11a and DC-1-15.",
+    "INVERTED_WIDGET_RECTANGLES": "Absent from that registry, and my own placement sweep finds 62 placements per fixture with 0 beyond the 612x792 MediaBox and no inverted rectangle among the written widgets."
+   },
+   "recordsThatDisagree": [
+    {
+     "about": "the name of this family's failed obligation",
+     "whatIWasToldToExpect": "that the queue at this base would name CLIPPING_AND_OVERLAP after an extractor fix",
+     "whatIActuallySee": "MASTER_QUEUE.json at 9b5f732769578aed5b32f94346dee5b25e5fb5e4 records failedObligationNames ['ARTIFACTS'] for this family, with finding, evidence and findingReadFrom all null and readFrom = \"the row's own failedObligationNames; no per-obligation finding was recorded beside it\". It records the same ['ARTIFACTS'] for co_multiple_conviction_seal-set. CLIPPING_AND_OVERLAP appears in neither queue row.",
+     "whatIMeasuredAgainst": "the delivered bytes and the pinned sources. CLIPPING_AND_OVERLAP does not reproduce here and I score it PASS; ARTIFACTS has one ground discharged and one surviving and I score it FAIL."
+    },
+    {
+     "about": "the split of packet page 4's removed ink between the RESET FORM button and the non-printing panel",
+     "whatTheRecordSays": "FIX135: 66,690 for the RESET FORM push button and 173,442 for the panel",
+     "whatIMeasured": "27,805 for Button4 and 212,327 for Text20, measured in each widget's own non-overlapping /Rect and confirmed by disjoint full-width bands. The two sum to 240,132 in both accounts, the exhaustive total still closes at 265,625 of 265,625, and the conclusion is unaffected."
+    },
+    {
+     "about": "the added-glyph reading",
+     "whatTheRecordSays": "FIX135: canonical 218, boundary 599",
+     "whatIMeasured": "canonical 402, boundary 1,128 non-whitespace added glyphs. The companion figure of 385 glyphs in appearances the sources themselves ship agrees exactly, so the disagreement is in the added count alone. My 402 reproduces by hand-summing the written values across their widget placements; the arithmetic is in perArtifactOutputByteGlyphReadings."
+    },
+    {
+     "about": "the packet's page order against the committed manifest",
+     "whatIMeasured": "The manifest declares DC-1-15 at order 3 and CC-6-11a at order 4; the packet delivers CC-6-11a on page 3 and DC-1-15 on pages 4 and 5. The source receipt lists its documents in the delivered order instead. Two committed records imply two different orders and I measured against the manifest, which is the only one that declares an order in terms. Scored under PAGE_ORDER."
+    },
+    {
+     "about": "MASTER_QUEUE's own account of this family's build host",
+     "whatIMeasured": "The row records exclusiveScript false and importedBy of four other families, which is a shared host, while sharedBuildHost on the same row is null. The importedBy list is the operative fact and it is why the ARTIFACTS remedy is named and not made."
+    },
+    {
+     "about": "CC-6-11a's recorded source path",
+     "whatIMeasured": "MASTER_QUEUE gives CC-6-11a's path as 'STATES/NE/03_INSTRUCTIONS/...' with no 'private/source-imports/...' prefix, unlike its three siblings, and its resolvedBy as custody_reconciliation rather than the census route. The digest 615c64b428d5 resolves byte-exact under MASTER_LIBRARY_SOURCE_DIR either way, so this is a path-record inconsistency and not a custody gap."
+    }
+   ],
+   "forTheVisualAndCounselReviewer": {
+    "aScreenCommandBUTTONPrintsOnTheNoticeOfHearing": "Raised by FIX135 for a reviewer rather than decided, and I confirm the facts it rests on from the pinned binary myself rather than repeating them. DC-1-15 carries four 'Add next person' push buttons at the same rectangle [13.93 468.88 65.58 488.90]. Button63.0 is Ff 65536 with /F 4 - Print set, Hidden not set - so the Nebraska Judicial Branch's own form prints it; Button63.1, .2 and .3 carry /F 6, which is Hidden plus Print, and the packet drops all three. The delivered packet page 4 carries one placement at exactly that rectangle drawing the glyphs 'Add next person'. Reproducing what the court's own form prints is fidelity. Whether a filed Notice of Hearing should carry a command control is for counsel and the court, and it is raised rather than changed. I record additionally that RESET FORM (Button4, Ff 65536, /F 0) and the six 'Type of Case' radios (/F 0) are correctly absent, so the packet is discriminating on the Print flag and not on the control type.",
+    "theCaptionMixesTwoTYPEFACES": "Counted in visualDefects as 3. On packet pages 1, 2 and 4 the caption reads 'IN THE DISTRICT COURT OF ______ COUNTY, NEBRASKA' with the first eight words in Helvetica 10 and the tail 'COUNTY, NEBRASKA' in TimesNewRoman, because the packet writes the resolved court line into the source's own calculated caption field and the regenerated appearance takes the default face. The words are complete and correct and more specific than the source's, and nothing is lost.",
+    "theGuideCarriesThreeManifestFRAGMENTSasToDoBullets": "Under 'Everything this route requires before filing', three of the eleven bullets are manifest field values that do not read as steps: 'none required on the face of the forms.', 'Not established. The statewide fee schedule carries no line item...' and 'Available in principle under Neb. Rev. Stat. 25-2301.01...'. Nothing in them is false and each is expanded correctly in its own later section, but in a numbered to-do list a bullet reading 'none required on the face of the forms.' is not a thing the participant can do. Raised for the visual reviewer; it fails no obligation."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/field-census.census-v1.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+    "scripts/build-census-v1-ne-setaside-custodial-set.mjs (read only)",
+    "scripts/rcap-official-forms/rcap-active-content.mjs (read only)",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fix135/rows-fix135-cone-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json"
+   ],
+   "toolsRun": [
+    "sha256sum on both fixtures and all four pinned sources",
+    "pdfinfo for page counts",
+    "pdftotext -layout for printed page footers and for the non-printing panel's own words",
+    "pdftoppm 24.02.0 -r 600 -gray -png, with and without -hide-annotations",
+    "pdf-lib, to build an annotation-free control and to read page /Annots, /AP, /BS, /MK, /F, /Ff, page content streams and flattened XObject placements first-hand",
+    "numpy + Pillow for the directional dark-pixel difference, the per-widget removed-pixel attribution and the exhaustive band close"
+   ],
+   "visualDefects": [
+    {
+     "defect": "the caption line mixes two typefaces",
+     "count": 3,
+     "where": "packet pages 1 (CC 6:11), 2 (CC 6:11.2) and 4 (DC 1:15)",
+     "sourceDraws": "/TimesNewRoman 12 Tf inside the calculated field TYPEOFCOURTRESULTS",
+     "deliveredDraws": "/Helvetica 10 Tf for 'IN THE DISTRICT COURT OF', with the printed tail 'COUNTY, NEBRASKA' still TimesNewRoman in page content",
+     "materiality": "cosmetic. The words are complete, correct and more specific than the source's; nothing is lost and no obligation fails on it."
+    }
+   ],
+   "failedObligationNames": [
+    "ARTIFACTS",
+    "PAGE_ORDER"
+   ],
+   "grantsNothing": "This row is a measurement of delivered bytes at one commit. It is a FAIL, so it approves nothing, promotes no route, opens no commercial path and creates no fulfillment record. It requests no raster: no byte moved on this family and the existing receipt still describes these bytes. This lane repaired nothing, released no claim, edited no central artifact and moved no packet byte."
   }
  ]
 }
