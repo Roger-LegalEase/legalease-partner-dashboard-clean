@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-gating-defect/v1",
+  "title": "A rebuild deletes the family's acceptance receipt and its commercial guards",
+  "recordedBy": "Captain, 2026-09-10",
+  "status": "GATES_THE_STAGED_BORDER_REMEDIATION",
+  "why": "Roger directed that old artifacts and receipts be preserved as historical evidence and that no old receipt ever be relabelled as covering changed output. A builder that DELETES the receipt on rebuild does something worse than relabel it: it erases the evidence, silently, and leaves nothing to compare against. The staged remediation rebuilds families. Until this is fixed, every rebuild in that programme destroys what the programme exists to protect.",
+  "foundIndependentlyByTwoLanes": [
+    {
+      "lane": "FIX02",
+      "family": "mn_petition_juvenile_as_adult-set",
+      "howItWasProved": "Reproduced on the UNTOUCHED script at base 181ac2ece: one clean rebuild produced byte-identical fixtures and a product-wiring.json missing all six governance keys.",
+      "keysLost": ["acceptanceReceipt", "lastIndependentVerification", "paymentEligible", "sponsorshipEligible", "whyPaymentIsClosed", "maintenanceRelationship"]
+    },
+    {
+      "lane": "FIX07",
+      "family": "mn_petition_15218-set",
+      "howItWasProved": "Rebuilt at base, before any edit of its own.",
+      "whatWasDestroyed": {
+        "acceptanceReceipt": "verdict RASTER_PASS, workflowRunId 34413372916, boundToCanonicalSha256 cbdea2b8...",
+        "lastIndependentVerification": "FAIL_REPAIR_REQUIRED, lane vf02",
+        "alsoLost": ["paymentEligible", "sponsorshipEligible", "whyPaymentIsClosed", "maintenanceRelationship"],
+        "andSilentlyDowngraded": "the FEE102 source tier, exact_content_hash -> exact_form_number"
+      }
+    }
+  ],
+  "whyItIsWorseThanItLooks": [
+    "paymentEligible and whyPaymentIsClosed are commercial guards. A rebuild that drops paymentEligible: false does not open a route by itself, but it removes the record that the route is closed, and the absence of a record is supposed to be a refusal rather than a gap.",
+    "A hash-bound RASTER_PASS is the only thing standing between a family and a re-render. Deleting it costs a central raster run to replace and, until it is replaced, the family cannot be shown to have been looked at.",
+    "It is invisible. The fixtures are byte-identical across the rebuild, so nothing downstream reports a change, and the loss is only visible by diffing product-wiring.json against the commit."
+  ],
+  "blastRadius": {
+    "confirmedOn": 2,
+    "buildersInRepository": 309,
+    "buildersThatReadParticipantActionRequired": 33,
+    "note": "FIX02 measured that each build-census-v1-*.mjs is standalone with no shared module, and that 276 of 309 builders never read participantActionRequired at all. The same standalone shape is why this erasure is likely general rather than Minnesotan. It is CONFIRMED on two families and UNMEASURED on the rest; do not state it as fleet-wide until it is measured."
+  },
+  "theFixAlreadyExistsTwice": {
+    "delaware": "scripts/census-v1-de-expungement/de-expungement-core.mjs solves it with preserveIdentityRefresh().",
+    "fix02": "Carries the six keys forward, and carries the acceptance receipt ONLY while its boundToCanonicalSha256 still matches the rebuilt canonical -- otherwise records it under acceptanceReceiptWithdrawn with BOTH digests. That is the shape the whole fleet needs: a receipt that no longer describes the bytes is withdrawn and kept as history, never carried forward as though it still applied and never deleted.",
+    "whatIsMissing": "Neither is enforced. A builder that quietly drops the keys still passes every check."
+  },
+  "whatIsNeeded": [
+    "One shared preservation mechanism, taking the Delaware and FIX02 implementations as the two working references.",
+    "A check that FAILS a build which drops any of the six keys, so a builder cannot regress silently.",
+    "Withdrawal rather than deletion when the canonical digest moves: acceptanceReceiptWithdrawn carrying the old receipt, the digest it was bound to, and the digest that replaced it.",
+    "It must not invent a receipt, carry a stale one forward as current, or set paymentEligible to anything. Preserving a value is not the same as deciding one."
+  ],
+  "grantsNothing": "Recording this opens no route and approves no packet. It states a defect and names what has to be true before the staged remediation rebuilds a family that is currently COMPLETE_PACKET_PROVEN."
+}
