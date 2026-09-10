@@ -1,0 +1,260 @@
+{
+ "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX163",
+ "laneKind": "complex_execution_repair",
+ "isIndependentVerification": false,
+ "worktree": "/home/user/ln1-worktree",
+ "branch": "lane-fix163-20260910",
+ "repairedAtBase": "e89a2d69d4ea9c11b720047eab5037ddc3939e4d",
+ "respondingTo": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json (VF54, verifiedAtBase 6483ce2468dbbfa98525859abf80bc3c96de5433)",
+ "grantSet": "75d93020280616c1",
+ "claimCommandsRun": [
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX163 mo-art-xiv-marijuana-set -> CLAIM_OK",
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX163 mi_setaside_trafficking-set -> CLAIM_OK"
+ ],
+ "scopeHeldTo": "The two assertable findings of the grant. Nothing else in either family was rewritten; the twelve/thirteen passing obligations VF54 named as not-to-disturb were left alone and re-measured only where a counter moved.",
+ "builtAnything": true,
+ "packetsSelfVerified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "sharedRecordsTouched": [
+  {
+   "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+   "committedChange": "none",
+   "whatHappened": "read at build time; mutated three times IN THE WORKING TREE to prove the new MO service/notice guards fire, and restored after each. Re-hashed to 53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934 afterwards, which is the digest MO's source-receipt.json declares."
+  },
+  {
+   "path": "data/record-clearing/legal-design-intake/MI.memo.json",
+   "committedChange": "none",
+   "whatHappened": "newly READ at build time by the MI builder, and now declared as a compositionSource of that family's source-receipt.json. Mutated three times in the working tree to prove the new MI guards fire, and restored after each. Re-hashed to 77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947, which is the digest VF54 independently recorded for it. A parallel lane reading the file during those windows would have read mutated content; the windows were seconds long and the file is byte-identical to its committed state now."
+  }
+ ],
+ "theDeterminismControlRanFirst": {
+  "mo-art-xiv-marijuana-set": "The unmodified builder was run before any edit under MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1. It reproduced every committed file byte for byte: git status was empty afterwards and both fixtures re-hashed to their committed digests. Fully deterministic in this environment.",
+  "mi_setaside_trafficking-set": "The unmodified builder was run before any edit. Both fixtures, production-field-map.json, participant-instructions.md, reports/actual-writes.json, reports/caption-evidence.json and reports/completeness-counters.json were reproduced byte for byte. THREE FILES WERE NOT, and they are an environment divergence rather than a repair: this container has the calibrated Chromium rasterizer, the machine that produced the committed tree did not, so the builder rendered 8 pages and rewrote build-status.json (rasterEngine 'not rendered in this run' -> 'chromium_calibrated', rasterPages 0 -> 8), reports/independent-visual-review.json and reports/rendered-artifacts.json (rasterPages [] -> 8 entries, everyPageRastered false -> true), and created an untracked 2.8 MB raster/ directory of PNGs. All three files were restored with git checkout and raster/ was deleted after EVERY build this lane ran, including the final one. None of that reached a commit."
+ },
+ "howTheRepairWasMade": "Through each family's own builder, never by hand-editing a delivered artifact. Every sentence added to a participant document is either a quotation from the committed legal-design record or a statement about what that record says, and each quotation is now held in place by a build-time guard that refuses the build if the record stops saying it. Every guard added was proved to fire by breaking the thing it guards and restoring it.",
+ "rows": [
+  {
+   "itemId": "mo-art-xiv-marijuana-set",
+   "familyId": "mo-art-xiv-marijuana-set",
+   "jurisdiction": "MO",
+   "disposition": "REPAIRED_AWAITING_INDEPENDENT_REVERIFICATION",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+   "wasTerminalBeforeThisLane": "14/15 on VF54's read; SERVICE was the single FAIL.",
+   "obligationRepaired": {
+    "obligation": "SERVICE",
+    "vf54Finding": "The delivered CR375 names three government agencies as Defendant(s) and the participant signs beneath 'I have reason to believe the agencies named above as defendants may possess records subject to expungement' under penalty of perjury, while neither participant-instructions.md nor filing-instructions.md contained the word serve, service or notice in any sense - the only matches in either file were inside the agency name 'Criminal Justice Information Services (CJIS) Division'.",
+    "confirmedIndependentlyHere": "Yes, before repairing. A case-insensitive word-boundary search for serve/served/service/services/notice/notify/notified over both delivered guides at this lane's base returned 8 matches, every one of them the literal 'Services' inside that agency name. The packet raised the service question on its face and answered it nowhere.",
+    "exactFinalState": "REPAIRED. filing-instructions.md now carries a section '## Service and notice - what you do NOT have to do' directly beneath '## Where it goes', which is where VF54 asked for it and where this family already carries rules.filing and rules.feeWaiver. It states the form's own Defendant(s) sentence, then quotes MO.memo.json track mo-art-xiv-marijuana rules.service and rules.notice verbatim on lines of their own, then draws the two conclusions the record supports and no others: nothing to serve, no process server to hire, no certificate of service on CR375 to complete or attach. No fee, deadline, criterion or court practice was invented, and no sentence was added that the record does not carry.",
+    "wordsCarriedVerbatim": [
+     "None performed by the participant. CR375 carries no certificate of service.",
+     "Not prescribed for the participant. The agencies named as defendants on CR375 are the entities whose records the order reaches, and the court and clerk handle notice as they do on the other petition routes. Article XIV prescribes no objection window and no prosecutorial notice period of its own."
+    ],
+    "guardsAddedAndProvedToFire": [
+     {
+      "error": "MO_MEMO_SERVICE_RULE_NO_LONGER_RELIEVES_THE_PARTICIPANT",
+      "provedBy": "rules.service set to 'The participant must serve each named agency.' -> build exited 1 with this error"
+     },
+     {
+      "error": "MO_MEMO_SERVICE_RULE_NO_LONGER_ADDRESSES_THE_CERTIFICATE_OF_SERVICE",
+      "provedBy": "rules.service truncated to 'None performed by the participant.' -> build exited 1 with this error"
+     },
+     {
+      "error": "MO_MEMO_NOTICE_RULE_NO_LONGER_RELIEVES_THE_PARTICIPANT",
+      "provedBy": "rules.notice set to 'The participant gives notice to the prosecutor within 30 days.' -> build exited 1 with this error"
+     }
+    ]
+   },
+   "bytesBeforeRepair": {
+    "fixtures/canonical.pdf": "44ffa83102e981e65144007f272ae480c2d4251a23ca2c6b30144f7d28a12397",
+    "fixtures/canonicalByteLength": 683896,
+    "fixtures/boundary.pdf": "9db6f9ab18a5a9a6468095e855d3aba65dfa651083ac60c45cc393e874e28dc3",
+    "fixtures/boundaryByteLength": 684238
+   },
+   "bytesAfterRepair": {
+    "fixtures/canonical.pdf": "44ffa83102e981e65144007f272ae480c2d4251a23ca2c6b30144f7d28a12397",
+    "fixtures/canonicalByteLength": 683896,
+    "fixtures/boundary.pdf": "9db6f9ab18a5a9a6468095e855d3aba65dfa651083ac60c45cc393e874e28dc3",
+    "fixtures/boundaryByteLength": 684238
+   },
+   "pdfBytesMoved": false,
+   "acceptanceReceiptStillBinds": true,
+   "boundRasterPassStillDescribesTheseBytes": "YES. The RASTER_QUEUE.json receipt and raster-runs/admitted/mo-art-xiv-marijuana-set/ both bind these two digests and both still describe the bytes on disk. This lane moved no pixel.",
+   "freshCentralRasterOwed": false,
+   "whyNoRasterOwed": "The repair is guidance text in a markdown file. No PDF byte moved, so nothing a raster gate measures changed. The SCOPE LIMIT VF54 recorded is unchanged and not cured by this lane: the receipt's own coverage block says rastered ['canonical.pdf'], notRenderedByThisGate ['boundary.pdf'] beside coversTheWholeFamily true, so the boundary fixture of this family has still had no central raster.",
+   "filesChanged": [
+    "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+    "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/filing-instructions.md"
+   ],
+   "filesDeliberatelyNotTouched": "Both fixtures, production-field-map.json, participant-instructions.md and every report - all reproduced byte for byte by the repaired builder, so the eleven verbatim stop conditions, the 58 declared writes and the fee/waiver section's refusal to quote a figure are demonstrably undisturbed.",
+   "verifierRun": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set",
+    "printedVerdict": "ok   mo-art-xiv-marijuana-set   PASS_COMPLETE   58/300 written; 1 famil(ies) audited . 1 PASS_COMPLETE",
+    "exitStatus": 0,
+    "howMuchWeightThisCarries": "Little, by design. VF54 established that this verifier's visualDefects key reads 0 on this family while the builder measured no pixels at all, and that requiredComponentsMissing is an exception sink. It is reported because the grant asks for its actual printed verdict, not because it decides the obligation.",
+    "familyOwnTestRun": {
+     "command": "node scripts/grade-a-packet-factory-24h/test-mo-art-xiv-record-disclosures.mjs",
+     "printedVerdict": "MO_ART_XIV_DISCLOSURES_OK: 1 required-before-filing document(s) with their obtainedFrom and howToObtain, and 11 self-help stop condition(s), are present verbatim in the delivered participant-instructions.md; the withdrawn CIRCUIT-column corroboration has not reappeared; and the fee copy still matches what the record publishes.",
+     "exitStatus": 0
+    }
+   },
+   "countersThisLaneDidMeasure": {
+    "serviceOrNoticeWordsInTheDeliveredGuidesBeforeRepair": 8,
+    "ofThoseThatWereTheCJISAgencyName": 8,
+    "recordSentencesNowCarriedVerbatim": 2,
+    "guardsAddedAndProvedToFire": 3,
+    "pdfBytesMoved": 0
+   },
+   "countersThisLaneDidNotMeasure": {
+    "addedInkPx": null,
+    "lostInkPx": null,
+    "whyNull": "This lane rendered no raster. It moved no PDF byte, so VF54's pixel figures for this family still describe the bytes on disk; re-deriving them here would have added no evidence. A figure this lane did not measure is null, not zero."
+   },
+   "recordedNotRepairedBecauseTheGrantSaidNotTo": "CONFIRMED AND LEFT ALONE. data/record-clearing/legal-design-packet-set-manifests.json declares component mo-art-xiv-marijuana-continuation-3 with officialFormId 'CR375' and conditionDescription 'Generated where the agency list or the case table exceeds the space on the form. CR375 twice directs the petitioner to attach additional sheets as necessary.' What ships as delivered pages 7-10 is a SECOND FI-05, carried for party overflow, and the family's own source-receipt.json says so in terms ('This petition has four parties and one sheet holds three, so the packet carries a second sheet rather than implying a form that does not exist'). The delivered document is right and disclosed; the shared manifest's description of it is stale. Not this lane's to fix and not fixed."
+  },
+  {
+   "itemId": "mi_setaside_trafficking-set",
+   "familyId": "mi_setaside_trafficking-set",
+   "jurisdiction": "MI",
+   "disposition": "REPAIRED_AWAITING_INDEPENDENT_REVERIFICATION",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+   "wasTerminalBeforeThisLane": "13/15 on VF54's read; KNOWN_PREFILLS and SELF_HELP_STOP were the two FAILs.",
+   "obligationsRepaired": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "vf54Finding": "production-field-map.json declared 8 canonical (16 boundary) writes, every one on page 1, while the canonical carried 2,947 px of added ink on page 2 and 2,947 px on page 3 - 2,599 px each on the boundary - lying inside no declared rectangle of any kind. Traced to an unnamed source widget: /T null, /FT /Tx, no /AP, Rect [472.5, 714.176, 575.5, 726.176], the 'Case No.' header box of each continuation page.",
+     "confirmedIndependentlyHere": "Yes, and the mechanism was read out of the pinned binary rather than inferred. MC-227B carries 104 /Widget annotations over 102 AcroForm fields. The surplus two are kids of the field `caseno`, which owns THREE widgets: page 1 at Rect [410.4, 698, 570.837, 708.36], and pages 2 and 3 both at Rect [472.5, 714.176, 575.5, 726.176]. The two header kids carry no /T and inherit the parent's name, so filling `caseno` draws the case number in all three places and no row keyed by field name can address two of them. The packet's own reports/actual-writes.json already MEASURED all three appearances and found each fitting - page 1 drawnWidth 62.733pt in 156.437pt, pages 2 and 3 drawnWidth 75.04pt in 99pt - so the ink was proved and only the declaration was missing.",
+     "theWriteWasKept": "Yes. VF54 is right that it is correct and must stay: the value matches page 1, it is contained on both fixtures, and the boundary's 28-character number is shrunk to fit rather than truncated. Nothing about the drawing changed.",
+     "exactFinalState": "REPAIRED, as records only. (1) Every additional widget of a row the build acts on now carries its own map row, addressed by page and /Rect rather than by a name it does not have, mapped to matter.case_number, on BOTH sides: MC-227B/caseno@page2 and MC-227B/caseno@page3 now appear in canonicalWrites, boundaryWrites and explicitMappings, each carrying addressedBy 'page and /Rect', widgetCarriesItsOwnAcroFieldName false and the reason it exists. (2) terminalFieldCoverage's denominator moved from acroFormFieldsInTheBoundBinary 102 to widgetAnnotationsInTheBoundBinary 104, with denominatorUsedHere and whyTheseTwoDiffer stated beside it; rowsOnThisSide is now 104 on both sides and writes are 10 canonical / 18 boundary. (3) The glyph counter is recomputed against declared writes: a new key flattenedWidgetAppearancesAtDeclaredWriteRectangles (10 canonical, 19 boundary) replaces the whole-document flattenedWidgetAppearancesReadFromOutputBytes (104) in the invisible-write test. (4) reports/caption-evidence.json now carries 104 per-widget entries instead of 102 per-field ones. (5) The guide's 'What the platform filled in for you' table now names the caption writes and states that the case number is one entry drawn in three places, at the top of pages 2 and 3.",
+     "corroborationTheFormItselfSupplied": "The text extracted at both new coordinates, from the pinned binary's own page stream, reads 'Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24) Case No.' with 'Page 2 of 3' and 'Page 3 of 3' beneath. The two new rows are corroborated by the issuer's own printed caption, not merely by geometry.",
+     "guardsAddedAndProvedToFire": [
+      {
+       "error": "MC-227B: this map declares 102 row(s) over 104 widget annotation(s); a widget with no row is a rectangle no counter can see",
+       "whereItRuns": "the build path, in mapSideFor, on every side of every render",
+       "provedBy": "the sibling-row expansion was disabled and the build exited 1 with exactly this message"
+      },
+      {
+       "error": "the invisible-write counter can now discriminate",
+       "whereItRuns": "countCompleteness",
+       "provedBy": "TWO-SIDED. With the writes' glyphs and write-rectangle appearances forced to zero, the NEW formula reports invisibleWrites 2 and status STOPPED. With the same forced zeros and the OLD formula - which added the document's 104 flattened appearances - it reports invisibleWrites 0 and status COMPLETED. The counter could not previously have fired at all; it can now."
+      }
+     ]
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "vf54Finding": "Four declared stop conditions, 0/4 line-anchored and 0/4 as substrings, no stop section. All four appeared once, compressed into the last sentence of 'What happens after you file': 'Opposition, disputed victim status, an evidentiary or contested hearing, or a request for individualized advocacy requires a post-generation handoff.' That names them, tells the participant nothing to do, and its operative clause is internal factory vocabulary addressed to the platform.",
+     "exactFinalState": "REPAIRED, guidance text only. The guide now carries '## When this is not a do-it-yourself matter' in the shape md_10105_early-set and mo-art-xiv-marijuana-set already ship: 'Stop using this self-help packet and talk to a lawyer if any of these is true.' followed by all four conditions verbatim, one to a line, read from MI.memo.json at build time. 4 of 4 line-anchored, 4 of 4 as substrings. The 'requires a post-generation handoff' sentence is gone from the delivered guide and its replacement quotes the record's own rules.notice instead - the MCL 780.621d(10) opportunity to contest and the assaultive-crime victim notification - which is the fact that makes two of the four conditions live on this route. The closing paragraph explains why victim status and opposition are the merits here, in terms traceable to item 2 of the form and to that statute, and invents no criterion of its own.",
+     "wordsCarriedVerbatim": [
+      "Victim status is disputed.",
+      "The prosecutor or Attorney General opposes.",
+      "The court sets an evidentiary or contested hearing.",
+      "The participant asks for individualized advocacy."
+     ],
+     "provenanceNowDeclared": "MI.memo.json is now a declared compositionSource of this family's source-receipt.json at 77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947, 155,199 bytes - the same digest VF54 recorded for it independently. The family previously read that record nowhere and asserted its adopted instructions from hardcoded strings with a prose footer.",
+     "guardsAddedAndProvedToFire": [
+      {
+       "error": "MI_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS",
+       "provedBy": "selfHelpStopConditions emptied in the record -> build exited 1 with this error"
+      },
+      {
+       "error": "MI_MEMO_NOTICE_RULE_NO_LONGER_NAMES_780_621D_10",
+       "provedBy": "rules.notice replaced with 'No notice is given to anyone.' -> build exited 1 with this error"
+      },
+      {
+       "error": "the participant guide does not carry this stop condition on a line of its own: Victim status is disputed.",
+       "whereItRuns": "the build path, before participant-instructions.md is written",
+       "provedBy": "the four conditions were emitted joined into one prose line instead of one per list item -> build exited 1 with this error"
+      },
+      {
+       "error": "the participant guide prints this factory's internal handoff vocabulary",
+       "whereItRuns": "the build path, before participant-instructions.md is written",
+       "provedBy": "'requires a post-generation handoff' was injected back into the guide -> the guard fired. This one caught a real accident during this lane: an earlier probe of the same guard, written when both checks still lived only in selfTest(), left the injected sentence in the DELIVERED guide because selfTest() does not run during a build. Both checks were then moved into the build path for exactly that reason, and the guide was rebuilt clean."
+      }
+     ]
+    }
+   ],
+   "bytesBeforeRepair": {
+    "fixtures/canonical.pdf": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+    "fixtures/canonicalByteLength": 379008,
+    "fixtures/boundary.pdf": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+    "fixtures/boundaryByteLength": 379892
+   },
+   "bytesAfterRepair": {
+    "fixtures/canonical.pdf": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+    "fixtures/canonicalByteLength": 379008,
+    "fixtures/boundary.pdf": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+    "fixtures/boundaryByteLength": 379892
+   },
+   "pdfBytesMoved": false,
+   "acceptanceReceiptStillBinds": true,
+   "boundRasterPassStillDescribesTheseBytes": "YES, and it was the constraint the repair was designed around. The only receipt this family has is the rasterReceipt on its RASTER_QUEUE.json row - there is still no directory under raster-runs/admitted/ for it - and it binds these two digests at packetCommitSha 981a2b664. product-wiring.json's binding.acceptanceReceipt binds the same canonical digest. Both still describe the bytes on disk. Proved rather than asserted: the builder's own self-test re-hashes both fixtures against pinned EXPECTED_ARTIFACTS digests and fails with '<fixture> bytes moved' if either changes, and it exits 0.",
+   "freshCentralRasterOwed": false,
+   "whyNoRasterOwed": "Every change is to JSON records and one markdown guide. Not one PDF byte moved, so the RASTER_PASS survives untouched. The scope limit VF54 recorded stands and this lane did not cure it: the receipt's own coverage block says rastered ['canonical.pdf'], notRenderedByThisGate ['boundary.pdf'] beside coversTheWholeFamily true, so this family's boundary fixture has had no central raster.",
+   "filesChanged": [
+    "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/caption-evidence.json",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/source-receipt.json"
+   ],
+   "filesDeliberatelyNotTouched": "Both fixtures. Also build-status.json, reports/independent-visual-review.json and reports/rendered-artifacts.json, which THIS ENVIRONMENT'S builder rewrites with raster receipts the committed tree does not carry - see theDeterminismControlRanFirst. They were restored with git checkout after every build including the last, and the untracked raster/ directory the builder creates was deleted every time. The service-sequencing section, the blank proof of service, the scope-of-relief section and the item 2 review instruction - all named by VF54 as sound - are byte-identical to their committed state.",
+   "verifierRun": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+    "printedVerdict": "ok   mi_setaside_trafficking-set   PASS_COMPLETE   10/104 written; 1 famil(ies) audited . 1 PASS_COMPLETE",
+    "exitStatus": 0,
+    "whatChangedInThatLine": "It read 8/102 written before this repair and reads 10/104 now, so the shared verifier picked up both the extra declared writes and the widget denominator.",
+    "aBareNameStillRefuses": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs mi_setaside_trafficking-set (no --family) exits 2, as the grant warned.",
+    "howMuchWeightThisCarries": "Little. Its nine counters read all-zero over this family BEFORE the repair, while two pages carried undeclared ink and the guide carried no stop conditions. It is reported because the grant asks for its actual printed verdict.",
+    "familySelfTestRun": {
+     "command": "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --self-test",
+     "printedVerdict": "SELF_TEST_OK mi_setaside_trafficking-set",
+     "exitStatus": 0,
+     "whatItNowAsserts": "That every widget annotation carries a row on both sides (104), that named fields still account for exactly 102 name-addressed rows, that the two unnamed header rows are present on both sides at page 2 and page 3 with Rect {472.5, 714.18, 103, 12} bound to matter.case_number, that all four stop conditions appear on lines of their own, that the internal handoff phrase does not appear, and that neither fixture's bytes have moved."
+    }
+   },
+   "countersThisLaneDidMeasure": {
+    "widgetAnnotationsInThePinnedBinary": 104,
+    "acroFormFieldsInThePinnedBinary": 102,
+    "widgetsOwnedByTheFieldCaseno": 3,
+    "declaredWritesCanonicalBefore": 8,
+    "declaredWritesCanonicalAfter": 10,
+    "declaredWritesBoundaryBefore": 16,
+    "declaredWritesBoundaryAfter": 18,
+    "mapRowsPerSideBefore": 102,
+    "mapRowsPerSideAfter": 104,
+    "captionEvidenceEntriesBefore": 102,
+    "captionEvidenceEntriesAfter": 104,
+    "stopConditionsLineAnchoredBefore": 0,
+    "stopConditionsLineAnchoredAfter": 4,
+    "stopConditionsAsSubstringsAfter": 4,
+    "guardsAddedAndProvedToFire": 6,
+    "pdfBytesMoved": 0
+   },
+   "countersThisLaneDidNotMeasure": {
+    "addedInkPxOnPages2And3AfterRepair": null,
+    "whyNull": "This lane rendered no differential raster. It moved no PDF byte, so VF54's 2,947 px / 2,599 px figures still describe the bytes on disk unchanged, and the ink they measured is now inside a declared rectangle by construction rather than by re-measurement. A figure this lane did not measure is null, not zero."
+   },
+   "recordedNotRepairedBecauseTheGrantSaidNotTo": [
+    "No fee-waiver silence is disclosed to the participant though MI.memo.json rules.feeWaiver reads 'None found in MCL 780.621d(9). Unresolved.' The guide states the $50 payment and warns of certified-copy and fingerprint fees, and says nothing about whether any of it can be waived. Confirmed still true after this repair; not in the grant and not touched.",
+    "product-wiring.json's proposedRepresentation lists only MC-227B as primary_filing and omits the certificate-of-service component the packet-set manifest declares. Confirmed still true; nothing is installed, so no delivered byte turns on it.",
+    "One boundary selection control, MC-227B/multcaseno, still carries no completenessDisposition, which is why terminalFieldCoverage.boundary.selectionControlsByDisposition still prints the literal key 'undefined': 1. Confirmed still true after this repair. Touching it would have changed a disposition VF54 scored PASS on the merits, and it is not in the grant."
+   ]
+  }
+ ],
+ "whatThisLaneCouldNotRepair": [
+  "Nothing in the two granted findings was left unrepaired.",
+  "Neither family's boundary fixture has been rendered by any central raster gate, on either family's own receipt. This lane moved no bytes and so owes no new raster, but it did not and could not close that gap.",
+  "The MO packet-set manifest's stale description of the continuation component was confirmed and left, as the grant directed."
+ ],
+ "outOfScopeObservedNotActedOnExceptAsNoted": [
+  "The MI builder rewrites build-status.json, reports/independent-visual-review.json and reports/rendered-artifacts.json with raster receipts whenever the calibrated Chromium rasterizer is present, which it is here and was not on the machine that produced the committed tree. Any lane that runs this builder and commits everything it touches will publish raster receipts for PNGs that exist only in its own container. Worth a shared fix; not this lane's grant. Restored after every build here.",
+  "selfTest() in the MI builder runs only under --self-test and not during a build, so any guard written only into it cannot stop a defective artifact reaching disk. This lane moved its own two guide guards into the build path for that reason but left the rest of selfTest where it is."
+ ],
+ "grantsNothing": "This row opens no route, promotes no status, and clears no visual gate. Both families were repaired by this lane and NEITHER was self-verified by it. Independent re-verification is owed to a lane that is neither FIX163 nor VF54.",
+ "grantsReleased": [
+  "mo-art-xiv-marijuana-set",
+  "mi_setaside_trafficking-set"
+ ]
+}
