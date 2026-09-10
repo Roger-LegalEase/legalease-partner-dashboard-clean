@@ -305,3 +305,82 @@ records, prosecutor acts, clerk assignments, judicial findings, professional
 adoption or review approval. **Identifiers must come from tools** — never
 invent, pad, extrapolate or reconstruct a commit SHA, artifact digest, lane
 grant or run ID.
+
+---
+
+# FREEZE ADDENDUM — live worker state at stop
+
+Written after the provisional checkpoint above, from measurements taken at
+freeze. Everything above still stands.
+
+## Worker stop status
+
+All three live lanes were sent the stop instruction. **None had confirmed a stop
+when this Captain stopped**, so all three are recorded **ACTIVE/UNKNOWN**. They
+are in-process subagents of the stopping Claude session. No process was killed;
+only supported message-based stops were used. Their grants were deliberately NOT
+released — releasing them to make the handoff look clean would misrepresent
+ownership.
+
+| lane | worktree | branch | HEAD at freeze | dirty | commits since base |
+|---|---|---|---|---|---|
+| FIX175 | `/home/user/fixa-worktree` | `lane-fix175-20260910` | `e3966692693a8b252524daf8eb4f49d40743593d` | 0 | **none** |
+| FIX176 | `/home/user/fixb-worktree` | `lane-fix176-20260910` | `e3966692693a8b252524daf8eb4f49d40743593d` | 0 | **none** |
+| VF66 | `/home/user/vfa-worktree` | `lane-vf66-20260910` | `b6fd4797fb404d331f365ae87b5ccf99b317dbbf` | 1 untracked | **none** |
+
+FIX175 and FIX176 had produced nothing on disk. Their bases are ancestors of the
+published Captain SHA, so nothing is at risk from them.
+
+## VF66 — a written but uncommitted return, preserved
+
+`/home/user/vfa-worktree/data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260910.json`
+existed untracked at freeze: 100,700 bytes, sha256
+`f55bb0c79f33b815ce409f8af804fb5c3e57dd0c3c7b9ce3afc91fbe81eaee0a`.
+
+Byte-identical copy preserved at
+`/home/user/frozen-lane-preservation/vf66/rows-vf66-20260910.json` (`cmp` clean).
+
+It **reads** complete — two rows, `ia-12347-set` `PASS_COMPLETE_INDEPENDENT` and
+`il-seal-edu-set` `FAIL_REPAIR_REQUIRED`, with the lane's usual sections
+including `grantsReleased`. **Do NOT treat that as a verified return.** The lane
+never committed it and never reported, so nobody has confirmed it is final. A
+successor must have VF66 confirm it, or have a fresh independent lane re-derive
+it, before any family moves on its strength. Its grants on `ia-12347-set` and
+`il-seal-edu-set` remain LIVE.
+
+`/home/user/frozen-lane-preservation/` is **outside every worktree and outside
+the repository**. It is local-only and NOT retrievable remotely. If this
+container is reclaimed it is lost — see ROGER_MUST_TRANSFER.
+
+## Lane branches are local-only
+
+Every `lane-*` branch in this repository exists **only in this container**; none
+is pushed. That is safe for the lanes already integrated — their content is in
+the Captain branch's history by cherry-pick, which is published — but it means
+the three frozen lanes' branches have no remote copy. They currently carry no
+unique commits, so nothing unique is unpushed.
+
+The other worktrees' single dirty file is in each case only
+`data/rcap-grade-a/packet-factory-24h/claim-ledger.json`, holding a lane's own
+`--release` edit that Captain already integrated and published. Nothing there
+needs preserving.
+
+## Central writers
+
+**Central integration is FROZEN.** No integration chain run, no raster dispatch,
+no queue or ledger write is in flight. The last raster run, `34513580220`, is
+complete and fully ingested; nothing remote can write central state.
+
+The one exception is the three ACTIVE/UNKNOWN lanes. Each is scoped to its own
+worktree and its own family paths, and none of them pushes or runs the
+integration chain — those are Captain acts they were instructed not to take. If
+one writes, it writes only inside its own worktree.
+
+## Not done, and deliberately not done during the freeze
+
+- No integration chain was run after `7981ca59c` — the owner's instruction not to
+  rebuild for a tidy count was followed. The 219 figure is the last real
+  measurement, not an estimate.
+- No packets rebuilt, no returns merged, no national audit.
+- VF67's three Kansas grants were minted before the freeze instruction arrived
+  and no agent was ever spawned for them. They are live, unowned and ready.
