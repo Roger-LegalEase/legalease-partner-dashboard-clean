@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "fd530e0478d96f5059dca3efb88390ac93489919",
+  "minimumCaptainSha": "983131d3a6c874b5296cec25d21683c912735e9d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "5a28e24f8ddd437fcb2a40a255863627fd3fba541c316e5ee000355c80e56903",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "96e14a810c2a88727f13c023a213496b71e0d574075ba54e29c0b718b108f3cb",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 28,
+    "activeFamiliesExcluded": 8,
     "guidanceOnly": 0,
-    "remaining": 318,
+    "remaining": 338,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 4,
-    "repairRequired": 24,
+    "repairRequired": 44,
     "sumsToDenominator": true
   },
   "byState": {
@@ -111,32 +111,12 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "al-felony-dwop-set",
       "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
-      "al-trafficking-set",
-      "ar-drug-court-set",
-      "ar-felony-seal-set",
-      "ar-pardon-seal-set",
-      "ca-17b-reduction-set",
       "co_motion_seal_conviction-set",
       "co_motion_seal_nonconviction-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
-      "fl-10yr-bridge-set",
-      "fl-early-juvenile-set",
-      "ia-12347-set",
-      "in_arrest_no_charges-set",
-      "in_infraction_nondisclosure-set",
-      "in_section1_petition-set",
-      "la-985-1-interim-expungement-set",
-      "ma-expunge-k-set",
-      "me-seal-survivor-set",
-      "mn_petition_15218-set",
-      "ne-setaside-custodial-set",
-      "nh_marijuana_annulment-set",
-      "nj_disorderly_persons-set",
-      "nj_indictable_conviction-set",
       "ri_decriminalized-set",
       "vt_exp_decriminalized-set"
     ],
@@ -2731,8 +2711,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX155",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -2743,8 +2723,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -3700,8 +3679,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX155",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3712,8 +3691,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-act346-set",
@@ -4429,8 +4407,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX159",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-drug-court-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4441,8 +4419,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-felony-seal-set",
@@ -4574,8 +4551,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX156",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-felony-seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4586,8 +4563,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -5152,8 +5128,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX153",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -5164,8 +5140,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-veterans-court-set",
@@ -7525,8 +7500,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX141",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -7537,8 +7512,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ca-851-91-set",
@@ -14151,8 +14125,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX156",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -14163,8 +14137,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "fl-administrative-set",
@@ -14434,8 +14407,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX141",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -14446,8 +14419,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "fl-expunction-set",
@@ -16840,8 +16812,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX153",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -16852,8 +16824,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ia-7251-set",
@@ -20047,8 +20018,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX140",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -20059,8 +20030,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "in_conviction_d6-set",
@@ -20801,8 +20771,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX156",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -20813,8 +20783,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "in_section1_petition-set",
@@ -21006,8 +20975,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX140",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -21018,8 +20987,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ks-21-6614-conviction-set",
@@ -24153,8 +24121,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX142",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24165,8 +24133,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "la-985-expungement-by-redaction-set",
@@ -24661,8 +24628,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX153",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-k-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24673,8 +24640,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ma-expunge-mj-set",
@@ -26721,8 +26687,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX159",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-seal-survivor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -26733,8 +26699,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "mi_setaside_application-set",
@@ -27446,8 +27411,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX158",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27458,8 +27423,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "mn_petition_609a02_subd3-set",
@@ -32581,8 +32545,8 @@
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX140",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -32598,8 +32562,7 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
@@ -33393,8 +33356,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX158",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -33405,8 +33368,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -34136,8 +34098,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX141",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -34148,8 +34110,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -34277,8 +34238,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX142",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -34289,8 +34250,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nj_ordinance-set",

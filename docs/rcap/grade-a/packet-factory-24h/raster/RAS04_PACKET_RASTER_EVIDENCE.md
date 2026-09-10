@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `fd530e0478d96f5059dca3efb88390ac93489919`
+**Minimum required ancestor:** `983131d3a6c874b5296cec25d21683c912735e9d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -365,7 +365,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136`
 - boundary `data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28`
 - expected pages 20 · requested scale 2.5
-- built by VF06
+- built by (no builder lane recorded)
 
 ### rcap-nv-custom-pleading
 
