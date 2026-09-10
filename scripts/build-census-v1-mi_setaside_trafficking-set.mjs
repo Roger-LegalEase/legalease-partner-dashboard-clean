@@ -104,6 +104,48 @@ const ROUTE = Object.freeze({
   ]
 });
 
+/*
+ * THE STOP CONDITIONS, READ FROM THE RECORD RATHER THAN REMEMBERED.
+ *
+ * MI.memo.json declares four selfHelpStopConditions on this track. The
+ * delivered guide used to carry them ONCE, compressed into the last sentence
+ * of "What happens after you file" -- "Opposition, disputed victim status, an
+ * evidentiary or contested hearing, or a request for individualized advocacy
+ * requires a post-generation handoff." That sentence names all four and tells
+ * the participant nothing to do, and its operative clause is this factory's
+ * internal vocabulary: "requires a post-generation handoff" is addressed to
+ * the platform, not to a trafficking survivor deciding whether to walk into a
+ * contested hearing alone. On this route the first two are the merits -- item
+ * 2 is the sworn statement that the conviction directly resulted from being a
+ * victim, and MCL 780.621d(10) gives the Attorney General and the prosecuting
+ * attorney a designed opportunity to contest it.
+ *
+ * They are now delivered as stop conditions, in the record's own words, in the
+ * shape this factory already ships in Maryland and Missouri. The build refuses
+ * if the record stops declaring them, so the section cannot outlive its source.
+ */
+const MI_MEMO_PATH = "data/record-clearing/legal-design-intake/MI.memo.json";
+const MI_TRACK_ID = "mi_setaside_trafficking";
+const MI_MEMO_BYTES = fs.readFileSync(path.join(ROOT, MI_MEMO_PATH));
+const MI_MEMO_SHA256 = crypto.createHash("sha256").update(MI_MEMO_BYTES).digest("hex");
+const MI_MEMO_TRACK = (() => {
+  const memo = JSON.parse(MI_MEMO_BYTES.toString("utf8"));
+  const track = (memo.tracks ?? []).find((t) => t.trackId === MI_TRACK_ID);
+  if (!track) throw new Error(`MI_MEMO_TRACK_ABSENT: ${MI_TRACK_ID} is not in ${MI_MEMO_PATH}`);
+  return track;
+})();
+const SELF_HELP_STOP_CONDITIONS = (MI_MEMO_TRACK.selfHelpStopConditions ?? [])
+  .map((c) => String(c).trim()).filter(Boolean);
+if (SELF_HELP_STOP_CONDITIONS.length === 0) {
+  throw new Error("MI_MEMO_DECLARES_NO_SELF_HELP_STOP_CONDITIONS: refusing to build a participant guide for a "
+    + "contested-hearing route with no stop conditions in it");
+}
+const MI_NOTICE_RULE = String(MI_MEMO_TRACK.rules?.notice ?? "").trim();
+if (!/780\.621d\(10\)/.test(MI_NOTICE_RULE)) {
+  throw new Error("MI_MEMO_NOTICE_RULE_NO_LONGER_NAMES_780_621D_10: the guide tells the participant the Attorney "
+    + `General and prosecutor may contest on the strength of rules.notice, which now reads "${MI_NOTICE_RULE}"`);
+}
+
 const SOURCE_PIN = Object.freeze({
   formNumber: "MC-227B",
   revision: "REV-2024-07",
@@ -111,7 +153,19 @@ const SOURCE_PIN = Object.freeze({
   sha256: "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
   byteLength: 370315,
   pageCount: 4,
-  acroFieldCount: 102
+  acroFieldCount: 102,
+  /*
+   * 102 AcroForm FIELDS, 104 widget ANNOTATIONS. The two are not the same
+   * number on this form and the difference is where this family shipped an
+   * undeclared write: the field `caseno` carries THREE widget kids -- the
+   * page 1 caption box and the "Case No." header box of the page 2 and page 3
+   * continuation headers -- and the two header kids carry no /T of their own.
+   * Filling the field draws the case number in all three places. A map keyed
+   * by field name can address only one of them, so the denominator of this
+   * family's coverage is now the widget count and every widget this build
+   * writes on is declared, named or not.
+   */
+  widgetAnnotationCount: 104
 });
 
 /*
@@ -1123,6 +1177,14 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
   const documentAuthoredAppearances = [];
   const clippedOrOverlapping = [];
   let glyphs = 0;
+  /*
+   * Appearances counted AT THE RECTANGLES THIS BUILD WRITES ON, not over the
+   * whole flattened document. `widgets.length` is 104 on every render of this
+   * form whether the build wrote anything or not, so an invisible-write test
+   * that adds it to the glyph count can never reach zero and can never fire.
+   * This figure moves with the writes.
+   */
+  let appearancesAtWrites = 0;
   for (const r of census.rows) {
     for (const wdg of r.widgets) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
@@ -1137,6 +1199,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
         const marked = (report.selectionsMarked ?? []).some((m) => m.field === r.name);
         const markOnThePage = drawn.some((d) => geometry.get(`${d.page} ${d.appearance}`)?.vectorMarkDrawn === true);
         glyphs += ink.length;
+        if ((report.selectionsMarked ?? []).some((m) => m.field === r.name)) appearancesAtWrites += drawn.length;
         actualWrites.push({
           field: r.key, factId: null, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
@@ -1157,6 +1220,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       if (written.has(r.name) && (r.policy === "write" || r.policy === "compose"
         || r.policy === "row" || r.policy === "narrative")) {
         glyphs += ink.length;
+        appearancesAtWrites += drawn.length;
         /*
          * Every appearance drawn at this widget is measured against the box it
          * is drawn into. `matchesExpected` says the string survived; `fitsBox`
@@ -1296,7 +1360,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
     + composedShort.map((w) => `${w.field} missing `
       + w.composedFacts.filter((f) => !f.presentOnThePage).map((f) => f.factId).join(", ")).join("; "));
   return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, clippedOrOverlapping,
-    glyphs, appearances: widgets.length };
+    glyphs, appearances: widgets.length, appearancesAtWrites };
 }
 
 /* ---- field map ------------------------------------------------------------- */
@@ -1550,9 +1614,76 @@ function mapSideFor(source, census, report, settlements = new Map()) {
     });
   }
 
+  /*
+   * EVERY WIDGET THIS BUILD DRAWS ON IS DECLARED, NAMED OR NOT.
+   *
+   * A map keyed by AcroForm field name can address exactly one rectangle per
+   * field, and this form has a field that owns three. `caseno` carries the
+   * page 1 caption box AND the "Case No." box of the page 2 and page 3
+   * continuation headers, and the two header widgets carry no /T of their own:
+   * they are unnamed kids that inherit the parent's name. Filling the field
+   * draws the case number in all three places, so this family shipped 10
+   * prefills on the canonical (18 on the boundary) while declaring 8 (16), and
+   * the two extra rectangles lay inside no declared rectangle of any kind --
+   * not a write, not a refusal, not a selection control. Nothing counted them
+   * because nothing could name them.
+   *
+   * The write is right and it stays: the value matches the caption, the court
+   * needs the case number on every page of the application. What was wrong was
+   * that it was undeclared. Each additional widget of a row this build acts on
+   * now gets its own row, addressed by PAGE and /Rect rather than by a name it
+   * does not have, so the denominator of this map is the binary's 104 widget
+   * annotations rather than its 102 named fields.
+   */
+  const censusRowByName = new Map(census.rows.map((r) => [r.name, r]));
+  const linesOn = (page) => (census.pageText.find((p) => p.page === page)?.lines ?? []);
+  const siblingRowsFor = (declared) => {
+    const r = censusRowByName.get(declared.acroFieldName);
+    if (!r || !Array.isArray(r.widgets) || r.widgets.length <= 1) return [];
+    return r.widgets.slice(1).map((wdg) => ({
+      ...declared,
+      field: `${declared.field}@page${wdg.page}`,
+      fieldName: `${declared.fieldName}@page${wdg.page}`,
+      page: wdg.page, rect: wdg.rect, rectBasis: wdg.rectBasis,
+      addressedBy: "page and /Rect",
+      widgetCarriesItsOwnAcroFieldName: false,
+      widgetIndexWithinTheField: r.widgets.indexOf(wdg),
+      widgetsOwnedByThisField: r.widgets.length,
+      whyThisRowExists:
+        `this widget is an unnamed kid of the AcroForm field ${r.name} and carries no /T of its own, so no row `
+        + "keyed by field name can address it. Filling the field draws here too, and a write this build makes is "
+        + "declared whether the issuer gave the box a name or not.",
+      printedTextAtCoordinate: linesOn(wdg.page)
+        .filter((l) => Math.abs(l.y - wdg.rect.y) <= 20)
+        .sort((a, b) => Math.abs(a.y - wdg.rect.y) - Math.abs(b.y - wdg.rect.y))
+        .slice(0, 2).map((l) => ({ y: l.y, extracted: l.text }))
+    }));
+  };
+  for (const declared of [...canonicalWrites]) canonicalWrites.push(...siblingRowsFor(declared));
+  for (const declared of [...canonicalRefusals]) canonicalRefusals.push(...siblingRowsFor(declared));
+  for (const declared of [...selectionControls]) selectionControls.push(...siblingRowsFor(declared));
+
+  /*
+   * Fail closed on the arithmetic that hid it. If the rows on this side do not
+   * account for every widget annotation the pinned binary carries, this build
+   * is again writing somewhere it cannot name, and it stops rather than ship a
+   * map whose denominator is smaller than the document.
+   */
+  const declaredRows = canonicalWrites.length + canonicalRefusals.length + selectionControls.length;
+  const widgetsInTheBinary = census.rows.reduce((n, r) => n + r.widgets.length, 0);
+  assert.equal(declaredRows, widgetsInTheBinary,
+    `${source.formNumber}: this map declares ${declaredRows} row(s) over ${widgetsInTheBinary} widget annotation(s); `
+    + "a widget with no row is a rectangle no counter can see");
+  assert.equal(widgetsInTheBinary, SOURCE_PIN.widgetAnnotationCount,
+    `${source.formNumber}: the pinned binary carries ${widgetsInTheBinary} widget annotation(s), not `
+    + `${SOURCE_PIN.widgetAnnotationCount}`);
+
   return {
     formNumber: source.formNumber,
     writes: canonicalWrites, refusals: canonicalRefusals, selectionControls,
+    /* Keyed by the row id, so the two header rows appear here under the
+     * page-qualified ids they are addressed by rather than colliding with the
+     * page 1 row and disappearing. */
     explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId]))
   };
 }
@@ -1664,7 +1795,11 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
   }
 
   for (const p of writeProofs) {
-    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    /* Measured against the DECLARED writes. Adding the whole document's 104
+     * flattened appearances here made `visible` a constant that could never be
+     * zero, so this counter could not have reported an invisible write. */
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0)
+      + (p.flattenedWidgetAppearancesAtDeclaredWriteRectangles ?? 0);
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) {
       note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
     }
@@ -1715,9 +1850,11 @@ function writeJson(rel, value) {
 /**
  * What one side of the map covers, counted from that side's own arrays.
  *
- * Every AcroForm field of the bound binary carries exactly one row on each
- * side, so `rowsOnThisSide` is checkable against the binary rather than
- * inferred, and it is asserted in the self-test for both sides.
+ * Every WIDGET ANNOTATION of the bound binary carries exactly one row on each
+ * side -- 104, not the 102 named fields, because `caseno` owns three widgets
+ * and two of them carry no name -- so `rowsOnThisSide` is checkable against the
+ * binary rather than inferred, and it is asserted in the self-test for both
+ * sides.
  */
 function sideCoverage(maps, side) {
   const writesOf = (m) => (side === "boundary" ? m.boundaryWrites : m.canonicalWrites);
@@ -1761,6 +1898,19 @@ function participantInstructions(maps, rbf) {
     .map((w) => ({ document: m.formNumber, ...w })));
   const convictionCellsWritten = maps.flatMap((m) => m.canonicalWrites.filter((w) => w.rowFact));
   const nexusLinesWritten = maps.flatMap((m) => m.canonicalWrites.filter((w) => w.narrativeLine));
+  /* The plain caption writes, which this table used to omit entirely: the
+   * county and the case number. They are named here because the page above
+   * tells the participant to read every line the platform filled in, and a
+   * participant cannot check a write the packet never lists. */
+  const plainWrites = maps.flatMap((m) => m.canonicalWrites
+    .filter((w) => !w.composed && !w.rowFact && !w.narrativeLine && w.addressedBy !== "page and /Rect")
+    .map((w) => ({ document: m.formNumber, ...w })));
+  /* Writes drawn at more than one place on the paper from a single field. On
+   * MC 227b the case number is one of them, and the two extra rectangles are
+   * the unnamed "Case No." boxes in the page 2 and page 3 headers. */
+  const repeatedWrites = maps.flatMap((m) => m.canonicalWrites
+    .filter((w) => w.addressedBy === "page and /Rect")
+    .map((w) => ({ document: m.formNumber, ...w })));
 
   const out = [];
   out.push(`# Filing instructions \u2014 ${ROUTE.publicLabel}`, "");
@@ -1855,6 +2005,18 @@ function participantInstructions(maps, rbf) {
   for (const w of composedBoxes) {
     out.push(`| ${w.sectionHeading} | ${w.printedCaption ?? w.effectiveLabel} | ${w.composedHow} |`);
   }
+  for (const w of plainWrites) {
+    const extras = repeatedWrites.filter((x) => x.acroFieldName === w.acroFieldName);
+    const alsoAt = extras.length === 0
+      ? ""
+      : ` **The same value is also printed at the top of ${extras.length === 1 ? "page" : "pages"} `
+        + `${extras.map((x) => x.page).join(" and ")}**, in the \u201cCase No.\u201d box of the continuation `
+        + "header the form prints there. It is one entry on the form, drawn in "
+        + `${extras.length + 1} places, so check it once and it is right in all ${extras.length + 1}.`;
+    out.push(`| ${w.sectionHeading} | ${w.printedCaption ?? w.effectiveLabel} (page ${w.page}) `
+      + `| the ${String(w.factId ?? "").replace(/^matter\./, "").replace(/_/g, " ")} the platform holds for `
+      + `your case.${alsoAt} |`);
+  }
   if (convictionCellsWritten.length > 0) {
     out.push(
       `| 1. Convictions to be set aside | The CRIME and CASE NUMBER columns, ${convictionCellsWritten.length} cells |`
@@ -1921,8 +2083,35 @@ function participantInstructions(maps, rbf) {
   out.push("## What happens after you file", "");
   out.push(
     "Page 3 states that the hearing cannot be held until the court receives the Michigan State Police report. The court "
-    + "completes the notice-of-hearing fields. Opposition, disputed victim status, an evidentiary or contested hearing, "
-    + "or a request for individualized advocacy requires a post-generation handoff.", ""
+    + "completes the notice-of-hearing fields. Your application can be opposed: the Michigan record for this route "
+    + "states that **\u201cThe Attorney General and each prosecuting attorney must be given an opportunity to contest "
+    + "under MCL 780.621d(10). Where the conviction was for an assaultive crime or a serious misdemeanour, the "
+    + "prosecuting attorney notifies the victim, who may appear and make a written or oral statement.\u201d** If any "
+    + "of that happens, read the next section before you go any further.", ""
+  );
+
+  /*
+   * THE FOUR STOP CONDITIONS, AS STOP CONDITIONS.
+   *
+   * Same shape this factory ships on md_10105_early-set and
+   * mo-art-xiv-marijuana-set: the record's own sentences, one to a line, under
+   * a heading that says what to do about them.
+   */
+  out.push("## When this is not a do-it-yourself matter", "");
+  out.push(
+    "**Stop using this self-help packet and talk to a lawyer if any of these is true.** They are the conditions the "
+    + "Michigan record for this route names as the points where it stops being a self-help matter, in its own words:",
+    ""
+  );
+  for (const stop of SELF_HELP_STOP_CONDITIONS) out.push(`- ${stop}`);
+  out.push("");
+  out.push(
+    "The first two are not remote possibilities on this route. Item 2 is your sworn statement that the conviction was "
+    + "a direct result of being a victim of a human-trafficking violation, so whether you were a victim is the "
+    + "question the application turns on; and MCL 780.621d(10) gives the Attorney General and the prosecuting "
+    + "attorney an opportunity to contest it. This packet is prepared up to filing. None of the four is something it "
+    + "can carry for you, and none of them is a reason your application is wrong \u2014 they are the point at which "
+    + "you should have someone of your own.", ""
   );
 
   out.push("## What this packet is not", "");
@@ -1961,11 +2150,23 @@ function selfTest() {
   const entry = index.entries.find((row) => row.state === "MI"
     && row.formNumber === SOURCE_PIN.formNumber && row.assetClass === "FORM");
   assert.ok(entry, "the corpus index must carry the exact MC-227B source");
+  /* Compared limb by limb against the committed index. widgetAnnotationCount is
+   * NOT in the index - the index counts AcroForm fields - so it is not asserted
+   * here; it is asserted against the pinned binary itself, on every build, in
+   * mapSideFor. */
   assert.deepEqual({
     formNumber: entry.formNumber, revision: entry.revision, pathInArchive: entry.path,
     sha256: entry.sha256, byteLength: entry.byteLength, pageCount: entry.pageCount,
     acroFieldCount: entry.acroFieldCount
-  }, SOURCE_PIN);
+  }, {
+    formNumber: SOURCE_PIN.formNumber, revision: SOURCE_PIN.revision,
+    pathInArchive: SOURCE_PIN.pathInArchive, sha256: SOURCE_PIN.sha256,
+    byteLength: SOURCE_PIN.byteLength, pageCount: SOURCE_PIN.pageCount,
+    acroFieldCount: SOURCE_PIN.acroFieldCount
+  });
+  assert.ok(SOURCE_PIN.widgetAnnotationCount > SOURCE_PIN.acroFieldCount,
+    "MC 227b carries more widget annotations than named fields; if that stops being true the unnamed header "
+    + "widgets have gone and the rows declaring them must go with them");
 
   const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
   assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
@@ -2057,7 +2258,22 @@ function selfTest() {
   const map0 = fieldMap.maps[0];
   assert.equal(map0.selectionControls.length, 14);
   assert.equal(map0.canonicalWrites.length + map0.canonicalRefusals.length + map0.selectionControls.length,
-    SOURCE_PIN.acroFieldCount, "every AcroForm field of MC 227b must carry a row in the field map");
+    SOURCE_PIN.widgetAnnotationCount,
+    "every WIDGET ANNOTATION of MC 227b must carry a row in the field map, not merely every named field");
+  assert.equal(map0.boundaryWrites.length + map0.boundaryRefusals.length + map0.boundarySelectionControls.length,
+    SOURCE_PIN.widgetAnnotationCount, "the boundary side must cover every widget annotation too");
+  /* The two unnamed header widgets, declared and addressed by page and /Rect. */
+  for (const side of ["canonicalWrites", "boundaryWrites"]) {
+    const headers = map0[side].filter((w) => w.addressedBy === "page and /Rect");
+    assert.equal(headers.length, 2, `${side} declares ${headers.length} unnamed-widget row(s), expected 2`);
+    assert.deepEqual(headers.map((h) => h.page).sort(), [2, 3]);
+    for (const h of headers) {
+      assert.equal(h.acroFieldName, "caseno");
+      assert.equal(h.factId, "matter.case_number");
+      assert.equal(h.widgetCarriesItsOwnAcroFieldName, false);
+      assert.deepEqual(h.rect, { x: 472.5, y: 714.18, width: 103, height: 12 });
+    }
+  }
   for (const c of map0.selectionControls) {
     assert.ok(["PROTECTED_FIELD", "PARTICIPANT_ELECTION_GENUINE"].includes(c.completenessDisposition),
       `${c.field} carries a disposition outside the closed vocabulary`);
@@ -2098,8 +2314,13 @@ function selfTest() {
     const writes = side === "boundary" ? map0.boundaryWrites : map0.canonicalWrites;
     const refusals = side === "boundary" ? map0.boundaryRefusals : map0.canonicalRefusals;
     const controls = side === "boundary" ? map0.boundarySelectionControls : map0.selectionControls;
-    assert.equal(writes.length + refusals.length + controls.length, SOURCE_PIN.acroFieldCount,
-      `every AcroForm field of MC 227b must carry a row on the ${side} side of the field map`);
+    assert.equal(writes.length + refusals.length + controls.length, SOURCE_PIN.widgetAnnotationCount,
+      `every WIDGET ANNOTATION of MC 227b must carry a row on the ${side} side of the field map`);
+    /* Named fields still account for exactly one row each; the surplus rows are
+     * the unnamed sibling widgets, addressed by page and /Rect. */
+    const namedRows = [...writes, ...refusals, ...controls].filter((r) => r.addressedBy !== "page and /Rect");
+    assert.equal(namedRows.length, SOURCE_PIN.acroFieldCount,
+      `every AcroForm field of MC 227b must carry a name-addressed row on the ${side} side of the field map`);
     const writtenOnThisSide = new Set(writes.map((w) => w.acroFieldName));
     for (const r of refusals) {
       assert.equal(writtenOnThisSide.has(r.acroFieldName), false,
@@ -2162,7 +2383,9 @@ function selfTest() {
     "$50 payment to the State of Michigan",
     "Mail the required packet, fingerprint card, and $50 payment to Michigan State Police",
     "Only after those mailings are true, complete and sign the Proof of Service",
-    "requires a post-generation handoff",
+    "## When this is not a do-it-yourself matter",
+    "Stop using this self-help packet and talk to a lawyer if any of these is true",
+    "must be given an opportunity to contest under MCL 780.621d(10)",
     "reviewed by an attorney or qualified advocate before filing",
     "creates no document-upload requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation blocker",
     "Your Secretary of State driving record survives",
@@ -2172,6 +2395,15 @@ function selfTest() {
     "No fine, costs or other money paid is returned",
     ROUTE.routeKey
   ]) assert.ok(instructionsText.includes(phrase), `participant instructions dropped: ${phrase}`);
+  /* Line-anchored, not merely present: a stop condition folded into a sentence
+   * of prose is what this repair replaced. */
+  const instructionLines = new Set(instructionsText.split("\n").map((l) => l.trim()));
+  for (const stop of SELF_HELP_STOP_CONDITIONS) {
+    assert.ok(instructionLines.has(`- ${stop}`),
+      `participant instructions do not carry the stop condition on a line of its own: ${stop}`);
+  }
+  assert.ok(!/requires a post-generation handoff/i.test(instructionsText),
+    "the participant guide prints this factory's internal handoff vocabulary");
 
   const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
   assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
@@ -2274,6 +2506,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
         proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
         valuesReportedByFinalizer: report.written.length,
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
+        /* The subset drawn at a rectangle this build declares a write on. The
+         * total above is the whole flattened form and is the same on every
+         * render, so it proves nothing about whether a write is visible. */
+        flattenedWidgetAppearancesAtDeclaredWriteRectangles: proof.appearancesAtWrites,
         addedGlyphsReadFromOutputBytes: proof.glyphs,
         nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
@@ -2340,6 +2576,23 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const rbf = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbf);
+  /*
+   * FAIL CLOSED ON THE GUIDE, IN THE BUILD PATH.
+   *
+   * selfTest() runs only under --self-test, so a guard that lives only there
+   * cannot stop a build from writing a defective guide to disk. This family
+   * has already shipped one: four stop conditions compressed into a sentence
+   * of prose whose operative clause was addressed to the platform rather than
+   * to the participant. Both properties are asserted here, before the file is
+   * written, so the failure is a refused build rather than a delivered packet.
+   */
+  const instructionLinesAtBuild = new Set(instructionsText.split("\n").map((l) => l.trim()));
+  for (const stop of SELF_HELP_STOP_CONDITIONS) {
+    assert.ok(instructionLinesAtBuild.has(`- ${stop}`),
+      `the participant guide does not carry this stop condition on a line of its own: ${stop}`);
+  }
+  assert.ok(!/requires a post-generation handoff/i.test(instructionsText),
+    "the participant guide prints this factory's internal handoff vocabulary");
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -2350,6 +2603,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod: "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
     allSourcesExact: true,
+    compositionSources: [
+      {
+        path: MI_MEMO_PATH,
+        sha256: MI_MEMO_SHA256,
+        byteLength: MI_MEMO_BYTES.length,
+        whatItSupplies:
+          `the ${SELF_HELP_STOP_CONDITIONS.length} self-help stop condition(s) printed verbatim under "When this is `
+          + 'not a do-it-yourself matter", and the MCL 780.621d(10) opportunity-to-contest sentence quoted under '
+          + '"What happens after you file". Both are read from this record at build time and the build refuses if it '
+          + "stops declaring them, so that text moves only when this hash moves."
+      }
+    ],
     documents: resolved.map((r) => ({
       sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
       pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
@@ -2393,11 +2658,31 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "comsig, cdate3 -- and they are keyed to the printed items. The dictionary and the widget set "
       + "are asserted to match exactly in both directions, and every placement is rastered for a reviewer who can read "
       + "the paper.",
-    perField: censuses.flatMap(({ source, census }) => census.rows.map((r) => ({
-      document: source.formNumber, field: r.key, page: r.page, rect: r.rect,
+    /* ONE ENTRY PER WIDGET ANNOTATION, not per named field. This report used
+     * to carry 102 rows against a binary with 104 widgets, and the two it
+     * omitted were the unnamed "Case No." boxes of the page 2 and page 3
+     * headers - which this build writes on. A rectangle carrying ink and no
+     * caption entry is a caption claim nobody can check. */
+    perWidgetEntries: censuses.reduce((n, { census }) =>
+      n + census.rows.reduce((k, r) => k + r.widgets.length, 0), 0),
+    perField: censuses.flatMap(({ source, census }) => census.rows.flatMap((r) => r.widgets.map((wdg, i) => ({
+      document: source.formNumber,
+      field: i === 0 ? r.key : `${r.key}@page${wdg.page}`,
+      acroFieldName: r.key,
+      ...(i === 0 ? {} : {
+        addressedBy: "page and /Rect",
+        widgetCarriesItsOwnAcroFieldName: false,
+        widgetIndexWithinTheField: i
+      }),
+      page: wdg.page, rect: wdg.rect,
       labelThisBuildUses: r.effectiveLabel, section: r.section,
-      textExtractedAtThisCoordinate: r.printedTextAtCoordinate
-    })))
+      textExtractedAtThisCoordinate: i === 0
+        ? r.printedTextAtCoordinate
+        : (census.pageText.find((pg) => pg.page === wdg.page)?.lines ?? [])
+          .filter((l) => Math.abs(l.y - wdg.rect.y) <= 20)
+          .sort((a, b) => Math.abs(a.y - wdg.rect.y) - Math.abs(b.y - wdg.rect.y))
+          .slice(0, 2).map((l) => ({ y: l.y, extracted: l.text }))
+    }))))
   });
 
   writeJson(`${OUT}/production-field-map.json`, {
@@ -2422,10 +2707,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "copy of each conviction must be attached. A conviction row is written whole or withheld whole.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     /* Stated so the count can be checked against the binary rather than
-     * inferred from the arrays: every AcroForm field of MC 227b carries exactly
-     * one row here, and the fourteen checkboxes are rows like any other. */
+     * inferred from the arrays. THE DENOMINATOR IS THE WIDGET COUNT, NOT THE
+     * FIELD COUNT. MC 227b has 102 AcroForm fields and 104 widget annotations,
+     * because `caseno` owns three widgets: the page 1 caption box and the
+     * unnamed "Case No." box in the page 2 and page 3 continuation headers.
+     * The old arithmetic here read 102 rows = 8 writes + 80 refusals + 14
+     * selection controls against a binary carrying 104 widgets, and the two
+     * widgets outside that sum were the two this build wrote on without
+     * declaring. Every widget now carries a row and rowsOnThisSide is 104. */
     terminalFieldCoverage: {
       acroFormFieldsInTheBoundBinary: SOURCE_PIN.acroFieldCount,
+      widgetAnnotationsInTheBoundBinary: SOURCE_PIN.widgetAnnotationCount,
+      whyTheseTwoDiffer:
+        "the AcroForm field `caseno` owns three widget annotations - the page 1 caption box and the unnamed "
+        + "\"Case No.\" box of the page 2 and page 3 continuation headers. Filling the field draws the case number "
+        + "at all three, so the coverage denominator is the widget count.",
+      denominatorUsedHere: "widgetAnnotationsInTheBoundBinary",
       /* Counted per side, because the two sides describe two documents. The
        * single figure that used to stand here was the canonical one, and a
        * boundary reader had no way to know that. */
@@ -2462,6 +2759,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       valuesReportedByFinalizer: p.valuesReportedByFinalizer,
       addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
       flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      flattenedWidgetAppearancesAtDeclaredWriteRectangles: p.flattenedWidgetAppearancesAtDeclaredWriteRectangles,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
       refusedFieldsWithInk: p.refusedFieldsWithInk,
       clippedOrOverlappingWrites: p.clippedOrOverlappingWrites

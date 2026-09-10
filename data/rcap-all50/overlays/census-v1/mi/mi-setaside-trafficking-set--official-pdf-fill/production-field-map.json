@@ -635,10 +635,13 @@
   ],
   "terminalFieldCoverage": {
     "acroFormFieldsInTheBoundBinary": 102,
+    "widgetAnnotationsInTheBoundBinary": 104,
+    "whyTheseTwoDiffer": "the AcroForm field `caseno` owns three widget annotations - the page 1 caption box and the unnamed \"Case No.\" box of the page 2 and page 3 continuation headers. Filling the field draws the case number at all three, so the coverage denominator is the widget count.",
+    "denominatorUsedHere": "widgetAnnotationsInTheBoundBinary",
     "canonical": {
       "generatedFrom": "the canonical render",
-      "rowsOnThisSide": 102,
-      "writes": 8,
+      "rowsOnThisSide": 104,
+      "writes": 10,
       "composedWrites": 1,
       "wrappedInCellWrites": 0,
       "refusals": 80,
@@ -652,8 +655,8 @@
     },
     "boundary": {
       "generatedFrom": "the boundary render",
-      "rowsOnThisSide": 102,
-      "writes": 16,
+      "rowsOnThisSide": 104,
+      "writes": 18,
       "composedWrites": 1,
       "wrappedInCellWrites": 2,
       "refusals": 72,
@@ -666,8 +669,8 @@
       },
       "selectionControlsMarkedByThisBuild": 1
     },
-    "rowsInThisMap": 102,
-    "writes": 8,
+    "rowsInThisMap": 104,
+    "writes": 10,
     "composedWrites": 1,
     "refusals": 80,
     "selectionControls": 14,
@@ -699,7 +702,9 @@
         "MC-227B/explain2": "matter.trafficking_nexus_statement",
         "MC-227B/explain3": "matter.trafficking_nexus_statement",
         "MC-227B/county": "matter.county",
-        "MC-227B/caseno": "matter.case_number"
+        "MC-227B/caseno": "matter.case_number",
+        "MC-227B/caseno@page2": "matter.case_number",
+        "MC-227B/caseno@page3": "matter.case_number"
       },
       "roleRefusals": [],
       "selectionControls": [
@@ -1799,6 +1804,84 @@
           "document": "MC-227B",
           "factId": "matter.case_number",
           "kind": "text"
+        },
+        {
+          "field": "MC-227B/caseno@page2",
+          "fieldName": "MC-227B/caseno@page2",
+          "acroFieldName": "caseno",
+          "page": 2,
+          "rect": {
+            "x": 472.5,
+            "y": 714.18,
+            "width": 103,
+            "height": 12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "printedCaption": null,
+          "printedCaptionBasis": null,
+          "sectionHeading": "Caption",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 714,
+              "extracted": "Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24) Case No."
+            },
+            {
+              "y": 706,
+              "extracted": "Page 2 of 3"
+            }
+          ],
+          "document": "MC-227B",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "addressedBy": "page and /Rect",
+          "widgetCarriesItsOwnAcroFieldName": false,
+          "widgetIndexWithinTheField": 1,
+          "widgetsOwnedByThisField": 3,
+          "whyThisRowExists": "this widget is an unnamed kid of the AcroForm field caseno and carries no /T of its own, so no row keyed by field name can address it. Filling the field draws here too, and a write this build makes is declared whether the issuer gave the box a name or not."
+        },
+        {
+          "field": "MC-227B/caseno@page3",
+          "fieldName": "MC-227B/caseno@page3",
+          "acroFieldName": "caseno",
+          "page": 3,
+          "rect": {
+            "x": 472.5,
+            "y": 714.18,
+            "width": 103,
+            "height": 12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "printedCaption": null,
+          "printedCaptionBasis": null,
+          "sectionHeading": "Caption",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 714,
+              "extracted": "Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24) Case No."
+            },
+            {
+              "y": 706,
+              "extracted": "Page 3 of 3"
+            }
+          ],
+          "document": "MC-227B",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "addressedBy": "page and /Rect",
+          "widgetCarriesItsOwnAcroFieldName": false,
+          "widgetIndexWithinTheField": 2,
+          "widgetsOwnedByThisField": 3,
+          "whyThisRowExists": "this widget is an unnamed kid of the AcroForm field caseno and carries no /T of its own, so no row keyed by field name can address it. Filling the field draws here too, and a write this build makes is declared whether the issuer gave the box a name or not."
         }
       ],
       "canonicalRefusals": [
@@ -4851,7 +4934,9 @@
         "MC-227B/Explain4": "matter.trafficking_nexus_statement",
         "MC-227B/Explain5": "matter.trafficking_nexus_statement",
         "MC-227B/county": "matter.county",
-        "MC-227B/caseno": "matter.case_number"
+        "MC-227B/caseno": "matter.case_number",
+        "MC-227B/caseno@page2": "matter.case_number",
+        "MC-227B/caseno@page3": "matter.case_number"
       },
       "boundarySelectionControls": [
         {
@@ -6217,6 +6302,84 @@
           "document": "MC-227B",
           "factId": "matter.case_number",
           "kind": "text"
+        },
+        {
+          "field": "MC-227B/caseno@page2",
+          "fieldName": "MC-227B/caseno@page2",
+          "acroFieldName": "caseno",
+          "page": 2,
+          "rect": {
+            "x": 472.5,
+            "y": 714.18,
+            "width": 103,
+            "height": 12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "printedCaption": null,
+          "printedCaptionBasis": null,
+          "sectionHeading": "Caption",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 714,
+              "extracted": "Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24) Case No."
+            },
+            {
+              "y": 706,
+              "extracted": "Page 2 of 3"
+            }
+          ],
+          "document": "MC-227B",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "addressedBy": "page and /Rect",
+          "widgetCarriesItsOwnAcroFieldName": false,
+          "widgetIndexWithinTheField": 1,
+          "widgetsOwnedByThisField": 3,
+          "whyThisRowExists": "this widget is an unnamed kid of the AcroForm field caseno and carries no /T of its own, so no row keyed by field name can address it. Filling the field draws here too, and a write this build makes is declared whether the issuer gave the box a name or not."
+        },
+        {
+          "field": "MC-227B/caseno@page3",
+          "fieldName": "MC-227B/caseno@page3",
+          "acroFieldName": "caseno",
+          "page": 3,
+          "rect": {
+            "x": 472.5,
+            "y": 714.18,
+            "width": 103,
+            "height": 12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "printedCaption": null,
+          "printedCaptionBasis": null,
+          "sectionHeading": "Caption",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 714,
+              "extracted": "Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24) Case No."
+            },
+            {
+              "y": 706,
+              "extracted": "Page 3 of 3"
+            }
+          ],
+          "document": "MC-227B",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "addressedBy": "page and /Rect",
+          "widgetCarriesItsOwnAcroFieldName": false,
+          "widgetIndexWithinTheField": 2,
+          "widgetsOwnedByThisField": 3,
+          "whyThisRowExists": "this widget is an unnamed kid of the AcroForm field caseno and carries no /T of its own, so no row keyed by field name can address it. Filling the field draws here too, and a write this build makes is declared whether the issuer gave the box a name or not."
         }
       ],
       "boundaryRefusals": [

@@ -134,6 +134,8 @@ MC 227b carries 14 boxes. None of them is ticked in this packet, and none is a c
 | Section | The box on the form | What the platform wrote there |
 | --- | --- | --- |
 | Parties | Defendant’s name, address, and telephone no. | the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF |
+| Caption | County (page 1) | the county the platform holds for your case. |
+| Caption | Case No. (page 1) | the case number the platform holds for your case. **The same value is also printed at the top of pages 2 and 3**, in the “Case No.” box of the continuation header the form prints there. It is one entry on the form, drawn in 3 places, so check it once and it is right in all 3. |
 | 1. Convictions to be set aside | The CRIME and CASE NUMBER columns, 2 cells | each written from a conviction the platform holds. A line is written whole or not at all: if the platform could not fit every cell of a line inside the boxes this form prints, it left that whole line for you rather than delivering half of it. |
 | 2. Human-trafficking nexus | The 3 ruled lines of item 2 | your own statement of the facts supporting the direct-result connection, as you gave it, laid out across the lines the form prints. The platform wrote none of these words itself. **This is the sworn part of the application: read it and change anything that is not right before you sign.** |
 
@@ -169,7 +171,18 @@ An order setting aside a conviction is not a clean slate everywhere. The adopted
 
 ## What happens after you file
 
-Page 3 states that the hearing cannot be held until the court receives the Michigan State Police report. The court completes the notice-of-hearing fields. Opposition, disputed victim status, an evidentiary or contested hearing, or a request for individualized advocacy requires a post-generation handoff.
+Page 3 states that the hearing cannot be held until the court receives the Michigan State Police report. The court completes the notice-of-hearing fields. Your application can be opposed: the Michigan record for this route states that **“The Attorney General and each prosecuting attorney must be given an opportunity to contest under MCL 780.621d(10). Where the conviction was for an assaultive crime or a serious misdemeanour, the prosecuting attorney notifies the victim, who may appear and make a written or oral statement.”** If any of that happens, read the next section before you go any further.
+
+## When this is not a do-it-yourself matter
+
+**Stop using this self-help packet and talk to a lawyer if any of these is true.** They are the conditions the Michigan record for this route names as the points where it stops being a self-help matter, in its own words:
+
+- Victim status is disputed.
+- The prosecutor or Attorney General opposes.
+- The court sets an evidentiary or contested hearing.
+- The participant asks for individualized advocacy.
+
+The first two are not remote possibilities on this route. Item 2 is your sworn statement that the conviction was a direct result of being a victim of a human-trafficking violation, so whether you were a victim is the question the application turns on; and MCL 780.621d(10) gives the Attorney General and the prosecuting attorney an opportunity to contest it. This packet is prepared up to filing. None of the four is something it can carry for you, and none of them is a reason your application is wrong — they are the point at which you should have someone of your own.
 
 ## What this packet is not
 
