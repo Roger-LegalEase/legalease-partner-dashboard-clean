@@ -945,6 +945,26 @@ const doc = {
   schemaVersion: "rcap-raster-queue/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
   packetCommitSha: packetCommit,
+  /*
+   * WHAT packetCommitSha IS, AND WHAT IT IS NOT.
+   *
+   * It is `git rev-parse HEAD` AT THE MOMENT THIS QUEUE WAS GENERATED. It is
+   * NOT the commit a raster run rendered, and it does NOT bind the bytes any
+   * row describes -- those are bound by the row's own canonicalPdfSha256 and
+   * boundaryPdfSha256, and by the renderedCommitSha the receipt itself records.
+   *
+   * The name reads like a byte binding and two admission lanes in a row have
+   * reported it as stale for exactly that reason: run 34418960259 rendered
+   * deead9f25 against rows carrying 90eab8052, and run 34428745884 rendered
+   * 8d49da424 against rows carrying 60e02b0a9. Both times the fixtures were
+   * byte-identical at both commits so nothing turned on it, and both times the
+   * lane was right to record it rather than rely on it.
+   *
+   * The value is correct for what it measures and the field is left alone. What
+   * was missing is this sentence, so that a reader binding a receipt to a
+   * commit reaches for renderedCommitSha instead.
+   */
+  packetCommitShaIsAGenerationStampNotAByteBinding: "This field records when the queue was written, not what a raster rendered. Bind a receipt with the row's canonicalPdfSha256 and boundaryPdfSha256 and with the receipt's own renderedCommitSha. A queue regenerated after a run will carry a newer commit than the run that produced its receipts, and that is not drift.",
   whyThisExists: "The Codex container cannot resolve or fetch a Chromium (ENV-RAS01: Playwright CDN answers HTTP 403), so the visual gate is unreachable from where packets are built. The render moves to a browser-equipped GitHub runner. Nothing about PASS_COMPLETE is weakened.",
   rasterStateVocabulary: carriedVocabulary,
   entryPreconditions: [
