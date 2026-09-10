@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d68862d4887a25197d1c5a1e0c4112dd2b8a1580",
+  "minimumCaptainSha": "b9c8d9d95eed7e81b05dec5760b2650875a06fb0",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -19819,9 +19819,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf26",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -19854,8 +19854,45 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "One route key, obligation:track-pathway:IN:in_arrest_no_charges:non-conviction-arrest-or-criminal-charge-expungement, declared identically in source-receipt.json, product-wiring.json and MASTER_QUEUE.json, resolving to track registry entry in_arrest_no_charges. The delivered pages express it correctly. THE GUIDE DOES NOT. participant-instructions.md, under 'Where self-help ends', tells the participant: 'The committed record records the waiting period as one year from the arrest, charge or allegation, whichever is later - and records one exception: early filing is permitted on the written agreement of the prosecuting attorney.' Neither half is in this route's committed record. data/record-clearing/legal-design-track-registry.json, track in_arrest_no_charges, carries exactly one waitingPeriods entry -- {condition: 'The arrest, with no charges pending', duration: 'One year'} -- and a case-insensitive search of that whole track object returns 0 hits for 'whichever is later' and 0 for 'written agreement of the prosecuting attorney'. Both sentences belong to the SIBLING track in_section1_petition, whose waitingPeriods carry 'The arrest, charge or allegation, whichever is later' and 'Written agreement of the prosecuting attorney / Early filing permitted', and whose generationRequirements carry a required key prosecutorWrittenAgreementEarlyFiling that this track does not have. The guide therefore attributes to this route's committed record an early-filing exception the record does not grant, and contradicts its own eligibility paragraph nineteen lines earlier, which correctly says 'one year from the arrest, with no charges pending'. This is clone contamination between two families built from one builder, and it reaches the participant as a statement about when they may file.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "THE DELIVERED PAGES DO NOT PAINT WHAT THE SOURCE PAINTS, AND THE SHORTFALL IS 27981 DARK PIXELS OF THE COALITION'S OWN PRINTED INK. FIX132's check-box claim is TRUE and I confirm it: of the bundle's 21 selection widgets, 17 render pixel-identical to the source and every check box among them shows one frame, not two; of the inserts' 78, only one check box differs at all (Check Box19, 37 px). The doubled frame is gone. But the same repair left, and its commit message denies, a much larger erasure in the other direction. (1) BUNDLE, 802 px: the source's DD-cap-CourtType widget /AP /N paints '1 g / 0 0 105.02 13.08 re / f' then, in Times Roman 12, the literal text '____________' -- twelve underscores, 72.0 points wide. The delivered pages 1, 3, 7 and 9 do not paint it. pdftotext -bbox-layout on source page 1 returns a word '____________' at (406.1,73.3)-(478.1,84.1); the same query on the delivered page returns three words where the source returns four, and the pixel diff finds a 1-px-tall removal envelope at x 405.7-477.7, exactly 72.0 points. The guide tells the participant twice to 'write it on the printed COURT line in each of those captions'. (2) INSERTS, 27179 px: 40 dropdown widgets across pages 1, 3 and 4 have had their blank-state paint erased. Visually decisive at 200 dpi: the source's FACTS offence grid prints twelve writing rules inside rows A-D across the three narrow columns, and the delivered page prints an empty bordered grid with no rules at all; Exhibit A's disposition table on insert page 4 loses every rule in all seven rows across three columns and delivers a bare grid. The guide directs the participant to write into exactly those cells by name. (3) 2632 of those insert-page-4 pixels fall OUTSIDE every source widget rect (envelope x 296.6-431.6, y 539.3-612.7), which is removed ink accounted to nothing at all. This is not a regression FIX132 introduced and it is not one it fixed: rendering the PRE-repair inserts (sha256 f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9) against the same source gives removed=10372 on page 1 and removed=4151 on page 4, byte-for-byte the SAME removal counts as the post-repair bytes, while added ink on page 1 falls from 3481 to 2450. The repair removed synthesized ink and left every erased pixel where it was. Its commit message nonetheless states 'Removed ink not accounted to a selection widget: 0.' On the delivered clipping question proper I found nothing: no flattened value exceeds its clip box, and the boundary profile refuses rather than truncates.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The certificate-of-service half is right and is well done. The registry's rules.service reads 'The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and the guide quotes both halves accurately, identifies all four certificates, leaves every one of them completely blank including the county and the prosecutor's address, and states the reason -- service has not happened when the packet is produced and a certificate signed before service certifies a delivery that did not occur. No deadline is invented; the participant is sent to the clerk. WHAT FAILS IS THE OTHER SERVICE LIST. FIX132 correctly refused participant.street_address from List-MailingAddresses_LEA on proposed-order page 14, where the mailing addresses of the agencies the signed order must be served on belong, and the refusal is real on the bytes. But the refusal was recorded only in an internal artifact. reports/blanks-left-for-the-participant.json justifies it with 'The participant lists the agencies from their own records' -- a duty the participant is never told they have. participant-instructions.md contains no occurrence of 'Law Enforcement Agencies', no occurrence of 'page 14', and no row for any page above 8 in its 'items you must supply' table. Worse, step 8 tells the participant the opposite: 'Leave the proposed order's findings and decree alone. Its findings, its decree and its directions to the Indiana State Police, the county sheriff and the other agencies are the court's, and this packet writes none of them... Check those and leave the rest.' A participant following the guide files a proposed order whose service list is 32 blank rules, having been told that block is the court's. The same silence covers the WHEREFORE agency lines on petition page 5 (LEA1, LEA2, LEA3 and County, the 'b' through 'e' blanks under 'removed by the following agencies') and their copies on order page 12: none of them appears in the guide's blanks table either.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure the guide does give is unusually thorough -- it distinguishes the last-four-digit SSN blank on the public petition from the whole number on the confidential form, names the cause number as clerk-assigned with no box anywhere, names the court-type blank in four captions, lists every signature and all four certificates, and explains why the four insert pages are entirely the participant's. Against that standard the omissions are not oversights of style. Undisclosed blanks the participant must fill before this is filable: (1) the proposed order's law-enforcement service list on page 14, 32 printed rules, 240 by 408 points, refused by the build and disclosed nowhere -- and contradicted by step 8, see SERVICE; (2) the petition's WHEREFORE agency blanks on page 5, items 1(b) through 1(e), which name the county sheriff's department and up to three further agencies whose records the court is asked to order removed -- the guide's blanks table lists page 5 only for the two election squares and the signature line; (3) the same three LEA blanks reproduced on order page 12. The build's own record classifies (2) and (3) as 'no_allowlisted_fact_matches', which is a reason the platform did not write them, not a disclosure to the person who must. A silent blank on a proposed order is the failure this obligation exists to catch, and it is present.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The four fixtures render, are non-blank, are cropped to letter paper and carry the page counts the receipt declares (15/15/4/4, recomputed with pdfinfo). What fails is that the artifact set does not distinguish this family from its sibling. Recomputed with sha256sum at this base: this family's packet-boundary-filled.pdf is 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9 and so is in_section1_petition-set's -- the same 250876 bytes; both families' inserts-canonical AND inserts-boundary are all four the same file, f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343. The canonical packets differ by ONE byte, and decompressing every content stream with pdf-lib shows the difference is entirely font size in three flattened appearance streams -- /Helvetica 11 Tf against /Helvetica 12 Tf over the identical value <4578616D706C6520436F756E7479> in the identical 108 x 13.08 rect -- because this family opted into fitTextPerWidget and the sibling sorts the census narrowest-widget-first instead. pdftotext -layout output is character-identical across the two families on every fixture. data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json already names both families in familiesDeliveringACloneOfAnother, on both the canonical and boundary groups; it measured the PRE-repair digests, and the repair did not resolve it -- it made the boundary case worse by turning two distinct files into one. Also recorded here: no raster receipt binds these bytes. RASTER_QUEUE.json holds this family only as .historicalRasterRows[31] against the superseded digests 2f14e1a7 and a7b34ccf, and lists it at .notEligible[52].",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -20757,9 +20794,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf26",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -20792,8 +20829,38 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "THE DELIVERED PAGES DO NOT PAINT WHAT THE SOURCE PAINTS, AND THE SHORTFALL IS 27981 DARK PIXELS OF THE COALITION'S OWN PRINTED INK. Measured on THIS family's own bytes, not inherited from its sibling. FIX132's check-box claim is TRUE and I confirm it: of this family's 21 bundle selection widgets, 17 render pixel-identical to the pinned source and the only four that differ are all DD-cap-CourtType; every check box shows one frame, not two. But the erasure the repair denies is here in full. (1) BUNDLE, 802 px: the source's DD-cap-CourtType widget /AP /N paints '1 g / 0 0 105.02 13.08 re / f' then, in Times Roman 12, the literal text '____________' -- twelve underscores, 72.0 points wide -- and the delivered pages 1, 3, 7 and 9 do not paint it (removed 201, 200, 201, 200). The guide tells the participant twice to write the court type 'on the printed COURT line in each of those captions'. (2) INSERTS, 27179 px: this family's inserts-canonical-filled.pdf is byte-identical to its sibling's (f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, recomputed here), and 40 dropdown widgets across insert pages 1, 3 and 4 deliver with the court's blank-state paint erased. Visually decisive at 200 dpi: the FACTS offence grid's rows A-D print twelve writing rules in the source and none in the delivered page, and Exhibit A's seven-row disposition table delivers as a bare grid. (3) 2632 of the insert-page-4 pixels fall OUTSIDE every source widget rect (envelope x 296.6-431.6, y 539.3-612.7). Rendering the PRE-repair inserts (sha256 f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9, recovered with git show) against the same source returns the SAME removal counts, so a9cb1bd14 removed synthesized ink and left every erased pixel where it was, while stating 'Removed ink not accounted to a selection widget: 0'. On clipping proper I found nothing: no flattened value exceeds its clip box, and this family reaches that result by a different mechanism from its sibling -- it sorts each census field's widgets narrowest-first so the single fitted size holds in every kid, rather than fitting per widget. Both mechanisms work; the visible consequence is that the two families set the same value at different point sizes, which is the whole of the one-byte difference between their canonical packets.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The certificate-of-service half is right and is well done. The registry's rules.service reads 'The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and the guide quotes both halves accurately, identifies all four certificates, leaves every one of them completely blank including the county and the prosecutor's address, and states the reason -- service has not happened when the packet is produced and a certificate signed before service certifies a delivery that did not occur. No deadline is invented; the participant is sent to the clerk. WHAT FAILS IS THE OTHER SERVICE LIST. FIX132 correctly refused participant.street_address from List-MailingAddresses_LEA on proposed-order page 14, where the mailing addresses of the agencies the signed order must be served on belong, and the refusal is real on the bytes. But the refusal was recorded only in an internal artifact. reports/blanks-left-for-the-participant.json justifies it with 'The participant lists the agencies from their own records' -- a duty the participant is never told they have. participant-instructions.md contains no occurrence of 'Law Enforcement Agencies', no occurrence of 'page 14', and no row for any page above 8 in its 'items you must supply' table. Worse, step 8 tells the participant the opposite: 'Leave the proposed order's findings and decree alone. Its findings, its decree and its directions to the Indiana State Police, the county sheriff and the other agencies are the court's, and this packet writes none of them... Check those and leave the rest.' A participant following the guide files a proposed order whose service list is 32 blank rules, having been told that block is the court's. The same silence covers the WHEREFORE agency lines on petition page 5 (LEA1, LEA2, LEA3 and County, the 'b' through 'e' blanks under 'removed by the following agencies') and their copies on order page 12: none of them appears in the guide's blanks table either.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure the guide does give is unusually thorough -- it distinguishes the last-four-digit SSN blank on the public petition from the whole number on the confidential form, names the cause number as clerk-assigned with no box anywhere, names the court-type blank in four captions, lists every signature and all four certificates, and explains why the four insert pages are entirely the participant's. Its self-help section is the better of the two and cites its registry by path. Against that standard the omissions are not oversights of style. Undisclosed blanks the participant must fill before this is filable: (1) the proposed order's law-enforcement service list on page 14, 32 printed rules, 240 by 408 points, refused by the build and disclosed nowhere -- and contradicted by step 8, see SERVICE; (2) the petition's WHEREFORE agency blanks on page 5, items 1(b) through 1(e), which name the county sheriff's department and up to three further agencies whose records the court is asked to order removed -- the guide's blanks table lists page 5 only for the two election squares and the signature line; (3) the same three LEA blanks reproduced on order page 12. The build's own record classifies (2) and (3) as 'no_allowlisted_fact_matches', which is a reason the platform did not write them, not a disclosure to the person who must. A silent blank on a proposed order is the failure this obligation exists to catch, and it is present.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The four fixtures render, are non-blank, are cropped to letter paper and carry the page counts the receipt declares (15/15/4/4, recomputed with pdfinfo). What fails is that the artifact set does not distinguish this family from in_arrest_no_charges-set. Recomputed with sha256sum at this base: this family's packet-boundary-filled.pdf is 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9, 250876 bytes, and so is the sibling's -- the same file; all four insert fixtures across both families are one file, f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343. The canonical packets differ by ONE byte (251801 against 251802) and pdftotext -layout output is character-identical on every page of every fixture. Decompressing every content stream with pdf-lib locates the entire difference: three flattened appearance streams carry '/Helvetica 12 Tf' here against '/Helvetica 11 Tf' there, over the identical value <4578616D706C6520436F756E7479> in the identical 108 x 13.08 rect, because the two builders reached the same clipping fix by different mechanisms. Two petitions on two different tracks are being delivered as the same filing at a different point size. data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json already names both families in familiesDeliveringACloneOfAnother on both the canonical and boundary groups; it measured the pre-repair digests, and the repair did not resolve it -- on the boundary group it made two distinct files into one. Also recorded: no raster receipt binds these bytes; RASTER_QUEUE.json holds this family only as .historicalRasterRows[33] against the superseded digests f3cfeb32 and a7b34ccf, and lists it at .notEligible[54].",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
