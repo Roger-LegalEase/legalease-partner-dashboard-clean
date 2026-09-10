@@ -6,7 +6,30 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+/*
+ * WHICH LEDGER THIS IS, SAID OUT LOUD.
+ *
+ * This script chdirs to the checkout that CONTAINS IT, so the ledger it reads is
+ * chosen by which copy of the script you invoke -- and several checkouts of this
+ * repository live side by side on this machine, each with its own ledger at a
+ * different age.
+ *
+ * FIX01 was told to run `node scripts/grade-a-packet-factory-24h/claim.mjs
+ * --assert ...` in its worktree. Its shell's cwd resets between calls and the
+ * dispatch carried no `cd`, so the relative path resolved against the PRIMARY
+ * checkout -- a stale branch whose ledger has 878 claims from 5 September and
+ * records the grant as released. It answered ALREADY_RELEASED, exit 9, about a
+ * grant that is live in the worktree's own ledger of 975 claims. The lane was
+ * right not to stop on it, and it should never have had to work that out.
+ *
+ * A refusal is not made safer by being silent about which record it came from.
+ * Every invocation now names the checkout, the ledger, its claim count and its
+ * generatedAtCommit on stderr before doing anything -- and says so loudly when
+ * the checkout it is about to read is NOT the one the caller is standing in,
+ * which in this fleet is almost always a mistake.
+ */
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const CALLER_CWD = process.cwd();
 process.chdir(ROOT);
 const DEFAULT_LEDGER = "data/rcap-grade-a/packet-factory-24h/claim-ledger.json";
 export const CLOSED_LANE_KINDS = Object.freeze([
@@ -306,11 +329,32 @@ function status(ledgerPath, lane) {
   for (const c of claims.slice(0, 40)) console.log(`  ${c.lane.padEnd(10)} ${c.laneKind.padEnd(25)} ${c.subjectId}`);
 }
 
+const announce = (ledgerFile) => {
+  let claims = "unreadable";
+  let at = "unreadable";
+  try {
+    const l = JSON.parse(fs.readFileSync(path.resolve(ROOT, ledgerFile), "utf8"));
+    claims = (l.claims ?? []).length;
+    at = l.generatedAtCommit ?? "none";
+  } catch { /* validate() produces the real error a moment later */ }
+  process.stderr.write("ledger: " + path.resolve(ROOT, ledgerFile) + "  (" + claims + " claims, generatedAtCommit " + at + ")\n");
+  /* A caller standing in a different checkout of this repo is reading a ledger it
+   * did not mean to read. Say so; do not refuse, because --ledger and CI callers
+   * legitimately point elsewhere. */
+  let callerRoot = null;
+  try { callerRoot = execFileSync("git", ["-C", CALLER_CWD, "rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim(); } catch { callerRoot = null; }
+  if (callerRoot && path.resolve(callerRoot) !== path.resolve(ROOT)) {
+    process.stderr.write("WRONG_CHECKOUT: you are standing in " + callerRoot + " and this script belongs to " + ROOT + ".\n");
+    process.stderr.write("  The answer below is about that checkout's ledger, not yours. Re-run as: cd " + callerRoot + " && node scripts/grade-a-packet-factory-24h/claim.mjs ...\n");
+  }
+};
+
 const args = process.argv.slice(2); let ledgerPath = DEFAULT_LEDGER;
 const li = args.indexOf("--ledger"); if (li >= 0) { ledgerPath = args[li + 1]; args.splice(li, 2); }
 const ri = args.indexOf("--reason"); let reason = null;
 if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
+announce(ledgerPath);
 if (mode === "--can-assert" && lane && subjectId) canAssert(ledgerPath, lane, subjectId.split(",").map((x) => x.trim()).filter(Boolean));
 else if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
 else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId, reason);

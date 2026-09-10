@@ -33,7 +33,8 @@
  *   node provision-lane-worktree.mjs <worktree> [--from <canonical checkout>]
  *   node provision-lane-worktree.mjs <worktree> --check
  */
-import { existsSync, lstatSync, symlinkSync, unlinkSync, readlinkSync } from "node:fs";
+import { existsSync, lstatSync, symlinkSync, unlinkSync, readlinkSync, readFileSync, appendFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
 const CANONICAL_DEFAULT = "/home/user/legalease-partner-dashboard-clean";
@@ -47,6 +48,39 @@ const canonical = fromIndex >= 0 ? argv[fromIndex + 1] : CANONICAL_DEFAULT;
 const checkOnly = argv.includes("--check");
 
 if (!existsSync(worktree)) { console.error(`WORKTREE_ABSENT: ${worktree}`); process.exit(3); }
+
+/*
+ * THE LINKS MUST BE IGNORED, AND .gitignore DOES NOT IGNORE THEM.
+ *
+ * .gitignore line 53 is `private/`, with a trailing slash, which matches a
+ * DIRECTORY. What this script creates is a SYMLINK named `private`, and git does
+ * not treat that as a directory, so the pattern does not match it.
+ *
+ * It looked ignored anyway, and FIX01 found out why: a global core.excludesFile
+ * pointed at `.../scratchpad/vf07-excludes`, an eight-byte file inside ANOTHER
+ * LANE'S SCRATCHPAD containing the single word `private`. Every provisioned
+ * worktree's ignore of an 871 MB corpus link was resting on a stray file one
+ * cleanup away from deletion. Verified rather than assumed: overriding
+ * core.excludesFile with an empty file, `check-ignore private` reports NOT
+ * IGNORED in a provisioned worktree.
+ *
+ * So the ignore goes where it belongs -- the repository's own info/exclude in the
+ * common git dir, which every worktree of this repo reads and which no scratchpad
+ * cleanup can take away. Appended once, idempotently, never rewritten.
+ */
+const ensureExcluded = (worktreePath) => {
+  const commonDir = execFileSync("git", ["-C", worktreePath, "rev-parse", "--git-common-dir"], { encoding: "utf8" }).trim();
+  const excludeFile = path.join(path.resolve(worktreePath, commonDir), "info", "exclude");
+  if (!existsSync(excludeFile)) { console.log(`info/exclude   ABSENT at ${excludeFile}; not created`); return; }
+  const body = readFileSync(excludeFile, "utf8");
+  const wanted = LINKED.filter((n) => !body.split("\n").some((l) => l.trim() === n));
+  if (!wanted.length) { console.log(`info/exclude   already excludes ${LINKED.join(", ")}`); return; }
+  appendFileSync(excludeFile,
+    "\n# Lane-worktree provisioning: these are SYMLINKS, and .gitignore's trailing-slash\n"
+    + "# patterns do not match a symlink. Written by provision-lane-worktree.mjs.\n"
+    + wanted.map((n) => `${n}\n`).join(""));
+  console.log(`info/exclude   added ${wanted.join(", ")} to ${excludeFile}`);
+};
 
 let missing = 0;
 for (const name of LINKED) {
@@ -74,9 +108,11 @@ for (const name of LINKED) {
   console.log(`${name.padEnd(13)} linked           -> ${target}`);
 }
 
+if (!checkOnly) ensureExcluded(worktree);
+
 console.log();
 console.log(checkOnly
   ? `${LINKED.length - missing} of ${LINKED.length} present in ${worktree}`
   : `${worktree} provisioned from ${canonical}`);
-console.log(`Both are gitignored, so nothing here can be committed by the lane.`);
+console.log("Both are excluded through the repository's own info/exclude, which no scratchpad cleanup can remove.");
 process.exit(missing && checkOnly ? 1 : 0);
