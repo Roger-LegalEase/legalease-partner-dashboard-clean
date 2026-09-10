@@ -619,6 +619,159 @@
         "The committed raster PNGs are NOT reproducible across builds. A rebuild that changed only packet pages 5 and 6 rewrote the Chromium page.png for pages 1, 2, 3, 7 and 8 as well, by up to 129971 dark pixels on page 8, on pages whose PDF content is pixel-identical at 600 dpi under pdftoppm. A raster-PNG diff is therefore not a safe change detector for this fleet, and a reviewer reading those PNGs as evidence of what moved would be misled."
       ],
       "grantsNothing": "This row repairs a packet. It opens no route, promotes nothing, sets no verdict and asserts nothing about production."
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs (its own host)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "obligationsRepaired": [
+        "ARTIFACTS"
+      ],
+      "obligationCoverage": "ARTIFACTS is the ONLY obligation any non-superseded verifier row scores FAIL on this family. The current verdict is VF90's row at base a09ef20d3, failedObligationNames [\"ARTIFACTS\"]. Earlier FAILs naming KNOWN_PREFILLS, ROUTE_IDENTITY, SERVICE, FEE_AND_WAIVER and SELF_HELP_STOP are all marked superseded:true in VERIFIER_RETURNS.json and were cleared by the vf10 PASS at base c024be0f6. Nothing else on this family was touched.",
+      "whatWasWrong": {
+        "recordedSymptom": "VF90: 22 stroke-only flattened widget appearances per fixture, 88 across the four, matching no pinned-source /AP /N stream byte for byte. Labelled SYNTHESIZED_INK_CONFIRMED in BORDER_COHORT_REMEDIATION.json. It is the largest unaccounted count in the Vermont cohort.",
+        "causeEstablishedOnThisFamilysOwnBytes": "The 22 are NOT one defect. They separate into 16 and 6 with OPPOSITE remedies, and a lane that treated them alike would have deleted the court's ink. 16 are invented: on 200-00129 all 14 check boxes and on 200-00132A both of them ship /AP /N /Yes ONLY, with no /N /Off state, and their /MK carries `/CA (4)` alone -- no /BC border colour and no /BG. The source declares no border for these controls anywhere, and the delivered stream is pdf-lib's own construction: `0 0 0 RG / 0 w / [] 0 d / 0 0 m ... h / S`. The other 6, all on 600-00228, are the source widget's OWN /AP /N /Off minus its leading opaque background fill -- those widgets do carry /MK /BC [0] /BG [1] and do ship their own /Off appearance.",
+        "andAThirdDefectOnTheSameSixWidgets": "600-00228 field 15 ships an /AP whose /BBox is [0 0 18 18] against a /Rect of 14.4 x 14.4. ISO 32000-1 12.5.5 requires the transformed BBox to be fitted to the /Rect -- a scale of 0.8 -- and this host stamped it at Matrix [1 0 0 1], 25% oversized. The two sibling Vermont hosts already pass fitAppearancesToRect and stamp it at [0.8 0 0 0.8].",
+        "whyTheMissingFillIsADefect": "Both 200-00129 and 600-00228 print their check boxes as TEXT, not as art -- `/C2_1 1 Tf <0706> Tj`, the ballot-box glyph, at (54, 396.12), (90, 321.36), (54, 198.36), (72, 198.36) and (72, 123.24) on 200-00129 page 1 among others, and on the \"Are you employed?\" line of 600-00228 page 1. The widget sits over the printed glyph and its white fill is what makes its appearance REPLACE that glyph rather than double it.",
+        "measuredBeforeRepair": "600 dpi directional difference of the delivered canonical against the three pinned sources. Packet page 5 carried 115137 dark pixels ADDED and -- this is the part no counter saw -- 1407 dark pixels REMOVED, in one connected component at exactly field 15's rect. THE PACKET HAD ERASED THE COURT'S OWN CHECK BOX THERE: the 13.6pt box the Judiciary prints was gone, replaced by a 17pt box displaced up and to the right, with the printed ballot-box glyph exposed inside it. On packet page 1 each of the twelve check boxes carried 480 to 617 dark pixels of a synthesized outer border the court does not print, 0 removed.",
+        "defectClass": "renderer defect, in all three forms. Not a missing participant input and not an unresolved legal question: no fact, selection or fee is involved and no participant value changed."
+      },
+      "howItWasRepaired": {
+        "change": "Three options at this host's own finalizeOfficialForm call site, which previously passed none of them: suppressSynthesizedAppearances, preserveUnwrittenSelectionBackgrounds and fitAppearancesToRect.",
+        "whyThreeAndNotOne": "The three defect classes have three remedies and the remedies point in opposite directions. suppressSynthesizedAppearances supplies the missing /Off state as an EMPTY appearance so the 16 invented borders are never constructed -- that one REMOVES. preserveUnwrittenSelectionBackgrounds keeps the source's own blank-state paint on the 6 fee-waiver boxes -- that one RESTORES. fitAppearancesToRect pre-composes the 12.5.5 mapping into field 15's own /Matrix. Applying only the first would have deleted the court's ink on 600-00228; applying only the second would have left 16 invented borders standing.",
+        "whatTheOptionsDoNotDo": "No mark is added, no box is ticked, no participant value changes, /MK /BG is still removed, and no shared module was modified. All three are default-off options already committed and already proven on sibling families.",
+        "precedent": "suppressSynthesizedAppearances and fitAppearancesToRect are what FIX58 and FIX67 took on the sibling Vermont host; preserveUnwrittenSelectionBackgrounds is what FIX01 took on co_petition_seal_arrest-set."
+      },
+      "alsoRepairedInThisFamily": {
+        "what": "A SECOND ERASURE, FOUND BECAUSE THE REBUILD CAUSED IT. This host wrote source-receipt.json with a plain writeFileSync, so the rebuild regenerated the document and deleted the hand-written identityRefresh annotation on the legal-design-track-registry pin. The committed tripwire scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs named this receipt as the only one erased across 301 receipts in the fleet, and it exits 1.",
+        "whyItMattered": "An identityRefresh is a lane's record that it recovered a historical blob and compared the entries the receipt actually binds, object for object, across a whole-file drift. Deleting it undoes that work in silence: no source change, no diff a reader would notice, and nothing saying why.",
+        "whatWasAlsoTrue": "The receipt's pin was already stale at this lane's own base commit. It named 555e5700 while the registry on disk at 7d072beb5 was b62ae691 -- the record had moved again in FIX03's commit fe7fd55f3 and the receipt was never re-pinned. The rebuild re-pinned it to the bytes it actually consumed, which is the truthful value.",
+        "change": "Two things. The host now writes its JSON through preserveIdentityRefresh, the committed shared remedy, so no future rebuild drops an annotation. And because the record HAD moved again -- which is exactly the case in which that helper correctly drops rather than carries -- the anchor comparison was re-done rather than the old block restored: the vt_exp_decriminalized entry was recovered from the 6aafbf81 blob and compared object-for-object against the b62ae691 bytes this build read, and it is identical, its eleven selfHelpStopConditions included. Three entries moved across the whole span (ri_first_offender_misdemeanor, ri_multiple_misdemeanors, co_motion_seal_conviction) and this receipt anchors none of them.",
+        "nothingWasDropped": "The 2026-09-09 lane's endpoint digest, its comparison date, its entriesThatMoved list, its previousPinLastSeenAtCommit 94445c6a4 and its whatThisDoesNotClaim sentence are all kept -- the first four under intermediateMove, the last verbatim.",
+        "verified": "The tripwire now reports EVERY_IDENTITY_REFRESH_SURVIVED across all 301 receipts and exits 0, and a further rebuild reproduces this receipt byte for byte."
+      },
+      "acceptanceMeasuredAfterRepair": {
+        "byteAccounting": "Stroke-only appearances fall from 22 per fixture to 6, and all 6 are now EXACT byte-for-byte matches of the pinned 600-00228 /AP /N /Off streams, correctly scaled at 0.8. MINUS_BACKGROUND_FILL 0, UNEXPLAINED 0. The 16 invented borders are gone from the bytes.",
+        "directionalRasterBothDirections600dpi": "Every official-form packet page against its pinned source page: p1 ADDED 34889 REMOVED 0; p2 ADDED 80745 REMOVED 0; p3 ADDED 115921 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 107014 REMOVED 0; p6 ADDED 16006 REMOVED 0. REMOVED is 0 on every page, INCLUDING page 5, where the pre-repair build removed 1407. The court's erased check box is restored.",
+        "negativeControl": "Packet page 4 (200-00132A page 2, the proposed order) is a page this packet writes nothing on. It gained 0 dark pixels and lost 0.",
+        "perFeatureAt600dpi": "Six of the twelve check boxes on packet page 1, each a crop against the pinned source: pre-repair ADDED 512, 480, 480, 617, 490, 603 with 0 removed; post-repair ADDED 0 REMOVED 0 at every one. The court's printed ballot-box glyph is present and unchanged in all six -- read at 600 dpi as an image, not inferred. The six 600-00228 boxes are likewise 0 added and 0 removed.",
+        "addedInkOutsideDeclaredWriteRects": 0,
+        "removedInkAccountedForLineByLine": "Against the PINNED SOURCE, 0 removed on every page. Against the PREVIOUS BUILD the packet loses ink on five pages and every pixel is accounted for: p1 -5728 (the twelve synthesized borders on 200-00129 page 1), p2 -886 (its two on page 2), p3 -960 (200-00132A's two), p5 -8123 and +1407, p6 -2288. The +1407 on p5 is the court's own check box at field 15 being RESTORED; the -8123 is the oversized displaced box and the doubled frames going. p4 is unchanged in both directions.",
+        "preserved": "Every participant write, every printed mark and every signature, notary and jurat area is unchanged. No box is ticked and no selection is asserted.",
+        "rebuildStability": "A second full rebuild after the write-path change produced byte-identical fixtures, production-field-map.json, build-status.json, build-findings.json, approval-request.json, reports/actual-writes.json and reports/rendered-artifacts.json. Only source-receipt.json differs from the pre-change build, and only by the re-pin and the annotation described above."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Both sets are the shared verifier's, run on this tree: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set, PASS_COMPLETE. READ countersBefore WITH CARE, and on this family more than any other: all nine were 0 on bytes that had ERASED the court's own check box on a fee-waiver affidavit and stamped sixteen borders the Judiciary does not print. Nine zeros, three defect classes, and not one of the nine could see any of them.",
+      "outputByteGlyphReadings": {
+        "canonical": {
+          "200-00129": {
+            "addedGlyphsReadFromOutputBytes": 130,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          },
+          "200-00132A": {
+            "addedGlyphsReadFromOutputBytes": 130,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          },
+          "600-00228": {
+            "addedGlyphsReadFromOutputBytes": 138,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        "boundary": {
+          "200-00129": {
+            "addedGlyphsReadFromOutputBytes": 266,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          },
+          "200-00132A": {
+            "addedGlyphsReadFromOutputBytes": 208,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          },
+          "600-00228": {
+            "addedGlyphsReadFromOutputBytes": 295,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        "howMeasured": "Read back from the produced PDF by flattenedWidgets(), not from the write plan."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d986a5b34c3028d3c62a004c0a78552ac9504025d5d57b9ad40c8af446e3a89d",
+          "pageCount": 8,
+          "priorSha256": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0"
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9a4418753acda84cf4272a30250df2e9feb0a44a1ffeb00e330c207c454c1962",
+          "pageCount": 8,
+          "priorSha256": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d"
+        },
+        "allSixPerDocumentFixturesAlsoRebuilt": "canonical--200-00129, canonical--200-00132A, canonical--600-00228 and their boundary counterparts all moved, because all three forms carried a defect.",
+        "digestsHowTaken": "sha256sum on the committed files."
+      },
+      "sourcesResolved": [
+        {
+          "sourceId": "official-form:200-00129",
+          "sha256": "6b855b1976bb10bb",
+          "resolvedNote": "resolved exactly under MASTER_LIBRARY_SOURCE_DIR; full digest in the family's source-receipt.json",
+          "resolved": true
+        },
+        {
+          "sourceId": "official-form:200-00132A",
+          "sha256": "9f530430fba20599",
+          "resolvedNote": "resolved exactly under MASTER_LIBRARY_SOURCE_DIR; full digest in the family's source-receipt.json",
+          "resolved": true
+        },
+        {
+          "sourceId": "official-form:600-00228",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolved": true
+        }
+      ],
+      "governance": {
+        "buildersThatRegenerateProductWiringWholesale": "This host is NOT one of them. It writes production-field-map.json, source-receipt.json, reports/, build-status.json, build-findings.json, participant-instructions.md and approval-request.json, and never product-wiring.json.",
+        "provedHow": "A rebuild of this family at base, before any edit, produced byte-identical fixtures and left `git status` completely empty. product-wiring.json was not rewritten.",
+        "whatWasAtRisk": "Nothing. All six governance keys -- acceptanceReceipt, lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed, maintenanceRelationship -- are absent from this family's committed product-wiring.json at base and were absent before this lane touched it, so none was carried forward and none was lost.",
+        "noReceiptToWithdraw": "There is no committed acceptanceReceipt on this family, so none was withdrawn and none was relabelled. The bytes DID move, so any receipt later bound to the prior canonical c360eac4 does not describe this packet.",
+        "verifier": "npm run rcap:verify-governance-preservation run before this commit."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS -- none is produced here and none could be. This repair CHANGED THE DELIVERED BYTES, so the family must be re-rastered centrally against canonical d986a5b3 and boundary 9a441875. A local render is not a receipt.",
+        "Independent verification -- this lane repaired and measured these bytes, so it cannot verify them. No verdict is set here and no PASS is issued.",
+        "Nothing on this family is deferred to another lane. It has its own host and this repair is complete on it."
+      ],
+      "recordsThatDisagreeWithWhatWasMeasured": [
+        "BORDER_COHORT_REMEDIATION.json rows this family currentState COMPLETE_PACKET_PROVEN while VERIFIER_RETURNS.json lists it in failRepairRequiredFamilies and its only non-superseded verdict is FAIL_REPAIR_REQUIRED. The cohort file's currentState is stale against the VF90 withdrawal it was written alongside.",
+        "sourceAccounting labels all 88 of this family's unaccounted streams SYNTHESIZED_INK_CONFIRMED. Measured here, 64 of the 88 are invented and 24 are the form's own ink minus a fill. A lane acting on the label alone would have deleted the court's check boxes on 600-00228 -- and the pre-repair bytes show what that costs, because this family had ALREADY erased the court's box at field 15.",
+        "The aggregated row for this family in VERIFIER_RETURNS.json shows failedObligationNames [] for the VF90 read while the underlying vf90 return file shows [\"ARTIFACTS\"]. The aggregate keys on familyId and the vf90 file keys on itemId; the obligation name is lost in the aggregation.",
+        "This family was the only one of the five whose delivered bytes REMOVED ink the pinned source draws, and no counter, no verifier row and no cohort measurement recorded it. It was found only by a directional raster difference read in the removal direction first."
+      ],
+      "grantsNothing": "This row repairs a packet. It opens no route, promotes nothing, sets no verdict and asserts nothing about production."
     }
   ]
 }

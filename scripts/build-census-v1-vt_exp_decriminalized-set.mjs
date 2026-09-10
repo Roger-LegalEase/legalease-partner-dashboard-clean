@@ -56,6 +56,7 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -557,7 +558,60 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: FORMS[source.formNumber].title
+    title: FORMS[source.formNumber].title,
+    /*
+     * FIX130. THREE DEFECT CLASSES ON ONE FAMILY, AND THEY DO NOT SHARE A
+     * REMEDY. Each delivered fixture carries 22 stroke-only flattened widget
+     * appearances, 88 across the four. VF90 recorded that none of the 88 matches
+     * a pinned-source /AP /N stream byte for byte and said, correctly, that this
+     * is a byte comparison and not a finding about cause. Cause was established
+     * here, stream by stream, against this family's own three sources. The 22
+     * separate into 16 and 6, and confusing them would delete the court's ink.
+     *
+     * 16 ARE INVENTED AND ARE REMOVED. On 200-00129 all 14 check boxes and on
+     * 200-00132A both of them ship /AP /N /Yes ONLY -- there is no /N /Off state
+     * -- and their /MK carries `/CA (4)` alone: no /BC border colour, no /BG.
+     * The source declares no border for these controls anywhere. Flattening an
+     * unticked box makes pdf-lib construct one, and what reaches the page is
+     *
+     *     0 0 0 RG / 0 w / [] 0 d / 0 0 m ... h / S
+     *
+     * a black hairline rectangle the Judiciary's form does not print and no
+     * conforming viewer paints (ISO 32000-1 12.5.5). The form draws its own box
+     * as TEXT -- `/C2_1 1 Tf <0706> Tj`, the ballot-box glyph, at (54, 396.12)
+     * and (90, 321.36) and (72, 123.24) on page 1 among others, at the widget
+     * rectangles -- so removing the synthesized rectangle leaves the court's
+     * printed box standing and takes nothing the participant needs to see.
+     * suppressSynthesizedAppearances supplies the missing /Off state as an EMPTY
+     * appearance, so nothing is synthesized and nothing is flattened there. This
+     * is the repair FIX58 took on the sibling Vermont host for the same cause.
+     *
+     * 6 ARE THE COURT'S OWN INK AND ARE RESTORED. All six are on 600-00228,
+     * whose check boxes are built the other way round: they carry /MK /BC [0]
+     * /BG [1] and ship their own /N /Off. Each delivered stream is that /N /Off
+     * with its leading opaque background fill removed and nothing left over --
+     *
+     *   delivered  "0.5 0.5 13.4 13.4 re s"
+     *   source 16  "1 g / 0 0 14.4 14.4 re / f / 0.5 0.5 13.4 13.4 re / s"
+     *
+     * -- so the stroke is the form's, not ours. 600-00228 also prints its boxes
+     * as `<0706> Tj` glyphs underneath, and the white fill is what makes the
+     * widget's appearance REPLACE the printed glyph instead of doubling it.
+     * Stripped, both are on the page: two frames at every one of the six.
+     * preserveUnwrittenSelectionBackgrounds keeps only source-authored paint, in
+     * an unwritten check box or radio widget, where the source ships the
+     * appearance itself. /MK /BG is still removed and no box is ticked.
+     *
+     * AND ONE APPEARANCE IS STAMPED 25% OVERSIZED. 600-00228 field 15 ships an
+     * /AP whose /BBox is [0 0 18 18] against a /Rect of 14.4 x 14.4. ISO 32000-1
+     * 12.5.5 requires the transformed BBox to be fitted to the /Rect -- a scale
+     * of 0.8 -- and pdf-lib's flatten() emits a translation only, so this family
+     * stamps the appearance at Matrix [1 0 0 1] where the two sibling Vermont
+     * hosts, which already pass this option, stamp it at [0.8 0 0 0.8].
+     */
+    suppressSynthesizedAppearances: true,
+    preserveUnwrittenSelectionBackgrounds: true,
+    fitAppearancesToRect: true
   });
   if (process.env.VT_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
@@ -986,7 +1040,29 @@ function writeArtifacts(ctx) {
     rasterSkipped, routeRecord, stopRecord, refusedPrefillsByFixture } = ctx;
   const refusedEverywhere = Object.entries(refusedPrefillsByFixture ?? {})
     .flatMap(([fixture, rows]) => rows.map((r) => ({ fixture, ...r })));
-  const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
+  /*
+   * FIX130. A rebuild must not regenerate away a hand-written identityRefresh.
+   *
+   * This host wrote source-receipt.json with a plain writeFileSync, so a rebuild
+   * emitted a fresh document and the annotation on the
+   * legal-design-track-registry pin disappeared -- no source change, no diff a
+   * reader would notice, and nothing saying why. The committed tripwire
+   * scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs
+   * named this receipt as the one erased in the fleet.
+   *
+   * preserveIdentityRefresh is the committed remedy and it is deliberately
+   * strict: it carries an annotation forward VERBATIM only while the rebuild
+   * computes the same sha256 the annotation was written against, and drops it
+   * when the record moved again, because nobody has compared anchors across
+   * that second move. That is the correct behaviour and it is why the block
+   * this rebuild dropped is not simply restored -- the record HAD moved again,
+   * from 555e5700 to b62ae691, and a fresh comparison was owed. It was made and
+   * written; from here this call keeps it.
+   */
+  const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel),
+    rel.endsWith(".json")
+      ? `${JSON.stringify(preserveIdentityRefresh(fs, path.join(ROOT, outDir, rel), JSON.parse(body)), null, 2)}\n`
+      : body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId, routeKeys: [config.routeKey], routeSelectionId: config.routeSelectionId,
