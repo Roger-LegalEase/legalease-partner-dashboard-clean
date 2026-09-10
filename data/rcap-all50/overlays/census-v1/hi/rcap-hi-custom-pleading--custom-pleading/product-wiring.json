@@ -60,16 +60,16 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34407406641",
-      "jobId": "102654459295",
-      "artifactId": "10126266223",
-      "boundToCanonicalSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+      "workflowRunId": "34476556218",
+      "jobId": "102869652480",
+      "artifactId": null,
+      "boundToCanonicalSha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf07",
-      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+      "verdict": "PASS",
+      "lane": "vf43",
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -79,7 +79,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "replacedByCanonicalSha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459295",
+          "artifactId": "10126266223",
+          "boundToCanonicalSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -92,7 +107,7 @@
         "order": 1,
         "documentId": "hi_first_time_drug_offender_expungement-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -101,7 +116,7 @@
         "order": 2,
         "documentId": "hi_first_time_drug_offender_expungement-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -110,7 +125,7 @@
         "order": 3,
         "documentId": "hi_first_time_drug_offender_expungement-primary-filing-3",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -119,7 +134,7 @@
         "order": 4,
         "documentId": "hi_marijuana_three_grams_expungement-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -128,7 +143,7 @@
         "order": 5,
         "documentId": "hi_marijuana_three_grams_expungement-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -137,7 +152,7 @@
         "order": 6,
         "documentId": "hi_marijuana_three_grams_expungement-primary-filing-3",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -146,7 +161,7 @@
         "order": 7,
         "documentId": "hi_pre_2004_drug_offender_expungement-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -155,7 +170,7 @@
         "order": 8,
         "documentId": "hi_pre_2004_drug_offender_expungement-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -164,7 +179,7 @@
         "order": 9,
         "documentId": "hi_pre_2004_drug_offender_expungement-primary-filing-3",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -173,7 +188,7 @@
         "order": 10,
         "documentId": "hi_first_time_property_offender_expungement-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -182,7 +197,7 @@
         "order": 11,
         "documentId": "hi_first_time_property_offender_expungement-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -191,7 +206,7 @@
         "order": 12,
         "documentId": "hi_first_time_property_offender_expungement-primary-filing-3",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -200,7 +215,7 @@
         "order": 13,
         "documentId": "hi_under_21_dui_expungement-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -209,7 +224,7 @@
         "order": 14,
         "documentId": "hi_under_21_dui_expungement-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       },
       {
@@ -218,7 +233,7 @@
         "order": 15,
         "documentId": "hi_under_21_dui_expungement-primary-filing-3",
         "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
         "requirement": "required"
       }
     ]

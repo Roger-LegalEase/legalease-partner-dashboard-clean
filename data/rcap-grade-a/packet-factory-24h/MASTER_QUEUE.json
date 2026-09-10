@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f19c99dddea571afa2af4d1e68b48b943fde199c",
+  "minimumCaptainSha": "c81c0973f17d9e831a46198b6b9ab347d3dbae02",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,21 +72,21 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 8,
-    "repairRequired": 38,
+    "verifyPending": 5,
+    "repairRequired": 39,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 185,
+    "COMPLETE_PACKET_PROVEN": 187,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "FAIL_REPAIR_REQUIRED": 53,
     "SOURCE_READY": 33,
-    "VERIFY_PENDING": 8,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
+    "VERIFY_PENDING": 5,
     "BUILT_RASTER_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -3635,12 +3635,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf41",
-        "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -3669,11 +3671,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "AN OPAQUE WHITE RECTANGLE IS PAINTED OVER PRINTED FORM TEXT ON CR-65 PAGE 3, IN ALL FOUR FIXTURES, AND IT PARTIALLY ERASES THE WORD 'expired' IN AN OPTION OF THE FELONY SECTION. FOUND IN THE PIXELS: delivered page 3 loses ink its pinned source prints, at x 45.40-56.44 pt, y 632.16-637.44 pt. 224 / 267 / 292 px at 300 dpi at thresholds 160 / 200 / 240; 924 / 999 / 1037 px at 600 dpi at the same three thresholds; identical to the pixel in canonical--misdemeanor, canonical--felony, boundary--misdemeanor and boundary--felony. Every lost pixel reads grey 255 in the delivered file - a solid white fill, not antialiasing. CONFIRMED IN THE BYTES, not inferred: the delivered page-3 content stream contains '1 0 0 1 45.317 623.137 cm' followed by '/FlatWidget-5373953175 Do', and that XObject's whole body is '1 g / 0 0 11.2171 14.3578 re / f' - set fill to white, fill an 11.2171 x 14.3578 pt rectangle. Every other flattened checkbox on the page is placed at its rect's BOTTOM-left (44.4196 685.662, 44.317 647.099, 45.317 517.46, 43.7657 460.14, 45.317 358.82); this one is placed at 623.137, which is the TOP of its rect. WHY: CR-65 stores Check Box10.2's /Rect inverted, [45.317, 623.137, 56.5341, 608.779], and pdf-lib's form.flatten() reads Rect[1] as the origin, so the appearance lands 14.358 pt too high. The repository already holds the diagnosis: data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json names this exact widget, this exact rect and misplacementPoints y 14.357999999999947. WHAT IS DEFACED: pdftotext -bbox on the pinned source places the word 'expired' at x 41.64-77.51, y 632.04-642.84 - the second line of Section III's option 'the indictment has been quashed and the statute of limitations for refiling the charge or charges has / expired or the prosecuting agency confirms that the charge or charges will not be refiled.' The white box covers x 45.40-56.44 of it, so roughly the letters 'xpi', plus the descender below. This is on the face of a sworn petition the participant files, on the page that carries the felony grounds the form tells them to read before ticking one. NOT A COUNTER'S BLIND ZERO BY ACCIDENT: reports/actual-writes.json and the builder's own reader are glyph-based, and a white fill draws no glyph while pdftotext still extracts the glyphs underneath it, so the defect is invisible to every published counter and to the family's own guards. See guardMutation below, where I made the guards fail to prove they can, then made this defect class worse and watched them pass. THE CONTROL FOR THIS MEASUREMENT: on the same page, in the same render, at the same thresholds, canonical--felony adds 194 / 208 / 224 px in CR-65 Check Box10.4 at [43.7657, 460.14, 55.8801, 474.498] where canonical--misdemeanor adds 0 / 0 / 0, so this render both sees ink that is there and reports none where none is. SEPARATELY, AND NOT PART OF THIS VERDICT: added ink outside every widget rectangle is 0 px on all 11 pages of all four fixtures, so nothing this build DREW strayed; the defect is ink the flatten step ERASED.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
@@ -9769,10 +9780,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
+        "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -9803,20 +9814,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "SEVEN CONTROLS PER FIXTURE, IN BOTH FIXTURES, CARRY A SYNTHESIZED OUTLINE THE OFFICIAL FORM DOES NOT PRINT, AND ON TWO OF THEM THAT OUTLINE IS DRAWN OVER TEXT THE FORM DOES PRINT. This is a different mechanism from the one FIX120 closed, and it is present in the current post-repair bytes. HOW I MEASURED IT: I rendered each delivered page and its pinned source page to 150 dpi greyscale and took a directional pixel diff, then attributed every differing pixel to a widget by testing it against the 90 widget rectangles I read first-hand from the two source binaries. THE TWO INTERPRETER RADIOS, JDF-417 page 1, field Group1.7, /Rect [268.80 356.50 282.48 370.18] and [313.88 356.62 327.56 370.30]. The source prints one thin ring per option occupying pixels x 560-587 and x 654-681, rows 879-906. The delivered file draws a second, heavier ring shifted up and to the right, so the inked box becomes x 560-592 and x 654-686, rows 873-906: 99 and 94 dark pixels added, 102 and 106 removed, at each. Rendered and read at 3x, the printed row 'Do you need an interpreter?  No  Yes, in (language)' comes back with the synthesized ring cutting through the 'N' of 'No' and through the 'Y' of 'Yes', so both answer labels are struck through on the face of the filing. The row immediately below it, 'I want to attend court events: In-person / Virtually', is pixel-identical to the source, which proves this is per-widget and not a global rendering difference. THE FIVE SECTION-3 CHECKBOXES, JDF-417 page 2, fields 3A.0, 3B.0, 3C, 3D.0 and 3E.0, all at /Rect width and height 13.68pt. Each is delivered as TWO concentric squares where the form prints one. On 3A.0 (Prosecuting Attorney) the synthesized square lands up and to the right, taking the inked box from x 263-290 rows 249-276 to x 263-295 rows 243-276, 134 pixels added and 76 removed. On 3B.0 (Sheriff's Department), 3C (Colorado Bureau of Investigation (Required)), 3D.0 (Law Enforcement) and 3E.0 (Other) the synthesized square lands down and to the left, inside the printed one, so the bounding box is unchanged and 70 to 88 pixels are added within it - which is why a bounding-box or four-sided-box control does not see them. I read the crop at 2x and every one of the five shows a doubled box. These are the boxes that name the agencies the sealing order must reach, including the one the form itself marks required. WHY THE FAMILY'S OWN RECORD DOES NOT SHOW IT: reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for all four document rows, which is true and not the question - a stroked outline draws no glyph, and this ink is drawn at the census widget's own rect, exactly the case DEFECTS_NO_COUNTER_CAN_SEE warns must not be read as proof that nothing strayed. FOR THE REPAIR LANE: the prior VF01 FAIL of 20260909b named 13 four-sided boxes on /Ch choosers, and FIX120's control fourSidedWidgetBoxes() went 23 to 0. That control is measuring the right thing for /Ch and the wrong thing for these seven /Btn widgets, whose regenerated appearance is stamped at the widget /Rect at a size and offset that do not coincide with the mark the issuer's own page content already draws.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
@@ -27576,10 +27578,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf41",
-        "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -27614,7 +27616,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs",

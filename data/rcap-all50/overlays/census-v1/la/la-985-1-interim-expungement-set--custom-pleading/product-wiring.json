@@ -56,16 +56,16 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34413372916",
-      "jobId": "102673422659",
-      "artifactId": "10128428455",
-      "boundToCanonicalSha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+      "workflowRunId": "34476556218",
+      "jobId": "102869652511",
+      "artifactId": null,
+      "boundToCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf06",
-      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
+      "lane": "vf02",
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -75,7 +75,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+        "replacedByCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34413372916",
+          "jobId": "102673422659",
+          "artifactId": "10128428455",
+          "boundToCanonicalSha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -88,7 +103,7 @@
         "order": 1,
         "documentId": "LA-CCRP-ART-994",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
         "requirement": "required"
       },
       {
@@ -97,7 +112,7 @@
         "order": 2,
         "documentId": "LA-CCRP-ART-995",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
         "requirement": "required"
       },
       {
@@ -106,7 +121,7 @@
         "order": 3,
         "documentId": "la-985-1-interim-expungement-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
         "requirement": "required"
       }
     ]

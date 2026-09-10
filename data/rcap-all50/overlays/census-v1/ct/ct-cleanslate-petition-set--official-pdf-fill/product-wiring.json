@@ -35,7 +35,7 @@
         "order": 1,
         "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
         "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
-        "sha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+        "sha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77",
         "requirement": "required"
       }
     ]
@@ -64,18 +64,11 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33495068504",
-      "jobId": "99815920101",
-      "artifactId": "9795506420",
-      "boundToCanonicalSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf90",
-      "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545"
+      "lane": "vf44",
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -85,6 +78,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+        "replacedByCanonicalSha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33495068504",
+          "jobId": "99815920101",
+          "artifactId": "9795506420",
+          "boundToCanonicalSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }

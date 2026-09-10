@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 176,
-    "rows": 1202,
+    "returnDirectories": 177,
+    "rows": 1205,
     "independentVerdicts": 292,
     "failRepairRequired": 56,
     "passIndependent": 214
@@ -44,6 +44,7 @@
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
+    "al-trafficking-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
@@ -53,7 +54,6 @@
     "co_motion_seal_nonconviction-set",
     "co_multiple_conviction_seal-set",
     "co_municipal_conviction_seal-set",
-    "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "ct-cleanslate-petition-set",
@@ -1768,6 +1768,29 @@
     },
     {
       "familyId": "al-trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "AN OPAQUE WHITE RECTANGLE IS PAINTED OVER PRINTED FORM TEXT ON CR-65 PAGE 3, IN ALL FOUR FIXTURES, AND IT PARTIALLY ERASES THE WORD 'expired' IN AN OPTION OF THE FELONY SECTION. FOUND IN THE PIXELS: delivered page 3 loses ink its pinned source prints, at x 45.40-56.44 pt, y 632.16-637.44 pt. 224 / 267 / 292 px at 300 dpi at thresholds 160 / 200 / 240; 924 / 999 / 1037 px at 600 dpi at the same three thresholds; identical to the pixel in canonical--misdemeanor, canonical--felony, boundary--misdemeanor and boundary--felony. Every lost pixel reads grey 255 in the delivered file - a solid white fill, not antialiasing. CONFIRMED IN THE BYTES, not inferred: the delivered page-3 content stream contains '1 0 0 1 45.317 623.137 cm' followed by '/FlatWidget-5373953175 Do', and that XObject's whole body is '1 g / 0 0 11.2171 14.3578 re / f' - set fill to white, fill an 11.2171 x 14.3578 pt rectangle. Every other flattened checkbox on the page is placed at its rect's BOTTOM-left (44.4196 685.662, 44.317 647.099, 45.317 517.46, 43.7657 460.14, 45.317 358.82); this one is placed at 623.137, which is the TOP of its rect. WHY: CR-65 stores Check Box10.2's /Rect inverted, [45.317, 623.137, 56.5341, 608.779], and pdf-lib's form.flatten() reads Rect[1] as the origin, so the appearance lands 14.358 pt too high. The repository already holds the diagnosis: data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json names this exact widget, this exact rect and misplacementPoints y 14.357999999999947. WHAT IS DEFACED: pdftotext -bbox on the pinned source places the word 'expired' at x 41.64-77.51, y 632.04-642.84 - the second line of Section III's option 'the indictment has been quashed and the statute of limitations for refiling the charge or charges has / expired or the prosecuting agency confirms that the charge or charges will not be refiled.' The white box covers x 45.40-56.44 of it, so roughly the letters 'xpi', plus the descender below. This is on the face of a sworn petition the participant files, on the page that carries the felony grounds the form tells them to read before ticking one. NOT A COUNTER'S BLIND ZERO BY ACCIDENT: reports/actual-writes.json and the builder's own reader are glyph-based, and a white fill draws no glyph while pdftotext still extracts the glyphs underneath it, so the defect is invisible to every published counter and to the family's own guards. See guardMutation below, where I made the guards fail to prove they can, then made this defect class worse and watched them pass. THE CONTROL FOR THIS MEASUREMENT: on the same page, in the same render, at the same thresholds, canonical--felony adds 194 / 208 / 224 px in CR-65 Check Box10.4 at [43.7657, 460.14, 55.8801, 474.498] where canonical--misdemeanor adds 0 / 0 / 0, so this render both sees ink that is there and reports none where none is. SEPARATELY, AND NOT PART OF THIS VERDICT: added ink outside every widget rectangle is 0 px on all 11 pages of all four fixtures, so nothing this build DREW strayed; the defect is ink the flatten step ERASED.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-trafficking-set",
       "verdict": "PASS",
       "lane": "vf41",
       "isIndependentVerification": true,
@@ -1778,7 +1801,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-act531-set",
@@ -5770,6 +5793,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
       "superseded": false
@@ -14476,6 +14513,20 @@
     },
     {
       "familyId": "mn_petition_609a02_subd3-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -14532,7 +14583,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mn_petition_juvenile_as_adult-set",

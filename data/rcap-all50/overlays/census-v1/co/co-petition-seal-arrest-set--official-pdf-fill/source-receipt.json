@@ -62,11 +62,35 @@
       ],
       "recordId": "legal-design-track-registry#co_petition_seal_arrest.packetSet.requiredBeforeFiling",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-      "byteLength": 16778727,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the controlling track record: the items required before filing, printed verbatim",
-      "statementsPrintedVerbatim": 2
+      "statementsPrintedVerbatim": 2,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "recoveredFromCommit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+        "recoveredFromBlob": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+        "refreshedAgainstCommit": "c81c0973f17d9e831a46198b6b9ab347d3dbae02",
+        "previousIdentityRefresh": null,
+        "trackIds": [
+          "co_petition_seal_arrest"
+        ],
+        "trackCountBothSides": 503,
+        "changedTracks": [
+          "co_motion_seal_conviction"
+        ],
+        "identicalTrackSha256": {
+          "co_petition_seal_arrest": "acf67f87339917577910691ed27d904374e629588521442d21732b0f111a8b28"
+        },
+        "canonicalisation": "keys sorted recursively, no whitespace, JSON.stringify of scalars",
+        "why": "The whole-file digest moved because one unrelated track was edited. Exactly one track differs between the pinned registry and the current one -- co_motion_seal_conviction, a different family -- while this family's own bound track object is byte-identical under the canonicalisation above and every byte outside the track arrays is identical. No packet byte, source selection, legal treatment or review disposition changes.",
+        "whatThisDoesNotDo": "It does not rebuild the family, does not touch its fixtures, and does not refresh any other pin. A change to the bound track itself makes this script exit non-zero and write nothing."
+      }
     },
     {
       "sourceIds": [

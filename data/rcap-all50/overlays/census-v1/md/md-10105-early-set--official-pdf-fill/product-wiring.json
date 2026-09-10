@@ -55,18 +55,11 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34413372916",
-      "jobId": "102673422747",
-      "artifactId": "10128251650",
-      "boundToCanonicalSha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf06",
-      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
+      "verdict": "PASS",
+      "lane": "vf44",
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -76,7 +69,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+        "replacedByCanonicalSha256": "178791922c9fc310c73f85fd5487aabba0989516dc204d1f77eff5d367f6946f",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34413372916",
+          "jobId": "102673422747",
+          "artifactId": "10128251650",
+          "boundToCanonicalSha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -89,7 +97,7 @@
         "order": 1,
         "documentId": "CC-DC-CR-072C",
         "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+        "sha256": "178791922c9fc310c73f85fd5487aabba0989516dc204d1f77eff5d367f6946f",
         "requirement": "required"
       },
       {
@@ -98,7 +106,7 @@
         "order": 2,
         "documentId": "CC-DC-CR-078",
         "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+        "sha256": "178791922c9fc310c73f85fd5487aabba0989516dc204d1f77eff5d367f6946f",
         "requirement": "required"
       }
     ]
