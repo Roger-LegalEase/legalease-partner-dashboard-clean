@@ -1,0 +1,191 @@
+{
+ "schemaVersion": "rcap-admitted-receipt-binds-bytes-not-on-disk/v1",
+ "generatedBy": "Captain, checking corpus-wide what FIX10 found on one family without looking for it",
+ "generatedAt": "2026-09-10T11:19:59.242Z",
+ "atCommit": "618b541a8064119cc20b47840aa50e0d1e0257b6",
+ "theFinding": "An admitted raster receipt pins a canonical or boundary sha256. For 14 bindings across 8 families the file at the receipt's own recorded path no longer hashes to the pinned value, so the pages that were rastered are pages of a document this repository no longer contains.",
+ "foundBy": "FIX10, on il-seal-2yr-set, in its own words: 'binds boundary 9ffc8a8e... No file carries that ... so half the rastered pages are of a document this repository no longer contains, and the substitution is not cosmetic: the rastered boundary elected Section 17, the delivered boundary inks Section 16.'",
+ "method": "walk every data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/*/*.verdict.json, read hashesBound.{role}.{path,pinned}, sha256 the file at that path in this worktree at this commit, compare.",
+ "scanned": {
+  "bindingsChecked": 100,
+  "bindingMatchesTheFileOnDisk": 86,
+  "bindingMatchesNothingOnDisk": 14,
+  "distinctFamilies": 8
+ },
+ "whyThisMatters": "The terminal transition requires a complete-coverage RASTER_PASS bound to the CURRENT canonical and boundary hashes. A receipt whose pinned digest no file carries does not satisfy that condition, however green the receipt itself reads. Every file named still exists -- none of these is a missing file. In each case the bytes MOVED after the raster was admitted and the receipt was not reissued.",
+ "twoOfTheseAreCurrentlyProven": {
+  "count": 2,
+  "families": [
+   "mn_petition_juvenile_as_adult-set",
+   "nd-summary-marijuana-pardon-set"
+  ],
+  "consequence": "Their COMPLETE_PACKET_PROVEN state rests on a raster receipt that does not describe their delivered bytes. Each owes a fresh central raster before that state can be relied on, and this record is the reason.",
+  "whatIsNotClaimed": "That either packet is defective. Nothing here reads the current bytes for defects. The receipt is stale; the packet may be perfectly good and may raster clean on the first attempt."
+ },
+ "theOtherSix": "already FAIL_REPAIR_REQUIRED at the queue's minimumCaptainSha, so a fresh raster is owed on the repair regardless. Recorded so no later repair mistakes the admitted receipt for live evidence.",
+ "theStructuralPoint": "Admission is a one-time write and nothing re-checks it. A rebuild that moves a fixture leaves the admitted receipt untouched and still green. Until admission is re-checked against the bytes on every integration run, a stale receipt is indistinguishable from a live one by reading the receipt alone.",
+ "notFixedHere": "No receipt is deleted, edited or relabelled, and no state is changed by this file. Rasters are dispatched separately and recorded where they land.",
+ "grantsNothing": "This records a measurement. It repairs nothing, promotes nothing and withdraws nothing.",
+ "families": [
+  {
+   "familyId": "co_petition_seal_arrest-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34407406641",
+     "pinnedInReceipt": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+     "fileOnDiskNow": "f15bde74dc5856e0f32dd5fc9dcbf0425c1c88c7a5140e58d50a8260bbb667b5",
+     "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34407406641",
+     "pinnedInReceipt": "a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50",
+     "fileOnDiskNow": "0183e844214ba22db3d13a72475d81c809d2a50e03f3653a2b0ea1d52541db50",
+     "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "il-seal-2yr-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "boundary",
+     "workflowRunId": "34407406641",
+     "pinnedInReceipt": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553",
+     "fileOnDiskNow": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e",
+     "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "ky_protective_order_record_expungement-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1",
+     "fileOnDiskNow": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+     "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7",
+     "fileOnDiskNow": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d",
+     "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "md_pardon_expungement-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb",
+     "fileOnDiskNow": "96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559",
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "a06f4ddabe754147bb8f2036d92583d5757d560aacbdd04b9deda6e55c68e3b4",
+     "fileOnDiskNow": "f8e335bc8e2f3c3cb78f3708d8147c837ec7eeb33d353f10d493bae1b4b57b68",
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "me-seal-survivor-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+     "fileOnDiskNow": "8c68fd472c6ecbf05e880299e4eeb9d1d6360739e99568040bc623c719f661b3",
+     "path": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "84d03dd83fa56368c2de6b3cd48fff764e18f88d3a0724a2321a6588d7e44f62",
+     "fileOnDiskNow": "b1f0e96409895339eba19a4ec5c563f01cec34b5cd8696993cce578f6840eb88",
+     "path": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "mn_petition_juvenile_as_adult-set",
+   "queueStateAtMinimumCaptainSha": "COMPLETE_PACKET_PROVEN",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "9a2680a8a4b0994ad8f3a8e979b8b85eca2bbfaa37391cd904b36182dd788fb5",
+     "fileOnDiskNow": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34413372916",
+     "pinnedInReceipt": "2d2157a4b0bf2fde0818e82a5bfeb820afff57fdf0fe6a662b5943a01c9fac3a",
+     "fileOnDiskNow": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5",
+     "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "nd-summary-marijuana-pardon-set",
+   "queueStateAtMinimumCaptainSha": "COMPLETE_PACKET_PROVEN",
+   "bindings": [
+    {
+     "role": "boundary",
+     "workflowRunId": "34407406641",
+     "pinnedInReceipt": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf",
+     "fileOnDiskNow": "c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8",
+     "path": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  },
+  {
+   "familyId": "pa_pardon_expungement-set",
+   "queueStateAtMinimumCaptainSha": "FAIL_REPAIR_REQUIRED",
+   "bindings": [
+    {
+     "role": "canonical",
+     "workflowRunId": "34403364607",
+     "pinnedInReceipt": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
+     "fileOnDiskNow": "2b14758a6d873324c116d3aa49c542d0c1a50ded2fce4a3eb5b6d61a126558fd",
+     "path": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "fileExists": true
+    },
+    {
+     "role": "boundary",
+     "workflowRunId": "34403364607",
+     "pinnedInReceipt": "aeefc64429488991c8dd5b7bbf04d74fc6b93a032d778857c6ead0dad4741dff",
+     "fileOnDiskNow": "6291eef1ec82fff3da10ffea25db82652326eb7603c0a5d2db28c570b4ab2a1a",
+     "path": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "fileExists": true
+    }
+   ]
+  }
+ ]
+}
