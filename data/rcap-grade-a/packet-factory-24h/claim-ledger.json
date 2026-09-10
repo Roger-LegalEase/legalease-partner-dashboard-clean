@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "d3946abfcfe611fda430491917088d09367c3bb0",
+  "generatedAtCommit": "865cff8a08bac30c1200ea02f74351956f1005fb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4949,11 +4949,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX146",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4982,8 +4980,9 @@
       "operation": "rapid-repair",
       "lane": "FIX146",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "releaseReason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched."
     },
     {
       "subjectType": "packet-family",
@@ -5011,10 +5010,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX146",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:53:53.595Z"
     },
     {
       "subjectType": "packet-family",
@@ -5043,8 +5042,9 @@
       "operation": "rapid-repair",
       "lane": "FIX146",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "releaseReason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched."
     },
     {
       "subjectType": "packet-family",
@@ -5119,9 +5119,9 @@
       "operation": "rapid-repair",
       "lane": "FIX146",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
+      "released": true,
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "releaseReason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched."
     },
     {
       "subjectType": "packet-family",
@@ -5228,7 +5228,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -5705,7 +5705,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:38.952Z"
@@ -5767,7 +5767,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:41:28.379Z"
@@ -5963,7 +5963,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:00:16.266Z"
@@ -7030,7 +7030,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.407Z"
@@ -7385,7 +7385,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.546Z"
@@ -7600,7 +7600,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8497,7 +8497,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.349Z"
@@ -8542,7 +8542,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -8588,7 +8588,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8649,7 +8649,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8696,7 +8696,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -8757,7 +8757,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -8803,7 +8803,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -8849,7 +8849,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -8941,7 +8941,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.112Z"
@@ -14693,7 +14693,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d839661b4b2adb1b6d90696d00b2bab6d9879a45be0e3d5171055e89c03ec5a1",
+  "claimsDigest": "54b5d1d17ce56c80e4d440580db48f86a21bfc723b2e7d3a5d02252150019a2a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37424,6 +37424,71 @@
         "committedAt": "30ba9816c246a05368527bb6650b4ccdf72ff627",
         "rowFiles": 1
       }
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "reason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-977-misdemeanor-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "reason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "reason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-978-felony-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "reason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:53:53.595Z",
+      "reason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
     }
   ],
   "reissues": [
@@ -46732,6 +46797,16 @@
       "previouslyReleasedAt": "2026-09-10T11:23:26.850Z",
       "reissuedAt": "2026-09-10T12:46:41.532Z",
       "reason": "The current dispatch deals this family to VF02 and its grant was released when the earlier VF02 lane returned. Re-opened in place so the ledger and the roster name the same lane before a worker starts."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T12:54:50Z",
+      "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

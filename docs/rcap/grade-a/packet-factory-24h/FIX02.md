@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d3946abfcfe611fda430491917088d09367c3bb0` (or the newer dispatch base)
+**Minimum required ancestor:** `865cff8a08bac30c1200ea02f74351956f1005fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'mn_petition_15218-set' \
   --codex-cloud \
-  --minimum-captain-sha d3946abfcfe611fda430491917088d09367c3bb0
+  --minimum-captain-sha 865cff8a08bac30c1200ea02f74351956f1005fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,8 +43,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_veterans_court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ar-drug-court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'fl-10yr-bridge-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'oh_marijuana_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_dwi_probation-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nj_ordinance-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_dwi_deferred-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -71,8 +71,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `tx_nd_veterans_court-set`
 - `ar-drug-court-set`
 - `fl-10yr-bridge-set`
-- `oh_marijuana_expungement-set`
-- `tx_nd_dwi_probation-set`
+- `nj_ordinance-set` — failing: requiredOptionsMissing
+- `tx_nd_dwi_deferred-set`
 
 ## What you receive
 
@@ -89,14 +89,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
 - `scripts/build-census-v1-mn_petition_15218-set.mjs`
 - `scripts/build-census-v1-tx_nd_veterans_court-set.mjs`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
-- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
-- `scripts/build-census-v1-tx_nd_dwi_probation-set.mjs`
+- `scripts/build-census-v1-nj_ordinance-set.mjs`
+- `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
 
 ## Never write here
 
