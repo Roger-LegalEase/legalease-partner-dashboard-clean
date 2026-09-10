@@ -801,10 +801,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF55",
+      "lane": "VF59",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T15:57:20.603Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF55 returned at 23db7ec37"
     },
     {
@@ -4419,10 +4419,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX166",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T16:30:36.405Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4465,10 +4465,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX166",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T16:30:36.541Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5323,10 +5323,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF55",
+      "lane": "VF59",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T15:57:20.476Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF55 returned at 23db7ec37"
     },
     {
@@ -14830,7 +14830,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7edeb5c8e74f250cc14813293f82bb97d6dfd28f55d9940472d3a0f73f4ae2ed",
+  "claimsDigest": "0e806ec4bbc24e39b2516a55e27da5d3a5ae134d14cb97117200c96d64bf58f8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -58768,6 +58768,50 @@
       "previouslyReleasedAt": "2026-09-10T15:26:44.153Z",
       "transferredAt": "2026-09-10T17:22:14.600Z",
       "reason": "VF57: unauthorised sworn elections"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF55",
+      "toLane": "VF59",
+      "previouslyReleasedAt": "2026-09-10T15:57:20.476Z",
+      "transferredAt": "2026-09-10T17:34:00.948Z",
+      "reason": "Verify FIX162's repair; byte-free, receipt binds"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF55",
+      "toLane": "VF59",
+      "previouslyReleasedAt": "2026-09-10T15:57:20.603Z",
+      "transferredAt": "2026-09-10T17:34:15.446Z",
+      "reason": "Verify FIX162's repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX166",
+      "previouslyReleasedAt": "2026-09-10T16:30:36.405Z",
+      "transferredAt": "2026-09-10T17:34:15.576Z",
+      "reason": "VF58: builder publishes fabricated glyph counters"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX166",
+      "previouslyReleasedAt": "2026-09-10T16:30:36.541Z",
+      "transferredAt": "2026-09-10T17:34:15.704Z",
+      "reason": "VF58: 91 stroke-only borders, two in the judge's Granted boxes"
     }
   ],
   "grants": [
