@@ -430,6 +430,27 @@ function resolveHeldSources(queueFamily) {
  * being paraphrased around, which is what Article 986(A) requires of a renderer
  * of a mandatory form.
  */
+/*
+ * FIX146. THE FORM'S OWN DATE FORMAT, NOT THE PLATFORM'S.
+ *
+ * The Article 998 statutory text prints "(MM/DD/YYYY)" beside both of its date
+ * lines. The build wrote ISO dates and dropped the instruction, on the form
+ * whose date the Article 977(D) ninety-day computation runs from. This renders
+ * the same fact in the format the form asks for and changes no value: the
+ * input must be a strict ISO calendar date or the build stops, so a malformed
+ * or already-reformatted value can never be silently rearranged into a
+ * different day.
+ */
+export function americanDate(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso ?? ""));
+  assert.ok(m, `a date the Article 998 form prints as (MM/DD/YYYY) is not a strict ISO date: ${JSON.stringify(iso)}`);
+  const [, y, mm, dd] = m;
+  const d = new Date(Date.UTC(Number(y), Number(mm) - 1, Number(dd)));
+  assert.ok(d.getUTCFullYear() === Number(y) && d.getUTCMonth() === Number(mm) - 1 && d.getUTCDate() === Number(dd),
+    `a date the Article 998 form prints as (MM/DD/YYYY) is not a real calendar date: ${iso}`);
+  return `${mm}/${dd}/${y}`;
+}
+
 const ARTICLE_998_ANCHORS = Object.freeze([
   "Art. 998. Motion for expungement form to be used for certain misdemeanor convictions",
   "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST",
@@ -437,6 +458,13 @@ const ARTICLE_998_ANCHORS = Object.freeze([
   "I.DEFENDANT INFORMATION",
   "II. MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF",
   "Mover was convicted on",
+  /* FIX146 relies on these two: the (Last, First, MI) rule under the NAME line,
+   * which is why the NAME line is left for the participant, and the (MM/DD/YYYY)
+   * instruction, which is why both dates are rendered in that format. If the
+   * source stops printing either, the build stops rather than keeping a
+   * treatment the source no longer supports. */
+  "(Last,",
+  "(MM/DD/YYYY)",
   "SID# (if available)",
   "ARREST NUMBER (ATN)",
   "AGENCY ITEM NO.",
@@ -548,7 +576,21 @@ const base = (document, id, label, page) => ({
     : "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority"
 });
 
-const write = (document, id, label, factId, page = 1) => ({ ...base(document, id, label, page), factId, kind: "composed_text" });
+/*
+ * FIX146. `renderAs` names, on the field-map row, how the fact is rendered on
+ * the page -- so the byte proof reads back the ink that is actually there
+ * rather than the raw platform value. Two Article 998 date fields use it: the
+ * statute prints "(MM/DD/YYYY)" beside both of its date lines. A write with no
+ * renderAs is printed and proved verbatim, as every write here was before.
+ */
+const write = (document, id, label, factId, page = 1, renderAs = null) => ({
+  ...base(document, id, label, page), factId, kind: "composed_text",
+  renderAs: renderAs ? renderAs.name : null,
+  renderedFormat: renderAs ? "MM/DD/YYYY" : null
+});
+
+/* The renderers a field-map row may name, resolved by name so the map stays JSON. */
+const RENDERERS = Object.freeze({ americanDate });
 
 const supply = (document, id, label, participantMustSupply, why, page = 1, extra = {}) => ({
   ...base(document, id, label, page),
@@ -607,6 +649,19 @@ const CAPTION_WRITES = (document) => [
   write(document, "mover_full_legal_name", "Mover full legal name", "participant.full_legal_name")
 ];
 
+/*
+ * FIX146. The Article 998 Part I NAME line, which the statute rules
+ * "(Last, First, MI)". This used to be written from participant.full_legal_name
+ * and so stated the mover's surname wrongly on both fixtures. The label carries
+ * the form's own caption whole -- an earlier reduced label is part of why no
+ * counter could see the defect -- and the row is a participant supply so it
+ * appears in the guide's supply table and in requiredBeforeFiling.
+ */
+const PART_I_NAME_SUPPLY = (document) => supply(document, "part_i_name",
+  "NAME (Last, First, MI)",
+  "your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name",
+  "the platform holds your name as one full-name string with no surname marked, so this packet cannot tell which part of it is your surname without guessing; a court filing is not the place for a guess about your own name");
+
 /**
  * The eligibility averment this route turns on.
  *
@@ -635,14 +690,18 @@ const CONVICTION_STATUTE_SUPPLY = (document, extraNote, page = 1) => supply(docu
 function motionMap() {
   const writes = [
     ...CAPTION_WRITES(MOTION),
-    write(MOTION, "mover_date_of_birth", "Mover date of birth", "participant.date_of_birth"),
+    write(MOTION, "mover_date_of_birth", "Mover date of birth (MM/DD/YYYY)", "participant.date_of_birth", 1, americanDate),
     write(MOTION, "arresting_law_enforcement_agency", "Arresting law enforcement agency", "case.arresting_law_enforcement_agency"),
-    write(MOTION, "conviction_date", "Date the mover was convicted", "case.conviction_date"),
-    write(MOTION, "conviction_level", "Whether the conviction is a misdemeanour or a felony", "case.conviction_level")
+    write(MOTION, "conviction_date", "Date the mover was convicted (MM/DD/YYYY)", "case.conviction_date", 1, americanDate)
+    /* FIX146: LA-CCRP-ART-998.conviction_level is gone. The statutory form
+     * prints no conviction-level line; the value is written on the Article 992
+     * order, where LA-CCRP-ART-992.conviction_level still declares it. */
   ];
   const blanks = [
-    FIRST_OFFENCE_SUPPLY(MOTION),
-    CONVICTION_STATUTE_SUPPLY(MOTION, "the statute you were convicted under, exactly as your own court record writes it"),
+    PART_I_NAME_SUPPLY(MOTION),
+    /* FIX146: the first-offence line and the conviction-statute line are gone
+     * from this mandatory form and remain on the Article 992 order, which
+     * declares both. The statute prints neither. */
     supply(MOTION, "race", "Race",
       "your race, written as the state rap sheet writes it, so Part I matches the record the Bureau holds",
       "the committed manual-completion record classifies race as a manual completion item pending a data-protection review, so the packet prints it blank for the participant to complete by hand"),
@@ -767,7 +826,7 @@ function expungementOrderMap() {
     supply(EXPUNGEMENT_ORDER, "original_arrest_charges", "Original arrest charge and statute for every count as they appear on the state rap sheet",
       "each charge at the time of arrest - the original arrest charge and statute for every count, exactly as the state rap sheet writes them, not the charge you were finally convicted of and not the amended charge, and not leaving a count out",
       "the committed memo makes originalArrestCharges a required participant input and the platform holds no value for it; the Louisiana State Police list of common fatal errors names using the amended charge and omitting counts"),
-    CONVICTION_STATUTE_SUPPLY(EXPUNGEMENT_ORDER, "the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match"),
+    CONVICTION_STATUTE_SUPPLY(EXPUNGEMENT_ORDER, "the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes"),
     FIRST_OFFENCE_SUPPLY(EXPUNGEMENT_ORDER),
     courtRow(EXPUNGEMENT_ORDER, "granted_or_denied", "Whether the motion is granted or denied",
       "granting or denying the motion is the court's decision and this build makes none of it"),
@@ -859,11 +918,14 @@ function sanitize(text) {
 
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-function captionBlock(facts, documentTitle, componentId, documentId) {
+/* FIX146. See the note on the same function in the sibling family: a component
+ * identity is this factory's own identifier for a document, not statute or rule
+ * text, and it printed in the caption of all three FILED documents. The guide
+ * now carries every one of them in a labelled internal-record-text section. */
+function captionBlock(facts, documentTitle, documentId) {
   return block(
     documentId,
     documentTitle.toUpperCase(),
-    `Assigned component identity: ${componentId}`,
     "",
     `${facts["case.court_name"]}, STATE OF LOUISIANA`,
     `JUDICIAL DISTRICT FOR THE PARISH OF: ${facts["case.parish"]}`,
@@ -880,7 +942,7 @@ function captionBlock(facts, documentTitle, componentId, documentId) {
  */
 function motionBody(facts, article998) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.motion], COMPONENT.motion, MOTION),
+    captionBlock(facts, TITLES[COMPONENT.motion], MOTION),
     block(
       "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
       "La. C.Cr.P. arts. 977(D) and 998. Article 986 makes this the form to be used for this category; the Article 989 motion the other Louisiana tracks use is not used here.",
@@ -890,8 +952,23 @@ function motionBody(facts, article998) {
     ),
     block(
       "I. DEFENDANT INFORMATION",
-      `NAME (Last, First, MI): ${facts["participant.full_legal_name"]}`,
-      `DOB: ${facts["participant.date_of_birth"]}`,
+      /* FIX146. The Article 998 statutory text prints "NAME: ____" with
+       * "(Last, First, MI)" ruled underneath it. This build used to write
+       * `participant.full_legal_name` onto that line, so a motion filed with
+       * the clerk and matched by the Bureau against the state rap sheet stated
+       * the mover's SURNAME as "Jordan" on the canonical fixture and as
+       * "Maria-Alejandra" on the boundary one. The platform fact this field
+       * takes is one full-name string with no surname marked; splitting it is a
+       * guess, and a naive whitespace split gets the boundary persona wrong. So
+       * the line is a labelled blank, required before filing, with the order
+       * stated and the reason given -- the same treatment FIX142 gave the
+       * identical caption on rcap-hi-custom-pleading. The full name still
+       * reaches this page twice, in ordinary order, where ordinary order is
+       * what the form asks for: in the caption and in the mover's signature
+       * block. */
+      `NAME: ${DOTS(56)}`,
+      "         (Last, First, MI)",
+      `DOB: ${americanDate(facts["participant.date_of_birth"])} (MM/DD/YYYY)`,
       `GENDER: ${DOTS(8)} Female ${DOTS(8)} Male`,
       `SSN (last 4 digits): XXX-XX-${DOTS(8)}`,
       `RACE: ${DOTS(40)}`,
@@ -901,7 +978,7 @@ function motionBody(facts, article998) {
       `ARREST NUMBER (ATN): ${DOTS(29)}`,
       `AGENCY ITEM NO.: ${DOTS(33)}`,
       "",
-      "Race and gender are printed blank on purpose. The committed manual-completion record classifies both as manual completion items pending a data-protection review, so the mover writes them by hand.",
+      "Race and gender are left blank for the mover to complete by hand.",
       ""
     ),
     block(
@@ -910,20 +987,33 @@ function motionBody(facts, article998) {
     ),
     block(
       "II. MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
-      `1. Mover was convicted on ${facts["case.conviction_date"]}`,
+      /* FIX146. The statute prints "1. Mover was convicted on ___/___/___
+       * (MM/DD/YYYY)" and this build wrote an ISO date and dropped the
+       * instruction, on the form whose date the ninety-day computation runs
+       * from. Same fact, rendered in the format the form's own printed
+       * instruction demands. */
+      `1. Mover was convicted on ${americanDate(facts["case.conviction_date"])} (MM/DD/YYYY)`,
       "",
-      `Whether the conviction is a misdemeanour or a felony: ${facts["case.conviction_level"]}`,
-      `Statute the mover was convicted under: ${DOTS(28)}`,
-      `Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative: ${DOTS(10)}`,
-      "",
+      /* FIX146. THREE FIELDS THE STATUTE DOES NOT PRINT ARE GONE FROM THIS
+       * FORM. Part II of the Article 998 statutory text is its heading, the one
+       * numbered conviction-date line above, and then the prayer. It prints no
+       * conviction-level line, no conviction-statute line and no first-offence
+       * line; that was read from the pinned source bytes, not from a summary.
+       * This build had applied its own Article 986(C) rule to the arrest date,
+       * the charge count and the original charges -- moving those three to the
+       * Article 992 order -- and then added three others to the same mandatory
+       * page, while build-findings.json asserted that no field the statutory
+       * form does not print was added to it. All three already print on the
+       * Article 992 order, so nothing is lost by taking them off the form the
+       * Legislature wrote; the order's own note now names all six. */
       "Article 977(D) provides that notwithstanding any provision of law to the contrary, a person may file a motion to expunge his record of arrest and conviction of a misdemeanour conviction for a first offence possession of marijuana, tetrahydrocannabinol or chemical derivatives thereof after ninety days from the date of conviction. The ninety days run from the conviction date written above.",
       "",
-      "The two blank lines above are the mover's own. Whether this conviction was the mover's FIRST possession offence is the whole eligibility test for this route, and it is a fact of the mover's own criminal history rather than one the route decides: a second or later possession offence falls back to Article 977(A), which the committed record makes the first condition on which self-help stops.",
+      "Whether this conviction was the mover's FIRST possession offence is the whole eligibility test under Article 977(D), and it is a fact of the mover's own criminal history rather than one this form decides. A second or later possession offence falls under Article 977(A) instead. If it is unclear which this is, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
       "PRAYER",
-      "The words below are the Legislature's own, reproduced from the Article 998 statutory text this packet is bound to by content digest, as Article 986(A) requires.",
+      "The words below are the Legislature's own, reproduced from the text of Article 998, as Article 986(A) requires.",
       "",
       article998.prayer,
       ""
@@ -935,7 +1025,7 @@ function motionBody(facts, article998) {
     block(
       "Respectfully submitted,",
       "",
-      `${MOTION}, assigned component identity ${COMPONENT.motion}. Statutory source note: ${article998.statutorySourceNote}`,
+      `${MOTION}. Statutory source note: ${article998.statutorySourceNote}`,
       ""
     ),
     block(
@@ -947,7 +1037,7 @@ function motionBody(facts, article998) {
       `City, State, ZIP Code: ${DOTS(44)}`,
       `Telephone Number: ${DOTS(49)}`,
       "",
-      "This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel, and an attorney block is completed by counsel or not at all. The committed record requires both signature blocks the statute prints to be carried, which is why this one appears at all.",
+      "This block is left blank. An attorney block is completed by counsel, or not at all. Article 998 prints both signature blocks, so both appear here.",
       ""
     ),
     block(
@@ -973,10 +1063,10 @@ function motionBody(facts, article998) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.order], COMPONENT.order, ORDER),
+    captionBlock(facts, TITLES[COMPONENT.order], ORDER),
     block(
       "ORDER",
-      "La. C.Cr.P. art. 991, on the statutory Article 991 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. art. 991, on the statutory Article 991 form.",
       "",
       "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided, and no relief exists unless and until a judge completes and signs it and the clerk enters it.",
       ""
@@ -1011,10 +1101,10 @@ function orderBody(facts) {
 
 function expungementOrderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.expungementOrder], COMPONENT.expungementOrder, EXPUNGEMENT_ORDER),
+    captionBlock(facts, TITLES[COMPONENT.expungementOrder], EXPUNGEMENT_ORDER),
     block(
       "ORDER OF EXPUNGEMENT OF ARREST AND CONVICTION RECORD",
-      "La. C.Cr.P. art. 992, on the statutory Article 992 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. art. 992, on the statutory Article 992 form.",
       "",
       "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. The mover supplies the caption and the identifiers of the record to be expunged, and nothing else on this page.",
       ""
@@ -1033,7 +1123,7 @@ function expungementOrderBody(facts) {
       ""
     ),
     block(
-      "The Article 998 statutory motion prints no field for the date of arrest, for how many charges or counts the arrest carries, or for the original arrest charges, and Article 986(C) allows only the name of the court to vary on a statutory form. Those three are required participant inputs on the committed record, so they are carried here instead, on the order that identifies the record of arrest and conviction the decree reaches, rather than added to the face of a mandatory form.",
+      "The Article 998 statutory motion prints no field for the date of arrest, for how many charges or counts the arrest carries, for the original arrest charges, for whether the conviction is a misdemeanour or a felony, for the statute of conviction, or for whether this was a first possession offence. Article 986(A) makes the statutory forms exclusive and Article 986(C) allows only the name of the court to vary on one. All six are needed to identify the record this decree reaches, so all six are carried here, on the order, rather than added to the face of a mandatory form.",
       ""
     ),
     block(
@@ -1172,6 +1262,27 @@ function participantInstructions(binding, rbf, name, article998) {
     lines.push(bullet(`\`${row.componentId}\` (${row.role}${row.officialFormId ? `, ${row.officialFormId}` : ""}): ${row.conditionDescription} This packet does not meet that condition, so the component is not generated.`));
   }
   lines.push(
+    "",
+    "## How your name goes on the Article 998 motion, and why this packet did not write it",
+    "",
+    "**Write your name on the Article 998 motion SURNAME FIRST.** The line is headed `NAME:` and the statute rules it underneath, in its own words, `(Last, First, MI)` - your last name, then your first name, then your middle initial. Spell it exactly as the state rap sheet spells it: the Louisiana Bureau of Criminal Identification and Information matches this motion to your record by that name.",
+    "",
+    "This packet left that line blank rather than filling it in. The only form of your name this platform holds is one whole string, with no mark saying which part of it is your surname, so writing it into a line that asks for the surname first would have been a guess about your own name on a document you sign and a clerk files. The rest of the packet uses your name in ordinary order, which is what those places ask for: the caption of each document, and the signature block at the end of the motion.",
+    "",
+    "## Internal record text: what the record says, and why it is here rather than on the filing",
+    "",
+    "The three documents you file - the Article 998 motion, the Article 991 order and the Article 992 order - recite statute text, rule text and your own answers, and nothing else. This build's own identifiers and the committed record's own words are internal record text, and they are set out here instead, so that the pages a clerk stamps and a judge signs carry only what the Legislature put on them. Nothing has been shortened and nothing has been dropped from the packet.",
+    "",
+    bullet(`**Component identities.** The Article 998 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the four documents. They used to print in the caption of all three filed documents and again in the motion's signature block; they print on no filed page now.`),
+    bullet("**Where the Article 991 and Article 992 order texts come from.** Both are composed from the committed LA-STATUTORY-FORMS authority. Each order now cites only its own Article."),
+    bullet(`**Where the Article 998 motion text comes from.** It is composed from the Article 998 statutory text this packet is bound to by the content digest \`${article998.sha256}\`, which is what Article 986(A) requires of a rendering of a mandatory statutory form. The motion now says only that its prayer and ex parte paragraph are the Legislature's own words.`),
+    bullet("**Race and gender on the motion.** The committed manual-completion record classifies both as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand."),
+    bullet("**The first-offence question.** The committed record makes a second or later possession offence the first of the conditions on which self-help stops. The motion now tells you to stop and get a lawyer's advice, which is what that condition means for you."),
+    bullet("**Both signature blocks on the motion.** The committed record requires both signature blocks the statute prints to be carried, which is why the attorney block appears even though this packet holds no record that you are represented. The motion now says only that counsel completes it or nobody does."),
+    "",
+    "## Six fields that are on the Article 992 order rather than on the Article 998 motion",
+    "",
+    "Article 986(A) makes the statutory forms exclusive and Article 986(C) allows only the name of the court to vary on one. The Article 998 statutory text prints no line for the date of arrest, for how many charges or counts the arrest carries, for the original arrest charges, for whether the conviction is a misdemeanour or a felony, for the statute you were convicted under, or for whether this was a first possession offence. All six are needed to identify the record this decree reaches, so all six are carried on the Article 992 order instead of being added to the face of the form the Legislature wrote. Answer them there.",
     "",
     `## Everything the committed record requires to be in place before filing (all ${recordRequiredBeforeFiling.length} item(s) it lists)`,
     "",
@@ -1347,6 +1458,27 @@ const MARGIN = 60;
 const FONT_SIZE = 10.25;
 const LINE_HEIGHT = 13.25;
 const MAX_WIDTH = PAGE_WIDTH - (2 * MARGIN);
+/*
+ * FIX146, matching FIX142 on the sibling family la-985-1.
+ *
+ * The wrap measured against MAX_WIDTH exactly, and `widthOfTextAtSize` on a
+ * standard-14 font sums AFM ADVANCE widths, not the ink a renderer lays down.
+ * Measured on this family's own delivered bytes at 300 dpi with pdftoppm -gray
+ * (PGM, annotations not hidden, ink threshold gray<200): rendered ink reached
+ * 554.16pt on ten of nineteen pages against a text box whose right edge is
+ * MARGIN + MAX_WIDTH = 552pt. Nothing was clipped and nothing overlapped -- the
+ * overhang sat 58pt inside the paper and touched no other ink -- so this is a
+ * build-integrity defect rather than a visual one: the build was asserting a
+ * box it was not holding. Lines are now wrapped against a slightly narrower
+ * width so the RENDERED ink stays inside the declared box.
+ *
+ * The assertion further down still checks MAX_WIDTH and is NOT a proof about
+ * ink: it measures the same advance sum the wrap does, so wrapping narrower
+ * makes it pass by construction. The proof is the measurement on the delivered
+ * bytes, recorded in this lane's return.
+ */
+const WRAP_SAFETY = 8;
+const WRAP_WIDTH = MAX_WIDTH - WRAP_SAFETY;
 
 async function renderComposedDocument(blocks, title, componentId) {
   const pdf = await PDFDocument.create();
@@ -1366,18 +1498,18 @@ async function renderComposedDocument(blocks, title, componentId) {
     let current = "";
     for (const piece of pieces) {
       const candidate = `${current}${piece}`;
-      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { chunks.push(current); current = piece; }
+      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { chunks.push(current); current = piece; }
       else current = candidate;
     }
     if (current) chunks.push(current);
     const out = [];
     for (const chunk of chunks) {
-      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= MAX_WIDTH) { out.push(chunk); continue; }
+      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= WRAP_WIDTH) { out.push(chunk); continue; }
       hardSplits += 1;
       let acc = "";
       for (const char of chunk) {
         const candidate = `${acc}${char}`;
-        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { out.push(acc); acc = char; }
+        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { out.push(acc); acc = char; }
         else acc = candidate;
       }
       if (acc) out.push(acc);
@@ -1387,12 +1519,12 @@ async function renderComposedDocument(blocks, title, componentId) {
   const wrap = (raw) => {
     if (!raw) return [""];
     const words = String(raw).split(/\s+/)
-      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > MAX_WIDTH ? splitToken(word) : [word]);
+      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > WRAP_WIDTH ? splitToken(word) : [word]);
     const rows = [];
     let current = "";
     for (const word of words) {
       const candidate = current ? `${current} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= MAX_WIDTH) current = candidate;
+      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= WRAP_WIDTH) current = candidate;
       else { if (current) rows.push(current); current = word; }
     }
     if (current) rows.push(current);
@@ -1453,12 +1585,19 @@ async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixt
   for (const map of maps) {
     const haystack = byDocument.get(map.documentId) ?? "";
     for (const row of map.canonicalWrites) {
-      const expected = sanitize(facts[row.factId]).replace(/\s+/g, " ").trim();
-      assert.ok(expected, `${fixture}/${row.field}: the fixture holds no value for ${row.factId}`);
+      const heldValue = sanitize(facts[row.factId]).replace(/\s+/g, " ").trim();
+      assert.ok(heldValue, `${fixture}/${row.field}: the fixture holds no value for ${row.factId}`);
+      /* FIX146: prove the ink that is on the page. Where the row names a
+       * renderer, the rendered form is what was drawn and what must read back;
+       * the held value is recorded beside it so a reader can see both. */
+      const renderer = row.renderAs ? RENDERERS[row.renderAs] : null;
+      assert.ok(!row.renderAs || renderer, `${fixture}/${row.field}: names renderer ${row.renderAs}, which does not exist`);
+      const expected = renderer ? sanitize(renderer(facts[row.factId])).replace(/\s+/g, " ").trim() : heldValue;
       assert.ok(haystack.includes(expected), `${fixture}/${row.field}: "${expected.slice(0, 60)}" is not readable from the finalized packet bytes`);
       glyphs += expected.replace(/\s+/g, "").length;
       actualWrites.push({
         field: row.field, document: map.documentId, factId: row.factId, expected,
+        heldValue, renderedAs: row.renderAs ?? null,
         foundInOutputBytes: true,
         proof: "read back from the finalized packet bytes on the pages this document occupies"
       });
@@ -1727,9 +1866,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
       legislaturesOwnWordsReproduced: ["the prayer paragraph", "the ex parte paragraph"],
       whyReproducedRatherThanParaphrased: "the committed component note states that Article 986(A) makes the statutory forms exclusive, so the rendering must reproduce the Legislature's own words rather than paraphrase them, and that under Article 986(C) the court name is the only authorized variation.",
       fieldsDeliberatelyNotAddedToThisForm: [
-        "date of arrest", "how many charges or counts the arrest carries", "original arrest charge and statute for every count"
+        "date of arrest", "how many charges or counts the arrest carries", "original arrest charge and statute for every count",
+        /* FIX146. These three WERE on the form and are not any more. VF05 read
+         * the pinned source end to end and found that Part II is its heading,
+         * one numbered conviction-date line and then the prayer; this build had
+         * added three fields to it while this list asserted that none was
+         * added. The list and the page now agree. */
+        "whether the conviction is a misdemeanour or a felony", "the statute the mover was convicted under",
+        "whether this was a first offense for possession of marijuana"
       ],
-      whyNotAdded: "the Article 998 statutory form prints no field for any of them and Article 986(C) allows only the name of the court to vary. They are required participant inputs on the committed memo and are carried on the Article 992 order, which identifies the record the decree reaches, and in the guide."
+      whyNotAdded: "the Article 998 statutory form prints no field for any of them and Article 986(C) allows only the name of the court to vary. They are required participant inputs on the committed memo and are carried on the Article 992 order, which identifies the record the decree reaches, and in the guide.",
+      thePartIeNameLine: "The statute rules the NAME line '(Last, First, MI)'. This packet leaves that line for the participant and states the order in the guide, because the platform fact this field takes is one full-name string with no surname marked and a split of it would be a guess about the mover's own surname on a motion the Bureau matches against a rap sheet.",
+      theTwoDateLines: "The statute prints '(MM/DD/YYYY)' beside the date of birth and the conviction date. Both are rendered in that format and the instruction is printed beside each, as the source prints it."
     },
     components: binding.components.map((row) => ({
       componentId: row.componentId,
@@ -2061,7 +2209,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding: "The Article 998 primary filing is a mandatory statutory form, and the committed component note requires that a rendering reproduce the Legislature's own words rather than paraphrase them.",
-        treatment: `The Article 998 statutory text is this family's second bound source and is held byte-exact. It is opened by digest at build time, ${article998.anchorsAsserted.length} structural anchors are asserted against its bytes before anything is drawn, and the Legislature's own prayer and ex parte paragraph are lifted from those bytes and printed verbatim on the motion. Both are then read back from the finalized packet bytes and reported in reports/actual-writes.json. Because Article 986(C) allows only the court name to vary, no field the statutory form does not print was added to it: the arrest date, the count and the original arrest charges are carried on the Article 992 order and in the guide instead.`
+        treatment: `The Article 998 statutory text is this family's second bound source and is held byte-exact. It is opened by digest at build time, ${article998.anchorsAsserted.length} structural anchors are asserted against its bytes before anything is drawn, and the Legislature's own prayer and ex parte paragraph are lifted from those bytes and printed verbatim on the motion. Both are then read back from the finalized packet bytes and reported in reports/actual-writes.json. Because Article 986(C) allows only the court name to vary, no field the statutory form does not print was added to it: the arrest date, the count, the original arrest charges, the conviction level, the conviction statute and the first-offence question are all carried on the Article 992 order and in the guide instead. Both date lines are rendered in the (MM/DD/YYYY) format the source prints beside them, and the Part I NAME line, which the source rules (Last, First, MI), is left for the participant with the order stated in the guide.`
       },
       {
         finding: "The committed component note for Article 998 states that no template exists yet, none is counsel-approved and no implementation is authorized here.",

@@ -58,27 +58,17 @@
     "REQUIRED_BEFORE_FILING",
     "NOT_APPLICABLE_ON_THIS_ROUTE"
   ],
-  "requiredBeforeFilingCount": 15,
+  "requiredBeforeFilingCount": 14,
   "requiredBeforeFiling": [
     {
       "document": "LA-CCRP-ART-998",
       "component": "la-977d-marijuana-first-offense-primary-filing-1",
-      "field": "LA-CCRP-ART-998.marijuana_first_offense",
+      "field": "LA-CCRP-ART-998.part_i_name",
       "page": 1,
-      "disclosureLabel": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
-      "identity": "LA-CCRP-ART-998 field marijuana_first_offense",
-      "why": "the committed memo makes marijuanaFirstOffense a required participant input, the committed legal-design limitation classifies it as a participant question and calls it the whole eligibility test for this route, and the platform holds no value for it. It is a sworn averment about the mover's own criminal history and no packet may supply it; a second or later possession offence falls back to Article 977(A), which the record makes the first of its self-help stop conditions.",
-      "participantMustSupply": "whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route"
-    },
-    {
-      "document": "LA-CCRP-ART-998",
-      "component": "la-977d-marijuana-first-offense-primary-filing-1",
-      "field": "LA-CCRP-ART-998.conviction_statute",
-      "page": 1,
-      "disclosureLabel": "Statute the mover was convicted under",
-      "identity": "LA-CCRP-ART-998 field conviction_statute",
-      "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact",
-      "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it"
+      "disclosureLabel": "NAME (Last, First, MI)",
+      "identity": "LA-CCRP-ART-998 field part_i_name",
+      "why": "the platform holds your name as one full-name string with no surname marked, so this packet cannot tell which part of it is your surname without guessing; a court filing is not the place for a guess about your own name",
+      "participantMustSupply": "your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name"
     },
     {
       "document": "LA-CCRP-ART-998",
@@ -198,7 +188,7 @@
       "disclosureLabel": "Statute the mover was convicted under",
       "identity": "LA-CCRP-ART-992 field conviction_statute",
       "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact",
-      "participantMustSupply": "the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match"
+      "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes"
     },
     {
       "document": "LA-CCRP-ART-992",
@@ -240,7 +230,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.parish",
@@ -253,7 +245,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.docket_number",
@@ -266,7 +260,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.division",
@@ -279,7 +275,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.mover_full_legal_name",
@@ -292,20 +290,24 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.mover_date_of_birth",
           "fieldName": "LA-CCRP-ART-998.mover_date_of_birth",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Mover date of birth",
-          "printedLine": "Mover date of birth",
-          "effectiveLabel": "Mover date of birth",
+          "printedLabel": "Mover date of birth (MM/DD/YYYY)",
+          "printedLine": "Mover date of birth (MM/DD/YYYY)",
+          "effectiveLabel": "Mover date of birth (MM/DD/YYYY)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "participant.date_of_birth",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": "americanDate",
+          "renderedFormat": "MM/DD/YYYY"
         },
         {
           "field": "LA-CCRP-ART-998.arresting_law_enforcement_agency",
@@ -318,81 +320,48 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.arresting_law_enforcement_agency",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.conviction_date",
           "fieldName": "LA-CCRP-ART-998.conviction_date",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Date the mover was convicted",
-          "printedLine": "Date the mover was convicted",
-          "effectiveLabel": "Date the mover was convicted",
+          "printedLabel": "Date the mover was convicted (MM/DD/YYYY)",
+          "printedLine": "Date the mover was convicted (MM/DD/YYYY)",
+          "effectiveLabel": "Date the mover was convicted (MM/DD/YYYY)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.conviction_date",
-          "kind": "composed_text"
-        },
-        {
-          "field": "LA-CCRP-ART-998.conviction_level",
-          "fieldName": "LA-CCRP-ART-998.conviction_level",
-          "document": "LA-CCRP-ART-998",
-          "page": 1,
-          "printedLabel": "Whether the conviction is a misdemeanour or a felony",
-          "printedLine": "Whether the conviction is a misdemeanour or a felony",
-          "effectiveLabel": "Whether the conviction is a misdemeanour or a felony",
-          "regionHeading": null,
-          "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "factId": "case.conviction_level",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": "americanDate",
+          "renderedFormat": "MM/DD/YYYY"
         }
       ],
       "canonicalRefusals": [
         {
-          "field": "LA-CCRP-ART-998.marijuana_first_offense",
-          "fieldName": "LA-CCRP-ART-998.marijuana_first_offense",
+          "field": "LA-CCRP-ART-998.part_i_name",
+          "fieldName": "LA-CCRP-ART-998.part_i_name",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
-          "printedLine": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
-          "effectiveLabel": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
+          "printedLabel": "NAME (Last, First, MI)",
+          "printedLine": "NAME (Last, First, MI)",
+          "effectiveLabel": "NAME (Last, First, MI)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "reason": "the participant supplies this before filing: whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route",
+          "reason": "the participant supplies this before filing: your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name",
           "category": null,
           "completenessClass": null,
           "class": null,
           "completenessDisposition": "REQUIRED_BEFORE_FILING",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "LA-CCRP-ART-998 field marijuana_first_offense",
+          "identity": "LA-CCRP-ART-998 field part_i_name",
           "factId": null,
-          "participantMustSupply": "whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route",
-          "why": "the committed memo makes marijuanaFirstOffense a required participant input, the committed legal-design limitation classifies it as a participant question and calls it the whole eligibility test for this route, and the platform holds no value for it. It is a sworn averment about the mover's own criminal history and no packet may supply it; a second or later possession offence falls back to Article 977(A), which the record makes the first of its self-help stop conditions.",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "the route determines the ARTICLE and the FORM - Article 977(D) on the Article 998 form - and not whether this conviction was in fact the mover's first possession offence. That is a fact of the mover's own criminal history established by their record rather than by the route, and the committed limitation classifies it as a participant question. Writing an answer the record does not establish would put an unsupported averment on a motion the mover signs, and the record makes the opposite answer a condition on which self-help stops."
-        },
-        {
-          "field": "LA-CCRP-ART-998.conviction_statute",
-          "fieldName": "LA-CCRP-ART-998.conviction_statute",
-          "document": "LA-CCRP-ART-998",
-          "page": 1,
-          "printedLabel": "Statute the mover was convicted under",
-          "printedLine": "Statute the mover was convicted under",
-          "effectiveLabel": "Statute the mover was convicted under",
-          "regionHeading": null,
-          "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "reason": "the participant supplies this before filing: the statute you were convicted under, exactly as your own court record writes it",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "LA-CCRP-ART-998 field conviction_statute",
-          "factId": null,
-          "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it",
-          "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact"
+          "participantMustSupply": "your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name",
+          "why": "the platform holds your name as one full-name string with no surname marked, so this packet cannot tell which part of it is your surname without guessing; a court filing is not the place for a guess about your own name"
         },
         {
           "field": "LA-CCRP-ART-998.race",
@@ -807,7 +776,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.parish",
@@ -820,7 +791,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.docket_number",
@@ -833,7 +806,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.division",
@@ -846,7 +821,9 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.mover_full_legal_name",
@@ -859,20 +836,24 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.mover_date_of_birth",
           "fieldName": "LA-CCRP-ART-998.mover_date_of_birth",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Mover date of birth",
-          "printedLine": "Mover date of birth",
-          "effectiveLabel": "Mover date of birth",
+          "printedLabel": "Mover date of birth (MM/DD/YYYY)",
+          "printedLine": "Mover date of birth (MM/DD/YYYY)",
+          "effectiveLabel": "Mover date of birth (MM/DD/YYYY)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "participant.date_of_birth",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": "americanDate",
+          "renderedFormat": "MM/DD/YYYY"
         },
         {
           "field": "LA-CCRP-ART-998.arresting_law_enforcement_agency",
@@ -885,81 +866,48 @@
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.arresting_law_enforcement_agency",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-998.conviction_date",
           "fieldName": "LA-CCRP-ART-998.conviction_date",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Date the mover was convicted",
-          "printedLine": "Date the mover was convicted",
-          "effectiveLabel": "Date the mover was convicted",
+          "printedLabel": "Date the mover was convicted (MM/DD/YYYY)",
+          "printedLine": "Date the mover was convicted (MM/DD/YYYY)",
+          "effectiveLabel": "Date the mover was convicted (MM/DD/YYYY)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
           "factId": "case.conviction_date",
-          "kind": "composed_text"
-        },
-        {
-          "field": "LA-CCRP-ART-998.conviction_level",
-          "fieldName": "LA-CCRP-ART-998.conviction_level",
-          "document": "LA-CCRP-ART-998",
-          "page": 1,
-          "printedLabel": "Whether the conviction is a misdemeanour or a felony",
-          "printedLine": "Whether the conviction is a misdemeanour or a felony",
-          "effectiveLabel": "Whether the conviction is a misdemeanour or a felony",
-          "regionHeading": null,
-          "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "factId": "case.conviction_level",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": "americanDate",
+          "renderedFormat": "MM/DD/YYYY"
         }
       ],
       "boundaryRefusals": [
         {
-          "field": "LA-CCRP-ART-998.marijuana_first_offense",
-          "fieldName": "LA-CCRP-ART-998.marijuana_first_offense",
+          "field": "LA-CCRP-ART-998.part_i_name",
+          "fieldName": "LA-CCRP-ART-998.part_i_name",
           "document": "LA-CCRP-ART-998",
           "page": 1,
-          "printedLabel": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
-          "printedLine": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
-          "effectiveLabel": "Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative",
+          "printedLabel": "NAME (Last, First, MI)",
+          "printedLine": "NAME (Last, First, MI)",
+          "effectiveLabel": "NAME (Last, First, MI)",
           "regionHeading": null,
           "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "reason": "the participant supplies this before filing: whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route",
+          "reason": "the participant supplies this before filing: your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name",
           "category": null,
           "completenessClass": null,
           "class": null,
           "completenessDisposition": "REQUIRED_BEFORE_FILING",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "LA-CCRP-ART-998 field marijuana_first_offense",
+          "identity": "LA-CCRP-ART-998 field part_i_name",
           "factId": null,
-          "participantMustSupply": "whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route",
-          "why": "the committed memo makes marijuanaFirstOffense a required participant input, the committed legal-design limitation classifies it as a participant question and calls it the whole eligibility test for this route, and the platform holds no value for it. It is a sworn averment about the mover's own criminal history and no packet may supply it; a second or later possession offence falls back to Article 977(A), which the record makes the first of its self-help stop conditions.",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "the route determines the ARTICLE and the FORM - Article 977(D) on the Article 998 form - and not whether this conviction was in fact the mover's first possession offence. That is a fact of the mover's own criminal history established by their record rather than by the route, and the committed limitation classifies it as a participant question. Writing an answer the record does not establish would put an unsupported averment on a motion the mover signs, and the record makes the opposite answer a condition on which self-help stops."
-        },
-        {
-          "field": "LA-CCRP-ART-998.conviction_statute",
-          "fieldName": "LA-CCRP-ART-998.conviction_statute",
-          "document": "LA-CCRP-ART-998",
-          "page": 1,
-          "printedLabel": "Statute the mover was convicted under",
-          "printedLine": "Statute the mover was convicted under",
-          "effectiveLabel": "Statute the mover was convicted under",
-          "regionHeading": null,
-          "rectBasis": "mandatory_statutory_form_composed_by_this_build_from_the_article_998_source_bytes_bound_by_digest",
-          "reason": "the participant supplies this before filing: the statute you were convicted under, exactly as your own court record writes it",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "LA-CCRP-ART-998 field conviction_statute",
-          "factId": null,
-          "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it",
-          "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact"
+          "participantMustSupply": "your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name",
+          "why": "the platform holds your name as one full-name string with no surname marked, so this packet cannot tell which part of it is your surname without guessing; a court filing is not the place for a guess about your own name"
         },
         {
           "field": "LA-CCRP-ART-998.race",
@@ -1390,7 +1338,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.parish",
@@ -1403,7 +1353,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.docket_number",
@@ -1416,7 +1368,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.division",
@@ -1429,7 +1383,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.mover_full_legal_name",
@@ -1442,7 +1398,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "canonicalRefusals": [
@@ -1585,7 +1543,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.parish",
@@ -1598,7 +1558,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.docket_number",
@@ -1611,7 +1573,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.division",
@@ -1624,7 +1588,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-991.mover_full_legal_name",
@@ -1637,7 +1603,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "boundaryRefusals": [
@@ -1796,7 +1764,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.parish",
@@ -1809,7 +1779,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.docket_number",
@@ -1822,7 +1794,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.division",
@@ -1835,7 +1809,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.mover_full_legal_name",
@@ -1848,7 +1824,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.arrest_date",
@@ -1861,7 +1839,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.arrest_date",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.arresting_law_enforcement_agency",
@@ -1874,7 +1854,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.arresting_law_enforcement_agency",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.charge_count",
@@ -1887,7 +1869,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.charge_count",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.conviction_date",
@@ -1900,7 +1884,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.conviction_date",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.conviction_level",
@@ -1913,7 +1899,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.conviction_level",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "canonicalRefusals": [
@@ -1949,7 +1937,7 @@
           "effectiveLabel": "Statute the mover was convicted under",
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
-          "reason": "the participant supplies this before filing: the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match",
+          "reason": "the participant supplies this before filing: the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -1958,7 +1946,7 @@
           "routeDetermined": false,
           "identity": "LA-CCRP-ART-992 field conviction_statute",
           "factId": null,
-          "participantMustSupply": "the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match",
+          "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes",
           "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact"
         },
         {
@@ -2124,7 +2112,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.court_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.parish",
@@ -2137,7 +2127,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.parish",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.docket_number",
@@ -2150,7 +2142,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.docket_number",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.division",
@@ -2163,7 +2157,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.division",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.mover_full_legal_name",
@@ -2176,7 +2172,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.arrest_date",
@@ -2189,7 +2187,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.arrest_date",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.arresting_law_enforcement_agency",
@@ -2202,7 +2202,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.arresting_law_enforcement_agency",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.charge_count",
@@ -2215,7 +2217,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.charge_count",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.conviction_date",
@@ -2228,7 +2232,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.conviction_date",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         },
         {
           "field": "LA-CCRP-ART-992.conviction_level",
@@ -2241,7 +2247,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "case.conviction_level",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "boundaryRefusals": [
@@ -2277,7 +2285,7 @@
           "effectiveLabel": "Statute the mover was convicted under",
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
-          "reason": "the participant supplies this before filing: the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match",
+          "reason": "the participant supplies this before filing: the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -2286,7 +2294,7 @@
           "routeDetermined": false,
           "identity": "LA-CCRP-ART-992 field conviction_statute",
           "factId": null,
-          "participantMustSupply": "the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match",
+          "participantMustSupply": "the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes",
           "why": "the committed memo makes convictionStatute a required participant input and offers R.S. 40:966(C) only as an example rather than as this case's answer; the platform holds no value for it, and an example is not a fact"
         },
         {
@@ -2468,7 +2476,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "canonicalRefusals": [],
@@ -2484,7 +2494,9 @@
           "regionHeading": null,
           "rectBasis": "composed_statutory_instrument_authored_by_this_build_from_the_committed_authority",
           "factId": "participant.full_legal_name",
-          "kind": "composed_text"
+          "kind": "composed_text",
+          "renderAs": null,
+          "renderedFormat": null
         }
       ],
       "boundaryRefusals": []

@@ -48,6 +48,27 @@ The Article 998 motion in this packet is composed from the Legislature's own tex
 
 - `la-977d-marijuana-first-offense-fee-waiver-4` (fee_waiver, LA-CCRP-ART-988): Generated only where the participant may qualify for the Article 983(F) exemption, whose grounds are non-conviction grounds and so rarely reach this track. This packet does not meet that condition, so the component is not generated.
 
+## How your name goes on the Article 998 motion, and why this packet did not write it
+
+**Write your name on the Article 998 motion SURNAME FIRST.** The line is headed `NAME:` and the statute rules it underneath, in its own words, `(Last, First, MI)` - your last name, then your first name, then your middle initial. Spell it exactly as the state rap sheet spells it: the Louisiana Bureau of Criminal Identification and Information matches this motion to your record by that name.
+
+This packet left that line blank rather than filling it in. The only form of your name this platform holds is one whole string, with no mark saying which part of it is your surname, so writing it into a line that asks for the surname first would have been a guess about your own name on a document you sign and a clerk files. The rest of the packet uses your name in ordinary order, which is what those places ask for: the caption of each document, and the signature block at the end of the motion.
+
+## Internal record text: what the record says, and why it is here rather than on the filing
+
+The three documents you file - the Article 998 motion, the Article 991 order and the Article 992 order - recite statute text, rule text and your own answers, and nothing else. This build's own identifiers and the committed record's own words are internal record text, and they are set out here instead, so that the pages a clerk stamps and a judge signs carry only what the Legislature put on them. Nothing has been shortened and nothing has been dropped from the packet.
+
+- **Component identities.** The Article 998 motion is `la-977d-marijuana-first-offense-primary-filing-1`, the Article 991 order is `la-977d-marijuana-first-offense-proposed-order-2`, the Article 992 order is `la-977d-marijuana-first-offense-proposed-order-3` and these instructions are `la-977d-marijuana-first-offense-instructions-5`. Those are this factory's own identifiers for the four documents. They used to print in the caption of all three filed documents and again in the motion's signature block; they print on no filed page now.
+- **Where the Article 991 and Article 992 order texts come from.** Both are composed from the committed LA-STATUTORY-FORMS authority. Each order now cites only its own Article.
+- **Where the Article 998 motion text comes from.** It is composed from the Article 998 statutory text this packet is bound to by the content digest `8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4`, which is what Article 986(A) requires of a rendering of a mandatory statutory form. The motion now says only that its prayer and ex parte paragraph are the Legislature's own words.
+- **Race and gender on the motion.** The committed manual-completion record classifies both as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand.
+- **The first-offence question.** The committed record makes a second or later possession offence the first of the conditions on which self-help stops. The motion now tells you to stop and get a lawyer's advice, which is what that condition means for you.
+- **Both signature blocks on the motion.** The committed record requires both signature blocks the statute prints to be carried, which is why the attorney block appears even though this packet holds no record that you are represented. The motion now says only that counsel completes it or nobody does.
+
+## Six fields that are on the Article 992 order rather than on the Article 998 motion
+
+Article 986(A) makes the statutory forms exclusive and Article 986(C) allows only the name of the court to vary on one. The Article 998 statutory text prints no line for the date of arrest, for how many charges or counts the arrest carries, for the original arrest charges, for whether the conviction is a misdemeanour or a felony, for the statute you were convicted under, or for whether this was a first possession offence. All six are needed to identify the record this decree reaches, so all six are carried on the Article 992 order instead of being added to the face of the form the Legislature wrote. Answer them there.
+
 ## Everything the committed record requires to be in place before filing (all 15 item(s) it lists)
 
 This list is the packet set's own. Some items are yours, some belong to the district attorney, the clerk or the judge. Every one of them is reproduced here, in the record's own words and in the record's own order, so that nothing on it reaches you shortened. Where an item describes a document this packet does not contain, or names a form this track does not use, the record's words are printed unchanged and a correction is added beneath them.
@@ -76,8 +97,7 @@ Check every prefilled fact against your own court record and your background che
 
 | Document | Blank on the document | What you must supply |
 | --- | --- | --- |
-| LA-CCRP-ART-998 | Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative | whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route |
-| LA-CCRP-ART-998 | Statute the mover was convicted under | the statute you were convicted under, exactly as your own court record writes it |
+| LA-CCRP-ART-998 | NAME (Last, First, MI) | your name written SURNAME FIRST, in the order the form rules underneath the line - last name, then first name, then middle initial - and spelled exactly as the state rap sheet spells it, because the Bureau matches this motion to your record by that name |
 | LA-CCRP-ART-998 | Race | your race, written as the state rap sheet writes it, so Part I matches the record the Bureau holds |
 | LA-CCRP-ART-998 | Gender | your gender, written as the state rap sheet writes it, so Part I matches the record the Bureau holds |
 | LA-CCRP-ART-998 | Last four digits of the Social Security number | the last four digits of your Social Security number, written on the form by hand at the moment you file |
@@ -89,7 +109,7 @@ Check every prefilled fact against your own court record and your background che
 | LA-CCRP-ART-998 | Mover city, state and ZIP code in the unrepresented-mover block | your own city, state and ZIP code |
 | LA-CCRP-ART-998 | Mover telephone number in the unrepresented-mover block | a telephone number the clerk and the court can reach you on |
 | LA-CCRP-ART-992 | Original arrest charge and statute for every count as they appear on the state rap sheet | each charge at the time of arrest - the original arrest charge and statute for every count, exactly as the state rap sheet writes them, not the charge you were finally convicted of and not the amended charge, and not leaving a count out |
-| LA-CCRP-ART-992 | Statute the mover was convicted under | the statute you were convicted under, written the same way you wrote it on the Article 998 motion so the two documents match |
+| LA-CCRP-ART-992 | Statute the mover was convicted under | the statute you were convicted under, exactly as your own court record writes it; the Article 998 statutory motion prints no line for it, so this order is where it goes |
 | LA-CCRP-ART-992 | Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative | whether this was your FIRST offence for possession of marijuana, tetrahydrocannabinol or a chemical derivative - the whole eligibility test for this route |
 
 The blank on that list the record singles out is whether this was your FIRST offence for possession of marijuana. The committed record calls it the whole eligibility test for this route, and this packet does not answer it for you: a second or later possession offence is not this route at all and falls back to Article 977(A). The original arrest charge is the second one to be careful with, because Louisiana State Police names using the amended charge instead of the original arrest charge, and omitting counts, among the common fatal errors on a Louisiana expungement.
