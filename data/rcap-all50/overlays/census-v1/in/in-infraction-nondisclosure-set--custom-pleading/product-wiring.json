@@ -51,7 +51,7 @@
     "deliveryType": "custom_pleading",
     "instrumentKinds": [
       "Verified petition where the court did not act, or after a deferral or satisfied judgment (custom_pleading)",
-      "no filing — process guidance"
+      "no filing \u2014 process guidance"
     ],
     "packetComponents": [],
     "fieldMap": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/production-field-map.json",
@@ -65,7 +65,9 @@
       "jobId": "101187692935",
       "artifactId": "9956148008",
       "boundToCanonicalSha256": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
-      "coversTheWholeFamily": true
+      "coversTheWholeFamily": true,
+      "stillBinds": false,
+      "whyItNoLongerBinds": "FIX170 removed the two internal route keys printed on delivered pages 2 and 4 of both fixtures, so every delivered byte moved. boundToCanonicalSha256 names the pre-repair canonical, which no longer exists in the tree."
     },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
@@ -80,6 +82,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "wholeFamilyReRasterRequired": true,
+    "reRasterDebt": {
+      "openedBy": "FIX170",
+      "openedAtCommit": "recorded in the lane row data/rcap-grade-a/packet-factory-24h/fix170/rows-fix170-20260910.json",
+      "scope": "the whole family: both fixtures, all four pages of each",
+      "canonicalSha256Before": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+      "canonicalSha256After": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463",
+      "boundarySha256Before": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+      "boundarySha256After": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2",
+      "participantInstructionsSha256Before": "938a1008312e05da0eb9f56506e4f74d29330685e11440ba4d41753a01019225",
+      "participantInstructionsSha256After": "c55bc5e187c667267b1955a2170f309d905e9ff86a747deeae9dc089b9c1c0a3",
+      "whatMovedOnThePage": "Exactly the two route-key blocks and nothing else, established by differencing the layout text of the pre-repair canonical against the repaired one: pages 1 and 3 are word-for-word identical, and pages 2 and 4 lose four words each, which is 'Routes:' plus the two keys plus the separating semicolon.",
+      "rasterQueueNotEdited": "This lane did not edit data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json. The Captain dispatches the debt.",
+      "observedWhileRecordingThis": "vf57 reported that neither delivered digest appeared anywhere under data/rcap-grade-a/packet-factory-24h/raster-runs/ and that the family has never had a raster. This lane re-ran that search at its own base and reproduces it: no file under raster-runs/ names this family, either delivered digest, or workflowRunId 33923497915. The acceptanceReceipt block above therefore named a run this repository holds no raster record for even before these bytes moved.",
+      "proposedRepresentationIsStale": "proposedRepresentation.components[0].sha256 still names the pre-repair canonical. That block is written by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, which this lane did not run because it writes beyond this family; it is refreshed the next time that generator runs."
     }
   }
 }

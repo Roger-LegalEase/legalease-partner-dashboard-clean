@@ -281,6 +281,46 @@ function groundRecords() {
     if (missing.length > 0) { failures.push({ record: name, path: rel, why: `the record no longer states ${missing.length} fact(s) this build relies on`, missing }); continue; }
     records.push({ record: name, path: rel, sha256, byteLength: bytes.length, anchorsVerified: anchors.length });
   }
+
+  /*
+   * FIX170. A SHARED RECORD MAY NOT BE SILENTLY RE-PINNED BY A REBUILD.
+   *
+   * This builder RECOMPUTES each grounding record's sha256 from the bytes on
+   * disk and writes the result into the receipt. It asserts that named anchor
+   * STRINGS are still present; it never asserts that the pin the receipt
+   * already carries still matches. vf57 declined to run it for exactly that
+   * reason: at its base the shared packet-set manifest had drifted, so a run
+   * would have rewritten the pin from the stale value to the current one with
+   * no comparison of whether this family's own entry moved -- and
+   * identity-refresh.mjs, correctly, drops the annotation that records such a
+   * comparison whenever the rebuild computes a different sha256. The net effect
+   * would have been a receipt pinning the current digest with the evidence
+   * removed: a stale pin turned into a fresh-looking one by a process that
+   * proved nothing.
+   *
+   * The build now refuses that. Where a committed receipt already declares a
+   * pin and the bytes on disk hash to something else, the build stops unless
+   * the receipt carries an identityRefresh whose `was.sha256` is the pin being
+   * left behind -- that is, unless a lane has actually compared the bound
+   * entries across the move, which is what
+   * scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs exists
+   * to do and to record.
+   */
+  const receiptPath = path.join(ROOT, OUT, "source-receipt.json");
+  if (fs.existsSync(receiptPath)) {
+    const committed = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+    for (const declared of committed.groundingRecords ?? []) {
+      const fresh = records.find((row) => row.path === declared.path);
+      if (!fresh || fresh.sha256 === declared.sha256) continue;
+      const refresh = declared.identityRefresh ?? null;
+      if (refresh && refresh.was?.sha256 === declared.sha256) continue;
+      failures.push({
+        record: declared.record ?? declared.path, path: declared.path,
+        why: "the committed receipt pins this shared record at a digest the bytes on disk no longer hash to, and no identityRefresh on this receipt proves the entries this family binds are unmoved across that drift; re-anchor it with scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs rather than letting a rebuild overwrite the pin",
+        pinnedSha256: declared.sha256, recomputedSha256: fresh.sha256,
+      });
+    }
+  }
   // The one assertion that would CHANGE this build if it flipped, now the
   // mirror of the guard this builder carried before the owner's Q7 correction.
   // The petition IS drafted; if the dependency record is ever reverted to
@@ -327,7 +367,6 @@ function composedBody(componentId, facts) {
   L.push("- the court sets a hearing;");
   L.push("- prosecution was deferred and the five-year clock has not run;");
   L.push("- the county's MC case-type handling is unclear.");
-  L.push("", `Routes: ${ROUTE.routeKeys.join(" ; ")}`);
   return L.join("\n");
 }
 
@@ -377,8 +416,7 @@ function petitionBody(facts) {
   L.push("JUDGE " + DOTS(40) + "   DATE " + DOTS(24), "");
   L.push("BEFORE YOU FILE THIS. Ask the clerk of the court where the infraction was handled what that court requires for an I.C. 34-28-5-15 petition, and - if no cause number was ever assigned - how that county assigns the MC case type. No applicable statewide form is held in this packet's governed source corpus, and live confirmation at the official forms index remains outstanding after a refused fetch; this controlled pleading does not claim that no form exists. County handling of the case-type assignment is also unconfirmed, so the caption above is left for you and the clerk to complete rather than guessed. Do not file this petition if the clerk tells you the Court already entered a non-disclosure order in your cause: the relief already exists.", "");
   L.push("STOP AND GET HELP INSTEAD IF: the prosecuting attorney files a notice in opposition; the Court sets a hearing; prosecution was deferred and the five-year clock has not run; or the county's MC case-type handling is unclear.", "");
-  L.push("Note that in Indiana, record relief restricts access to the records; it does not remove them.", "");
-  L.push(`Routes: ${ROUTE.routeKeys.join(" ; ")}`);
+  L.push("Note that in Indiana, record relief restricts access to the records; it does not remove them.");
   return L.join("\n");
 }
 
@@ -544,6 +582,70 @@ function composedMapShell(componentId, writes, refusals) {
   };
 }
 
+/* ---- FIX170 guards, measured on the DELIVERED text ----------------------------------- */
+
+/*
+ * ROUTE_IDENTITY. No internal route key may be printed on a page a participant
+ * files.
+ *
+ * vf57 measured this family printing both keys on delivered page 2 and again on
+ * delivered page 4 -- and page 4 is the last page of the verified petition: the
+ * WHEREFORE clause, "I affirm under the penalties for perjury that the
+ * foregoing representations are true.", the signature block and the court's
+ * order block. An internal identifier printed on a sworn pleading is exactly
+ * the class of leak this factory forbids.
+ *
+ * Measured on the extracted text of the SAVED packet bytes, one page at a time,
+ * not on the strings the composer was handed. A composer that stops emitting
+ * the line while some other path reintroduces it would pass a source check and
+ * fail this one.
+ */
+function assertNoRouteKeyOnDeliveredPages(textOfPage, fixtureName) {
+  const tokens = [...ROUTE.routeKeys, "obligation:unit:", "obligation:track-pathway:", "obligation:track-only:"];
+  const offenders = [];
+  for (const [index, text] of textOfPage.entries()) {
+    const normalised = String(text).replace(/\s+/g, "");
+    for (const token of tokens) {
+      if (normalised.includes(token.replace(/\s+/g, ""))) offenders.push({ page: index + 1, token });
+    }
+  }
+  assert.deepEqual(offenders, [],
+    `${fixtureName}: an internal route key is printed on ${offenders.length} delivered page location(s): ${JSON.stringify(offenders)}`);
+  return textOfPage.length;
+}
+
+/*
+ * SOURCE_IDENTITY, ground two. No delivered document may assert that no
+ * official form exists.
+ *
+ * The receipt records officialFormExistenceStatus NOT_CONFIRMED_CURRENT and
+ * lists, under whatThisReceiptDoesNotEstablish, "whether a current statewide
+ * form exists for the stage-2 petition". A packet whose own receipt refuses the
+ * nonexistence claim may not make it anywhere -- and the participant guide was
+ * making it flatly, four paragraphs after the same file said the packet does
+ * not claim it.
+ *
+ * The guard is written against the CLAIM, not against the old wording: any
+ * nonexistence assertion fails unless the sentence it sits in withdraws it in
+ * terms. So a reworded relapse is refused too.
+ */
+const NONEXISTENCE_CLAIM = /(?:none|no(?:\s+applicable)?(?:\s+statewide)?\s+form)\s+exists?/gi;
+const NONEXISTENCE_WITHDRAWAL = /(?:not\s+a\s+claim\s+that|does\s+not\s+claim\s+that|do(?:es)?\s+not\s+claim\b)/i;
+
+function assertNoFormNonexistenceClaim(text, where) {
+  const body = String(text);
+  const offenders = [];
+  for (const match of body.matchAll(NONEXISTENCE_CLAIM)) {
+    const lead = body.slice(Math.max(0, match.index - 120), match.index);
+    if (!NONEXISTENCE_WITHDRAWAL.test(lead)) {
+      offenders.push(body.slice(Math.max(0, match.index - 60), match.index + match[0].length + 20).replace(/\s+/g, " ").trim());
+    }
+  }
+  assert.deepEqual(offenders, [],
+    `${where}: ${offenders.length} nonexistence claim(s) about an official Indiana form, which this family's own source receipt expressly refuses (officialFormExistenceStatus NOT_CONFIRMED_CURRENT): ${JSON.stringify(offenders)}`);
+  return offenders.length;
+}
+
 /* ---- byte proof of the composed writes --------------------------------------------- */
 async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   const doc = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
@@ -577,7 +679,15 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
     assert.ok(!/destro/i.test(t),
       `packet page ${i + 1} says records are destroyed in some form; the memo forbids it — Indiana relief restricts, it does not destroy`);
   }
-  return { actualWrites, glyphs, pagesRead: pages.length };
+  const deliveredPagesScannedForRouteKeys = assertNoRouteKeyOnDeliveredPages(textOfPage, fixtureName);
+  let deliveredNonexistenceClaims = 0;
+  for (const [i, t] of textOfPage.entries()) {
+    deliveredNonexistenceClaims += assertNoFormNonexistenceClaim(t, `${fixtureName} delivered page ${i + 1}`);
+  }
+  return {
+    actualWrites, glyphs, pagesRead: pages.length,
+    deliveredPagesScannedForRouteKeys, deliveredNonexistenceClaims,
+  };
 }
 
 /* ---- the builder's own count of the nine counters ------------------------------------ */
@@ -737,8 +847,20 @@ function participantInstructions(maps, rbfItems) {
   out.push("- the county's MC case-type handling is unclear.", "");
 
   out.push("## What this packet is not", "");
-  out.push("It is not an official Indiana form — none exists for this petition — it is not legal advice, it is not filed or served for you, and it does not decide whether the court will order non-disclosure. One more recorded disclosure that belongs to Indiana record-relief cases generally: a relief case's file is public until the order is granted.", "");
-  out.push(`_Routes: ${ROUTE.routeKeys.join(" ; ")}_`);
+  /*
+   * FIX170, SOURCE_IDENTITY ground two. This paragraph used to read "It is not
+   * an official Indiana form — none exists for this petition —". That is a
+   * NONEXISTENCE CLAIM, and it is the one claim this family's own source
+   * receipt expressly refuses: officialFormExistenceStatus is
+   * NOT_CONFIRMED_CURRENT and whatThisReceiptDoesNotEstablish lists "whether a
+   * current statewide form exists for the stage-2 petition". Both delivered
+   * pages that raise the question already say the honest thing -- that no
+   * applicable form is HELD IN THE GOVERNED CORPUS and that live confirmation
+   * is outstanding after a refused fetch -- so the document contradicted itself
+   * and landed on the side its own receipt refuses. It now says what the rest
+   * of the packet says.
+   */
+  out.push("It is not an official Indiana form: no applicable statewide form is held in this packet's governed source corpus, and live confirmation at the official forms index remains outstanding after a refused fetch, so this packet does not claim that no form exists. It is not legal advice, it is not filed or served for you, and it does not decide whether the court will order non-disclosure. One more recorded disclosure that belongs to Indiana record-relief cases generally: a relief case's file is public until the order is granted.", "");
   return `${out.join("\n")}\n`;
 }
 
@@ -824,6 +946,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const rbfItems = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbfItems);
+  /*
+   * FIX170. The participant guide is a delivered participant document, so both
+   * guards apply to it as they apply to the PDF pages: vf57 found the route
+   * keys printed as its last line, and the nonexistence claim in its closing
+   * paragraph. Asserted BEFORE the file is written, so a build that would ship
+   * either one produces nothing rather than shipping it.
+   */
+  assertNoRouteKeyOnDeliveredPages([instructionsText], "participant-instructions.md");
+  assertNoFormNonexistenceClaim(instructionsText, "participant-instructions.md");
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {

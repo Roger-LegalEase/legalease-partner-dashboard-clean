@@ -72,6 +72,5 @@ Each is printed on its document as a labelled dotted blank.
 
 ## What this packet is not
 
-It is not an official Indiana form — none exists for this petition — it is not legal advice, it is not filed or served for you, and it does not decide whether the court will order non-disclosure. One more recorded disclosure that belongs to Indiana record-relief cases generally: a relief case's file is public until the order is granted.
+It is not an official Indiana form: no applicable statewide form is held in this packet's governed source corpus, and live confirmation at the official forms index remains outstanding after a refused fetch, so this packet does not claim that no form exists. It is not legal advice, it is not filed or served for you, and it does not decide whether the court will order non-disclosure. One more recorded disclosure that belongs to Indiana record-relief cases generally: a relief case's file is public until the order is granted.
 
-_Routes: obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1 ; obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2_
