@@ -509,9 +509,9 @@
       "operation": "independent-verification",
       "lane": "VF55",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF52 returned at c7cfa6761; both FAIL_REPAIR_REQUIRED, integrated at 73b0aba89"
+      "released": true,
+      "releasedAt": "2026-09-10T15:57:20.741Z",
+      "releaseReason": "VF55 returned at 23db7ec37"
     },
     {
       "subjectType": "packet-family",
@@ -803,9 +803,9 @@
       "operation": "independent-verification",
       "lane": "VF55",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF52 returned at c7cfa6761; both FAIL_REPAIR_REQUIRED, integrated at 73b0aba89"
+      "released": true,
+      "releasedAt": "2026-09-10T15:57:20.603Z",
+      "releaseReason": "VF55 returned at 23db7ec37"
     },
     {
       "subjectType": "packet-family",
@@ -833,10 +833,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX162",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:27:26.231Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5326,9 +5326,9 @@
       "operation": "independent-verification",
       "lane": "VF55",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF41 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf41/rows.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
+      "released": true,
+      "releasedAt": "2026-09-10T15:57:20.476Z",
+      "releaseReason": "VF55 returned at 23db7ec37"
     },
     {
       "subjectType": "packet-family",
@@ -5340,10 +5340,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX162",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:26:43.881Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14834,7 +14834,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "3fe402001547fb1ca9ad8b22bd11c6c853676f875a0202eb516e008d01768eff",
+  "claimsDigest": "3c09eca46757d74bfa86b152764d04f798f51037c9e4715a1ff19292494af548",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38515,6 +38515,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T15:55:35.804Z",
       "reason": "FIX157 returned at 84d036d7f; KNOWN_PREFILLS and REQUIRED_BEFORE_FILING repaired, bytes moved"
+    },
+    {
+      "lane": "VF55",
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T15:57:20.476Z",
+      "reason": "VF55 returned at 23db7ec37"
+    },
+    {
+      "lane": "VF55",
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T15:57:20.603Z",
+      "reason": "VF55 returned at 23db7ec37"
+    },
+    {
+      "lane": "VF55",
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T15:57:20.741Z",
+      "reason": "VF55 returned at 23db7ec37"
     }
   ],
   "reissues": [
@@ -58368,6 +58395,28 @@
       "previouslyReleasedAt": "2026-09-09T09:58:26.314Z",
       "transferredAt": "2026-09-10T15:55:43.869Z",
       "reason": "FEE_AND_WAIVER: same Illinois statement"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX162",
+      "previouslyReleasedAt": "2026-09-10T15:26:43.881Z",
+      "transferredAt": "2026-09-10T15:58:02.132Z",
+      "reason": "VF55 found SELF_HELP_STOP fails: 0 of 4 declared stop conditions reach the participant"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX162",
+      "previouslyReleasedAt": "2026-09-10T15:27:26.231Z",
+      "transferredAt": "2026-09-10T15:58:02.290Z",
+      "reason": "VF55 measured an unauthorised sworn fee-waiver election on the delivered affidavit"
     }
   ],
   "grants": [
