@@ -1,0 +1,1472 @@
+{
+  "schemaVersion": "rcap-repair-supply-queue/v1",
+  "generatedBy": "Captain, 2026-09-10, from MASTER_QUEUE, the claim ledger, VERIFIER_RETURNS and BORDER_COHORT_REMEDIATION",
+  "whyItExists": "Roger's standing instruction is to keep repair workers supplied with exact, actionable defects rather than with a category. This says, for every failing family, whether a lane can be dispatched onto it right now: who owns it, what obligation was actually recorded against it, and what the border byte-accounting says. It grants nothing and claims nothing.",
+  "totals": {
+    "failRepairRequired": 75,
+    "withALiveRepairOwner": 50,
+    "unowned": 25,
+    "withNoRecordedFailedObligation": 4
+  },
+  "dispatchRule": "A family with a recorded obligation and no owner needs one grant and can then be dispatched immediately. A family with an owner but no live worker needs a worker, not a grant. A family with NO recorded obligation cannot be given an exact defect and must be READ before it is repaired -- dispatching a repair lane onto it would ask it to re-derive the family, which a repair lane does not do.",
+  "unownedGroupedByJurisdiction": {
+    "AL": [
+      "al-felony-dwop-set"
+    ],
+    "AR": [
+      "ar-cs-possession-seal-set",
+      "ar-nonconviction-seal-set"
+    ],
+    "CA": [
+      "ca-17b-reduction-set"
+    ],
+    "CO": [
+      "co_multiple_conviction_seal-set"
+    ],
+    "WV": [
+      "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+    ],
+    "IN": [
+      "in_arrest_no_charges-set",
+      "in_section1_petition-set"
+    ],
+    "MI": [
+      "mi_setaside_trafficking-set"
+    ],
+    "MO": [
+      "mo-art-xiv-marijuana-set"
+    ],
+    "NE": [
+      "ne-setaside-custodial-set"
+    ],
+    "PA": [
+      "pa_pardon_expungement-set"
+    ],
+    "TX": [
+      "rcap-tx-custom-pleading",
+      "tx_exp_acquittal-set",
+      "tx_nd_conviction_no_supervision-set",
+      "tx_nd_dwi_deferred-set",
+      "tx_nd_probation_misdemeanor-set"
+    ],
+    "RI": [
+      "ri_deferred_sentence-set",
+      "ri_first_offender_misdemeanor-set"
+    ],
+    "VT": [
+      "vt_exp_decriminalized-set",
+      "vt_seal_18_to_21-set",
+      "vt_seal_felony-set",
+      "vt_seal_misdemeanor-set",
+      "vt_seal_nonconviction-set",
+      "vt_seal_pardon-set"
+    ]
+  },
+  "groupingAdvice": "Group by build host rather than by defect name. The Texas non-disclosure families share one host and each carries 32 form-own strokes; the six Vermont families carry none; the Rhode Island pair sit on the host whose route-scoped flag mechanism is already documented in the FIX08 return. One worker per host keeps a fix scoped and keeps unrelated siblings byte-identical.",
+  "needsAReadNotARepair": [
+    {
+      "familyId": "ar-misdemeanor-seal-set",
+      "owner": [
+        "FIX01"
+      ]
+    },
+    {
+      "familyId": "tx_nd_deferred_other-set",
+      "owner": [
+        "FIX04"
+      ]
+    },
+    {
+      "familyId": "tx_nd_veterans_court-set",
+      "owner": [
+        "FIX08"
+      ]
+    },
+    {
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "owner": [
+        "FIX01"
+      ]
+    }
+  ],
+  "unowned": [
+    {
+      "familyId": "al-felony-dwop-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "jurisdiction": "AL",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 36,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 36,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
+      "jurisdiction": "CA",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 18,
+        "formsOwn": 116,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+      "jurisdiction": "WV",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "jurisdiction": "IN",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 84,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+      "jurisdiction": "IN",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 84,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "jurisdiction": "MI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 2,
+        "formsOwn": 26,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "jurisdiction": "MO",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "jurisdiction": "NE",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 2,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "jurisdiction": "PA",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 28,
+        "formsOwn": 24,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "rcap-tx-custom-pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "borderAccounting": {
+        "unmatched": 22,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 22,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 40,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_dwi_deferred-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 34,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": {
+        "unmatched": 44,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "borderAccounting": {
+        "unmatched": 88,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "borderAccounting": {
+        "unmatched": 24,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    }
+  ],
+  "everyFailingFamily": [
+    {
+      "familyId": "al-felony-dwop-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "jurisdiction": "AL",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+      "jurisdiction": "AL",
+      "repairOwner": [
+        "FIX119"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
+      "jurisdiction": "AL",
+      "repairOwner": [
+        "FIX119"
+      ],
+      "recordedFailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
+      "jurisdiction": "AL",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 36,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ar-drug-court-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": {
+        "unmatched": 0,
+        "formsOwn": 40,
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+      }
+    },
+    {
+      "familyId": "ar-felony-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [
+        "FIX106"
+      ],
+      "recordedFailedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ar-misdemeanor-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": null,
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 36,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ar-pardon-seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
+      "jurisdiction": "AR",
+      "repairOwner": [
+        "FIX100"
+      ],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "jurisdiction": "AZ",
+      "repairOwner": [
+        "FIX100"
+      ],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
+      "jurisdiction": "CA",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [
+        "FIX03"
+      ],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": {
+        "unmatched": 34,
+        "formsOwn": 56,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [
+        "FIX03"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 0,
+        "formsOwn": 28,
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+      }
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 18,
+        "formsOwn": 116,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "co_municipal_conviction_seal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [
+        "FIX04"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "jurisdiction": "CO",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 36,
+        "formsOwn": 86,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+      "jurisdiction": "WV",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "jurisdiction": "CT",
+      "repairOwner": [
+        "FIX07"
+      ],
+      "recordedFailedObligations": [
+        "SERVICE"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "de_discretionary_superior_court-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
+      "jurisdiction": "DE",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "fl-10yr-bridge-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+      "jurisdiction": "FL",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "jurisdiction": "FL",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ia-12347-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "jurisdiction": "IA",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "jurisdiction": "IL",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "jurisdiction": "IN",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 84,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "jurisdiction": "IN",
+      "repairOwner": [
+        "FIX106"
+      ],
+      "recordedFailedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+      "jurisdiction": "IN",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 84,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "jurisdiction": "KY",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
+      "jurisdiction": "LA",
+      "repairOwner": [
+        "FIX05"
+      ],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
+      "jurisdiction": "LA",
+      "repairOwner": [
+        "FIX03"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+      "jurisdiction": "LA",
+      "repairOwner": [
+        "FIX03"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+      "jurisdiction": "MA",
+      "repairOwner": [
+        "FIX08"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ma-seal-court-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill",
+      "jurisdiction": "MA",
+      "repairOwner": [
+        "FIX04"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "md_10105_early-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "jurisdiction": "MD",
+      "repairOwner": [
+        "FIX05"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "md_pardon_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "jurisdiction": "MD",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 0,
+        "formsOwn": 12,
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+      }
+    },
+    {
+      "familyId": "me-seal-survivor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+      "jurisdiction": "ME",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "jurisdiction": "MI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 2,
+        "formsOwn": 26,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "mn_petition_15218-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "jurisdiction": "MN",
+      "repairOwner": [
+        "FIX07"
+      ],
+      "recordedFailedObligations": [
+        "PROTECTED_FIELDS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "jurisdiction": "MN",
+      "repairOwner": [
+        "FIX05"
+      ],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+      "jurisdiction": "MN",
+      "repairOwner": [
+        "FIX02"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "jurisdiction": "MO",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "jurisdiction": "ND",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "jurisdiction": "NE",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 2,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "nh_marijuana_annulment-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "jurisdiction": "NH",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "jurisdiction": "NJ",
+      "repairOwner": [
+        "FIX121"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "jurisdiction": "NJ",
+      "repairOwner": [
+        "FIX121"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "jurisdiction": "NJ",
+      "repairOwner": [
+        "FIX121"
+      ],
+      "recordedFailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "jurisdiction": "OH",
+      "repairOwner": [
+        "FIX99"
+      ],
+      "recordedFailedObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "jurisdiction": "PA",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 28,
+        "formsOwn": 24,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
+      "jurisdiction": "HI",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "rcap-in-custom-pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
+      "jurisdiction": "IN",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "rcap-tx-custom-pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "borderAccounting": {
+        "unmatched": 22,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [
+        "FIX07"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [
+        "FIX08"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 4,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "jurisdiction": "RI",
+      "repairOwner": [
+        "FIX99"
+      ],
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "borderAccounting": {
+        "unmatched": 78,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "jurisdiction": "SD",
+      "repairOwner": [
+        "FIX08"
+      ],
+      "recordedFailedObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "borderAccounting": {
+        "unmatched": 30,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 22,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 40,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_deferred_other-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [
+        "FIX04"
+      ],
+      "recordedFailedObligations": null,
+      "borderAccounting": {
+        "unmatched": 56,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_dwi_deferred-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 34,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": {
+        "unmatched": 38,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "borderAccounting": {
+        "unmatched": 44,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_veterans_court-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [
+        "FIX08"
+      ],
+      "recordedFailedObligations": null,
+      "borderAccounting": {
+        "unmatched": 34,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill",
+      "jurisdiction": "TX",
+      "repairOwner": [
+        "FIX01"
+      ],
+      "recordedFailedObligations": null,
+      "borderAccounting": {
+        "unmatched": 22,
+        "formsOwn": 32,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "borderAccounting": {
+        "unmatched": 88,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [
+        "FIX04"
+      ],
+      "recordedFailedObligations": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "borderAccounting": {
+        "unmatched": 24,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "jurisdiction": "VT",
+      "repairOwner": [],
+      "recordedFailedObligations": [
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "borderAccounting": {
+        "unmatched": 12,
+        "formsOwn": 0,
+        "result": "SYNTHESIZED_INK_CONFIRMED"
+      }
+    },
+    {
+      "familyId": "wv_acc_treatment_job_readiness-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading",
+      "jurisdiction": "WV",
+      "repairOwner": [
+        "FIX08"
+      ],
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "borderAccounting": null
+    },
+    {
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "jurisdiction": "WV",
+      "repairOwner": [
+        "FIX06"
+      ],
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "ROUTE_OPTIONS"
+      ],
+      "borderAccounting": null
+    }
+  ],
+  "grantsNothing": "A queue is not a grant. No claim here is asserted and no family is promoted, demoted or approved by appearing in it."
+}
