@@ -256,7 +256,6 @@ const SPEC = {
    * anchor below is the printed line the rule belongs to, and the ruleIndex is
    * which rule on that line. Nothing here is a coordinate. */
   formWrites: [
-    { id: "current_legal_name", label: "Current legal name", factId: "participant.full_legal_name", anchor: "Current Legal Name (Last, First, Middle):", ruleIndex: 0 },
     { id: "date_of_birth", label: "Date of birth", factId: "participant.date_of_birth", anchor: "Date of Birth:", ruleIndex: 1 },
     { id: "home_address", label: "Home address", factId: "participant.street_address", anchor: "Home Address:", ruleIndex: 0 },
     { id: "mailing_address", label: "Mailing address", factId: "participant.street_address", anchor: "Mailing Address:", ruleIndex: 0 },
@@ -265,6 +264,29 @@ const SPEC = {
   ],
 
   formBlanks: [
+    /* The Data Center's own caption on this line is "Current Legal Name (Last,
+     * First, Middle):" - surname FIRST. The platform holds the participant's
+     * name only as the single string participant.full_legal_name and holds no
+     * surname / given-name split anywhere, so this build cannot render Last,
+     * First, Middle from what it has. Splitting one string into a surname is a
+     * guess, and a guess on this line tells the Data Center the wrong surname
+     * on the form it uses to find the record in the statewide repository. So
+     * the line is left blank with the form's own format instruction carried
+     * through to the participant, and the caption is NOT reduced: the label
+     * this build publishes is the caption the form prints, so a reader of the
+     * field map sees the format requirement instead of a bare "Current legal
+     * name". */
+    {
+      id: "current_legal_name", kind: "rbf",
+      label: "Current Legal Name (Last, First, Middle)",
+      supply:
+        "Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your "
+        + "middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii "
+        + "Criminal Justice Data Center uses to find your record.",
+      why:
+        "the form asks for the name as Last, First, Middle, and the platform holds your name only as one whole string with no "
+        + "surname marked in it, so this build cannot say which part of it is your surname and does not guess"
+    },
     { id: "other_names", kind: "rbf", label: "Other names used", supply: "Every other name you have used, or NONE.", why: "the platform holds no alias history for this participant" },
     { id: "social_security_number", kind: "optional", label: "Optional Social Security number", why: "the form's own line says the Social Security number is optional" },
     { id: "sex_marker_m", kind: "rbf", label: "Sex marker M", supply: "Initial the M marker only if it applies to you.", why: "this personal declaration is not a fact the platform holds" },
@@ -594,7 +616,7 @@ function formComponent(route) {
     sourceId: "official-form:HCJDC-159B",
     title: "EXPUNGEMENT APPLICATION, HCJDC 159(b)",
     description:
-      "The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed.",
+      "The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing.",
     writes: SPEC.formWrites,
     blanks: SPEC.formBlanks
   };
@@ -1045,6 +1067,7 @@ function composedPageBoxes() {
  * caption is measured from the caption's own x-extent, because the form prints
  * no rule for it. Both are read from the pinned bytes in this run. */
 const FORM_BLANK_ANCHORS = {
+  current_legal_name: { anchor: "Current Legal Name (Last, First, Middle):", ruleIndex: 0 },
   other_names: { anchor: "Other Names Used:", ruleIndex: 0 },
   social_security_number: { anchor: "Social Security Number:", ruleIndex: 0 },
   sex_marker_m: { anchor: "Sex: M", ruleIndex: 2 },

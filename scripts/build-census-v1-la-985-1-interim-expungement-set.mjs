@@ -818,11 +818,10 @@ function sanitize(text) {
 
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-function captionBlock(facts, documentTitle, componentId, documentId) {
+function captionBlock(facts, documentTitle, documentId) {
   return block(
     documentId,
     documentTitle.toUpperCase(),
-    `Assigned component identity: ${componentId}`,
     "",
     `${facts["case.court_name"]}, STATE OF LOUISIANA`,
     `JUDICIAL DISTRICT FOR THE PARISH OF: ${facts["case.parish"]}`,
@@ -840,10 +839,10 @@ const ONLY_THE_FELONY_ARREST =
 function motionBody(facts, binding) {
   const { memoTrack } = binding;
   return [
-    captionBlock(facts, TITLES[COMPONENT.motion], COMPONENT.motion, MOTION),
+    captionBlock(facts, TITLES[COMPONENT.motion], MOTION),
     block(
       "MOTION FOR INTERIM EXPUNGEMENT OF A FELONY ARREST FROM CRIMINAL HISTORY",
-      "La. C.Cr.P. art. 985.1, on the statutory Article 994 form composed from the committed LA-STATUTORY-FORMS authority. Article 986 makes Articles 994 and 995 the forms to be used on this track.",
+      "La. C.Cr.P. art. 985.1, on the statutory Article 994 form. Article 986 makes Articles 994 and 995 the forms to be used on this track.",
       "",
       "NOW INTO COURT comes mover, who provides the court with the following information in connection with this request. Mover moves for an interim expungement of the record of the original felony arrest identified below, pursuant to Louisiana Code of Criminal Procedure Article 985.1, and states the following in support.",
       "",
@@ -859,7 +858,7 @@ function motionBody(facts, binding) {
       `Last four digits of the Social Security number: ${DOTS(24)}`,
       `Driver's licence number: ${DOTS(45)}`,
       "",
-      "Race and gender are printed blank on purpose. The committed manual-completion record classifies both on Articles 989 and 994 as manual completion items pending a data-protection review, so the mover writes them by hand.",
+      "Race and gender are left blank for the mover to complete by hand.",
       ""
     ),
     block(
@@ -870,7 +869,7 @@ function motionBody(facts, binding) {
       "La. R.S. statute and name of offense for each felony charge on the original arrest:",
       DOTS(74), DOTS(74),
       "",
-      "Those lines are the mover's own and are deliberately blank. The committed record directs that the ORIGINAL arrest charge be captured rather than the amended charge, because on this track the original felony arrest charge is the thing being expunged, and it must match the state rap sheet exactly.",
+      "These two lines are the mover's own and are left blank. Enter the ORIGINAL felony arrest charge rather than the amended or finally convicted charge: under Article 985.1(A) the entry being expunged is the original felony arrest, and what is written here must match the state rap sheet exactly.",
       ""
     ),
     block(
@@ -886,13 +885,13 @@ function motionBody(facts, binding) {
       `Date the mover was convicted of the misdemeanour: ${facts["case.misdemeanor_conviction_date"]}`,
       `Whether the misdemeanour conviction arose out of that same original felony arrest: ${DOTS(10)}`,
       "",
-      "Article 985.1(A) permits this interim motion for a person who was convicted of a misdemeanour offence arising out of the original felony arrest. Whether this conviction arose out of THIS arrest is the mover's own answer to give: the committed record makes it a condition on which self-help stops when it is unclear.",
+      "Article 985.1(A) permits this interim motion for a person who was convicted of a misdemeanour offence arising out of the original felony arrest. Whether this conviction arose out of THIS arrest is the mover's own answer to give. If it is unclear, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
       `Whether the state rap sheet shows more than one arrest event that might be confused with this one: ${DOTS(10)}`,
       "",
-      "The felony arrest to be expunged has to be identifiable unambiguously. Where a rap sheet conflates more than one arrest event, the committed record makes that a condition on which self-help stops.",
+      "The felony arrest to be expunged has to be identifiable unambiguously. If the rap sheet conflates more than one arrest event, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
@@ -924,7 +923,7 @@ function motionBody(facts, binding) {
     ),
     block(
       "SIGNATURE BLOCKS",
-      `${MOTION}, assigned component identity ${COMPONENT.motion}`,
+      MOTION,
       "",
       "IF REPRESENTED BY COUNSEL - ATTORNEY BLOCK",
       `Attorney name in the represented-mover block: ${DOTS(28)}`,
@@ -933,7 +932,7 @@ function motionBody(facts, binding) {
       `Attorney telephone in the represented-mover block: ${DOTS(23)}`,
       `Attorney signature in the represented-mover block: ${DOTS(23)}`,
       "",
-      "This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel, and an attorney block is completed by counsel or not at all.",
+      "This block is left blank. An attorney block is completed by counsel, or not at all.",
       ""
     ),
     block(
@@ -961,10 +960,10 @@ function motionBody(facts, binding) {
  */
 function orderBody(facts, article995) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.order], COMPONENT.order, ORDER),
+    captionBlock(facts, TITLES[COMPONENT.order], ORDER),
     block(
       "ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD",
-      "La. C.Cr.P. art. 995, composed from the Article 995 statutory text this packet is bound to by content digest, as Article 986(A) requires.",
+      "La. C.Cr.P. art. 995. Article 986(A) makes the statutory forms exclusive and Article 986(C) allows only the name of the court to vary.",
       "",
       "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. The mover supplies the caption and the felony charge identifiers and nothing else on this page. Nothing here has been decided, and no relief exists unless and until a judge completes and signs it and the clerk enters it.",
       ""
@@ -995,7 +994,7 @@ function orderBody(facts, article995) {
       `La. R.S. ${DOTS(12)} : ${DOTS(12)}`,
       `Name of Offense ${DOTS(48)}`,
       "",
-      "Those four lines are the felony charge identifiers. They are the mover's own to complete before filing, taken from the original arrest record rather than from the charge finally convicted of, and this packet writes none of them.",
+      "These four lines are the felony charge identifiers. They are the mover's own to complete before the motion is filed, taken from the original arrest record rather than from the charge finally convicted of.",
       ""
     ),
     block(
@@ -1140,6 +1139,23 @@ function participantInstructions(binding, rbf, name, article995) {
   for (const row of notGenerated) {
     lines.push(bullet(`\`${row.componentId}\` (${row.role}${row.officialFormId ? `, ${row.officialFormId}` : ""}): ${row.conditionDescription} This packet does not meet that condition, so the component is not generated.`));
   }
+  lines.push(
+    "",
+    "## Internal record text: what the record says, and why it is here rather than on the filing",
+    "",
+    "The two documents you file - the Article 994 motion and the Article 995 order - recite statute and rule text and nothing else. This build's own identifiers and the committed record's own words are internal record text, and they are set out here instead, so that the pages a clerk stamps and a judge signs carry only what the Legislature put on them.",
+    "",
+    bullet(`**Component identities.** The motion is \`${COMPONENT.motion}\`, the proposed order is \`${COMPONENT.order}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the three documents. They used to be printed in the caption of the motion and of the order and on the motion's signature-block page; they are not printed on either filed document now.`),
+    bullet("**Where the Article 994 motion text comes from.** It is composed from the committed LA-STATUTORY-FORMS authority. The motion itself now cites only Article 985.1 and Article 986."),
+    bullet(`**Where the Article 995 order text comes from.** It is composed from the Article 995 statutory text this packet is bound to by the content digest \`${article995.sha256}\`, which is what Article 986(A) requires of a rendering of a mandatory statutory form. The order itself now cites only Article 986(A) and Article 986(C).`),
+    bullet("**Race and gender on the motion.** The committed manual-completion record classifies both, on Articles 989 and 994, as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand."),
+    bullet("**The original arrest charge.** The committed record directs in terms that the ORIGINAL arrest charge be captured rather than the amended charge. The motion now states the instruction and its statutory reason without quoting the record."),
+    bullet("**The two self-help stops printed on the motion.** Whether the misdemeanour conviction arose out of that same original felony arrest, and whether the rap sheet conflates more than one arrest event, are both conditions on which the committed record says self-help stops. The motion now tells you to stop and get a lawyer's advice, which is what the condition means for you."),
+    bullet("**The attorney block.** This packet holds no record that you are represented by counsel, which is why the block is blank. The motion now says only that counsel completes it or nobody does."),
+    bullet("**The four felony-charge identifier lines on the order.** This packet writes none of them. The order now says only that they are yours to complete before the motion is filed, and where to take them from."),
+    ""
+  );
+
   lines.push(
     "",
     `## Everything the committed record requires to be in place before filing (all ${recordRequiredBeforeFiling.length} item(s) it lists)`,
@@ -1319,6 +1335,21 @@ const MARGIN = 60;
 const FONT_SIZE = 10.25;
 const LINE_HEIGHT = 13.25;
 const MAX_WIDTH = PAGE_WIDTH - (2 * MARGIN);
+/*
+ * FIX142. The wrap used to measure against MAX_WIDTH exactly, and
+ * `widthOfTextAtSize` on a standard-14 font is a sum of AFM ADVANCE widths, not
+ * the extent of the ink a renderer actually lays down. Measured on this
+ * family's own delivered bytes at 300 dpi with pdftoppm -gray, the rendered ink
+ * of a full line runs up to ~0.6% past the advance sum -- so a line the build
+ * measured at 491.87pt drew ink to 494.88pt, 2.88pt outside the 492pt text box
+ * the build declares. It was inside the paper and inside every clipping margin,
+ * but the build was asserting a box it was not in fact holding. Lines are now
+ * wrapped against a slightly narrower width so the RENDERED ink stays inside
+ * the declared box; the assertion below still checks MAX_WIDTH, so the two
+ * numbers cannot drift apart silently.
+ */
+const WRAP_SAFETY = 8;
+const WRAP_WIDTH = MAX_WIDTH - WRAP_SAFETY;
 
 async function renderComposedDocument(blocks, title, componentId) {
   const pdf = await PDFDocument.create();
@@ -1338,18 +1369,18 @@ async function renderComposedDocument(blocks, title, componentId) {
     let current = "";
     for (const piece of pieces) {
       const candidate = `${current}${piece}`;
-      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { chunks.push(current); current = piece; }
+      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { chunks.push(current); current = piece; }
       else current = candidate;
     }
     if (current) chunks.push(current);
     const out = [];
     for (const chunk of chunks) {
-      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= MAX_WIDTH) { out.push(chunk); continue; }
+      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= WRAP_WIDTH) { out.push(chunk); continue; }
       hardSplits += 1;
       let acc = "";
       for (const char of chunk) {
         const candidate = `${acc}${char}`;
-        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { out.push(acc); acc = char; }
+        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { out.push(acc); acc = char; }
         else acc = candidate;
       }
       if (acc) out.push(acc);
@@ -1359,12 +1390,12 @@ async function renderComposedDocument(blocks, title, componentId) {
   const wrap = (raw) => {
     if (!raw) return [""];
     const words = String(raw).split(/\s+/)
-      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > MAX_WIDTH ? splitToken(word) : [word]);
+      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > WRAP_WIDTH ? splitToken(word) : [word]);
     const rows = [];
     let current = "";
     for (const word of words) {
       const candidate = current ? `${current} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= MAX_WIDTH) current = candidate;
+      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= WRAP_WIDTH) current = candidate;
       else { if (current) rows.push(current); current = word; }
     }
     if (current) rows.push(current);

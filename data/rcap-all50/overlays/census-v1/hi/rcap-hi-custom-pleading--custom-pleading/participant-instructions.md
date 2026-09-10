@@ -54,19 +54,19 @@ The sentences below are quoted verbatim from the committed legal-design record t
 | --- | --- |
 | `hi_first_time_drug_offender_expungement-primary-filing-1` | The stage-one motion for First-time drug offender expungement - HRS 706-622.5(4), with its Haw. R. Penal P. 47(d) declaration and its Haw. R. Penal P. 49(c) certificate of service. |
 | `hi_first_time_drug_offender_expungement-proposed-order-2` | The proposed order the court signs on First-time drug offender expungement - HRS 706-622.5(4), and the order whose signed copy the stage-two application requires. |
-| `hi_first_time_drug_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed. |
+| `hi_first_time_drug_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing. |
 | `hi_marijuana_three_grams_expungement-primary-filing-1` | The stage-one motion for Marijuana three grams or less expungement - HRS 706-622.5(5), with its Haw. R. Penal P. 47(d) declaration and its Haw. R. Penal P. 49(c) certificate of service. |
 | `hi_marijuana_three_grams_expungement-proposed-order-2` | The proposed order the court signs on Marijuana three grams or less expungement - HRS 706-622.5(5), and the order whose signed copy the stage-two application requires. |
-| `hi_marijuana_three_grams_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed. |
+| `hi_marijuana_three_grams_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing. |
 | `hi_pre_2004_drug_offender_expungement-primary-filing-1` | The stage-one motion for Pre-July-2004 first-time drug offender expungement - HRS 706-622.8, with its Haw. R. Penal P. 47(d) declaration and its Haw. R. Penal P. 49(c) certificate of service. |
 | `hi_pre_2004_drug_offender_expungement-proposed-order-2` | The proposed order the court signs on Pre-July-2004 first-time drug offender expungement - HRS 706-622.8, and the order whose signed copy the stage-two application requires. |
-| `hi_pre_2004_drug_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed. |
+| `hi_pre_2004_drug_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing. |
 | `hi_first_time_property_offender_expungement-primary-filing-1` | The stage-one motion for First-time property offender expungement - HRS 706-622.9, with its Haw. R. Penal P. 47(d) declaration and its Haw. R. Penal P. 49(c) certificate of service. |
 | `hi_first_time_property_offender_expungement-proposed-order-2` | The proposed order the court signs on First-time property offender expungement - HRS 706-622.9, and the order whose signed copy the stage-two application requires. |
-| `hi_first_time_property_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed. |
+| `hi_first_time_property_offender_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing. |
 | `hi_under_21_dui_expungement-primary-filing-1` | The stage-one motion for DUI under 21 expungement - HRS 291E-64(e), with its Haw. R. Penal P. 47(d) declaration and its Haw. R. Penal P. 49(c) certificate of service. |
 | `hi_under_21_dui_expungement-proposed-order-2` | The proposed order the court signs on DUI under 21 expungement - HRS 291E-64(e), and the order whose signed copy the stage-two application requires. |
-| `hi_under_21_dui_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with six held facts drawn onto rules measured from those bytes; no page of it is composed. |
+| `hi_under_21_dui_expungement-primary-filing-3` | The stage-two Expungement Application. This component is the pinned official form's own bytes with five held facts drawn onto rules measured from those bytes; no page of it is composed. The Current Legal Name line is not one of them: the form asks for it as Last, First, Middle and the platform holds no surname split, so it is left blank and required before filing. |
 
 ## Where this is filed, what it costs, and who must be served
 
@@ -117,6 +117,7 @@ Each is printed on its page as a labelled dotted blank, or as a mark on the offi
 
 | The blank on the document | Page | What to write |
 | --- | --- | --- |
+| Current Legal Name (Last, First, Middle) | 1 | Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii Criminal Justice Data Center uses to find your record. |
 | Other names used | 1 | Every other name you have used, or NONE. |
 | Sex marker M | 1 | Initial the M marker only if it applies to you. |
 | Sex marker F | 1 | Initial the F marker only if it applies to you. |
@@ -156,6 +157,7 @@ Each is printed on its page as a labelled dotted blank, or as a mark on the offi
 
 | The blank on the document | Page | What to write |
 | --- | --- | --- |
+| Current Legal Name (Last, First, Middle) | 1 | Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii Criminal Justice Data Center uses to find your record. |
 | Other names used | 1 | Every other name you have used, or NONE. |
 | Sex marker M | 1 | Initial the M marker only if it applies to you. |
 | Sex marker F | 1 | Initial the F marker only if it applies to you. |
@@ -195,6 +197,7 @@ Each is printed on its page as a labelled dotted blank, or as a mark on the offi
 
 | The blank on the document | Page | What to write |
 | --- | --- | --- |
+| Current Legal Name (Last, First, Middle) | 1 | Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii Criminal Justice Data Center uses to find your record. |
 | Other names used | 1 | Every other name you have used, or NONE. |
 | Sex marker M | 1 | Initial the M marker only if it applies to you. |
 | Sex marker F | 1 | Initial the F marker only if it applies to you. |
@@ -234,6 +237,7 @@ Each is printed on its page as a labelled dotted blank, or as a mark on the offi
 
 | The blank on the document | Page | What to write |
 | --- | --- | --- |
+| Current Legal Name (Last, First, Middle) | 1 | Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii Criminal Justice Data Center uses to find your record. |
 | Other names used | 1 | Every other name you have used, or NONE. |
 | Sex marker M | 1 | Initial the M marker only if it applies to you. |
 | Sex marker F | 1 | Initial the F marker only if it applies to you. |
@@ -273,6 +277,7 @@ Each is printed on its page as a labelled dotted blank, or as a mark on the offi
 
 | The blank on the document | Page | What to write |
 | --- | --- | --- |
+| Current Legal Name (Last, First, Middle) | 1 | Your current legal name, written in the order the form asks for it: SURNAME first, then your first name, then your middle name - for example Reyes, Jordan Avery. Do not write it first name first; this is the line the Hawaii Criminal Justice Data Center uses to find your record. |
 | Other names used | 1 | Every other name you have used, or NONE. |
 | Sex marker M | 1 | Initial the M marker only if it applies to you. |
 | Sex marker F | 1 | Initial the F marker only if it applies to you. |
