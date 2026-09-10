@@ -1,0 +1,270 @@
+{
+ "schemaVersion": "rcap-repair-lane-rows/v1",
+ "lane": "FIX132",
+ "laneKind": "repair",
+ "branch": "pfa-in-20260910",
+ "generatedAtBase": "267486f6b",
+ "whatThisLaneWas": "Repair worker for the two Indiana Section 1 non-conviction families, plus one read-only question about a third family it holds no claim on.",
+ "rows": [
+  {
+   "itemId": "in_arrest_no_charges-set",
+   "lane": "FIX132",
+   "laneKind": "repair",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+   "claimAssert": "CLAIM_OK FIX132 in_arrest_no_charges-set (repair, grant set ebaba6c9ad349067)",
+   "recordedFailuresDispatched": [
+    "COMPONENT_SET (vf08)",
+    "SELF_HELP_STOP (vf08)",
+    "ARTIFACTS (vf90)"
+   ],
+   "obligationsAlreadyClosedAtHead": {
+    "COMPONENT_SET": "CLOSED before this lane, at commit 5de917b35, and re-measured here on the bytes. The three sets of insert pages the bundle demands on its own printed pages are bound and rendered: source-receipt.json carries CCA-XP-0120-7003 as a second document and fixtures/inserts-canonical-filled.pdf delivers its four pages. vf08 was right that nothing needed acquiring and vf09 was wrong that the close was a source lane's; the file was in custody in the same directory as the bundle.",
+    "SELF_HELP_STOP": "CLOSED in substance before this lane, at commit ac02f4c31. All thirteen registry conditions for track in_arrest_no_charges are now represented in participant-instructions.md. NOT closed the way its sibling closes it: the sibling reproduces the registry's thirteen sentences VERBATIM and cites data/record-clearing/legal-design-track-registry.json by track and key, and this family paraphrases them into its own bullet voice and cites nothing, so a verbatim search scores 0 of 13 while a semantic read scores 13 of 13. This lane did not rewrite them, because the substance is present and a rewrite is a judgement about prose rather than a demonstrated defect. Recorded so the next reader is not misled by the verbatim count."
+   },
+   "artifacts": [
+    {
+     "fixture": "packet-canonical-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+     "pageCount": 15,
+     "sha256": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f",
+     "addedGlyphsReadFromOutputBytes": 388,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "packet-boundary-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+     "pageCount": 15,
+     "sha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+     "addedGlyphsReadFromOutputBytes": 41,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "inserts-canonical-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+     "pageCount": 4,
+     "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+     "addedGlyphsReadFromOutputBytes": 0,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "inserts-boundary-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+     "pageCount": 4,
+     "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+     "addedGlyphsReadFromOutputBytes": 0,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    }
+   ],
+   "whatWasRepaired": "ARTIFACTS (vf90 at base a09ef20d) — the cause of 84 unaccounted stroke-only appearances established on this family's own bytes, and the defect the cause revealed repaired. Plus one write this family's own field map, guide and PROPOSED_ORDER_FIELDS all declared it did not make, which a rebuild at head surfaced.",
+   "theChangeInTheBuilder": [
+    "preserveUnwrittenSelectionBackgrounds: true — keeps the court's own blank-state paint on an UNWRITTEN check box or radio group. /MK /BG is still removed, so no background is ever requested; only paint the form itself authored survives. Written fields, text fields and every other disposition are unchanged.",
+    "normalizeInvertedWidgetRects: true — ISO 32000-1 7.9.5 normalisation, travelling with the flag above because this family's second bound source stores eleven widget rectangles upside down.",
+    "List-MailingAddresses_LEA added to the bundle's unwritable list — the block under the printed heading \"Law Enforcement Agencies:\" on page 14 of the proposed order.",
+    "addedGlyphsReadFromOutputBytes is now measured from the flattened appearance streams instead of published as a hard 0, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes now counts glyphs rather than appearances."
+   ],
+   "theStrokeOnlyFinding": {
+    "vf90Recorded": "84 stroke-only flattened appearances, 0 matching a pinned-source stream, 84 matching nothing in the sources.",
+    "countsReproduceExactly": "24 on inserts-canonical, 24 on inserts-boundary, 18 on packet-canonical, 18 on packet-boundary. 84.",
+    "causeEstablished": "ALL 84 are a source /AP /N stream MINUS its leading opaque background fill. 84 of 84, nothing left over. Compared by normalised stream text against every /AP /N substate of every widget on the same page of the pinned source, matching a stream to the source stream it most nearly is rather than only byte-for-byte.",
+    "soNothingWasRemoved": "The ink is the court's own. Not one stroke was deleted. READ_THIS_BEFORE_ACTING_ON_A_SYNTHESIZED_INK_CONFIRMED_ROW is right on both halves: the byte comparison is sound and says nothing about cause, and a lane that read the label as a deletion list would have erased the rules the Coalition's form draws.",
+    "theDefectTheCauseRevealed": "Stripping the fill exposed form art the page itself prints underneath. Measured at 300 dpi against an annotation-free render of each pinned source: 16 of the insert form's 16 selection widgets and 15 of the bundle's 17 sit over a check box drawn in the page content. The court's /AP covers that printed box with an opaque near-white fill and strokes a slightly larger one, so on the official form ONE box appears; with the fill stripped the delivered filing showed TWO CONCENTRIC FRAMES at all 31. Confirmed by eye on a 600 dpi crop before and after.",
+    "afterTheRepair": "66 of the 84 are now byte-IDENTICAL to a pinned-source /AP /N stream and 18 remain that stream minus its background fill — the text-field underline rules, which the flag deliberately does not touch because a text field's fill covers printed body text and preserving it there is the Colorado over-suppression. 0 unmatched."
+   },
+   "theInvertedRectangles": {
+    "source": "official-form:CCA-XP-0120-7003, sha256 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, the Non Conviction Insert Forms this family binds as its second document.",
+    "finding": "ELEVEN widget rectangles stored upside down on its page 4 (Exhibit A), offsets 11.68pt, every one of whose /AP paints. INVERTED_WIDGET_RECTANGLES.json records all eleven as appearancePaints:false; that is a measurement error, not a fact about the appearances — see theCorrectionToACommittedRecord below.",
+    "stateToday": "They belong to dropped choice fields, so nothing is stamped at them and delivered page 4 is pixel-identical to an annotation-free render of the source at 600 dpi: 0 added, 0 removed. normalizeInvertedWidgetRects is passed anyway, so the day one of them is written or preserved the appearance is placed on the control rather than 11.68pt above it."
+   },
+   "howTheAcceptanceWasMeasured": {
+    "instrument": "A directional raster difference in BOTH directions against a render of the pinned source with its annotations removed — the ink the page itself prints. Threshold 24 of 255. Every added pixel had to fall inside a declared write rect or a source widget rect; every removed pixel had to fall inside a selection widget whose authored blank-state paint this repair restores. 1.5pt edge tolerance for antialiasing.",
+    "resolutions": "600 dpi on the 4-page insert artifact, where the repaired feature is a 12pt check box; 300 dpi on the 15-page bundle.",
+    "result": "addedInkOutsideEveryDeclaredWriteRectAndEverySourceWidgetRect = 0 on every page of every artifact. removedInkNotAccountedToASelectionWidget = 0 on every page of every artifact.",
+    "negativeControls": "Bundle pages 4, 10, 11 and 15 — the three insert placeholder pages and the last page of the order, which this packet writes nothing on — gain and lose nothing, 0 and 0. Insert page 4, the Exhibit A page carrying all eleven inverted rectangles, gains and loses nothing at 600 dpi.",
+    "signaturesAndJurats": "Every signature, date, notary, jurat and certificate-of-service field is refused by role and carries no ink; the builder's own read-back from the artifact bytes raises signature_date_or_service_field_is_not_blank as a blocking finding and reports 0 findings on all four fixtures."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": "The eight contract counters with the repository's own instrument, node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run before and after. visualDefects is 0 because it WAS measured here, by the two-direction raster accounting described above, and not because a tool that renders nothing returned 0.",
+   "addedGlyphsDefinition": "addedGlyphsReadFromOutputBytes counts NON-WHITESPACE glyphs read back from the finished PDF's own flattened widget appearances. classify-flattened-widget-appearances.mjs reports 428 and 43 for the two packet fixtures because its addedGlyphsReadFromOutputBytes includes whitespace; its addedNonWhitespaceGlyphs is 388 and 41 and agrees exactly.",
+   "obligationsThisLaneWasSentToRepairThatWereALREADYCLOSED": "See obligationsAlreadyClosedAtHead on each row. This lane re-measured each on the delivered bytes rather than re-deriving the family.",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "selfVerified": false,
+   "setsNoVerdict": "This lane repaired these families and therefore cannot verify them. No verdict is set, no PASS is issued, and RASTER_PASS comes only from the central workflow bound to the exact digests recorded here."
+  },
+  {
+   "itemId": "in_section1_petition-set",
+   "lane": "FIX132",
+   "laneKind": "repair",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+   "claimAssert": "CLAIM_OK FIX132 in_section1_petition-set (repair, grant set ebaba6c9ad349067)",
+   "recordedFailuresDispatched": [
+    "CLIPPING_AND_OVERLAP (vf09)",
+    "COMPONENT_SET (vf09)",
+    "SELF_HELP_STOP (vf09)",
+    "ARTIFACTS (vf90)"
+   ],
+   "obligationsAlreadyClosedAtHead": {
+    "COMPONENT_SET": "CLOSED before this lane, at commit cb613793d, and re-measured here on the bytes.",
+    "SELF_HELP_STOP": "CLOSED before this lane, at commit ac02f4c31. All thirteen registry conditions appear VERBATIM in participant-instructions.md and the registry file, track and key are cited beside them. Re-measured here by exact string match: 13 of 13.",
+    "CLIPPING_AND_OVERLAP": "CLOSED before this lane. Re-measured here from the delivered bytes by decoding every flattened text appearance's /Tf size, its explicit clip rectangle and its show-text operands and computing the required width in the embedded font: 0 of 26 appearances on the canonical fixture and 0 of 2 on the boundary exceed their clip box. The boundary name is REFUSED at the readable floor rather than written and clipped, and the refusal is disclosed in reports/rendered-artifacts.json as value_exceeds_widget_width_at_minimum_font."
+   },
+   "artifacts": [
+    {
+     "fixture": "packet-canonical-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+     "pageCount": 15,
+     "sha256": "6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620",
+     "addedGlyphsReadFromOutputBytes": 388,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "packet-boundary-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+     "pageCount": 15,
+     "sha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+     "addedGlyphsReadFromOutputBytes": 41,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "inserts-canonical-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+     "pageCount": 4,
+     "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+     "addedGlyphsReadFromOutputBytes": 0,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "inserts-boundary-filled",
+     "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+     "pageCount": 4,
+     "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+     "addedGlyphsReadFromOutputBytes": 0,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    }
+   ],
+   "whatWasRepaired": "ARTIFACTS (vf90 at base a09ef20d) — the cause of 84 unaccounted stroke-only appearances established on this family's own bytes, and the defect the cause revealed repaired. Plus one write this family's own field map, guide and PROPOSED_ORDER_FIELDS all declared it did not make, which a rebuild at head surfaced.",
+   "theChangeInTheBuilder": [
+    "preserveUnwrittenSelectionBackgrounds: true — keeps the court's own blank-state paint on an UNWRITTEN check box or radio group. /MK /BG is still removed, so no background is ever requested; only paint the form itself authored survives. Written fields, text fields and every other disposition are unchanged.",
+    "normalizeInvertedWidgetRects: true — ISO 32000-1 7.9.5 normalisation, travelling with the flag above because this family's second bound source stores eleven widget rectangles upside down.",
+    "List-MailingAddresses_LEA added to the bundle's unwritable list — the block under the printed heading \"Law Enforcement Agencies:\" on page 14 of the proposed order.",
+    "addedGlyphsReadFromOutputBytes is now measured from the flattened appearance streams instead of published as a hard 0, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes now counts glyphs rather than appearances."
+   ],
+   "theStrokeOnlyFinding": {
+    "vf90Recorded": "84 stroke-only flattened appearances, 0 matching a pinned-source stream, 84 matching nothing in the sources.",
+    "countsReproduceExactly": "24 on inserts-canonical, 24 on inserts-boundary, 18 on packet-canonical, 18 on packet-boundary. 84.",
+    "causeEstablished": "ALL 84 are a source /AP /N stream MINUS its leading opaque background fill. 84 of 84, nothing left over. Compared by normalised stream text against every /AP /N substate of every widget on the same page of the pinned source, matching a stream to the source stream it most nearly is rather than only byte-for-byte.",
+    "soNothingWasRemoved": "The ink is the court's own. Not one stroke was deleted. READ_THIS_BEFORE_ACTING_ON_A_SYNTHESIZED_INK_CONFIRMED_ROW is right on both halves: the byte comparison is sound and says nothing about cause, and a lane that read the label as a deletion list would have erased the rules the Coalition's form draws.",
+    "theDefectTheCauseRevealed": "Stripping the fill exposed form art the page itself prints underneath. Measured at 300 dpi against an annotation-free render of each pinned source: 16 of the insert form's 16 selection widgets and 15 of the bundle's 17 sit over a check box drawn in the page content. The court's /AP covers that printed box with an opaque near-white fill and strokes a slightly larger one, so on the official form ONE box appears; with the fill stripped the delivered filing showed TWO CONCENTRIC FRAMES at all 31. Confirmed by eye on a 600 dpi crop before and after.",
+    "afterTheRepair": "66 of the 84 are now byte-IDENTICAL to a pinned-source /AP /N stream and 18 remain that stream minus its background fill — the text-field underline rules, which the flag deliberately does not touch because a text field's fill covers printed body text and preserving it there is the Colorado over-suppression. 0 unmatched."
+   },
+   "theInvertedRectangles": {
+    "source": "official-form:CCA-XP-0120-7003, sha256 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, the Non Conviction Insert Forms this family binds as its second document.",
+    "finding": "ELEVEN widget rectangles stored upside down on its page 4 (Exhibit A), offsets 11.68pt, every one of whose /AP paints. INVERTED_WIDGET_RECTANGLES.json records all eleven as appearancePaints:false; that is a measurement error, not a fact about the appearances — see theCorrectionToACommittedRecord below.",
+    "stateToday": "They belong to dropped choice fields, so nothing is stamped at them and delivered page 4 is pixel-identical to an annotation-free render of the source at 600 dpi: 0 added, 0 removed. normalizeInvertedWidgetRects is passed anyway, so the day one of them is written or preserved the appearance is placed on the control rather than 11.68pt above it."
+   },
+   "howTheAcceptanceWasMeasured": {
+    "instrument": "A directional raster difference in BOTH directions against a render of the pinned source with its annotations removed — the ink the page itself prints. Threshold 24 of 255. Every added pixel had to fall inside a declared write rect or a source widget rect; every removed pixel had to fall inside a selection widget whose authored blank-state paint this repair restores. 1.5pt edge tolerance for antialiasing.",
+    "resolutions": "600 dpi on the 4-page insert artifact, where the repaired feature is a 12pt check box; 300 dpi on the 15-page bundle.",
+    "result": "addedInkOutsideEveryDeclaredWriteRectAndEverySourceWidgetRect = 0 on every page of every artifact. removedInkNotAccountedToASelectionWidget = 0 on every page of every artifact.",
+    "negativeControls": "Bundle pages 4, 10, 11 and 15 — the three insert placeholder pages and the last page of the order, which this packet writes nothing on — gain and lose nothing, 0 and 0. Insert page 4, the Exhibit A page carrying all eleven inverted rectangles, gains and loses nothing at 600 dpi.",
+    "signaturesAndJurats": "Every signature, date, notary, jurat and certificate-of-service field is refused by role and carries no ink; the builder's own read-back from the artifact bytes raises signature_date_or_service_field_is_not_blank as a blocking finding and reports 0 findings on all four fixtures."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": "The eight contract counters with the repository's own instrument, node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run before and after. visualDefects is 0 because it WAS measured here, by the two-direction raster accounting described above, and not because a tool that renders nothing returned 0.",
+   "addedGlyphsDefinition": "addedGlyphsReadFromOutputBytes counts NON-WHITESPACE glyphs read back from the finished PDF's own flattened widget appearances. classify-flattened-widget-appearances.mjs reports 428 and 43 for the two packet fixtures because its addedGlyphsReadFromOutputBytes includes whitespace; its addedNonWhitespaceGlyphs is 388 and 41 and agrees exactly.",
+   "obligationsThisLaneWasSentToRepairThatWereALREADYCLOSED": "See obligationsAlreadyClosedAtHead on each row. This lane re-measured each on the delivered bytes rather than re-deriving the family.",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "selfVerified": false,
+   "setsNoVerdict": "This lane repaired these families and therefore cannot verify them. No verdict is set, no PASS is issued, and RASTER_PASS comes only from the central workflow bound to the exact digests recorded here."
+  }
+ ],
+ "theQuestionAboutAFamilyThisLaneDoesNotHold": {
+  "question": "Do CCA-XP-0220-7010's six inverted widget rectangles paint on any of this host's delivered families?",
+  "answer": "NO. They are silent, and silent for a structural reason rather than by luck.",
+  "familyConcerned": "in_conviction_felony-set, which this lane holds NO claim on. Nothing of it was read or written beyond the shared source form and its own delivered fixtures, and nothing of it was touched.",
+  "howItWasMeasured": [
+   "component-page-manifest.json records CCA-XP-0220-7010 as packet pages 4-6, sourceClass retained_official_form_delivered_verbatim_and_unfilled, retained:true.",
+   "The delivered canonical.pdf carries NO AcroForm and NO flattened widget appearance at all — classify-flattened-widget-appearances.mjs reports 0 flattened appearances on all four of its fixtures. All six inverted rectangles survive as live, unflattened /Widget annotations at the source's own raw corners, each with the form's own /AP dict and /AS /Off.",
+   "Because nothing is flattened, pdf-lib's flatten() never places anything, and the misplacement cannot occur.",
+   "Decisive: a 300 dpi render of delivered page 4 and of source page 1 are BYTE-IDENTICAL PNGs, sha256 c55be41e9f0d04e96a2f25f46726ea2858bda9a465d30ea0b334753c6c515c53. Zero added, zero removed, both directions, on the page carrying all six."
+  ],
+  "butOneThingIsNotAsRecorded": "The six are NOT silent because their /N carries no painting operator. Every one of them paints. See theCorrectionToACommittedRecord."
+ },
+ "theCorrectionToACommittedRecord": {
+  "record": "data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json",
+  "itSays": "46 inverted-rect widgets, of which exactly ONE paints today (Alabama CR-65 Check Box10.2); the other 45 are silent because their /N carries no painting operator, and each becomes visible only the day its family writes it.",
+  "whatIsWrong": "The paint test in scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads the appearance stream with stream.getContentsString(), falling back to Buffer.from(stream.getContents()).toString('latin1'), and runs its painting-operator regex over those bytes WITHOUT applying the stream's /Filter. Both accessors return the RAW stored bytes. Every one of these appearances that is FlateDecode-compressed therefore tests as not painting, whatever it contains.",
+  "whatTheDecodedBytesSay": "Re-running the same test over the same 46 widgets in the same 13 held forms, with each stream inflated through decodePDFRawStream before the regex: 27 of the 46 paint, not 1. The 27 that paint are EXACTLY the 27 that are FlateDecode-compressed; the 19 that do not paint are exactly the 19 stored uncompressed, and those 19 genuinely carry no painting operator. Alabama's CR-65 Check Box10.2 is the single inverted widget whose appearance is stored UNCOMPRESSED, which is the only reason it was the one the scan could see.",
+  "indianasSix": "All six of CCA-XP-0220-7010's are FlateDecode. Each /Off state decodes to `1 g 0 0 13.4455 12.876 re f 0.5 0.5 12.4455 11.876 re s` — an opaque white fill and a stroke, the same shape as the Alabama widget that gouged the letters out of 'expired'.",
+  "theConsequenceForTheFleet": "'Exactly one paints today' and 'the other 45 are silent only because their /N carries no painting operator' are properties of stream compression, not of the appearances. 27 of 46 inverted-rect widgets across 13 held forms carry an appearance that paints. Whether any of them paints ON A DELIVERED PAGE is a separate question that depends on whether that widget's family flattens it; this lane answered it only for Indiana's six (no) and for the eleven in its own bound insert form (no, and now normalised anyway).",
+  "thisLaneDidNotEditThatFile": "INVERTED_WIDGET_RECTANGLES.json is a shared record another lane authored and this lane holds no claim on it. The correction is recorded here, with the exact reproduction, rather than written into it.",
+  "reproduction": "For each row of custodyScope, open row.heldAt, find the widget whose /Rect matches row.inverted[].rect, and test the painting-operator regex against decodePDFRawStream(stream).decode() instead of stream.getContentsString()."
+ },
+ "theQueueScopeQuestion": {
+  "asked": "Is COMPONENT_SET on these two the same shape as rcap-in-custom-pleading's ten required components that exist in none of the 346 families — a queue scope question rather than a build error?",
+  "answer": "NO. It was a BUILD ERROR, and it is closed.",
+  "why": "The three sets of pages were named by the bound source ON ITS OWN PRINTED PAGES — pages 4, 10 and 11 of the delivered bundle each print 'Take out this page and insert your non-conviction ... pages (from the Non Conviction Insert Forms)'. The supplying document was already in the corpus this build mounts, in the same STATES/IN/02_PACKET_FORMS directory as the bundle, sha256 65500e2c…, 4 pages, 77 fields. Nothing needed acquiring and nothing needed rescoping: the family had simply not bound a file it held. Both families now bind and render it.",
+  "aCorrectionToAVerifierRow": "vf09 recorded for in_section1_petition-set that 'the close is a source lane acquiring the Coalition for Court Access Non Conviction Insert Forms and binding them, not an edit in a repair lane.' That was wrong about custody, and vf08's later read of the same defect on the sibling family established it. Nothing was acquired."
+ },
+ "theDefectThisLaneFoundThatNobodyDispatched": {
+  "what": "On a rebuild at head, BOTH families wrote participant.street_address into List-MailingAddresses_LEA — a 240 by 408 point block on page 14 of the PROPOSED ORDER, printed under the heading 'Law Enforcement Agencies:', where the mailing addresses of the agencies the signed order must be served on are listed.",
+  "whatItWouldHavePutOnAFiling": "The petitioner's own home address, named to the court as a law-enforcement agency's service address, inside an order a judge signs.",
+  "howItGotThere": "The shared binder matched it on a label the census had harvested as the two control characters BEL and ACK. Not a printed label at all.",
+  "whyNoGateSawIt": "It is ink inside a declared write box, so the outside-the-box glyph reading is honestly 0; all nine completeness counters are 0 with it and 0 without it; and the raster receipt cannot see a value that is wrong rather than misplaced. It is the DEFECTS_NO_COUNTER_CAN_SEE class 'a field map that is honest about its intent while the finalizer writes something else': the family declares List-MailingAddresses_LEA in PROPOSED_ORDER_FIELDS as court-owned, and participant-instructions.md tells the participant this packet writes nothing below the order's caption. The declaration was true of the field map and false of the bytes.",
+  "isItInTheCOMMITTEDArtifacts": "NO. The committed fixtures predate the shared library change that strips control characters from harvested labels, and were built before this binding could occur. It appears the moment either family is rebuilt at head, with or without any change of this lane's. Verified by control experiment: the UNPATCHED builder at head produces it too.",
+  "repaired": "List-MailingAddresses_LEA is now in each builder's unwritable list with its reason. Both families are back to five written values in 26 places, matching what participant-instructions.md already said, and the guide is byte-identical to the committed one.",
+  "whoElseShouldLook": "Any family binding CCA-SECTION1-PETITION-ORDER sha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5, and more generally any builder whose census carried \\u0007\\u0006 label noise before the strip landed and has not been rebuilt since."
+ },
+ "theOtherThingsMeasuredThatContradictARecordHere": [
+  "reports/actual-writes.json in both families published addedGlyphsReadFromOutputBytes: 0 with the note 'Zero by construction, not by measurement'. It is measurable and it is not zero: 388 non-whitespace glyphs on the canonical bundle fixture and 41 on the boundary, read from the flattened appearance streams. Once a widget is flattened its appearance IS the page's ink. Repaired in both builders; the distinction the old note drew is kept in words.",
+  "The same report's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes was counting APPEARANCES, not glyphs. It now counts glyphs, and the appearance count is kept beside it under its own name. Both read 0.",
+  "reports/charge-caption-proof.json now examines 2 charge-caption blanks where the committed copy examined 8. The narrowing is not this lane's: it follows from the shared label-noise strip changing which blanks classify as charge captions. The answer is unchanged and independently true — nothing at all is written on the insert form, so no insert blank can carry a participant name.",
+  "product-wiring.json is NOT regenerated by either of these builders; this host is not one of the eight. The acceptance receipts nevertheless bound canonical digests this repair moved, so each was WITHDRAWN through scripts/rcap-packet-completeness/governance-preservation.mjs, carrying both digests and keeping the receipt under acceptanceReceiptWithdrawn. npm run rcap:verify-governance-preservation returns GOVERNANCE_PRESERVATION_OK, 16 checks, before this commit."
+ ],
+ "commercialRoutesOpened": "none",
+ "productionTouched": "none. No route changed, no migration run, no Stripe or Supabase surface touched, no production environment variable read or written.",
+ "notAProductionClaim": "These rows record a repair and its measurements. They open no route, promote nothing, set no verdict and issue no PASS."
+}
