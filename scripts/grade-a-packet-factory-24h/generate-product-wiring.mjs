@@ -23,6 +23,7 @@ import { bindDeclaredGaDelivery, GA_FAMILY } from "./ga-declared-delivery.mjs";
 import { IA_FORM1_FAMILY, bindDeclaredIaForm1Delivery, createDeclaredIaForm1Delivery } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
 import { isMiMoDeclaredFamily, bindDeclaredMiMoDelivery, createDeclaredMiMoDelivery } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
+import { carryForwardGovernance } from "../rcap-packet-completeness/governance-preservation.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -204,9 +205,31 @@ const alignDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "m
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex")
     });
 
+/*
+ * THE CANONICAL DIGESTS A FAMILY CURRENTLY PRODUCES.
+ *
+ * An acceptance receipt binds ONE exact canonical SHA-256. Whether it still
+ * describes the family is therefore a membership question, not an equality one:
+ * rcap-oh-custom-pleading-clean-tracks renders four canonicals, one per track,
+ * and pa-summary-conviction-set three, one per instrument. The fixture-label
+ * test is the same one the component derivation below uses.
+ */
+const canonicalDigestsFor = (family) => {
+  let art;
+  try { art = JSON.parse(fs.readFileSync(path.join(ROOT, family.directory, "reports", "rendered-artifacts.json"), "utf8")); }
+  catch { return null; }
+  const digests = [...new Set((art.artifacts ?? art.pdfs ?? art.packets ?? [])
+    .filter((a) => /(^|-)canonical(-|$)/.test(String(a.fixture ?? "")))
+    .map((a) => String(a.sha256 ?? ""))
+    .filter((d) => /^[0-9a-f]{64}$/.test(d)))];
+  return digests.length ? digests : null;
+};
+
 let written = 0, skipped = 0, refreshed = 0, bespokeBindingsPreserved = 0;
 const digestsRepinned = [];
 const digestFileMissing = [];
+const receiptsWithdrawn = [];
+const governanceCarried = [];
 for (const f of selectedFamilies) {
   const wiringPath = path.join(ROOT, f.directory, "product-wiring.json");
   const artifactsPath = path.join(ROOT, f.directory, "reports", "rendered-artifacts.json");
@@ -242,7 +265,39 @@ for (const f of selectedFamilies) {
       let existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
       const before = JSON.stringify(existing);
       if (hasBespokeInstalledBinding(existing)) bespokeBindingsPreserved++;
-      else existing.binding = bindingFor(f);
+      else {
+        /*
+         * A REGENERATED BINDING MUST NOT DELETE THE RECEIPT IT CANNOT REDERIVE.
+         *
+         * bindingFor() derives the acceptance receipt from RASTER_QUEUE.json and
+         * writes `acceptanceReceipt: null` when it finds no proven row. That
+         * null used to land straight on top of a committed hash-bound
+         * RASTER_PASS. Measured at this base: 32 of the 212 committed records
+         * this generator wrote carry a receipt whose family has NO row in the
+         * raster queue at all, so a refresh deletes 32 receipts, silently, and
+         * leaves nothing to compare against.
+         *
+         * That is the defect recorded in
+         * data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json.
+         * Roger's direction on the staged border remediation is explicit that old
+         * receipts are preserved as historical evidence and that no old receipt
+         * is ever relabelled as covering changed output, so the receipt is
+         * carried while it still binds a canonical this family produces and
+         * WITHDRAWN, with both digests, when it does not. Nothing here issues a
+         * receipt or sets a verdict: only the central raster workflow does that.
+         */
+        const previousBinding = existing.binding ?? null;
+        existing.binding = bindingFor(f);
+        const canonical = canonicalDigestsFor(f);
+        const outcome = carryForwardGovernance(previousBinding, existing.binding, canonical
+          ? { canonicalSha256: canonical }
+          : { whyCanonicalIsNotMeasured: "this family declares no canonical fixture this generator can read, so this "
+              + "refresh measured no bytes and makes no statement about what the receipt covers" });
+        for (const w of outcome.withdrawn) {
+          receiptsWithdrawn.push({ family: f.familyId, was: w.boundToCanonicalSha256, now: w.replacedByCanonicalSha256 });
+        }
+        if (outcome.carried.includes("acceptanceReceipt")) governanceCarried.push(f.familyId);
+      }
       for (const c of existing.proposedRepresentation?.components ?? []) {
         if (!c.file || !/^[0-9a-f]{64}$/.test(String(c.sha256 ?? ""))) continue;
         const abs = path.join(ROOT, c.file);
@@ -422,6 +477,14 @@ console.log(checkOnly
   ? `${written} wiring record(s) need creation, ${refreshed} record(s) need refresh, ${skipped} unchanged`
   : `${written} wiring record(s) written, ${refreshed} record(s) refreshed, ${skipped} unchanged`);
 if (bespokeBindingsPreserved) console.log(`  ${bespokeBindingsPreserved} bespoke installed binding(s) preserved`);
+if (governanceCarried.length) {
+  console.log(`  ${governanceCarried.length} committed acceptance receipt(s) carried forward: this refresh derived none from the raster queue and the committed receipt still binds a canonical the family produces.`);
+}
+if (receiptsWithdrawn.length) {
+  console.log(`  ${receiptsWithdrawn.length} acceptance receipt(s) WITHDRAWN, kept on the record under acceptanceReceiptWithdrawn:`);
+  for (const w of receiptsWithdrawn) console.log(`    ${w.family} bound to ${String(w.was).slice(0, 12)}, the family now produces ${String(w.now).slice(0, 12)}`);
+  console.log("  A withdrawn receipt is history, not a verdict. Each of these families owes a central raster of its current bytes; nothing here issues one.");
+}
 if (digestsRepinned.length) {
   console.log(`  ${digestsRepinned.length} component digest(s) re-pinned to the bytes on disk:`);
   for (const d of digestsRepinned) console.log(`    ${d.family} ${d.file.split("/").pop()} ${d.was.slice(0, 12)} -> ${d.now.slice(0, 12)}`);
