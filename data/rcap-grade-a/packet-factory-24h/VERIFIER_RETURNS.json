@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 202,
-    "rows": 1263,
+    "returnDirectories": 203,
+    "rows": 1264,
     "independentVerdicts": 295,
-    "failRepairRequired": 43,
-    "passIndependent": 228
+    "failRepairRequired": 42,
+    "passIndependent": 229
   },
   "failRepairRequiredFamilies": [
     "al-felony-nonconviction-90-set",
@@ -60,7 +60,6 @@
     "ks-21-6614-conviction-set",
     "ky_protective_order_record_expungement-set",
     "la-985-1-interim-expungement-set",
-    "ma-seal-court-set",
     "ne-setaside-custodial-set",
     "nh_marijuana_annulment-set",
     "nj_disorderly_persons-set",
@@ -14409,6 +14408,20 @@
     },
     {
       "familyId": "ma-seal-court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fed0b492ea204c3db219c879353a49bbf5bfa470",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-ma-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-seal-court-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ma-seal-court-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
       "isIndependentVerification": true,
@@ -14435,7 +14448,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-seal-court-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-seal-decrim-set",
