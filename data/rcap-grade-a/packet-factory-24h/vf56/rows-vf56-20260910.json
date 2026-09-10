@@ -1,0 +1,240 @@
+{
+ "schemaVersion": "rcap-verifier-rows/v2",
+ "lane": "VF56",
+ "laneKind": "independent-verification",
+ "isIndependentVerification": true,
+ "worktree": "/home/user/v9b-worktree",
+ "branch": "lane-vf56-20260910",
+ "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+ "generatedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+ "grantSet": "0fc7bc025343619a. Three --assert calls in the three-token form, all CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 981a2b664470bb2bf74ce6b366eedb0cc4d74162). Released at return.",
+ "restartNote": "An earlier VF56 was lost to a container restart before committing. This lane started fresh at 6483ce246 and re-measured everything; nothing was carried over from that lost session.",
+ "actedOnReturns": [
+  "FIX159 rows-fix159-20260910.json, the repair of me-seal-survivor-set (commit c2d9cf0bd) and its no-repair reading of ar-drug-court-set.",
+  "FIX158 rows-fix158-20260910.json, the byte-free PROTECTED_FIELDS repair of mn_petition_15218-set.",
+  "VF22 rows-vf22-20260910.json, the pre-repair verification of me-seal-survivor-set at 8db74d6e5.",
+  "VF05 rows.json, the pre-repair verification of ar-drug-court-set at 5de917b35.",
+  "VF20's current non-superseded row for mn_petition_15218-set at a45cb2767."
+ ],
+ "builtAnything": false,
+ "repairsMade": 0,
+ "packetsSelfVerified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "sharedManifestsTouched": "None. This lane wrote only data/rcap-grade-a/packet-factory-24h/vf56/. The claim ledger was written by --assert and --release only, through scripts/grade-a-packet-factory-24h/claim.mjs.",
+ "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, plus the private custody mount at /home/user/legalease-partner-dashboard-clean/private (symlinked into this worktree as private/), which is where ME CR-308 and the AR/MN sources live.",
+ "howBytesWereMeasured": "sha256sum on the files on disk; pdfinfo/pdftotext -layout and -bbox (poppler) for page counts, page text and glyph geometry; pdftoppm -r 150 -gray writing binary P5 PGM (never -png, which emits RGB) with annotations drawn, read by a P5 parser written in this lane; pikepdf 10.x for source decryption, derived-source reproduction and appearance-stream decoding. Every raster figure below names its dpi, its ink threshold and its scope, and every zero is preceded by a positive control taken at the same settings.",
+ "everyZeroHasAPositiveControl": "Yes, and the controls are recorded per family in rasterPixelCounts. No zero in this return is published without one.",
+ "theCOMPLETENESSVERIFIERWASNOTTREATEDASEVIDENCE": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs was not used to establish any result here. FIX158 recorded that it returns exit 0, PASS_COMPLETE and all-zero counters against a tree where both of its dispatched defects were live, and it converts an unmeasured null into a printed visualDefects 0. Nothing in this return is transcribed from it.",
+ "rows": [
+  {
+   "familyId": "me-seal-survivor-set",
+   "itemId": "me-seal-survivor-set",
+   "jurisdiction": "ME",
+   "verdict": "PASS",
+   "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+   "repairedBy": "FIX159 at commit c2d9cf0bd. This lane repaired nothing and read only the committed bytes.",
+   "theFIX159REPAIRHOLDS": true,
+   "deliveredDigestsHashedByThisLane": {
+    "fixtures/canonical.pdf": "55efeb2534e0b8ddb14514805fa299c0004970cb238d0e89c89b3f050635ceae",
+    "fixtures/boundary.pdf": "220b2877b2232589fad019b48edcea55834c774ca8372889b9337dfc54e54747",
+    "byteLengths": {
+     "canonical": 322161,
+     "boundary": 322369
+    },
+    "pageCounts": {
+     "canonical": 3,
+     "boundary": 3
+    },
+    "matchesTheDIGESTSFIX159REPORTED": true,
+    "matchesReportsRenderedArtifactsJson": true
+   },
+   "sourceDigestsHashedByThisLane": {
+    "official-form:CR-307": {
+     "path": "$MASTER_LIBRARY_SOURCE_DIR/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "byteLength": 175213,
+     "pageCount": 1,
+     "encrypted": true
+    },
+    "official-form:CR-308": {
+     "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+     "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+     "byteLength": 162514,
+     "pageCount": 2,
+     "encrypted": true
+    },
+    "derivedSourcesReproducedHere": "Both pikepdf derivatives were REBUILT in this lane from the exact encrypted sources by the declared method, pikepdf.open(exact_source).save(deterministic_id=True), and hashed: cr-307 = 1a43d763fc27585a52cb8234b2c1ebca20bf4d59d3b45abb47dba38ad154e2cd and cr-308 = 4dbce66994c493e2ce73e5776b2c9a4afb19b991b5f8255b84f3f7a3efcbd168, both bit-identical to the committed derivatives the build rendered against. The exact sources were opened read-only and were not modified."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS"
+    },
+    "ARTIFACTS": {
+     "result": "PASS"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS"
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS"
+    },
+    "SERVICE": {
+     "result": "PASS"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS"
+    }
+   },
+   "obligationFindings": {
+    "ROUTE_IDENTITY": "PASS. One route key, obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing, identical in product-wiring.json (twice), source-receipt.json and production-field-map.json; familyId 'me-seal-survivor-set' appears 11 times across the family's records and never disagrees. The committed track registry carries trackId me-seal-survivor with legalName 'Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)', and the delivered page 1 prints that caption and '15 M.R.S.A. § 2262-B' as its own authority line, read with pdftotext from the bytes. Maine's terminology rule re-checked on the delivered guides: 'expung' occurs 0 times in participant-instructions.md and 0 times in filing-instructions.md. status BUILT_REVIEW_PENDING, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, packetsSelfVerified 0.",
+    "SOURCE_IDENTITY": "PASS, fully measured, both binaries opened at their recorded paths and re-hashed here. CR-307 = c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1, 175,213 bytes, 1 page, AES-encrypted, matching source-receipt.json by digest, byte length and page count. CR-308 = b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5, 162,514 bytes, 2 pages, also encrypted; it is NOT under MASTER_LIBRARY_SOURCE_DIR and resolves only through the private custody mount, which is the PRIVATE_CUSTODY_MOUNT.json condition rather than a missing source. The encrypted-source bridge was re-run rather than believed: pikepdf.open(exact_source).save(deterministic_id=True) reproduced both committed derived-sources bit-identically (1a43d763.., 4dbce669..), so the pages the build drew on are provably the official pages. The 3-page delivered packet maps 1+2 = 3 onto those two sources exactly as reports/rendered-artifacts.json declares.",
+    "COMPONENT_SET": "PASS. The controlling packet-set manifest (legal-design-packet-set-manifests.json, packetSets[213]) declares THREE required components: me-seal-survivor-primary-filing-1 (primary_filing, official_pdf_fill, order 1), me-seal-survivor-proposed-order-2 (proposed_order, official_pdf_fill, order 2) and me-seal-survivor-instructions-3 (instructions, process_guidance, order 3). All three are delivered: CR-307 as packet page 1, CR-308 as packet pages 2-3, and the guidance component as participant-instructions.md with filing-instructions.md. requiredComponentsMissing 0. product-wiring.json's packetComponents lists only the two PDF components, and at this base its binding no longer carries a filingInstructions path at all; that is a record-completeness disagreement about how the third component is wired, not an absent component, and VF22 passed the same obligation against the same disagreement. Recorded, not repaired.",
+    "KNOWN_PREFILLS": "PASS, and this is the obligation FIX159 was dispatched on. Measured on the delivered pixels and the delivered text layer, not on the field map or on FIX159's report. (1) THE ISO LITERAL IS GONE. pdftotext -layout over both fixtures finds the string '1991-04-17' 0 times; it also occurs 0 times in participant-instructions.md, 0 times in filing-instructions.md and 0 times in build-findings.json. (2) WHAT REPLACED IT MATCHES THE PRINTED CAPTION. Packet page 1 (CR-307) and packet page 2 (CR-308) each read 'Defendant’s DOB (mm/dd/yyyy): 04/17/1991' on both fixtures - 4 of 4 instances corrected, and 04/17/1991 is mm/dd/yyyy as the form itself prints the caption. Page-by-page grep confirms the caption 'mm/dd/yyyy' is the one actually printed beside each write on both documents, so the format binding is to the page and not to a guess. (3) THE CONVERSION IS DISCLOSED, not silent: all four DOB writes in reports/actual-writes.json now carry heldValue '1991-04-17', printedFormat 'mm/dd/yyyy' and reformattedForPrintedCaption true, and the held fact is unchanged. (4) PLACEMENT, which is the harder half on this form because CR-307's AcroForm names are shifted by one against its printed labels, is still right: pdftotext -layout puts 'Jordan Avery Reyes' on the defendant-name line beside the centred 'Defendant' caption and '04/17/1991' on the DOB line, on both fixtures. (5) Every declared write renders: differencing each delivered page against the pinned source page it claims at 150 dpi, grey<128, whole page, annotations drawn, all 20 declared write rects across the two fixtures carry added ink, from 449 px to 1,690 px. invisibleWrites 0, measured rather than published. (6) No ink escaped a declared box: of 4,187 / 2,675 added px on canonical pages 1 and 2 and 6,474 / 3,225 on boundary pages 1 and 2, exactly 0 px fall outside the union of the declared write rectangles at a 2 px tolerance. addedGlyphsReadFromOutputBytes was independently recounted from the values actually written - 85, 55, 229, 107 - and matches all four published figures exactly.",
+    "REQUIRED_BEFORE_FILING": "PASS, and the hold FIX159 had to make is confirmed on this lane's own matcher. The packet-set record declares ELEVEN requiredBeforeFiling entries. Measured two ways from the delivered bytes: whitespace-normalised exact substring, 11 of 11; and the stricter LINE-ANCHORED test, where an entry counts only when it equals a WHOLE line of the delivered guide after list markers, block-quote markers, backticks and bold wrappers are stripped, also 11 of 11. So no verbatim record string was reworded, split, reordered, truncated or paraphrased while the section was restructured - the count was at ceiling and it was held at ceiling, by the stricter of the two tests as well as the one the earlier lanes used. BOTH INSTANCES VF22 FAILED ARE ADDRESSED ON THE DELIVERED PAGE. Instance 1: the record's list no longer sits under 'You must supply these before you file'. That heading now carries only the four real blanks on the forms, and the record's list has its own heading, 'The record's own required-before-filing list', whose opening states in terms that it is not a list of things the reader must supply and that it is written partly to the people who build and operate the service. The fee entry additionally gains a line naming the clauses it shares with the track's own legal-design limitation ('confirm with the clerk'; 'do not promise a refund') and saying to read it as a note about how the service must behave. Instance 2: the Documents-to-gather quotation ending 'Frame the question so a no carries no implication, and never ask the participant to produce proof.' is now introduced by a paragraph that names it as a legal-design limitation, 'a rule the record sets for the people who build and operate this service', says parts of it are written about the reader rather than to them, and says in terms that nothing in it asks them to produce anything. That is the same disclosure the guide already made for the self-help stop conditions, which is what VF22 said was missing. Each of the eleven lines also gains an indented 'Record step: <kind>' continuation, which is what makes the bare entries 'none.' and 'none expected, because no fee is expected.' readable standing alone. Those continuations are separate lines and do not touch the verbatim strings, which is why the line-anchored count is still 11 of 11.",
+    "ROUTE_OPTIONS": "PASS. Two option groups exist and both are correctly left entirely to the participant: CR-307 and CR-308 each print the three court-for-filing boxes (Superior Court, District Court, Unified Criminal Docket). The track record's venue is 'the court in which the conviction was entered' and this one route reaches all three, so no box may be pre-marked. Measured, not assumed: differencing each delivered page against its pinned source at 150 dpi, grey<128, over the six participantElections widget rectangles from reports/blanks.json, added ink is 0 px on both fixtures; over the one notApplicableOnThisRoute rectangle, 0 px; over the four requiredBeforeFiling rectangles, 0 px. No required option is missing - all six court boxes and the record's own reason for each are printed in participant-instructions.md under 'Choices only you can make', and the three GRANTED/GRANTED/DENIED ordering boxes are listed separately under 'The court fills these in' because they are the judge's. The detector that returned those zeros is the same one that returned 4,187 px on canonical page 1 and 836 px on the injected control described in rasterPixelCounts.",
+    "REPEATING_ROWS": "PASS with the reason that the obligation does not arise on these forms, which is still a measurement. Every field name on both documents was enumerated from field-census.census-v1.json - 15 on CR-307, 15 on CR-308 - and stem-grouped in this lane to look for an indexed row family. CR-307 yields no repeated stem at all. CR-308 yields exactly one, 'A hearing was held on mmddyyyy' and its '_2' sibling, and the delivered page 2 shows what those are: the two mutually exclusive ordering alternatives, one on the granting finding and one on the denying finding, not two rows of one table. Neither form carries a numbered row set, a per-row cell group or a table, so there is no row that can be incomplete and incompleteRows is 0.",
+    "PROTECTED_FIELDS": "PASS. reports/blanks.json refuses NINE fields as protected - CR-308's three ordering boxes, the prosecutor's name, both hearing dates and the findings-of-fact box, plus CR-307's signature and signature-date blocks - each with the record's own reason ('an ordering box on the order the judge signs', 'the court's own findings of fact', 'your signature'). Measured on the pixels: over all nine protected widget rectangles, on BOTH fixtures, added ink against the pinned sources is 0 px at 150 dpi, grey<128. protectedWrites 0, measured here rather than read off a counter. Nothing this build adds sits on a control that belongs to the court or on a signature line, and participant-instructions.md says so on the page: 'CR-308 is the proposed order. Everything on it except the caption belongs to the judge.' The delivered CR-308 page 3 is the strongest form of this - see the survivor-route finding under CLIPPING_AND_OVERLAP and rasterPixelCounts.",
+    "ARTIFACTS": "PASS. reports/rendered-artifacts.json declares canonical 55efeb25.. at 322,161 bytes / 3 pages and boundary 220b2877.. at 322,369 bytes / 3 pages; all six figures were recomputed here with sha256sum, ls and pdfinfo and all six agree. Both page manifests name the source page and source digest each packet page claims, and every one of those six claims was checked by rendering and differencing rather than by reading the manifest. addedGlyphsReadFromOutputBytes 140 and 336 reconcile against an independent recount of the non-whitespace characters actually written (85+55, 229+107). activeContentScan reports no hits and the bytes uncompressed; scanned independently here, /JavaScript, /JS, /Launch, /EmbeddedFile, /OpenAction, /AA, /RichMedia, /SubmitForm, /URI, /GoToR, /Movie and /Sound all occur 0 times in both fixtures. Poppler emits 'XObject subtype is missing or wrong type' on both fixtures; it is the published Maine form's own defect, present in the exact encrypted source and in the derivative alike, declared in build-findings.json, and it costs no ink - removed pixels on that page are 0. product-wiring.json carries acceptanceReceipt null, which is correct: no receipt binds these bytes. See rasterState and theGOVERNANCEKEYSFIX159ADDEDARENOLONGERINTHECOMMITTEDFILE.",
+    "PAGE_ORDER": "PASS, verified from the bytes rather than from the manifest. Packet page 1 is CR-307 page 1, packet page 2 is CR-308 page 1 and packet page 3 is CR-308 page 2, and each was proved by differencing the delivered page against the source page it claims at 150 dpi: every one matched its claimed source with 0 removed pixels, and page 3 matched with 0 added AND 0 removed. The motion precedes the proposed order it asks the court to sign, which is the filing order the packet-set manifest's component order (1 then 2) requires.",
+    "CLIPPING_AND_OVERLAP": "PASS, in both the addition and the removal direction, and including the survivor-route check. REMOVAL: removed ink against the pinned sources is 0 px on every page of both fixtures, so no ink the Maine Judicial Branch prints has been erased. CLIPPING: this family draws overlay text on the page content stream rather than into widget appearance streams - an appearance-stream scan written in this lane finds 0 text-carrying /AP /N streams in either fixture - so there is no BBox to clip at, and the boundary values are fitted by shrinking rather than refused: the 51-character name renders at 7.5 pt, the 75-character street address at 7 pt, and pdftotext reads every one of the 20 delivered values back in full and equal to its declared expected value. Per-write edge clearance was measured on the pixels: every one of the 20 writes has positive clearance to all four sides of its own rectangle, minimum 4 px at 150 dpi, so nothing is cut off at a rectangle edge. OVERLAP: two boundary-fixture write rectangles have an added-ink envelope that intersects the envelope of printed source ink inside the same rectangle (CR-307 'Docket No' and '2_2'), so each was opened: the number of SOURCE ink pixels lying inside the added-text bounding box is 0 in all four cases - the printed ink is a rule line above and below the text, not a collision. THE SURVIVOR-ROUTE CHECK: packet page 3 is CR-308's page 2, the judge's warning-and-signature page, and it is where an identity fact must never appear. It carries 0 added and 0 removed pixels against its pinned source on BOTH fixtures at 150 dpi, grey<128, whole page, annotations drawn; its pdftotext -layout text is byte-identical to the source page's; and none of Jordan, Reyes, 1991, 04/17, CUMCD, Maple, Portland, Alexandrina, Montgomery, Sagadahoc, 900123 or Grandview occurs on it in either fixture. Not one of those zeros is published without the control in rasterPixelCounts.",
+    "FILING_DESTINATION": "PASS. filing-instructions.md sends the completed CR-307 with the proposed CR-308 to the clerk's office for the court that entered the conviction, in the underlying criminal proceeding, citing 15 M.R.S. § 2264(1), and adds that where several motions are filed the court consolidates them to one location. Both sentences were checked against the committed track registry's own venue and destination fields for track me-seal-survivor and are the record's, not the packet's: venue 'The court in which the conviction was entered, in the underlying criminal proceeding (§ 2264(1)). Where several motions are filed the court consolidates them to one location.' and destination kind clerk, name 'Clerk of the court in which the conviction was entered'. No court address, division, clerk's practice or e-filing instruction is asserted that the record does not carry, and the three court-for-filing boxes are correctly left to the participant because this route reaches all three courts.",
+    "FEE_AND_WAIVER": "PASS. The track record's rules.fees reads 'No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.' and rules.feeWaiver reads 'none expected, because no fee is expected.' filing-instructions.md renders that participant-facing without the operator clause: 'The committed record says no fee is expected: Administrative Order JB-05-26 lists no fee for a criminal post-judgment motion. This packet states no fee amount. Ask the clerk.' Measured: a currency-figure scan over both delivered guides finds 0 dollar amounts of any kind, so no fee amount, no waiver deadline, no eligibility test and no clerk's practice is fabricated. The raw record string still reaches the participant guide verbatim, as REQUIRED_BEFORE_FILING requires it to, and it is now printed under the heading that says what it is - which is exactly the change that turns VF22's failure into a pass without moving the string.",
+    "SERVICE": "PASS, measured as a question about what the packet asserts. filing-instructions.md states that the committed record says § 2264(3) directs notice to the prosecutorial office that represented the State, that neither the statute nor CR-307 imposes a service obligation on the movant, and that whether the movant serves the prosecutor or the court performs all notice, and by what method, is NOT SETTLED in the committed record for this route. The form-side half of that was checked against the delivered bytes: 'certificate of service' occurs 0 times in the delivered packet, so the claim that CR-307 carries no certificate-of-service block is true of the page. No service method, deadline or proof-of-service requirement is invented anywhere. The open source-acquisition gate on notice method is named rather than papered over, and build-status.json carries deliveryGatedByOpenSourceAcquisitionGates true.",
+    "SELF_HELP_STOP": "PASS. All SEVEN selfHelpStopConditions and BOTH scopeRestrictions from the committed track record reach the delivered guidance as whitespace-normalised exact substrings - 7 of 7 and 2 of 2, tested here against the delivered bytes with a matcher written in this lane. The mixed-audience disclosure VF22 relied on is intact after FIX159's restructuring: participant-instructions.md line 32 still reads 'Some of those sentences are written to the people who build and operate this service rather than to you'. That disclosure is now made in BOTH places it is needed - here and, newly, over the record's required-before-filing list - which is the asymmetry VF22 failed the family on."
+   },
+   "rasterPixelCounts": {
+    "parameters": "pdftoppm -r 150 -gray, binary P5 PGM (not -png), annotations drawn, ink threshold grey < 128 of 255, whole page, no masking. Compared: each delivered page against the pinned-source page its own page manifest claims, both rendered at the same settings. Read by a P5 parser written in this lane; -gray -png was deliberately not used because it emits an RGB PNG a naive grayscale reader misreads silently.",
+    "scope": "All 3 pages of both fixtures, against CR-307 page 1 and CR-308 pages 1-2.",
+    "canonical": {
+     "page1": {
+      "added": 4187,
+      "removed": 0,
+      "addedBBoxPx150dpi": [
+       69,
+       197,
+       1109,
+       1180
+      ]
+     },
+     "page2": {
+      "added": 2675,
+      "removed": 0,
+      "addedBBoxPx150dpi": [
+       68,
+       167,
+       1108,
+       308
+      ]
+     },
+     "page3": {
+      "added": 0,
+      "removed": 0,
+      "addedBBoxPx150dpi": null,
+      "removedBBoxPx150dpi": null
+     }
+    },
+    "boundary": {
+     "page1": {
+      "added": 6474,
+      "removed": 0,
+      "addedBBoxPx150dpi": [
+       69,
+       197,
+       1199,
+       1178
+      ]
+     },
+     "page2": {
+      "added": 3225,
+      "removed": 0,
+      "addedBBoxPx150dpi": [
+       68,
+       167,
+       1182,
+       308
+      ]
+     },
+     "page3": {
+      "added": 0,
+      "removed": 0,
+      "addedBBoxPx150dpi": null,
+      "removedBBoxPx150dpi": null
+     }
+    },
+    "addedPixelsOutsideTheDeclaredWriteRectangles": {
+     "canonicalPage1": 0,
+     "canonicalPage2": 0,
+     "boundaryPage1": 0,
+     "boundaryPage2": 0,
+     "tolerancePx": 2
+    },
+    "addedPixelsInsideProtectedRectangles": {
+     "count": 0,
+     "rectangles": 9,
+     "acrossBothFixtures": true
+    },
+    "addedPixelsInsideParticipantElectionRectangles": {
+     "count": 0,
+     "rectangles": 6,
+     "acrossBothFixtures": true
+    },
+    "positiveControls": [
+     {
+      "kind": "natural",
+      "what": "The same differ, at the same 150 dpi and the same grey<128, over the pages that DID move: it reports 4,187 / 2,675 px added on canonical pages 1-2 and 6,474 / 3,225 px on boundary pages 1-2. A detector returning those cannot be blind."
+     },
+     {
+      "kind": "synthetic, on the page whose zero is being claimed",
+      "what": "A copy of canonical.pdf was made in this lane with one text operator appended to page 3's content stream drawing 'Jordan Avery Reyes 04/17/1991' at 10 pt using a font already in that page's resources. Re-rendered and differenced at the identical settings, the same detector reports added 836 px with bounding box [417,801,642,819]. The zero on page 3 is therefore a measured zero and not an inert one. The control file was deleted after measurement and no packet byte was touched."
+     }
+    ],
+    "whyThisIsNotABeforeAfterDiff": "FIX159's page-3 zero was taken between the pre-repair and post-repair fixtures, which can only show that the repair added nothing new. The zeros above are taken between the DELIVERED page and its PINNED OFFICIAL SOURCE page, which is the question the survivor route actually asks: not 'did this repair put an identity fact on the blank page' but 'is there one there at all'. There is not, in ink or in the text layer."
+   },
+   "areTheseTheBytesTheCentralRasterCarries": false,
+   "rasterState": {
+    "state": "BUILT_RASTER_PENDING",
+    "freshCentralRasterOwed": true,
+    "why": "product-wiring.json carries acceptanceReceipt null. The family's only receipt was withdrawn earlier: it bound canonical 0ee66d97.., was superseded by 8c68fd47.., and the canonical on disk is now 55efeb25.. after FIX159. No receipt has ever bound 55efeb25.. or 220b2877.., reports/rendered-artifacts.json records rasterPages [] on both fixtures, and build-status.json records rasterPages 0. This lane rendered locally to measure and deleted every image; a local render is not a receipt and none is claimed. FIX159's statement that this family owes a fresh central raster is correct.",
+    "thisReadIsWHATUNBLOCKSIT": "The family could not enrol for the visual gate while its recorded verdict read FAIL. This row supplies the independent PASS on the moved bytes; the raster is owed against canonical 55efeb2534e0b8ddb14514805fa299c0004970cb238d0e89c89b3f050635ceae and boundary 220b2877b2232589fad019b48edcea55834c774ca8372889b9337dfc54e54747."
+   },
+   "theGOVERNANCEKEYSFIX159ADDEDARENOLONGERINTHECOMMITTEDFILE": {
+    "whatFIX159Claimed": "That its rebuild preserves the family's governance state and that 'currentCanonicalSha256 is recorded so a stale entry cannot read as current', with lastIndependentVerification.appliesToTheCurrentBytes recomputed rather than asserted.",
+    "whatHoldsAtThisBase": "The part that matters holds. product-wiring.json carries lastIndependentVerification = {verdict FAIL_REPAIR_REQUIRED, lane vf22, verifiedAtBase 8db74d6e5..}, which is the current controlling reading, NOT the hard-coded vf01 record at 7d6453f51 that the unmodified builder reverted to; and acceptanceReceiptWithdrawn still carries the full withdrawal entry naming both the digest the receipt bound and the digest that replaced it.",
+    "whatDoesNotHold": "Three keys FIX159 committed at c2d9cf0bd are absent from the file at this base: binding.currentCanonicalSha256, lastIndependentVerification.appliesToTheCurrentBytes (with its own currentCanonicalSha256), and declaredInstrumentKindMismatch. binding.filingInstructions was dropped in the same edit and instrumentKinds reverted from ['primary_filing','proposed_order'] to the MASTER_QUEUE label.",
+    "whoRemovedThem": "NOT FIX159. Commit cdde6192c, 'Re-derive the queue after FIX158 and FIX159', which ran the factory-owned scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs after FIX159 landed. The builder still writes all three keys - they are at lines 1847, 1899 and 1913 of scripts/build-census-v1-me-seal-survivor-set.mjs - so the family builder and the factory generator write the same file to different shapes and the last writer wins.",
+    "consequenceAndWhyITDOESNOTFAILANOBLIGATION": "The record left behind is incomplete rather than false: it says truthfully that the last independent verification was vf22 at 8db74d6e5 and does not claim that verdict applies to the bytes on disk. But the marker that made the staleness explicit is gone, and a reader who does not hash the fixtures cannot tell from this file that vf22 measured 8c68fd47.. and the canonical is now 55efeb25... This is the same shared-file ordering defect FIX158 recorded for Minnesota, where the same generator strips a RASTER_PASS receipt. It is a factory-owned question, this lane repairs nothing, and it is reported here so it is not lost.",
+    "whatWouldSatisfyIt": "One writer for product-wiring.json, or a generator that carries forward keys it does not itself own. Until then, a lane reading a family's product-wiring.json after a queue re-derivation should not assume the builder's governance keys survived."
+   },
+   "whatThisRowDoesNotGrant": "Nothing. This is a verification verdict on fifteen obligations against the bytes at 6483ce246. It opens no commercial route, issues no receipt, promotes no build status and closes none of this family's open source-acquisition gates. me-seal-survivor-set additionally carries the open gate me_2264_7_cr308_warning_conflict and build-status.json's deliveryGatedByOpenSourceAcquisitionGates true, which the packet itself says makes it a review artifact that is not delivered to a participant."
+  }
+ ]
+}
