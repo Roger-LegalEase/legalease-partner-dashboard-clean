@@ -27,6 +27,8 @@ That is not an omission. This packet was built for a single route, and that rout
 | 7 | Ground 7 — the records were created as a result of errors by court employees (selection) | tick this ground only if the records were created by an error made by a court employee |
 | 8 | Ground 8 — the records were created as a result of fraud perpetrated upon the court (selection) | tick this ground only if the records were created by a fraud perpetrated upon the court |
 
+**If you cannot tell which one fits, stop here.** The route record's first stop condition is _"Whether the facts meet a listed ground is unclear."_ That is this table's question. The record has a second stop condition too, about what _'demonstrable'_ requires for a law enforcement, witness or fraud ground. Both are set out in full under **Stop and get help** at the end of this guide.
+
 ## Which court department heard the case
 
 The four department boxes at the top of page 1 say where the case was **heard**, not which law you are using. The route record puts the destination at _"Statewide form, court-specific filing. File in the clerk's office in the court where the case was heard."_ Tick the one department that heard your case, and write the division beside it.
@@ -56,12 +58,12 @@ At the foot of page 1 you state that you did it, tick **in hand** or **first cla
 
 - **Filing fee:** the route record records none for this route and the form prints none, so **no amount is stated here**. Ask the clerk's office you file in. An unsourced figure in a filing instruction is worse than none.
 - **Anyone else to serve, and by when:** the route record records no service recipient, method or timing for this route beyond the district attorney's copy the form itself describes, so nothing more is stated here.
-- **Hearing:** the route record's words are _"A hearing is set."_ Whether to ASK for one is a box on page 1 and it is yours to tick.
-- **If the district attorney opposes:** _"Filing, service on the district attorney and any hearing follow generation. Hand off when the district attorney opposes or a hearing is set."_
+- **Hearing:** the route record's words are _"A hearing is set."_ Whether to ASK for one is a box on page 1 and it is yours to tick. But note that the same words are one of this route's stop conditions: if a hearing is actually set, see **Stop and get help** below before you go to it.
+- **If the district attorney opposes:** the route record marks that as a point to stop: _"The district attorney opposes."_ This packet does not tell you how to answer an opposition, and it is not built to. See **Stop and get help** below.
 
 ## Get this before you start
 
-The committed packet-set record for this packet marks the item below **required before filing**. It is not one of the blanks on the form and no part of this packet supplies it: you obtain it yourself, before you fill anything in. Quoted verbatim from `data/record-clearing/legal-design-packet-set-manifests.json`, packetSet `ma-expunge-k-set` (sha256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7):
+The committed packet-set record for this packet marks the item below **required before filing**. It is not one of the blanks on the form and no part of this packet supplies it: you obtain it yourself, before you fill anything in. Quoted verbatim from `data/record-clearing/legal-design-packet-set-manifests.json`, packetSet `ma-expunge-k-set` (sha256 b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c):
 
 > Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.
 
@@ -161,6 +163,17 @@ The 2 `complete_field` entries are blanks on the petition's own face. The table 
 | You gave the district attorney's office a copy by delivering it in hand (selection) | tick this only after you have actually delivered a copy in hand. This sentence is a statement that you already did it, and when this packet was prepared it had not happened |
 | You gave the district attorney's office a copy by mailing it first class (selection) | tick this only after you have actually posted a copy by first class mail. This sentence is a statement that you already did it, and when this packet was prepared it had not happened |
 | Request for an interpreter (selection) | whether you want an interpreter is yours to decide and nobody else's. The form prints beside it that there is no charge to you for interpreter or translation services |
+
+## Stop and get help
+
+Stop using automated assistance and speak with a Massachusetts lawyer if any of these is true. They are the route record's own stop conditions for this track, printed word for word from `data/record-clearing/legal-design-track-registry.json`, track `ma-expunge-k` (sha256 b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0):
+
+- Whether the facts meet a listed ground is unclear.
+- What 'demonstrable' requires for a law enforcement, witness or fraud ground is in issue.
+- The district attorney opposes.
+- A hearing is set.
+
+This packet prepares a petition. It does not argue one. Nothing in it tells you how to meet an opposition, what to say at a hearing, or whether your facts reach a ground — and the judge decides that last one on clear and convincing evidence, in the court's own words on page 2.
 
 ## What this packet is not
 

@@ -130,6 +130,8 @@ const MASTER_QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const SWEEP = "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json";
 const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "ma-expunge-k";
 
 /*
  * The form prints no form number anywhere on either page — only the edition
@@ -1533,12 +1535,58 @@ function participantActsRequiredBeforeFiling() {
   return { acts, documentShaped, digest: crypto.createHash("sha256").update(bytes).digest("hex") };
 }
 
+/*
+ * THE FOUR STOPS THIS GUIDE CARRIED NONE OF.
+ *
+ * VF55 measured track ma-expunge-k declaring four selfHelpStopConditions while
+ * the delivered guide carried none of them AS A STOP: three did not appear at
+ * all, and the fourth, "A hearing is set.", appeared only inside a bullet that
+ * repurposed it as an election prompt. There was no stop section and the word
+ * "lawyer" did not occur anywhere in the document.
+ *
+ * It bites hardest on this family's own facts. The guide asks the participant
+ * to self-assess against eight statutory grounds and tells them the judge must
+ * find the ground on clear and convincing evidence -- and the record's FIRST
+ * stop condition is "Whether the facts meet a listed ground is unclear." They
+ * were walked to exactly the question the record marks as the point to stop,
+ * and not told to stop.
+ *
+ * The conditions are printed verbatim, one per line, under the same
+ * "## Stop and get help" heading both Alabama families use, and a build-time
+ * invariant asserts every one of them is a WHOLE LINE of the delivered guide.
+ */
+function selfHelpStopConditions() {
+  const bytes = fs.readFileSync(path.join(ROOT, TRACK_REGISTRY));
+  const registry = JSON.parse(bytes.toString("utf8"));
+  const track = (registry.tracks ?? []).find((row) => row.trackId === TRACK_ID);
+  assert.ok(track, `${TRACK_REGISTRY} carries no track ${TRACK_ID}`);
+  const stops = (track.selfHelpStopConditions ?? []).map((s) => String(s).trim()).filter((s) => s.length > 0);
+  assert.ok(stops.length > 0,
+    `${TRACK_REGISTRY} declares no selfHelpStopConditions for ${TRACK_ID}; this guide prints them, so the build stops `
+    + "rather than publish an empty stop section");
+  return { stops, digest: crypto.createHash("sha256").update(bytes).digest("hex") };
+}
+
 function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, census) {
   const elections = maps.flatMap((m) => m.selectionControls.filter((c) => c.disposition === "participant_election"));
   const grounds = rbf.filter((r) => r.groundNumber).sort((a, b) => a.groundNumber - b.groundNumber);
   const departments = rbf.filter((r) => r.courtDepartment);
   const otherRbf = rbf.filter((r) => !r.groundNumber && !r.courtDepartment);
   const writes = maps.flatMap((m) => m.canonicalWrites);
+
+  const { stops, digest: registryDigest } = selfHelpStopConditions();
+  /*
+   * The district-attorney stop, taken by MATCHING the two records against each
+   * other rather than by index. The census's contestedHearingOrOppositionHandoff
+   * cell carries two entries and the track declares four stop conditions; the
+   * one entry that is in both is the sentence that belongs in that bullet. If
+   * the two records ever stop agreeing, the build stops rather than choose.
+   */
+  const daOpposesStop = route.contestedHandoff.find((entry) => stops.includes(entry));
+  assert.ok(daOpposesStop,
+    "no entry of the census's contested-handoff cell is also a declared stop condition of track "
+    + `${TRACK_ID}; the build will not print an internal handoff instruction to a participant, and will not choose `
+    + "between the two records on its own");
 
   const out = [];
   out.push("# Filing instructions — ask a Massachusetts judge to expunge a court record under G.L. c. 276, § 100K", "");
@@ -1579,6 +1627,20 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, cens
   out.push("| # | The ground the form prints | Tick it only if |", "| --- | --- | --- |");
   for (const g of grounds) out.push(`| ${g.groundNumber} | ${g.disclosureLabel} | ${g.participantMustSupply} |`);
   out.push("");
+  /*
+   * The pointer VF55 asked for. The record's FIRST stop condition is about
+   * exactly the choice this table asks the participant to make, so the table
+   * says so where they are making it rather than only at the end of the guide.
+   */
+  assert.match(stops[0], /listed ground/,
+    "this guide tells the participant, at the ground table, that the record's FIRST stop condition is that table's "
+    + `own question; the first condition now reads ${JSON.stringify(stops[0])} and no longer says so`);
+  out.push(
+    `**If you cannot tell which one fits, stop here.** The route record's first stop condition is _"${stops[0]}"_ `
+    + "That is this table's question. The record has a second stop condition too, about what _'demonstrable'_ "
+    + "requires for a law enforcement, witness or fraud ground. Both are set out in full under "
+    + "**Stop and get help** at the end of this guide.", ""
+  );
 
   out.push("## Which court department heard the case", "");
   out.push(
@@ -1621,10 +1683,27 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, cens
   );
   out.push(
     `- **Hearing:** the route record's words are _"${quote(route.uncontestedHearing[0], "hearing treatment")}"_ `
-    + "Whether to ASK for one is a box on page 1 and it is yours to tick."
+    + "Whether to ASK for one is a box on page 1 and it is yours to tick. But note that the same words are one of "
+    + "this route's stop conditions: if a hearing is actually set, see **Stop and get help** below before you go to "
+    + "it."
   );
+  /*
+   * THE SLOT THE INTERNAL HANDOFF STRING USED TO OCCUPY.
+   *
+   * This bullet printed route.contestedHandoff[0] verbatim to the participant:
+   * "Filing, service on the district attorney and any hearing follow
+   * generation. Hand off when the district attorney opposes or a hearing is
+   * set." That is this platform's own workflow vocabulary about its own
+   * process -- "follow generation", "Hand off" -- addressed to nobody the
+   * participant is, under a heading promising what the packet does not tell
+   * them. The SAME census cell carries a second entry, "The district attorney
+   * opposes.", which is also the track's third declared stop condition; the
+   * build was printing the wrong entry of the two. The stop goes here.
+   */
   out.push(
-    `- **If the district attorney opposes:** _"${quote(route.contestedHandoff[0], "contested handoff")}"_`
+    `- **If the district attorney opposes:** the route record marks that as a point to stop: _"${quote(daOpposesStop, "district attorney opposition")}"_ `
+    + "This packet does not tell you how to answer an opposition, and it is not built to. See **Stop and get help** "
+    + "below."
   );
   out.push("");
 
@@ -1756,6 +1835,20 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, cens
   out.push("| The box | Why the packet left it to you |", "| --- | --- |");
   for (const c of elections) out.push(`| ${c.effectiveLabel} | ${c.why} |`);
   out.push("");
+
+  out.push("## Stop and get help", "");
+  out.push(
+    "Stop using automated assistance and speak with a Massachusetts lawyer if any of these is true. They are the "
+    + `route record's own stop conditions for this track, printed word for word from \`${TRACK_REGISTRY}\`, track `
+    + `\`${TRACK_ID}\` (sha256 ${registryDigest}):`, ""
+  );
+  for (const stop of stops) out.push(`- ${stop}`);
+  out.push("");
+  out.push(
+    "This packet prepares a petition. It does not argue one. Nothing in it tells you how to meet an opposition, "
+    + "what to say at a hearing, or whether your facts reach a ground — and the judge decides that last one on "
+    + "clear and convincing evidence, in the court's own words on page 2.", ""
+  );
 
   out.push("## What this packet is not", "");
   out.push(
@@ -1950,6 +2043,41 @@ export async function runFamily(argv = process.argv.slice(2)) {
     instructionsText.includes(`marks **${participantActs.acts.length}** entries required before filing`),
     `the guide must announce the number of required-before-filing entries the manifest actually holds (${participantActs.acts.length})`);
 
+  /*
+   * FIX162. THE FOUR DECLARED STOPS, AND THE INTERNAL VOCABULARY THAT SAT IN
+   * THEIR SLOT.
+   *
+   * Every selfHelpStopConditions entry the track declares must be a WHOLE LINE
+   * of the delivered guide, on the same line-anchored matcher FIX153's
+   * required-before-filing invariant uses -- a stop quoted inside a sentence
+   * about something else is not a stop. All four fire on the guide this family
+   * shipped before this repair: three appeared nowhere in it, and the fourth
+   * appeared only as a substring of an election prompt.
+   */
+  const declaredStops = selfHelpStopConditions().stops;
+  for (const stop of declaredStops) {
+    assert.ok(disclosedAsItsOwnLine(instructionsText, stop),
+      `a stop condition track ${TRACK_ID} declares is not carried into the guide verbatim as a line of its own: ${stop}`);
+  }
+  assert.match(instructionsText, /^## Stop and get help$/m,
+    "the guide must carry the section that tells the participant when to stop using automated assistance");
+  assert.match(instructionsText, /\blawyer\b/,
+    "a stop section that never names a lawyer does not tell anyone what to do instead");
+  /*
+   * And the negative half. The track's postGenerationHandoffs string and the
+   * census's matching contested-handoff entry are internal workflow
+   * instructions about this platform's own process; neither may reach the page
+   * a participant reads.
+   */
+  for (const internal of route.contestedHandoff.filter((entry) => !declaredStops.includes(entry))) {
+    assert.ok(!instructionsText.includes(internal),
+      `an internal handoff instruction is printed to the participant: ${JSON.stringify(internal)}`);
+  }
+  for (const marker of ["follow generation", "Hand off"]) {
+    assert.ok(!instructionsText.includes(marker),
+      `internal build vocabulary reaches the participant guide: ${JSON.stringify(marker)}`);
+  }
+
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
     jurisdiction: "MA", implementationStrategy: "official_pdf_fill",
@@ -1962,7 +2090,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "SOURCE_IDENTITY_RESOLUTION_SWEEP.json.",
     routeKey: route.routeKey, statutoryAuthority: STATUTORY_AUTHORITY,
     allSourcesExact: true,
-    custodyRootsSearched: source.searched.map((s) => ({ root: s.root, exists: s.exists, sha256: s.sha256 ?? null })),
+    /*
+     * `exists` is the existence of the DECLARED PATH under that root, not of
+     * the root. Published under `root` alone it read as a claim that the root
+     * itself was missing -- which is false whenever a mounted corpus simply
+     * does not hold this form. The path searched is published beside it so the
+     * receipt cannot be misread, and so a reader can tell a missing mount from
+     * a mount that was searched and does not carry this document.
+     */
+    custodyRootsSearched: source.searched.map((s) => ({
+      root: s.root,
+      pathSearched: path.join(s.root, binding.declaredPath),
+      declaredPathExistsUnderThisRoot: s.exists,
+      sha256: s.sha256 ?? null
+    })),
     custodyRootUsed: source.custodyRoot,
     documents: [{
       sourceIds: [binding.sourceId], documentId: DOCUMENT_ID, formNumber: DOCUMENT_ID,
