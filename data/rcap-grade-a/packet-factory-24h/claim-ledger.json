@@ -4017,10 +4017,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX13",
+      "lane": "FIX147",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T13:21:40.153Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
     },
     {
@@ -14683,9 +14683,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky-expungement-certification-set",
+      "itemId": null,
+      "familyId": "ky-expungement-certification-set",
+      "familyIds": [
+        "ky-expungement-certification-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX147",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "3f9548adfe3f4c0501b8aab784959d90c9c53ff0c2b2a896773cac6c2d78afa5",
+  "claimsDigest": "130685cfd781dec63641748cb97b690c41a7377d35064570438315e6c42bb3c6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56455,6 +56470,17 @@
       "previouslyReleasedAt": "2026-09-09T20:14:29.813Z",
       "transferredAt": "2026-09-10T12:25:25.997Z",
       "reason": "Captain dispatch: FIX01 returned and released this grant; handed to FIX146 to measure the text-overhang VF43 found, and to repair only if the ink genuinely lands outside the printable region or over other ink."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX13",
+      "toLane": "FIX147",
+      "previouslyReleasedAt": "2026-09-09T13:21:40.153Z",
+      "transferredAt": "2026-09-10T12:37:43.688Z",
+      "reason": "Captain dispatch: FIX13 returned and released this grant. FIX147 removes the flattened form-control captions its delivered fixtures carry."
     }
   ],
   "grants": [
@@ -56918,6 +56944,17 @@
       "grantedAt": "2026-09-10T12:25:06.444Z",
       "grantedBy": "Captain",
       "reason": "No repair grant has ever existed for this family. Minted so FIX146 can MEASURE the text-overhang VF43 found on its delivered canonical and repair it only if the ink genuinely lands outside the printable region or over other ink. A measurement grant is not permission to move a proven family's bytes.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX147",
+      "subjectType": "packet-family",
+      "subjectId": "ky-expungement-certification-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T12:37:43.826Z",
+      "grantedBy": "Captain",
+      "reason": "No repair grant has ever existed for this family and its delivered fixtures carry flattened Print Form and Reset Form captions. Minted so FIX147 can repair it beside the Illinois family with the same defect.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
