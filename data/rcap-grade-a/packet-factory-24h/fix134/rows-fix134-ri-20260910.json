@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "rcap-repair-lane-return/v1",
+  "lane": "FIX134",
+  "laneKind": "repair",
+  "dispatch": "Two Rhode Island official-pdf-fill families, each carrying one recorded failed obligation, dispatched as CLIPPING_AND_OVERLAP with the border ink described as invented and its remedy as removal.",
+  "generatedAtBase": "26a3551068c88c9b76fa2da13ad7aefb3f202465",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "fix134-ri-20260910",
+  "subjects": [
+    "ri_deferred_sentence-set",
+    "ri_first_offender_misdemeanor-set"
+  ],
+  "theDispatchedFRAMINGWasWrongAndTheBytesSayWhy": {
+    "whatTheDispatchSaid": "That the border cohort ledger records for each family 4 stroke-only flattened appearances matching NOTHING their pinned source ships, with or without a leading background fill normalised away; that the re-run after today's normaliser correction left both at SYNTHESIZED_INK_CONFIRMED; and that on these two families the border ink is invented and its remedy is REMOVAL.",
+    "whatTheCOMMITTEDLedgerSays": "The opposite, for both families. BORDER_COHORT_REMEDIATION.json at this base records sourceAccounting.result = EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED, strokeOnlyMatchingNothing = 0, strokeOnlyThatIsASourceStreamMinusItsBackgroundFill = 4, unmatchedDetail = [], and a why sentence ending 'the remedy restores it'. Neither family is SYNTHESIZED_INK_CONFIRMED and neither has been since the accounting pass of 2026-09-10T04:38:47.230Z.",
+    "whatTHISLaneMeasuredIndependently": "The ledger is right and the dispatch is wrong. All 4 delivered stroke-only streams per family are byte-identical to a stream the pinned source ships once the leading opaque background fill is normalised away, at an identical /BBox. Measured with an independent stream-digest comparison that imports scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs rather than reimplementing it, over a source pool built from every indirect object carrying a /BBox.",
+    "whatRemovalWouldHaveCost": "Deleting these streams would have erased the court's own beveled check box -- its 0.501953 grey top-left bevel, its 0.75293 grey bottom-right bevel and its stroked outline -- from a control on a sworn affidavit, on both Superior-55 and DC-33. No stream was removed by this lane.",
+    "theFramingWasRestatedMidTaskAndIsStillContradictedByTheBytes": {
+      "whatWasRestated": "A mid-task correction reaffirmed that 'both of your Rhode Island families are ones where the border ink genuinely matches nothing the source ships, so removal is the right remedy there -- that has not changed.'",
+      "whyThisLaneDidNotActOnIt": "Because the bytes say otherwise and the instruction on this point was explicit: if the measurement disagrees, trust the measurement and say so. The single strongest piece of evidence is post-repair rather than pre-repair. After restoring the leading fill, each delivered appearance stream is byte-identical by RAW SHA-256, with no normalisation of any kind, to a stream the pinned source ships -- Superior-55 objects 153 0 R and 134 0 R, DC-33 objects 157 0 R and 165 0 R. A stream cannot be byte-identical to a stream the source does not ship. The ink is the court's.",
+      "whatRemovalWouldHaveProduced": "A packet whose check boxes on a sworn affidavit are blank where the court prints a box. That is the Colorado and Vermont over-suppression failure, which this cohort has now paid for twice.",
+      "thisIsNotADisagreementAboutMETHOD": "The mid-task correction about how to render an AcroForm source is right, was adopted in full, and is proved above. The disagreement is only about which of the three classes these four streams fall into, and that is settled by digest."
+    },
+    "theObligationNameAlsoDoesNotMatchTheQueue": "MASTER_QUEUE.json records failedObligationNames = [] and failedObligations = [] for both families. Their only live verdict is FAIL_REPAIR_REQUIRED from lane VF90, evidence data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json, whose failedObligationNames is ['ARTIFACTS'] and not CLIPPING_AND_OVERLAP. The dispatched label nevertheless describes the visible symptom correctly: what is on the page is two overlapping check-box outlines."
+  },
+  "howTheClassWasEstablishedPerStream": {
+    "method": "SHA-256 of the decompressed appearance stream bytes, delivered side against a pool of every stream in the pinned source whose dict carries a /BBox, compared raw AND after skeleton() from scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs was applied to both sides.",
+    "whyThePoolIsBuiltThatWay": "FIX130 measured what an AcroForm-and-Annots walk misses: on Vermont it built 29 streams where the documents ship 70, and reported 24 source streams as invented because their originals were never in the pool. A pool missing the stream you are looking for reports invented ink.",
+    "resultBeforeRepair": "0 of 8 streams matched raw. 8 of 8 matched after the leading fill was normalised away. Zero unmatched.",
+    "resultAfterRepair": "8 of 8 match RAW, byte for byte, with no normalisation. The delivered stream is now the source stream exactly."
+  },
+  "correctionToARecordCommittedInThisRepository": {
+    "record": "scripts/build-census-v1-ri_decriminalized-set.mjs, the note at ri_multiple_misdemeanors-set headed 'MEASURED HERE AND DELIBERATELY NOT REPAIRED'",
+    "whatItSays": "That the two appearances at Group2 on DC-33 packet page 4 are 'synthesis rather than misplacement', that closing it 'needs a reader who can name the shared step that generates that stream', and that suppressSynthesizedWidgetBorders was tried and was inert.",
+    "whatIsWrong": "It is not synthesis. Nothing generates that stream: it IS the stream DC-33 ships, with one operator removed. The shared step is not a generator at all -- it is stripWidgetBackground / stripOpaqueBackgroundPaint in scripts/rcap-official-forms/rcap-active-content.mjs, which removes a leading fill at grey >= 0.9 covering the widget from the /AP the court shipped, and which runs unconditionally unless the caller passes preserveUnwrittenSelectionBackgrounds. That is why suppressSynthesizedWidgetBorders was inert: it governs synthesis, and no synthesis was happening.",
+    "whyTheNoteWasRightToStop": "It measured honestly, refused to guess, and said so. Its per-route reasoning for not moving four siblings' bytes is the reasoning this lane followed.",
+    "whatThisDoesNOTDo": "It does not repair ri_multiple_misdemeanors-set. That family is claimed by FIX08 and no byte of it was touched.",
+    "corroboratedIndependentlyBy": "data/rcap-grade-a/packet-factory-24h/fix133/rows-fix133-judicial-20260910.json, defectTwo on pa_pardon_expungement-set: the same mechanism, the same shared function named, the same remedy, on a different state and a different form. That lane also records that the ledger classed its two as invented and that removing them would have deleted the court's own stroke."
+  },
+  "rows": [
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX134 ri_deferred_sentence-set (repair, grant set 6cd30124b3679d3a)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "pinnedSource": {
+        "sourceId": "official-form:Superior-55",
+        "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+        "resolvedFrom": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+        "digestConfirmedWith": "sha256sum, first-hand, against the declared pin",
+        "pages": 4
+      },
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED -- the court's own opaque mask stripped off its /AP",
+        "widgets": [
+          "Superior-55 Group4, packet page 4 = source page 4, appearance /FlatWidget-5373953175 placed at [73.179 394.625 84.631 404.152]",
+          "Superior-55 Group4, packet page 4 = source page 4, appearance /FlatWidget-1836459056 placed at [223.774 395.395 235.226 405.692]"
+        ],
+        "cause": "Superior-55 both PRINTS a check box in its page content stream and covers it with the widget's own /Off appearance, which paints `1 g 0 0 11.4524 10.2969 re f` over the printed box and then strokes a beveled box of its own. A conforming viewer and the court's own PDF therefore show ONE box. stripOpaqueBackgroundPaint removed that leading white fill, and the printed box reappeared INSIDE the widget's box.",
+        "whatIsOnThePage": "Two overlapping outlines at each of the two controls -- a vertical bar standing inside the box interior with a rule along its bottom, which is the printed box's own left and bottom edges showing through. Read at 600 dpi against the pinned page, not inferred from the build report.",
+        "remedy": "RESTORE, never remove. preserveUnwrittenSelectionBackgrounds keeps the source's authored blank-state paint on a selection this run did not write. /MK /BG is still stripped, so no background the form did not itself author is requested."
+      },
+      "byteEvidencePerStreamThatNothingWasInvented": [
+        {
+          "appearance": "/FlatWidget-5373953175",
+          "onFixtures": ["canonical.pdf", "boundary.pdf"],
+          "deliveredSha256Before": "916cc9234cc69ea8b3c94107b038d3ce9f0836d9d4f2b960bcdf6bb3add318c9",
+          "deliveredBytesBefore": 190,
+          "matchedRawBefore": null,
+          "skeletonSha256": "301b90720c5f1c71502489f5cfa96e809bbf20c5c849ba89c1a908f73e61007f",
+          "matchedSourceStreamAfterFillNormalisedAway": "Superior-55 object 153 0 R, 216 bytes, /BBox [0 0 11.4524 9.52664] identical to the delivered /BBox",
+          "theOnlyDifference": "the source stream's leading `1 g / 0 0 11.4524 9.5266 re / f`. Everything after it is identical byte for byte.",
+          "deliveredSha256After": "3f6ef33ace26eea02547144cf09ea76ccdbcf2b2f1740739b049251ca197443d",
+          "matchedRawAfter": "153 0 R"
+        },
+        {
+          "appearance": "/FlatWidget-1836459056",
+          "onFixtures": ["canonical.pdf", "boundary.pdf"],
+          "deliveredSha256Before": "1d16c64cfe3f5b156d9021f40e67a837cd7366af37d4022014b5ae3dcaeed17b",
+          "deliveredBytesBefore": 190,
+          "matchedRawBefore": null,
+          "skeletonSha256": "c2d24382e08049b71e9a2d88d0b24de97d1ff93290daa6db2a14e854f96272a9",
+          "matchedSourceStreamAfterFillNormalisedAway": "Superior-55 object 134 0 R, 217 bytes, /BBox [0 0 11.4524 10.2969] identical to the delivered /BBox",
+          "theOnlyDifference": "the source stream's leading `1 g / 0 0 11.4524 10.2969 re / f`. Everything after it is identical byte for byte.",
+          "deliveredSha256After": "ab60372a54bf21f6f8d9f45068e3e0336a6dd43caa14fc2fb3c88f2a79958b92",
+          "matchedRawAfter": "134 0 R"
+        }
+      ],
+      "streamsRemoved": "none. This lane removed no appearance stream, no path and no operator from any delivered artifact. The repair adds back an operator the build had taken out of the court's own stream.",
+      "whatWasChanged": [
+        "scripts/build-census-v1-ri_decriminalized-set.mjs -- preserveUnwrittenSelectionBackgrounds is now passed at the single finalizeOfficialForm call in renderOfficialForm, read PER ROUTE from FAMILIES[familyId].preserveSourceAuthoredSelectionPaint, with the measurement and the byte evidence recorded in the comment above it.",
+        "scripts/build-census-v1-ri_decriminalized-set.mjs -- preserveSourceAuthoredSelectionPaint: true set on the ri_deferred_sentence-set route config only.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf -- rebuilt.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/rendered-artifacts.json -- rebuilt by the builder.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/product-wiring.json -- acceptance receipt withdrawn through the shared governance module."
+      ],
+      "sharedModuleChanges": "none. scripts/rcap-official-forms/rcap-active-content.mjs and scripts/rcap-official-forms/rcap-official-form-finalize.mjs were READ and not edited. The option this repair needs already exists there, already defaults to false, and is already opted into by AL, CO, IN, MA, NJ, PA, TX and VT callers. Adding it at this caller is the documented per-caller mechanism, not a change to shared behaviour.",
+      "blastRadius": {
+        "host": "scripts/build-census-v1-ri_decriminalized-set.mjs builds five Rhode Island families.",
+        "whyPerRouteAndNotHostWide": "The other four are live on other lanes at this base -- ri_decriminalized-set on FIX07, ri_multiple_misdemeanors-set on FIX08, ri_nonconviction_sealing-set on FIX99, ri_first_offender_felony-set on FIX120, every one with releasedAt null in claim-ledger.json. A lane holding two families does not move four others' bytes or invalidate receipts bound to them. The same reasoning is already recorded on this host by FIX08.",
+        "howTheOtherFourStayUnaffected": "The flag is read as FAMILIES[familyId]?.preserveSourceAuthoredSelectionPaint === true. The key is absent on all four, so the expression is false, which is the value the shared module defaulted to before this change. Their code path is unchanged.",
+        "notMeasuredAndSaidSoRatherThanClaimed": "Their fixtures were NOT rebuilt to demonstrate byte-identity. Their directories are not in this worktree's sparse checkout and they belong to live lanes; building them would have written into another lane's family. The non-effect is established by reading the flag's scope, not by rendering their packets.",
+        "theDefectIsAlmostCertainlyOnAllFive": "FIX08 measured 129 added dark pixels and 0 removed at Group2 on ri_multiple_misdemeanors-set, the same mechanism on the same shared host. The Captain can widen this flag once the siblings are free."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "method": "pdftoppm -gray at 600 dpi, whole pages, per-pixel at threshold gray < 128, counted in BOTH directions. Packet pages 1-4 map 1:1 to Superior-55 pages 1-4 per the family's own pageManifest.",
+        "howTheSOURCEWasRendered": "WITH annotations drawn. The command is `pdftoppm -gray -r 600 -f N -l N -singlefile`, and poppler draws annotation appearances unless -hide-annotations is passed. It was NOT passed, on any render, at any point in this lane.",
+        "whyThatSentenceIsHereAndTheProofThatBacksIt": "A removed-pixel count taken against an annotation-free render of an AcroForm source is worthless, because an AcroForm form keeps much of what the court prints inside widget /AP /N streams: suppress them and both sides come up blank in the same places and the difference is zero by construction. VF26 measured 27,981 dark pixels of the source's own ink missing from delivered Indiana pages while the repairing lane's counter read zero for exactly this reason. So the render used here was proved to contain widget ink rather than assumed to: the SAME renderer was run over the pinned Superior-55 with and without -hide-annotations, and suppressing annotations LOSES 3,469 dark pixels on page 4 and REVEALS 2,830. Non-zero in both directions proves the render used for the diff draws /AP /N ink.",
+        "whichWidgetProvesIt": "Group4 on page 4 -- objects 153 0 R and 134 0 R -- the very widgets this repair is about. Their /AP paints an opaque white rectangle over a box the page content stream prints and then strokes a beveled box of its own, which is why hiding annotations both loses ink (the bevels and outline) and reveals ink (the printed box beneath the mask).",
+        "annotationBorneInkElsewhereOnThisForm": "Pages 1, 2 and 3 lose and reveal 0 dark pixels when annotations are suppressed. Superior-55's only annotation-borne ink is at the Group4 radio group on page 4, which agrees with the host's own FIX59 note that exactly one radio group per form ships its own /Off appearance while every other selection widget ships an /On state only and is drawn as nothing at /AS /Off.",
+        "theClaimIsTheBROADOne": "These counts are an unconditional whole-page per-pixel difference. No widget mask, no rect filter and no 'accounted to a selection widget' narrowing is applied anywhere, so removed ink falling OUTSIDE every source widget rect -- the 2,632 pixels VF26 found hiding behind the narrower claim -- is inside this measurement and is counted. Removed is 0 per page, not 0 after exclusions.",
+        "beforeRepairBoundary": "page 1: 0 added / 0 removed. page 2: 30782 added / 0 removed. page 3: 28464 added / 0 removed. page 4: 1357 added / 0 removed, in a single cluster at x 75.1-234.1pt, yTop 388.3-395.5pt, which is exactly the two Group4 widget rects.",
+        "afterRepairBoundary": "page 1: 0 added / 0 removed. page 2: 30782 added / 0 removed. page 3: 28464 added / 0 removed. page 4: 0 added / 0 REMOVED.",
+        "afterRepairCanonical": "page 1: 0 added / 0 removed. page 2: 18161 added / 0 removed. page 3: 15843 added / 0 removed. page 4: 0 added / 0 removed.",
+        "whatTheRemainingAddedPixelsAre": "Pages 2 and 3 only, and they are this packet's own participant writes and its two route-selection marks. They are identical before and after the repair, cluster for cluster and count for count, so the repair neither added nor removed one of them.",
+        "removedPerPageNotAsATotal": {
+          "canonical": { "page1": 0, "page2": 0, "page3": 0, "page4": 0 },
+          "boundary": { "page1": 0, "page2": 0, "page3": 0, "page4": 0 },
+          "beforeTheRepairAlso": "boundary page1 0, page2 0, page3 0, page4 0 -- the removal direction was zero before this repair too, which is expected and is not evidence the measurement was insensitive: the stripped operator was a WHITE fill, and removing white ink removes no dark pixels. It is the ADDED direction that carried this defect, and running both directions is what caught it."
+        },
+        "whyTheRemovedCountIsReportedFirst": "Over-suppression is invisible to byte classification and is the failure this cohort has already paid for twice -- Colorado's 213.6pt rule and Vermont's 1,407 erased pixels of the Judiciary's own box. It is zero here, on every page, in both fixtures, before and after."
+      },
+      "negativeControl": {
+        "againstThePinnedSource": "Packet page 1 -- the form's instruction page, which this repair does not touch -- reads 0 added and 0 removed at 600 dpi, identically before and after.",
+        "againstTheProeRepairPacket": "The repaired boundary.pdf was differenced page for page against the committed pre-repair boundary.pdf at 600 dpi across all 14 pages. Thirteen pages read 0 added and 0 removed. Page 4 reads 0 added and 1357 removed, at the same cluster the pre-repair source difference named. The repair removed exactly the spurious ink and moved nothing else anywhere in the packet, including the five composed components on pages 5-14.",
+        "composedPagesUnchanged": "Packet pages 5-14 -- the proposed order, the notice package, the filing instructions and the certified-copy delivery checklist -- read 0 added and 0 removed against the pre-repair packet."
+      },
+      "clipping": {
+        "appearanceBBoxVersusPlacedRect": "Each restored appearance carries /Matrix [1 0 0 1 0 0] and a /BBox whose width and height equal the source /BBox exactly, so nothing is scaled and nothing is clipped at the BBox edge. Verified per stream against the source object.",
+        "afterRepairResidual": "None. Page 4 reads 0 added and 0 removed against the pinned page at 600 dpi, which is pixel identity, so there is no residual antialiased margin to characterise."
+      },
+      "obligationsRecordedAgainstThisFamily": {
+        "dispatched": "CLIPPING_AND_OVERLAP",
+        "recordedInMasterQueue": "failedObligationNames = [], failedObligations = []",
+        "recordedByTheLiveVerdict": "VF90, FAIL_REPAIR_REQUIRED, failedObligationNames = ['ARTIFACTS']",
+        "whatVF90SaidWouldClearIt": "'Establish the provenance of each unaccounted stream on this family's own bytes ... then repair what is demonstrated and re-read with a directional raster difference in BOTH directions.' That is what was done. Provenance is established: the streams are the form's own. The repair restores the fill that was stripped. The directional raster is above, in both directions.",
+        "thisLaneSetsNoVerdict": "true"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "The nine are the builder's own count, recomputed by this rebuild with the repository's contract functions over this family's field map, byte proof and participant-instructions.md, and written to reports/completeness-counters.json. visualDefects is 0 as a measurement and not as a default: the two defects this lane found on the page are gone, confirmed by 600 dpi pixel identity with the pinned page rather than by a counter. No counter saw them when they were present, which is why the raster is the evidence and the counter is not.",
+      "artifacts": [
+        {
+          "fixture": "canonical.pdf",
+          "sha256": "5578eac855251950be5193a01c3b48df97832b6e29a28160ff16aca44bc79c6e",
+          "pages": 14,
+          "byteLength": 308912,
+          "addedGlyphsReadFromOutputBytes": 56,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary.pdf",
+          "sha256": "f18ed1c54f14ec92a85ef269a89d0aa81fbb9f2fef73c2757621d554a20b0bc4",
+          "pages": 14,
+          "byteLength": 309104,
+          "addedGlyphsReadFromOutputBytes": 98,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum over the committed files, and pdfinfo for the page counts. Nothing transcribed by hand.",
+      "priorDigestsThisReplaces": {
+        "canonical": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
+        "boundary": "f3bb161f11fc56ca852c1192f2acb745aef954ada6c96e6c5c1faece6d8e6d82"
+      },
+      "strokeOnlyBeforeAndAfter": {
+        "before": "2 per fixture, 4 across both. 0 matching a pinned source stream raw; 4 matching one after the leading fill was normalised away; 0 matching nothing.",
+        "after": "2 per fixture, 4 across both. 4 of 4 matching a pinned source stream RAW, byte for byte. 0 matching nothing.",
+        "whyTheCountDidNotFallToZero": "Because it should not. These are the court's own marks and they belong on the page. A stroke-only count of zero here would mean the check boxes had been deleted."
+      },
+      "reproducibility": "The unmodified builder was run first, at base, and reproduced both committed digests exactly (94a1f97d..., f3bb161f...) before any edit was made, so every byte that moved afterwards is attributable to this repair and not to build nondeterminism.",
+      "governance": {
+        "doesThisHostWriteProductWiring": "No. scripts/build-census-v1-ri_decriminalized-set.mjs does not write product-wiring.json at all, so the six-key wholesale erasure that REBUILD_ERASES_GOVERNANCE_STATE.json describes was never reachable from here, and there is no write boundary inside the build for preserveGovernanceState to sit on.",
+        "whatWasStillOwed": "The other half of the rule. binding.acceptanceReceipt asserted RASTER_PASS, workflow run 34309823488, bound to canonical 94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6. This repair moves the canonical to 5578eac855251950be5193a01c3b48df97832b6e29a28160ff16aca44bc79c6e, so the receipt stopped describing the packet and leaving it in place would have left a pass sitting on bytes nobody rendered.",
+        "whatWasDone": "The committed wiring was passed through carryForwardGovernance from scripts/rcap-packet-completeness/governance-preservation.mjs with the canonical digest measured from the file on disk. The five non-artifact-bound keys -- lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed, maintenanceRelationship -- were carried forward verbatim. The receipt was WITHDRAWN under acceptanceReceiptWithdrawn, whole, carrying both digests, and was not deleted and not relabelled as covering the new output. The committed key order was restored so the diff shows only what changed.",
+        "verification": "npm run rcap:verify-governance-preservation exits 0. GOVERNANCE_PRESERVATION_OK, 16 checks, including 'a receipt bound to a canonical this build no longer produces is WITHDRAWN, not carried' and 'the canonical moves, and the receipt is withdrawn with both digests'.",
+        "whatTheVerifierCouldNotSee": "It reported EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE with 251 files not measured, because this worktree is a sparse checkout and those product-wiring.json files are not on disk. That is a limit of this worktree, not a finding about those families, and it is reported rather than counted as a pass.",
+        "receiptIssued": "none. Only the central raster acceptance workflow issues a receipt. This lane issued none and set no verdict."
+      },
+      "clonesAndCrossFamilyChecks": {
+        "againstCLONED_FAMILY_PACKETS": "Neither of this lane's families appears in clonedDeliverables, nearClones or sharedDocuments. Verified independently rather than taken on trust: pdftotext -layout over both canonical fixtures, whitespace-normalised, gives 33690 chars / 50fda0ff2bc18a7e7d99ad320ede666e683c4f65514c975b30a254093d22c2f0 for this family against 33602 chars / 755f69986cf1ad286cf6f778043842ceafd56260bbc90af318322c33342d8742 for its sibling. Different forms (Superior-55 against DC-33), different courts, different page counts.",
+        "againstDEFECTS_NO_COUNTER_CAN_SEE": "Neither family is named there. The two classes that could have bitten this repair were checked directly: addedGlyphsReadFromOutputBytes is a real reading from the output bytes here and not a hardcoded literal, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reading 0 is not relied on to clear this defect -- the defect was ink at a widget's OWN rect, which is exactly the case that ledger records as invisible to that counter, so the 600 dpi directional raster is the evidence instead."
+      },
+      "whatThisPacketStillDoesNotClaim": "No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was written, altered or inferred by this repair. No prose changed. The only page difference in the whole packet is that a check box the court draws is drawn once again instead of twice."
+    }
+  ],
+  "packetsSelfVerified": 0,
+  "verdictSet": "none. This lane authored the repair and may not verify it. ri_first_offender_misdemeanor-set additionally carries a live independent-verification grant on VF01.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A repair is a change to bytes. It promotes nothing, approves no packet, issues no receipt and opens no route."
+}

@@ -55,14 +55,6 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34309823488",
-      "jobId": 102334691062,
-      "artifactId": null,
-      "boundToCanonicalSha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
-      "coversTheWholeFamily": true
-    },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
@@ -76,7 +68,22 @@
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
+        "replacedByCanonicalSha256": "5578eac855251950be5193a01c3b48df97832b6e29a28160ff16aca44bc79c6e",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34309823488",
+          "jobId": 102334691062,
+          "artifactId": null,
+          "boundToCanonicalSha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",

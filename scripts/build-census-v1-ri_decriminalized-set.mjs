@@ -1607,6 +1607,11 @@ const FAMILIES = {
     trackId: "ri_deferred_sentence", form: "Superior-55", partId: "THREE",
     orderVariant: "SUPERIOR_COURT_FELONY_AND_DEFERRED",
     splitAffidavitComponent: false, singleGuidanceComponent: false,
+    /* FIX134. Keeps the opaque background the court's own /Off appearance paints
+     * at Group4 on Superior-55 page 4, instead of stripping it and letting the
+     * printed box show through beneath the beveled one. See the flag's full
+     * reasoning and byte evidence at the finalizer call in renderOfficialForm. */
+    preserveSourceAuthoredSelectionPaint: true,
     routeKeys: [
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-2-court-motion-and-affidavit",
@@ -1921,6 +1926,39 @@ async function renderOfficialForm(source, census, facts, familyId) {
      * that stream is the court's own and stays, which is what RI-OFF-APPEARANCE
      * settles. */
     suppressSynthesizedAppearances: true,
+    /* FIX134, MEASURED ON THIS HOST'S OWN BYTES, AND OPT-IN PER ROUTE.
+     *
+     * The FIX59 note above is right that one radio group per form ships its own
+     * /Off appearance and that RI-OFF-APPEARANCE settles that it stays. What it
+     * does not reach is what happens to that stream AFTER it is kept.
+     * stripWidgetBackground in scripts/rcap-official-forms/rcap-active-content.mjs
+     * then removes its LEADING OPAQUE BACKGROUND FILL -- `1 g 0 0 W H re f` --
+     * from the /AP the court shipped, because that strip runs unconditionally
+     * unless the caller opts out. This host never opted out.
+     *
+     * That fill is not decoration. Superior-55 and DC-33 both PRINT a check box
+     * in the page content stream AND cover it with the widget's own opaque
+     * appearance, which paints white over the printed box and then draws a
+     * beveled box of its own. Strip the white and the printed box shows through
+     * beneath the beveled one: two overlapping outlines, in a control on the
+     * affidavit the participant swears to.
+     *
+     * THE BYTE EVIDENCE, AND WHY THE REMEDY RESTORES AND NEVER REMOVES: each
+     * delivered stroke-only appearance is byte-identical to a stream the pinned
+     * source ships once that leading fill is normalised away, at an identical
+     * /BBox -- Superior-55 refs 153 0 R and 134 0 R, DC-33 refs 157 0 R and
+     * 165 0 R. Deleting the stroke would erase the court's own bevels and
+     * outline, which is the over-suppression that already cost Colorado a
+     * 213.6pt rule the form itself draws.
+     *
+     * PER ROUTE AND NOT HOST-WIDE, for the reason the sibling note at
+     * ri_multiple_misdemeanors-set states: the other four families on this host
+     * are live on FIX07, FIX08, FIX99 and FIX120 right now, their receipts bind
+     * their current bytes, and a lane holding two families does not move four
+     * others'. The defect is almost certainly on all five. Every family that
+     * does not set the flag is byte-unaffected, which this lane measured rather
+     * than assumed, and the Captain can widen it once the siblings are free. */
+    preserveUnwrittenSelectionBackgrounds: FAMILIES[familyId]?.preserveSourceAuthoredSelectionPaint === true,
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${familyId}:${source.formNumber}`)
   });
   assert.deepEqual(report.written, [],
