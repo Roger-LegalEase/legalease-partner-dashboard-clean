@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 172,
-    "rows": 1194,
+    "returnDirectories": 173,
+    "rows": 1196,
     "independentVerdicts": 292,
-    "failRepairRequired": 58,
-    "passIndependent": 212
+    "failRepairRequired": 57,
+    "passIndependent": 213
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -69,7 +69,6 @@
     "la-977d-marijuana-first-offense-set",
     "ma-expunge-k-set",
     "ma-seal-court-set",
-    "md_10105_early-set",
     "md_pardon_expungement-set",
     "me-seal-survivor-set",
     "mi_setaside_trafficking-set",
@@ -8173,6 +8172,42 @@
     {
       "familyId": "ct-cleanslate-petition-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "THE PDF REPAIR IS CORRECT AND CONFIRMED; THE FAMILY'S DELIVERED ARTIFACT SET IS NOT INTERNALLY CONSISTENT WITH IT. Two artifacts still shipping at HEAD assert a defect the repaired bytes no longer carry. (a) participant-instructions.md line 49, digest 11983df88a8ffd03bf92680b21cba8e08e8cdf14fdbc1bc6218c6baff557cf92 -- the digest FIX143 reported as 'unmoved', which is exactly why nothing detected it -- tells the participant: 'The words _Print Form_ and _Reset Form_ at the foot of each page. ... Flattening the form for filing turns them into ordinary text, so a filed copy carries them. ... they do not affect the filing.' VF44 measured 0 dark pixels at both button rectangles on BOTH pages of BOTH delivered fixtures at 600 dpi, dark = grey < 128, annotations rendered. The filed copy does not carry them. This is participant-facing and it is false of the bytes it describes; a participant comparing packet against instructions finds a discrepancy the instructions themselves created. (b) reports/independent-visual-review.json whatToLookAt[4] sends the independent human reviewer to 'The foot of both pages: flattening materialises the form's own Print Form and Reset Form button captions as static text ... they will appear on a filed copy. See build-findings.json -> advisory.' It sends a reviewer to inspect ink that is gone and points them at an advisory array FIX143 emptied in the same commit. Both strings are emitted by the builder at HEAD (scripts/build-census-v1-ct-cleanslate-petition-set.mjs lines 1318 and 2291) and FIX143's builder diff touched neither; a VF44 rebuild reproduced both files byte-identically, so this is what the builder still writes, not a stale committed copy. REPAIR IS SMALL AND WELL-SCOPED: two prose blocks in one builder, then rebuild. VF44 did not make it.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -8193,7 +8228,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ct-decriminalized-set",
@@ -13415,6 +13450,33 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_early-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_10105_early-set",
+      "verdict": "PASS",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_early-set",
       "superseded": false
     },
