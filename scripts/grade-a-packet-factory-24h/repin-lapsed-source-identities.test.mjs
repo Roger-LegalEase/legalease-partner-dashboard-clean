@@ -17,11 +17,12 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   ADAPTERS, Refusal, canonical, compareAnchors, describeDifference,
-  doctrineRefreshedPaths, planFamily, composeRefreshedReceipt,
+  doctrineRefreshedPaths, planFamily, planReceipt, composeRefreshedReceipt,
   readsAsUnmoved, recoverBytesByDigest, sha256, lapsedFamilies, currentBytesOf
 } from "./repin-lapsed-source-identities.mjs";
 
@@ -43,15 +44,39 @@ const readReceipt = (dir) => JSON.parse(fs.readFileSync(path.join(ROOT, dir, "so
 const families = lapsedFamilies();
 assert.ok(families.length > 0, "the queue reports no lapsed family; these tests need at least one");
 const sample = families.find((f) => f.familyId === "rcap-wi-custom-pleading") ?? families[0];
-const sampleReceipt = readReceipt(sample.directory);
+const receiptPath = `${sample.directory}/source-receipt.json`;
+const currentBytes = currentBytesOf(REGISTRY).bytes;
+const NOW = JSON.parse(currentBytes.toString("utf8"));
+
+/*
+ * THE FIXTURE IS THE RECEIPT AS IT STOOD BEFORE ITS PIN WAS REFRESHED,
+ * recovered from git rather than reconstructed. Once the tree has been
+ * re-pinned the live receipt pins the CURRENT registry, and a test that drove
+ * itself from the live pin would recover the current blob, compare it against
+ * itself and pass while proving nothing. So the pre-pin revision is found by
+ * looking for the first revision of this receipt whose registry pin is not the
+ * digest on disk now, and every accept/refuse test below runs against that.
+ */
+const gitText = (rev) => execFileSync("git", ["show", `${rev}:${receiptPath}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
+const prePinRevision = (() => {
+  for (const rev of ["HEAD", "HEAD~1", "HEAD~2", "HEAD~3", "HEAD~4", "HEAD~5"]) {
+    try {
+      const pin = JSON.parse(gitText(rev)).committedRecords.find((r) => r.pathInRepository === REGISTRY);
+      if (pin && pin.sha256 !== sha256(currentBytes)) return rev;
+    } catch { /* this revision does not carry the receipt; try the next */ }
+  }
+  return null;
+})();
+assert.ok(prePinRevision, "no revision of this receipt carries a stale registry pin, so the accept path has no fixture");
+const beforeText = gitText(prePinRevision);
+const sampleReceipt = JSON.parse(beforeText);
 const samplePin = sampleReceipt.committedRecords.find((r) => r.pathInRepository === REGISTRY);
 assert.ok(samplePin, "the sample family does not pin the registry");
+assert.notEqual(samplePin.sha256, sha256(currentBytes), "the fixture pin must be the stale one");
 
 const recovered = recoverBytesByDigest(REGISTRY, samplePin.sha256);
 assert.ok(recovered.bytes, `could not recover the historical registry: ${recovered.why}`);
 const OLD = JSON.parse(recovered.bytes.toString("utf8"));
-const currentBytes = currentBytesOf(REGISTRY).bytes;
-const NOW = JSON.parse(currentBytes.toString("utf8"));
 
 test("the recovered blob hashes to the pin it was recovered for", () => {
   assert.equal(sha256(recovered.bytes), samplePin.sha256);
@@ -182,7 +207,12 @@ test("REFUSE: a drifted record with no adapter is never guessed at", () => {
  * The block it writes, and the doctrine that reads it
  * ------------------------------------------------------------------ */
 
-const plan = planFamily({ familyId: sample.familyId, directory: sample.directory });
+const plan = planReceipt({ familyId: sample.familyId, directory: sample.directory, receiptPath, beforeText });
+
+test("the live tree is idempotent: a receipt already re-pinned has nothing to do", () => {
+  const live = planFamily({ familyId: sample.familyId, directory: sample.directory });
+  assert.ok(["NOTHING_TO_DO", "REFRESHABLE"].includes(live.outcome), `unexpected ${live.outcome}: ${live.why ?? ""}`);
+});
 
 test("the plan for a clean family is REFRESHABLE and recovers the old blob from history", () => {
   assert.equal(plan.outcome, "REFRESHABLE", plan.why ?? "");
@@ -256,6 +286,34 @@ test("the pin stays a whole-file SHA-256 of the bytes on disk -- the obligation 
   const a = JSON.parse(composed.text).committedRecords.find((r) => r.pathInRepository === REGISTRY);
   assert.equal(a.sha256, sha256(fs.readFileSync(path.join(ROOT, REGISTRY))));
   assert.equal(a.sha256.length, 64);
+});
+
+test("a pin that is not repository-relative is resolved against the bases its receipt declares, not called missing", () => {
+  /* The Colorado family pins forms by pathInArchive under
+   * $MASTER_LIBRARY_SOURCE_DIR and binaries under a custody mount it names.
+   * Read-only: this family is not in the lapsed set and nothing is written. */
+  const dir = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill";
+  if (!fs.existsSync(path.join(ROOT, dir, "source-receipt.json"))) return;
+  const receipt = readReceipt(dir);
+  assert.equal(receipt.corpusRootFromEnvironment, "MASTER_LIBRARY_SOURCE_DIR");
+  const archivePin = receipt.documents.find((d) => typeof d.pathInArchive === "string");
+  assert.ok(archivePin, "expected a pathInArchive pin");
+  const found = currentBytesOf(archivePin.pathInArchive, { receipt, pin: archivePin });
+  if (!process.env.MASTER_LIBRARY_SOURCE_DIR) return;   // the corpus is not mounted for this run
+  assert.ok(found.bytes, `held bytes reported unresolved after trying ${found.triedBases.join(", ")}`);
+  assert.equal(sha256(found.bytes), archivePin.sha256, "the corpus bytes must satisfy the pin they are bound by");
+  assert.match(found.from, /MASTER_LIBRARY_SOURCE_DIR/);
+});
+
+test("a pin whose own receipt declares its custody unmounted is reported, not counted as drift", () => {
+  const dir = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill";
+  if (!fs.existsSync(path.join(ROOT, dir, "source-receipt.json"))) return;
+  const p = planFamily({ familyId: "co_motion_seal_conviction-set", directory: dir });
+  assert.ok(Array.isArray(p.unmeasurablePins) && p.unmeasurablePins.length > 0, "expected unmounted-custody pins to be reported");
+  for (const u of p.unmeasurablePins) {
+    assert.ok(u.receiptSays, "each unmeasurable pin must carry the receipt's own words about why");
+    assert.equal((p.records ?? []).some((r) => r.path === u.path), false, "an unmeasurable pin must not be reported as a drifted record");
+  }
 });
 
 test("no packet byte is written: the plan touches only source-receipt.json", () => {
