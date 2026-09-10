@@ -1833,8 +1833,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:22.339Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5477,8 +5477,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:26.850Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14693,7 +14693,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a41d3b697c40bcd14a6d4c98cc60b31bcd8fb5f22c159b3c929a53494439b2b2",
+  "claimsDigest": "d839661b4b2adb1b6d90696d00b2bab6d9879a45be0e3d5171055e89c03ec5a1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -46712,6 +46712,26 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-10T12:44:53Z",
       "reason": "the current dispatch names VF06 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T11:23:22.339Z",
+      "reissuedAt": "2026-09-10T12:46:41.380Z",
+      "reason": "The current dispatch deals this family to VF01 and its grant was released when the earlier VF01 lane returned. Re-opened in place so the ledger and the roster name the same lane before a worker starts."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "md_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T11:23:26.850Z",
+      "reissuedAt": "2026-09-10T12:46:41.532Z",
+      "reason": "The current dispatch deals this family to VF02 and its grant was released when the earlier VF02 lane returned. Re-opened in place so the ledger and the roster name the same lane before a worker starts."
     }
   ],
   "transfers": [
