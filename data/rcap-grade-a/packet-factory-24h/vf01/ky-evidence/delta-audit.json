@@ -1,0 +1,409 @@
+{
+  "schemaVersion": "rcap-vf01-ky-delta-audit/v1",
+  "lane": "VF01",
+  "familyId": "ky_expungement_certification-set",
+  "verifiedAtBase": "b1c064b07bbebbbbab3ad7da11e33c017e22d902",
+  "priorEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json",
+    "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+    "priorVerdict": "FAIL_REPAIR_REQUIRED"
+  },
+  "repairEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fix152/rows-fix152-20260910.json",
+    "repairBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+    "repairCommit": "060ef385a",
+    "integrationCommit": "b1c064b07",
+    "repairAuthorExcluded": true
+  },
+  "grant": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 ky_expungement_certification-set",
+    "result": "CLAIM_OK",
+    "grantSet": "b196fd327f1ca0dc"
+  },
+  "reviewMethod": "Supported delta review: exact current committed inputs were compared with VF49. FIX152-changed guidance obligations were reread directly; unchanged PDF/source/report obligations retain VF49 measurements only because hashes and settings match. No build, candidate mutation or raster dispatch was run.",
+  "inputComparison": {
+    "familyPaths": [
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/approval-request.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/filing-instructions.md",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/participant-instructions.md",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/product-wiring.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/production-field-map.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/actual-writes.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/build-summary.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/source-receipt.json"
+    ],
+    "changed": [
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/filing-instructions.md",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/participant-instructions.md",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/product-wiring.json"
+    ],
+    "unchanged": [
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/approval-request.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/production-field-map.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/actual-writes.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/build-summary.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/source-receipt.json"
+    ],
+    "changedBuilder": [
+      "scripts/build-census-v1-ky_expungement_certification-set.mjs"
+    ],
+    "changedOutsideFamily": [
+      "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/source-receipt.json"
+    ],
+    "currentGuideSha256": "000592406687d257330ede964e5660247d0b8212b2ca1ace2ee81c10c56e87fd",
+    "priorGuideSha256": "be579a67323a7a6dc57879a96c9f4d84ccf2a87efbaacc131856d1e11598634e",
+    "currentFilingSha256": "fc4cf2a2c69b861da560bf7a1247bab1e88e9b1dd2fe3378cbc06ddbb08bbb14",
+    "priorFilingSha256": "70694017b238d4cd5a7a44c9e5fd51d312d5b333e0b733ece968de1dcd5ba821"
+  },
+  "sources": {
+    "masterLibrarySourceDir": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
+    "sha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662",
+    "bytes": 215497,
+    "declaredSha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662",
+    "declaredBytes": 215497,
+    "exact": true,
+    "sourceReceiptUnchanged": true
+  },
+  "sourceFormRead": {
+    "document": "AOC-RU-009",
+    "pageCount": 1,
+    "printedEvidence": [
+      "$40.00 fee payable to Kentucky State Treasurer by check or money order",
+      "Records Unit correction phone numbers (502) 573-1682 and (800) 928-6381",
+      "exemption of fees - if applicable"
+    ]
+  },
+  "currentArtifacts": {
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+      "bytes": 207230,
+      "pageCount": 1
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3",
+      "bytes": 207420,
+      "pageCount": 1
+    },
+    "renderedManifest": {
+      "sha256": "be2107cfda27c373913544f746ec68a30e25bbd2184720b8a3847445db1746ef",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packets": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+          "byteLength": 207230,
+          "pageCount": 1,
+          "documents": [
+            {
+              "documentId": "AOC-RU-009",
+              "componentKinds": [
+                "primary_filing",
+                "online_channel_instructions",
+                "timing_instructions"
+              ]
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3",
+          "byteLength": 207420,
+          "pageCount": 1,
+          "documents": [
+            {
+              "documentId": "AOC-RU-009",
+              "componentKinds": [
+                "primary_filing",
+                "online_channel_instructions",
+                "timing_instructions"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "actualWrites": {
+      "sha256": "ea4b162d25f8159b5c69767d3a9b37b18b53bae320218c71645c0176bbe1dab4",
+      "documents": [
+        {
+          "documentId": "AOC-RU-009",
+          "writeCount": 12
+        }
+      ],
+      "artifactCounters": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 12,
+          "addedGlyphsReadFromOutputBytes": null,
+          "flattenedWidgetAppearancesReadFromOutputBytes": null,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+          "minimumFontSize": 8,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 12,
+          "addedGlyphsReadFromOutputBytes": null,
+          "flattenedWidgetAppearancesReadFromOutputBytes": null,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+          "minimumFontSize": 8,
+          "refusedFieldsWithInk": []
+        }
+      ]
+    },
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34480387107",
+      "jobId": "102882537464",
+      "artifactId": null,
+      "boundToCanonicalSha256": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+      "coversTheWholeFamily": true
+    }
+  },
+  "rasterEvidence": {
+    "currentReceiptBinding": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34480387107",
+      "jobId": "102882537464",
+      "artifactId": null,
+      "boundToCanonicalSha256": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+      "coversTheWholeFamily": true
+    },
+    "priorVF49Receipt": "Run 34480387107, job 102882537464, RASTER_PASS, 2 pages, 0 problems, 0 environment problems, bound to boundToCanonicalSha256 02e38d0d and boundToBoundarySha256 3d331308 -- byte-for-byte the two files this lane read. Nothing is owed on the current bytes, and nothing here asks for the PDF to move.",
+    "applicable": true,
+    "why": "Both fixture hashes and one-page settings match the existing VF49 RASTER_PASS receipt. No duplicate raster was commissioned; current reports remain BUILT_RASTER_PENDING and PNG bodies were not reread.",
+    "missing": [
+      "artifactId is null in current binding",
+      "PNG body bytes were not read here; visualDefects remains null"
+    ]
+  },
+  "guideDelta": {
+    "requiredBeforeFiling": [
+      {
+        "text": "Check your answer to \"Which convictions are you trying to clear — for each, the county, the approximate date, the charge and the case number if you have it?\" against Records of the convictions you want cleared, and correct the packet if they disagree.",
+        "matched": true
+      },
+      {
+        "text": "Signature — AOC-RU-009, requestor signature block.",
+        "matched": true
+      },
+      {
+        "text": "Payment of the $40 certification fee — Enclosed with the mailed request.",
+        "matched": true
+      },
+      {
+        "text": "Mailing the request — Envelope addressed to the AOC Records Unit.",
+        "matched": true
+      },
+      {
+        "text": "The participant signs the request. No wet-signature rule beyond the AOC's own form applies.",
+        "matched": true
+      },
+      {
+        "text": "none required.",
+        "matched": true
+      },
+      {
+        "text": "$40 for the certification.",
+        "matched": true
+      },
+      {
+        "text": "AOC-RU-009 refers on its face to an exemption of fees if applicable. The criteria are not published and are recorded as an open question.",
+        "matched": true
+      }
+    ],
+    "selfHelpStops": [
+      {
+        "text": "The certification comes back saying the participant is not eligible and the participant wants to file anyway. The clerk must still accept the petition, but whether to file against an adverse certification is a decision that needs a lawyer.",
+        "matched": true
+      },
+      {
+        "text": "The certification lists convictions the participant says are not theirs or are wrong.",
+        "matched": true
+      },
+      {
+        "text": "The 30-day filing window has run before the participant could file.",
+        "matched": true
+      }
+    ],
+    "processingHandoff": {
+      "text": "Processing takes roughly four to five months. The packet waits on the certification; the participant is told to expect that and is reminded when the 30-day filing window opens.",
+      "matched": true
+    },
+    "filingPortalPresent": true,
+    "placeholderLeaks": false
+  },
+  "repairedFindings": [
+    {
+      "obligation": "FEE_AND_WAIVER",
+      "vf49Severity": "FAIL",
+      "state": "REPAIRED",
+      "whatWasWrong": "filing-instructions.md sentence 3 read \"The committed route record identifies no fee-waiver treatment for this certification.\" The record says the opposite and carries the point as a release blocker whose affectedElement is participant_instructions.",
+      "whatIsThereNow": "That sentence is deleted. filing-instructions.md now interpolates track.rules.feeWaiver verbatim: \"AOC-RU-009 refers on its face to an exemption of fees if applicable. The criteria are not published and are recorded as an open question.\"",
+      "verification": true
+    },
+    {
+      "obligation": "SELF_HELP_STOP",
+      "vf49Severity": "FAIL",
+      "state": "REPAIRED",
+      "whatWasWrong": "The record declares three selfHelpStopConditions; the packet carried none, and had no stop section at all.",
+      "whatIsThereNow": "A \"## Stop and get help\" section in participant-instructions.md, modelled on il-cannabis-vacate-set, printing all three conditions verbatim from track.selfHelpStopConditions.",
+      "verification": null
+    },
+    {
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "vf49Severity": "FAIL",
+      "state": "REPAIRED",
+      "whatWasWrong": "Zero of the manifest's eight requiredBeforeFiling entries appeared verbatim; the \"Required before sending\" section listed two widget-level items (SSN, DLN).",
+      "verification": null
+    },
+    {
+      "obligation": "FILING_DESTINATION",
+      "vf49Severity": "CAUTION",
+      "state": "CAUTION_CLEARED",
+      "whatWasWrong": "The record's destination.detail names the portal as kcoj.kycourts.net/RecordRequest and both guidance files said only \"the official AOC record-request portal\".",
+      "whatIsThereNow": "filing-instructions.md names the portal URL, and participant-instructions.md prints track.destination.name and track.destination.detail verbatim, which carries the URL in the record's own sentence.",
+      "verification": "The URL was NOT typed from the dispatch brief. It is a build-time constant asserted against the committed record -- `assert.ok(track.destination.detail.includes(PORTAL_URL))` -- so the build fails rather than publishing a portal address the record does not contain."
+    }
+  ],
+  "governanceObservation": {
+    "currentLastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf49",
+      "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7"
+    },
+    "currentAcceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34480387107",
+      "jobId": "102882537464",
+      "artifactId": null,
+      "boundToCanonicalSha256": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+      "coversTheWholeFamily": true
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "feeWaiverStillOpen": true,
+    "observation": "FIX152 repaired participant guidance and filing destination wording. Product wiring still records the pre-review VF49 failure until Captain integration; this review grants no promotion or fee-exemption decision."
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Current route key remains obligation:track-only:KY:ky_expungement_certification across current product wiring, field map, approval request and controlling track record. Product wiring lastIndependentVerification changed to the VF49 failure checkpoint; route identity and closed authority are unchanged."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Rehashed private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf: 469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662 (215497 bytes), exactly matching current source-receipt.json (469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662, 215497) and VF49."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Three manifest components. Order 1, AOC-RU-009 official_pdf_fill, is the delivered single page. Orders 2 and 3 are process_guidance with no form -- online_channel_instructions and timing_instructions -- and both are delivered in participant-instructions.md: the 'Send or request online' section carries the portal as an alternative channel, and the 'Timing' section carries the no-waiting-period rule and the 30-day window. rendered-artifacts.json and approval-request.json list all three kinds against the one documentId, matching source-receipt.json."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. 12 write rows, 12 write widgets. Measured at 600 dpi against the source page: 12 of 12 carry added dark ink inside their own rect; ZERO invisible writes. Every drawnText is a participant fact. The delivered page was scanned for seventeen internal tokens and returns 0 hits. The two sensitive identity fields, SSN and DLN, are refused and measure 0 added pixels: they are blank on the delivered page, as the guidance says."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. Text Field 10, the date, is refused as 'Date completed by the participant when signing or mailing; never prefilled' and measures 0 added pixels on the delivered page. Of the 7 refused widgets, 5 carry ZERO added ink and the 2 with negative delta are the removed push buttons. Zero refused fields carry a mark."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. Added ink outside every source widget rect, 1 px tolerance, 600 dpi: 0 pixels on canonical and 0 on boundary. Source ink lost against the source rendered with annotations: 0 pixels outside the two button rects."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. PASS because the obligation does not arise, which is a measurement and not an absence of one. The record's rules.service reads 'none. This is an agency request, not a filing' and rules.notice reads 'none. No court, prosecutor or other party is notified of a certification request.' There is no party to serve. The guidance correspondingly describes mailing and the portal and names no service step, and the delivered page carries no certificate of service and no service field."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. canonical 02e38d0d / 207,230 bytes / 1 page and boundary 3d331308 / 207,420 bytes / 1 page agree across the files on disk, build-summary.json, rendered-artifacts.json and approval-request.json. All nine build-summary counters are null -- FIX147 converted eight literal zeros -- and the three byte-reading counters in actual-writes.json are null in both fixtures. refusedFieldsWithInk is derived by a filter over the refusals, not a literal. No independent-visual-review.json exists."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. One page. The delivered page is AOC-RU-009 page 1, differenced against the source page at 600 dpi with 0 source ink lost outside the two button rects."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. PASS because the obligation does not arise. The source's nineteen widgets are seventeen /Tx text fields and the two /Btn push buttons; there is no checkbox, no radio group and no dropdown on AOC-RU-009. There is no election to make and the packet makes none."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Retained from VF49 at 023abbf4c584b488b521894af814142cd6b119a7 only under exact current PDF/source/report input identity. PASS because the obligation does not arise. AOC-RU-009 has no repeating row group -- no numbered row series exists among its seventeen text fields. The 'Additional Information' area is a single optional free-text field, Text Field 17, correctly refused as 'optional participant-authored content the form itself marks optional'."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Current participant-instructions.md was reread end to end. All 3 current route stop conditions match after whitespace normalization (3/3); the four-to-five-month processing handoff is also present. No outcome is promised."
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Current participant and filing guidance were reread. Mail destination and alternative portal URL kcoj.kycourts.net/RecordRequest match current track.destination.detail; VF49 caution is cleared. This is an agency request, not the later court filing."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Current guidance was checked against all 8 route requiredBeforeFiling entries by whitespace-normalized exact substring match: 8/8 present. The guide also explains conviction-record retrieval, the optional Additional Information box and sensitive identity items."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Current guidance states the $40 fee, quotes the form and route record exemption-if-applicable language, preserves the unanswered counsel question, and invents no waiver criteria or channel. The contradiction VF49 found is removed; the fee-exemption issue remains an open counsel question."
+    }
+  },
+  "unmeasuredObligations": [],
+  "unmeasuredCounters": {
+    "knownRequiredFieldsMissing": null,
+    "requiredFactsNotCollected": null,
+    "unclassifiedBlanks": null,
+    "incompleteRows": null,
+    "requiredOptionsMissing": null,
+    "requiredComponentsMissing": null,
+    "invisibleWrites": null,
+    "protectedWrites": null,
+    "visualDefects": null,
+    "reason": "This lane did not remeasure byte/raster counters. Retained VF49 measurements are cited only under exact current PDF/source/report identity; visual PNG bodies were not read."
+  },
+  "noFabrication": [
+    "No source body or candidate artifact was modified.",
+    "No fee-waiver criterion, processing remedy, eligibility outcome or participant fact was invented.",
+    "The open fee-exemption counsel question remains open and is not treated as resolved."
+  ],
+  "limitations": [
+    "The sparse checkout excludes the KY family from the working tree; current committed candidate bytes were read through git show and independently hashed.",
+    "No build or raster dispatch was run.",
+    "Existing RASTER_PASS applies by exact current hashes/settings; PNG bodies and any artifactId were not independently reread here."
+  ],
+  "commands": [
+    "claim.mjs --assert VF01 ky_expungement_certification-set",
+    "git diff --name-status prior..HEAD -- family",
+    "git show HEAD:<family files> | sha256sum",
+    "sha256sum <MASTER_LIBRARY_SOURCE_DIR>/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
+    "pdftotext -layout <source AOC-RU-009> (read-only)",
+    "current guide/record exact-match audit"
+  ]
+}
