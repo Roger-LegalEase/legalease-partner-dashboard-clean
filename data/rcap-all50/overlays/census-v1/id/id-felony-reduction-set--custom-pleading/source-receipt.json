@@ -23,29 +23,75 @@
       ],
       "recordId": "legal-design-track-registry:id_felony_reduction",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-      "byteLength": 16778727,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
       "anchorStatementsVerified": 11,
       "identityRefresh": {
-        "refreshedOn": "2026-09-09",
+        "refreshedOn": "2026-09-10",
         "was": {
-          "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
-          "byteLength": 16775681
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
         },
-        "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
-        "anchorsCompared": 1,
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
         "anchorDetail": [
-          "id_felony_reduction: identical"
+          "registryGlobalMetadata: identical",
+          "track:id_felony_reduction: identical"
         ],
-        "anchorsIdentical": 1,
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:id_felony_reduction": "46ec53fa1b56f5071ea32d9d87f5ddf9385c6d13c8f8d6ed5914548ef7d02993"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "id_felony_reduction"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "id_felony_reduction"
+            ],
+            "fromReceiptRouteKeys": [
+              "id_felony_reduction"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
         "entriesThatMovedInThisRecord": [
-          "ri_first_offender_misdemeanor",
-          "ri_multiple_misdemeanors"
+          "co_motion_seal_conviction"
         ],
-        "previousPinLastSeenAtCommit": "94445c6a4",
-        "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-09",
+          "was": {
+            "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+            "byteLength": 16775681
+          },
+          "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+          "anchorsCompared": 1,
+          "anchorDetail": [
+            "id_felony_reduction: identical"
+          ],
+          "anchorsIdentical": 1,
+          "entriesThatMovedInThisRecord": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "previousPinLastSeenAtCommit": "94445c6a4",
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     },
     {
