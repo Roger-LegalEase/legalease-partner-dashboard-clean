@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5ed0a1af6111ad727565a60be760fb8933e0a918",
+  "minimumCaptainSha": "9f2e6166f223f40430d073648276e455807dbcb6",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -4478,9 +4478,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "lane": "vf57",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -4514,14 +4514,28 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
         "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
           "obligation": "SOURCE_IDENTITY",
-          "finding": "The two official sources are exact: ACIC-UNIFORM-PETITION-TO-SEAL 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b and ACIC-UNIFORM-ORDER-TO-SEAL dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc both recompute from files under STATES/AR/05_SOURCE_GATED/ whose names state the same instruments and revisions. The compiled profile src/lib/rcap-engine/compiled/profiles/AR-arkansas.json also recomputes equal at 640152c67534.... The failure is the other committed legal record: data/record-clearing/legal-design-packet-set-manifests.json is pinned at 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3677637 bytes and recomputes to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The pin corresponds to commit 77f24687c; the file has been amended six times since. The ar-drug-court and ar-felony-seal entries in it are byte-identical between the pinned commit and this base - I compared them - so the four anchorStatementsVerified still hold and the legal substance has not moved. The binding, which is what this obligation measures, no longer verifies.",
-          "findingReadFrom": "finding",
-          "evidence": "both official PDFs resolved by content hash across the mounted master_library corpus, and both committedLegalRecords recomputed with sha256sum against the working tree at this base"
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -16733,9 +16747,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "159c0b5cf",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json"
+        "lane": "vf57",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -16769,13 +16783,27 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP"
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The registry track names two selfHelpStopConditions: 'The county attorney opposes the application.' and 'A disputed intervening conviction inside the two-year window.' The second reaches the participant: 'Check both against your own court record before you sign... If either is not true of your case, this is the wrong packet, and you should stop and talk to a lawyer.' The first reaches nobody. Neither delivered document has a stop-and-get-help section, and the only sentence touching opposition is filing-instructions.md 'After filing': 'The county attorney has an opportunity to respond.' A self-represented filer is told a response may come and is never told that opposition is where this packet's help ends. Sibling Illinois families in this same cohort carry an explicit '## Stop and get help' section; this one carries none.",
-          "findingReadFrom": "detail",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
           "evidence": null
         }
       ],
@@ -20611,9 +20639,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf57",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -20696,52 +20724,21 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "ROUTE_IDENTITY",
         "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
           "obligation": "SOURCE_IDENTITY",
-          "finding": "One of the three grounding records no longer binds. data/record-clearing/legal-design-packet-set-manifests.json is declared in source-receipt.json at sha256 563147bf8431e5d3... / 3,677,637 bytes; recomputed from the bytes in the tree at this base it is 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3,683,419 bytes. The receipt's own allSourcesExact:true is therefore a false statement about the current tree. WHY, so a repair lane need not re-derive it: the digest was correct when this family was built (2026-09-02); the shared manifest has since been rewritten four times on 2026-09-04 by unrelated route-productization commits (1061539c4, 07804aa68, 7580cc750, d798dc66b), which added a factoryV2RouteMigrations key and other routes' entries. WHAT DID NOT CHANGE: this family's own entry in that manifest is byte-identical before and after, so the packet's contents are unaffected and no rebuild of the PDFs is implied. The repair is to re-anchor the receipt to the current bytes (or re-derive it), and to decide whether a mutable repository record that other lanes routinely rewrite should be bound as a 'source' at all. WHY NO COUNTER CAUGHT IT: verify-packet-completeness.mjs resolves source currentness from the receipt's own allSourcesExact boolean when it is present, and never recomputes; this family's documents[] is empty, so the boolean decided it and visualDefects stayed 0.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "failingRecord": {
-              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-              "declaredSha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
-              "declaredByteLength": 3677637,
-              "recomputedSha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-              "recomputedByteLength": 3683419
-            },
-            "recordsThatDoBind": [
-              {
-                "path": "data/record-clearing/legal-design-intake/IN.memo.json",
-                "recomputed": "match",
-                "byteLength": 176778
-              },
-              {
-                "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
-                "recomputed": "match",
-                "byteLength": 8069
-              }
-            ],
-            "driftCommits": [
-              "1061539c4 Productize first Grade-A route cohort",
-              "07804aa68 Productize Illinois felony prostitution packet route",
-              "7580cc750 Productize Connecticut Clean Slate petition route",
-              "d798dc66b Productize DC misattributed-arrest route"
-            ],
-            "thisFamilysEntryInTheManifest": "byte-identical before and after the drift",
-            "fleetScope": "12 family source receipts bind this same file; 7 of the 12 no longer bind exact",
-            "otherAffectedFamilies": [
-              "ct-pardon-erasure-set",
-              "ky_criminal_record_segregation-set",
-              "la-987-set-aside-and-dismiss-set",
-              "ne-expunge-le-error-set",
-              "ri_marijuana-set",
-              "vt_exp_deferred_sentence-set"
-            ],
-            "allSourcesExactClaim": true,
-            "allSourcesExactVerified": false
-          }
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
