@@ -1461,23 +1461,55 @@ function printed(census, anchorId) {
  * sixteen entries -- every one a blank on the petition face. The manifest's
  * participant acts were never in its scope.
  *
- * Only the two document-shaped kinds are surfaced. The manifest's other
- * required entries for this packet set carry descriptions such as "Required."
- * and "None identified in the review."; printing those as participant steps
- * would put an empty instruction in front of a reader, which is worse than
- * none. They are already covered by the form-blank list and the fee section.
+ * FIX153. The paragraph that used to stand here said only the two
+ * document-shaped kinds are surfaced, and that the manifest's other required
+ * entries "carry descriptions such as" empty ones. "Such as" was doing work it
+ * could not do. The manifest marks SEVEN entries requiredBeforeFiling for this
+ * packet set. Three carry descriptions that say nothing standing alone --
+ * "Required.", "None identified in the review.", "None identified." -- and two
+ * do not: "Petitioner signature - Petition signature block." and "The
+ * 'Specifically' narrative - Petition narrative section." are substantive
+ * complete_field acts, and a kinds allowlist dropped them silently.
+ *
+ * That would have been a guidance gap only. What made it a defect is that
+ * reports/blanks-left-for-the-participant.json set
+ * everyRequiredBeforeFilingItemIsDisclosed true and then described its own
+ * scope as excluding three entries when it excluded five. A report that
+ * certifies its own completeness and miscounts its own exclusions is a
+ * misleading signature block, and no counter looks at it.
+ *
+ * So the filter is gone. Every entry the manifest marks requiredBeforeFiling is
+ * read, carried into the guide verbatim, and measured there. The three bare
+ * descriptions are printed as the record writes them, under the record's own
+ * name for the kind of act each is, so that a line reading "None identified in
+ * the review." is legible as the record reporting an absence rather than as an
+ * instruction with nothing in it. Nothing is resolved into an amount, a
+ * deadline or a procedure: the record holds none, and neither does this build.
  */
-const PARTICIPANT_ACT_KINDS = ["obtain_document", "confirm_answer"];
+const DOCUMENT_SHAPED_ACT_KINDS = ["obtain_document", "confirm_answer"];
+
+/*
+ * A verbatim disclosure is a WHOLE LINE of the delivered guide, not a substring
+ * of one. "Required." is short enough to occur inside an unrelated sentence --
+ * it already does, in the ordered list, quoting the route census's signature
+ * requirement -- so a substring test would score it disclosed no matter what
+ * this guide printed. The line-anchored test is the one the flag is worth.
+ */
+function disclosedAsItsOwnLine(markdown, description) {
+  const wanted = String(description).trim();
+  return String(markdown).split("\n")
+    .some((line) => line.replace(/^\s*(?:>\s*|-\s*|\d+\.\s*)/, "").trim() === wanted);
+}
 
 function participantActsRequiredBeforeFiling() {
   const bytes = fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFESTS));
   const manifest = JSON.parse(bytes.toString("utf8"));
   const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
   assert.ok(set, `${PACKET_SET_MANIFESTS} carries no packetSet ${FAMILY_ID}`);
-  const acts = (set.participantActionRequired ?? [])
-    .filter((a) => a.requiredBeforeFiling === true && PARTICIPANT_ACT_KINDS.includes(a.kind));
+  /* Every entry, filtered on requiredBeforeFiling alone. No kind is dropped. */
+  const acts = (set.participantActionRequired ?? []).filter((a) => a.requiredBeforeFiling === true);
   assert.ok(acts.length > 0,
-    `${PACKET_SET_MANIFESTS} marks no document-shaped participant act required before filing for ${FAMILY_ID}`);
+    `${PACKET_SET_MANIFESTS} marks no participant act required before filing for ${FAMILY_ID}`);
   for (const act of acts) {
     assert.ok(String(act.description ?? "").trim().length > 0,
       `a required-before-filing ${act.kind} for ${FAMILY_ID} carries an empty description; this packet will not print an empty instruction`);
@@ -1485,7 +1517,20 @@ function participantActsRequiredBeforeFiling() {
     assert.ok((set.requiredBeforeFiling ?? []).includes(act.description),
       `a required-before-filing ${act.kind} is absent from ${FAMILY_ID}'s own requiredBeforeFiling list: ${act.description}`);
   }
-  return { acts, digest: crypto.createHash("sha256").update(bytes).digest("hex") };
+  /*
+   * The two lists must account for each other exactly. If the manifest ever
+   * grows a requiredBeforeFiling line with no participant act behind it, or an
+   * act with no line, this build stops rather than publish a disclosure list
+   * that is a selection from the record while claiming to be the whole of it.
+   */
+  assert.strictEqual(acts.length, (set.requiredBeforeFiling ?? []).length,
+    `${FAMILY_ID}: the manifest marks ${acts.length} participant acts required before filing but its own `
+    + `requiredBeforeFiling list carries ${(set.requiredBeforeFiling ?? []).length} lines; the disclosure list `
+    + "cannot claim to be the whole record while the two disagree");
+  const documentShaped = acts.filter((a) => DOCUMENT_SHAPED_ACT_KINDS.includes(a.kind));
+  assert.ok(documentShaped.length > 0,
+    `${PACKET_SET_MANIFESTS} marks no document-shaped participant act required before filing for ${FAMILY_ID}`);
+  return { acts, documentShaped, digest: crypto.createHash("sha256").update(bytes).digest("hex") };
 }
 
 function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, census) {
@@ -1604,6 +1649,54 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, source, cens
     out.push(
       "That check is the reason to get it first. The docket number is the blank that points the petition at a file, "
       + "and this packet holds no docket number to check yours against.", ""
+    );
+  }
+
+  /*
+   * FIX153. Above, the two document-shaped acts are set out in full because
+   * they are the ones a participant has to go and DO before touching the form.
+   * Below is the whole of what the record marks required before filing, so the
+   * guide cannot be read as disclosing a selection while a committed report
+   * certifies it disclosed everything. Each line is printed as its own line, so
+   * the flag in reports/blanks-left-for-the-participant.json can measure it.
+   */
+  out.push("## Everything the committed record marks required before filing", "");
+  out.push(
+    `The packet-set record marks **${participantActs.length}** entries required before filing for this packet. `
+    + `All ${participantActs.length} are printed below, word for word as the record writes them, each under the `
+    + "record's own name for the kind of act it is. The two set out in full above are repeated here so that this is "
+    + "the whole of what the record requires and not a selection from it.", ""
+  );
+  for (const act of participantActs) {
+    out.push(
+      `**\`${act.kind}\`** — ${act.requirement}`
+      + `${act.conditionDescription ? ` — ${act.conditionDescription}` : ""}`, ""
+    );
+    out.push(`> ${act.description}`, "");
+  }
+
+  const completeFieldActs = participantActs.filter((a) => a.kind === "complete_field");
+  if (completeFieldActs.length > 0) {
+    out.push(
+      `The ${completeFieldActs.length} \`complete_field\` entries are blanks on the petition's own face. The table `
+      + "further down, **The blanks you must complete**, is where each is set out with what to write in it. They "
+      + "appear here as well because the record marks them required before filing, and this list is that record's, "
+      + "unabridged.", ""
+    );
+  }
+
+  const bareActs = participantActs.filter((a) =>
+    !DOCUMENT_SHAPED_ACT_KINDS.includes(a.kind) && a.kind !== "complete_field");
+  if (bareActs.length > 0) {
+    out.push(
+      `${bareActs.length} of those lines say almost nothing standing alone. That is the record speaking, not an `
+      + "omission here: "
+      + bareActs.map((a) => `its \`${a.kind}\` entry reads _"${a.description}"_`).join(", ")
+      + ". **They are printed as the record writes them and are not resolved into an amount, a deadline or a "
+      + "procedure.** What this packet is able to say about each is elsewhere on this page: signing and dating is a "
+      + "numbered step in the list below, done by hand on paper because that rule carries no fillable box; and on a "
+      + "filing fee, no amount is stated anywhere in this packet, because none is recorded — the clerk's office you "
+      + "file in is the place to ask.", ""
     );
   }
 
@@ -1834,8 +1927,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * papers or your CORI" -- an alternative source, not a document to get.
    */
   for (const act of participantActs.acts) {
-    assert.ok(instructionsText.includes(act.description),
-      `a required-before-filing ${act.kind} the packet-set manifest holds is not carried into the guide verbatim: ${act.description}`);
+    assert.ok(disclosedAsItsOwnLine(instructionsText, act.description),
+      `a required-before-filing ${act.kind} the packet-set manifest holds is not carried into the guide verbatim as a line of its own: ${act.description}`);
     if (act.obtainedFrom) {
       assert.ok(instructionsText.includes(act.obtainedFrom),
         `the guide names no source for a required-before-filing document: ${act.obtainedFrom}`);
@@ -1845,6 +1938,17 @@ export async function runFamily(argv = process.argv.slice(2)) {
     "the guide must carry a section naming what the participant obtains before filling anything in");
   assert.match(instructionsText, /^\d+\. \*\*Get it before you write anything\.\*\*/m,
     "obtaining the required document must be a numbered step in the guide's own ordered list, not only a section");
+  /*
+   * FIX153. The section that carries the whole of the record's
+   * required-before-filing list, and the count it announces, are both asserted
+   * here: a guide that quietly dropped back to disclosing a subset would
+   * otherwise still build, and a committed report would still certify it.
+   */
+  assert.match(instructionsText, /^## Everything the committed record marks required before filing$/m,
+    "the guide must carry the section that discloses the whole of the record's required-before-filing list");
+  assert.ok(
+    instructionsText.includes(`marks **${participantActs.acts.length}** entries required before filing`),
+    `the guide must announce the number of required-before-filing entries the manifest actually holds (${participantActs.acts.length})`);
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
@@ -2014,31 +2118,46 @@ export async function runFamily(argv = process.argv.slice(2)) {
       .map((r) => ({ document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why }))),
     /*
      * The manifest's participant ACTS, which are required before filing and are
-     * not blanks on the form. They were outside this report's scope until this
-     * repair, which is why the flag below could read true while the guide never
-     * told the participant to obtain a CORI at all.
+     * not blanks on the form. They were outside this report's scope entirely
+     * until FIX02, which is why the flag below could read true while the guide
+     * never told the participant to obtain a CORI at all; and FIX02 admitted
+     * only two of the manifest's seven, which is why the flag's own scope
+     * sentence then named three exclusions where there were five. Every entry
+     * is now listed, and each carries its own measured result.
      */
     participantActsRequiredBeforeFiling: participantActs.acts.map((a) => ({
       kind: a.kind, requirement: a.requirement, description: a.description,
+      ...(a.conditionDescription ? { conditionDescription: a.conditionDescription } : {}),
       ...(a.obtainedFrom ? { obtainedFrom: a.obtainedFrom } : {}),
       source: `${PACKET_SET_MANIFESTS}#packetSets[packetSetId=${FAMILY_ID}]`,
       sourceSha256: participantActs.digest,
-      disclosedVerbatimInGuide: instructionsText.includes(a.description)
+      disclosedVerbatimInGuide: disclosedAsItsOwnLine(instructionsText, a.description)
     })),
+    participantActsRequiredBeforeFilingDeclared: participantActs.acts.length,
+    participantActsRequiredBeforeFilingDisclosed:
+      participantActs.acts.filter((a) => disclosedAsItsOwnLine(instructionsText, a.description)).length,
+    participantActsExcludedFromTheFlag: [],
     /*
-     * MEASURED, not asserted. Every form blank this report lists, and every
-     * participant act the manifest marks required before filing, tested as a
-     * byte substring of the delivered guide.
+     * MEASURED, not asserted. Every form blank this report lists, and EVERY
+     * participant act the manifest marks required before filing -- no kind
+     * filtered out -- tested against the delivered guide.
      */
     everyRequiredBeforeFilingItemIsDisclosed:
       [...rbf, ...boundaryOnlyRbf].every((r) => instructionsText.includes(r.effectiveLabel ?? r.label ?? ""))
-      && participantActs.acts.every((a) => instructionsText.includes(a.description)),
+      && participantActs.acts.every((a) => disclosedAsItsOwnLine(instructionsText, a.description)),
     whatThatFlagCovers:
       "every form blank listed in requiredBeforeFiling and boundaryOnlyRequiredBeforeFiling, AND every "
-      + "participantActionRequired entry the committed packet-set manifest marks requiredBeforeFiling with a "
-      + "document-shaped kind. It does not cover the manifest's sign, pay_fee or apply_fee_waiver entries, whose "
-      + "recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and "
-      + "\"None identified.\" -- printing those as participant steps would be an empty instruction.",
+      + "participantActionRequired entry the committed packet-set manifest marks requiredBeforeFiling for this "
+      + `packet set -- all ${participantActs.acts.length} of them, of kinds `
+      + `${participantActs.acts.map((a) => a.kind).join(", ")}. No entry is excluded, by kind or by anything else; `
+      + "participantActsExcludedFromTheFlag is empty and is generated from the same array this flag measures. A "
+      + "participant act counts as disclosed only when its description is a WHOLE LINE of the delivered guide, not "
+      + "merely a substring of one: \"Required.\" is short enough to fall inside an unrelated sentence, and a "
+      + "substring test would have scored it disclosed whatever the guide printed.",
+    howTheScopeOfThatFlagIsDerived:
+      `read at build time from ${PACKET_SET_MANIFESTS}#packetSets[packetSetId=${FAMILY_ID}].participantActionRequired `
+      + "and filtered on requiredBeforeFiling === true alone. The sentence above counts the same array it measures, "
+      + "so this report can no longer state a different number of exclusions than it makes.",
     disclosedIn: `${OUT}/participant-instructions.md`
   });
 

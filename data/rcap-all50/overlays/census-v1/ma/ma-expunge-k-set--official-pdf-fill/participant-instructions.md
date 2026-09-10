@@ -73,6 +73,42 @@ The same record pairs it with a check, also marked required before filing:
 
 That check is the reason to get it first. The docket number is the blank that points the petition at a file, and this packet holds no docket number to check yours against.
 
+## Everything the committed record marks required before filing
+
+The packet-set record marks **7** entries required before filing for this packet. All 7 are printed below, word for word as the record writes them, each under the record's own name for the kind of act it is. The two set out in full above are repeated here so that this is the whole of what the record requires and not a selection from it.
+
+**`obtain_document`** — required
+
+> Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.
+
+**`confirm_answer`** — required
+
+> Check your answer to "What is the docket number?" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.
+
+**`complete_field`** — required
+
+> Petitioner signature — Petition signature block.
+
+**`complete_field`** — required
+
+> The 'Specifically' narrative — Petition narrative section.
+
+**`sign`** — required
+
+> Required.
+
+**`pay_fee`** — required
+
+> None identified in the review.
+
+**`apply_fee_waiver`** — conditional — Applies only when the participant cannot pay the filing fee.
+
+> None identified.
+
+The 2 `complete_field` entries are blanks on the petition's own face. The table further down, **The blanks you must complete**, is where each is set out with what to write in it. They appear here as well because the record marks them required before filing, and this list is that record's, unabridged.
+
+3 of those lines say almost nothing standing alone. That is the record speaking, not an omission here: its `sign` entry reads _"Required."_, its `pay_fee` entry reads _"None identified in the review."_, its `apply_fee_waiver` entry reads _"None identified."_. **They are printed as the record writes them and are not resolved into an amount, a deadline or a procedure.** What this packet is able to say about each is elsewhere on this page: signing and dating is a numbered step in the list below, done by hand on paper because that rule carries no fillable box; and on a filing fee, no amount is stated anywhere in this packet, because none is recorded — the clerk's office you file in is the place to ask.
+
 ## What you must do, in order
 
 1. **Get it before you write anything.** Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it. **Where from:** Massachusetts Department of Criminal Justice Information Services
