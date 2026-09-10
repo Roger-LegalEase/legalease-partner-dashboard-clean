@@ -13,23 +13,41 @@
  *   docs/rcap/grade-a/owner-decisions/
  *   INDIANA_CAUSE_NUMBER_TOKEN_CONTRADICTS_THE_STATED_OFFENCE.md
  *
- * THE RULES, AS SUPPLIED
+ * THE RULES, AND THE DOCUMENTS THEY WERE READ FROM
  *
- *   Admin. Rule 8(B)(3)          "FB" identifies a Class B felony;
- *                                "FD" identifies a Class D felony.
- *   Admin. Rule 1(B)(4)(a)(iii)  the case category is assigned by the MOST
- *                                SERIOUS CHARGE.
- *   QCSR Instructions,           the category REMAINS after amended charges or
- *   August 2026, page 9          a conviction of a lesser offence.
+ * The rule text below was transcribed from an owner decision record until
+ * 2026-09-10. It has since been READ AGAINST TWO HELD DOCUMENTS, hashed in this
+ * worktree at private/human-source-returns/IN/ and receipted at
+ * data/rcap-grade-a/packet-factory-24h/INDIANA_CASE_TYPE_SOURCES_IN_CUSTODY.json.
  *
- * THE RULE TEXT ABOVE HAS NOT BEEN READ AGAINST A RETRIEVED DOCUMENT. It is
- * transcribed from the owner decision record. The two manifest entries that
- * would carry it -- `in-admin-rules-case-type-and-category` and
- * `in-qcsr-instructions-2026-08` -- both carry `expectedSha256: null`, and
- * network egress is blocked in the build container, so retrieval must run
- * through the central acquisition process. Until it does, every assertion below
- * is a test of THIS REPOSITORY'S CONSISTENCY WITH A STATED RULE, and not
- * evidence that the rule is stated correctly.
+ *   Case Type Quick Reference Guide, revision 1/1/2025, 14pp
+ *   sha256 d1dcef6e3415657387e58bc31ab85a6921f9d0beb8b7ebd343819b9c1080a113
+ *   printed page 8, CRIMINAL, INFRACTIONS & ORDINANCE VIOLATIONS table:
+ *       "Felony Class B | ... | B Felony | FB"
+ *       "Felony Class D | ... | D Felony | FD"
+ *       "Criminal Misdemeanor | | Criminal Misdemeanor | CM"
+ *
+ *   QCSR Application Guide, edition August 2026, 67pp
+ *   sha256 b0adb89723794d22f74db42fe457164de51619e99eaba7e0f78ed2313296ae9e
+ *   physical page 10 / printed folio 9, citing Admin. Rule 1(B)(4):
+ *       "only one new filing will be reported in the category of the most
+ *        serious charge against the defendant. The case will remain in that
+ *        category even if charges are later amended or if the defendant is
+ *        convicted of a lesser offense."
+ *   and, on the same page, the descending order of seriousness, in which Class D
+ *   felony stands above Class A misdemeanor.
+ *
+ * WHAT IS STILL NOT HELD, said here so no reader over-reads the above.
+ * Administrative Rule 8(B)(3) and Rule 1(B)(4)(a) THEMSELVES, as published at
+ * rules.incourts.gov, are unretrieved. The QCSR guide CITES Rule 1(B)(4) and the
+ * quick reference states the token table, so both propositions rest on a held
+ * document -- but neither held document IS the rule, and the Indiana petitions
+ * assert Rule 8(B)(3) to a court as settled authority. That remains a recorded
+ * blocker for approved_for_live and is not resolved by this file.
+ *
+ * Neither held document is an independently fetched issuer copy: the digests
+ * identify the bytes held, and assert no byte-for-byte match to a copy fetched
+ * from the issuer.
  *
  * WHAT THE RULES FORBID
  *
@@ -54,10 +72,18 @@ const BUILDERS = {
 };
 const source = (key) => fs.readFileSync(path.join(ROOT, BUILDERS[key]), "utf8");
 
-/** Admin. Rule 8(B)(3), as supplied. Only the codes this corpus uses. */
+/**
+ * The token table, read off the Case Type Quick Reference Guide, printed page 8
+ * (sha256 d1dcef6e...c1080a113). Only the codes this corpus uses.
+ *
+ * "Class A misdemeanor" is present ONLY so the tests below can show what a token
+ * derived from the CONVICTION class would have been, and that it is the wrong
+ * answer. Nothing in this repository may use this table that way.
+ */
 const TOKEN_FOR_CLASS = Object.freeze({
   "Class B felony": "FB",
-  "Class D felony": "FD"
+  "Class D felony": "FD",
+  "Class A misdemeanor": "CM"
 });
 
 /**
@@ -199,10 +225,70 @@ test("no builder parses, derives or validates a case-type token", () => {
   }
 });
 
-test("the misd CM pairing is left exactly as it was, and unscored", () => {
-  /* Recorded by the owner as staying unscored. It is asserted here so that a
-   * later change to it is deliberate and visible rather than incidental. */
+/* ------------------------------------------------------------------ */
+/* The misd boundary: the higher-charge, lesser-conviction case, now    */
+/* carried by a real fixture rather than only by the specimen above.    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * This fixture read "CM" -- the CONVICTION's own token -- until 2026-09-10. On
+ * the two held documents that is the one pairing the rules affirmatively forbid:
+ * the most serious ORIGINAL charge was a Class D felony, so the category is "FD"
+ * and REMAINS "FD" after conviction of the lesser offence. The token was moved to
+ * "FD". The modelled case was NOT changed to fit the token: the scenario was
+ * already the higher-charge one, which is why "FD" is right for it.
+ */
+test("misd boundary: charged Class D felony, convicted Class A misdemeanor, keeps FD", () => {
+  const text = source("misd");
+  const declared = /"matter\.offense_charged_most_serious":\s*"([^"]+)"/.exec(text);
+  assert.ok(declared,
+    "the misd boundary fixture must state its most serious original charge in terms. " +
+    "The charge, not the conviction, is what decides the token, so leaving the charge " +
+    "to be inferred is what lets the conviction quietly decide it instead.");
+  assert.match(declared[1], /Class D felony/);
+  assert.match(declared[1], /most serious original charge/);
+
   const { causeNumber, offenseLevel } = boundaryFixtureOf("misd");
-  assert.equal(causeNumber, "45C01-0812-CM-00000000000123456");
-  assert.match(offenseLevel, /^Class A misdemeanor reduced from a Class D felony/);
+
+  /* The conviction is preserved exactly: a Class A misdemeanour reached by
+   * reduction from the Class D felony under I.C. 35-50-2-7. */
+  assert.match(offenseLevel, /^Class A misdemeanor reduced from a Class D felony under I\.C\. 35-50-2-7$/);
+
+  assert.equal(tokenOf(causeNumber), categoryToken({ mostSeriousCharge: "Class D felony" }));
+  assert.equal(tokenOf(causeNumber), "FD");
+
+  /* The point of this fixture: deriving the token from the CONVICTION would give
+   * "CM", which is what the fixture wrongly carried and what the rules forbid. */
+  const wouldBeIfDerivedFromConviction = TOKEN_FOR_CLASS["Class A misdemeanor"];
+  assert.equal(wouldBeIfDerivedFromConviction, "CM");
+  assert.notEqual(wouldBeIfDerivedFromConviction, tokenOf(causeNumber));
+});
+
+test("misd boundary keeps its width-stress serial, its statutory route and a distinct sequence", () => {
+  const { causeNumber } = boundaryFixtureOf("misd");
+  const [court, yymm, , serial] = causeNumber.split("-");
+  assert.equal(court, "45C01");
+  assert.equal(yymm, "0812");
+  assert.equal(serial, "00000000000123456",
+    "the 17-digit padded serial is width-stress coverage and is not to be silently shortened; " +
+    "it is also not a realistic docket number");
+  assert.match(source("misd"), /"matter\.statutory_section":\s*"I\.C\. 35-38-9-2"/);
+
+  /* Distinct from the sibling boundary it now shares a court, term and token
+   * with. The sequence is the only thing separating them, so it is load-bearing. */
+  const sibling = boundaryFixtureOf("d6").causeNumber;
+  assert.notEqual(causeNumber, sibling);
+  assert.notEqual(serial, sibling.split("-")[3]);
+});
+
+test("the misd CANONICAL fixture is a simple misdemeanour and correctly keeps CM", () => {
+  /* Guards against a token sweep: CM beside a Class A misdemeanour is CORRECT
+   * where the misdemeanour IS the most serious charge, which is the canonical
+   * fixture's case. Only the boundary fixture models a reduced higher charge. */
+  const text = source("misd");
+  const causes = [...text.matchAll(/"matter\.cause_number":\s*"([^"]+)"/g)].map((m) => m[1]);
+  const levels = [...text.matchAll(/"matter\.offense_level":\s*"([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(tokenOf(causes[0]), "CM");
+  assert.equal(levels[0], "Class A misdemeanor");
+  assert.equal(tokenOf(causes[0]), categoryToken({ mostSeriousCharge: "Class A misdemeanor" }));
 });

@@ -342,7 +342,65 @@ const FIXTURES = Object.freeze({
     "participant.date_of_birth": "1968-12-31",
     "matter.court_name": "Lake Circuit Court sitting at Crown Point, Criminal Division",
     "matter.county": "County of Lake",
-    "matter.cause_number": "45C01-0812-CM-00000000000123456",
+    /* WHAT CASE THIS FIXTURE MODELS: a Class D felony that was the most serious
+     * ORIGINAL CHARGE, reduced under I.C. 35-50-2-7 and resolved by a conviction
+     * of a Class A misdemeanour. It is the HIGHER-CHARGE, LESSER-CONVICTION
+     * scenario -- which is why the case-type token here is not the conviction's
+     * token. The scenario is stated in terms below rather than left to be
+     * inferred from the offence level, because inferring it wrongly is what
+     * produced the case-type dispute this comment closes.
+     *
+     * THE CASE-TYPE TOKEN IS "FD", ON TWO DOCUMENTS NOW HELD AND HASHED IN THIS
+     * WORKTREE. Both were read at the pages named; neither is an independently
+     * fetched issuer copy, and the digests identify the bytes held, not a
+     * byte-for-byte match to a copy fetched from the issuer.
+     *
+     *   Case Type Quick Reference Guide, revision 1/1/2025, 14pp,
+     *   sha256 d1dcef6e3415657387e58bc31ab85a6921f9d0beb8b7ebd343819b9c1080a113,
+     *   printed page 8, CRIMINAL, INFRACTIONS & ORDINANCE VIOLATIONS table:
+     *     "Felony Class D | ... | D Felony | FD"
+     *     "Criminal Misdemeanor | | Criminal Misdemeanor | CM"
+     *
+     *   QCSR Application Guide, edition August 2026, 67pp,
+     *   sha256 b0adb89723794d22f74db42fe457164de51619e99eaba7e0f78ed2313296ae9e,
+     *   physical page 10 / printed folio 9, citing Admin. Rule 1(B)(4):
+     *     "only one new filing will be reported in the category of the most
+     *      serious charge against the defendant. The case will remain in that
+     *      category even if charges are later amended or if the defendant is
+     *      convicted of a lesser offense."
+     *   The same page gives the descending order of seriousness, in which Class D
+     *   felony stands above Class A misdemeanor.
+     *
+     * So the category was assigned from the Class D felony charge and REMAINS
+     * "FD" after the conviction of the lesser offence. This fixture previously
+     * read "CM", the conviction's own token, which is the one pairing these two
+     * documents affirmatively forbid; it is repaired here. Nothing about the
+     * modelled case was changed to fit the token -- the scenario was already the
+     * higher-charge one, which is why "FD" is the right token for it.
+     *
+     * WHAT THIS DOES NOT ESTABLISH, AND WHAT NO LANE MAY BUILD ON IT. It does not
+     * make a token that differs from the conviction class an error. The rule says
+     * the opposite: the token follows the most serious ORIGINAL charge and
+     * survives conviction of a lesser offence, so a divergence between token and
+     * conviction is the ordinary outcome these rules exist to describe. No rule in
+     * this repository may derive, validate, reject or rewrite an identifier from
+     * the conviction class; such a rule would corrupt precisely this fixture. The
+     * guard is scripts/rcap-in-case-type-token.test.mjs.
+     *
+     * STILL NOT HELD: Administrative Rule 8(B)(3) and Rule 1(B)(4)(a) themselves,
+     * as published at rules.incourts.gov. The QCSR guide CITES Rule 1(B)(4) and
+     * the quick reference states the table, so both propositions above rest on a
+     * held document -- but the rule text itself is unretrieved, and the petition
+     * this build composes asserts Rule 8(B)(3) to a court as settled authority.
+     * That is a recorded blocker for approved_for_live and is not repaired here.
+     *
+     * The 17-digit padded serial is deliberate WIDTH-STRESS COVERAGE and is not a
+     * realistic docket number; it is not to be silently shortened. Its sequence
+     * "...123456" is distinct from the in_conviction_d6-set boundary's "...654321"
+     * and that distinctness is load-bearing.
+     */
+    "matter.offense_charged_most_serious": "Class D felony under the pre-2014 sentencing scheme; the most serious original charge, later reduced under I.C. 35-50-2-7 and resolved by conviction of a Class A misdemeanor",
+    "matter.cause_number": "45C01-0812-FD-00000000000123456",
     "matter.conviction_date": "2009-02-28",
     "matter.offense_description": "Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record",
     "matter.offense_level": "Class A misdemeanor reduced from a Class D felony under I.C. 35-50-2-7",
