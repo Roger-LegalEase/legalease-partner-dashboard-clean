@@ -602,12 +602,29 @@ export async function buildIllinoisFamily(familyId) {
   fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois expungement packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n${electionSection}## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nEvery unused case row on the Request, on the Case List and on the Additional Cases continuation has been left wholly blank rather than partly filled. Add a further case only by completing every cell of that row -- the arrest or case number, the arresting agency, the charge exactly as the certified disposition prints it, the date of arrest and the outcome -- and check each one against the Illinois State Police transcript and the certified disposition before filing. The clerk-assigned case-number captions are left blank for the Circuit Clerk.\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and any eligibility certificate or other route-specific evidence identified above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nDo not complete court-owned service or order fields.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
   fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
+  /* FIX173: the last write has happened, so read the delivered packet back and
+   * assert it before this build may report success. The guard reads this
+   * family's own output directory, so it runs for this family only -- the
+   * exported builder is this file's, and nothing imports it. */
+  if (familyId === "il-exp-nonconv-set") assertDeliveredPacket();
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
 // Reads the DELIVERED artifacts, not the sources, so it runs without the corpus and
 // fails while the delivered bytes are still the ones the independent read faulted.
-function selfTest() {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion here reads a file buildIllinoisFamily() has just
+ * written -- reports/actual-writes.json, production-field-map.json and
+ * participant-instructions.md -- so all of it is an invariant of the delivered
+ * packet rather than a fixture harness, and it belongs in the build path. It
+ * was reachable only through --self-test, which nothing in CI or the
+ * integration chain passes; VF61 measured on a sibling Illinois family what
+ * that costs, reintroducing a repaired defect and watching a plain build exit
+ * 0 and write it to disk.
+ */
+function assertDeliveredPacket() {
   const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill");
   const track = controllingRecord();
   const actual = JSON.parse(fs.readFileSync(path.join(out, "reports", "actual-writes.json"), "utf8"));
@@ -696,6 +713,10 @@ function selfTest() {
     ["service", track.rules.service], ["notice", track.rules.notice], ["filing", track.rules.filing]]) {
     assert.ok(instructions.includes(sentence), `participant-instructions.md must carry the record's ${label} sentence`);
   }
+}
+
+function selfTest() {
+  assertDeliveredPacket();
   console.log("il-exp-nonconv-set self-test passed");
 }
 

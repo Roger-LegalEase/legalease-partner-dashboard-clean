@@ -663,12 +663,28 @@ export async function buildIllinoisFamily(familyId) {
   fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\n## The printed elections this packet does not make for you\n\nThis Motion asks the court for one thing, and the packet ticks that one box: item 4, \"I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions.\" That is what this route is.\n\nEvery other box printed on the Motion's face is a statement about YOUR record, sworn by you. This packet does not know those facts and does not tick them, and it will not swear to them on your behalf. Read each one against your certified disposition, then tick it yourself before you sign:\n\n${ownedElections}\n\nItem 1 is a gate, not a formality: the form prints \"you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case.\" If neither 1.a nor 1.b describes every case you have listed, this is not the right motion for that case -- stop and get help rather than filing it. Tick the same offence class in item 1 and in the item 4 table for each case; a motion that says misdemeanor in one place and Class 4 felony in the other contradicts itself on its face.\n\nObtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nCourt, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
   fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nDo not complete the judge's order, clerk certification, hearing details, service details, signature, or signature date in advance.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
+  /* FIX173: the last write has happened, so read the delivered packet back and
+   * assert it before this build may report success. The guard reads this
+   * family's own output directory, so it runs for this family only. */
+  if (familyId === "il-cannabis-vacate-set") assertDeliveredPacket();
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
 // Reads the DELIVERED artifacts, not the sources, so it runs without the corpus and
 // fails while the delivered bytes are still the ones the independent read faulted.
-function selfTest() {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion here reads a file buildIllinoisFamily() has just
+ * written -- reports/rendered-artifacts.json, participant-instructions.md,
+ * filing-instructions.md, production-field-map.json and
+ * reports/actual-writes.json -- plus one read of this builder's own source,
+ * which is deterministic and costs nothing. None of it is a fixture harness,
+ * so all of it is an invariant of the delivered packet and belongs in the
+ * build path. It was reachable only through --self-test, which nothing in CI
+ * or the integration chain passes.
+ */
+function assertDeliveredPacket() {
   const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill");
   const { track } = controllingRecord();
   const rendered = JSON.parse(fs.readFileSync(path.join(out, "reports/rendered-artifacts.json"), "utf8"));
@@ -784,6 +800,10 @@ function selfTest() {
     assert.deepEqual(artifact.refusedFieldsWithInk, fieldMap.refusals.filter((row) => row.sourceAuthoredInk === true).map((row) => row.fieldId),
       "refusedFieldsWithInk must be the map's own answer, not a literal");
   }
+}
+
+function selfTest() {
+  assertDeliveredPacket();
   console.log("il-cannabis-vacate-set self-test passed");
 }
 
