@@ -1234,6 +1234,11 @@ function auditSelectionDisclosure({ documents, selectionDispositions, otherGroun
   };
   for (const document of documents) {
     for (const row of selectionDispositions[document.key]) {
+      // The rendered selection must carry the closed disposition the production
+      // completeness audit consumes; a drawn tick is not an undisclosed blank.
+      if (row.marked === true && row.disposition !== "selected_route_option") {
+        fail("a rendered route selection lacks its completeness disposition", `${document.formNumber}/${row.selectionId}`);
+      }
       const where = { form: document.formNumber, page: row.page, blankId: row.blankId, reason: row.reason ?? null };
       if (row.marked === true) classes.marked.push(where);
       else if (row.approvedDisposition === "PROTECTED_FIELD") classes.protectedField.push(where);
@@ -1331,6 +1336,7 @@ function selectionRow(control, decision) {
     construction: control.construction, sourceCid: control.sourceCid, geometry: control.geometry,
     isSelectionControl: true, marked: decision.mark === true,
     completenessDisposition: decision.mark === true ? null : decision.approvedDisposition,
+    ...(decision.mark === true ? { disposition: "selected_route_option" } : {}),
     ...(refusalClass ? { refusalClass, category: refusalClass } : {}),
     ...(decision.routeDetermined ? { routeDetermined: true, authority: decision.authority } : {}),
     ...(decision.routeConditionThatMakesItInapplicable

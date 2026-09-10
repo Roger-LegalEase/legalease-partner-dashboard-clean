@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIXCXM1",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "repairedAtBase": "1ab29b634bded84c62edab36936746b158ad71c9",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxm1",
+  "laneComplete": false,
+  "rows": [
+    {
+      "itemId": "mn_petition_15218-set",
+      "familyId": "mn_petition_15218-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 2,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whatChanged": "The two already drawn selections now declare disposition selected_route_option, the key read by the anchors-and-withheld consumer. Blank completenessDisposition remains unchanged. Production disclosure audit refuses a marked row missing this disposition before replacing any output.",
+      "actualProductionCommand": "node scripts/build-census-v1-mn_petition_15218-set.mjs",
+      "baselineExit": 0,
+      "validExit": 0,
+      "originalDefectWithGuardExit": 1,
+      "originalDefectOutputChanged": false,
+      "auditAfter": "PASS_COMPLETE, 32/482 written, all nine counters zero",
+      "unchangedArtifacts": {
+        "fixtures/canonical.pdf": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+        "fixtures/boundary.pdf": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+        "participant-instructions.md": "59e306ef41b233a7c073dd312dfce3711dbb08ed6cab9a227a2dc9ee707f5743",
+        "filing-instructions.md": "c30b5e94fc415e0ab975dc371eaa222edd80da4babb690f253949c1a41a1b36e"
+      },
+      "governance": "Every prior product-wiring value retained; additive binding.filingInstructions only; historical receipt retained.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxm1/mn152-plain-entrypoint-proof.json",
+      "independentAcceptance": "NOT_PERFORMED; prior semantic review requires applicable supported delta review; no raster or terminal approval issued."
+    }
+  ],
+  "remaining": "mn_petition_juvenile_as_adult-set untouched and reserved; no sibling row published."
+}
