@@ -360,6 +360,322 @@
       ],
       "whatThisLaneDidNotDo": "Dispatched no raster, self-verified nothing, released and transferred no claim, edited no central artifact, edited no other worktree, ran no migration, touched no Stripe or production value, changed no live RCAP route, created no subagent, and introduced no flatten and no finalizer call.",
       "grantsNothing": "A repaired packet is review evidence. This row records what one repair lane changed and what it measured on the bytes it produced. It approves no output, promotes no route, opens no commercial path and creates no fulfillment record. It sets no verdict; RASTER_PASS comes from the central workflow and independent verification is a different lane."
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "jurisdiction": "IN",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX03 in_conviction_felony-set (repair, grant set efe991352bff7732)",
+      "buildScript": "scripts/build-census-v1-in_conviction_felony-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading",
+      "artifactsAreFourFixturesNotTwo": "canonical.pdf, boundary.pdf, participant-guidance-canonical.pdf and participant-guidance-boundary.pdf. Three of the six recorded breaches were on the guidance PDFs, so a row that reported only the two packet fixtures would have reported half the repair.",
+      "canonicalSha256": "e2c8b5fc5e294a63f1938d4cf2d40d910814cf45d547e9b155068c57a6156e9f",
+      "boundarySha256": "19dc77fd73e3459e519c4d56cd3329b61bab6a3e06db1070e75eb3e16dd15842",
+      "participantGuidanceCanonicalSha256": "edeac77047af3c50f7a5fdf390c28cd783412412212d863bbb59de7cf6c87d9f",
+      "participantGuidanceBoundarySha256": "498c1a5e12edb69fde6b69361b2c16a5d9bdb321dfb1f0a89b9931a60265f867",
+      "canonicalPageCount": 10,
+      "boundaryPageCount": 10,
+      "participantGuidanceCanonicalPageCount": 7,
+      "participantGuidanceBoundaryPageCount": 7,
+      "canonicalByteLength": 987794,
+      "boundaryByteLength": 988258,
+      "pageCountMeasuredBy": "pdfinfo, read off the Pages: line of each of the four delivered files",
+      "digestsMeasuredBy": "sha256sum over the four delivered files after the repair build, and crypto.createHash('sha256') independently inside the governance write",
+      "supersededCanonicalSha256": "0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0",
+      "supersededBoundarySha256": "092cf31c9b4499a4b0515c86de8d3536005f4ff2a5bf2ca66b80835919f898dd",
+      "supersededParticipantGuidanceCanonicalSha256": "fddf13cab83b3f13471b44aba127af633a4816ff25210a5314aad757e17ecab3",
+      "supersededParticipantGuidanceBoundarySha256": "4464b0b8f7905b299ab54c7c87769322677d771f28331d819bc070bd371e0a7a",
+      "thisIsARepairOfAWithdrawnApproval": {
+        "priorVerdict": "PASS_COMPLETE_INDEPENDENT",
+        "priorLane": "vf03",
+        "priorVerifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+        "withdrawnBy": "vf30 at base 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03, verdict FAIL_REPAIR_REQUIRED",
+        "failedObligationNames": [
+          "ARTIFACTS",
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING"
+        ],
+        "andTheBytesHadNotMoved": "The same four digests were read by vf03, by vf30 and again by this lane at 85846c48d before any edit."
+      },
+      "whatWasWrong": {
+        "ARTIFACTS": {
+          "recordedBy": "vf30, six breaches of internal-record-text-printed-on-a-filing, the same six sites and the same wording as the two sibling families, with this family's own component identifiers.",
+          "breaches": [
+            "canonical.pdf and boundary.pdf page 1: 'Assigned component identity: in_conviction_felony-primary-filing-1' in the caption of the VERIFIED PETITION.",
+            "canonical.pdf and boundary.pdf page 2: the same identifier in the petition's continuation header.",
+            "canonical.pdf and boundary.pdf page 3: 'Assigned component identity: in_conviction_felony-proposed-order-2' in the caption of the proposed order.",
+            "canonical.pdf and boundary.pdf page 3: 'The petitioner supplies the caption and the identifiers of the conviction and nothing else.' on the face of the proposed order.",
+            "both guidance PDFs page 1: the eligibility-calendar and 365-day-window-optimiser directive under an unlabelled READ THIS FIRST.",
+            "both guidance PDFs page 1: 'This is a delivery gate, not a generation blocker.' under the same unlabelled heading."
+          ],
+          "repair": "Identical to the d6 row's ARTIFACTS repair, applied to this family's own builder. captionBlock() drops the identity line and the unused parameter; the continuation header keeps only the document identifier; the order banner becomes the ORDER_COURT_USE_BANNER constant without the builder-facing sentence; the unlabelled READ THIS FIRST block is removed.",
+          "theLabelledCopyBelowWasDeliberatelyLeftAlone": "This family's registry carries THREE scope restrictions, not two - it also holds 'The grant is discretionary. Route to a legal-review gate before offering this track.' All three still appear in the delivered guidance PDF, verbatim, tagged '[scope_restriction]', at lines 179, 183 and 192 of its extracted text."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "recordedBy": "vf30. Same contradiction as the two siblings: filing-instructions.md told the participant to file the proposed order 'completed and signed' while the guide and the order page both said the opposite.",
+          "repair": "Same as the d6 row: the composed-component loop is split, the order line says tendered unsigned and quotes the banner the page prints, and all seven order blanks are enumerated in the guide from the field map's own effectiveLabel values.",
+          "theOneThatWasMissingBefore": "'Distribution list completed by the clerk', as on both siblings."
+        },
+        "KNOWN_PREFILLS": {
+          "recordedBy": "vf30, and this is the obligation unique to this family.",
+          "confirmedOnTheDefectiveBytesBeforeAnyEdit": "canonical.pdf pages 1 and 3 both printed 'Cause number of the conviction: 49D01-1503-F6-011234' and, on the same page, 'Offense level as it appears on the court record: Level 5 felony not covered by I.C. 35-38-9-2 or 35-38-9-3'. The charge-level token inside the cause number is F6 and the stated offence level is Level 5. The identical cause-number string was in use by in_conviction_d6-set's canonical fixture, whose stated level IS Level 6, so inside this repository the identifier was already bound to the other family's offence level.",
+          "whyItMattered": "The delivered filing stated two different offence levels about one conviction on the same page of a document verified under the penalties for perjury, and no counter could see it: 24 declared writes, 24 actual writes, no divergence in either direction, every value read back off the delivered page.",
+          "whatMadeItReadAsACopiedConstantRatherThanAConsideredValue": "This family's BOUNDARY fixture is internally consistent - 45C01-0812-FB-00000000000123456 beside 'Class B felony under the pre-2014 sentencing scheme' - so the defect is in one fixture and not in the family's approach.",
+          "repair": "One fixture fact. FIXTURES.canonical['matter.cause_number'] changed from '49D01-1503-F6-011234' to '49D01-1503-F5-011234'. The court prefix, the year-month segment and the sequence number are unchanged; only the charge-level token moved, so that it agrees with the offence level the same page states. Nothing else in the fixture and nothing in the boundary fixture was touched.",
+          "confirmedOnTheDeliveredBytes": "canonical.pdf prints 'Cause number of the conviction: 49D01-1503-F5-011234' in both captions, at extracted lines 7 and 102, beside 'Level 5 felony' at lines 37 and 114. boundary.pdf still prints 45C01-0812-FB-... beside 'Class B felony' at lines 7/104 and 38/117, unchanged. The collision with in_conviction_d6-set's canonical cause number is also gone as a consequence.",
+          "causeNumberAuthority": {
+            "theQuestionTheAssignmentAsked": "Whether the controlling record establishes a cause number for this route, in which case the value should come from it rather than be invented.",
+            "theAnswer": "IT DOES NOT, AND THIS IS SAID RATHER THAN PAPERED OVER. data/record-clearing/legal-design-intake/IN.memo.json - the controlling record for this track - carries the cause number only as a QUESTION PUT TO THE PARTICIPANT ('What is the cause number?', line 842 and again at 1203, 1552, 1911) and as something to ask the clerk about ('Ask the clerk for the balance on the cause number'). It states no cause number, and no source in this repository or in mounted custody states one for this route.",
+            "andNoTokenTableEitherAndThatIsStatedToo": "No record in this repository establishes an Indiana charge-level-to-case-type token convention. Grepping the whole repository for the string 'F6-' returns exactly four hits and all four are this defect: the two builders' fixture constants and the two reports that echo them. The pinned insert CCA-XP-0220-7010 prints cause-number and 'Related MC cause numbers' fields but publishes no token table.",
+            "soOnWhatAuthorityTheTokenWasChanged": "On internal consistency alone, and on nothing else. The cause number here is FIXTURE DATA, not a record fact - it exercises the caption write and it stands in for a value a real participant supplies. The obligation on fixture data is that it must not make the delivered page contradict itself, and F6 beside 'Level 5 felony' did. F5 was chosen because it is the token this repository's own five other Indiana fixture cause numbers already use for their stated level (F6 beside Level 6 in d6 canonical, FB beside Class B felony in this family's boundary, CM beside Class A misdemeanor in both misd fixtures). NO INDIANA CLERK PRACTICE IS ASSERTED as record fact by this change, no filing fee, service rule, deadline or judicial finding was invented, and a reviewer should treat the token convention itself as unsourced.",
+            "whatWasDeliberatelyNotDone": "The offence level was not changed to match the token. The offence level is the route's defining fact - this family is the I.C. 35-38-9-4 track for felonies not covered by 35-38-9-2 or 35-38-9-3 - and moving it to fit a fixture identifier would have been the wrong repair. No new cause number was composed, and no digits beyond the two-character token were altered."
+          }
+        }
+      },
+      "confirmationOnTheDeliveredBytesAfterTheRepair": {
+        "componentIdentifiersOnAnyFiledPage": "0. pdftotext -layout over all 10 pages of canonical.pdf and all 10 pages of boundary.pdf matches neither 'component identity' nor 'supplies the caption'.",
+        "theBuilderFacingSentenceOnTheOrder": "gone.",
+        "theUnlabelledEngineerDirectives": "gone. 'READ THIS FIRST' matches nowhere in either delivered guidance PDF.",
+        "theLabelledCopyBelow": "intact, all three scope restrictions, tagged [scope_restriction].",
+        "theCauseNumber": "F5 beside Level 5 felony in both captions of the canonical fixture; the boundary fixture is untouched and still internally consistent.",
+        "howAllOfThatWasChecked": "pdftotext -layout over the produced PDFs."
+      },
+      "byteAccountingReproducedIndependently": {
+        "declaredWrites": 24,
+        "actualWrites": 24,
+        "divergenceInEitherDirection": 0,
+        "readBackFromTheProducedPdfText": "24 of 24 on both fixtures; the builder's reports/actual-writes.json records foundInOutputBytes true for all 24 on both, blockingFindings [].",
+        "retainedPagesProvedBlank": 7,
+        "refusedFieldsWithInk": 0
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "resolution": "300 dpi, grayscale, anti-aliasing on",
+        "threshold": "grey <= 128 is dark (primary). Also swept at <= 96, <= 112, <= 144 and <= 160: added and removed are 0 at every cut on every page of both fixtures.",
+        "sourceRender": "annotations DRAWN, on the pinned PDF in mounted custody.",
+        "annotatedRenderProof": {
+          "onPacketPage": 4,
+          "sourceDocument": "CCA-XP-0220-7010",
+          "sourcePage": 1,
+          "inkDrawnOnlyWhenAnnotationsAreDrawn": 10250,
+          "inkPaintedOverByWidgetBackgrounds": 5168,
+          "atThreshold": 128,
+          "atResolutionDpi": 300,
+          "meaning": "10,250 dark pixels on that page come from widget /AP /N appearance streams and from nothing in page content. This proof was taken against THIS family's own pinned insert (CCA-XP-0220-7010), not carried over from the d6 row, because it is a different document.",
+          "controlBuiltBy": "pdf-lib: every page /Annots deleted and the catalog /AcroForm dropped. A proof only, never a comparison baseline."
+        },
+        "bothDirections": "added AND removed per page. Removed is 0 on every retained page of both fixtures.",
+        "measuredOverTheWholePageNotAfterExcludingWidgetRects": "Yes, over the entire 2550x3300 raster.",
+        "perPageCanonical": [
+          {
+            "packetPage": 4,
+            "sourceDocument": "CCA-XP-0220-7010",
+            "sourcePage": 1,
+            "darkPixelsSource": 386882,
+            "darkPixelsPacket": 386882,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 5,
+            "sourceDocument": "CCA-XP-0220-7010",
+            "sourcePage": 2,
+            "darkPixelsSource": 448216,
+            "darkPixelsPacket": 448216,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 6,
+            "sourceDocument": "CCA-XP-0220-7010",
+            "sourcePage": 3,
+            "darkPixelsSource": 309153,
+            "darkPixelsPacket": 309153,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 7,
+            "sourceDocument": "CCA-GF-0120-3016",
+            "sourcePage": 1,
+            "darkPixelsSource": 223258,
+            "darkPixelsPacket": 223258,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 8,
+            "sourceDocument": "CCA-GF-0120-3016",
+            "sourcePage": 2,
+            "darkPixelsSource": 114370,
+            "darkPixelsPacket": 114370,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 9,
+            "sourceDocument": "CCA-XP-0120-7002 Form ACR",
+            "sourcePage": 7,
+            "darkPixelsSource": 259218,
+            "darkPixelsPacket": 259218,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "packetPage": 10,
+            "sourceDocument": "Confidential Information Form",
+            "sourcePage": 8,
+            "darkPixelsSource": 107839,
+            "darkPixelsPacket": 107839,
+            "added": 0,
+            "removed": 0
+          }
+        ],
+        "perPageBoundary": "identical figures, 0 added and 0 removed on all seven pages, same threshold and resolution.",
+        "composedPagesAreNotComparedThisWay": "Packet pages 1-3 are composed by this build and have no pinned source page. They were read with pdftotext -layout instead.",
+        "aNoteOnTheFourSharedPages": "Packet pages 7-10 come from the same bundle as the two siblings' pages 7-10 and read identical dark-pixel figures, which is expected and is itself a consistency check on the measurement."
+      },
+      "noFlattenWasIntroduced": {
+        "finalizerImported": false,
+        "evidence": "Import list unchanged and containing no finalizer module; the packet is still assembled with pdf-lib packet.copyPages.",
+        "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+        "retainedWidgetsStillLive": 185,
+        "ruleLineValuedWidgetsStillLive": 63,
+        "retainedPagesWhoseWidgetsDifferFromTheSource": 0,
+        "howThatWasMeasured": "Positional comparison of every widget against the same widget on the pinned source page, on fully-qualified field name, /Rect, /FT, /Ff, /V, /Opt length, /BS, /MK, /DA, /F, /Q, /MaxLen, /AS and /AP /N appearance-stream byte length. 185 widgets, 0 differences."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. 24 declared writes and the same 24 actual writes, joined by field name, difference empty in both directions on both fixtures.",
+        "requiredFactsNotCollected": "0. All 6 REQUIRED_BEFORE_FILING items are named in participant-instructions.md with what the participant must supply.",
+        "unclassifiedBlanks": "0. Every refusal carries a completenessDisposition of REQUIRED_BEFORE_FILING or PROTECTED_FIELD.",
+        "incompleteRows": "0. No composed row carries a written cell beside an unwritten REQUIRED_KNOWN cell.",
+        "requiredOptionsMissing": "0. No selection control is written; the four retained forms are delivered unfilled.",
+        "requiredComponentsMissing": "0. All 6 declared components present, 10 delivered pages against a 10-row component page manifest on both fixtures.",
+        "invisibleWrites": "0. 679 non-whitespace glyphs added on canonical and 1,018 on boundary, read from the produced bytes.",
+        "protectedWrites": "0. No signature, date, judicial finding or clerk field is written; refusedFieldsWithInk 0 on both fixtures.",
+        "visualDefects": "0 AS THIS LANE MEASURES IT, AND THIS LANE BUILT THE PACKET. vf30 recorded 6; all six were confirmed on the defective bytes before any edit and re-checked on the delivered bytes after. A repair lane's own reading of its own output is not an independent verification."
+      },
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "sha256": "e2c8b5fc5e294a63f1938d4cf2d40d910814cf45d547e9b155068c57a6156e9f",
+          "addedGlyphsReadFromOutputBytes": 679,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "totalGlyphsOnTheComposedPagesReadFromOutputBytes": 6557
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "19dc77fd73e3459e519c4d56cd3329b61bab6a3e06db1070e75eb3e16dd15842",
+          "addedGlyphsReadFromOutputBytes": 1018,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "totalGlyphsOnTheComposedPagesReadFromOutputBytes": 6940
+        }
+      ],
+      "outputByteGlyphReadingsHowTaken": {
+        "addedGlyphs": "The non-whitespace character count of the 24 written values, each independently confirmed present in the produced PDF's own text. Not a literal and not copied from the builder's report - measured here and then found to agree with reports/actual-writes.json and with vf30's 607 and 1,010 on the superseded bytes, which is expected because this repair changed no written value on this family.",
+        "totalGlyphs": "Every non-whitespace glyph pdftotext -bbox reports on composed pages 1-3 of the produced file. It fell from 6,406 to 6,272 on canonical because four lines of internal record text came off the two filings.",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": "0, MEASURED and not published as a literal: every word box pdftotext -bbox reports on the composed pages was tested against the page's own margins and none falls outside. THIS READING HAS NO TEETH ON A COMPOSED PLEADING and vf30 said so explicitly. The build typesets these three pages itself, so it defines the boxes it is then measured against and a zero is close to a tautology - the trap DEFECTS_NO_COUNTER_CAN_SEE records as a-geometry-counter-with-no-teeth. The reading with teeth on this family is the retained-page pixel difference above, where the boxes are the issuer's."
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:CCA-XP-0220-7010",
+          "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "pagesRetained": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "sourceId": "official-form:CCA-GF-0120-3016",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "pagesRetained": [
+            1,
+            2
+          ]
+        },
+        {
+          "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "pagesRetained": [
+            7
+          ]
+        },
+        {
+          "sourceId": "official-form:Confidential Information Form",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "pagesRetained": [
+            8
+          ]
+        }
+      ],
+      "sourcesNoteOnCustodyPath": "The builder resolves sources by content digest under private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, which is the path the committed receipt records. Building with MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/... resolves the identical bytes (same four digests, sha256Exact true) but records the resolved path as '../corpus-x/...', a path outside the repository root. This lane built without the variable so the committed record keeps the in-repository custody path it already had. Nothing about which bytes were used differs between the two.",
+      "governance": {
+        "writtenThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs carryForwardGovernance",
+        "canonicalMoved": true,
+        "thereWasARealLiveReceiptToWithdraw": "Yes. product-wiring.json held a live RASTER_PASS receipt, workflow run 33936105425, job 101224628031, bound to canonical 0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0.",
+        "decision": "withdrew acceptanceReceipt - bound to 0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0, this write produced e2c8b5fc5e294a63f1938d4cf2d40d910814cf45d547e9b155068c57a6156e9f. Kept whole under acceptanceReceiptWithdrawn with BOTH digests, not deleted and not relabelled.",
+        "carriedForward": [
+          "lastIndependentVerification",
+          "paymentEligible",
+          "sponsorshipEligible",
+          "whyPaymentIsClosed",
+          "maintenanceRelationship"
+        ],
+        "governanceLostBetween": [],
+        "alsoRepinned": "product-wiring.json proposedRepresentation.components carried the superseded canonical digest on all six entries; all six restated from the digest measured here.",
+        "nothingWasIssued": "No receipt issued, no verdict set, paymentEligible and sponsorshipEligible both still false with the committed reason carried forward verbatim.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierResult": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (228 not measured), then GOVERNANCE_PRESERVATION_OK, 16 checks. Withdrawn receipts on the record rose from 19 to 20 as this family's was added.",
+        "verifierCaveat": "228 of 295 product-wiring records are absent from this SPARSE checkout and could not be read. That is a limit of this worktree and NOT a pass over them."
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "against": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, all eleven entries, read deliberately against these bytes",
+        "internalRecordTextPrintedOnAFiling": "The entry this family failed on. Re-read on the delivered bytes after the repair: no component identifier on any filed page, no builder-facing sentence on the order, no unlabelled engineer directive at the top of either guidance PDF, and all three labelled scope restrictions intact.",
+        "annotationFreeSourceRenderZeroesTheOnlyCheckForErasedCourtInk": "not present. The source render draws annotations and the render is proved on THIS family's own pinned insert by a 10,250-pixel annotated-versus-control difference at grey <= 128, 300 dpi.",
+        "aPublishedZeroWhereAMeasurementExisted": "checked. addedGlyphsReadFromOutputBytes is a real reading (607 / 1,010) taken here from the produced bytes, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is computed from pdftotext -bbox word geometry rather than hardcoded - and it is published together with a plain statement that it has no teeth on a composed pleading.",
+        "aGeometryCounterWithNoTeeth": "acknowledged rather than assumed away. See outputByteGlyphReadingsHowTaken.",
+        "aFieldMapHonestWhileTheFinalizerWritesSomethingElse": "not present as the registry describes it - declared and actual writes are the same 24 in both directions. But the neighbouring failure mode DID bite this family and is what KNOWN_PREFILLS caught: a value that is present, non-empty, in its box, correctly mapped and read back off the page, and still false, because it contradicted another value on the same page. No counter saw it and no byte-accounting check could have.",
+        "anAcroFormIndexIsNotAPrintedRowNumber": "not applicable. This build writes into no AcroForm field. All four retained forms are delivered unfilled and every blank on them is disclosed as the participant's to complete by hand.",
+        "extractedLineOrderIsNotColumnOrder": "not applicable. No column heading is read and nothing is written into a table.",
+        "twoFamiliesOneFiling": "checked across the three families this lane repaired. The three canonical PDFs carry three different digests and three different byte lengths, and each retains a different statutory insert - CCA-XP-0220-7009 for d6 under I.C. 35-38-9-3, CCA-XP-0220-7010 for felony under 35-38-9-4, CCA-XP-0220-7008 for misd under 35-38-9-2.",
+        "anInvertedWidgetRectanglePlacesTheAppearanceABoxAway": "not applicable. This build places no appearance and writes into no widget rect.",
+        "aParticipantFactWrittenIntoAFieldAboutSomeoneElse": "not present. Every one of the 24 values lands in a field about the petitioner or about the conviction this petition addresses.",
+        "aCaptionReadFromTheNeighbouringRowOnASwornAffidavit": "not applicable. No caption is harvested for a write here; the composed labels are authored by this build and the retained forms' harvested captions are reported as evidence only and drive nothing."
+      },
+      "blastRadius": "scripts/build-census-v1-in_conviction_felony-set.mjs declares this family alone. MASTER_QUEUE.json records exclusiveScript true and importedBy [], and nothing in scripts/ or src/ imports it. No shared module was edited. Baseline reproducibility was established first: the UNCHANGED builder was run at 85846c48d and reproduced all four committed fixtures byte for byte.",
+      "whatContradictsACommittedRecord": [
+        {
+          "what": "MASTER_QUEUE.json carries completenessStatus PASS_COMPLETE and allNineCountersZero true for this family alongside state FAIL_REPAIR_REQUIRED.",
+          "theMeasurement": "Both were true of the superseded bytes as the builder counted them, while the delivered petition stated two different offence levels about one conviction. The nine counters cannot see that defect, and the queue row carries only the counters' answer. This lane edited no central artifact.",
+          "whyItMatters": "It is the clearest example in these three families of a packet passing every counter and being wrong on the page."
+        },
+        {
+          "what": "Rebuilding at 85846c48d changes two report files for reasons unrelated to this repair.",
+          "theMeasurement": "reports/record-bindings.json re-pins central records that have moved since the packet was last built, and reports/retained-official-form-widgets.json loses U+0007/U+0006 control characters from harvested captions because the shared module scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs sanitizes them now. Both were confirmed by running the UNCHANGED builder at this base before any edit.",
+          "whyItIsRecorded": "They are in the committed diff of this repair and they are not caused by it."
+        }
+      ],
+      "whatThisLaneDidNotDo": "Dispatched no raster, self-verified nothing, released and transferred no claim, edited no central artifact, edited no other worktree, ran no migration, touched no Stripe or production value, changed no live RCAP route, created no subagent, and introduced no flatten and no finalizer call.",
+      "grantsNothing": "A repaired packet is review evidence. This row records what one repair lane changed and what it measured on the bytes it produced. It approves no output, promotes no route, opens no commercial path and creates no fulfillment record. It sets no verdict; RASTER_PASS comes from the central workflow and independent verification is a different lane."
     }
   ]
 }

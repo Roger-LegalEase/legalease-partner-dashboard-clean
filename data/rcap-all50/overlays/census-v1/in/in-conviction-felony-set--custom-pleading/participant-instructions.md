@@ -1,11 +1,5 @@
 # Petition to Expunge a Felony Conviction Not Covered by Sections 2 or 3, I.C. 35-38-9-4
 
-## READ THIS FIRST
-
-- One petition per lifetime under § 35-38-9-9(i). Petitions filed in separate counties count as one only if they land inside a single 365-day window. Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.
-- Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed. Under Chastain a petitioner cannot use the liberal amendment rule to add records that were not yet eligible when the initial petition was filed, so filing now can permanently cost a record that ripens later. This is a delivery gate, not a generation blocker.
-- The grant is discretionary. Route to a legal-review gate before offering this track, per the build order in the review.
-
 Prepared for **Jordan Avery Reyes**. Packet set `in_conviction_felony-set`, version 1.0.0.
 
 This packet set serves 1 route(s):
@@ -98,7 +92,14 @@ Check every prefilled fact against your own court record and your certified limi
 ## Fields deliberately left blank
 
 - Sign and date the verification on the petition yourself, after reading it. The petition is verified, and signing it is an affirmation under the penalties for perjury.
-- Leave every finding, granted-or-denied election, decretal paragraph, sealing directive, date and judge's signature on the proposed order blank. Those are the court's.
+- Do not sign, date or complete any part of the proposed order. It is delivered unexecuted, and its page prints "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided." Every line listed below is printed on that order under the label shown here, and every one of them is the court's or the clerk's to complete:
+- "Findings of the court on the verified petition" on the proposed order - the findings are the court's, made by a preponderance on the statutory conditions
+- "Whether the petition is granted or denied" on the proposed order - granting or denying the petition is the court's decision and this build makes none of it
+- "Ordered, adjudged and decreed paragraphs" on the proposed order - the decretal paragraphs are the court's judgment
+- "Entities the court directs to seal or restrict records" on the proposed order - the sealing directives are the court's, and the related arrest records are ordered expunged by the same order under I.C. 35-38-9-6(g) and 35-38-9-7(e)
+- "Date of the court order" on the proposed order - the court dates its own order
+- "Signature of the judge on the order" on the proposed order - the judge signs if and when the court enters the order
+- "Distribution list completed by the clerk" on the proposed order - distribution of a signed order is the clerk's act
 - Leave the XP cause number and the filed-on stamp blank. The clerk supplies both when the petition is filed.
 
 ## Stop self-help and get legal help (all 13 stop conditions the record holds)
