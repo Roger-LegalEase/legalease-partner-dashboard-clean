@@ -99,14 +99,24 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import {
+  normalizeWidgetRectangles, pruneDanglingAnnots, baselineInk, proveDeliveredInk
+} from "./rcap-official-forms/delivered-ink-measurement.mjs";
+import { assertPrintedSourceInkSurvives, measurePrintedSourceInkSurvival, DEFAULT_RECT_TOLERANCE_PTS } from "./rcap-official-forms/printed-source-ink-survival.mjs";
+import {
+  CR65_PRINTED_ELECTIONS, cr65QuotedElectionLines, assertCR65PrintedElections,
+  CR65_SECOND_BRANCH_ONLY, CR65_SECOND_BRANCH_CONDITION
+} from "./rcap-official-forms/cr65-printed-elections.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFTextField, PDFName, PDFRef, StandardFonts } = require("pdf-lib");
+const { PDFDocument, PDFCheckBox, PDFTextField, PDFName, PDFNumber, PDFArray, PDFRef, StandardFonts, rgb } = require("pdf-lib");
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -123,6 +133,9 @@ const FIXED_DATE = new Date("2026-09-09T00:00:00.000Z");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+
+/** Page counts of the pinned binaries, asserted against the loaded documents. */
+const SOURCE_PAGE_COUNTS = { "CR-65": 8, "C-10-CRIMINAL": 3 };
 
 const SOURCES = [
   {
@@ -496,36 +509,25 @@ function selectCheckboxState(field, state = "Yes") {
   }
 }
 
-/*
- * pdf-lib's form.flatten() deletes the field objects but leaves the page
- * /Annots array naming object numbers that no longer resolve, and a reader that
- * follows them reports "Invalid XRef entry". Detaching the dead references is
- * what keeps the delivered file readable.
+/**
+ * How many rectangles each pinned source is expected to need normalizing. A
+ * repair that silently starts moving a second rectangle is a different repair,
+ * so the number is pinned rather than trusted.
  */
-function pruneDanglingAnnots(document) {
-  let removed = 0;
-  for (const page of document.getPages()) {
-    const annots = page.node.Annots();
-    if (!annots) continue;
-    const before = removed;
-    const keep = annots.asArray().filter((entry) => {
-      const resolved = entry instanceof PDFRef ? document.context.lookup(entry) : entry;
-      if (resolved) return true;
-      removed += 1;
-      return false;
-    });
-    if (removed === before) continue;
-    if (keep.length === 0) page.node.delete(PDFName.of("Annots"));
-    else page.node.set(PDFName.of("Annots"), document.context.obj(keep));
-  }
-  return removed;
-}
+const EXPECTED_INVERTED_RECTS = { "CR-65": 1, "C-10-CRIMINAL": 0 };
 
-async function fillDocument(source, fixture, variant) {
+async function fillDocument(source, fixture, variant, { normalizeRects = true } = {}) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
+  // Before anything reads a widget rectangle as an origin. See
+  // normalizeWidgetRectangles above.
+  assert.equal(document.getPageCount(), SOURCE_PAGE_COUNTS[source.documentId],
+    `${source.documentId}: pinned page count ${SOURCE_PAGE_COUNTS[source.documentId]} does not match the loaded binary's ${document.getPageCount()}; the packet-to-source page map would be wrong`);
+  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(document, form) : [];
+  if (normalizeRects) assert.equal(rectanglesNormalized.length, EXPECTED_INVERTED_RECTS[source.documentId],
+    `${source.documentId}: expected ${EXPECTED_INVERTED_RECTS[source.documentId]} inverted widget rectangle(s), normalized ${rectanglesNormalized.length}`);
   const writes = [];
   const refusals = [];
   // Widget rectangles are captured BEFORE flattening, because flattening
@@ -661,7 +663,7 @@ async function fillDocument(source, fixture, variant) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals, boxes, danglingAnnotsPruned };
+  return { document, writes, refusals, boxes, danglingAnnotsPruned, rectanglesNormalized };
 }
 
 /*
@@ -677,140 +679,9 @@ async function fillDocument(source, fixture, variant) {
  * an election answers the same question a name does and cannot read as
  * invisible merely because it is not prose.
  */
-const inkKey = (item) => `${item.text}@${item.x.toFixed(1)},${item.y.toFixed(1)}`;
-
-/*
- * The baseline this measurement subtracts.
- *
- * An official form prints its own rules, captions and boundary text, and a
- * widget rectangle routinely sits on top of some of it — CR-65's page-1 caption
- * boxes overlap the printed county rule, and the C-10 income table's cells sit
- * inside their printed grid. A reader that counts every glyph inside a
- * rectangle therefore reports the FORM's ink as the BUILD's ink, and every
- * blank field on the paper looks written on. The first run of this measurement
- * did exactly that and reported 145 refused fields carrying ink.
- *
- * So the question asked of the delivered bytes is not "is there ink here" but
- * "is there ink here that the blank form does not print". The baseline is the
- * same binary driven through the same appearance-update, flatten and prune
- * pipeline with no value set and no box elected, so anything the comparison
- * surfaces was added by this build and nothing the form prints can be mistaken
- * for a write.
- */
-async function baselineInk(source) {
-  const document = await PDFDocument.load(source.bytes);
-  const form = document.getForm();
-  const font = await document.embedFont(StandardFonts.Helvetica);
-  form.updateFieldAppearances(font);
-  form.flatten();
-  pruneDanglingAnnots(document);
-  const bytes = Buffer.from(await document.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity }));
-  const reopened = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
-  return reopened.getPages().map((page) => new Set(extractTextItems(page).map(inkKey)));
-}
-
-async function proveDeliveredInk(packetBytes, pageManifest, baselines, mode = {}) {
-  const subtractBaseline = mode.subtractBaseline !== false;
-  const singleAssignment = mode.singleAssignment !== false;
-  const pdf = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
-  const itemsByPage = pdf.getPages().map((page) => extractTextItems(page));
-
-  const inside = (item, rect) =>
-    item.x >= rect.x - 1.5 && item.x <= rect.x + rect.width + 1.5 &&
-    item.y >= rect.y - 3.5 && item.y <= rect.y + rect.height + 3.5;
-
-  const invisibleWrites = [];
-  const refusedFieldsWithInk = [];
-  const incompleteValues = [];
-  let glyphsInWriteBoxes = 0;
-  let baselineGlyphsIgnored = 0;
-  let addedGlyphsOutsideAnyFieldRect = 0;
-
-  /*
-   * ONE GLYPH BELONGS TO ONE FIELD.
-   *
-   * C-10-CRIMINAL's own widgets overlap: "Date of Birth" (Text4, x 441.8-561.2,
-   * y 449.4-465.1) sits inside "Spouse's Full Name (if married)" (x 197.2-561.5,
-   * y 442.7-452.3), because the official form draws the date-of-birth box at the
-   * end of the Full Name line and the spouse line's box runs the full width
-   * underneath it. A reader that credits a glyph to every rectangle containing
-   * it therefore reports the correctly-written date of birth as ink on the
-   * refused spouse-name field, which is exactly what the first differential run
-   * of this measurement did on all four packets.
-   *
-   * So each added glyph is assigned to exactly one field: the SMALLEST
-   * rectangle containing it, which is the most specific claim any field can make
-   * on that position. A glyph inside no field's rectangle is counted separately
-   * rather than dropped, because ink outside every measured box is its own
-   * question and must not vanish into a pass.
-   */
-  const boxesWithRects = pageManifest.boxes.filter((box) => box.rect);
-  const assigned = new Map(boxesWithRects.map((box) => [box.fieldId, []]));
-
-  for (const [pageIndex, items] of itemsByPage.entries()) {
-    const onPage = boxesWithRects.filter((box) => box.packetPage === pageIndex + 1);
-    if (onPage.length === 0) continue;
-    const printed = baselines[onPage[0].documentId]?.[onPage[0].page - 1] ?? new Set();
-    for (const item of items) {
-      if (subtractBaseline && printed.has(inkKey(item))) { baselineGlyphsIgnored += 1; continue; }
-      const containing = onPage.filter((box) => inside(item, box.rect));
-      if (containing.length === 0) { addedGlyphsOutsideAnyFieldRect += item.text.replace(/\s+/g, "").length; continue; }
-      if (!singleAssignment) {
-        // The pre-repair reader: every rectangle containing the glyph claims it.
-        for (const box of containing) assigned.get(box.fieldId).push(item);
-        continue;
-      }
-      let best = null;
-      let bestArea = Infinity;
-      for (const box of containing) {
-        const area = box.rect.width * box.rect.height;
-        if (area < bestArea) { best = box; bestArea = area; }
-      }
-      assigned.get(best.fieldId).push(item);
-    }
-  }
-
-  for (const box of boxesWithRects) {
-    const added = (assigned.get(box.fieldId) ?? []).slice().sort((a, b) => a.x - b.x);
-    const ink = added.map((item) => item.text).join("").replace(/\s+/g, "");
-
-    if (box.expectInk) {
-      if (ink.length === 0) {
-        invisibleWrites.push({
-          fieldId: box.fieldId, packetPage: box.packetPage,
-          why: "the delivered bytes draw no glyph inside this field's rectangle that the blank form does not already print"
-        });
-      } else {
-        glyphsInWriteBoxes += ink.length;
-      }
-      if (box.expectText) {
-        const want = box.expectText.replace(/\s+/g, "");
-        if (!ink.includes(want)) {
-          incompleteValues.push({ fieldId: box.fieldId, packetPage: box.packetPage, held: box.expectText, readBackFromDeliveredBytes: ink });
-        }
-      }
-    } else if (ink.length > 0) {
-      refusedFieldsWithInk.push({ fieldId: box.fieldId, packetPage: box.packetPage, addedInk: ink });
-    }
-  }
-
-  return {
-    pagesRead: pdf.getPageCount(),
-    fieldsMeasured: pageManifest.boxes.filter((box) => box.rect).length,
-    addedGlyphsReadFromOutputBytes: glyphsInWriteBoxes,
-    flattenedWidgetAppearancesReadFromOutputBytes: pageManifest.boxes.filter((box) => box.expectInk).length - invisibleWrites.length,
-    printedFormGlyphsInsideFieldRectsIgnored: baselineGlyphsIgnored,
-    nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: addedGlyphsOutsideAnyFieldRect,
-    invisibleWrites,
-    refusedFieldsWithInk,
-    incompleteValues,
-    proof: "each field's pre-flatten widget rectangle was re-read against the glyphs the finished packet actually draws, recursing through flattened Form XObjects, minus the glyphs the blank source prints inside the same rectangle"
-  };
-}
-
-async function buildPacket(sources, fixture, variant, baselines) {
+async function buildPacket(sources, fixture, variant, baselines, options = {}) {
   const filled = [];
-  for (const source of sources) filled.push({ source, ...(await fillDocument(source, fixture, variant)) });
+  for (const source of sources) filled.push({ source, ...(await fillDocument(source, fixture, variant, options)) });
 
   const packet = await PDFDocument.create();
   const boxes = [];
@@ -897,43 +768,16 @@ function controllingRecord() {
  * assertPrintedElections(). Nothing here is this packet's characterisation of
  * Alabama law.
  */
-const PRINTED_ELECTIONS = {
-  attachments: {
-    page: 5,
-    heading: "Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)",
-    options: [
-      "[ ] (1) a certified record of arrest from the appropriate agency for the court record I seek to have",
-      "[ ] (2) a certified record of disposition or a certified record of the case action summary from the",
-      "[ ] (3) a certified official criminal record obtained from the Alabama Law Enforcement Agency (ALEA)."
-    ]
-  },
-  swornSelectOne: {
-    page: 6,
-    oath: "I swear or affirm, under the penalty of perjury:",
-    heading: "(3)(Select one of the following):",
-    firstBranch: "[ ] that I have not previously applied for an expungement in this or any other jurisdiction.",
-    secondBranchOpening: "[ ] that I have previously filed for an expungement. My previous expungement was filed in",
-    grantedDenied: "was [ ] granted [ ] denied."
-  },
-  proSe: { page: 6, line: "[ ] pro se (Not represented by an attorney)" }
-};
-
-function quotedElectionLines() {
-  const { attachments: a, swornSelectOne: s, proSe: p } = PRINTED_ELECTIONS;
-  return [
-    [a.page, a.heading], ...a.options.map((line) => [a.page, line]),
-    [s.page, s.oath], [s.page, s.heading], [s.page, s.firstBranch],
-    [s.page, s.secondBranchOpening], [s.page, s.grantedDenied],
-    [p.page, p.line]
-  ];
-}
-
-/* The two blanks that exist only on the SECOND branch of the page-6 select-one. */
-const SECOND_BRANCH_ONLY = new Set([
-  "CR-65:COUNTY and it was given Court Case Number",
-  "CR-65:was     granted"
-]);
-const SECOND_BRANCH_CONDITION = "only if you tick the SECOND box in item (3) on CR-65 page 6";
+/*
+ * The printed lines now live in one place for every family that binds CR-65:
+ * scripts/rcap-official-forms/cr65-printed-elections.mjs. Six families owe the
+ * participant the same lines off the same binary, and a copy per family is a
+ * copy per family to drift. The strings are unchanged; only their home moved.
+ */
+const PRINTED_ELECTIONS = CR65_PRINTED_ELECTIONS;
+const quotedElectionLines = cr65QuotedElectionLines;
+const SECOND_BRANCH_ONLY = new Set(CR65_SECOND_BRANCH_ONLY);
+const SECOND_BRANCH_CONDITION = CR65_SECOND_BRANCH_CONDITION;
 
 function electionsSection() {
   const a = PRINTED_ELECTIONS.attachments;
@@ -996,26 +840,11 @@ It is blank in this packet, and this packet writes nothing into the attorney
 block beside it, because it holds no representation fact for you.`;
 }
 
-async function printedLinesOf(file, page) {
-  const doc = await PDFDocument.load(fs.readFileSync(file), { updateMetadata: false });
-  const target = doc.getPages()[page - 1];
-  assert.ok(target, `${path.basename(file)} has no page ${page}`);
-  return groupIntoLines(extractTextItems(target)).map((line) => String(line.text ?? "").replace(/\s+/g, " ").trim());
-}
-
 async function assertPrintedElections(out) {
   const fixtures = fs.readdirSync(path.join(out, "fixtures")).filter((f) => f.endsWith(".pdf")).sort();
   assert.equal(fixtures.length, 4, `this family delivers four fixtures and the directory holds ${fixtures.length}`);
-  for (const fixture of fixtures) {
-    const file = path.join(out, "fixtures", fixture);
-    const cache = new Map();
-    for (const [page, quoted] of quotedElectionLines()) {
-      if (!cache.has(page)) cache.set(page, await printedLinesOf(file, page));
-      const want = quoted.replace(/\s+/g, " ").trim();
-      assert.ok(cache.get(page).includes(want),
-        `${fixture} page ${page} does not print the line this guide quotes: ${JSON.stringify(quoted)}`);
-    }
-  }
+  // CR-65 leads this packet, so form page N is packet page N.
+  await assertCR65PrintedElections(fixtures.map((f) => path.join(out, "fixtures", f)), { cr65PageOffset: 0 });
 }
 
 export function writeGuides({ out, record, artifacts, required, heldButUnprintable }) {
@@ -1300,6 +1129,84 @@ export async function assertRepairInvariants(out) {
       `a page-${row.page} election this guide hands to the participant is ticked by the build: ${row.fieldId}`);
   }
   await assertPrintedElections(out);
+  /*
+   * Glyph-level guards end here. Everything above this line reads text, and
+   * every one of them passes with an opaque white box painted over the text it
+   * claims to have read. The line below reads pixels.
+   */
+  await assertPrintedFormInkSurvives(out);
+}
+
+/*
+ * THE GUARD THE GLYPH READERS COULD NOT BE.
+ *
+ * Every guard this family had was glyph-based, and an opaque white box draws no
+ * glyph while pdftotext still extracts the glyphs sitting underneath it. VF01
+ * proved that by mutation rather than asserting it: on a scratch copy it
+ * painted an opaque box over `pro se (Not represented by an attorney)` on page
+ * 6, a line assertPrintedElections claims to read out of the delivered bytes;
+ * that line's rendered ink fell 7,544 px to 0, and assertRepairInvariants
+ * PASSED. Fixing the one misplacement without closing that hole would repair a
+ * single instance of a class this build cannot detect.
+ *
+ * So the delivered pixels are compared against the PINNED SOURCE pixels. The
+ * comparand is deliberately not a pipeline-derived baseline: the family's
+ * existing --negative-control uses one, and a pipeline-introduced defect is
+ * subtracted to zero by construction in it. This defect was pipeline-introduced.
+ *
+ * The measurement, its resolution, its threshold, its allowance and what it
+ * cannot see all travel with the result. See
+ * scripts/rcap-official-forms/printed-source-ink-survival.mjs.
+ */
+function packetPageMap(sources) {
+  const pages = [];
+  let cursor = 0;
+  for (const source of sources) {
+    const count = SOURCE_PAGE_COUNTS[source.documentId];
+    for (let page = 1; page <= count; page += 1) {
+      pages.push({ packetPage: cursor + page, sourcePdf: source.absolute, sourcePage: page });
+    }
+    cursor += count;
+  }
+  return pages;
+}
+
+export async function assertPrintedFormInkSurvives(out, { publishTo = null } = {}) {
+  const sources = resolveSources();
+  const pages = packetPageMap(sources);
+  const reports = [];
+  for (const variant of Object.values(VARIANTS)) {
+    for (const fixture of Object.values(FIXTURES)) {
+      const name = `${fixture.fixtureClass}--${variant.variantId}`;
+      const file = path.join(out, "fixtures", `${name}.pdf`);
+      assert.ok(fs.existsSync(file), `fixture absent from disk, so its pixels cannot be read: ${file}`);
+      const report = await assertPrintedSourceInkSurvives({ deliveredPdf: file, pages });
+      reports.push({ fixture: name, ...report });
+    }
+  }
+  if (publishTo) {
+    writeJson(publishTo, {
+      schemaVersion: "rcap-printed-source-ink-survival/v1",
+      familyId: FAMILY_ID,
+      measuredFrom: "the delivered fixture bytes on disk and the pinned official source binaries in custody, rasterised page by page",
+      renderer: reports[0].renderer,
+      annotationsRendered: reports[0].annotationsRendered,
+      dpi: reports[0].dpi,
+      inkThreshold: reports[0].inkThreshold,
+      widgetRectAllowancePts: reports[0].widgetRectAllowancePts,
+      allowanceMeaning: reports[0].allowanceMeaning,
+      cannotSee: reports[0].cannotSee,
+      rasterEvidenceClaimed: false,
+      whyNoRasterEvidenceIsClaimed: "every raster this guard produced was read into memory and deleted in the same breath; nothing was retained, published or reviewed, and a central raster is still owed for this family",
+      fixtures: reports.map((report) => ({
+        fixture: report.fixture,
+        printedSourceInkErasedOutsideWidgetRects: report.perPage.reduce((sum, page) => sum + page.lostInkOutsideEveryDeclaredWidgetRect, 0),
+        printedSourceInkErasedInsideWidgetRects: report.perPage.reduce((sum, page) => sum + page.lostInkInsideADeclaredWidgetRect, 0),
+        perPage: report.perPage.map(({ sourcePdf, ...page }) => ({ ...page, sourceDocument: path.basename(sourcePdf) }))
+      }))
+    });
+  }
+  return reports;
 }
 
 export async function build() {
@@ -1413,6 +1320,15 @@ export async function build() {
   const heldButUnprintable = reference.refusals.filter((row) => row.requiredBeforeFiling && row.factAvailable);
   writeGuides({ out, record, artifacts, required, heldButUnprintable });
 
+  /*
+   * The pixel measurement, taken from the fixture bytes now on disk against the
+   * pinned source binaries, so the counter below is a reading of the delivered
+   * file rather than a restatement of what this process believes it wrote.
+   */
+  const inkSurvival = await assertPrintedFormInkSurvives(out, { publishTo: path.join(out, "reports", "printed-source-ink-survival.json") });
+  const printedSourceInkErasedOutsideWidgetRects = inkSurvival.reduce(
+    (sum, report) => sum + report.perPage.reduce((pages, page) => pages + page.lostInkOutsideEveryDeclaredWidgetRect, 0), 0);
+
   const counters = {
     knownRequiredFieldsMissing: 0,
     requiredFactsNotCollected: 0,
@@ -1422,12 +1338,26 @@ export async function build() {
     requiredComponentsMissing: 0,
     invisibleWrites: packets.reduce((sum, p) => sum + p.proof.invisibleWrites.length, 0),
     protectedWrites: packets.reduce((sum, p) => sum + p.proof.refusedFieldsWithInk.length, 0),
+    /*
+     * Printed form ink the delivered packet erases where no control belongs.
+     * Measured in pixels against the pinned sources at 300 dpi, ink threshold
+     * 200; a number, not a typed literal, and it read 241 on the bytes this
+     * family shipped before this repair.
+     */
+    printedSourceInkErasedOutsideWidgetRects,
+    /*
+     * Still null, and deliberately. Nobody has looked at a raster of these
+     * pages. Every raster the ink guard produced was read into memory and
+     * deleted unseen, and it answers one narrow question about erasure -- it is
+     * not a visual review and claims no raster evidence. A central raster is
+     * owed for this family now that its bytes have moved.
+     */
     visualDefects: null
   };
 
   writeJson(path.join(out, "reports", "build-summary.json"), {
     familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters,
-    countersMeasuredFrom: "invisibleWrites, protectedWrites and incompleteRows are read from the delivered packet bytes by proveDeliveredInk; visualDefects is null because no raster was produced in this container",
+    countersMeasuredFrom: "invisibleWrites, protectedWrites and incompleteRows are read from the delivered packet bytes by proveDeliveredInk; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries by assertPrintedFormInkSurvives, at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, and is published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
     statutoryVariantsDelivered: Object.values(VARIANTS).map((v) => v.statute),
     ownerDeterminationsSurfaced: [
       { what: `${UNSCOPED_ELECTION.section}, ${UNSCOPED_ELECTION.statute}`, why: UNSCOPED_ELECTION.why },
@@ -1473,6 +1403,123 @@ export async function build() {
  * repaired reader does not. A control that cannot fail proves nothing about the
  * reader that passes, so these assert that the pre-repair readers FIRE.
  */
+/*
+ * THE MUTATION CONTROL FOR THE PIXEL GUARD.
+ *
+ * A guard that has never failed proves nothing about the build that passes it.
+ * VF01 established this guard's necessity by mutation -- it painted an opaque
+ * box over a line the glyph guards claim to read, watched that line's rendered
+ * ink fall 7,544 px to 0, and watched assertRepairInvariants PASS anyway. The
+ * same mutation is performed here against the new guard, and the new guard must
+ * FAIL on it.
+ *
+ * The defacement target is the word "quashed" in Section III's eligibility
+ * ground on CR-65 page 3 -- printed form text, in the same sentence the real
+ * defect partially erased, and verified below to lie outside every widget
+ * rectangle the source declares, so it is not excused by the allowance.
+ *
+ * The control also demonstrates WHY every existing guard in this family was
+ * blind: pdftotext still extracts "quashed" from the defaced bytes. Nothing is
+ * written to the family's output directory; the mutated copy lives in a scratch
+ * directory and is deleted.
+ */
+const MUTATION_TARGET = Object.freeze({
+  packetPage: 3, sourcePage: 3, word: "quashed",
+  // pdftotext -bbox on the pinned CR-65: xMin 178.179 xMax 217.417,
+  // yMin 130.506 yMax 141.306 from the page top, i.e. PDF y 650.694-661.494.
+  x: 178.0, y: 650.4, width: 39.8, height: 11.4
+});
+
+export async function pixelGuardMutationControl() {
+  const out = path.join(ROOT, OUT_REL);
+  const sources = resolveSources();
+  const pages = packetPageMap(sources);
+  const cr65 = sources.find((source) => source.documentId === "CR-65");
+
+  // The target must be printed form ink that no control owns, or a guard that
+  // ignores it would be right to.
+  const probe = await PDFDocument.load(cr65.bytes);
+  const probePages = probe.getPages();
+  for (const field of probe.getForm().getFields()) {
+    for (const widget of field.acroField.getWidgets()) {
+      const parent = String(widget.dict.get(PDFName.of("P")));
+      const index = probePages.findIndex((page) => page.ref.toString() === parent);
+      if (index + 1 !== MUTATION_TARGET.sourcePage) continue;
+      const array = widget.dict.lookup(PDFName.of("Rect"), PDFArray);
+      const v = [0, 1, 2, 3].map((i) => array.lookup(i, PDFNumber).asNumber());
+      const r = { x0: Math.min(v[0], v[2]), y0: Math.min(v[1], v[3]), x1: Math.max(v[0], v[2]), y1: Math.max(v[1], v[3]) };
+      const overlaps = r.x0 < MUTATION_TARGET.x + MUTATION_TARGET.width + DEFAULT_RECT_TOLERANCE_PTS
+        && r.x1 > MUTATION_TARGET.x - DEFAULT_RECT_TOLERANCE_PTS
+        && r.y0 < MUTATION_TARGET.y + MUTATION_TARGET.height + DEFAULT_RECT_TOLERANCE_PTS
+        && r.y1 > MUTATION_TARGET.y - DEFAULT_RECT_TOLERANCE_PTS;
+      assert.ok(!overlaps, `the mutation target is inside widget ${field.getName()}, where the guard's allowance would excuse it`);
+    }
+  }
+
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "al-trafficking-mutation-"));
+  try {
+    const clean = path.join(out, "fixtures", "canonical--misdemeanor.pdf");
+    const document = await PDFDocument.load(fs.readFileSync(clean), { ignoreEncryption: true, updateMetadata: false });
+    document.getPages()[MUTATION_TARGET.packetPage - 1].drawRectangle({
+      x: MUTATION_TARGET.x, y: MUTATION_TARGET.y,
+      width: MUTATION_TARGET.width, height: MUTATION_TARGET.height,
+      color: rgb(1, 1, 1)
+    });
+    const defaced = path.join(scratch, "defaced.pdf");
+    fs.writeFileSync(defaced, Buffer.from(await document.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity })));
+
+    // Why every glyph guard in this family was blind to this class.
+    const extracted = execFileSync("pdftotext", ["-f", String(MUTATION_TARGET.packetPage), "-l", String(MUTATION_TARGET.packetPage), defaced, "-"], { encoding: "utf8" });
+    assert.ok(extracted.includes(MUTATION_TARGET.word),
+      `CONTROL DID NOT FIRE — pdftotext must still extract "${MUTATION_TARGET.word}" from the defaced bytes; that it does is exactly why a glyph reader cannot see an opaque box`);
+
+    const clean_report = await measurePrintedSourceInkSurvival({ deliveredPdf: clean, pages });
+    const cleanOutside = clean_report.perPage.reduce((sum, page) => sum + page.lostInkOutsideEveryDeclaredWidgetRect, 0);
+    assert.equal(cleanOutside, 0, "the delivered packet must lose no printed form ink outside a widget rectangle");
+
+    let threw = null;
+    try { await assertPrintedSourceInkSurvives({ deliveredPdf: defaced, pages: pages.filter((page) => page.packetPage === MUTATION_TARGET.packetPage) }); }
+    catch (error) { threw = error; }
+    assert.ok(threw, `CONTROL DID NOT FIRE — the pixel guard passed a page with an opaque white box painted over the printed word "${MUTATION_TARGET.word}"`);
+    assert.match(threw.message, /PRINTED FORM INK ERASED/, "the pixel guard must fail with the erasure it found");
+
+    const mutated = await measurePrintedSourceInkSurvival({ deliveredPdf: defaced, pages: pages.filter((page) => page.packetPage === MUTATION_TARGET.packetPage) });
+    const erased = mutated.perPage[0].lostInkOutsideEveryDeclaredWidgetRect;
+    assert.ok(erased > 0, "the mutation must erase printed ink outside every widget rectangle");
+    console.log(`pixel guard mutation control: an opaque white box over the printed word "${MUTATION_TARGET.word}" on packet page ${MUTATION_TARGET.packetPage} `
+      + `erased ${erased} px of printed form ink at ${mutated.dpi} dpi / threshold ${mutated.inkThreshold}; `
+      + `the pixel guard FAILED as it must, while pdftotext still extracted the word and every glyph guard in this family stays silent. `
+      + `Undefaced, the same measurement reads ${cleanOutside}.`);
+    /*
+     * AND THE CONTROL THAT MATTERS MOST: the guard must fail on THIS defect,
+     * not merely on some occlusion. The same packet is rebuilt with
+     * normalizeWidgetRectangles removed -- which is exactly the bytes this
+     * family shipped before this repair -- and the guard must refuse it.
+     */
+    const baselines = {};
+    for (const source of sources) baselines[source.documentId] = await baselineInk(source);
+    const unrepaired = await buildPacket(sources, FIXTURES.canonical, VARIANTS.misdemeanor, baselines, { normalizeRects: false });
+    const unrepairedFile = path.join(scratch, "unrepaired.pdf");
+    fs.writeFileSync(unrepairedFile, unrepaired.bytes);
+    const causePages = pages.filter((page) => page.packetPage === MUTATION_TARGET.packetPage);
+    let causeThrew = null;
+    try { await assertPrintedSourceInkSurvives({ deliveredPdf: unrepairedFile, pages: causePages }); }
+    catch (error) { causeThrew = error; }
+    assert.ok(causeThrew,
+      "CONTROL DID NOT FIRE — the pixel guard passed the un-normalized build, which is the defect it exists to catch");
+    const causeReport = await measurePrintedSourceInkSurvival({ deliveredPdf: unrepairedFile, pages: causePages });
+    const causeErased = causeReport.perPage[0].lostInkOutsideEveryDeclaredWidgetRect;
+    assert.ok(causeErased > 0, "the un-normalized build must erase printed ink outside every widget rectangle");
+    console.log(`pixel guard cause control: rebuilt with normalizeWidgetRectangles removed, packet page ${MUTATION_TARGET.packetPage} `
+      + `erases ${causeErased} px of printed form ink outside every widget rectangle `
+      + `(${causeReport.perPage[0].lostInkPixelsReadingSolidWhite} of ${causeReport.perPage[0].lostInkPixels} lost pixels read solid white 255); the pixel guard FAILED as it must.`);
+
+    return { erasedPixels: erased, cleanOutside, causeErasedPixels: causeErased, dpi: mutated.dpi, inkThreshold: mutated.inkThreshold };
+  } finally {
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
+}
+
 export async function negativeControls() {
   const record = controllingRecord();
   const sources = resolveSources();
@@ -1539,6 +1586,7 @@ if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) 
   const out = path.join(ROOT, OUT_REL);
   if (process.argv.includes("--negative-control")) {
     await negativeControls();
+    await pixelGuardMutationControl();
   } else if (process.argv.includes("--check")) {
     await assertRepairInvariants(out);
     console.log(`${FAMILY_ID}: repair invariants PASS`);
