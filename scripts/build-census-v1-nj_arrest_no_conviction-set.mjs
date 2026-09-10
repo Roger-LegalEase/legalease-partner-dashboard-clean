@@ -27,6 +27,7 @@ import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import { protectCategoryOf, regionProtectCategoryOf, resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { fitTextToWidget, HORIZONTAL_PADDING } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -587,6 +588,57 @@ function readableCaption(label) {
   return UNDECODED_CAPTION_BYTES.test(label) ? null : label;
 }
 
+/*
+ * PF26. The two output-byte glyph readings every finished family owes, emitted
+ * into reports/rendered-artifacts.json and read out of the PRODUCED PDF rather
+ * than out of this build's intent.
+ *
+ * WHY IT IS GATED BY FAMILY ID AND NOT SIMPLY TURNED ON. The readings are what
+ * make the completeness contract's invisibleWrites and visualDefects counters
+ * measurable at all: verify-packet-completeness.mjs derives both from
+ * addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes
+ * and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, and reports UNMEASURED --
+ * null, not zero -- when an artifact carries none of them. Every family on this
+ * host is owed them. But turning them on for all fourteen would require
+ * rebuilding all fourteen to emit them, and a no-edit rebuild of
+ * pa_6308_underage-set at base 1fce87ab6 in this container already moves four of
+ * its six fixture digests for reasons that have nothing to do with any edit --
+ * the field census resolves captions differently here and the prepared-source
+ * digest changes with it. Rebuilding a sibling would therefore commit drift this
+ * lane did not cause, and neither shared build host calls carryForwardGovernance,
+ * so it would also silently erase any acceptance receipt that sibling holds.
+ *
+ * So the reading is emitted for the families this lane actually rebuilt and
+ * measured, and no other family's bytes can move under it. Widening the set is
+ * a deliberate act for whoever rebuilds the rest.
+ *
+ * PF26 LEFT THIS FAMILY STOPPED AND ITS ARTIFACTS AT THEIR COMMITTED BYTES. The
+ * shared caption module scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs
+ * is regressed at commit e258e47a0: its "printed to the left in the same cell"
+ * branch does not filter a null x2, so `run.x2 > rect.x + 1` is false for an
+ * unmeasurable run and `rect.x - run.x2` evaluates to rect.x, treating the run as
+ * ending at zero. On a rebuild of THIS family that costs 28 census captions --
+ * see the row in data/rcap-grade-a/packet-factory-24h/pf26/ for the widget names.
+ * Rolling that one file back to e258e47a0^ and changing nothing else makes
+ * field-census.census-v1.json reproduce byte-exact, which reproduces FIX135's
+ * Nebraska result on a second state. Nothing below was committed as artifacts;
+ * rebuild this family once the caption module is decided.
+ *
+ * The module it calls filters to /FlatWidget-N and /ExactFactOverlay-N, so it is
+ * not exposed to the FLATTENED_WIDGET_OVERCOUNT trap where any XObject drawn as
+ * `q <cm> /<name> Do` -- a scanned page image included -- is counted as an
+ * appearance this build flattened.
+ */
+const OUTPUT_GLYPH_READING_FAMILIES = new Set([
+  "pa_6308_underage-set",
+]);
+
+/** Reads the two glyph readings from produced bytes, or null when not enabled. */
+async function outputGlyphReadingFor(familyId, outputBytes, sourceBytes = null) {
+  if (!OUTPUT_GLYPH_READING_FAMILIES.has(familyId)) return null;
+  return readOutputGlyphs(outputBytes, { sourceBytes });
+}
+
 const FAMILY = {};
 
 const PA_6308_ROUTE_VEHICLES = Object.freeze({
@@ -611,11 +663,54 @@ function pa6308VehicleFor(facts) {
   return vehicle;
 }
 
+/*
+ * PF26. The Rule 490/790 certificate this family composes, brought onto the same
+ * declared channel FIX84 already put the pa_490_nonconviction-set and
+ * pa_790_nonconviction-set certificates on, for the same two rules and the same
+ * recipient.
+ *
+ * WHAT WAS WRONG. All six refused lines declared
+ * `refusalClass: "unmailed_or_unperformed_service"` alongside
+ * `requiredBeforeFiling: false`. That is the declared channel plus a class name
+ * the completeness contract's closed vocabulary does not contain, so
+ * classifyBlank refused every one of them as UNCLASSIFIED_BLANK -- six of them,
+ * which is the whole of this family's `unclassifiedBlanks` counter and the whole
+ * of its raster-enrolment refusal. The sentence beside each refusal was true;
+ * the channel it travelled on was not one the reader can read.
+ *
+ * WHAT THE LINES NOW SAY, AND WHY ONE OF THEM CHANGED. The three performed-
+ * service facts travel as REQUIRED_BEFORE_FILING with an identity and the
+ * printed line as the label, so each is disclosed to the participant by the
+ * exact caption printed beside it; the signature and its date stay protected.
+ * The recipient line was printed as "Name and office of the attorney for the
+ * Commonwealth served:" and is now the siblings' "Office and address where the
+ * copy was served:". That is not a wording dodge: the certificate's own
+ * certifying sentence two lines above already names the recipient as the
+ * attorney for the Commonwealth, so the caption is naming the OFFICE, and the
+ * old caption made the blank read as an attorney-representation block -- a
+ * field about the petitioner's own counsel, which this is not, and which is not
+ * the participant's to complete at all. The address line folds into it exactly
+ * as it does on both sibling certificates, which print the same two dotted
+ * lines for the same fact.
+ *
+ * NO FEE, NO METHOD AND NO DATE IS INVENTED. The governed record establishes the
+ * recipient and the timing and no locally accepted method, and the page says so
+ * in its own parenthesis.
+ */
+const PA_6308_CERTIFICATE_LINES = Object.freeze({
+  officeServed: "Office and address where the copy was served:",
+  method: "Service method accepted by the filing court:",
+  dateServed: "Date service actually occurred:",
+  signature: "Signature of petitioner after service:",
+  dateSigned: "Date signed:",
+});
+
 const PA_6308_SERVICE_CERTIFICATE = Object.freeze({
   documentId: "pa_6308_underage-certificate-of-service-3",
   documentRole: "certificate_of_service",
   key: "certificate-of-service",
   renderText(facts, vehicle) {
+    const L = PA_6308_CERTIFICATE_LINES;
     return [
       "CERTIFICATE OF SERVICE",
       "",
@@ -628,36 +723,65 @@ const PA_6308_SERVICE_CERTIFICATE = Object.freeze({
       "I certify that, concurrently with filing the attached verified petition and proposed order,",
       "I served a copy on the attorney for the Commonwealth.",
       "",
-      `Name and office of the attorney for the Commonwealth served: ${".".repeat(44)}`,
+      `${L.officeServed} ${".".repeat(31)}`,
       `${".".repeat(84)}`,
-      `Service address: ${".".repeat(67)}`,
-      `${".".repeat(84)}`,
-      `Service method accepted by the filing court: ${".".repeat(48)}`,
+      `${L.method} ${".".repeat(31)}`,
       "(The governed record establishes the recipient and timing, but not a locally accepted method.)",
-      `Date service actually occurred: ${".".repeat(52)}`,
+      `${L.dateServed} ${".".repeat(45)}`,
       "",
-      `Signature of petitioner after service: ${".".repeat(51)}`,
-      `Date signed: ${".".repeat(70)}`,
+      `${L.signature} ${".".repeat(38)}`,
+      `${L.dateSigned} ${".".repeat(62)}`,
       `Printed name: ${facts["participant.full_legal_name"]}`,
       "",
       "This certificate records service performed by the participant. LegalEase does not serve anyone",
-      "and does not prefill the recipient's office, address, service method, service date, or signature.",
+      "and does not prefill the office served, the address, the service method, the service date, or",
+      "the signature.",
     ].join("\n");
   },
   fields: Object.freeze([
     Object.freeze({ field: "Printed name", decision: "candidate_write", factId: "participant.full_legal_name" }),
     Object.freeze({ field: "Docket number", decision: "candidate_write", factId: "matter.case_number" }),
-    ...["Attorney for the Commonwealth name and office", "Service address", "Service method",
-      "Date service actually occurred", "Signature after service", "Date signed"].map((field) => Object.freeze({
-      field,
-      decision: "refuse",
-      factId: null,
-      refusalClass: "unmailed_or_unperformed_service",
-      requiredBeforeFiling: false,
-      completesAfterService: true,
-      reason: "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs.",
-      widgets: [],
-    })),
+    /*
+     * The three lines the participant fills in after service, on the declared
+     * channel the completeness contract reads -- requiredBeforeFiling as a
+     * boolean, an identity, the printed line as the label, and no refusal class.
+     * Each is disclosed by name in participant-instructions.md, which is the
+     * condition that makes the blank permissible at all.
+     */
+    ...[["Office and address where the copy was served", PA_6308_CERTIFICATE_LINES.officeServed],
+      ["Service method accepted by the filing court", PA_6308_CERTIFICATE_LINES.method],
+      ["Date service actually occurred", PA_6308_CERTIFICATE_LINES.dateServed]]
+      .map(([field, printed]) => Object.freeze({
+        field,
+        decision: "refuse",
+        factId: null,
+        blankTreatment: "REQUIRED_BEFORE_FILING",
+        requiredBeforeFiling: true,
+        routeDetermined: false,
+        identity: `pa_6308_underage-certificate-of-service-3 field ${field}`,
+        effectiveLabel: printed,
+        page: 1,
+        reason: "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this "
+          + "field; the participant completes it after service and does not guess.",
+        completesAfterService: true,
+        widgets: [],
+      })),
+    /* The signature and its date are the participant's own act and are never
+     * prefilled; they are protected rather than required-before-filing. */
+    ...[["Signature of petitioner after service", PA_6308_CERTIFICATE_LINES.signature],
+      ["Date signed", PA_6308_CERTIFICATE_LINES.dateSigned]]
+      .map(([field, printed]) => Object.freeze({
+        field,
+        decision: "refuse",
+        factId: null,
+        refusalClass: "signature_or_date_participant_completion",
+        requiredBeforeFiling: false,
+        effectiveLabel: printed,
+        page: 1,
+        reason: "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+        completesAfterService: true,
+        widgets: [],
+      })),
   ]),
 });
 
@@ -1117,9 +1241,41 @@ Object.assign(FAMILY, {
       missingFactTreatment: "STOP_NO_ARTIFACT",
     },
     documents: [
-      cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_490" }),
+      /*
+       * PF26. preserveUnwrittenSelectionBackgrounds on the two PETITIONS, which
+       * pa_490_nonconviction-set and pa_790_nonconviction-set already pass on the
+       * same two sources and this family did not. Decided on the pixels rather
+       * than copied: at 600 dpi, grey < 128 counted as dark, inside each
+       * selection widget's own /Rect, with the source rendered by poppler
+       * pdftoppm WITH annotations and a control copy rendered with every page
+       * /Annots and the catalog /AcroForm removed --
+       *
+       *   490 petition 461.82,270.10,475.36,282.16 -- page art alone 1,694;
+       *     source as a viewer renders it 3,236; delivered 4,634
+       *   490 petition 528.05,269.82,540.49,281.89 -- 1,620; 3,092; 4,712,
+       *     which is 3,092 + 1,620 exactly
+       *   790 petition 456.87,259.98,471.90,272.78 -- 1,975; 3,889; 5,044
+       *   790 petition 527.11,259.70,541.40,272.50 -- 2,211; 3,576; 5,175
+       *
+       * -- the page prints a heavy box at each of those four rectangles, the
+       * widget's /Off appearance is `1 g <full bbox> re f` over it and then a
+       * thin stroked square in its place, and with the fill stripped the
+       * participant was handed BOTH drawings superimposed. It also ERASED: 107
+       * dark pixels of the printed box's right edge, a one-pixel column at
+       * x 471.84pt running y 260.04 to 272.76pt from the bottom of 790 petition
+       * page 1, which is exactly that widget's own /Rect right edge.
+       *
+       * The other ten selection widgets on these four forms carry no leading
+       * opaque fill and measure pixel-identical across page-art-alone, source
+       * and delivered, so nothing there is restored and nothing is masked. The
+       * two ORDERS have no filled selection widget at all and are left as they
+       * are. /MK /BG is still removed, no mark is added and no box is ticked.
+       */
+      cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_490",
+        preserveUnwrittenSelectionBackgrounds: true }),
       cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_490" }),
-      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790" }),
+      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790",
+        preserveUnwrittenSelectionBackgrounds: true }),
       cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_790" }),
     ],
     supplementalDocuments: [PA_6308_SERVICE_CERTIFICATE],
@@ -1127,10 +1283,27 @@ Object.assign(FAMILY, {
       "The attorney for the Commonwealth is served concurrently with filing. The included certificate records that required recipient and timing.",
       "The governed record does not establish a locally accepted service method. The certificate leaves the method, recipient office and address, service date, and signature blank; complete them only after following the filing court's accepted local procedure and after service actually occurs.",
     ],
+    /*
+     * PF26. These three sentences are the LAST thing guidedParticipantInstructions
+     * emits, appended with a single newline and no heading of their own, so on
+     * the delivered page they continue the bullet list of "Exact facts still
+     * required before filing" -- a list whose own sentence tells the participant
+     * to "supply and verify each applicable item before filing". The second
+     * sentence used to read "generation stops before any participant artifact is
+     * selected", which is this factory's vocabulary about its own generator, and
+     * it reached a participant page as an item they were told to supply.
+     *
+     * All three are rewritten to address the participant and to say the same
+     * thing about the case rather than about the build. The internal statement
+     * is not lost: route-vehicle-map.json still records
+     * missingOrUnknownFactTreatment STOP_NO_ARTIFACT and
+     * packet-component-specification.json still records the noInferenceRule
+     * verbatim, and those are internal records that no participant receives.
+     */
     notes: [
-      "Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.",
-      "If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.",
-      "The required custom certificate of service states only the governed recipient and timing. It leaves every local-method and performed-service fact blank.",
+      "Rule 490 applies only where the court record establishes that a magisterial district judge handled the case, and Rule 790 only where it establishes a court of common pleas case. The two rules use different petitions and different proposed orders.",
+      "If your court record does not establish which of those two courts handled the case, this packet does not choose one for you and produces no petition. Obtain the docket or a clerk-certified disposition that states the court, and do not work the court level out from the charge, from the name of a file, or from memory.",
+      "The certificate of service enclosed with this packet states only the recipient and the timing that the governed record establishes. Every local-method and performed-service fact on it is left blank for you to complete after service actually occurs.",
     ],
   },
   "nj_arrest_no_conviction-set": njFamily(
@@ -5075,10 +5248,11 @@ async function buildOfficial(familyId, config) {
           })),
       ].filter((row, index, rows) => rows.findIndex((other) => other.field === row.field) === index)
         .sort((a, b) => a.field.localeCompare(b.field));
+      const outputGlyphReading = await outputGlyphReadingFor(familyId, bytes, sourceRow.bytes);
       artifactReports.push({
         documentId: doc.documentId, documentKey: doc.key, fixture, file,
         sha256: sha256(bytes), byteLength: bytes.length, pageCount: census.pageGeometry.length,
-        report, proof, heldButNotPrinted,
+        report, proof, heldButNotPrinted, outputGlyphReading,
       });
       console.log(`  ${fixture}: wrote ${report.written.length}; refused ${report.refused.length}; `
         + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}`);
@@ -5178,6 +5352,7 @@ async function buildOfficial(familyId, config) {
       };
       assert.ok(proof.writtenProof.every((row) => row.exactValueObserved),
         `${doc.documentId}/${fixture}: a declared write is absent from decoded PDF bytes`);
+      const composedGlyphReading = await outputGlyphReadingFor(familyId, bytes, null);
       artifactReports.push({
         documentId: doc.documentId,
         documentKey: doc.key,
@@ -5190,6 +5365,7 @@ async function buildOfficial(familyId, config) {
         proof,
         heldButNotPrinted: [],
         supplemental: true,
+        outputGlyphReading: composedGlyphReading,
       });
 
       const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
@@ -5250,7 +5426,14 @@ async function buildOfficial(familyId, config) {
     schemaVersion: "rcap-actual-writes-from-artifact-bytes/v1", familyId,
     artifacts: artifactReports.map((row) => ({
       documentId: row.documentId, fixture: row.fixture, file: row.file,
-      sha256: row.sha256, byteLength: row.byteLength,
+      sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount,
+      /* PF26: the same two output-byte readings, on the record the completeness
+       * contract actually reads. verify-packet-completeness.mjs derives
+       * invisibleWrites and visualDefects from `actualWrites.artifacts`, so a
+       * reading emitted only into rendered-artifacts.json leaves both counters
+       * UNMEASURED. Read from the produced PDF; absent for a family outside
+       * OUTPUT_GLYPH_READING_FAMILIES, which is measurably different from zero. */
+      ...(row.outputGlyphReading ? row.outputGlyphReading : {}),
       written: row.report.written, refused: row.report.refused,
       // Refusals of facts the platform HOLDS, separated out of the 160-odd
       // refusals of fields nothing was ever going to be written into. Without
@@ -5270,7 +5453,11 @@ async function buildOfficial(familyId, config) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId,
     derivedFromBytes: true,
     pdfs: artifactReports.map((row) => ({ file: row.file, documentId: row.documentId,
-      fixture: row.fixture, sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount })),
+      fixture: row.fixture, sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount,
+      /* Read out of the produced PDF above, never a literal and never this
+       * build's intent. A family not in OUTPUT_GLYPH_READING_FAMILIES emits no
+       * key at all, so no sibling's committed report changes shape. */
+      ...(row.outputGlyphReading ? row.outputGlyphReading : {}) })),
     rasters: rasterReports,
     // A source-only companion is deliberately not rendered; the record says so
     // by name, so its absence from the fixtures reads as the decision it is
