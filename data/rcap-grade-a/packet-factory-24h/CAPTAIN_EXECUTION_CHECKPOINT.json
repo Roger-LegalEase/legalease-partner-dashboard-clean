@@ -22,56 +22,40 @@
       "lane": "FIX132",
       "kind": "repair",
       "worktree": "/home/user/pfc-worktree",
-      "branch": "fix132b-in-20260910",
       "families": [
         "in_arrest_no_charges-set",
         "in_section1_petition-set"
-      ],
-      "why": "VF26 failed both. Its check-box restoration is confirmed sound; 27,981 dark pixels of the court's own ink are still missing, the LEA refusal is undisclosed, and the arrest family's guide states its sibling's waiting-period rule."
-    },
-    {
-      "lane": "FIX134",
-      "kind": "repair",
-      "worktree": "/home/user/pf23-worktree",
-      "branch": "fix134-ri-20260910",
-      "families": [
-        "ri_deferred_sentence-set",
-        "ri_first_offender_misdemeanor-set"
-      ],
-      "why": "CLIPPING_AND_OVERLAP on both; border ink still matches nothing their source ships, so there the remedy REMOVES."
+      ]
     },
     {
       "lane": "FIX135",
       "kind": "repair",
       "worktree": "/home/user/v5c-worktree",
-      "branch": "fix135-cone-20260910",
       "families": [
         "co_multiple_conviction_seal-set",
         "ne-setaside-custodial-set"
-      ],
-      "why": "CLIPPING_AND_OVERLAP on both; border ink reclassified today as the form's own with its fill stripped, so there the remedy RESTORES. Split from FIX134 so one lane never holds both directions."
+      ]
     },
     {
       "lane": "FIX130",
       "kind": "repair",
       "worktree": "/home/user/pfd-worktree",
-      "branch": "fix130b-vt-20260910",
       "families": [
         "vt_exp_decriminalized-set",
         "vt_seal_18_to_21-set",
         "vt_seal_felony-set",
         "vt_seal_pardon-set"
-      ],
-      "why": "VF25 failed four of five. Eight participant-identity values written onto a fee-waiver form the packet says not to file, the docket among them on a perjury declaration's Printed Name line; and on the three seal families every disclosure label is the printed caption with the AcroForm field name appended."
+      ]
     },
     {
-      "lane": "VF08",
+      "lane": "VF01",
       "kind": "independent-verification",
-      "worktree": "/home/user/pfe-worktree",
+      "worktree": "/home/user/pf23-worktree",
       "families": [
-        "five Texas families"
+        "ri_deferred_sentence-set",
+        "ri_first_offender_misdemeanor-set"
       ],
-      "why": "Told twice today: three of its five were reclassified by the normaliser correction, and an annotation-free source render produces a false zero."
+      "why": "Repaired today by FIX134 on a dispatch premise of mine that was wrong; the read is told so and told to doubt me."
     }
   ],
   "unresolvedBlockers": [
@@ -118,21 +102,21 @@
   "grantsNothing": "This record opens no route, promotes nothing and approves no packet.",
   "lastUpdated": {
     "at": "2026-09-10",
-    "atCommit": "18640d9d8fa4095a6af39a744449786f9ce42b8b"
+    "atCommit": "5971049ec2be4a6ed62d4f5173d48401b8c55c9a"
   },
   "currentCounts": {
     "measuredBy": "MASTER_LIBRARY_SOURCE_DIR=... npm run rcap:integrate-packet-factory, every step exit 0",
-    "terminal": 192,
+    "terminal": 193,
     "of": 346,
-    "COMPLETE_PACKET_PROVEN": 175,
-    "FAIL_REPAIR_REQUIRED": 71,
+    "COMPLETE_PACKET_PROVEN": 176,
+    "FAIL_REPAIR_REQUIRED": 70,
     "SOURCE_READY": 33,
     "PRODUCT_PATH_PENDING": 21,
     "LEGAL_BLOCKED": 19,
     "SOURCE_BLOCKED": 6,
     "BUILT_RASTER_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
-    "movedThisSession": "191 -> 192: wv_conv_nonviolent_felony-set FAIL_REPAIR_REQUIRED -> COMPLETE_PACKET_PROVEN on a PASS whose digests had not moved, so its committed RASTER_PASS still bound and no re-render was owed."
+    "movedThisSession": "191 -> 193. wv_conv_nonviolent_felony-set on a PASS whose digests had not moved, so its committed RASTER_PASS still bound. vt_seal_nonconviction-set on a fresh RASTER_PASS from run 34439698619 over bytes that had moved in repair."
   },
   "supplyQueue": "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json -- 75 failing, 50 with a live repair owner, 25 unowned and dispatchable after one grant each, 4 that need a READ rather than a repair because no obligation was ever recorded against them.",
   "settledSinceLastCheckpoint": [
@@ -168,10 +152,25 @@
     }
   ],
   "rasterInFlight": {
-    "runId": "34439698619",
-    "family": "vt_seal_nonconviction-set",
-    "commitSha": "18640d9d8fa4095a6af39a744449786f9ce42b8b",
-    "why": "VF25 passed it on all fifteen obligations; its bytes moved in repair so the old receipt does not bind. A RASTER_PASS over these bytes is the last of the four terminal conditions it lacks.",
-    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml"
-  }
+    "runId": "queued at commit 5971049ec \u2014 read the run list for its id",
+    "family": "rcap-tx-custom-pleading",
+    "why": "VF08 passed it on all fifteen obligations; a RASTER_PASS over its current bytes is the last terminal condition it lacks.",
+    "howToReadTheReceipt": "The artifact blob store answers 403 at this environment's egress proxy. Read the verdict from the job log server-side with get_job_logs(return_content, tail_lines 2000), which writes to a file, and parse the RCAP_RECEIPT_VERDICT payload programmatically. Assert its canonical, boundary and documents digests equal the queued row's before writing a receipt. Never transcribe a digest, a run id or a job id."
+  },
+  "myOwnErrorsThisSession": [
+    {
+      "what": "I dispatched FIX134 onto the Rhode Island pair from REPAIR_SUPPLY_QUEUE.json v1, which I had recorded as stale in this very file an hour earlier, and added without checking that the accounting had been re-run and had not moved.",
+      "wouldHaveCost": "Removal of ink that is the court's own beveled check box, on DC-33 from inside the notarial certificate of a sworn affidavit.",
+      "caughtBy": "FIX134, which measured instead of accepting the premise.",
+      "fixed": "REPAIR_SUPPLY_QUEUE.json is now derived by a script from the records authoritative for each field, publishes the remedy DIRECTION in words beside the border numbers, and says that where it disagrees with a record it names, the record wins."
+    },
+    {
+      "what": "The first version of that generator read ledger.grants and kind and reported zero live repair owners for all seventy failing families while three repair lanes were running.",
+      "fixed": "Reads claims / familyIds / laneKind, which is the shape in the file. 65 have a live owner."
+    },
+    {
+      "what": "I ran a syntax check by importing the accounting script, which executed it and rewrote the cohort ledger, destroying the baseline I was about to compare against.",
+      "fixed": "The normaliser is extracted to stroke-fill-skeleton.mjs so it can be tested without running a pass; the extraction comment says why."
+    }
+  ]
 }
