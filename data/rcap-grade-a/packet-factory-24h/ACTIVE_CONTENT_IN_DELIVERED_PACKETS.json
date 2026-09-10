@@ -1,8 +1,8 @@
 {
- "schemaVersion": "rcap-active-content-in-delivered-packets/v1",
+ "schemaVersion": "rcap-active-content-in-delivered-packets/v2",
  "generatedBy": "Captain, after FIX147 found live JavaScript in a packet it was repairing for something else",
  "generatedAt": "2026-09-10T13:05:56.609Z",
- "atCommit": "a0d0122f8bfce70365ea4f719f34f9591f84d7f3",
+ "atCommit": "bad98f9f24f94bcee7d5d0bf38d7870fdfcca59f",
  "foundBy": "FIX147, in its own words: 'The delivered IL packet carries 13 live JavaScript app.launchURL actions, reachable from the catalog, on 13 of its 22 surviving /Link annotations. The shared finalizer's scanBytesForActiveContent refuses to emit such bytes; this builder never asks it.'",
  "scan": {
   "fixturesScanned": 720,
@@ -38,10 +38,12 @@
   }
  },
  "theProvenanceQuestionIsNotAnsweredHERE": {
-  "question": "Do the pinned Illinois sources ship these actions themselves, or does the build introduce them?",
-  "whyItIsUnanswered": "All six pinned source PDFs for il-cannabis-vacate-set live under 'LegalEase Illinois/' in a custody path this container does not mount. I looked; they are not here.",
-  "whyItDecidesTheRemedy": "If the issuer ships them, removing them is a deliberate change to the court's own document and needs the same care as the 'Submit forms to:' text I nearly swept this morning. If the build introduces them, they are simply defects.",
-  "whatWouldAnswerIt": "Reading the pinned sources under custody, or the builder, which is reachable from here and which a repair lane should read first."
+  "nowAnswered": "FIX148 answered it for four families: THE ISSUER SHIPS THEM.",
+  "howItWasEstablished": "All five pinned sources are reachable through the private/ symlink and all five hash exactly to their receipt pins. A byte grep of the sources returns 0 for /JavaScript and app.launchURL -- which is why this looked unanswerable -- because the actions sit inside COMPRESSED OBJECT STREAMS. Parsed as an object graph they are all there.",
+  "theNumbers": "Source-side /Link-borne app.launchURL per family: 21, 20, 20, 20. Delivered canonical: 21, 20, 20, 20. Delivered boundary: the same. Identical page for page against the packet own component order. Eleven distinct URLs in the sources, the same eleven delivered, set difference empty. The build added 0 actions and 0 links and relocated nothing.",
+  "andTheBuildsNetEFFECTisREMOVAL": "il-exp-nonconv-set sources hold 153 JavaScript action dictionaries; the packet delivers 21. flatten() destroys the widget annotations where the issuer AFDate handlers live. No builder authors a URL or a script: 0 occurrences of launchURL, JavaScript or any http literal across all four builders and the shared host.",
+  "whatThatMeansForTheRemedy": "Stripping these would be a deliberate change to the court own document, which is the care this record asked for and the reason FIX148 repaired nothing.",
+  "scope": "Four of the ten. The other six draw on the same AOIC source set so it is very likely the same fact, and FIX148 measured only its four and claimed only its four."
  },
  "whatIsNotClaimed": [
   "That any of this has ever executed. A viewer may ignore it, and paper certainly does.",
@@ -226,5 +228,13 @@
    "launchActions": 0,
    "submitFormActions": 0
   }
- ]
+ ],
+ "supersedes": "v1 at 5562d1d38b566f67df7fb287645398c7b3ca615d, whose open provenance question is now answered for four of the ten Illinois families",
+ "whatFIX148AlsoEstablished": {
+  "nothingRunsOnOpen": "No /Names JavaScript, no /OpenAction, no catalog or page /AA in any of the eight fixtures. Every action is click-only.",
+  "everyActionIsOnAFiledPage": "These packets have no guidance pages at all -- all 13 or 14 are AOIC forms a clerk receives. But the judge signature face is CLEAN in all four: the page carrying \"ENTERED: ... Judge\" has zero actions, and the order single action is on its caption page. That differs from the captions defect FIX147 found on a sibling.",
+  "zeroDanglingLinks": "0 dangling in all eight fixtures, against the 87 dangling FIX147 counted on il-cannabis-vacate-set.",
+  "theHosts": "illinoiscourts.gov, ilcourts.info, ilga.gov, and the AOIC own Antilles document store.",
+  "theOneFlag": "bit.ly/1-109 -- a third-party redirector, present in the pinned sources EXACTLY as delivered, so it is the issuer own byte. By its slug it names Illinois Supreme Court Rule 1-109, the certification rule the signature block invokes. FIX148 did not resolve it and made no outbound fetch. Flagged for counsel, not for a build lane."
+ }
 }
