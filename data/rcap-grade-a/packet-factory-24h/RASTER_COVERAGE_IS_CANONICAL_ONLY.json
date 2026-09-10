@@ -1,30 +1,301 @@
 {
-  "schemaVersion": "rcap-factory-finding/v1",
-  "finding": "Every raster receipt in the corpus says coversTheWholeFamily true, and 216 of 220 name a delivered fixture the gate did not render.",
-  "raisedBy": "VF54, 2026-09-10, while verifying four families it was told already carried a bound RASTER_PASS",
-  "confirmedBy": "captain, measured over all 220 receipts in RASTER_QUEUE.json at d93d1f195",
-  "measurement": {
-    "receiptsWithAVerdict": 220,
-    "coversTheWholeFamilyTrue": 220,
-    "namingAnUnrenderedFixtureBesideThatFlag": 216,
-    "mostCommonDocumentsCovered": "canonical.pdf, on 172 of them"
+  "schemaVersion": "rcap-escalation/v1",
+  "supersedes": "the reading recorded in this file earlier on 2026-09-10, which said 216 of 220 receipts named an unrendered fixture and 172 covered canonical.pdf alone",
+  "correctionNotice": "THE EARLIER READING WAS SUBSTANTIALLY WRONG AND IS WITHDRAWN. It was taken from RASTER_QUEUE.json, which asserted what the visual gate renders instead of reading what the gate recorded. The gate does render boundary fixtures; the queue said it did not.",
+  "whatWasWrong": {
+    "theQueuesAssertion": "generate-raster-queue.mjs computed notRenderedByThisGate as every declared document whose role is not canonical, and handed coverageOf only the canonical subset as the rendered set.",
+    "theGatesActualBehaviour": "scripts/rcap-raster-batch.mjs builds its render targets as row.documents.map(...) -- every queued document whatever its role -- and falls back to a canonical/boundary pair for rows written before documents existed. Either way the boundary fixture is rendered and measured.",
+    "theCleanCase": {
+      "familyId": "az_certificate_second_chance-set",
+      "workflowRunId": "34364359375",
+      "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+      "verdictSays": {
+        "documentsRendered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "pagesMeasured": 10,
+        "pagesByDocument": {
+          "canonical.pdf": 5,
+          "boundary.pdf": 5
+        },
+        "problems": 0
+      },
+      "theRowSaid": {
+        "whatThisGateDidNotRender": [
+          "boundary.pdf"
+        ]
+      },
+      "note": "Same run. One record says it rendered and measured five pages of boundary.pdf; the other says it never rendered it."
+    },
+    "howManyRowsCarriedTheContradiction": 36,
+    "howItWasFound": "Seven families REFUSED their declared-delivery binding on every integration run, five of them because their binder expected the boundary fixture in the raster receipt. The binders were right and the queue was wrong."
   },
-  "theReceiptIsNotLying": "It defines its terms in its own words. coverageBasis reads 'the family ships one assembled packet, so rendering it covers every canonical page of the family', and whatCompleteMeansHere reads 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered'. So the flag is true under a stated, narrower definition.",
-  "whatIsWrongIsTheName": "coversTheWholeFamily reads as visual coverage of everything the family delivers, and it is not that. A boundary fixture is a delivered artifact: it is what a participant receives on the boundary route. It is bound by hash, so nobody can swap it silently, but no human and no detector has looked at a rendered page of it.",
-  "whyItMatters": "The terminal transition requires a complete-coverage RASTER_PASS bound to the current canonical and boundary hashes. The hash binding is real for both. The COVERAGE is canonical-only. Whether that satisfies 'complete coverage' is a definitional question about what the visual gate is for, and it is not the Captain's to settle: it decides whether 194 families now reading COMPLETE_PACKET_PROVEN are proven on the packet or on half of it.",
-  "hawaiiIsTheSharpestCase": "rcap-hi-custom-pleading ships twelve fixtures. Its receipt renders one. Its own reports/rendered-artifacts.json carries routeArtifactRasterPending true, so eleven of twelve are uncovered while the flag beside them says the family is whole.",
-  "thisIsTheSameGapTheNeWvReviewFound": "The R2 governance-preservation review recorded that the corrected checkers measure canonical AND boundary from bytes and then compare only canonical, while the builder's own retention rule requires both. That was one proposal on three families. This is the same asymmetry in the central gate, on 216.",
-  "aSecondDefectFoundInTheSamePass": {
-    "what": "raster-runs/admitted/ holds receipts that bind bytes no longer on disk, beside current receipts in RASTER_QUEUE.json that do bind them. Both say RASTER_PASS.",
-    "measuredCases": [
-      "md_10105_early-set: admitted/ binds canonical 4258591d9ca8a8b1 at packetCommit 0cb44ee92; FIX141 rewrote the canonical afterwards at 85ff27c08",
-      "rcap-hi-custom-pleading: admitted/ binds be5092838b9ac898 at 686a2f65e; FIX142 rewrote it afterwards at 82e88f98f",
-      "mi_setaside_trafficking-set: no admitted/ directory at all, though a current receipt exists"
-    ],
-    "risk": "A reader who opens admitted/ and stops is reading a pass over superseded bytes. The queue is the gate and the admitted directory is history, which this factory has already had to establish once."
+  "whatIsFixed": {
+    "change": "coverageOf now receives every document the row queues as its rendered set, and names as unrendered the fixtures present in the family's fixture discovery that the row does not queue at all.",
+    "completeIsUntouched": "complete still asks only whether every canonical document was rendered, because that is what promotion depends on. Measured across all 223 rows before and after: 0 state changes, 0 notRastered changes, 0 complete changes. Nothing was promoted by this.",
+    "theEdgeIsStillAMeasurement": "A first attempt compared the queued set against itself, which made the list empty by construction. That was corrected before commit: a number that can never be non-zero is not a reading.",
+    "tripwire": "scripts/rcap-packet-completeness/verify-gate-coverage-matches-its-verdicts.mjs refuses whenever a row names a document as unrendered that a verdict from that family says it rendered. It fires on 36 rows against the pre-fix queue and exits 0 on the fixed one, and is now the third gate in the integration chain.",
+    "declaredDeliveryRefusals": "7 before, 1 after. The one that remains is de_mandatory_expungement-set, whose canonical.pdf moved on disk and whose binder expects four components against three."
   },
-  "whatThisRecordDoesNot": "It withdraws nothing and changes no state. Every affected receipt binds its canonical by hash and every canonical was rendered; nothing here says a delivered page is wrong. It says the coverage claim is narrower than its name, and asks for the definition rather than assuming one.",
-  "forRoger": "Does a complete-coverage RASTER_PASS mean the canonical document, or every fixture a participant can receive? If the latter, 216 families owe boundary rasters and the flag is currently overstating them. If the former, the flag should be renamed to say so and the terminal rule should stop naming the boundary hash as though the gate had looked at it.",
-  "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "whatRemainsOpenForRoger": {
+    "question": "20 families declare fixtures their raster row never queues, so 94 declared PDFs have never been through the visual gate while their receipts read coversTheWholeFamily true.",
+    "narrowerThanWhatWasEscalatedBefore": "It is 20 families and 94 files, not 216 receipts. And it is no longer a definitional question about what a boundary fixture is for: these are declared fixtures nobody rendered, canonical-role ones among them.",
+    "sharpestCase": "rcap-hi-custom-pleading declares five route packets -- ten PDFs across canonical and boundary roles -- and queues neither role of any of them. Its row queues canonical.pdf and boundary.pdf only.",
+    "canonicalRoleFixturesAmongThem": "al-misd-nonconviction-90-set names canonical--C-10-CRIMINAL.pdf and canonical--CR-65.pdf; ky_felony_vacatur_expungement-set names canonical--aoc-496-3.pdf and canonical--aoc-496-4.pdf; or_conviction_setaside-set names canonical--motion-and-declaration.pdf. Whether these are deliverables or components of an assembled packet decides whether this is a coverage hole or an artefact of fixture discovery, and that is not settled here.",
+    "whatIsNotClaimed": "Nothing is withdrawn. Every canonical document a row queues was rendered, every fixture is hash-bound, and no family is demoted by this record."
+  },
+  "measuredAt": {
+    "rasterPassRows": 221,
+    "claimingCoversTheWholeFamily": 221,
+    "namingNothingUnqueued": 201,
+    "namingUnqueuedFixtures": 20,
+    "unqueuedFixturesTotal": 94
+  },
+  "familiesWithUnqueuedFixtures": [
+    {
+      "familyId": "al-misd-nonconviction-90-set",
+      "count": 4,
+      "fixtures": [
+        "boundary--C-10-CRIMINAL.pdf",
+        "boundary--CR-65.pdf",
+        "canonical--C-10-CRIMINAL.pdf",
+        "canonical--CR-65.pdf"
+      ]
+    },
+    {
+      "familyId": "in_conviction_d6-set",
+      "count": 2,
+      "fixtures": [
+        "participant-guidance-boundary.pdf",
+        "participant-guidance-canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "count": 2,
+      "fixtures": [
+        "participant-guidance-boundary.pdf",
+        "participant-guidance-canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "count": 2,
+      "fixtures": [
+        "participant-guidance-boundary.pdf",
+        "participant-guidance-canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "count": 4,
+      "fixtures": [
+        "boundary--aoc-496-3.pdf",
+        "boundary--aoc-496-4.pdf",
+        "canonical--aoc-496-3.pdf",
+        "canonical--aoc-496-4.pdf"
+      ]
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--AOC-334-proposed-order.pdf",
+        "canonical--AOC-334-proposed-order.pdf"
+      ]
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--AOC-334-proposed-order.pdf",
+        "canonical--AOC-334-proposed-order.pdf"
+      ]
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--motion-and-declaration.pdf",
+        "canonical--motion-and-declaration.pdf"
+      ]
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "count": 10,
+      "fixtures": [
+        "routes/hi-first-time-drug-offender/boundary.pdf",
+        "routes/hi-first-time-drug-offender/canonical.pdf",
+        "routes/hi-first-time-property-offender/boundary.pdf",
+        "routes/hi-first-time-property-offender/canonical.pdf",
+        "routes/hi-marijuana-three-grams/boundary.pdf",
+        "routes/hi-marijuana-three-grams/canonical.pdf",
+        "routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "routes/hi-under-21-dui/boundary.pdf",
+        "routes/hi-under-21-dui/canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "count": 4,
+      "fixtures": [
+        "routes/ks-12-4516-municipal/boundary.pdf",
+        "routes/ks-12-4516-municipal/canonical.pdf",
+        "routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+        "routes/ks-12-4516a-municipal-arrest/canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
+      "count": 6,
+      "fixtures": [
+        "routes/ms-drug-cd/boundary.pdf",
+        "routes/ms-drug-cd/canonical.pdf",
+        "routes/ms-dui/boundary.pdf",
+        "routes/ms-dui/canonical.pdf",
+        "routes/ms-mip/boundary.pdf",
+        "routes/ms-mip/canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "rcap-nd-custom-pleading",
+      "count": 10,
+      "fixtures": [
+        "routes/nd-dui-record-seal/boundary.pdf",
+        "routes/nd-dui-record-seal/canonical.pdf",
+        "routes/nd-marijuana-first-offense-seal/boundary.pdf",
+        "routes/nd-marijuana-first-offense-seal/canonical.pdf",
+        "routes/nd-seal-felony-conviction/boundary.pdf",
+        "routes/nd-seal-felony-conviction/canonical.pdf",
+        "routes/nd-seal-misdemeanor-conviction/boundary.pdf",
+        "routes/nd-seal-misdemeanor-conviction/canonical.pdf",
+        "routes/nd-seal-pardoned-conviction/boundary.pdf",
+        "routes/nd-seal-pardoned-conviction/canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "count": 22,
+      "fixtures": [
+        "routes/tn_arrest_no_court_record/boundary.pdf",
+        "routes/tn_arrest_no_court_record/canonical.pdf",
+        "routes/tn_eligible_conviction/boundary.pdf",
+        "routes/tn_eligible_conviction/canonical.pdf",
+        "routes/tn_illegal_voting/boundary.pdf",
+        "routes/tn_illegal_voting/canonical.pdf",
+        "routes/tn_judicial_diversion/boundary.pdf",
+        "routes/tn_judicial_diversion/canonical.pdf",
+        "routes/tn_mistaken_identity/boundary.pdf",
+        "routes/tn_mistaken_identity/canonical.pdf",
+        "routes/tn_nonconviction_petition/boundary.pdf",
+        "routes/tn_nonconviction_petition/canonical.pdf",
+        "routes/tn_post_pardon/boundary.pdf",
+        "routes/tn_post_pardon/canonical.pdf",
+        "routes/tn_pretrial_diversion/boundary.pdf",
+        "routes/tn_pretrial_diversion/canonical.pdf",
+        "routes/tn_recovery_court/boundary.pdf",
+        "routes/tn_recovery_court/canonical.pdf",
+        "routes/tn_redaction/boundary.pdf",
+        "routes/tn_redaction/canonical.pdf",
+        "routes/tn_two_offense/boundary.pdf",
+        "routes/tn_two_offense/canonical.pdf"
+      ]
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--CC-1203-primary-filing.pdf",
+        "canonical--CC-1203-primary-filing.pdf"
+      ]
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--CC-1203-primary-filing.pdf",
+        "canonical--CC-1203-primary-filing.pdf"
+      ]
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--CC-1201-primary-filing.pdf",
+        "canonical--CC-1201-primary-filing.pdf"
+      ]
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "count": 2,
+      "fixtures": [
+        "boundary--CC-1201-primary-filing.pdf",
+        "canonical--CC-1201-primary-filing.pdf"
+      ]
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "count": 6,
+      "fixtures": [
+        "boundary--200-00130.pdf",
+        "boundary--200-00132.pdf",
+        "boundary--600-00228.pdf",
+        "canonical--200-00130.pdf",
+        "canonical--200-00132.pdf",
+        "canonical--600-00228.pdf"
+      ]
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "count": 4,
+      "fixtures": [
+        "cr-08-0900-boundary-filled.pdf",
+        "cr-08-0900-canonical-filled.pdf",
+        "cr-08-0920-boundary-filled.pdf",
+        "cr-08-0920-canonical-filled.pdf"
+      ]
+    },
+    {
+      "familyId": "wi_exp_cr266-set",
+      "count": 4,
+      "fixtures": [
+        "cr-266-boundary.pdf",
+        "cr-266-canonical.pdf",
+        "cr-267-boundary.pdf",
+        "cr-267-canonical.pdf"
+      ]
+    }
+  ],
+  "priorReadingPreservedBecauseWhatARecordOnceSaidIsPartOfTheRecord": {
+    "schemaVersion": "rcap-factory-finding/v1",
+    "finding": "Every raster receipt in the corpus says coversTheWholeFamily true, and 216 of 220 name a delivered fixture the gate did not render.",
+    "raisedBy": "VF54, 2026-09-10, while verifying four families it was told already carried a bound RASTER_PASS",
+    "confirmedBy": "captain, measured over all 220 receipts in RASTER_QUEUE.json at d93d1f195",
+    "measurement": {
+      "receiptsWithAVerdict": 220,
+      "coversTheWholeFamilyTrue": 220,
+      "namingAnUnrenderedFixtureBesideThatFlag": 216,
+      "mostCommonDocumentsCovered": "canonical.pdf, on 172 of them"
+    },
+    "theReceiptIsNotLying": "It defines its terms in its own words. coverageBasis reads 'the family ships one assembled packet, so rendering it covers every canonical page of the family', and whatCompleteMeansHere reads 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered'. So the flag is true under a stated, narrower definition.",
+    "whatIsWrongIsTheName": "coversTheWholeFamily reads as visual coverage of everything the family delivers, and it is not that. A boundary fixture is a delivered artifact: it is what a participant receives on the boundary route. It is bound by hash, so nobody can swap it silently, but no human and no detector has looked at a rendered page of it.",
+    "whyItMatters": "The terminal transition requires a complete-coverage RASTER_PASS bound to the current canonical and boundary hashes. The hash binding is real for both. The COVERAGE is canonical-only. Whether that satisfies 'complete coverage' is a definitional question about what the visual gate is for, and it is not the Captain's to settle: it decides whether 194 families now reading COMPLETE_PACKET_PROVEN are proven on the packet or on half of it.",
+    "hawaiiIsTheSharpestCase": "rcap-hi-custom-pleading ships twelve fixtures. Its receipt renders one. Its own reports/rendered-artifacts.json carries routeArtifactRasterPending true, so eleven of twelve are uncovered while the flag beside them says the family is whole.",
+    "thisIsTheSameGapTheNeWvReviewFound": "The R2 governance-preservation review recorded that the corrected checkers measure canonical AND boundary from bytes and then compare only canonical, while the builder's own retention rule requires both. That was one proposal on three families. This is the same asymmetry in the central gate, on 216.",
+    "aSecondDefectFoundInTheSamePass": {
+      "what": "raster-runs/admitted/ holds receipts that bind bytes no longer on disk, beside current receipts in RASTER_QUEUE.json that do bind them. Both say RASTER_PASS.",
+      "measuredCases": [
+        "md_10105_early-set: admitted/ binds canonical 4258591d9ca8a8b1 at packetCommit 0cb44ee92; FIX141 rewrote the canonical afterwards at 85ff27c08",
+        "rcap-hi-custom-pleading: admitted/ binds be5092838b9ac898 at 686a2f65e; FIX142 rewrote it afterwards at 82e88f98f",
+        "mi_setaside_trafficking-set: no admitted/ directory at all, though a current receipt exists"
+      ],
+      "risk": "A reader who opens admitted/ and stops is reading a pass over superseded bytes. The queue is the gate and the admitted directory is history, which this factory has already had to establish once."
+    },
+    "whatThisRecordDoesNot": "It withdraws nothing and changes no state. Every affected receipt binds its canonical by hash and every canonical was rendered; nothing here says a delivered page is wrong. It says the coverage claim is narrower than its name, and asks for the definition rather than assuming one.",
+    "forRoger": "Does a complete-coverage RASTER_PASS mean the canonical document, or every fixture a participant can receive? If the latter, 216 families owe boundary rasters and the flag is currently overstating them. If the former, the flag should be renamed to say so and the terminal rule should stop naming the boundary hash as though the gate had looked at it.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
 }

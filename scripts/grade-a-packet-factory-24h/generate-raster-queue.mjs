@@ -200,13 +200,46 @@ const fixtureCoverage = new Map();
  * find it the way a verification lane just did.
  */
 const coverageOf = (pdfs, fixture, rendered, allDeclared = [], selected = null) => {
-  const outsideThisGate = allDeclared
-    .filter((d) => d.role !== "canonical")
-    .map((d) => d.name)
-    .filter((name) => !rendered.includes(name));
+  /*
+   * WHAT THE GATE RENDERS IS READ FROM THE GATE, NOT ASSUMED ABOUT IT.
+   *
+   * This filtered `allDeclared` down to `d.role !== "canonical"` and called the
+   * result unrendered, so every row asserted that its boundary fixture had
+   * never been through the gate. That was true when the workflow rendered one
+   * canonical and stopped. It is not true now: rcap-raster-batch.mjs builds its
+   * targets as `row.documents.map(...)`, every queued document whatever its
+   * role, and falls back to a canonical/boundary PAIR when a row predates
+   * `documents`. Either way the boundary fixture is rendered.
+   *
+   * The two records had drifted apart and the queue was the one that was wrong.
+   * az_certificate_second_chance-set is the clean case: run 34364359375 wrote a
+   * verdict naming documentsRendered [canonical, boundary] and measured 10
+   * pages, 5 to each, with no problems -- and the row beside it says the gate
+   * did not render boundary.pdf. 32 families carry that contradiction between a
+   * verdict and the row derived from the same run.
+   *
+   * So `rendered` is now every document the row queues, and the edge names what
+   * the row DECLARES but does not queue -- which is the only thing the gate is
+   * genuinely not asked to look at. `complete` is untouched and still asks only
+   * about canonical documents, because that is what promotion depends on.
+   */
+  /*
+   * The edge must stay a MEASUREMENT. Comparing the queued set against itself
+   * would make this list empty by construction -- a number that can never be
+   * non-zero is not a reading, and this file has already been burned once by
+   * asserting the gate's behaviour instead of reading it. So the comparison is
+   * against the fixtures the family actually has on disk: a declared PDF the
+   * row never queues is genuinely never looked at, and that is the only honest
+   * remaining sense of "not rendered by this gate".
+   */
+  const queued = new Set(rendered);
+  const outsideThisGate = (pdfs ?? []).filter((name) => !queued.has(name));
   const edge = {
     notRenderedByThisGate: outsideThisGate,
-    whatCompleteMeansHere: "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+    notRenderedByThisGateBasis: "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+    whatCompleteMeansHere: outsideThisGate.length === 0
+      ? "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      : `every canonical document is rendered, and so is every other document this row queues. The ${outsideThisGate.length} fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded.`,
   };
   if (allDeclared.some(d => d.conditionalPacketBranch)) {
     const docs = allDeclared.filter(d => d.role === fixture).map(d => d.name);
@@ -834,7 +867,12 @@ for (const f of master.families) {
   const pdfsHere = found.pdfs;
   const canonicalSelection = declaredSelection(
     discoveredForRole(pdfsHere, "canonical"), declaredCompleteOutputs(dir, fixtures), "canonical", pdfsHere);
-  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents, canonicalSelection);
+  /* The gate renders every document the row queues (rcap-raster-batch.mjs builds
+   * its targets from row.documents), so that is the set handed to coverageOf as
+   * rendered. Passing the canonical subset here is what made 217 rows assert
+   * their boundary fixture went unrendered when the run's own verdict says it
+   * was rendered and measured. */
+  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.map((x) => x.name), documents, canonicalSelection);
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   if (!primaryCanonical) {
     notEligible.push({
