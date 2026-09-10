@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "86af0a125fd75c6e1843236456d97e15ae1fcf15",
+  "generatedAtCommit": "8e01f7c638324b6c8279f01a31b21f60dec930d1",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4676,6 +4676,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ky_protective_order_record_expungement-set",
+      "itemId": null,
+      "familyId": "ky_protective_order_record_expungement-set",
+      "familyIds": [
+        "ky_protective_order_record_expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF24",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_protective_order_record_expungement-set",
       "familyId": "ky_protective_order_record_expungement-set",
       "itemId": null,
       "familyIds": [
@@ -8000,7 +8015,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.656Z"
@@ -8092,7 +8107,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T18:52:48.321Z"
@@ -14306,24 +14321,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ky_protective_order_record_expungement-set",
-      "itemId": null,
-      "familyId": "ky_protective_order_record_expungement-set",
-      "familyIds": [
-        "ky_protective_order_record_expungement-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF24",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "ec3d5622e35af9c1cb3c33fa764dd4c45784628ee185d9351b30a59544fc46f1",
+  "claimsDigest": "51f9179e68e6e82d7b0f738157ac067e8c3cec627d273c278efffe020984cb47",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

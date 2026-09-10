@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "86af0a125fd75c6e1843236456d97e15ae1fcf15",
+  "minimumCaptainSha": "8e01f7c638324b6c8279f01a31b21f60dec930d1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 11,
+    "activeFamiliesExcluded": 22,
     "guidanceOnly": 0,
-    "remaining": 335,
+    "remaining": 324,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 62,
+    "repairRequired": 51,
     "sumsToDenominator": true
   },
   "byState": {
@@ -120,7 +120,18 @@
       "nj_indictable_conviction-set",
       "nj_ordinance-set",
       "oh_marijuana_expungement-set",
-      "ri_nonconviction_sealing-set"
+      "rcap-tx-custom-pleading",
+      "ri_nonconviction_sealing-set",
+      "tx_exp_acquittal-set",
+      "tx_nd_conviction_no_supervision-set",
+      "tx_nd_dwi_deferred-set",
+      "tx_nd_probation_misdemeanor-set",
+      "vt_exp_decriminalized-set",
+      "vt_seal_18_to_21-set",
+      "vt_seal_felony-set",
+      "vt_seal_misdemeanor-set",
+      "vt_seal_nonconviction-set",
+      "vt_seal_pardon-set"
     ],
     "staleRosterFamilies": [
       {
@@ -9114,9 +9125,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired",
@@ -9153,21 +9164,28 @@
         "requiredOptionsMissing"
       ],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "JDF-477 boundary Address is refused at the 6pt floor (244.4pt required versus 242.67pt rectangle), correctly preventing clipping. Instructions still state address was filled on both forms and omit this held-but-unprinted required mailing-address handoff. Expose the refusal and participant completion without shrinking below the accepted floor.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
+          "obligation": "COMPONENT_SET",
+          "finding": "This is the question this lane was asked to answer, and the answer is that the gap is real. The Colorado Judicial Department publishes JDF 491, 'Guide to Sealing Non-Conviction Records (simplified process)', at revision R: August 7, 2024 — the same revision date as both bound forms. Its step 2, headed 'File the Request — File these forms into your criminal case', names four forms with no branch and no condition between them: JDF 477 Motion, JDF 492 Order (just do §§ A-C), JDF 493 Notice (Just do §§ A-C), and JDF 478 Order (just do §§ A-C). Page 2 confirms it is one process, for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The packet delivers two of those four. JDF 492 and JDF 493 appear NOWHERE: not in the delivered packet, not in the packet-set manifest's components, not in the track registry entry, not in any file in the family directory (grepped), and not anywhere under STATES/CO in the master library, so they are a source-acquisition gap as well as a component gap. Nothing records the absence — there is no missing-component note, no open source item, no conditionDescription and no sentence in the participant guide telling a filer that the court's own guide names two more documents. The delivered guide instead states without qualification that 'This packet is two Colorado Judicial Department forms, filed together'. This lane read JDF 491 itself rather than a summary of it; its digest is 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. This lane does not conclude that JDF 491 is right and the manifest wrong; it concludes that two committed sources disagree about what this route owes, that the disagreement is recorded nowhere, and that a route sells only what a record proves it delivers.",
+          "findingReadFrom": "detail",
+          "evidence": null
         },
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "Current JDF-478 page1 section3 CBI checkbox is visibly empty in both fixtures although the same page says required and instructions say CBI is not optional. Field map misclassifies 478.3D.0 as participant legal election / routeDetermined false. JDF-477 has the source-authored CBI check already; do not double-mark it.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Two defects on the order the judge signs, both invisible to every counter because every value is present, non-empty, inside its declared write rect and equal to its expected value. FIRST, a value written into a field about something else. JDF-478 draws four separate fields in section 2c and each carries its own tooltip in the form's own metadata: '∆ Street Address' — \"Enter the Defendant's street address.\", '∆ City', '∆ State' and '∆ Zip'. The packet writes participant.street_address into '∆ Street Address' as the full concatenated value '412 Cherry Creek Way, Denver, CO 80202' and ALSO writes Denver, CO and 80202 into the three dedicated fields, so the delivered page 4 reads 'c) Mailing Address: 412 Cherry Creek Way, Denver, CO 80202 / City: Denver ST: CO Zip Code: 80202' and the city, state and ZIP are each printed twice on the proposed order. On the boundary fixture the duplication is a whole line long: the street field carries '1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, Colorado 80921-2214' beside '∆ City' Colorado Springs and '∆ Zip' 80921-2214. The combined form is correct on JDF-477, whose field is captioned 'Current Mailing Address: (with city/state/zip)' and carries no tooltip — so the same fact is right on one form and wrong on the other, and the map's own label for the JDF-478 write is the printed caption 'Mailing Address' rather than the widget's declared purpose, which is how it read clean. This family's own municipal sibling writes street-only into the equivalent JDF-686 field with city, state and ZIP separate, so the correct behaviour exists in the same cohort. SECOND, a value that contradicts the field's own printed instruction. '∆ State' declares \"Enter the state (use two letter abbreviation) in the Defendant's mailing address.\" and the boundary fixture writes 'Colorado'. It fits the 33.1 pt field and renders cleanly, so no geometry check sees it. Placement itself was verified for all 17 canonical and 16 boundary writes by reading the delivered pages with pdftotext and matching each value to the printed caption beside it, and every drawnText equals its expected value; the failure is which field the value went into and in what form, not where on the page it landed.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Four of the seven requiredBeforeFiling items in the controlling packet-set manifest reach the delivered guide neither verbatim nor in substance, and two of the four are substantive participant obligations rather than record boilerplate. Missing entirely, tested by literal substring match and then by keyword search of the whole delivered guide: (1) 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.' — the strings 'criminal-history' and 'criminal history' occur ZERO times in participant-instructions.md; the CBI appears only as an agency to list and notify, never as the source of a report the participant must obtain. (2) 'Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.' — absent; the participant is never told to check the packet's account of how the case ended against anything. (3) 'The source review does not state a notarization requirement.' — the string 'notari' occurs zero times, and JDF-477 section 10 is a declaration under penalty of perjury, so whether it must be notarised is a question a filer will actually have. (4) 'The source review does not address a fee waiver.' — 'waiver' and 'waive' occur zero times. Of the three that do land, the movant-signs item and the signature-and-date item are carried in substance as steps 4 and 5 of 'What you must do before you file', and the fee item is carried better than verbatim — 'Ask the clerk what fee applies, if any. C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here' — which is the correct participant rendering of a record sentence and is worth naming because this lane failed this family's municipal sibling for publishing the raw operator version of the same kind of sentence. The structural cause is visible: the municipal sibling ships both participant-instructions.md and filing-instructions.md and carries these items in the latter, and this family ships only participant-instructions.md, so the items that live in a filing guide have nowhere to go. This is not a disclosure defect about form blanks: all 23 blanks the participant must fill are disclosed by form, section and printed label, and reports/blanks-left-for-the-participant.json's everyRequiredBeforeFilingItemIsDisclosed true is a true claim about those 23 and does not speak to the manifest's seven, which nothing in this family measures.",
+          "findingReadFrom": "detail",
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -9417,9 +9435,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909e.json"
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -9453,12 +9471,12 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS"
+        "FEE_AND_WAIVER"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The values themselves are right: all 16 canonical and 14 boundary writes print in full and land on their own measured rules. The FAIL is that the delivered participant guide contradicts itself about one of them and misdescribes what the participant received. participant-instructions.md line 33 says the packet wrote 'your name, date of birth, case number, street address, city, state and ZIP on the proposed order'. Its later section 'What the platform deliberately left blank' then says: 'The State line at section 1 of the order. The rule Colorado draws there is 31 points wide ... and this packet writes your city and your ZIP on either side of it. Write your state on it yourself.' In the delivered canonical bytes that line is NOT blank: reports/actual-writes.json records defendant-state drawn as 'CO' at rect x 393.93 y 380.38 w 27.25, pdftotext reads 'City: Denver State: CO Zip Code: 80202', and I counted 84 added ink pixels inside that rect in the rendered page. The family's own byte proof agrees with the bytes and against the guide: blanks-left-for-the-participant.json nearMissesRefusedByRole records 'This build narrows the threshold through the module's own option, writes the state on the form's own drawn rule'. The bullet reads as a sentence left behind by the very fix build-findings.json describes (rulesOfPage minLength narrowed from 40 to 24 so this 31.25pt rule would be seen). It is unconditional, so one of the two sentences is always wrong: false for canonical, where the state is printed, and true only for the boundary case where 'Colorado' spelled out is refused as unfittable. A participant told to hand-write a state onto a proposed order that already reads 'CO' writes over correct data on the document the judge signs. Repair is in the guide generator, not in the overlay geometry: make both sentences conditional on the recorded refusal for the fixture being described.",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The substance is right and the copy is not. Substance, all of it correct: the track record's rules.fees reads 'Unconfirmed. The fee must be confirmed before building.' and its waiver item reads 'The source review does not address a fee waiver', and the packet accordingly states no fee amount, no waiver procedure, no waiver form and no eligibility test anywhere, and participant-instructions.md gives the participant the action that follows from that silence — 'Ask the municipal court clerk what the fee is and what they need. Colorado's municipal courts are not on the state e-filing system and each one runs its own intake.' Nothing is fabricated. What fails is the delivered fee section of filing-instructions.md, which is filer-facing prose addressed as 'you' throughout, and reads in full: '## Fee — Unconfirmed. The fee must be confirmed before building. **Fee waiver:** The source review does not address a fee waiver.' 'The fee must be confirmed before building' is an instruction to the people who build this packet, published under the heading a filer reads specifically to learn what the filing costs, in vocabulary — 'building' — that means nothing to them. It is the DEFECTS_NO_COUNTER_CAN_SEE class 'internal record text printed on a filing': present, non-empty, under its own heading, verbatim from a controlling record, and therefore invisible to every counter. The page's opening frame does not cover it: it promises that where the record says nothing the page says nothing, and a build instruction is not the record saying nothing. Three mitigations are recorded because they bear on severity and not on whether the defect is there: the sentence asserts nothing false, the correctly addressed participant version exists at participant-instructions.md, and the same packet's open-items table discloses its build_blocker rows with a plain explanation of what they mean for the filer. The repair is one sentence — say that the committed record does not confirm a fee for this route and to ask the municipal court clerk — and this lane does not make it.",
           "findingReadFrom": "detail",
           "evidence": null
         }
@@ -26351,9 +26369,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909e.json"
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -26387,33 +26405,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "CR-308 is the order the judge signs and the packet says so - participant-instructions.md tells the participant that everything on it except the caption belongs to the judge, and reports/blanks.json refuses each ordering box as 'an ordering box on the order the judge signs'. The delivered bytes stamp a synthesized square at all three of them: the 'State consents, GRANTED without a hearing' box, the 'hearing was held, GRANTED' box and the 'hearing was held, DENIED' box. No text is written and no judge's signature is forged, so nothing on the order is decided - but ink this build added sits on three of the court's own decision controls, on a document the court will sign, and the packet's own record says nothing there is its to touch. The prosecutor's name, both hearing dates, the findings-of-fact box and the judge's signature line all carry no ink, and page 3 of the packet is pixel-identical to its source page. This failure and CLIPPING_AND_OVERLAP have one cause and one repair.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "NINE SYNTHESIZED CHECK-BOX OUTLINES PER FIXTURE, on both fixtures - the same defect class that failed md_pardon_expungement (56) and co_petition_seal_arrest (7), arriving on a family that already holds a RASTER_PASS. The mechanism is the documented one and I confirmed it in the source: every check box on both Maine forms carries /AS /Off with an /AP /N dictionary that holds an /On entry and NO /Off entry, and /MK << /CA (8) >> with no /BC border colour. Under ISO 32000-1 12.5.5 a conforming viewer paints nothing at such a widget; pdf-lib's default check-box provider invents a stroked square the size of the widget /Rect, and the flatten stamps it onto the page. Proof, from the delivered bytes rather than from any report: 9 stroke-only flattened appearances, 3 on packet page 1 and 6 on page 2, each stream a bare rectangle outline; NONE of the nine matches any /AP /N stream in either pinned source (I ran the same byte comparison that matched all six of Maryland's marks to their source appearances); and pixel differencing every delivered page against its pinned source leaves 445 added pixels per fixture outside every declared write rect, every one of them inside a check-box rect - 135 at the three CR-307 court boxes, 135 at the three CR-308 court boxes, and 67 + 63 + 45 at the three CR-308 ordering boxes. Visually it is the co_petition_seal_arrest shape: the invented ring lands around the box the form already prints, so the participant sees a doubled, heavier outline where Maine prints one. Measured on the 'Superior Court' box, source ink 174 pixels and delivered ink 249 in the same window, with the ink extent growing only 0.6pt in width - which is exactly why a bounding-box test cannot see it and why the brief told me to render. Every other value is inside its box and nothing is clipped; this obligation fails on the added ink alone.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "This is the most sensitive route in the sprint and its participant copy carries almost none of the boundary its own record states. The track record lists SEVEN selfHelpStopConditions; not one appears verbatim in participant-instructions.md or filing-instructions.md, and only one appears in substance ('If the State opposes, or the court sets a contested hearing, automated assistance ends and you need a lawyer'). Absent entirely, with their key words absent too - I searched both files case-insensitively for advocate, legal aid, legal-aid, victim services, referral, assess and immigration and every one returns nothing: (1) 'This entire track is a self-help boundary at the assessment stage. An attorney, legal-aid provider or qualified victim-services advocate must assess the case before any packet is prepared, and the referral must be named before the track opens.' (2) 'Any immigration-adjacent case ... sealing does not bind federal authorities' - which the record explains is common on this route because the statute contemplates federal immigration certifications as documentation. (3) 'Any decision about what documentation to present or whether to trigger the sec. 2264(4-A)(B) presumption.' (4) 'Any decision about whether to seek the State's consent so the motion can be granted without a hearing' - while filing-instructions.md affirmatively points the participant at the consent route ('CR-308's first ordering box is the no-hearing route') without saying that choosing it is a lawyer's call. Both scopeRestrictions are absent as well, including 'Do not open this track without a named legal-aid or victim-services referral partner in place.' Also absent: the record's legalDesignLimitations instruction that participant copy must say sealing restricts what agencies may disseminate and what appears on a State Bureau of Identification check - 'State Bureau of Identification' appears nowhere in the guide - and any statement of the durability rule. On that last point the packet hands the participant a proposed order whose page 2 prints 'WARNING: If at any time after the date of this order the Defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes this order', which I read in the delivered bytes, while the controlling record says 15 M.R.S. sec. 2264(7) as amended by PL 2025, c. 513 exempts sec. 2262-B records from that rule and describes LegalEase's position as 'the packet states the statutory rule, does not repeat the form's warning as advice'. The packet states no rule at all and says nothing about the conflict, so a survivor reads the form's warning as the law.",
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Placement is right and format is wrong. PLACEMENT, which is the harder half here, is correct and was verified independently: CR-307's AcroForm field names are shifted by one against its printed labels, so the widget named 'Defendants DOB mmddyyyy' is in fact the caption's defendant-name box and the widget named 'MOTION TO SEAL CONVICTION FOR' is in fact the DOB box. The build bound every CR-307 write to the printed label the widget was measured to sit against rather than to its name, and reading the delivered page 1 with pdftotext -bbox confirms it: 'Jordan Avery Reyes' lands at x=32.96 pdfY 672.86-682.11, the defendant-name line above the centred 'Defendant' caption at x=242.28, and '1991-04-17' lands at x=204.44 pdfY 643.03-652.28, on the 'Defendant's DOB' line whose label word sits at x=98.46 pdfY 641.38-657.43. CR-308's names are correct and its geometry independently agrees with CR-307's. All 20 values across both fixtures match their declared expected value exactly. FORMAT is the failure: CR-307 prints its DOB blank as 'Defendant's DOB (mm/dd/yyyy):' and CR-308 names the same widget 'Defendants DOB mmddyyyy', and the packet writes '1991-04-17' on both, in ISO-8601, on both the canonical and the boundary fixture. The packet demonstrably knows the rule — participant-instructions.md tells the participant to supply the conviction date 'in mm/dd/yyyy' for the blank it declines to write — and does not apply it to the value it does write. Nothing in production-field-map.json, reports/blanks.json, build-findings.json or either guide records a decision to deviate, so it is an undisclosed deviation from the official form's own printed instruction on a motion the participant signs.",
           "findingReadFrom": "detail",
           "evidence": null
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The four form blanks the family classifies as required-before-filing are all disclosed with their printed labels, and that part is done properly. What is missing is most of the record's own participant-action list. The manifest carries eleven requiredBeforeFiling strings and three obtain_document actions, and the delivered copy carries none of the following, checked by keyword search over both files: 'Obtain Certified copy of the judgment and docket record for each conviction' and the requiredBeforeFiling:true confirm that goes with it, 'Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record ... and correct the packet if they disagree' - the words certified and docket record appear nowhere; 'Obtain Official documentation of victim status, if the participant already holds any', which sec. 2264(4-A)(B) makes a presumption trigger - the words documentation and presumption appear nowhere; 'Obtain Affidavit or sworn testimony from clergy, a medical professional, victim services staff, or another professional' - the word affidavit appears nowhere; and 'The hearing date, time and courtroom, where a hearing is set' - the word courtroom appears nowhere. The guide does quote CR-307 paragraph 2 and say what signing it asserts, which is the single most important thing on the form and is done well. But a participant on this route is told nothing about the supporting material the statute is built around, and the record's own answer for what documentation to present is that it is a lawyer's decision - which the packet also does not say. Actionable repair: carry the manifest's participant-action list into the guide the way the Colorado and Maryland packets carry theirs.",
+          "finding": "The quantity FIX01 repaired is confirmed and is not what fails. All 11 requiredBeforeFiling strings from the packet-set manifest reach the delivered guides as exact substrings, tested here by literal substring match, 11/11, against 0 before the repair. What fails is that two of the strings published are addressed to the operator of the service and are now printed to the participant under the heading 'You must supply these before you file', introduced by the sentence 'These are the blanks on the forms themselves that this packet leaves for you'. (1) participant-instructions.md line 114 reads in full: 'No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.' 'Do not promise a refund' is an instruction to LegalEase about what it may tell a participant, printed to the participant as something they must supply. The same fee fact is rendered correctly participant-facing in filing-instructions.md, which drops that clause and says 'This packet states no fee amount. Ask the clerk.' — so the packet contains both the right rendering and the raw record string, in two guides, for the same fact. (2) Under 'Documents to gather', the guide introduces a block with 'On documentation of victim status in particular, the record says:' and then quotes 'Frame the question so a no carries no implication, and never ask the participant to produce proof.' That sentence is a questionnaire-design instruction to the builder, quoted to the participant as the record speaking to them, and it refers to them in the third person. The section's own framing does not cover either instance: it discloses only that 'Some of its entries record that nothing is required rather than asking you for something', which explains the bare 'none.' and 'none expected, because no fee is expected.' entries but says nothing about operator-directed text. The guide proves elsewhere that it knows how to make this disclosure, and makes it for the self-help stop conditions 80 lines earlier. This is DEFECTS_NO_COUNTER_CAN_SEE 'internal record text printed on a filing' — present, non-empty, in its section, verbatim from a controlling record, and therefore invisible to every counter — and it was introduced by the repair, because before it these strings were absent from participant copy altogether.",
           "findingReadFrom": "detail",
           "evidence": null
         }
@@ -38876,8 +38880,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX131",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -38888,7 +38892,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
@@ -40743,8 +40748,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX131",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_exp_acquittal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -40755,7 +40760,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
@@ -41036,8 +41042,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX131",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -41048,7 +41054,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_deferred_other-set",
@@ -41495,8 +41502,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX131",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -41507,7 +41514,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_dwi_probation-set",
@@ -41803,8 +41811,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX131",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -41815,7 +41823,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_veterans_court-set",
@@ -45351,8 +45360,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -45363,7 +45372,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
@@ -45597,8 +45607,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -45609,7 +45619,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_dui-set",
@@ -45934,8 +45945,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -45946,7 +45957,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -46087,8 +46099,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46104,7 +46116,8 @@
         "vt_seal_felony-set",
         "vt_seal_pardon-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -46246,8 +46259,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46258,7 +46271,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_pardon-set",
@@ -46399,8 +46413,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX130",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -46411,7 +46425,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_under_25-set",
