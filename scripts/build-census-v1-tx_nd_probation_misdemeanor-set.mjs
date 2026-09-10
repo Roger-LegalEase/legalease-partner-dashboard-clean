@@ -1283,7 +1283,28 @@ async function renderDocument(source, census, fixtureName) {
     title: source.title,
     // See STATEMENT_SOURCE_CARRIED_VALUES. Named for this one document only;
     // every other component passes an empty list and is byte-unaffected.
-    clearSourceCarriedTextValues: source.componentId === STATEMENT ? [...STATEMENT_SOURCE_CARRIED_VALUES] : []
+    clearSourceCarriedTextValues: source.componentId === STATEMENT ? [...STATEMENT_SOURCE_CARRIED_VALUES] : [],
+    /*
+     * FIX131, measured on this family's own delivered bytes. Every unwritten
+     * selection on these forms carries the court's own `/AP /N /Off` appearance,
+     * and that appearance OPENS WITH AN OPAQUE WHITE FILL over the whole widget
+     * rect -- `1 g / 0 0 18 18 re / f` -- before it strokes its own, LARGER,
+     * bevelled box. The form itself prints a smaller box underneath, and the
+     * fill is what hides it: on the official form the participant sees one box.
+     *
+     * The default background strip removed that fill, so the delivered page
+     * revealed the court's printed box INSIDE the stamped appearance box --
+     * two frames at every check box. Rendering the pinned source three ways
+     * (annotations removed, as shipped, and delivered) shows the printed box,
+     * then the box the fill hides, then both together.
+     *
+     * This ink is the form's own, so the remedy RESTORES it rather than removing
+     * it. The flag is opt-in and touches only unwritten check boxes and radio
+     * groups whose disposition is already PRESERVE_SOURCE_APPEARANCE; `/MK /BG`
+     * is still cleared, so no background is ever requested that the source did
+     * not author.
+     */
+    preserveUnwrittenSelectionBackgrounds: true
   });
   return { bytes, report };
 }
