@@ -34,17 +34,16 @@
     }
   ],
   "counts": {
-    "returnDirectories": 171,
-    "rows": 1190,
+    "returnDirectories": 172,
+    "rows": 1194,
     "independentVerdicts": 292,
-    "failRepairRequired": 61,
-    "passIndependent": 209
+    "failRepairRequired": 59,
+    "passIndependent": 211
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
-    "al-trafficking-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
@@ -74,7 +73,6 @@
     "md_10105_early-set",
     "md_pardon_expungement-set",
     "me-seal-survivor-set",
-    "mi_setaside_trafficking-set",
     "mn_petition_15218-set",
     "ne-setaside-custodial-set",
     "nh_marijuana_annulment-set",
@@ -131,9 +129,7 @@
       "vf09/ny_160_59_petition-set",
       "vf12/oh_marijuana_expungement-set",
       "vf12/pa_pardon_expungement-set",
-      "vf40/la-976-arrest-no-conviction-set",
-      "vf41/al-trafficking-set",
-      "vf41/ma-expunge-k-set"
+      "vf40/la-976-arrest-no-conviction-set"
     ]
   },
   "unactionableFailures": {
@@ -1771,14 +1767,14 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-trafficking-set",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdict": "PASS",
       "lane": "vf41",
       "isIndependentVerification": true,
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
       "failedObligations": [],
       "failedObligationNames": [],
       "unmeasuredObligations": [],
@@ -11520,6 +11516,36 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf42",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The clone stands on the bytes at this base, recomputed here with sha256sum. packet-boundary-filled.pdf is ONE file shared by both Indiana families: 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9, 250876 bytes, byte-identical in in_arrest_no_charges-set and in_section1_petition-set. inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are ONE file across all four insert fixtures of both families: f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169596 bytes. The two packet canonicals differ (d24f831d here, 6958a2a2 in the sibling) but the difference is not a legal mark: I diffed them with pikepdf and all 15 page content streams are byte-identical; the entire difference is 9 flattened widget XObjects that carry the SAME decoded text at a different auto-fit font size (Helvetica 10.51 vs 11, 9.94 vs 11, 11 vs 12) and a correspondingly shifted baseline. Both write 'Jordan Avery Reyes' and 'Example County'. Two routes with different statutory subsections, different dispositions and different waiting periods deliver, on paper, the same filing.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Independently re-rendered at 200 dpi against the pinned insert source (65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, recomputed on the corpus file), source drawn WITH annotations, threshold < 128, whole page, all four pages: added 2450 / removed 10372 (p1), 0 / 0 (p2), 4373 / 12656 (p3), 3242 / 4151 (p4). Total removed 27179, reproducing VF26's number exactly, and added 10065, reproducing FIX140's. At threshold < 200 both get worse: added 20707 / removed 30978. The defect is not a threshold artefact.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
       "superseded": false
     },
     {
@@ -12273,6 +12299,36 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf42",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Recomputed with sha256sum at this base: packet-boundary-filled.pdf is 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9, 250876 bytes -- the SAME FILE as in_arrest_no_charges-set's boundary fixture. inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169596 bytes -- the same file as both of the sibling's insert fixtures, four identical copies across two families. This family's packet canonical is 6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620 (251801 bytes) against the sibling's d24f831d (251802). Diffed with pikepdf: all 15 page content streams byte-identical; the whole difference is 9 flattened widget XObjects carrying the SAME decoded text at a different auto-fit font size. Two routes under different statutory subsections (I.C. 35-38-9-1(d) here, (c) in the sibling) with different declared dispositions and different waiting periods deliver the same filing.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Measured on inserts-canonical-filled.pdf, which is this family's own byte-identical copy of f06f7dbb. 200 dpi, threshold < 128, pinned source 65500e2c rendered WITH annotations, whole page, all four pages: added 2450 / removed 10372 (p1), 0 / 0 (p2), 4373 / 12656 (p3), 3242 / 4151 (p4). Total removed 27179; at threshold < 200, removed 30978. All 62 choice widgets of the source are dropped from the delivered file and page 4 renders byte-identical to the source with -hide-annotations.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
       "superseded": false
@@ -13152,16 +13208,25 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-expunge-k-set",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf41",
       "isIndependentVerification": true,
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-      "failedObligations": [],
-      "failedObligationNames": [],
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THE FLAG THAT CERTIFIES THIS REPAIR MISSTATES ITS OWN SCOPE. The committed packet-set manifest marks SEVEN entries requiredBeforeFiling for ma-expunge-k-set. The repair discloses two of them verbatim and excludes five. reports/blanks-left-for-the-participant.json sets everyRequiredBeforeFilingItemIsDisclosed true and explains the exclusion in whatThatFlagCovers as: it does not cover the manifest sign, pay_fee or apply_fee_waiver entries, whose recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and \"None identified.\". That sentence names three excluded entries. There are five. The two it does not name are complete_field entries whose descriptions are NOT empty: \"Petitioner signature — Petition signature block.\" and \"The Specifically narrative — Petition narrative section.\" They are excluded by PARTICIPANT_ACT_KINDS = [\"obtain_document\",\"confirm_answer\"] at builder line 1470, silently. A reader of that report concludes every substantive manifest requirement reaches the guide verbatim; two do not. VF41 checked whether the participant is nonetheless told to do both, and they are — step 8 directs signing and dating and step 6 directs the Specifically narrative, from the form-blank list — so there is NO participant-facing gap here. What fails is the attestation: a committed report that certifies its own completeness and gets its own exclusion list wrong is the misleading-signature-block class, and FIX02 own commit message repeats the same undercount. The repair is: correct the sentence to name all five, or bring the two complete_field acts into the disclosed set, and decide which deliberately rather than by a kinds filter nobody reading the report can see.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json + scripts/build-census-v1-ma-expunge-k-set.mjs:1470"
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
@@ -14160,6 +14225,20 @@
     },
     {
       "familyId": "mi_setaside_trafficking-set",
+      "verdict": "PASS",
+      "lane": "vf42",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
@@ -14181,7 +14260,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mn_petition_15218-set",
@@ -16948,6 +17027,36 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260910-cone.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf42",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Read from the committed reports/actual-writes.json at this base: of 8 artifact entries, SIX publish addedGlyphs null -- indices 0, 1, 3 (canonical) and 4, 5, 7 (boundary), i.e. CC-6-11, CC-6-11.2 and DC-1-15 in both fixtures. Only CC-6-11A reports a number (0), on both. `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes` appears NOWHERE in the family directory: grep -rc over the whole directory returns no file containing it. The delivered artifact therefore ships a byte-proof report that does not know what it stamped onto three of its four documents. FIX140's account of this is exact.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "Measured, not inherited. reports/rendered-artifacts.json for the committed canonical (dd1cde67, 5 pages) gives the delivered document order CC-6-11 -> CC-6-11.2 -> CC-6-11A -> DC-1-15. data/record-clearing/legal-design-packet-set-manifests.json declares components 1..4 as CC-6-11, CC-6-11.2, DC-1-15 (notice-and-certificate-of-service-3), CC-6-11a (instructions-4). Components 3 and 4 are transposed in the delivered packet relative to the committed manifest. source-receipt.json lists its four documents in the DELIVERED order, so the two committed records disagree with each other. This lane records the discrepancy and does NOT decide which record is wrong -- reordering the packet and amending the manifest are both available and the choice belongs to whoever owns the manifest, exactly as VF29 and FIX140 left it.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": false
     },
