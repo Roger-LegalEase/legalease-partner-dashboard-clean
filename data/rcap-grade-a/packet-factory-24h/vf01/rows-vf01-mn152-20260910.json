@@ -1,68 +1,146 @@
 {
-  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "schemaVersion": "rcap-verifier-rows/v2",
   "lane": "VF01",
   "laneKind": "independent-verification",
   "isIndependentVerification": true,
-  "shift": "20260910",
-  "worker": "mn152-vf01-review",
-  "branch": "lane-vf01-mn152-20260910",
   "verifiedAtBase": "36bd24614c5214a8877f863939f73701b8cac844",
-  "claim": "CLAIM_OK VF01 mn_petition_15218-set (independent-verification, grant set 25741572052f0be5)",
-  "independence": "This lane did not build, repair or edit the Minnesota family. FIX172, FIX176 and FIXCXM1 authored the repairs and were excluded from the current measurements. The VF61 PASS findings are carried only under the exact-input delta comparison recorded in mn152-vf01-delta-audit.json.",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
-  "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/mn152-vf01-delta-audit.json",
-  "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json",
-  "postRepairDeltaReview": true,
-  "nineCounters": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": null,
-    "allNineZeroMeasuredExceptVisual": true
-  },
-  "proofObligations": {
-    "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "detail": "Current route key obligation:track-only:MN:mn_petition_15218 and routeSelectionId mn-exp102-152-18-discharge agree across the current map, wiring and controlling MN track record; generationAllowed and runtimeSelectable remain false."},
-    "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "detail": "All four current bound source binaries were opened and SHA-256 rehashed: EXP102 c98430f1..., EXP104 0e776a93..., EXP106 da7080f9..., FEE102 b8415cdd.... Each matches current source-receipt.json and the retained VF61 source identity."},
-    "COMPONENT_SET": {"measured": true, "result": "PASS", "detail": "Current packet-set record requires EXP102, EXP104 and EXP106 plus conditional FEE102 in order 1 through 4; the current rendered-artifacts manifest carries all 17 pages in that order for both fixtures."},
-    "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "detail": "Carried from VF61 under exact current source/PDF/report input identity. The retained independent read measured the canonical writes and correct boundary Court File Number refusals from final bytes; no current input changed in this obligation's scope."},
-    "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "detail": "Carried from VF61 under unchanged PDFs, field census, actual-writes and blanks inputs. VF61 independently measured all 67 protected fields with 0 added ink on both fixtures and a positive same-run control."},
-    "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "detail": "Carried from VF61 under unchanged PDFs and write geometry. VF61 measured source-ink loss 0, added ink contained with the stated 3-point allowance, and no page-box overflow; no current changed input reaches these predicates."},
-    "SELF_HELP_STOP": {"measured": true, "result": "PASS", "detail": "Current guide's self-help section is unchanged from VF61 and still contains all four controlling stop conditions: objections, contested hearing, disputed § 152.18 discharge, and predatory-offender registration."},
-    "FILING_DESTINATION": {"measured": true, "result": "PASS", "detail": "Current filing-instructions.md is byte-identical to the VF61 input and states filing with the district court administrator in the county where the case was decided; no current delta changes destination."},
-    "SERVICE": {"measured": true, "result": "PASS", "detail": "Current filing-instructions.md, EXP104 bytes and actual-writes report are unchanged from VF61. The participant serves agencies and prosecuting authority and completes EXP104 after service; the proof-of-service form remains blank until that act."},
-    "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "detail": "Current guide and required-before-filing records are unchanged from VF61. The retained read measured all ten registry items reaching the participant in substance; the changed guide section concerns only route-ground disclosure."},
-    "ARTIFACTS": {"measured": true, "result": "PASS", "detail": "Current canonical and boundary PDFs rehash to cbdea2b8... and 9ef91d97..., exactly the retained VF61 and RASTER_PASS hashes. VF61 independently reconciled all eight document glyph totals and the route marks from final bytes."},
-    "PAGE_ORDER": {"measured": true, "result": "PASS", "detail": "Current rendered-artifacts page manifest is unchanged: EXP102 pages 1-6, EXP104 1-2, EXP106 1-3, FEE102 1-6, totaling 17 pages in both fixtures."},
-    "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "detail": "Direct current audit found 95 controls, 2 marked controls with disposition selected_route_option, and 11 not-applicable statutory-ground controls each with a nonempty condition and distinct reason. The guide names all 11, replaces the old 'Every other box ... is yours' sweep, and directs a different packet for another ground. Current report selection-disclosure.json independently records 0 controls without a stated reason and 11 guide-named grounds. The two selected marks remain the § 152.18 discharge and the accompanying-pleadings FEE102 branch."},
-    "REPEATING_ROWS": {"measured": true, "result": "PASS", "detail": "Carried from VF61 under unchanged PDFs, actual-writes, field census and guide content outside the route section. EXP102 item 7 remains wholly refused and disclosed because one screened case cannot represent the participant's complete criminal record."},
-    "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "detail": "Current filing-instructions.md, FEE102 source binding and fee records are unchanged from VF61. The packet states the fee/waiver treatment conservatively, includes conditional FEE102, excludes FEE103, and invents no amount or waiver standard."}
-  },
-  "unmeasuredObligations": [],
-  "unmeasuredItems": {
-    "visualDefects": null,
-    "participantImpact": null,
-    "sourceFreshnessBeyondExactHashes": null,
-    "reason": "The applicable RASTER_PASS binds current PDF hashes but has bodiesCommitted 0; no PNG body was read. No participant received this closed packet. Exact source hashes were measured; no new external source-currency assertion was made."
-  },
-  "rasterState": "RASTER_PASS_EXISTING_RECEIPT_HASH_MATCH_BODIES_NOT_READ",
-  "rasterWorkflowRunId": "34413372916",
-  "rasterHashBinding": {"canonical": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346", "boundary": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda", "settings": "requestedScale 2.5; 34 pages; current hashes match"},
-  "failedObligationNames": [],
-  "observations": [
-    "requiredOptionsMissing remains a non-measurement of selectionControls on this anchors-and-withheld map shape; the current selection-disclosure audit is the controlling route measurement.",
-    "The RASTER_PASS is historical/current-hash-bound evidence only: bodiesCommitted 0 and visualDefects remains null.",
-    "The current product wiring remains generationAllowed false, runtimeSelectable false, paymentEligible false, sponsorshipEligible false and commercialRoutesOpened 0. This return grants no route authority."
+  "rows": [
+    {
+      "schemaVersion": "rcap-verifier-lane-return/v1",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "shift": "20260910",
+      "worker": "mn152-vf01-review",
+      "branch": "lane-vf01-mn152-20260910",
+      "verifiedAtBase": "36bd24614c5214a8877f863939f73701b8cac844",
+      "claim": "CLAIM_OK VF01 mn_petition_15218-set (independent-verification, grant set 25741572052f0be5)",
+      "independence": "This lane did not build, repair or edit the Minnesota family. FIX172, FIX176 and FIXCXM1 authored the repairs and were excluded from the current measurements. The VF61 PASS findings are carried only under the exact-input delta comparison recorded in mn152-vf01-delta-audit.json.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/mn152-vf01-delta-audit.json",
+      "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json",
+      "postRepairDeltaReview": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNineZeroMeasuredExceptVisual": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current route key obligation:track-only:MN:mn_petition_15218 and routeSelectionId mn-exp102-152-18-discharge agree across the current map, wiring and controlling MN track record; generationAllowed and runtimeSelectable remain false."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four current bound source binaries were opened and SHA-256 rehashed: EXP102 c98430f1..., EXP104 0e776a93..., EXP106 da7080f9..., FEE102 b8415cdd.... Each matches current source-receipt.json and the retained VF61 source identity."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current packet-set record requires EXP102, EXP104 and EXP106 plus conditional FEE102 in order 1 through 4; the current rendered-artifacts manifest carries all 17 pages in that order for both fixtures."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Carried from VF61 under exact current source/PDF/report input identity. The retained independent read measured the canonical writes and correct boundary Court File Number refusals from final bytes; no current input changed in this obligation's scope."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Carried from VF61 under unchanged PDFs, field census, actual-writes and blanks inputs. VF61 independently measured all 67 protected fields with 0 added ink on both fixtures and a positive same-run control."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Carried from VF61 under unchanged PDFs and write geometry. VF61 measured source-ink loss 0, added ink contained with the stated 3-point allowance, and no page-box overflow; no current changed input reaches these predicates."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current guide's self-help section is unchanged from VF61 and still contains all four controlling stop conditions: objections, contested hearing, disputed \u00a7 152.18 discharge, and predatory-offender registration."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current filing-instructions.md is byte-identical to the VF61 input and states filing with the district court administrator in the county where the case was decided; no current delta changes destination."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current filing-instructions.md, EXP104 bytes and actual-writes report are unchanged from VF61. The participant serves agencies and prosecuting authority and completes EXP104 after service; the proof-of-service form remains blank until that act."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current guide and required-before-filing records are unchanged from VF61. The retained read measured all ten registry items reaching the participant in substance; the changed guide section concerns only route-ground disclosure."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current canonical and boundary PDFs rehash to cbdea2b8... and 9ef91d97..., exactly the retained VF61 and RASTER_PASS hashes. VF61 independently reconciled all eight document glyph totals and the route marks from final bytes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current rendered-artifacts page manifest is unchanged: EXP102 pages 1-6, EXP104 1-2, EXP106 1-3, FEE102 1-6, totaling 17 pages in both fixtures."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Direct current audit found 95 controls, 2 marked controls with disposition selected_route_option, and 11 not-applicable statutory-ground controls each with a nonempty condition and distinct reason. The guide names all 11, replaces the old 'Every other box ... is yours' sweep, and directs a different packet for another ground. Current report selection-disclosure.json independently records 0 controls without a stated reason and 11 guide-named grounds. The two selected marks remain the \u00a7 152.18 discharge and the accompanying-pleadings FEE102 branch."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Carried from VF61 under unchanged PDFs, actual-writes, field census and guide content outside the route section. EXP102 item 7 remains wholly refused and disclosed because one screened case cannot represent the participant's complete criminal record."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current filing-instructions.md, FEE102 source binding and fee records are unchanged from VF61. The packet states the fee/waiver treatment conservatively, includes conditional FEE102, excludes FEE103, and invents no amount or waiver standard."
+        }
+      },
+      "unmeasuredObligations": [],
+      "unmeasuredItems": {
+        "visualDefects": null,
+        "participantImpact": null,
+        "sourceFreshnessBeyondExactHashes": null,
+        "reason": "The applicable RASTER_PASS binds current PDF hashes but has bodiesCommitted 0; no PNG body was read. No participant received this closed packet. Exact source hashes were measured; no new external source-currency assertion was made."
+      },
+      "rasterState": "RASTER_PASS_EXISTING_RECEIPT_HASH_MATCH_BODIES_NOT_READ",
+      "rasterWorkflowRunId": "34413372916",
+      "rasterHashBinding": {
+        "canonical": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+        "boundary": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+        "settings": "requestedScale 2.5; 34 pages; current hashes match"
+      },
+      "failedObligationNames": [],
+      "observations": [
+        "requiredOptionsMissing remains a non-measurement of selectionControls on this anchors-and-withheld map shape; the current selection-disclosure audit is the controlling route measurement.",
+        "The RASTER_PASS is historical/current-hash-bound evidence only: bodiesCommitted 0 and visualDefects remains null.",
+        "The current product wiring remains generationAllowed false, runtimeSelectable false, paymentEligible false, sponsorshipEligible false and commercialRoutesOpened 0. This return grants no route authority."
+      ],
+      "packetsBuiltOrRepairedHere": 0,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsReleased": 0,
+      "grantsNothing": "This return writes only the two allowlisted mn152-prefixed VF01 evidence files. It does not alter the claim ledger, central queues, manifests, family artifacts, PDFs, guides or runtime authority.",
+      "familyId": "mn_petition_15218-set",
+      "itemId": "mn_petition_15218-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT"
+    }
   ],
-  "packetsBuiltOrRepairedHere": 0,
-  "packetBytesModified": 0,
-  "overlayDirectoriesModified": 0,
-  "commercialRoutesOpened": 0,
-  "productionTouched": false,
-  "grantsReleased": 0,
-  "grantsNothing": "This return writes only the two allowlisted mn152-prefixed VF01 evidence files. It does not alter the claim ledger, central queues, manifests, family artifacts, PDFs, guides or runtime authority."
+  "captainSerializationCorrection": "Added required rows envelope and explicit family/verdict from worker completed return and fifteen existing PASS results. No obligation or counter changed.",
+  "captainConsumerNote": "The reviewer independently assessed95controls. Its claim that the current shared reader skips selectionControls is obsolete: current reader now visits those95, and the closed disposition correction moves requiredOptionsMissing2->0. Retained reviewer wording is historical context, not the current parser description."
 }

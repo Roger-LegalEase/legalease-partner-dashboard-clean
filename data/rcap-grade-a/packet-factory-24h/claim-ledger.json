@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4",
+  "generatedAtCommit": "03318907600a9d4dd86ebd90428b98ffa6ff46ce",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4822,8 +4822,9 @@
       "operation": "independent-verification",
       "lane": "VF67",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T22:09:59.468Z",
+      "releaseReason": "VF67 explicitly completed and STOPPED all three reviews at c4e974a69b90421793d877548d589fcc1d8a7d73; sanitized return consumed f3d3d3a6f, conviction FAIL retained."
     },
     {
       "subjectType": "packet-family",
@@ -4867,8 +4868,9 @@
       "operation": "independent-verification",
       "lane": "VF67",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T22:09:59.613Z",
+      "releaseReason": "VF67 explicitly completed and STOPPED; all15PASS return consumed f3d3d3a6f, required raster and KSJC hold unchanged."
     },
     {
       "subjectType": "packet-family",
@@ -4912,8 +4914,9 @@
       "operation": "independent-verification",
       "lane": "VF67",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T22:09:59.751Z",
+      "releaseReason": "VF67 explicitly completed and STOPPED; all15PASS return consumed f3d3d3a6f, required raster and KSJC hold unchanged."
     },
     {
       "subjectType": "packet-family",
@@ -6106,7 +6109,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-10T22:09:59.906Z",
+      "releaseReason": "MN152 VF01 worker completed its independent return and execution turn at7c188c91e21e2c30625c4d2082ef964aadef2e8c;15PASS recorded, schema envelope corrected without changing findings; no background job."
     },
     {
       "subjectType": "packet-family",
@@ -7255,11 +7260,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIXCXN1",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T22:04:30.068Z",
-      "releaseReason": "FIXCXN1 explicitly STOPPED at52fa19a1, return consumed6d8dd5992; bounded candidate repairs preserved, guard-publication-order finding and independent evidence remain unresolved."
+      "releasedAt": "2026-09-10T22:04:30.068Z"
     },
     {
       "subjectType": "packet-family",
@@ -7318,11 +7322,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIXCXN1",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T22:04:30.393Z",
-      "releaseReason": "FIXCXN1 explicitly STOPPED at52fa19a1, consumed6d8dd5992; samePDF candidate records repaired, missing independent measurements and guard-publication-order finding retained."
+      "releasedAt": "2026-09-10T22:04:30.393Z"
     },
     {
       "subjectType": "packet-family",
@@ -7350,11 +7353,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIXCXN1",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T22:04:30.231Z",
-      "releaseReason": "FIXCXN1 explicitly STOPPED at52fa19a1, consumed6d8dd5992;15 missing known facts, null visual measurements and guard-publication-order finding remain, no completion approval."
+      "releasedAt": "2026-09-10T22:04:30.231Z"
     },
     {
       "subjectType": "packet-family",
@@ -15042,7 +15044,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "969a106ca4e3c09339e6393d4aa057b5aba75985e6212402885917360bb8862b",
+  "claimsDigest": "10478ca1dede54e9700fa8241a5f99802460096b8e67141a4fd49675a9ed965e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39431,6 +39433,42 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T22:04:30.393Z",
       "reason": "FIXCXN1 explicitly STOPPED at52fa19a1, consumed6d8dd5992; samePDF candidate records repaired, missing independent measurements and guard-publication-order finding retained."
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T22:09:59.468Z",
+      "reason": "VF67 explicitly completed and STOPPED all three reviews at c4e974a69b90421793d877548d589fcc1d8a7d73; sanitized return consumed f3d3d3a6f, conviction FAIL retained."
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-diversion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T22:09:59.613Z",
+      "reason": "VF67 explicitly completed and STOPPED; all15PASS return consumed f3d3d3a6f, required raster and KSJC hold unchanged."
+    },
+    {
+      "lane": "VF67",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T22:09:59.751Z",
+      "reason": "VF67 explicitly completed and STOPPED; all15PASS return consumed f3d3d3a6f, required raster and KSJC hold unchanged."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T22:09:59.906Z",
+      "reason": "MN152 VF01 worker completed its independent return and execution turn at7c188c91e21e2c30625c4d2082ef964aadef2e8c;15PASS recorded, schema envelope corrected without changing findings; no background job."
     }
   ],
   "reissues": [
