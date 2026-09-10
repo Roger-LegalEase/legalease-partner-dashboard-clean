@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-lane-checkpoints/v1",
+  "lane": "VF24",
+  "laneKind": "independent-verification",
+  "base": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+  "rowsFile": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json",
+  "checkpoints": [
+    {
+      "step": 1,
+      "what": "Claim asserted before any family artifact was opened",
+      "result": "CLAIM_OK VF24 ky_protective_order_record_expungement-set (independent-verification, grant set 72df49332e34b061), exit 0"
+    },
+    {
+      "step": 2,
+      "what": "Worktree and base confirmed",
+      "result": "/home/user/pfc-worktree at 7d072beb5f4a6cdddbd204a1d9cf410edca7b494, matching the assignment. Sparse checkout not widened; Kentucky already materialized."
+    },
+    {
+      "step": 3,
+      "what": "Both fixture digests recomputed with two independent tools",
+      "result": "canonical dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e (163791 bytes), boundary a225cbe6a35b8a07325142e1839f0bddb3be2ac150f2f123a99c50ebcdf0d29a (163875 bytes). sha256sum and node crypto agree, and both agree with reports/rendered-artifacts.json and product-wiring.json."
+    },
+    {
+      "step": 4,
+      "what": "KY.memo.json read directly to test the repair's central finding",
+      "result": "Confirmed in all five nodes. poRespondentName asks for the participant's own name; poPetitionerName describes the person who petitioned against them; controllingAuthority.summary says the respondent moves; the exclusion is written about the respondent; destination.detail has the clerk pull the respondent's history. VF04's quoted sentence is false as a statement about the record, and it appears nowhere in the family directory now."
+    },
+    {
+      "step": 5,
+      "what": "Builder traced to the file rather than to the comment claiming it",
+      "result": "RECORD_PATH pinned at line 233; loadControllingRecord() reads and parses the bytes at lines 241-242 and hashes them; invoked unconditionally at module scope on line 306; all five readings asserted by substring with a hard fail-stop. The guide's quoted memo digest 157d7de3... was recomputed here and agrees, and all five quotes are byte-identical to the live nodes."
+    },
+    {
+      "step": 6,
+      "what": "Caption geometry re-measured independently of the field names",
+      "result": "Printed RESPONDENT glyph box y 586.24-602.21 overlaps the res widget band 585.43-606.94 and not the pet band; printed PETITIONER y 633.49-649.46 overlaps the pet band 630.43-651.94 and not the res band; sub-label rows at y 618.40-630.38 and 574.40-586.38. Every figure FIX06 reported reproduces."
+    },
+    {
+      "step": 7,
+      "what": "PETITIONER block zero-ink claim verified on the bytes",
+      "result": "Confirmed. Every added word token in each fixture was diffed against the pinned source and attributed to a widget rectangle: canonical 8 tokens / 54 glyph characters, boundary 7 tokens / 128, and zero attributable to first pet, middle pet or last pet in either. Reading the petitioner band directly returns only the source's own printed label."
+    },
+    {
+      "step": 8,
+      "what": "Self-help limits counted against the record",
+      "result": "2 packet_instruction limitations, 1 self_help_boundary and 4 selfHelpStopConditions — 7 statements — all reach participant-instructions.md verbatim, including that this route does not touch any criminal record arising from the same events. None is printed onto the filing."
+    },
+    {
+      "step": 9,
+      "what": "County default checked and, per dispatch, not scored",
+      "result": "The source /Opt holds 121 [export, display] pairs; entry 0 is [(000) ( )] and the widget's /AP draws a single space. Delivered pages show Franklin (option 37) and Breckinridge (option 14). Nothing stored, no /AP and no guide sentence touched. Not a defect."
+    },
+    {
+      "step": 10,
+      "what": "Withdrawn acceptance receipt checked",
+      "result": "Withdrawn, not deleted and not carried forward. acceptanceReceipt null; acceptanceReceiptWithdrawn names run 34413372916 bound to 30dc6109... and replaced by dd797c6d.... The admitted verdict file is unedited history. No current RASTER_PASS covers these bytes, which is an owed raster and not scored against any obligation."
+    },
+    {
+      "step": 11,
+      "what": "First new defect found: a required component is undelivered",
+      "result": "FAIL COMPONENT_SET. The record's components[2], service_instructions, requirement 'required', says in its own note that the packet 'provides the certificate'. No certificate of service exists anywhere in the family directory. product-wiring.json and MASTER_QUEUE.json advertise the instrument kind; build-findings.json reports findingCount 0 and does not mention it."
+    },
+    {
+      "step": 12,
+      "what": "Second new defect found by reading the boundary page",
+      "result": "FAIL KNOWN_PREFILLS. boundary.pdf writes the movant sentence as 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran' while the caption on the same page names the same person 'Alexandrina-Katharine | Montgomery-Vandenberg-Oyelaran | Fitzwilliam III'. The BOUNDARY fixture's participant.full_legal_name omits the surname its own participant.last_name carries. Canonical is consistent. No counter sees it: the map declares the anchor, the ink is inside the write box, and the value written is the value the fact held."
+    },
+    {
+      "step": 13,
+      "what": "Third new defect found: the family's original error survives in the sibling document",
+      "result": "FAIL FEE_AND_WAIVER. filing-instructions.md states 'It does not record a fee-waiver treatment'. rules.feeWaiver exists and reads 'not applicable; no fee is identified.' The builder never opens that node — loadControllingRecord() captures fees, service, notarization and participantSignature and not feeWaiver — and the whole of filing-instructions.md is built from hardcoded literals while five loaded record fields go unused by it. A negative claim about a record the builder does not reach, and wrong."
+    },
+    {
+      "step": 14,
+      "what": "All fifteen obligations measured; nine counters measured",
+      "result": "12 PASS, 3 FAIL, 0 NOT_MEASURABLE_HERE. Counters: requiredComponentsMissing 1, visualDefects null (bytes read, not rasterized), the other seven 0 with the method recorded for each."
+    },
+    {
+      "step": 15,
+      "what": "Verdict",
+      "result": "FAIL_REPAIR_REQUIRED on COMPONENT_SET, KNOWN_PREFILLS and FEE_AND_WAIVER. No overlay directory, build script or central artifact was modified by this lane."
+    }
+  ]
+}
