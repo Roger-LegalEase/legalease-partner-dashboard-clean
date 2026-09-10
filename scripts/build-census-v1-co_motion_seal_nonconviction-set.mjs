@@ -834,7 +834,21 @@ function selfHelpStops() {
 function participantInstructions(maps, rbf, fitRefusals = []) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
-  const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
+  /*
+   * "The choices that are yours" must contain only the choices that ARE the
+   * participant's. VF01 failed this family on ROUTE_OPTIONS for classifying the
+   * JDF 478 CBI line as a participant legal election. production-field-map.json
+   * now records it correctly as a routeDeterminedSelection, but this table was
+   * still built from every selection control, so the delivered guide listed the
+   * CBI line under "Why it is yours" beside a basis sentence saying it "turns on
+   * no fact about this participant" -- the map and the participant's own copy
+   * disagreeing about the same box. A route-settled selection the packet could
+   * not mark is still a participant ACTION; it is not a participant CHOICE, and
+   * it gets its own section that says which it is.
+   */
+  const allSelections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
+  const elections = allSelections.filter((c) => c.routeDetermined !== true);
+  const settledButNotMarked = allSelections.filter((c) => c.routeDetermined === true && c.markedByThePacket !== true);
 
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
@@ -930,6 +944,37 @@ function participantInstructions(maps, rbf, fitRefusals = []) {
   out.push("| Form | Section | The choice | Why it is yours |", "| --- | --- | --- | --- |");
   for (const c of elections) out.push(`| ${c.document} | ${c.sectionHeading} | ${c.effectiveLabel} | ${c.reason} |`);
   out.push("");
+
+  if (settledButNotMarked.length > 0) {
+    out.push("## Not your choice, and still unticked — you tick it anyway", "");
+    out.push(
+      "These boxes are settled by the form itself, not by anything about your case, so nothing here is asking you to "
+      + "decide. The packet could not mark them, for the reason each row gives, so the tick is still yours to make "
+      + "before you file. Do not treat this as an option you may leave alone.", ""
+    );
+    out.push("| Form | Section | The box | What the form settles | Why the packet did not mark it | What you do |",
+      "| --- | --- | --- | --- | --- | --- |");
+    for (const c of settledButNotMarked) {
+      /*
+       * The participant gets the reason in the terms of the document in front
+       * of them. The engineering account of the same refusal -- which shared
+       * module holds the rule and what would have to change in it -- stays in
+       * production-field-map.json, which is where an auditor reads it. Build
+       * rationale and module paths are not participant copy.
+       */
+      const categories = [...new Set((c.refusedBy ?? []).map((x) => x.category).filter(Boolean))];
+      const plainReason = categories.includes("agency")
+        ? "the platform will not tick a box whose line names a law-enforcement agency, so that it can never fill in "
+          + "the list of agencies a court is ordering to seal. The safeguard is right in general and it costs you "
+          + "this one tick"
+        : "the platform refused to mark it rather than assert a value it may not assert";
+      out.push(
+        `| ${c.document} | ${c.sectionHeading} | ${c.effectiveLabel} | ${c.reason} | ${plainReason} | `
+        + `${c.whatTheParticipantMustDoInstead ?? "tick this box yourself before you file"} |`
+      );
+    }
+    out.push("");
+  }
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **The verification in section 10 of JDF 477** — the date, the city, the state, your printed name and your signature. It is sworn under penalty of perjury and is completed at the moment of declaring.");
