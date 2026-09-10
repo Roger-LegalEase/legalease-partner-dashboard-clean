@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "FIX145",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+  "whatThisLaneIs": "A repair lane holding four families. Three of the four dispatched obligation labels were SOURCE_IDENTITY and one SELF_HELP_STOP; every label was re-read from the row the file's own supersession rule selects (superseded !== true) and all four matched the dispatch. The three SOURCE_IDENTITY findings turned out to be three different implementation causes, not one. This lane verifies nothing it built.",
+  "obligationResultVocabulary": ["PASS", "FAIL", "NOT_MEASURABLE_HERE", "BLOCKED_LEGAL_INPUT"],
+  "howTheRowsWereSelected": {
+    "rule": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json supersessionRule; the current row is the one with superseded !== true, which is NOT the last row in the file",
+    "rowsPerFamily": {
+      "ar-felony-seal-set": "1 row, vf06, current",
+      "in_infraction_nondisclosure-set": "3 rows; vf08 is current, and it supersedes a PASS_COMPLETE_INDEPENDENT from vf07 -- taking the last row would have read the wrong verdict",
+      "sd_arrest_expungement-set": "3 rows; vf34 is current",
+      "ia-12347-set": "1 row, vf03, current. Its verifiedAtBase is '159c0b5cf', nine hex characters, not a commit-shaped SHA."
+    }
+  },
+  "rasterState": "NO FAMILY IN THIS LANE OWES A FRESH CENTRAL RASTER. Not one fixture byte moved: every canonical.pdf and boundary.pdf under all four families is byte-identical before and after this lane, measured with sha256sum over the same file list either side. The only delivered bytes that moved are two Iowa markdown files.",
+  "grantsNothing": "A repair promotes nothing, opens no route, approves no packet and issues no acceptance receipt. No commercial route was opened, no production path touched, no Stripe/Supabase/credential surface touched, no grant released.",
+  "rows": [
+    {
+      "itemId": "ia-12347-set",
+      "obligation": "SELF_HELP_STOP",
+      "result": "FAIL",
+      "disposition": "REPAIRED_BY_THIS_LANE_PENDING_INDEPENDENT_READ",
+      "theFindingRederived": {
+        "reproduces": true,
+        "howItWasRead": "the two delivered documents were read as bytes on disk, not the builder's intent",
+        "whatWasThere": "participant-instructions.md carried no stop-and-get-help section at all. The registry track ia-12347 names two selfHelpStopConditions; the second reached the participant sideways, as an instruction to check the two sworn statements ('If either is not true of your case, this is the wrong packet, and you should stop and talk to a lawyer'). The first -- county-attorney opposition -- reached nobody. filing-instructions.md said only 'The county attorney has an opportunity to respond', which tells a self-represented filer that something may arrive and never that it is where the packet's help ends."
+      },
+      "repair": {
+        "where": "scripts/build-census-v1-ia-12347-set.mjs. The cause was repaired in the builder; no delivered byte was hand-edited.",
+        "what": [
+          "A '## Stop and get help' section in participant-instructions.md printing BOTH conditions in the record's own words, followed by a plain-language expansion of each.",
+          "filing-instructions.md 'After filing' now states the county attorney's response window and then says a response is where this packet's help ends.",
+          "verifyStopConditions(): the two sentences are asserted VERBATIM against data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/IA.memo.json at build time; a mismatch fails the build."
+        ],
+        "whyNoWholeFileShaOnEitherRecord": "Both are shared records that unrelated route work rewrites several times a week. A whole-file pin on either goes stale within days without saying whether these two sentences moved -- which is exactly the failure this lane's other two families are here for. A verbatim content assertion is the thing the page actually needs to be true.",
+        "nothingWasFabricated": "The response window printed on the page is the memo's own sentence, restated verbatim: 'The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.' No statute, form number, edition, deadline, prosecutor act or judicial finding was authored by this lane."
+      },
+      "bytesThatMoved": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/participant-instructions.md",
+          "before": "0313bc534cfecc5681f587b54613cec824652bec245f631b7952ec5fbf267da3",
+          "after": "80f05a7e0c91d44a024e05d1f81d6d93929c0f7ae152fb9d9e8d96e0cb71cfdc"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/filing-instructions.md",
+          "before": "824398b3ac2649bd8a960aac7d09a5c21788f24cbb5411c0cd25d71efab4e1bd",
+          "after": "c9a16077a4e219acd8d4cbf29f8621455e0e986d3715b124a94df0365bce44dc"
+        }
+      ],
+      "bytesThatDidNotMove": [
+        { "file": "fixtures/canonical.pdf", "sha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81", "unchanged": true },
+        { "file": "fixtures/boundary.pdf", "sha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262", "unchanged": true }
+      ],
+      "twoAppearanceDefectsThisLaneCaughtInItsOwnOutput": "The first build of this repair printed 'reviewed as of null' on the participant page -- the memo track carries no reviewedAsOf, only the registry track does -- and left the record-quoted sentences as single unwrapped lines in a document hard-wrapped at 78 columns. Both were invisible to every counter (nine zeros, PASS_COMPLETE) and were caught only by reading the delivered file. The builder now reads reviewedAsOf from whichever record carries it and omits the clause when neither does, and wraps any paragraph that mixes literal prose with record text.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "reproduction": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-ia-12347-set.mjs && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set"
+    },
+    {
+      "itemId": "ar-felony-seal-set",
+      "obligation": "SOURCE_IDENTITY",
+      "result": "FAIL",
+      "disposition": "REPAIRED_BY_THIS_LANE_PENDING_INDEPENDENT_READ",
+      "whichSourceIdentityCauseThisActuallyIs": "A receipt pinning a digest the held file does not have -- and the held file is not a source at all. It is data/record-clearing/legal-design-packet-set-manifests.json, a shared mutable repository record that other lanes rewrite. NOT a drifted source revision, NOT a contradicted form number, NOT an unheld source: both official ACIC PDFs and the compiled profile bind exact, recomputed by this lane.",
+      "theFindingRederived": {
+        "reproduces": true,
+        "butNotOnVF06sNumber": "VF06 recorded the receipt pinned at 563147bf8431e5d3 / 3,677,637 and recomputing to 6076f7346c41bbef / 3,683,419. Neither number is current. The receipt had ALREADY been re-anchored to 6076f734 on 2026-09-05, after VF06's base 5de917b35, so VF06's stated pin is stale. And 6076f734 is stale too: the file at this base is 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688 bytes, hashed by this lane with sha256sum. This is the SECOND time the same pin has gone stale in five days, and no counter reported either.",
+        "whyNoCounterCanSeeIt": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs resolves source currentness from the receipt's own allSourcesExact boolean when it is present and never recomputes. The family reads PASS_COMPLETE with nine zeros while the pin is wrong."
+      },
+      "whatDidNotMove": {
+        "claim": "the bound legal substance did not move; only the containing file's whole-file identity did",
+        "howItWasEstablished": "every one of the 497 packetSets entries was compared object-for-object between the blob at d798dc66b (the identity the receipt was anchored to) and the working tree at this base, keyed on packetSetId over a key-sorted canonical serialisation. 6 of 497 differ: co_motion_seal_conviction-set, nc_146_dismissal_petition-set, ri_deferred_sentence-set, ri_first_offender_felony-set, ri_first_offender_misdemeanor-set, ri_multiple_misdemeanors-set. The same comparison was run against the ORIGINAL pin's blob at 77f24687c: ar-felony-seal-set and ar-drug-court-set are byte-identical across the entire span.",
+        "consequence": "no rebuild of any PDF was implied and none happened. The four anchorStatementsVerified still hold."
+      },
+      "pinsThisLaneHashedItself": [
+        { "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf", "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b", "byteLength": 178947, "bindsExact": true },
+        { "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf", "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc", "byteLength": 240203, "bindsExact": true },
+        { "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json", "sha256": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470", "byteLength": 121627, "bindsExact": true },
+        { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "declaredBeforeRepair": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "declaredByteLengthBeforeRepair": 3683419, "recomputedNow": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7", "byteLengthNow": 3694688, "bindsExact": false }
+      ],
+      "repair": {
+        "where": "the builder recomputed the pin: scripts/build-census-v1-ar-felony-seal-set.mjs --no-raster. No delivered byte was hand-edited.",
+        "receiptNowPins": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688",
+        "identityRefreshAnnotation": "written by hand on the receipt, as the module intends -- it records the second move, the three drift commits (00d2425ca, f06f33bc6, 1784eec3d), the 6 entries that moved, the comparison method, and that nothing this family binds is among them"
+      },
+      "twoBuilderDefectsFoundWHILEREPAIRING": [
+        {
+          "what": "runFamily() calls fs.rmSync(OUT, {recursive:true}) BEFORE rebuilding, which deletes the committed product-wiring.json and source-receipt.json that preserveIdentityRefresh() and preserveGovernanceState() read to decide what to carry. preserveIdentityRefresh is fail-safe on a missing file, so it returned the builder's document untouched and erased every hand-written annotation regardless of whether its source had moved.",
+          "measured": "a rebuild at base, changing no code, deleted the entire `binding` block from product-wiring.json: a hash-bound RASTER_PASS acceptance receipt (workflow run 33923497915, bound to canonical 483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a -- still the canonical this build produces), the last independent verdict, and the paymentEligible / sponsorshipEligible / whyPaymentIsClosed commercial guards.",
+          "sameDefectAs": "data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json, reached by a different route: not a builder that forgot to preserve, but a builder that deleted the evidence before asking.",
+          "repair": "snapshotPriorDocuments() captures both committed documents before the wipe; writeJson() carries identityRefresh forward from the snapshot; product-wiring.json now routes through carryForwardGovernance() + assertGovernancePreserved(). Verified: all six keys carried, acceptanceReceipt 'still bound to a canonical this write produced (483fe0c25c9b)'."
+        },
+        {
+          "what": "the lane row write filtered the family's row out of data/rcap-grade-a/packet-factory-24h/pf13/rows.json and pushed it back, moving an UNCHANGED row to the end of the array on every rebuild and producing a 51KB whole-file reordering diff that says nothing.",
+          "repair": "replace in place. Two rebuilds of unchanged inputs now leave pf13/rows.json and product-wiring.json byte-identical."
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "reproduction": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-ar-felony-seal-set.mjs --no-raster && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-felony-seal-set"
+    },
+    {
+      "itemId": "in_infraction_nondisclosure-set",
+      "obligation": "SOURCE_IDENTITY",
+      "result": "FAIL",
+      "disposition": "REPAIRED_BY_THIS_LANE_PENDING_INDEPENDENT_READ",
+      "whichSourceIdentityCauseThisActuallyIs": "The same cause as ar-felony-seal-set, on the same file, at the same two digests. This family binds no source bytes at all (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundSources []), so the whole obligation rests on three grounding records, and the shared manifest is one of them.",
+      "theFindingRederived": {
+        "reproduces": true,
+        "butNotOnVF08sNumber": "VF08 recorded the receipt declaring 563147bf8431e5d3 / 3,677,637. The receipt had already been re-anchored to 6076f7346c41bbef on 2026-09-05, after VF08's base 9e7582a9d. That anchor is now stale in turn: the file is 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688.",
+        "vf08sMechanismConfirmed": "its allSourcesExact:true is read by the verifier instead of a recomputation, and documents[] is empty, so the boolean alone decided the family and visualDefects stayed 0."
+      },
+      "pinsThisLaneHashedItself": [
+        { "path": "data/record-clearing/legal-design-intake/IN.memo.json", "sha256": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb", "byteLength": 176778, "bindsExact": true },
+        { "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json", "sha256": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c", "byteLength": 8069, "bindsExact": true },
+        { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "declaredBeforeRepair": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "recomputedNow": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7", "bindsExact": false }
+      ],
+      "whatDidNotMove": "in_infraction_nondisclosure-set's own packetSets entry is byte-identical from the ORIGINAL pin's blob at 77f24687c through to this base. No rebuild of any PDF was implied; the two fixtures are byte-identical before and after.",
+      "repair": {
+        "where": "the builder recomputed the pin: scripts/build-census-v1-in_infraction_nondisclosure-set.mjs. No delivered byte was hand-edited. This builder does not wipe its output directory and does not write product-wiring.json, so neither AR defect applies to it.",
+        "identityRefreshAnnotation": "the same hand-written annotation as AR, recording the second move and the comparison"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "reproduction": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set"
+    },
+    {
+      "itemId": "sd_arrest_expungement-set",
+      "obligation": "SOURCE_IDENTITY",
+      "result": "FAIL",
+      "disposition": "BLOCKED_ON_CUSTODY_NOT_REPAIRED_BY_THIS_LANE",
+      "whichSourceIdentityCauseThisActuallyIs": "A source that is not held. Not a stale pin: ALL SIX receipt pins bind exact against the mounted corpus, recomputed by this lane with sha256sum. The failure is that two of the six held binaries are no longer the current official edition, and the current editions are not in this container.",
+      "nothingWasChanged": "This family's tree is byte-identical to the base commit. A rebuild was attempted, inspected, and reverted in full -- see whyTheRebuildWasReverted.",
+      "theSixPinsRecomputedByThisLane": [
+        { "formNumber": "UJS-232", "sha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737", "byteLength": 166791, "bindsExact": true, "revisionPrintedInTheBinary": "12/2020" },
+        { "formNumber": "UJS-391", "sha256": "ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8", "byteLength": 361152, "bindsExact": true, "revisionPrintedInTheBinary": null },
+        { "formNumber": "UJS-392", "sha256": "08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928", "byteLength": 202256, "bindsExact": true, "revisionPrintedInTheBinary": "07/2026" },
+        { "formNumber": "UJS-393", "sha256": "933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310", "byteLength": 256929, "bindsExact": true, "revisionPrintedInTheBinary": "07/2026" },
+        { "formNumber": "UJS-394", "sha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f", "byteLength": 92135, "bindsExact": true, "revisionPrintedInTheBinary": "08/2024" },
+        { "formNumber": "UJS-395", "sha256": "4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20", "byteLength": 295853, "bindsExact": true, "revisionPrintedInTheBinary": "07/2026" }
+      ],
+      "howTheRevisionsWereRead": "two independent tools agreeing exactly: pdftotext -layout page footers, and the repository's own content walker scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems() over every page, matching /Rev\\.?\\s*(\\d{2})\\s*\\/\\s*(\\d{4})/. No download, no network read.",
+      "whatIsMissingAndCannotBeAcquiredByALane": [
+        {
+          "issuer": "South Dakota Unified Judicial System",
+          "formNumber": "UJS-394",
+          "title": "Order on Motion for Expungement",
+          "editionNeeded": "Rev. 07/2026",
+          "editionHeld": "Rev. 07/2026 content IS held, but only as page 15 of a 17-page combined binary",
+          "heldOnlyInside": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-390-395-PACKET__south-dakota-ujs-expungement-print-all-packet__REV-2026-07__EN.pdf, sha256 fef3f9aaa48a9c5e47ea8160f3d7defacbcacbc1e0c205be934e58080ec196d8, hashed by this lane",
+          "whatIsNeeded": "the standalone UJS-394 Rev. 07/2026 binary, with its own custody digest",
+          "url": "https://ujs.sd.gov/Forms/",
+          "whyALaneCannotSupplyIt": "cutting a page out of a combined packet and calling it the official standalone UJS-394 would manufacture a custody digest for a binary the issuer never served. That is a custody act, not a lane act."
+        },
+        {
+          "issuer": "South Dakota Unified Judicial System",
+          "formNumber": "UJS-232",
+          "title": "Case Filing Statement (information only, not retained in case records)",
+          "editionNeeded": "the current bytes served at the URL below; VF34 measured them as c76ac268... / 177,827 bytes with a changed layout under the SAME printed footer Rev. 12/2020",
+          "editionHeld": "308ed5e4386a9e22... / 166,791 bytes, Rev. 12/2020",
+          "notHeldInAnyForm": "no binary in the mounted corpus carries the newer UJS-232 layout; the combined print-all packet's UJS-232 page also prints Rev. 12/2020",
+          "url": "https://ujs.sd.gov/Forms/",
+          "vf34sDigestIsNotRestatedAsThisLanesOwn": "c76ac268 and 177,827 are VF34's measurement of a fresh download. This container's egress proxy refuses non-allowlisted hosts, so this lane did not and could not confirm them, and attributes them rather than adopting them."
+        }
+      ],
+      "aTrapTHATWOULDHAVECOSTARASTER": {
+        "what": "Rebuilding this family in this container moves both fixture PDFs without changing a single glyph, and thereby invalidates a committed RASTER_PASS acceptance receipt that costs a central raster run to replace.",
+        "measured": {
+          "canonicalCommitted": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "canonicalRebuiltHere": "8c9c1c839a1c016e512734d148336af6580535eb8e3039748ff215fe7729d0a1",
+          "boundaryCommitted": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "boundaryRebuiltHere": "195f77768d36dca6e5d62946cf467456a09dcfc42a413f89601edacea0db3c63",
+          "deterministicWithinThisContainer": "yes -- two consecutive rebuilds both produced 8c9c1c83, so this is environment dependence, not nondeterminism",
+          "theEntireDifference": "2 of 192 /Matrix entries on widget appearance XObjects. Object 278: committed [1 0 0 1 0 0], rebuilt [0.9999999999999999 0 0 1.1909259259259246 0 0]. Object 327: committed [1 0 0 1 0 0], rebuilt [1 0 0 0.8971057884231541 0 0].",
+          "visualConsequence": "NONE, and this was checked rather than assumed. Both objects are EMPTY appearance streams -- /Length 13, content '/Tx BMC \\nEMC\\n', no ink at all -- so the matrix scales an empty box. pdftotext -layout over both fixtures differs on zero lines."
+        },
+        "whyThatMattered": "the committed acceptance receipt (RASTER_PASS, workflow run 33488713831, bound to canonical 627e6502) cannot survive a rebuild here, and rebuilding would have bought nothing: it repairs no part of the actual finding, which is missing custody. So the rebuild was reverted with git checkout and this family sits at base.",
+        "andItErasesGovernanceToo": "scripts/build-census-v1-sd_arrest_expungement-set.mjs has the same governance-erasure defect as the Arkansas builder -- its rebuild deleted the whole `binding` block from product-wiring.json, including that acceptance receipt. It was NOT repaired here: repairing it means rebuilding to test it, and rebuilding this family is the thing that costs a raster. It is named so a lane with a raster budget can take it."
+      },
+      "aDefectNoCounterCanSeeInThisFamilysOwnReceipt": {
+        "what": "source-receipt.json records \"revision\": \"REV-UNKNOWN\" for UJS-392 and UJS-395, and both binaries print Rev. 07/2026 on every page of themselves. UJS-391 is genuinely unknown -- it prints no revision anywhere.",
+        "whyItMatters": "the receipt understates how current four of its six forms are, which makes UJS-394 at Rev. 08/2024 look like an ordinary entry instead of the single stale one in a set that is otherwise at Rev. 07/2026. It also makes the custody request harder to state precisely.",
+        "notRepairedHere": "the only place to fix it is the builder, and running the builder is what moves the fixtures. Left as a named finding rather than a half-measure."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0,
+        "counterNote": "these are the verifier's counters at this base and they are all measurable and genuinely zero. They say nothing about the obligation this row fails, because no counter in this factory recomputes a source pin or compares a held edition against the issuer's current one."
+      },
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set"
+    }
+  ],
+  "aDefectNoCounterCanSee": {
+    "what": "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs keys every annotation as `path::identityRefresh.was.sha256`. The ONLY correct repair for a pin whose shared record drifted again -- re-do the anchor comparison and write a fresh annotation, which the module's own failure text asks for in as many words -- necessarily moves `was` and therefore changes the key. The tripwire reported both of this lane's correctly re-anchored receipts as 'annotations ERASED BY A REBUILD' and exited 1.",
+    "whyThatIsWorseThanNoise": "the module's own comment explains that a check crying wolf under a common condition teaches its readers to ignore it, and costs more than the defect it was written for. It said that about sparse checkout; it is now true of the repair it exists to protect.",
+    "repair": "a dropped annotation is EXCUSED only when the receipt still carries an annotation AT THE SAME PATH whose `was.sha256` is the identity the dropped annotation ended at -- the chain continues through it, and a human compared anchors across the second move. Nothing else is excused.",
+    "controlProvingItStillFails": "with the annotation deleted outright from the Arkansas receipt, the tripwire still names the file, still says '1 of 1 identityRefresh annotation(s) dropped', and still exits 1. With the annotation restored it exits 0."
+  },
+  "aSecondDefectNoCounterCanSee": {
+    "what": "The same pin on data/record-clearing/legal-design-packet-set-manifests.json has now gone stale TWICE in five days -- 563147bf -> 6076f734 (repaired 2026-09-05) -> 80b5e071 (repaired here) -- and no counter reported either. Twelve family source receipts bind that file. VF08 measured 7 of 12 as not binding exact at ITS base; that count is itself stale now, because the file moved three more times.",
+    "theStructuralPoint": "this is not a family defect being fixed twelve times. It is a shared, mutable repository record bound as though it were a source. Re-anchoring is a treadmill: every route-productization commit re-breaks every receipt that pins it, and the verifier reads the receipt's own boolean instead of recomputing, so the fleet reads green the whole time.",
+    "whatThisLaneDidNotDo": "it did not re-anchor the other ten families. That is outside its grant, and doing it family-by-family is the treadmill rather than the fix. VF08's own question is the right one and is above a repair lane: whether a record other lanes rewrite several times a week should be bound by whole-file SHA-256 at all, or bound by the entries a family actually reads.",
+    "whatIaLaneDidInstead": "for ia-12347-set, where this lane authored a new dependency on two shared records, it deliberately bound them by verbatim content assertion rather than whole-file digest, so this failure mode cannot start there."
+  },
+  "aThirdThingWorthSaying": {
+    "what": "Two of the four dispatched findings were partly stale and neither was wholly stale, and telling those apart mattered.",
+    "detail": "VF06 and VF08 each named a receipt pin (563147bf) that a 2026-09-05 repair had already corrected at a later commit than their declared bases. Reporting them as STALE and stopping would have been wrong: the obligation still fails at this base, on a number neither lane ever saw. Reporting them as plain FAIL without saying so would have hidden that the 2026-09-05 repair happened and worked. Both rows say both things."
+  },
+  "toolsAndTripwiresRunAtThisBase": {
+    "verify-packet-completeness.mjs": "PASS_COMPLETE, nine measurable zeros, on all four families",
+    "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 302 receipts compared, 64 carrying an annotation, zero not measured (run once against a temporarily full checkout so the denominator was honest; the checkout was narrowed again afterwards for disk)",
+    "verify-governance-state-survives-rebuild.mjs": "EVERY_GOVERNANCE_KEY_SURVIVED -- 296 product-wiring records compared, 296 carrying governance state, 50 withdrawn receipts on the record, zero not measured",
+    "test-governance-state-preserved-on-rebuild.mjs": "8 of 8 ok",
+    "test-identity-refresh-preserved-on-rebuild.mjs": "NOT RUN TO COMPLETION -- it reads data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json, which was outside this worktree's sparse checkout at the time it was tried. That is a hole in this lane's measurement, not a finding about the test."
+  },
+  "whatIsOwed": [
+    "An independent read of all four rows. This lane built three of these repairs and verifies none of them.",
+    "Custody acquisition for sd_arrest_expungement-set: standalone UJS-394 Rev. 07/2026 and the current UJS-232, both from https://ujs.sd.gov/Forms/. Until then the family delivers a superseded Order form and cannot pass SOURCE_IDENTITY.",
+    "A decision above lane level on whether data/record-clearing/legal-design-packet-set-manifests.json should be bound by whole-file SHA-256 by any receipt. Ten further families still pin an identity it no longer has.",
+    "A lane with a raster budget for scripts/build-census-v1-sd_arrest_expungement-set.mjs: it erases the six governance keys on rebuild, and it cannot be tested without moving fixture bytes and owing a fresh central raster."
+  ]
+}
