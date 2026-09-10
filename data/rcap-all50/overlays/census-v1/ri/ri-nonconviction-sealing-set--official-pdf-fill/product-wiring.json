@@ -2,7 +2,8 @@
   "schemaVersion": "rcap-family-product-wiring/v1",
   "familyId": "ri_nonconviction_sealing-set",
   "routeKeys": [
-    "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"
+    "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal",
+    "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-verify-automatic-sealing"
   ],
   "implementationStrategy": "official_pdf_fill",
   "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json",
@@ -48,7 +49,40 @@
       "jobId": "100124016790",
       "artifactId": "9831687326",
       "boundToCanonicalSha256": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
-      "coversTheWholeFamily": true
+      "coversTheWholeFamily": true,
+      "stillBinds": false,
+      "wholeFamilyReRasterRequired": true,
+      "brokenBy": {
+        "lane": "FIX167",
+        "branch": "lane-fix167-20260910",
+        "obligationsRepaired": [
+          "COMPONENT_SET",
+          "REPEATING_ROWS",
+          "ROUTE_IDENTITY",
+          "SELF_HELP_STOP",
+          "SERVICE"
+        ],
+        "whyTheReceiptNoLongerBinds": "acceptanceReceipt.boundToCanonicalSha256 names a canonical that is no longer the delivered canonical.",
+        "canonicalPdf": {
+          "committedBefore": "e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d",
+          "after": "1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b",
+          "byteLengthBefore": 282412,
+          "byteLengthAfter": 280113,
+          "pageCount": 4,
+          "whatMovedIt": "TWO things, and they are separable. The committed artifacts were already STALE against the builder at this lane's base commit: an unmodified build at b984a2f843e493e855442fd25d3a4e73d01a0686 produced f442603acacd069b9d622542e429c72c34cf5dabc7aefc5e075c0f2745f6b340 before this lane changed one line. This lane's REPEATING_ROWS repair then took it from that digest to 1aa3581f, by withholding the charge cell whose row could not be completed."
+        },
+        "boundaryPdf": {
+          "committedBefore": "fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923",
+          "after": "9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594",
+          "byteLengthBefore": 281656,
+          "byteLengthAfter": 279820,
+          "pageCount": 4,
+          "whatMovedIt": "STALENESS ALONE. The unmodified base builder produced this exact digest before any edit by this lane; the boundary fixture already withheld the charge for width, so the row-integrity repair had nothing further to withhold on it."
+        },
+        "allEightPageRastersAndBothContactSheetsAlsoMoved": true,
+        "rasterQueueNotEditedByThisLane": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json was NOT edited. It is outside this lane's boundary; Captain dispatches the debt.",
+        "independentVerificationOwed": "NOT self-verified. Independent verification is owed to a lane that is neither FIX167 nor VF07."
+      }
     },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
@@ -64,5 +98,13 @@
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
     }
+  },
+  "routeIdentityReconciledBy": {
+    "lane": "FIX167",
+    "obligation": "ROUTE_IDENTITY",
+    "foundBy": "VF07, data/rcap-grade-a/packet-factory-24h/vf07/rows.json, verified at a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "wasBefore": "source-receipt.json routeKeys 1, product-wiring.json routeKeys 1, product-wiring.json binding.routeKeys 2, committed route-obligation census routes on this packet set 2. A packet cannot be for one route in its receipt and two in its binding.",
+    "isNow": "All three name the same two routes, which is what the committed route-obligation census assigns to packetSetId ri_nonconviction_sealing-set.",
+    "namingTheSecondRouteGrantsNothing": "The verify-automatic branch is process guidance whose own census record says participantCanInitiate false and processActor court. Naming it is not selling it; commercialAuthority and runtimeSelectable are unchanged and remain false."
   }
 }

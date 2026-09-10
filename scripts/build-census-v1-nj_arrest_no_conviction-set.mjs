@@ -1229,6 +1229,34 @@ function njFamily(routeKey, selectionNames, allow, note, familyAdditions = {}, d
   };
 }
 
+const RI_DC33_CHARGE_ROW_1 = Object.freeze({
+  row: "Motion to Expunge or Seal Record and Affidavit, charge table row 1, delivered page 2",
+  fields: ["1 Counts 1", "2 Charges 1", "3 Dispositions 1"],
+});
+const RI_DC33_CHARGE_ROW_DECLARATIONS = Object.freeze({
+  "1 Counts 1": {
+    blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+    refusalClass: null, routeDetermined: false,
+    identity: "RI-DC-33 field 1 Counts 1",
+    effectiveLabel: "1. Count(s) \u2014 charge table row 1, delivered page 2",
+    reason: "REQUIRED_BEFORE_FILING: the platform holds no exact count for this charge. This is "
+      + "your own case fact, taken from the certified docket, and it is not a court, prosecutor, "
+      + "clerk, agency or notary field. Copy the count from the docket; do not guess it. The whole "
+      + "row is left untouched until its three cells can be supplied together.",
+  },
+  "3 Dispositions 1": {
+    blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+    refusalClass: null, routeDetermined: false,
+    identity: "RI-DC-33 field 3 Dispositions 1",
+    effectiveLabel: "3. Disposition(s) \u2014 charge table row 1, delivered page 2",
+    reason: "REQUIRED_BEFORE_FILING: the platform holds no exact disposition for this charge. This "
+      + "is your own case fact, taken from the certified docket, and it is not a court, prosecutor, "
+      + "clerk, agency or notary field. Which sealing route reaches your record turns on this "
+      + "answer, so copy it from the docket word for word and do not guess it. The whole row is "
+      + "left untouched until its three cells can be supplied together.",
+  },
+});
+
 Object.assign(FAMILY, {
   "pa_6308_underage-set": {
     jurisdiction: "PA",
@@ -2633,8 +2661,23 @@ Object.assign(FAMILY, {
     },
   },
   "ri_nonconviction_sealing-set": {
-    jurisdiction: "RI", routeKeys: ["obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"],
-    documents: [source({
+    /*
+     * FIX167, obligation ROUTE_IDENTITY. This family named ONE route in its
+     * source receipt and top-level wiring and TWO in binding.routeKeys, and the
+     * committed route-obligation census assigns BOTH to this packet set. A
+     * packet cannot be for one route in its receipt and two in its binding. The
+     * census is the record that decides which routes a packet set serves, and
+     * it names both, so both are named here and every derived record now agrees.
+     *
+     * Naming the second route is not selling it: the verify-automatic branch is
+     * process guidance whose own record says participantCanInitiate false and
+     * processActor court, and componentDelivery below states where each of the
+     * packet set's four components is delivered.
+     */
+    jurisdiction: "RI",
+    routeKeys: ["obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal",
+      "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-verify-automatic-sealing"],
+    documents: [cloneDoc(source({
       key: "dc-33", id: "RI-DC-33", role: "MOTION_AFFIDAVIT_AND_INSTRUCTIONS",
       title: "District Court Motion, Affidavit and Instructions to Expunge or Seal Record", revision: "REV-2025-02",
       pathInArchive: "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
@@ -2642,6 +2685,35 @@ Object.assign(FAMILY, {
       allow: { "State of Rhode Island v Defendant": "participant.full_legal_name", "Case Number": "matter.case_number",
         "State of Rhode Island v Defendant_2": "participant.full_legal_name", "Case Number_2": "matter.case_number",
         "2 Charges 1": "matter.charge" }, selections: ["sealed"],
+      /*
+       * FIX167, obligation REPEATING_ROWS. Row 1 of the DC-33 charge table was
+       * filed with a written charge beside a blank count and a blank
+       * disposition. That is the CR-180 defect the completeness contract exists
+       * to catch: a row is completed or it is left untouched, and a charge with
+       * no count and no disposition beside it is a half-written row on a sworn
+       * affidavit. The row is declared here so the host's own row-integrity
+       * rule reaches it; because two of its three cells are unmapped on this
+       * route, the row is withheld whole on every fixture and the withdrawal is
+       * disclosed in the held-but-not-printed table.
+       */
+      repeatingRowGroups: [RI_DC33_CHARGE_ROW_1],
+      /*
+       * FIX167, obligation REPEATING_ROWS. The count and the disposition were
+       * refused as classified_unwritable_by_role. They are neither: a count and
+       * a disposition on the participant's own charge table are not court,
+       * prosecutor, clerk, agency or notary fields, and the role class is what
+       * let the half-written row pass an audit. They are the participant's own
+       * facts, taken from the certified docket, and they are declared as such
+       * here so they reach the required-before-filing list the participant
+       * actually reads. Their printed captions on the form are a run of
+       * underscores, so the readable identity of each cell is stated too.
+       */
+    }), {
+      // `declarations` is not a parameter of source(); it reaches a document
+      // through cloneDoc, the same way the New Jersey families pass theirs.
+      // Widening source() would put a null declarations key on every document
+      // object on this host for one family's benefit.
+      declarations: RI_DC33_CHARGE_ROW_DECLARATIONS,
     })],
     // The repository was asked first and answers plainly that it does not know.
     // DC-33's own four pages were decoded: its first page carries the District
@@ -2662,6 +2734,55 @@ Object.assign(FAMILY, {
       "**Ask the clerk's office of the District Court division where your case was heard** — the division you check at the top of the motion, whose address the form itself prints: Murray Judicial Complex, 2nd Division, 45 Washington Square, Newport, Rhode Island 02840-2913; Noel Judicial Complex, 3rd Division, 222 Quaker Lane, Warwick, Rhode Island 02886-0107; McGrath Judicial Complex, 4th Division, 4800 Tower Hill Road, Wakefield, Rhode Island 02879-2239; Garrahy Judicial Complex, 6th Division, One Dorrance Plaza, Providence, Rhode Island 02903-2719. That clerk's office is where the motion is filed, and instruction 2 on the form says it is the office that fills in your hearing date. Put two questions to it before you file: what, if anything, the court charges to file a motion to expunge or seal, and whether any fee waiver or reduction is available to you.",
       "**A cost the form does state, about a different thing.** DC-33's instruction 8 says that if your motion is granted, \"all financial obligations owed (fines, fees, costs, restitution, and assessments) must be paid in full to complete the expungement process,\" after which the clerk's office prepares three certified copies of the order for you to deliver. That is money already owed on your case, and the form states it about the expungement process; whether it bears on a sealing under G.L. 1956 § 12-1-12 is another question for the same clerk. It is not a charge for filing this motion.",
     ],
+    /*
+     * FIX167, obligation COMPONENT_SET. The packet set declares FOUR
+     * components and this family rendered one -- and the one it rendered is the
+     * CONDITIONAL one. The required status-verification component, the step
+     * that decides whether anything should be filed at all, was delivered
+     * nowhere, against this route's own packet instruction: "Check automatic
+     * relief before generating any motion." Each of the four is now answered
+     * entry by entry; manifestComponentDelivery fails the build if a declared
+     * role is answered nowhere, and asserts each named heading is really in the
+     * guide this build just wrote.
+     */
+    componentDelivery: {
+      status_verification_instructions: {
+        deliveredIn: "participant-instructions.md",
+        heading: "## Before anything is filed: has this record already sealed?",
+      },
+      primary_filing: {
+        deliveredIn: "fixtures/dc-33-canonical.pdf and fixtures/dc-33-boundary.pdf, four delivered pages each",
+      },
+      notice_package: {
+        deliveredIn: "participant-instructions.md",
+        heading: "## Who must be served, and by when",
+      },
+      escalation_instructions: {
+        deliveredIn: "participant-instructions.md",
+        heading: "## Where self-help ends",
+      },
+    },
+    // FIX167, obligation COMPONENT_SET. Carried from the committed record; see
+    // registryStatusVerificationSection.
+    statusVerificationFromRegistry: {
+      trackId: "ri_nonconviction_sealing",
+      unitId: "ri-nonconviction-verify-automatic-sealing",
+    },
+    // FIX167, obligation SERVICE. The packet named no recipient and no method
+    // while its own record named both recipients in one line. Carried, not
+    // composed; see registryServiceSection.
+    serviceFromRegistry: {
+      trackId: "ri_nonconviction_sealing",
+      formCertification: "The form says the same thing in its own words: DC-33 carries a certification "
+        + "block reciting G.L. 1956 \u00a7 12-1-12.1(b)(1), which is the provision the notice "
+        + "requirement comes from. Complete that block only after service has actually happened.\n\n",
+    },
+    // FIX167, obligation SELF_HELP_STOP. This guide stated the boundary
+    // nowhere: zero matches for "lawyer", "attorney", "self-help" and "not
+    // legal advice". The six conditions are carried word for word from the
+    // committed record and the intake memo, and the build stops if they
+    // disagree.
+    selfHelpStopFromRegistry: { trackId: "ri_nonconviction_sealing" },
     notes: [
       "Only the measured existing SEAL control is marked. Courthouse, eligibility, notice/service, hearing, signature/date, and notary blocks remain blank.",
       "The notary \"personally appeared\" control on page 4 is left in its source-owned blank state; its unselected /Off appearance is proven against a zero-write source-normalized flattened baseline and is never a mark this build makes.",
@@ -4693,7 +4814,139 @@ function registrySelfHelpStopSection(config) {
     + `built from, ${memoCite}; this build reads both and prints them only while they agree.\n\n`
     + `${rows.map((row) => `- ${row}`).join("\n")}\n\n`
     + `**If you are not a United States citizen, the immigration condition above is a hard stop, `
-    + `not a caveat.** Ask a New Jersey immigration attorney before you sign or file.\n`;
+    + `not a caveat.** Ask a ${stateName(jurisdiction)} immigration attorney before you sign or file.\n`;
+}
+
+/*
+ * FIX167. The sentence above used to say "New Jersey" outright, because this
+ * writer had one caller. Rhode Island's committed conditions carry the same
+ * immigration condition, so the state is now read from the family rather than
+ * spelled into the sentence. NJ resolves to "New Jersey" and its guides are
+ * byte-identical; this was rebuilt on all four New Jersey families to prove it.
+ */
+const STATE_NAMES = Object.freeze({ NJ: "New Jersey", RI: "Rhode Island", PA: "Pennsylvania",
+  NY: "New York", OH: "Ohio" });
+function stateName(jurisdiction) {
+  const name = STATE_NAMES[jurisdiction];
+  assert.ok(name, `${jurisdiction}: no state name is held for this jurisdiction`);
+  return name;
+}
+
+/*
+ * FIX167, ri_nonconviction_sealing-set, obligation SERVICE.
+ *
+ * The packet never said who must be served or how. Its only two sentences
+ * touching service told the participant to do the work themselves -- "Complete
+ * service certificates only after service actually occurs" -- naming no
+ * recipient and no method, while the route's own committed record states both
+ * in one line and DC-33 itself carries a certification block reciting
+ * G.L. 1956 12-1-12.1(b)(1).
+ *
+ * Nothing here is composed. The two sentences are CARRIED word for word from
+ * the committed track registry and the intake memo the registry was built
+ * from, on lines of their own, and the build stops rather than print them if
+ * the two records disagree. Opt-in, so no other family moves a byte.
+ */
+function registryServiceSection(config) {
+  const spec = config.serviceFromRegistry ?? null;
+  if (!spec) return "";
+  assert.ok(!config.service?.length,
+    `${spec.trackId}: a family declares its service section once, not twice`);
+  const jurisdiction = spec.jurisdiction ?? config.jurisdiction;
+  const track = njRegistryTrackRecord(spec.trackId);
+  const memo = intakeMemoTrackRecord(jurisdiction, spec.trackId);
+  const service = String(track.rules?.service ?? "").trim();
+  const notice = String(track.rules?.notice ?? "").trim();
+  assert.ok(service.length > 0, `${spec.trackId}: the committed record states no service rule to carry`);
+  assert.ok(notice.length > 0, `${spec.trackId}: the committed record states no notice rule to carry`);
+  assert.equal(String(memo.rules?.service ?? "").trim(), service,
+    `${spec.trackId}: the intake memo and the track registry disagree about who is served`);
+  assert.equal(String(memo.rules?.notice ?? "").trim(), notice,
+    `${spec.trackId}: the intake memo and the track registry disagree about notice`);
+  const registryCite = "`data/record-clearing/legal-design-track-registry.json`, track "
+    + `\`${spec.trackId}\`, \`rules.service\` and \`rules.notice\``;
+  const memoCite = `\`data/record-clearing/legal-design-intake/${jurisdiction}.memo.json\`, `
+    + `track \`${spec.trackId}\``;
+  return `\n## Who must be served, and by when\n\n`
+    + `This applies only if you file the motion. If the verification step above shows the record `
+    + `has already sealed, there is nothing to file and nothing to serve.\n\n`
+    + `Both lines below are carried word for word from this route's own committed record — `
+    + `${registryCite} — and the intake memo that record was built from, ${memoCite}, carries `
+    + `them in the same words; this build reads both and prints them only while they agree.\n\n`
+    + `> ${service}\n\n`
+    + `> ${notice}\n\n`
+    + `${spec.formCertification ?? ""}`
+    + `**The method is not stated by either record.** Neither the track registry nor the intake `
+    + `memo says whether service is by hand, by mail, or by another route, and this packet does `
+    + `not supply a method it does not hold. Ask the clerk's office of the division where you are `
+    + `filing — the same office named in the cost section above — how that court requires the `
+    + `Attorney General and the police department to be served, and what proof of service it wants `
+    + `on file before the hearing.\n`;
+}
+
+/*
+ * FIX167, ri_nonconviction_sealing-set, obligation COMPONENT_SET.
+ *
+ * The packet set declares four components and this family rendered one. The
+ * one it rendered is the CONDITIONAL one -- the motion itself, prepared "only
+ * where verification establishes that no automatic or administrative sealing
+ * route reaches the record" -- while the REQUIRED status-verification
+ * component, the component that decides whether anything should be filed at
+ * all, was delivered nowhere. A participant whose record has already sealed
+ * received a motion and no way of finding out they did not need it, against a
+ * committed packet instruction that says in terms: "Check automatic relief
+ * before generating any motion. Never say that all dismissed cases need a
+ * motion -- many seal automatically."
+ *
+ * The unit description and the two packet instructions are CARRIED word for
+ * word. This build composes no verification advice of its own.
+ */
+function registryStatusVerificationSection(config) {
+  const spec = config.statusVerificationFromRegistry ?? null;
+  if (!spec) return "";
+  const jurisdiction = spec.jurisdiction ?? config.jurisdiction;
+  const track = njRegistryTrackRecord(spec.trackId);
+  const memo = intakeMemoTrackRecord(jurisdiction, spec.trackId);
+  const unit = (track.units ?? []).find((row) => row.unitId === spec.unitId);
+  assert.ok(unit, `${spec.trackId}: the committed record declares no unit ${spec.unitId}`);
+  const memoUnit = (memo.units ?? []).find((row) => row.unitId === spec.unitId);
+  assert.ok(memoUnit, `${spec.trackId}: the intake memo declares no unit ${spec.unitId}`);
+  assert.equal(String(memoUnit.description ?? "").trim(), String(unit.description ?? "").trim(),
+    `${spec.trackId}/${spec.unitId}: the intake memo and the track registry describe this step differently`);
+  assert.equal(unit.outputStrategy, "process_guidance",
+    `${spec.trackId}/${spec.unitId}: this section carries a process-guidance unit and this one is ${unit.outputStrategy}`);
+  const instructions = (track.packetInstructions ?? []);
+  assert.ok(instructions.length > 0, `${spec.trackId}: no committed packetInstructions to carry`);
+  /*
+   * The memo carries no packetInstructions for this track. Two records cannot
+   * disagree where only one of them speaks, so the cross-check runs only when
+   * the memo speaks -- and the guide says which records each block was read
+   * from rather than implying both were. Weakening this to a silent skip would
+   * let a memo that LATER contradicts the registry print anyway.
+   */
+  const memoInstructions = memo.packetInstructions ?? null;
+  if (memoInstructions !== null) {
+    assert.deepEqual(memoInstructions, instructions,
+      `${spec.trackId}: the intake memo and the track registry disagree about this packet's instructions`);
+  }
+  const cite = "`data/record-clearing/legal-design-track-registry.json`, track "
+    + `\`${spec.trackId}\``;
+  return `\n## Before anything is filed: has this record already sealed?\n\n`
+    + `**This step runs first, and it may end the matter.** This route's own committed record calls `
+    + `it "${unit.label}" and makes it the default branch; the motion in this packet is the `
+    + `fallback, prepared only where this step shows that no automatic or administrative route `
+    + `reaches the record. The step below is carried word for word from ${cite}, \`units\`, and `
+    + `the ${jurisdiction} intake memo that record was built from describes the same step in the `
+    + `same words; this build reads both and prints it only while they agree.\n\n`
+    + `> ${String(unit.description).trim()}\n\n`
+    + (memoInstructions === null
+      ? `The track registry — and, for these two lines, the track registry alone; the ${jurisdiction} `
+        + `intake memo carries no packet instructions for this track — also states:\n\n`
+      : `The same two records state these instructions about this packet:\n\n`)
+    + `${instructions.map((row) => `> ${row}`).join("\n\n")}\n\n`
+    + `**If the record has already sealed, do not file the enclosed motion.** There is nothing to `
+    + `file, nothing to serve, and no fee to pay. If it should have sealed and has not, that is an `
+    + `escalation and not a motion — it is named in the self-help section below.\n`;
 }
 
 function registryGuidanceSections(config) {
@@ -4830,7 +5083,11 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
   const fees = feeAndWaiverSection(config);
   const whereToFile = filingDestinationSection(config);
-  const whoIsServed = serviceSection(config);
+  // FIX167: a family states who is served either as declared paragraphs or
+  // carried from the committed record; registryServiceSection refuses to render
+  // if a family somehow declares both.
+  const whoIsServed = `${serviceSection(config)}${registryServiceSection(config)}`;
+  const verifyFirst = registryStatusVerificationSection(config);
   // FIX105: a family carries its self-help stop section either as declared
   // paragraphs or from the committed record; registrySelfHelpStopSection refuses
   // to render if a family somehow declares both.
@@ -4848,6 +5105,7 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + `- Complete service certificates only after service actually occurs.\n`
     + `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`
     + confirmBeforeFiling
+    + verifyFirst
     + fees
     + whereToFile
     + whoIsServed
