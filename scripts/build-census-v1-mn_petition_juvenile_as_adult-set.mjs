@@ -143,6 +143,8 @@ const ROUTE_SELECTION_ID = "mn-exp102-juvenile-certified-as-adult";
 const OUT = "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 
 /*
  * The election this family makes on EXP102 item 9, and the line the form must
@@ -214,10 +216,50 @@ const CANONICAL = {
   "participant.email": "jordan.reyes@example.com",
   "matter.county": "Example County",
   "matter.county_or_city": "Example County",
-  "matter.case_number": "62-CR-20-1234",
-  "matter.offense_date": "2019-08-04",
-  "matter.charge": "Fifth-degree possession of a controlled substance"
+  "matter.case_number": "62-CR-20-1234"
 };
+
+/*
+ * WHY THIS SET CARRIES NO `matter.offense_date` AND NO `matter.charge`.
+ *
+ * It carried both, and the two of them refuted the petition's own election.
+ * This build ticks EXP102 item 9 box 2, whose printed words are "You were
+ * certified or referenced for prosecution as an adult for a crime you committed
+ * when you were a juvenile." The set carried `participant.date_of_birth
+ * 1991-04-17` beside `matter.offense_date 2019-08-04`, which puts the
+ * petitioner 28 years, 3 months and 18 days old on the date of the offence, and
+ * it carried `matter.charge "Fifth-degree possession of a controlled
+ * substance"`, which is the subject matter of item 9 BOX 1 -- the Minn. Stat.
+ * § 152.18 discharge branch -- and not of box 2. Both were written onto item 10,
+ * two pages after the tick. No counter could see it: each value was present,
+ * inside its measured rule, under its declared factId, and the field map was
+ * honest about all three.
+ *
+ * The controlling record settles which of the two is wrong.
+ * data/record-clearing/legal-design-track-registry.json, the track whose
+ * trackId is mn_petition_juvenile_as_adult, carries legalName "Petition to
+ * Expunge a Conviction Following Certification for Adult Prosecution",
+ * authority ["Minn. Stat. ch. 609A", "Minn. Stat. § 260B.125"], mechanism "An
+ * adult conviction resulting from certification for adult prosecution ... This
+ * is an adult conviction route, not juvenile delinquency relief", and exactly
+ * one eligible disposition, "adult_conviction_after_certification". The
+ * election is right. The facts printed under it were not.
+ *
+ * So the two facts are removed rather than replaced. Replacing them would mean
+ * choosing a date of birth and an offence date that make the petitioner a
+ * juvenile at the offence, and choosing a charge a § 260B.125 certification
+ * would have reached -- that is, inventing an age at offence and inventing a
+ * certification. Nothing in the controlling record establishes either for this
+ * route, and a fabricated fact on a document signed under Minn. Stat. § 358.116
+ * is worse than a blank. Item 10's "Type of offense" and "Date of offense" are
+ * carried to the participant as REQUIRED_BEFORE_FILING instead, named, with the
+ * reason the elected ground gives; see the item 10 decision further down.
+ *
+ * `participant.date_of_birth` stays. On its own it asserts nothing about the
+ * offence, and EXP106's caption takes it too. It refuted the tick only in
+ * combination with the offence date, and the offence date is now the
+ * participant's to supply.
+ */
 
 const BOUNDARY = {
   ...CANONICAL,
@@ -233,9 +275,7 @@ const BOUNDARY = {
   "participant.email": "alexandrina.montgomery.vandenberg.oyelaran@example-long-domain-name.org",
   "matter.county": "Saint Bartholomew County",
   "matter.county_or_city": "Saint Bartholomew",
-  "matter.case_number": "0123-45-2026-CR-900123.00-AB-CDE/2201",
-  "matter.charge":
-    "Fifth-degree possession of a controlled substance, aiding and abetting, continued for dismissal"
+  "matter.case_number": "0123-45-2026-CR-900123.00-AB-CDE/2201"
 };
 
 // ---------------------------------------------------------------------------
@@ -252,6 +292,85 @@ const writeJson = (rel, value) => {
 function fail(message, detail = null) {
   throw new Error(detail === null ? message : `${message}: ${detail}`);
 }
+
+// ---------------------------------------------------------------------------
+// what the controlling record says the participant must do before filing
+// ---------------------------------------------------------------------------
+/*
+ * THIS BUILD USED NOT TO READ `participantActionRequired` AT ALL.
+ *
+ * The controlling record declares, for this packet set, a list of actions the
+ * participant has to take before the packet can be filed, each carrying
+ * `requiredBeforeFiling`. Ten of them are true here. Two of the ten reach the
+ * participant nowhere else in this family and were simply absent from the
+ * delivered copy:
+ *
+ *   obtain_document — obtain your own BCA criminal history and your MCRO case
+ *                     history;
+ *   confirm_answer  — check the court file number against them and correct the
+ *                     packet if they disagree.
+ *
+ * The second is consequential on these exact bytes, because this packet
+ * PREFILLS the court file number onto all four forms — twelve writes — and the
+ * record requires the participant be told to check it. They were not told.
+ *
+ * The list is read from the packet-set manifest and cross-checked against the
+ * identical block in the track registry; the two are compared as canonical JSON
+ * and a disagreement is a refusal, because a guide generated from one of two
+ * disagreeing records is not generated from the controlling record. Nothing is
+ * paraphrased: each description is printed verbatim as the record states it.
+ */
+function participantActionsFromTheControllingRecord() {
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const registry = readJson(TRACK_REGISTRY);
+  const fromManifest = (manifests.packetSets ?? [])
+    .find((entry) => entry?.packetSetId === FAMILY_ID);
+  if (!fromManifest) fail("no packet set in the manifest for this family", FAMILY_ID);
+  const track = (registry.tracks ?? []).find((entry) => entry?.packetSet?.packetSetId === FAMILY_ID);
+  if (!track) fail("no track in the registry for this packet set", FAMILY_ID);
+
+  const manifestActions = fromManifest.participantActionRequired ?? [];
+  const registryActions = track.packetSet.participantActionRequired ?? [];
+  if (JSON.stringify(manifestActions) !== JSON.stringify(registryActions)) {
+    fail("the packet-set manifest and the track registry declare different participant actions",
+      `${PACKET_SET_MANIFESTS} vs ${TRACK_REGISTRY}`);
+  }
+
+  const beforeFiling = manifestActions.filter((action) => action?.requiredBeforeFiling === true);
+  if (beforeFiling.length === 0) {
+    fail("the controlling record declares no requiredBeforeFiling participant action", FAMILY_ID);
+  }
+  return {
+    sourceRecords: [PACKET_SET_MANIFESTS, TRACK_REGISTRY],
+    declaredActions: manifestActions.length,
+    beforeFiling: beforeFiling.map((action) => ({
+      kind: String(action.kind),
+      requirement: String(action.requirement ?? "required"),
+      description: String(action.description),
+      obtainedFrom: action.obtainedFrom ? String(action.obtainedFrom) : null
+    }))
+  };
+}
+
+/*
+ * The one measured qualification this build puts on the record's own words.
+ *
+ * The record's `notarize` action reads "Required where the form calls for a
+ * notarised signature." Printed on its own it would read as an instruction to
+ * find a notary. Measured on the four bound binaries, no form in this packet
+ * calls for one: EXP102 closes "I declare under penalty of perjury that
+ * everything I have stated in this document is true and correct. Minn. Stat.
+ * § 358.116", FEE102 closes over the same statute, and neither prints a notarial
+ * certificate, a jurat or a seal line. EXP104 is likewise a § 358.116
+ * declaration and EXP106 is signed by the judge. So the record's condition is
+ * carried verbatim and what was measured against it is stated beside it. This
+ * build states no notarization requirement of its own.
+ */
+const NOTARIZE_MEASURED_AGAINST_THESE_FORMS =
+  "Measured on the four forms in this packet, none of them calls for one. EXP102, EXP104 and FEE102 all "
+  + "close with a declaration under Minn. Stat. § 358.116, signed under penalty of perjury, and none of "
+  + "them prints a notarial certificate or a seal line. EXP106 is signed by the judge. Nothing in this "
+  + "packet has to be notarised.";
 
 const cleanText = (value) => normalizeHarvestedText(String(value ?? ""))
   .replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").replace(/[:.,;\s]+$/, "").trim();
@@ -715,8 +834,46 @@ function decideBlank(document, blank, captionBandFloorY) {
     if (/jurisdiction\/city where the offense occurred/.test(caption)) {
       return WRITE("matter.county", "County or City where the offense occurred");
     }
-    if (/type of offense/.test(caption)) return WRITE("matter.charge", "Type of offense");
-    if (/date of offense/.test(caption)) return WRITE("matter.offense_date", "Date of offense");
+    /*
+     * ITEM 10, REFUSED BY ROUTE RATHER THAN FILLED FROM A FACT NOBODY COLLECTED.
+     *
+     * These two rules used to be written from `matter.charge` and
+     * `matter.offense_date`, and what they printed contradicted the box this
+     * same petition ticks two pages earlier. Item 9 box 2 is elected here and
+     * it reads "You were certified or referenced for prosecution as an adult
+     * for a crime you committed when you were a juvenile." Item 10 printed a
+     * fifth-degree controlled-substance possession -- box 1's § 152.18 subject
+     * matter -- committed on a date on which the date of birth in item 3 made
+     * the petitioner 28 years old.
+     *
+     * Nothing this family collects bears on juvenile status at the offence or
+     * on a Minn. Stat. § 260B.125 certification. The controlling registry names
+     * this track's one disposition as "adult_conviction_after_certification"
+     * and no collected fact expresses it. Filling these two rules therefore
+     * means guessing an age at offence and guessing a certification, on a
+     * document signed under penalty of perjury. They are carried to the
+     * participant instead, by name, with the elected ground's own words as the
+     * reason -- which is also where the participant is told what item 10 has to
+     * be for the tick above it to be true.
+     */
+    if (/type of offense/.test(caption)) {
+      return SUPPLY("Item 10 type of the offence you want expunged",
+        "item 10 — the offence you want expunged, named as the court file names it. This packet does not "
+        + "fill it in. The box this petition checks at item 9 is the second one, \"You were certified or "
+        + "referenced for prosecution as an adult for a crime you committed when you were a juvenile\", so "
+        + "the offence you write here has to be the offence in the case you were certified or referenced "
+        + "into district court for under Minn. Stat. § 260B.125. If it is not that offence, this is the "
+        + "wrong packet and you should not file it");
+    }
+    if (/date of offense/.test(caption)) {
+      return SUPPLY("Item 10 date of the offence you want expunged",
+        "item 10 — the date of that offence, taken from your own court records rather than from memory. "
+        + "This packet does not fill it in, because it holds no fact about how old you were when the "
+        + "offence happened. The box checked at item 9 states the crime was committed when you were a "
+        + "juvenile, and item 3 of this same petition states your date of birth. Read the two together "
+        + "before you sign: if the date you write here is on or after your eighteenth birthday, the "
+        + "petition contradicts itself and the box at item 9 is not your box");
+    }
     return SUPPLY("Item 11 list of identifiable victims",
       "item 11 — the names of any identifiable victims in this case, if you answered Yes");
   }
@@ -1304,7 +1461,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, requiredBeforeFiling, laterCompletion, elections }) {
+function renderParticipantInstructions({ documents, censuses, requiredBeforeFiling, laterCompletion, elections, recordActions }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1340,6 +1497,26 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
     // required fact without naming it is a fact nobody was asked for.
     lines.push(`- **${row.form} page ${row.page} — ${row.effectiveLabel}.** ${row.whatToSupply}.`);
   }
+  lines.push("");
+  lines.push("## The record for this route also requires these before you file");
+  lines.push("");
+  lines.push("These are not blanks on the forms. They are the actions the committed legal-design record for");
+  lines.push("this route requires of you before this packet is filed, and each one is printed here in that");
+  lines.push("record's own words rather than in ours.");
+  lines.push("");
+  for (const action of recordActions.beforeFiling) {
+    const label = action.kind.replace(/_/g, " ");
+    const from = action.obtainedFrom ? ` Obtain it from: ${action.obtainedFrom}.` : "";
+    const conditional = action.requirement === "conditional" ? " (This one applies only if it applies to you.)" : "";
+    const measured = action.kind === "notarize" ? ` ${NOTARIZE_MEASURED_AGAINST_THESE_FORMS}` : "";
+    lines.push(`- **${label}** — ${action.description}${from}${conditional}${measured}`);
+  }
+  lines.push("");
+  lines.push("The second of those bears directly on what this packet has already written for you. The court");
+  lines.push("file number is prefilled on every form in this packet, and it was taken from what you told the");
+  lines.push("screening, not from the court's own record. Check it against your MCRO case history and your BCA");
+  lines.push("criminal history before you file, and correct it on every form if they disagree. LegalEase never");
+  lines.push("collects, inspects or authenticates either of those records.");
   lines.push("");
   lines.push("## The court fills these in after you file");
   lines.push("");
@@ -1377,7 +1554,7 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
   return `${lines.join("\n")}\n`;
 }
 
-function renderFilingInstructions({ documents }) {
+function renderFilingInstructions({ documents, recordActions }) {
   const lines = [];
   lines.push("# Filing your Minnesota expungement packet");
   lines.push("");
@@ -1386,6 +1563,20 @@ function renderFilingInstructions({ documents }) {
   lines.push("File with the district court administrator in the county where the case was decided — the");
   lines.push("district court you were certified or referenced into, not the juvenile court. The caption of");
   lines.push("every form in this packet names that county and that court file number.");
+  lines.push("");
+  lines.push("## Before you file: the two records you have to pull yourself");
+  lines.push("");
+  const obtain = recordActions.beforeFiling.find((action) => action.kind === "obtain_document");
+  const confirm = recordActions.beforeFiling.find((action) => action.kind === "confirm_answer");
+  if (obtain) {
+    lines.push(`- ${obtain.description}`);
+    if (obtain.obtainedFrom) lines.push(`  Obtain it from: ${obtain.obtainedFrom}.`);
+  }
+  if (confirm) lines.push(`- ${confirm.description}`);
+  lines.push("");
+  lines.push("The court file number printed in the caption of all four forms in this packet came from your");
+  lines.push("screening answers. The court knows the case by its own number. Check the two against each other");
+  lines.push("before you hand anything to the court administrator.");
   lines.push("");
   lines.push("## The filing fee");
   lines.push("");
@@ -1711,9 +1902,15 @@ async function build({ check = false } = {}) {
   const laterRows = dedupe(laterCompletion, (r) => `${r.form}|${r.effectiveLabel}`);
   const electionRows = dedupe(elections, (r) => `${r.form}|${r.effectiveLabel}`);
 
+  const recordActions = participantActionsFromTheControllingRecord();
+
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
-  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions({ documents }));
+    renderParticipantInstructions({
+      documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows,
+      elections: electionRows, recordActions
+    }));
+  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`),
+    renderFilingInstructions({ documents, recordActions }));
 
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1",
@@ -1923,6 +2120,47 @@ async function build({ check = false } = {}) {
     ]
   });
 
+  /*
+   * PRODUCT WIRING IS NOT ALL THIS BUILD'S TO AUTHOR.
+   *
+   * This script writes the binding — the family, the route keys, the component
+   * list, the four bound source digests, the paths of the map and the guides.
+   * Six keys on the committed file are NOT authored here and were being erased
+   * on every rebuild: `acceptanceReceipt`, `lastIndependentVerification`,
+   * `paymentEligible`, `sponsorshipEligible`, `whyPaymentIsClosed` and
+   * `maintenanceRelationship`. They are the control plane's, and silently
+   * dropping `paymentEligible: false` and `whyPaymentIsClosed` on a rebuild is
+   * a governance fact deleted by a build that never mentions it.
+   *
+   * They are carried forward verbatim. The one exception is the raster
+   * acceptance receipt, which binds an exact canonical SHA-256: when the bytes
+   * this run produced are not the bytes that receipt was issued against, the
+   * receipt does not describe this packet and is withdrawn rather than carried,
+   * with both digests recorded so the withdrawal is legible. A receipt is never
+   * re-issued from here; only the central raster workflow issues one.
+   */
+  const previousWiring = fs.existsSync(absFor(`${OUT}/product-wiring.json`))
+    ? readJson(`${OUT}/product-wiring.json`) : null;
+  const previousBinding = previousWiring?.binding ?? {};
+  const carriedForward = {};
+  for (const key of ["lastIndependentVerification", "paymentEligible", "sponsorshipEligible",
+    "whyPaymentIsClosed", "maintenanceRelationship"]) {
+    if (previousBinding[key] !== undefined) carriedForward[key] = previousBinding[key];
+  }
+  const canonicalSha = sha256(canonical.bytes);
+  const previousReceipt = previousBinding.acceptanceReceipt ?? null;
+  if (previousReceipt && previousReceipt.boundToCanonicalSha256 === canonicalSha) {
+    carriedForward.acceptanceReceipt = previousReceipt;
+  } else if (previousReceipt) {
+    carriedForward.acceptanceReceiptWithdrawn = {
+      why: "the acceptance receipt binds an exact canonical SHA-256 and this build produced different "
+        + "bytes, so the receipt does not describe this packet. Only the central raster acceptance "
+        + "workflow issues a receipt; this build issues none and sets no verdict.",
+      withdrawnReceipt: previousReceipt,
+      canonicalSha256AtWithdrawal: canonicalSha
+    };
+  }
+
   writeJson(`${OUT}/product-wiring.json`, {
     schemaVersion: "rcap-family-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     routeSelectionId: ROUTE_SELECTION_ID, implementationStrategy: "official_pdf_fill",
@@ -1940,7 +2178,8 @@ async function build({ check = false } = {}) {
       filingInstructions: `${OUT}/filing-instructions.md`,
       renderedArtifacts: `${OUT}/reports/rendered-artifacts.json`,
       sourceReceipt: `${OUT}/source-receipt.json`,
-      sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" }))
+      sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" })),
+      ...carriedForward
     }
   });
 
@@ -1985,6 +2224,12 @@ async function build({ check = false } = {}) {
     canonicalTooLongToFit: canonical.perDocument.flatMap((row) => row.tooLongToFit),
     requiredBeforeFiling: supplyRows.length, laterCompletion: laterRows.length,
     participantElections: electionRows.length, routeSelectionsMade: electedControlIds.size,
+    participantActionsFromTheControllingRecord: {
+      declaredActions: recordActions.declaredActions,
+      requiredBeforeFiling: recordActions.beforeFiling.length,
+      kinds: recordActions.beforeFiling.map((action) => action.kind),
+      readFrom: recordActions.sourceRecords
+    },
     unclassified: unclassified.length
   };
 }

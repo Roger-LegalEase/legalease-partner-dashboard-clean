@@ -16,10 +16,15 @@ administrator separately from the petition rather than attaching it to the publi
 
 ## What this packet already says for you
 
-On EXP102 item 9 the first box is checked: the box for a controlled-substance case dismissed and
-discharged under Minn. Stat. § 152.18. That is the statutory basis this packet was built for, and
-it is the basis that goes with the proposed order EXP106. If your case was not discharged under
-§ 152.18, this is the wrong packet and you should not file it.
+This packet marks 2 boxes for you and no others. They are
+listed below. Every other box on every form in this packet is empty, and every one of them is
+yours to decide.
+
+- **EXP102 page 4 — Route election — A criminal case against you for a possession of a controlled substance under Minn.** This packet is built for one statutory route and the petition must state which. Item 9 box 1 is the § 152.18 discharge, and it is the only box on item 9 besides the juvenile-certification box that routes to EXP106, which is the proposed order this family binds.
+- **FEE102 page 1 — Route election —  I am including my pleadings with this Affidavit (or I have already filed my pleadings but have.** FEE102 item 2 prints "Choose one:" and asks whether the affidavit accompanies pleadings or asks only for copy fees to be waived. This packet contains the petition, the proof of service and the proposed order, so the answer is a fact about the packet rather than a choice the participant makes. The other branch of the same choose-one says the opposite and is left empty: marking both would swear to two contradictory statements on one affidavit under Minn. Stat. § 563.01. If you file this affidavit without the petition, asking only for copy fees to be waived, unmark this box and mark that one instead.
+
+If your case was not discharged under § 152.18, this is the wrong packet and you should not
+file it.
 
 ## You must supply these before you file
 
@@ -29,8 +34,10 @@ it is the basis that goes with the proposed order EXP106. If your case was not d
 - **EXP102 page 3 — Item 7 criminal-record table cell.** item 7 — your FULL criminal record. The form requires every conviction and every charge, from Minnesota and from any other state, federal court or foreign country, whether it happened before or after this offence. LegalEase holds the one case you screened and not the rest, and a row filled in from that one case would read as a complete record when it is not, so the whole table is left for you.
 - **EXP102 page 3 — Item 8 list of earlier expungement, pardon or sealing requests.** item 8 — each earlier request you have made for an expungement, a pardon or a sealing of a criminal record, if you answered Yes.
 - **EXP102 page 5 — Item 11 list of identifiable victims.** item 11 — the names of any identifiable victims in this case, if you answered Yes.
+- **EXP104 page 1 — Judicial District of the court.** the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each.
 - **EXP106 page 1 — Judicial District of the court.** the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each.
 - **FEE102 page 1 — Judicial District of the court.** the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each.
+- **FEE102 page 1 — Case Type on the fee-waiver affidavit caption.** the case type of the criminal case this fee waiver belongs to. FEE102 is the general civil fee-waiver form and prints no case type on its caption, while the three court forms in this packet all print Criminal on their own faces. Copy the case type exactly as EXP102 prints it.
 - **FEE102 page 1 — Plaintiff/Petitioner on the fee-waiver affidavit caption.** the plaintiff of the criminal case on the FEE102 caption. FEE102 is the general civil fee-waiver form and prints no party, while the three court forms in this packet all print State of Minnesota over Plaintiff on their own faces. Copy the plaintiff exactly as EXP102 prints it.
 - **FEE102 page 1 — Fee-waiver affidavit (FEE102) financial statement line.** your own financial details on the fee-waiver affidavit (FEE102) — household size, income, public assistance, property and monthly expenses. LegalEase does not hold and does not ask for your financial information, so every one of these lines is yours to complete before you file.
 
@@ -72,7 +79,6 @@ a sworn answer only you can give — whether you have lived at one address since
 
 a sworn statement about your own finances or your own legal representation. The platform holds no financial fact about you and does not answer this for you.
 
-- **FEE102 page 1 — Fee-waiver affidavit sworn statement —  I only want to have copy fees waived. I do not have any pleadings to file at this time.**
 - **FEE102 page 1 — Fee-waiver affidavit sworn statement — 3.  I have a lawyer through a civil legal services program or volunteer attorney program that gives.**
 - **FEE102 page 2 — Fee-waiver affidavit sworn statement — 4.  I do not receive public assistance. (If checked, skip to #5).**
 - **FEE102 page 2 — Fee-waiver affidavit sworn statement —  I receive public assistance. (Choose “a” or “b”).**

@@ -6,6 +6,16 @@ File with the district court administrator in the county where the case was deci
 district court you were certified or referenced into, not the juvenile court. The caption of
 every form in this packet names that county and that court file number.
 
+## Before you file: the two records you have to pull yourself
+
+- Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO. Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.
+  Obtain it from: Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online.
+- Check your answer to "What is the court file number?" against Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO, and correct the packet if they disagree.
+
+The court file number printed in the caption of all four forms in this packet came from your
+screening answers. The court knows the case by its own number. Check the two against each other
+before you hand anything to the court administrator.
+
 ## The filing fee
 
 A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver

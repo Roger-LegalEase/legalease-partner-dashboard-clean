@@ -6,7 +6,9 @@
   "consumed": [
     {
       "runId": "34373388204",
-      "families": ["fl-self-defense-set"],
+      "families": [
+        "fl-self-defense-set"
+      ],
       "deliveredAt": "commit bcc6f0e41191261a4541b2dd8f3b193cfd7298e1",
       "admitted": true,
       "outcome": "fl-self-defense-set is COMPLETE_PACKET_PROVEN.",
@@ -15,7 +17,11 @@
     },
     {
       "runId": "34378560072",
-      "families": ["il-seal-2yr-set", "il-seal-3yr-set", "il-exp-qualprob-set"],
+      "families": [
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-exp-qualprob-set"
+      ],
       "deliveredAt": "commit 3cf812398f753738ca743f91411e12c742101c5a",
       "admitted": true,
       "outcome": "Admitted, and then SUPERSEDED: the FIX06/07/08 ARTIFACTS repair moved all six PDFs, so those receipts no longer describe the current bytes and all three families are queued again in run 34399508391.",
@@ -26,7 +32,9 @@
   "outstanding": [
     {
       "runId": "34357236801",
-      "families": ["pa_pardon_expungement-set"],
+      "families": [
+        "pa_pardon_expungement-set"
+      ],
       "artifactId": "10106541378",
       "digest": "sha256:6e77ace7460682422f0f9f50bf8a394486081000950f8f843817f6d06374f897",
       "expiresAt": "2026-09-23T13:34:39Z",
@@ -37,7 +45,11 @@
     {
       "runId": "34386107249",
       "runAttempt": 2,
-      "families": ["al-trafficking-set", "ne-seal-pre2017-set", "rcap-or-official-pdf-fill"],
+      "families": [
+        "al-trafficking-set",
+        "ne-seal-pre2017-set",
+        "rcap-or-official-pdf-fill"
+      ],
       "artifacts": {
         "al-trafficking-set": "10118412473",
         "ne-seal-pre2017-set": "10118301391",
@@ -48,7 +60,11 @@
     },
     {
       "runId": "34389568508",
-      "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set", "al-pardoned-felony-set"],
+      "families": [
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-pardoned-felony-set"
+      ],
       "artifacts": {
         "al-felony-dwop-set": "10119404600",
         "al-felony-nonconviction-90-set": "10119472127",
@@ -59,12 +75,33 @@
     },
     {
       "runId": "34399508391",
-      "families": ["il-seal-3yr-set", "il-seal-2yr-set", "il-exp-qualprob-set", "co_petition_seal_arrest-set"],
+      "families": [
+        "il-seal-3yr-set",
+        "il-seal-2yr-set",
+        "il-exp-qualprob-set",
+        "co_petition_seal_arrest-set"
+      ],
       "status": "in_progress at the time of writing; identities to be recorded when it finishes",
       "unblocks": "The Illinois ARTIFACTS repair on all six moved PDFs, and Colorado's 23 synthesized widget borders."
     }
   ],
   "bundleShapeThatWorks": "A tar.xz carrying <runId>/<family>.verdict.json for each family plus the canary, negative-control and runtime receipts; a PAGE_IMAGES_SHA256.json inventory with runId, familyId, member, bytes, sha256, pngWidth and pngHeight per page image; and a TRANSPORT.json naming the run, artifact, job and canary identities. PNG bodies are not needed and have never been sent. Four bundles of this shape have been consumed without a single refusal for cause.",
-  "whatThisCosts": "Thirteen families are BUILT_RASTER_PENDING and eleven of them are waiting on a receipt rather than on any work. Repair capacity is not the constraint; this is.",
-  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production."
+  "whatThisCosts": "NOTHING, as of 2026-09-10. The earlier reading of this line -- eleven families waiting on a receipt rather than on any work, repair capacity not being the constraint -- was true when it was written and is now exactly inverted. VERIFY_PENDING is 0 and FAIL_REPAIR_REQUIRED is 45. Repair capacity IS the constraint. Do not spend a worker chasing a receipt on this file s authority.",
+  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production.",
+  "supersededBy": {
+    "at": "2026-09-10, Captain, at commit 95928db67016a0545b1f8d888907d65a774b80ac",
+    "what": "The blocker this file was written around is gone, and every request listed under `outstanding` is closed without being fulfilled.",
+    "why": [
+      "Commit b311ef066 made scripts/rcap-raster-batch.mjs print the verdict and the page-image inventory to stdout inside RCAP_RECEIPT_BEGIN/VERDICT/INVENTORY/END delimiters, and mcp__github__get_job_logs reads that server-side. The blob store is still unreachable; it no longer matters.",
+      "Every run listed under `outstanding` ran on a workflow definition and a packet commit that PREDATE b311ef066, so none of their logs carries a receipt block. They cannot be read here at any tail length. Re-running the same families at a current head produces a readable receipt in about three minutes and costs nobody anything.",
+      "So the standing rule is now: an unreadable receipt is re-rendered at the current head, never requested from Roger."
+    ],
+    "outstandingRequestsClosed": [
+      "34357236801",
+      "34386107249",
+      "34389568508",
+      "34399508391"
+    ],
+    "proofTheyWereNotBlockingAnything": "Every one of the eleven families named across those four requests is, at this commit, either already COMPLETE_PACKET_PROVEN (ne-seal-pre2017-set, il-seal-3yr-set, il-exp-qualprob-set), or FAIL_REPAIR_REQUIRED and owed a repair rather than a receipt (pa_pardon_expungement-set, al-trafficking-set, il-seal-2yr-set, co_petition_seal_arrest-set), or LEGAL_BLOCKED (rcap-or-official-pdf-fill), or re-rendered at the current head in run 34418960259 (the three Alabama families). Not one is waiting on a receipt."
+  }
 }

@@ -10,7 +10,9 @@ It is prepared for one route — **Application to the North Dakota Pardon Adviso
 
 The form's own first instruction is in capitals: **"A REQUEST FOR A PARDON WILL NOT EXPUNGE AN INDIVIDUAL'S CRIMINAL HISTORY RECORD."** Even after a pardon with removal of guilt, a criminal history background check may continue to show the offence; the North Dakota Bureau of Criminal Investigation modifies the disposition to reflect the pardon rather than removing the record. **Your application also becomes a public record** when the Department of Corrections and Rehabilitation receives it, and your appearance before the board is recorded in the agenda and minutes, which are posted online. Decide whether you want that before you send this.
 
-The platform filled in what it holds about you: your name, your date of birth and your address. Everything else is yours, and every one of those blanks is listed below.
+The platform filled in what it holds about you, and nothing else: Applicant Name, Date of Birth, Applicant's Address, City, State and ZIP Code. Everything else is yours, and every one of those blanks is listed below.
+
+One of those was written in the form's own shorthand. The **State** box says **ND**, and what the platform holds for you is "North Dakota". That is this form's own convention and not an abbreviation this packet invented: the form's instructions give the Department's own address as "P.O. Box 1898, Bismarck, ND 58502-1898", writing the state as the two-letter postal code. The printed State column is 34.32pt wide, which is a two-character box: "North Dakota" spelled out needs more width than the box has even at the smallest legible size, so it could not be printed there in full by any means. Check the box before you send the form, and if it is wrong for you, correct it by hand.
 
 ## The deadline is 90 days, and it is not a formality
 
