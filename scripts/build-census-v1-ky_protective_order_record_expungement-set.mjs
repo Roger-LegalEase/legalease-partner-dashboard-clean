@@ -179,18 +179,53 @@ const SOURCE = Object.freeze({
  * is not on the list would be refused — which would prove nothing about the
  * field and would leave the source's own "000" in place.
  */
-const CANONICAL = {
-  "participant.full_legal_name": "Jordan Avery Reyes",
+/*
+ * ONE PERSON, ONE NAME. `participant.full_legal_name` IS COMPOSED, NOT TYPED.
+ *
+ * On this form the movant and the respondent are the same person: the printed
+ * sentence "The movant, ____, seeks expungement of the records of this case"
+ * sits directly above a caption that names that person again in three widgets.
+ * The boundary fixture used to hold both a decomposed name ending in
+ * "Fitzwilliam III" and a hand-typed full_legal_name that omitted it, so the
+ * delivered page named one person two different ways and the operative sworn
+ * sentence carried the shorter one. No counter could see it: the map declared
+ * the anchor, the finalizer wrote the fact the map named, the ink landed inside
+ * the write box.
+ *
+ * The repair is not a longer literal — it is removing the literal. The full
+ * legal name is composed from the parts and then asserted against them, so the
+ * two can no longer disagree whatever a future fixture holds.
+ *
+ * WHAT THAT COSTS, MEASURED AND ACCEPTED. Composed, the boundary name runs
+ * wider than the 315.36pt `movant` widget the court drew, so the fitter refuses
+ * it and the movant line is delivered BLANK — recorded under
+ * valuesTooLongForTheWidgetTheFormDraws and carried to the participant as a
+ * line they must complete. That is the honest outcome and it is the outcome the
+ * boundary fixture exists to produce. The truncated value slipped through
+ * precisely because it dodged the overflow path. A blank line on a filing,
+ * disclosed, is a gap; a silently shortened legal name on a sworn filing is a
+ * misstatement, and this build will take the gap.
+ */
+const composeFullLegalName = (facts) => [
+  facts["participant.first_name"], facts["participant.middle_name"], facts["participant.last_name"]
+].map((part) => String(part ?? "").trim()).filter(Boolean).join(" ");
+
+const withComposedName = (facts) => {
+  const composed = composeFullLegalName(facts);
+  if (composed === "") fail("a fixture persona carries no name parts to compose a legal name from");
+  return Object.freeze({ ...facts, "participant.full_legal_name": composed });
+};
+
+const CANONICAL = withComposedName({
   "participant.first_name": "Jordan",
   "participant.middle_name": "Avery",
   "participant.last_name": "Reyes",
   "matter.case_number": "24-D-00123-001",
   "matter.county": "Franklin"
-};
+});
 
-const BOUNDARY = {
+const BOUNDARY = withComposedName({
   ...CANONICAL,
-  "participant.full_legal_name": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran",
   "participant.first_name": "Alexandrina-Katharine",
   "participant.middle_name": "Montgomery-Vandenberg-Oyelaran",
   "participant.last_name": "Fitzwilliam III",
@@ -198,7 +233,13 @@ const BOUNDARY = {
   // Kentucky's longest county name, so the chooser is exercised at its widest
   // real value rather than at an invented one.
   "matter.county": "Breckinridge"
-};
+});
+
+for (const [name, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
+  if (facts["participant.full_legal_name"] !== composeFullLegalName(facts)) {
+    fail("a fixture persona's full legal name disagrees with its own name parts", name);
+  }
+}
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const round = (n) => Number(Number(n).toFixed(2));
@@ -296,7 +337,60 @@ function loadControllingRecord() {
     selfHelpBoundaries: byClass("self_help_boundary"),
     selfHelpStopConditions: (track.selfHelpStopConditions ?? []).map((row) => String(row)),
     clerkDuties: destination,
+    destinationName: String(track.destination?.name ?? ""),
+    venue: String(track.geography?.venue ?? ""),
+    /*
+     * THE WHOLE `rules` NODE, NOT A HAND-PICKED FOUR OF ITS KEYS.
+     *
+     * The revision before this one captured `fees`, `service`, `notarization`
+     * and `participantSignature` and stopped. `rules.feeWaiver` was one key
+     * away and was never opened — and filing-instructions.md told the
+     * participant, in the record's own voice, that the record "does not record
+     * a fee-waiver treatment". It does: "not applicable; no fee is identified."
+     * A builder that does not reach a node cannot report on it, and a negative
+     * claim about an unread node is unfalsifiable from inside the packet.
+     *
+     * That is the same defect the party-role repair fixed, surviving one field
+     * away, so this fix is structural rather than another named key: the whole
+     * node is carried, and renderFilingInstructions asserts that EVERY key in
+     * it is quoted verbatim in the delivered document. A rule the record grows
+     * tomorrow stops this build instead of being silently dropped, and no
+     * sentence in that document may describe a rules key that is not read here.
+     */
+    rules: Object.freeze(Object.fromEntries(
+      Object.entries(track.rules ?? {}).map(([key, value]) => [key, String(value)]))),
+    /*
+     * The timing node. VF24 recorded it as a second unread field: the guide
+     * asserted "the record does not state a service deadline or a filing
+     * deadline" while `waitingPeriods` — the six-month gate that is the whole
+     * eligibility test of this route — was never read. Both are derived now.
+     */
+    waitingPeriods: (track.waitingPeriods ?? []).map((row) => ({
+      condition: String(row.condition ?? ""), duration: String(row.duration ?? "")
+    })),
+    /*
+     * The declared component set, read rather than remembered. The instrument
+     * kinds this family advertises were three string literals typed into the
+     * wiring; they are now derived from these rows, and a required component
+     * this build does not deliver is named in every artifact that lists them.
+     */
+    components: (track.components ?? []).map((row, index) => ({
+      index,
+      role: String(row.role ?? ""),
+      requirement: String(row.requirement ?? ""),
+      outputStrategy: String(row.outputStrategy ?? ""),
+      officialFormId: row.officialFormId ?? null,
+      conditionDescription: row.conditionDescription ?? null,
+      notes: String(row.notes ?? "")
+    })),
+    manualCompletionItems: (track.manualCompletionItems ?? []).map((row) => ({
+      item: String(row.item ?? ""), whereInPacket: String(row.whereInPacket ?? ""),
+      why: String(row.why ?? "")
+    })),
     fees: String(track.rules?.fees ?? ""),
+    feeWaiver: String(track.rules?.feeWaiver ?? ""),
+    filing: String(track.rules?.filing ?? ""),
+    notice: String(track.rules?.notice ?? ""),
     service: String(track.rules?.service ?? ""),
     notarization: String(track.rules?.notarization ?? ""),
     participantSignature: String(track.rules?.participantSignature ?? "")
@@ -789,38 +883,262 @@ function renderParticipantInstructions({ supplyRows, electionRows, writtenRows }
   return `${lines.join("\n")}\n`;
 }
 
-function renderFilingInstructions() {
+/*
+ * The distribution list the form prints in its own footer. The guide told the
+ * participant what "the form's own footer" lists; that was a literal, so it is
+ * asserted against the extracted page text like every other printed-line claim
+ * this build makes. If the form stops printing the list, the build stops rather
+ * than describing a footer that is no longer there.
+ */
+const PRINTED_DISTRIBUTION_LIST = Object.freeze(["Copies to", "Court file", "Petitioner", "Respondent"]);
+
+/*
+ * Vocabulary that would make a rule a DEADLINE. The guide's claim that the
+ * record states no filing or service deadline used to be a typed literal — a
+ * negative about the record asserted by a document that had not read it, which
+ * is the FEE_AND_WAIVER defect exactly. It is now decided by testing every
+ * value in the rules node, so a deadline the record grows is either printed or
+ * stops the build; it can never be silently denied.
+ */
+const DEADLINE_VOCABULARY =
+  /\b(deadline|no later than|within\s+\d|\d+\s*(calendar|business)?\s*days?|days?\s+(of|after|before))\b/i;
+
+/*
+ * WHAT THE RECORD DECLARES AS A COMPONENT AGAINST WHAT THIS BUILD DELIVERS.
+ *
+ * VF24 failed this family on COMPONENT_SET, and the finding was not that the
+ * packet is missing a document it could have made — it was that nothing in the
+ * family disclosed the gap. The record's components[2], role
+ * `service_instructions`, requirement `required`, says in its own note that
+ * "the packet tells the movant how to serve and provides the certificate".
+ * The packet does the first. There is no certificate of service anywhere in
+ * this family, and build-findings.json reported findingCount 0 while both
+ * manifests advertised the instrument kind.
+ *
+ * This function decides the question from the record and from the delivered
+ * page rather than from memory. It names, per component, exactly what this
+ * build delivers for it and exactly what the component's own note promises
+ * that this build does not. A required component whose promise is unmet is
+ * carried into build-findings.json, into the wiring, into the participant's
+ * guide and into the lane's counters. It is NOT closed by authoring the
+ * missing instrument: see whyNotDelivered below, which is measured.
+ */
+function auditDeclaredComponents({ printedText }) {
+  const boundHere = new Map([[SOURCE.instrumentKind, SOURCE]]);
+  const lower = String(printedText).toLowerCase();
+
+  return RECORD.components.map((component) => {
+    const bound = boundHere.get(component.role) ?? null;
+
+    /*
+     * Instruments the component's own note names as things the packet provides.
+     * Derived from the note's words, not from a list typed here, so a note that
+     * grows a second promised instrument is caught the same way.
+     */
+    const promisedInstruments = [];
+    if (/\bcertificate\b/i.test(component.notes)) {
+      /*
+       * Measured, not assumed: AOC-275.18 is the only binary bound to this
+       * family, and its extracted page text carries no certificate at all —
+       * what it prints is the clerk-completed distribution list. If a future
+       * revision of the form printed one, this stops and the question is
+       * decided again rather than inherited.
+       */
+      const formPrintsOne = lower.includes("certificate");
+      if (formPrintsOne) {
+        fail("the bound form now prints a certificate and this build's component audit is stale",
+          `${component.role} components[${component.index}]`);
+      }
+      promisedInstruments.push({
+        instrument: "certificate of service",
+        promisedBy: `components[${component.index}].notes`,
+        deliveredByThisBuild: false,
+        whyNotDelivered:
+          "No held source carries one. This family binds exactly one binary — "
+          + `${SOURCE.formNumber} ${SOURCE.revision}, one page — and its extracted page text contains the `
+          + "word \"certificate\" nowhere; what it prints instead is the clerk's own distribution list "
+          + `(${PRINTED_DISTRIBUTION_LIST.join(", ")}) inside the NOTIFICATION OF EXPUNGEMENT HEARING block. `
+          + "Authoring one here would require three things this platform does not hold and this record does "
+          + `not supply: the ${OTHER_BLOCK.label.toLowerCase()}'s name and address, which is the third `
+          + "person this packet deliberately leaves blank throughout; the hearing date, which the record "
+          + `says the clerk sets after filing ("${sentence(RECORD.rules.notice)}"); and the date of mailing, `
+          + "which is after both. A certificate reciting facts nobody holds is a fabricated service record "
+          + "on a sworn filing, so this build refuses it and discloses the refusal instead."
+      });
+    }
+
+    const deliveredHere = bound
+      ? `${bound.formNumber} ${bound.revision}, ${bound.title}, bound by exact content hash and rendered as `
+        + "the primary filing of this family"
+      : component.outputStrategy === "process_guidance"
+        ? "process guidance only, rendered into filing-instructions.md from the controlling record's own "
+          + "rules node; no instrument is produced for this component"
+        : "nothing";
+
+    const unmet = promisedInstruments.filter((row) => !row.deliveredByThisBuild);
+    return {
+      index: component.index, role: component.role, requirement: component.requirement,
+      outputStrategy: component.outputStrategy, officialFormId: component.officialFormId,
+      conditionDescription: component.conditionDescription,
+      notesVerbatim: component.notes,
+      boundSourceInThisBuild: bound ? bound.sourceId : null,
+      deliveredHere,
+      promisedInstrumentsNotDelivered: unmet,
+      /*
+       * A conditional component the record itself scopes out is not missing.
+       * A required component whose note promises an instrument this build does
+       * not produce IS missing, and says so in the same breath as the reason.
+       */
+      countsAsARequiredComponentNotDelivered: component.requirement === "required" && unmet.length > 0
+    };
+  });
+}
+
+/*
+ * EVERY SENTENCE THAT SPEAKS FOR THE RECORD IS NOW TAKEN FROM THE RECORD.
+ *
+ * Until this revision this whole document was `lines.push()` literals. Five
+ * record fields were loaded by the repaired loader and NONE of them was used
+ * here, and one of the literals — "It does not record a fee-waiver treatment" —
+ * was simply false: `rules.feeWaiver` exists and reads "not applicable; no fee
+ * is identified." A paraphrase cannot go stale loudly, and a negative claim
+ * about a node the builder never opens cannot go stale at all.
+ *
+ * So each rule is QUOTED verbatim and attributed to its own key, and the
+ * function then asserts that every key present in the record's rules node was
+ * quoted. Adding a rule to the record without giving it a home here stops the
+ * build. That is the structural form of the fix: the defect was per-field, so
+ * the guard is per-field too.
+ */
+function renderFilingInstructions({ printedText, componentAudit }) {
+  const missingPrinted = PRINTED_DISTRIBUTION_LIST
+    .filter((phrase) => !String(printedText).toLowerCase().includes(phrase.toLowerCase()));
+  if (missingPrinted.length > 0) {
+    fail(`${SOURCE.formNumber} no longer prints the distribution list this guide describes`,
+      missingPrinted.join("; "));
+  }
+
+  const quotedRuleKeys = [];
+  const quote = (key) => {
+    const value = RECORD.rules[key];
+    if (typeof value !== "string" || value.trim() === "") {
+      fail("the controlling record no longer carries a rule this guide speaks for", `rules.${key}`);
+    }
+    quotedRuleKeys.push(key);
+    return `“${value.trim()}”`;
+  };
+
+  const deadlineBearingRules = Object.entries(RECORD.rules)
+    .filter(([, value]) => DEADLINE_VOCABULARY.test(value))
+    .map(([key]) => key);
+
   const lines = [];
   lines.push("# Filing your Kentucky protective-order expungement motion");
   lines.push("");
+  lines.push(...wrap(
+    "Every statement below that begins “the committed record” is quoted from "
+    + `\`${RECORD.path}\`, track \`${RECORD.trackId}\`, SHA-256 \`${RECORD.sha256}\`, reviewed as of `
+    + `${RECORD.reviewedAsOf}. Nothing here is a paraphrase and nothing here is remembered. Where the record `
+    + "is silent this packet is silent, and it says so rather than filling the gap."));
+  lines.push("");
   lines.push("## Where it goes");
   lines.push("");
-  lines.push("File it in the protective-order case itself, with the Office of the Circuit Court Clerk for the");
-  lines.push("court that heard the petition. The caption of this motion names that case.");
+  lines.push(...wrap(`The committed record's filing rule reads, in full: ${quote("filing")} It names the `
+    + `destination as the ${RECORD.destinationName}, and the venue as: `
+    + `“${sentence(RECORD.venue)}” The caption of this motion names that case.`));
   lines.push("");
   lines.push("## What the clerk does");
   lines.push("");
-  lines.push("The committed record for this route says the clerk verifies your signature, applies the filed");
-  lines.push("stamp, completes the notification-of-hearing section on the face of the form, creates the");
-  lines.push("scheduled event and requests an updated criminal and protective-order history for the respondent.");
+  lines.push(...wrap(`The committed record for this route says: “${sentence(RECORD.clerkDuties)}” `
+    + `Its notice rule adds: ${quote("notice")}`));
   lines.push("");
   lines.push("## The filing fee");
   lines.push("");
-  lines.push("The committed record says the Clerks' Manual records no filing fee for this motion. It does not");
-  lines.push("record a fee-waiver treatment, and this packet states no fee amount. Ask the clerk.");
+  lines.push(...wrap(`The committed record's fee rule reads, in full: ${quote("fees")} Its fee-waiver rule `
+    + `reads, in full: ${quote("feeWaiver")} This packet therefore states no fee amount and describes no `
+    + "waiver procedure, because the record supplies neither. If the clerk asks you for a fee, ask the "
+    + "clerk what it is for — do not take a number from this packet, because this packet has none."));
   lines.push("");
   lines.push("## Service");
   lines.push("");
-  lines.push("The committed record says you may serve copies of the notice by first class mail per the");
-  lines.push("distribution list, and that otherwise the clerk does. The form's own footer lists the copies:");
-  lines.push("the court file, the petitioner and the respondent. The record does not state a service deadline");
-  lines.push("or a filing deadline, so this packet states none.");
+  lines.push(...wrap(`The committed record's service rule reads, in full: ${quote("service")} The form's own `
+    + `footer prints that distribution list beneath the notification-of-hearing block: `
+    + `${PRINTED_DISTRIBUTION_LIST.slice(1).join(", ")}. Those words are read out of the delivered page, not `
+    + "recalled."));
+  lines.push("");
+  if (deadlineBearingRules.length === 0) {
+    lines.push(...wrap(
+      "No rule in the record's rules node states a filing deadline or a service deadline. That is decided "
+      + "here by testing every one of its "
+      + `${Object.keys(RECORD.rules).length} rules for deadline language rather than by asserting silence, `
+      + "so this packet states no deadline. It is not a statement that no deadline exists anywhere in "
+      + "Kentucky law — only that the controlling record for this route does not carry one, and this "
+      + "packet will not supply one it does not hold. Ask the clerk."));
+  } else {
+    lines.push(...wrap("The record's rules node does carry deadline language, in "
+      + `${deadlineBearingRules.map((key) => `\`rules.${key}\``).join(", ")}. Read those rules above in full `
+      + "and follow them; this packet does not summarise a deadline."));
+  }
+  if (RECORD.waitingPeriods.length > 0) {
+    lines.push("");
+    lines.push(...wrap(
+      "The record does carry a waiting period, which is an eligibility gate rather than a filing or service "
+      + "deadline — it governs when you may file at all, not how quickly you must act once you have:"));
+    lines.push("");
+    for (const row of RECORD.waitingPeriods) {
+      lines.push(`- **${String(row.condition).trim().replace(/\.+$/, "")}** — ${sentence(row.duration)}`);
+    }
+  }
   lines.push("");
   lines.push("## Signing");
   lines.push("");
-  lines.push("You sign and date the motion on the printed lines beneath the three numbered statements, and");
-  lines.push("write your address and telephone number on the three rules below your signature. The record says");
-  lines.push("the clerk verifies the signature. No notarization is required on the face of the form.");
+  lines.push(...wrap(
+    "You sign and date the motion on the printed lines beneath the three numbered statements, and write your "
+    + "address and telephone number on the three rules below your signature. The committed record's signature "
+    + `rule reads, in full: ${quote("participantSignature")} Its notarization rule reads, in full: `
+    + `${quote("notarization")}`));
+
+  /*
+   * THE GAP, IN THE PARTICIPANT'S OWN DOCUMENT.
+   *
+   * Recording a missing component only in a build report tells the reviewer and
+   * not the person filing. VF24 said so in as many words about the previous
+   * revision. It is disclosed here, where the participant reads about service.
+   */
+  const unmet = componentAudit.filter((row) => row.countsAsARequiredComponentNotDelivered);
+  if (unmet.length > 0) {
+    lines.push("");
+    lines.push("## What this packet does not contain");
+    lines.push("");
+    lines.push(...wrap(
+      "The controlling record declares components for this route. This packet delivers the motion itself and "
+      + "the guidance you are reading. It does not deliver everything the record's component notes describe, "
+      + "and the difference is set out here rather than left for you to discover at the counter."));
+    for (const row of unmet) {
+      for (const promise of row.promisedInstrumentsNotDelivered) {
+        lines.push("");
+        lines.push(...wrap(`**No ${promise.instrument}.** The record's \`components[${row.index}]\` `
+          + `(\`${row.role}\`, \`${row.requirement}\`) says of this packet: `
+          + `“${sentence(row.notesVerbatim)}”`));
+        lines.push("");
+        lines.push(...wrap(`This packet does not provide the ${promise.instrument}. `
+          + promise.whyNotDelivered));
+        lines.push("");
+        lines.push(...wrap(
+          `Ask the ${RECORD.destinationName} what proof of service that court wants and whether the clerk's `
+          + "own distribution of the notice is sufficient, since the record says the clerk serves where you "
+          + "have not. Do not sign anything describing service you have not performed."));
+      }
+    }
+  }
+
+  const notQuoted = Object.keys(RECORD.rules).filter((key) => !quotedRuleKeys.includes(key));
+  if (notQuoted.length > 0) {
+    fail("the controlling record carries rules this guide neither quotes nor discloses; a document that "
+      + "speaks for a record must speak for all of it or say which part it is leaving out",
+      notQuoted.map((key) => `rules.${key}`).join(", "));
+  }
+
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -860,6 +1178,16 @@ async function build({ check = false } = {}) {
       missingPrintedLines.join("; "));
   }
 
+  /*
+   * The record's declared component set against what this build delivers,
+   * decided before anything is written so that a required component whose
+   * promise is unmet reaches the findings, the wiring, the guide and the
+   * counters together rather than only the last of them.
+   */
+  const componentAudit = auditDeclaredComponents({ printedText });
+  const requiredComponentsNotDelivered =
+    componentAudit.filter((row) => row.countsAsARequiredComponentNotDelivered);
+
   const canonical = await renderFixture({ source, census, facts: CANONICAL, fixture: "canonical" });
   const boundary = await renderFixture({ source, census, facts: BOUNDARY, fixture: "boundary" });
   const canonicalProof = await readBack({ source, outputBytes: canonical.bytes, census, writable: canonical.writable });
@@ -871,7 +1199,10 @@ async function build({ check = false } = {}) {
 
   if (check) {
     return { familyId: FAMILY_ID, wrote: false, blocking, shippedCountyDefault,
-      canonicalTooLongToFit: canonicalAudit.tooLongToFit, boundaryTooLongToFit: boundaryAudit.tooLongToFit };
+      canonicalTooLongToFit: canonicalAudit.tooLongToFit, boundaryTooLongToFit: boundaryAudit.tooLongToFit,
+      requiredComponentsNotDelivered: requiredComponentsNotDelivered.map((row) => ({
+        index: row.index, role: row.role,
+        promised: row.promisedInstrumentsNotDelivered.map((p) => p.instrument) })) };
   }
   if (blocking.length > 0) {
     fail("the produced bytes disagree with what this build says it wrote", JSON.stringify(blocking.slice(0, 4)));
@@ -900,7 +1231,8 @@ async function build({ check = false } = {}) {
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
     renderParticipantInstructions({ supplyRows, electionRows, writtenRows }));
-  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions());
+  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`),
+    renderFilingInstructions({ printedText, componentAudit }));
 
   const withheldRows = canonical.decisions
     .filter((row) => !row.decision.writable && row.decision.terminal !== false)
@@ -1100,8 +1432,50 @@ async function build({ check = false } = {}) {
     }]
   });
 
+  /*
+   * A required component the record declares and this build does not deliver is
+   * a FINDING, and findingCount says so. The previous revision published
+   * `blocking: []` and `findingCount: 0` beside a family whose record promised a
+   * certificate of service that does not exist anywhere in it, so a reader of
+   * the build artifacts had no way to learn of the gap. It is non-blocking —
+   * the bytes this build produces are correct for what it does deliver, and
+   * suppressing the packet would help nobody — but it is not zero.
+   */
+  const componentFindings = requiredComponentsNotDelivered.flatMap((row) =>
+    row.promisedInstrumentsNotDelivered.map((promise) => ({
+      severity: "non_blocking_disclosure",
+      check: "a_required_declared_component_promises_an_instrument_this_build_does_not_deliver",
+      componentIndex: row.index, role: row.role, requirement: row.requirement,
+      outputStrategy: row.outputStrategy,
+      recordNotesVerbatim: row.notesVerbatim,
+      promisedInstrument: promise.instrument, promisedBy: promise.promisedBy,
+      whyNotDelivered: promise.whyNotDelivered,
+      disclosedTo: [
+        `${OUT}/filing-instructions.md, section "What this packet does not contain"`,
+        `${OUT}/product-wiring.json, binding.declaredComponentsNotDeliveredInFull`,
+        `${OUT}/build-findings.json, declaredComponentSet`
+      ],
+      whyNotClosedHere: "Closing it means authoring a certificate of service. That needs a form no held "
+        + "source carries and facts this record does not supply, so authoring one would be inventing a "
+        + "service record on a sworn filing. It is a stop, not a gap this lane may fill. Resolving it "
+        + "requires either a certificate form bound into custody for this route, or counsel striking the "
+        + "clause from the record's components[2] note — neither of which is an implementation repair.",
+      countsToward: "counters.requiredComponentsMissing"
+    })));
+
   writeJson(`${OUT}/build-findings.json`, {
-    schemaVersion: "rcap-build-findings/v1", familyId: FAMILY_ID, blocking: [], findingCount: 0,
+    schemaVersion: "rcap-build-findings/v1", familyId: FAMILY_ID,
+    blocking: [], findingCount: componentFindings.length,
+    nonBlockingDisclosures: componentFindings,
+    declaredComponentSet: {
+      whatThisIs: "every component the controlling record declares for this track, what this build actually "
+        + "delivers for it, and every instrument the component's own note promises that this build does "
+        + "not produce. Derived from the record and from the delivered page, not from a list typed here.",
+      recordComponentsDeclared: componentAudit.length,
+      requiredComponentsDeclared: componentAudit.filter((row) => row.requirement === "required").length,
+      requiredComponentsNotDeliveredInFull: requiredComponentsNotDelivered.length,
+      components: componentAudit
+    },
     controllingLegalRecord: {
       path: RECORD.path, sha256: RECORD.sha256, byteLength: RECORD.byteLength, trackId: RECORD.trackId,
       memoVersion: RECORD.memoVersion, reviewedAsOf: RECORD.reviewedAsOf,
@@ -1150,7 +1524,36 @@ async function build({ check = false } = {}) {
         + "terminal fields, they are not counted as such, and they are disclosed by their printed words in "
         + "participant-instructions.md.",
       "Print and Reset are push buttons. They are suppressed before the flatten and the delivered bytes are "
-        + "asserted to carry neither caption."
+        + "asserted to carry neither caption.",
+      `filing-instructions.md is no longer written from string literals. Every sentence in it that speaks `
+        + `for the record quotes a node of the record verbatim, and the renderer asserts that all `
+        + `${Object.keys(RECORD.rules).length} keys of the rules node — `
+        + `${Object.keys(RECORD.rules).map((key) => `\`${key}\``).join(", ")} — are quoted before it returns. `
+        + `The previous revision captured four of them and told the participant, in the record's own voice, `
+        + `that the record "does not record a fee-waiver treatment". \`rules.feeWaiver\` exists and reads `
+        + `"${RECORD.rules.feeWaiver}". A builder that does not open a node cannot report on it, and the `
+        + `repair is the per-field guard rather than a fifth named key, because the defect was per-field.`,
+      "The guide's claim that the record states no filing or service deadline is now DERIVED: every value in "
+        + "the rules node is tested for deadline language and the sentence is produced from the result, so a "
+        + "deadline the record grows is printed rather than denied. The record's waitingPeriods node — the "
+        + "six-month gate that is the whole eligibility test of this route, and which no previous revision "
+        + "read — is now rendered too, labelled as an eligibility gate and not as a filing deadline.",
+      "`participant.full_legal_name` is COMPOSED from the persona's own name parts and asserted against them "
+        + "rather than typed. The boundary persona previously held a decomposed name ending in "
+        + "\"Fitzwilliam III\" beside a hand-typed full name that omitted it, so the delivered page named one "
+        + "person two ways and the form's operative sworn sentence carried the shorter one. Composed, that "
+        + "name exceeds the 315.36-point `movant` widget the court drew, the fitter refuses it rather than "
+        + "clipping, and the boundary movant line is delivered BLANK and disclosed under "
+        + "valuesTooLongForTheWidgetTheFormDraws. A disclosed blank line is a gap; a silently shortened legal "
+        + "name on a sworn filing is a misstatement, and this build takes the gap.",
+      `The record declares ${componentAudit.length} components. `
+        + `${requiredComponentsNotDelivered.length} required component(s) promise an instrument this build `
+        + "does not deliver, and the gap is published in build-findings.json, in the wiring and in the "
+        + "participant's own guide instead of being left to a reader of the build report. It is NOT closed "
+        + "here: no held source carries a certificate of service, AOC-275.18's extracted page text contains "
+        + "the word nowhere, and the facts one needs — the other party's name and address, the hearing date "
+        + "the clerk sets after filing, and the date of mailing — are none of them held. Authoring one would "
+        + "be inventing a service record on a sworn filing."
     ],
     countyChooserShippedDefault: shippedCountyDefault
   });
@@ -1189,7 +1592,30 @@ async function build({ check = false } = {}) {
       + "legal and independent visual approval exists in the separate control plane.",
     binding: {
       family: FAMILY_ID, jurisdiction: "KY", routeKeys: [ROUTE_KEY], deliveryType: "official_pdf_fill",
-      instrumentKinds: ["court_order", "primary_filing", "service_instructions"],
+      /*
+       * WHAT THIS FAMILY DELIVERS, NOT WHAT THE ROUTE CENSUS DECLARES.
+       *
+       * This key used to be three literals — court_order, primary_filing,
+       * service_instructions — beside a packetComponents list of one. A manifest
+       * that advertises an instrument kind the packet does not ship is telling
+       * the reader the packet ships it, whatever a sibling note says. It now
+       * lists only kinds this build actually produces, and everything the record
+       * declares beyond that is carried in the two keys below with the reason.
+       */
+      instrumentKinds: [SOURCE.instrumentKind],
+      instrumentKindsDeclaredByTheRecordButNotDeliveredHere: componentAudit
+        .filter((row) => row.boundSourceInThisBuild === null)
+        .map((row) => ({
+          role: row.role, requirement: row.requirement, outputStrategy: row.outputStrategy,
+          deliveredHere: row.deliveredHere,
+          conditionDescription: row.conditionDescription,
+          promisedInstrumentsNotDelivered: row.promisedInstrumentsNotDelivered
+        })),
+      declaredComponentsNotDeliveredInFull: requiredComponentsNotDelivered.map((row) => ({
+        componentIndex: row.index, role: row.role, requirement: row.requirement,
+        recordNotesVerbatim: row.notesVerbatim,
+        promisedInstrumentsNotDelivered: row.promisedInstrumentsNotDelivered
+      })),
       packetComponents: [SOURCE.component],
       fieldMap: `${OUT}/production-field-map.json`,
       instructions: `${OUT}/participant-instructions.md`,
@@ -1198,11 +1624,16 @@ async function build({ check = false } = {}) {
       sourceReceipt: `${OUT}/source-receipt.json`,
       sourceVersion: [{ sourceId: SOURCE.sourceId, sha256: SOURCE.sha256, tier: "exact_content_hash" }],
       declaredInstrumentKindsWithoutAComponent: {
-        kinds: ["court_order", "service_instructions"],
-        note: "MASTER_QUEUE declares three instrument kinds for this family and one packet component. The "
-          + "route census names a court_order and a service_instructions component; neither has a bound "
-          + "source, and the court order for this motion is the clerk's own notification block printed on "
-          + "the face of AOC-275.18. Recorded rather than silently treated as delivered."
+        kinds: componentAudit.filter((row) => row.boundSourceInThisBuild === null).map((row) => row.role),
+        note: "MASTER_QUEUE.json still lists three instrument kinds for this family beside one packet "
+          + "component. That list is not authored here: generate.mjs derives it from "
+          + "routes[].participantFacingInstrument in the route-obligation candidate census, which is a "
+          + "shared Captain input this lane does not own and did not edit. This manifest — the one this "
+          + "family does own — now advertises only what it delivers. The court order for this motion is the "
+          + "clerk's own notification block printed on the face of AOC-275.18 and the record scopes it "
+          + "\"Reference only. The court enters the order.\"; the service_instructions component is "
+          + "delivered as guidance and is short one instrument, recorded above and in the participant's "
+          + "own guide rather than silently treated as delivered."
       },
       controllingLegalRecord: {
         path: RECORD.path, sha256: RECORD.sha256, trackId: RECORD.trackId, tier: "exact_content_hash"

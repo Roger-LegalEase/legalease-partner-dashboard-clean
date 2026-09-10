@@ -2,7 +2,82 @@
   "schemaVersion": "rcap-build-findings/v1",
   "familyId": "ky_protective_order_record_expungement-set",
   "blocking": [],
-  "findingCount": 0,
+  "findingCount": 1,
+  "nonBlockingDisclosures": [
+    {
+      "severity": "non_blocking_disclosure",
+      "check": "a_required_declared_component_promises_an_instrument_this_build_does_not_deliver",
+      "componentIndex": 2,
+      "role": "service_instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "recordNotesVerbatim": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+      "promisedInstrument": "certificate of service",
+      "promisedBy": "components[2].notes",
+      "whyNotDelivered": "No held source carries one. This family binds exactly one binary — AOC-275.18 Rev. 1-16, one page — and its extracted page text contains the word \"certificate\" nowhere; what it prints instead is the clerk's own distribution list (Copies to, Court file, Petitioner, Respondent) inside the NOTIFICATION OF EXPUNGEMENT HEARING block. Authoring one here would require three things this platform does not hold and this record does not supply: the petitioner's name and address, which is the third person this packet deliberately leaves blank throughout; the hearing date, which the record says the clerk sets after filing (\"The clerk completes the notification-of-hearing section on the form and creates the scheduled event.\"); and the date of mailing, which is after both. A certificate reciting facts nobody holds is a fabricated service record on a sworn filing, so this build refuses it and discloses the refusal instead.",
+      "disclosedTo": [
+        "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md, section \"What this packet does not contain\"",
+        "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/product-wiring.json, binding.declaredComponentsNotDeliveredInFull",
+        "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/build-findings.json, declaredComponentSet"
+      ],
+      "whyNotClosedHere": "Closing it means authoring a certificate of service. That needs a form no held source carries and facts this record does not supply, so authoring one would be inventing a service record on a sworn filing. It is a stop, not a gap this lane may fill. Resolving it requires either a certificate form bound into custody for this route, or counsel striking the clause from the record's components[2] note — neither of which is an implementation repair.",
+      "countsToward": "counters.requiredComponentsMissing"
+    }
+  ],
+  "declaredComponentSet": {
+    "whatThisIs": "every component the controlling record declares for this track, what this build actually delivers for it, and every instrument the component's own note promises that this build does not produce. Derived from the record and from the delivered page, not from a list typed here.",
+    "recordComponentsDeclared": 3,
+    "requiredComponentsDeclared": 2,
+    "requiredComponentsNotDeliveredInFull": 1,
+    "components": [
+      {
+        "index": 0,
+        "role": "primary_filing",
+        "requirement": "required",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "AOC-275.18",
+        "conditionDescription": null,
+        "notesVerbatim": "Motion for Expungement of Emergency/Temporary Order of Protection, Rev. 1-16, document code EXPG, retrieved from the official channel on 2026-08-06. Participant-facing. The form carries three checkboxes matching the three statutory conditions, and a notification-of-hearing section the clerk completes.",
+        "boundSourceInThisBuild": "official-form:AOC-275.18",
+        "deliveredHere": "AOC-275.18 Rev. 1-16, Motion for Expungement of Emergency/Temporary Order of Protection, bound by exact content hash and rendered as the primary filing of this family",
+        "promisedInstrumentsNotDelivered": [],
+        "countsAsARequiredComponentNotDelivered": false
+      },
+      {
+        "index": 1,
+        "role": "court_order",
+        "requirement": "conditional",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "conditionDescription": "Reference only. The court enters the order.",
+        "notesVerbatim": "AOC-275.19, Order for Expungement of Emergency/Temporary Protective Order. Identity established from the official Clerks' Manual; the binary was not separately retrieved and is recorded as an open question.",
+        "boundSourceInThisBuild": null,
+        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
+        "promisedInstrumentsNotDelivered": [],
+        "countsAsARequiredComponentNotDelivered": false
+      },
+      {
+        "index": 2,
+        "role": "service_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "conditionDescription": null,
+        "notesVerbatim": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+        "boundSourceInThisBuild": null,
+        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
+        "promisedInstrumentsNotDelivered": [
+          {
+            "instrument": "certificate of service",
+            "promisedBy": "components[2].notes",
+            "deliveredByThisBuild": false,
+            "whyNotDelivered": "No held source carries one. This family binds exactly one binary — AOC-275.18 Rev. 1-16, one page — and its extracted page text contains the word \"certificate\" nowhere; what it prints instead is the clerk's own distribution list (Copies to, Court file, Petitioner, Respondent) inside the NOTIFICATION OF EXPUNGEMENT HEARING block. Authoring one here would require three things this platform does not hold and this record does not supply: the petitioner's name and address, which is the third person this packet deliberately leaves blank throughout; the hearing date, which the record says the clerk sets after filing (\"The clerk completes the notification-of-hearing section on the form and creates the scheduled event.\"); and the date of mailing, which is after both. A certificate reciting facts nobody holds is a fabricated service record on a sworn filing, so this build refuses it and discloses the refusal instead."
+          }
+        ],
+        "countsAsARequiredComponentNotDelivered": true
+      }
+    ]
+  },
   "controllingLegalRecord": {
     "path": "data/record-clearing/legal-design-intake/KY.memo.json",
     "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
@@ -24,7 +99,11 @@
     "The record's own limits now reach the participant. 2 packet_instruction limitation(s), 1 self_help_boundary and 4 selfHelpStopConditions are rendered verbatim into participant-instructions.md and labelled as the record's own words. In particular a participant whose dismissed protective-order case sat alongside an arrest is now told that this motion does not touch any criminal record arising from the same events. They are guide text and none of them is written onto the filing.",
     "No box is checked. Items 1, 2 and 3 are sworn allegations sitting directly above the movant's signature; screening establishes eligibility and a signature establishes an allegation, and item 3 asks about a protective-order history the platform does not hold.",
     "The form's lower half carries no widgets at all — the signature line, the date line, the three address-and-telephone rules and the whole NOTIFICATION OF EXPUNGEMENT HEARING block. They are not terminal fields, they are not counted as such, and they are disclosed by their printed words in participant-instructions.md.",
-    "Print and Reset are push buttons. They are suppressed before the flatten and the delivered bytes are asserted to carry neither caption."
+    "Print and Reset are push buttons. They are suppressed before the flatten and the delivered bytes are asserted to carry neither caption.",
+    "filing-instructions.md is no longer written from string literals. Every sentence in it that speaks for the record quotes a node of the record verbatim, and the renderer asserts that all 7 keys of the rules node — `filing`, `fees`, `feeWaiver`, `notice`, `service`, `participantSignature`, `notarization` — are quoted before it returns. The previous revision captured four of them and told the participant, in the record's own voice, that the record \"does not record a fee-waiver treatment\". `rules.feeWaiver` exists and reads \"not applicable; no fee is identified.\". A builder that does not open a node cannot report on it, and the repair is the per-field guard rather than a fifth named key, because the defect was per-field.",
+    "The guide's claim that the record states no filing or service deadline is now DERIVED: every value in the rules node is tested for deadline language and the sentence is produced from the result, so a deadline the record grows is printed rather than denied. The record's waitingPeriods node — the six-month gate that is the whole eligibility test of this route, and which no previous revision read — is now rendered too, labelled as an eligibility gate and not as a filing deadline.",
+    "`participant.full_legal_name` is COMPOSED from the persona's own name parts and asserted against them rather than typed. The boundary persona previously held a decomposed name ending in \"Fitzwilliam III\" beside a hand-typed full name that omitted it, so the delivered page named one person two ways and the form's operative sworn sentence carried the shorter one. Composed, that name exceeds the 315.36-point `movant` widget the court drew, the fitter refuses it rather than clipping, and the boundary movant line is delivered BLANK and disclosed under valuesTooLongForTheWidgetTheFormDraws. A disclosed blank line is a gap; a silently shortened legal name on a sworn filing is a misstatement, and this build takes the gap.",
+    "The record declares 3 components. 1 required component(s) promise an instrument this build does not deliver, and the gap is published in build-findings.json, in the wiring and in the participant's own guide instead of being left to a reader of the build report. It is NOT closed here: no held source carries a certificate of service, AOC-275.18's extracted page text contains the word nowhere, and the facts one needs — the other party's name and address, the hearing date the clerk sets after filing, and the date of mailing — are none of them held. Authoring one would be inventing a service record on a sworn filing."
   ],
   "countyChooserShippedDefault": {
     "field": "Case.County",
