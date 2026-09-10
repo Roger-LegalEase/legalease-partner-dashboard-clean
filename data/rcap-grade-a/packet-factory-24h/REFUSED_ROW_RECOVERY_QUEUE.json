@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-refused-row-recovery-queue/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-refused-row-recovery-queue.mjs",
-  "generatedAt": "2026-09-10T04:44:59.991Z",
+  "generatedAt": "2026-09-10T04:48:26.077Z",
   "whyItExists": "A refused row is a shift already spent that produced no verdict. This says, per refused row, what is owed to recover it and what the reader actually wrote, so a re-read starts from the previous reading instead of from nothing.",
   "whatItDoesNotDo": "It upgrades nothing. An obligation scored NOT_MEASURABLE_HERE stays that way until a lane MEASURES it, and PASS_WITH_OBSERVATION is never read as PASS on this file's say-so -- one such row on Illinois records a sealing-only route telling the participant to complete an expungement row on the proposed order.",
   "totals": {
@@ -12,7 +12,110 @@
       "VERDICT_NAMING_NOTHING": 5,
       "OUT_OF_VOCABULARY_RESULT": 5,
       "STALE_BOUNDED_REVIEW": 5
-    }
+    },
+    "observationsUnansweredOnPassingFamilies": 7
+  },
+  "observationsUnansweredOnPassingFamilies": {
+    "whatThisIs": "A refused reading that carried words, on a family whose current verdict is a PASS. The PASS is not challenged here and its chronology is sound. What is recorded is that a specific observation was made by a lane that read the bytes, was never contradicted, and was never answered -- because the row carrying it was dropped before any later reader could see it.",
+    "whatIsOwed": "A targeted re-read of the named observation against the CURRENT bytes, by a lane that did not author the packet. If it holds, it is a substantiated failure and is recorded through the verifier mechanism now, not after repair -- being counted terminal is not a reason to preserve a known defect. If it does not hold, that is recorded too, and the family keeps its PASS.",
+    "rows": [
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+        "refusedIn": "vf05",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf03",
+          "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "SELF_HELP_STOP": "This obligation is measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per track, in the registry's own words. Searched all 497 tracks in the registry at this base: ZERO carry 'nonadjudication-under-99-15-26' anywhere in their record. This is a runtime-only route obligation, not a registry track, so there is no track entry to diff against and the measurement this obligation names cannot be performed on this family. I did not substitute a weaker test and call it a pass: the compiled MS profile was searched for a recorded self-help boundary on this pathway and carries no selfHelpBoundary field at all (only a 'hard_stop' key elsewhere in the profile). Recording this as a genuine measurement gap rather than as either verdict. It does not become PASS by absence of evidence, and it is not a FAIL by the family's own doing."
+        }
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+        "refusedIn": "vf06",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf12",
+          "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "SELF_HELP_STOP": "Measured by diffing against data/record-clearing/legal-design-track-registry.json per track. Searched all 497 tracks at this base: ZERO carry 'youthful-first-offender-restriction-route'. This is a runtime-only route obligation rather than a registry track, so the diff this obligation names has no left-hand side. The compiled GA profile carries no selfHelpBoundary field for this pathway either. Recorded as a genuine measurement gap; I did not substitute a weaker test and score it PASS, and it is not a defect of the family."
+        }
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "refusedIn": "vf06",
+        "currentVerdict": {
+          "verdict": "BLOCKED_BEFORE_CLAIM",
+          "lane": "vf06",
+          "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "SELF_HELP_STOP": "Measured by diffing against data/record-clearing/legal-design-track-registry.json per track. Searched all 497 tracks at this base: ZERO carry 'uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59'. Runtime-only route obligation, not a registry track, so the diff has no left-hand side; the compiled MS profile carries no selfHelpBoundary field for this pathway. Recorded as a genuine measurement gap rather than as either verdict."
+        }
+      },
+      {
+        "familyId": "il-exp-nonconv-set",
+        "refusedIn": "vf13",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf13",
+          "verifiedAtBase": "d4653b258"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "REQUIRED_BEFORE_FILING": "A '## Required before filing' section exists. Observation, not counted: its generated item list instructs the participant to complete every unwritten table row, including 28 'arrest/case number - Sealing' rows on the proposed Order, on a route with no sealing limb. That is the same expunge/seal confusion the ROUTE_OPTIONS failure records, reaching the participant copy.",
+          "ARTIFACTS": "2/2 artifacts recomputed from the committed bytes hash exactly to the record (canonical 47b78db1..., boundary 295d3e0e...). Observation recorded separately under sharedIllinoisToolingFindings: the delivered bytes carry an invalid cross-reference table."
+        }
+      },
+      {
+        "familyId": "il-exp-qualprob-set",
+        "refusedIn": "vf13",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf02",
+          "verifiedAtBase": "aa115a1ff76bca89cebcc0d09b72a5174a97d8c4"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "REQUIRED_BEFORE_FILING": "A '## Required before filing' section exists. Observation, not counted: its generated item list instructs the participant to complete every unwritten table row, including 28 'arrest/case number - Sealing' rows on the proposed Order, on a route with no sealing limb. That is the same expunge/seal confusion the ROUTE_OPTIONS failure records, reaching the participant copy.",
+          "ARTIFACTS": "2/2 artifacts recomputed from the committed bytes hash exactly to the record (canonical 47b78db1..., boundary 295d3e0e...). Observation recorded separately under sharedIllinoisToolingFindings: the delivered bytes carry an invalid cross-reference table."
+        }
+      },
+      {
+        "familyId": "il-seal-3yr-set",
+        "refusedIn": "vf13",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf03",
+          "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "SERVICE": "participant-instructions.md states the actor and the mechanism -- 'The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields' -- so who serves and how is stated. Observation, not counted: unlike its il-seal-2yr and il-exp-qualprob siblings it never names the recipients (State's Attorney, ISP, arresting agency, chief legal officer) or the 60-day objection window, so the participant cannot tell when the objection clock starts.",
+          "REQUIRED_BEFORE_FILING": "Section present and route-specific: it tells the participant to 'select the printed option matching the certified record: revoked conditional discharge or probation, or completed prison or jail custody'. Observation: that instruction is the very election the delivered form leaves unmade, so the packet knows which option the route needs and still ships without it. The generated list also tells the participant to complete 'arrest/case number 1' -- an expungement row on the proposed Order -- on a sealing-only route.",
+          "ARTIFACTS": "2/2 artifacts recomputed from the committed bytes hash exactly to the record (canonical 2d81bc64..., boundary 8ff2e224...), confirming the builder's reproduction claim. Observation recorded under sharedIllinoisToolingFindings: invalid cross-reference table."
+        }
+      },
+      {
+        "familyId": "il-cannabis-vacate-set",
+        "refusedIn": "vf13",
+        "currentVerdict": {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "lane": "vf02",
+          "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480"
+        },
+        "currentFamilyState": "COMPLETE_PACKET_PROVEN",
+        "observationsNeverAnswered": {
+          "ARTIFACTS": "2/2 artifacts recomputed from the committed bytes hash exactly to the record (canonical 9abcd6ac..., boundary b8b724c2...). Observation recorded under sharedIllinoisToolingFindings: invalid cross-reference table.",
+          "FEE_AND_WAIVER": "A fee posture and a waiver route are both stated: no separate cannabis motion fee is established by the source review, county charges are county-specific, ISP charges $60 to process a court order, and Supreme Court Rule 298 is named as the waiver route. Observation, not counted as requiredComponentsMissing: the Rule 298 Application for Waiver of Court Fees the instructions name is not among the six delivered components, unlike the four EXP-AD families which all ship FW-CIV-APPLICATION. A participant told to use a form the packet does not carry has to go and find it. Flagged for the Captain rather than counted, because the approval-request component set does not declare it and the stated fee posture is conditional ('where a county fee applies')."
+        }
+      }
+    ]
   },
   "rows": [
     {
@@ -26,6 +129,9 @@
       "currentFamilyState": "LEGAL_BLOCKED",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "FEE_AND_WAIVER": {
           "result": "BLOCKED_LEGAL_INPUT",
@@ -48,6 +154,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "CLIPPING_AND_OVERLAP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -66,6 +175,9 @@
       "currentFamilyState": "NOT_A_FAMILY_IN_THE_QUEUE",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "CLIPPING_AND_OVERLAP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -84,6 +196,9 @@
       "currentFamilyState": "NOT_A_FAMILY_IN_THE_QUEUE",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "CLIPPING_AND_OVERLAP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -102,6 +217,9 @@
       "currentFamilyState": "NOT_A_FAMILY_IN_THE_QUEUE",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "CLIPPING_AND_OVERLAP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -120,6 +238,9 @@
       "currentFamilyState": "NOT_A_FAMILY_IN_THE_QUEUE",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "CLIPPING_AND_OVERLAP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -138,6 +259,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909c.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "REPEATING_ROWS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -156,6 +280,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909c.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "REPEATING_ROWS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -174,6 +301,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "SELF_HELP_STOP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -192,6 +322,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909c.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "REPEATING_ROWS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -210,6 +343,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "SELF_HELP_STOP": {
           "result": "NOT_MEASURABLE_HERE",
@@ -228,7 +364,15 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "rowFound": true,
-      "readerSaid": null,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
+      "readerSaid": {
+        "SELF_HELP_STOP": {
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "Measured by diffing against data/record-clearing/legal-design-track-registry.json per track. Searched all 497 tracks at this base: ZERO carry 'uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59'. Runtime-only route obligation, not a registry track, so the diff has no left-hand side; the compiled MS profile carries no selfHelpBoundary field for this pathway. Recorded as a genuine measurement gap rather than as either verdict."
+        }
+      },
       "whatIsOwed": "A narrow independent re-read of exactly the named obligations on the same bytes, by a lane that did not author the packet. If an obligation does not arise on this form, that is a MEASUREMENT and it is a PASS with the reason recorded -- but somebody has to make it."
     },
     {
@@ -241,6 +385,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "ROUTE_OPTIONS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -259,6 +406,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "ROUTE_OPTIONS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -277,6 +427,9 @@
       "currentFamilyState": "PRODUCT_PATH_PENDING",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": {
         "REPEATING_ROWS": {
           "result": "NOT_MEASURABLE_HERE",
@@ -293,6 +446,9 @@
       "currentFamilyState": "WRONG_DELIVERY_TYPE",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "A fresh independent read. No repairer can be dispatched from a failing verdict that names no obligation, and asking a repair lane to re-derive the family is not what a repair lane does."
     },
@@ -304,6 +460,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "A fresh independent read. No repairer can be dispatched from a failing verdict that names no obligation, and asking a repair lane to re-derive the family is not what a repair lane does."
     },
@@ -315,6 +474,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "A fresh independent read. No repairer can be dispatched from a failing verdict that names no obligation, and asking a repair lane to re-derive the family is not what a repair lane does."
     },
@@ -326,6 +488,9 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "A fresh independent read. No repairer can be dispatched from a failing verdict that names no obligation, and asking a repair lane to re-derive the family is not what a repair lane does."
     },
@@ -337,6 +502,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "A fresh independent read. No repairer can be dispatched from a failing verdict that names no obligation, and asking a repair lane to re-derive the family is not what a repair lane does."
     },
@@ -348,6 +516,15 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": true,
+      "laterRowsFromTheSameLane": [
+        {
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "d4653b258",
+          "failedObligationNames": null
+        }
+      ],
+      "whatSupersessionDoesNotSay": "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered.",
       "readerSaid": {
         "REQUIRED_BEFORE_FILING": {
           "result": "PASS_WITH_OBSERVATION",
@@ -368,6 +545,15 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": true,
+      "laterRowsFromTheSameLane": [
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "d4653b258",
+          "failedObligationNames": null
+        }
+      ],
+      "whatSupersessionDoesNotSay": "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered.",
       "readerSaid": {
         "REQUIRED_BEFORE_FILING": {
           "result": "PASS_WITH_OBSERVATION",
@@ -388,6 +574,15 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": true,
+      "laterRowsFromTheSameLane": [
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "d4653b258",
+          "failedObligationNames": null
+        }
+      ],
+      "whatSupersessionDoesNotSay": "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered.",
       "readerSaid": {
         "REQUIRED_BEFORE_FILING": {
           "result": "PASS_WITH_OBSERVATION",
@@ -408,6 +603,15 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": true,
+      "laterRowsFromTheSameLane": [
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "d4653b258",
+          "failedObligationNames": null
+        }
+      ],
+      "whatSupersessionDoesNotSay": "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered.",
       "readerSaid": {
         "SERVICE": {
           "result": "PASS_WITH_OBSERVATION",
@@ -432,6 +636,15 @@
       "currentFamilyState": "COMPLETE_PACKET_PROVEN",
       "rowFile": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "rowFound": true,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": true,
+      "laterRowsFromTheSameLane": [
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "d4653b258",
+          "failedObligationNames": null
+        }
+      ],
+      "whatSupersessionDoesNotSay": "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered.",
       "readerSaid": {
         "ARTIFACTS": {
           "result": "PASS_WITH_OBSERVATION",
@@ -452,6 +665,9 @@
       "currentFamilyState": "LEGAL_BLOCKED",
       "rowFile": null,
       "rowFound": false,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "Re-read against the CURRENT bytes. The old review is preserved as history and is never relabelled as covering bytes it did not describe."
     },
@@ -463,6 +679,9 @@
       "currentFamilyState": "LEGAL_BLOCKED",
       "rowFile": null,
       "rowFound": false,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "Re-read against the CURRENT bytes. The old review is preserved as history and is never relabelled as covering bytes it did not describe."
     },
@@ -474,6 +693,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": null,
       "rowFound": false,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "Re-read against the CURRENT bytes. The old review is preserved as history and is never relabelled as covering bytes it did not describe."
     },
@@ -485,6 +707,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": null,
       "rowFound": false,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "Re-read against the CURRENT bytes. The old review is preserved as history and is never relabelled as covering bytes it did not describe."
     },
@@ -496,6 +721,9 @@
       "currentFamilyState": "FAIL_REPAIR_REQUIRED",
       "rowFile": null,
       "rowFound": false,
+      "refusedReadingWasSupersededByALaterRowFromTheSameLane": false,
+      "laterRowsFromTheSameLane": null,
+      "whatSupersessionDoesNotSay": null,
       "readerSaid": null,
       "whatIsOwed": "Re-read against the CURRENT bytes. The old review is preserved as history and is never relabelled as covering bytes it did not describe."
     }

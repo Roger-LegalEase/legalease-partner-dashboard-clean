@@ -55,6 +55,17 @@ for (const f of queue.families ?? queue.rows ?? []) familyState.set(f.familyId, 
 /* Every row every lane wrote, indexed by lane and by the id the row carries.
  * vf90 keys on itemId while the aggregate keys on familyId; both are indexed so
  * a refusal naming either resolves. */
+/*
+ * A LANE WRITES A FAMILY MORE THAN ONCE, AND THE FIRST ROW IS THE WRONG ONE.
+ *
+ * vf13 carries two generations of every Illinois family: an earlier reading whose
+ * obligations are scored PASS_WITH_OBSERVATION, and a later reading at a declared
+ * base with the vocabulary corrected. It is the EARLIER row the extractor refuses.
+ * Taking the first row per id happened to be right there and would be wrong the
+ * moment a lane appended a corrected row above an older one, so the row is chosen
+ * by matching the refusal itself, and every row for that family in that lane is
+ * kept so the queue can say whether a later reading superseded it.
+ */
 const rowsByLane = new Map();
 for (const lane of readdirSync(FACTORY).filter((n) => /^vf\d+$/.test(n))) {
   const dir = path.join(FACTORY, lane);
@@ -63,14 +74,40 @@ for (const lane of readdirSync(FACTORY).filter((n) => /^vf\d+$/.test(n))) {
     try { parsed = read(path.join(dir, file)); } catch { continue; }
     const rows = Array.isArray(parsed) ? parsed : (parsed.rows ?? []);
     if (!Array.isArray(rows)) continue;
-    for (const row of rows) {
+    rows.forEach((row, ordinal) => {
       const id = row.itemId ?? row.familyId;
-      if (!id) continue;
+      if (!id) return;
       if (!rowsByLane.has(lane)) rowsByLane.set(lane, new Map());
-      if (!rowsByLane.get(lane).has(id)) rowsByLane.get(lane).set(id, { file: path.join(dir, file), row });
-    }
+      const perId = rowsByLane.get(lane);
+      if (!perId.has(id)) perId.set(id, []);
+      perId.get(id).push({ file: path.join(dir, file), ordinal, row });
+    });
   }
 }
+
+/* Does this row exhibit the condition the extractor refused it for? */
+const exhibitsRefusal = (row, klass, detail) => {
+  const obligations = row.proofObligations ?? {};
+  const resultOf = (name) => {
+    const o = obligations[name];
+    return o && typeof o === "object" ? o.result : o;
+  };
+  if (klass === "ONE_OBLIGATION_SHORT") {
+    return row.verdict === "PASS_COMPLETE_INDEPENDENT"
+      && detail.unmeasuredObligations.every((name) => {
+        const r = resultOf(name);
+        return r === "NOT_MEASURABLE_HERE" || r === "BLOCKED_LEGAL_INPUT" || r == null;
+      });
+  }
+  if (klass === "OUT_OF_VOCABULARY_RESULT") {
+    return Object.values(obligations).some((o) => o && typeof o === "object" && o.result === detail.wordWritten);
+  }
+  if (klass === "VERDICT_NAMING_NOTHING") {
+    return row.verdict === detail.verdictWritten
+      && (row.failedObligationNames ?? []).length === 0;
+  }
+  return false;
+};
 
 const UNMEASURED = /^(\S+)\/(.+): claims PASS_COMPLETE_INDEPENDENT with \d+ unmeasured obligation\(s\): (.+)$/;
 const UNREADABLE = /^(\S+)\/(.+): unreadable obligation result "([^"]+)"/;
@@ -101,7 +138,19 @@ for (const refusal of returns.refusedRows ?? []) {
     detail.why = colon === -1 ? null : refusal.slice(colon + 2);
   }
 
-  const found = rowsByLane.get(lane)?.get(familyId) ?? null;
+  const candidates = rowsByLane.get(lane)?.get(familyId) ?? [];
+  const found = candidates.find((c) => exhibitsRefusal(c.row, klass, detail)) ?? null;
+  /* A later row for the same family in the same lane, written after the refused
+   * one. Its existence is the difference between a reading that was LOST and a
+   * reading the lane itself replaced. It does not say the finding was resolved --
+   * only that a newer reading exists and what it concluded. */
+  const supersededBy = found
+    ? candidates.filter((c) => c.ordinal > found.ordinal).map((c) => ({
+        verdict: c.row.verdict ?? null,
+        verifiedAtBase: c.row.verifiedAtBase ?? null,
+        failedObligationNames: c.row.failedObligationNames ?? null,
+      }))
+    : [];
   const obligations = found?.row?.proofObligations ?? {};
   /* The reader's own words on the obligations that caused the refusal. A re-read
    * that has to rediscover them wastes the shift that produced them. */
@@ -124,6 +173,11 @@ for (const refusal of returns.refusedRows ?? []) {
     currentFamilyState: familyState.get(familyId) ?? "NOT_A_FAMILY_IN_THE_QUEUE",
     rowFile: found?.file ?? null,
     rowFound: Boolean(found),
+    refusedReadingWasSupersededByALaterRowFromTheSameLane: supersededBy.length > 0,
+    laterRowsFromTheSameLane: supersededBy.length > 0 ? supersededBy : null,
+    whatSupersessionDoesNotSay: supersededBy.length > 0
+      ? "That a later reading exists does not mean the refused reading's finding was resolved. The later rows here name no failed obligations and carry none of the earlier prose, so they neither repeat the finding nor record it as answered."
+      : null,
     readerSaid: Object.keys(readerSaid).length > 0 ? readerSaid : null,
     whatIsOwed: {
       ONE_OBLIGATION_SHORT: "A narrow independent re-read of exactly the named obligations on the same bytes, by a lane that did not author the packet. If an obligation does not arise on this form, that is a MEASUREMENT and it is a PASS with the reason recorded -- but somebody has to make it.",
@@ -133,6 +187,40 @@ for (const refusal of returns.refusedRows ?? []) {
     }[klass],
   });
 }
+
+/*
+ * THE ONE THING SUPERSESSION DOES NOT SETTLE.
+ *
+ * Where a refused row was later replaced -- by the same lane correcting its
+ * vocabulary, or by another lane reading the family afresh -- the family's
+ * verdict is not in doubt, and on four Illinois families the later reading is a
+ * PASS at a demonstrably later commit. The refusal cost those families nothing.
+ *
+ * What it does not settle is the OBSERVATIONS the refused row carried. A lane
+ * that read a family the next day had no reason to look for a finding recorded in
+ * a row the extractor had already dropped, and the later rows here repeat none of
+ * it. So the prose survives in the repository and answers to nobody.
+ *
+ * This block names exactly those: a refused reading carrying words, on a family
+ * whose current verdict is a PASS. It asserts nothing about the PASS. It says a
+ * specific observation was made, was never contradicted, and was never answered.
+ */
+const currentVerdict = new Map();
+for (const r of returns.rows ?? []) {
+  if (!r.isIndependentVerification || !r.verdict || r.superseded) continue;
+  currentVerdict.set(r.familyId, { verdict: r.verdict, lane: r.lane, verifiedAtBase: r.verifiedAtBase ?? null });
+}
+const unanswered = rows
+  .filter((r) => r.readerSaid && Object.values(r.readerSaid).some((o) => o.detail))
+  .map((r) => ({
+    familyId: r.familyId,
+    refusedIn: r.lane,
+    currentVerdict: currentVerdict.get(r.familyId) ?? null,
+    currentFamilyState: r.currentFamilyState,
+    observationsNeverAnswered: Object.fromEntries(
+      Object.entries(r.readerSaid).filter(([, o]) => o.detail).map(([k, o]) => [k, o.detail])),
+  }))
+  .filter((r) => r.currentVerdict?.verdict === "PASS_COMPLETE_INDEPENDENT" || r.currentFamilyState === "COMPLETE_PACKET_PROVEN");
 
 const byClass = {};
 for (const r of rows) byClass[r.refusalClass] = (byClass[r.refusalClass] ?? 0) + 1;
@@ -144,7 +232,12 @@ writeFileSync(OUT, JSON.stringify({
   generatedAt: new Date().toISOString(),
   whyItExists: "A refused row is a shift already spent that produced no verdict. This says, per refused row, what is owed to recover it and what the reader actually wrote, so a re-read starts from the previous reading instead of from nothing.",
   whatItDoesNotDo: "It upgrades nothing. An obligation scored NOT_MEASURABLE_HERE stays that way until a lane MEASURES it, and PASS_WITH_OBSERVATION is never read as PASS on this file's say-so -- one such row on Illinois records a sealing-only route telling the participant to complete an expungement row on the proposed order.",
-  totals: { refusedRows: rows.length, distinctFamilies, byClass },
+  totals: { refusedRows: rows.length, distinctFamilies, byClass, observationsUnansweredOnPassingFamilies: unanswered.length },
+  observationsUnansweredOnPassingFamilies: {
+    whatThisIs: "A refused reading that carried words, on a family whose current verdict is a PASS. The PASS is not challenged here and its chronology is sound. What is recorded is that a specific observation was made by a lane that read the bytes, was never contradicted, and was never answered -- because the row carrying it was dropped before any later reader could see it.",
+    whatIsOwed: "A targeted re-read of the named observation against the CURRENT bytes, by a lane that did not author the packet. If it holds, it is a substantiated failure and is recorded through the verifier mechanism now, not after repair -- being counted terminal is not a reason to preserve a known defect. If it does not hold, that is recorded too, and the family keeps its PASS.",
+    rows: unanswered,
+  },
   rows,
   grantsNothing: "A queue promotes nothing, demotes nothing and approves no packet.",
 }, null, 2) + "\n");
