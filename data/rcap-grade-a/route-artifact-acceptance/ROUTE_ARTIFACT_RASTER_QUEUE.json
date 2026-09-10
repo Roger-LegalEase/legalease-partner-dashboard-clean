@@ -15,10 +15,10 @@
   ],
   "cohortOnly": false,
   "counts": {
-    "rows": 23,
+    "rows": 28,
     "inFirstCohort": 5,
-    "documents": 46,
-    "pages": 316,
+    "documents": 56,
+    "pages": 356,
     "notEligible": 0
   },
   "rows": [
@@ -1385,10 +1385,292 @@
         "whyItApplies": "the route receipt binds this exact route id, document set, paths and SHA-256 values"
       },
       "doesNotInheritTheFamilyReceipt": null
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading::route::hi-first-time-drug-offender",
+      "packetFamilyId": "rcap-hi-custom-pleading",
+      "routeKey": "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+      "route": "hi-first-time-drug-offender",
+      "customerRouteId": null,
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": false,
+      "equivalenceBasis": null,
+      "inFirstCohort": false,
+      "packetCommitSha": "1666423bef01950095558e1fa186ad5d250a9eeb",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+      "canonicalPdfSha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+      "boundaryPdfSha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "hi-first-time-drug-offender--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+          "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "hi-first-time-drug-offender--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+          "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "b245af1db886d391c635543701c37761c27d7eb08726b139bf41ba61892ed723",
+      "coverage": {
+        "documents": [
+          "hi-first-time-drug-offender--boundary.pdf",
+          "hi-first-time-drug-offender--canonical.pdf"
+        ],
+        "rastered": [
+          "hi-first-time-drug-offender--boundary.pdf",
+          "hi-first-time-drug-offender--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "preexistingRasterAcceptance": null,
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading::route::hi-first-time-property-offender",
+      "packetFamilyId": "rcap-hi-custom-pleading",
+      "routeKey": "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+      "route": "hi-first-time-property-offender",
+      "customerRouteId": null,
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": false,
+      "equivalenceBasis": null,
+      "inFirstCohort": false,
+      "packetCommitSha": "1666423bef01950095558e1fa186ad5d250a9eeb",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+      "canonicalPdfSha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+      "boundaryPdfSha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "hi-first-time-property-offender--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+          "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "hi-first-time-property-offender--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+          "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "54d52c507d91060446fbb51755bb4aa65e25150c5f85cb49547d33a81ec797a7",
+      "coverage": {
+        "documents": [
+          "hi-first-time-property-offender--boundary.pdf",
+          "hi-first-time-property-offender--canonical.pdf"
+        ],
+        "rastered": [
+          "hi-first-time-property-offender--boundary.pdf",
+          "hi-first-time-property-offender--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "preexistingRasterAcceptance": null,
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading::route::hi-marijuana-three-grams",
+      "packetFamilyId": "rcap-hi-custom-pleading",
+      "routeKey": "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+      "route": "hi-marijuana-three-grams",
+      "customerRouteId": null,
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": false,
+      "equivalenceBasis": null,
+      "inFirstCohort": false,
+      "packetCommitSha": "1666423bef01950095558e1fa186ad5d250a9eeb",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+      "canonicalPdfSha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+      "boundaryPdfSha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "hi-marijuana-three-grams--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+          "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "hi-marijuana-three-grams--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+          "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "da270853cb77e2ae56933f5670b73c019b3c2007ac9f8dd412c512ba2e4802cd",
+      "coverage": {
+        "documents": [
+          "hi-marijuana-three-grams--boundary.pdf",
+          "hi-marijuana-three-grams--canonical.pdf"
+        ],
+        "rastered": [
+          "hi-marijuana-three-grams--boundary.pdf",
+          "hi-marijuana-three-grams--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "preexistingRasterAcceptance": null,
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading::route::hi-pre-2004-drug-offender",
+      "packetFamilyId": "rcap-hi-custom-pleading",
+      "routeKey": "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+      "route": "hi-pre-2004-drug-offender",
+      "customerRouteId": null,
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": false,
+      "equivalenceBasis": null,
+      "inFirstCohort": false,
+      "packetCommitSha": "1666423bef01950095558e1fa186ad5d250a9eeb",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+      "canonicalPdfSha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+      "boundaryPdfSha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "hi-pre-2004-drug-offender--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+          "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "hi-pre-2004-drug-offender--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+          "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "c2b7d1b849c1c72294643797a76f54ed2e75fe121eb5e8534833f1e57be82c1b",
+      "coverage": {
+        "documents": [
+          "hi-pre-2004-drug-offender--boundary.pdf",
+          "hi-pre-2004-drug-offender--canonical.pdf"
+        ],
+        "rastered": [
+          "hi-pre-2004-drug-offender--boundary.pdf",
+          "hi-pre-2004-drug-offender--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "preexistingRasterAcceptance": null,
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading::route::hi-under-21-dui",
+      "packetFamilyId": "rcap-hi-custom-pleading",
+      "routeKey": "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction",
+      "route": "hi-under-21-dui",
+      "customerRouteId": null,
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": false,
+      "equivalenceBasis": null,
+      "inFirstCohort": false,
+      "packetCommitSha": "1666423bef01950095558e1fa186ad5d250a9eeb",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+      "canonicalPdfSha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+      "boundaryPdfSha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+        "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "hi-under-21-dui--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+          "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "hi-under-21-dui--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+          "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "74ba194bc72f93cf02fbb77af116be68959ebe3f5c0f10b55009c6d9c66c1590",
+      "coverage": {
+        "documents": [
+          "hi-under-21-dui--boundary.pdf",
+          "hi-under-21-dui--canonical.pdf"
+        ],
+        "rastered": [
+          "hi-under-21-dui--boundary.pdf",
+          "hi-under-21-dui--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "preexistingRasterAcceptance": null,
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
     }
   ],
   "notEligible": [],
-  "focusedRegeneration": null,
+  "focusedRegeneration": {
+    "families": [
+      "rcap-hi-custom-pleading"
+    ],
+    "routes": [],
+    "rowsReplaced": 5,
+    "untouchedRowsPreserved": 23
+  },
   "packetPdfsModified": 0,
   "packetContentChanged": false,
   "commercialRoutesOpened": 0,
