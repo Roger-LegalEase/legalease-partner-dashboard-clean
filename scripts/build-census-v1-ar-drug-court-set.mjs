@@ -10,6 +10,7 @@
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
@@ -275,16 +276,206 @@ function fieldType(field) {
   return field.constructor.name.replace(/^PDF/, "").toLowerCase();
 }
 
+/*
+ * THE QUOTED LINE WAS ASSEMBLED IN THE WRONG ORDER, AND THE GUARD COULD NOT SEE IT.
+ *
+ * VF56 read all 66 required-before-filing rows against the delivered bytes and
+ * found that in EIGHT of them the quoted printed line is not what the page
+ * prints, in three distinct corruptions. Two of the three are this family's own
+ * composition, and this is where they come from.
+ *
+ * The shared reader reports every drawn run with an x origin and, where it could
+ * not resolve a glyph advance, says so: `widthIsUnmeasurable` on the run whose
+ * width it could not compute and `originEstimated` on every later run in the
+ * same text object, because the cursor those runs are placed from has already
+ * moved by a fallback. groupIntoLines() then orders a line's runs BY THAT X and
+ * joins them. When the x is an estimate the order is an estimate too.
+ *
+ *   ACIC-PETITION-DRUG-COURT-PRE page 1 prints
+ *     A Class _____ [_] felony [_] misdemeanor in violation of A.C.A.§
+ *   Seven of that line's runs carry widthIsUnmeasurable and six carry
+ *   originEstimated; their estimated origins run about twice the true advance,
+ *   so "[_] misdemeanor" is placed at x 450.4 and 506.5 when the form draws it
+ *   at 255.5 and 274.9. Sorted by x it lands AFTER "in violation of A.C.A.§",
+ *   and the packet quoted
+ *     A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor
+ *   to the participant on two required-before-filing rows.
+ *
+ *   ACIC-PETITION-DRUG-COURT-POST page 1 prints the same sentence with every
+ *   advance measured, but its three trailing runs are drawn out of x order --
+ *   " " at 439.5, "of" at 422.5, " " at 454.3, "A.C.A.§ " at 440.2 -- so sorting
+ *   by x moved both spaces to the wrong side of "of" and the packet quoted
+ *     ... [_] misdemeanor in violationof A.C.A.§
+ *   on two more rows.
+ *
+ * THE FIX. Compose the quoted line in the order the page draws it -- content
+ * stream order -- and keep the x order only for geometry, where the runs are
+ * used for caption capture and blank counting rather than for a quotation.
+ * Nothing in the shared reader changes: 309 builders keep the reader they have,
+ * and this family stops throwing away the two flags the reader already sets.
+ *
+ * WHY THE EXISTING GATE MISSED IT. assertRequiredBlanksAreIdentified() proves
+ * every quoted line is printed on its page -- against PRINTED_PAGE_TEXT, which
+ * is assembled by the SAME ordering. The quote and the proof shared a defect,
+ * so the gate was self-consistent and blind. It is now proved against poppler's
+ * independent extraction of the same pinned page as well; see POPPLER_PAGE_TEXT.
+ *
+ * WHAT THIS DOES NOT FIX. The third corruption is a decoding loss, not an
+ * ordering one: on ACIC-PETITION-DRUG-COURT-POST page 1 the "ff" of "offense(s)"
+ * has no mapping, so BOTH this reader and poppler read "oense(s)" and neither
+ * can recover it. That is a shared-library repair no family grant reaches. It is
+ * detected geometrically instead -- measured ink with no character over it -- and
+ * disclosed on the row rather than quoted as though it were faithful.
+ */
+function groupIntoPrintedLines(items, yTolerance = 2.2) {
+  const lines = [];
+  for (const item of [...items].sort((a, b) => b.y - a.y || a.x - b.x)) {
+    const line = lines.find((l) => Math.abs(l.y - item.y) <= yTolerance);
+    if (line) { line.items.push(item); line.y = (line.y * (line.items.length - 1) + item.y) / line.items.length; }
+    else lines.push({ y: item.y, items: [item] });
+  }
+  const drawnAt = new Map(items.map((item, index) => [item, index]));
+  const compose = (list) => list.map((item) => item.text).join("").replace(/\s+/g, " ").trim();
+  return lines.map((l) => {
+    const byX = [...l.items].sort((a, b) => a.x - b.x);
+    const byStream = [...l.items].sort((a, b) => drawnAt.get(a) - drawnAt.get(b));
+    const text = compose(byStream);
+    return {
+      y: Number(l.y.toFixed(1)),
+      x: Number(byX[0].x.toFixed(1)),
+      size: byX[0].size,
+      text,
+      textInXOrder: compose(byX),
+      orderDisagrees: text !== compose(byX),
+      unreadableSpans: unreadableSpansOn(byX),
+      metricsExact: byX.every((item) => item.metricsExact),
+      runs: byX.map((item) => ({
+        text: item.text, x: Number(item.x.toFixed(1)),
+        x2: item.width === null || item.width === undefined ? null : Number((item.x + item.width).toFixed(1)),
+        size: item.size, metricsExact: item.metricsExact,
+        ...(item.width === null || item.width === undefined ? { widthIsUnmeasurable: true } : {})
+      })),
+      chars: byX.flatMap((item) => item.chars ?? [])
+    };
+  }).filter((l) => l.text.length > 0);
+}
+
+/*
+ * INK ON THE LINE THAT NO CHARACTER SITS OVER.
+ *
+ * A glyph the font cannot map is drawn on the page and decodes to nothing, so
+ * the run before it ends, the run after it begins further right, and the two
+ * are joined with the ink between them missing from the text. That is visible
+ * without any second extractor: both runs' advances are measured, so the gap
+ * between them is measured too, and a gap wider than half the type size between
+ * two LETTERS with no space drawn across it is ink no character accounts for.
+ *
+ * Deliberately narrow. A gap that a whitespace run spans is explained and is not
+ * reported; a gap beside a rule, a digit or punctuation is not reported. Across
+ * all four pinned ACIC binaries and all sixteen pages this fires exactly once,
+ * on the "offense(s)" line of the post-adjudication petition, at 8.00 pt against
+ * a 14 pt face -- the loss VF56 measured with pdftotext -bbox at 8.0 pt. The
+ * same-sentence line on the PRE petition, which reads correctly, does not fire.
+ */
+const A_LETTER = (character) => /[A-Za-z]/.test(character ?? "");
+
+function unreadableSpansOn(runsByX) {
+  const measured = runsByX.filter((item) => item.width !== null && item.width !== undefined);
+  const spans = [];
+  for (let i = 0; i + 1 < measured.length; i += 1) {
+    const left = measured[i], right = measured[i + 1];
+    const gap = right.x - (left.x + left.width);
+    const size = Math.max(left.size, right.size) || 10;
+    if (gap <= 0.5 * size) continue;
+    if (!A_LETTER(left.text.slice(-1)) || !A_LETTER(right.text.slice(0, 1))) continue;
+    spans.push({ after: left.text, before: right.text, gapPt: Number(gap.toFixed(2)), sizePt: Number(size.toFixed(2)) });
+  }
+  return spans;
+}
+
 /** Every printed line of every pinned source page, kept so a quoted line can be proved printed. */
 const PRINTED_PAGE_TEXT = new Map();
+
+/*
+ * The same pages read by a DIFFERENT extractor, so the gate that proves a quoted
+ * line is printed cannot be satisfied by the composition that produced the quote.
+ * poppler is already this factory's measurement instrument; it is a hard
+ * requirement here rather than a best effort, because a check that quietly skips
+ * is how the first version of this gate passed eight bad rows.
+ */
+const POPPLER_PAGE_TEXT = new Map();
+
+/** documentId|page|squashed line -> the measured spans of ink no character accounts for. */
+const UNREADABLE_LINE_SPANS = new Map();
+
+function readPageWithPoppler(source, page) {
+  const file = path.join(ROOT, D_ROOT, source.pathInPack);
+  const text = execFileSync("pdftotext", ["-layout", "-f", String(page), "-l", String(page), file, "-"],
+    { encoding: "utf8", maxBuffer: 32 * 1024 * 1024 });
+  return squashPrinted(text);
+}
+
+/*
+ * Comparing two extractors' output needs a unit both can be trusted on. Raw
+ * whitespace is not it: poppler -layout pads columns and puts a space after
+ * "1." where the content stream draws none, and a comparison that fails on that
+ * would fail on everything. The WORD SEQUENCE is: each extractor reports the
+ * same words in the same order unless something real disagrees.
+ *
+ * It is still sharp on both composition defects. A reordering moves a word, so
+ * the sequence stops being contiguous. A lost space fuses two words into one
+ * token that the other extractor does not have. Only layout whitespace washes
+ * out, which is exactly the difference that carries no information.
+ */
+const wordTokens = (text) => String(text ?? "").toLowerCase().match(/[a-z0-9\u00a7]+/g) ?? [];
+
+const tokensRunContiguously = (needle, haystack) => {
+  if (needle.length === 0) return true;
+  for (let i = 0; i + needle.length <= haystack.length; i += 1) {
+    let ok = true;
+    for (let k = 0; k < needle.length; k += 1) if (haystack[i + k] !== needle[k]) { ok = false; break; }
+    if (ok) return true;
+  }
+  return false;
+};
 
 async function census(source, bytes) {
   const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const pages = pdf.getPages();
   assert.equal(pages.length, source.pageCount, `${source.documentId}: page count moved`);
-  const lines = pages.map((page) => groupIntoLines(extractTextItems(page)));
+  const itemsByPage = pages.map((page) => extractTextItems(page));
+  const lines = itemsByPage.map((items) => groupIntoPrintedLines(items));
+
+  /* The local grouping must differ from the shared one in TEXT ORDER AND IN
+   * NOTHING ELSE. Same buckets, same baselines, same left edge, same runs in the
+   * same x order -- so caption capture, blank counting and every geometric
+   * decision downstream are provably untouched by this repair. */
+  itemsByPage.forEach((items, index) => {
+    const host = groupIntoLines(items);
+    const mine = lines[index];
+    assert.equal(mine.length, host.length,
+      `${source.documentId} page ${index + 1}: line grouping changed (${mine.length} vs ${host.length})`);
+    mine.forEach((line, k) => {
+      assert.equal(line.y, host[k].y, `${source.documentId} p${index + 1} line ${k}: baseline moved`);
+      assert.equal(line.x, host[k].x, `${source.documentId} p${index + 1} line ${k}: left edge moved`);
+      assert.deepEqual(line.runs, host[k].runs, `${source.documentId} p${index + 1} line ${k}: runs moved`);
+      assert.equal(line.textInXOrder, host[k].text,
+        `${source.documentId} p${index + 1} line ${k}: x-order text is not the host's text`);
+    });
+  });
+
   lines.forEach((pageLines, index) => PRINTED_PAGE_TEXT.set(`${source.documentId}|${index + 1}`,
     squashPrinted(pageLines.map((line) => line.text).join(" "))));
+  pages.forEach((_, index) => POPPLER_PAGE_TEXT.set(`${source.documentId}|${index + 1}`,
+    readPageWithPoppler(source, index + 1)));
+  /* Which quoted lines carry ink no character sits over, so a row that must
+   * quote one can say so instead of quoting it as though it were faithful. */
+  lines.forEach((pageLines, index) => {
+    for (const line of pageLines) {
+      if (line.unreadableSpans.length === 0) continue;
+      UNREADABLE_LINE_SPANS.set(`${source.documentId}|${index + 1}|${squashPrinted(line.text)}`, line.unreadableSpans);
+    }
+  });
   const captureInput = new Map();
   const base = pdf.getForm().getFields().map((field) => {
     const widgets = field.acroField.getWidgets().map((widget) => {
@@ -426,9 +617,18 @@ function requiredBeforeFilingRow(common, field, source, suppliedBy, suppliedWhen
   const continues = field.introducedByPrintedLine
     ? `, which continues "${field.introducedByPrintedLine}"`
     : "";
+  /* A line the reader could not take in full is still the participant's best
+   * locator, so it is still quoted -- but it is quoted with the loss named,
+   * not passed off as verbatim. The missing characters are NOT guessed. */
+  const unreadable = [line, field.introducedByPrintedLine]
+    .filter((quoted) => quoted !== null && quoted !== undefined)
+    .flatMap((quoted) => UNREADABLE_LINE_SPANS.get(`${common.documentId}|${common.page}|${squashPrinted(quoted)}`) ?? []);
+  const caveat = unreadable.length === 0 ? "" : ` — this quotation is incomplete: ${unreadable
+    .map((span) => `at least one character your printed form shows between "${span.after.trim()}" and "${span.before.trim()}" could not be read from the form file (${span.gapPt} pt of ink at ${span.sizePt} pt type)`)
+    .join("; ")}, so read the line on the paper`;
   const identifiedBy = where === null
     ? `${field.name}, on page ${common.page} of the ${source.officialTitle}`
-    : `${field.name}, ${where}${continues}`;
+    : `${field.name}, ${where}${continues}${caveat}`;
   return {
     ...common,
     requiredBeforeFiling: true,
@@ -572,6 +772,10 @@ async function filledComponent(source, sourceBytes, fields, fixtureName) {
         overflowAtMinPt: fit.requiredWidthAtMin === undefined ? null
           : +(fit.requiredWidthAtMin - usableWidth).toFixed(2),
         notTruncated: true,
+        /* The value that was withheld. It is on the record so the delivered
+         * guidance page can print it; without it the disclosure could name the
+         * blank but not tell the participant what to write in it. */
+        withheldValue: value,
         whatTheParticipantMustDo: `This value does not fit the printed blank at the smallest readable size, so the packet leaves it blank rather than truncating it or drawing over the form. Write it on the printed line by hand, or ask the clerk how a value this long is recorded on this form.`
       });
       continue;
@@ -635,7 +839,63 @@ function wrap(text, width = 92) {
   if (line) lines.push(line); return lines;
 }
 
-async function guidancePage(posture, fixtureName) {
+/*
+ * A HELD FACT THAT WAS WITHHELD MUST BE SAID ON A DELIVERED PAGE.
+ *
+ * The CLIPPING_AND_OVERLAP repair reached its zero by REFUSING the ten writes
+ * that would not fit rather than by fitting them. That is the right refusal --
+ * a truncated case number is a wrong case number and a value drawn past its box
+ * is ink over the official form -- but VF56 measured what it left behind: on the
+ * two boundary fixtures the case number is blank in both captions and the
+ * proposed order's operative "Defendant, ____, to Dismiss" clause carries 0 px
+ * of added ink against 474 and 488 on the canonicals, and the phrases "does not
+ * fit", "by hand", "too long", "truncat" and "smallest readable" occur 0 times
+ * on any of the 36 delivered pages. The participant receives a petition whose
+ * caption case number is blank and whose prayer names nobody, indistinguishable
+ * from an unfilled form.
+ *
+ * SHOULD THE LAYOUT BE FIXED INSTEAD? No, and this is decided from the record
+ * rather than by preference. Every mapped field on these four ACIC forms is
+ * flagged single-line by the form itself, so wrapping is not available. The
+ * three ways to make these values fit are all worse than the refusal:
+ *   - draw smaller: the fitter already stepped to the shared
+ *     MIN_READABLE_FONT_SIZE floor of 6.0 pt and the values still need up to
+ *     42.94 pt more width than the blank has. Clearing that by shrinking means
+ *     roughly 4.5 pt type on a filed pleading;
+ *   - truncate: a truncated case number is a different case number, and it was
+ *     the exact defect VF05 failed this family on;
+ *   - draw past the blank: that is ink over the issuer's printed form, which
+ *     CLIPPING_AND_OVERLAP and PROTECTED_FIELDS both exist to refuse.
+ * The official ACIC pair controls and this packet may not redraw it. So the
+ * refusal stands and the defect is that it was silent.
+ *
+ * WHERE IT IS SAID. Packet page 1 is generated per packet and already prints
+ * this participant's own name and case number, so the surface exists, is
+ * per-packet, and already holds the values. The build already composes a
+ * finished participant-facing sentence for each refusal and files it only in
+ * reports/. It is now printed on the page. A packet with no refusals prints
+ * nothing extra, so the canonical fixtures do not move.
+ */
+const PACKET_PAGE_OFFSET = Object.freeze({ petition: 1, order: 5 });
+
+function packetPageOf(refusal) {
+  const source = SOURCES.find((item) => item.documentId === refusal.documentId);
+  assert.ok(source, `${refusal.documentId}: no bound source for a refusal`);
+  return PACKET_PAGE_OFFSET[source.role] + refusal.page;
+}
+
+function withheldBlanksFor(posture, fixtureName, builtById) {
+  const rows = [];
+  for (const role of ["petition", "order"]) {
+    const source = SOURCES.find((item) => item.posture === posture && item.role === role);
+    for (const refusal of builtById.get(`${source.documentId}:${fixtureName}`).widthRefusals) {
+      rows.push({ ...refusal, officialTitle: source.officialTitle, packetPage: packetPageOf(refusal) });
+    }
+  }
+  return rows.sort((a, b) => a.packetPage - b.packetPage || a.rect.y * -1 - b.rect.y * -1);
+}
+
+async function guidancePage(posture, fixtureName, withheld = []) {
   const pdf = await PDFDocument.create(); stampDeterministic(pdf);
   const page = pdf.addPage([612, 792]); const regular = await pdf.embedFont(StandardFonts.Helvetica);
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold); let y = 748;
@@ -652,13 +912,28 @@ async function guidancePage(posture, fixtureName) {
   draw("Destination: the underlying criminal court. Service in the committed track: serve the prosecuting attorney within three days after filing; the track records a 30-day objection window. Stop for Arkansas legal help if an objection or contested hearing occurs.");
   draw("Fee and notarization: the committed route says the source review does not state a filing fee, fee-waiver procedure, or notarization requirement, while its review flags preserve conflicts on those points. Confirm those items with the filing court before signing or filing; this packet does not invent an answer.");
   draw("Self-help also stops if program completion is uncertain, prosecutor concurrence requires negotiation, or immigration, licensing, or firearm consequences are involved.");
+  if (withheld.length > 0) {
+    draw(`Blanks this packet left for you to fill in by hand (${withheld.length})`, { font: bold, size: 11, gap: 5 });
+    draw("These values are held for this packet but do not fit their printed blanks at the smallest readable size. "
+      + "The packet left each blank rather than shortening the value or writing over the official form. "
+      + "Write each one on the printed line by hand before you file, or ask the clerk how a value this long is recorded on this form.");
+    for (const row of withheld) {
+      draw(`Packet page ${row.packetPage} (${row.officialTitle}, form page ${row.page}) — the blank printed `
+        + `"${row.printedRow ?? row.effectiveLabel}". Write: ${row.withheldValue}`, { size: 8, gap: 2 });
+    }
+  }
   draw(`Routes: ${ROUTE_KEYS.join(" | ")}`, { size: 7 });
+  /* The disclosure is only a disclosure if it is ON the page. A page that ran
+   * out of room would drop the last refusals silently, which is the defect this
+   * block exists to close, so the build stops instead. */
+  assert.ok(y > 36, `${posture}/${fixtureName}: the guidance page overflowed (${withheld.length} withheld blanks, y=${y.toFixed(1)})`);
   return pdf.save({ useObjectStreams: false, updateMetadata: false });
 }
 
 async function assemble(posture, fixtureName, builtById) {
   const packet = await PDFDocument.create(); stampDeterministic(packet);
-  const guidance = await PDFDocument.load(await guidancePage(posture, fixtureName), { updateMetadata: false });
+  const withheld = withheldBlanksFor(posture, fixtureName, builtById);
+  const guidance = await PDFDocument.load(await guidancePage(posture, fixtureName, withheld), { updateMetadata: false });
   for (const page of await packet.copyPages(guidance, guidance.getPageIndices())) packet.addPage(page);
   const documents = ["ar-drug-court-process-guidance-1"];
   const written = [];
@@ -677,7 +952,24 @@ async function assemble(posture, fixtureName, builtById) {
   }
   stampDeterministic(packet);
   const bytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
-  assert.equal((await PDFDocument.load(bytes)).getPageCount(), 9, `${posture}/${fixtureName}: assembly page count`);
+  const assembled = await PDFDocument.load(bytes);
+  assert.equal(assembled.getPageCount(), 9, `${posture}/${fixtureName}: assembly page count`);
+  /*
+   * EVERY WITHHELD FACT IS ON A DELIVERED PAGE, read back from the finished
+   * packet bytes rather than from the report that composed them. A refusal the
+   * build records internally and the page does not carry is the defect VF56
+   * failed this family on, so it stops the build.
+   */
+  const deliveredPageOne = extractTextItems(assembled.getPages()[0]).map((item) => item.text).join("")
+    .replace(/\s+/g, " ");
+  for (const row of withheld) {
+    assert.ok(deliveredPageOne.includes(row.withheldValue.replace(/\s+/g, " ")),
+      `${posture}/${fixtureName}: withheld value for ${row.fieldId} is not printed on the delivered guidance page`);
+    assert.ok(deliveredPageOne.includes(`Packet page ${row.packetPage}`),
+      `${posture}/${fixtureName}: the withheld blank at ${row.fieldId} is not located for the participant`);
+  }
+  assert.equal(/fill in by hand/.test(deliveredPageOne), withheld.length > 0,
+    `${posture}/${fixtureName}: the by-hand disclosure is present exactly when something was withheld`);
   const file = `${OUT}/fixtures/${posture}-${fixtureName}.pdf`;
   fs.writeFileSync(path.join(ROOT, file), bytes);
   return { packetId: `${posture}-${fixtureName}`, posture, fixture: fixtureName, file,
@@ -692,6 +984,9 @@ function instructions(allRefusals) {
     + `## Destination, fee, service, and stops\n\n`
     + `File in **the underlying criminal court** after program completion. The committed route says to serve the prosecuting attorney within three days after filing and records a 30-day objection window. It also says the source review does not state a filing fee, fee-waiver procedure, or notarization requirement. Because the committed review preserves conflicts on those points, confirm them with the filing court rather than guessing.\n\n`
     + `Stop self-help for any objection or contested hearing, uncertainty about completion or posture, prosecutor-concurrence negotiation, or immigration, licensing, or firearm consequences.\n\n`
+    + `## Blanks the packet may leave for your hand\n\n`
+    + `Some facts this service holds are longer than the blank the official ACIC form prints for them — a long case number, or a long name in the "WHEREFORE, the Defendant, ____, prays" and "Defendant, ____, to Dismiss and Seal" clauses. When a value will not fit its printed blank at the smallest size that is still readable on paper, this packet leaves the blank EMPTY. It does not shorten the value, and it does not write past the edge of the blank onto the form.\n\n`
+    + `**A blank left that way is always listed, by packet page, on page 1 of your own packet, with the value to write.** If page 1 lists none, nothing was left out. Where one is listed, write it on the printed line by hand before filing, or ask the clerk how a value that long is recorded on this form. The case number in the caption of both the petition and the proposed order, and the Defendant's name in the two prayer clauses and in the proposed order's operative clause, are the blanks this most often affects.\n\n`
     + `Before filing, obtain the fingerprint card and the ACIC criminal history when the records step applies; compare the criminal history with the court, county, charge, and disposition; then complete these exact official-form blanks from the named record:\n\n`
     + required.map((row) => {
       /*
@@ -772,6 +1067,24 @@ function assertRequiredBlanksAreIdentified(refusals) {
       assert.ok(printed !== undefined, `${row.fieldId}: page ${row.page} of ${row.documentId} was not read`);
       assert.ok(printed.includes(squashPrinted(quoted)),
         `${row.fieldId}: quoted line is not printed on page ${row.page} of ${row.documentId}: ${JSON.stringify(quoted)}`);
+      /* AND AGAINST A DIFFERENT EXTRACTOR. The line above proves the quote
+       * against the composition that produced it, which is how eight bad rows
+       * shipped. poppler read the same pinned page independently; a quote that
+       * only one of the two can find is a defect in whichever produced it. */
+      const independent = POPPLER_PAGE_TEXT.get(`${row.documentId}|${row.page}`);
+      assert.ok(independent !== undefined,
+        `${row.fieldId}: page ${row.page} of ${row.documentId} was not read independently`);
+      if (!tokensRunContiguously(wordTokens(quoted), wordTokens(independent))) {
+        /* The two extractors disagree. That is allowed in exactly one case: the
+         * line carries ink no character sits over, both readers lost the same
+         * glyphs, the loss was MEASURED, and the row says so to the participant.
+         * Anything else is a composition defect and stops the build. */
+        const spans = UNREADABLE_LINE_SPANS.get(`${row.documentId}|${row.page}|${squashPrinted(quoted)}`) ?? [];
+        assert.ok(spans.length > 0,
+          `${row.fieldId}: quoted line is not what an independent extractor reads on page ${row.page} of ${row.documentId}: ${JSON.stringify(quoted)}`);
+        assert.ok(/could not be read from the form file/.test(row.identifiedBy),
+          `${row.fieldId}: the quoted line has ${spans.length} unreadable span(s) and the row does not disclose it`);
+      }
     }
   }
   return required.length;
