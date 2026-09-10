@@ -203,7 +203,21 @@ async function writeContactSheet(rasterRows, output) {
 }
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
-const abs = (relativePath) => path.join(rootDir, relativePath);
+const FIXCXN1_PUBLICATION_FAMILY_IDS = new Set([
+  "nj_clean_slate-set",
+  "nj_ordinance-set",
+  "nj_indictable_conviction-set",
+]);
+let publicationRedirect = null;
+const abs = (relativePath) => {
+  if (publicationRedirect
+    && (relativePath === publicationRedirect.outputRelativePath
+      || relativePath.startsWith(`${publicationRedirect.outputRelativePath}/`))) {
+    return path.join(publicationRedirect.stageRoot,
+      relativePath.slice(publicationRedirect.outputRelativePath.length).replace(/^\/+/, ""));
+  }
+  return path.join(rootDir, relativePath);
+};
 const readJson = (relativePath) => JSON.parse(fs.readFileSync(abs(relativePath), "utf8"));
 const writeJson = (relativePath, value) => {
   fs.mkdirSync(path.dirname(abs(relativePath)), { recursive: true });
@@ -5494,7 +5508,7 @@ function rowIntegrityWithholdings(doc, mappings, refusedFields) {
   return { cells, elections };
 }
 
-async function buildOfficial(familyId, config) {
+async function buildOfficialUnsafe(familyId, config) {
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
   // it: the completeness classifications on the prior field map (carried
@@ -6118,6 +6132,64 @@ async function buildOfficial(familyId, config) {
   assertPrintedCaptionInvariants(config, fieldMaps, instructionsText, familyId);
   assertComponentDeliverySections(config, componentDelivery, instructionsText, familyId);
   console.log(`\n${familyId}: BUILD PASS (${artifactReports.length} PDFs; ${rasterReports.reduce((n, row) => n + row.pages.length, 0)} page rasters)`);
+}
+
+/*
+ * FIXCXN1 publication safety. The existing build body deliberately remains
+ * unchanged and still resets its selected output before rendering. For the
+ * three granted New Jersey families, that body runs against a seeded private
+ * staging directory. A successful body is the only event allowed to replace
+ * the live directory; any source, guard, or renderer failure discards staging
+ * and leaves every live byte in place.
+ */
+async function buildOfficial(familyId, config) {
+  if (!FIXCXN1_PUBLICATION_FAMILY_IDS.has(familyId)) {
+    return buildOfficialUnsafe(familyId, config);
+  }
+
+  const outputRelativePath = officialOut(familyId, config.jurisdiction);
+  const liveOutput = path.join(rootDir, outputRelativePath);
+  // Keep staging beside the live directory so the final swap is atomic on the
+  // workspace filesystem. The directory is private, uniquely named, and
+  // removed on both success and failure.
+  const outputParent = path.dirname(liveOutput);
+  const stageParent = fs.mkdtempSync(path.join(outputParent, ".fixcxn1-publication-"));
+  const stageRoot = path.join(stageParent, path.basename(liveOutput));
+  if (fs.existsSync(liveOutput)) {
+    fs.cpSync(liveOutput, stageRoot, { recursive: true, force: true });
+  } else {
+    fs.mkdirSync(stageRoot, { recursive: true });
+  }
+
+  publicationRedirect = { outputRelativePath, stageRoot };
+  try {
+    await buildOfficialUnsafe(familyId, config);
+  } catch (error) {
+    publicationRedirect = null;
+    fs.rmSync(stageParent, { recursive: true, force: true });
+    throw error;
+  }
+  publicationRedirect = null;
+
+  const backupParent = fs.mkdtempSync(path.join(outputParent, ".fixcxn1-publication-backup-"));
+  const backupOutput = path.join(backupParent, path.basename(liveOutput));
+  let liveMoved = false;
+  let stageMoved = false;
+  try {
+    if (fs.existsSync(liveOutput)) {
+      fs.renameSync(liveOutput, backupOutput);
+      liveMoved = true;
+    }
+    fs.renameSync(stageRoot, liveOutput);
+    stageMoved = true;
+  } catch (error) {
+    if (stageMoved) fs.rmSync(liveOutput, { recursive: true, force: true });
+    if (liveMoved) fs.renameSync(backupOutput, liveOutput);
+    throw error;
+  } finally {
+    fs.rmSync(backupParent, { recursive: true, force: true });
+    fs.rmSync(stageParent, { recursive: true, force: true });
+  }
 }
 
 async function checkOfficial(familyId, config) {

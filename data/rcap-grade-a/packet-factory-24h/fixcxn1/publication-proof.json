@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-fixcxn1-publication-proof/v1",
+  "lane": "FIXCXN1",
+  "base": "ced10a44437ab73abd367668eb21b361918d3569",
+  "branch": "lane-fixcxn1-publication-20260910",
+  "grantCheck": "claim.mjs --can-assert FIXCXN1 nj_clean_slate-set,nj_ordinance-set,nj_indictable_conviction-set -> 3 assertable, 0 would refuse; grant set 84f496c27afdcee8; nothing written",
+  "targetFamilies": [
+    "nj_clean_slate-set",
+    "nj_ordinance-set",
+    "nj_indictable_conviction-set"
+  ],
+  "scope": {
+    "redirectedPrefix": "data/rcap-all50/overlays/census-v1/nj/{nj-clean-slate-set,nj-ordinance-set,nj-indictable-conviction-set}--official-pdf-fill",
+    "staging": "unique hidden sibling directory on the output filesystem",
+    "publication": "same-filesystem swap after successful build; rollback restores the prior directory if swap fails",
+    "otherFamilyBehavior": "unchanged",
+    "sourceBytesModified": false
+  },
+  "source": {
+    "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "byteLength": 1924831,
+    "pageCount": 43,
+    "fieldCount": 179
+  },
+  "validPlainCommands": {
+    "exitCode": 0,
+    "result": "All three wrappers reported BUILD PASS with 2 PDFs and 86 page rasters.",
+    "logs": [
+      "publication-valid-clean-slate.log",
+      "publication-valid-ordinance.log",
+      "publication-valid-indictable.log"
+    ]
+  },
+  "failurePreservation": [
+    {
+      "class": "source_identity",
+      "exitCode": 1,
+      "assertion": "source SHA-256 drift",
+      "log": "publication-source-fault.log",
+      "beforeInventory": "publication-before-source-fault.sha256",
+      "afterInventory": "publication-after-source-fault.sha256",
+      "inventoryUnchanged": true
+    },
+    {
+      "class": "delivered_mark_guard",
+      "exitCode": 1,
+      "mutation": "declareWithdrawnElectionsInFieldMap=false with guardFieldMapSelectionsAgainstDeliveredMarks=true",
+      "assertion": "field map declares guilty measured_route_selection and no fixture produced marks it",
+      "log": "publication-guard-fault.log",
+      "beforeInventory": "publication-before-guard-fault.sha256",
+      "afterInventory": "publication-after-guard-fault.sha256",
+      "inventoryUnchanged": true,
+      "mutationRestored": true
+    }
+  ],
+  "finalOutputInventories": {
+    "fileCountPerFamily": 99,
+    "allFamilyArtifactsByteIdenticalToPreRun": true,
+    "hashManifests": [
+      "publication-final-nj-clean-slate-set.sha256",
+      "publication-final-nj-ordinance-set.sha256",
+      "publication-final-nj-indictable-conviction-set.sha256"
+    ]
+  },
+  "checks": {
+    "plainChecks": "PASS for all three wrappers; each reported 2 PDFs and 86 rasters",
+    "syntax": "PASS: node --check scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "diffCheck": "PASS: git diff --check",
+    "consumerDisposition": "STOPPED; no terminal or route-promotion claim"
+  }
+}

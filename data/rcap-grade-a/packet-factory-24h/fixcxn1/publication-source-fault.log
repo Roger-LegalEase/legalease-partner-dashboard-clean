@@ -1,0 +1,26 @@
+
+=== nj_ordinance-set: NJ-CN-10557 ===
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: NJ-CN-10557: source SHA-256 drift
++ actual - expected
+
++ 'c0ee423283460c6cfda5d138677558a71ab52ac4465bc986d94191f64d4fe447'
+- 'c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7'
+
+    at resolveSource (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:3271:10)
+    at buildOfficialUnsafe (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:5535:23)
+    at buildOfficial (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6166:11)
+    at runEastFamily (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:7793:16)
+    at file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_ordinance-set.mjs:3:7 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'c0ee423283460c6cfda5d138677558a71ab52ac4465bc986d94191f64d4fe447',
+  expected: 'c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.20.0

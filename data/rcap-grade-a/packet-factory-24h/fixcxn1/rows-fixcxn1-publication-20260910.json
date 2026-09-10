@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIXCXN1",
+  "laneKind": "shared-host-repair",
+  "status": "STOPPED",
+  "isIndependentVerification": false,
+  "base": "ced10a44437ab73abd367668eb21b361918d3569",
+  "branch": "lane-fixcxn1-publication-20260910",
+  "grantState": "FIXCXN1 can-assert rerun against this checkout: 3 assertable, 0 would refuse; grant set 84f496c27afdcee8. Nothing was written and no grant was released.",
+  "families": [
+    "nj_clean_slate-set",
+    "nj_ordinance-set",
+    "nj_indictable_conviction-set"
+  ],
+  "source": {
+    "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "byteLength": 1924831,
+    "pageCount": 43,
+    "fieldCount": 179,
+    "masterLibrarySourceDir": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "sourceBytesModified": false
+  },
+  "publicationRepair": {
+    "implementation": "The existing build body runs against a seeded sibling staging directory for exactly the three listed NJ families. It publishes by same-filesystem directory swap only after the body returns successfully; source, guard, or renderer failures discard staging and preserve the live directory.",
+    "outputPrefixScope": "data/rcap-all50/overlays/census-v1/nj/",
+    "otherFamiliesUseExistingPath": true,
+    "familyArtifactsLeftByteIdenticalAndUncommitted": true,
+    "validBuilds": {
+      "exitCode": 0,
+      "families": [
+        "nj_clean_slate-set",
+        "nj_ordinance-set",
+        "nj_indictable_conviction-set"
+      ],
+      "result": "Each plain wrapper reported BUILD PASS (2 PDFs; 86 page rasters).",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-clean-slate.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-ordinance.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-indictable.log"
+      ]
+    },
+    "sourceIdentityFailure": {
+      "exitCode": 1,
+      "scratchConfig": true,
+      "result": "Expected source SHA-256 drift assertion; the complete ordinance output inventory was unchanged.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-source-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-source-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-before-source-fault.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-after-source-fault.sha256"
+      ],
+      "inventoryUnchanged": true
+    },
+    "guardFailure": {
+      "exitCode": 1,
+      "mutation": "declareWithdrawnElectionsInFieldMap=false with guardFieldMapSelectionsAgainstDeliveredMarks=true",
+      "result": "Expected delivered-mark guard assertion; the complete ordinance output inventory was unchanged and the source line was restored.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-guard-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-guard-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-before-guard-fault.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-after-guard-fault.sha256"
+      ],
+      "inventoryUnchanged": true
+    }
+  },
+  "rows": [
+    {
+      "itemId": "nj_clean_slate-set",
+      "familyId": "nj_clean_slate-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "Publication safety is implemented and independently exercised through valid, source-identity-failure, and delivered-mark-guard-failure plain commands. This row makes no legal, visual, commercial, or terminal claim.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 15,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "The 15 known ordinance facts remain missing and no value was fabricated. Publication failure preservation is proven; no terminal, legal, visual, commercial, or route claim is made.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "Publication safety is implemented and tested for the granted family. This row preserves null measurements and makes no legal, visual, commercial, or terminal claim.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    }
+  ],
+  "scopeControls": {
+    "centralManifestsTouched": false,
+    "centralQueuesTouched": false,
+    "sourceBodiesCommitted": false,
+    "siblingDirectoryChanges": false,
+    "privateSymlinkPreserved": true,
+    "noFamilyArtifactsCommitted": true,
+    "nextGate": "STOPPED: publication-safety repair is recorded; no route promotion, admission, owner decision, or terminal acceptance is asserted."
+  }
+}
