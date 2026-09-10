@@ -231,6 +231,169 @@ const FEE102_ITEM_2 = Object.freeze({
   alternativeBranch: /I only want to have copy fees waived/i
 });
 
+/*
+ * EXP102 ITEM 9 PRINTS ELEVEN STATUTORY GROUNDS. THIS PACKET USES ONE.
+ *
+ * VF61 measured what the other ten carried and refused the family for it. All
+ * ten were classified NOT_APPLICABLE_ON_THIS_ROUTE, all ten carried
+ * `reason: null` in both delivered records, none was named anywhere in either
+ * guide, and the guide swept them up in one sentence -- "Every other box in
+ * this packet is empty and is yours" -- on a petition signed under Minn. Stat.
+ * § 358.116. Each of the ten states a DIFFERENT statutory basis for
+ * expungement, so a participant who followed that sentence would swear to a
+ * ground this petition is not built to prove.
+ *
+ * NO COUNTER SAW IT, AND THE REASON IS WORTH RECORDING. The shared reader in
+ * `scripts/rcap-packet-completeness/verify-packet-completeness.mjs`
+ * (`readFieldRows`, the anchors-and-withheld shape) reads `writableAnchors`
+ * and `withheld` and does not read `selectionControls` at all: it audits 387
+ * rows on this family, which is exactly 30 anchors + 357 withheld, and 0 of
+ * this family's 95 selection controls. So `requiredOptionsMissing` could not
+ * have been anything but 0 here whatever these boxes said. That reader is
+ * shared code this lane does not own. What this lane owns is the build path,
+ * and the build path now refuses to deliver a selection control that does not
+ * say why it is empty.
+ *
+ * The ground text below is the printed face of EXP102 Rev 7/24, pages 4 and 5,
+ * of the exact binary this family binds
+ * (sha256 c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541),
+ * read back through the same anchor-capture path the census uses. Each entry's
+ * `routedOrder` is the bracketed instruction the form itself prints under that
+ * ground. Nothing here is drafted from a statute the form does not cite.
+ */
+const ITEM_9_GROUNDS_NOT_USED = Object.freeze([
+  {
+    key: "juvenile-certification",
+    match: /certified or referenced for prosecution as an adult/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106)",
+    reason:
+      "This box is EXP102 item 9's second ground: \"You were certified or referenced for prosecution as an "
+      + "adult for a crime you committed when you were a juvenile.\" It is the one other ground on item 9 "
+      + "that uses the same proposed order this packet carries — the form prints \"[Use Order Concerning "
+      + "Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106).]\" under it "
+      + "— but it is a different petition, proved by different facts, and nothing in this packet was "
+      + "prepared or worded for a juvenile certification. Leave it empty here. If this is your ground and "
+      + "the § 152.18 discharge is not, ask for the packet built for it instead of adding this box to this "
+      + "one."
+  },
+  {
+    key: "resolved-in-your-favor",
+    match: /A criminal matter was resolved/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's third ground: \"A criminal matter was resolved your favor.\" The form "
+      + "sends that ground to a different proposed order — it prints \"[Use Order Concerning "
+      + "Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\" under it — "
+      + "and this packet carries EXP106, not EXP105. Ticking it here would ask the court for relief under a "
+      + "subdivision the order in your envelope does not cover. Leave it empty. If your case was resolved "
+      + "in your favour rather than dismissed and discharged under § 152.18, this is the wrong packet."
+  },
+  {
+    key: "diversion-or-stay",
+    match: /diversion program or stay of adjudication/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's fourth ground: \"You successfully completed the terms of a diversion "
+      + "program or stay of adjudication, and you have not been charged with a new crime for at least one "
+      + "year since completion of the diversion program or stay of adjudication.\" A diversion or a stay of "
+      + "adjudication is not the same disposition as a § 152.18 discharge, and the form sends it to a "
+      + "different proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. "
+      + "§ 609A.02, subd. 3 (court form EXP105).]\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+    key: "petty-misdemeanor-or-misdemeanor-conviction",
+    match: /convicted of a petty misdemeanor or misdemeanor/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's fifth ground: \"You were convicted of a petty misdemeanor or "
+      + "misdemeanor, or the sentence imposed was within the limits provided by law for a misdemeanor, and "
+      + "you have not been convicted of a new crime for at least two years since discharge of the sentence "
+      + "for the crime.\" It is a CONVICTION ground. The box this packet ticks is a case that was dismissed "
+      + "and discharged without a conviction, and the form sends a conviction to a different proposed order "
+      + "— \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court "
+      + "form EXP105).]\" Leave it empty here."
+  },
+  {
+    key: "gross-misdemeanor-conviction",
+    match: /convicted of a gross misdemeanor, or the sentence imposed/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's sixth ground: \"You were convicted of a gross misdemeanor, or the "
+      + "sentence imposed was within the limits provided by law for a gross misdemeanor, and you have not "
+      + "been convicted of a new crime for at least three years since discharge of the sentence for the "
+      + "crime.\" It is a conviction ground with its own three-year wait and its own proposed order — "
+      + "\"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form "
+      + "EXP105)].\" This packet carries EXP106 and petitions on a discharge, not a conviction. Leave it "
+      + "empty here."
+  },
+  {
+    key: "gross-misdemeanor-deemed-misdemeanor",
+    match: /convicted of a gross misdemeanor that is deemed to be/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's seventh ground: \"You were convicted of a gross misdemeanor that is "
+      + "deemed to be for a misdemeanor pursuant to Minn. Stat. § 609.13, subd. 2(2), and you have not been "
+      + "convicted of a new crime for at least three years since discharge of the sentence for the crime.\" "
+      + "It is the ground for a gross misdemeanor that the sentence reduced to a misdemeanor by operation "
+      + "of § 609.13, and the form sends it to \"[Use Order Concerning Sealing/Expunging of Records - Minn. "
+      + "Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+    key: "felony-152-025-conviction",
+    match: /convicted of a felony violation of Minn\. Stat\. § 152\.025/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's eighth ground: \"You were convicted of a felony violation of Minn. Stat. "
+      + "§ 152.025, and you have not been convicted of a new crime for at least four years since discharge "
+      + "of the sentence for the crime.\" READ THIS ONE AGAINST THE BOX THIS PACKET TICKS. Both name "
+      + "§ 152.025. The box this packet ticks is a possession case that was DISMISSED and the proceedings "
+      + "DISCHARGED under Minn. Stat. § 152.18; this box is a CONVICTION under § 152.025 that was served "
+      + "out. They are different grounds, they have different waiting periods, and the form sends this one "
+      + "to a different proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. "
+      + "§ 609A.02, subd. 3 (court form EXP105)].\" If you were convicted rather than discharged, this is "
+      + "the wrong packet."
+  },
+  {
+    key: "felony-deemed-lesser",
+    match: /convicted of a felony that is deemed to be/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's ninth ground: \"You were convicted of a felony that is deemed to be for "
+      + "a gross misdemeanor or misdemeanor pursuant to Minn. Stat. § 609.13, subd. 1(2)\", with a wait of "
+      + "four years since discharge of the sentence if the conviction was for an offence listed in Minn. "
+      + "Stat. § 609A.02, subd. 3(b), or five years for any other offence. It is a conviction ground with "
+      + "its own two-speed waiting period and its own proposed order — \"[Use Order Concerning "
+      + "Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet "
+      + "carries EXP106. Leave it empty here."
+  },
+  {
+    key: "felony-listed-offense",
+    match: /convicted of a felony violation of an offense listed/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason:
+      "This box is EXP102 item 9's tenth ground: \"You were convicted of a felony violation of an offense "
+      + "listed in Minn. Stat. § 609A.02, subd. 3(b), and have not been convicted of a new crime for at "
+      + "least four years since discharge of the sentence for the crime.\" Subdivision 3(b) is a named list "
+      + "of felonies that may be expunged after four years; whether your offence is on that list is a "
+      + "question about your own record, which this packet does not hold. The form sends this ground to "
+      + "\"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form "
+      + "EXP105)].\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+    key: "judicial-records-only",
+    match: /does not qualify for expungement under/i,
+    routedOrder: "Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only (court form EXP107)",
+    reason:
+      "This box is EXP102 item 9's eleventh ground: \"You were convicted of an offense that does not "
+      + "qualify for expungement under Minn. Stat. § 609A.02, subd. 3, but you believe you have "
+      + "rehabilitated yourself. You believe that the benefit to you outweighs the disadvantage to the "
+      + "public and the burden on the court.\" It asks the court to seal its own file only: the form sends "
+      + "it to \"[Use Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only "
+      + "(court form EXP107).]\", which this packet does not carry, and which does not reach records held "
+      + "outside the courthouse. Leave it empty here."
+  }
+]);
+
 const SOURCES = Object.freeze([
   {
     key: "EXP102", formNumber: "EXP102", instrumentKind: "primary_filing",
@@ -995,14 +1158,30 @@ function decideSelection(document, control, elected) {
     };
   }
   if (control.page === 4 || (control.page === 5 && /You were convicted|does not qualify/i.test(context))) {
+    /*
+     * ONE GROUND, ONE REASON. The ten boxes here are ten different statutory
+     * bases, so one sentence repeated ten times is not a disclosure of any of
+     * them -- it is the shape of the defect, not the repair. The ground is
+     * matched against the form's own printed words and the build refuses if a
+     * box matches none of them or more than one, so a revision that reworded
+     * item 9 stops this build rather than shipping a reason describing a
+     * ground the page no longer prints.
+     */
+    const matched = ITEM_9_GROUNDS_NOT_USED.filter((ground) => ground.match.test(context));
+    if (matched.length !== 1) {
+      fail("an EXP102 item 9 ground this build must explain matched no single printed entry",
+        `${matched.length} match(es) for ${JSON.stringify(shortContext)}`);
+    }
+    const ground = matched[0];
     return {
       mark: false, approvedDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
       effectiveLabel: `Item 9 qualification box not used on this route — ${shortContext}`,
+      item9GroundKey: ground.key,
       routeConditionThatMakesItInapplicable:
-        `this family is built for ${ROUTE_KEY}, the Minn. Stat. § 152.18 discharge. EXP102 item 9 offers one `
-        + "box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a "
-        + "different route with a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or "
-        + "EXP107 for judicial-records-only relief — and this family binds neither of those forms."
+        `this family is built for ${ROUTE_KEY}, the Minn. Stat. § 152.18 discharge, and binds EXP106 as its `
+        + "proposed order. EXP102 item 9 offers one box per statutory basis and exactly one of them is "
+        + `checked. This box is a different basis and the form directs a different order under it: "${ground.routedOrder}".`,
+      reason: ground.reason
     };
   }
   return {
@@ -1012,6 +1191,134 @@ function decideSelection(document, control, elected) {
     reason: "a sworn answer only you can give — whether you have lived at one address since the offence, "
       + "whether you have asked for an expungement before, whether there were identifiable victims or "
       + "protective orders, and whether you want the extra relief items 14 and 15 offer."
+  };
+}
+
+/*
+ * THE SELECTION-DISCLOSURE GUARD, AND WHY IT IS HERE AND NOT IN A SELF-TEST.
+ *
+ * This runs in the ORDINARY build path -- `node
+ * scripts/build-census-v1-mn_petition_15218-set.mjs`, with no flag -- between
+ * composing the two participant documents and writing the first byte. Nothing
+ * in this repository's CI or integration chain runs a `--self-test`, and a
+ * guard nothing runs refuses nothing: VF61 proved that by reintroducing a
+ * defect a repair lane had just fixed and watching a plain `node <builder>`
+ * exit 0 and write the bad values to disk.
+ *
+ * It refuses five things, each of which was true of the delivered bytes VF61
+ * measured or is the shape those bytes could return to:
+ *
+ *   1. an unmarked selection control that does not say why it is empty. All
+ *      ten EXP102 item 9 grounds carried `reason: null` in BOTH delivered
+ *      records. `requiredOptionsMissing` read 0 throughout, because the shared
+ *      reader never reaches a selection control on this field-map shape.
+ *   2. two boxes leaning on one sentence. A single reason shared across many
+ *      controls is the defect, not a pass -- il-seal-3yr-set carries 76 of 78
+ *      controls under one boilerplate sentence.
+ *   3. a box that reaches neither participant document. Both its printed words
+ *      and its reason must be readable in the delivered markdown, matched
+ *      against the raw file as an independent lane would grep it.
+ *   4. the sweep sentence, in the exact words that were false of these bytes.
+ *   5. a selection control in none of the four classes the guide describes,
+ *      which is how a box goes missing from every list without any count
+ *      changing.
+ *
+ * A COUNT IT COULD NOT TAKE WOULD BE null. Every count below is taken from the
+ * rows this build is about to publish, so each is a measurement.
+ */
+const FALSE_SWEEP_SENTENCE = "Every other box in this packet is empty and is yours";
+
+function auditSelectionDisclosure({ documents, selectionDispositions, otherGroundBoxes, participantInstructions }) {
+  const classes = {
+    marked: [], protectedField: [], otherStatutoryGround: [], participantElection: [], unclassified: []
+  };
+  for (const document of documents) {
+    for (const row of selectionDispositions[document.key]) {
+      const where = { form: document.formNumber, page: row.page, blankId: row.blankId, reason: row.reason ?? null };
+      if (row.marked === true) classes.marked.push(where);
+      else if (row.approvedDisposition === "PROTECTED_FIELD") classes.protectedField.push(where);
+      else if (row.approvedDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE") classes.otherStatutoryGround.push(where);
+      else if (row.approvedDisposition === "PARTICIPANT_ELECTION_GENUINE") classes.participantElection.push(where);
+      else classes.unclassified.push({ ...where, approvedDisposition: row.approvedDisposition ?? null });
+    }
+  }
+  const total = Object.values(classes).reduce((n, rows) => n + rows.length, 0);
+
+  // (5) every box is in a class the guide describes.
+  if (classes.unclassified.length > 0) {
+    fail("a selection control is in none of the four classes the participant guide describes",
+      JSON.stringify(classes.unclassified.slice(0, 6)));
+  }
+
+  // (1) every unmarked selection control says why it is empty.
+  const withNoStatedReason = [...classes.protectedField, ...classes.otherStatutoryGround, ...classes.participantElection]
+    .filter((row) => String(row.reason ?? "").trim().length === 0);
+  if (withNoStatedReason.length > 0) {
+    fail("a selection control is delivered empty with no stated reason, which no counter on this "
+      + "field-map shape can see", `${withNoStatedReason.length}: `
+      + JSON.stringify(withNoStatedReason.slice(0, 6).map((r) => `${r.form}/${r.blankId}`)));
+  }
+
+  // (2) no two boxes on another statutory ground lean on one sentence.
+  const byReason = new Map();
+  for (const row of classes.otherStatutoryGround) {
+    const key = String(row.reason ?? "").trim();
+    if (!byReason.has(key)) byReason.set(key, []);
+    byReason.get(key).push(`${row.form}/${row.blankId}`);
+  }
+  const shared = [...byReason.entries()].filter(([, rows]) => rows.length > 1);
+  if (shared.length > 0) {
+    fail("boxes stating different statutory grounds share one reason; a reason that covers many grounds "
+      + "explains none of them", JSON.stringify(shared.map(([, rows]) => rows)));
+  }
+
+  // (3) each of them reaches the participant, in the form's own words.
+  const notInTheGuide = [];
+  for (const box of otherGroundBoxes) {
+    const wordsOnThePage = participantInstructions.includes(box.printedWords);
+    const reasonOnThePage = participantInstructions.includes(String(box.reason ?? "").trim());
+    if (!wordsOnThePage || !reasonOnThePage) {
+      notInTheGuide.push({ box: `${box.form}/${box.blankId}`, wordsOnThePage, reasonOnThePage });
+    }
+  }
+  if (notInTheGuide.length > 0) {
+    fail("a box printed for another statutory ground is not named in the delivered participant guide",
+      JSON.stringify(notInTheGuide.slice(0, 6)));
+  }
+
+  // (4) the sentence that swept them up is gone.
+  if (participantInstructions.includes(FALSE_SWEEP_SENTENCE)) {
+    fail("the delivered guide still tells the participant that every other box is theirs, while boxes "
+      + "stating other statutory grounds are empty", JSON.stringify(FALSE_SWEEP_SENTENCE));
+  }
+
+  return {
+    schemaVersion: "rcap-selection-disclosure-audit/v1",
+    familyId: FAMILY_ID,
+    whatThisIs:
+      "Every selection control this family delivers, counted by what the packet says about it. It exists "
+      + "because the fleet counter that should have caught a selection control with no stated reason "
+      + "cannot see one on this family: the shared reader in "
+      + "scripts/rcap-packet-completeness/verify-packet-completeness.mjs (readFieldRows, the "
+      + "anchors-and-withheld shape) reads writableAnchors and withheld and does not read "
+      + "selectionControls at all, so requiredOptionsMissing is structurally 0 here whatever these boxes "
+      + "carry. That reader is shared code this lane does not own. This audit is measured in the build "
+      + "path and the build refuses rather than delivering a non-zero count.",
+    selectionControls: total,
+    marked: classes.marked.length,
+    protectedField: classes.protectedField.length,
+    otherStatutoryGround: classes.otherStatutoryGround.length,
+    participantElection: classes.participantElection.length,
+    unclassified: classes.unclassified.length,
+    selectionControlsWithNoStatedReason: withNoStatedReason.length,
+    distinctReasonsAcrossOtherStatutoryGroundBoxes: byReason.size,
+    otherStatutoryGroundBoxesNamedInTheParticipantGuide: otherGroundBoxes.length - notInTheGuide.length,
+    requiredOptionsMissingAsTheSharedVerifierMeasuresIt: {
+      value: 0,
+      whyItIsNotAMeasurementOfThis:
+        "the shared reader audits this family's writableAnchors and withheld rows and none of its "
+        + "selection controls, so this number cannot move when a selection control loses its reason"
+    }
   };
 }
 
@@ -1028,6 +1335,7 @@ function selectionRow(control, decision) {
     ...(decision.routeDetermined ? { routeDetermined: true, authority: decision.authority } : {}),
     ...(decision.routeConditionThatMakesItInapplicable
       ? { routeConditionThatMakesItInapplicable: decision.routeConditionThatMakesItInapplicable } : {}),
+    ...(decision.item9GroundKey ? { item9GroundKey: decision.item9GroundKey } : {}),
     ...(decision.courtCompletesAfterFiling
       ? { courtCompletesAfterFiling: true, laterCompletionTrigger: decision.laterCompletionTrigger } : {}),
     reason: decision.reason ?? decision.why ?? null,
@@ -1551,7 +1859,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling, laterCompletion, elections, captionFileNumber }) {
+function renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, otherGroundBoxes, requiredBeforeFiling, laterCompletion, elections, captionFileNumber }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1684,14 +1992,57 @@ function renderParticipantInstructions({ documents, censuses, marks, protectedBo
       lines.push("decisions the judge makes after the hearing.");
       lines.push("");
     }
-    /* Precise rather than sweeping: the boxes that are neither marked nor
-     * court-owned divide into ones this route genuinely leaves to the
-     * participant and ones another statutory route would use, and both are
-     * presented below under the heading that explains them. A blanket "yours to
-     * decide" over that mixture is the same shape of claim this section exists
-     * to remove. */
-    lines.push("Every other box in this packet is empty and is yours. The ones that ask you for a decision are");
-    lines.push("listed under \"Choices only you can make\" below, with what each one means.");
+    /*
+     * THE SWEEP SENTENCE, WHICH WAS FALSE OF THE DELIVERED BYTES.
+     *
+     * What stood here was "Every other box in this packet is empty and is
+     * yours", followed by a pointer to "Choices only you can make". VF61
+     * measured what that sentence covered: ten EXP102 item 9 boxes, each
+     * stating a DIFFERENT statutory ground for expungement, appearing in
+     * neither list, on a petition signed under Minn. Stat. § 358.116. The
+     * comment that used to sit here said the two classes were "both presented
+     * below under the heading that explains them" -- and only one of them was.
+     *
+     * The sentence is now counted from the same dispositions the field map
+     * publishes, and the second class has the section it was promised. The
+     * arithmetic is asserted in the build path: if a box is in none of the four
+     * classes the guide describes, nothing is written.
+     */
+    const other = otherGroundBoxes.length;
+    lines.push("Every other box in this packet is empty, and they are NOT all yours.");
+    lines.push(`${other} of them are printed for statutory grounds this packet is not built for, and they`);
+    lines.push("are listed under \"Boxes printed for grounds this packet does not use\" below, with what each");
+    lines.push("one says and why this packet leaves it empty. The rest are yours: they are listed under");
+    lines.push("\"Choices only you can make\" below, with what each one means. No box in this packet is left");
+    lines.push("unexplained.");
+    lines.push("");
+  }
+  /*
+   * THE BOXES THAT BELONG TO ANOTHER STATUTORY GROUND.
+   *
+   * Ten of these are EXP102 item 9's other qualification boxes and one is the
+   * unused branch of FEE102 item 2's printed "Choose one:". Each carries its
+   * own reason, drawn from the ground the form prints beside that box, and the
+   * guide names each one in the form's own words. A single sentence covering a
+   * run of them would put this section back where it started.
+   */
+  if (otherGroundBoxes.length > 0) {
+    lines.push("## Boxes printed for grounds this packet does not use");
+    lines.push("");
+    lines.push(`${otherGroundBoxes.length} boxes in this packet are empty because they belong to a`);
+    lines.push("different statutory ground from the one this packet is built for. They are not the court's boxes");
+    lines.push("and they are not blank by oversight. Each one is a separate legal basis with its own proposed");
+    lines.push("order, and this packet carries the proposed order for one basis only. Ticking one of them here");
+    lines.push("would swear to a ground this petition is not built to prove, on a paper you sign under Minn.");
+    lines.push("Stat. § 358.116.");
+    lines.push("");
+    lines.push("Read each one against your own records. **If one of these, and not the § 152.18 discharge,");
+    lines.push("describes your case, this is the wrong packet.** Stop, and get the packet built for that");
+    lines.push("ground, rather than adding a box to this one.");
+    lines.push("");
+    for (const box of otherGroundBoxes) {
+      lines.push(`- **${box.form} page ${box.page} — the box printed "${box.printedWords}"** ${box.reason}`);
+    }
     lines.push("");
   }
   /*
@@ -2273,6 +2624,24 @@ async function build({ check = false } = {}) {
       protectedBoxes.push({ form: document.formNumber, page: row.page, effectiveLabel: row.effectiveLabel, reason: row.reason });
     }
   }
+  /*
+   * Every empty box that belongs to a DIFFERENT statutory ground, read from
+   * the same dispositions the field map publishes. Ten are EXP102 item 9's
+   * other qualification boxes; one is the unused branch of FEE102 item 2's
+   * printed "Choose one:". The printed words are carried through to the guide
+   * so the participant is told what the box says rather than what this build
+   * calls it.
+   */
+  const otherGroundBoxes = [];
+  for (const document of documents) {
+    for (const row of selectionDispositions[document.key]
+      .filter((row) => !row.marked && row.approvedDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE")) {
+      otherGroundBoxes.push({
+        form: document.formNumber, page: row.page, blankId: row.blankId,
+        printedWords: cleanText(row.printedContext).trim(), reason: row.reason
+      });
+    }
+  }
   for (const document of documents) {
     const rows = [
       ...anchorSets[document.key].withheld,
@@ -2297,7 +2666,7 @@ async function build({ check = false } = {}) {
 
   const captionFileNumber = captionFileNumberOutcomes([canonical, boundary]);
   const participantInstructions = renderParticipantInstructions({
-    documents, censuses, marks, protectedBoxes,
+    documents, censuses, marks, protectedBoxes, otherGroundBoxes,
     requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows,
     captionFileNumber
   });
@@ -2314,6 +2683,13 @@ async function build({ check = false } = {}) {
       JSON.stringify(undisclosed));
   }
 
+  /* THE SELECTION-DISCLOSURE GUARD, on the bytes about to be delivered. It
+   * throws rather than returning a verdict, so nothing below it runs when a
+   * selection control is delivered without saying why it is empty. */
+  const selectionDisclosure = auditSelectionDisclosure({
+    documents, selectionDispositions, otherGroundBoxes, participantInstructions
+  });
+
   // ---- write the overlay directory ---------------------------------------
   fs.mkdirSync(absFor(`${OUT}/fixtures`), { recursive: true });
   fs.mkdirSync(absFor(`${OUT}/reports`), { recursive: true });
@@ -2321,6 +2697,7 @@ async function build({ check = false } = {}) {
   fs.writeFileSync(absFor(`${OUT}/fixtures/boundary.pdf`), boundary.bytes);
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`), participantInstructions);
   fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), filingInstructions);
+  writeJson(`${OUT}/reports/selection-disclosure.json`, selectionDisclosure);
 
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1",
@@ -2521,7 +2898,20 @@ async function build({ check = false } = {}) {
         + "combined span and the summed advance are correct, so the geometry holds; the character decoding "
         + "does not. Reported to the Captain rather than edited from this lane.",
       `${supplyRows.length} item(s) the filing needs are classified required-before-filing and named in `
-        + "participant-instructions.md rather than guessed."
+        + "participant-instructions.md rather than guessed.",
+      `${selectionDisclosure.otherStatutoryGround} empty boxes belong to a different statutory ground from `
+        + "the one this packet is built for — the ten other qualification boxes on EXP102 item 9 and the "
+        + "unused branch of FEE102 item 2's printed \"Choose one:\". None is ticked, because electing a "
+        + "statutory ground is the participant's oath and not this packet's; each carries its own reason "
+        + "drawn from the ground the form prints beside it; and each is named in participant-instructions.md "
+        + "in the form's own words.",
+      `Every one of this family's ${selectionDisclosure.selectionControls} selection controls states why it `
+        + "is empty, and the build refuses rather than delivering one that does not. The fleet counter that "
+        + "should catch that, requiredOptionsMissing, cannot see it here: the shared reader in "
+        + "scripts/rcap-packet-completeness/verify-packet-completeness.mjs reads writableAnchors and withheld "
+        + "on this field-map shape and does not read selectionControls at all, so it audits 387 rows on this "
+        + "family and none of these 95. That reader is shared code this lane does not own; the measurement is "
+        + "in reports/selection-disclosure.json."
     ]
   });
 
