@@ -1317,8 +1317,8 @@ function participantInstructions(record, maps, rbf, optional) {
    * silence it describes. */
   out.push("- **The fee:** The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what it is before you go.");
   out.push("- **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.");
-  out.push(`- **Service:** ${track.rules.service} The form itself carries a certificate of service at item 14, addressed to the prosecuting attorney, so complete it after you serve.`);
-  out.push(`- **Notarization:** ${track.rules.notarization}`);
+  out.push("- **Service:** Give a copy of the petition to the prosecuting attorney, then complete item 14 with the actual service date and method. Ask the municipal court clerk how and when to serve the copy. Item 14 lists e-filing where available, email or fax, hand delivery, and regular mail.");
+  out.push("- **Notarization:** Ask the municipal court clerk whether your signature must be witnessed or notarized before you sign. JDF 683 item 15 provides your signature and date; neither is filled in for you.");
   out.push(`- **Objections:** ${track.rules.notice}`);
   out.push("");
 
@@ -1412,10 +1412,10 @@ function filingInstructions(record, artifacts, maps) {
    * because the record states none. */
   out.push("The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what the filing costs before you go. **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.", "");
   out.push("## Service, notice and signature", "");
-  out.push(`**Service:** ${track.rules.service}`, "");
+  out.push("**Service:** Give a copy of the petition to the prosecuting attorney, then complete item 14 with the actual service date and method. Ask the municipal court clerk how and when to serve the copy. Item 14 lists e-filing where available, email or fax, hand delivery, and regular mail.", "");
   out.push(`**Notice and objections:** ${track.rules.notice}`, "");
   out.push(`**Signature:** ${track.rules.participantSignature}`, "");
-  out.push(`**Notarization:** ${track.rules.notarization}`, "");
+  out.push("**Notarization:** Ask the municipal court clerk whether your signature must be witnessed or notarized before you sign. JDF 683 item 15 provides your signature and date; neither is filled in for you.", "");
   out.push("## Scope restriction the record states", "");
   for (const s of track.scopeRestrictions ?? []) out.push(`- ${s}`);
   out.push("");
@@ -1440,6 +1440,21 @@ function filingInstructions(record, artifacts, maps) {
 }
 
 /* ---- the entry point ------------------------------------------------------- */
+// VF40: check the participant action sections, not the labelled record quotes.
+function assertServiceGuidance(participant, filing) {
+  for (const [name, text] of [["participant", participant], ["filing", filing]]) {
+    const service = text.split("\n").find((line) => /^(?:- )?\*\*Service:\*\*/.test(line));
+    const notarization = text.split("\n").find((line) => /^(?:- )?\*\*Notarization:\*\*/.test(line));
+    assert.ok(service && notarization, `${name}: service and notarization actions must be present`);
+    assert.ok(!/source review/i.test(`${service} ${notarization}`),
+      `${name}: internal source-review text is not a participant service/notarization action`);
+    assert.ok(/prosecuting attorney/i.test(service) && /item 14/i.test(service)
+      && /actual service date and method/i.test(service), `${name}: disclose the actual certificate-of-service task`);
+    assert.ok(/municipal court clerk/i.test(notarization) && /before you sign/i.test(notarization),
+      `${name}: tell the participant how to resolve the unspecified notarization requirement`);
+  }
+}
+
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const record = loadControllingRecords();
@@ -1494,9 +1509,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     };
   }
 
-  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
-  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
-
+  const pendingPdfs = [];
   const artifacts = [];
   const writeProofs = [];
   const renderReports = { canonical: new Map(), boundary: new Map() };
@@ -1545,7 +1558,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${OUT}/fixtures/${fixtureName}.pdf`;
-    fs.writeFileSync(path.join(ROOT, file), packetBytes);
+    pendingPdfs.push({ file, bytes: packetBytes });
     artifacts.push({
       fixture: fixtureName, file, sha256: sha256(packetBytes),
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
@@ -1559,8 +1572,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rbf = requiredBeforeFilingItems(maps);
   const optional = optionalItems(maps);
   const instructionsText = participantInstructions(record, maps, rbf, optional);
+  const filingText = filingInstructions(record, artifacts, maps);
+  assertServiceGuidance(instructionsText, filingText);
+  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
+  for (const { file, bytes } of pendingPdfs) fs.writeFileSync(path.join(ROOT, file), bytes);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
-  fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingInstructions(record, artifacts, maps));
+  fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingText);
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,

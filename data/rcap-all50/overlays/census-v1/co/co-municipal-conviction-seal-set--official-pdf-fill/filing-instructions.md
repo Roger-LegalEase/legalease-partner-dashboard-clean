@@ -37,13 +37,13 @@ The committed record does not confirm a filing fee for this route, so this packe
 
 ## Service, notice and signature
 
-**Service:** The source review does not state a service requirement.
+**Service:** Give a copy of the petition to the prosecuting attorney, then complete item 14 with the actual service date and method. Ask the municipal court clerk how and when to serve the copy. Item 14 lists e-filing where available, email or fax, hand delivery, and regular mail.
 
 **Notice and objections:** Objection mechanics have not been confirmed.
 
 **Signature:** The petitioner signs their own petition.
 
-**Notarization:** The source review does not state a notarization requirement.
+**Notarization:** Ask the municipal court clerk whether your signature must be witnessed or notarized before you sign. JDF 683 item 15 provides your signature and date; neither is filled in for you.
 
 ## Scope restriction the record states
 
