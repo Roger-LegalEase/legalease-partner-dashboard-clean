@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4229c68f20f4efb9c5759ebde3104dafab3fe2e3",
+  "minimumCaptainSha": "62efe063a1ec3820ae49904562e61c8790c0eff4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,15 +73,15 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 37,
+    "repairRequired": 36,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 210,
+    "COMPLETE_PACKET_PROVEN": 211,
     "PRODUCT_PATH_PENDING": 18,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "FAIL_REPAIR_REQUIRED": 41,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 9,
@@ -33106,14 +33106,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf40",
-        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf67",
+        "verifiedAtBase": "727531f334f19b77110930cb7cb0d806f18efe94",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-nh-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33142,20 +33140,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "A DELIVERED ARTIFACT NOW PUBLISHES A CONTROL THAT DOES NOT EXIST, AND VF40 DISPROVED IT BY MUTATION. build-findings.json, rewritten by this repair, states as fact: 'The self-test now scans both delivered documents WHOLE for a currency figure. It used to strip every record-quoted sentence first, which is where both amounts lived, so it could not fail on the leak it was written to catch.' The diagnosis is exactly right and the new test is not a fix for it. In scripts/build-census-v1-nh_marijuana_annulment-set.mjs, participantInstructions() and filingInstructions() each end 'return withoutAmounts(...)', which replaces every match of CURRENCY_FIGURE = /\\$\\s?[0-9][0-9,.]*/g with '[amount elided]'. The self-test at line 2001 then scans those same already-scrubbed return values with that same CURRENCY_FIGURE regex. withoutAmounts(x).match(CURRENCY_FIGURE) is empty for every input, so the assertion is a tautology. PROOF: VF40 injected 'the filing fee for this petition is $487.25, payable to the clerk' — a fabricated price appearing in no record sentence — into a delivered participant line ahead of the boundary, and ran the self-test. It exited 0 with no assertion failure. Dumping the delivered document under that mutation shows the line shipping as 'the filing fee for this petition is [amount elided] payable to the clerk.' The old test could not fail because of a carve-out; the new one cannot fail because the generator scrubs first with the identical regex. The build script was restored and rehashed to its committed digest 4d58320daef98ec3ee5595cfddc6b6ac23e16451a102f2b8f84e51118b66dea1. Two consequences the Captain should weigh: (1) that mutation output also shows the scrub eating the comma after '$487.25', because [0-9,.]* consumes trailing punctuation — the page's own promise that 'Nothing else in any quotation is changed' is true of the bytes delivered today, which VF40 confirmed character by character against the record's fees sentence, but is not enforced by anything; (2) the page tells the reader that what was elided is 'a figure recorded against the GENERAL petition to annul a criminal record', and the mutation shows a figure of any origin, including a fabricated one, receives the same elision and the same on-page explanation. Also recorded: the artifact digests themselves rehash correctly (23390b7f../661ff004..), page counts match at 7, and the central RASTER_PASS still pins the bytes on disk — the failure here is the published claim, not the bytes.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
