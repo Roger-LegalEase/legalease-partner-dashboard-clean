@@ -1,0 +1,301 @@
+{
+  "schemaVersion": "rcap-product-path-pending-diagnosis/v1",
+  "generatedBy": "Captain, 2026-09-10, from MASTER_QUEUE",
+  "question": "Why are 21 families PRODUCT_PATH_PENDING, and is any of it executable now?",
+  "theAnswerIsNotThatTheyAreStuck": "PRODUCT_PATH_PENDING is not a hold nobody has looked at. Sixteen of the twenty-one carry an explicit executionReclassification -- an owner decision that moved the family OUT of the legal queue and into route-mapping work, with the reasoning recorded and an exact next executable action written down. az_record_sealing_arrest_no_charges-set's says it plainly: 'This is record-driven route mapping, not a general legal question.'",
+  "whatThatMeansForTheCount": "They are assigned work, not open questions. Five are assigned to LEGAL-PURGE-W3 and FIVE ARE ASSIGNED TO THE CAPTAIN -- which is to say they are mine to dispatch and I had not been dispatching them. Eleven carry no execution owner at all and are the genuinely unassigned remainder.",
+  "aShapeToWatch": "Two of them -- rcap-oh-custom-pleading-clean-tracks and wa_vac_substance_use_disorder-set -- carry a current independent verdict of BLOCKED_LEGAL_INPUT while sitting at PRODUCT_PATH_PENDING, because the reclassification override is read before the verdict. Their legalInputStatus reads SETTLED and the owner decision says the remaining question is mapping rather than law, so the override is deliberate. Recorded so that a later reader does not mistake it for the state machine losing a legal block.",
+  "totals": {
+    "families": 21,
+    "byExecutionOwner": {
+      "CAPTAIN": 5,
+      "LEGAL-PURGE-W3": 5,
+      "NO_EXECUTION_OWNER_NAMED": 11
+    },
+    "withAnExactNextAction": 20
+  },
+  "byExecutionOwner": {
+    "NO_EXECUTION_OWNER_NAMED": [
+      "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "ks-21-6614-conviction-set",
+      "ks-21-6614-diversion-set",
+      "ks-21-6614-prostitution-coercion-set",
+      "ks-21-6614-specialty-court-set",
+      "ks-22-2410-arrest-set",
+      "ks-22-4908-registration-relief-set",
+      "rcap-ga-guidance-implementation",
+      "ut_pet_remove_link-set"
+    ],
+    "LEGAL-PURGE-W3": [
+      "az_record_sealing_arrest_no_charges-set",
+      "az_record_sealing_dismissal_not_guilty-set",
+      "ky_misdemeanor_expungement-set",
+      "ne-setaside-noncustodial-set",
+      "or_contempt_setaside-set"
+    ],
+    "CAPTAIN": [
+      "pa_6308_underage-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "wa_vac_substance_use_disorder-set",
+      "wi_exp_cr266-set",
+      "wv_nc_acquittal_dismissal-set"
+    ]
+  },
+  "rows": [
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "implementationStrategy": "process_guidance",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Complete existing guidance acceptance and source-receipt compatibility. A written-request upgrade requires the accepted destination/format confirmation recorded in the controlling addendum.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "GUIDANCE_MAPPING_REQUIRED",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "implementationStrategy": "process_guidance",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Complete existing guidance acceptance and source-receipt compatibility; bind the Board portal and distinguish the probation-officer branch. A supporting authorization form is not the Board application.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "GUIDANCE_MAPPING_REQUIRED",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "implementationStrategy": "process_guidance",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Complete existing guidance acceptance and current Board portal/document handoff. Preserve the portal application as the participant's later action; this guide does not submit it.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "GUIDANCE_MAPPING_REQUIRED",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill",
+      "executionOwner": "LEGAL-PURGE-W3",
+      "ownerDecision": "This is record-driven route mapping, not a general legal question.",
+      "nextExecutableAction": "Encode the charging-document and initial-appearance filing-court rule, route only when the record establishes the court, and hard-stop ambiguous records.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill",
+      "executionOwner": "LEGAL-PURGE-W3",
+      "ownerDecision": "This is record-driven route mapping, not a general legal question.",
+      "nextExecutableAction": "Encode the charging-history filing-court rule, route only on established record facts, and hard-stop ambiguity.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-21-6614-conviction-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-21-6614-diversion-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-21-6614-specialty-court-set",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--custom-pleading",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ky_misdemeanor_expungement-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill",
+      "executionOwner": "LEGAL-PURGE-W3",
+      "ownerDecision": "This is route and field-election mapping.",
+      "nextExecutableAction": "Map misdemeanor, violation, and qualifying traffic screening facts to exact AOC-496 selections and hard-stop when the record does not establish an election.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ne-setaside-noncustodial-set",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--custom-pleading",
+      "executionOwner": "LEGAL-PURGE-W3",
+      "ownerDecision": "The controlling Nebraska record already selects CC-6-11.",
+      "nextExecutableAction": "Replace the conflicting custom-pleading vehicle with official_pdf_fill, bind the exact CC-6-11 source, and release the official-form build.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "or_contempt_setaside-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill",
+      "executionOwner": "LEGAL-PURGE-W3",
+      "ownerDecision": "This is identity reconciliation, not unresolved doctrine.",
+      "nextExecutableAction": "Reconcile the legacy identifier to the ORS 137.225 route or retire it as a duplicate while preserving history, then release the resulting family.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is product and route mapping.",
+      "nextExecutableAction": "Bind court-status facts to the proper filing vehicle, refuse automatic selection when status is not established, and then build the selected artifact.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": null,
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": false
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is route-family and customer-delivery binding, not a Lawrence question.",
+      "nextExecutableAction": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "ut_pet_remove_link-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill",
+      "executionOwner": null,
+      "ownerDecision": null,
+      "nextExecutableAction": "Bind held 1501CR, 1501CR-C, and 1502CR; add the route-fact decision that selects hearing form 1110GE or no-hearing form 1111GE.",
+      "routeMappingStatus": "BOUND",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": "PRODUCT_PATH_PENDING",
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is route-to-vehicle mapping plus an operational fee lookup.",
+      "nextExecutableAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "wi_exp_cr266-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is route and field-election mapping.",
+      "nextExecutableAction": "Map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, and release the build.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    },
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is route and field-election mapping.",
+      "nextExecutableAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "legalInputStatus": "SETTLED",
+      "sourceReconciliationDisposition": null,
+      "hasAnExactNextAction": true
+    }
+  ],
+  "grantsNothing": "A diagnosis promotes nothing, demotes nothing and approves no packet."
+}
