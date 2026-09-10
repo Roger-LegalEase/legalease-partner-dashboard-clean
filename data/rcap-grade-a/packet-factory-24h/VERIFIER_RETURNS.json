@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 164,
-    "rows": 1168,
+    "returnDirectories": 165,
+    "rows": 1171,
     "independentVerdicts": 292,
     "failRepairRequired": 67,
     "passIndependent": 203
@@ -11567,6 +11567,36 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_d6-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL, on the BOUNDARY fixture, on a FILED page, and this is a defect this lane passed last round and should not have. boundary.pdf prints, in the caption of the verified petition on page 1 and again in the caption of the proposed order on page 3, 'Cause number of the conviction: 45C01-0812-FB-00000000000654321', and four lines below it 'Offense level as it appears on the court record: Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction', and below that 'Statutory section this petition is brought under: I.C. 35-38-9-3'. Read off a 150 dpi raster of that page, not only off extracted text. WHY THIS IS A CONTRADICTION WITHOUT ANY EXTERNAL AUTHORITY. The build binds the third segment of the cause number to the offence class, and proves it five times in its own six fixtures: d6 canonical pairs F6 with 'Level 6 felony'; felony canonical pairs F5 with 'Level 5 felony'; misd canonical and misd boundary both pair CM with 'Class A misdemeanor'; and in_conviction_felony-set's BOUNDARY fixture pairs the identical token FB with 'Class B felony under the pre-2014 sentencing scheme'. The sixth, this one, pairs FB with 'Class D felony'. Within this repository the token FB is therefore bound to two different offence classes under two different statutory sections, and one of the two must be wrong. WHY THIS IS A NEW FINDING RATHER THAN THE OLD ONE. Last round this lane failed KNOWN_PREFILLS because the d6 boundary cause number was byte-identical to the felony boundary cause number. FIX04 repaired that at f2fa1648b by changing 45C01-0812-FB-00000000000123456 to 45C01-0812-FB-00000000000654321 - six digits in the serial, and nothing else. git log -S confirms that is the only change to this literal. The digest collision my counter could see was cleared; the semantic collision it could not see was left. This lane accepted that repair at b63a1f7a9 on the byte-identity ground alone and did not check whether the charge-level token was still wrong. It is. WHAT I AM NOT ASSERTING. I am not asserting what FB means in Indiana case numbering. The held record carries no case-type token table - nothing in data/record-clearing, src/lib/rcap/state-packs/in or the Nationwide corpus binds FA/FB/FC/FD or F1-F6 to an offence class, and this lane will not import that from outside the record. Which of the two fixtures is wrong therefore needs legal input. That the pair is inconsistent needs none. SOURCE-AUTHORED, NOT DATA-DRIVEN. Both values are literals in the build script: scripts/build-census-v1-in_conviction_d6-set.mjs line 364 'matter.cause_number': '45C01-0812-FB-00000000000654321', against scripts/build-census-v1-in_conviction_felony-set.mjs line 346 '45C01-0812-FB-00000000000123456'. Everything else under this obligation passes: petitioner name, date of birth, county, court, date of conviction, sentence-completion date and statutory section are consistent between the petition and the proposed order on both fixtures, and no prefill states a fact the record does not hold.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_d6-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access', and every component labelled 'in_conviction_d6-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (6 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (2 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)'. 10 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910c-in-guidance.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
       "superseded": false
     },
     {
@@ -11666,6 +11696,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_felony-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_felony:conviction-expungement-with-records-marked-expunged', and every component labelled 'in_conviction_felony-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (7 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (2 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)'. 11 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' 'The grant is discretionary. Route to a legal-review gate before offering this track, per the build order in the review.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910c-in-guidance.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_felony-set",
       "superseded": false
     },
     {
@@ -11756,6 +11809,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_misd-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_misd-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access', and every component labelled 'in_conviction_misd-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (6 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (3 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)' and '(impact: release_blocker; affects: correct_form)'. 12 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' 'Tell the participant they do not file separately for those.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910c-in-guidance.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_misd-set",
       "superseded": false
