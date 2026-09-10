@@ -455,6 +455,47 @@ async function renderDocument(source, census, fixtureName) {
      * shared step's defect, not Colorado's; the option is default-off and no
      * other family's bytes move because this family passes it. */
     suppressSynthesizedWidgetBorders: true,
+    /* FIX135. NINE CHECK BOXES DELIVERED WITH TWO FRAMES, BECAUSE A WHITE
+     * BACKGROUND THE COURT'S OWN APPEARANCE PAINTS WAS STRIPPED OUT OF IT.
+     *
+     * Measured here on the committed bytes, not carried from a label. Every
+     * check box on JDF-641 and JDF-642 ships FOUR appearance streams: /AP /N
+     * /Off and /AP /N /Yes, both opening `1 g <bbox> re f` -- an OPAQUE WHITE
+     * background -- and /AP /D /Off and /AP /D /Yes, both opening `0.749023 g`
+     * or `0.75293 g`. The grey pair is the mouse-DOWN appearance and never
+     * prints; only the white /N pair reaches paper. stripOpaqueBackgroundPaint
+     * removes a leading near-white fill (its own test is grey >= 0.9), so it
+     * takes the white /N background and correctly leaves the grey /D alone.
+     *
+     * WHAT THAT COSTS ON THE PAGE. Colorado's page content prints its own
+     * smaller box at each of these rects; the widget's /AP covers it with the
+     * white fill and strokes a LARGER box in its place. With the fill gone the
+     * printed box is revealed and the stroked box is still drawn, so the
+     * participant is handed two concentric frames at every one of them. At 600
+     * dpi, against a poppler render of the pinned source (which applies 12.5.5
+     * and therefore shows what the court's own form shows), the delivered pages
+     * carry 13,766 dark pixels the source render does not, IDENTICAL in both
+     * fixtures, in exactly nine clusters: four on packet page 1, four on packet
+     * page 2 and one on packet page 7, each an 8.9 x 9.1pt square at x 126.96.
+     * Removed dark pixels: 0 on every page of both fixtures, so nothing the
+     * court prints had already been erased.
+     *
+     * THE INK IS NOT INVENTED AND MUST NOT BE DELETED. Reproduced here with
+     * scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs imported
+     * rather than reimplemented: 134 stroke-only flattened appearances across
+     * the two fixtures, 116 byte-identical to a stream the pinned source ships
+     * and 18 byte-identical to one once a leading opaque background fill is
+     * normalised away on both sides. Nothing unmatched. The remedy therefore
+     * RESTORES the fill rather than removing the stroke.
+     *
+     * preserveUnwrittenSelectionBackgrounds is the committed, opt-in remedy for
+     * exactly this symptom and it is already carried by the sibling Colorado
+     * family co_petition_seal_arrest-set. It preserves ONLY source-authored
+     * paint, only in an UNWRITTEN check box or radio widget, and only where the
+     * source ships the appearance itself. No mark is added, no box is ticked,
+     * /MK /BG is still removed, and the shared module is not modified, so no
+     * other family's next rebuild moves a byte because this family passes it. */
+    preserveUnwrittenSelectionBackgrounds: true,
     title: source.title
   });
   if (process.env.CO641_DEBUG_RENDER) {

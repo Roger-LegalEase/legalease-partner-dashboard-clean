@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX135",
+  "laneKind": "repair",
+  "dispatch": "Two families in the synthesized-widget-border cohort, each carrying one recorded failed obligation named CLIPPING_AND_OVERLAP, both re-measured today as EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED. Read the delivered PDFs and repair what actually clips or overlaps; do not remove border ink on either.",
+  "generatedAtBase": "26a3551068c88c9b76fa2da13ad7aefb3f202465",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "fix135-cone-20260910",
+  "howTheSourceWasRendered": {
+    "why": "A removed-dark-pixel count taken against an ANNOTATION-FREE render of an AcroForm source is worthless: the court keeps a great deal of what it prints inside widget /AP /N streams, so both sides come up blank in the same places and the difference is zero by construction.",
+    "renderer": "poppler pdftoppm -r 600 -gray -png, which draws widget annotations and applies ISO 32000-1 12.5.5. No flag suppressing annotations was passed.",
+    "provedNotAssumed": "The same command was run over the pinned JDF-641 and over a control copy of it with every page /Annots and the /AcroForm removed. JDF-641 page 5 renders 725,313 dark pixels normally and 521,645 with annotations removed, so 210,820 dark pixels on that page are drawn by annotations alone. Inside the /Rect of field 11.1 [147.6 488.654 540 553.334], whose /AP /N is `q 0 G 0.5 0.5 395 63.6794 re s Q`, the normal render carries 60,688 dark pixels and the annotation-free control carries 0. The court's writing box at 11.1 exists only inside that widget appearance, and this render draws it.",
+    "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and /AcroForm dropped; used only as a control and never as a comparison baseline."
+  },
+  "sharedModuleChanges": "none. No file under scripts/rcap-official-forms/, scripts/rcap-packet-completeness/ or scripts/grade-a-packet-factory-24h/ was modified by this lane. Both repairs are options passed at one caller's own finalizeOfficialForm call site, and both default to false in the shared module.",
+  "centralArtifactsEdited": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json and BORDER_COHORT_REMEDIATION.json were read and not written.",
+  "packetsSelfVerified": 0,
+  "verdictSet": "none. This lane repairs and measures; it issues no PASS and sets no verdict, and a repair author does not verify their own candidate.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "jurisdiction": "CO",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX135 co_multiple_conviction_seal-set (repair, grant set 6cd30124b3679d3a)",
+      "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "canonicalSha256": "b73f1b3c3121c3a8d7d1142002957383d25a9fcaaebd5a4c41d63edbf17bf7c5",
+      "boundarySha256": "acf6d40fbd83d87e7a702327b28954ece1e8067a4b0178e05e383b622c2b443c",
+      "canonicalPageCount": 7,
+      "boundaryPageCount": 7,
+      "pageCountMeasuredBy": "pdfinfo",
+      "digestsMeasuredBy": "sha256sum on the committed files",
+      "supersededCanonicalSha256": "48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de",
+      "supersededBoundarySha256": "ff74f8da50629aedd6eff550902ab831d19a9be3268bb88fc7cac62d87523fd1",
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED -- the court's own opaque white mask stripped out of nine check-box appearances",
+        "widgets": "nine selection rects: four on packet page 1 (JDF-641 p1), four on packet page 2 (JDF-641 p2), one on packet page 7 (JDF-642 p2). The page-1 and page-2 four are the District/County Court, Municipal Court, Prosecuting Attorney and Colorado Bureau of Investigation service boxes; the page-7 one is the order's own election box.",
+        "cause": "Every check box on JDF-641 and JDF-642 ships four appearance streams. /AP /N /Off and /AP /N /Yes open `1 g <bbox> re f`, an opaque WHITE background; /AP /D /Off and /AP /D /Yes open `0.749023 g` or `0.75293 g`. The grey pair is the mouse-DOWN appearance and never prints. stripOpaqueBackgroundPaint in scripts/rcap-official-forms/rcap-active-content.mjs removes a leading fill at grey >= 0.9 covering the widget, so it took the white /N background and correctly left the grey /D alone. Colorado's own page content prints a smaller box at each of those rects; the /AP covered it with the white fill and stroked a larger one in its place. With the fill gone the printed box was revealed and the stroked box was still drawn, so the participant was handed TWO CONCENTRIC FRAMES at every one of the nine.",
+        "readOnThePage": "Rendered at 300 dpi and read: the pinned source shows one clean box at each control; the delivered packet before this repair shows a second outline inside every one; the delivered packet after it shows one clean box again, matching the source.",
+        "remedy": "RESTORE -- preserveUnwrittenSelectionBackgrounds passed at this builder's own finalizeOfficialForm call. It keeps the source's authored blank-state paint on a selection this run did not write. /MK /BG is still removed, so no background the form did not itself author is requested, no mark is added and no box is ticked.",
+        "whyNotRemoval": "The ledger label on this family until today was SYNTHESIZED_INK_CONFIRMED, whose remedy REMOVES. Deleting this ink would have deleted the Colorado Judicial Department's own check-box stroke from the service and election controls of a motion and a proposed order."
+      },
+      "byteAccountingReproducedIndependently": {
+        "method": "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs IMPORTED, not reimplemented; the pass script itself was not run because it rewrites the shared ledger.",
+        "sourceAppearanceStreamsInPool": 82,
+        "sourceStreamsWithTheirBackgroundFillNormalisedAway": 74,
+        "beforeRepair": "134 stroke-only flattened appearances across the two fixtures: 116 matched byte-identically, 18 derived from a source stream minus its leading opaque background fill, 0 unmatched. This reproduces the committed ledger figure exactly.",
+        "afterRepair": "134 stroke-only flattened appearances: 134 matched byte-identically, 0 derived, 0 unmatched.",
+        "noTickWasAdded": "Zero streams anywhere in the delivered canonical reference ZapfDingbats or ZaDb, so no check box carries a mark. Every restored stream is the source's own /Off appearance byte for byte."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "dpi": 600,
+        "threshold": "grey < 128 is dark",
+        "sourceRender": "see howTheSourceWasRendered -- annotations DRAWN, proved against an annotation-free control",
+        "pageMapping": "reports/rendered-artifacts.json pageManifest, source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
+        "perPageCanonical": [
+          { "packetPage": 1, "form": "JDF-641", "sourcePage": 1, "addedBefore": 247677, "addedAfter": 241113, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 2, "form": "JDF-641", "sourcePage": 2, "addedBefore": 6564, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 3, "form": "JDF-641", "sourcePage": 3, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 4, "form": "JDF-641", "sourcePage": 4, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 5, "form": "JDF-641", "sourcePage": 5, "addedBefore": 33253, "addedAfter": 33253, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 6, "form": "JDF-642", "sourcePage": 1, "addedBefore": 198200, "addedAfter": 198200, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 7, "form": "JDF-642", "sourcePage": 2, "addedBefore": 638, "addedAfter": 1, "addedOutsideDeclaredWriteBoxesBefore": 638, "addedOutsideDeclaredWriteBoxesAfter": 1, "removedBefore": 0, "removedAfter": 0 }
+        ],
+        "perPageBoundary": [
+          { "packetPage": 1, "form": "JDF-641", "sourcePage": 1, "addedBefore": 324476, "addedAfter": 317912, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 2, "form": "JDF-641", "sourcePage": 2, "addedBefore": 6564, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 6564, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 3, "form": "JDF-641", "sourcePage": 3, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 4, "form": "JDF-641", "sourcePage": 4, "addedBefore": 0, "addedAfter": 0, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 5, "form": "JDF-641", "sourcePage": 5, "addedBefore": 48815, "addedAfter": 48815, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 6, "form": "JDF-642", "sourcePage": 1, "addedBefore": 270108, "addedAfter": 270108, "addedOutsideDeclaredWriteBoxesBefore": 0, "addedOutsideDeclaredWriteBoxesAfter": 0, "removedBefore": 0, "removedAfter": 0 },
+          { "packetPage": 7, "form": "JDF-642", "sourcePage": 2, "addedBefore": 638, "addedAfter": 1, "addedOutsideDeclaredWriteBoxesBefore": 638, "addedOutsideDeclaredWriteBoxesAfter": 1, "removedBefore": 0, "removedAfter": 0 }
+        ],
+        "removedTotalPerFixture": "0 on every page of both fixtures, before and after. Nothing the Colorado Judicial Department prints has been erased by this packet or by this repair.",
+        "addedRemovedByThisRepair": "13,766 dark pixels per fixture, all of it the nine doubled outlines. Nine clusters before the repair, each an 8.9 x 9.1pt square at x 126.96: four on page 1 (1673, 1673, 1609, 1609 px), four on page 2 (1673, 1673, 1609, 1609 px) and one on page 7 (637 px).",
+        "theOneResidual": "1 single isolated dark pixel per fixture at (186.48, 703.8) on packet page 7. It is present before and after the repair, is one pixel at 600 dpi on the edge of a glyph, and is not court ink lost or gained.",
+        "negativeControl": "Packet pages 3, 4, 5 and 6 -- every page this repair does not touch -- read IDENTICALLY before and after in both directions and in both fixtures: p3 and p4 at 0 added / 0 removed, p5 at 33,253 (canonical) and 48,815 (boundary) added, all inside declared write boxes, 0 removed, p6 at 198,200 and 270,108 added, all inside declared write boxes, 0 removed. Corroborated independently by the builder's own raster: of the fourteen committed page PNGs, only the six for pages 1, 2 and 7 changed; the eight for pages 3, 4, 5 and 6 are byte-identical to their committed predecessors."
+      },
+      "clippingAndOverlapAsRecorded": {
+        "whatTheRecordSays": "VF08 recorded CLIPPING_AND_OVERLAP FAIL on this family at base 7b3214102 -- 2 flattened placements failing ISO 32000-1 12.5.5, field 11.1 on JDF-641 page 5, an /AP /BBox 396pt wide against a /Rect 392.4pt wide, 1,179 dark pixels per fixture at 300 dpi outside that rect.",
+        "stateAtTheBaseIWasGiven": "Already discharged before this lane touched anything, and on different bytes. That row is marked superseded and its digests (canonical 3cb52dc5, boundary 204a36fd) are not the bytes at this base. FIX68 opted this builder into fitAppearancesToRect at 98323a33e and FIX80 into suppressSynthesizedWidgetBorders at 9f9c28d07, and the fixtures were rebuilt.",
+        "measuredHereOnTheBaseBytes": "0 added dark pixels outside every declared write box on packet page 5 of either fixture, and 0 removed, at 600 dpi against an annotation-drawing source render. A 12.5.5 placement sweep of the delivered bytes finds 143 placements per fixture and 0 beyond the MediaBox.",
+        "soWhatWasActuallyRepaired": "The live defect on the bytes at this base was not the 11.1 overhang. It was the doubled check-box outline described above, which is an OVERLAP -- two frames occupying the same control -- and which no counter sees."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set on the rebuilt bytes: 'ok co_multiple_conviction_seal-set PASS_COMPLETE 14/132 written', exit 0, all nine printed zero.",
+      "outputByteGlyphReadings": [
+        { "fixture": "canonical", "form": "JDF-641", "addedGlyphsReadFromOutputBytes": 136, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 122 },
+        { "fixture": "canonical", "form": "JDF-642", "addedGlyphsReadFromOutputBytes": 100, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 21 },
+        { "fixture": "boundary", "form": "JDF-641", "addedGlyphsReadFromOutputBytes": 285, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 122 },
+        { "fixture": "boundary", "form": "JDF-642", "addedGlyphsReadFromOutputBytes": 203, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 21 }
+      ],
+      "sourcesBoundByDigest": [
+        { "sourceId": "official-form:JDF-641", "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02", "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR", "recomputedByteExact": true },
+        { "sourceId": "official-form:JDF-642", "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c", "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR", "recomputedByteExact": true }
+      ],
+      "governance": {
+        "writtenThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs carryForwardGovernance",
+        "canonicalMoved": true,
+        "decision": "withdrew acceptanceReceipt -- bound to 48cf9bf5cf44, this write produced b73f1b3c3121. Kept whole under acceptanceReceiptWithdrawn with both digests, not deleted and not relabelled as covering the new output.",
+        "carriedForward": ["lastIndependentVerification", "paymentEligible", "sponsorshipEligible", "whyPaymentIsClosed", "maintenanceRelationship"],
+        "governanceLostBetween": [],
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierResult": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks",
+        "verifierCaveat": "The 279 not measured are product-wiring.json files absent from this SPARSE checkout, which the verifier names and warns about itself. It is not a statement that they are damaged."
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "against": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "aFieldMapHonestWhileTheFinalizerWritesSomethingElse": "not present. Fourteen values are written across the two forms and every one is a court, case or identity fact read back from the output bytes. No alias line, no 'all addresses since' line, no signature, no date, no notarization and no fee is written.",
+        "anAcroFormIndexIsNotAPrintedRowNumber": "not applicable and separately disclosed: Section 4 of JDF-641 is fifteen rows of four columns and NO cell of it is written. All sixty are declared and left to the participant, recorded in this family's build-findings.json.",
+        "extractedLineOrderIsNotColumnOrder": "no column heading is read here; nothing is written into a table.",
+        "internalRecordTextPrintedOnAFiling": "not present. Nothing recites a controlling record's analysis on either form's face.",
+        "aPublishedZeroWhereAMeasurementExisted": "checked: addedGlyphsReadFromOutputBytes is a real reading per document (136/100/285/203), not a literal zero.",
+        "aGeometryCounterWithNoTeeth": "acknowledged. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 here, and the defect this lane repaired would not have moved it, because the doubled outline draws at the widget's own rect and is not a glyph at all. It was found by the 600 dpi directional raster, which is the reading this row rests on.",
+        "anInvertedWidgetRectangle": "this family appears nowhere in INVERTED_WIDGET_RECTANGLES.json, and the placement sweep finds 0 placements beyond the MediaBox."
+      },
+      "blastRadius": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs declares this family alone, MASTER_QUEUE records exclusiveScript true and importedBy empty for it, and nothing in scripts/ imports it. The one line added is an option that defaults to false in the shared module, so no other family's next rebuild moves a byte because this family passes it."
+    }
+  ]
+}
