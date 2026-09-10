@@ -1,0 +1,85 @@
+{
+ "schemaVersion": "rcap-claim-ledger-lane-is-a-roster-not-a-history/v1",
+ "generatedBy": "Captain, by diffing the committed ledger at 8fe4fe6a0 against f2a20b3ed with only the integration chain run in between",
+ "generatedAt": "2026-09-10T07:56:13.256432Z",
+ "whatHappened": "Three lanes were dispatched against families whose grants I had just released, and all three refused with GRANTED_ELSEWHERE_BUT_RELEASED naming a lane I had never released. The transfer the gate itself recommended then failed, because by then the row named a third lane again.",
+ "theMeasurement": {
+  "claimsRowsBefore": 975,
+  "claimsRowsAfter": 975,
+  "rowsWhoseLaneWasRewritten": 8,
+  "ofThoseThatWereLIVEBeforeTheRewrite": 0,
+  "everyRewrittenRowIsOneIReleasedThisSession": true
+ },
+ "theMechanismAndWhyItIsNotATheft": "generate.mjs rebuilds claimRows from the current dispatch roster on every run and carries forward only released:true by subject and operation. A LIVE grant is preserved with its lane; a RELEASED one keeps its released state and takes whatever lane the roster now deals for that family. Zero live grants moved, which the diff confirms rather than assumes.",
+ "theConsequenceThatCostThreeDispatches": "The `lane` on a RELEASED claim row is not a record of who did the work. It is the current dispatch roster's proposal for who should do it next. The historical holder survives only in `releases`, which is why the releases log says FIX130 and FIX137 at the same timestamps the claim rows now attribute to FIX05 and FIX01.",
+ "soTheRemedyIsNotTransfer": "--transfer FROM TO requires FROM to be the lane the row NOW names, so a transfer built from the releases log or from my own memory of who held it will always fail. Where the roster already names a lane for the family, --reissue on THAT lane is the operation that matches the machinery, and generate.mjs has a branch (`claims.find(c => c.lane === asg.assignmentId)`) that exists for exactly this.",
+ "whatIDidWithIt": "Reissued FIX05 on vt_exp_decriminalized-set and FIX01 on ar-cs-possession-seal-set -- the lanes the roster names -- rather than inventing FIX138 and FIX139 and fighting the roster. The three Indiana verification grants transferred cleanly VF30 -> VF36 because verification lanes are not dealt by this roster.",
+ "rowsRewritten": [
+  {
+   "subjectId": "ar-cs-possession-seal-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX137",
+   "laneAfter": "FIX01",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX137"
+  },
+  {
+   "subjectId": "ca-17b-reduction-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX01",
+   "laneAfter": "FIX02",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX01"
+  },
+  {
+   "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX02",
+   "laneAfter": "FIX03",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX14"
+  },
+  {
+   "subjectId": "in_conviction_d6-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX03",
+   "laneAfter": "FIX04",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX03"
+  },
+  {
+   "subjectId": "in_conviction_felony-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX03",
+   "laneAfter": "FIX05",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX03"
+  },
+  {
+   "subjectId": "in_conviction_misd-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX03",
+   "laneAfter": "FIX06",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX03"
+  },
+  {
+   "subjectId": "mo-art-xiv-marijuana-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX03",
+   "laneAfter": "FIX04",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX01"
+  },
+  {
+   "subjectId": "vt_exp_decriminalized-set",
+   "operation": "rapid-repair",
+   "laneBefore": "FIX130",
+   "laneAfter": "FIX05",
+   "wasReleasedBefore": true,
+   "releasesLogRecords": "FIX130"
+  }
+ ],
+ "notFixedHere": "Nothing in generate.mjs is changed. Re-dealing a released repair grant to the current roster is deliberate and documented in its own comments; what is missing is that a reader cannot tell a roster proposal from a history, and the refusal message presents the roster proposal as if it were one. Recorded rather than changed under a running lane.",
+ "grantsNothing": "This records a measurement of the ledger. It approves no output and promotes no family."
+}

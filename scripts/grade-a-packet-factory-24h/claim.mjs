@@ -28,7 +28,30 @@ export const DIGEST_FIELDS = Object.freeze(["subjectType", "subjectId", "itemId"
 export const claimsDigest = (rows) => crypto.createHash("sha256").update(JSON.stringify(rows.map((row) => DIGEST_FIELDS.map((field) => row[field] ?? null)))).digest("hex");
 
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
-const die = (code, message) => { console.error(message); process.exit(code); };
+/*
+ * A DRY RUN NEEDS THE REAL GATE, NOT A SECOND MODEL OF IT.
+ *
+ * dispatch-preflight.mjs was written to answer "can this lane be dealt this
+ * family" and answered it with its own reading of the ledger -- "is a live grant
+ * blocking?" -- which is not the question `--assert` enforces. Three lanes in one
+ * shift were cleared by it and then refused at the gate, and FIX139 measured the
+ * scale rather than the instance: 208 families have no live grant, and for all
+ * 208 the preflight said dispatchable while a fresh lane's assert would refuse.
+ * A grant is not minted by `--assert`; it is only validated, so "nobody holds it"
+ * has never meant "you can take it".
+ *
+ * VF36 named the general shape: any independent reimplementation of this gate
+ * drifts from locate(), and the next drift costs another dispatch. So the fix is
+ * not a better model. It is to run THIS code and report what it decides. `die`
+ * throws instead of exiting while a dry run is in progress, and --can-assert
+ * catches it, so the preflight and the gate cannot disagree.
+ */
+let DRY_RUN = false;
+class Refusal extends Error { constructor(code, message) { super(message); this.code = code; } }
+const die = (code, message) => {
+  if (DRY_RUN) throw new Refusal(code, message);
+  console.error(message); process.exit(code);
+};
 const read = (ledgerPath) => {
   const absolute = path.resolve(ROOT, ledgerPath);
   if (!fs.existsSync(absolute)) die(3, `CLAIM_LEDGER_ABSENT: ${ledgerPath}`);
@@ -88,6 +111,30 @@ function assertClaim(ledgerPath, lane, subjectId) {
  * so a release -- the operation that ENDS a lane's ownership and is the one a
  * later reader most wants explained -- recorded no why at all. reissue,
  * transfer and grant all keep theirs. */
+/*
+ * Read-only. Answers exactly what `--assert` would answer, by running it, and
+ * writes nothing whatever the outcome. Prints one line per family so a dispatch
+ * can be checked in a batch, and exits nonzero if any family would refuse.
+ */
+function canAssert(ledgerPath, lane, subjectIds) {
+  let refused = 0;
+  for (const subjectId of subjectIds) {
+    DRY_RUN = true;
+    try {
+      assertClaim(ledgerPath, lane, subjectId);
+      console.log(`  ^ ${lane} CAN assert ${subjectId}`);
+    } catch (error) {
+      if (!(error instanceof Refusal)) throw error;
+      refused += 1;
+      console.log(`REFUSED(${error.code}) ${subjectId}`);
+      console.log(`  ${error.message}`);
+    } finally { DRY_RUN = false; }
+  }
+  console.log();
+  console.log(`${subjectIds.length} famil(ies) checked for ${lane}: ${subjectIds.length - refused} assertable, ${refused} would refuse`);
+  console.log(`Answered by running the gate itself. Nothing was written.`);
+  if (refused) process.exit(1);
+}
 function release(ledgerPath, lane, subjectId, reason = null) {
   const { absolute, ledger } = read(ledgerPath); validate(ledger); const grant = locate(ledger, lane, subjectId);
   if (grant.released) die(9, `ALREADY_RELEASED: ${subjectId}`);
@@ -264,10 +311,11 @@ const li = args.indexOf("--ledger"); if (li >= 0) { ledgerPath = args[li + 1]; a
 const ri = args.indexOf("--reason"); let reason = null;
 if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
-if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
+if (mode === "--can-assert" && lane && subjectId) canAssert(ledgerPath, lane, subjectId.split(",").map((x) => x.trim()).filter(Boolean));
+else if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
 else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId, reason);
 else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
 else if (mode === "--transfer" && lane && subjectId && args[3]) transfer(ledgerPath, lane, subjectId, args[3], reason);
 else if (mode === "--grant" && lane && subjectId) grant(ledgerPath, lane, subjectId, reason);
 else if (mode === "--status") status(ledgerPath, lane);
-else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --grant <LANE> <subjectId> --reason \"<why>\" | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
+else die(2, "usage: claim.mjs [--ledger path] --can-assert <LANE> <id[,id...]> | --assert|--release <LANE> <familyId|itemId> | --grant <LANE> <subjectId> --reason \"<why>\" | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");

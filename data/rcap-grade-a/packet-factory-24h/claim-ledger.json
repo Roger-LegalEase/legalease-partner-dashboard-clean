@@ -937,8 +937,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T07:42:08.008Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4486,10 +4486,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF30",
+      "lane": "VF36",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:42.551Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
@@ -4531,10 +4531,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF30",
+      "lane": "VF36",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:42.782Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
@@ -4576,10 +4576,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF30",
+      "lane": "VF36",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:43.013Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
@@ -9326,8 +9326,8 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T07:46:54.068Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14507,7 +14507,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "30039c374df75d2e44438eacf950a113ee9f0e73c43672de02d20669e4df5db8",
+  "claimsDigest": "b7ae3c07bdae86bab5de9c19636f1493e61d284e23a32162e4fb8a2b56e14bf7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44324,6 +44324,26 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-10T07:52:04Z",
       "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "vt_exp_decriminalized-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-10T07:46:54.068Z",
+      "reissuedAt": "2026-09-10T07:55:47.334Z",
+      "reason": "The generated dispatch roster names FIX05 for this family's repair. FIX130 performed the release-equivalent work on its siblings and left this one undone; VF25 independently failed it on REQUIRED_BEFORE_FILING with an exact, byte-free specification. Re-opened so the lane the roster names can begin."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-10T07:42:08.008Z",
+      "reissuedAt": "2026-09-10T07:55:47.446Z",
+      "reason": "The generated dispatch roster names FIX01 for this family's repair. The ARTIFACTS failure is the flattened-widget counter, whose module predicate was fixed at 462298a41, plus a hardcoded addedGlyphs zero the module fix does not reach. Re-opened so the lane the roster names can begin."
     }
   ],
   "transfers": [
@@ -53533,6 +53553,39 @@
       "previouslyReleasedAt": "2026-09-06T00:17:07.860Z",
       "transferredAt": "2026-09-10T06:49:12.137Z",
       "reason": "Released grant reopened onto the lane holding its five siblings; one host, one caption remedy, one reader"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF30",
+      "toLane": "VF36",
+      "previouslyReleasedAt": "2026-09-10T07:47:42.551Z",
+      "transferredAt": "2026-09-10T07:54:24.213Z",
+      "reason": "VF30 read these three at 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03 and returned; FIX03 has since repaired all three, and a repair author may not verify its own repair. VF36 is neither the builder (PF09/PF10/PF11) nor the repairer."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF30",
+      "toLane": "VF36",
+      "previouslyReleasedAt": "2026-09-10T07:47:42.782Z",
+      "transferredAt": "2026-09-10T07:54:24.324Z",
+      "reason": "As in_conviction_d6-set: VF30 returned, FIX03 repaired, and the repaired bytes have no independent reader."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF30",
+      "toLane": "VF36",
+      "previouslyReleasedAt": "2026-09-10T07:47:43.013Z",
+      "transferredAt": "2026-09-10T07:54:24.437Z",
+      "reason": "As in_conviction_d6-set: VF30 returned, FIX03 repaired, and the repaired bytes have no independent reader."
     }
   ],
   "grants": [
