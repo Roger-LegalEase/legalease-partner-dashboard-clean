@@ -93,11 +93,18 @@ The reason the packet left it is worth one sentence, because it is not an oversi
 | JDF-478 | 3. Records to be Sealed | County Court case records to be sealed (selection) | tick the courts and agencies that hold records in this case |
 | JDF-478 | 3. Records to be Sealed | District Court case records to be sealed (selection) | tick the courts and agencies that hold records in this case |
 | JDF-478 | 3. Records to be Sealed | Law Enforcement Agency records to be sealed (selection) | tick the courts and agencies that hold records in this case |
-| JDF-478 | 3. Records to be Sealed | Colorado Bureau of Investigation records to be sealed (selection) | JDF 478 section 3 prints "Colorado Bureau of Investigation (required)" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant. |
 | JDF-478 | 3. Records to be Sealed | Another agency's records to be sealed (selection) | tick this if some other agency holds records in this case |
 | JDF-478 | 3. Records to be Sealed | A second other agency's records to be sealed (selection) | tick this if a second other agency holds records in this case |
 | JDF-478 | 3. Records to be Sealed | A third other agency's records to be sealed (selection) | tick this if a third other agency holds records in this case |
 | JDF-478 | 5. So Ordered | By the Court — Judge or Magistrate (selection) | the officer who signs states which they are |
+
+## Not your choice, and still unticked — you tick it anyway
+
+These boxes are settled by the form itself, not by anything about your case, so nothing here is asking you to decide. The packet could not mark them, for the reason each row gives, so the tick is still yours to make before you file. Do not treat this as an option you may leave alone.
+
+| Form | Section | The box | What the form settles | Why the packet did not mark it | What you do |
+| --- | --- | --- | --- | --- | --- |
+| JDF-478 | 3. Records to be Sealed | Colorado Bureau of Investigation records to be sealed (selection) | JDF 478 section 3 prints "Colorado Bureau of Investigation (required)" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant. | the platform will not tick a box whose line names a law-enforcement agency, so that it can never fill in the list of agencies a court is ordering to seal. The safeguard is right in general and it costs you this one tick | tick this box yourself before you file; the form marks it required and the packet could not mark it |
 
 ## What the platform deliberately left blank
 
