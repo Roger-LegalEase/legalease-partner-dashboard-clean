@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 200,
-    "rows": 1261,
+    "returnDirectories": 201,
+    "rows": 1262,
     "independentVerdicts": 295,
-    "failRepairRequired": 45,
-    "passIndependent": 226
+    "failRepairRequired": 44,
+    "passIndependent": 227
   },
   "failRepairRequiredFamilies": [
     "al-felony-nonconviction-90-set",
@@ -58,7 +58,6 @@
     "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
     "ks-21-6614-conviction-set",
-    "ky_expungement_certification-set",
     "ky_protective_order_record_expungement-set",
     "la-985-1-interim-expungement-set",
     "ma-seal-court-set",
@@ -13179,6 +13178,20 @@
     },
     {
       "familyId": "ky_expungement_certification-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b1c064b07bbebbbbab3ad7da11e33c017e22d902",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-ky-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_expungement_certification-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ky_expungement_certification-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf49",
       "isIndependentVerification": true,
@@ -13212,7 +13225,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_expungement_certification-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ky_felony_vacatur_expungement-set",

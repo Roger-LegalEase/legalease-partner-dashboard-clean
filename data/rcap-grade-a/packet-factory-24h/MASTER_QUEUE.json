@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3f589f6f96d5bb5b7f0b5f4578f599d36a1e9e92",
+  "minimumCaptainSha": "078bfd3f439806765639d6860bcb3bef80644ffb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,15 +73,15 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 39,
+    "repairRequired": 38,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 208,
+    "COMPLETE_PACKET_PROVEN": 209,
     "PRODUCT_PATH_PENDING": 18,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 45,
+    "FAIL_REPAIR_REQUIRED": 44,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 9,
@@ -22163,14 +22163,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf49",
-        "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "b1c064b07bbebbbbab3ad7da11e33c017e22d902",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-ky-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22199,34 +22197,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_expungement_certification-set.mjs",
