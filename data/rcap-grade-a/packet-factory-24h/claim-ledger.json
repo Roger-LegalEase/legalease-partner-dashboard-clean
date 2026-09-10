@@ -14510,9 +14510,39 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10110_conviction-set",
+      "itemId": null,
+      "familyId": "md_10110_conviction-set",
+      "familyIds": [
+        "md_10110_conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_cannabis_petition-set",
+      "itemId": null,
+      "familyId": "md_cannabis_petition-set",
+      "familyIds": [
+        "md_cannabis_petition-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "c3cdf012fa06a452aa5b467abe7d2db3d0dcc285e336d52c852040008b0475fb",
+  "claimsDigest": "24dea8a591229fd2b3eeddc3b78546093405d11143f0d4fef1bf7b02de1abfa4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -54176,6 +54206,28 @@
       "grantedAt": "2026-09-10T06:42:41.674Z",
       "grantedBy": "Captain",
       "reason": "Built today by PF25; a build author may not approve its own candidate, and this family was built from scratch rather than repaired",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "md_10110_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T09:46:59.170Z",
+      "grantedBy": "Captain",
+      "reason": "Both Maryland families hold a live RASTER_PASS and are blocked only on requiredComponentsMissing: 1, which on inspection is not a missing component at all -- the finding reads 'Unexpected static outcome: canonical, actual NOT_MEASURABLE_HERE, expected PASS_COMPLETE'. Across all 328 matrix rows, ZERO requiredComponentsMissing findings name an actual component; these two are the only carriers and both carry the expectation mismatch. Eight of their nine counters are null. Granted for diagnosis and repair.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "md_cannabis_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T09:46:59.314Z",
+      "grantedBy": "Captain",
+      "reason": "As md_10110_conviction-set: same shape, same single finding, and no claim row of any kind existed for this family. Granted so one lane holds both.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
