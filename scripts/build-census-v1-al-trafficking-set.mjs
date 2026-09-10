@@ -225,32 +225,128 @@ const UNSCOPED_ELECTION = {
  * sends this petition to "the criminal division of the circuit court", which is
  * a State of Alabama court and not a municipality.
  *
- * The relief branch is determined by why this component is in the packet at
- * all. The memo makes fee_waiver conditional "Where indigency is claimed", so a
- * fixture that carries the affidavit is a fixture claiming indigency, and the
- * fee this route's waiver concerns is named on the paper: the expungement
- * petition administrative filing fee. Electing the attorney or interlock line
- * instead would request relief this route does not seek. The hardship assertion
- * itself remains the participant's own and is made by the signature this packet
- * leaves blank, which is what the guide says.
+ * The relief branch is NOT determined by the route, and this build used to say
+ * it was. VF55 measured the consequence in the delivered pixels: at Check
+ * Box2.2, rect x 74.68-84.38 / y 554.86-564.56, 300 dpi, grey<200, annotations
+ * drawn, all four of this family's fixtures read 710 px against the pinned
+ * source's 616 px, while both al-felony-dwop-set fixtures read 625 px at the
+ * identical rectangle. The +85 px was a tick this packet made; +9 px is the
+ * re-render floor established from a box demonstrably unticked.
+ *
+ * The record does not warrant it. AL.memo.json tracks al-trafficking and
+ * al-felony-dwop carry BYTE-IDENTICAL `rules` objects, all seven fields, and
+ * identical fee_waiver components -- requirement "conditional",
+ * conditionDescription "Where indigency is claimed." One record cannot warrant
+ * two treatments. The rule settles WHICH of the three printed requests this
+ * route concerns: rules.fees reads "$500, or C-10-Criminal where indigency is
+ * claimed." and rules.feeWaiver names "C-10-Criminal, Affidavit of Substantial
+ * Hardship and Order.", and the third printed request is the only one of the
+ * three that mentions an expungement petition. It does not settle WHETHER to
+ * make it: "where indigency is CLAIMED" is a participant fact, the sentence
+ * beside the box is sworn and first-person about the participant's finances,
+ * and this build's own field map records factAvailable false throughout that
+ * affidavit. A packet that ticks it makes a sworn financial claim it does not
+ * hold the fact for, and step 5's instruction to physically remove the
+ * affidavit is not a cure: a participant who does not read it files a hardship
+ * statement they never made. So all three relief requests are disclosed and
+ * none is ticked, which is the treatment al-felony-dwop-set already carries on
+ * the same rule.
+ *
+ * The caption branch is different and stays elected. rules.filing sends this
+ * petition to "the criminal division of the circuit court" and nothing
+ * participant-side stands between the route and the caption.
+ *
+ * WHETHER THE CONDITIONAL COMPONENT SHOULD SHIP AT ALL, decided from the
+ * record. The fee_waiver component's condition is a participant fact, and a
+ * build holding no such fact can no more find the condition false than true --
+ * withholding the instrument would assert "indigency is not claimed" exactly as
+ * ticking asserted the opposite. The record names C-10-CRIMINAL as this route's
+ * fee-waiver instrument and states the fee in the alternative, so the
+ * participant needs the paper in hand to take either branch. It therefore ships
+ * on all four fixtures, unticked, with the condition quoted and both branches
+ * spelled out. The two failure modes are not symmetric: an affidavit filed with
+ * no box ticked asks the court for nothing and the guide says so in terms,
+ * while a ticked one is a false sworn statement already filed.
+ *
+ * Every line quoted below is a line the form itself prints, re-read out of the
+ * DELIVERED bytes of every fixture on every build by assertC10PrintedRelief.
  */
 const C10_ELECTIONS = {
   "Check Box1.0": {
     factId: "route.court_caption",
     label: "State of Alabama caption branch (selection)",
     why: "AL.memo.json rules.filing files this petition in the criminal division of the circuit court, a State of Alabama court rather than a municipal one."
-  },
-  "Check Box2.2": {
-    factId: "route.fee_waiver_relief",
-    label: "Relief requested: waiver of the expungement petition administrative filing fee (selection)",
-    why: "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument. Of the three printed requests this is the one this route seeks."
   }
 };
 
+const C10_PRINTED_RELIEF = Object.freeze({
+  page: 1,
+  subtitle: "Form C-10-CRIMINAL (Request for Court-Appointed Attorney and/or",
+  subtitleContinued: "Waiver of Fees)",
+  options: [
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.0",
+      lines: ["I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me."],
+      label: "Relief this route does not seek: a court-appointed attorney (selection)",
+      reason: "The printed request beside this box asks the court to appoint an attorney. Nothing in AL.memo.json track al-trafficking seeks counsel, and it is not the relief this route's fee waiver concerns."
+    },
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.1",
+      lines: [
+        "I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that",
+        "these fees be waived."
+      ],
+      label: "Relief this route does not seek: waiver of ignition interlock device fees (selection)",
+      reason: "The printed request beside this box asks for waiver of ignition interlock device fees. Nothing in AL.memo.json track al-trafficking concerns ignition interlock fees."
+    },
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.2",
+      lines: [
+        "I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request",
+        "that these fees be waived."
+      ],
+      label: "Relief this route concerns, and yours to elect: waiver of the expungement petition administrative filing fee (selection)",
+      reason: "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument, so of the three printed requests this is the one this route concerns. This packet does not tick it: the same rule conditions the waiver on indigency being CLAIMED, and the sentence beside the box is a sworn first-person statement about the participant's own finances, which this packet does not hold. The guide names the box and leaves the election to the participant."
+    }
+  ]
+});
+
+const C10_RELIEF_BY_FIELD = new Map(C10_PRINTED_RELIEF.options.map((option) => [option.fieldId, option]));
+
+/** [packetPage, printedLine] for every C-10 line the guide quotes. */
+function c10QuotedReliefLines(c10PageOffset) {
+  const page = C10_PRINTED_RELIEF.page + c10PageOffset;
+  return [
+    [page, C10_PRINTED_RELIEF.subtitle], [page, C10_PRINTED_RELIEF.subtitleContinued],
+    ...C10_PRINTED_RELIEF.options.flatMap((option) => option.lines.map((line) => [page, line]))
+  ];
+}
+
+/*
+ * The readback. A guide may not quote a line the delivered affidavit does not
+ * carry. This proves the line was DRAWN, never that it is VISIBLE -- that is
+ * assertPrintedFormInkSurvives's question, and the two are complements.
+ */
+async function assertC10PrintedRelief(fixtureFiles, c10PageOffset) {
+  assert.ok(fixtureFiles.length > 0, "no fixture was offered for the C-10 relief readback");
+  for (const file of fixtureFiles) {
+    const document = await PDFDocument.load(fs.readFileSync(file), { updateMetadata: false });
+    const cache = new Map();
+    for (const [packetPage, quoted] of c10QuotedReliefLines(c10PageOffset)) {
+      if (!cache.has(packetPage)) {
+        const target = document.getPages()[packetPage - 1];
+        assert.ok(target, `${path.basename(file)} has no page ${packetPage}`);
+        cache.set(packetPage, groupIntoLines(extractTextItems(target)).map((line) => String(line.text ?? "").replace(/\s+/g, " ").trim()));
+      }
+      const want = quoted.replace(/\s+/g, " ").trim();
+      assert.ok(cache.get(packetPage).includes(want),
+        `${path.basename(file)} page ${packetPage} does not print the line this guide quotes: ${JSON.stringify(quoted)}`);
+    }
+  }
+}
+
 const C10_UNSOUGHT = {
-  "Check Box1.1": "The municipal-court caption branch. This petition is filed in the circuit court, so it stays blank.",
-  "Check Box2.0": "A request for a court-appointed attorney. This packet does not seek counsel, and it is not the relief this route's fee waiver concerns.",
-  "Check Box2.1": "A request to waive ignition interlock device fees. Not the relief this route seeks."
+  "Check Box1.1": "The municipal-court caption branch. This petition is filed in the circuit court, so it stays blank."
 };
 
 const FIXTURES = {
@@ -259,7 +355,7 @@ const FIXTURES = {
     first: "Jordan", middle: "Avery", last: "Reyes", full: "Jordan Avery Reyes",
     street: "412 Magnolia Avenue", cityStateZip: "Montgomery, AL 36104",
     email: "jordan.reyes@example.org", phone: "334-555-0142", dob: "06/14/1988",
-    caseNumber: "CC-2021-004217", county: "Montgomery", feeWaiverRequested: true
+    caseNumber: "CC-2021-004217", county: "Montgomery"
   },
   boundary: {
     fixtureClass: "boundary",
@@ -268,7 +364,7 @@ const FIXTURES = {
     street: "1188 Martin Luther King Junior Boulevard Apartment 1407",
     cityStateZip: "Birmingham, AL 35203-4417",
     email: "alexandria.montgomery.washington@example.org", phone: "205-555-0199",
-    dob: "12/31/1979", caseNumber: "CC-2024-000001.99", county: "Jefferson", feeWaiverRequested: true
+    dob: "12/31/1979", caseNumber: "CC-2024-000001.99", county: "Jefferson"
   }
 };
 
@@ -561,7 +657,7 @@ async function fillDocument(source, fixture, variant, { normalizeRects = true } 
           isSelectionControl: true, routeDetermined: false, ownerDeterminationNeeded: true
         });
         boxes.push({ ...base, rect, expectInk: false });
-      } else if (source.documentId === "C-10-CRIMINAL" && fixture.feeWaiverRequested && C10_ELECTIONS[name]) {
+      } else if (source.documentId === "C-10-CRIMINAL" && C10_ELECTIONS[name]) {
         const election = C10_ELECTIONS[name];
         selectCheckboxState(field, "Yes");
         writes.push({
@@ -569,10 +665,38 @@ async function fillDocument(source, fixture, variant, { normalizeRects = true } 
           drawnText: "Yes", isSelectionControl: true, routeDetermined: true, routeReason: election.why
         });
         boxes.push({ ...base, rect, expectInk: true });
-      } else if (source.documentId === "C-10-CRIMINAL" && C10_UNSOUGHT[name]) {
+      } else if (C10_RELIEF_BY_FIELD.has(id)) {
+        /*
+         * The three printed relief requests. None is ticked; each is recorded
+         * with the sentence the form prints beside it, so the guide quotes the
+         * paper rather than a field label, and routeDetermined stays false
+         * because the record conditions the relief on a participant fact this
+         * packet does not hold.
+         */
+        const option = C10_RELIEF_BY_FIELD.get(id);
         refusals.push({
-          ...base, effectiveLabel: `Relief this route does not seek: ${name}`,
+          ...base, effectiveLabel: option.label, reason: option.reason,
+          refusalClass: "participant_sworn_narrative_or_legal_election",
+          printedRequestBesideThisControl: option.lines.join(" "),
+          factAvailable: false,
+          isSelectionControl: true, routeDetermined: false, disclosedToParticipant: true
+        });
+        boxes.push({ ...base, rect, expectInk: false });
+      } else if (source.documentId === "C-10-CRIMINAL" && C10_UNSOUGHT[name]) {
+        /*
+         * The checkbox half of the municipal caption branch. It carried the
+         * bare field name under a "Relief this route does not seek" label,
+         * which named neither the control nor the reason: it is a caption
+         * branch, not relief. It is dispositioned the same way as the text
+         * half at C-10-CRIMINAL:MUNICIPALITY OF, on the same route condition,
+         * so the two halves of one branch cannot drift apart one line later.
+         */
+        refusals.push({
+          ...base,
+          effectiveLabel: "Municipal-court caption branch on C-10-CRIMINAL page 1 — this route does not use it (selection)",
           reason: C10_UNSOUGHT[name],
+          routeConditionThatMakesItInapplicable: NOT_OWED["C-10-CRIMINAL:MUNICIPALITY OF"].routeCondition,
+          completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
           refusalClass: "participant_sworn_narrative_or_legal_election",
           isSelectionControl: true, routeDetermined: false
         });
@@ -779,6 +903,67 @@ const quotedElectionLines = cr65QuotedElectionLines;
 const SECOND_BRANCH_ONLY = new Set(CR65_SECOND_BRANCH_ONLY);
 const SECOND_BRANCH_CONDITION = CR65_SECOND_BRANCH_CONDITION;
 
+const C10_RELIEF_SECTION_TITLE = "The relief request on C-10-CRIMINAL that this packet has not made";
+
+/*
+ * The disclosure that replaces the tick. Nothing here elects anything or states
+ * a fact about the participant's finances. It quotes the form, maps the third
+ * request to this route's own fee rule, states that the affidavit is in the
+ * packet because the rule states the fee in the alternative, and hands the
+ * election back with what each branch means -- which is the packet's job when
+ * the record conditions the relief on a participant fact.
+ */
+function reliefSection(rules) {
+  const [counsel, interlock, filingFee] = C10_PRINTED_RELIEF.options;
+  // The form wraps the second and third requests across two printed lines. They
+  // are quoted as consecutive blockquote lines so each request reads as one
+  // paragraph; a blank quote line between requests is what separates the three.
+  const quote = (option) => option.lines.map((line) => `> ${line}`).join("\n");
+  return `## ${C10_RELIEF_SECTION_TITLE}
+
+C-10-CRIMINAL is one form carrying three different requests, and its own
+subtitle says so:
+
+> ${C10_PRINTED_RELIEF.subtitle.replace("Form C-10-CRIMINAL ", "")} ${C10_PRINTED_RELIEF.subtitleContinued}
+
+Page 1 of that affidavit prints three boxes. **This packet ticks none of them,
+on any of the four fixtures.** They are, in the order the form prints them:
+
+${quote(counsel)}
+>
+${quote(interlock)}
+>
+${quote(filingFee)}
+
+**The third one is the request this route concerns.** The held record states the
+filing fee as "${rules.fees}" and names the fee waiver as "${rules.feeWaiver}"
+The third box is the one that asks for waiver of the expungement petition
+administrative filing fee, and it is the only one of the three that mentions an
+expungement petition at all. The first box asks the court to appoint an attorney
+and the second asks to waive ignition interlock device fees; neither is relief
+this route seeks, and neither appears anywhere in this route's record.
+
+**The election is yours, not this packet's.** The same rule makes the waiver
+conditional on indigency being claimed, and the sentence printed beside the box
+is sworn and in your own voice - it states that you, because of financial
+hardship, are unable to pay. This packet holds no fact about your finances, so
+it will not make that statement for you.
+
+**Why the affidavit is in the packet at all.** The record makes this component
+conditional - "Where indigency is claimed." - and that condition is a fact about
+you. This packet cannot find it false any more than it can find it true, and the
+record states the fee in the alternative, so the paper is delivered blank and
+unticked and the choice stays where the record puts it.
+
+So: if you are claiming financial hardship, tick the third box yourself, complete
+the affidavit's income, expense and asset items from the list above, and sign it
+when you sign the petition. If you are not claiming financial hardship, tick
+none of the three and pay the filing fee the record states instead; you may
+simply leave the affidavit out of what you file. If you file the affidavit with
+no box ticked, you have filed a sworn Affidavit of Substantial Hardship that
+asks the court for nothing.`;
+}
+
 function electionsSection() {
   const a = PRINTED_ELECTIONS.attachments;
   const s = PRINTED_ELECTIONS.swornSelectOne;
@@ -845,6 +1030,8 @@ async function assertPrintedElections(out) {
   assert.equal(fixtures.length, 4, `this family delivers four fixtures and the directory holds ${fixtures.length}`);
   // CR-65 leads this packet, so form page N is packet page N.
   await assertCR65PrintedElections(fixtures.map((f) => path.join(out, "fixtures", f)), { cr65PageOffset: 0 });
+  // C-10-CRIMINAL follows CR-65's eight pages, so C-10 page 1 is packet page 9.
+  await assertC10PrintedRelief(fixtures.map((f) => path.join(out, "fixtures", f)), SOURCE_PAGE_COUNTS["CR-65"]);
 }
 
 export function writeGuides({ out, record, artifacts, required, heldButUnprintable }) {
@@ -881,7 +1068,7 @@ export function writeGuides({ out, record, artifacts, required, heldButUnprintab
     // list heading two lines later contradicted it. The step is the one written
     // as an instruction, so the step is the one that carries the exception.
     `${supporting.length + 2}. Fill in the blanks listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you. Some of those lines carry an "only if" condition; fill one of those in only if the condition is true of you, exactly as the list says.`,
-    `${supporting.length + 3}. Decide the fee. The record states: "${rules.fees}" The C-10-CRIMINAL affidavit in this packet already elects the printed request for waiver of the expungement petition administrative filing fee, because that is the fee this petition carries. If you are NOT claiming financial hardship, remove the affidavit from the packet and pay the filing fee instead — the hardship statement is yours, and you make it by signing it.`,
+    `${supporting.length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming financial hardship, complete the C-10-CRIMINAL affidavit included in this packet and tick the relief request it asks for - this packet ticks none of the three printed requests, and "${C10_RELIEF_SECTION_TITLE}" below names them and says which one this route concerns. The judge, not you, completes the affidavit's order page.`,
     ...manual.map((item, index) => `${supporting.length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
 
@@ -941,8 +1128,11 @@ ${unprintable}
 - **${UNSCOPED_ELECTION.section}, ${UNSCOPED_ELECTION.statute}.** ${UNSCOPED_ELECTION.why}
   If your record is a conviction for one of the three violent felonies Section
   IV lists, this packet is not scoped to it; speak with an Alabama lawyer.
-- **C-10-CRIMINAL, request for a court-appointed attorney, and request to waive
-  ignition interlock device fees.** Neither is the relief this route seeks.
+- **C-10-CRIMINAL, all three printed relief requests.** None of the three is
+  ticked on any fixture. "${C10_RELIEF_SECTION_TITLE}" below quotes all three
+  and says which one this route concerns and why the election is yours.
+
+${reliefSection(rules)}
 
 ## Service
 
@@ -1004,9 +1194,11 @@ File the version whose statute matches the level of the charge on your certified
 record.
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form. It
-already elects the printed request for waiver of the expungement petition
-administrative filing fee. Complete it only if you are claiming financial
-hardship; the judge, not you, completes its order page. Do not sign or date the
+prints three relief requests and this packet ticks none of them. Complete it,
+and tick the third request yourself, only if you are claiming financial
+hardship; the participant guide's section "${C10_RELIEF_SECTION_TITLE}" quotes
+all three and says which one this route concerns. The judge, not you, completes
+its order page. Do not sign or date the
 petition until every required blank and every attachment is complete.
 `);
 }
@@ -1040,11 +1232,46 @@ export async function assertRepairInvariants(out) {
   assert.ok(sectionIv?.ownerDeterminationNeeded, "Section IV must be refused as an owner determination, by name");
   assert.match(instructions, /Section IV/);
 
-  // The fee-waiver affidavit states which relief it requests.
-  assert.ok(written.has("C-10-CRIMINAL:Check Box2.2"), "the fee-waiver affidavit must state which fee it asks to waive");
+  /*
+   * THE SWORN ELECTION THIS PACKET USED TO MAKE.
+   *
+   * This guard formerly read `assert.ok(written.has("C-10-CRIMINAL:Check
+   * Box2.2"))` -- it required the defect. Check Box2.2 is the sworn,
+   * first-person request that the court waive the filing fee on grounds of
+   * financial hardship, and AL.memo.json conditions that relief on indigency
+   * being CLAIMED, which is a participant fact this build does not hold. None
+   * of the three printed relief requests may be ticked, and each must reach the
+   * participant with the sentence the form prints beside it.
+   */
+  for (const option of C10_PRINTED_RELIEF.options) {
+    assert.ok(!written.has(option.fieldId),
+      `${option.fieldId} is a sworn relief election conditioned on a participant fact this packet does not hold; it must not be ticked`);
+    const row = fieldMap.refusals.find((entry) => entry.fieldId === option.fieldId);
+    assert.ok(row, `printed relief request missing from the field map: ${option.fieldId}`);
+    assert.equal(row.routeDetermined, false, `${option.fieldId} must not be recorded as route-determined`);
+    assert.ok(!row.requiredBeforeFiling, `${option.fieldId} is an election, not a blank owed before filing`);
+    assert.equal(row.printedRequestBesideThisControl, option.lines.join(" "),
+      `${option.fieldId} must record the printed request verbatim`);
+    for (const line of option.lines) {
+      assert.ok(instructions.includes(line),
+        `the guide does not quote the printed request beside ${option.fieldId}: ${JSON.stringify(line)}`);
+    }
+  }
+  assert.match(instructions, new RegExp(`^## ${C10_RELIEF_SECTION_TITLE}$`, "m"),
+    "the guide must carry the section that discloses the three printed relief requests");
+  assert.doesNotMatch(instructions, /already elects/,
+    "no guide may tell the participant this packet has made the hardship election for them");
+  assert.doesNotMatch(filing, /already elects/,
+    "no filing guide may tell the participant this packet has made the hardship election for them");
+
+  // The caption branch, by contrast, IS route-determined: rules.filing names
+  // the circuit court and nothing participant-side stands between the route and
+  // the caption. It stays elected, and its municipal twin stays blank.
   assert.ok(written.has("C-10-CRIMINAL:Check Box1.0"), "the State of Alabama caption branch must be selected");
-  assert.ok(!written.has("C-10-CRIMINAL:Check Box2.0"), "this route does not request a court-appointed attorney");
-  assert.ok(!written.has("C-10-CRIMINAL:Check Box2.1"), "this route does not request an ignition-interlock fee waiver");
+  assert.ok(!written.has("C-10-CRIMINAL:Check Box1.1"), "the municipal caption branch is not this route's");
+  const municipalBox = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:Check Box1.1");
+  assert.equal(municipalBox?.completenessDisposition, "NOT_APPLICABLE_ON_THIS_ROUTE",
+    "both halves of the municipal caption branch must carry the same disposition");
 
   // A field this route does not use, or one the paper marks conditional, must
   // never reach the participant as a blank they must fill before filing.

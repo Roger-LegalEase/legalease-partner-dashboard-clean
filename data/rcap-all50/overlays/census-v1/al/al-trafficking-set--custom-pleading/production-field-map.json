@@ -281,17 +281,6 @@
       "routeReason": "AL.memo.json rules.filing files this petition in the criminal division of the circuit court, a State of Alabama court rather than a municipal one."
     },
     {
-      "fieldId": "C-10-CRIMINAL:Check Box2.2",
-      "fieldName": "Check Box2.2",
-      "documentId": "C-10-CRIMINAL",
-      "page": 1,
-      "effectiveLabel": "Relief requested: waiver of the expungement petition administrative filing fee (selection)",
-      "factId": "route.fee_waiver_relief",
-      "isSelectionControl": true,
-      "routeDetermined": true,
-      "routeReason": "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument. Of the three printed requests this is the one this route seeks."
-    },
-    {
       "fieldId": "C-10-CRIMINAL:Text4",
       "fieldName": "Text4",
       "documentId": "C-10-CRIMINAL",
@@ -2149,8 +2138,10 @@
       "fieldName": "Check Box1.1",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "effectiveLabel": "Relief this route does not seek: Check Box1.1",
+      "effectiveLabel": "Municipal-court caption branch on C-10-CRIMINAL page 1 — this route does not use it (selection)",
       "reason": "The municipal-court caption branch. This petition is filed in the circuit court, so it stays blank.",
+      "routeConditionThatMakesItInapplicable": "AL.memo.json track al-trafficking rules.filing: \"File CR-65 in the criminal division of the circuit court in the county where the charges were filed.\" A circuit court is not a municipality, so the municipal caption branch of C-10-CRIMINAL is outside this route.",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
       "routeDetermined": false
@@ -2160,22 +2151,42 @@
       "fieldName": "Check Box2.0",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "effectiveLabel": "Relief this route does not seek: Check Box2.0",
-      "reason": "A request for a court-appointed attorney. This packet does not seek counsel, and it is not the relief this route's fee waiver concerns.",
+      "effectiveLabel": "Relief this route does not seek: a court-appointed attorney (selection)",
+      "reason": "The printed request beside this box asks the court to appoint an attorney. Nothing in AL.memo.json track al-trafficking seeks counsel, and it is not the relief this route's fee waiver concerns.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.",
+      "factAvailable": false,
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "disclosedToParticipant": true
     },
     {
       "fieldId": "C-10-CRIMINAL:Check Box2.1",
       "fieldName": "Check Box2.1",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "effectiveLabel": "Relief this route does not seek: Check Box2.1",
-      "reason": "A request to waive ignition interlock device fees. Not the relief this route seeks.",
+      "effectiveLabel": "Relief this route does not seek: waiver of ignition interlock device fees (selection)",
+      "reason": "The printed request beside this box asks for waiver of ignition interlock device fees. Nothing in AL.memo.json track al-trafficking concerns ignition interlock fees.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that these fees be waived.",
+      "factAvailable": false,
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "disclosedToParticipant": true
+    },
+    {
+      "fieldId": "C-10-CRIMINAL:Check Box2.2",
+      "fieldName": "Check Box2.2",
+      "documentId": "C-10-CRIMINAL",
+      "page": 1,
+      "effectiveLabel": "Relief this route concerns, and yours to elect: waiver of the expungement petition administrative filing fee (selection)",
+      "reason": "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument, so of the three printed requests this is the one this route concerns. This packet does not tick it: the same rule conditions the waiver on indigency being CLAIMED, and the sentence beside the box is a sworn first-person statement about the participant's own finances, which this packet does not hold. The guide names the box and leaves the election to the participant.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request that these fees be waived.",
+      "factAvailable": false,
+      "isSelectionControl": true,
+      "routeDetermined": false,
+      "disclosedToParticipant": true
     },
     {
       "fieldId": "C-10-CRIMINAL:Check Box3.0.0",

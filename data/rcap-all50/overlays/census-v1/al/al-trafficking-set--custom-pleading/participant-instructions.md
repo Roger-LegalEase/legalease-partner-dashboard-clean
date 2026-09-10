@@ -32,7 +32,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
 3. Read the certified record and confirm the offence level. This packet is delivered in two versions because Alabama carries two statutes, and the version you file must match your charge. If the record shows a felony charge, file the § 15-27-2(a)(8) version; if it shows a misdemeanor, violation, traffic violation or municipal ordinance violation, file the § 15-27-1(a)(8) version. Do not file both, and do not tick the other section's box on the copy you file: CR-65 says "Check ONLY one (1) of the eight (8) options" and "Only one offense per petition".
 4. Fill in the blanks listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you. Some of those lines carry an "only if" condition; fill one of those in only if the condition is true of you, exactly as the list says.
-5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." The C-10-CRIMINAL affidavit in this packet already elects the printed request for waiver of the expungement petition administrative filing fee, because that is the fee this petition carries. If you are NOT claiming financial hardship, remove the affidavit from the packet and pay the filing fee instead — the hardship statement is yours, and you make it by signing it.
+5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming financial hardship, complete the C-10-CRIMINAL affidavit included in this packet and tick the relief request it asks for - this packet ticks none of the three printed requests, and "The relief request on C-10-CRIMINAL that this packet has not made" below names them and says which one this route concerns. The judge, not you, completes the affidavit's order page.
 6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
 
 ## Blanks you must fill in
@@ -170,8 +170,55 @@ block beside it, because it holds no representation fact for you.
 - **Section IV (CR-65 page 3), Ala. Code § 15-27-2(b).** Section IV is the narrow exception that lets a trafficking survivor reach a CONVICTION for one of three enumerated violent felonies. AL.memo.json cites § 15-27-2(b) among this track's authorities, but the build worklist's deliverable names only §§ 15-27-1(a)(8) / 15-27-2(a)(8), and Section IV is a conviction branch rather than a charge branch. Whether this family covers it is an owner scoping determination, so this packet does not elect it.
   If your record is a conviction for one of the three violent felonies Section
   IV lists, this packet is not scoped to it; speak with an Alabama lawyer.
-- **C-10-CRIMINAL, request for a court-appointed attorney, and request to waive
-  ignition interlock device fees.** Neither is the relief this route seeks.
+- **C-10-CRIMINAL, all three printed relief requests.** None of the three is
+  ticked on any fixture. "The relief request on C-10-CRIMINAL that this packet has not made" below quotes all three
+  and says which one this route concerns and why the election is yours.
+
+## The relief request on C-10-CRIMINAL that this packet has not made
+
+C-10-CRIMINAL is one form carrying three different requests, and its own
+subtitle says so:
+
+> (Request for Court-Appointed Attorney and/or Waiver of Fees)
+
+Page 1 of that affidavit prints three boxes. **This packet ticks none of them,
+on any of the four fixtures.** They are, in the order the form prints them:
+
+> I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.
+>
+> I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that
+> these fees be waived.
+>
+> I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request
+> that these fees be waived.
+
+**The third one is the request this route concerns.** The held record states the
+filing fee as "$500, or C-10-Criminal where indigency is claimed." and names the fee waiver as "C-10-Criminal, Affidavit of Substantial Hardship and Order."
+The third box is the one that asks for waiver of the expungement petition
+administrative filing fee, and it is the only one of the three that mentions an
+expungement petition at all. The first box asks the court to appoint an attorney
+and the second asks to waive ignition interlock device fees; neither is relief
+this route seeks, and neither appears anywhere in this route's record.
+
+**The election is yours, not this packet's.** The same rule makes the waiver
+conditional on indigency being claimed, and the sentence printed beside the box
+is sworn and in your own voice - it states that you, because of financial
+hardship, are unable to pay. This packet holds no fact about your finances, so
+it will not make that statement for you.
+
+**Why the affidavit is in the packet at all.** The record makes this component
+conditional - "Where indigency is claimed." - and that condition is a fact about
+you. This packet cannot find it false any more than it can find it true, and the
+record states the fee in the alternative, so the paper is delivered blank and
+unticked and the choice stays where the record puts it.
+
+So: if you are claiming financial hardship, tick the third box yourself, complete
+the affidavit's income, expense and asset items from the list above, and sign it
+when you sign the petition. If you are not claiming financial hardship, tick
+none of the three and pay the filing fee the record states instead; you may
+simply leave the affidavit out of what you file. If you file the affidavit with
+no box ticked, you have filed a sworn Affidavit of Substantial Hardship that
+asks the court for nothing.
 
 ## Service
 

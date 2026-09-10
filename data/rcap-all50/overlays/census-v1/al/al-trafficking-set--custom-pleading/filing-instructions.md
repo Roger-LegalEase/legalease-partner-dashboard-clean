@@ -21,7 +21,9 @@ File the version whose statute matches the level of the charge on your certified
 record.
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form. It
-already elects the printed request for waiver of the expungement petition
-administrative filing fee. Complete it only if you are claiming financial
-hardship; the judge, not you, completes its order page. Do not sign or date the
+prints three relief requests and this packet ticks none of them. Complete it,
+and tick the third request yourself, only if you are claiming financial
+hardship; the participant guide's section "The relief request on C-10-CRIMINAL that this packet has not made" quotes
+all three and says which one this route concerns. The judge, not you, completes
+its order page. Do not sign or date the
 petition until every required blank and every attachment is complete.
