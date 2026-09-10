@@ -14,6 +14,34 @@ complete, sign and file. Nothing in it has been filed and no court has decided a
 FEE102 is marked CONFIDENTIAL on every page. If you file it, hand it to the court
 administrator separately from the petition rather than attaching it to the public papers.
 
+## Before you start: get your own records
+
+Get these two records of your own before you check anything in this packet.
+
+- **Your own Minnesota criminal history, from the Bureau of Criminal Apprehension.** You
+  request it from the BCA yourself.
+- **Your own case history, from MCRO** — Minnesota Court Records Online. You look your own
+  cases up there yourself.
+
+LegalEase never collects, inspects or authenticates either of them, so nothing in this packet
+has been checked against them.
+
+**Check the court file number in this packet against those two records, and correct the packet
+if they disagree.** The court file number in this packet came from the answer you gave when it
+was prepared, not from the court's own record of your case.
+
+**Some Court File Number lines in this packet may be blank, and if they are, they are yours to
+fill in.** A court file number is printed onto a caption only where it fits inside the rule
+that form draws. These three rules are narrow, and a long court file number does not fit:
+
+- **EXP102 page 1 — Court File Number.** the rule the form draws is 122.4 points wide, which leaves 106.4 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point).
+- **EXP104 page 1 — Court File Number.** the rule the form draws is 116.4 points wide, which leaves 100.4 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point).
+- **EXP106 page 1 — Court File Number.** the rule the form draws is 123 points wide, which leaves 107 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point).
+
+Where that happens this packet leaves the line blank rather than printing a number that runs
+off the court's own rule. Look at the Court File Number line on every caption in this packet.
+If it is empty, write your court file number in by hand before you file.
+
 ## What this packet already says for you
 
 This packet marks 2 boxes for you and no others. They are
@@ -39,8 +67,32 @@ decisions the judge makes after the hearing.
 Every other box in this packet is empty and is yours. The ones that ask you for a decision are
 listed under "Choices only you can make" below, with what each one means.
 
-If your case was not discharged under § 152.18, this is the wrong packet and you should not
-file it.
+## Where this packet stops and you need a lawyer
+
+This packet is self-help, and the Minnesota legal-design record names four points past which
+it cannot take you. **If any of the following is true, stop and get a lawyer before you go
+further.** These are the record's own words:
+
+- The prosecuting authority or an agency objects.
+- The court sets a contested hearing.
+- Whether the discharge was under § 152.18 is disputed.
+- Predatory-offender registration is required.
+
+Two of them need saying plainly.
+
+**If your case was not discharged under Minn. Stat. § 152.18, this is the wrong packet and you
+should not file it.** And if your own records do not make it clear whether the discharge was
+under § 152.18, or anyone disputes that it was, do not file on a guess. That is the third
+condition above and it is a question for a lawyer.
+
+**If predatory-offender registration is required in your case, stop here.** The exclusions
+recorded for this route include a predatory-offender registration bar under Minn. Stat.
+§ 609A.02, subd. 4. This packet is not built for that situation and nothing in it addresses
+it. Talk to a lawyer before you file anything.
+
+_The four conditions above, and the exclusion, are quoted from track `mn_petition_15218` in
+`data/record-clearing/legal-design-track-registry.json`; the build fails if that
+record stops carrying them word for word._
 
 ## You must supply these before you file
 

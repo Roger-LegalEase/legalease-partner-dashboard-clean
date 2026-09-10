@@ -3,7 +3,21 @@
 ## Where it goes
 
 File with the district court administrator in the county where the case was decided. The
-caption of every form in this packet names that county and that court file number.
+caption of every form in this packet names that county.
+
+**The court file number is a different matter, and you have to look at it.** This packet
+writes the court file number onto a caption only where the number fits inside the rule that
+form prints. Those rules are narrow, and they are not the same width on every form:
+
+- **EXP102 page 1** — 106.4 points of usable width, and a court file number can need more than that even at the smallest readable size.
+- **EXP104 page 1** — 100.4 points of usable width, and a court file number can need more than that even at the smallest readable size.
+- **EXP106 page 1** — 107 points of usable width, and a court file number can need more than that even at the smallest readable size.
+
+Where the number does not fit, this packet leaves that Court File Number line blank rather
+than printing a number that runs off the court's own rule, and you write it in yourself.
+**Look at the Court File Number line on the caption of every form in this packet before you
+file. If it is empty, fill it in.** A proposed order and a proof of service that go to the
+court without a case number on them do not identify the case they belong to.
 
 ## The filing fee
 
@@ -26,10 +40,12 @@ under penalty of perjury, that you HAVE served the parties you check at the addr
 Until you have actually put the envelopes in the mail, none of that is true. Complete EXP104
 after you mail, not before, and then file it with the court.
 
-EXP104's caption is not finished either. This packet writes the county and the court file number
-onto it; the Judicial District line is blank and is yours to fill, on EXP104 exactly as on EXP102,
-EXP106 and FEE102. "Blank below its caption" above means below it, not including it — the list
-of blanks to fill before you file is in your participant instructions.
+EXP104's caption is not finished either. This packet writes the county onto it, and writes the
+court file number onto it only where that number fits the rule EXP104 prints, measured above.
+The Judicial District line is blank and is yours to fill, on
+EXP104 exactly as on EXP102, EXP106 and FEE102. "Blank below its caption" above means below
+it, not including it — the list of blanks to fill before you file is in your participant
+instructions.
 
 The committed record for this route does not state a service method, a service deadline or a
 filing deadline, so this packet states none. Ask the court administrator.

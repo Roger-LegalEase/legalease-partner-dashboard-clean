@@ -118,6 +118,8 @@ import { extractTextItems, groupIntoLines, normalizeHarvestedText }
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { preserveGovernanceState, writeWiringChecked }
+  from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -132,6 +134,63 @@ const ROUTE_SELECTION_ID = "mn-exp102-152-18-discharge";
 const OUT = "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-mn_petition_15218-set.mjs";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_ID = "mn_petition_15218";
+
+/*
+ * WHAT THE CONTROLLING RECORDS SAY THAT THIS PACKET WAS NOT SAYING.
+ *
+ * This build derived its whole participant guide from the field census -- from
+ * the blanks it measured on the four PDFs -- and read neither controlling
+ * record. That works for "which rules are empty" and fails for everything the
+ * record knows that the paper does not show. VF56 measured the two gaps:
+ *
+ *   SELF_HELP_STOP. The track carries FOUR selfHelpStopConditions. Three reach
+ *   the guides in substance. The fourth, "Predatory-offender registration is
+ *   required.", reached them in no form at all: "predatory" and "registration"
+ *   occurred zero times in either document. The same track excludes the route
+ *   for a "Predatory-offender registration bar under § 609A.02, subd. 4."
+ *
+ *   REQUIRED_BEFORE_FILING. The packet-set manifest declares TEN entries. Two
+ *   reached neither guide in any form: getting your own BCA criminal history
+ *   and MCRO case history, and checking the court file number against them.
+ *   The second is the check that would have caught the blank caption VF56
+ *   failed this family on under KNOWN_PREFILLS.
+ *
+ * Held as literals and asserted verbatim against both records at build time,
+ * rather than pinned by whole-file SHA-256: both files are shared and rewritten
+ * by unrelated route work, so a whole-file pin goes stale within days without
+ * saying whether THESE entries moved. The build then re-reads its own emitted
+ * markdown and refuses to write if the participant-facing strings are not on
+ * the page.
+ */
+const SELF_HELP_STOP_CONDITIONS = Object.freeze([
+  "The prosecuting authority or an agency objects.",
+  "The court sets a contested hearing.",
+  "Whether the discharge was under § 152.18 is disputed.",
+  "Predatory-offender registration is required."
+]);
+const REGISTRATION_EXCLUSION = "Predatory-offender registration bar under § 609A.02, subd. 4.";
+const OWN_RECORDS_STEP = "Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO. Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.";
+const FILE_NUMBER_CROSSCHECK = "Check your answer to \"What is the court file number?\" against Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO, and correct the packet if they disagree.";
+
+/*
+ * The strings that must be readable in the delivered markdown once those
+ * entries are carried. Matched against the RAW delivered text: these guides are
+ * hard-wrapped, and an independent lane greps the file as it sits on disk, so a
+ * phrase broken across a line break reads as zero occurrences to that grep and
+ * the disclosure has not landed. Each of these is a string VF56 counted at zero.
+ */
+const REQUIRED_PARTICIPANT_DISCLOSURES = Object.freeze([
+  { needle: "predatory", obligation: "SELF_HELP_STOP" },
+  { needle: "registration", obligation: "SELF_HELP_STOP" },
+  { needle: "609A.02, subd. 4", obligation: "SELF_HELP_STOP" },
+  { needle: "criminal history", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "Bureau of Criminal Apprehension", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "MCRO", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "court file number", obligation: "REQUIRED_BEFORE_FILING" }
+]);
 
 /*
  * The election this family makes on EXP102 item 9, and the line the form must
@@ -251,6 +310,29 @@ const BOUNDARY = {
 // plumbing
 // ---------------------------------------------------------------------------
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+
+/*
+ * Carry the committed source-identity tier for any source the committed wiring
+ * record already names. A tier is an assertion about how firmly a source was
+ * identified; this builder does not compute one, it hardcodes one, so it is not
+ * the authority for changing what another component recorded. A source the
+ * committed record has never seen keeps the value composed here.
+ */
+function preservedSourceTiers(wiringPath, composed) {
+  let previous = null;
+  try { previous = JSON.parse(fs.readFileSync(wiringPath, "utf8")); } catch { return composed; }
+  const held = new Map(((previous?.binding?.sourceVersion) ?? [])
+    .filter((row) => row && typeof row.sourceId === "string")
+    .map((row) => [row.sourceId, row]));
+  return composed.map((row) => {
+    const before = held.get(row.sourceId);
+    if (!before || typeof before.tier !== "string") return row;
+    /* A tier describes the identification of THESE bytes. If the source binary
+     * itself moved, the committed tier no longer describes it and is dropped. */
+    if (before.sha256 !== row.sha256) return row;
+    return { ...row, tier: before.tier };
+  });
+}
 const round = (n) => Number(Number(n).toFixed(2));
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const absFor = (rel) => path.join(ROOT, rel);
@@ -404,8 +486,30 @@ function selectionControlsOfPage(lines, pageNumber, checkboxGlyphs) {
       const glyph = checkboxGlyphs.get(chars[i].c + chars[i + 1].c);
       if (!glyph) continue;
       const originX = chars[i].x;
-      const advance = (chars[i].w ?? 0) + (chars[i + 1].w ?? 0);
+      /*
+       * AN ADVANCE THIS BUILD CANNOT MEASURE IS null, NOT ZERO.
+       *
+       * The ballot box decodes as two one-byte chars, and the advance is the
+       * sum of their widths. The shared extractor no longer returns a per-char
+       * width for these glyphs, and `(chars[i].w ?? 0) + (chars[i + 1].w ?? 0)`
+       * turned that absence into the number 0 -- so every one of the 95
+       * controls in this family published glyphAdvance 0, a figure that reads
+       * as a measurement of a zero-width box and is in fact the absence of a
+       * measurement. The geometry itself is unaffected, because every one of
+       * these controls has a readable embedded outline and the outline is what
+       * the cell is measured from; the advance is only the fallback. So the
+       * fallback is now honest about not being available, and a control that
+       * has NEITHER an outline nor an advance stops the build rather than
+       * getting a cell invented for it out of a zero.
+       */
+      const widths = [chars[i].w, chars[i + 1].w];
+      const advance = widths.every((w) => Number.isFinite(w)) ? widths[0] + widths[1] : null;
       const outline = glyph.outline;
+      if (!outline && advance === null) {
+        fail("a printed selection control has neither a readable glyph outline nor a measurable advance, "
+          + "so its cell cannot be measured from this source",
+          `page ${pageNumber} at x ${round(originX)} y ${round(line.y)}`);
+      }
       const geometry = outline
         ? {
           x0: round(originX + outline.xMin * size), y0: round(line.y + outline.yMin * size),
@@ -424,7 +528,14 @@ function selectionControlsOfPage(lines, pageNumber, checkboxGlyphs) {
         printedGlyph: "☐", observedState: "unmarked",
         sourceCid: glyph.cid, outlineBasis: glyph.outlineBasis,
         decodedAsTwoOneByteCharsByTheSharedExtractor: true,
-        glyphAdvance: round(advance), printedSize: round(size),
+        glyphAdvance: advance === null ? null : round(advance),
+        glyphAdvanceMeasured: advance !== null,
+        whyGlyphAdvanceIsNull: advance === null
+          ? "the shared text extractor returned no per-character width for the two bytes this ballot box "
+            + "decodes as. The control's cell is measured from its embedded glyph outline instead, and this "
+            + "field is null because it was not measured -- never 0, which would read as a zero-width box."
+          : null,
+        printedSize: round(size),
         geometry, printedContext: cleanText(line.text)
       });
       i += 1;
@@ -1331,6 +1442,65 @@ const insideControl = (rows, control, wKey = "w", hKey = null) => rows.filter((r
   && row.y <= control.geometry.y1 + 3);
 
 // ---------------------------------------------------------------------------
+// the controlling records
+// ---------------------------------------------------------------------------
+/*
+ * Assert, against the records themselves, that the entries this build carries
+ * into participant copy are still the records' own words. A mismatch stops the
+ * build rather than shipping a page that attributes a stop condition or a
+ * preparatory step to a record that no longer holds it.
+ */
+function verifyControllingRecords() {
+  const registry = readJson(TRACK_REGISTRY);
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  if (!track) fail(`${TRACK_REGISTRY} carries no track ${TRACK_ID}`);
+  const stop = track.selfHelpStopConditions ?? [];
+  if (JSON.stringify(stop) !== JSON.stringify([...SELF_HELP_STOP_CONDITIONS])) {
+    fail("the track's selfHelpStopConditions are not the four conditions this packet prints",
+      JSON.stringify({ inRecord: stop, inThisBuild: [...SELF_HELP_STOP_CONDITIONS] }));
+  }
+  if (!(track.exclusions ?? []).includes(REGISTRATION_EXCLUSION)) {
+    fail("the track no longer excludes the predatory-offender registration bar this packet cites",
+      REGISTRATION_EXCLUSION);
+  }
+
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifests.packetSets ?? []).find((p) => p.packetSetId === FAMILY_ID);
+  if (!set) fail(`${PACKET_SET_MANIFESTS} carries no packet set ${FAMILY_ID}`);
+  const declared = set.requiredBeforeFiling ?? [];
+  for (const entry of [OWN_RECORDS_STEP, FILE_NUMBER_CROSSCHECK]) {
+    if (!declared.includes(entry)) {
+      fail("the packet-set manifest no longer declares a requiredBeforeFiling entry this packet carries", entry);
+    }
+  }
+  return {
+    trackId: TRACK_ID,
+    selfHelpStopConditions: [...SELF_HELP_STOP_CONDITIONS],
+    registrationExclusion: REGISTRATION_EXCLUSION,
+    manifestRequiredBeforeFilingDeclared: declared.length,
+    manifestEntriesCarriedByThisBuild: [OWN_RECORDS_STEP, FILE_NUMBER_CROSSCHECK],
+    verifiedVerbatimIn: [TRACK_REGISTRY, PACKET_SET_MANIFESTS],
+    boundByWholeFileSha256: false,
+    whyNotBoundByWholeFileSha256:
+      "both records are shared and are rewritten by unrelated route work; a whole-file pin on either goes "
+      + "stale within days without saying whether these entries moved. The build asserts the entries verbatim."
+  };
+}
+
+/*
+ * The other half of the guard: the records are checked when the build starts,
+ * and the BYTES this build is about to deliver are checked before anything is
+ * written. VF56 found this family's gaps by grepping the delivered markdown, so
+ * the build greps the same strings out of the same text.
+ */
+function undisclosedRecordSentences(participant, filing) {
+  const both = `${participant}\n${filing}`.toLowerCase();
+  return REQUIRED_PARTICIPANT_DISCLOSURES
+    .filter((d) => !both.includes(d.needle.toLowerCase()))
+    .map((d) => ({ ...d, occurrencesInDeliveredText: 0 }));
+}
+
+// ---------------------------------------------------------------------------
 // sources
 // ---------------------------------------------------------------------------
 function corpusRoot() {
@@ -1381,7 +1551,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling, laterCompletion, elections }) {
+function renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling, laterCompletion, elections, captionFileNumber }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1399,6 +1569,52 @@ function renderParticipantInstructions({ documents, censuses, marks, protectedBo
   lines.push("FEE102 is marked CONFIDENTIAL on every page. If you file it, hand it to the court");
   lines.push("administrator separately from the petition rather than attaching it to the public papers.");
   lines.push("");
+  /*
+   * THE FIRST TWO OF THE MANIFEST'S TEN requiredBeforeFiling ENTRIES.
+   *
+   * This build derives the "You must supply these before you file" list from
+   * the blanks it measured on the paper, which is why these two never appeared:
+   * neither is a blank on any form. They are preparatory steps the packet-set
+   * manifest declares, and the second is the check that would have caught a
+   * caption this packet left empty while telling the participant it had filled
+   * it in. Carried verbatim-in-substance, asserted against the manifest above.
+   */
+  lines.push("## Before you start: get your own records");
+  lines.push("");
+  lines.push("Get these two records of your own before you check anything in this packet.");
+  lines.push("");
+  lines.push("- **Your own Minnesota criminal history, from the Bureau of Criminal Apprehension.** You");
+  lines.push("  request it from the BCA yourself.");
+  lines.push("- **Your own case history, from MCRO** — Minnesota Court Records Online. You look your own");
+  lines.push("  cases up there yourself.");
+  lines.push("");
+  lines.push("LegalEase never collects, inspects or authenticates either of them, so nothing in this packet");
+  lines.push("has been checked against them.");
+  lines.push("");
+  lines.push("**Check the court file number in this packet against those two records, and correct the packet");
+  lines.push("if they disagree.** The court file number in this packet came from the answer you gave when it");
+  lines.push("was prepared, not from the court's own record of your case.");
+  lines.push("");
+  /*
+   * Generated from the write outcomes, never asserted beside them. Where the
+   * value did not fit the rule the court drew, the caption is blank and the
+   * participant is the only one who can finish it, so they are told which
+   * captions and what the measurement was.
+   */
+  if (!captionFileNumber.everyCaptionWrittenInEveryFixture && captionFileNumber.narrow.length > 0) {
+    lines.push("**Some Court File Number lines in this packet may be blank, and if they are, they are yours to");
+    lines.push("fill in.** A court file number is printed onto a caption only where it fits inside the rule");
+    lines.push("that form draws. These three rules are narrow, and a long court file number does not fit:");
+    lines.push("");
+    for (const caption of captionFileNumber.narrow) {
+      lines.push(`- **${caption.form} page ${caption.page} — Court File Number.** ${caption.refusal.measuredWhy}.`);
+    }
+    lines.push("");
+    lines.push("Where that happens this packet leaves the line blank rather than printing a number that runs");
+    lines.push("off the court's own rule. Look at the Court File Number line on every caption in this packet.");
+    lines.push("If it is empty, write your court file number in by hand before you file.");
+    lines.push("");
+  }
   lines.push("## What this packet already says for you");
   lines.push("");
   /*
@@ -1478,8 +1694,39 @@ function renderParticipantInstructions({ documents, censuses, marks, protectedBo
     lines.push("listed under \"Choices only you can make\" below, with what each one means.");
     lines.push("");
   }
-  lines.push("If your case was not discharged under § 152.18, this is the wrong packet and you should not");
-  lines.push("file it.");
+  /*
+   * ALL FOUR SELF-HELP STOP CONDITIONS, IN THE RECORD'S OWN WORDS.
+   *
+   * What stood here was one sentence about § 152.18. It covered the case where
+   * the participant KNOWS the discharge was not under § 152.18, and not the
+   * case the record names, where the classification is DISPUTED; and the fourth
+   * condition, predatory-offender registration, reached the participant in no
+   * form at all. The conditions are printed from the literals asserted against
+   * the track registry at build time, so the page and the record cannot drift.
+   */
+  lines.push("## Where this packet stops and you need a lawyer");
+  lines.push("");
+  lines.push("This packet is self-help, and the Minnesota legal-design record names four points past which");
+  lines.push("it cannot take you. **If any of the following is true, stop and get a lawyer before you go");
+  lines.push("further.** These are the record's own words:");
+  lines.push("");
+  for (const condition of SELF_HELP_STOP_CONDITIONS) lines.push(`- ${condition}`);
+  lines.push("");
+  lines.push("Two of them need saying plainly.");
+  lines.push("");
+  lines.push("**If your case was not discharged under Minn. Stat. § 152.18, this is the wrong packet and you");
+  lines.push("should not file it.** And if your own records do not make it clear whether the discharge was");
+  lines.push("under § 152.18, or anyone disputes that it was, do not file on a guess. That is the third");
+  lines.push("condition above and it is a question for a lawyer.");
+  lines.push("");
+  lines.push("**If predatory-offender registration is required in your case, stop here.** The exclusions");
+  lines.push("recorded for this route include a predatory-offender registration bar under Minn. Stat.");
+  lines.push("§ 609A.02, subd. 4. This packet is not built for that situation and nothing in it addresses");
+  lines.push("it. Talk to a lawyer before you file anything.");
+  lines.push("");
+  lines.push(`_The four conditions above, and the exclusion, are quoted from track \`${TRACK_ID}\` in`);
+  lines.push(`\`${TRACK_REGISTRY}\`; the build fails if that`);
+  lines.push("record stops carrying them word for word._");
   lines.push("");
   lines.push("## You must supply these before you file");
   lines.push("");
@@ -1527,15 +1774,81 @@ function renderParticipantInstructions({ documents, censuses, marks, protectedBo
   return `${lines.join("\n")}\n`;
 }
 
-function renderFilingInstructions({ documents }) {
+const CAPTION_FILE_NUMBER_FACT = "matter.case_number";
+
+/*
+ * WHAT THE PACKET ACTUALLY DID WITH THE COURT FILE NUMBER, PER CAPTION.
+ *
+ * The two filing-instructions sentences about the caption were written by hand
+ * beside the build rather than generated from it, and on the boundary fixture
+ * they said the opposite of what the bytes did: three of the four captions have
+ * no court file number on them, and the guide told the participant that "the
+ * caption of every form in this packet names that county and that court file
+ * number" and, of EXP104 specifically, that "this packet writes the county and
+ * the court file number onto it". The proposed order the judge signs and the
+ * proof of service both went out with an unidentified case, and the page that
+ * tells the participant what still needs doing said there was nothing to do.
+ *
+ * The sentences are now a reading of these rows. A caption counts as written
+ * only when it was written in EVERY fixture this build produced: one guide
+ * ships with both fixtures, so a statement it makes has to be true of both.
+ */
+function captionFileNumberOutcomes(fixtureResults) {
+  const byCaption = new Map();
+  for (const result of fixtureResults) {
+    for (const doc of result.perDocument) {
+      for (const write of doc.actualWrites) {
+        if (write.factId !== CAPTION_FILE_NUMBER_FACT) continue;
+        const key = `${doc.formNumber}|${write.page}`;
+        if (!byCaption.has(key)) {
+          byCaption.set(key, { form: doc.formNumber, page: write.page, writtenInEveryFixture: true, refusal: null });
+        }
+        const entry = byCaption.get(key);
+        if (write.written !== true) {
+          entry.writtenInEveryFixture = false;
+          entry.refusal = entry.refusal ?? write.notWritten ?? null;
+        }
+      }
+    }
+  }
+  const captions = [...byCaption.values()].sort((a, b) => a.form.localeCompare(b.form) || a.page - b.page);
+  return {
+    captions,
+    everyCaptionWrittenInEveryFixture: captions.length > 0 && captions.every((c) => c.writtenInEveryFixture),
+    narrow: captions.filter((c) => !c.writtenInEveryFixture && c.refusal)
+  };
+}
+
+function renderFilingInstructions({ documents, captionFileNumber }) {
   const lines = [];
   lines.push("# Filing your Minnesota expungement packet");
   lines.push("");
   lines.push("## Where it goes");
   lines.push("");
   lines.push("File with the district court administrator in the county where the case was decided. The");
-  lines.push("caption of every form in this packet names that county and that court file number.");
+  lines.push("caption of every form in this packet names that county.");
   lines.push("");
+  if (captionFileNumber.everyCaptionWrittenInEveryFixture) {
+    lines.push("This packet writes the court file number onto every one of those captions. Check it against");
+    lines.push("your own records before you file.");
+    lines.push("");
+  } else {
+    lines.push("**The court file number is a different matter, and you have to look at it.** This packet");
+    lines.push("writes the court file number onto a caption only where the number fits inside the rule that");
+    lines.push("form prints. Those rules are narrow, and they are not the same width on every form:");
+    lines.push("");
+    for (const caption of captionFileNumber.narrow) {
+      lines.push(`- **${caption.form} page ${caption.page}** — ${caption.refusal.usableWidthInsideTheWriteBox} points of`
+        + ` usable width, and a court file number can need more than that even at the smallest readable size.`);
+    }
+    lines.push("");
+    lines.push("Where the number does not fit, this packet leaves that Court File Number line blank rather");
+    lines.push("than printing a number that runs off the court's own rule, and you write it in yourself.");
+    lines.push("**Look at the Court File Number line on the caption of every form in this packet before you");
+    lines.push("file. If it is empty, fill it in.** A proposed order and a proof of service that go to the");
+    lines.push("court without a case number on them do not identify the case they belong to.");
+    lines.push("");
+  }
   lines.push("## The filing fee");
   lines.push("");
   lines.push("A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver");
@@ -1557,10 +1870,17 @@ function renderFilingInstructions({ documents }) {
   lines.push("Until you have actually put the envelopes in the mail, none of that is true. Complete EXP104");
   lines.push("after you mail, not before, and then file it with the court.");
   lines.push("");
-  lines.push("EXP104's caption is not finished either. This packet writes the county and the court file number");
-  lines.push("onto it; the Judicial District line is blank and is yours to fill, on EXP104 exactly as on EXP102,");
-  lines.push("EXP106 and FEE102. \"Blank below its caption\" above means below it, not including it — the list");
-  lines.push("of blanks to fill before you file is in your participant instructions.");
+  const exp104Caption = captionFileNumber.captions.find((c) => c.form === "EXP104") ?? null;
+  lines.push("EXP104's caption is not finished either. This packet writes the county onto it, and writes the");
+  if (exp104Caption && exp104Caption.writtenInEveryFixture) {
+    lines.push("court file number onto it as well. The Judicial District line is blank and is yours to fill, on");
+  } else {
+    lines.push("court file number onto it only where that number fits the rule EXP104 prints, measured above.");
+    lines.push("The Judicial District line is blank and is yours to fill, on");
+  }
+  lines.push("EXP104 exactly as on EXP102, EXP106 and FEE102. \"Blank below its caption\" above means below");
+  lines.push("it, not including it — the list of blanks to fill before you file is in your participant");
+  lines.push("instructions.");
   lines.push("");
   lines.push("The committed record for this route does not state a service method, a service deadline or a");
   lines.push("filing deadline, so this packet states none. Ask the court administrator.");
@@ -1717,8 +2037,83 @@ async function buildFixture({ documents, censuses, anchorSets, facts, fixture, e
       }
     }
 
+    /*
+     * EVERY WRITE THIS DOCUMENT OFFERED, READ BACK OUT OF THE SAVED BYTES.
+     *
+     * A row that was NOT written now carries the measurement that refused it.
+     * VF56 failed this family because three Court File Number rows on the
+     * boundary fixture published written:false with an empty read and nothing
+     * else -- no reason, no usable width, no overflow figure -- while the
+     * delivered filing instructions asserted the opposite of what the bytes
+     * did. The build already measured the reason into tooLongToFit; it simply
+     * never reached the record that a reader consults, or the participant.
+     */
+    const actualWrites = anchors.map((anchor) => {
+      const glyphs = inkInsideAnchor(added, anchor);
+      const refusal = tooLongToFit.find((row) => row.blankId === anchor.blankId) ?? null;
+      const written = (report.written ?? []).some((w) => w.anchor === anchor.label);
+      return {
+        field: anchor.blankId, factId: anchor.factId, kind: "overlay_text",
+        expected: String(facts[anchor.factId] ?? ""), page: anchor.page,
+        printedCaption: anchor.printedCaption,
+        rect: anchor.writeBox, measuredSourceRule: anchor.sourceBlankBounds,
+        overlayTextReadFromFinalPdfBytes: glyphs.map((g) => g.c).join("").trim(),
+        glyphCountReadFromFinalPdfBytes: glyphs.filter((g) => String(g.c).trim()).length,
+        written,
+        ...(written ? {} : {
+          notWritten: refusal
+            ? {
+              class: "VALUE_TOO_LONG_FOR_THE_RULE_THE_FORM_PRINTS",
+              measuredRuleWidth: refusal.measuredRuleWidth,
+              usableWidthInsideTheWriteBox: refusal.usableWidthInsideTheWriteBox,
+              requiredWidthAtSmallestReadableSize: refusal.requiredWidthAtSmallestReadableSize,
+              smallestReadableSize: refusal.smallestReadableSize,
+              measuredWhy: refusal.measuredWhy,
+              participantMustSupply:
+                "this line is blank on your packet because the value is too long to print legibly "
+                + "inside the rule the form draws. Write it in yourself before you file."
+            }
+            : {
+              class: "NOT_OFFERED_BY_THIS_FIXTURE",
+              measuredWhy: "no value was offered for this anchor in this fixture's facts"
+            }
+        })
+      };
+    });
+
+    /*
+     * TWO FIGURES IN THIS RECORD BOTH CLAIM TO BE READINGS OF THE OUTPUT BYTES,
+     * AND NOTHING MADE THEM AGREE.
+     *
+     * addedGlyphsReadFromOutputBytes is a count of every non-whitespace glyph
+     * this build added to the document. The per-write reads are counts of the
+     * glyphs inside each anchor. Ink that lands inside no anchor is counted by
+     * glyphsOutside, and is separately blocking. So the three have to reconcile
+     * exactly, and a published document total that does not equal the sum of
+     * its own per-write reads means one of the two is not a reading of these
+     * bytes. The committed record was three short -- the three glyphs of "sal"
+     * on a boundary charge description -- with the wrong figure quoted as the
+     * proof text. Nothing noticed, because nothing compared them.
+     */
+    const documentGlyphTotal = added.filter((g) => String(g.c).trim()).length;
+    const perWriteGlyphTotal = actualWrites.reduce((n, w) => n + w.glyphCountReadFromFinalPdfBytes, 0);
+    if (perWriteGlyphTotal + glyphsOutside !== documentGlyphTotal) {
+      findings.push({
+        severity: "blocking", check: "per_write_glyph_reads_do_not_reconcile_with_the_document_total",
+        documentGlyphTotal, perWriteGlyphTotal, glyphsOutside,
+        unaccountedFor: documentGlyphTotal - (perWriteGlyphTotal + glyphsOutside),
+        why: "every added glyph is either inside an anchor this build declared or outside every one of "
+          + "them. A document total that does not equal the sum of the per-write reads plus the outside "
+          + "count means one of the published figures is not a reading of these bytes."
+      });
+    }
+
     perDocument.push({
       fixture, formNumber: document.formNumber, sourceSha256: document.sha256,
+      glyphReconciliation: {
+        documentGlyphTotal, perWriteGlyphTotal, glyphsOutsideEveryMeasuredWriteBox: glyphsOutside,
+        reconciles: perWriteGlyphTotal + glyphsOutside === documentGlyphTotal
+      },
       proofMethod: "glyphs and vector paths present in the final packet bytes and absent from the pinned "
         + "source bytes, located against the source's own measured rules and checkbox glyph outlines",
       addedGlyphsReadFromOutputBytes: added.filter((g) => String(g.c).trim()).length,
@@ -1728,18 +2123,7 @@ async function buildFixture({ documents, censuses, anchorSets, facts, fixture, e
       valuesReportedByFinalizer: (report.written ?? []).length,
       selectionsMarked: (report.selections ?? []).map((s) => s.control),
       selectionsRefused: report.selectionsRefused ?? [],
-      actualWrites: anchors.map((anchor) => {
-        const glyphs = inkInsideAnchor(added, anchor);
-        return {
-          field: anchor.blankId, factId: anchor.factId, kind: "overlay_text",
-          expected: String(facts[anchor.factId] ?? ""), page: anchor.page,
-          printedCaption: anchor.printedCaption,
-          rect: anchor.writeBox, measuredSourceRule: anchor.sourceBlankBounds,
-          overlayTextReadFromFinalPdfBytes: glyphs.map((g) => g.c).join("").trim(),
-          glyphCountReadFromFinalPdfBytes: glyphs.filter((g) => String(g.c).trim()).length,
-          written: (report.written ?? []).some((w) => w.anchor === anchor.label)
-        };
-      }),
+      actualWrites,
       refused: report.refused ?? [], unfittable: report.unfittable ?? [], tooLongToFit,
       activeContentScan: report.activeContentScan, findings
     });
@@ -1761,6 +2145,9 @@ async function buildFixture({ documents, censuses, anchorSets, facts, fixture, e
 }
 
 async function build({ check = false } = {}) {
+  /* Before anything is read off a PDF: are the record entries this packet
+   * carries into participant copy still the records' own words? */
+  const controllingRecords = verifyControllingRecords();
   const documents = await loadDocuments();
   const censuses = {};
   for (const document of documents) censuses[document.key] = await censusDocument(document);
@@ -1851,12 +2238,14 @@ async function build({ check = false } = {}) {
       JSON.stringify(blocking.slice(0, 4)));
   }
 
-  // ---- write the overlay directory ---------------------------------------
-  fs.mkdirSync(absFor(`${OUT}/fixtures`), { recursive: true });
-  fs.mkdirSync(absFor(`${OUT}/reports`), { recursive: true });
-  fs.writeFileSync(absFor(`${OUT}/fixtures/canonical.pdf`), canonical.bytes);
-  fs.writeFileSync(absFor(`${OUT}/fixtures/boundary.pdf`), boundary.bytes);
-
+  /*
+   * COMPOSE BOTH PARTICIPANT DOCUMENTS BEFORE ANY BYTE IS WRITTEN.
+   *
+   * They used to be composed after the fixtures had already landed on disk, so
+   * a build that stopped between the two left a family directory half from this
+   * run and half from the last. The disclosure guard below has to be able to
+   * refuse the whole write, so everything it inspects is built first.
+   */
   const requiredBeforeFiling = [];
   const laterCompletion = [];
   const elections = [];
@@ -1906,9 +2295,32 @@ async function build({ check = false } = {}) {
   const laterRows = dedupe(laterCompletion, (r) => `${r.form}|${r.effectiveLabel}`);
   const electionRows = dedupe(elections, (r) => `${r.form}|${r.effectiveLabel}`);
 
-  fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
-  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions({ documents }));
+  const captionFileNumber = captionFileNumberOutcomes([canonical, boundary]);
+  const participantInstructions = renderParticipantInstructions({
+    documents, censuses, marks, protectedBoxes,
+    requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows,
+    captionFileNumber
+  });
+  const filingInstructions = renderFilingInstructions({ documents, captionFileNumber });
+
+  /*
+   * THE DISCLOSURE GUARD. The controlling records were checked when this build
+   * started; these are the BYTES it is about to deliver. Nothing is written if
+   * a record sentence this packet is required to carry is not on the page.
+   */
+  const undisclosed = undisclosedRecordSentences(participantInstructions, filingInstructions);
+  if (undisclosed.length > 0) {
+    fail("a controlling-record sentence this packet must carry is not in the delivered markdown",
+      JSON.stringify(undisclosed));
+  }
+
+  // ---- write the overlay directory ---------------------------------------
+  fs.mkdirSync(absFor(`${OUT}/fixtures`), { recursive: true });
+  fs.mkdirSync(absFor(`${OUT}/reports`), { recursive: true });
+  fs.writeFileSync(absFor(`${OUT}/fixtures/canonical.pdf`), canonical.bytes);
+  fs.writeFileSync(absFor(`${OUT}/fixtures/boundary.pdf`), boundary.bytes);
+  fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`), participantInstructions);
+  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), filingInstructions);
 
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1",
@@ -2113,7 +2525,38 @@ async function build({ check = false } = {}) {
     ]
   });
 
-  writeJson(`${OUT}/product-wiring.json`, {
+  /*
+   * THE REBUILD THAT ERASED THIS FAMILY'S GOVERNANCE STATE, STOPPED.
+   *
+   * This builder composed product-wiring.json wholesale, from nothing, and wrote
+   * it. Six keys on the committed `binding` are authored by other components and
+   * were destroyed on every rebuild -- acceptanceReceipt, lastIndependentVerification,
+   * paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship.
+   * FIX07 lost this family's hash-bound RASTER_PASS (workflow run 34413372916)
+   * to a rebuild it ran at base before any edit of its own, and FIX02 reproduced
+   * the same six-key loss on an untouched sibling script with byte-identical
+   * fixtures either side -- which is exactly why nothing downstream reports it.
+   * The record is data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json.
+   *
+   * The write now routes through preserveGovernanceState(), which carries a
+   * governance value forward when this write does not author one, and WITHDRAWS
+   * an artifact-bound acceptance receipt -- recorded, with both digests -- when
+   * the canonical this build produced is not the canonical the receipt binds.
+   * writeWiringChecked() then refuses the write outright if anything would still
+   * be lost. Preserving a value is not deciding one: nothing here issues a
+   * receipt, marks a family proven, or sets any commercial guard.
+   *
+   * THE SOURCE TIERS ARE PRESERVED FOR THE SAME REASON, and it is not one of
+   * the six. This builder hardcodes tier "exact_content_hash" for all four
+   * sources. The committed record carries "exact_form_number" for FEE102, set
+   * by a later component that assigns tiers from evidence, so a plain rebuild
+   * silently REWROTE a source-identity claim this build did not author and is
+   * not the authority for. A tier is not this builder's to strengthen; the
+   * committed value is carried forward unchanged, and only a source this record
+   * has never seen takes the value composed here.
+   */
+  const wiringPath = absFor(`${OUT}/product-wiring.json`);
+  const wiring = {
     schemaVersion: "rcap-family-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     routeSelectionId: ROUTE_SELECTION_ID, implementationStrategy: "official_pdf_fill",
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
@@ -2130,9 +2573,16 @@ async function build({ check = false } = {}) {
       filingInstructions: `${OUT}/filing-instructions.md`,
       renderedArtifacts: `${OUT}/reports/rendered-artifacts.json`,
       sourceReceipt: `${OUT}/source-receipt.json`,
-      sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" }))
+      sourceVersion: preservedSourceTiers(wiringPath,
+        SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" })))
     }
-  });
+  };
+  fs.mkdirSync(path.dirname(wiringPath), { recursive: true });
+  writeWiringChecked(fs, wiringPath,
+    preserveGovernanceState(fs, wiringPath, wiring, {
+      canonicalSha256: sha256(canonical.bytes),
+      log: (line) => console.error(line)
+    }));
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
