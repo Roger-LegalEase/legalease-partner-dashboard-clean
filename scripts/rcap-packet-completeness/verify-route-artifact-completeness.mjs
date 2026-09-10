@@ -84,6 +84,9 @@ const asRow = (r, documentId) => ({
     disposition: r.completenessDisposition ?? r.disposition ?? null,
     ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
     ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+    ...(Object.hasOwn(r, "routeConditionThatMakesItInapplicable")
+      ? { routeConditionThatMakesItInapplicable: r.routeConditionThatMakesItInapplicable }
+      : {}),
     identity: r.identity ?? null,
     factId: r.factId ?? null
   }
