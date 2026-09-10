@@ -32,19 +32,19 @@ Check every prefilled fact against your own court record and your certified limi
 
 ## What you must obtain or confirm before filing (15 items)
 
-- **Obtain a document** (required, required before filing): Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time. Obtained from: Indiana State Police.
+- **Obtain a document** (required, required before filing): Request a certified limited criminal history from the Indiana State Police. What it costs and how long it takes both change, so confirm the current fee and turnaround with the State Police when you request it. Obtained from: Indiana State Police.
 - **Confirm an answer** (required, required before filing): Check your answer to "List every conviction you have in Indiana, in any county, and whether each is eligible yet." against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.
 - **Obtain a document** (required, required before filing): Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution. Obtained from: Clerk of the court of conviction.
 - **Confirm an answer** (required, required before filing): Check your answer to "Have you paid all fines, fees and court costs, and satisfied any restitution?" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.
-- **Obtain a document** (conditional, required before filing): Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent. Obtained from: Prosecuting attorney of the county of conviction. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
-- **Confirm an answer** (conditional, required before filing): Check your answer to "Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?" against Written prosecutor consent, and correct the packet if they disagree. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
+- **Obtain a document** (conditional, required before filing): Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent. Obtained from: Prosecuting attorney of the county of conviction. Condition: Required to file a Section 5 petition, and required to shorten the waiting period on any conviction expungement.
+- **Confirm an answer** (conditional, required before filing): Check your answer to "Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?" against Written prosecutor consent, and correct the packet if they disagree. Condition: Required to file a Section 5 petition, and required to shorten the waiting period on any conviction expungement.
 - **Complete a field** (required, required before filing): Verification and signature — Petition, verification block.
 - **Complete a field** (required, required before filing): Section classification — Petition, offence classification.
 - **Complete a field** (required, required before filing): Additional-information narrative — Petition, additional information.
 - **Complete a field** (required, required before filing): Full Social Security number — Confidential Information Form.
 - **Sign** (required, required before filing): The petition is verified and signed by the petitioner.
 - **Pay a fee** (required, required before filing): A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.
-- **Apply for a fee waiver** (conditional, required before filing): Unresolved. Indigency waiver availability has not been confirmed. Condition: Applies only when the participant cannot pay the filing fee.
+- **Apply for a fee waiver** (conditional, required before filing): Unresolved. Indigency waiver availability has not been confirmed. Condition: Applies only if you cannot pay the filing fee.
 - **Serve a party** (required): Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.
 - **File** (required): File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.
 
@@ -72,21 +72,21 @@ Check every prefilled fact against your own court record and your certified limi
 - Signature: The petition is verified and signed by the petitioner.
 - Notarization: none
 
-## What the committed record requires this packet to say (6 instructions)
+## Rules and limits that apply to your petition (6 rules)
 
-- [packet_instruction] Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.
-- [packet_instruction] Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.
-- [packet_instruction] Disclose that the expungement case file is public until the order is granted.
-- [scope_restriction] One petition per lifetime under § 35-38-9-9(i). Petitions filed in separate counties count as one only if they land inside a single 365-day window. Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.
-- [scope_restriction] Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed. Under Chastain a petitioner cannot use the liberal amendment rule to add records that were not yet eligible when the initial petition was filed, so filing now can permanently cost a record that ripens later. This is a delivery gate, not a generation blocker.
-- [participant_question] Whether an offence involved serious bodily injury decides between Sections 3, 4 and 5. Ask it explicitly and refer where the answer is unclear.
+- Expungement in Indiana does not destroy your records. Under § 35-38-9-1(k) they are sealed, or access to them is restricted. The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.
+- Put only the last four digits of your Social Security number on the petition. Your full number goes on the Confidential Information Form, which is filed as a confidential document together with the Notice of Exclusion of Confidential Information from Public Access.
+- Your expungement case file is public until the order is granted.
+- You get one petition in your lifetime under § 35-38-9-9(i). If you have convictions in more than one county, petitions filed in separate counties count as a single petition only when they are all filed inside one 365-day window. When you file therefore matters as much as what you file, so get legal help with the timing before you file anything.
+- If you have any conviction that is not yet eligible, do not file until you have legal advice. Under Chastain v. State you cannot later use the liberal amendment rule to add records that were not yet eligible when your first petition was filed, so filing now can permanently cost you a record that becomes eligible later.
+- Whether your offence involved serious bodily injury decides whether Section 3, 4 or 5 applies to you. Answer it from your own court record, and get legal help if the answer is not clear.
 
 ## Fields deliberately left blank
 
 - Sign and date the verification on the petition yourself, after reading it. The petition is verified, and signing it is an affirmation under the penalties for perjury.
 - Do not sign, date or complete any part of the proposed order. It is delivered unexecuted, and its page prints "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided." Every line listed below is printed on that order under the label shown here, and every one of them is the court's or the clerk's to complete:
 - "Findings of the court on the verified petition" on the proposed order - the findings are the court's, made by a preponderance on the statutory conditions
-- "Whether the petition is granted or denied" on the proposed order - granting or denying the petition is the court's decision and this build makes none of it
+- "Whether the petition is granted or denied" on the proposed order - granting or denying the petition is the court's decision, and nothing in this packet decides it
 - "Ordered, adjudged and decreed paragraphs" on the proposed order - the decretal paragraphs are the court's judgment
 - "Entities the court directs to seal or restrict records" on the proposed order - the sealing directives are the court's, and the related arrest records are ordered expunged by the same order under I.C. 35-38-9-6(g) and 35-38-9-7(e)
 - "Date of the court order" on the proposed order - the court dates its own order
@@ -94,23 +94,23 @@ Check every prefilled fact against your own court record and your certified limi
 - "Distribution list completed by the clerk" on the proposed order - distribution of a signed order is the clerk's act
 - Leave the XP cause number and the filed-on stamp blank. The clerk supplies both when the petition is filed.
 
-## Stop self-help and get legal help (all 13 stop conditions the record holds)
+## Stop and get legal help before you file (all 13)
 
-- Stop 1 of 13: The prosecutor objects or files a notice in opposition.
-- Stop 2 of 13: A victim submits a statement in opposition.
-- Stop 3 of 13: The court sets a hearing.
-- Stop 4 of 13: The person has convictions in more than one county and the 365-day window is already partly consumed.
-- Stop 5 of 13: A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
-- Stop 6 of 13: The person has already filed a Sections 2 through 5 petition.
-- Stop 7 of 13: Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
-- Stop 8 of 13: The person is a sex or violent offender or subject to registration.
-- Stop 9 of 13: Fines, fees, costs or restitution are unpaid or disputed.
-- Stop 10 of 13: Charges are pending anywhere, or the person is in a pretrial diversion programme.
-- Stop 11 of 13: The record involves a commercial driver's licence and 49 C.F.R. 384.226.
-- Stop 12 of 13: Immigration, firearm, licensing or CDL consequences are in play.
-- Stop 13 of 13: The person wants to attack the underlying conviction rather than expunge it.
+- Stop 1 of 13: The prosecuting attorney objects to your petition, or files a notice in opposition.
+- Stop 2 of 13: A victim submits a statement opposing your petition.
+- Stop 3 of 13: The court sets a hearing on your petition.
+- Stop 4 of 13: You have convictions in more than one county and part of the 365-day window has already been used.
+- Stop 5 of 13: One of your convictions is not yet eligible and you want to file now. This is the situation Chastain v. State makes permanently costly.
+- Stop 6 of 13: You have already filed a Sections 2 through 5 petition.
+- Stop 7 of 13: It is unclear which of Sections 2, 3, 4 and 5 covers your conviction, or the answer turns on whether your offence caused serious bodily injury.
+- Stop 8 of 13: You are a sex or violent offender, or you are subject to registration.
+- Stop 9 of 13: Any of your fines, fees, costs or restitution are unpaid or disputed.
+- Stop 10 of 13: You have charges pending anywhere, or you are in a pretrial diversion programme.
+- Stop 11 of 13: Your record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Stop 12 of 13: Your immigration status, your firearm rights, a professional licence or a CDL could be affected.
+- Stop 13 of 13: You want to challenge the conviction itself rather than expunge it.
 
-## Hard eligibility boundaries the record states (4 exclusions)
+## Hard eligibility limits (4 exclusions)
 
 - Offences involving serious bodily injury.
 - Convictions excluded by the statutory exclusion structure, to be verified against the current text.
@@ -121,10 +121,10 @@ Waiting periods:
 
 - The date of conviction: 8 years, shortened by the prosecuting attorney's written consent
 
-## What the record does not settle (2 open questions)
+## What this packet could not answer for you (2 open questions)
 
-- The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available. (impact: release_blocker; affects: filing_process)
-- Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them. (impact: release_blocker; affects: eligibility_branch)
+- How much the civil filing fee is for a Sections 2 through 5 petition, whether it is charged separately in each county, and whether an indigency waiver is available. Ask the clerk of the court you are filing in.
+- Where each of the statewide exclusions comes from in the statute - sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials. This packet has not confirmed whether each one is stated in § 35-38-9-2 through 5 or somewhere else, so check any exclusion that might apply to you against the current text of the statute, with legal help.
 
 ## What this packet is not
 

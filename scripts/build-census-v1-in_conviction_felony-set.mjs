@@ -74,6 +74,9 @@ import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf
 import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { PASS_COUNTERS, BLANK_DISPOSITIONS, classifyBlank, classifyField, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { LIMITATION_WORDING, OPEN_QUESTION_WORDING, STOP_CONDITION_WORDING, ACTION_TEXT_WORDING,
+  ACTION_CONDITION_WORDING, ORDER_BLANK_WHY_WORDING, participantWording, wordingAudit }
+  from "./rcap-in-conviction-participant-wording.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -545,7 +548,7 @@ const requiredBeforeFilingFields = (maps) => maps.flatMap((map) => map.canonical
 const REPLACEMENTS = Object.freeze([
   [" ", " "], ["‑", "-"], ["‒", "-"], ["–", "-"], ["—", " - "], ["−", "-"],
   ["‘", "'"], ["’", "'"], ["‚", "'"], ["“", '"'], ["”", '"'], ["„", '"'],
-  ["…", "..."], ["§", "Sec. "], ["¶", "para. "], ["•", "- "], ["­", ""],
+  ["…", "..."], ["§§", "Secs. "], ["§", "Sec. "], ["¶", "para. "], ["•", "- "], ["­", ""],
   ["é", "e"], ["è", "e"], ["ü", "u"], ["ñ", "n"], ["á", "a"], ["í", "i"],
   ["ó", "o"], ["ú", "u"], ["ç", "c"], ["⁄", "/"], ["½", "1/2"], ["″", '"']
 ]);
@@ -822,7 +825,7 @@ function describeWithoutRepeatingTheName(documentId, whatItIs) {
   return lead + text;
 }
 
-function participantInstructions(binding, rbf, retainedSummary, name, orderBlanks) {
+function participantInstructions(binding, rbf, retainedSummary, name, orderBlanks, audit = []) {
   const { registryTrack, memoTrack, packetSet, components, queueFamily } = binding;
   const rules = registryTrack.rules ?? {};
   const actions = registryTrack.packetSet?.participantActionRequired ?? [];
@@ -888,9 +891,20 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
 
   lines.push("", `## What you must obtain or confirm before filing (${countOf(actions.length, "item")})`, "");
   for (const action of actions) {
-    const qualifier = action.requirement === "conditional" && action.conditionDescription ? ` Condition: ${action.conditionDescription}` : "";
+    /* Two committed action rows speak past the participant: one tells this
+     * system's builders to re-check a fee "at build time", and one states its
+     * condition about "the participant" in the third person. Where a row is
+     * decided in the wording tables the participant is told the decided form;
+     * every other row is printed exactly as the record states it. */
+    const decidedText = ACTION_TEXT_WORDING.get(action.description) ?? null;
+    if (decidedText) audit.push({ what: "participant action", source: action.description, decided: decidedText });
+    const description = decidedText ? decidedText.say : action.description;
+    const decidedCondition = action.conditionDescription ? (ACTION_CONDITION_WORDING.get(action.conditionDescription) ?? null) : null;
+    if (decidedCondition) audit.push({ what: "action condition", source: action.conditionDescription, decided: decidedCondition });
+    const conditionText = decidedCondition ? decidedCondition.say : action.conditionDescription;
+    const qualifier = action.requirement === "conditional" && action.conditionDescription ? ` Condition: ${conditionText}` : "";
     const from = action.obtainedFrom ? ` Obtained from: ${action.obtainedFrom}.` : "";
-    lines.push(bullet(`**${actionKind(action.kind)}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${action.description}${from}${qualifier}`));
+    lines.push(bullet(`**${actionKind(action.kind)}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${description}${from}${qualifier}`));
   }
 
   lines.push(
@@ -910,27 +924,64 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
     "", "## Signing", "",
     bullet(`Signature: ${rules.participantSignature ?? "the committed record states no signature rule for this track."}`),
     bullet(`Notarization: ${rules.notarization ?? "the committed record states no notarization rule for this track."}`),
-    "", `## What the committed record requires this packet to say (${countOf(limitations.length, "instruction")})`, ""
+    ""
   );
-  for (const row of limitations) lines.push(bullet(`[${row.classification}] ${row.statement}`));
+  /* DECIDED LINE BY LINE, NOT STRIPPED.
+   *
+   * This section used to print every committed statement verbatim behind its
+   * own snake_case classification -- "[scope_restriction] ... Build the
+   * eligibility calendar and the 365-day window optimiser before the petition
+   * generator". Deleting the bracket would have zeroed every leak counter and
+   * left the roadmap sentence in the participant's hands, so the bracket is not
+   * what was fixed.
+   *
+   * The committed record holds law and product direction in the same field.
+   * Only the law is handed to the participant, and it is said to them in the
+   * second person. What was withheld, and why, is recorded per line in
+   * build-findings.json. A statement nobody has decided stops the build. */
+  const limitationLines = [];
+  for (const row of limitations) {
+    const decided = participantWording(LIMITATION_WORDING, row.statement, `${row.classification} statement carried by this track`);
+    audit.push({ what: `limitation (${row.classification})`, source: row.statement, decided });
+    if (decided.say) limitationLines.push(bullet(decided.say));
+  }
+  lines.push(`## Rules and limits that apply to your petition (${countOf(limitationLines.length, "rule")})`, "", ...limitationLines);
 
   lines.push("", "## Fields deliberately left blank", "",
     bullet("Sign and date the verification on the petition yourself, after reading it. The petition is verified, and signing it is an affirmation under the penalties for perjury."),
     bullet(`Do not sign, date or complete any part of the proposed order. It is delivered unexecuted, and its page prints "${ORDER_COURT_USE_BANNER}" Every line listed below is printed on that order under the label shown here, and every one of them is the court's or the clerk's to complete:`),
-    ...orderBlanks.map((row) => bullet(`"${row.effectiveLabel}" on the proposed order - ${row.why}`)),
+    /* The field map is an internal artifact and "this build" is accurate there,
+     * so the map is left as it is and the wording is translated only here, where
+     * a participant reads it. */
+    ...orderBlanks.map((row) => bullet(`"${row.effectiveLabel}" on the proposed order - ${ORDER_BLANK_WHY_WORDING.get(row.why) ?? row.why}`)),
     bullet("Leave the XP cause number and the filed-on stamp blank. The clerk supplies both when the petition is filed."),
-    "", `## Stop self-help and get legal help (all ${stops.length} stop conditions the record holds)`, "");
-  stops.forEach((stop, index) => lines.push(bullet(`Stop ${index + 1} of ${stops.length}: ${stop}`)));
+    "", `## Stop and get legal help before you file (all ${stops.length})`, "");
+  /* Every stop condition is kept. The defect here was address, not content: a
+   * list of circumstances written about "the person", under a heading telling
+   * the reader to stop, left the reader to map a third party onto themselves. */
+  stops.forEach((stop, index) => {
+    const decided = participantWording(STOP_CONDITION_WORDING, stop, "self-help stop condition");
+    audit.push({ what: "stop condition", source: stop, decided });
+    lines.push(bullet(`Stop ${index + 1} of ${stops.length}: ${decided.say}`));
+  });
 
   const exclusions = memoTrack.exclusions ?? [];
-  lines.push("", `## Hard eligibility boundaries the record states (${countOf(exclusions.length, "exclusion")})`, "");
+  lines.push("", `## Hard eligibility limits (${countOf(exclusions.length, "exclusion")})`, "");
   for (const exclusion of exclusions) lines.push(bullet(exclusion));
   lines.push("", "Waiting periods:", "");
   for (const period of memoTrack.waitingPeriods ?? []) lines.push(bullet(`${period.condition}: ${period.duration}`));
 
   const unresolved = memoTrack.unresolvedQuestions ?? [];
-  lines.push("", `## What the record does not settle (${countOf(unresolved.length, "open question")})`, "");
-  for (const row of unresolved) lines.push(bullet(`${row.question} (impact: ${row.impact}; affects: ${row.affectedElement})`));
+  lines.push("", `## What this packet could not answer for you (${countOf(unresolved.length, "open question")})`, "");
+  /* The trailing "(impact: release_blocker; affects: filing_process)" was this
+   * system's own release triage. It described what blocks OUR release, not
+   * anything about the participant's case, and it is not printed to them. Each
+   * question is said in the second person, with the remedy where there is one. */
+  for (const row of unresolved) {
+    const decided = participantWording(OPEN_QUESTION_WORDING, row.question, "open question carried by this track");
+    audit.push({ what: "open question", source: row.question, decided });
+    if (decided.say) lines.push(bullet(decided.say));
+  }
 
   lines.push(
     "",
@@ -964,7 +1015,7 @@ function filingInstructions(binding, retainedSummary, name) {
     ""
   ];
   lines.push(bullet(`**${TITLES[COMPONENT.petition]}**, from this packet, completed and signed by you.`));
-  lines.push(bullet(`**${TITLES[COMPONENT.order]}**, from this packet, tendered unsigned and otherwise blank. Its page prints "${ORDER_COURT_USE_BANNER}" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.`));
+  lines.push(bullet(`**${TITLES[COMPONENT.order]}**, from this packet, tendered unsigned and otherwise blank. Its page prints "${ORDER_COURT_USE_BANNER}" Do not sign it, do not date it and do not fill in any of its lines; these instructions list every one of them and each belongs to the court or the clerk.`));
   for (const retained of retainedSummary) lines.push(bullet(`**${retained.documentId}**, ${countOf(retained.pageCount, "page")}, completed by hand.`));
   lines.push(
     "",
@@ -974,25 +1025,56 @@ function filingInstructions(binding, retainedSummary, name) {
   return lines.join("\n");
 }
 
+/* THE MARKDOWN TABLE IS NOT A TABLE ONCE IT REACHES THIS PAGE.
+ *
+ * participant-instructions.md carries "What you must supply before filing" as a
+ * real three-column markdown table, which is right for the markdown. This
+ * renderer draws one line of text at a time and has no columns, so the table
+ * used to arrive as its own raw source: the rule row "| --- | --- | --- |" was
+ * dropped for carrying no words, and every remaining pipe was printed literally.
+ * Seven rows at two interior pipes each put fourteen pipe characters through the
+ * six-row section a participant works through with a pen, wrapping mid-cell with
+ * nothing to align to -- a half-implemented feature, not an authoring choice.
+ *
+ * The rows are drawn instead as stanzas that use the table's own header words as
+ * labels. Nothing is dropped: the header is not printed as a row because every
+ * one of its words now appears on every row it labels. Blocks are atomic in this
+ * renderer, so a row is never split across a page.
+ *
+ * This is fixed here, in the three families that own this function, and it
+ * touches no shared renderer. */
 function guidanceBlocks(participantText, filingText) {
-  const plainLine = (line) => {
-    const trimmed = line.trim();
-    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
-      return trimmed.slice(1, -1).split("|").map((cell) => cell.trim().replaceAll("**", "").replaceAll("`", "")).join("  |  ");
-    }
-    return line.replace(/^#{1,6}\s+/, "").replaceAll("**", "").replaceAll("`", "");
-  };
+  const cellsOf = (trimmed) =>
+    trimmed.slice(1, -1).split("|").map((cell) => cell.trim().replaceAll("**", "").replaceAll(`\``, ""));
+  const plainLine = (line) => line.replace(/^#{1,6}\s+/, "").replaceAll("**", "").replaceAll(`\``, "");
   const blocks = [];
   let heading = null;
   let paragraph = [];
-  const emit = (lines) => { const carried = heading ? [heading, ""] : []; heading = null; blocks.push(block(...carried, ...lines, "")); };
+  let tableHeader = null;
+  /* boldLines marks how many of a block's leading lines are a heading, so the
+   * renderer can give them weight without breaking the block apart. */
+  const emit = (lines) => {
+    const carried = heading ? [heading, ""] : [];
+    const boldLines = heading ? 1 : 0;
+    heading = null;
+    blocks.push({ ...block(...carried, ...lines, ""), boldLines });
+  };
   const flush = () => { if (paragraph.length) { const lines = paragraph; paragraph = []; emit(lines); } };
   for (const raw of `${participantText}\n\n${filingText}`.split("\n")) {
     const trimmed = raw.trim();
-    if (trimmed === "") { flush(); continue; }
+    if (trimmed === "") { flush(); tableHeader = null; continue; }
     if (/^\|(?:\s*:?-+:?\s*\|)+$/.test(trimmed)) continue;
-    if (/^#{1,6}\s+/.test(trimmed)) { flush(); heading = plainLine(raw); continue; }
-    if (trimmed.startsWith("- ") || trimmed.startsWith("|")) { flush(); emit([plainLine(raw)]); continue; }
+    if (/^#{1,6}\s+/.test(trimmed)) { flush(); tableHeader = null; heading = plainLine(raw); continue; }
+    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+      flush();
+      const cells = cellsOf(trimmed);
+      if (!tableHeader) { tableHeader = cells; continue; }
+      const stanza = [cells[0]];
+      for (let i = 1; i < cells.length; i += 1) stanza.push(`${tableHeader[i]}: ${cells[i]}`);
+      emit(stanza);
+      continue;
+    }
+    if (trimmed.startsWith("- ")) { flush(); emit([plainLine(raw)]); continue; }
     paragraph.push(plainLine(raw));
   }
   flush();
@@ -1095,43 +1177,49 @@ async function renderComposedDocument(blocks, title, componentId) {
   pdf.setCreator("RCAP deterministic Indiana pleading composer");
   pdf.setProducer("RCAP census-v1 artifact renderer");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  /* Embedded lazily: a document whose blocks declare no heading never references
+   * this font, so its bytes are unchanged by its existence. */
+  let boldFont = null;
+  const bold = async () => (boldFont ??= await pdf.embedFont(StandardFonts.TimesRomanBold));
   const top = PAGE_HEIGHT - MARGIN;
   const capacity = Math.floor((top - MARGIN) / LINE_HEIGHT) + 1;
 
   let hardSplits = 0;
-  const splitToken = (token) => {
+  const splitToken = (token, measure = font) => {
     const pieces = String(token).split(/(?<=[:/.\-_])/);
     const chunks = [];
     let current = "";
     for (const piece of pieces) {
       const candidate = `${current}${piece}`;
-      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { chunks.push(current); current = piece; }
+      if (current && measure.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { chunks.push(current); current = piece; }
       else current = candidate;
     }
     if (current) chunks.push(current);
     const out = [];
     for (const chunk of chunks) {
-      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= MAX_WIDTH) { out.push(chunk); continue; }
+      if (measure.widthOfTextAtSize(chunk, FONT_SIZE) <= MAX_WIDTH) { out.push(chunk); continue; }
       hardSplits += 1;
       let acc = "";
       for (const char of chunk) {
         const candidate = `${acc}${char}`;
-        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { out.push(acc); acc = char; }
+        if (acc && measure.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { out.push(acc); acc = char; }
         else acc = candidate;
       }
       if (acc) out.push(acc);
     }
     return out;
   };
-  const wrap = (raw) => {
+  /* A heading is measured in the face it is drawn in, so giving it weight can
+   * never push it past the right margin. */
+  const wrap = (raw, measure = font) => {
     if (!raw) return [""];
     const words = String(raw).split(/\s+/)
-      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > MAX_WIDTH ? splitToken(word) : [word]);
+      .flatMap((word) => measure.widthOfTextAtSize(word, FONT_SIZE) > MAX_WIDTH ? splitToken(word, measure) : [word]);
     const rows = [];
     let current = "";
     for (const word of words) {
       const candidate = current ? `${current} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= MAX_WIDTH) current = candidate;
+      if (measure.widthOfTextAtSize(candidate, FONT_SIZE) <= MAX_WIDTH) current = candidate;
       else { if (current) rows.push(current); current = word; }
     }
     if (current) rows.push(current);
@@ -1144,17 +1232,30 @@ async function renderComposedDocument(blocks, title, componentId) {
   const newPage = () => { page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]); y = top; };
 
   for (const item of blocks) {
-    const rows = item.lines.flatMap((line) => wrap(sanitize(line)));
+    const headingLines = item.boldLines ?? 0;
+    const face = headingLines > 0 ? await bold() : font;
+    const rows = [];
+    let boldRows = 0;
+    for (const [index, line] of item.lines.entries()) {
+      const isHeading = index < headingLines;
+      const wrapped = wrap(sanitize(line), isHeading ? face : font);
+      if (isHeading) boldRows += wrapped.length;
+      rows.push(...wrapped);
+    }
     assert.ok(rows.length <= capacity,
       `${componentId}: a block of ${rows.length} lines cannot fit on one page (capacity ${capacity}); first line "${String(item.lines[0]).slice(0, 70)}"`);
     const used = Math.round((top - y) / LINE_HEIGHT);
     if (used + rows.length > capacity) newPage();
-    for (const row of rows) {
+    for (const [rowIndex, row] of rows.entries()) {
       assert.ok(y >= MARGIN, `${componentId}: a line would be drawn at y=${y}, below the ${MARGIN}pt bottom margin`);
       if (row) {
-        const width = font.widthOfTextAtSize(row, FONT_SIZE);
+        /* A heading is drawn in the face it was measured in. Every other line,
+         * and every line of every document that declares no heading, is drawn in
+         * exactly the face and at exactly the size it always was. */
+        const rowFace = rowIndex < boldRows ? face : font;
+        const width = rowFace.widthOfTextAtSize(row, FONT_SIZE);
         assert.ok(width <= MAX_WIDTH + 0.01, `${componentId}: a line is ${width.toFixed(1)}pt wide, past the ${MAX_WIDTH}pt text box`);
-        page.drawText(row, { x: MARGIN, y, size: FONT_SIZE, font, color: rgb(0, 0, 0) });
+        page.drawText(row, { x: MARGIN, y, size: FONT_SIZE, font: rowFace, color: rgb(0, 0, 0) });
         drawn.push({ page: pdf.getPageCount(), x: MARGIN, baseline: y, width, text: row });
       }
       y -= LINE_HEIGHT;
@@ -1488,7 +1589,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const canonicalName = FIXTURES.canonical["participant.full_legal_name"];
-  const participantText = participantInstructions(binding, rbf, retainedSummary, canonicalName, orderBlanks);
+  const wordingDecisions = [];
+  const participantText = participantInstructions(binding, rbf, retainedSummary, canonicalName, orderBlanks, wordingDecisions);
   const filingText = filingInstructions(binding, retainedSummary, canonicalName);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), participantText);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingText);
@@ -1786,6 +1888,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-family-build-findings/v1",
     familyId: FAMILY_ID,
     blocking: [],
+    /* Every committed sentence this guidance had to decide on, what the
+     * participant is told, and what was withheld from them because it was
+     * addressed to whoever builds this product rather than to the person
+     * holding the packet. Recorded so the per-line calls can be reviewed
+     * without re-deriving them from the source records. */
+    participantWordingDecisions: wordingAudit(wordingDecisions),
     openObligations: [{
       obligation: "a field-level map of the four retained official forms",
       owedTo: "the official_pdf_fill treatment",
@@ -1820,7 +1928,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding: `The registry holds ${(binding.registryTrack.legalDesignLimitations ?? []).length} packet instructions and scope restrictions for this track, including the one-petition-per-lifetime rule and the Chastain gate.`,
-        treatment: "Every one is carried verbatim and labelled with its own classification under 'What the committed record requires this packet to say'. None is repeated unlabelled at the top of the participant instructions: several of these statements are addressed to the builder rather than to the participant, and printing them unlabelled as the first thing the participant reads is the defect class internal-record-text-printed-on-a-filing."
+        treatment: "Every one is decided line by line under 'Rules and limits that apply to your petition'. These statements mix law with direction addressed to whoever builds this product; carrying them verbatim behind their own snake_case classification put roadmap sentences -- 'Build the eligibility calendar and the 365-day window optimiser before the petition generator', 'Route to a legal-review gate before offering this track' -- into the participant's hands, and deleting the classification alone would have zeroed the leak counters while leaving those sentences where they were. What a participant needs is now said to them in the second person; what was withheld is listed per line in participantWordingDecisions."
       },
       {
         finding: `The memo holds ${(binding.memoTrack.selfHelpStopConditions ?? []).length} self-help stop conditions and ${(binding.memoTrack.exclusions ?? []).length} exclusions for this track.`,

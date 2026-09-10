@@ -2,6 +2,183 @@
   "schemaVersion": "rcap-family-build-findings/v1",
   "familyId": "in_conviction_d6-set",
   "blocking": [],
+  "participantWordingDecisions": [
+    {
+      "what": "participant action",
+      "committedSource": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+      "printedToParticipant": "Request a certified limited criminal history from the Indiana State Police. What it costs and how long it takes both change, so confirm the current fee and turnaround with the State Police when you request it.",
+      "withheldFromParticipant": "\"Confirm the current charge and turnaround at build time\", which told this system's builders to re-check the fee when the packet is generated.",
+      "judgement": "Participant-facing once re-addressed. The participant is the one making the request, and the fee and turnaround are theirs to confirm; the repeated document name was also collapsed to one mention."
+    },
+    {
+      "what": "action condition",
+      "committedSource": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+      "printedToParticipant": "Required to file a Section 5 petition, and required to shorten the waiting period on any conviction expungement.",
+      "withheldFromParticipant": "the word \"track\", which is this system's name for a route it builds.",
+      "judgement": "Participant-facing. Only the internal noun changed."
+    },
+    {
+      "what": "action condition",
+      "committedSource": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+      "printedToParticipant": "Required to file a Section 5 petition, and required to shorten the waiting period on any conviction expungement.",
+      "withheldFromParticipant": "the word \"track\", which is this system's name for a route it builds.",
+      "judgement": "Participant-facing. Only the internal noun changed."
+    },
+    {
+      "what": "action condition",
+      "committedSource": "Applies only when the participant cannot pay the filing fee.",
+      "printedToParticipant": "Applies only if you cannot pay the filing fee.",
+      "withheldFromParticipant": null,
+      "judgement": "Participant-facing. The condition is real; it addressed the reader in the third person."
+    },
+    {
+      "what": "limitation (packet_instruction)",
+      "committedSource": "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+      "printedToParticipant": "Expungement in Indiana does not destroy your records. Under § 35-38-9-1(k) they are sealed, or access to them is restricted. The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+      "withheldFromParticipant": "the drafting instruction \"Never say records are destroyed\".",
+      "judgement": "Participant-facing. The instruction was addressed to whoever writes this document; what it protects against - a petitioner believing the record is gone - is one of the most consequential things to get wrong, so the fact underneath is stated to the participant directly."
+    },
+    {
+      "what": "limitation (packet_instruction)",
+      "committedSource": "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+      "printedToParticipant": "Put only the last four digits of your Social Security number on the petition. Your full number goes on the Confidential Information Form, which is filed as a confidential document together with the Notice of Exclusion of Confidential Information from Public Access.",
+      "withheldFromParticipant": "\"Do not persist the full number\", which is a data-retention rule for the software and not an act the participant performs.",
+      "judgement": "Participant-facing and directly actionable: the participant completes these forms by hand, so this is an instruction they carry out."
+    },
+    {
+      "what": "limitation (packet_instruction)",
+      "committedSource": "Disclose that the expungement case file is public until the order is granted.",
+      "printedToParticipant": "Your expungement case file is public until the order is granted.",
+      "withheldFromParticipant": "the framing \"Disclose that\", which addressed the drafter.",
+      "judgement": "Participant-facing. A petitioner deciding whether to file needs to know the filing itself is public in the meantime."
+    },
+    {
+      "what": "limitation (scope_restriction)",
+      "committedSource": "One petition per lifetime under § 35-38-9-9(i). Petitions filed in separate counties count as one only if they land inside a single 365-day window. Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.",
+      "printedToParticipant": "You get one petition in your lifetime under § 35-38-9-9(i). If you have convictions in more than one county, petitions filed in separate counties count as a single petition only when they are all filed inside one 365-day window. When you file therefore matters as much as what you file, so get legal help with the timing before you file anything.",
+      "withheldFromParticipant": "\"Build the eligibility calendar and the 365-day window optimiser before the petition generator\", a product roadmap instruction naming two unbuilt components of this system.",
+      "judgement": "Participant-facing, and the most consequential rule in the chapter. The roadmap sentence was direction to the build team; the reason it existed - that timing is worth more than the document - is true of the participant's decision too, so it is kept as a timing warning without naming any component. The stop conditions this packet already carries say the same thing."
+    },
+    {
+      "what": "limitation (scope_restriction)",
+      "committedSource": "Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed. Under Chastain a petitioner cannot use the liberal amendment rule to add records that were not yet eligible when the initial petition was filed, so filing now can permanently cost a record that ripens later. This is a delivery gate, not a generation blocker.",
+      "printedToParticipant": "If you have any conviction that is not yet eligible, do not file until you have legal advice. Under Chastain v. State you cannot later use the liberal amendment rule to add records that were not yet eligible when your first petition was filed, so filing now can permanently cost you a record that becomes eligible later.",
+      "withheldFromParticipant": "the instruction to \"put a hard gate in front of any conviction filing\" and the classification \"This is a delivery gate, not a generation blocker\", both of which are internal engineering direction about where this system enforces the rule.",
+      "judgement": "Participant-facing. The middle sentence is a warning about irreversible harm and is the participant's to act on; it also addressed them in the third person, which is corrected here."
+    },
+    {
+      "what": "limitation (participant_question)",
+      "committedSource": "Whether an offence involved serious bodily injury decides between Sections 3, 4 and 5. Ask it explicitly and refer where the answer is unclear.",
+      "printedToParticipant": "Whether your offence involved serious bodily injury decides whether Section 3, 4 or 5 applies to you. Answer it from your own court record, and get legal help if the answer is not clear.",
+      "withheldFromParticipant": "\"Ask it explicitly and refer where the answer is unclear\", which is direction to whoever builds the intake questionnaire.",
+      "judgement": "Participant-facing. Which section applies changes the relief and the waiting period, so the participant needs the question and needs to know it can be hard to answer."
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The prosecutor objects or files a notice in opposition.",
+      "printedToParticipant": "The prosecuting attorney objects to your petition, or files a notice in opposition.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "A victim submits a statement in opposition.",
+      "printedToParticipant": "A victim submits a statement opposing your petition.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The court sets a hearing.",
+      "printedToParticipant": "The court sets a hearing on your petition.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+      "printedToParticipant": "You have convictions in more than one county and part of the 365-day window has already been used.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+      "printedToParticipant": "One of your convictions is not yet eligible and you want to file now. This is the situation Chastain v. State makes permanently costly.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The person has already filed a Sections 2 through 5 petition.",
+      "printedToParticipant": "You have already filed a Sections 2 through 5 petition.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+      "printedToParticipant": "It is unclear which of Sections 2, 3, 4 and 5 covers your conviction, or the answer turns on whether your offence caused serious bodily injury.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The person is a sex or violent offender or subject to registration.",
+      "printedToParticipant": "You are a sex or violent offender, or you are subject to registration.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "Fines, fees, costs or restitution are unpaid or disputed.",
+      "printedToParticipant": "Any of your fines, fees, costs or restitution are unpaid or disputed.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+      "printedToParticipant": "You have charges pending anywhere, or you are in a pretrial diversion programme.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+      "printedToParticipant": "Your record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "Immigration, firearm, licensing or CDL consequences are in play.",
+      "printedToParticipant": "Your immigration status, your firearm rights, a professional licence or a CDL could be affected.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "stop condition",
+      "committedSource": "The person wants to attack the underlying conviction rather than expunge it.",
+      "printedToParticipant": "You want to challenge the conviction itself rather than expunge it.",
+      "withheldFromParticipant": null,
+      "judgement": null
+    },
+    {
+      "what": "open question",
+      "committedSource": "The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available.",
+      "printedToParticipant": "How much the civil filing fee is for a Sections 2 through 5 petition, whether it is charged separately in each county, and whether an indigency waiver is available. Ask the clerk of the court you are filing in.",
+      "withheldFromParticipant": null,
+      "judgement": "Participant-facing. It is a gap in what this packet can tell them and it has a remedy they can act on today, so the remedy is stated with it."
+    },
+    {
+      "what": "open question",
+      "committedSource": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them.",
+      "printedToParticipant": "Where each of the statewide exclusions comes from in the statute - sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials. This packet has not confirmed whether each one is stated in § 35-38-9-2 through 5 or somewhere else, so check any exclusion that might apply to you against the current text of the statute, with legal help.",
+      "withheldFromParticipant": "\"the internal reference\" and \"Verify each against the current text before the evaluator uses them\", which name this system's own research materials and its eligibility software.",
+      "judgement": "Participant-facing. The exclusion list printed elsewhere in this packet has not been traced to the statute, and a participant should not take an eligibility bar on trust when it has not been."
+    }
+  ],
   "openObligations": [
     {
       "obligation": "a field-level map of the four retained official forms",
@@ -38,7 +215,7 @@
     },
     {
       "finding": "The registry holds 6 packet instructions and scope restrictions for this track, including the one-petition-per-lifetime rule and the Chastain gate.",
-      "treatment": "Every one is carried verbatim and labelled with its own classification under 'What the committed record requires this packet to say'. None is repeated unlabelled at the top of the participant instructions: several of these statements are addressed to the builder rather than to the participant, and printing them unlabelled as the first thing the participant reads is the defect class internal-record-text-printed-on-a-filing."
+      "treatment": "Every one is decided line by line under 'Rules and limits that apply to your petition'. These statements mix law with direction addressed to whoever builds this product; carrying them verbatim behind their own snake_case classification put roadmap sentences -- 'Build the eligibility calendar and the 365-day window optimiser before the petition generator', 'Route to a legal-review gate before offering this track' -- into the participant's hands, and deleting the classification alone would have zeroed the leak counters while leaving those sentences where they were. What a participant needs is now said to them in the second person; what was withheld is listed per line in participantWordingDecisions."
     },
     {
       "finding": "The memo holds 13 self-help stop conditions and 4 exclusions for this track.",
