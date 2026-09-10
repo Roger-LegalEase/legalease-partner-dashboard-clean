@@ -17,8 +17,15 @@
       "ri_deferred_sentence-set"
     ],
     "riNonconvictionSealingIsNotOnThisHost": "scripts/build-census-v1-ri_nonconviction_sealing-set.mjs is three lines long and imports runEastFamily from scripts/build-census-v1-nj_arrest_no_conviction-set.mjs. It never reaches this host. Both the FIX134 dispatch and the FIX134 return said six families; the host says five.",
-    "siblingsThisLaneHolds": ["ri_deferred_sentence-set", "ri_first_offender_misdemeanor-set", "ri_multiple_misdemeanors-set"],
-    "siblingsThisLaneMustNotMove": ["ri_decriminalized-set", "ri_first_offender_felony-set"]
+    "siblingsThisLaneHolds": [
+      "ri_deferred_sentence-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set"
+    ],
+    "siblingsThisLaneMustNotMove": [
+      "ri_decriminalized-set",
+      "ri_first_offender_felony-set"
+    ]
   },
   "howTheSourceWasRendered": {
     "engine": "poppler pdftoppm",
@@ -67,16 +74,64 @@
         "method": "600 dpi grey, poppler pdftoppm, annotations drawn on BOTH sides; dark = grey <= 128; added = dark in the delivered page and not in the source page, removed = dark in the source page and not in the delivered page; added pixels attributed by mask to the write rects and selection boxes this family's own reports/actual-writes.json declares, padded 2pt",
         "scope": "packet pages 1-4 only, which are the official Superior-55 slice. Packet pages 5-14 are composed and have no source page to difference against.",
         "canonical": [
-          { "page": 1, "added": 0, "removed": 0, "addedInsideDeclaredBoxes": 0, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 2, "added": 18176, "removed": 0, "addedInsideDeclaredBoxes": 18176, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 3, "added": 15858, "removed": 0, "addedInsideDeclaredBoxes": 15858, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 4, "added": 0, "removed": 0, "addedInsideDeclaredBoxes": 0, "addedOutsideDeclaredBoxes": 0 }
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 18176,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 18176,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 15858,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 15858,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
         ],
         "boundary": [
-          { "page": 1, "added": 0, "removed": 0, "addedInsideDeclaredBoxes": 0, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 2, "added": 30799, "removed": 0, "addedInsideDeclaredBoxes": 30799, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 3, "added": 28481, "removed": 0, "addedInsideDeclaredBoxes": 28481, "addedOutsideDeclaredBoxes": 0 },
-          { "page": 4, "added": 0, "removed": 0, "addedInsideDeclaredBoxes": 0, "addedOutsideDeclaredBoxes": 0 }
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 30799,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 30799,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 28481,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 28481,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
         ],
         "removedInkTotal": "0 on every page of both fixtures",
         "addedInkOutsideDeclaredBoxesTotal": "0 on every page of both fixtures",
@@ -141,6 +196,155 @@
         "siblingsAfterThisEdit": "ri_decriminalized-set and ri_first_offender_felony-set were REBUILT after this edit, not reasoned about. git status lists neither, so both reproduce to their exact committed digests f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc and ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3. Both carry a live RASTER_PASS acceptance receipt bound to those exact digests, which is why they were not moved."
       },
       "whatThisPacketStillDoesNotClaim": "No Rhode Island clerk, court or lawyer has approved this packet, this proposed order, or the mark on its relief bullet. No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was invented here. This lane sets no verdict, issues no PASS, opens no commercial route and consumes no packet credit."
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX134 ri_first_offender_misdemeanor-set (repair, grant set 97765282dc236416)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "pinnedSource": {
+        "sourceId": "official-form:DC-33",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "resolvedFrom": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+        "digestConfirmedWith": "sha256sum, first-hand, against the pin declared in this family's source-receipt.json",
+        "pages": 4
+      },
+      "whatWasWrong": {
+        "class": "ROUTE_IDENTITY — an internal LegalEase machine route trailer printed on a FILING, and the worst placement of it on this host",
+        "whereOnTheDeliveredPage": "packet page 6, which is page 2 of the composed proposed order, and the trailer is the FIRST TEXT ON THE PAGE. pdftotext -bbox-layout over the committed canonical.pdf puts the word 'Route:' at yTop 64.5-74.4, x 72.0, with the three obligation keys wrapping across five further lines down to yBot 146.9.",
+        "whatItSitsAbove": "ORDER_COURT_BLOCK_NOTICE at yTop 195.0, 'The Court's findings:' at 253.0, '[ ] The motion is GRANTED. [ ] The motion is DENIED.' at 325.5, the relief marks below that, and the 'Justice / Judge' signature line at 572.0. A District Court justice picking up page 2 of the order reads this factory's obligation-census keys before reading anything the court is asked to decide.",
+        "theTextItself": "Route: obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-1-bci-and-docket ; obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit ; obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies",
+        "howManyPacketPagesCarriedIt": "four — packet pages 6, 8, 13 and 15. Page 6 is the filing; the other three are guidance pages that say on their own face they are not filings.",
+        "whyItIsADefect": "The proposed order is the document the moving party hands a Rhode Island District Court justice to sign. Filings recite statute and rule text only. The host's own comment at the already-repaired sibling ri_multiple_misdemeanors-set describes 'packet page 6, page 2 of the composed proposed order, where it sits at the top of the page the moving party hands a District Court justice' — a verbatim description of what this family was still delivering.",
+        "whyNoCounterAndNoRasterCouldSeeIt": "The nine counters read the field map, and the trailer is not a field. The directional raster runs against the pinned DC-33, which exists only for packet pages 1 to 4; page 6 is composed and has no source page to difference against. This family's own committed reports/completeness-counters.json reads visualDefects 0. It was found by reading the delivered bytes."
+      },
+      "remedy": {
+        "mechanism": "machineRouteTrailerIsInternalRecordText, already implemented on this host and already opted into by ri_multiple_misdemeanors-set and, one commit earlier in this lane, by ri_deferred_sentence-set",
+        "notANewMechanism": "This lane designed nothing and changed no shared module. It read the option's implementation, confirmed the single 'filing' call site is inside proposedOrderBody and the three 'guidance' call sites are on pages that state on their own face that they are not filings, and set the flag.",
+        "confirmedOnTheDeliveredBytesNotInTheBuilder": "pdftotext over the rebuilt canonical.pdf and boundary.pdf finds no occurrence of 'Route:' or 'obligation:unit:RI' on packet page 5 or 6 of either fixture, and exactly one labelled occurrence on each of packet pages 8, 13 and 15. Packet page 6 now OPENS with ORDER_COURT_BLOCK_NOTICE at yTop 64.5 — the same first line the already-repaired sibling delivers on its own page 6. A page-5-and-6 text diff against the committed bytes shows the six trailer lines removed and no other character changed: the findings lines, GRANTED/DENIED, the relief marks, the further-terms lines, the Justice/Judge block, the date of entry and the clerk's certification are all still present, verbatim. Page count 15 before and 15 after."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "method": "600 dpi grey, poppler pdftoppm, annotations drawn on BOTH sides; dark = grey <= 128; added = dark in the delivered page and not in the source page, removed = dark in the source page and not in the delivered page; added pixels attributed by mask to the write rects and selection boxes this family's own reports/actual-writes.json declares, padded 2pt",
+        "scope": "packet pages 1-4 only, which are the official DC-33 slice. Packet pages 5-15 are composed and have no source page to difference against.",
+        "canonical": [
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 18198,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 18198,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 15858,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 15858,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
+        ],
+        "boundary": [
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 30821,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 30821,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 28481,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 28481,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
+        ],
+        "removedInkTotal": "0 on every page of both fixtures",
+        "addedInkOutsideDeclaredBoxesTotal": "0 on every page of both fixtures",
+        "page4IsZeroAndThatIsTheEarlierRepairHolding": "packet page 4 measures 0 added and 0 removed. Before the FIX134 preserveSourceAuthoredSelectionPaint repair this page carried 1,025 added dark pixels at the two DC-33 Group2 boxes inside the notarial certificate. That repair still holds after this rebuild and was not revisited."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "visualDefects read 1 on the committed bytes at base 65a118c82 — the machine route trailer as the first text on packet page 6 of the composed proposed order — and reads 0 on the bytes this row records, confirmed by reading packet pages 5 and 6 of both delivered fixtures rather than by a counter. Every other counter is the builder's own and was reproduced by this lane's rebuild.",
+      "artifacts": [
+        {
+          "fixture": "canonical.pdf",
+          "sha256": "f810a12d5177386100389ed7f9d712327fcd8d0eed97c3e33c961416900b40a1",
+          "pages": 15,
+          "byteLength": 311606,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary.pdf",
+          "sha256": "a0b99d006e508676ae4e6e8d6e704c7dade9df6f1f682acf3c9738ca525c5d3c",
+          "pages": 15,
+          "byteLength": 311782,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum over the produced files; page counts with pdfinfo. Nothing transcribed, padded or reconstructed.",
+      "priorDigestsThisReplaces": {
+        "canonical": "32492ff6417e6f6412f7a7315444c72a744bb5ea8e24358f5f504ac18c7fe995",
+        "boundary": "0ec618e95731dd78af08039076bc3cd930ddeccfe657dc3c5d78ef8354cca509",
+        "pageCountUnchanged": "15 before and 15 after, measured with pdfinfo on both"
+      },
+      "whatChanged": [
+        "scripts/build-census-v1-ri_decriminalized-set.mjs — machineRouteTrailerIsInternalRecordText: true added to the ri_first_offender_misdemeanor-set entry of FAMILIES, with the measured page-6 coordinates that justify it",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json"
+      ],
+      "sharedModuleChanges": "none. scripts/rcap-official-forms/** and scripts/rcap-packet-completeness/** are untouched.",
+      "governance": {
+        "wiringPath": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/product-wiring.json",
+        "thisHostNeverWritesTheWiring": "measured — no reference to product-wiring exists anywhere in the host, and git status reports the wiring unchanged after every rebuild in this lane.",
+        "carryForwardGovernanceRunExplicitly": "carryForwardGovernance was run over the committed binding against a simulated wholesale rewrite authoring none of the six keys, with canonicalSha256 f810a12d5177386100389ed7f9d712327fcd8d0eed97c3e33c961416900b40a1. It carries lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship verbatim; governanceLostBetween reports nothing lost.",
+        "nothingNewIsWithdrawnAndWhy": "The committed binding already holds acceptanceReceipt: null, so there is no live receipt on this family to withdraw. The one historical withdrawal already on the record — RASTER_PASS workflow run 34297296663 bound to bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206, replaced by 32492ff6417e6f6412f7a7315444c72a744bb5ea8e24358f5f504ac18c7fe995 — is preserved whole under acceptanceReceiptWithdrawn and is not relabelled to cover the bytes this build produced.",
+        "reRasterIsRequired": "the canonical and boundary bytes moved, so the family needs a central raster run bound to the digests in artifacts above. This lane dispatched none and issues no receipt."
+      },
+      "reproducibility": {
+        "siblingsRebuiltAfterThisEdit": "All four other families on this host were REBUILT after this edit, not reasoned about. ri_decriminalized-set and ri_first_offender_felony-set reproduce to their exact committed digests f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc and ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3, which are the digests their live RASTER_PASS receipts bind. ri_deferred_sentence-set reproduces to the digests this lane committed for it one commit earlier. ri_multiple_misdemeanors-set reproduces its fixture bytes exactly."
+      },
+      "whatThisPacketStillDoesNotClaim": "No Rhode Island clerk, court or lawyer has approved this packet or this proposed order. No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was invented here. This lane sets no verdict, issues no PASS, opens no commercial route and consumes no packet credit."
     }
   ],
   "packetsSelfVerified": false,

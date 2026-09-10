@@ -1479,6 +1479,26 @@ const FAMILIES = {
      * fixtures. See the flag's reasoning and byte evidence at the finalizer call
      * in renderOfficialForm. */
     preserveSourceAuthoredSelectionPaint: true,
+    /* FIX134b, ROUTE_IDENTITY, and the worst placement of it on this host.
+     * Measured on this family's own delivered bytes at base 65a118c82: the
+     * machine route trailer is the FIRST TEXT ON PACKET PAGE 6, which is page 2
+     * of the composed proposed order. pdftotext -bbox-layout puts the word
+     * "Route:" at yTop 64.5, x 72.0 -- above ORDER_COURT_BLOCK_NOTICE at 195.0,
+     * above "The Court's findings:" at 253.0, above GRANTED/DENIED at 325.5 and
+     * above the Justice/Judge block at 572.0. A District Court justice picking
+     * up page 2 of the order reads this factory's obligation-census keys before
+     * reading anything the court is asked to decide.
+     *
+     * Same remedy as the two siblings that already carry it: nothing at all on
+     * the filing, and the same keys on the three guidance pages under a label
+     * saying what they are. The host comment at ri_multiple_misdemeanors-set
+     * describes exactly this page and this position; that family was repaired
+     * and this one was not.
+     *
+     * No counter and no raster reaches it. The counters read the field map, and
+     * the pinned DC-33 exists only for packet pages 1 to 4. It was found by
+     * reading the page. */
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
