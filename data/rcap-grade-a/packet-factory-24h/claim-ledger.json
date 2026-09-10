@@ -1712,10 +1712,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX135",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T00:00:27.364Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6438,10 +6438,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX135",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T18:46:31.728Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8015,10 +8015,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX134",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T03:40:34.656Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8107,10 +8107,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX134",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T18:52:48.321Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14323,7 +14323,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c1e3c6c2bf96cea3ed7c40190fb153219d8439a290a146583326908e9e4e092c",
+  "claimsDigest": "6cd30124b3679d3af16692758a5a902b8f7fd43ca2715e97f5defa16693623c3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52986,6 +52986,50 @@
       "previouslyReleasedAt": "2026-09-05T11:28:12.288Z",
       "transferredAt": "2026-09-10T04:17:07.853Z",
       "reason": "Repaired today by FIX132; both grants released on two lanes, and the pair shares one build host"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX134",
+      "previouslyReleasedAt": "2026-09-09T03:40:34.656Z",
+      "transferredAt": "2026-09-10T04:41:00.205Z",
+      "reason": "Released grant reopened onto a live lane; both Rhode Island families carry a recorded CLIPPING_AND_OVERLAP and border ink that still matches nothing the pinned source ships"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX134",
+      "previouslyReleasedAt": "2026-09-09T18:52:48.321Z",
+      "transferredAt": "2026-09-10T04:41:00.315Z",
+      "reason": "Released grant reopened onto the same live lane as its sibling, which shares the recorded obligation and the same source"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX135",
+      "previouslyReleasedAt": "2026-09-06T00:00:27.364Z",
+      "transferredAt": "2026-09-10T04:41:00.417Z",
+      "reason": "Released grant reopened; its border ink was reclassified on 2026-09-10 as the form's own with its background fill stripped, so the remedy there RESTORES and the recorded clipping defect is separate"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX135",
+      "previouslyReleasedAt": "2026-09-06T18:46:31.728Z",
+      "transferredAt": "2026-09-10T04:41:00.506Z",
+      "reason": "Released grant reopened onto the same live lane; same reclassification, same separation of the two defects"
     }
   ],
   "grants": [
