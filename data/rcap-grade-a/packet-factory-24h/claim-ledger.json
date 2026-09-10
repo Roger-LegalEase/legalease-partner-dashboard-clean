@@ -4933,10 +4933,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF43",
+      "lane": "VF47",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
     },
     {
@@ -14691,9 +14691,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "itemId": null,
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "familyIds": [
+        "la-977d-marijuana-first-offense-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF47",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "54b5d1d17ce56c80e4d440580db48f86a21bfc723b2e7d3a5d02252150019a2a",
+  "claimsDigest": "6b047e5151e3f8439d90778738335215071c21a5b2621845a1b635ec7ebb660f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56709,6 +56724,17 @@
       "previouslyReleasedAt": "2026-09-09T13:21:40.153Z",
       "transferredAt": "2026-09-10T12:37:43.688Z",
       "reason": "Captain dispatch: FIX13 returned and released this grant. FIX147 removes the flattened form-control captions its delivered fixtures carry."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF43",
+      "toLane": "VF47",
+      "previouslyReleasedAt": "2026-09-10T12:22:33.975Z",
+      "transferredAt": "2026-09-10T12:56:03.001Z",
+      "reason": "Captain dispatch: VF43 returned and released this grant. FIX146 has since repaired the family and it needs a read by a lane that neither built nor previously passed it."
     }
   ],
   "grants": [
@@ -57183,6 +57209,17 @@
       "grantedAt": "2026-09-10T12:37:43.826Z",
       "grantedBy": "Captain",
       "reason": "No repair grant has ever existed for this family and its delivered fixtures carry flattened Print Form and Reset Form captions. Minted so FIX147 can repair it beside the Illinois family with the same defect.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF47",
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T12:56:03.143Z",
+      "grantedBy": "Captain",
+      "reason": "No independent-verification grant has ever existed for this family and FIX146 has just repaired it. Minted so a lane that did not build it can read it.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
