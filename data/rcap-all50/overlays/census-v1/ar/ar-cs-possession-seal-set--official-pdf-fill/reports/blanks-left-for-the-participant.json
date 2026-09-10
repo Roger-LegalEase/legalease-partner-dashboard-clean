@@ -1,7 +1,8 @@
 {
   "schemaVersion": "rcap-participant-blanks/v1",
   "familyId": "ar-cs-possession-seal-set",
-  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, or a value the platform does not hold.",
+  "note": "Every blank this family does not fill IN ITS CANONICAL FIXTURE, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, or a value the platform does not hold.",
+  "scopeCorrection": "This file used to say 'Every blank this family does not fill, and why.' That was false by 7 on this family's own boundary fixture, and it did not merely omit them -- it asserted it did not. The list below is derived from the CANONICAL fixture alone, so a blank this family fills for a short value and refuses for a long one appears nowhere in it. Those are recorded in alsoArrivingEmptyWhenTheValueDoesNotFit below, which is measured across every fixture this family builds. Neither list is a statement about any real participant's values.",
   "count": 55,
   "blanks": [
     {
@@ -499,5 +500,108 @@
       "category": "type_guard",
       "why": null
     }
-  ]
+  ],
+  "alsoArrivingEmptyWhenTheValueDoesNotFit": {
+    "question": "Which blanks does this family FILL, and therefore leave out of the list above, yet leave empty when the value is too long for the printed rule it sits on?",
+    "method": "Read from each finished fixture's own write report: a blank written in one fixture and not in another is a blank whose filling depends on the length of the value. Nothing here is inferred from intent.",
+    "count": 7,
+    "documentsAffected": [
+      "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+      "ACIC-ORDER-TO-SEAL-CS-POSSESSION"
+    ],
+    "note": "A refusal of this kind leaves no mark on the paper and no row above it. On the boundary fixture every one of these is empty, and on the PROPOSED_ORDER that is the whole of what this packet writes into its page 1 caption: the county, the case number and the defendant's name are all refused, and the court-name and division blanks of that same caption are ones this packet never fills at all, so the caption of the document the judge signs reaches the participant entirely blank. Measured on the delivered bytes: rendered at 150 dpi with a dark-pixel threshold of grey < 128 of 255, and WITH annotations, page 1 of order-boundary-filled.pdf carries 120,688 dark pixels and page 1 of the blank pinned source carries 120,688 -- 0 gained and 0 lost, pixel-identical -- while order-canonical-filled gains 2,427. petition-boundary-filled.pdf page 1 is pixel-identical to its own blank source on the same measurement. That the render draws annotation ink was checked first, on the pinned order source itself, which loses 606 dark pixels on page 1 and 2,263 on page 2 when its /Annots are emptied. participant-instructions.md discloses each of these on the document it is on, and two guards in the builder fail the build if it stops doing so.",
+    "blanks": [
+      {
+        "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+        "document": "petition",
+        "field": "COURT OF",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "the county after “COURT OF”"
+      },
+      {
+        "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+        "document": "petition",
+        "field": "Case No",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "the case number"
+      },
+      {
+        "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+        "document": "petition",
+        "field": "First Middle and Last name",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "your name in the caption"
+      },
+      {
+        "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+        "document": "petition",
+        "field": "Comes the Petitioner",
+        "page": 4,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "your name in the page 4 VERIFICATION line"
+      },
+      {
+        "documentId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+        "document": "order",
+        "field": "COURT OF",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "the county after “COURT OF”"
+      },
+      {
+        "documentId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+        "document": "order",
+        "field": "Case No",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "the case number"
+      },
+      {
+        "documentId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+        "document": "order",
+        "field": "First Middle and Last name",
+        "page": 1,
+        "filledIn": [
+          "canonical"
+        ],
+        "emptyIn": [
+          "boundary"
+        ],
+        "words": "your name in the caption"
+      }
+    ]
+  }
 }
