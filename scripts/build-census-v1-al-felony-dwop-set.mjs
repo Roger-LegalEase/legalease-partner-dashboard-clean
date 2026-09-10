@@ -6,9 +6,19 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import {
+  normalizeWidgetRectangles, baselineInk, proveDeliveredInk
+} from "./rcap-official-forms/delivered-ink-measurement.mjs";
+import { assertPrintedSourceInkSurvives, measurePrintedSourceInkSurvival, DEFAULT_RECT_TOLERANCE_PTS } from "./rcap-official-forms/printed-source-ink-survival.mjs";
+import {
+  CR65_PRINTED_ELECTIONS, assertCR65PrintedElections, cr65QuotedElectionLines,
+  CR65_SECOND_BRANCH_ONLY, CR65_SECOND_BRANCH_CONDITION
+} from "./rcap-official-forms/cr65-printed-elections.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
+const { PDFDocument, PDFCheckBox, PDFTextField, PDFName, PDFNumber, PDFArray, StandardFonts, StandardFontEmbedder, rgb } = require("pdf-lib");
+import os from "node:os";
+import { execFileSync } from "node:child_process";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INDEX_PATH = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST_PATH = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
@@ -16,6 +26,19 @@ const MEMO_PATH = "data/record-clearing/legal-design-intake/AL.memo.json";
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+
+/*
+ * Pinned page counts, so the packet-to-source page map the pixel guard walks
+ * cannot silently go wrong, and the number of inverted widget rectangles each
+ * pinned binary carries, so the flatten repair cannot quietly grow.
+ *
+ * CR-65 Rev. 10/2024 stores Check Box10.2's /Rect as
+ * [45.317, 623.137, 56.5341, 608.779] -- upper-left / lower-right rather than
+ * lower-left / upper-right. It is the only inverted rectangle in either binary,
+ * out of 216 widgets.
+ */
+const SOURCE_PAGE_COUNTS = { "CR-65": 8, "C-10-CRIMINAL": 3 };
+const EXPECTED_INVERTED_RECTS = { "CR-65": 1, "C-10-CRIMINAL": 0 };
 
 const SOURCES = [
   { documentId: "CR-65", sourceId: "official-form:CR-65", path: "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf", sha256: "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39", componentKinds: ["primary_filing", "certificate_of_service"] },
@@ -235,42 +258,83 @@ function safeSet(field, value) {
   return value;
 }
 
-async function fillDocument(source, fixtureName, fixture, config) {
+async function fillDocument(source, fixtureName, fixture, config, { normalizeRects = true } = {}) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
   const pages = document.getPages();
+  assert.equal(document.getPageCount(), SOURCE_PAGE_COUNTS[source.documentId],
+    `${source.documentId}: pinned page count ${SOURCE_PAGE_COUNTS[source.documentId]} does not match the loaded binary's ${document.getPageCount()}`);
+  /*
+   * THE FLATTEN REPAIR, BEFORE ANY RECTANGLE IS READ AS AN ORIGIN.
+   *
+   * PDF 32000-1 7.9.5 lets a /Rect store any two diagonally opposite corners
+   * and requires the consumer to normalize it. pdf-lib 1.17.1 does not:
+   * PDFArray.asRectangle() takes Rect[0], Rect[1] as the origin unconditionally
+   * and PDFForm.flatten() emits translate() from it. On CR-65's Check Box10.2
+   * that put the flattened appearance -- `1 g / 0 0 11.2171 14.3578 re / f`, an
+   * opaque white fill -- 14.358 pt, exactly one box height, ABOVE the control
+   * it belongs to, on top of the running text of eligibility ground (1) in
+   * Section III. VF01 found it in the delivered pixels and in the delivered
+   * content stream of this family's page 3; the fleet scan in
+   * data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json names
+   * the same widget, rectangle and misplacementPoints y 14.358.
+   *
+   * Same two corners, spec-required storage order. No appearance stream, no
+   * value and no election is touched.
+   */
+  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(form) : [];
+  if (normalizeRects) assert.equal(rectanglesNormalized.length, EXPECTED_INVERTED_RECTS[source.documentId],
+    `${source.documentId}: expected ${EXPECTED_INVERTED_RECTS[source.documentId]} inverted widget rectangle(s), normalized ${rectanglesNormalized.length}`);
   const writes = [];
   const refusals = [];
+  /*
+   * Widget rectangles are captured BEFORE flattening, because flattening
+   * removes the widgets and the delivered-ink measurement needs to know where
+   * each field was in order to ask whether anything was drawn there. Until this
+   * repair this family captured nothing and published four typed literals in
+   * place of the answers.
+   */
+  const boxes = [];
   for (const field of form.getFields()) {
     const name = field.getName();
     const page = pageOf(field, pages);
     const id = `${source.documentId}:${name}`;
+    const rect = field.acroField.getWidgets()[0]?.getRectangle() ?? null;
+    const box = { fieldId: id, fieldName: name, documentId: source.documentId, page, rect };
     if (field instanceof PDFCheckBox) {
       if (source.documentId === "C-10-CRIMINAL" && name === "Check Box1.0") {
         field.check();
         writes.push({ fieldId: id, fieldName: name, effectiveLabel: "State of Alabama circuit-court caption branch (selection)", documentId: source.documentId, page, factId: "route.court_caption", isSelectionControl: true, routeDetermined: true });
+        boxes.push({ ...box, expectInk: true });
       } else if (source.documentId === "CR-65" && config.selected.includes(name)) {
         field.check();
         writes.push({ fieldId: id, fieldName: name, effectiveLabel: `${config.routeSummary} (selection)`, documentId: source.documentId, page, factId: "route.selection", isSelectionControl: true, routeDetermined: true });
+        boxes.push({ ...box, expectInk: true });
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion control: ${name}`, documentId: source.documentId, page, reason: "court, clerk, prosecutor, agency, or hearing field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
+        boxes.push({ ...box, expectInk: false });
       } else {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Participant choice: ${name} (selection)`, documentId: source.documentId, page, reason: "A genuine participant election not determined by this route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
+        boxes.push({ ...box, expectInk: false });
       }
       continue;
     }
-    if (!(field instanceof PDFTextField)) continue;
+    if (!(field instanceof PDFTextField)) { boxes.push({ ...box, expectInk: false }); continue; }
     const known = knownValue(source.documentId, name, page, fixture);
     if (known && !protectedField(source.documentId, name, page)) {
       const drawnText = safeSet(field, known[0]);
       writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], drawnText });
+      boxes.push({ ...box, expectInk: true, expectText: drawnText });
     } else if (protectedField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Signature, court, or later-completion field: ${name}`, documentId: source.documentId, page, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" });
+      boxes.push({ ...box, expectInk: false });
     } else if (attorneyField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "attorney-only; no representation fact is held", role: "attorney" });
+      boxes.push({ ...box, expectInk: false });
     } else {
       const label = requiredLabel(source.documentId, name, page);
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: label, documentId: source.documentId, page, reason: "The platform does not hold this participant or case fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
+      boxes.push({ ...box, expectInk: false });
     }
   }
   const font = await document.embedFont(StandardFonts.Helvetica);
@@ -282,16 +346,20 @@ async function fillDocument(source, fixtureName, fixture, config) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, boxes, rectanglesNormalized };
 }
 
-async function buildPacket(sources, fixtureName, fixture, config) {
+async function buildPacket(sources, fixtureName, fixture, config, baselines, options = {}) {
   const filled = [];
-  for (const source of sources) filled.push({ source, ...(await fillDocument(source, fixtureName, fixture, config)) });
+  for (const source of sources) filled.push({ source, ...(await fillDocument(source, fixtureName, fixture, config, options)) });
   const packet = await PDFDocument.create();
+  const boxes = [];
+  let pageCursor = 0;
   for (const item of filled) {
     const copied = await packet.copyPages(item.document, item.document.getPageIndices());
     copied.forEach((page) => packet.addPage(page));
+    for (const box of item.boxes) boxes.push({ ...box, packetPage: pageCursor + box.page });
+    pageCursor += item.document.getPageCount();
   }
   packet.setTitle(`${config.familyId} ${fixtureName} filing packet`);
   packet.setAuthor("LegalEase packet factory");
@@ -303,7 +371,19 @@ async function buildPacket(sources, fixtureName, fixture, config) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), sources.reduce((sum, source) => sum + filled.find((item) => item.source.documentId === source.documentId).document.getPageCount(), 0));
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  /*
+   * NINE COUNTERS, MEASURED. Until this repair this family published
+   * `addedGlyphsReadFromOutputBytes: 0`, `nonWhitespaceGlyphsOutsideMeasured
+   * WriteBoxes: 0` and `refusedFieldsWithInk: []` as TYPED LITERALS, beside a
+   * `flattenedWidgetAppearancesReadFromOutputBytes` that merely republished
+   * `packet.writes.length`. VF01 read the same bytes with the factory's own
+   * classify-flattened-widget-appearances.mjs and found 403 added glyphs in
+   * canonical and 653 in boundary against a published 0. A typed literal is not
+   * a measurement and must not be left asserting one -- least of all in a
+   * repair that moves ink.
+   */
+  const proof = baselines ? await proveDeliveredInk(bytes, { boxes }, baselines) : null;
+  return { bytes, boxes, proof, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 
@@ -329,8 +409,103 @@ async function buildPacket(sources, fixtureName, fixture, config) {
  * honest residue; notarization as a question for the clerk rather than a
  * direction; and every stop condition the record holds, verbatim.
  */
+/*
+ * THE ELECTIONS CR-65 MAKES THE PETITIONER MAKE, WHICH THIS GUIDE NEVER NAMED.
+ *
+ * VF01: "THREE MANDATORY SELECTIONS ARE UNMADE AND THE GUIDE NEVER NAMES ANY OF
+ * THEM, AND TWO CONDITIONAL SUB-BLANKS ARE DIRECTED UNCONDITIONALLY."
+ *
+ * The route is right not to make them. CR-65 page 5's attachment certification,
+ * page 6's select-one under the perjury line and page 6's pro se box are
+ * genuine participant elections, and the field map refuses all five correctly.
+ * But a refusal class is not a disclosure: "Blanks you must fill in" prints
+ * only refusals carrying requiredBeforeFiling true, an election is not one, and
+ * so the participant was handed a petition with three unmade sworn selections
+ * and no page anywhere telling them the selections exist. The guide contained
+ * zero occurrences of "Select one", "previously applied", "previously filed",
+ * "pro se", "swear" or "perjury".
+ *
+ * WORSE, AND THIS IS THE PART THAT COULD HAVE MADE SOMEONE SWEAR FALSELY. The
+ * blank list opened "Fill every one on both the canonical and the
+ * boundary-style packet before filing" and then listed "County where any
+ * previous expungement was filed" and "Court case number of any previous
+ * expungement" -- the two blanks that exist only on the branch a petitioner who
+ * has never filed before is NOT on. A petitioner following the guide as written
+ * was told to fill in a prior expungement they do not have, on the page they
+ * swear to under penalty of perjury.
+ *
+ * So the blank list now marks those two with the condition they hang on, and
+ * the section below names all three elections, quoting the form. Every quoted
+ * line is re-read out of the DELIVERED bytes of both fixtures on every build by
+ * assertCR65PrintedElections. Nothing here ticks anything, invents a fact, or
+ * tells the participant which way to elect.
+ */
+function electionsSection() {
+  const a = CR65_PRINTED_ELECTIONS.attachments;
+  const sw = CR65_PRINTED_ELECTIONS.swornSelectOne;
+  const p = CR65_PRINTED_ELECTIONS.proSe;
+  return `## Elections on CR-65 that this packet has not made
+
+This packet elects the statutory ground, and nothing else on CR-65. The form
+prints further choices that turn on facts this packet does not hold, and the
+list above does not name them, because the field map classifies them as
+elections rather than as blanks owed before filing. They are still choices the
+form makes you make. Every line quoted below was read back out of the delivered
+petition at build time, on the page named beside it.
+
+**Page ${a.page} - what you attach.** The form prints:
+
+> ${a.heading}
+
+and three boxes under it:
+
+${a.options.map((line) => `> ${line}`).join("\n>\n")}
+
+All three are blank in this packet, on both fixtures. Tick them yourself to
+match what you are actually attaching, following the rule the form prints above
+them. The certified records listed under "Do these before you file" are the
+documents these boxes certify.
+
+**Page ${sw.page} - the sworn select-one.** Under the printed line
+
+> ${sw.oath}
+
+the form prints
+
+> ${sw.heading}
+
+and offers two boxes. The first reads:
+
+> ${sw.firstBranch}
+
+The second begins:
+
+> ${sw.secondBranchOpening}
+
+and runs on into a blank for the county it was filed in, a blank for its court
+case number, and the printed pair
+
+> ${sw.grantedDenied}
+
+Both boxes are blank in this packet, on both fixtures. Tick the one that is true
+of you. It sits under the perjury line, so tick it before you sign.
+
+The county, the case number and the granted-or-denied pair belong to the second
+box alone. If you tick the first box, leave all three of them empty - that is
+why they are listed above marked "${CR65_SECOND_BRANCH_CONDITION}".
+
+**Page ${p.page} - the pro se box.** Beside the signature line the form prints:
+
+> ${p.line}
+
+It is blank in this packet, and this packet writes nothing into the attorney
+block beside it, because it holds no representation fact for you.`;
+}
+
 function writeGuides({ out, familyId, config, rules, track, memoDigest, required }) {
-  const requiredList = required.map((row) => `- ${row.effectiveLabel}`).join("\n");
+  const secondBranchOnly = new Set(CR65_SECOND_BRANCH_ONLY);
+  const requiredList = required.map((row) =>
+    `- ${row.effectiveLabel}${secondBranchOnly.has(row.fieldId) ? ` - ${CR65_SECOND_BRANCH_CONDITION}` : ""}`).join("\n");
   const provenance = [
     "Every quoted line below is taken verbatim from the Alabama legal-design record",
     `\`${MEMO_PATH}\`, track \`${config.trackId}\` (sha256 ${memoDigest}).`,
@@ -374,10 +549,13 @@ ${beforeFiling}
 ## Blanks you must fill in
 
 Each line names a blank on the paper that this packet did not fill because it
-does not hold that fact. Fill every one on both the canonical and the
-boundary-style packet before filing.
+does not hold that fact. Fill them in on both the canonical and the
+boundary-style packet before filing - except any line marked with a condition,
+which you fill in only if that condition is true of you.
 
 ${requiredList}
+
+${electionsSection()}
 
 ## Service
 
@@ -425,7 +603,7 @@ attachment above is complete.
 `);
 }
 
-function assertRepairInvariants(out) {
+export async function assertRepairInvariants(out) {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
   const instructions = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
   const written = new Set(fieldMap.writes.map((row) => row.fieldId));
@@ -488,6 +666,124 @@ function assertRepairInvariants(out) {
   for (const stop of track.selfHelpStopConditions ?? []) {
     assert.ok(instructions.includes(stop), `stop condition missing from the guide: ${stop}`);
   }
+
+  /*
+   * THE THREE UNMADE SWORN SELECTIONS, AND THE TWO BLANKS THAT WERE DIRECTED
+   * UNCONDITIONALLY. Each assertion below fires on the bytes this family
+   * shipped before this repair.
+   */
+  for (const [, quoted] of cr65QuotedElectionLines()) {
+    assert.ok(instructions.includes(quoted),
+      `the guide does not carry the line CR-65 prints: ${JSON.stringify(quoted)}`);
+  }
+  assert.ok(instructions.includes(CR65_SECOND_BRANCH_CONDITION),
+    "the guide must state the condition the two previous-expungement blanks hang on");
+  assert.doesNotMatch(instructions, /Fill every one on both the canonical and the\s+boundary-style packet before filing/,
+    "an unconditional fill-every-one direction stands over a list that now carries conditional blanks");
+  for (const fieldId of CR65_SECOND_BRANCH_ONLY) {
+    const row = fieldMap.refusals.find((entry) => entry.fieldId === fieldId);
+    assert.ok(row, `a second-branch blank left the field map: ${fieldId}`);
+    if (!row.requiredBeforeFiling) continue;
+    const line = instructions.split("\n").find((l) => l.startsWith(`- ${row.effectiveLabel}`));
+    assert.ok(line, `a second-branch blank left the guide's blank list: ${fieldId}`);
+    assert.ok(line.includes(CR65_SECOND_BRANCH_CONDITION),
+      `a conditional blank is listed unconditionally: ${row.effectiveLabel}`);
+  }
+  /*
+   * Disclosure and refusal are two halves of one statement. No election the
+   * guide now hands to the participant may be ticked for them by the build.
+   */
+  for (const row of fieldMap.refusals) {
+    if (!row.isSelectionControl || row.documentId !== "CR-65") continue;
+    if (![CR65_PRINTED_ELECTIONS.attachments.page, CR65_PRINTED_ELECTIONS.swornSelectOne.page].includes(row.page)) continue;
+    assert.ok(!written.has(row.fieldId),
+      `a page-${row.page} election this guide hands to the participant is ticked by the build: ${row.fieldId}`);
+  }
+
+  // Every counter this family publishes must be a reading of the delivered
+  // bytes. A typed literal that reads as a finding is the ARTIFACTS defect.
+  const actualWrites = JSON.parse(fs.readFileSync(path.join(out, "reports", "actual-writes.json"), "utf8"));
+  for (const artifact of actualWrites.artifacts) {
+    assert.ok(Number.isInteger(artifact.addedGlyphsReadFromOutputBytes) && artifact.addedGlyphsReadFromOutputBytes > 0,
+      `${artifact.fixture}: addedGlyphsReadFromOutputBytes must be a reading of the delivered bytes, and this packet draws glyphs`);
+    assert.equal(artifact.invisibleWrites.length, 0, `${artifact.fixture}: a write is not visible in the delivered bytes`);
+    assert.equal(artifact.refusedFieldsWithInk.length, 0, `${artifact.fixture}: a refused field carries ink in the delivered bytes`);
+    assert.equal(artifact.incompleteValues.length, 0, `${artifact.fixture}: a held value did not read back complete from the delivered bytes`);
+    /*
+     * flattenedWidgetAppearancesReadFromOutputBytes is NOT asserted to differ
+     * from the finalizer's write count. It used to BE that count, republished;
+     * it is now `boxes with expectInk` minus `writes the delivered bytes draw
+     * no glyph for`, and when nothing is invisible those two numbers coincide
+     * legitimately. Asserting they differ would demand a defect. What separates
+     * a measurement from a literal is that a measurement carries the
+     * denominator it was taken over, so that is what is checked.
+     */
+    assert.equal(artifact.fieldRectanglesMeasured, 216,
+      `${artifact.fixture}: the measurement must be taken over all 216 widget rectangles of the two pinned sources, and reports ${artifact.fieldRectanglesMeasured}`);
+    assert.ok(Number.isInteger(artifact.printedFormGlyphsInsideFieldRectsIgnored) && artifact.printedFormGlyphsInsideFieldRectsIgnored > 0,
+      `${artifact.fixture}: the blank-form baseline must have been subtracted, and these forms print inside their own field rectangles`);
+    assert.ok(Number.isInteger(artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes),
+      `${artifact.fixture}: nonWhitespaceGlyphsOutsideMeasuredWriteBoxes must be a number read from the delivered bytes`);
+  }
+
+  // Glyph-level guards end here. Everything above reads text, and every one of
+  // them passes with an opaque white box painted over the text it claims to
+  // have read. The two lines below read pixels.
+  const fixtures = fs.readdirSync(path.join(out, "fixtures")).filter((f) => f.endsWith(".pdf")).sort();
+  assert.equal(fixtures.length, 2, `this family delivers two fixtures and the directory holds ${fixtures.length}`);
+  await assertCR65PrintedElections(fixtures.map((f) => path.join(out, "fixtures", f)), { cr65PageOffset: 0 });
+  await assertPrintedFormInkSurvives(out);
+}
+
+/*
+ * THE GUARD THE GLYPH READERS COULD NOT BE. See
+ * scripts/rcap-official-forms/printed-source-ink-survival.mjs for what it
+ * measures, at what resolution and threshold, and what it cannot see.
+ */
+function packetPageMap(sources) {
+  const pages = [];
+  let cursor = 0;
+  for (const source of sources) {
+    for (let page = 1; page <= SOURCE_PAGE_COUNTS[source.documentId]; page += 1) {
+      pages.push({ packetPage: cursor + page, sourcePdf: source.absolute, sourcePage: page });
+    }
+    cursor += SOURCE_PAGE_COUNTS[source.documentId];
+  }
+  return pages;
+}
+
+export async function assertPrintedFormInkSurvives(out, { publishTo = null } = {}) {
+  const sources = resolveSources();
+  const pages = packetPageMap(sources);
+  const reports = [];
+  for (const fixtureName of Object.keys(FIXTURES)) {
+    const file = path.join(out, "fixtures", `${fixtureName}.pdf`);
+    assert.ok(fs.existsSync(file), `fixture absent from disk, so its pixels cannot be read: ${file}`);
+    reports.push({ fixture: fixtureName, ...(await assertPrintedSourceInkSurvives({ deliveredPdf: file, pages })) });
+  }
+  if (publishTo) {
+    writeJson(publishTo, {
+      schemaVersion: "rcap-printed-source-ink-survival/v1",
+      familyId: "al-felony-dwop-set",
+      measuredFrom: "the delivered fixture bytes on disk and the pinned official source binaries in custody, rasterised page by page",
+      renderer: reports[0].renderer,
+      annotationsRendered: reports[0].annotationsRendered,
+      dpi: reports[0].dpi,
+      inkThreshold: reports[0].inkThreshold,
+      widgetRectAllowancePts: reports[0].widgetRectAllowancePts,
+      allowanceMeaning: reports[0].allowanceMeaning,
+      cannotSee: reports[0].cannotSee,
+      rasterEvidenceClaimed: false,
+      whyNoRasterEvidenceIsClaimed: "every raster this guard produced was read into memory and deleted in the same breath; nothing was retained, published or reviewed, and a central raster is still owed for this family",
+      fixtures: reports.map((report) => ({
+        fixture: report.fixture,
+        printedSourceInkErasedOutsideWidgetRects: report.perPage.reduce((sum, page) => sum + page.lostInkOutsideEveryDeclaredWidgetRect, 0),
+        printedSourceInkErasedInsideWidgetRects: report.perPage.reduce((sum, page) => sum + page.lostInkInsideADeclaredWidgetRect, 0),
+        perPage: report.perPage.map(({ sourcePdf, ...page }) => ({ ...page, sourceDocument: path.basename(sourcePdf) }))
+      }))
+    });
+  }
+  return reports;
 }
 
 export async function buildAlabamaFamily(familyId) {
@@ -517,8 +813,13 @@ export async function buildAlabamaFamily(familyId) {
     assert.ok(rules[key], `${config.trackId}: rules.${key} is not held; a guide may not be written past an absent rule`);
   }
   assert.ok((track.selfHelpStopConditions ?? []).length > 0, `${config.trackId}: the record holds no stop conditions`);
+  // What the blank forms print inside their own field rectangles, so the
+  // delivered-ink measurement subtracts the FORM's ink and reports only what
+  // this build added. Same binaries, same normalization, same flatten.
+  const baselines = {};
+  for (const source of sources) baselines[source.documentId] = await baselineInk(source);
   const packets = {};
-  for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture, config);
+  for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture, config, baselines);
   fs.mkdirSync(path.join(out, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(out, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
@@ -535,7 +836,20 @@ export async function buildAlabamaFamily(familyId) {
   writeJson(path.join(out, "reports", "actual-writes.json"), {
     schemaVersion: "rcap-actual-writes/v2", familyId,
     documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
+    countersMeasuredFrom: "every counter below except valuesReportedByFinalizer is read from the delivered packet bytes by proveDeliveredInk, which reopens the finished file, walks its content streams, recurses through the Form XObjects flattening leaves behind, and subtracts what the blank form prints inside the same rectangles",
+    artifacts: Object.entries(packets).map(([fixture, packet]) => ({
+      fixture,
+      valuesReportedByFinalizer: packet.writes.length,
+      addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: packet.proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      printedFormGlyphsInsideFieldRectsIgnored: packet.proof.printedFormGlyphsInsideFieldRectsIgnored,
+      fieldRectanglesMeasured: packet.proof.fieldsMeasured,
+      invisibleWrites: packet.proof.invisibleWrites,
+      refusedFieldsWithInk: packet.proof.refusedFieldsWithInk,
+      incompleteValues: packet.proof.incompleteValues,
+      proof: packet.proof.proof
+    }))
   });
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
     schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
@@ -549,20 +863,165 @@ export async function buildAlabamaFamily(familyId) {
   });
   const required = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling);
   writeGuides({ out, familyId, config, rules, track, memoDigest, required });
+  /*
+   * The pixel measurement, taken from the fixture bytes now on disk against the
+   * pinned source binaries, so the counter below is a reading of the delivered
+   * file rather than a restatement of what this process believes it wrote.
+   */
+  const inkSurvival = await assertPrintedFormInkSurvives(out, { publishTo: path.join(out, "reports", "printed-source-ink-survival.json") });
+  const list = Object.values(packets);
   writeJson(path.join(out, "reports", "build-summary.json"), {
-    familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
+    familyId, result: "BUILT_RASTER_PENDING",
+    counters: {
+      knownRequiredFieldsMissing: 0,
+      requiredFactsNotCollected: 0,
+      unclassifiedBlanks: packets.canonical.refusals.filter((row) => !row.refusalClass && !row.completenessDisposition && !row.role).length,
+      // Read from the delivered bytes by proveDeliveredInk, not declared.
+      incompleteRows: list.reduce((sum, packet) => sum + packet.proof.incompleteValues.length, 0),
+      requiredOptionsMissing: 0,
+      requiredComponentsMissing: 0,
+      invisibleWrites: list.reduce((sum, packet) => sum + packet.proof.invisibleWrites.length, 0),
+      protectedWrites: list.reduce((sum, packet) => sum + packet.proof.refusedFieldsWithInk.length, 0),
+      /*
+       * Printed form ink the delivered packet erases where no control belongs.
+       * Measured in pixels against the pinned sources at 300 dpi, ink threshold
+       * 200; a number, not a typed literal, and it read 241 on page 3 of the
+       * bytes this family shipped before this repair.
+       */
+      printedSourceInkErasedOutsideWidgetRects: inkSurvival.reduce(
+        (sum, report) => sum + report.perPage.reduce((pages, page) => pages + page.lostInkOutsideEveryDeclaredWidgetRect, 0), 0),
+      /*
+       * Still null, and deliberately. Nobody has looked at a raster of these
+       * pages. Every raster the ink guard produced was read into memory and
+       * deleted unseen, and it answers one narrow question about erasure -- it
+       * is not a visual review and claims no raster evidence. A central raster
+       * is owed for this family now that its bytes have moved.
+       */
+      visualDefects: null
+    },
+    countersMeasuredFrom: "incompleteRows, invisibleWrites and protectedWrites are read from the delivered packet bytes by proveDeliveredInk; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
+    deliveredInk: Object.entries(packets).map(([fixture, packet]) => ({
+      fixture,
+      addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: packet.proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      fieldRectanglesMeasured: packet.proof.fieldsMeasured,
+      invisibleWrites: packet.proof.invisibleWrites,
+      refusedFieldsWithInk: packet.proof.refusedFieldsWithInk,
+      incompleteValues: packet.proof.incompleteValues
+    })),
     artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false
   });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
+/*
+ * CONTROLS. A guard that has never failed proves nothing about the build that
+ * passes it, and this family had no controls at all -- which is part of how it
+ * came to publish four typed literals as findings.
+ *
+ * Three fire here:
+ *   1. the pixel guard on an OPAQUE BOX over printed form text, the mutation
+ *      VF01 used to prove the glyph guards blind;
+ *   2. the pixel guard on THIS DEFECT -- the same packet rebuilt with
+ *      normalizeWidgetRectangles removed, which is the bytes this family
+ *      shipped before this repair;
+ *   3. the delivered-ink reader with its blank-form baseline removed, which
+ *      must make the FORM's own printed ink read as this build's writes.
+ */
+const MUTATION_TARGET = Object.freeze({
+  packetPage: 3, word: "quashed",
+  // pdftotext -bbox on the pinned CR-65 page 3: xMin 178.179 xMax 217.417,
+  // yMin 130.506 yMax 141.306 from the page top, i.e. PDF y 650.694-661.494.
+  x: 178.0, y: 650.4, width: 39.8, height: 11.4
+});
+
+export async function negativeControls() {
+  const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill");
+  const config = { familyId: "al-felony-dwop-set", ...FAMILY_CONFIG["al-felony-dwop-set"] };
+  const sources = resolveSources();
+  const pages = packetPageMap(sources);
+  const cr65 = sources.find((source) => source.documentId === "CR-65");
+
+  // The mutation target must be printed form ink that no control owns, or the
+  // guard's widget-rectangle allowance would be right to excuse it.
+  const probe = await PDFDocument.load(cr65.bytes);
+  const probePages = probe.getPages();
+  for (const field of probe.getForm().getFields()) {
+    for (const widget of field.acroField.getWidgets()) {
+      const index = probePages.findIndex((page) => page.ref.toString() === String(widget.dict.get(PDFName.of("P"))));
+      if (index + 1 !== MUTATION_TARGET.packetPage) continue;
+      const array = widget.dict.lookup(PDFName.of("Rect"), PDFArray);
+      const v = [0, 1, 2, 3].map((i) => array.lookup(i, PDFNumber).asNumber());
+      const r = { x0: Math.min(v[0], v[2]), y0: Math.min(v[1], v[3]), x1: Math.max(v[0], v[2]), y1: Math.max(v[1], v[3]) };
+      assert.ok(!(r.x0 < MUTATION_TARGET.x + MUTATION_TARGET.width + DEFAULT_RECT_TOLERANCE_PTS
+        && r.x1 > MUTATION_TARGET.x - DEFAULT_RECT_TOLERANCE_PTS
+        && r.y0 < MUTATION_TARGET.y + MUTATION_TARGET.height + DEFAULT_RECT_TOLERANCE_PTS
+        && r.y1 > MUTATION_TARGET.y - DEFAULT_RECT_TOLERANCE_PTS),
+        `the mutation target is inside widget ${field.getName()}, where the guard's allowance would excuse it`);
+    }
+  }
+
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "al-felony-dwop-controls-"));
+  try {
+    const onePage = pages.filter((page) => page.packetPage === MUTATION_TARGET.packetPage);
+
+    // 1. The mutation control.
+    const clean = path.join(out, "fixtures", "canonical.pdf");
+    const document = await PDFDocument.load(fs.readFileSync(clean), { ignoreEncryption: true, updateMetadata: false });
+    document.getPages()[MUTATION_TARGET.packetPage - 1].drawRectangle({
+      x: MUTATION_TARGET.x, y: MUTATION_TARGET.y, width: MUTATION_TARGET.width, height: MUTATION_TARGET.height, color: rgb(1, 1, 1)
+    });
+    const defaced = path.join(scratch, "defaced.pdf");
+    fs.writeFileSync(defaced, Buffer.from(await document.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity })));
+    const extracted = execFileSync("pdftotext", ["-f", String(MUTATION_TARGET.packetPage), "-l", String(MUTATION_TARGET.packetPage), defaced, "-"], { encoding: "utf8" });
+    assert.ok(extracted.includes(MUTATION_TARGET.word),
+      `CONTROL DID NOT FIRE — pdftotext must still extract "${MUTATION_TARGET.word}" from the defaced bytes; that it does is exactly why a glyph reader cannot see an opaque box`);
+    let threw = null;
+    try { await assertPrintedSourceInkSurvives({ deliveredPdf: defaced, pages: onePage }); } catch (error) { threw = error; }
+    assert.ok(threw, `CONTROL DID NOT FIRE — the pixel guard passed a page with an opaque white box over the printed word "${MUTATION_TARGET.word}"`);
+    const mutated = await measurePrintedSourceInkSurvival({ deliveredPdf: defaced, pages: onePage });
+    console.log(`pixel guard mutation control: an opaque white box over the printed word "${MUTATION_TARGET.word}" on packet page ${MUTATION_TARGET.packetPage} `
+      + `erased ${mutated.perPage[0].lostInkOutsideEveryDeclaredWidgetRect} px of printed form ink at ${mutated.dpi} dpi / threshold ${mutated.inkThreshold}; `
+      + `the pixel guard FAILED as it must, while pdftotext still extracted the word and every glyph guard in this family stays silent.`);
+
+    // 2. The cause control: this defect, un-repaired.
+    const baselines = {};
+    for (const source of sources) baselines[source.documentId] = await baselineInk(source);
+    const unrepaired = await buildPacket(sources, "canonical", FIXTURES.canonical, config, baselines, { normalizeRects: false });
+    const unrepairedFile = path.join(scratch, "unrepaired.pdf");
+    fs.writeFileSync(unrepairedFile, unrepaired.bytes);
+    let causeThrew = null;
+    try { await assertPrintedSourceInkSurvives({ deliveredPdf: unrepairedFile, pages: onePage }); } catch (error) { causeThrew = error; }
+    assert.ok(causeThrew, "CONTROL DID NOT FIRE — the pixel guard passed the un-normalized build, which is the defect it exists to catch");
+    const causeReport = await measurePrintedSourceInkSurvival({ deliveredPdf: unrepairedFile, pages: onePage });
+    console.log(`pixel guard cause control: rebuilt with normalizeWidgetRectangles removed, packet page ${MUTATION_TARGET.packetPage} `
+      + `erases ${causeReport.perPage[0].lostInkOutsideEveryDeclaredWidgetRect} px of printed form ink outside every widget rectangle `
+      + `(${causeReport.perPage[0].lostInkPixelsReadingSolidWhite} of ${causeReport.perPage[0].lostInkPixels} lost pixels read solid white 255); the pixel guard FAILED as it must.`);
+
+    // 3. The delivered-ink reader without its blank-form baseline.
+    const repaired = await buildPacket(sources, "canonical", FIXTURES.canonical, config, baselines);
+    const noBaseline = await proveDeliveredInk(repaired.bytes, { boxes: repaired.boxes }, baselines, { subtractBaseline: false });
+    assert.equal(repaired.proof.refusedFieldsWithInk.length, 0, "the repaired reader must report no refused field carrying ink");
+    assert.ok(noBaseline.refusedFieldsWithInk.length > 0,
+      "CONTROL DID NOT FIRE — dropping the blank-form baseline must make the form's own printed ink read as writes");
+    console.log(`delivered-ink baseline control: repaired=${repaired.proof.refusedFieldsWithInk.length} refused-with-ink, `
+      + `no-baseline=${noBaseline.refusedFieldsWithInk.length} (control fires); `
+      + `addedGlyphsReadFromOutputBytes=${repaired.proof.addedGlyphsReadFromOutputBytes} against the 0 this family used to publish.`);
+  } finally {
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
+}
+
 if (pathToFileURL(process.argv[1]).href === import.meta.url) {
   const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill");
-  if (process.argv.includes("--check")) {
-    assertRepairInvariants(out);
+  if (process.argv.includes("--negative-control")) {
+    await negativeControls();
+  } else if (process.argv.includes("--check")) {
+    await assertRepairInvariants(out);
     console.log("al-felony-dwop-set: repair invariants PASS");
   } else {
     await buildAlabamaFamily("al-felony-dwop-set");
-    assertRepairInvariants(out);
+    await assertRepairInvariants(out);
   }
 }
