@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-checkpoints/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260909b",
+  "worktree": "/home/user/v2mm-worktree",
+  "branch": "v2mm-fix-20260909b",
+  "baseSha": "a2b19c6cec35a5fd64f3ad5c3948f4fff16969e6",
+  "headSha": "a8a7817bc57124d1257ed29f88815b5f629e1a75",
+  "checkpoints": [
+    {
+      "at": "grant assertion",
+      "what": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 <family>, read-only, ledger unchanged after (git status clean).",
+      "result": "CLAIM_OK on il-seal-2yr-set and nd-summary-marijuana-pardon-set (repair, grant set 30a35aa1dbd2be73). NOT_GRANTED exit 6 on ky_protective_order_record_expungement-set."
+    },
+    {
+      "at": "il-seal-2yr-set baseline",
+      "what": "Rebuilt the family unchanged from the pinned sources before touching anything.",
+      "result": "Byte-identical to the committed fixtures, canonical 090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166 and boundary 9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553, working tree clean. The build is reproducible, so every later byte change is attributable to this repair."
+    },
+    {
+      "at": "il-seal-2yr-set sibling read",
+      "what": "Read scripts/build-census-v1-il-seal-3yr-set.mjs and its guide first, as instructed, and edited neither.",
+      "result": "The standard is THREE_YEAR_GROUNDS + electionsFor(fixture) + isAlternativeToElectedGround on the unelected limb + a named guide section. Confirmed the sibling's guide names 19.a as 'the two-year limb ... a different route', the box this family omitted. il-seal-3yr-set is untouched in the diff."
+    },
+    {
+      "at": "il-seal-2yr-set source read",
+      "what": "Extracted the pinned EXP-AD Request (sha256 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853) with pdftotext -layout to read Sections 15-24 and both Outcome legends in the form's own words.",
+      "result": "Four printed two-year grounds confirmed at Sections 16, 17, 18 and 19.a. The Outcome Abbreviations for Sealing legend prints exactly MC, FC, CE, QP. 'S - Supervision Successfully Completed' appears only in the Outcome Abbreviations for Expungement legend on page 2."
+    },
+    {
+      "at": "il-seal-2yr-set repair",
+      "what": "TWO_YEAR_GROUNDS table, electionsFor(fixture), outcomeFor(fixture), route-specific refusals for the three unelected grounds and for the two three-year limbs, a generated guide section, and self-tests.",
+      "result": "Self-test passes. Canonical bytes unchanged; boundary now cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e."
+    },
+    {
+      "at": "il-seal-2yr-set appearance read",
+      "what": "Rendered both fixtures at 150 dpi and diffed every one of the 424 source widget rectangles against the pinned blank forms, across all 13 pages.",
+      "result": "Canonical page 5: +36 px in Section 17 only. Boundary page 5: +36 px in Section 16 only. Boundary page 4 Outcome cell: 0 added px. Nothing undeclared gained ink on either fixture; every declared write gained ink."
+    },
+    {
+      "at": "il-seal-2yr-set guide defect caught on the delivered file",
+      "what": "Read the generated participant-instructions.md rather than the build report.",
+      "result": "Two defects caught that the build reported nothing about: a literal backslash leaked into the participant text (case\\'s), and the registry's machine disposition tokens were being printed to a participant. Both fixed; a self-test now fails the build if a machine token reaches the guide."
+    },
+    {
+      "at": "il-seal-2yr-set published-zero finding",
+      "what": "Checked the family against DEFECTS_NO_COUNTER_CAN_SEE.",
+      "result": "Live instance of 'a-published-zero-where-a-measurement-existed'. Repaired by reading the saved bytes: 603 glyphs over 44 inked appearances canonical, 1263 over 43 boundary. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes set to null. Side effect flagged: verify-packet-completeness.mjs now classes this family NOT_MEASURABLE_HERE rather than PASS_COMPLETE, on visualDefects alone."
+    },
+    {
+      "at": "il-seal-2yr-set committed",
+      "what": "git add of the eight exact paths changed, no -A and no dot.",
+      "result": "cb736b20a, pushed to origin v2mm-fix-20260909b."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set widget probe",
+      "what": "Read the State widget's own properties from the pinned SFN 61663 (sha256 c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f) before deciding anything.",
+      "result": "No /MaxLen, no comb flag, no default value, /TU '(State)', DA '/Helv 0 Tf'. The widget settles nothing; the printed row and the form's own address line do."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set the decision",
+      "what": "Whether to normalise 'North Dakota' to 'ND' -- a decision about what a state's name is on a North Dakota pardon application, not a formatting choice.",
+      "result": "Settled by the form's own printed text: SFN 61663 page 1 prints 'mail to P.O. Box 1898, Bismarck, ND 58502-1898'. Corroborated by the printed City/State/ZIP column widths and by this family's own canonical artifact. The normalisation maps only the one state name this form abbreviates in its own printed text; no abbreviation table was authored, and any other state is still refused and now disclosed."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set root cause",
+      "what": "Traced how a map could declare six boundary writes over five delivered.",
+      "result": "production-field-map.json declared 'boundaryWrites: canonicalWrites'. The boundary's writes were asserted by copying the canonical's. Each fixture's map is now built from that fixture's own report and asserted against its own delivered bytes."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set mutation test",
+      "what": "Set the canonical fixture to hold 'Massachusetts' -- a state name this form does not abbreviate -- and rebuilt.",
+      "result": "planned 5 = delivered 5; a refusedWritesByFixture row with the value, box width 34.32pt, required width 40pt and minimum font 6pt; requiredBeforeFiling 26 -> 27; the guide generated 'The **State** box is blank: ...'. One over-strong probe assertion of mine fired during this and was corrected. Reverted; the committed fixtures hold North Dakota."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set appearance read",
+      "what": "Rendered both fixtures at 150 dpi against the pinned source, per rectangle and whole page.",
+      "result": "Boundary State 0 added px before, +182 after, equal to the canonical's +182. 0 added px outside the six declared write rectangles on either fixture, both pages. Offence table, aliases, telephone and signature boxes all empty on the page."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set drift reverted",
+      "what": "Rebuilding rewrote source-receipt.json's custody to the repository copy.",
+      "result": "Both custodies verified byte-identical with sha256sum. The receipt was reverted and not committed: which custody a family is bound under is not this repair's to change."
+    },
+    {
+      "at": "nd-summary-marijuana-pardon-set committed",
+      "what": "git add of the nine exact paths changed.",
+      "result": "a8a7817bc, pushed to origin v2mm-fix-20260909b."
+    },
+    {
+      "at": "ky_protective_order_record_expungement-set",
+      "what": "Asserted the claim before reading any family content, as the lane's claimRule requires.",
+      "result": "NOT_GRANTED exit 6. FIX06 holds no claim of any kind on this family; the ledger records VF04 independent-verification and PF08 packet-build, both live. No Kentucky path is in this lane's ownedPaths. Full stop, BLOCKED_BEFORE_CLAIM, no artifact of the family read."
+    }
+  ],
+  "rulesHeld": [
+    "No central manifest edited and nothing under scripts/grade-a-packet-factory-24h/ edited; claim.mjs and verify.mjs were only read and run.",
+    "scripts/rcap-packet-completeness/** is on this lane's prohibitedPaths and was read and run but not edited.",
+    "scripts/rcap-official-forms/rcap-text-fitting.mjs is shared and was read, not edited; the ND repair is in the family's own builder.",
+    "il-seal-3yr-set was read as the standard and not edited.",
+    "rcap-hi-custom-pleading was not touched.",
+    "git add by exact path only; no git add . / -A / --all. Nothing force-pushed and main untouched.",
+    "No filing fee, service rule, deadline, clerk's practice, signature or notarization invented. No packet was released or transferred. No verdict set and no PASS issued.",
+    "Every digest recorded with sha256sum or git rev-parse; none typed from memory."
+  ]
+}
