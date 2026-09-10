@@ -584,11 +584,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX144",
       "laneKind": "repair",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "Holder returned without releasing; consolidating this cluster onto one lane."
+      "releaseReason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
     },
     {
       "subjectType": "packet-family",
@@ -770,10 +770,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX10",
+      "lane": "FIX144",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:19.964Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -804,9 +804,9 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Holder returned without releasing; consolidating this cluster onto one lane."
+      "released": true,
+      "releasedAt": "2026-09-10T11:52:23.001Z",
+      "releaseReason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
     },
     {
       "subjectType": "packet-family",
@@ -5110,9 +5110,9 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Holder returned without releasing; consolidating this cluster onto one lane."
+      "released": true,
+      "releasedAt": "2026-09-10T11:52:23.127Z",
+      "releaseReason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
     },
     {
       "subjectType": "packet-family",
@@ -5728,9 +5728,9 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Holder returned without releasing; consolidating this cluster onto one lane."
+      "released": true,
+      "releasedAt": "2026-09-10T11:52:23.260Z",
+      "releaseReason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
     },
     {
       "subjectType": "packet-family",
@@ -14608,7 +14608,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "144eb4c129c4f7d60c5de2cc134b93a776ae0ea60d6245765f38144ccfea5144",
+  "claimsDigest": "1ba9ca44548de3da60ec9829d2e6b0988c4c084b36c72f4e21be1b6e2feb3ea0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -36880,6 +36880,42 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T11:23:34.911Z",
       "reason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-nonconviction-90-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T11:52:22.868Z",
+      "reason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T11:52:23.001Z",
+      "reason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "ma-expunge-k-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T11:52:23.127Z",
+      "reason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T11:52:23.260Z",
+      "reason": "FIX02 finished and returned at commit f63d56734; its repair is now under independent read by VF41. The assignment is complete, so its grants are closed at the return boundary. A release accepts, rejects and supersedes nothing."
     }
   ],
   "reissues": [
@@ -55834,6 +55870,28 @@
       "previouslyReleasedAt": "2026-09-06T05:10:43.939Z",
       "transferredAt": "2026-09-10T11:51:25.954Z",
       "reason": "Captain dispatch: the recorded verification lane returned and released this grant; it is handed to VF43 for the read FIX142's repair owes. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-pardoned-felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX10",
+      "toLane": "FIX144",
+      "previouslyReleasedAt": "2026-09-10T11:23:19.964Z",
+      "transferredAt": "2026-09-10T11:52:23.497Z",
+      "reason": "Captain dispatch: handed to FIX144, which must return the exact unresolved Alabama question -- controlling source, required filing element, facts needed, facts held, the actual missing fact, and a narrow proposed fix."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-nonconviction-90-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX144",
+      "previouslyReleasedAt": "2026-09-10T11:52:22.868Z",
+      "transferredAt": "2026-09-10T11:52:23.637Z",
+      "reason": "Captain dispatch: handed to FIX144, which must return the exact unresolved Alabama question -- controlling source, required filing element, facts needed, facts held, the actual missing fact, and a narrow proposed fix."
     }
   ],
   "grants": [
