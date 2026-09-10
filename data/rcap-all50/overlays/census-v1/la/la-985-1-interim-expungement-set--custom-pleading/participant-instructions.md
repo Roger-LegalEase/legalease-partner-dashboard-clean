@@ -52,6 +52,20 @@ The Article 995 order in this packet is composed from the Legislature's own text
 
 - `la-985-1-interim-expungement-fee-waiver-3` (fee_waiver, LA-CCRP-ART-988): Generated only where the participant may qualify for the Article 983(F) exemption; Article 985.1(C) applies the ordinary fee provisions. This packet does not meet that condition, so the component is not generated.
 
+## Internal record text: what the record says, and why it is here rather than on the filing
+
+The two documents you file - the Article 994 motion and the Article 995 order - recite statute and rule text and nothing else. This build's own identifiers and the committed record's own words are internal record text, and they are set out here instead, so that the pages a clerk stamps and a judge signs carry only what the Legislature put on them.
+
+- **Component identities.** The motion is `la-985-1-interim-expungement-primary-filing-1`, the proposed order is `la-985-1-interim-expungement-proposed-order-2` and these instructions are `la-985-1-interim-expungement-instructions-4`. Those are this factory's own identifiers for the three documents. They used to be printed in the caption of the motion and of the order and on the motion's signature-block page; they are not printed on either filed document now.
+- **Where the Article 994 motion text comes from.** It is composed from the committed LA-STATUTORY-FORMS authority. The motion itself now cites only Article 985.1 and Article 986.
+- **Where the Article 995 order text comes from.** It is composed from the Article 995 statutory text this packet is bound to by the content digest `b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39`, which is what Article 986(A) requires of a rendering of a mandatory statutory form. The order itself now cites only Article 986(A) and Article 986(C).
+- **Race and gender on the motion.** The committed manual-completion record classifies both, on Articles 989 and 994, as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand.
+- **The original arrest charge.** The committed record directs in terms that the ORIGINAL arrest charge be captured rather than the amended charge. The motion now states the instruction and its statutory reason without quoting the record.
+- **The two self-help stops printed on the motion.** Whether the misdemeanour conviction arose out of that same original felony arrest, and whether the rap sheet conflates more than one arrest event, are both conditions on which the committed record says self-help stops. The motion now tells you to stop and get a lawyer's advice, which is what the condition means for you.
+- **The attorney block.** This packet holds no record that you are represented by counsel, which is why the block is blank. The motion now says only that counsel completes it or nobody does.
+- **The four felony-charge identifier lines on the order.** This packet writes none of them. The order now says only that they are yours to complete before the motion is filed, and where to take them from.
+
+
 ## Everything the committed record requires to be in place before filing (all 15 item(s) it lists)
 
 This list is the packet set's own. Some items are yours, some belong to the district attorney, the clerk or the judge. Every one of them is reproduced here, in the record's own words and in the record's own order, so that nothing on it reaches you shortened. Where an item describes a document this packet does not contain, or names a form this track does not use, the record's words are printed unchanged and a correction is added beneath them.
