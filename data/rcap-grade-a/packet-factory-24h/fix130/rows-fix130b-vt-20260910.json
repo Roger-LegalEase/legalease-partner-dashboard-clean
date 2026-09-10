@@ -153,6 +153,370 @@
         "The three open legal inputs on this track are untouched and still open: the Sec. 7602(a)(5) CDL question, the Sec. 7602(a)(4) stipulated-expungement question, and whether question 2(d) of 200-00129 is route-determined."
       ],
       "grantsNothing": "This repair opens no route, promotes nothing, issues no PASS and sets no verdict."
+    },
+    {
+      "itemId": "vt_seal_18_to_21-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host) via this family's own entry point",
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "whatWasWrong": "Coverage was already complete -- 112 map items against 112 instruction rows, matching one for one in both directions -- and every one of the 112 disclosureLabel values was the printed caption WITH THE ACROFORM FIELD NAME APPENDED, while the participant page twice described that column as the words the form prints beside the blank. The appended numbers correspond to nothing printed: 200-00130's question-1 charge table prints rows 1., 2. and 3., and the labels read 'Description of Offense 1', '... 4' and '... 7', so a participant matching by number fills the wrong line. 200-00130 fields 26, 27, 30 and 31 each carry two widgets in two unrelated tables -- the question-3 new-charge table on page 1 and the question-5 state-agency table on page 2 -- so one identifier named two different blanks.",
+      "howItWasRepaired": "The label is now the printed caption alone -- the shape the two sibling Vermont hosts already emit, vt_exp_decriminalized-set and vt_seal_nonconviction-set -- plus, ONLY where the same printed words appear beside more than one blank on one page, a locator resolved from the source page's own geometry. Where the form prints a row number beside every one of those blanks (found by looking for a line whose whole text is 'N.' at that blank's own height and to its LEFT), the printed number is used and the label says so: 'Description of Offense — row 1 as printed on the form'. Where it prints none, the locator is the blank's position down the page: '— first row (the form prints no row numbers here)'. Never the AcroForm index. Every finished label is asserted UNIQUE within its form and page, so two blanks can no longer share an identifier. The two sentences describing the column now say what the column is. The items are also emitted in reading order -- page, then down the page, then across the row -- because the committed list came out in field-tree order with page-2 blanks between page-1 blanks.",
+      "whyTheBareSiblingShapeWasNotEnough": "The sibling hosts emit the caption with no locator at all, which leaves three consecutive rows all reading 'Description of Offense' with only the what-to-write column to tell them apart. The brief's requirement -- disambiguate by something the participant can see on the page -- is met by the printed row number where the form prints one and by position where it does not, and the sibling's bare shape is what the label falls back to when the caption is unique.",
+      "alsoRepairedInThisFamily": "The captions themselves, on 600-00228. Removing the appended field name is not a repair if the caption underneath names a different blank, so every 600-00228 caption was re-derived from the pinned bytes by matching each widget's rectangle against the printed '$______' run whose baseline falls inside it -- the form's own marker for that row's blank -- and confirmed on a 200 dpi render of the source with every widget rectangle drawn and labelled. The page-1 expenses column was disclosed ONE ROW OFF from field 50 down: the blank beside the printed word Clothing was named 'the unlabelled expense line printed left of Clothing', the blank beside Medical was named Clothing, Child Support was named Medical, Auto Loan Payment was named Child Support, Property Taxes was named Auto Loan Payment, Insurance was named Property Taxes, Other Expenses was named Insurance, and the blank beside TOTAL EXPENSES was named Other Expenses. Eight blanks on a financial affidavit signed under penalty of perjury, each named after its neighbour. Field 35 was named 'Self-Employment/Business Income' and is the blank on the italic line under Other Income, 24 points above it. The Vehicles heading extracts interleaved and had been split as 'Make, Model' and 'Year / Fair Market Value'; read by x-position the printed columns are 'Make, Model, Year' and 'Fair Market Value (FMV)'. Seventeen captions corrected, each with its what-to-write, and each corrected caption is now asserted against the pinned bytes to be printed inside its own widget's rectangle -- a check the captionAt test cannot make, because a caption is still printed at its neighbour's coordinates.",
+      "whatWasDeliberatelyNotMoved": "600-00228 fields MonthlyTotal and 41. The bottom of the page-1 income column is typographically broken in the source: four label lines and two printed '$______' runs, each run sitting 5.4 and 5.3 points below the label above it and 6.6 and 6.8 above the label below, so neither pairing is decided by the page. Nearest-baseline and the widget's own name 'MonthlyTotal' both agree with what the dictionary already records, so both are left exactly as committed and named here instead. 'Total Income in the past 12 months' may have no blank at all on this form.",
+      "sharedHostScoping": "The change is inside scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, which is the shared host for five families, and it is SCOPED BY FAMILY ID to the three this lane holds, exactly as the committed PRESERVE_SOURCE_SELECTION_PAINT set in the same file is. vt_seal_dui-set and vt_seal_misdemeanor-set are not this lane's: their labels, their captions and their bytes are unchanged, and neither was claimed, built or read. Both still carry the appended field name and the shifted 600-00228 captions, and whoever holds them adds the id to PRINTED_CAPTION_DISCLOSURE_LABELS.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run in this container after the rebuild: PASS_COMPLETE, 24/165 written. visualDefects was measured from the raster in both directions rather than read from a counter; see acceptanceMeasuredAfterRepair. Independently: 112 map items, 0 labels ending in a bare field name, 0 duplicate labels within a form and page, checked over the rebuilt production-field-map.json.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 138,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 295,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "outputByteGlyphReadingsNote": "read from reports/actual-writes.json, which derives them from the produced PDF bytes rather than from the finalizer's intent.",
+      "acceptanceMeasuredAfterRepair": {
+        "fixtureBytesDidNotMove": "This repair changes participant-instructions.md, production-field-map.json and build-findings.json only. canonical and boundary are byte-identical to the committed fixtures and so is every committed raster PNG, which is what VF25 predicted for this repair.",
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN on BOTH the delivered packet and the pinned sources, thresholded at 128. Proven before any zero from it was trusted: pinned 600-00228 page 1 measures 1611695 dark pixels with annotations and 1602354 with -hide-annotations, a 9341-pixel gap of widget /AP /N ink, which is the figure VF25 published as the check.",
+        "canonical": "p1 200-00130 p1 ADDED 32625 REMOVED 0; p2 200-00130 p2 ADDED 76050 REMOVED 0; p3 200-00132 p1 ADDED 108866 REMOVED 0; p4 200-00132 p2 ADDED 0 REMOVED 0; p5 600-00228 p1 ADDED 100500 REMOVED 0; p6 600-00228 p2 ADDED 15078 REMOVED 0.",
+        "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0.",
+        "negativeControl": "Packet page 4 is 200-00132 page 2, the court's order, a page this packet writes nothing on: darkDelivered equals darkSource exactly (434145) in both fixtures, 0 added and 0 removed. Every one of the six pages is a page this repair did not touch, and none of them lost a pixel.",
+        "borderRepairStillHolds": "REMOVED 0 on all six pages of both fixtures against the pinned sources, so the six restored source-authored /AP /N /Off appearances on 600-00228 are still drawn and nothing the court prints has been erased.",
+        "darkSourceIsTheAnnotationsOnFigure": "600-00228 page 1 reads darkSource 1611695 and page 2 reads 1236377. Those are the annotations-ON figures; an annotation-free source render would have read 1602354 and 1231064 and produced ADDED figures 9341 and 5313 too high."
+      },
+      "sourcesResolved": [
+        {
+          "sourceId": "official-form:200-00130",
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed"
+        },
+        {
+          "sourceId": "official-form:200-00132",
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+        },
+        {
+          "sourceId": "official-form:600-00228",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+        }
+      ],
+      "governance": {
+        "routedThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs, carryForwardGovernance, run against this family's committed product-wiring.json with the measured canonical 81dd74a0...",
+        "decision": "The committed binding holds acceptanceReceipt null and one acceptanceReceiptWithdrawn entry already on the record. No receipt stood, and the fixture bytes did not move in any case, so the module carried the five unauthored keys forward verbatim, withdrew nothing and authored nothing. The resulting binding is content-identical to the committed one, so product-wiring.json is left unmodified rather than rewritten with a reordered key.",
+        "verifier": "npm run rcap:verify-governance-preservation -- exit status 0: 'product-wiring records compared against HEAD: 295 · carrying governance state: 295 · withdrawn receipts on the record: 35 / EVERY_GOVERNANCE_KEY_SURVIVED / GOVERNANCE_PRESERVATION_OK · 16 checks'.",
+        "noReceiptCoversTheseBytes": "No RASTER_PASS covers canonical 81dd74a0... or boundary 7ff3cc22.... None was dispatched by this lane."
+      },
+      "grantsNothing": "This repair opens no route, promotes nothing, issues no PASS and sets no verdict.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "obligationsThisRowDoesNotDischarge": [
+        "No raster receipt. rasterState is BUILT_RASTER_PENDING and only the central workflow issues one; the fixture bytes did not move, but no receipt stands for them either.",
+        "The open legal input recorded on this track is untouched and still open."
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf"
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf"
+        }
+      ]
+    },
+    {
+      "itemId": "vt_seal_felony-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host) via this family's own entry point",
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "whatWasWrong": "Coverage was already complete -- 112 map items against 112 instruction rows, matching one for one in both directions -- and every one of the 112 disclosureLabel values was the printed caption WITH THE ACROFORM FIELD NAME APPENDED, while the participant page twice described that column as the words the form prints beside the blank. The appended numbers correspond to nothing printed: 200-00130's question-1 charge table prints rows 1., 2. and 3., and the labels read 'Description of Offense 1', '... 4' and '... 7', so a participant matching by number fills the wrong line. 200-00130 fields 26, 27, 30 and 31 each carry two widgets in two unrelated tables -- the question-3 new-charge table on page 1 and the question-5 state-agency table on page 2 -- so one identifier named two different blanks.",
+      "howItWasRepaired": "The label is now the printed caption alone -- the shape the two sibling Vermont hosts already emit, vt_exp_decriminalized-set and vt_seal_nonconviction-set -- plus, ONLY where the same printed words appear beside more than one blank on one page, a locator resolved from the source page's own geometry. Where the form prints a row number beside every one of those blanks (found by looking for a line whose whole text is 'N.' at that blank's own height and to its LEFT), the printed number is used and the label says so: 'Description of Offense — row 1 as printed on the form'. Where it prints none, the locator is the blank's position down the page: '— first row (the form prints no row numbers here)'. Never the AcroForm index. Every finished label is asserted UNIQUE within its form and page, so two blanks can no longer share an identifier. The two sentences describing the column now say what the column is. The items are also emitted in reading order -- page, then down the page, then across the row -- because the committed list came out in field-tree order with page-2 blanks between page-1 blanks.",
+      "whyTheBareSiblingShapeWasNotEnough": "The sibling hosts emit the caption with no locator at all, which leaves three consecutive rows all reading 'Description of Offense' with only the what-to-write column to tell them apart. The brief's requirement -- disambiguate by something the participant can see on the page -- is met by the printed row number where the form prints one and by position where it does not, and the sibling's bare shape is what the label falls back to when the caption is unique.",
+      "alsoRepairedInThisFamily": "The captions themselves, on 600-00228. Removing the appended field name is not a repair if the caption underneath names a different blank, so every 600-00228 caption was re-derived from the pinned bytes by matching each widget's rectangle against the printed '$______' run whose baseline falls inside it -- the form's own marker for that row's blank -- and confirmed on a 200 dpi render of the source with every widget rectangle drawn and labelled. The page-1 expenses column was disclosed ONE ROW OFF from field 50 down: the blank beside the printed word Clothing was named 'the unlabelled expense line printed left of Clothing', the blank beside Medical was named Clothing, Child Support was named Medical, Auto Loan Payment was named Child Support, Property Taxes was named Auto Loan Payment, Insurance was named Property Taxes, Other Expenses was named Insurance, and the blank beside TOTAL EXPENSES was named Other Expenses. Eight blanks on a financial affidavit signed under penalty of perjury, each named after its neighbour. Field 35 was named 'Self-Employment/Business Income' and is the blank on the italic line under Other Income, 24 points above it. The Vehicles heading extracts interleaved and had been split as 'Make, Model' and 'Year / Fair Market Value'; read by x-position the printed columns are 'Make, Model, Year' and 'Fair Market Value (FMV)'. Seventeen captions corrected, each with its what-to-write, and each corrected caption is now asserted against the pinned bytes to be printed inside its own widget's rectangle -- a check the captionAt test cannot make, because a caption is still printed at its neighbour's coordinates.",
+      "whatWasDeliberatelyNotMoved": "600-00228 fields MonthlyTotal and 41. The bottom of the page-1 income column is typographically broken in the source: four label lines and two printed '$______' runs, each run sitting 5.4 and 5.3 points below the label above it and 6.6 and 6.8 above the label below, so neither pairing is decided by the page. Nearest-baseline and the widget's own name 'MonthlyTotal' both agree with what the dictionary already records, so both are left exactly as committed and named here instead. 'Total Income in the past 12 months' may have no blank at all on this form.",
+      "sharedHostScoping": "The change is inside scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, which is the shared host for five families, and it is SCOPED BY FAMILY ID to the three this lane holds, exactly as the committed PRESERVE_SOURCE_SELECTION_PAINT set in the same file is. vt_seal_dui-set and vt_seal_misdemeanor-set are not this lane's: their labels, their captions and their bytes are unchanged, and neither was claimed, built or read. Both still carry the appended field name and the shifted 600-00228 captions, and whoever holds them adds the id to PRINTED_CAPTION_DISCLOSURE_LABELS.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run in this container after the rebuild: PASS_COMPLETE, 24/165 written. visualDefects was measured from the raster in both directions rather than read from a counter; see acceptanceMeasuredAfterRepair. Independently: 112 map items, 0 labels ending in a bare field name, 0 duplicate labels within a form and page, checked over the rebuilt production-field-map.json.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 138,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 295,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "outputByteGlyphReadingsNote": "read from reports/actual-writes.json, which derives them from the produced PDF bytes rather than from the finalizer's intent.",
+      "acceptanceMeasuredAfterRepair": {
+        "fixtureBytesDidNotMove": "This repair changes participant-instructions.md, production-field-map.json and build-findings.json only. canonical and boundary are byte-identical to the committed fixtures and so is every committed raster PNG, which is what VF25 predicted for this repair.",
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN on BOTH the delivered packet and the pinned sources, thresholded at 128. Proven before any zero from it was trusted: pinned 600-00228 page 1 measures 1611695 dark pixels with annotations and 1602354 with -hide-annotations, a 9341-pixel gap of widget /AP /N ink, which is the figure VF25 published as the check.",
+        "canonical": "p1 200-00130 p1 ADDED 32625 REMOVED 0; p2 200-00130 p2 ADDED 76050 REMOVED 0; p3 200-00132 p1 ADDED 108866 REMOVED 0; p4 200-00132 p2 ADDED 0 REMOVED 0; p5 600-00228 p1 ADDED 100500 REMOVED 0; p6 600-00228 p2 ADDED 15078 REMOVED 0.",
+        "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0.",
+        "negativeControl": "Packet page 4 is 200-00132 page 2, the court's order, a page this packet writes nothing on: darkDelivered equals darkSource exactly (434145) in both fixtures, 0 added and 0 removed. Every one of the six pages is a page this repair did not touch, and none of them lost a pixel.",
+        "borderRepairStillHolds": "REMOVED 0 on all six pages of both fixtures against the pinned sources, so the six restored source-authored /AP /N /Off appearances on 600-00228 are still drawn and nothing the court prints has been erased.",
+        "darkSourceIsTheAnnotationsOnFigure": "600-00228 page 1 reads darkSource 1611695 and page 2 reads 1236377. Those are the annotations-ON figures; an annotation-free source render would have read 1602354 and 1231064 and produced ADDED figures 9341 and 5313 too high."
+      },
+      "sourcesResolved": [
+        {
+          "sourceId": "official-form:200-00130",
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed"
+        },
+        {
+          "sourceId": "official-form:200-00132",
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+        },
+        {
+          "sourceId": "official-form:600-00228",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+        }
+      ],
+      "governance": {
+        "routedThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs, carryForwardGovernance, run against this family's committed product-wiring.json with the measured canonical 81dd74a0...",
+        "decision": "The committed binding holds acceptanceReceipt null and one acceptanceReceiptWithdrawn entry already on the record. No receipt stood, and the fixture bytes did not move in any case, so the module carried the five unauthored keys forward verbatim, withdrew nothing and authored nothing. The resulting binding is content-identical to the committed one, so product-wiring.json is left unmodified rather than rewritten with a reordered key.",
+        "verifier": "npm run rcap:verify-governance-preservation -- exit status 0: 'product-wiring records compared against HEAD: 295 · carrying governance state: 295 · withdrawn receipts on the record: 35 / EVERY_GOVERNANCE_KEY_SURVIVED / GOVERNANCE_PRESERVATION_OK · 16 checks'.",
+        "noReceiptCoversTheseBytes": "No RASTER_PASS covers canonical 81dd74a0... or boundary 7ff3cc22.... None was dispatched by this lane."
+      },
+      "grantsNothing": "This repair opens no route, promotes nothing, issues no PASS and sets no verdict.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "obligationsThisRowDoesNotDischarge": [
+        "No raster receipt. rasterState is BUILT_RASTER_PENDING and only the central workflow issues one.",
+        "legal-design-track-registry, track vt_seal_felony, releaseBlockers[0]: the Sec. 7601(4)(B)(iii) regulated-drug subsections and the Sec. 7601(5) designated felony property offences are not expanded at subsection level. Open, disclosed, untouched here."
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf"
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf"
+        }
+      ]
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host) via this family's own entry point",
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "whatWasWrong": "Coverage was already complete -- 112 map items against 112 instruction rows, matching one for one in both directions -- and every one of the 112 disclosureLabel values was the printed caption WITH THE ACROFORM FIELD NAME APPENDED, while the participant page twice described that column as the words the form prints beside the blank. The appended numbers correspond to nothing printed: 200-00130's question-1 charge table prints rows 1., 2. and 3., and the labels read 'Description of Offense 1', '... 4' and '... 7', so a participant matching by number fills the wrong line. 200-00130 fields 26, 27, 30 and 31 each carry two widgets in two unrelated tables -- the question-3 new-charge table on page 1 and the question-5 state-agency table on page 2 -- so one identifier named two different blanks.",
+      "howItWasRepaired": "The label is now the printed caption alone -- the shape the two sibling Vermont hosts already emit, vt_exp_decriminalized-set and vt_seal_nonconviction-set -- plus, ONLY where the same printed words appear beside more than one blank on one page, a locator resolved from the source page's own geometry. Where the form prints a row number beside every one of those blanks (found by looking for a line whose whole text is 'N.' at that blank's own height and to its LEFT), the printed number is used and the label says so: 'Description of Offense — row 1 as printed on the form'. Where it prints none, the locator is the blank's position down the page: '— first row (the form prints no row numbers here)'. Never the AcroForm index. Every finished label is asserted UNIQUE within its form and page, so two blanks can no longer share an identifier. The two sentences describing the column now say what the column is. The items are also emitted in reading order -- page, then down the page, then across the row -- because the committed list came out in field-tree order with page-2 blanks between page-1 blanks.",
+      "whyTheBareSiblingShapeWasNotEnough": "The sibling hosts emit the caption with no locator at all, which leaves three consecutive rows all reading 'Description of Offense' with only the what-to-write column to tell them apart. The brief's requirement -- disambiguate by something the participant can see on the page -- is met by the printed row number where the form prints one and by position where it does not, and the sibling's bare shape is what the label falls back to when the caption is unique.",
+      "alsoRepairedInThisFamily": "The captions themselves, on 600-00228. Removing the appended field name is not a repair if the caption underneath names a different blank, so every 600-00228 caption was re-derived from the pinned bytes by matching each widget's rectangle against the printed '$______' run whose baseline falls inside it -- the form's own marker for that row's blank -- and confirmed on a 200 dpi render of the source with every widget rectangle drawn and labelled. The page-1 expenses column was disclosed ONE ROW OFF from field 50 down: the blank beside the printed word Clothing was named 'the unlabelled expense line printed left of Clothing', the blank beside Medical was named Clothing, Child Support was named Medical, Auto Loan Payment was named Child Support, Property Taxes was named Auto Loan Payment, Insurance was named Property Taxes, Other Expenses was named Insurance, and the blank beside TOTAL EXPENSES was named Other Expenses. Eight blanks on a financial affidavit signed under penalty of perjury, each named after its neighbour. Field 35 was named 'Self-Employment/Business Income' and is the blank on the italic line under Other Income, 24 points above it. The Vehicles heading extracts interleaved and had been split as 'Make, Model' and 'Year / Fair Market Value'; read by x-position the printed columns are 'Make, Model, Year' and 'Fair Market Value (FMV)'. Seventeen captions corrected, each with its what-to-write, and each corrected caption is now asserted against the pinned bytes to be printed inside its own widget's rectangle -- a check the captionAt test cannot make, because a caption is still printed at its neighbour's coordinates.",
+      "whatWasDeliberatelyNotMoved": "600-00228 fields MonthlyTotal and 41. The bottom of the page-1 income column is typographically broken in the source: four label lines and two printed '$______' runs, each run sitting 5.4 and 5.3 points below the label above it and 6.6 and 6.8 above the label below, so neither pairing is decided by the page. Nearest-baseline and the widget's own name 'MonthlyTotal' both agree with what the dictionary already records, so both are left exactly as committed and named here instead. 'Total Income in the past 12 months' may have no blank at all on this form.",
+      "sharedHostScoping": "The change is inside scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, which is the shared host for five families, and it is SCOPED BY FAMILY ID to the three this lane holds, exactly as the committed PRESERVE_SOURCE_SELECTION_PAINT set in the same file is. vt_seal_dui-set and vt_seal_misdemeanor-set are not this lane's: their labels, their captions and their bytes are unchanged, and neither was claimed, built or read. Both still carry the appended field name and the shifted 600-00228 captions, and whoever holds them adds the id to PRINTED_CAPTION_DISCLOSURE_LABELS.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run in this container after the rebuild: PASS_COMPLETE, 24/165 written. visualDefects was measured from the raster in both directions rather than read from a counter; see acceptanceMeasuredAfterRepair. Independently: 112 map items, 0 labels ending in a bare field name, 0 duplicate labels within a form and page, checked over the rebuilt production-field-map.json.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 138,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00130",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00132",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 295,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "outputByteGlyphReadingsNote": "read from reports/actual-writes.json, which derives them from the produced PDF bytes rather than from the finalizer's intent.",
+      "acceptanceMeasuredAfterRepair": {
+        "fixtureBytesDidNotMove": "This repair changes participant-instructions.md, production-field-map.json and build-findings.json only. canonical and boundary are byte-identical to the committed fixtures and so is every committed raster PNG, which is what VF25 predicted for this repair.",
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN on BOTH the delivered packet and the pinned sources, thresholded at 128. Proven before any zero from it was trusted: pinned 600-00228 page 1 measures 1611695 dark pixels with annotations and 1602354 with -hide-annotations, a 9341-pixel gap of widget /AP /N ink, which is the figure VF25 published as the check.",
+        "canonical": "p1 200-00130 p1 ADDED 32625 REMOVED 0; p2 200-00130 p2 ADDED 76050 REMOVED 0; p3 200-00132 p1 ADDED 108866 REMOVED 0; p4 200-00132 p2 ADDED 0 REMOVED 0; p5 600-00228 p1 ADDED 100500 REMOVED 0; p6 600-00228 p2 ADDED 15078 REMOVED 0.",
+        "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0.",
+        "negativeControl": "Packet page 4 is 200-00132 page 2, the court's order, a page this packet writes nothing on: darkDelivered equals darkSource exactly (434145) in both fixtures, 0 added and 0 removed. Every one of the six pages is a page this repair did not touch, and none of them lost a pixel.",
+        "borderRepairStillHolds": "REMOVED 0 on all six pages of both fixtures against the pinned sources, so the six restored source-authored /AP /N /Off appearances on 600-00228 are still drawn and nothing the court prints has been erased.",
+        "darkSourceIsTheAnnotationsOnFigure": "600-00228 page 1 reads darkSource 1611695 and page 2 reads 1236377. Those are the annotations-ON figures; an annotation-free source render would have read 1602354 and 1231064 and produced ADDED figures 9341 and 5313 too high."
+      },
+      "sourcesResolved": [
+        {
+          "sourceId": "official-form:200-00130",
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed"
+        },
+        {
+          "sourceId": "official-form:200-00132",
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+        },
+        {
+          "sourceId": "official-form:600-00228",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+        }
+      ],
+      "governance": {
+        "routedThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs, carryForwardGovernance, run against this family's committed product-wiring.json with the measured canonical 81dd74a0...",
+        "decision": "The committed binding holds acceptanceReceipt null and one acceptanceReceiptWithdrawn entry already on the record. No receipt stood, and the fixture bytes did not move in any case, so the module carried the five unauthored keys forward verbatim, withdrew nothing and authored nothing. The resulting binding is content-identical to the committed one, so product-wiring.json is left unmodified rather than rewritten with a reordered key.",
+        "verifier": "npm run rcap:verify-governance-preservation -- exit status 0: 'product-wiring records compared against HEAD: 295 · carrying governance state: 295 · withdrawn receipts on the record: 35 / EVERY_GOVERNANCE_KEY_SURVIVED / GOVERNANCE_PRESERVATION_OK · 16 checks'.",
+        "noReceiptCoversTheseBytes": "No RASTER_PASS covers canonical 81dd74a0... or boundary 7ff3cc22.... None was dispatched by this lane."
+      },
+      "grantsNothing": "This repair opens no route, promotes nothing, issues no PASS and sets no verdict.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "obligationsThisRowDoesNotDischarge": [
+        "No raster receipt. rasterState is BUILT_RASTER_PENDING and only the central workflow issues one.",
+        "legal-design-track-registry, track vt_seal_pardon, releaseBlockers[0]: which waiting period applies to a pardoned misdemeanour. Open, and left exactly as it stands."
+      ],
+      "theSevenYearFigureWasNotTouched": "The registry's waitingPeriods[0] quotes seven years and the same track's releaseBlockers[0] says 'No timing is quoted on this track until it is answered.' The packet quotes the seven-year figure and discloses the conflict in the record's own words. That is a legal question and not this lane's: every line of this family's instructions mentioning the seven-year figure, the three-year clock or the waiting period is byte-identical to the committed one after this repair, and the figure is not restated anywhere in a different form.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf"
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e",
+          "pageCount": 6,
+          "pageCountMeasuredWith": "pdfinfo",
+          "unchangedByThisRepair": true,
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf"
+        }
+      ]
     }
   ]
 }

@@ -535,13 +535,16 @@ function resolveSources(familyId) {
 }
 
 /* ---- census, from the measured dictionary and the form's own widgets ------ */
-async function censusOf(source) {
+async function censusOf(source, corrections = null) {
   const spec = FORM_FIELDS[source.formNumber];
   const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
   const pages = doc.getPages();
   const pageText = pages.map((p, i) => ({
     page: i + 1,
-    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: l.text }))
+    // FIX130. `x` is kept: the row-number locator has to know whether a printed
+    // "N." sits to the LEFT of a table's widgets or is prose somewhere else on
+    // the same line. Dropping it made every such test read false.
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), x: l.x, text: l.text }))
   }));
   const rows = [];
   const unmapped = [];
@@ -558,8 +561,26 @@ async function censusOf(source) {
       // A field name may repeat on two pages and mean two different things, so
       // the dictionary key carries the page where it does.
       const key = seen.has(name) || spec.fields[`${name}@${page}`] ? `${name}@${page}` : name;
-      const entry = spec.fields[key] ?? spec.fields[name];
-      if (!entry) { unmapped.push({ field: name, page, rect: r }); continue; }
+      const dictionaryEntry = spec.fields[key] ?? spec.fields[name];
+      if (!dictionaryEntry) { unmapped.push({ field: name, page, rect: r }); continue; }
+      /*
+       * FIX130. A measured correction replaces the dictionary's caption for
+       * this widget only where one is declared, and only for a family that has
+       * opted in. `corrections` is null for every family that has not, so no
+       * unflagged family's bytes move.
+       */
+      const correction = corrections?.[key] ?? corrections?.[name] ?? null;
+      /*
+       * A correction that names a new printed caption and no label of its own
+       * DROPS the dictionary's label. Merging over it left two blanks wearing
+       * their neighbour's name -- field 50 as "the unlabelled expense line
+       * printed left of Clothing" when the words printed beside it are
+       * "Clothing", and field 53 as "Child Support (monthly expense)" when they
+       * are "Auto Loan Payment" -- which is the very defect being repaired.
+       */
+      const entry = correction
+        ? { ...dictionaryEntry, ...(correction.caption && !correction.label ? { label: undefined } : {}), ...correction }
+        : dictionaryEntry;
       seen.add(name);
       rows.push({
         name, key, type: field.constructor.name.replace("PDF", "").toLowerCase().replace("textfield", "text").replace("checkbox", "checkbox").replace("dropdown", "dropdown"),
@@ -568,6 +589,9 @@ async function censusOf(source) {
         rectBasis: "acroform_widget_rect_read_first_hand_from_pinned_binary",
         caption: entry.caption,
         captionAt: entry.captionAt,
+        captionUnextractable: entry.captionUnextractable ?? null,
+        captionInRowBand: entry.captionInRowBand === true,
+        captionCorrected: correction ? true : false,
         effectiveLabel: entry.label ?? entry.caption,
         regionHeading: entry.label ?? entry.caption,
         sectionHeading: null,
@@ -584,7 +608,31 @@ async function censusOf(source) {
   }
   // Every measured caption must still be printed where the dictionary says.
   const captionDrift = [];
+  const captionOffItsRow = [];
   for (const r of rows) {
+    /*
+     * FIX130. A caption the source encodes through a broken cmap cannot be
+     * matched against the content stream at all, so the drift check would fail
+     * it for a reason that has nothing to do with drift. It is exempted HERE,
+     * by an explicit recorded reason on the field, and nowhere else.
+     */
+    if (r.captionUnextractable) continue;
+    /*
+     * FIX130. Where a correction says the caption is printed on the widget's
+     * OWN row, that is asserted against the pinned bytes: a printed line whose
+     * baseline falls inside this widget's rectangle must carry the caption.
+     * This is the check that catches a caption sitting one row off its blank,
+     * which the captionAt check alone cannot see -- a caption is still printed
+     * at its neighbour's coordinates.
+     */
+    if (r.captionInRowBand) {
+      const flatRow = (x) => String(x).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      const inBand = (pageText.find((p) => p.page === r.page)?.lines ?? [])
+        .filter((l) => l.y >= r.rect.y && l.y <= r.rect.y + r.rect.height);
+      if (!inBand.some((l) => flatRow(l.text).includes(flatRow(r.caption)))) {
+        captionOffItsRow.push({ field: r.name, page: r.page, rect: r.rect, caption: r.caption, linesInThatBand: inBand.map((l) => l.text).slice(0, 2) });
+      }
+    }
     const at = r.captionAt;
     const lines = pageText.find((p) => p.page === at.page)?.lines ?? [];
     const near = lines.filter((l) => Math.abs(l.y - at.y) <= 2);
@@ -596,7 +644,7 @@ async function censusOf(source) {
     const found = needle.length > 0 && near.some((l) => flat(l.text).includes(needle));
     if (!found) captionDrift.push({ field: r.name, page: at.page, y: at.y, caption: r.caption, linesThere: near.map((l) => l.text).slice(0, 2) });
   }
-  return { rows, unmapped, captionDrift, pageText };
+  return { rows, unmapped, captionDrift, captionOffItsRow, pageText };
 }
 
 /*
@@ -648,6 +696,210 @@ const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
   "vt_seal_felony-set",
   "vt_seal_pardon-set"
 ]);
+
+/*
+ * FIX130. Disclosure labels that are the words the form actually prints.
+ *
+ * WHAT WAS WRONG. Every one of the 112 requiredBeforeFiling disclosureLabel
+ * values this host emitted was the printed caption WITH THE ACROFORM FIELD NAME
+ * APPENDED -- "Description of Offense 1", "Description of Offense 4",
+ * "Description of Offense 7", "Year 2", "Docket Number (If Any) 3" -- while the
+ * participant page twice told the reader that column is "the words printed
+ * beside the blank". It is not, and the appended numbers are worse than noise:
+ * 200-00130 prints its question-1 charge table with rows numbered 1., 2. and 3.,
+ * so a participant handed "Description of Offense 7" and matching by number has
+ * no row 7 to find and fills the wrong line. Worse still, 200-00130 fields 26,
+ * 27, 30 and 31 each carry TWO widgets in two unrelated tables -- the question-3
+ * new-charge table on page 1 and the question-5 state-agency table on page 2 --
+ * so one identifier named two different blanks.
+ *
+ * WHAT REPLACES IT. The printed caption, plus a locator resolved BY GEOMETRY
+ * against the source page and never by AcroForm index:
+ *
+ *   - where the form prints a row number beside the row, that printed number
+ *     ("... - row 1 as printed on the form"), found by looking for a line whose
+ *     whole text is "N." at the row's own y and to the left of its widgets;
+ *   - where the form prints no row numbers, the row's ordinal position down the
+ *     table ("... - first row (the form prints no row numbers here)"), which is
+ *     something the participant can see on the page.
+ *
+ * Every finished label is asserted UNIQUE within its form and page, so no two
+ * blanks can share an identifier again.
+ *
+ * WHY THIS IS AN OPT-IN SET AND NOT A PROPERTY OF THE HOST. This host builds
+ * five families. FIX130 holds three of them. vt_seal_dui-set and
+ * vt_seal_misdemeanor-set are not this lane's and their artifacts must not move
+ * on this lane's rebuild, so the change is scoped by family id exactly as
+ * PRESERVE_SOURCE_SELECTION_PAINT above is. The defect is the same on all five
+ * and whoever repairs those two adds its id here.
+ */
+const PRINTED_CAPTION_DISCLOSURE_LABELS = new Set([
+  "vt_seal_18_to_21-set",
+  "vt_seal_felony-set",
+  "vt_seal_pardon-set"
+]);
+
+/*
+ * FIX130. Captions this dictionary had on the wrong blank, re-read from the
+ * pinned bytes.
+ *
+ * Removing the appended field name is not a repair on its own if the caption
+ * underneath it names a different blank, so every 600-00228 caption was
+ * re-derived from the source: each widget rect was matched against the printed
+ * "$______" run whose baseline falls inside it, which is the form's own marker
+ * for that row's blank. The expenses column of page 1 came out SHIFTED BY ONE
+ * ROW from field 50 down: the box beside the printed word "Clothing" was
+ * disclosed as an unlabelled line, the box beside "Medical" as Clothing, and so
+ * on down to the box beside "Total Expenses", which was disclosed as "Other
+ * Expenses". Thirteen printed expense rows, thirteen widgets, eight of them
+ * named after their neighbour -- on a financial affidavit signed under penalty
+ * of perjury.
+ *
+ * Two more, from the same re-read:
+ *   - field 35 is the blank on the italic line under "Other Income", not the
+ *     Self-Employment/Business Income line 24 points above it. That italic run
+ *     is encoded through a broken cmap and extracts as mojibake, so its caption
+ *     cannot be matched against the content stream; it is marked
+ *     captionUnextractable and read off the rendered page instead, and the
+ *     label says which line it is rather than pretending to quote it.
+ *   - the Vehicles table heading extracts interleaved ("Vehicles Make, Model
+ *     Yea,r air MFarket Value Amount Oewd Net Value") and had been split as
+ *     "Make, Model" and "Year / Fair Market Value". Read by x-position the
+ *     printed columns are "Make, Model, Year" and "Fair Market Value (FMV)".
+ *
+ * NOT CORRECTED, and named rather than moved: MonthlyTotal and 41. The bottom
+ * of the income column is typographically broken in the source -- four label
+ * lines and two "$______" runs, each run printed midway between two labels, 5.4
+ * and 5.3 points below the label above it and 6.6 and 6.8 above the label
+ * below. Nearest-baseline and the widget's own name "MonthlyTotal" both agree
+ * with what the dictionary already says, so both are left exactly as committed.
+ * "Total Income in the past 12 months" may have no blank at all on this form.
+ *
+ * SCOPED, like the label composition above, to the three families this lane
+ * holds. vt_seal_dui-set and vt_seal_misdemeanor-set still carry the shifted
+ * captions and this lane did not move their bytes; vt_exp_decriminalized-set
+ * carries the same shift in its own separate policy table, where 600-00228
+ * discloses nothing to a participant because that route does not file it.
+ */
+const MEASURED_CAPTION_CORRECTIONS = {
+  "600-00228": {
+    35: {
+      captionUnextractable: "the italic run under Other Income is encoded through a broken cmap and extracts as mojibake, so no caption text can be matched against the content stream at this widget's coordinates",
+      label: "the italic line under Other Income: including Social Security Disability Income (“SSDI”), Disability Insurance & Social Security retirement benefits",
+      what: "any Social Security Disability Income (SSDI), Disability Insurance or Social Security retirement benefits you receive each month"
+    },
+    50: { caption: "Clothing", captionAt: { page: 1, y: 139 }, captionInRowBand: true, what: "your monthly clothing cost" },
+    51: { caption: "Medical", captionAt: { page: 1, y: 127 }, captionInRowBand: true, what: "your monthly medical cost" },
+    52: { caption: "Child Support", label: "Child Support (monthly expense)", captionAt: { page: 1, y: 115 }, captionInRowBand: true, what: "child support you pay each month, if any" },
+    53: { caption: "Auto Loan Payment", captionAt: { page: 1, y: 102 }, captionInRowBand: true, what: "your monthly car loan payment, if any" },
+    54: { caption: "Property Taxes", captionAt: { page: 1, y: 90 }, captionInRowBand: true, what: "your monthly property tax, if you pay it" },
+    55: { caption: "Insurance (health, auto, etc.)", captionAt: { page: 1, y: 78 }, captionInRowBand: true, what: "your monthly insurance cost" },
+    56: { caption: "Other Expenses", captionAt: { page: 1, y: 65 }, captionInRowBand: true, what: "any other monthly expense" },
+    57: { caption: "Total Expenses", captionAt: { page: 1, y: 53 }, captionInRowBand: true, what: "the total of your monthly expenses" },
+    74: { label: "Vehicles Make, Model, Year", what: "the make, model and year of a vehicle you own, if you own one" },
+    75: { label: "Vehicles Fair Market Value (FMV)", what: "that vehicle's fair market value" },
+    78: { label: "Vehicles Make, Model, Year", what: "a second vehicle's make, model and year, if you own one" },
+    79: { label: "Vehicles Fair Market Value (FMV)", what: "that second vehicle's fair market value" },
+    82: { label: "Vehicles Make, Model, Year", what: "a third vehicle's make, model and year, if you own one" },
+    83: { label: "Vehicles Fair Market Value (FMV)", what: "that third vehicle's fair market value" },
+    86: { label: "Vehicles Make, Model, Year", what: "a fourth vehicle's make, model and year, if you own one" },
+    87: { label: "Vehicles Fair Market Value (FMV)", what: "that fourth vehicle's fair market value" }
+  }
+};
+
+/*
+ * FIX130. The row locator, resolved by geometry against the printed page.
+ *
+ * A table on these forms is a set of widgets that share one printed heading, so
+ * a table is keyed by the coordinate that heading was read at. Inside it the
+ * ROWS are read off the widgets' own rectangles -- distinct y bands, top of the
+ * page first -- and never off the AcroForm field name, which on these forms is
+ * a bare ordinal that agrees with the printed row number nowhere.
+ *
+ * If the form prints a row number beside every band -- a line whose whole text
+ * is "N.", at that band's own height, to the left of the band's leftmost widget
+ * -- those printed numbers are used and the label says they are printed. That
+ * is true of exactly one table in this packet: the question-1 charge table on
+ * 200-00130, which prints 1., 2. and 3. Everywhere else the form prints no row
+ * numbers, and the locator is the row's position down the table, which the
+ * participant can see, with the label saying the form prints no numbers there.
+ */
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
+
+/*
+ * FIX130. The row locator, resolved by geometry against the printed page.
+ *
+ * A locator is attached only where one is NEEDED: where the same printed words
+ * appear beside more than one blank on one page of one form. Those blanks are
+ * ordered by their own rectangles, top of the page first -- never by the
+ * AcroForm field name, which on these forms is a bare ordinal that agrees with
+ * the printed row number nowhere.
+ *
+ * If the form prints a row number beside every one of them -- a line whose
+ * whole text is "N.", at that blank's own height, to the LEFT of it -- those
+ * printed numbers are used and the label says they are printed. That is true of
+ * exactly one table in this packet: the question-1 charge table on 200-00130,
+ * which prints 1., 2. and 3. Everywhere else the form prints no row numbers and
+ * the locator is the blank's position down the page, which the participant can
+ * see, with the label saying the form prints no numbers there.
+ */
+function rowLocatorsFor(census) {
+  const byLabel = new Map();
+  for (const r of census.rows) {
+    const key = `p${r.page}|${r.effectiveLabel}`;
+    byLabel.set(key, [...(byLabel.get(key) ?? []), r]);
+  }
+  const locator = new Map(); // `${name}@${page}` -> locator string
+  for (const group of byLabel.values()) {
+    if (group.length < 2) continue;
+    const ordered = [...group].sort((a, b) => b.rect.y - a.rect.y);
+    const lines = (census.pageText.find((p) => p.page === ordered[0].page)?.lines ?? []);
+    const printed = ordered.map((r) => {
+      const hit = lines.find((l) => /^\d+\.$/.test(String(l.text).trim())
+        && l.y >= r.rect.y - 2 && l.y <= r.rect.y + 8
+        && typeof l.x === "number" && l.x < r.rect.x - 4);
+      return hit ? Number(String(hit.text).trim().replace(".", "")) : null;
+    });
+    const everyOneNumbered = printed.every((n) => n !== null)
+      && printed.every((n, i) => i === 0 || n > printed[i - 1]);
+    ordered.forEach((r, i) => {
+      locator.set(`${r.name}@${r.page}`, everyOneNumbered
+        ? `row ${printed[i]} as printed on the form`
+        : `${ORDINALS[i] ?? `row ${i + 1}`} row (the form prints no row numbers here)`);
+    });
+  }
+  return locator;
+}
+
+/*
+ * FIX130. The disclosure label a participant reads: the words the form prints
+ * beside that blank, and where two blanks carry the same words, which row --
+ * never the AcroForm field name.
+ */
+function disclosureLabelsFor(censuses) {
+  const labels = new Map(); // `${form}|${name}|${page}` -> label
+  const seen = new Map();
+  for (const { source, census } of censuses) {
+    const locator = rowLocatorsFor(census);
+    for (const r of census.rows) {
+      const where = locator.get(`${r.name}@${r.page}`);
+      const label = where ? `${r.effectiveLabel} — ${where}` : r.effectiveLabel;
+      labels.set(`${source.formNumber}|${r.name}|${r.page}`, label);
+      const uniquenessKey = `${source.formNumber}|p${r.page}|${label}`;
+      seen.set(uniquenessKey, [...(seen.get(uniquenessKey) ?? []), r.name]);
+    }
+  }
+  /*
+   * Two blanks on one page of one form may not carry the same identifier. This
+   * is the failure the appended field name was papering over -- and papering
+   * over badly, since 200-00130 fields 26, 27, 30 and 31 each name two blanks.
+   */
+  const collisions = [...seen.entries()].filter(([, names]) => names.length > 1)
+    .map(([key, names]) => ({ key, widgets: names }));
+  assert.equal(collisions.length, 0,
+    `two blanks on one page would be disclosed under the same label: ${JSON.stringify(collisions.slice(0, 4))}`);
+  return labels;
+}
 
 /* ---- render one document -------------------------------------------------- */
 async function renderDocument(source, census, fixtureName, familyId) {
@@ -892,11 +1144,17 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   const outDir = `${OVERLAY_ROOT}/${familyId.replace(/_/g, "-")}--official-pdf-fill`;
   const censuses = [];
-  for (const source of resolved) censuses.push({ source, census: await censusOf(source) });
+  const printedCaptionLabels = PRINTED_CAPTION_DISCLOSURE_LABELS.has(familyId);
+  for (const source of resolved) {
+    const corrections = printedCaptionLabels ? (MEASURED_CAPTION_CORRECTIONS[source.formNumber] ?? null) : null;
+    censuses.push({ source, census: await censusOf(source, corrections) });
+  }
 
   const drift = censuses.flatMap((c) => c.census.captionDrift);
   if (process.env.VT_DUMP_DRIFT) { for (const d of drift) console.log(`${d.field}\tp${d.page} y=${d.y}\tCAPTION=${JSON.stringify(d.caption)}\tTHERE=${JSON.stringify(d.linesThere)}`); process.exit(0); }
   assert.equal(drift.length, 0, `a measured caption is no longer printed where the field map says: ${JSON.stringify(drift.slice(0, 3))}`);
+  const offRow = censuses.flatMap((c) => c.census.captionOffItsRow.map((o) => ({ form: c.source.formNumber, ...o })));
+  assert.equal(offRow.length, 0, `a caption this build discloses is not printed on its own widget's row: ${JSON.stringify(offRow.slice(0, 3))}`);
   const unmapped = censuses.flatMap((c) => c.census.unmapped.map((u) => ({ form: c.source.formNumber, ...u })));
   assert.equal(unmapped.length, 0, `${unmapped.length} widget(s) carry no measured caption: ${JSON.stringify(unmapped.slice(0, 5))}`);
 
@@ -993,7 +1251,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions });
+  const disclosureLabels = printedCaptionLabels ? disclosureLabelsFor(censuses) : null;
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions, disclosureLabels });
   return {
     familyId, status: "COMPLETED", directory: outDir,
     documents: resolved.map((r) => r.formNumber),
@@ -1070,9 +1329,44 @@ function fieldMapFor(source, census, report, config) {
   };
 }
 
-function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions }) {
-  const rbf = maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling)
-    .map((r) => ({ document: m.formNumber, field: r.field, page: r.page, printedContext: r.printedLabel, disclosureLabel: `${r.regionHeading} ${r.field}`, identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply })));
+function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions, disclosureLabels = null }) {
+  /*
+   * FIX130. `${r.regionHeading} ${r.field}` -- the printed caption with the
+   * AcroForm field name stuck on the end -- is what the participant page then
+   * described as "the words printed beside the blank". Where this family has
+   * opted in, the label is the printed caption plus a row locator resolved from
+   * the source page's own geometry; where it has not, the committed composition
+   * is left exactly as it was so that family's bytes do not move.
+   */
+  const labelOf = (formNumber, r) => (disclosureLabels
+    ? (disclosureLabels.get(`${formNumber}|${r.field}|${r.page}`) ?? r.regionHeading)
+    : `${r.regionHeading} ${r.field}`);
+  /*
+   * FIX130. Reading order. The committed list came out in AcroForm field-tree
+   * order, so a page-2 blank sat between two page-1 blanks and a participant
+   * working down it jumped back and forth across the form. Where this family
+   * has opted in the items are ordered as the pages are read -- page, then down
+   * the page, then across it -- from the widgets' own rectangles.
+   */
+  const inReadingOrder = (items) => {
+    /*
+     * The cells of one printed row do not share an exact y on these forms --
+     * they differ by up to 1.6pt -- so ordering on the raw y interleaves the
+     * columns of a row. Rows are clustered first, with the same 4pt tolerance
+     * the row locator uses, and only then read left to right.
+     */
+    const bands = [];
+    for (const r of [...items].sort((a, b) => a.page - b.page || b.rect.y - a.rect.y)) {
+      const band = bands.find((b) => b.page === r.page && Math.abs(b.y - r.rect.y) <= 4);
+      if (band) band.rows.push(r);
+      else bands.push({ page: r.page, y: r.rect.y, rows: [r] });
+    }
+    return bands.flatMap((b) => [...b.rows].sort((x, y) => x.rect.x - y.rect.x));
+  };
+  const rbf = maps.flatMap((m) => (disclosureLabels
+    ? inReadingOrder(m.canonicalRefusals.filter((r) => r.requiredBeforeFiling))
+    : m.canonicalRefusals.filter((r) => r.requiredBeforeFiling))
+    .map((r) => ({ document: m.formNumber, field: r.field, page: r.page, printedContext: r.printedLabel, disclosureLabel: labelOf(m.formNumber, r), identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply })));
 
   fs.writeFileSync(path.join(ROOT, outDir, "production-field-map.json"), `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
@@ -1172,11 +1466,21 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
       {
         finding: "200-00132 requires the State's Attorney's signature before the court will act on it.",
         consequence: "Those three fields are refused as court/prosecutor-owned and the instructions tell the participant the stipulation route needs the prosecutor's agreement."
-      }
+      },
+      ...(disclosureLabels ? [
+        {
+          finding: "Every requiredBeforeFiling label this family disclosed was the printed caption with the AcroForm field name appended, while the participant page twice said the column was the words the form prints. The appended numbers do not correspond to anything printed: 200-00130's question-1 charge table prints rows 1., 2. and 3., and the labels read 1, 4 and 7. Fields 26, 27, 30 and 31 each carry two widgets in two unrelated tables, so one identifier named two different blanks.",
+          consequence: "The label is now the printed caption alone, plus a locator resolved from the source page's geometry where the same words are printed beside more than one blank: the printed row number where the form prints one, otherwise the row's position down the page. Every finished label is asserted unique within its form and page, and the two sentences describing the column now say what it is."
+        },
+        {
+          finding: "Re-reading 600-00228 against the printed \"$______\" run inside each widget's own rectangle found the page-1 expenses column disclosed one row off from field 50 down: the blank beside the printed word Clothing was named as an unlabelled line, the blank beside Medical as Clothing, and so on to the blank beside Total Expenses, which was named Other Expenses. Field 35 was named Self-Employment/Business Income and is the blank on the italic line under Other Income, 24 points above it. The Vehicles heading extracts interleaved and had been split as \"Make, Model\" and \"Year / Fair Market Value\"; read by x-position the printed columns are \"Make, Model, Year\" and \"Fair Market Value (FMV)\".",
+          consequence: "Seventeen captions on that form are corrected and each corrected caption is now asserted against the pinned bytes to be printed on its own widget's row, which is the check the captionAt test cannot make. MonthlyTotal and 41 are NOT moved: the bottom of the income column is typographically broken in the source and both nearest-baseline and the widget's own name agree with what was already recorded."
+        }
+      ] : [])
     ]
   }, null, 2)}\n`);
 
-  fs.writeFileSync(path.join(ROOT, outDir, "participant-instructions.md"), instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions));
+  fs.writeFileSync(path.join(ROOT, outDir, "participant-instructions.md"), instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions, disclosureLabels !== null));
 
   fs.writeFileSync(path.join(ROOT, outDir, "approval-request.json"), `${JSON.stringify({
     schemaVersion: "rcap-family-approval-request/v1", familyId,
@@ -1185,14 +1489,23 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
   }, null, 2)}\n`);
 }
 
-function instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions) {
+function instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions, printedCaptionLabels = false) {
   const track = registryTrack(config);
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
   out.push(`# Filing instructions — ${config.routeName}`, "");
   out.push("This packet is prepared for **" + config.routeName + "**.", "");
-  out.push("The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words printed beside the blank.", "");
+  /*
+   * FIX130. This sentence and the numbered one below both describe the middle
+   * column of the tables at the end of this page. They were true of neither
+   * column the build actually printed, so where the labels are now the printed
+   * words plus a row locator, the sentences say that, and where they are not,
+   * they are left as committed.
+   */
+  out.push(printedCaptionLabels
+    ? "The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words the form prints beside the blank — and, where the same words are printed beside more than one blank, by which row of that table is meant."
+    : "The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words printed beside the blank.", "");
   /*
    * Where the packet goes.
    *
@@ -1305,7 +1618,9 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
     out.push("**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.", "");
   }
   out.push("## What you must do before you file", "");
-  out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
+  out.push(printedCaptionLabels
+    ? "1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank, and where those same words are printed next to more than one blank it says which row of the table is meant."
+    : "1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.");
   out.push("3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.");
   /* FIX107. Step 4 read "only if there is a fee AND you cannot pay it", with

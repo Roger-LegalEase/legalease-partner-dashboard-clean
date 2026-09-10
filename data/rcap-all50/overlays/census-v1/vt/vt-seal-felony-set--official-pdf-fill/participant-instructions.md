@@ -2,7 +2,7 @@
 
 This packet is prepared for **sealing an adult felony conviction under 13 V.S.A. § 7602**.
 
-The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words printed beside the blank.
+The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words the form prints beside the blank — and, where the same words are printed beside more than one blank, by which row of that table is meant.
 
 ## Where you file this
 
@@ -34,7 +34,7 @@ The State’s Attorney’s signature on the stipulation (200-00132) is not servi
 
 ## What you must do before you file
 
-1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
+1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank, and where those same words are printed next to more than one blank it says which row of the table is meant.
 2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.
 3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.
 4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.
@@ -63,128 +63,128 @@ And these are the exclusions the registry records for this route. If one of them
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | Unit (Superior Court unit) Unit | the Superior Court unit (county) where the case was decided |
-| 1 | Description of Offense 1 | the description of the first offence you are asking the court to seal |
-| 1 | Year 2 | the year of the first offence |
-| 1 | Docket Number (If Any) 3 | the docket number of the first offence, if it has one |
-| 1 | Description of Offense 4 | the description of a second offence from the same incident, if there is one |
-| 1 | Year 5 | the year of the second offence |
-| 1 | Docket Number (If Any) 6 | the docket number of the second offence |
-| 1 | Description of Offense 7 | the description of a third offence from the same incident, if there is one |
-| 1 | Year 8 | the year of the third offence |
-| 1 | Docket Number (If Any) 9 | the docket number of the third offence |
-| 1 | a. Date of conviction: 11 | the date you were convicted, from your docket sheet or judgment order |
-| 1 | Yes – Date of Completion: 13 | the date you completed probation, if you were on probation |
-| 1 | name of arresting law enforcement agency or department 19a | the name of the law enforcement agency that cited or arrested you, if no charge was filed |
-| 1 | Offense (new charges since) 22 | any new offence since the offence in question 1 — leave blank if there are none |
-| 1 | Date of Offense (new charges since) 23 | the date of that new offence |
-| 1 | Date of Charge (new charges since) 24 | the date that new charge was brought |
-| 1 | Date of Conviction (new charges since) 25 | the date of conviction on that new charge, if there was one |
-| 2 | 4. I believe that sealing of my criminal history is in the interests of justice because: 36 | your own statement of why sealing is in the interests of justice — this is yours to write and the platform never writes it for you |
-| 1 | Offense (new charges since) 26 | a second new offence, if there is one |
-| 2 | State Agency (other state entities to notify) 26 | the name of any other state agency the court should notify, if you know of one |
-| 1 | Date of Offense (new charges since) 27 | the date of that second new offence |
-| 2 | Address (other state entities to notify) 27 | that agency's address |
-| 1 | Date of Charge (new charges since) 28 | the date that second new charge was brought |
-| 1 | Date of Conviction (new charges since) 29 | the date of conviction on that second new charge |
-| 1 | Offense (new charges since) 30 | a third new offence, if there is one |
-| 2 | State Agency (other state entities to notify) 30 | a second agency the court should notify, if there is one |
-| 1 | Date of Offense (new charges since) 31 | the date of that third new offence |
-| 2 | Address (other state entities to notify) 31 | that second agency's address |
-| 1 | Date of Charge (new charges since) 32 | the date that third new charge was brought |
-| 1 | Date of Conviction (new charges since) 33 | the date of conviction on that third new charge |
+| 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
+| 1 | Description of Offense — row 1 as printed on the form | the description of the first offence you are asking the court to seal |
+| 1 | Year — row 1 as printed on the form | the year of the first offence |
+| 1 | Docket Number (If Any) — row 1 as printed on the form | the docket number of the first offence, if it has one |
+| 1 | Description of Offense — row 2 as printed on the form | the description of a second offence from the same incident, if there is one |
+| 1 | Year — row 2 as printed on the form | the year of the second offence |
+| 1 | Docket Number (If Any) — row 2 as printed on the form | the docket number of the second offence |
+| 1 | Description of Offense — row 3 as printed on the form | the description of a third offence from the same incident, if there is one |
+| 1 | Year — row 3 as printed on the form | the year of the third offence |
+| 1 | Docket Number (If Any) — row 3 as printed on the form | the docket number of the third offence |
+| 1 | a. Date of conviction: | the date you were convicted, from your docket sheet or judgment order |
+| 1 | Yes – Date of Completion: | the date you completed probation, if you were on probation |
+| 1 | name of arresting law enforcement agency or department | the name of the law enforcement agency that cited or arrested you, if no charge was filed |
+| 1 | Offense (new charges since) — first row (the form prints no row numbers here) | any new offence since the offence in question 1 — leave blank if there are none |
+| 1 | Date of Offense (new charges since) — first row (the form prints no row numbers here) | the date of that new offence |
+| 1 | Date of Charge (new charges since) — first row (the form prints no row numbers here) | the date that new charge was brought |
+| 1 | Date of Conviction (new charges since) — first row (the form prints no row numbers here) | the date of conviction on that new charge, if there was one |
+| 1 | Offense (new charges since) — second row (the form prints no row numbers here) | a second new offence, if there is one |
+| 1 | Date of Offense (new charges since) — second row (the form prints no row numbers here) | the date of that second new offence |
+| 1 | Date of Charge (new charges since) — second row (the form prints no row numbers here) | the date that second new charge was brought |
+| 1 | Date of Conviction (new charges since) — second row (the form prints no row numbers here) | the date of conviction on that second new charge |
+| 1 | Offense (new charges since) — third row (the form prints no row numbers here) | a third new offence, if there is one |
+| 1 | Date of Offense (new charges since) — third row (the form prints no row numbers here) | the date of that third new offence |
+| 1 | Date of Charge (new charges since) — third row (the form prints no row numbers here) | the date that third new charge was brought |
+| 1 | Date of Conviction (new charges since) — third row (the form prints no row numbers here) | the date of conviction on that third new charge |
+| 2 | 4. I believe that sealing of my criminal history is in the interests of justice because: | your own statement of why sealing is in the interests of justice — this is yours to write and the platform never writes it for you |
+| 2 | State Agency (other state entities to notify) — first row (the form prints no row numbers here) | the name of any other state agency the court should notify, if you know of one |
+| 2 | Address (other state entities to notify) — first row (the form prints no row numbers here) | that agency's address |
+| 2 | State Agency (other state entities to notify) — second row (the form prints no row numbers here) | a second agency the court should notify, if there is one |
+| 2 | Address (other state entities to notify) — second row (the form prints no row numbers here) | that second agency's address |
 
 ### 200-00132 — Stipulation to Seal Criminal History Record + Order
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | Unit (Superior Court unit) Unit | the Superior Court unit (county) where the case was decided |
-| 1 | Description of Offense 22 | the description of the first offence, exactly as on the petition |
-| 1 | Date of Offense 23 | the date of the first offence |
-| 1 | Incident Number 24 | the incident number for the first offence, if the record shows one |
-| 1 | Docket Number (if any) 25 | the docket number of the first offence, if it has one |
-| 1 | Description of Offense 26 | the description of a second offence from the same incident, if there is one |
-| 1 | Date of Offense 27 | the date of the second offence |
-| 1 | Incident Number 28 | the incident number for the second offence |
-| 1 | Docket Number (if any) 29 | the docket number of the second offence |
-| 1 | Description of Offense 30 | the description of a third offence from the same incident, if there is one |
-| 1 | Date of Offense 31 | the date of the third offence |
-| 1 | Incident Number 32 | the incident number for the third offence |
-| 1 | Docket Number (if any) 33 | the docket number of the third offence |
-| 1 | State Agency (other state entities to notify) 34 | the name of any other state agency the court should notify, if you know of one |
-| 1 | Address (other state entities to notify) 34a | that agency's address |
-| 1 | Mailing Address (third line) 34g | a third mailing-address line, only if your address needs one |
-| 1 | State Agency (other state entities to notify) 35 | a second agency the court should notify, if there is one |
-| 1 | Address (other state entities to notify) 36 | that second agency's address |
+| 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
+| 1 | Description of Offense — first row (the form prints no row numbers here) | the description of the first offence, exactly as on the petition |
+| 1 | Date of Offense — first row (the form prints no row numbers here) | the date of the first offence |
+| 1 | Incident Number — first row (the form prints no row numbers here) | the incident number for the first offence, if the record shows one |
+| 1 | Docket Number (if any) — first row (the form prints no row numbers here) | the docket number of the first offence, if it has one |
+| 1 | Description of Offense — second row (the form prints no row numbers here) | the description of a second offence from the same incident, if there is one |
+| 1 | Date of Offense — second row (the form prints no row numbers here) | the date of the second offence |
+| 1 | Incident Number — second row (the form prints no row numbers here) | the incident number for the second offence |
+| 1 | Docket Number (if any) — second row (the form prints no row numbers here) | the docket number of the second offence |
+| 1 | Description of Offense — third row (the form prints no row numbers here) | the description of a third offence from the same incident, if there is one |
+| 1 | Date of Offense — third row (the form prints no row numbers here) | the date of the third offence |
+| 1 | Incident Number — third row (the form prints no row numbers here) | the incident number for the third offence |
+| 1 | Docket Number (if any) — third row (the form prints no row numbers here) | the docket number of the third offence |
+| 1 | State Agency (other state entities to notify) — first row (the form prints no row numbers here) | the name of any other state agency the court should notify, if you know of one |
+| 1 | Address (other state entities to notify) — first row (the form prints no row numbers here) | that agency's address |
+| 1 | State Agency (other state entities to notify) — second row (the form prints no row numbers here) | a second agency the court should notify, if there is one |
+| 1 | Address (other state entities to notify) — second row (the form prints no row numbers here) | that second agency's address |
+| 1 | Mailing Address (third line) | a third mailing-address line, only if your address needs one |
 
 ### 600-00228 — Application to Waive Filing Fees and Service Costs
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | SUPERIOR COURT DIVISION Division | the Superior Court division your case is in |
-| 1 | Unit (Superior Court unit) Unit | the Superior Court unit (county) where the case was decided |
-| 1 | Mailing Address: (if different from street address) 5 | a mailing address, only if it is different from your street address |
-| 1 | Work Phone: 7 | your work phone number, if you have one |
-| 1 | Total Number Living in Household (spouse, partner & dependents) 8 | how many people live in your household, counting a spouse or partner and any dependants |
-| 1 | Employer Name 17 | your employer's name, if you are employed |
-| 1 | Employer Address 18 | your employer's address |
-| 1 | Employer Name 19 | a second employer's name, if you have one |
-| 1 | Employer Address 20 | that second employer's address |
-| 1 | Type of Assistance: 23 | the type of public assistance you receive, if you receive any |
-| 1 | Monthly Amount $ 24 | the monthly amount of that public assistance |
-| 1 | Gross Income from Wages 27 | your gross monthly income from wages |
-| 1 | Unemployment Compensation 29 | your monthly unemployment compensation, if any |
-| 1 | Child Support (income received) 31 | child support you receive each month, if any |
-| 1 | Other Income 33 | any other monthly income |
-| 1 | Self-Employment/Business Income (other than wages) 35 | your monthly self-employment or business income, if any |
-| 1 | Total Monthly Income MonthlyTotal | your total monthly income |
-| 1 | Total Income in the past 12 months 41 | your total income over the past twelve months |
-| 1 | Rent or Mortgage Payment 45 | your monthly rent or mortgage payment |
-| 1 | Electric Service 46 | your monthly electricity bill |
-| 1 | Phone (monthly expense) 47 | your monthly phone bill |
-| 1 | Fuel (heat and/or gas) 48 | your monthly fuel, heating or gas cost |
-| 1 | Food 49 | your monthly food cost |
-| 1 | the unlabelled expense line printed left of Clothing 50 | the household expense on this line of the form |
-| 1 | Clothing 51 | your monthly clothing cost |
-| 1 | Medical 52 | your monthly medical cost |
-| 1 | Child Support (monthly expense) 53 | child support you pay each month, if any |
-| 1 | Auto Loan Payment 54 | your monthly car loan payment, if any |
-| 1 | Property Taxes 55 | your monthly property tax, if you pay it |
-| 1 | Insurance (health, auto, etc.) 56 | your monthly insurance cost |
-| 1 | Other Expenses 57 | any other monthly expense |
-| 2 | Vehicles Make, Model 74 | the make and model of a vehicle you own, if you own one |
-| 2 | Vehicle Year / Fair Market Value 75 | that vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed 76 | how much you still owe on that vehicle |
-| 2 | Vehicle Net Value 77 | that vehicle's net value |
-| 2 | Vehicles Make, Model 78 | a second vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value 79 | that second vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed 80 | how much you still owe on that second vehicle |
-| 2 | Vehicle Net Value 81 | that second vehicle's net value |
-| 2 | Vehicles Make, Model 82 | a third vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value 83 | that third vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed 84 | how much you still owe on that third vehicle |
-| 2 | Vehicle Net Value 85 | that third vehicle's net value |
-| 2 | Vehicles Make, Model 86 | a fourth vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value 87 | that fourth vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed 88 | how much you still owe on that fourth vehicle |
-| 2 | Vehicle Net Value 89 | that fourth vehicle's net value |
-| 2 | Real Property Description 90 | a description of real property you own, if you own any |
-| 2 | Real Property FMV 91 | that property's fair market value |
-| 2 | Real Property Mortgage 92 | the mortgage on that property |
-| 2 | Real Property Net Value 93 | that property's net value |
-| 2 | Real Property Description 94 | a second property's description, if you own one |
-| 2 | Real Property FMV 95 | that second property's fair market value |
-| 2 | Real Property Mortgage 96 | the mortgage on that second property |
-| 2 | Real Property Net Value 97 | that second property's net value |
-| 2 | Cash on Hand 98 | how much cash you have on hand |
-| 2 | Checking Account 99 | the balance of your checking account |
-| 2 | Savings Accounts 100 | the balance of your savings accounts |
-| 2 | Total Cash Assets 101 | your total cash assets |
-| 2 | Other Assets Description 102 | a description of any other asset — tools, equipment, stocks and so on |
-| 2 | Other Assets FMV 103 | that asset's fair market value |
-| 2 | Other Assets Description 104 | a second other asset, if you have one |
-| 2 | Other Assets FMV 105 | that second asset's fair market value |
-| 2 | These are additional reasons why I cannot afford the fees: 113 | anything else you want the court to know about why you cannot afford the fees — this is yours to write |
+| 1 | SUPERIOR COURT DIVISION | the Superior Court division your case is in |
+| 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
+| 1 | Mailing Address: (if different from street address) | a mailing address, only if it is different from your street address |
+| 1 | Work Phone: | your work phone number, if you have one |
+| 1 | Total Number Living in Household (spouse, partner & dependents) | how many people live in your household, counting a spouse or partner and any dependants |
+| 1 | Employer Name — first row (the form prints no row numbers here) | your employer's name, if you are employed |
+| 1 | Employer Address — first row (the form prints no row numbers here) | your employer's address |
+| 1 | Employer Name — second row (the form prints no row numbers here) | a second employer's name, if you have one |
+| 1 | Employer Address — second row (the form prints no row numbers here) | that second employer's address |
+| 1 | Type of Assistance: | the type of public assistance you receive, if you receive any |
+| 1 | Monthly Amount $ | the monthly amount of that public assistance |
+| 1 | Gross Income from Wages | your gross monthly income from wages |
+| 1 | Rent or Mortgage Payment | your monthly rent or mortgage payment |
+| 1 | Unemployment Compensation | your monthly unemployment compensation, if any |
+| 1 | Electric Service | your monthly electricity bill |
+| 1 | Child Support (income received) | child support you receive each month, if any |
+| 1 | Phone (monthly expense) | your monthly phone bill |
+| 1 | Other Income | any other monthly income |
+| 1 | Fuel (heat and/or gas) | your monthly fuel, heating or gas cost |
+| 1 | Food | your monthly food cost |
+| 1 | the italic line under Other Income: including Social Security Disability Income (“SSDI”), Disability Insurance & Social Security retirement benefits | any Social Security Disability Income (SSDI), Disability Insurance or Social Security retirement benefits you receive each month |
+| 1 | Clothing | your monthly clothing cost |
+| 1 | Medical | your monthly medical cost |
+| 1 | Child Support (monthly expense) | child support you pay each month, if any |
+| 1 | Auto Loan Payment | your monthly car loan payment, if any |
+| 1 | Total Monthly Income | your total monthly income |
+| 1 | Property Taxes | your monthly property tax, if you pay it |
+| 1 | Total Income in the past 12 months | your total income over the past twelve months |
+| 1 | Insurance (health, auto, etc.) | your monthly insurance cost |
+| 1 | Other Expenses | any other monthly expense |
+| 1 | Total Expenses | the total of your monthly expenses |
+| 2 | Vehicles Make, Model, Year — first row (the form prints no row numbers here) | the make, model and year of a vehicle you own, if you own one |
+| 2 | Vehicles Fair Market Value (FMV) — first row (the form prints no row numbers here) | that vehicle's fair market value |
+| 2 | Vehicle Amount Owed — first row (the form prints no row numbers here) | how much you still owe on that vehicle |
+| 2 | Vehicle Net Value — first row (the form prints no row numbers here) | that vehicle's net value |
+| 2 | Vehicles Make, Model, Year — second row (the form prints no row numbers here) | a second vehicle's make, model and year, if you own one |
+| 2 | Vehicles Fair Market Value (FMV) — second row (the form prints no row numbers here) | that second vehicle's fair market value |
+| 2 | Vehicle Amount Owed — second row (the form prints no row numbers here) | how much you still owe on that second vehicle |
+| 2 | Vehicle Net Value — second row (the form prints no row numbers here) | that second vehicle's net value |
+| 2 | Vehicles Make, Model, Year — third row (the form prints no row numbers here) | a third vehicle's make, model and year, if you own one |
+| 2 | Vehicles Fair Market Value (FMV) — third row (the form prints no row numbers here) | that third vehicle's fair market value |
+| 2 | Vehicle Amount Owed — third row (the form prints no row numbers here) | how much you still owe on that third vehicle |
+| 2 | Vehicle Net Value — third row (the form prints no row numbers here) | that third vehicle's net value |
+| 2 | Vehicles Make, Model, Year — fourth row (the form prints no row numbers here) | a fourth vehicle's make, model and year, if you own one |
+| 2 | Vehicles Fair Market Value (FMV) — fourth row (the form prints no row numbers here) | that fourth vehicle's fair market value |
+| 2 | Vehicle Amount Owed — fourth row (the form prints no row numbers here) | how much you still owe on that fourth vehicle |
+| 2 | Vehicle Net Value — fourth row (the form prints no row numbers here) | that fourth vehicle's net value |
+| 2 | Real Property Description — first row (the form prints no row numbers here) | a description of real property you own, if you own any |
+| 2 | Real Property FMV — first row (the form prints no row numbers here) | that property's fair market value |
+| 2 | Real Property Mortgage — first row (the form prints no row numbers here) | the mortgage on that property |
+| 2 | Real Property Net Value — first row (the form prints no row numbers here) | that property's net value |
+| 2 | Real Property Description — second row (the form prints no row numbers here) | a second property's description, if you own one |
+| 2 | Real Property FMV — second row (the form prints no row numbers here) | that second property's fair market value |
+| 2 | Real Property Mortgage — second row (the form prints no row numbers here) | the mortgage on that second property |
+| 2 | Real Property Net Value — second row (the form prints no row numbers here) | that second property's net value |
+| 2 | Cash on Hand | how much cash you have on hand |
+| 2 | Checking Account | the balance of your checking account |
+| 2 | Savings Accounts | the balance of your savings accounts |
+| 2 | Total Cash Assets | your total cash assets |
+| 2 | Other Assets Description — first row (the form prints no row numbers here) | a description of any other asset — tools, equipment, stocks and so on |
+| 2 | Other Assets FMV — first row (the form prints no row numbers here) | that asset's fair market value |
+| 2 | Other Assets Description — second row (the form prints no row numbers here) | a second other asset, if you have one |
+| 2 | Other Assets FMV — second row (the form prints no row numbers here) | that second asset's fair market value |
+| 2 | These are additional reasons why I cannot afford the fees: | anything else you want the court to know about why you cannot afford the fees — this is yours to write |
 
 ## Things the platform deliberately left blank
 
