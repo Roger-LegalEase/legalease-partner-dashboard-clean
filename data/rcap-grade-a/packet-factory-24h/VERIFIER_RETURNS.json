@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 150,
-    "rows": 1129,
+    "rows": 1134,
     "independentVerdicts": 291,
-    "failRepairRequired": 74,
-    "passIndependent": 195
+    "failRepairRequired": 73,
+    "passIndependent": 196
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -112,7 +112,6 @@
     "vt_seal_dui-set",
     "vt_seal_felony-set",
     "vt_seal_misdemeanor-set",
-    "vt_seal_nonconviction-set",
     "vt_seal_pardon-set",
     "wv_acc_treatment_job_readiness-set"
   ],
@@ -30305,6 +30304,29 @@
     {
       "familyId": "vt_exp_decriminalized-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The packet writes eight participant-identity values onto 600-00228 -- packet page 5: case number '123-4-21 Cncr' at the Docket Number widget, 'Jordan Avery Reyes' at Case Name and at field 3 'Name: (First & Last)', '42 Maple Street' at field 2 Street Address, 'Burlington, VT 05401' at field 4 City/State/Zip, 'jordan.reyes@example.org' at field 5a Email Address, '802-555-0142' at field 6 Home/Cell Phone; and packet page 6: 'Jordan Avery Reyes' at field 117, the Printed Name line of Section 5 'Signatures and Declaration', beneath 'I declare that the above statement is true and accurate ... I will be subject to the penalty of perjury'. All eight were read out of the delivered bytes and confirmed on the rendered page. Three committed records say that must not happen. (1) The packet's own bound instruction page, packet page 7, prints 'No fee is charged on this track, so do not complete or file the fee-waiver form for this petition', and participant-instructions.md prints 'do not complete or file 600-00228 for this petition'. (2) production-field-map.json refuses the OTHER 66 fields of the same form with the recorded reason 'no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route' -- while the same map's canonicalWrites populates eight of that form's fields with participant data on that route. (3) The sibling family vt_seal_nonconviction-set delivers the identical source form on the identical no-fee reasoning and records the opposite, deliberate treatment in reports/rendered-artifacts.json: 'nothingIsWrittenOnIt': true, 'It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file.' The prefills onto the petition and the stipulation are correct and are not part of this failure: all sixteen of those land at their mapped rects with the right values in both fixtures.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf31",
       "isIndependentVerification": true,
       "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
@@ -30378,7 +30400,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
@@ -30695,6 +30717,29 @@
     {
       "familyId": "vt_seal_18_to_21-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -30704,7 +30749,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_dui-set",
@@ -31264,6 +31309,29 @@
     {
       "familyId": "vt_seal_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -31273,7 +31341,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -31687,6 +31755,20 @@
     },
     {
       "familyId": "vt_seal_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c91299d7b8698d372f7b468bc46c89de57ad39bc",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf31",
       "isIndependentVerification": true,
@@ -31775,7 +31857,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_pardon-set",
@@ -32134,6 +32216,29 @@
     {
       "familyId": "vt_seal_pardon-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -32143,7 +32248,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_under_25-set",
