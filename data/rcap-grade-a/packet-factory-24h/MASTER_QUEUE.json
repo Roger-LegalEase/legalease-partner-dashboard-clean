@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "570a0b47519d0eb0d741eff132b5066bb38646fc",
+  "minimumCaptainSha": "d13b66d076e40706ff3a0143ab7b70210443a381",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 337,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 39,
+    "repairRequired": 35,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,9 +81,9 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 45,
+    "FAIL_REPAIR_REQUIRED": 44,
     "SOURCE_READY": 33,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 3,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -114,6 +114,9 @@
       "al-pardoned-felony-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
+      "mn_petition_15218-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
       "ri_decriminalized-set",
       "vt_exp_decriminalized-set"
     ],
@@ -27292,8 +27295,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX176",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27304,7 +27307,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "mn_petition_609a02_subd3-set",
@@ -34123,8 +34127,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX175",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -34135,7 +34139,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_ordinance-set",
@@ -34210,9 +34215,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf11",
-        "verifiedAtBase": "df524f2fd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+        "lane": "vf62",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired",
@@ -34249,21 +34254,28 @@
         "knownRequiredFieldsMissing"
       ],
       "failedObligationNames": [
-        "ROUTE_OPTIONS"
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "FAIL, and this is the question FIX105 expressly left to the independent re-read. The family's own field map declares exactly one route selection, `guilty`, as decision \"measured_route_selection\" — the packet's own record that this election is determined by the route and made by the build. After the repair that election is unmarked on BOTH fixtures: selections is empty in actual-writes.json for canonical and boundary alike, the 300 dpi crop shows an empty box beside 'd.' above nine empty cells, and the rect carries +0 added ink against the pinned blank form. The consequence is visible in the bytes: the delivered canonical of this family is byte-identical to the delivered canonicals of the other two conviction families (03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f), and a text diff of the whole delivered document against the pinned blank kit shows the only thing this petition adds is the participant's name, address, city, state, zip, telephone and date of birth. Nothing on the delivered petition states which statutory route it is. The contract is explicit that this is a defect and not a disclosure question: ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION, \"An election the route determines, left for the participant. A petition built for one statutory route must state which route it is.\" Disclosing the withdrawal in the guide and asking the participant to write it in by hand is precisely leaving it for the participant. This is distinguishable from nj_arrest_no_conviction-set, where the same rule fires only on the deliberately broken boundary fixture and the canonical still states the route; here six of the paragraph's nine cells have no held fact by construction, so no fixture this family can ever build will state its route. requiredOptionsMissing reads 0 because readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank — the counter is structurally blind to it, which is why it was measured on the pages instead. The remedy is not proposed here; this lane measures and does not repair.",
-          "findingReadFrom": "finding",
-          "evidence": "production-field-map.json field `guilty`, decision \"measured_route_selection\"; reports/actual-writes.json selections [] on BOTH fixtures; 300 dpi renders of delivered page 19 on both fixtures, looked at; added-ink measurement in the widget rect (x 34.971, y 591.363, 18x18 pt; rows 761:836, cols 146:221 at 300 dpi) = +0 against the pinned blank form on both fixtures; pdftotext -layout of the whole delivered canonical diffed against the pinned source; sha256 of the three conviction families' canonical fixtures; completeness-contract.mjs BLANK_DISPOSITIONS.ROUTE_OPTION_NOT_SELECTED."
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX175",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -34274,7 +34286,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nm_conviction-set",
@@ -35825,14 +35838,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf58",
-        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf62",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35861,20 +35872,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL, and this lane differs from VF53 on this obligation with new evidence VF53 did not have. Six fields are declared candidate_write in production-field-map.json and all six were read back out of the delivered canonical bytes with pdftotext: applicantName 'JORDAN AVERY REYES', applicantMailingAddress '118 Maple Street, Columbus, Ohio 43215', docketNumber '24-CR-001234', chargeDescription, disposition and eligibilityBasisStatement. None is missing and none is truncated. WHAT FAILS IS WHAT THREE OF THOSE SIX SAY. The delivered canonical prints, as numbered paragraphs of a document the applicant signs under a verification block: '5. Applicant was charged with Possession offense shown on the certified disposition by [ARRESTING AGENCY MUST BE CONFIRMED].' '7. The matter was resolved with the following disposition: Disposition shown on the certified disposition.' '8. Applicant may be eligible for expungement on the following basis: Eligibility is not certified by this artifact; source review and local-court confirmation are required.' Each puts a POINTER, or this build's own disclaimer, in the grammatical slot where the fact belongs, and NONE of the three carries the bracketed capitalised marking that makes every other unresolved item on the same page self-evidently untransferable - the page marks the caption, the arrest date, the disposition date and the arresting agency that way, and marks these three not at all. The instruction the packet gives the participant is to transfer reviewed content onto the court's own application. A participant following it transcribes 'Possession offense shown on the certified disposition' as their charge and 'Eligibility is not certified by this artifact' as their statutory eligibility basis, and 'this artifact' is this platform's word, not a word any Ohio court filing should carry. ON THE BOUNDARY FIXTURE IT IS PLAINER STILL: paragraph 8 reads 'Applicant may be eligible for expungement on the following basis: Boundary fixture only; eligibility, remedy, statutory version, timing, and local practice all require source-backed review.' The delivered pleading prints the words 'Boundary fixture only' inside a numbered eligibility allegation. THE REPOSITORY ALREADY CALLS THIS A DEFECT AND ALREADY FIXED IT ELSEWHERE. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, fixtureForOhioTrack(), carries the repair under the heading 'KNOWN_PREFILLS repair. Paragraphs 5, 7 and 8 printed a POINTER in the grammatical slot where the FACT belongs -- \"Possession offense shown on the certified disposition\", \"Disposition shown on the certified disposition\", and, worst, this build's own non-certification sentence inside the pleading's eligibility allegation ... They are now marked exactly the way every other unresolved item on this paper is marked.' It names these three paragraphs and these exact strings. IT IS GUARDED ON `OH_CLEAN_TRACK_ROUTE_RULES[trackId]`, AND THIS TRACK IS NOT IN THAT TABLE. The code says why in terms: this track's route rules were 'Kept in its OWN table rather than added to OH_CLEAN_TRACK_ROUTE_RULES above ... Membership of that table is ALSO the switch that fixtureForOhioTrack reads to rewrite a track's charge, disposition and eligibility strings, and rewriting them here would move this family's pleading bytes and void its raster receipt for a defect no verifier measured on it.' A verifier has now measured it on this family. VF53 saw paragraph 8 and read it as 'a refusal printed as a value rather than an asserted eligibility', which is a fair reading of the sentence in isolation; what it did not weigh is that the same build treats the identical construction as a defect everywhere else, and that the three sentences are unmarked while everything else unresolved on the page is bracketed.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
@@ -40323,9 +40325,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "lane": "vf62",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -40366,98 +40368,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "ROUTE_IDENTITY",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "The family's own records disagree about which routes it serves. source-receipt.json and product-wiring.json routeKeys name ONE route, obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal. product-wiring.json binding.routeKeys names TWO, adding :ri-nonconviction-verify-automatic-sealing, and lists two instrumentKinds including 'no filing - process guidance'. The committed census assigns BOTH routes to packetSetId ri_nonconviction_sealing-set. A packet cannot be for one route in its receipt and two in its binding.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "receiptRouteKeys": 1,
-            "wiringTopLevelRouteKeys": 1,
-            "wiringBindingRouteKeys": 2,
-            "censusRoutesOnThisPacketSet": 2
-          }
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The second route this family's binding names, :ri-nonconviction-verify-automatic-sealing, has currentOutputStrategy process_guidance in the committed census and is assigned to this same packet set. The packet contains no guidance component: componentSet is the single DC-33 primary filing, and the fixtures are two DC-33 renders and nothing else. A participant routed to the verify-automatic branch receives nothing. Compare PA and DE in this same lane, which each render the process_guidance page their guidance branch names.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "boundRoutes": 2,
-            "componentsRendered": 1,
-            "guidanceComponentsRendered": 0,
-            "missing": "process_guidance for ri-nonconviction-verify-automatic-sealing"
-          }
-        },
-        {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "Three facts the platform demonstrably holds - it writes all three on canonical with exactValueObserved true - are absent from the boundary bytes, and two of the three refusal reasons are contradicted by that same canonical render. '2 Charges 1' is refused as no_allowlisted_fact_matches although canonical writes it from matter.charge. 'Case Number_2' is refused as repeating_row_without_indexed_fact in category charge_row although it is a caption case number on page 3 that canonical writes from matter.case_number, and although the sibling field 'Case Number' on the same fixture takes a completely different reason. Only 'Case Number' carries a reason (value_exceeds_widget_width_at_minimum_font) that is coherent. Word-bbox extraction from the bytes confirms 15 added words on canonical against 12 on boundary.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "canonicalWrites": 7,
-            "boundaryWrites": 4,
-            "droppedOnBoundary": [
-              {
-                "field": "Case Number",
-                "reason": "value_exceeds_widget_width_at_minimum_font",
-                "coherent": true
-              },
-              {
-                "field": "2 Charges 1",
-                "reason": "no_allowlisted_fact_matches",
-                "contradictedBy": "canonical writes this field from matter.charge"
-              },
-              {
-                "field": "Case Number_2",
-                "reason": "repeating_row_without_indexed_fact / charge_row",
-                "contradictedBy": "canonical writes this caption field from matter.case_number"
-              }
-            ],
-            "addedWordsCanonical": 15,
-            "addedWordsBoundary": 12
-          }
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "Row 1 of the DC-33 charge table is filed with a written cell beside two required cells left blank. Canonical writes '2 Charges 1' = 'Possession of a controlled substance' while '1 Counts 1' and '3 Dispositions 1' are refused as classified_unwritable_by_role. A count and a disposition on the participant's own charge table are not court, prosecutor, clerk or notary fields; the role class does not apply to them, and using it is what let the row pass. This is the CR-180 defect the completeness contract exists to catch, arriving through a wrong refusal class. The incompleteRows counter reads 0 because rowKeyOf recognises a row only from an Item/Row/Line token or a label matching 'row N', 'count N' or 'N. ', and this form's names are '1 Counts 1', '2 Charges 1', '3 Dispositions 1', which match none of them, so all three cells key to null and the row is never assembled.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "row": 1,
-            "written": [
-              "2 Charges 1"
-            ],
-            "blankRequired": [
-              "1 Counts 1",
-              "3 Dispositions 1"
-            ],
-            "refusalClassUsed": "classified_unwritable_by_role",
-            "whyTheCounterMissedIt": "rowKeyOf returns null for these field names, so the three cells are never grouped into a row"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet never states who must be served or how. The only two sentences touching service are instructions to the participant to do the work themselves: 'Complete service certificates only after service actually occurs' and 'Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing.' Neither names a recipient and neither names a method. The census destination for this route names the Attorney General's BCI unit and the arresting agency as record holders, and DC-33 itself carries a certification block reciting G.L. 1956 12-1-12.1(b)(1), so there is something to state. Every other family in this lane that has a service step states the recipient and the method or says in terms that the record establishes neither.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "recipientNamed": false,
-            "methodNamed": false,
-            "deferredToParticipant": true
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet contains no statement of where self-help ends. Case-insensitive search of participant-instructions.md returns zero matches for 'lawyer', 'attorney licensed', 'self-help', 'stop and get' and 'not legal advice'. The header's 'These files are deterministic review fixtures... They are not approved filing packets' is a build-status disclaimer addressed to a reviewer, not a boundary told to a participant. Every other family in this lane states the boundary and names where to go past it.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "matchesForLawyerOrSelfHelpOrStop": 0
-          }
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,

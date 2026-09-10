@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 192,
-    "rows": 1245,
+    "returnDirectories": 193,
+    "rows": 1248,
     "independentVerdicts": 292,
-    "failRepairRequired": 48,
-    "passIndependent": 222
+    "failRepairRequired": 47,
+    "passIndependent": 223
   },
   "failRepairRequiredFamilies": [
     "al-felony-nonconviction-90-set",
@@ -72,7 +72,6 @@
     "nm_conviction-set",
     "nm_identity_theft-set",
     "nm_release_without_conviction-set",
-    "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-in-custom-pleading",
     "ri_decriminalized-set",
@@ -20044,6 +20043,36 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
       "superseded": false
     },
     {
@@ -21642,6 +21671,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
       "superseded": false
@@ -27738,7 +27781,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_nonconviction_sealing-set",
@@ -27767,6 +27810,29 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
       "superseded": true
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
+      "superseded": false
     },
     {
       "familyId": "sc_17_22_950_summary-set",
