@@ -1,0 +1,798 @@
+{
+ "schemaVersion": "rcap-verifier-lane-rows/v1",
+ "lane": "VF36",
+ "laneKind": "independent-verification",
+ "generatedBy": "VF36 independent read of the three Indiana conviction families after FIX04's guidance-vocabulary repair, at base afa138ac2a18d3959880d602032a02da34070cb4 in /home/user/vfa-worktree on branch lane-vfa-20260910. FIX04 built the repair at 824850cd3 and may not verify it; this lane wrote none of these bytes, ran no builder, and repaired nothing.",
+ "supersedes": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json, measured at b63a1f7a9 on pre-repair guidance bytes. The six FILED fixtures are byte-identical between the two reads; the six guidance PDFs and the two instruction files per family are not.",
+ "vocabulary": [
+  "PASS",
+  "FAIL",
+  "NOT_MEASURABLE_HERE",
+  "BLOCKED_LEGAL_INPUT"
+ ],
+ "verdictVocabulary": [
+  "PASS_COMPLETE_INDEPENDENT",
+  "FAIL_REPAIR_REQUIRED",
+  "BLOCKED_SOURCE",
+  "BLOCKED_LEGAL_INPUT"
+ ],
+ "custodyBoundary": "private/ and node_modules are present as symlinks into /home/user/legalease-partner-dashboard-clean, excluded through the repository's own info/exclude. Both links were left in place and nothing under private/ was written. SOURCE_IDENTITY is therefore measurable and is fully measured this round: all three CCA conviction inserts (7008, 7009, 7010) and the shared 15-page bundle were independently re-hashed, closing the one digest limb the previous read carried from the receipt rather than computing.",
+ "renderMethod": {
+  "tool": "pdftoppm (poppler 24.02.0), -gray, PNG",
+  "resolution": "150 dpi",
+  "greyThreshold": "a pixel counts as dark at grey value < 128 (0=black, 255=white)",
+  "annotations": "ON. pdftoppm draws annotations by default; the no-annotation control was produced with -hide-annotations.",
+  "scopeOfEveryCountBelow": "Unless a count says otherwise it is over ALL 7 pages of the named delivered guidance PDF, or ALL 10 pages of the named delivered filed PDF, for BOTH the canonical and the boundary fixture. No count in this file is taken from the first N lines of anything; the previous session produced a wrong spread figure exactly that way.",
+  "textExtractionCrossCheck": "pdftotext and pdftotext -layout were used to enumerate candidate strings, but every finding reported here was then confirmed by reading a 150 dpi raster of the page it sits on. Pages read as images this round: guidance canonical pages 1, 2 and 4 (d6) and filed boundary page 1 (d6). On those pages the rendered text and the extracted text agreed word for word.",
+  "whyRenderAndNotTextAlone": "The previous read missed this defect class because the markdown source wraps internal identifiers in backticks and the renderer drops the backticks, so a token that looks like inert code in the source prints as bare participant-facing prose on the page."
+ },
+ "renderProofThatWidgetInkIsDrawn": {
+  "claim": "This lane's render draws /AP /N appearance-stream ink, so a zero counted off it is a real zero and not a renderer that declines to draw annotations.",
+  "provenPerPixel": true,
+  "probe": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf, page 4, 150 dpi, grey threshold 128, 1275x1650 px",
+  "darkWithoutAnnotations": 95522,
+  "darkWithAnnotations": 95895,
+  "aggregateDelta": 373,
+  "pixelsDarkOnlyWithAnnotations": 3650,
+  "pixelsDarkOnlyWithoutAnnotations": 3277,
+  "totalPixelsChanged": 6927,
+  "independentlyReproducesFix04": "Yes, to the pixel: FIX04 reported 3,650 dark-only-with-annotations on this same page and this lane measured 3,650 without having seen its script.",
+  "theMethodWarningIsCorrectAndThisLaneHonoursIt": "The aggregate delta is 373 while the true per-pixel differential is 3,650, because widget ink also COVERS 3,277 pixels that were dark without it. A lane proving its renderer on aggregate dark-pixel totals would understate the annotation ink by a factor of ten and could conclude it draws no annotations when it does. Every zero in this file is therefore backed by this per-pixel proof, not by a total.",
+  "widgetInkOnTheGuidancePdfsSpecifically": "All six delivered guidance PDFs carry /Annots on each of their 7 pages but 0 /Widget and 0 /AcroForm, so there is no widget ink to miss there. That is stated as a measurement of those files, not as a property of the renderer; the renderer's ability to draw such ink is proven separately above."
+ },
+ "headlineForTheCaptain": "FIX04's repair is real and is confirmed: all six of the classes it named now count 0 across both halves of all six delivered guidance PDFs, and the opening block reads to the participant as FIX04 reported. All three families nonetheless remain FAIL_REPAIR_REQUIRED on ARTIFACTS, because the same defect - internal factory vocabulary printed to the participant - survives at a SEVENTH print site FIX04 did not count and this lane did not count last round: bracketed snake_case category enums and an (impact: ...; affects: ...) triage pair, carrying build-team directives addressed to the product organisation, on page 4 and page 6 of every delivered guidance PDF. It is pre-existing and byte-identical before and after the repair. Separately, d6 alone now also fails KNOWN_PREFILLS: the earlier repair of the cross-family cause-number collision changed six digits and left the case-type token, so the d6 boundary petition still states a Class D felony under I.C. 35-38-9-3 beside a cause number whose case-type segment this repository binds to Class B. That is a repair that satisfied a counter without satisfying the finding, and this lane passed it last round.",
+ "whatThisLaneDidNotDo": "Built nothing, repaired nothing, ran no builder script, edited no packet byte, edited no central or shared record, entered no other worktree, released no claim, created no subagent, pushed to no branch but its own.",
+ "grantsNothing": "Independent verification approves no output, promotes no route, opens no commercial path and adopts no legal position.",
+ "rows": [
+  {
+   "itemId": "in_conviction_d6-set",
+   "lane": "VF36",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verdictRule": "PASS_COMPLETE_INDEPENDENT requires all 15 obligations PASS and is refused outright if any obligation is NOT_MEASURABLE_HERE. 2 obligation(s) are FAIL and 0 are NOT_MEASURABLE_HERE, so the verdict is FAIL_REPAIR_REQUIRED.",
+   "whyThisVerdict": "ARTIFACTS and KNOWN_PREFILLS fail. 0 obligations are NOT_MEASURABLE_HERE this round: the corpus is present and SOURCE_IDENTITY was fully measured, including the two source binaries the previous read carried from a receipt.",
+   "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+   "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910, with a clean working tree at the time of measurement",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading",
+   "theRepairThisReads": {
+    "commit": "824850cd31f12a2986d2a4c83ad0eed1f1f7776b",
+    "builtBy": "FIX04",
+    "separationOfDuty": "FIX04 built this repair and may not approve it. VF36 wrote none of these bytes, ran no builder and repaired nothing.",
+    "whatItChangedInThisFamily": "filing-instructions.md, participant-instructions.md, both participant-guidance PDFs, packet-set-manifest.json, reports/rendered-artifacts.json, reports/record-bindings.json and source-receipt.json. It changed no filed byte."
+   },
+   "claimStatus": "CLAIM_OK VF36 in_conviction_d6-set (independent-verification, grant set c3cdf012fa06a452), asserted through scripts/grade-a-packet-factory-24h/claim.mjs from an explicit cd into /home/user/vfa-worktree. No WRONG_CHECKOUT. Ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json, 975 claims, generatedAtCommit 3bb6f1a2afa0aa4f4f521c4f2371f1711a6c8a5b. Not released.",
+   "digestsIMeasuredMyself": {
+    "method": "sha256 computed by this lane over the committed files in /home/user/vfa-worktree at afa138ac2a18d3959880d602032a02da34070cb4; byte lengths by stat; page counts by pdfinfo. Every identifier below came from a tool, none from a manifest.",
+    "deliveredFixtures": {
+     "canonical": {
+      "sha256": "9fc3c5e61d934f5be61ecbdf47e7e4a2dde73aa25b02cf831970d2110127bf75",
+      "byteLength": 1727000,
+      "pageCount": 10
+     },
+     "boundary": {
+      "sha256": "9fa61561ed2e6b5e72b046951bbf43160ed7eac638ec78670660d8aae1e4c109",
+      "byteLength": 1727523,
+      "pageCount": 10
+     },
+     "participant-guidance-canonical": {
+      "sha256": "70a371ef737885396e7402d32aec29c73e7d9256e90a4931fc0a1ab0895366d0",
+      "byteLength": 21787,
+      "pageCount": 7
+     },
+     "participant-guidance-boundary": {
+      "sha256": "26c472620cbcd03c8e189c9d24f2a39a3f9aa071021a76ad56775d1a68dbc570",
+      "byteLength": 21826,
+      "pageCount": 7
+     }
+    },
+    "sourceBinaries": [
+     {
+      "role": "conviction insert for this section, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
+      "sha256RecomputedByThisLane": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+      "byteLength": 2620327,
+      "pagesConfirmedByPdfinfo": 3,
+      "agreesWithSourceReceipt": true
+     },
+     {
+      "role": "15-page Coalition for Court Access bundle supplying the appearance form, Form ACR and the Confidential Information Form, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sha256RecomputedByThisLane": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "byteLength": 2946894,
+      "pagesConfirmedByPdfinfo": 15,
+      "agreesWithSourceReceipt": true
+     }
+    ],
+    "agreesWith": "packet-set-manifest.json, reports/rendered-artifacts.json and source-receipt.json on every digest and page count recomputed"
+   },
+   "retainedPageIntegrity": {
+    "areTheFiledPagesGenuinelyUnmoved": true,
+    "howProven": "Byte-identity, which is stronger than an appearance comparison: canonical.pdf is 9fc3c5e61d934f5be61ecbdf47e7e4a2dde73aa25b02cf831970d2110127bf75 at 1727000 bytes and boundary.pdf is 9fa61561ed2e6b5e72b046951bbf43160ed7eac638ec78670660d8aae1e4c109 at 1727523 bytes, and both match, digest and length, what this lane measured itself at b63a1f7a9 before the repair. A byte-identical PDF renders identically by construction.",
+    "consequenceForTheRasterTheseFamiliesOwe": "The fresh raster these families owe does NOT need to re-cover the ten filed pages: they are the same bytes this lane already rastered and read, so a new raster of them would reproduce the earlier one exactly. What the raster owes is the SEVEN pages of each of the two guidance fixtures, which are new bytes nobody has rastered under acceptance. That is 14 pages per family, 42 across the three, and none of the 30 filed pages.",
+    "corroboration": "git diff --stat 824850cd3^..824850cd3 lists no filed fixture. Over the wider range b63a1f7a9..HEAD the only additional file to move in this directory is product-wiring.json, and that is this lane's own prior verification bookkeeping at 027a83e55, not a build output."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 10
+   },
+   "noCounterIsADefault": "All nine are measured. None is a null this round and none is a 0 standing in for something unmeasured. knownRequiredFieldsMissing, requiredFactsNotCollected and unclassifiedBlanks: every blank on the two composed documents is enumerated in the packet's own blank list and classified, and the 6-row supply table and 15-item obtain/confirm list account for each. incompleteRows 0: the 6 supply rows all carry three populated cells - their LAYOUT fails, which is a visual defect, not an incomplete row. requiredOptionsMissing 0: one route, no elective branch. requiredComponentsMissing 0: six of six declared components delivered across ten pages. invisibleWrites 0: the delivered guidance text was diffed word-by-word against participant-instructions.md plus filing-instructions.md at 0.997+ similarity, and every difference is accounted for - the dropped markdown table rule and the transliteration of the section sign - so no content is written that the source does not carry and none is silently dropped. protectedWrites 0: proven by reading the protected lines on a 150 dpi raster with annotations drawn, not by a builder's report.",
+   "visualDefects": {
+    "count": 10,
+    "reDerivedNotAdjusted": "This is a fresh derivation, not last round's 6 with an adjustment. Last round's 6 were the six classes of the opening-block leak; all six are now repaired and would count 0. The count below is what a rasterer reading the delivered artifact would flag today.",
+    "resolution": "150 dpi",
+    "greyThreshold": 128,
+    "annotations": "drawn",
+    "scope": "all 7 pages of both delivered guidance fixtures and all 10 pages of both delivered filed fixtures",
+    "items": [
+     {
+      "id": "V1",
+      "where": "guidance page 4, both fixtures",
+      "what": "Bracketed internal category enums prefix every bullet under 'What the committed record requires this packet to say': [packet_instruction], [scope_restriction], [participant_question].",
+      "instances": 6
+     },
+     {
+      "id": "V2",
+      "where": "guidance page 6, both fixtures",
+      "what": "Internal triage vocabulary printed in parentheses: '(impact: release_blocker; affects: filing_process)' and siblings.",
+      "instances": 2
+     },
+     {
+      "id": "V3",
+      "where": "guidance page 4, both fixtures",
+      "what": "Build-team directives printed to the participant as guidance - build an optimiser before the petition generator, route to a legal-review gate, verify before the evaluator uses them, a delivery gate not a generation blocker."
+     },
+     {
+      "id": "V4",
+      "where": "guidance page 4, both fixtures",
+      "what": "The reader is referred to in the third person inside a document addressed to that reader: 'where the participant has any conviction not yet eligible... before letting them proceed'."
+     },
+     {
+      "id": "V5",
+      "where": "guidance pages 4 and 6, both fixtures",
+      "what": "Build-record framing in participant-facing headings: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing'."
+     },
+     {
+      "id": "V6",
+      "where": "guidance pages 1-2, both fixtures",
+      "what": "The 'What you must supply before filing' markdown table is delivered as raw pipe-delimited prose. 14 pipe characters reach the canonical render and 14 the boundary render; the header row prints as body text and the '| --- |' rule is silently dropped.",
+      "instances": 14
+     },
+     {
+      "id": "V7",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "22 emphasised spans marked in the source are delivered with no emphasis at all. The PDF embeds a single face, non-embedded Times-Roman, and every one of its 2,940 word boxes measures 9.2 pt - there is no bold in the file to carry them.",
+      "instances": 22
+     },
+     {
+      "id": "V8",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "15 markdown headings are flattened to body text at the same 9.2 pt as every other word, so a 7-page participant document arrives with no typographic hierarchy of any kind.",
+      "instances": 15
+     },
+     {
+      "id": "V9",
+      "where": "guidance pages 2-3, both fixtures",
+      "what": "Enum-pair stutter on every obtain-or-confirm bullet: '(required, required before filing)' 10 times and '(conditional, required before filing)' 3 times - two different controlled vocabularies rendered side by side so the first word repeats.",
+      "instances": 13
+     },
+     {
+      "id": "V11",
+      "where": "filed boundary.pdf pages 1 and 3",
+      "what": "The cause number's case-type token contradicts the offence class stated four lines below it on the same filed page. Counted here because a rasterer reading the page sees it; scored under KNOWN_PREFILLS.",
+      "instances": 2
+     }
+    ],
+    "whatIsNotCountedHere": "The word 'fixture' printed in the offence-description slot of all six filed fixtures is NOT counted as a visual defect. It is a deliberate non-fabrication placeholder and this lane judges it correct; it is recorded under defectsNoCounterCanSee instead."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS. packet-set-manifest.json carries exactly one routeKey for this family, obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access, and it is distinct from the other two Indiana conviction families' keys. The repaired guidance no longer prints that key: the delivered PDFs contain 0 occurrences of any string matching obligation:[A-Za-z0-9:_-]+ over all 7 pages of both fixtures, where the pre-repair canonical printed it as a bare bullet on page 1. The replacement sentence is 'This packet is prepared for one route under I.C. 35-38-9-3: the relief named at the top of this page.' That sentence is guarded rather than assumed - scripts/build-census-v1-in_conviction_d6-set.mjs asserts queueFamily.routeKeys.length === 1 with the message 'the guidance tells the participant this packet is prepared for one route; the committed record now holds more than one, so that sentence would be false'. A second route now fails the build instead of printing a false count. This lane read that assert; it did not run it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS, and fully measured this round with no limb carried from a receipt. private/ is present as a symlink into /home/user/legalease-partner-dashboard-clean and was left untouched. This lane independently recomputed the SHA-256 and byte length of every retained source binary for all three families, including the two inserts the previous read declined to hash: CCA-XP-0220-7008 = 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0 (3,981,416 bytes, 3 pages); CCA-XP-0220-7009 = 499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1 (2,620,327 bytes, 3 pages); CCA-XP-0220-7010 = b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b (784,143 bytes, 3 pages); and the shared Coalition for Court Access 15-page bundle = b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 (2,946,894 bytes, 15 pages). Every one of these agrees with the digest this family's own source-receipt.json pins. This family's insert is IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf. FIX04 touched no source binary and none of these digests moved."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "PASS. Six components declared in packet-set-manifest.json and ten pages delivered, and the delivered page sequence matches the declaration exactly: pages 1-2 the composed verified petition, page 3 the composed proposed order, pages 4-6 the retained conviction insert, pages 7-8 the retained appearance form, page 9 the retained Form ACR, page 10 the retained Confidential Information Form. The filed PDF is byte-identical to the one this lane read at b63a1f7a9, so this finding rests on unchanged bytes, and page 1, page 3 and the page-opening line of all ten pages were re-read this round to confirm it rather than assumed. The repaired guidance still names all six components and now names each by the document's own printed name and form number rather than by its internal component id: 0 occurrences of in_conviction_d6-(attachment|primary-filing|proposed-order)-N across all 7 pages of both delivered guidance fixtures, where the pre-repair opening printed all six."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "finding": "FAIL, on the BOUNDARY fixture, on a FILED page, and this is a defect this lane passed last round and should not have. boundary.pdf prints, in the caption of the verified petition on page 1 and again in the caption of the proposed order on page 3, 'Cause number of the conviction: 45C01-0812-FB-00000000000654321', and four lines below it 'Offense level as it appears on the court record: Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction', and below that 'Statutory section this petition is brought under: I.C. 35-38-9-3'. Read off a 150 dpi raster of that page, not only off extracted text. WHY THIS IS A CONTRADICTION WITHOUT ANY EXTERNAL AUTHORITY. The build binds the third segment of the cause number to the offence class, and proves it five times in its own six fixtures: d6 canonical pairs F6 with 'Level 6 felony'; felony canonical pairs F5 with 'Level 5 felony'; misd canonical and misd boundary both pair CM with 'Class A misdemeanor'; and in_conviction_felony-set's BOUNDARY fixture pairs the identical token FB with 'Class B felony under the pre-2014 sentencing scheme'. The sixth, this one, pairs FB with 'Class D felony'. Within this repository the token FB is therefore bound to two different offence classes under two different statutory sections, and one of the two must be wrong. WHY THIS IS A NEW FINDING RATHER THAN THE OLD ONE. Last round this lane failed KNOWN_PREFILLS because the d6 boundary cause number was byte-identical to the felony boundary cause number. FIX04 repaired that at f2fa1648b by changing 45C01-0812-FB-00000000000123456 to 45C01-0812-FB-00000000000654321 - six digits in the serial, and nothing else. git log -S confirms that is the only change to this literal. The digest collision my counter could see was cleared; the semantic collision it could not see was left. This lane accepted that repair at b63a1f7a9 on the byte-identity ground alone and did not check whether the charge-level token was still wrong. It is. WHAT I AM NOT ASSERTING. I am not asserting what FB means in Indiana case numbering. The held record carries no case-type token table - nothing in data/record-clearing, src/lib/rcap/state-packs/in or the Nationwide corpus binds FA/FB/FC/FD or F1-F6 to an offence class, and this lane will not import that from outside the record. Which of the two fixtures is wrong therefore needs legal input. That the pair is inconsistent needs none. SOURCE-AUTHORED, NOT DATA-DRIVEN. Both values are literals in the build script: scripts/build-census-v1-in_conviction_d6-set.mjs line 364 'matter.cause_number': '45C01-0812-FB-00000000000654321', against scripts/build-census-v1-in_conviction_felony-set.mjs line 346 '45C01-0812-FB-00000000000123456'. Everything else under this obligation passes: petitioner name, date of birth, county, court, date of conviction, sentence-completion date and statutory section are consistent between the petition and the proposed order on both fixtures, and no prefill states a fact the record does not hold."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "PASS. Every court-, clerk-, prosecutor- and judge-owned line and every participant signature line is blank on the delivered page, confirmed on a 150 dpi raster with annotations drawn. On the proposed order, page 3 of every fixture, the page prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' and the findings of the court, whether the petition is granted or denied, the judge's signature and the court's date all arrive as empty dotted rules. On the petition, the petitioner's verification signature and date, the mailing address, the telephone and email, the last four digits of the Social Security number, the answer on serious bodily injury and the clerk-assigned XP cause number are all blank dotted rules. No fabricated signature, notarisation, consent, returned record, prosecutor act, clerk assignment or judicial finding appears anywhere in this family. The filed pages are byte-identical to those read at b63a1f7a9. protectedWrites is 0 and is a measurement, not a default."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "PASS, and this is the obligation FIX04's repair was most likely to have broken, because it removed the opening block and reflowed every guidance page. It did not break it. Measured with pdftotext -bbox over every word box on all 7 pages of BOTH delivered guidance fixtures: 0 words fall outside the 612x792 pt media box, on either fixture, on any page. Page 7 of both fixtures ends on a complete sentence ('...a victim may submit an oral or written statement in support or opposition.') with no truncation, so the reflow did not push content off the end. The boundary fixture carries the longer participant name Maria-Alejandra O'Shaughnessy-Whitfield and still fits in the same 7 pages with no overflow. The filed pages are byte-identical to those read at b63a1f7a9 and their clipping status is unchanged; page 1 and page 3 were re-read on a raster this round."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "PASS. The delivered guidance carries the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)' and 13 bullets sit under it - the declared count and the delivered count agree, checked by parsing the section rather than by trusting the heading. The petition itself also carries a stop instruction on its face: 'Which section of I.C. 35-38-9 a conviction falls under, and whether an offense involved serious bodily injury, are legal judgments. This packet is built for the section named above; if that classification is not clear on your own record, stop and get legal help before filing.' FIX04's repair did not remove or renumber any stop condition."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "PASS. The packet names the venue, the destination court, the case type and the multi-county rule: 'File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP', and 'A person with convictions in more than one county files in each, and those filings count as one petition only if they fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).' One wording defect is recorded against ARTIFACTS rather than here: the heading above one of these paragraphs reads 'What the registry says about filing', naming an internal record to the participant. The destination itself is stated correctly and completely."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "PASS. Service is stated as service on the prosecuting attorney under the Trial Rules, and the packet points the participant at the certificate of service carried by the retained CCA appearance form on pages 7-8 rather than composing one: 'The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.' The packet also states honestly what the record does not settle: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing, so this packet states none.' That is a refusal to invent a deadline and is correct."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "PASS on completeness and correctness of content. 'What you must supply before filing' carries 6 rows and 'What you must obtain or confirm before filing (15 items)' carries 15 bullets; both delivered counts match both declared counts, parsed section by section. The 15 items name the certified limited criminal history from the Indiana State Police, confirmation that fines, fees, costs and restitution are satisfied, and written prosecutor consent where the route needs it, each with the body it is obtained from and, where conditional, the condition. The LAYOUT of the 6-row table is a separate failure and is scored under ARTIFACTS, not here: the rows reach the participant as raw pipe-delimited text. The content of the rows is right; the presentation of it is not."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_d6-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access', and every component labelled 'in_conviction_d6-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (6 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (2 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)'. 10 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "PASS. Delivered order is petition (pages 1-2), proposed order (page 3), then the attachments in the order the petition's own accompaniment sentence and the guidance both name them: conviction insert (4-6), appearance with certificate of service (7-8), Form ACR Notice of Exclusion (9), Confidential Information Form (10). Confirmed by reading the opening line of each of the ten pages this round. The filed PDF is byte-identical to the one read at b63a1f7a9. FIX04 moved no filed byte, so no page could reorder."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "PASS, and it largely does not arise, which is itself the measurement rather than an absence. This family serves exactly one route and the packet offers the participant no elective route branch to choose between, so there is no option set that could be incomplete. Where a genuine branch exists - which statutory section a conviction falls under - the packet does not offer it as an option but refuses it and routes the participant out: 'Which section of I.C. 35-38-9 a conviction falls under... are legal judgments... stop and get legal help before filing.' That is the correct handling of a branch the packet may not decide. requiredOptionsMissing is 0 and is measured."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "PASS, and it does not arise on the two documents this build authored, which is a measurement rather than an absence. The composed petition and proposed order contain no repeating row structure with a fixed row count that could overflow or truncate: the one open-ended list, every Indiana conviction in every county, is delivered as a dedicated free-text page (page 2, 'EVERY INDIANA CONVICTION, IN EVERY COUNTY') rather than as a fixed-row table, so a participant with more convictions than a table has rows cannot be silently cut off. The four retained official forms are the issuer's own documents, delivered unchanged, and this build writes nothing on them. incompleteRows is 0 and is measured."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "PASS, on the same content FIX04 did not touch, re-read this round. The held record does not settle the civil filing fee amount, whether it is charged per county, or whether an indigency waiver is available, and the packet says exactly that rather than inventing a figure: 'What it costs: A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' and 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.' Stating an unresolved fee as unresolved is the correct discharge of this obligation; inventing one would be fabrication. The same open question is ALSO printed on page 6 in internal triage vocabulary as '(impact: release_blocker; affects: filing_process)'. That wording is a defect and is scored under ARTIFACTS; the fee position itself is correct."
+    }
+   },
+   "failedObligationNames": [
+    "KNOWN_PREFILLS",
+    "ARTIFACTS"
+   ],
+   "obligationsNotMeasurableHere": [],
+   "whyNotPassCompleteIndependent": "ARTIFACTS is FAIL and KNOWN_PREFILLS is FAIL. No obligation is NOT_MEASURABLE_HERE, so the refusal is on merit and not on missing measurement."
+  },
+  {
+   "itemId": "in_conviction_felony-set",
+   "lane": "VF36",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verdictRule": "PASS_COMPLETE_INDEPENDENT requires all 15 obligations PASS and is refused outright if any obligation is NOT_MEASURABLE_HERE. 1 obligation(s) are FAIL and 0 are NOT_MEASURABLE_HERE, so the verdict is FAIL_REPAIR_REQUIRED.",
+   "whyThisVerdict": "ARTIFACTS alone fails. 0 obligations are NOT_MEASURABLE_HERE this round: the corpus is present and SOURCE_IDENTITY was fully measured, including the two source binaries the previous read carried from a receipt.",
+   "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+   "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910, with a clean working tree at the time of measurement",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading",
+   "theRepairThisReads": {
+    "commit": "824850cd31f12a2986d2a4c83ad0eed1f1f7776b",
+    "builtBy": "FIX04",
+    "separationOfDuty": "FIX04 built this repair and may not approve it. VF36 wrote none of these bytes, ran no builder and repaired nothing.",
+    "whatItChangedInThisFamily": "filing-instructions.md, participant-instructions.md, both participant-guidance PDFs, packet-set-manifest.json, reports/rendered-artifacts.json, reports/record-bindings.json and source-receipt.json. It changed no filed byte."
+   },
+   "claimStatus": "CLAIM_OK VF36 in_conviction_felony-set (independent-verification, grant set c3cdf012fa06a452), asserted through scripts/grade-a-packet-factory-24h/claim.mjs from an explicit cd into /home/user/vfa-worktree. No WRONG_CHECKOUT. Ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json, 975 claims, generatedAtCommit 3bb6f1a2afa0aa4f4f521c4f2371f1711a6c8a5b. Not released.",
+   "digestsIMeasuredMyself": {
+    "method": "sha256 computed by this lane over the committed files in /home/user/vfa-worktree at afa138ac2a18d3959880d602032a02da34070cb4; byte lengths by stat; page counts by pdfinfo. Every identifier below came from a tool, none from a manifest.",
+    "deliveredFixtures": {
+     "canonical": {
+      "sha256": "a45a328ccb5a609ac69fd97216686b6d919c123bcff0e4822a82991d066cb072",
+      "byteLength": 987614,
+      "pageCount": 10
+     },
+     "boundary": {
+      "sha256": "5ad46014f9ee63d779ae512de3ef9f05be0758a1d86c076e5b625e3a4a8972fc",
+      "byteLength": 988068,
+      "pageCount": 10
+     },
+     "participant-guidance-canonical": {
+      "sha256": "96b990ecc3bb3c2beac0ffeadc4bfd655ed18a093396f2f09cd98ea0bdec3d41",
+      "byteLength": 22765,
+      "pageCount": 7
+     },
+     "participant-guidance-boundary": {
+      "sha256": "ac6142702dc077da31bc35090203f34ee8e8765d308696c553abcc535bf5b63a",
+      "byteLength": 22797,
+      "pageCount": 7
+     }
+    },
+    "sourceBinaries": [
+     {
+      "role": "conviction insert for this section, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf",
+      "sha256RecomputedByThisLane": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
+      "byteLength": 784143,
+      "pagesConfirmedByPdfinfo": 3,
+      "agreesWithSourceReceipt": true
+     },
+     {
+      "role": "15-page Coalition for Court Access bundle supplying the appearance form, Form ACR and the Confidential Information Form, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sha256RecomputedByThisLane": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "byteLength": 2946894,
+      "pagesConfirmedByPdfinfo": 15,
+      "agreesWithSourceReceipt": true
+     }
+    ],
+    "agreesWith": "packet-set-manifest.json, reports/rendered-artifacts.json and source-receipt.json on every digest and page count recomputed"
+   },
+   "retainedPageIntegrity": {
+    "areTheFiledPagesGenuinelyUnmoved": true,
+    "howProven": "Byte-identity, which is stronger than an appearance comparison: canonical.pdf is a45a328ccb5a609ac69fd97216686b6d919c123bcff0e4822a82991d066cb072 at 987614 bytes and boundary.pdf is 5ad46014f9ee63d779ae512de3ef9f05be0758a1d86c076e5b625e3a4a8972fc at 988068 bytes, and both match, digest and length, what this lane measured itself at b63a1f7a9 before the repair. A byte-identical PDF renders identically by construction.",
+    "consequenceForTheRasterTheseFamiliesOwe": "The fresh raster these families owe does NOT need to re-cover the ten filed pages: they are the same bytes this lane already rastered and read, so a new raster of them would reproduce the earlier one exactly. What the raster owes is the SEVEN pages of each of the two guidance fixtures, which are new bytes nobody has rastered under acceptance. That is 14 pages per family, 42 across the three, and none of the 30 filed pages.",
+    "corroboration": "git diff --stat 824850cd3^..824850cd3 lists no filed fixture. Over the wider range b63a1f7a9..HEAD the only additional file to move in this directory is product-wiring.json, and that is this lane's own prior verification bookkeeping at 027a83e55, not a build output."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 9
+   },
+   "noCounterIsADefault": "All nine are measured. None is a null this round and none is a 0 standing in for something unmeasured. knownRequiredFieldsMissing, requiredFactsNotCollected and unclassifiedBlanks: every blank on the two composed documents is enumerated in the packet's own blank list and classified, and the 6-row supply table and 15-item obtain/confirm list account for each. incompleteRows 0: the 6 supply rows all carry three populated cells - their LAYOUT fails, which is a visual defect, not an incomplete row. requiredOptionsMissing 0: one route, no elective branch. requiredComponentsMissing 0: six of six declared components delivered across ten pages. invisibleWrites 0: the delivered guidance text was diffed word-by-word against participant-instructions.md plus filing-instructions.md at 0.997+ similarity, and every difference is accounted for - the dropped markdown table rule and the transliteration of the section sign - so no content is written that the source does not carry and none is silently dropped. protectedWrites 0: proven by reading the protected lines on a 150 dpi raster with annotations drawn, not by a builder's report.",
+   "visualDefects": {
+    "count": 9,
+    "reDerivedNotAdjusted": "This is a fresh derivation, not last round's 6 with an adjustment. Last round's 6 were the six classes of the opening-block leak; all six are now repaired and would count 0. The count below is what a rasterer reading the delivered artifact would flag today.",
+    "resolution": "150 dpi",
+    "greyThreshold": 128,
+    "annotations": "drawn",
+    "scope": "all 7 pages of both delivered guidance fixtures and all 10 pages of both delivered filed fixtures",
+    "items": [
+     {
+      "id": "V1",
+      "where": "guidance page 4, both fixtures",
+      "what": "Bracketed internal category enums prefix every bullet under 'What the committed record requires this packet to say': [packet_instruction], [scope_restriction], [participant_question].",
+      "instances": 7
+     },
+     {
+      "id": "V2",
+      "where": "guidance page 6, both fixtures",
+      "what": "Internal triage vocabulary printed in parentheses: '(impact: release_blocker; affects: filing_process)' and siblings.",
+      "instances": 2
+     },
+     {
+      "id": "V3",
+      "where": "guidance page 4, both fixtures",
+      "what": "Build-team directives printed to the participant as guidance - build an optimiser before the petition generator, route to a legal-review gate, verify before the evaluator uses them, a delivery gate not a generation blocker."
+     },
+     {
+      "id": "V4",
+      "where": "guidance page 4, both fixtures",
+      "what": "The reader is referred to in the third person inside a document addressed to that reader: 'where the participant has any conviction not yet eligible... before letting them proceed'."
+     },
+     {
+      "id": "V5",
+      "where": "guidance pages 4 and 6, both fixtures",
+      "what": "Build-record framing in participant-facing headings: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing'."
+     },
+     {
+      "id": "V6",
+      "where": "guidance pages 1-2, both fixtures",
+      "what": "The 'What you must supply before filing' markdown table is delivered as raw pipe-delimited prose. 14 pipe characters reach the canonical render and 14 the boundary render; the header row prints as body text and the '| --- |' rule is silently dropped.",
+      "instances": 14
+     },
+     {
+      "id": "V7",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "22 emphasised spans marked in the source are delivered with no emphasis at all. The PDF embeds a single face, non-embedded Times-Roman, and every one of its 2,940 word boxes measures 9.2 pt - there is no bold in the file to carry them.",
+      "instances": 22
+     },
+     {
+      "id": "V8",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "16 markdown headings are flattened to body text at the same 9.2 pt as every other word, so a 7-page participant document arrives with no typographic hierarchy of any kind.",
+      "instances": 16
+     },
+     {
+      "id": "V9",
+      "where": "guidance pages 2-3, both fixtures",
+      "what": "Enum-pair stutter on every obtain-or-confirm bullet: '(required, required before filing)' 10 times and '(conditional, required before filing)' 3 times - two different controlled vocabularies rendered side by side so the first word repeats.",
+      "instances": 13
+     }
+    ],
+    "whatIsNotCountedHere": "The word 'fixture' printed in the offence-description slot of all six filed fixtures is NOT counted as a visual defect. It is a deliberate non-fabrication placeholder and this lane judges it correct; it is recorded under defectsNoCounterCanSee instead."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS. packet-set-manifest.json carries exactly one routeKey for this family, obligation:track-pathway:IN:in_conviction_felony:conviction-expungement-with-records-marked-expunged, and it is distinct from the other two Indiana conviction families' keys. The repaired guidance no longer prints that key: the delivered PDFs contain 0 occurrences of any string matching obligation:[A-Za-z0-9:_-]+ over all 7 pages of both fixtures, where the pre-repair canonical printed it as a bare bullet on page 1. The replacement sentence is 'This packet is prepared for one route under I.C. 35-38-9-4: the relief named at the top of this page.' That sentence is guarded rather than assumed - scripts/build-census-v1-in_conviction_felony-set.mjs asserts queueFamily.routeKeys.length === 1 with the message 'the guidance tells the participant this packet is prepared for one route; the committed record now holds more than one, so that sentence would be false'. A second route now fails the build instead of printing a false count. This lane read that assert; it did not run it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS, and fully measured this round with no limb carried from a receipt. private/ is present as a symlink into /home/user/legalease-partner-dashboard-clean and was left untouched. This lane independently recomputed the SHA-256 and byte length of every retained source binary for all three families, including the two inserts the previous read declined to hash: CCA-XP-0220-7008 = 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0 (3,981,416 bytes, 3 pages); CCA-XP-0220-7009 = 499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1 (2,620,327 bytes, 3 pages); CCA-XP-0220-7010 = b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b (784,143 bytes, 3 pages); and the shared Coalition for Court Access 15-page bundle = b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 (2,946,894 bytes, 15 pages). Every one of these agrees with the digest this family's own source-receipt.json pins. This family's insert is IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf. FIX04 touched no source binary and none of these digests moved."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "PASS. Six components declared in packet-set-manifest.json and ten pages delivered, and the delivered page sequence matches the declaration exactly: pages 1-2 the composed verified petition, page 3 the composed proposed order, pages 4-6 the retained conviction insert, pages 7-8 the retained appearance form, page 9 the retained Form ACR, page 10 the retained Confidential Information Form. The filed PDF is byte-identical to the one this lane read at b63a1f7a9, so this finding rests on unchanged bytes, and page 1, page 3 and the page-opening line of all ten pages were re-read this round to confirm it rather than assumed. The repaired guidance still names all six components and now names each by the document's own printed name and form number rather than by its internal component id: 0 occurrences of in_conviction_felony-(attachment|primary-filing|proposed-order)-N across all 7 pages of both delivered guidance fixtures, where the pre-repair opening printed all six."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "PASS. Both fixtures' prefills are internally consistent and consistent between the petition on page 1 and the proposed order on page 3: petitioner name, date of birth, county of conviction, court, cause number, offence level, statutory section, date of conviction and sentence-completion date all agree. The cause number's case-type token agrees with the stated offence class on both fixtures of this family (F5 with 'Level 5 felony' on canonical and FB with 'Class B felony under the pre-2014 sentencing scheme' on boundary), which is the convention this family's sibling in_conviction_d6-set breaks - see that family's row. The filed pages are byte-identical to the ones read at b63a1f7a9, and FIX04's repair touched no filed byte. One thing measured and deliberately NOT failed here: the offence-description slot on all six filed fixtures across all three families reads 'Offense as it appears on the canonical fixture court record' or 'Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record'. The word 'fixture' reaches the filed petition and the filed proposed order. This lane judges that CORRECT rather than defective: the standing rule forbids fabricating participant facts, and a placeholder that says what it is beats an invented charging description. It is recorded under defectsNoCounterCanSee because it means no fixture exercises the offence-description prefill path, so no raster of these families can show that path working."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "PASS. Every court-, clerk-, prosecutor- and judge-owned line and every participant signature line is blank on the delivered page, confirmed on a 150 dpi raster with annotations drawn. On the proposed order, page 3 of every fixture, the page prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' and the findings of the court, whether the petition is granted or denied, the judge's signature and the court's date all arrive as empty dotted rules. On the petition, the petitioner's verification signature and date, the mailing address, the telephone and email, the last four digits of the Social Security number, the answer on serious bodily injury and the clerk-assigned XP cause number are all blank dotted rules. No fabricated signature, notarisation, consent, returned record, prosecutor act, clerk assignment or judicial finding appears anywhere in this family. The filed pages are byte-identical to those read at b63a1f7a9. protectedWrites is 0 and is a measurement, not a default."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "PASS, and this is the obligation FIX04's repair was most likely to have broken, because it removed the opening block and reflowed every guidance page. It did not break it. Measured with pdftotext -bbox over every word box on all 7 pages of BOTH delivered guidance fixtures: 0 words fall outside the 612x792 pt media box, on either fixture, on any page. Page 7 of both fixtures ends on a complete sentence ('...a victim may submit an oral or written statement in support or opposition.') with no truncation, so the reflow did not push content off the end. The boundary fixture carries the longer participant name Maria-Alejandra O'Shaughnessy-Whitfield and still fits in the same 7 pages with no overflow. The filed pages are byte-identical to those read at b63a1f7a9 and their clipping status is unchanged; page 1 and page 3 were re-read on a raster this round."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "PASS. The delivered guidance carries the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)' and 13 bullets sit under it - the declared count and the delivered count agree, checked by parsing the section rather than by trusting the heading. The petition itself also carries a stop instruction on its face: 'Which section of I.C. 35-38-9 a conviction falls under, and whether an offense involved serious bodily injury, are legal judgments. This packet is built for the section named above; if that classification is not clear on your own record, stop and get legal help before filing.' FIX04's repair did not remove or renumber any stop condition."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "PASS. The packet names the venue, the destination court, the case type and the multi-county rule: 'File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP', and 'A person with convictions in more than one county files in each, and those filings count as one petition only if they fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).' One wording defect is recorded against ARTIFACTS rather than here: the heading above one of these paragraphs reads 'What the registry says about filing', naming an internal record to the participant. The destination itself is stated correctly and completely."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "PASS. Service is stated as service on the prosecuting attorney under the Trial Rules, and the packet points the participant at the certificate of service carried by the retained CCA appearance form on pages 7-8 rather than composing one: 'The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.' The packet also states honestly what the record does not settle: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing, so this packet states none.' That is a refusal to invent a deadline and is correct."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "PASS on completeness and correctness of content. 'What you must supply before filing' carries 6 rows and 'What you must obtain or confirm before filing (15 items)' carries 15 bullets; both delivered counts match both declared counts, parsed section by section. The 15 items name the certified limited criminal history from the Indiana State Police, confirmation that fines, fees, costs and restitution are satisfied, and written prosecutor consent where the route needs it, each with the body it is obtained from and, where conditional, the condition. The LAYOUT of the 6-row table is a separate failure and is scored under ARTIFACTS, not here: the rows reach the participant as raw pipe-delimited text. The content of the rows is right; the presentation of it is not."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_felony-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_felony:conviction-expungement-with-records-marked-expunged', and every component labelled 'in_conviction_felony-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (7 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (2 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)'. 11 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' 'The grant is discretionary. Route to a legal-review gate before offering this track, per the build order in the review.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "PASS. Delivered order is petition (pages 1-2), proposed order (page 3), then the attachments in the order the petition's own accompaniment sentence and the guidance both name them: conviction insert (4-6), appearance with certificate of service (7-8), Form ACR Notice of Exclusion (9), Confidential Information Form (10). Confirmed by reading the opening line of each of the ten pages this round. The filed PDF is byte-identical to the one read at b63a1f7a9. FIX04 moved no filed byte, so no page could reorder."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "PASS, and it largely does not arise, which is itself the measurement rather than an absence. This family serves exactly one route and the packet offers the participant no elective route branch to choose between, so there is no option set that could be incomplete. Where a genuine branch exists - which statutory section a conviction falls under - the packet does not offer it as an option but refuses it and routes the participant out: 'Which section of I.C. 35-38-9 a conviction falls under... are legal judgments... stop and get legal help before filing.' That is the correct handling of a branch the packet may not decide. requiredOptionsMissing is 0 and is measured."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "PASS, and it does not arise on the two documents this build authored, which is a measurement rather than an absence. The composed petition and proposed order contain no repeating row structure with a fixed row count that could overflow or truncate: the one open-ended list, every Indiana conviction in every county, is delivered as a dedicated free-text page (page 2, 'EVERY INDIANA CONVICTION, IN EVERY COUNTY') rather than as a fixed-row table, so a participant with more convictions than a table has rows cannot be silently cut off. The four retained official forms are the issuer's own documents, delivered unchanged, and this build writes nothing on them. incompleteRows is 0 and is measured."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "PASS, on the same content FIX04 did not touch, re-read this round. The held record does not settle the civil filing fee amount, whether it is charged per county, or whether an indigency waiver is available, and the packet says exactly that rather than inventing a figure: 'What it costs: A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' and 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.' Stating an unresolved fee as unresolved is the correct discharge of this obligation; inventing one would be fabrication. The same open question is ALSO printed on page 6 in internal triage vocabulary as '(impact: release_blocker; affects: filing_process)'. That wording is a defect and is scored under ARTIFACTS; the fee position itself is correct."
+    }
+   },
+   "failedObligationNames": [
+    "ARTIFACTS"
+   ],
+   "obligationsNotMeasurableHere": [],
+   "whyNotPassCompleteIndependent": "ARTIFACTS is FAIL. No obligation is NOT_MEASURABLE_HERE, so the refusal is on merit and not on missing measurement."
+  },
+  {
+   "itemId": "in_conviction_misd-set",
+   "lane": "VF36",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verdictRule": "PASS_COMPLETE_INDEPENDENT requires all 15 obligations PASS and is refused outright if any obligation is NOT_MEASURABLE_HERE. 1 obligation(s) are FAIL and 0 are NOT_MEASURABLE_HERE, so the verdict is FAIL_REPAIR_REQUIRED.",
+   "whyThisVerdict": "ARTIFACTS alone fails. 0 obligations are NOT_MEASURABLE_HERE this round: the corpus is present and SOURCE_IDENTITY was fully measured, including the two source binaries the previous read carried from a receipt.",
+   "verifiedAtBase": "afa138ac2a18d3959880d602032a02da34070cb4",
+   "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910, with a clean working tree at the time of measurement",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading",
+   "theRepairThisReads": {
+    "commit": "824850cd31f12a2986d2a4c83ad0eed1f1f7776b",
+    "builtBy": "FIX04",
+    "separationOfDuty": "FIX04 built this repair and may not approve it. VF36 wrote none of these bytes, ran no builder and repaired nothing.",
+    "whatItChangedInThisFamily": "filing-instructions.md, participant-instructions.md, both participant-guidance PDFs, packet-set-manifest.json, reports/rendered-artifacts.json, reports/record-bindings.json and source-receipt.json. It changed no filed byte."
+   },
+   "claimStatus": "CLAIM_OK VF36 in_conviction_misd-set (independent-verification, grant set c3cdf012fa06a452), asserted through scripts/grade-a-packet-factory-24h/claim.mjs from an explicit cd into /home/user/vfa-worktree. No WRONG_CHECKOUT. Ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json, 975 claims, generatedAtCommit 3bb6f1a2afa0aa4f4f521c4f2371f1711a6c8a5b. Not released.",
+   "digestsIMeasuredMyself": {
+    "method": "sha256 computed by this lane over the committed files in /home/user/vfa-worktree at afa138ac2a18d3959880d602032a02da34070cb4; byte lengths by stat; page counts by pdfinfo. Every identifier below came from a tool, none from a manifest.",
+    "deliveredFixtures": {
+     "canonical": {
+      "sha256": "52b987aada3f19e11734cb5cfdc840b4592912a74840825b61a40342ed41a3a4",
+      "byteLength": 1790986,
+      "pageCount": 10
+     },
+     "boundary": {
+      "sha256": "aaf1945f370403568034bacdce2c6abb603af6449656d84d430892076812ce8f",
+      "byteLength": 1791485,
+      "pageCount": 10
+     },
+     "participant-guidance-canonical": {
+      "sha256": "8d500a2f977189946543c72bc400b8cd9d5d614da436e2448d73d58448ed1204",
+      "byteLength": 22041,
+      "pageCount": 7
+     },
+     "participant-guidance-boundary": {
+      "sha256": "88e82e21ca8e710b993cc4b6e3e11f1deb72f275ccf1657e76b803f789efa60d",
+      "byteLength": 22077,
+      "pageCount": 7
+     }
+    },
+    "sourceBinaries": [
+     {
+      "role": "conviction insert for this section, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+      "sha256RecomputedByThisLane": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+      "byteLength": 3981416,
+      "pagesConfirmedByPdfinfo": 3,
+      "agreesWithSourceReceipt": true
+     },
+     {
+      "role": "15-page Coalition for Court Access bundle supplying the appearance form, Form ACR and the Confidential Information Form, retained",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sha256RecomputedByThisLane": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "byteLength": 2946894,
+      "pagesConfirmedByPdfinfo": 15,
+      "agreesWithSourceReceipt": true
+     }
+    ],
+    "agreesWith": "packet-set-manifest.json, reports/rendered-artifacts.json and source-receipt.json on every digest and page count recomputed"
+   },
+   "retainedPageIntegrity": {
+    "areTheFiledPagesGenuinelyUnmoved": true,
+    "howProven": "Byte-identity, which is stronger than an appearance comparison: canonical.pdf is 52b987aada3f19e11734cb5cfdc840b4592912a74840825b61a40342ed41a3a4 at 1790986 bytes and boundary.pdf is aaf1945f370403568034bacdce2c6abb603af6449656d84d430892076812ce8f at 1791485 bytes, and both match, digest and length, what this lane measured itself at b63a1f7a9 before the repair. A byte-identical PDF renders identically by construction.",
+    "consequenceForTheRasterTheseFamiliesOwe": "The fresh raster these families owe does NOT need to re-cover the ten filed pages: they are the same bytes this lane already rastered and read, so a new raster of them would reproduce the earlier one exactly. What the raster owes is the SEVEN pages of each of the two guidance fixtures, which are new bytes nobody has rastered under acceptance. That is 14 pages per family, 42 across the three, and none of the 30 filed pages.",
+    "corroboration": "git diff --stat 824850cd3^..824850cd3 lists no filed fixture. Over the wider range b63a1f7a9..HEAD the only additional file to move in this directory is product-wiring.json, and that is this lane's own prior verification bookkeeping at 027a83e55, not a build output."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 10
+   },
+   "noCounterIsADefault": "All nine are measured. None is a null this round and none is a 0 standing in for something unmeasured. knownRequiredFieldsMissing, requiredFactsNotCollected and unclassifiedBlanks: every blank on the two composed documents is enumerated in the packet's own blank list and classified, and the 6-row supply table and 15-item obtain/confirm list account for each. incompleteRows 0: the 6 supply rows all carry three populated cells - their LAYOUT fails, which is a visual defect, not an incomplete row. requiredOptionsMissing 0: one route, no elective branch. requiredComponentsMissing 0: six of six declared components delivered across ten pages. invisibleWrites 0: the delivered guidance text was diffed word-by-word against participant-instructions.md plus filing-instructions.md at 0.997+ similarity, and every difference is accounted for - the dropped markdown table rule and the transliteration of the section sign - so no content is written that the source does not carry and none is silently dropped. protectedWrites 0: proven by reading the protected lines on a 150 dpi raster with annotations drawn, not by a builder's report.",
+   "visualDefects": {
+    "count": 10,
+    "reDerivedNotAdjusted": "This is a fresh derivation, not last round's 6 with an adjustment. Last round's 6 were the six classes of the opening-block leak; all six are now repaired and would count 0. The count below is what a rasterer reading the delivered artifact would flag today.",
+    "resolution": "150 dpi",
+    "greyThreshold": 128,
+    "annotations": "drawn",
+    "scope": "all 7 pages of both delivered guidance fixtures and all 10 pages of both delivered filed fixtures",
+    "items": [
+     {
+      "id": "V1",
+      "where": "guidance page 4, both fixtures",
+      "what": "Bracketed internal category enums prefix every bullet under 'What the committed record requires this packet to say': [packet_instruction], [scope_restriction], [participant_question].",
+      "instances": 6
+     },
+     {
+      "id": "V2",
+      "where": "guidance page 6, both fixtures",
+      "what": "Internal triage vocabulary printed in parentheses: '(impact: release_blocker; affects: filing_process)' and siblings.",
+      "instances": 3
+     },
+     {
+      "id": "V3",
+      "where": "guidance page 4, both fixtures",
+      "what": "Build-team directives printed to the participant as guidance - build an optimiser before the petition generator, route to a legal-review gate, verify before the evaluator uses them, a delivery gate not a generation blocker."
+     },
+     {
+      "id": "V4",
+      "where": "guidance page 4, both fixtures",
+      "what": "The reader is referred to in the third person inside a document addressed to that reader: 'where the participant has any conviction not yet eligible... before letting them proceed'."
+     },
+     {
+      "id": "V5",
+      "where": "guidance pages 4 and 6, both fixtures",
+      "what": "Build-record framing in participant-facing headings: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing'."
+     },
+     {
+      "id": "V6",
+      "where": "guidance pages 1-2, both fixtures",
+      "what": "The 'What you must supply before filing' markdown table is delivered as raw pipe-delimited prose. 14 pipe characters reach the canonical render and 14 the boundary render; the header row prints as body text and the '| --- |' rule is silently dropped.",
+      "instances": 14
+     },
+     {
+      "id": "V7",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "22 emphasised spans marked in the source are delivered with no emphasis at all. The PDF embeds a single face, non-embedded Times-Roman, and every one of its 2,940 word boxes measures 9.2 pt - there is no bold in the file to carry them.",
+      "instances": 22
+     },
+     {
+      "id": "V8",
+      "where": "all 7 guidance pages, both fixtures",
+      "what": "15 markdown headings are flattened to body text at the same 9.2 pt as every other word, so a 7-page participant document arrives with no typographic hierarchy of any kind.",
+      "instances": 15
+     },
+     {
+      "id": "V9",
+      "where": "guidance pages 2-3, both fixtures",
+      "what": "Enum-pair stutter on every obtain-or-confirm bullet: '(required, required before filing)' 10 times and '(conditional, required before filing)' 3 times - two different controlled vocabularies rendered side by side so the first word repeats.",
+      "instances": 13
+     },
+     {
+      "id": "V10",
+      "where": "guidance pages 4 and 5, both fixtures",
+      "what": "The double section sign is transliterated to a doubled word: 'expunged under Sec. Sec. 35-38-9-6(g) and 35-38-9-7(e)' and 'the current text of Sec. Sec.' A participant reads a stuttered word where the source carried a single glyph pair.",
+      "instances": 2
+     }
+    ],
+    "whatIsNotCountedHere": "The word 'fixture' printed in the offence-description slot of all six filed fixtures is NOT counted as a visual defect. It is a deliberate non-fabrication placeholder and this lane judges it correct; it is recorded under defectsNoCounterCanSee instead."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS. packet-set-manifest.json carries exactly one routeKey for this family, obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access, and it is distinct from the other two Indiana conviction families' keys. The repaired guidance no longer prints that key: the delivered PDFs contain 0 occurrences of any string matching obligation:[A-Za-z0-9:_-]+ over all 7 pages of both fixtures, where the pre-repair canonical printed it as a bare bullet on page 1. The replacement sentence is 'This packet is prepared for one route under I.C. 35-38-9-2: the relief named at the top of this page.' That sentence is guarded rather than assumed - scripts/build-census-v1-in_conviction_misd-set.mjs asserts queueFamily.routeKeys.length === 1 with the message 'the guidance tells the participant this packet is prepared for one route; the committed record now holds more than one, so that sentence would be false'. A second route now fails the build instead of printing a false count. This lane read that assert; it did not run it."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "PASS, and fully measured this round with no limb carried from a receipt. private/ is present as a symlink into /home/user/legalease-partner-dashboard-clean and was left untouched. This lane independently recomputed the SHA-256 and byte length of every retained source binary for all three families, including the two inserts the previous read declined to hash: CCA-XP-0220-7008 = 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0 (3,981,416 bytes, 3 pages); CCA-XP-0220-7009 = 499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1 (2,620,327 bytes, 3 pages); CCA-XP-0220-7010 = b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b (784,143 bytes, 3 pages); and the shared Coalition for Court Access 15-page bundle = b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 (2,946,894 bytes, 15 pages). Every one of these agrees with the digest this family's own source-receipt.json pins. This family's insert is IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf. FIX04 touched no source binary and none of these digests moved."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "PASS. Six components declared in packet-set-manifest.json and ten pages delivered, and the delivered page sequence matches the declaration exactly: pages 1-2 the composed verified petition, page 3 the composed proposed order, pages 4-6 the retained conviction insert, pages 7-8 the retained appearance form, page 9 the retained Form ACR, page 10 the retained Confidential Information Form. The filed PDF is byte-identical to the one this lane read at b63a1f7a9, so this finding rests on unchanged bytes, and page 1, page 3 and the page-opening line of all ten pages were re-read this round to confirm it rather than assumed. The repaired guidance still names all six components and now names each by the document's own printed name and form number rather than by its internal component id: 0 occurrences of in_conviction_misd-(attachment|primary-filing|proposed-order)-N across all 7 pages of both delivered guidance fixtures, where the pre-repair opening printed all six."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "PASS. Both fixtures' prefills are internally consistent and consistent between the petition on page 1 and the proposed order on page 3: petitioner name, date of birth, county of conviction, court, cause number, offence level, statutory section, date of conviction and sentence-completion date all agree. The cause number's case-type token agrees with the stated offence class on both fixtures of this family (CM with 'Class A misdemeanor' on canonical and CM with 'Class A misdemeanor reduced from a Class D felony' on boundary), which is the convention this family's sibling in_conviction_d6-set breaks - see that family's row. The filed pages are byte-identical to the ones read at b63a1f7a9, and FIX04's repair touched no filed byte. One thing measured and deliberately NOT failed here: the offence-description slot on all six filed fixtures across all three families reads 'Offense as it appears on the canonical fixture court record' or 'Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record'. The word 'fixture' reaches the filed petition and the filed proposed order. This lane judges that CORRECT rather than defective: the standing rule forbids fabricating participant facts, and a placeholder that says what it is beats an invented charging description. It is recorded under defectsNoCounterCanSee because it means no fixture exercises the offence-description prefill path, so no raster of these families can show that path working."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "PASS. Every court-, clerk-, prosecutor- and judge-owned line and every participant signature line is blank on the delivered page, confirmed on a 150 dpi raster with annotations drawn. On the proposed order, page 3 of every fixture, the page prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' and the findings of the court, whether the petition is granted or denied, the judge's signature and the court's date all arrive as empty dotted rules. On the petition, the petitioner's verification signature and date, the mailing address, the telephone and email, the last four digits of the Social Security number, the answer on serious bodily injury and the clerk-assigned XP cause number are all blank dotted rules. No fabricated signature, notarisation, consent, returned record, prosecutor act, clerk assignment or judicial finding appears anywhere in this family. The filed pages are byte-identical to those read at b63a1f7a9. protectedWrites is 0 and is a measurement, not a default."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "PASS, and this is the obligation FIX04's repair was most likely to have broken, because it removed the opening block and reflowed every guidance page. It did not break it. Measured with pdftotext -bbox over every word box on all 7 pages of BOTH delivered guidance fixtures: 0 words fall outside the 612x792 pt media box, on either fixture, on any page. Page 7 of both fixtures ends on a complete sentence ('...a victim may submit an oral or written statement in support or opposition.') with no truncation, so the reflow did not push content off the end. The boundary fixture carries the longer participant name Maria-Alejandra O'Shaughnessy-Whitfield and still fits in the same 7 pages with no overflow. The filed pages are byte-identical to those read at b63a1f7a9 and their clipping status is unchanged; page 1 and page 3 were re-read on a raster this round."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "PASS. The delivered guidance carries the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)' and 13 bullets sit under it - the declared count and the delivered count agree, checked by parsing the section rather than by trusting the heading. The petition itself also carries a stop instruction on its face: 'Which section of I.C. 35-38-9 a conviction falls under, and whether an offense involved serious bodily injury, are legal judgments. This packet is built for the section named above; if that classification is not clear on your own record, stop and get legal help before filing.' FIX04's repair did not remove or renumber any stop condition."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "PASS. The packet names the venue, the destination court, the case type and the multi-county rule: 'File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP', and 'A person with convictions in more than one county files in each, and those filings count as one petition only if they fall inside a 365-day window. Case type XP under Administrative Rule 8(B)(3).' One wording defect is recorded against ARTIFACTS rather than here: the heading above one of these paragraphs reads 'What the registry says about filing', naming an internal record to the participant. The destination itself is stated correctly and completely."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "PASS. Service is stated as service on the prosecuting attorney under the Trial Rules, and the packet points the participant at the certificate of service carried by the retained CCA appearance form on pages 7-8 rather than composing one: 'The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.' The packet also states honestly what the record does not settle: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing, so this packet states none.' That is a refusal to invent a deadline and is correct."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "PASS on completeness and correctness of content. 'What you must supply before filing' carries 6 rows and 'What you must obtain or confirm before filing (15 items)' carries 15 bullets; both delivered counts match both declared counts, parsed section by section. The 15 items name the certified limited criminal history from the Indiana State Police, confirmation that fines, fees, costs and restitution are satisfied, and written prosecutor consent where the route needs it, each with the body it is obtained from and, where conditional, the condition. The LAYOUT of the 6-row table is a separate failure and is scored under ARTIFACTS, not here: the rows reach the participant as raw pipe-delimited text. The content of the rows is right; the presentation of it is not."
+    },
+    "ARTIFACTS": {
+     "result": "FAIL",
+     "finding": "FAIL - and the shape matters, because FIX04's repair is real and is confirmed, and the obligation still fails. WHAT FIX04 REPAIRED, INDEPENDENTLY CONFIRMED. Over ALL 7 pages of BOTH delivered guidance fixtures, at 150 dpi, grey threshold 128, annotations drawn, all six classes count 0: packet-set id or family id 0; 'version N.N.N' 0; 'serves N route(s)' and the literal 'route(s)' 0; bare route key 0; internal component ids 0; code-shaped 'N page(s)' 0. The two stuttering labels are gone. The pre-repair canonical carried, on page 1, 'Packet set in_conviction_misd-set, version 1.0.0.', 'This packet set serves 1 route(s):', the bare key 'obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access', and every component labelled 'in_conviction_misd-primary-filing-1 ... (primary_filing, required)'. None of that survives. The opening reads exactly as FIX04 reported, confirmed on a raster of page 1 and not only on extracted text. WHY IT STILL FAILS - A SEVENTH PRINT SITE NOBODY COUNTED. The same defect class, internal factory vocabulary printed to the participant, survives untouched at a print site outside FIX04's six classes and outside this lane's previous six. On page 4 of every delivered guidance fixture, under the heading 'What the committed record requires this packet to say (6 instructions)', every bullet is prefixed with a bracketed snake_case category enum: [packet_instruction], [scope_restriction], [participant_question]. On page 6, under 'What the record does not settle (3 open questions)', an internal triage pair prints in parentheses: '(impact: release_blocker; affects: filing_process)' and '(impact: release_blocker; affects: eligibility_branch)' and '(impact: release_blocker; affects: correct_form)'. 12 snake_case tokens reach the participant in this family's delivered PDF, identically on the canonical and the boundary fixture. Read off a 150 dpi raster of page 4, not only off extracted text. THE CONTENT OF THOSE BULLETS IS WORSE THAN THE LABELS ON THEM. They are directives to the product organisation, printed to the participant as if they were the participant's instructions: 'Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.' 'This is a delivery gate, not a generation blocker.' 'Verify each against the current text before the evaluator uses them.' 'Tell the participant they do not file separately for those.' And they refer to the reader in the third person inside a document addressed to that reader: 'Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed.' A participant reading page 4 is reading a product roadmap item and being called 'the participant' by the document they are holding. PRE-EXISTING, NOT INTRODUCED. This lane extracted the pre-repair guidance PDF at 824850cd3^ and counted the identical bracketed enums and the identical impact/affects pair. FIX04 neither introduced nor removed them, and did not record them. Its statement that all six classes read 0 is TRUE on its own definitions - the surviving tokens are category, impact and affects enums, not the role and action enums it named - but the finding this lane raised was internal identifiers and machine vocabulary printed to the participant, and that condition is not discharged. This is a repair scoped to a class rather than to the defect. This lane also missed this site last round and says so. SECTION HEADINGS SPEAK FACTORY TOO: 'What the committed record requires this packet to say', 'What the record does not settle', 'What the registry says about filing', and 'This built packet is review evidence... raster acceptance'. THE RAW-PIPE TABLE ALSO REACHES THIS OBLIGATION - see judgementOnTheRawPipeTables. MEASURED AND NOT COUNTED AS A LEAK: the delivered guidance carries 0 literal '#', 0 literal '*' and 0 literal backtick, so heading and emphasis markers are stripped cleanly. The trailing '_Route(s): <key>_' line the captain's v2 record describes is absent - 0 occurrences in both delivered PDFs and in both instruction files. REPAIR SHAPE: one bounded copy pass over the guidance-block builder in these three scripts - render the category enum as English or drop it, drop the impact/affects pair from participant output, and either rewrite the build-team directives for the reader or withhold them. Nothing here needs a filed page to move."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "PASS. Delivered order is petition (pages 1-2), proposed order (page 3), then the attachments in the order the petition's own accompaniment sentence and the guidance both name them: conviction insert (4-6), appearance with certificate of service (7-8), Form ACR Notice of Exclusion (9), Confidential Information Form (10). Confirmed by reading the opening line of each of the ten pages this round. The filed PDF is byte-identical to the one read at b63a1f7a9. FIX04 moved no filed byte, so no page could reorder."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "PASS, and it largely does not arise, which is itself the measurement rather than an absence. This family serves exactly one route and the packet offers the participant no elective route branch to choose between, so there is no option set that could be incomplete. Where a genuine branch exists - which statutory section a conviction falls under - the packet does not offer it as an option but refuses it and routes the participant out: 'Which section of I.C. 35-38-9 a conviction falls under... are legal judgments... stop and get legal help before filing.' That is the correct handling of a branch the packet may not decide. requiredOptionsMissing is 0 and is measured."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "PASS, and it does not arise on the two documents this build authored, which is a measurement rather than an absence. The composed petition and proposed order contain no repeating row structure with a fixed row count that could overflow or truncate: the one open-ended list, every Indiana conviction in every county, is delivered as a dedicated free-text page (page 2, 'EVERY INDIANA CONVICTION, IN EVERY COUNTY') rather than as a fixed-row table, so a participant with more convictions than a table has rows cannot be silently cut off. The four retained official forms are the issuer's own documents, delivered unchanged, and this build writes nothing on them. incompleteRows is 0 and is measured."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "PASS, on the same content FIX04 did not touch, re-read this round. The held record does not settle the civil filing fee amount, whether it is charged per county, or whether an indigency waiver is available, and the packet says exactly that rather than inventing a figure: 'What it costs: A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' and 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.' Stating an unresolved fee as unresolved is the correct discharge of this obligation; inventing one would be fabrication. The same open question is ALSO printed on page 6 in internal triage vocabulary as '(impact: release_blocker; affects: filing_process)'. That wording is a defect and is scored under ARTIFACTS; the fee position itself is correct."
+    }
+   },
+   "failedObligationNames": [
+    "ARTIFACTS"
+   ],
+   "obligationsNotMeasurableHere": [],
+   "whyNotPassCompleteIndependent": "ARTIFACTS is FAIL. No obligation is NOT_MEASURABLE_HERE, so the refusal is on merit and not on missing measurement."
+  }
+ ],
+ "judgementOnTheRawPipeTables": {
+  "question": "FIX04 recorded the raw-pipe markdown table and did not repair it, calling it pre-existing, byte-identical at HEAD, and a shared-render change outside its obligation. Does it reach ARTIFACTS on VF36's reading?",
+  "answer": "YES, it reaches ARTIFACTS. And FIX04 was nonetheless right to decline to repair it. Those are two different questions and both answers stand.",
+  "whyItReachesArtifacts": [
+   "It is on the delivered participant-facing artifact and visible on a 150 dpi raster, not only in extracted text. Confirmed by reading guidance page 1 and page 2 as images.",
+   "It disfigures the single most operational section in the packet. 'What you must supply before filing' is the six-row instruction that tells the participant which document, which blank, and what to write in it. That is the section a participant works from with a pen.",
+   "The failure is structural, not cosmetic. The only thing carrying the column boundary is a pipe glyph sitting mid-sentence, and the header row that names the three columns is separated from its rows by a blank line and is typographically indistinguishable from a data row. The participant must infer the column semantics from a punctuation mark. On row 3 the result runs on as '...the last four digits of your Social Security number, and only the last four - the full number goes on the Confidential Information Form', where correct content has lost the column that gave it its meaning.",
+   "The renderer's own behaviour proves an intent it cannot honour. It parsed the table well enough to delete the '| --- |' rule and not well enough to lay out a column, and it strips the leading and trailing pipe of every row while keeping the interior ones. That is a half-implemented feature shipping to a participant, not an authoring choice - which is exactly what distinguishes it from the heading and emphasis losses, where the renderer at least deletes the marker and leaves clean prose.",
+   "ARTIFACTS is a property of the delivered artifact. A repairer's scope does not enter into whether the artifact passes."
+  ],
+  "whyFix04WasStillRightToDeclineIt": "The fix belongs in the shared guidance renderer, and repairing it inside three per-family build scripts would either fork the renderer three ways or under-fix the many other families that carry the same table. FIX04's obligation was the opening block. Recording it and leaving it was the correct disposition of a defect it should not unilaterally widen its blast radius to fix. This lane records it, does not repair it, and does not fault FIX04 for it.",
+  "correctionToFix04sMeasurement": {
+   "fix04Reported": "9 pipe characters reach the render.",
+   "vf36Measures": 14,
+   "scope": "all 7 pages of the delivered participant-guidance-canonical.pdf; 14 also on participant-guidance-boundary.pdf; 14 in all three families; 2 on page 1 and 12 on page 2, 0 on pages 3-7.",
+   "arithmetic": "The source table is 8 markdown lines of 4 pipes each = 32 pipes, of which participant-instructions.md still carries all 32. The renderer drops the rule row entirely and strips the leading and trailing pipe of each of the 7 surviving rows, leaving 7 x 2 = 14 interior pipes on the page.",
+   "note": "The count was 14 before the repair as well - measured on the guidance PDF at 824850cd3^ - so this is a mis-measurement by FIX04, not a change it caused. Recorded, not edited."
+  }
+ },
+ "judgementOnTheTwoOtherItemsFix04RecordedAndDidNotRepair": {
+  "undefined_2_through_undefined_9": {
+   "vf36Judgement": "CORRECTLY LEFT, and correctly recorded. Those raw PDF field names reach participants in al/al-misd-nonconviction-90-set, ar/ar-cs-possession-seal-set and ar/ar-arrest-seal-set - none of which is a VF36 family and none of which this lane has a claim on or measured. A repair lane scoped to three Indiana families writing into three other states' packets would be exactly the unscoped edit the discipline forbids. Recording it and naming the families is the right disposition.",
+   "vf36DidNotVerifyIt": "This lane did not open those three families and does not certify the finding either way; it certifies only that leaving it was the right call for a lane scoped to Indiana."
+  },
+  "addedGlyphsReadFromOutputBytes": {
+   "vf36Judgement": "CORRECTLY LEFT UNRENAMED, on this lane's own reading of the two files. The builder writes the key from its own proveWritesFromBytes, and scripts/.../rcap-output-glyph-reading.mjs increments addedGlyphs only inside the branch that also increments flattenedWidgetAppearances - so the numbers the key reports are the numbers it claims to report, and the name is borrowed rather than wrong. Renaming a key that other lanes' records already cite, in a repair commit scoped to guidance copy, would break reconciliation across families for a cosmetic gain. Recorded is the right state for it.",
+   "caveatWorthKeeping": "A borrowed key name is a latent trap for the next lane that reads it without reading its source. It should be renamed deliberately, in a commit that migrates every record citing it, not silently."
+  }
+ },
+ "judgementOnFix04sDeterminismReasoning": {
+  "whatFix04Claimed": "A determinism probe before touching anything showed reports/record-bindings.json and source-receipt.json, and only those two, move on any rebuild with no source change, because they re-pin MASTER_QUEUE.json, which a tip commit changed after those artifacts were built.",
+  "vf36Checked": "Checked rather than accepted, by reproducing the pins independently instead of trusting the probe.",
+  "howChecked": "This lane read the pin computation out of the build script - a sorted-key canonical stringify, entryDigest = sha256(stable(entry)) - reimplemented it, and recomputed families[familyId=<fam>] from MASTER_QUEUE.json as it stood at each relevant commit.",
+  "findings": [
+   "SUBSTANCE CONFIRMED. The whole-file pin FIX04's rebuild wrote, 4cfed07f4ca3b6b734be814f233092ea505e367074b673c38bb58de95d0158cb at 2,413,721 bytes, is exactly MASTER_QUEUE.json as it stood at 824850cd3^. The rebuild re-pinned to what was current when it ran. No source content changed and no filed byte moved. FIX04's conclusion holds.",
+   "ITS FRAMING IS IMPRECISE ON ONE LIMB. The ENTRY pin moved too, from 791325c1... to 7ba083f0... for d6, and by the record's own explanatory text 'the entry pin says whether the edit touched this family'. So the drift is not purely whole-file. FIX04 described only the whole-file half.",
+   "AND THE CHANGER WAS THIS LANE. Walking the entry digest across the 14 most recent commits to MASTER_QUEUE.json shows it changed at 027a83e55 - VF36's own previous verification bookkeeping, writing verifiedAtBase and evidencePath and dropping KNOWN_PREFILLS from the failed list into this family's queue entry. It is verification metadata, not build input. So the entry pin moved for a reason that is benign, but not for the reason FIX04 gave.",
+   "THE PINS ARE ALREADY STALE AT HEAD, AND STRUCTURALLY MUST BE. MASTER_QUEUE.json is a9c3d2939abe398a5f813dd0cf3975b481a2d62ab78a307bbae29914462c548e at HEAD, so the whole-file pin 4cfed07f... in every one of these three families' record-bindings.json and source-receipt.json no longer matches the file it pins. The three ENTRY pins do still match at HEAD, reproduced exactly by this lane. Because MASTER_QUEUE.json is a shared national ledger that nearly every lane commits to, a whole-file pin to it is stale the moment any other lane commits - so this artifact can never be in agreement with its own binding for long. That is a design property of the pin, not a defect FIX04 introduced, and no counter in this factory can see it."
+  ],
+  "verdictOnTheReasoning": "Sound in its conclusion, incomplete in its account. Nothing in the repair is contaminated by build nondeterminism, and the filed pages are unmoved. Recorded, not edited."
+ },
+ "theCaptainsSpreadRecordCheckedOnMyOwnThree": {
+  "whatTheRecordSays": "data/rcap-grade-a/packet-factory-24h/GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY.json v2: 8 families carry an opening-block signature (six Louisiana, two New Hampshire) and 180 of 299 carry a trailing 'Route(s):' line with bare obligation keys. None of VF36's three is said to carry the trailing line.",
+  "vf36Measured": "CONFIRMED for the trailing line, on all three families, at four places each: 0 occurrences of a line matching ^_?Route\\(s\\): in participant-guidance-canonical.pdf (all 7 pages), participant-guidance-boundary.pdf (all 7 pages), participant-instructions.md (whole file) and filing-instructions.md (whole file). The captain has not misled this lane on this point, and the ARTIFACTS verdict does not have to account for a trailing route line.",
+  "butTheRecordAndFix04DisagreeWithEachOther": "Recorded, not resolved and not edited. The captain's v2 says 8 families carry the opening-block signature and 180 of 299 carry the trailing line. FIX04's commit message at 824850cd3, measured whole-file over all 369 delivered participant-instructions.md, says 12 families carry the signature, 9 of them the full opening block, and that the trailing line is in 63 files. Those are two different scans reporting two different numbers for the same two questions, and neither is this lane's to arbitrate - VF36 measured only its own three families and reports only those. What VF36 can say is that its three were IN the population that produced the finding and were absent from an earlier version of the record about them, which is the failure mode the captain describes, and that on the one limb VF36 can check the current v2 is right.",
+  "aCautionOnTheOpeningBlockCountItself": "Any count of the opening-block signature taken over participant-instructions.md is now understated for these three families in one direction and, more importantly, misses the seventh print site entirely in both. The bracketed category enums and the impact/affects pair this lane failed ARTIFACTS on are not in the opening block and would not be caught by any of the four scans described. If the captain wants the true spread of internal vocabulary reaching participants, the pattern to scan for is not the opening block but '\\[[a-z]+_[a-z_]+\\]' and 'impact: [a-z_]+; affects: [a-z_]+' across delivered PDFs - and it should be measured on pdftotext of the delivered PDF, not on the markdown, for the backtick reason."
+ },
+ "defectsNoCounterCanSee": [
+  {
+   "finding": "The offence-description slot is unexercised by any fixture in any of the three families. All six filed fixtures print 'Offense as it appears on the canonical fixture court record' or 'Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record' - on the petition on page 1 and again on the proposed order on page 3, and on the boundary fixtures a third time in the restitution sentence.",
+   "whyItIsNotScoredAsADefect": "It is the disciplined choice. The standing rule forbids fabricating participant facts, and a placeholder that says what it is beats an invented charging description that a reviewer might mistake for real.",
+   "whyItStillMatters": "No raster of these families can show the offence-description prefill path working, because no fixture ever puts a charging description through it. The one field on the filed petition that carries free-form court-record text is the one field no fixture tests. A visual reviewer signing off these pages would be signing off a path that has never been exercised, without any counter telling them so."
+  },
+  {
+   "finding": "A repair can satisfy a counter without satisfying the finding, and this factory has now done it once in these families. The cross-family cause-number collision this lane raised was repaired by changing six digits of a serial, which cleared the byte-identity my counter measured and left the case-type token that carried the actual contradiction. My previous read accepted it.",
+   "whyNoCounterCanSee": "Every counter available here is a count of occurrences. None of them can ask whether the thing that was counted was the thing that was wrong. The only defence is a lane re-deriving the finding from the artifact rather than re-running the check that produced it - which is why re-derivation was required this round and why it caught this."
+  },
+  {
+   "finding": "The delivered guidance PDF has no typographic hierarchy at all. Every one of its 2,940 word boxes measures 9.2 pt in a single non-embedded Times-Roman, so 15-16 headings and 22 emphasised spans marked in the source arrive indistinguishable from body text.",
+   "whyNoCounterCanSee": "The markdown markers are stripped cleanly - 0 literal '#', '*' or backtick reach the page - so every leak counter reports clean. The content is complete and correct; only its structure is gone. A 7-page legal instruction document that a participant must navigate under stress arrives as an undifferentiated column of identical type, and nothing in the counter set registers that.",
+   "secondOrder": "The font is not embedded. A delivered PDF that depends on the reader's machine having Times-Roman is a portability risk on a document intended to be printed and filed."
+  },
+  {
+   "finding": "MASTER_QUEUE.json is a shared national ledger that nearly every lane commits to, and these families' record-bindings.json and source-receipt.json each pin its whole-file digest. That pin is stale at HEAD and will be stale again within a commit or two of any rebuild.",
+   "whyNoCounterCanSee": "Nothing recomputes the pin except a rebuild, and a rebuild re-pins rather than reporting the drift. An artifact can be permanently out of agreement with its own authority binding while every counter reads green."
+  },
+  {
+   "finding": "The bracketed bullets on guidance page 4 are not merely mislabelled - their CONTENT is addressed to the product organisation. 'Build the eligibility calendar and the 365-day window optimiser before the petition generator.' 'Route to a legal-review gate before offering this track, per the build order in the review.' 'This is a delivery gate, not a generation blocker.' A leak counter that only strips the [bracket] would leave a participant reading a product roadmap in the second person.",
+   "whyNoCounterCanSee": "The defect survives the obvious repair. Removing the snake_case token would zero every counter and leave the sentence, which is the part that actually reaches the participant wrong."
+  }
+ ],
+ "recordsThatDisagree": [
+  {
+   "where": "FIX04's commit message at 824850cd3 vs VF36's measurement",
+   "disagreement": "FIX04: '9 pipe characters reach the render.' VF36 measures 14, in every one of the six delivered guidance PDFs, and 14 in the pre-repair PDFs too.",
+   "disposition": "Recorded, not edited."
+  },
+  {
+   "where": "FIX04's commit message at 824850cd3 vs GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY.json v2",
+   "disagreement": "FIX04 says 12 families carry the opening signature, 9 with the full block, and 63 files carry the trailing Route(s) line. The captain's v2 record says 8 families carry an opening-block signature and 180 of 299 carry the trailing line.",
+   "disposition": "Recorded, not resolved. Outside VF36's three families and outside this lane's claim. VF36 confirmed only the limb that concerns it: none of its three carries the trailing line."
+  },
+  {
+   "where": "FIX04's report vs the delivered artifact",
+   "disagreement": "FIX04 reports all six classes at 0 across both halves of all six delivered PDFs and this lane confirms that on its own definitions. But the finding it was repairing - internal identifiers and machine vocabulary printed to the participant - is not discharged: 10 to 12 snake_case tokens per family still print, on page 4 and page 6 of every delivered guidance fixture. The report is true and the condition is not met.",
+   "disposition": "Recorded, and it is the ground for the ARTIFACTS FAIL."
+  },
+  {
+   "where": "FIX04's determinism account vs the pins themselves",
+   "disagreement": "FIX04 attributes the movement of record-bindings.json and source-receipt.json to a tip commit changing MASTER_QUEUE.json. The whole-file pin moved for that reason; the ENTRY pin also moved, which by the pin's own documented meaning says the edit touched this family, and it changed at 027a83e55 - VF36's own prior verification bookkeeping.",
+   "disposition": "Recorded, not edited. The conclusion FIX04 drew from it is sound."
+  },
+  {
+   "where": "VF36's own previous row file",
+   "disagreement": "rows-vf36-20260910b-in-reread.json passes KNOWN_PREFILLS for in_conviction_d6-set on bytes that are byte-identical to the ones this round fails it on. The bytes did not change; the reading did.",
+   "disposition": "Superseded by this file, and stated plainly rather than quietly corrected. The earlier read discharged the obligation on byte-identity alone and did not re-derive the finding underneath it."
+  }
+ ],
+ "toolsRun": [
+  "scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 <family>, three times, from an explicit cd into /home/user/vfa-worktree. Three CLAIM_OK, zero refusals, no WRONG_CHECKOUT. Not released.",
+  "sha256 over every delivered fixture and every retained source binary; stat for byte lengths",
+  "pdfinfo for page counts and media boxes; pdffonts for the font inventory",
+  "pdftoppm 24.02.0 -r 150 -gray -png, with and without -hide-annotations, one page at a time, each PNG deleted immediately after reading",
+  "a per-pixel PIL differ for the annotation-ink proof (dark = grey < 128)",
+  "pdftotext and pdftotext -layout and pdftotext -bbox for string enumeration and for the clipping check",
+  "a reimplementation of the build script's own entryDigest canonicalisation, to reproduce the MASTER_QUEUE entry pins independently",
+  "a difflib word-level comparison of each family's markdown against its delivered PDF text, for the invisibleWrites measurement",
+  "git show / git diff / git log -S, read-only, to establish what moved when and who moved it"
+ ],
+ "diskDiscipline": "Rendered one page at a time and deleted each PNG immediately. All intermediates were written under /tmp/claude-0/-home-user-legalease-partner-dashboard-clean/613590e7-434e-5d99-b87a-eb4af6d376b8/scratchpad/vf36c/ and that directory is emptied before this lane returns."
+}
