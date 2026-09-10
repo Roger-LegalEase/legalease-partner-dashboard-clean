@@ -23,8 +23,18 @@
 // counted as ink the build added.
 //
 // Measured across every family with delivered fixtures before the pattern moved:
-// 144 families, 40 publishing an inflated count, 494 phantom appearances, and
-// every single extra named `ImageN` or `ImN`. Eleven families' placements are
+// 144 families, 40 whose delivered fixtures THIS MODULE over-counted, 494
+// phantom placements, and every single extra named `ImageN` or `ImN`.
+//
+// "Over-counted by this module" is not "published by that family", and the
+// first version of this comment said publishing, which is the exact
+// overstatement the commit that introduced it was correcting three paragraphs
+// further down. FIX01 caught the contradiction between the two. Reading all
+// forty families' committed reports settles it: SEVEN publish this module's old
+// number, eleven already publish its new one, twenty-one take the figure from
+// somewhere else or publish nothing under that key, and one publishes no
+// artifact records at all. FLATTENED_WIDGET_FIX_ENFORCEMENT.json is the
+// per-family record. Eleven families' placements are
 // ALL images -- they draw into page content rather than through widgets -- so
 // they go from a false positive count to 0, which is their true count and not a
 // blinding. The record is FLATTENED_WIDGET_OVERCOUNT.json.
@@ -34,10 +44,12 @@
 // .mjs already restricted itself this way; this brings the older reader to the
 // same predicate rather than leaving two readers of the same bytes disagreeing.
 //
-// A COUNT PUBLISHED BEFORE THIS CHANGE IS NOT RETROACTIVELY CORRECTED. Forty
-// families' committed reports still carry the inflated number; each becomes true
-// only when that family is rebuilt. The fix is in the module, not yet in what
-// those families publish.
+// A COUNT PUBLISHED BEFORE THIS CHANGE IS NOT RETROACTIVELY CORRECTED. Of the
+// seven families whose committed reports carried this module's old number,
+// ar-cs-possession-seal-set has been rebuilt and now publishes 41/41/29/29 --
+// readings, on bytes that did not move. SIX still carry the old number, and
+// each becomes true only when it is rebuilt. The fix is in the module; it is
+// not yet in what those six publish, and this module does not pretend it is.
 import fs from "node:fs";
 import zlib from "node:zlib";
 import { createRequire } from "node:module";
