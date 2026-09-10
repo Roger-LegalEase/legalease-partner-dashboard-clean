@@ -4148,9 +4148,26 @@ function officialOut(familyId, jurisdiction) {
   return `data/rcap-all50/overlays/census-v1/${jurisdiction.toLowerCase()}/${familyId.replaceAll("_", "-")}--official-pdf-fill`;
 }
 
+/*
+ * FIX154 lost a delivered family to this function and got it back only because
+ * it checked `git status`. Run without MASTER_LIBRARY_SOURCE_DIR, this deleted
+ * all 99 files of nj_ordinance-set -- both fixtures and all 86 page rasters --
+ * and the build then threw on the missing mount, several frames later. The
+ * bytes were already gone, and nothing in the error said so.
+ *
+ * A build that cannot reach its sources cannot produce replacements, so
+ * clearing the output first is destruction with no possibility of repair. The
+ * mount is now resolved BEFORE the delete rather than at the point of first
+ * read. corpusRoot() throws on an unset or absent mount, so the delete is
+ * unreachable in exactly the case that made it unrecoverable.
+ *
+ * This is checked here rather than at the three call sites so that a fourth
+ * call site cannot reintroduce it.
+ */
 function resetOwnedOutput(relativePath) {
   assert.ok(relativePath.startsWith("data/rcap-all50/overlays/census-v1/")
     || relativePath.startsWith("data/rcap-all50/pleadings/"), `refusing to reset out-of-scope path: ${relativePath}`);
+  corpusRoot();
   fs.rmSync(abs(relativePath), { recursive: true, force: true });
   fs.mkdirSync(abs(relativePath), { recursive: true });
 }
