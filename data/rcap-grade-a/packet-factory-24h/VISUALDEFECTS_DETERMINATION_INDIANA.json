@@ -1,0 +1,34 @@
+{
+ "schemaVersion": "rcap-visualdefects-determination/v1",
+ "generatedBy": "Captain, resolving the question against the governing contract rather than against the count",
+ "supersedes": "the open question in TWO_READINGS_OF_VISUALDEFECTS_ON_INDIANAS_THREE.json, which is now answered",
+ "theQuestion": "Does visualDefects count emphasis that renders flat? VF36 published two readings of in_conviction_d6-set and in_conviction_felony-set -- 0 under the builder's declared contract and 29 under a conservative reading -- and said its own pass was not authority to complete them.",
+ "theGoverningContract": {
+  "where": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs line 644 and lines 462-465, with the counter vocabulary fixed at scripts/rcap-packet-completeness/completeness-contract.mjs:225-229",
+  "howTheCounterIsRaised": "visualDefects: anyArtifactHas(\"nonWhitespaceGlyphsOutsideMeasuredWriteBoxes\") -- and it is raised only when that reading is a number greater than zero.",
+  "whatTheContractSaysItMEANS": "the verifier's own reason string, verbatim: \"ink landed outside every measured write box, which is an overlap or a stray mark\".",
+  "andTheMutationTestAgrees": "verify-packet-completeness.mjs:866 exercises the counter by setting nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 4 and asserting the family is caught -- 'an unintended graphic outside every write box is caught'. That is the only input that raises it."
+ },
+ "theDetermination": {
+  "answer": "NO. Under the governing contract visualDefects is a PLACEMENT measure: ink outside every measured write box. It is not a typography measure and emphasis rendered flat is not within it.",
+  "soTheDeliveredZeroIsCorrect": "The artifacts publish visualDefects: 0 because the reading the contract names is 0, and VF36 reproduced that zero independently -- 0 off-page boxes across all 102 pages, 0 baseline overlaps on all 42 guidance pages.",
+  "andTheTWENTYNINEisNOTNOTHING": "It is a real observation about a real thing: 22 + 7 spans -- a participant's name, two document titles, four form numbers and fifteen checklist action labels -- that the delivered PDF renders flat where the source marks them for emphasis. VF36 established it by decoding every Tf operator. It is simply not this counter's subject.",
+  "whereThatObservationBELONGS": "the participant document, which THE_PARTICIPANT_DOCUMENT_IS_MEASURED_BY_NOTHING.json records is read by no counter at all. Emphasis fidelity in a guidance PDF is a defect class the factory does not measure anywhere, and calling it visualDefects would not have measured it either -- it would have mislabelled it while leaving the real gap open."
+ },
+ "whatThisMEANSForF8": {
+  "theRule": "verify.mjs F8: no family with a nonzero counter is recorded as complete.",
+  "status": "F8 passes at this commit, and it passes because the counter it reads is genuinely 0 under the definition the contract fixes -- not because a definition was chosen to make it pass.",
+  "theTestIWouldHaveFailed": "If the contract had said visualDefects counts emphasis, the determination here would have been that the two families must be withdrawn. It does not say that, and the reason it does not is written into the counter's own reason string and its mutation test."
+ },
+ "soTheTWOTERMINALFAMILIESSTAND": {
+  "families": ["in_conviction_d6-set", "in_conviction_felony-set"],
+  "onWhat": "a fifteen-obligation PASS_COMPLETE_INDEPENDENT from VF36, a complete-coverage RASTER_PASS from run 34472251666 bound to their current digests, no open legal input, and a declared product wiring.",
+  "andThisDeterminationIsWhyTheSTAND": "not the count. The count is what it is because the contract reads the way it does."
+ },
+ "aSEPARATEQUESTIONTHATISSTILLOPEN": {
+  "what": "What nonWhitespaceGlyphsOutsideMeasuredWriteBoxes itself means -- containment at the consumer, rect-identity at the producer. Recorded at GLYPH_KEY_CARRYING_AN_APPEARANCE_COUNT.json and held for Roger.",
+  "whyItDoesNotDisturbTHIS": "Both families' readings are 0 under either reading of that ambiguity, because there is no ink outside any box on either count. The ambiguity changes what the counter would say on families that HAVE such ink; it does not change a zero.",
+  "andTheOtherOne": "Several builders write this reading as a typed literal rather than measuring it. The three Indiana builders are among them -- FIX03 recorded it -- and their zero was confirmed true three independent ways by VF36 and VF42. Where a literal happens to be true it is still not a measurement, and that is tracked separately."
+ },
+ "grantsNothing": "This records a determination against the contract. It promotes nothing that was not already promoted and withdraws nothing."
+}
