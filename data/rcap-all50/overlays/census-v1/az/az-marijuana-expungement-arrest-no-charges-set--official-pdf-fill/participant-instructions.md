@@ -21,18 +21,73 @@ The registry distinguishes a routine statutory hearing from a contested one. In 
 
 The form prints its own destination across the caption of page 1: **In the Superior Court of Arizona for ______ County**. The county the platform wrote there is the county the packet was prepared for; file the completed petition with the Superior Court clerk in that county.
 
-Two things this packet does **not** tell you, because they are not established in this repository and writing an unsourced figure into a filing instruction would be worse than leaving it out:
+The committed track registry adds two things the form does not print. Its filing rule for this route, in its own words:
 
-- **The filing fee, and whether it can be waived.** Ask the Superior Court clerk in the county above what the fee is for a petition to expunge marijuana records, and whether a fee-waiver or deferral application applies to you.
-- **Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method.
+> File in the superior court in the county of arrest. Confirm the county-specific intake route before filing.
+
+And what it records about where a county actually takes these petitions:
+
+> Local intake varies. Maricopa County directs arrest-only petitions to a civil petition form and a civil case number.
+
+Read that second line before you go to the counter. This packet leaves the case number blank because on this route no charge was filed and the court assigns one; a county that routes an arrest-only petition to a civil petition form assigns a civil case number instead, which is the same blank answered a different way. Confirming the intake route first costs one telephone call and saves a rejected filing.
+
+## What this costs
+
+The committed track registry answers this route's fee question, so this packet answers it rather than sending you to ask. Its fee rule, in its own words:
+
+> none. Rule 36(a)(4) bars a filing fee.
+
+And its fee-waiver rule:
+
+> none
+
+No amount is printed above because the record states none: it states that the rule bars a fee. If a court asks you for money at the counter, that is the point to ask what the charge is for and to name the rule quoted above, not the point to pay it because this packet was vague.
+
+## Who must be served
+
+You serve nobody. The committed track registry puts transmittal on the court. Its service rule, in its own words:
+
+> none. Rule 36(b)(2) puts transmittal on the court.
+
+And its notice rule:
+
+> The court sends the petition to the prosecuting agency within 10 days.
+
+So do not arrange service, do not look for a proof-of-service form — none ships with this packet because none is yours to file — and do not treat the filing as incomplete until you have served someone. Filing the petition with the Superior Court clerk is the whole of your service obligation on this route.
 
 ## What you must do before you file
 
 1. **Mark every election listed below.** These are sworn statements about your own record. The platform never marks a box you swear to, because marking one would assert the fact for you.
 2. **Fill in every blank listed below.** Each one names the page and the printed words next to the blank.
-3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature. The blank signature and date line is deliberate.
+3. **Sign and date the petition yourself, knowing what you are swearing to.** The registry records the signature this form takes, in its own words:
+
+> Petitioner signs under penalty of perjury.
+
+   The platform never signs for you and never dates a signature. The blank signature and date line is deliberate.
 4. **Leave the attorney block empty** unless a lawyer or a licensed legal paraprofessional is filing this for you. The State Bar or LDP number, the party represented, and the whole attorney block at the end are theirs to complete, not yours.
 5. **Check the citing or arresting agency printed at question 2 of page 1** against your citation or arrest paperwork. The platform printed the agency name you stated; correct it before filing if it does not match your paperwork.
+
+## What the committed packet-set manifest requires before you file
+
+These are the packet-set manifest's own words for this packet, carried verbatim rather than summarised. Each one is an act the manifest records as required before this petition is filed — including, at the end, the manifest's own statement of what the filing costs:
+
+- Check your answer to "How much marijuana, or how many plants, did the arrest involve?" against Supporting exhibits: police report, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.
+- Case number, left blank for the court to assign — Petition, caption.
+- Signed perjury declaration — Petition, declaration block.
+- Petitioner signs under penalty of perjury.
+- none. Rule 36(a)(4) bars a filing fee.
+
+The first of those is the one most easily skipped. The quantity or plant count you rely on is the fact the whole petition turns on, and the registry records that self-help ends if the record does not establish it and the prosecutor disputes it. Check it against your own papers — the police report, the lab report showing weight, or a DPS or FBI extract — before you sign, and correct the packet if they disagree.
+
+## Look at this line on the printed page before you file
+
+The platform holds a value for the blank below, and on a petition where that value is longer than the printed line it writes nothing there at all: this packet shrinks no text below the size at which a clerk can read it, and it abbreviates nothing, because a shortened address or a shortened name on a sworn petition is a wrong one rather than a shorter one.
+
+**Look at the printed page.** If the blank below is empty on your copy, write the value in by hand before you file, in full and in the same words you gave the platform. It is not a value this packet lacks; it is one it could not fit.
+
+| Page | The blank on the form | Why it may be empty |
+| --- | --- | --- |
+| 1 | Email Address | the value held for it is longer than the printed line at the smallest readable type size, so nothing was written there |
 
 ## The elections you must mark
 

@@ -2888,6 +2888,460 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + routeDeterminedNote;
 }
 
+/* ================================================================================================
+ * ARIZONA PARTICIPANT GUIDANCE, READ FROM THE HELD RECORDS.
+ *
+ * FIX170. Until this repair the AZ path wrote westParticipantInstructions() --
+ * a twenty-line generic stub -- while the committed guide was a seventy-four
+ * line hand-authored page. Two consequences, and the second is the one that
+ * failed four obligations:
+ *
+ *   1. The committed AZ guidance was NOT reproducible from the committed AZ
+ *      builder. Any rebuild silently replaced it with the stub. vf53 measured
+ *      that and reported it; this repair closes it by making the builder emit
+ *      the page.
+ *
+ *   2. Because nothing generated the page from the records, the page answered
+ *      from nowhere. The committed track registry and the committed packet-set
+ *      manifest BOTH hold this route's fee, waiver, service, notice, filing and
+ *      pre-filing answers, and the hand-authored page told the participant to
+ *      go and ask a clerk for three of them -- which is not a gap but contrary
+ *      guidance, because the held answer to the fee question is that Rule
+ *      36(a)(4) bars one.
+ *
+ * Every sentence below that answers a fee, waiver, filing, service, notice or
+ * pre-filing question is READ from data/record-clearing/legal-design-track-registry.json
+ * or data/record-clearing/legal-design-packet-set-manifests.json and carried on a
+ * line of its own, verbatim. Nothing here paraphrases a rule into a participant
+ * document, and no figure is stated that a record does not state -- the fee
+ * rule for this route names no amount, so this page names none either.
+ *
+ * The three sections this repair does NOT derive -- the election tables, the
+ * blanks table and the deliberately-empty list -- are carried here verbatim
+ * from the committed page, because vf53 scored ROUTE_OPTIONS, REPEATING_ROWS
+ * and PROTECTED_FIELDS PASS on exactly that text and this lane holds no claim
+ * to rewrite them. Carrying them IN THE BUILDER is what makes the committed
+ * page reproducible; deriving them from the census is a later repair, recorded
+ * for the Captain rather than done here.
+ * ============================================================================================= */
+
+const AZ_GUIDE_CARRIED_HEAD = `# Filing instructions — petition to expunge marijuana records after an arrest with no charges filed
+
+This packet is prepared for a **petition to expunge marijuana records where you were arrested or cited and no charge was ever filed**, on the Arizona Administrative Office of the Courts form **AOC-CREM3F** (Petition to Expunge Records — Superior Court).
+
+The platform filled in what it knows about you: the person filing, your mailing address, your city, state and ZIP, your email, your telephone, the county, the defendant name, your date of birth, the arrest date, the name of the citing or arresting law enforcement agency you stated, and the address, email and phone in the declaration block. Everything else on this form is yours to complete, and this page lists every one of them by the words printed beside the blank.
+`;
+
+const AZ_GUIDE_CARRIED_TAIL = `## The elections you must mark
+
+Each of these is printed on the form with a \`[ ]\` box. Mark the one that is true for you.
+
+### Page 1 — the offence you are asking the court to expunge
+
+Mark whichever of the three describes what you were arrested or cited for:
+
+| Election | The printed line |
+| --- | --- |
+| eligible-charge-possession-limit-selection | \`[ ] Possessing, consuming, or transporting two and one-half ounces or less of marijuana, of which not more\` than twelve and one-half grams was in the form of marijuana concentrate |
+| eligible-charge-six-plants-selection | \`[ ] Possessing, transporting, cultivating, or processing not more than six marijuana plants at my primary\` residence for personal use |
+| eligible-charge-paraphernalia-selection | \`[ ] Possessing, using, or transporting paraphernalia related to the cultivation, manufacture, processing,\` or consumption of marijuana |
+
+### Page 2 — the questions about your case
+
+| Question | Mark Yes or No | If you mark Yes |
+| --- | --- | --- |
+| \`2. My court case began in a Justice Court [ ] Yes [ ] No. If Yes, insert name of Justice Court here:\` (\`justice-court-yes\` / \`justice-court-no\`) | Yes or No | fill in the Justice Court name and case number listed below |
+| \`4. I was convicted of the offense [ ] Yes [ ] No If Yes, insert date of conviction here:\` (\`convicted-yes\` / \`convicted-no\`) | Yes or No | fill in the conviction date listed below |
+| \`5. One or more non-eligible charges were filed against me in this same case [ ] Yes [ ] No.\` (\`non-eligible-charges-filed-yes\` / \`non-eligible-charges-filed-no\`) | Yes or No | — |
+| \`6. My sentence included a term of probation [ ] Yes [ ] No.\` (\`probation-yes\` / \`probation-no\`) | Yes or No | — |
+| \`7. My case was dismissed [ ] Yes [ ] No. If Yes, insert date of dismissal here:\` (\`dismissed-yes\` / \`dismissed-no\`) | Yes or No | fill in the dismissal date listed below |
+| \`8. There is an outstanding arrest warrant in this case [ ] Yes [ ] No.\` (\`outstanding-warrant-yes\` / \`outstanding-warrant-no\`) | Yes or No | — |
+| \`9. There is an active payment plan on my case [ ] Yes [ ] No.\` (\`active-payment-plan-yes\` / \`active-payment-plan-no\`) | Yes or No | — |
+| \`hereby request a hearing [ ] Yes [ ] No.\` (\`hearing-request-yes\` / \`hearing-request-no\`) | Yes or No | the court sets the hearing; you do not write a date |
+
+If you were arrested or cited and no charge was ever filed, questions 4, 5, 6 and 7 will usually be answered **No** — but read each one against your own paperwork and answer it truthfully. Nobody may answer them for you.
+
+## The blanks you must fill in
+
+| Page | The blank on the form | What to write |
+| --- | --- | --- |
+| 2 | If Yes, insert name of Justice Court here (\`justice-court-name\`) | the name of the Justice Court, if you answered Yes to question 2 — leave blank if you answered No |
+| 2 | Justice Court case number here (\`justice-court-case-number\`) | the Justice Court case number, if you answered Yes to question 2 — leave blank if you answered No |
+| 2 | Name of prosecuting agency (\`prosecuting-agency\`) | the name of the prosecuting agency, as it appears on your paperwork |
+| 2 | If Yes, insert date of conviction here (\`conditional-conviction-date\`) | the date you were convicted, if you answered Yes to question 4 — leave blank if you answered No |
+| 2 | If Yes, insert date of dismissal here (\`conditional-dismissal-date\`) | the date your case was dismissed, if you answered Yes to question 7 — leave blank if you answered No |
+
+## Blanks that are deliberately left empty
+
+- **Case Number** in the caption, and **Superior court case number** at question 3 — on this route no charge was filed, so there is no case number yet. The clerk assigns one when you file. Leave both blank; do not invent a number.
+- **My name at the time of arrest was (if different)** — fill this in only if the name on the arrest record is not the name printed as the defendant. The platform holds your current legal name and does not guess at a former one.
+- **Supporting documentation, lines 1 and 2** — optional. Describe anything you attach, if you attach anything.
+- **Petitioner's Signature / Date** — yours to sign and date, after you have read the completed petition.
+- **The attorney block** — State Bar or LDP number, party represented, attorney name, signature, bar number, mailing address, phone and email. Leave all of it blank unless a lawyer or licensed legal paraprofessional is filing for you.
+`;
+
+const AZ_PARTICIPANT_GUIDANCE = Object.freeze({
+  "az_marijuana_expungement_arrest_no_charges-set": Object.freeze({
+    trackId: "az_marijuana_expungement_arrest_no_charges",
+    packetSetId: "az_marijuana_expungement_arrest_no_charges-set",
+    carriedHead: AZ_GUIDE_CARRIED_HEAD,
+    carriedTail: AZ_GUIDE_CARRIED_TAIL,
+    // The form prints its own destination; the registry adds what the form
+    // cannot -- which superior court, and that local intake varies.
+    printedDestinationSentence:
+      "The form prints its own destination across the caption of page 1: **In the Superior Court of Arizona for ______ County**. The county the platform wrote there is the county the packet was prepared for; file the completed petition with the Superior Court clerk in that county.",
+  }),
+});
+
+/*
+ * The registry track and the packet-set manifest entry for one AZ family, read
+ * fresh and asserted rather than assumed. A record that stops holding one of
+ * these fails the build; it never falls back to a delegating paragraph, because
+ * the delegating paragraph IS the defect this repair removes.
+ */
+function azHeldRecords(guidance) {
+  const registry = readJson(TRACK_REGISTRY);
+  const track = (registry.tracks ?? []).find((row) => row.trackId === guidance.trackId);
+  assert.ok(track, `${guidance.trackId}: no committed track registry entry to read filing rules from`);
+  const manifest = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === guidance.packetSetId);
+  assert.ok(set, `${guidance.packetSetId}: no packet-set manifest entry to read pre-filing acts from`);
+  const rule = (name) => {
+    const text = String(track.rules?.[name] ?? "").trim();
+    assert.ok(text, `${guidance.trackId}: the track registry holds no rules.${name}`);
+    return text;
+  };
+  const destinationDetail = String(track.destination?.detail ?? "").trim();
+  assert.ok(destinationDetail,
+    `${guidance.trackId}: the track registry holds no destination.detail`);
+  const preFilingActs = (set.requiredBeforeFiling ?? [])
+    .map((row) => String(row).trim()).filter(Boolean);
+  assert.ok(preFilingActs.length,
+    `${guidance.packetSetId}: the packet-set manifest holds no requiredBeforeFiling act`);
+  return {
+    filing: rule("filing"),
+    fees: rule("fees"),
+    feeWaiver: rule("feeWaiver"),
+    service: rule("service"),
+    notice: rule("notice"),
+    participantSignature: rule("participantSignature"),
+    destinationDetail,
+    preFilingActs,
+  };
+}
+
+/*
+ * The mapped values the finalizer could not fit onto the printed line, read out
+ * of the finalizer's OWN refusal report for the fixtures this build just
+ * rendered -- not from a list maintained beside it.
+ *
+ * vf53's KNOWN_PREFILLS finding, measured in pixels: the boundary petition's
+ * page-1 Email Address line carries zero added ink because the value is longer
+ * than the 251.2pt line at the minimum readable font size, and NOTHING in the
+ * packet told the participant. The value is held, it prints in full in the
+ * page-2 declaration block, and it is simply absent from the line the form asks
+ * for it on.
+ *
+ * This repair takes the second of the two remedies vf53 named: the refusal is
+ * disclosed to the participant and the line is listed among the blanks they
+ * must complete by hand. The first remedy -- fitting the value by wrapping or
+ * by continuing onto a printed second line -- is NOT taken here, for a reason
+ * that is a measurement and not a preference: the write box is 11.2pt high,
+ * which is one line at the six-point readability floor, and this lane holds no
+ * measurement of an unowned second line beneath it. Abbreviating an email
+ * address is not available at all: a shortened address is a wrong address on a
+ * petition, not a shorter one.
+ *
+ * Consequence stated plainly for whoever verifies this: no delivered PDF byte
+ * moves, so this family owes no fresh raster on account of this repair, and a
+ * verifier who holds that the value must actually be PRINTED is owed a further
+ * repair that does move bytes.
+ */
+function azUnfittableDisclosures(fixtureReports, anchors) {
+  const byLabel = new Map(anchors.map((anchor) => [anchor.label, anchor]));
+  const rows = new Map();
+  for (const report of fixtureReports) {
+    for (const refusal of report.finalizerRefused ?? []) {
+      if (refusal.category !== "unfittable") continue;
+      const anchor = byLabel.get(refusal.anchor);
+      assert.ok(anchor,
+        `${report.fixture}: the finalizer refused ${JSON.stringify(refusal.anchor)}, which is not a measured anchor on this document`);
+      const key = `${anchor.page}:${refusal.anchor}`;
+      if (!rows.has(key)) {
+        rows.set(key, {
+          printedLabel: anchor.sourceLabel ?? anchor.label,
+          page: anchor.page,
+          reason: refusal.reason,
+          fixtures: [],
+        });
+      }
+      rows.get(key).fixtures.push(report.fixture);
+    }
+  }
+  return [...rows.values()].sort((left, right) =>
+    left.page - right.page || left.printedLabel.localeCompare(right.printedLabel));
+}
+
+function azUnfittableSection(disclosures) {
+  if (disclosures.length === 0) return "";
+  const one = disclosures.length === 1;
+  const lines = disclosures.map((row) =>
+    `| ${row.page} | ${row.printedLabel} | the value held for it is longer than the printed line at the smallest readable type size, so nothing was written there |`);
+  /*
+   * Written as a CHECK the participant performs on the page in front of them,
+   * not as an assertion about their own copy. This build renders more than one
+   * prepared version of the petition from the same page of guidance, and the
+   * line below is empty on some of them and filled on others depending on how
+   * long the held value is. Telling every reader their line is blank would be
+   * a statement this build cannot make about the copy in their hand; telling
+   * them to look at it is one it can, and it is the more useful instruction in
+   * any case.
+   */
+  return `## Look at ${one ? "this line" : "these lines"} on the printed page before you file
+
+The platform holds a value for the ${one ? "blank" : "blanks"} below, and on a petition where that value is longer than the printed line it writes nothing there at all: this packet shrinks no text below the size at which a clerk can read it, and it abbreviates nothing, because a shortened address or a shortened name on a sworn petition is a wrong one rather than a shorter one.
+
+**Look at the printed page.** If the ${one ? "blank" : "any of the blanks"} below ${one ? "is" : "are"} empty on your copy, write the value in by hand before you file, in full and in the same words you gave the platform. ${one ? "It is" : "They are"} not ${one ? "a value" : "values"} this packet lacks; ${one ? "it is one" : "they are ones"} it could not fit.
+
+| Page | The blank on the form | Why it may be empty |
+| --- | --- | --- |
+${lines.join("\n")}
+
+`;
+}
+
+/*
+ * The four record-derived sections. Each carries the held sentence on a line of
+ * its own so that a reader -- human or verifier -- can see the repository's own
+ * words rather than this build's summary of them.
+ */
+function azHeldAnswerSections(held, guidance) {
+  return `## Where you file this
+
+${guidance.printedDestinationSentence}
+
+The committed track registry adds two things the form does not print. Its filing rule for this route, in its own words:
+
+> ${held.filing}
+
+And what it records about where a county actually takes these petitions:
+
+> ${held.destinationDetail}
+
+Read that second line before you go to the counter. This packet leaves the case number blank because on this route no charge was filed and the court assigns one; a county that routes an arrest-only petition to a civil petition form assigns a civil case number instead, which is the same blank answered a different way. Confirming the intake route first costs one telephone call and saves a rejected filing.
+
+## What this costs
+
+The committed track registry answers this route's fee question, so this packet answers it rather than sending you to ask. Its fee rule, in its own words:
+
+> ${held.fees}
+
+And its fee-waiver rule:
+
+> ${held.feeWaiver}
+
+No amount is printed above because the record states none: it states that the rule bars a fee. If a court asks you for money at the counter, that is the point to ask what the charge is for and to name the rule quoted above, not the point to pay it because this packet was vague.
+
+## Who must be served
+
+You serve nobody. The committed track registry puts transmittal on the court. Its service rule, in its own words:
+
+> ${held.service}
+
+And its notice rule:
+
+> ${held.notice}
+
+So do not arrange service, do not look for a proof-of-service form — none ships with this packet because none is yours to file — and do not treat the filing as incomplete until you have served someone. Filing the petition with the Superior Court clerk is the whole of your service obligation on this route.
+
+`;
+}
+
+function azPreFilingSection(held) {
+  return `## What the committed packet-set manifest requires before you file
+
+These are the packet-set manifest's own words for this packet, carried verbatim rather than summarised. Each one is an act the manifest records as required before this petition is filed — including, at the end, the manifest's own statement of what the filing costs:
+
+${held.preFilingActs.map((act) => `- ${act}`).join("\n")}
+
+The first of those is the one most easily skipped. The quantity or plant count you rely on is the fact the whole petition turns on, and the registry records that self-help ends if the record does not establish it and the prosecutor disputes it. Check it against your own papers — the police report, the lab report showing weight, or a DPS or FBI extract — before you sign, and correct the packet if they disagree.
+
+`;
+}
+
+function azParticipantInstructions(familyId, { fixtureReports = [], anchors = [] } = {}) {
+  const guidance = AZ_PARTICIPANT_GUIDANCE[familyId];
+  assert.ok(guidance, `${familyId}: no AZ participant guidance is configured`);
+  const held = azHeldRecords(guidance);
+  const disclosures = azUnfittableDisclosures(fixtureReports, anchors);
+  const page = `${guidance.carriedHead}
+${westRegistryStopConditionSection(familyId)}${azHeldAnswerSections(held, guidance)}## What you must do before you file
+
+1. **Mark every election listed below.** These are sworn statements about your own record. The platform never marks a box you swear to, because marking one would assert the fact for you.
+2. **Fill in every blank listed below.** Each one names the page and the printed words next to the blank.
+3. **Sign and date the petition yourself, knowing what you are swearing to.** The registry records the signature this form takes, in its own words:
+
+> ${held.participantSignature}
+
+   The platform never signs for you and never dates a signature. The blank signature and date line is deliberate.
+4. **Leave the attorney block empty** unless a lawyer or a licensed legal paraprofessional is filing this for you. The State Bar or LDP number, the party represented, and the whole attorney block at the end are theirs to complete, not yours.
+5. **Check the citing or arresting agency printed at question 2 of page 1** against your citation or arrest paperwork. The platform printed the agency name you stated; correct it before filing if it does not match your paperwork.
+
+${azPreFilingSection(held)}${azUnfittableSection(disclosures)}${guidance.carriedTail}`;
+  azAssertParticipantGuidanceCarriesTheRecord({ familyId, page, held, disclosures });
+  return { page, held, disclosures };
+}
+
+/*
+ * THE GUARDS.
+ *
+ * Every one measures the EMITTED PAGE, line by line, and every one would refuse
+ * the exact defect vf53 recorded if it returned. Substring presence is not
+ * accepted anywhere below: a held sentence has to occupy a line of its own,
+ * because a sentence buried mid-paragraph is what a summary looks like and the
+ * obligation is that the record's own words are carried.
+ */
+function azGuideLines(page) {
+  return String(page).split("\n")
+    .map((line) => line.trim().replace(/^(?:[-*>]\s+|\d+\.\s+)/, "").trim())
+    .filter(Boolean);
+}
+
+/*
+ * The page split into its `##` sections, so that a held sentence can be
+ * required IN THE SECTION THAT ANSWERS THE QUESTION rather than anywhere on the
+ * page.
+ *
+ * This is not a refinement, it is a defect this lane found in its own first
+ * guard and fixed before crediting it. The manifest's requiredBeforeFiling list
+ * happens to carry the fee rule verbatim as its last entry, so a page-wide
+ * search for the fee sentence was satisfied by the pre-filing list even after
+ * the fee section itself had been replaced with this build's own paraphrase --
+ * the guard passed on a page that had just committed the exact defect
+ * FEE_AND_WAIVER failed for. A guard that can be satisfied by a sentence in
+ * another section is not measuring the section it claims to measure.
+ */
+function azGuideSections(page) {
+  const sections = new Map();
+  let heading = null;
+  let body = [];
+  for (const line of String(page).split("\n")) {
+    const match = /^##\s+(.*)$/.exec(line.trim());
+    if (match) {
+      if (heading !== null) sections.set(heading, body);
+      heading = match[1].trim();
+      body = [];
+    } else if (heading !== null) {
+      body.push(line);
+    }
+  }
+  if (heading !== null) sections.set(heading, body);
+  return sections;
+}
+
+const AZ_HELD_SENTENCE_SECTIONS = Object.freeze([
+  Object.freeze({ obligation: "FILING_DESTINATION", section: "Where you file this",
+    rules: Object.freeze(["filing", "destinationDetail"]) }),
+  Object.freeze({ obligation: "FEE_AND_WAIVER", section: "What this costs",
+    rules: Object.freeze(["fees", "feeWaiver"]) }),
+  Object.freeze({ obligation: "SERVICE", section: "Who must be served",
+    rules: Object.freeze(["service", "notice"]) }),
+  Object.freeze({ obligation: "REQUIRED_BEFORE_FILING", section: "What you must do before you file",
+    rules: Object.freeze(["participantSignature"]) }),
+]);
+
+function azAssertParticipantGuidanceCarriesTheRecord({ familyId, page, held, disclosures }) {
+  const lines = azGuideLines(page);
+  const sections = azGuideSections(page);
+  const carriedOnALineOfItsOwn = (text) => lines.includes(String(text).trim());
+
+  // G1 -- every held sentence carried verbatim, on a line of its own, INSIDE
+  // the section that answers its question. FILING_DESTINATION, FEE_AND_WAIVER,
+  // SERVICE and the perjury half of REQUIRED_BEFORE_FILING are the four vf53
+  // failed this family on, and each fails again here the moment its section
+  // stops quoting the record.
+  for (const scope of AZ_HELD_SENTENCE_SECTIONS) {
+    const body = sections.get(scope.section);
+    assert.ok(body,
+      `${familyId}: ${scope.obligation} -- the guidance carries no "${scope.section}" section`);
+    const sectionLines = azGuideLines(body.join("\n"));
+    for (const name of scope.rules) {
+      const text = String(held[name]).trim();
+      assert.ok(sectionLines.includes(text),
+        `${familyId}: ${scope.obligation} -- the registry's ${name} is not carried on a line of its own inside "${scope.section}": ${JSON.stringify(text)}`);
+    }
+  }
+
+  // G3 -- the contrary-guidance guard, which is the one that actually failed.
+  // A packet whose record ANSWERS the fee, waiver or service question may not
+  // also send the participant to ask someone else for that answer. Phrased
+  // against the act -- asking a clerk what the fee is, or who must be served --
+  // rather than against the exact committed wording, so a reworded relapse is
+  // refused too.
+  const delegations = [
+    [/\bask\b[^.]*\b(?:what|whether)\b[^.]*\bfee\b/i, "asks someone else what the filing fee is"],
+    [/\bask\b[^.]*\bfee[- ]waiver\b/i, "asks someone else whether a fee waiver applies"],
+    [/\bask\b[^.]*\bwho\b[^.]*\b(?:must (?:be served|receive)|serve)\b/i, "asks someone else who must be served"],
+    [/\bwho must be served, and how\b/i, "restates the withdrawn service delegation"],
+  ];
+  for (const rawLine of String(page).split("\n")) {
+    for (const [pattern, what] of delegations) {
+      assert.ok(!pattern.test(rawLine),
+        `${familyId}: the guidance ${what} on a route whose committed records answer it: ${JSON.stringify(rawLine.trim())}`);
+    }
+  }
+
+  // G4 -- no money this packet does not hold. The fee rule for this route names
+  // no amount; a figure on the page would therefore be this build's invention.
+  const recordStatesAnAmount = /\$[\d]/.test(`${held.fees} ${held.feeWaiver}`);
+  const pageStatesAnAmount = /\$[\d]/.test(page);
+  assert.equal(pageStatesAnAmount, recordStatesAnAmount,
+    `${familyId}: the guidance states a dollar figure the committed fee rule does not state`);
+
+  // G5 -- REQUIRED_BEFORE_FILING. Every act the manifest requires, carried
+  // verbatim on a line of its own. This is a READING of the manifest's list,
+  // so an act added to the record later fails the build until the page carries
+  // it, rather than passing on a count that was true once.
+  const carriedActs = held.preFilingActs.filter(carriedOnALineOfItsOwn);
+  assert.deepEqual(carriedActs, held.preFilingActs,
+    `${familyId}: REQUIRED_BEFORE_FILING -- ${held.preFilingActs.length - carriedActs.length} of ${held.preFilingActs.length} manifest pre-filing acts are not carried on a line of their own`);
+
+  // G6 -- KNOWN_PREFILLS. Every mapped value the finalizer could not fit is
+  // named on the page. The count compared is the count READ from the
+  // finalizer's refusal report on this run, never a literal.
+  const named = disclosures.filter((row) => String(page).includes(row.printedLabel));
+  assert.equal(named.length, disclosures.length,
+    `${familyId}: KNOWN_PREFILLS -- ${disclosures.length - named.length} of ${disclosures.length} unfittable mapped writes are not disclosed to the participant`);
+  if (disclosures.length > 0) {
+    assert.ok(/Look at th(?:is|ese) line/.test(page),
+      `${familyId}: KNOWN_PREFILLS -- an unfittable write was recorded but the page carries no disclosure section`);
+  }
+
+  return {
+    heldSentencesCarriedInTheSectionThatAnswersThem:
+      AZ_HELD_SENTENCE_SECTIONS.reduce((sum, scope) => sum + scope.rules.length, 0),
+    manifestPreFilingActsCarried: carriedActs.length,
+    manifestPreFilingActsDeclared: held.preFilingActs.length,
+    unfittableMappedWritesDisclosed: named.length,
+    unfittableMappedWritesReadFromFinalizerReports: disclosures.length,
+  };
+}
+
+/*
+ * What this build actually offers as an anchor among the fields a court, a
+ * clerk, a prosecutor or an attorney owns -- read from AZ_FIELD_SPECS rather
+ * than asserted beside them.
+ */
+function azAgencyAnchorObservation() {
+  const owned = AZ_FIELD_SPECS.filter((field) =>
+    /agency|prosecutor|attorney|signature|court-identity|clerk/.test(field.role));
+  const written = owned.filter((field) => field.writeFor);
+  const base = "No printed bracket control is marked. No signature, signature date, prosecuting-agency, court-identity, clerk, or attorney field is offered as an anchor.";
+  if (written.length === 0) return base;
+  return `${base} ${written.map((field) =>
+    `The ${field.id} blank is written from the participant-stated fact ${field.factId}, per the shared participant fact allowlist (wave-2 S1).`).join(" ")}`;
+}
+
 function azMapAndAnchors(familyId, config, census) {
   const fields = census.fields.map((field) => ({ ...field, ...azDisposition(config, field) }));
   const anchors = [];
@@ -3463,7 +3917,6 @@ async function buildAz(familyId, config) {
     pages: census.pages, fields: census.fields, controls: census.controls,
   });
   writeJson(`${out}/production-field-map.json`, map);
-  writeText(`${out}/participant-instructions.md`, westParticipantInstructions(familyId, map));
 
   const artifacts = [];
   const actualReports = [];
@@ -3487,13 +3940,30 @@ async function buildAz(familyId, config) {
      * matched no rendered artifact and was counted missing, on a packet that
      * renders it twice.
      */
+    // FIX170: key order restored to the committed record's. The values were
+    // already identical either way; the reordering alone made every rebuild
+    // dirty this file and hid, in the noise, whether anything real had moved.
     artifacts.push({ fixture, file, sha256: proof.sha256, byteLength: proof.byteLength,
       pageCount: AZ_SOURCE.pageCount,
-      documentId: AZ_SOURCE.documentId, formNumber: AZ_SOURCE.formNumber,
       valuesWrittenFromOutputBytes: proof.writes.filter((row) => row.textReadFromOutputBytes).length,
-      finalizerRefusals: proof.finalizerRefused.length });
+      finalizerRefusals: proof.finalizerRefused.length,
+      documentId: AZ_SOURCE.documentId, formNumber: AZ_SOURCE.formNumber });
     actualReports.push(proof);
   }
+  /*
+   * FIX170. The participant page is written AFTER the fixtures, not before.
+   *
+   * It has to be: the KNOWN_PREFILLS disclosure is a reading of the
+   * finalizer's own refusal report for the fixtures this run just rendered,
+   * and a page written before them could only have carried a list someone
+   * maintained by hand beside the build -- which is the class of record this
+   * factory treats as a lying counter. Written here, a mapped value that stops
+   * fitting on a printed line discloses itself on the very next build.
+   */
+  const azGuide = AZ_PARTICIPANT_GUIDANCE[familyId]
+    ? azParticipantInstructions(familyId, { fixtureReports: actualReports, anchors })
+    : { page: westParticipantInstructions(familyId, map), disclosures: [] };
+  writeText(`${out}/participant-instructions.md`, azGuide.page);
   const raster = await rasterizeArtifacts(familyId, artifacts);
   writeJson(`${out}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-from-output-bytes/v1", familyId,
@@ -3559,7 +4029,17 @@ async function buildAz(familyId, config) {
       config.variant === "arrest_no_charges"
         ? "The two case-number blanks are explicitly refused on this route because its route record says the court assigns the case number."
         : "The two case-number blanks are explicitly mapped to matter.case_number on this superior-court route.",
-      "No printed bracket control is marked. No signature, signature date, law-enforcement/prosecutor agency, court-identity, clerk, or attorney field is offered as an anchor.",
+      /*
+       * FIX170. This observation was a literal, and at this HEAD it was a
+       * FALSE one: it denied that any law-enforcement or prosecutor field is
+       * offered as an anchor while AZ_FIELD_SPECS offers exactly one -- the
+       * citing-or-arresting agency, written from the participant's own stated
+       * fact since 9895e984b. The build's own self-test already asserts that
+       * single write, so the record and the assertion contradicted each other
+       * and the record was the one that was wrong. It is now read from the
+       * specs, so it cannot drift away from them again.
+       */
+      azAgencyAnchorObservation(),
       "Every added text glyph in both fixture PDFs was read from the finished bytes and attributed to a measured write box; every page was rastered with version-identified Poppler pdftoppm at 72 dpi.",
     ],
     stillRequired: ["Output-level legal approval.", "Independent human visual review.",
