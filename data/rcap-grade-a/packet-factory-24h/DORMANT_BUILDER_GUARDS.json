@@ -1,0 +1,381 @@
+{
+  "schemaVersion": "rcap-dormant-builder-guards/v1",
+  "lane": "FIX173",
+  "kind": "MACHINERY",
+  "generatedBy": "FIX173, working from scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "lane-fix173-20260910",
+  "baseCommit": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+  "familyGrantsHeld": [],
+  "familyGrantsReleased": [],
+  "packetBytesMoved": 0,
+
+  "theDefect": {
+    "statement": "A guard nothing invokes is not a guard. 619 assertions across 14 builders sat inside a selfTest() reachable only through process.argv.includes(\"--self-test\"), and nothing in .github/ or the integration chain passed that flag.",
+    "measuredAtBase": {
+      "builders": 14,
+      "assertions": 619,
+      "note": "The checker's own header said 676. That was not a reading of this tree; it has been corrected to the measured 619."
+    },
+    "priorProof": "VF61 reintroduced the exact defect FIX166 had repaired in il-seal-3yr-set and a plain build exited 0 and wrote the fabricated literals to disk. FIX173 re-measured that itself rather than taking it on report: see the il-seal-3yr-set break below.",
+    "onlySelfTestFlagInCi": "scripts/rcap-packet-completeness/summarize-readiness-steps.mjs, which is not a builder"
+  },
+
+  "caseOne_ca_1203_4_set": {
+    "symptom": "build-census-v1-ca-1203-4-set.mjs was the one builder of the fourteen whose --self-test failed, on an assert.deepEqual over a family-id list.",
+    "whatTheListIsFor": "Object.keys(FAMILIES) -- a census of the packet families this copy of the WEST engine serves, asserted against a literal so that a family arriving or leaving cannot pass unremarked.",
+    "resolution": "STALE_EXPECTATION_UPDATED",
+    "howResolved": "ca-1203-4-set belongs in FAMILIES; the literal was stale, and two more literals beside it were stale the same way. All three were copied verbatim from the sibling engine build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, whose FAMILIES legitimately holds nine, and never grew the tenth entry when this copy took ownership of its namesake family.",
+    "evidenceThatTheRegistryWasRight": [
+      "ca-1203-4-set is this engine's FIRST_FAMILY and the file's namesake.",
+      "It is the only CA family here carrying an assignmentOwnedPath, which is the marker of a family a copy builds rather than reads; the AZ sibling carries the marker on its own two AZ families and on no CA one.",
+      "It has matching per-family entries in CA_ROUTE_VARIANTS and CA_PARTICIPANT_GUIDANCE and its own scripts/census-v1-ca-1203-4-set/ pikepdf readers.",
+      "Its overlay directory data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill is committed with 51 files including 30 fixture PDFs.",
+      "MASS_PACKET_PRODUCTION_150.json declares familyId ca-1203-4-set against scripts/build-census-v1-ca-1203-4-set.mjs with overlayDirectoryExists true and the same five form numbers FAMILIES gives it.",
+      "Removing it from FAMILIES would fail the CA_ROUTE_VARIANTS census that sits below the assertion, which requires the CA family keys of the two registries to match.",
+      "For the second stale literal, the useMeasuredMc031Labels census: every CA family whose formNumbers carry MC-031 takes the measured MC-031 labels, ca-1203-4-set carries MC-031, and ca-1203-43-set, which does not, is correctly absent.",
+      "For the third, repaired1203Families: the committed production-field-map.json of ca-1203-4-set carries the measured CR-106 caption basis exactly as ca-1203-41-set's does, and ca-17b-reduction-set, which does not take that repair, carries none."
+    ],
+    "nothingWasWeakened": "The MC-031 census gained a derived invariant beside the literal, and repaired1203Families now drives its per-family CR-106-label and participant-instruction loops over a fifth family.",
+    "fullBuildOfTheFamily": {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-ca-1203-4-set.mjs",
+      "packetBytesMoved": 0,
+      "howMeasured": "All 30 fixture PDFs were rewritten -- mtimes moved -- and git reported none of them modified.",
+      "buildOutcome": "exit 1, at assertDistinctRouteArtifactsWhenAvailable, which is already in the build path and is reporting a defect in a family this lane does not own",
+      "preExistingDefectFound": {
+        "family": "ca-17b-reduction-set",
+        "finding": "Its two statutory variants, pc-17b-felony-to-misdemeanor and pc-17d2-misdemeanor-to-infraction, recorded byte-identical CR-180 primary artifacts in its own committed reports/rendered-artifacts.json.",
+        "canonicalSha256": "ee454a96d041",
+        "boundarySha256": "11816c4df15c",
+        "distinctOfTotal": "5 of 6, on both the canonical and the boundary side",
+        "consequence": "Any full CA rebuild on this engine that reaches the cross-family check stops here. Not repaired: this lane holds no family grant.",
+        "shaNote": "The two digests are recorded to twelve hex characters because that is the width this lane read them at; the full values are in that family's committed rendered-artifacts.json."
+      }
+    }
+  },
+
+  "caseTwo_guardsMovedIntoTheBuildPath": {
+    "method": "For each builder, the assertions that read a file the build writes were moved into a named function the build path calls after its last write, with selfTest() kept as a thin wrapper so --self-test still audits the committed tree. Each move was then proved behaviourally: a defect the moved assertion is meant to catch was reintroduced, the builder run with NO FLAGS against the committed builder and against the repaired one, and the two exit codes and the on-disk consequence recorded. Every break was then restored and the family rebuilt, and the directory compared file by file against the committed tree.",
+    "buildersChanged": 11,
+    "familiesCovered": 13,
+    "assertionsNowRunningInABuild": 382,
+    "assertionArithmetic": "The eleven builders changed here carried 430 flag-gated assertions at 63a28b5f. 48 stay behind the flag by decision -- 26 in mi_setaside_trafficking-set and 22 in az_marijuana_expungement_limited_jurisdiction-set, both frozen-constant censuses -- so 382 assertions that had never run in a build now run in one. The counts are the checker's own reading of each selfTest body, before and after.",
+    "builders": [
+      {
+        "builder": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+        "family": "mi_setaside_trafficking-set",
+        "assertionsAtBase": 88,
+        "moved": "The whole OUT-reading half: source receipt, production field map, participant guide, rendered-artifacts.json with the pinned artifact digests, completeness counters, build-status.json, and the claimReleased scan over every JSON in the directory.",
+        "leftBehindAndWhy": "everyPageRastered and rasterPages.length. A build legitimately moves both -- a host with a calibrated rasterizer rasters locally and a host without one does not -- so they stay a --self-test reading of the committed review state. Measured: a plain build on this host moves exactly those two keys plus their two counterparts in build-status.json and nothing else. The 26 assertions still in selfTest() assert this builder's own frozen constants (the corpus-index entry, the MC-227B field dictionary, the two fixtures) rather than anything on disk, and the build path already re-derives the same facts from the pinned binary in censusOf and asserts the delivered map's shape in the moved half.",
+        "breaks": [
+          {
+            "defect": "production-field-map.json written with generationAllowed: true",
+            "committedBuilder": "exit 0, and \"generationAllowed\": true delivered at line 9117 of the field map",
+            "repairedBuilder": "exit 1 from runFamily, true !== false"
+          },
+          {
+            "defect": "FIXTURES.canonical participant.phone changed by one digit, moving the composed Parties box and so the delivered PDF",
+            "committedBuilder": "exit 0, and fixtures/canonical.pdf on disk became 05442f343e5dc18e712d0097a361ba984c092a03d248a098f1c57b44766ad258",
+            "repairedBuilder": "exit 1, \"canonical bytes moved\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": {
+            "fixtures/canonical.pdf": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+            "fixtures/boundary.pdf": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2"
+          },
+          "after": {
+            "fixtures/canonical.pdf": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+            "fixtures/boundary.pdf": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2"
+          },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+        "family": "il-seal-2yr-set",
+        "assertionsAtBase": 57,
+        "moved": "All of it. selfTest() read only reports/actual-writes.json, production-field-map.json and participant-instructions.md.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "FIX118's hand-written stop sentence put back in place of the controlling record's eight stop conditions",
+            "committedBuilder": "exit 0, the sentence delivered in participant-instructions.md and the record's stop conditions gone",
+            "repairedBuilder": "exit 1, \"participant-instructions.md must carry the stop condition: The State's Attorney, ISP, the arresting agency or the chief\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "boundary": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e" },
+          "after": { "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "boundary": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+        "family": "il-seal-3yr-set",
+        "assertionsAtBase": 46,
+        "moved": "All of it.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "VF61's own break re-measured: addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes written as the literal 0, undoing FIX166",
+            "committedBuilder": "exit 0, and reports/actual-writes.json delivered both literals for both fixtures. The completeness verifier derives invisibleWrites from the first of them.",
+            "repairedBuilder": "exit 1, \"canonical: addedGlyphsReadFromOutputBytes must be a reading of the delivered bytes, not a literal: 0\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433", "boundary": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb" },
+          "after": { "canonical": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433", "boundary": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-seal-edu-set.mjs",
+        "family": "il-seal-edu-set",
+        "assertionsAtBase": 45,
+        "moved": "All of it.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "an internal registry disposition identifier printed into the delivered guide, which is FIX163's defect class",
+            "committedBuilder": "exit 0, \"supervision_successfully_completed\" delivered on line 253 of participant-instructions.md",
+            "repairedBuilder": "exit 1, \"an internal disposition identifier reached the participant: supervision_successfully_completed\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1", "boundary": "601e2ca1935f260128b20014f91ca1d31c2194e5d628342e4fe740a2203909c3" },
+          "after": { "canonical": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1", "boundary": "601e2ca1935f260128b20014f91ca1d31c2194e5d628342e4fe740a2203909c3" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
+        "family": "il-exp-qualprob-set",
+        "assertionsAtBase": 40,
+        "moved": "All of it.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "the guide sent back to a Case List election column the official ATJ 2902.1 does not have",
+            "committedBuilder": "exit 0, the direction delivered in participant-instructions.md",
+            "repairedBuilder": "exit 1, \"the guide must not direct the filer to a Case List election column: the official ATJ 2902.1 has no such field\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "fb7c7dbd4bb01d187fadd69e6857a57be57d840d44049a23ecc9692a54927008", "boundary": "e8f82821fe6368795fe7f6cafcf774b1a10014661a5b1228284b05c3fa0139ec" },
+          "after": { "canonical": "fb7c7dbd4bb01d187fadd69e6857a57be57d840d44049a23ecc9692a54927008", "boundary": "e8f82821fe6368795fe7f6cafcf774b1a10014661a5b1228284b05c3fa0139ec" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-exp-supervision-set.mjs",
+        "family": "il-exp-supervision-set",
+        "assertionsAtBase": 8,
+        "moved": "All of it.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "the four clerk-assigned \"N - Case Number\" captions reclassified in the delivered field map from court_prosecutor_clerk_or_agency_owned to signature_or_date_participant_completion",
+            "committedBuilder": "exit 0, and the delivered production-field-map.json carried 4 such captions with 0 court-owned",
+            "repairedBuilder": "exit 1, \"all four clerk-assigned case-number captions must be declared protected\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb", "boundary": "df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2" },
+          "after": { "canonical": "330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb", "boundary": "df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
+        "family": "il-exp-nonconv-set",
+        "assertionsAtBase": 30,
+        "moved": "All of it, fenced by familyId because the builder exports buildIllinoisFamily and the guard reads one hardcoded output directory.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "Request item 12 answered Yes on a route with no sealing authority",
+            "committedBuilder": "exit 0, \"12 - Seal Records\" delivered as Yes and both packet PDFs moved: canonical 66f6e94e... to 6858f0e0..., boundary db3bb03c... to 71969e47...",
+            "repairedBuilder": "exit 1, \"item 12 must be answered No: this route carries no sealing authority\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86", "boundary": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa" },
+          "after": { "canonical": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86", "boundary": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
+        "family": "il-cannabis-vacate-set",
+        "assertionsAtBase": 31,
+        "moved": "All of it, fenced by familyId for the same reason. One assertion reads the builder's own source rather than the delivered tree; it is deterministic and costs nothing, so it moved with the rest.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "DETACH_SOURCE_FORM_CONTROLS flipped to false, undoing FIX147, so the source forms' seventeen PRINT/SAVE/RESET push-buttons flatten into the delivered pages",
+            "committedBuilder": "exit 0, delivered field map showing 0 detached and 17 carrying sourceAuthoredInk, and both PDFs moved (canonical 130ccba7... to 2dc3c706...)",
+            "repairedBuilder": "exit 1, \"every source push-button must be declared and detached before the flattener can stamp it\""
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "130ccba7073cedaec918191053c2d7340da973e952ebff0cd482585197598fab", "boundary": "8d0f9ac0877f52d86975d152f9c6587e82194644edc65190de1e55317d31a946" },
+          "after": { "canonical": "130ccba7073cedaec918191053c2d7340da973e952ebff0cd482585197598fab", "boundary": "8d0f9ac0877f52d86975d152f9c6587e82194644edc65190de1e55317d31a946" },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-il-exp-pardon-set.mjs",
+        "family": "il-exp-pardon-set, il-exp-precompletion-set, il-seal-nonconv-set",
+        "assertionsAtBase": 38,
+        "moved": "All of it. This engine's selfTest was already parameterised by familyId, so the move covers all three families it builds. It had run for one of the three and only under the flag: the other two import the engine and had no path to it at all.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "the optionalUnusedSlot classification disabled, so the seventy unused Case List arrest slots reach the participant guide as their interior AcroForm names",
+            "committedBuilder": "exit 0, and the delivered participant-instructions.md carried 124 lines reading \"- Complete arrestN on ...\"",
+            "repairedBuilder": "exit 1, \"an interior AcroForm name is not a caption a participant can find on the page\", and il-seal-nonconv-set, which had never reached this guard, refuses too"
+          }
+        ],
+        "fixtureDigests": {
+          "before": {
+            "il-exp-pardon-set canonical": "5a8b9cf44d7634ef2f3c9d8e86592f307822396859fbab3cc4ba88ee7b31b80b",
+            "il-exp-pardon-set boundary": "19cd7648aaa875abf81a918eeaf0fea52174d5e29a20e6e0d537c3ca87fd3441",
+            "il-exp-precompletion-set canonical": "3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f",
+            "il-exp-precompletion-set boundary": "0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631",
+            "il-seal-nonconv-set canonical": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+            "il-seal-nonconv-set boundary": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1"
+          },
+          "after": {
+            "il-exp-pardon-set canonical": "5a8b9cf44d7634ef2f3c9d8e86592f307822396859fbab3cc4ba88ee7b31b80b",
+            "il-exp-pardon-set boundary": "19cd7648aaa875abf81a918eeaf0fea52174d5e29a20e6e0d537c3ca87fd3441",
+            "il-exp-precompletion-set canonical": "3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f",
+            "il-exp-precompletion-set boundary": "0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631",
+            "il-seal-nonconv-set canonical": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+            "il-seal-nonconv-set boundary": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1"
+          },
+          "wholeDirectoryIdentical": true
+        }
+      },
+      {
+        "builder": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+        "family": "in_infraction_nondisclosure-set",
+        "assertionsAtBase": 3,
+        "moved": "All of it: the delivered receipt, the delivered guide, and the extracted text of the two delivered PDFs.",
+        "leftBehindAndWhy": "Nothing.",
+        "breaks": [
+          {
+            "defect": "the outstanding official-forms-index confirmation removed from the delivered source receipt",
+            "committedBuilder": "exit 0, and the delivered source-receipt.json carried zero mentions of the official forms index while its own officialFormExistenceStatus stayed NOT_CONFIRMED_CURRENT",
+            "repairedBuilder": "exit 1, \"receipt must disclose the outstanding official-index confirmation\""
+          }
+        ],
+        "fixtureDigests": { "wholeDirectoryIdentical": true }
+      },
+      {
+        "builder": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "family": "az_marijuana_expungement_limited_jurisdiction-set",
+        "assertionsAtBase": 44,
+        "moved": "The OUT-reading half: receipt, production field map, rendered-artifacts.json with the pinned artifact digests, completeness counters, build-status.json and the claimReleased scan.",
+        "leftBehindAndWhy": "everyPageRastered, for the same measured reason as Michigan's. The 22 assertions still in selfTest() are the source pin and the printed-rule geometry census over this builder's own frozen WRITES and REFUSALS constants -- assertions about the builder's inputs rather than about anything it wrote.",
+        "breaks": [
+          {
+            "defect": "production-field-map.json written with generationAllowed: true",
+            "committedBuilder": "exit 0, \"generationAllowed\": true delivered in the field map",
+            "repairedBuilder": "exit 1, true !== false"
+          }
+        ],
+        "fixtureDigests": {
+          "before": { "canonical": "d82d2df0f6e16c61cb8dfd3d405945a4b92fc885b4dd99ed07058d880023614f", "boundary": "aa1bade440c1417966bd1579d6b5084f0961942b18fb8643e1835e3d4c1181c8" },
+          "after": { "canonical": "d82d2df0f6e16c61cb8dfd3d405945a4b92fc885b4dd99ed07058d880023614f", "boundary": "aa1bade440c1417966bd1579d6b5084f0961942b18fb8643e1835e3d4c1181c8" },
+          "wholeDirectoryIdentical": false,
+          "whatDiffers": "product-wiring.json only, e8f5f398b760873f58819a14d2ffe5377e11b40b8ea977ec619d865661d7e928 becoming 8217ff4bd6197dd10846cac339c2e07bab1db2ea180b37af83fe81be1b1f1230. This builder strips the governance binding block, including a bound RASTER_PASS acceptance receipt, from product-wiring.json on any rebuild. Pre-existing and not this lane's doing: measured on the committed builder before any edit. The tree here is restored. Raised for the Captain -- it is the class verify-governance-state-survives-rebuild.mjs exists for."
+        }
+      }
+    ],
+    "buildersLeftAloneAndWhy": [
+      {
+        "builder": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "assertionsStillBehindTheFlag": 17,
+        "disposition": "LEAVE_BEHIND_THE_FLAG",
+        "why": "This one is the second kind almost entirely. It runs a --dry-run build, constructs synthetic PDFDocuments and saves and reloads them to measure decoded content streams and added vector ink, unit-tests pure functions (safeSourcePath, protectCategoryOf, semanticRole), and drives mutation harnesses through assert.throws and assert.rejects. Running that on every build would make the build construct scratch documents to test itself. Its only touch of an output tree is an existsSync on two reports belonging to a different family, which is not an invariant of the family being built."
+      },
+      {
+        "builder": "scripts/build-census-v1-ca-1203-4-set.mjs",
+        "assertionsStillBehindTheFlag": 87,
+        "disposition": "ALREADY_IN_THE_BUILD_PATH_BY_ANOTHER_ROUTE",
+        "why": "The WEST engine's delivered-evidence checks are not in selfTest at all: they are in checkCa, which buildCa reaches through caCompletionEvidenceReady before it writes the approval request. Measured, not assumed -- the full build of ca-1203-4-set on this host exited 1 inside checkCa, at assertDistinctRouteArtifactsWhenAvailable, reached from buildCa. What remains in selfTest is a registry and source-contract census (FAMILIES, CA_ROUTE_VARIANTS, AZ_FIELD_SPECS, typeof and String(fn) contract checks) plus fixture-level harnesses: no assertion in it reads this family's OUT tree."
+      },
+      {
+        "builder": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "assertionsStillBehindTheFlag": 86,
+        "disposition": "ALREADY_IN_THE_BUILD_PATH_BY_ANOTHER_ROUTE",
+        "why": "The same engine, the same shape: buildAz reaches checkAz through azCompletionEvidenceReady before the approval request is written, and no assertion in this copy's selfTest reads its OUT tree."
+      },
+      {
+        "builder": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+        "assertionsStillBehindTheFlag": 26,
+        "disposition": "PARTIALLY_MOVED",
+        "why": "See the Michigan entry above: the delivered half moved, the frozen-constant half did not."
+      },
+      {
+        "builder": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "assertionsStillBehindTheFlag": 22,
+        "disposition": "PARTIALLY_MOVED",
+        "why": "See the Arizona limited-jurisdiction entry above."
+      }
+    ]
+  },
+
+  "caseThree_theGate": {
+    "gate": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+    "addedToChain": true,
+    "chain": "scripts/grade-a-packet-factory-24h/integrate.mjs",
+    "position": "fourth tripwire, after verify-governance-state-survives-rebuild.mjs and before extract-verifier-returns.mjs",
+    "passingWhenAdded": "263 assertions across 6 builders, all 6 passing",
+    "passingNow": "238 assertions across 5 builders, all 5 passing",
+    "whyTheNumberFalls": "The checker's scope is what is still dormant. A builder whose guards move into its build path stops being in scope, which is the measurement working rather than coverage being lost.",
+    "changesToTheCheckerItself": [
+      "Its restore was a blanket `git checkout -- data/rcap-all50`. In the integration chain that runs inside a worktree which may hold a lane's uncommitted packet work, and a blanket checkout would discard it silently. It now records what is already dirty under the overlays before the run and restores only paths that were clean before and are dirty after. Proved by dirtying reports/build-summary.json under il-seal-3yr-set, running the checker, and finding that modification still there afterwards with nothing else left behind.",
+      "Its header claimed 676 assertions. The reading of this tree at 63a28b5f is 619; corrected."
+    ],
+    "regressionTest": {
+      "file": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "tests": 9,
+      "passing": 9,
+      "usesTemporaryDirectoriesOnly": true,
+      "environmentVariable": "RCAP_SELF_TEST_ROOT",
+      "covers": [
+        "a builder whose assertions are reachable only through --self-test is found, and its assertion count is right",
+        "a builder with no selfTest is not found",
+        "a builder whose selfTest is called unconditionally is not found",
+        "a builder whose guard has moved into the build path with selfTest left as a thin wrapper is not found -- the shape this lane leaves behind",
+        "a const-form selfTest is found",
+        "a flag-gated selfTest holding no assertions is not counted as a dormant guard",
+        "non-builder scripts beside the builders are left alone",
+        "an empty scripts directory yields an empty scope rather than throwing"
+      ]
+    }
+  },
+
+  "whatRemains": [
+    "wa_blake_vacatur_and_lfo_refund-set keeps 17 assertions behind the flag by decision, not by omission.",
+    "The two WEST engine copies keep 173 assertions behind the flag. Their delivered-evidence checks already run in the build path through checkCa and checkAz; whether their registry censuses should also run on every build was not attempted here.",
+    "mi_setaside_trafficking-set keeps 26 and az_marijuana_expungement_limited_jurisdiction-set keeps 22, both frozen-constant assertions rather than readings of anything delivered.",
+    "ca-17b-reduction-set's two statutory variants emit byte-identical CR-180 primaries in its own committed record. Unrepaired: this lane holds no family grant. It blocks any full CA rebuild on the WEST engine that reaches the cross-family check.",
+    "az_marijuana_expungement_limited_jurisdiction-set's builder strips the governance binding block, with its bound RASTER_PASS receipt, from product-wiring.json on every rebuild. Unrepaired, same reason.",
+    "Nothing was run against the full integration chain: this lane added its step and verified the step, and running integrate.mjs would rewrite the master queue, which is not a MACHINERY lane's to do."
+  ],
+
+  "commits": [
+    { "sha": "05dec5ca5545e349863dcba22e9376e1d65f3249", "subject": "ca-1203-4-set's self-test stops failing on three stale registry censuses" },
+    { "sha": "e77411b4208efa83ef895f0dceddc436a0d07da7", "subject": "mi_setaside_trafficking-set asserts its delivered evidence in the build path" },
+    { "sha": "38715d356b56def4edd104e14904142626a2238e", "subject": "il-seal-3yr-set asserts its delivered packet in the build path" },
+    { "sha": "8161175af5cffaba6c8dce6b5b058049ccbd1328", "subject": "il-seal-2yr-set and il-seal-edu-set assert their delivered packets in the build path" },
+    { "sha": "a6ad316d5d0639f1d5475015046b05a10f023384", "subject": "il-exp-qualprob-set and il-exp-supervision-set assert their delivered packets in the build path" },
+    { "sha": "0bdea9420911d766185d50a330cfaa4cd089d6be", "subject": "il-exp-nonconv-set and il-cannabis-vacate-set assert their delivered packets in the build path" },
+    { "sha": "9261534b7dcbe16941e5d124e873a53b2ab3738d", "subject": "il-exp-pardon-set's engine asserts its delivered packet for all three of its families" },
+    { "sha": "430111aae596908462279b2e4b9d40f946365af0", "subject": "The builder self-test checker becomes a chain gate, with a test and a safe restore" },
+    { "sha": "b72937f40d7e8511ba750427a2e95162731809bf", "subject": "in_infraction_nondisclosure-set and az_marijuana_expungement_limited_jurisdiction-set assert their delivered evidence in the build path" }
+  ]
+}
