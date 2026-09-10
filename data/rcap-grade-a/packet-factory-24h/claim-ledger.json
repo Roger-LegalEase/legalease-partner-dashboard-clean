@@ -4936,10 +4936,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX146",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:25.584Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -4983,10 +4983,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX146",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T12:08:39.513Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5076,10 +5076,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX146",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T20:14:29.813Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
     },
     {
@@ -14653,9 +14653,39 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977-misdemeanor-conviction-set",
+      "itemId": null,
+      "familyId": "la-977-misdemeanor-conviction-set",
+      "familyIds": [
+        "la-977-misdemeanor-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX146",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-978-felony-conviction-set",
+      "itemId": null,
+      "familyId": "la-978-felony-conviction-set",
+      "familyIds": [
+        "la-978-felony-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX146",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "ab9bd47dfa56ed535f20fe326054c7824c1ab276fb5e656a6af7fbb8265b5a06",
+  "claimsDigest": "48bb6f4983f88cfa98ece243cc6c2e6618e2d04cdd71ed4c8495dec23e288416",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56362,6 +56392,39 @@
       "previouslyReleasedAt": "2026-09-09T06:38:06.029Z",
       "transferredAt": "2026-09-10T12:13:14.098Z",
       "reason": "Captain dispatch to an external repair lane (FIXCG1): the recorded lane returned and released this grant. FIXCG1 repairs the typed-literal build-summary counters on the Alabama CR-65 cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX146",
+      "previouslyReleasedAt": "2026-09-10T11:23:25.584Z",
+      "transferredAt": "2026-09-10T12:25:06.002Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX146, the Louisiana internal-vocabulary and text-overhang cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX146",
+      "previouslyReleasedAt": "2026-09-10T12:08:39.513Z",
+      "transferredAt": "2026-09-10T12:25:06.142Z",
+      "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX146, the Louisiana internal-vocabulary and text-overhang cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX146",
+      "previouslyReleasedAt": "2026-09-09T20:14:29.813Z",
+      "transferredAt": "2026-09-10T12:25:25.997Z",
+      "reason": "Captain dispatch: FIX01 returned and released this grant; handed to FIX146 to measure the text-overhang VF43 found, and to repair only if the ink genuinely lands outside the printable region or over other ink."
     }
   ],
   "grants": [
@@ -56803,6 +56866,28 @@
       "grantedAt": "2026-09-10T12:13:14.238Z",
       "grantedBy": "Captain",
       "reason": "No repair grant has ever existed for this family and it is in the Alabama CR-65 cohort whose build-summary counters are typed literals. Minted so FIXCG1 can repair it with its four siblings.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-977-misdemeanor-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T12:25:06.304Z",
+      "grantedBy": "Captain",
+      "reason": "No repair grant has ever existed for this family. Minted so FIX146 can MEASURE the text-overhang VF43 found on its delivered canonical and repair it only if the ink genuinely lands outside the printable region or over other ink. A measurement grant is not permission to move a proven family's bytes.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX146",
+      "subjectType": "packet-family",
+      "subjectId": "la-978-felony-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T12:25:06.444Z",
+      "grantedBy": "Captain",
+      "reason": "No repair grant has ever existed for this family. Minted so FIX146 can MEASURE the text-overhang VF43 found on its delivered canonical and repair it only if the ink genuinely lands outside the printable region or over other ink. A measurement grant is not permission to move a proven family's bytes.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
