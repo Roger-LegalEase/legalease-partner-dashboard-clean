@@ -13,6 +13,14 @@
     {
       "finding": "200-00132 requires the State's Attorney's signature before the court will act on it.",
       "consequence": "Those three fields are refused as court/prosecutor-owned and the instructions tell the participant the stipulation route needs the prosecutor's agreement."
+    },
+    {
+      "finding": "Every requiredBeforeFiling label this family disclosed was the printed caption with the AcroForm field name appended, while the participant page twice said the column was the words the form prints. The appended numbers do not correspond to anything printed: 200-00130's question-1 charge table prints rows 1., 2. and 3., and the labels read 1, 4 and 7. Fields 26, 27, 30 and 31 each carry two widgets in two unrelated tables, so one identifier named two different blanks.",
+      "consequence": "The label is now the printed caption alone, plus a locator resolved from the source page's geometry where the same words are printed beside more than one blank: the printed row number where the form prints one, otherwise the row's position down the page. Every finished label is asserted unique within its form and page, and the two sentences describing the column now say what it is."
+    },
+    {
+      "finding": "Re-reading 600-00228 against the printed \"$______\" run inside each widget's own rectangle found the page-1 expenses column disclosed one row off from field 50 down: the blank beside the printed word Clothing was named as an unlabelled line, the blank beside Medical as Clothing, and so on to the blank beside Total Expenses, which was named Other Expenses. Field 35 was named Self-Employment/Business Income and is the blank on the italic line under Other Income, 24 points above it. The Vehicles heading extracts interleaved and had been split as \"Make, Model\" and \"Year / Fair Market Value\"; read by x-position the printed columns are \"Make, Model, Year\" and \"Fair Market Value (FMV)\".",
+      "consequence": "Seventeen captions on that form are corrected and each corrected caption is now asserted against the pinned bytes to be printed on its own widget's row, which is the check the captionAt test cannot make. MonthlyTotal and 41 are NOT moved: the bottom of the income column is typographically broken in the source and both nearest-baseline and the widget's own name agree with what was already recorded."
     }
   ]
 }
