@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 161,
-    "rows": 1163,
+    "returnDirectories": 162,
+    "rows": 1166,
     "independentVerdicts": 292,
     "failRepairRequired": 68,
     "passIndependent": 202
@@ -11530,6 +11530,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_d6-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b63a1f7a93a6e4f74e6f0e6364cba53b7878c9af",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and I want the shape of this to be unmistakable, because BOTH defects I failed this obligation for last round are repaired, verified, and gone.\n\nWHAT IS REPAIRED, CONFIRMED ON THE MOVED BYTES:\n\n(a) The invented form number is off the filed page, at both print sites. 'IN-CONVICTION-EXPUNGEMENT-' occurs 0 times on all 10 pages of both packet fixtures, 0 times in both guidance PDFs, and 0 times in participant-instructions.md and filing-instructions.md, in all three families. I did not take that zero on trust: I ran the same extraction against the pre-repair bytes recovered from git and it returns 3 hits in d6 canonical alone - page 1 caption, page 2 inside the VERIFICATION AND SIGNATURE block, page 3 order caption. So the tool that reports zero on the new bytes demonstrably finds the string on the old ones.\n\n(b) The second print site is real and it is gone. On the pre-repair bytes the identifier sat on page 2 between the heading 'VERIFICATION AND SIGNATURE' and the line 'I affirm, under the penalties for perjury, that the foregoing representations are true.' - so the petitioner did sign under penalty of perjury beneath an identifier no issuer publishes. On the delivered bytes that block runs heading, then VERIFICATION, then the affirmation, with nothing between. A CORRECTION TO FIX04'S ACCOUNT AND TO MY OWN: FIX04 says I did not name this site. My last row did record a page-2 occurrence, but I described it as a 'continuation header' and therefore missed what it meant. FIX04 read the page rather than the diff and got the significance right where I got only the coordinates right.\n\n(c) The caption box now holds the document's own title. Measured on the delivered bytes with pdftotext -bbox-layout: 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS' at x 60.00-389.12, y 53.00-62.22, with nothing above y=53.00 on the page. Identical in all three families. That is exactly the box FIX04 reported.\n\n(d) The misleading digest is repaired and is now verifiable by the reader. Each guide names which pages of which publication and states that the SHA-256 is of the whole publication rather than of the pages delivered. I checked both digests against bytes I hashed myself: 499ed8a4... is the 3-page conviction insert, b04f2941... is the 15-page bundle, and pdfinfo confirms 3 and 15 pages. I also confirmed the page selections the sentence claims - bundle pages 1, 2, 7 and 8 - by rendering those issuer pages and the packet pages that carry them and finding them pixel-identical. A participant who hashes the named file can now reconcile it.\n\nWHY THIS IS STILL A FAIL. The defect class FIX04 repaired - the repository's internal vocabulary printed to a reader who cannot tell it from the issuer's - survives at HIGHER density one document over, on the first page of the participant guidance PDF, which is addressed to the participant by name. It opens: 'Prepared for <name>. Packet set <familyId>, version 1.0.0.' / 'This packet set serves 1 route(s):' / a bare route key / then each of the six components labelled by its internal component id. I read that off a 150 dpi render as a picture, not only from extracted text. Six distinct classes are enumerated in visualDefects. In participant-instructions.md the ids are at least wrapped in backticks; the PDF drops the backticks, so the delivered PDF is the worst presentation of it.\n\nPROPORTION, STATED PLAINLY SO THIS IS NOT MISREAD IN EITHER DIRECTION: none of these six touches a filed page, misstates law, fabricates a fact or misidentifies an issuer document - the correct form number and full title are printed right beside every leaked id. This is a bounded copy repair in one guidance generator and one markdown emitter, not a reopened family. But visualDefects is not zero, and the verdict rule in the controlling prompt is explicit that PASS_COMPLETE_INDEPENDENT requires all nine counters zero measured here, so I record the count I measured rather than the verdict I would prefer.\n\nNOT UNIQUE TO INDIANA. I checked other families' participant-instructions.md: some print route keys and component ids the same way, and nh/nh-petition-vacated-set prints neither. So this is a factory-wide copy issue that these three families show in its most exposed form - they are the only three in the overlays tree that ship a guidance PDF at all - and the captain may want to treat it factory-wide rather than as an Indiana repair.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
       "superseded": false
     },
     {
@@ -11606,6 +11629,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b63a1f7a93a6e4f74e6f0e6364cba53b7878c9af",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and I want the shape of this to be unmistakable, because BOTH defects I failed this obligation for last round are repaired, verified, and gone.\n\nWHAT IS REPAIRED, CONFIRMED ON THE MOVED BYTES:\n\n(a) The invented form number is off the filed page, at both print sites. 'IN-CONVICTION-EXPUNGEMENT-' occurs 0 times on all 10 pages of both packet fixtures, 0 times in both guidance PDFs, and 0 times in participant-instructions.md and filing-instructions.md, in all three families. I did not take that zero on trust: I ran the same extraction against the pre-repair bytes recovered from git and it returns 3 hits in d6 canonical alone - page 1 caption, page 2 inside the VERIFICATION AND SIGNATURE block, page 3 order caption. So the tool that reports zero on the new bytes demonstrably finds the string on the old ones.\n\n(b) The second print site is real and it is gone. On the pre-repair bytes the identifier sat on page 2 between the heading 'VERIFICATION AND SIGNATURE' and the line 'I affirm, under the penalties for perjury, that the foregoing representations are true.' - so the petitioner did sign under penalty of perjury beneath an identifier no issuer publishes. On the delivered bytes that block runs heading, then VERIFICATION, then the affirmation, with nothing between. A CORRECTION TO FIX04'S ACCOUNT AND TO MY OWN: FIX04 says I did not name this site. My last row did record a page-2 occurrence, but I described it as a 'continuation header' and therefore missed what it meant. FIX04 read the page rather than the diff and got the significance right where I got only the coordinates right.\n\n(c) The caption box now holds the document's own title. Measured on the delivered bytes with pdftotext -bbox-layout: 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS' at x 60.00-389.12, y 53.00-62.22, with nothing above y=53.00 on the page. Identical in all three families. That is exactly the box FIX04 reported.\n\n(d) The misleading digest is repaired and is now verifiable by the reader. Each guide names which pages of which publication and states that the SHA-256 is of the whole publication rather than of the pages delivered. I checked both digests against bytes I hashed myself: 499ed8a4... is the 3-page conviction insert, b04f2941... is the 15-page bundle, and pdfinfo confirms 3 and 15 pages. I also confirmed the page selections the sentence claims - bundle pages 1, 2, 7 and 8 - by rendering those issuer pages and the packet pages that carry them and finding them pixel-identical. A participant who hashes the named file can now reconcile it.\n\nWHY THIS IS STILL A FAIL. The defect class FIX04 repaired - the repository's internal vocabulary printed to a reader who cannot tell it from the issuer's - survives at HIGHER density one document over, on the first page of the participant guidance PDF, which is addressed to the participant by name. It opens: 'Prepared for <name>. Packet set <familyId>, version 1.0.0.' / 'This packet set serves 1 route(s):' / a bare route key / then each of the six components labelled by its internal component id. I read that off a 150 dpi render as a picture, not only from extracted text. Six distinct classes are enumerated in visualDefects. In participant-instructions.md the ids are at least wrapped in backticks; the PDF drops the backticks, so the delivered PDF is the worst presentation of it.\n\nPROPORTION, STATED PLAINLY SO THIS IS NOT MISREAD IN EITHER DIRECTION: none of these six touches a filed page, misstates law, fabricates a fact or misidentifies an issuer document - the correct form number and full title are printed right beside every leaked id. This is a bounded copy repair in one guidance generator and one markdown emitter, not a reopened family. But visualDefects is not zero, and the verdict rule in the controlling prompt is explicit that PASS_COMPLETE_INDEPENDENT requires all nine counters zero measured here, so I record the count I measured rather than the verdict I would prefer.\n\nNOT UNIQUE TO INDIANA. I checked other families' participant-instructions.md: some print route keys and component ids the same way, and nh/nh-petition-vacated-set prints neither. So this is a factory-wide copy issue that these three families show in its most exposed form - they are the only three in the overlays tree that ship a guidance PDF at all - and the captain may want to treat it factory-wide rather than as an Indiana repair.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_felony-set",
       "superseded": false
     },
     {
@@ -11673,6 +11719,29 @@
         "SOURCE_IDENTITY"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_misd-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b63a1f7a93a6e4f74e6f0e6364cba53b7878c9af",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL - and I want the shape of this to be unmistakable, because BOTH defects I failed this obligation for last round are repaired, verified, and gone.\n\nWHAT IS REPAIRED, CONFIRMED ON THE MOVED BYTES:\n\n(a) The invented form number is off the filed page, at both print sites. 'IN-CONVICTION-EXPUNGEMENT-' occurs 0 times on all 10 pages of both packet fixtures, 0 times in both guidance PDFs, and 0 times in participant-instructions.md and filing-instructions.md, in all three families. I did not take that zero on trust: I ran the same extraction against the pre-repair bytes recovered from git and it returns 3 hits in d6 canonical alone - page 1 caption, page 2 inside the VERIFICATION AND SIGNATURE block, page 3 order caption. So the tool that reports zero on the new bytes demonstrably finds the string on the old ones.\n\n(b) The second print site is real and it is gone. On the pre-repair bytes the identifier sat on page 2 between the heading 'VERIFICATION AND SIGNATURE' and the line 'I affirm, under the penalties for perjury, that the foregoing representations are true.' - so the petitioner did sign under penalty of perjury beneath an identifier no issuer publishes. On the delivered bytes that block runs heading, then VERIFICATION, then the affirmation, with nothing between. A CORRECTION TO FIX04'S ACCOUNT AND TO MY OWN: FIX04 says I did not name this site. My last row did record a page-2 occurrence, but I described it as a 'continuation header' and therefore missed what it meant. FIX04 read the page rather than the diff and got the significance right where I got only the coordinates right.\n\n(c) The caption box now holds the document's own title. Measured on the delivered bytes with pdftotext -bbox-layout: 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS' at x 60.00-389.12, y 53.00-62.22, with nothing above y=53.00 on the page. Identical in all three families. That is exactly the box FIX04 reported.\n\n(d) The misleading digest is repaired and is now verifiable by the reader. Each guide names which pages of which publication and states that the SHA-256 is of the whole publication rather than of the pages delivered. I checked both digests against bytes I hashed myself: 499ed8a4... is the 3-page conviction insert, b04f2941... is the 15-page bundle, and pdfinfo confirms 3 and 15 pages. I also confirmed the page selections the sentence claims - bundle pages 1, 2, 7 and 8 - by rendering those issuer pages and the packet pages that carry them and finding them pixel-identical. A participant who hashes the named file can now reconcile it.\n\nWHY THIS IS STILL A FAIL. The defect class FIX04 repaired - the repository's internal vocabulary printed to a reader who cannot tell it from the issuer's - survives at HIGHER density one document over, on the first page of the participant guidance PDF, which is addressed to the participant by name. It opens: 'Prepared for <name>. Packet set <familyId>, version 1.0.0.' / 'This packet set serves 1 route(s):' / a bare route key / then each of the six components labelled by its internal component id. I read that off a 150 dpi render as a picture, not only from extracted text. Six distinct classes are enumerated in visualDefects. In participant-instructions.md the ids are at least wrapped in backticks; the PDF drops the backticks, so the delivered PDF is the worst presentation of it.\n\nPROPORTION, STATED PLAINLY SO THIS IS NOT MISREAD IN EITHER DIRECTION: none of these six touches a filed page, misstates law, fabricates a fact or misidentifies an issuer document - the correct form number and full title are printed right beside every leaked id. This is a bounded copy repair in one guidance generator and one markdown emitter, not a reopened family. But visualDefects is not zero, and the verdict rule in the controlling prompt is explicit that PASS_COMPLETE_INDEPENDENT requires all nine counters zero measured here, so I record the count I measured rather than the verdict I would prefer.\n\nNOT UNIQUE TO INDIANA. I checked other families' participant-instructions.md: some print route keys and component ids the same way, and nh/nh-petition-vacated-set prints neither. So this is a factory-wide copy issue that these three families show in its most exposed form - they are the only three in the overlays tree that ship a guidance PDF at all - and the captain may want to treat it factory-wide rather than as an Indiana repair.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910b-in-reread.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_misd-set",
       "superseded": false
