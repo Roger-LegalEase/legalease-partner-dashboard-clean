@@ -861,11 +861,21 @@ function sanitize(text) {
 /** A block is drawn whole or moved whole. A contact block never straddles a page break. */
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-function captionBlock(facts, documentTitle, componentId, documentId) {
+/*
+ * FIX146. `Assigned component identity` used to print here, so it appeared in
+ * the caption of the Article 989 motion, the Article 991 order, the Article 992
+ * order and the Article 988 fee-exemption motion -- four FILED pages, one of
+ * which goes to a district attorney's office before filing. A component
+ * identity is this factory's own identifier for a document; it is neither
+ * statute text nor rule text, and Article 986 provides that the statutory forms
+ * shall be used with no local variant. It is not deleted: the guide now carries
+ * every component identity in a labelled internal-record-text section. The
+ * parameter is gone rather than ignored so no caller can print it by habit.
+ */
+function captionBlock(facts, documentTitle, documentId) {
   return block(
     documentId,
     documentTitle.toUpperCase(),
-    `Assigned component identity: ${componentId}`,
     "",
     `${facts["case.court_name"]}, STATE OF LOUISIANA`,
     `PARISH: ${facts["case.parish"]}`,
@@ -899,7 +909,7 @@ function groundsBlock(memoTrack) {
     "Which Article 976(A) ground applies to each charge on this arrest:",
     DOTS(74), DOTS(74),
     "",
-    "This line is the mover's to complete and is deliberately left blank. The route this packet was built for fixes the ARTICLE, not the GROUND: Article 976(A) lists separate grounds and which one a charge ended on is established by the minute entry and by the district attorney's certification. Louisiana State Police names choosing the wrong eligibility basis as a common fatal error.",
+    "This line is the mover's to complete and is left blank. Article 976(A) lists separate grounds, and which one a charge ended on is established by the minute entry and by the district attorney's certification. Louisiana State Police names choosing the wrong eligibility basis as a common fatal error.",
     ""
   );
 }
@@ -907,10 +917,10 @@ function groundsBlock(memoTrack) {
 function motionBody(facts, binding) {
   const { memoTrack } = binding;
   return [
-    captionBlock(facts, TITLES[COMPONENT.motion], COMPONENT.motion, MOTION),
+    captionBlock(facts, TITLES[COMPONENT.motion], MOTION),
     block(
       "MOTION FOR EXPUNGEMENT OF A RECORD OF ARREST THAT DID NOT RESULT IN A CONVICTION",
-      "La. C.Cr.P. art. 976, on the statutory Article 989 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. art. 976, on the statutory Article 989 form.",
       "",
       "NOW INTO COURT comes mover, who provides the court with the following information in connection with this request. Mover is entitled to expunge the record of the arrest identified below pursuant to Louisiana Code of Criminal Procedure Article 971 et seq., and states the following in support.",
       "",
@@ -926,7 +936,7 @@ function motionBody(facts, binding) {
       `Last four digits of the Social Security number: ${DOTS(24)}`,
       `Louisiana driver's licence number: ${DOTS(36)}`,
       "",
-      "Race and gender are printed blank on purpose. The committed manual-completion record classifies both as manual completion items pending a data-protection review, so the mover writes them by hand.",
+      "Race and gender are left blank for the mover to complete by hand.",
       ""
     ),
     arrestBlock(facts),
@@ -940,7 +950,7 @@ function motionBody(facts, binding) {
     block(
       `Whether any charge on this arrest ended in a misdemeanour or felony conviction: ${facts["case.any_conviction_on_this_arrest"]}`,
       "",
-      "This packet is built for one statutory route and states it here rather than leaving it as a blank election. Article 976 reaches only an arrest that did not result in a conviction. The committed record puts any charge on the arrest that ended in a misdemeanour or felony conviction outside this Article and inside Article 977 or Article 978, so a conviction on this arrest means this is the wrong packet.",
+      "Article 976 reaches only an arrest that did not result in a conviction, which is why the answer above is printed rather than left as an election. A charge on this arrest that ended in a misdemeanour or felony conviction falls outside Article 976 and under Article 977 or Article 978 instead. If any charge on this arrest ended in a conviction, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
@@ -948,27 +958,27 @@ function motionBody(facts, binding) {
       `Whether this arrest was for operating a vehicle while intoxicated, or for a parish or municipal ordinance version of that offence: ${DOTS(10)}`,
       `Whether a pretrial diversion programme was entered on a vehicle-while-intoxicated arrest: ${DOTS(10)}`,
       "",
-      "Article 976(B) bars expungement of an arrest for operating a vehicle while intoxicated, or a parish or municipal ordinance equivalent, where the person was placed in a pretrial diversion programme, until five years have elapsed from the date of arrest. The committed record also makes a vehicle-while-intoxicated arrest in any form a condition on which self-help stops.",
+      "Article 976(B) bars expungement of an arrest for operating a vehicle while intoxicated, or a parish or municipal ordinance equivalent, where the person was placed in a pretrial diversion programme, until five years have elapsed from the date of arrest. If this arrest was for operating a vehicle while intoxicated in any form, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
       "WHO ELSE THE RECORD OF THIS ARREST NAMES",
       `Whether the record of this arrest names anyone besides the mover: ${DOTS(10)}`,
       "",
-      "If the record of this arrest names anyone besides the mover, that is the Article 985 expungement-by-redaction question and it routes to the redaction track rather than to this one. The committed record makes it a self-help stop condition.",
+      "If the record of this arrest names anyone besides the mover, that is the Article 985 expungement-by-redaction question and Article 985 rather than Article 976 governs it. If the record names anyone besides the mover, stop and get a lawyer's advice before filing anything.",
       ""
     ),
     block(
       "ARTICLE 975 - CUSTODY BAR",
       `Whether the mover is now in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour: ${facts["case.hard_labor_custody"]}`,
       "",
-      "Article 975 bars a person in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour from filing. If that answer is yes, this motion may not be filed. The committed record records this as a status bar that lifts when custody status changes rather than a permanent eligibility bar.",
+      "Article 975 bars a person in the physical custody of the Department of Public Safety and Corrections serving a sentence at hard labour from filing. If that answer is yes, this motion may not be filed. It is a bar that turns on custody status and lifts when that status changes, not a permanent bar to eligibility.",
       ""
     ),
     block(
       `Date the Louisiana criminal background check was ordered: ${facts["case.background_check_ordered_on"]}`,
       "",
-      "The Article 989 form marks the Louisiana criminal background check required on its face and the committed record gives it a sixty-day life. Order it so it is still inside that life on the day the motion is filed.",
+      "The Article 989 form marks the Louisiana criminal background check required on its face, and the check has a sixty-day life. Order it so it is still inside that life on the day the motion is filed.",
       ""
     ),
     block(
@@ -980,7 +990,7 @@ function motionBody(facts, binding) {
     ),
     block(
       "SIGNATURE BLOCKS",
-      `${MOTION}, assigned component identity ${COMPONENT.motion}`,
+      MOTION,
       "",
       "IF REPRESENTED BY COUNSEL - ATTORNEY BLOCK",
       `Attorney name in the represented-mover block: ${DOTS(28)}`,
@@ -989,7 +999,7 @@ function motionBody(facts, binding) {
       `Attorney telephone in the represented-mover block: ${DOTS(23)}`,
       `Attorney signature in the represented-mover block: ${DOTS(23)}`,
       "",
-      "This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel, and an attorney block is completed by counsel or not at all.",
+      "This block is left blank. An attorney block is completed by counsel, or not at all.",
       ""
     ),
     block(
@@ -1012,10 +1022,10 @@ function motionBody(facts, binding) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.order], COMPONENT.order, ORDER),
+    captionBlock(facts, TITLES[COMPONENT.order], ORDER),
     block(
       "ORDER",
-      "La. C.Cr.P. art. 991, on the statutory Article 991 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. art. 991, on the statutory Article 991 form.",
       "",
       "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided, and no relief exists unless and until a judge completes and signs it and the clerk enters it.",
       ""
@@ -1050,10 +1060,10 @@ function orderBody(facts) {
 
 function expungementOrderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.expungementOrder], COMPONENT.expungementOrder, EXPUNGEMENT_ORDER),
+    captionBlock(facts, TITLES[COMPONENT.expungementOrder], EXPUNGEMENT_ORDER),
     block(
       "ORDER OF EXPUNGEMENT OF ARREST RECORD",
-      "La. C.Cr.P. art. 992, on the statutory Article 992 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. art. 992, on the statutory Article 992 form.",
       "",
       "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. The mover supplies the caption and the identifiers of the arrest, and nothing else on this page.",
       ""
@@ -1063,7 +1073,7 @@ function expungementOrderBody(facts) {
       "Which Article 976(A) ground applies to each charge on this arrest:",
       DOTS(74), DOTS(74),
       "",
-      "This line carries the mover's own answer forward onto the proposed order so the court has it in front of the decree. It is the mover's to complete before filing and this packet writes none of it.",
+      "This line carries the mover's own answer forward onto the proposed order so the court has it in front of the decree. It is the mover's to complete before the motion is filed, and it is left blank here.",
       ""
     ),
     block(
@@ -1093,6 +1103,42 @@ function expungementOrderBody(facts) {
   ];
 }
 
+/*
+ * FIX146. THE COMMITTED FEE RULE, MINUS ITS ROUTING SENTENCE.
+ *
+ * registryTrack.rules.fees ends with "The exemption is very often available on
+ * this track and must be screened before filing rather than after." Everything
+ * before it is statute: the Article 983(A) cap, the non-refundability, and the
+ * enumerated Article 983(F) grounds. That last sentence is not. "This track" is
+ * this build's routing vocabulary, and the sentence is the record telling a
+ * builder how often to expect the exemption -- printed, until now, on the face
+ * of the form the participant hands to a district attorney's office.
+ *
+ * It is removed from the filed page and NOT from the packet: the guide prints
+ * registryTrack.rules.fees whole, verbatim and labelled as internal record
+ * text, and the participant instruction the sentence carries ("screen it before
+ * filing rather than after") already reaches the participant in plain words at
+ * the foot of the same page. The split is asserted rather than attempted: if
+ * the record's wording changes, this build stops instead of quietly printing a
+ * sentence it meant to withhold or silently dropping one it meant to print.
+ */
+export const TRACK_SENTENCE_IN_THE_FEE_RULE =
+  "The exemption is very often available on this track and must be screened before filing rather than after.";
+
+export function feeRuleWithoutTheTrackSentence(fees) {
+  const text = String(fees ?? "");
+  assert.ok(text.includes(TRACK_SENTENCE_IN_THE_FEE_RULE),
+    "the committed fee rule no longer ends with the routing sentence this build withholds from the filed page; re-read the record before printing it");
+  const kept = text.replace(TRACK_SENTENCE_IN_THE_FEE_RULE, "").replace(/\s+/g, " ").trim();
+  assert.ok(!kept.includes("this track"),
+    `the committed fee rule still carries routing vocabulary after the known sentence is removed: ${kept.slice(-160)}`);
+  assert.match(kept, /Article 983\(A\) caps the total cost/,
+    "the Article 983(A) cap is no longer at the head of the committed fee rule; the filed page prints it");
+  assert.match(kept, /Article 983\(G\)\.$/,
+    "the committed fee rule no longer ends on the Article 983(G) clause once the routing sentence is removed");
+  return kept;
+}
+
 function feeExemptionBody(facts, binding) {
   /* Read and asserted rather than printed, on the same ground as the memo note
    * below: the component row's conditionDescription is a GENERATION condition,
@@ -1112,12 +1158,12 @@ function feeExemptionBody(facts, binding) {
   assert.ok(String(feeComponent?.notes ?? "").trim().length > 0,
     "the committed memo no longer carries a note for the fee-waiver component; the guide prints it");
   return [
-    captionBlock(facts, TITLES[COMPONENT.feeExemption], COMPONENT.feeExemption, FEE_EXEMPTION),
+    captionBlock(facts, TITLES[COMPONENT.feeExemption], FEE_EXEMPTION),
     block(
       "MOTION FOR FEE EXEMPTION",
-      "La. C.Cr.P. arts. 983(F) and 988, on the statutory Article 988 form composed from the committed LA-STATUTORY-FORMS authority.",
+      "La. C.Cr.P. arts. 983(F) and 988, on the statutory Article 988 form.",
       "",
-      "The form's own instruction, as the committed record records it: To be completed by defendant and submitted to the District Attorney's Office prior to filing. Append completed form to Motion of Expungement at filing only if eligible.",
+      "The form's own instruction: To be completed by defendant and submitted to the District Attorney's Office prior to filing. Append completed form to Motion of Expungement at filing only if eligible.",
       ""
       /* REMOVED FROM THE FACE OF THIS FORM: a paragraph headed "Why this
        * component is in this packet", which recited this build's own generation
@@ -1164,7 +1210,7 @@ function feeExemptionBody(facts, binding) {
       "Original arrest charge and statute for every count as they appear on the state rap sheet:",
       DOTS(74), DOTS(74),
       "",
-      "The committed manual-completion record fixes this split: LegalEase completes only the participant-owned identifying fields on this form. The two blank lines above are the mover's own, and should be written the same way they are written on the Article 989 motion so the two documents match.",
+      "The two blank lines above are the mover's own. Write them the same way they are written on the Article 989 motion, so the two documents match.",
       ""
     ),
     block(
@@ -1175,13 +1221,19 @@ function feeExemptionBody(facts, binding) {
       `Signature of the district attorney or designee on the fee exemption: ${DOTS(10)}`,
       `Date of the district attorney's signature: ${DOTS(28)}`,
       "",
-      "Every certification box and the signature on this form belong to the district attorney or a designee, who returns the form within fifteen days. Nothing in this section is the mover's to complete and nothing in it is written by this packet.",
+      "Every certification box and the signature on this form belong to the district attorney or a designee, who returns the form within fifteen days. Nothing in this section is the mover's to complete, and every line of it is left blank here.",
       ""
     ),
     block(
       "WHAT ARTICLE 983(F) REQUIRES TO BE CERTIFIED",
-      binding.registryTrack.rules.fees,
+      feeRuleWithoutTheTrackSentence(binding.registryTrack.rules.fees),
       "",
+      /* FIX146. The record's value was printed with no lead-in, so this
+       * paragraph opened on a filed page as the headless fragment "Article
+       * 983(F), claimed through the Article 988 Motion for Fee Exemption." The
+       * heading states nothing the paragraph does not; it restores the lead-in
+       * the record field's own name carried and the page had dropped. */
+      "HOW THE EXEMPTION IS CLAIMED",
       binding.registryTrack.rules.feeWaiver,
       ""
     ),
@@ -1291,6 +1343,25 @@ function participantInstructions(binding, rbf, name) {
   lines.push(
     "",
     "The Article 993 supplemental sheet is a statutory form for which the committed legal-design record states that no template exists, none is counsel-approved and no implementation is authorized, and it is not in this family's authority grant. Where your arrest carries more charges or counts than the Article 989 motion holds, ask the clerk of court for the Article 993 supplemental sheet rather than adding pages of your own; Article 986(B) permits a supplemental form only so far as it adheres to the statutory form.",
+    "",
+    "## Internal record text: what the record says, and why it is here rather than on the filing",
+    "",
+    "The four documents you file - the Article 989 motion, the Article 991 order, the Article 992 order and the Article 988 fee-exemption motion - recite statute text, rule text and your own answers, and nothing else. This build's own identifiers and the committed record's own words are internal record text. They are set out here instead, in full, so that the pages a clerk stamps, a judge signs and a district attorney certifies carry only what the Legislature put on them. Nothing in this section has been shortened, and nothing that used to be on a filed page has been dropped from the packet.",
+    "",
+    bullet(`**Component identities.** The Article 989 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\`, the Article 988 fee-exemption motion is \`${COMPONENT.feeExemption}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the five documents. They used to be printed in the caption of each of the four filed documents and again on the motion's signature-block page; they are printed on no filed page now.`),
+    bullet("**Where the four statutory form texts come from.** All four are composed from the committed LA-STATUTORY-FORMS authority. Each filed document now cites only its own Article."),
+    bullet("**Race and gender on the Article 989 motion.** The committed manual-completion record classifies both as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand."),
+    bullet("**The Article 976(A) ground line.** The route this packet was built for fixes the ARTICLE, not the GROUND: the packet elects no Article 976(A) ground for you, because which ground a charge ended on is a legal conclusion you own. The motion now states the instruction and its reason without quoting the record."),
+    bullet("**Why the conviction answer is printed rather than left blank.** This packet is built for one statutory route and states it on the form rather than leaving it as a blank election. The committed record puts any charge on the arrest that ended in a misdemeanour or felony conviction outside Article 976 and inside Article 977 or Article 978, so a conviction on this arrest means this is the wrong packet for it."),
+    bullet("**The three self-help stops printed on the motion.** A vehicle-while-intoxicated arrest in any form, a record of this arrest that names anyone besides you, and a charge on this arrest that ended in a conviction are each conditions on which the committed record says self-help stops. The motion now tells you to stop and get a lawyer's advice, which is what each condition means for you."),
+    bullet("**The Article 975 custody bar.** The committed record records it as a status bar that lifts when custody status changes rather than a permanent eligibility bar. The motion now says the same thing in its own words."),
+    bullet("**The sixty-day life of the background check.** The sixty-day life is the committed record's, not the Article 989 form's. The form marks the check required on its face; the motion now states the sixty-day life without attributing it to the record."),
+    bullet("**The attorney block on the motion.** This packet holds no record that you are represented by counsel, which is why the block is blank. The motion now says only that counsel completes it or nobody does."),
+    bullet("**The Article 976(A) ground line carried onto the Article 992 order.** This packet writes none of it. The order now says only that it is yours to complete before the motion is filed and that it is left blank."),
+    bullet("**The identifying-field split on the Article 988 fee-exemption motion.** The committed manual-completion record fixes it: LegalEase completes only the participant-owned identifying fields on that form. That sentence used to be printed on the form itself, which put both the record's vocabulary and the vendor's name on a page you hand to a district attorney. The form now says only that the two blank lines are yours and how to write them."),
+    bullet("**The district attorney's certification section.** Nothing in it is written by this packet. The form now says only that nothing in that section is yours to complete and that every line of it is left blank."),
+    bullet(`**The committed fee rule, in full.** The filed Article 988 page prints this rule without its last sentence, because that sentence is written in this build's routing vocabulary. Here it is whole, as the record holds it: "${registryTrack.rules.fees}"`),
+    bullet(`**The committed fee-exemption rule, in full.** "${registryTrack.rules.feeWaiver}"`),
     "",
     `## Everything the committed record requires to be in place before filing (all ${recordRequiredBeforeFiling.length} item(s) it lists)`,
     "",
@@ -1484,6 +1555,30 @@ const MARGIN = 60;
 const FONT_SIZE = 10.25;
 const LINE_HEIGHT = 13.25;
 const MAX_WIDTH = PAGE_WIDTH - (2 * MARGIN);
+/*
+ * FIX146, matching FIX142 on the sibling family la-985-1.
+ *
+ * The wrap measured against MAX_WIDTH exactly, and `widthOfTextAtSize` on a
+ * standard-14 font sums AFM ADVANCE widths -- not the extent of the ink the
+ * renderer lays down. Measured on this family's own delivered bytes at 300 dpi
+ * with pdftoppm -gray (PGM, annotations not hidden, ink threshold gray<200),
+ * rendered ink reached 553.92pt on ten of twenty-four pages against a text box
+ * whose right edge is MARGIN + MAX_WIDTH = 552pt, worst overhang 1.92pt.
+ *
+ * Nothing was clipped and nothing overlapped -- the overhang was inside the
+ * paper by 58pt and touched no other ink -- so this is a build-integrity
+ * defect, not a visual one: the build was asserting a box it was not holding,
+ * and a line that measures within 0.13pt of the wrap width crosses it. Lines
+ * are now wrapped against a slightly narrower width so the RENDERED ink stays
+ * inside the declared box.
+ *
+ * The assertion below still checks MAX_WIDTH and is NOT a proof about ink: it
+ * measures the same advance sum the wrap does, so wrapping narrower makes it
+ * pass by construction. The proof that the ink is inside the box is the
+ * measurement on the delivered bytes, recorded in this lane's return.
+ */
+const WRAP_SAFETY = 8;
+const WRAP_WIDTH = MAX_WIDTH - WRAP_SAFETY;
 
 /**
  * Blocks are atomic: measured before anything is drawn, moved whole when they
@@ -1508,18 +1603,18 @@ async function renderComposedDocument(blocks, title, componentId) {
     let current = "";
     for (const piece of pieces) {
       const candidate = `${current}${piece}`;
-      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { chunks.push(current); current = piece; }
+      if (current && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { chunks.push(current); current = piece; }
       else current = candidate;
     }
     if (current) chunks.push(current);
     const out = [];
     for (const chunk of chunks) {
-      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= MAX_WIDTH) { out.push(chunk); continue; }
+      if (font.widthOfTextAtSize(chunk, FONT_SIZE) <= WRAP_WIDTH) { out.push(chunk); continue; }
       hardSplits += 1;
       let acc = "";
       for (const char of chunk) {
         const candidate = `${acc}${char}`;
-        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > MAX_WIDTH) { out.push(acc); acc = char; }
+        if (acc && font.widthOfTextAtSize(candidate, FONT_SIZE) > WRAP_WIDTH) { out.push(acc); acc = char; }
         else acc = candidate;
       }
       if (acc) out.push(acc);
@@ -1529,12 +1624,12 @@ async function renderComposedDocument(blocks, title, componentId) {
   const wrap = (raw) => {
     if (!raw) return [""];
     const words = String(raw).split(/\s+/)
-      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > MAX_WIDTH ? splitToken(word) : [word]);
+      .flatMap((word) => font.widthOfTextAtSize(word, FONT_SIZE) > WRAP_WIDTH ? splitToken(word) : [word]);
     const rows = [];
     let current = "";
     for (const word of words) {
       const candidate = current ? `${current} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= MAX_WIDTH) current = candidate;
+      if (font.widthOfTextAtSize(candidate, FONT_SIZE) <= WRAP_WIDTH) current = candidate;
       else { if (current) rows.push(current); current = word; }
     }
     if (current) rows.push(current);
