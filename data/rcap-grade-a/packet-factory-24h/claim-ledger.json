@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "981a2b664470bb2bf74ce6b366eedb0cc4d74162",
+  "generatedAtCommit": "5ed0a1af6111ad727565a60be760fb8933e0a918",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4340,10 +4340,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF53",
+      "lane": "VF58",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T15:52:47.716Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF53 returned at 51b6098bc"
     },
     {
@@ -4371,11 +4371,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX161",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T16:30:36.263Z",
-      "releaseReason": "FIX161 returned at aabcf5411; byte-free fee-waiver repair"
+      "releasedAt": "2026-09-10T16:30:36.263Z"
     },
     {
       "subjectType": "packet-family",
@@ -4387,11 +4386,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF58",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:24.122Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4434,11 +4432,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF58",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T12:45:11.274Z",
-      "releaseReason": "VF03 returned PASS_COMPLETE_INDEPENDENT in 5b7c5866e"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4559,7 +4556,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.393Z"
@@ -4743,7 +4740,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:26:44.287Z"
@@ -4789,7 +4786,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.393Z"
@@ -5817,7 +5814,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:34:22.300Z"
@@ -5926,7 +5923,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:34:09.146Z"
@@ -6813,7 +6810,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.393Z"
@@ -7077,7 +7074,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.558Z"
@@ -7108,7 +7105,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:31:00.723Z"
@@ -7139,7 +7136,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:15:32.232Z"
@@ -7479,10 +7476,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF53",
+      "lane": "VF58",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T15:52:47.841Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF53 returned at 51b6098bc"
     },
     {
@@ -7495,11 +7492,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX161",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T16:30:36.676Z",
-      "releaseReason": "FIX161 returned at aabcf5411; byte-free fee-waiver repair"
+      "releasedAt": "2026-09-10T16:30:36.676Z"
     },
     {
       "subjectType": "packet-family",
@@ -7711,7 +7707,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8610,7 +8606,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.349Z"
@@ -8655,7 +8651,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:38:28.153Z"
@@ -8701,7 +8697,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8762,7 +8758,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8809,7 +8805,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -8870,7 +8866,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -8916,7 +8912,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -8962,7 +8958,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -9008,7 +9004,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T13:32:50.779Z"
@@ -9055,7 +9051,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.112Z"
@@ -14832,7 +14828,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8605f340274c0e9dd2261dc029e7199c9ec13d2a05f3b3737583354d634713f4",
+  "claimsDigest": "a1f58ef423f74006adcc41147a7b9c6933aa5262ba5e40510171cee7aef87030",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -58451,6 +58447,50 @@
       "previouslyReleasedAt": "2026-09-10T15:27:26.231Z",
       "transferredAt": "2026-09-10T15:58:02.290Z",
       "reason": "VF55 measured an unauthorised sworn fee-waiver election on the delivered affidavit"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF53",
+      "toLane": "VF58",
+      "previouslyReleasedAt": "2026-09-10T15:52:47.716Z",
+      "transferredAt": "2026-09-10T16:34:01.075Z",
+      "reason": "Read FIX161's fee-waiver repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF58",
+      "previouslyReleasedAt": "2026-09-10T11:23:24.122Z",
+      "transferredAt": "2026-09-10T16:34:01.207Z",
+      "reason": "Read FIX161's fee-waiver repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF58",
+      "previouslyReleasedAt": "2026-09-09T12:45:11.274Z",
+      "transferredAt": "2026-09-10T16:34:01.347Z",
+      "reason": "Read FIX161's fee-waiver repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF53",
+      "toLane": "VF58",
+      "previouslyReleasedAt": "2026-09-10T15:52:47.841Z",
+      "transferredAt": "2026-09-10T16:34:01.490Z",
+      "reason": "Read FIX161's fee-waiver repair"
     }
   ],
   "grants": [
