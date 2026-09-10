@@ -1693,10 +1693,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
   /* Render both fixtures in memory first.  Guidance is checked from the
    * controlling records before either final PDF or report is replaced. */
   const reports = {};
+  const pendingRenders = [];
   const guidance = guidanceRecords();
   for (const fixtureName of ["canonical", "boundary"]) {
-    const { report } = await renderDocument({ ...source, ...binding }, census, fixtureName);
+    const { bytes, report } = await renderDocument({ ...source, ...binding }, census, fixtureName);
     reports[fixtureName] = report;
+    pendingRenders.push({ fixtureName, bytes, report });
   }
   const preflightMaps = [mapFor(census, reports.canonical, reports.boundary, route)];
   const preflightRbf = requiredBeforeFilingItems(preflightMaps, "canonicalRefusals");
@@ -1713,9 +1715,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rasterPages = [];
   let sanitationSample = null;
 
-  for (const fixtureName of ["canonical", "boundary"]) {
-    const { bytes, report } = await renderDocument({ ...source, ...binding }, census, fixtureName);
-    reports[fixtureName] = report;
+  for (const { fixtureName, bytes, report } of pendingRenders) {
     sanitationSample = report.sanitation ?? sanitationSample;
 
     const file = `${OUT}/fixtures/${fixtureName}.pdf`;

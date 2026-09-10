@@ -178,5 +178,31 @@
       },
       "stderrTail": "Removing XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\nRemoving XFA form data as pdf-lib does not support reading or writing XFA\n"
     }
-  ]
+  ],
+  "noFlagFixedDeficientMutation": {
+    "schemaVersion": "fixcxm2-no-flag-mutant-proof/v1",
+    "command": "node scripts/build-census-v1-ma-seal-court-set.mjs",
+    "exit": 1,
+    "changedFiles": [],
+    "guardRefusalObserved": true,
+    "rasterBranchReached": false,
+    "log": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/fixed-deficient-guidance-refused-plain.log"
+  },
+  "noFlagValidRendererAttempt": {
+    "schemaVersion": "fixcxm2-no-flag-renderer-boundary/v1",
+    "command": "node scripts/build-census-v1-ma-seal-court-set.mjs",
+    "exit": 1,
+    "rendererError": "no usable Chromium",
+    "log": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/valid-plain-renderer-unavailable.log",
+    "note": "The valid no-flag run reached rasterization once and stopped because the official Chromium raster engine is unavailable; no pass is claimed."
+  },
+  "renderReuse": {
+    "renderDocumentCallsPerBuild": 2,
+    "uniqueFixtures": [
+      "canonical",
+      "boundary"
+    ],
+    "publicationConsumesPreflightBytesAndReports": true,
+    "guardValidatesThoseSamePreflightReports": true
+  }
 }
