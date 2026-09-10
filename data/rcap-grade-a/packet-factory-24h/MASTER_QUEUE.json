@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "8046572dee833b147fc0719d2758476c319b98db",
+  "minimumCaptainSha": "8a46cd7b9a540d20cfb2c5d62cb1f8f6d6d040a2",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "26775e873b5cfb03a25ba3d334eb4b7c49f7a5bbc924aeb6333ae9a03820cc48",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ebfb865caa7a25f8b1d6bcf0bca60ae4a0fa7d1b521748c3179e14af7b81f834",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 11,
+    "activeFamiliesExcluded": 17,
     "guidanceOnly": 0,
-    "remaining": 335,
+    "remaining": 329,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 0,
-    "repairRequired": 46,
+    "verifyPending": 2,
+    "repairRequired": 39,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,13 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 57,
+    "FAIL_REPAIR_REQUIRED": 56,
     "SOURCE_READY": 33,
-    "BUILT_RASTER_PENDING": 8,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
+    "BUILT_RASTER_PENDING": 7,
     "HANDOFF_READY": 2,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -110,7 +111,11 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "al-felony-nonconviction-90-set",
+      "al-pardoned-felony-set",
       "ca-17b-reduction-set",
+      "co_multiple_conviction_seal-set",
+      "ct-cleanslate-petition-set",
       "fl-early-juvenile-set",
       "in_arrest_no_charges-set",
       "in_section1_petition-set",
@@ -120,7 +125,9 @@
       "ne-setaside-custodial-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
-      "rcap-hi-custom-pleading"
+      "rcap-hi-custom-pleading",
+      "ri_decriminalized-set",
+      "vt_exp_decriminalized-set"
     ],
     "staleRosterFamilies": [
       {
@@ -2810,9 +2817,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf41",
+        "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -2846,21 +2853,21 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "PROTECTED_FIELDS"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Checked against AL.memo.json directly, not against the builder's report. Both documents the memo marks requiredBeforeFiling true for this track are named in participant-instructions.md as things to obtain and submit, with the source and the method, not merely as a cross-check. All 58 refusals carrying completenessDisposition REQUIRED_BEFORE_FILING appear in the guide's blank list under a plain-language label; zero opaque Text-n or undefined-n labels remain. That part passes. The obligation fails on a step the packet adds that the record refuses. The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form. participant-instructions.md repeats it: \"Complete the participant signature only after every fact and attachment is complete, and sign under oath before a notary or other authorized officer.\" Worse, this builder pins the defect in place: scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 318 asserts assert.match(instructions, /notary/i), so its own repair invariant REQUIRES the unsupported notarization direction to be present. That is an inverted safeguard, not a missing one. This family's participant-instructions.md is also structurally degraded against its four siblings: it has no \"## What the held record establishes\" section (so the filing court, fee, fee waiver, notice, service, signing and notarization lines are not quoted from the memo with its digest), no \"## Do these before you file\" numbered sequence, and no \"## Notarization\" section. Its self-help stops are paraphrased into one sentence rather than carried verbatim from the memo; I checked the substance and all four memo stops are covered, but \"The court sets a hearing\" is narrowed to \"the court sets a contested hearing\".",
-          "findingReadFrom": "detail",
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "THE NO-INK CLAIM IS ASSERTED, NOT MEASURED, FOR THIS FAMILY. scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 851 writes refusedFieldsWithInk: [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as literals into reports/actual-writes.json. verify-packet-completeness.mjs raises protectedWrites ONLY by iterating that array and visualDefects ONLY when that number exceeds zero, and scripts/rcap-packet-completeness/verify-absent-is-not-zero.test.mjs states the rule the literals defeat: absence of refusedFieldsWithInk is a real zero, not an unmeasured counter. So an empty array typed by the builder is indistinguishable to the verifier from an empty array it measured, and two of the nine counters are laundered from an assertion into a measured zero. Its al-trafficking sibling proves the measurement is available in this state and this form: scripts/build-census-v1-al-trafficking-set.mjs computes refusedFieldsWithInk per box (lines 723-805) and holds two positive controls that fire (lines 1493-1508). Worse, the same line writes flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, i.e. 30 — a positive count of flattened widget appearances in bytes that carry NO AcroForm and ZERO widget annotations (measured). The true value is null. Because verify-packet-completeness.mjs counts that field as one of the two real readings that license the invisibleWrites test, a literal 30 would satisfy that test on its own even if the genuine glyph reading were zero. VF41 measured 8 of this family 186 refusals directly (the CR-65 page-5 and page-6 elections, all blank); the other 178 are measured by nothing.",
+          "findingReadFrom": "finding",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX144",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -2871,7 +2878,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -3490,7 +3498,9 @@
         "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -3532,9 +3542,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX144",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
@@ -3545,7 +3555,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "al-trafficking-set",
@@ -9382,8 +9393,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX143",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -9394,7 +9405,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "co_municipal_conviction_seal-set",
@@ -9493,9 +9505,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf22",
-        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
+        "lane": "vf40",
+        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -9529,13 +9541,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The substance is right and the copy is not. Substance, all of it correct: the track record's rules.fees reads 'Unconfirmed. The fee must be confirmed before building.' and its waiver item reads 'The source review does not address a fee waiver', and the packet accordingly states no fee amount, no waiver procedure, no waiver form and no eligibility test anywhere, and participant-instructions.md gives the participant the action that follows from that silence — 'Ask the municipal court clerk what the fee is and what they need. Colorado's municipal courts are not on the state e-filing system and each one runs its own intake.' Nothing is fabricated. What fails is the delivered fee section of filing-instructions.md, which is filer-facing prose addressed as 'you' throughout, and reads in full: '## Fee — Unconfirmed. The fee must be confirmed before building. **Fee waiver:** The source review does not address a fee waiver.' 'The fee must be confirmed before building' is an instruction to the people who build this packet, published under the heading a filer reads specifically to learn what the filing costs, in vocabulary — 'building' — that means nothing to them. It is the DEFECTS_NO_COUNTER_CAN_SEE class 'internal record text printed on a filing': present, non-empty, under its own heading, verbatim from a controlling record, and therefore invisible to every counter. The page's opening frame does not cover it: it promises that where the record says nothing the page says nothing, and a build instruction is not the record saying nothing. Three mitigations are recorded because they bear on severity and not on whether the defect is there: the sentence asserts nothing false, the correctly addressed participant version exists at participant-instructions.md, and the same packet's open-items table discloses its build_blocker rows with a plain explanation of what they mean for the filer. The repair is one sentence — say that the committed record does not confirm a fee for this route and to ask the municipal court clerk — and this lane does not make it.",
-          "findingReadFrom": "detail",
+          "obligation": "SERVICE",
+          "finding": "THE DEFECT CLASS FIX09 REPAIRED SURVIVES TWO BULLETS BELOW THE BULLET IT REPAIRED. filing-instructions.md:40, under the heading '## Service, notice and signature' that a filer reads to learn whether they must serve anyone, states only: '**Service:** The source review does not state a service requirement.' 'The source review' is an internal build artefact, named to a filer, and the sentence gives no action. participant-instructions.md:103 carries the same sentence unlabelled in the very 'Where it goes' list of directions where FIX09 found and fixed the fee bullet, and participant-instructions.md:104 and filing-instructions.md:46 do it again for notarization. This is structurally identical to the '## Fee' defect just repaired one heading above — track.rules.* recited verbatim, unlabelled, on a participant surface — and it is unrepaired. VF40 records it and does not fix it.",
+          "findingReadFrom": "finding",
           "evidence": null
         }
       ],
@@ -12271,8 +12283,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX143",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -12283,7 +12295,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ct-decriminalized-set",
@@ -27641,14 +27654,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf20",
-        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+        "verdict": "PASS",
+        "lane": "vf41",
+        "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27677,20 +27688,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "59 items are declared requiredBeforeFiling and all 59 are disclosed - I tested every disclosure label as a byte substring of the delivered guide and none was missing - but one blank the form itself requires is not among them and is named nowhere in participant copy. FEE102 page 1 item 2 prints 'Choose one:' and offers two branches: 'I am including my pleadings with this Affidavit (or I have already filed my pleadings but have not yet paid the filing fee)' and 'I only want to have copy fees waived. I do not have any pleadings to file at this time.' On the delivered page 20 both branches are empty - the page carries exactly one ink cluster, the caption defendant name at x[74.88,164.16] - so the affidavit goes out with the choose-one unanswered. The election is classified into protectedBlanks under the identifier pleadings_or_copy_fees_election, whose own recorded reason says 'which of the two the participant is asking for is theirs to choose', and it is therefore not in the requiredBeforeFiling set the guide prints from. The words 'pleadings', 'copy fee' and 'Choose one' do not occur anywhere in participant-instructions.md, and the guide's FEE102 supply table lists items 3, 4/5, 5, 6, 7, 8, 9, 10, 11-13 and 14 and the declaration block - every item on the form except item 2. FEE101, the fee-waiver instruction sheet the form's own header points to, is not in this packet either, so nothing the participant receives tells them the choice exists. This is the same defect shape FIX07 repaired on de_pardon_expungement-set and on the sibling mn_petition_15218-set: a choice the court's own form requires, classified into a bucket the disclosure list does not print from, and named nowhere the participant will read.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs",
@@ -28899,14 +28901,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json"
+        "verdict": "PASS",
+        "lane": "vf40",
+        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -28935,20 +28935,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The fee half is right and the waiver half is missing, and the obligation is scored as one. FEE - correct: MO.memo.json rules.fees says 'Not fixed by Article XIV and county-variable ... No fee figure is published on this track', and filing-instructions.md publishes no figure: 'The held sources establish no filing fee for this petition and this packet states no amount. Ask the clerk.' That is the right answer for Missouri and this factory's own regression test (scripts/grade-a-packet-factory-24h/test-md-pardon-record-disclosures.mjs) names that sentence as true here. WAIVER - absent: MO.memo.json rules.feeWaiver names a waiver route for this track by form number and authority - 'GN10 under Rule 77.03 and section 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for.' The packet states that route NOWHERE. Measured by exhaustive case-insensitive search across every participant-facing byte this family delivers - participant-instructions.md, filing-instructions.md and the full pdftotext -layout extraction of canonical.pdf: zero occurrences of 'waiver', 'GN10', '514.040', '77.03', 'cannot pay', 'in forma pauperis' or 'indigen'. The word 'fee' appears twice in the whole delivered set, both in the two-line Fees section of filing-instructions.md. The record's stated reason bears on whether to GENERATE the form, not on whether to TELL the participant the route exists, and it concedes on its own face that some participants on this route do have a filing to pay for - which is exactly the population a waiver serves. A participant who cannot pay is told only to ask the clerk about an amount, and is never told Missouri has a statewide fee-waiver form or the rule that authorises it.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
@@ -33412,9 +33403,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b-nh.json"
+        "lane": "vf40",
+        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -33448,13 +33439,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The record's fee rule for this route ends with an instruction about the packet itself: 'Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, SO THE PACKET MUST NOT STATE A PRICE.' Currency figures survive in BOTH delivered instruction documents, eight times: participant-instructions.md lines 51, 78 and 91 and filing-instructions.md lines 19, 41 and 56 each carry '$125.00' and '$100'. That leaves two assurances the delivered guide makes about itself false on their face. It says 'This packet does not state a price for this petition, and that is deliberate' in the same paragraph that prints $125.00; and, of the Circuit Court Filing Fees schedule, it says 'Its figure is deliberately not repeated here' when that schedule's figure is $125.00 and it is repeated twice within eight lines of that sentence and four times in the document. The builder plainly understood the rule as no currency figure reaching the participant -- it went to the trouble of naming the schedule by prefix and URL rather than by its title, because the title carries the amount -- and then did not apply the same rule to the body. Recorded in fairness: every figure is a verbatim quotation of the controlling record, nothing is invented, the packet asserts no price as due, the figures appear as the subject of a declared open question, and the substantive guidance is right -- ask the clerk before you pay, and the waiver papers NHJB-2311 and NHJB-2328 are named and prepared and delivered. The defect is the false self-description plus the leak, not a fabricated fee. The repair is small and does not require giving up verbatim fidelity: elide the two amounts where the record's fee rule is quoted and say that they are elided, or drop the two sentences that claim they are absent.",
-          "findingReadFrom": "detail",
+          "obligation": "ARTIFACTS",
+          "finding": "A DELIVERED ARTIFACT NOW PUBLISHES A CONTROL THAT DOES NOT EXIST, AND VF40 DISPROVED IT BY MUTATION. build-findings.json, rewritten by this repair, states as fact: 'The self-test now scans both delivered documents WHOLE for a currency figure. It used to strip every record-quoted sentence first, which is where both amounts lived, so it could not fail on the leak it was written to catch.' The diagnosis is exactly right and the new test is not a fix for it. In scripts/build-census-v1-nh_marijuana_annulment-set.mjs, participantInstructions() and filingInstructions() each end 'return withoutAmounts(...)', which replaces every match of CURRENCY_FIGURE = /\\$\\s?[0-9][0-9,.]*/g with '[amount elided]'. The self-test at line 2001 then scans those same already-scrubbed return values with that same CURRENCY_FIGURE regex. withoutAmounts(x).match(CURRENCY_FIGURE) is empty for every input, so the assertion is a tautology. PROOF: VF40 injected 'the filing fee for this petition is $487.25, payable to the clerk' — a fabricated price appearing in no record sentence — into a delivered participant line ahead of the boundary, and ran the self-test. It exited 0 with no assertion failure. Dumping the delivered document under that mutation shows the line shipping as 'the filing fee for this petition is [amount elided] payable to the clerk.' The old test could not fail because of a carve-out; the new one cannot fail because the generator scrubs first with the identical regex. The build script was restored and rehashed to its committed digest 4d58320daef98ec3ee5595cfddc6b6ac23e16451a102f2b8f84e51118b66dea1. Two consequences the Captain should weigh: (1) that mutation output also shows the scrub eating the comma after '$487.25', because [0-9,.]* consumes trailing punctuation — the page's own promise that 'Nothing else in any quotation is changed' is true of the bytes delivered today, which VF40 confirmed character by character against the record's fees sentence, but is not enforced by anything; (2) the page tells the reader that what was elided is 'a figure recorded against the GENERAL petition to annul a criminal record', and the mutation shows a figure of any origin, including a fabricated one, receives the same elision and the same on-page explanation. Also recorded: the artifact digests themselves rehash correctly (23390b7f../661ff004..), page counts match at 7, and the central RASTER_PASS still pins the bytes on disk — the failure here is the published claim, not the bytes.",
+          "findingReadFrom": "finding",
           "evidence": null
         }
       ],
@@ -39745,8 +39736,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX143",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -39762,7 +39753,8 @@
         "ri_first_offender_misdemeanor-set",
         "ri_multiple_misdemeanors-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -41645,9 +41637,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf08",
+        "verifiedAtBase": "d2b19ffd3883d1c1ff18e17c9c18489eb14db242",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -41681,15 +41673,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL. product-wiring.json declares exactly one routeKey and it is the correct one for this family. But the delivered bytes PRINT it: packet page 10 and packet page 26 each carry the line 'Route: obligation:track-pathway:TX:tx_nd_deferred_other:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725', identically in canonical and boundary. Page 10 is the proof-of-delivery pleading, which carries the participant's signature and date lines and which the packet tells them to file when the county wants it. Recorded in the factory's own GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY.json carrier list; that ledger's 'no filed page is affected' does not hold here.",
+          "findingReadFrom": "finding",
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -42133,9 +42124,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf08",
+        "verifiedAtBase": "d2b19ffd3883d1c1ff18e17c9c18489eb14db242",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -42169,15 +42160,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL. One declared routeKey, correct for this family, and the delivered bytes print it on packet pages 9 and 24 as 'Route: obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure', identically in both fixtures. Page 9 is the proof-of-delivery pleading, a filed page.",
+          "findingReadFrom": "finding",
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -42476,9 +42466,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf08",
+        "verifiedAtBase": "d2b19ffd3883d1c1ff18e17c9c18489eb14db242",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -42512,15 +42502,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL. One declared routeKey, correct for this family, and the delivered bytes print it on packet pages 10 and 25 as 'Route: obligation:track-only:TX:tx_nd_veterans_court', identically in both fixtures. Page 10 is the proof-of-delivery pleading, a filed page.",
+          "findingReadFrom": "finding",
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -42639,9 +42628,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf08",
+        "verifiedAtBase": "d2b19ffd3883d1c1ff18e17c9c18489eb14db242",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -42675,15 +42664,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL. The delivered bytes print two route keys per site on packet pages 3 and 22: 'Route: obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route ; obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition', identically in both fixtures, 4 key occurrences per fixture. Both keys are correct for this family. Unlike the other three, neither page is a filed pleading.",
+          "findingReadFrom": "finding",
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -45959,8 +45947,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX143",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -45971,7 +45959,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
