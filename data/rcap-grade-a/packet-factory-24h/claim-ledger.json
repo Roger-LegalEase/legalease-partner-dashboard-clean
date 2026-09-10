@@ -1823,7 +1823,9 @@
       "operation": "packet-build",
       "lane": "PF10",
       "laneKind": "packet-build",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-10T22:37:18.631Z",
+      "releaseReason": "Worker return rows-pf10-20260909.json committed56244423ff2f303fdd1566e6e32a2fda8f1a1beb explicitly returns all3 completed and familiesNotYetReturned empty; close only returned Colorado family"
     },
     {
       "subjectType": "packet-family",
@@ -1835,10 +1837,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIXCXC1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:22.182Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -15044,7 +15046,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "98306bde6f7fb0ba560ec54b0c414220b2d3b67db50f0ffe8f3bb5dfb9606d24",
+  "claimsDigest": "6f6c968af09b7ea8d0868483b4d90e8229a3343ae6c130f41b388a476403bf12",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39487,6 +39489,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T22:29:51.118Z",
       "reason": "FIXCXM1 returned completed juvenile repair40626a9ee and actual production guard4242a5a49, explicitly stopped; Captain consumed both"
+    },
+    {
+      "lane": "PF10",
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T22:37:18.631Z",
+      "reason": "Worker return rows-pf10-20260909.json committed56244423ff2f303fdd1566e6e32a2fda8f1a1beb explicitly returns all3 completed and familiesNotYetReturned empty; close only returned Colorado family"
     }
   ],
   "reissues": [
@@ -60083,6 +60094,17 @@
       "previouslyReleasedAt": "2026-09-10T11:23:27.924Z",
       "transferredAt": "2026-09-10T22:30:13.690Z",
       "reason": "VF23 recorded released; reserve independent delta review of FIXCXM1 juvenile repair, previous reviewer did not author it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIXCXC1",
+      "previouslyReleasedAt": "2026-09-10T11:23:22.182Z",
+      "transferredAt": "2026-09-10T22:37:18.772Z",
+      "reason": "FIX09 recorded released; bounded VF40 SERVICE finding: replace internal source-review service/notarization prose with source-bound participant actions, preserve PDFs"
     }
   ],
   "grants": [
