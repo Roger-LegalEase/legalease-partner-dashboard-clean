@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wi_exp_cr266-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The owner's action asks for established discharge facts to be mapped to exact CR-266 SELECTIONS. CR-266 has none. Measured on every run: zero AcroForm fields, zero annotations, zero stroked check-box paths, and the only symbol glyphs on the page are three SymbolMT marks that the font's own /ToUnicode CMap maps to U+F0B7, the Symbol bullet, heading the three-item list under paragraph 1.",
+      "consequence": "The mapping resolves to a PRECONDITION rather than a mark: the four established discharge facts select CR-266 and CR-267, and nothing on either form is elected. The gate is executed before anything is bound and is proved by running it against a record whose probation fact is null and requiring it to refuse."
+    },
+    {
+      "finding": "\"Leave participant assertions blank\" has no blank to leave. CR-266's six declarations are unconditional pre-printed text the petitioner adopts by signing under the criminal penalty of false swearing.",
+      "consequence": "Nothing is written anywhere in the declaration block, the signature and its date are left empty, and all six declarations are printed verbatim in the guide, read out of the pinned bytes, so the participant checks each against their own record before signing."
+    },
+    {
+      "finding": "Two of the packet-set manifest's own requiredBeforeFiling items name places on these forms that do not exist: \"Judge's signature and date of entry — CR-267, signature block\" and \"Any benefit-and-no-harm assertion — CR-266, grounds\".",
+      "consequence": "Both are disclosed in the guide as items that have nowhere to go, with what was measured. CR-267 was searched for \"judge\", \"by the court\", \"signature\" and \"dated\" and prints none of them. CR-266 has no grounds section and no benefit-and-no-harm assertion; under § 973.015 that finding is the sentencing court's. Nothing was invented for either and no blank was fabricated to receive them."
+    },
+    {
+      "finding": "CR-266 prints ONE rule at y=228.29 beneath two captions (Email Address at x=284.69, Telephone Number at x=457.75) and ONE at y=206.69 beneath two more (Date, State Bar No. (if any)). The form prints no divider between them.",
+      "consequence": "Each blank's extent is bounded by the printed x of the caption beside it — measured geometry, not a chosen midpoint — and ruleSpanTaken/sharesRuleWith record the split on every affected row. The telephone blank is 47.55pt of rule and is drawn at 8pt so it stays inside it."
+    },
+    {
+      "finding": "CR-267's face prints \"CR-267, 02/15\" while the corpus index and the archive filename label it REV-2024-05.",
+      "consequence": "Recorded as observed in source-receipt.json. The bound digest is the one MASTER_QUEUE declares and nothing was substituted."
+    },
+    {
+      "finding": "CR-267's page content begins about 30% down a 612x792 page: its caption baseline is at y=557.98 where CR-266's is at y=737.76, leaving roughly three inches of blank paper above the caption.",
+      "consequence": "Recorded for visual review. It is a property of the pinned binary and was not altered; a build that moved the court's own content to close the gap would be modifying a form whose foot prints \"This form shall not be modified.\""
+    },
+    {
+      "finding": "No page raster was produced. --no-raster was passed deliberately.",
+      "consequence": "rasterState is BUILT_RASTER_PENDING and no workflow was dispatched. A local render is not a receipt; only the central raster workflow issues one, bound to the exact SHA-256 recorded here."
+    }
+  ]
+}
