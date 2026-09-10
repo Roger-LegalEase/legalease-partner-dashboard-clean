@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX141",
+  "laneKind": "repair",
+  "dispatch": "Four families dispatched as each failing exactly one obligation, CLIPPING_AND_OVERLAP: ca-17b-reduction-set, fl-early-juvenile-set, md_10105_early-set, nj_disorderly_persons-set. Repair from the finding, not the summary.",
+  "dispatchPremiseIsWrongOnTwoOfTheFour": "Read against VERIFIER_RETURNS.json's own supersessionRule -- the current row is the one with superseded !== true -- only TWO of the four carry CLIPPING_AND_OVERLAP as a live failure. fl-early-juvenile-set fails SIX obligations, of which CLIPPING_AND_OVERLAP is one. nj_disorderly_persons-set fails TWO and NEITHER is CLIPPING_AND_OVERLAP. This lane derived that before touching any family, and the coordinator confirmed it mid-lane. It is recorded because acting on the summary would have produced a repair of a defect that is not there and left two live failures unnamed.",
+  "generatedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "repairCommit": "85ff27c0854c4f5c90a7774033dc50f64e54f7a4",
+  "worktree": "/home/user/ln2-worktree",
+  "branch": "lane-fix141-20260910",
+  "claimsReleased": 0,
+  "subagentsCreated": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "howEveryPixelCountHereWasTaken": {
+    "renderer": "poppler pdftoppm, invoked as `pdftoppm -r <dpi> -gray -png -f <page> -l <page> <pdf> <prefix>`. -hide-annotations was NEVER passed on a measuring render; it was passed exactly once, on a named isolating control, and that use is labelled where it appears.",
+    "resolution": "300 dpi for every count reported as a total; 600 dpi for the Florida rule-crossing question, where the disputed distance is under one point.",
+    "threshold": "a pixel counts as dark at grey <= 128 and, separately, at grey <= 200. Both are published for every count, because on CR-180 page 3 the issuer prints a grey box at level 192 and a threshold of 200 swallows an entire empty banner as 85,360 pixels of 'ink'. A single published threshold on that page would have made a zero delta meaningless.",
+    "scope": "canonical AND boundary on every family, and every delivered page that carries a measured rectangle, never one representative page.",
+    "provingTheRenderIsNotBlind": "An aggregate dark-pixel total is not proof that a render draws widget /AP /N ink, because page content covers dark pixels too. So on each source a control was run: the same command over the pinned binary, and over a copy with every page /Annots and the catalog /AcroForm removed. CC-DC-CR-072C draws 4,497 dark pixels (grey <= 128, 300 dpi) that exist only in annotations; CC-DC-CR-078 draws 5,058. On CR-180 page 3 the privacy-banner rectangle holds 13,074 pixels of glyph ink at grey <= 60 with annotations and 0 with them hidden. The renders therefore do draw appearance-stream ink, and a zero measured at a rectangle is a real zero rather than a blind one.",
+    "rastersDeleted": true
+  },
+  "rows": [
+    {
+      "familyId": "md_10105_early-set",
+      "jurisdiction": "MD",
+      "status": "REPAIRED_IN_THIS_LANE",
+      "obligationRepaired": "CLIPPING_AND_OVERLAP",
+      "priorRow": "vf06, base 7d6453f51dacd9064f9a2b2d4d16618d0669add8, FAIL_REPAIR_REQUIRED, visualDefects 13",
+      "claim": "held by FIX141 in claim-ledger.json; NOT released by this lane",
+      "buildScript": "scripts/build-census-v1-md_10105_early-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "whichOfTheThreeDefectsThisIs": "A WIDGET OVERLAPPING PRINTED MATTER. It is not text overflowing its box and it is not a glyph crossing a rule: the added ink is a stroked path carrying no glyph, drawn from a widget rectangle, landing on top of the box the Maryland Judiciary prints in its own page content.",
+      "cause": "Thirteen check-box widgets across the two pinned binaries sit at /AS /Off and hold only their on state in /AP /N (eleven /On on CC-DC-CR-072C, two /Yes on CC-DC-CR-078). None ships a court-authored /Off appearance. ISO 32000-1 12.5.5 has a viewer draw the stream named by /AS, so where there is none it paints nothing. pdf-lib's updateFieldAppearances treats the missing state as an appearance to regenerate and its default provider strokes a square the size of the widget /Rect; flatten() stamps it onto the page.",
+      "fixedWhere": "the builder, by passing the shared finalizer's opt-in suppressSynthesizedAppearances, which installs the empty /Off the two forms omit. Not in the rendered output, and not by editing a generated stream.",
+      "nothingCourtAuthoredWasRemoved": "Checked on both binaries before the flag was set: there is no /Off stream on any of the thirteen widgets to remove. This is the distinction RI-OFF-APPEARANCE and FIX134 turn on.",
+      "canonicalSha256Before": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+      "canonicalSha256After": "178791922c9fc310c73f85fd5487aabba0989516dc204d1f77eff5d367f6946f",
+      "boundarySha256Before": "20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522",
+      "boundarySha256After": "bde04b9077717fea1a9540e77201b80c2e913f18f960ca688b0b3f61a7c06b1d",
+      "bytesMoved": true,
+      "owesAFreshCentralRaster": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildIsByteReproducible": "The family was rebuilt UNCHANGED in this worktree before the flag was added and reproduced both committed digests exactly, so every byte that moved afterwards is attributable to this change and to nothing about the container.",
+      "measurement": {
+        "surface": "the thirteen source check-box /Rect values, on both delivered pages of both fixtures, against the two pinned sources rendered at the same dpi with their own annotations",
+        "dpi": 300,
+        "before": {
+          "grey<=128": {
+            "source": 2799,
+            "delivered": 3218,
+            "addedByTheBuild": 419,
+            "rectanglesDiffering": 10
+          },
+          "grey<=200": {
+            "source": 3402,
+            "delivered": 3691,
+            "addedByTheBuild": 289,
+            "rectanglesDiffering": 10
+          }
+        },
+        "after": {
+          "grey<=128": {
+            "source": 2799,
+            "delivered": 2799,
+            "addedByTheBuild": 0,
+            "rectanglesDiffering": 0
+          },
+          "grey<=200": {
+            "source": 3402,
+            "delivered": 3402,
+            "addedByTheBuild": 0,
+            "rectanglesDiffering": 0
+          }
+        },
+        "wholePageDiffBeforeAgainstAfter": "1,260 pixels changed across the two pages of each fixture (998 on page 1, 262 on page 2). EVERY ONE of them is lighter after; not one pixel anywhere on either page is darker. Every cluster centre lands on one of the thirteen check-box rectangles. The repair withdraws ink and adds none.",
+        "writeInkUnmovedAndProvedDrawn": "At the same dpi and threshold, all fourteen write boxes carry ink in the delivered page (1,673 to 8,430 dark pixels) where the source carries 0 to 1,349, and every one reads IDENTICALLY before and after this repair.",
+        "appearanceStreamCount": "flattened Form XObjects carrying any painting operator fell from 14 to 1 per fixture. The one that remains is /Im0, the source's own page image, not a widget appearance."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersProveNothingHere": "verify-packet-completeness.mjs --family md_10105_early-set -- the reproduction command the failing row itself names -- returns PASS_COMPLETE with visualDefects 0 on the DEFECTIVE bytes and PASS_COMPLETE with visualDefects 0 on the repaired bytes. It was run on both, in this lane, with the pre-repair fixtures restored for the purpose. The counters are identical either side of a thirteen-square defect, so they are not evidence of this repair. The pixel measurement above is.",
+      "readingsThatMovedForOtherReasons": [
+        "reports/actual-writes.json flattenedWidgetAppearancesReadFromOutputBytes on CC-DC-CR-078 fell 20 -> 19 on bytes that had NOT yet moved. This family is one of the six that pdf-flattened-widgets.mjs names as still publishing that reader's superseded over-count; the rebuild brings the published figure to what the module now reads.",
+        "source-receipt.json custody 'describes' strings carry the absolute path of whichever worktree last built the family ('/home/user/pfa-worktree' -> '/home/user/ln2-worktree'). They move on every rebuild in a different container and describe the builder's environment rather than the packet."
+      ]
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "jurisdiction": "CA",
+      "status": "ROW_IS_STALE_NO_REPAIR_MADE_BY_THIS_LANE",
+      "priorRow": "vf05, base d4653b258e2b09eebad4ec2b51edadbf9a26ae98, FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, naming TWO defects: the CR-180 page-3 privacy banner stamped as one clipped line cut at both ends, and every check box redrawn with a doubled outline.",
+      "claim": "held by FIX141; NOT released by this lane",
+      "whyStale": "Both defects were repaired after that base and before this lane's base. FIX14 (c8bc1b1fd) set detachNestedControlFields for the banner; FIX120 (645205166, integrated at a5d9a33c1) set suppressSynthesizedAppearances for the check boxes; 034b96005 emitted the output-byte readings. d4653b258 is an ancestor of 645205166, which is an ancestor of HEAD, so the failing read is strictly earlier than the repair on the base each declares.",
+      "provedRatherThanClaimed": {
+        "bytesMovedSinceTheFailingRead": "The failing row recorded CR-180 canonical b06cb00e4015... and boundary 4bc40d3986c7...; the committed bytes are now ee454a96d0415e567ba3882045a10da5d7b73a33509cf1307d741065ac3f1080 (canonical, both variants) and 11816c4df15c4f2b7594fb996f1e1e4d9e234721fee42280c21a1c93a4fcd3d0 (boundary, both variants).",
+        "doubledCheckBoxOutline": "GONE. All four delivered CR-180 files carry 77 flattened Form XObjects and ZERO of them carries any painting operator. Measured on the pages: the eighteen source check-box /Rect values carry 1,994 dark pixels in the delivered file and 1,994 in the pinned source at EVERY threshold tested (60, 128, 160, 200) at 300 dpi, on the canonical and on the boundary. Delta 0, rectangles differing 0.",
+        "clippedPrivacyBanner": "GONE. 'privacy', 'protection' and 'Clear This Form' do not occur in the delivered text of any page; page 3 ends at the issuer's own 'CR-180 [Rev. January 1, 2024] PETITION FOR DISMISSAL Page 3 of 3' footer. In the banner rectangle (36.0, 12.784, 247.294, 35.963) the delivered page is a single uniform grey level 192 across all 85,360 pixels, which is pixel-for-pixel the pinned source rendered WITH -hide-annotations. The source rendered normally carries 13,074 glyph pixels at grey <= 60 in that same rectangle.",
+        "renderNotBlind": "the same source render draws 8,829 / 8,020 / 22,408 dark pixels in the Print, Save and Clear pushbutton rectangles, which are pure widget appearance ink, and the delivered file draws 0 in each. Every one of the eight write boxes goes from 0 dark pixels in the source to 995-11,317 in the delivered page."
+      },
+      "observationNoCounterCanSee": "The banner suppression leaves an EMPTY GREY STRIP at the foot of CR-180 page 3: the grey box is the issuer's own page content and only the text on top of it was widget-drawn. That is what any print of the form without live form fields looks like, and it is what the four sibling CR-180 families deliver, so it is recorded as an observation and not scored. It is also a measurement trap: at grey <= 200 that empty strip reads as 85,360 pixels of ink, so any lane publishing a single threshold of 200 on this page can report a confident number about nothing.",
+      "bytesMoved": false,
+      "owesAFreshCentralRaster": true,
+      "whyItStillOwesOne": "Not because this lane moved bytes -- it did not touch this family. The failing row records that the acceptance receipt it cited (workflowRunId 33844904078) predates d03103203 and binds four superseded CR-180 digests, so no admitted central raster covers the current bytes."
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "jurisdiction": "NJ",
+      "status": "ONE_LIVE_OBLIGATION_IS_STALE_THE_OTHER_IS_BLOCKED_LEGAL_INPUT_NO_REPAIR_MADE_BY_THIS_LANE",
+      "claim": "held by FIX141; NOT released by this lane",
+      "liveRow": "vf11, base df524f2fd, FAIL_REPAIR_REQUIRED on COMPONENT_SET and ROUTE_OPTIONS.",
+      "clippingWasNotTheFindingAndWasNotRepaired": {
+        "why": "The dispatch named CLIPPING_AND_OVERLAP. The live row scores that obligation PASS. Two earlier rows failed it -- vf34 at fc95a33ac (2026-09-02) on 24 clipped shared-field appearances, vf08 at 942cab9b5 (2026-09-05) on 44 synthesized check-box borders -- and both bases are ancestors of df524f2fd (2026-09-09), so both are superseded on the base each declares.",
+        "checkedRatherThanTrusted": "vf11's CLIPPING evidence addresses the vf34 clipping and is silent on vf08's borders, so the second defect was measured here independently before its PASS was relied on. Both delivered fixtures carry 264 flattened Form XObjects and exactly ONE carries a painting operator: /Im0 on page 1, the source's own page image. Zero stroked squares; vf08's 44 are not in these bytes. On the vf34 defect, the boundary fixture's 69-character name appears complete and verbatim at all 20 appearances and the long street address at all 8, and reports/actual-writes.json records 46 write outcomes, 38 'fit' and 8 'shrunk', nothing else.",
+        "noRepairMade": true
+      },
+      "COMPONENT_SET": {
+        "result": "STALE_ROW_ALREADY_REPAIRED_BY_FIX121",
+        "repairCommit": "4322c4bba",
+        "ordering": "df524f2fd is an ancestor of 4322c4bba and 4322c4bba is an ancestor of HEAD, so the repair is strictly later than the read.",
+        "verifiedIndependentlyAtHEAD": {
+          "theSixStringsVF11TestedAsZeroHits": "all six now occur in participant-instructions.md: 'no more than five', 'five disorderly', 'same day', 'closely related', 'sequence of events', 'comparatively short' -- one occurrence each, in a new section headed '## How the offence count works on this route'.",
+          "everyQuotedPassageIsHeld": "the counting rule is the track registry's own `mechanism` string quoted whole; the 'up to three' caution is that track's own openLegalQuestion; the intake question and the cap correction are that track's own records. Each was located in data/record-clearing/legal-design-track-registry.json track nj_disorderly_persons by exact string containment here, so the guide asserts no source it does not hold.",
+          "theSecondLimbOfTheSameFinding": "vf11 also faulted the service section for saying nothing about objections. '## Who must be served' now carries the registry's rules.notice verbatim -- 'The exact objection window is recorded as an open question.' -- states that no held source establishes the period, refuses to infer one from silence, and sends the participant to the Criminal Division office. Confirmed in the registry by exact containment.",
+          "participantInstructionsSha256": "be7b784ce911c9a9e0347ea463017757f67eb73d22c6f2ebfc4026095af9ac6c"
+        }
+      },
+      "ROUTE_OPTIONS": {
+        "result": "LIVE_AND_BLOCKED_ON_LEGAL_AND_PRODUCT_INPUT_A_BUILD_LANE_CANNOT_SUPPLY",
+        "notRepairedHere": true,
+        "whatTheDefectIs": "The field map declares one route selection, `guilty`, decision measured_route_selection, at an 18x18 pt widget on delivered page 19. It is delivered unmarked on both fixtures, so nothing on the petition states which statutory route it is, and the delivered canonical is byte-identical to two sibling conviction families' canonicals.",
+        "whyMarkingItIsNotAvailableToABuildLane": "Read on the delivered page rather than taken from the row: item (d) of Form A is ONE SWORN COMPOUND SENTENCE with nine blanks -- date, name of offence(s), statute(s), final sentence, name of Court, jail/prison/incarceration term, date that term was completed, date probation was completed, date fines were paid. This family declares EIGHT of them REQUIRED_BEFORE_FILING (guiltyOff2, guiltyStatute, guiltyFinal1, guiltyFinal2, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) and discloses every one to the participant by source field name. The platform holds none of them. Ticking the box would put a mark beside a sworn sentence identifying no conviction, and completing the row would mean inventing a sentence imposed and a custodial term into a petition sworn by the participant. FIX121 recorded that three of the nine -- the final sentence, the incarceration term, and the date fines were paid -- are collected by no intake question on any of the three New Jersey conviction tracks, so the gap is in what the product asks, not in what this build writes.",
+        "whatItNeeds": "A legal-design and intake decision: either the three uncollected facts are added to the intake for these tracks, or the route is stated on the paper by some means other than item (d) that a held source supports. Neither is a coordinate, a flag or a field-map edit.",
+        "theFamilyReportsThisHonestlyNow": "verify-packet-completeness.mjs --family nj_disorderly_persons-set returns FAIL_ROUTE_SELECTION with requiredOptionsMissing 1. vf11 recorded that this counter read 0 and was structurally blind to the election; it is no longer blind, so the family's own tooling now names the defect instead of hiding it. invisibleWrites and visualDefects both read UNMEASURED on this family and are reported as UNMEASURED, never as 0."
+      },
+      "bytesMoved": false,
+      "owesAFreshCentralRaster": false
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "jurisdiction": "FL",
+      "status": "BLOCKED_SOURCE_IN_THIS_CONTAINER_NO_REPAIR_POSSIBLE_HERE",
+      "claim": "held by FIX141; NOT released by this lane",
+      "currentRow": "fl-complete-independent-review, base 9e22d30b852d5797e34835b3addcb48cc125d917, FAIL_REPAIR_REQUIRED on SIX obligations: ARTIFACTS, CLIPPING_AND_OVERLAP, FEE_AND_WAIVER, KNOWN_PREFILLS, SERVICE, SOURCE_IDENTITY.",
+      "exactlyWhatIsMissing": {
+        "document": "FDLE40-028, Application for a Early Juvenile Expunction, Revised October 2019",
+        "requiredSha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+        "requiredByteLength": 22449,
+        "declaredCustodyPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf",
+        "sourceBinaryCommitted": false,
+        "searchPerformed": "every PDF of exactly 22,449 bytes under private/source-imports, private/human-source-returns, the mounted Master Library at /home/user/corpus-x and the family directory was hashed. One file of that length exists and it is not this one. The declared staging root does not exist in this container.",
+        "consequence": "scripts/build-census-v1-fl-early-juvenile-set.mjs stops at its own gate with `BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent` on --check and on a full run. This family is an official_pdf_overlay: the text is drawn at absolute coordinates onto the source page, so there is no repair that does not rebuild, and no rebuild without those bytes.",
+        "whatWouldUnblockIt": "the exact 22,449-byte binary at d9417ea3... placed in a mounted custody, OR a decision on CHATB-FL-06 first (see below), which may replace it."
+      },
+      "theClippingDefectWasStillMeasuredHere": {
+        "why": "so the next lane does not have to rediscover it, and so the reviewer's two findings can be separated by severity rather than treated as one.",
+        "CHATB-FL-01_page3_surname_over_the_printed_caption": {
+          "whichOfTheThreeDefects": "a glyph over printed matter -- text drawn on top of the issuer's own caption, not an overflow and not a rule crossing",
+          "measured": "poppler word boxes on the delivered page 3, both fixtures. The overlay surname box is x 65.000..89.089 (canonical 'Reyes') / 65.000..160.158 (boundary \"O'Shaughnessy-Whitfield\"), y_topleft 81.897..89.7595. The printed caption 'Name:' is x 41.400..71.960, y_topleft 82.975..92.225. They intersect over x 65.000..71.960 and y 82.975..89.7595 -- 6.960 by 6.7845 points, 47.2 square points, on BOTH fixtures.",
+          "confirmed": "pdftotext -layout renders the line as 'Name:Reyes' with no separating space, on the caption's own baseline.",
+          "exactRemedy": "scripts/build-census-v1-fl-early-juvenile-set.mjs line 349 draws participant.last_name at x 65. The printed caption ends at x 71.960 and the First column's own value starts at x 217. Moving the last name to x >= 74 and narrowing its width from 145 to about 140 clears the caption and keeps it inside its column. NOT applied: the family cannot be rebuilt here, and a coordinate changed without a rebuild and a re-measure would be an unverified edit."
+        },
+        "CHATB-FL-02_page1_values_crossing_their_answer_rules": {
+          "whichOfTheThreeDefects": "a glyph cell crossing a rule -- and the measurement narrows the reviewer's claim rather than repeating it",
+          "measuredAt600dpi": "The arresting-agency rule occupies y_topleft 326.880..327.720; the agency value's text box is y_topleft 326.897..334.7595, so the rule runs through the TOP 0.823 pt of the value's cell. At grey <= 200 exactly one raster row of value ink sits above the rule, at y 326.760; at grey <= 128 none does. The charge-row-1 rule occupies y_topleft 367.080..367.680 and the date and charge text boxes begin at 367.615, so the rule crosses the top 0.065 pt of that cell, and NO ink of those values lies above the rule at either threshold.",
+          "honestSummary": "The reviewer's direction is right -- the values sit below their rules and the rules intersect the tops of their cells -- and the severity differs between the two: the agency value clips ink against its rule, the date and charge values do not at any threshold measured. Identical on canonical and boundary.",
+          "exactRemedy": "builder lines 339-341 place these three at bottom-left y 459 and 419, i.e. baselines at y_topleft 333 and 373. Raising each baseline by about 6 pt puts the whole cell above its rule. NOT applied, for the same reason."
+        }
+      },
+      "fiveOtherLiveFailuresNotInThisLanesObligation": "ARTIFACTS (CHATB-FL-05, stale generated binding), KNOWN_PREFILLS (CHATB-FL-03, a held middle name missing from page 2 over a genuine identity conflict -- a participant fact, never to be synthesized), FEE_AND_WAIVER (CHATB-FL-04, the statutory executive-director waiver absent from guidance), SERVICE (CHATB-FL-07, each-affected-circuit approval), SOURCE_IDENTITY (CHATB-FL-06). Not touched.",
+      "andCHATBFL06GovernsTheOrderOfWork": "CHATB-FL-06 records that current rule 11C-7.010 exposes a five-page FDLE40-028 printed 'Revised June 2021' with substantive procedural additions absent from the 2019 edition this family renders. If that reconciliation lands on the 2021 instrument, every overlay coordinate on this family is replaced. Repairing the two clipping coordinates against the 2019 page before that question is answered would be work discarded. Recorded, not decided here: a build lane does not settle which edition the issuer's rule adopts.",
+      "bytesMoved": false,
+      "owesAFreshCentralRaster": false
+    }
+  ],
+  "familiesThatNowOweAFreshCentralRaster": [
+    "md_10105_early-set",
+    "ca-17b-reduction-set"
+  ],
+  "rasterEvidenceThisLaneDoesNotClaim": "No central raster was obtained for any family here. The MD fixtures moved in this lane and their admitted RASTER_QUEUE row is bound to digests that no longer name any bytes in this tree. The CA family owes one for a reason that predates this lane. Local renders were made for measurement and deleted; a local render is not a receipt.",
+  "grantsNothing": "A repair proves a defect withdrawn from the bytes it names. It approves no packet, promotes no build status, opens no commercial route, and is not counsel, visual or source-freshness review. This lane built the Maryland repair and does not verify it; an independent read is asked for.",
+  "whatThisLaneDidNotDo": [
+    "released no claim -- the four grants stay with FIX141 for the Captain to release",
+    "created no subagent",
+    "edited no other lane's worktree, no shared manifest, and no central queue -- including RASTER_QUEUE.json, whose Maryland row this repair makes stale and which is reported rather than rewritten",
+    "verified none of its own work"
+  ],
+  "dispatchCorrectionReceivedMidLane": {
+    "what": "The coordinator sent a correction mid-lane: the dispatch had selected each family's finding by taking the LAST row in VERIFIER_RETURNS.json rather than the row with superseded !== true, which disagrees on 22 of 63 fail families and on two of these four.",
+    "effectOnThisLane": "None on the work. This lane derived the live rows itself from VERIFIER_RETURNS.json before touching any family and recorded the same disagreement independently, so no effort was spent against the superseded premise and nothing built here rests on it. The correction is recorded because it is the reason the dispatch and the rows differ, not because it changed what was done.",
+    "instructionFollowed": "Florida: read the live row, repair only what belongs to a build lane, return the rest named and unrepaired. New Jersey: address the live COMPONENT_SET/ROUTE_OPTIONS finding rather than a CLIPPING defect no live row asserts. Both done below."
+  },
+  "whatWasRepairedAndWhatWasNot": {
+    "repaired": [
+      "md_10105_early-set CLIPPING_AND_OVERLAP"
+    ],
+    "provedStaleNoRepairNeeded": [
+      "ca-17b-reduction-set CLIPPING_AND_OVERLAP -- both named defects measured absent from the committed bytes",
+      "nj_disorderly_persons-set COMPONENT_SET -- repaired by FIX121 after the reading base, verified here at HEAD",
+      "nj_disorderly_persons-set CLIPPING_AND_OVERLAP -- passes at HEAD; the two superseded failures measured absent"
+    ],
+    "blockedAndNamed": [
+      "fl-early-juvenile-set -- the pinned source binary is in no mounted custody, the builder stops at its own gate, and this family is an absolute-coordinate overlay so there is no repair without a rebuild",
+      "nj_disorderly_persons-set ROUTE_OPTIONS -- eight of item (d)'s nine sworn blanks have no held fact and three are collected by no intake question on any track"
+    ],
+    "outsideThisLanesObligationAndNotTouched": [
+      "fl-early-juvenile-set SOURCE_IDENTITY, KNOWN_PREFILLS, ARTIFACTS, FEE_AND_WAIVER, SERVICE"
+    ]
+  }
+}
