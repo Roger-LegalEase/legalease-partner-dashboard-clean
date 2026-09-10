@@ -372,6 +372,62 @@ function instructions() {
   return lines.join("\n");
 }
 
+/*
+ * THE DELIVERED EVIDENCE, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion below reads a file runFamily() writes into OUT: the
+ * source receipt, the production field map, rendered-artifacts.json and the
+ * pinned artifact digests, the completeness counters, build-status.json, and
+ * the claimReleased scan over every JSON in the directory. They protect the
+ * delivered packet and they sat in selfTest(), reachable only through
+ * --self-test, which nothing in CI or the integration chain passes. They now
+ * run at the end of every build as well.
+ */
+function assertDeliveredEvidenceOnDisk({ rastersMustBeEmpty = false } = {}) {
+  const receipt = readJson(`${OUT}/source-receipt.json`);
+  assert.equal(receipt.documents.length, 1);
+  assert.equal(receipt.documents[0].sha256, SOURCE.sha256);
+  assert.deepEqual(receipt.documents[0].sourceIds,
+    [`official-form:${SOURCE.documentId}`, `official-form:${SOURCE.continuationId}`]);
+
+  const fieldMap = readJson(`${OUT}/production-field-map.json`);
+  assert.deepEqual(fieldMap.routeKeys, [ROUTE_KEY]);
+  assert.equal(fieldMap.generationAllowed, false);
+  assert.equal(fieldMap.runtimeSelectable, false);
+  assert.equal(fieldMap.commercialRoutesOpened, 0);
+
+  const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
+  assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(rendered.independentVerificationPending, true);
+  /* everyPageRastered is the one reading here that a build legitimately moves:
+   * a host with a calibrated rasterizer rasters locally and a host without one
+   * does not. It stays a --self-test reading of the committed review state. */
+  if (rastersMustBeEmpty) assert.equal(rendered.everyPageRastered, false);
+  for (const artifact of rendered.artifacts) {
+    const expected = EXPECTED_ARTIFACTS[artifact.fixture];
+    assert.ok(expected, `unexpected artifact fixture: ${artifact.fixture}`);
+    const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
+    assert.equal(sha256(bytes), expected.sha256, `${artifact.fixture} bytes moved`);
+    assert.equal(bytes.length, expected.byteLength, `${artifact.fixture} length moved`);
+    assert.equal(artifact.sha256, expected.sha256, `${artifact.fixture} report hash moved`);
+    assert.equal(artifact.byteLength, expected.byteLength, `${artifact.fixture} report length moved`);
+  }
+
+  const counters = readJson(`${OUT}/reports/completeness-counters.json`);
+  assert.equal(counters.allNineZero, true);
+  assert.deepEqual(Object.values(counters.counters), Array(9).fill(0));
+  const buildStatus = readJson(`${OUT}/build-status.json`);
+  assert.equal(buildStatus.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(buildStatus.independentVerificationStatus, "PENDING");
+  assert.equal(buildStatus.selfVerified, false);
+  assert.equal(buildStatus.productionTouched, false);
+
+  for (const file of fs.readdirSync(path.join(ROOT, OUT)).filter((name) => name.endsWith(".json"))) {
+    assert.equal(Object.hasOwn(readJson(`${OUT}/${file}`), "claimReleased"), false,
+      `${file} must not release the Captain-owned claim`);
+  }
+}
+
 function selfTest() {
   assert.equal(FAMILY_ID, "az_marijuana_expungement_limited_jurisdiction-set");
   assert.equal(ROUTE_KEY, "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction");
@@ -429,45 +485,7 @@ function selfTest() {
   }
   assert.ok(expectedInstructions.includes(handoff), "participant instructions drop the registry post-generation handoff sentence");
 
-  const receipt = readJson(`${OUT}/source-receipt.json`);
-  assert.equal(receipt.documents.length, 1);
-  assert.equal(receipt.documents[0].sha256, SOURCE.sha256);
-  assert.deepEqual(receipt.documents[0].sourceIds,
-    [`official-form:${SOURCE.documentId}`, `official-form:${SOURCE.continuationId}`]);
-
-  const fieldMap = readJson(`${OUT}/production-field-map.json`);
-  assert.deepEqual(fieldMap.routeKeys, [ROUTE_KEY]);
-  assert.equal(fieldMap.generationAllowed, false);
-  assert.equal(fieldMap.runtimeSelectable, false);
-  assert.equal(fieldMap.commercialRoutesOpened, 0);
-
-  const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
-  assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
-  assert.equal(rendered.everyPageRastered, false);
-  assert.equal(rendered.independentVerificationPending, true);
-  for (const artifact of rendered.artifacts) {
-    const expected = EXPECTED_ARTIFACTS[artifact.fixture];
-    assert.ok(expected, `unexpected artifact fixture: ${artifact.fixture}`);
-    const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
-    assert.equal(sha256(bytes), expected.sha256, `${artifact.fixture} bytes moved`);
-    assert.equal(bytes.length, expected.byteLength, `${artifact.fixture} length moved`);
-    assert.equal(artifact.sha256, expected.sha256, `${artifact.fixture} report hash moved`);
-    assert.equal(artifact.byteLength, expected.byteLength, `${artifact.fixture} report length moved`);
-  }
-
-  const counters = readJson(`${OUT}/reports/completeness-counters.json`);
-  assert.equal(counters.allNineZero, true);
-  assert.deepEqual(Object.values(counters.counters), Array(9).fill(0));
-  const buildStatus = readJson(`${OUT}/build-status.json`);
-  assert.equal(buildStatus.rasterState, "BUILT_RASTER_PENDING");
-  assert.equal(buildStatus.independentVerificationStatus, "PENDING");
-  assert.equal(buildStatus.selfVerified, false);
-  assert.equal(buildStatus.productionTouched, false);
-
-  for (const file of fs.readdirSync(path.join(ROOT, OUT)).filter((name) => name.endsWith(".json"))) {
-    assert.equal(Object.hasOwn(readJson(`${OUT}/${file}`), "claimReleased"), false,
-      `${file} must not release the Captain-owned claim`);
-  }
+  assertDeliveredEvidenceOnDisk({ rastersMustBeEmpty: true });
   console.log(`SELF_TEST_OK ${FAMILY_ID}`);
 }
 
@@ -526,6 +544,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/completeness-counters.json`, { schemaVersion: "rcap-builder-completeness-counters/v1", familyId: FAMILY_ID, counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }, allNineZero: true, whatThisIsNot: "An independent verdict or visual review." });
   writeJson(`${OUT}/build-findings.json`, { schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID, blocking: [], findings: [{ finding: "AOC CREM2F is a flat PDF; every inserted value is measured and re-read from the final bytes." }, { finding: "All case-dependent selections, the perjury signature/date, and self-represented attorney fields remain unprefilled and are classified explicitly." }] });
   writeJson(`${OUT}/approval-request.json`, { schemaVersion: "rcap-family-approval-request/v1", familyId: FAMILY_ID, requested: "changed-byte raster, independent completeness verification, visual review, and counsel review", buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION", approvedForLive: false, live: false, commercialRoutesOpened: 0 });
+
+  /* FIX173: the last write has happened, so read the delivered evidence back
+   * and assert it before this build may report a result. */
+  assertDeliveredEvidenceOnDisk();
 
   return { familyId: FAMILY_ID, status: "COMPLETED", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }, artifacts: artifacts.map(({ fixture, sha256: hash, byteLength, pageCount }) => ({ fixture, sha256: hash, byteLength, pageCount })), rasterState: "BUILT_RASTER_PENDING" };
 }

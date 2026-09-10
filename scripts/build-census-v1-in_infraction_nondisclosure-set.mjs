@@ -1157,6 +1157,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
   });
 
   const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
+  /* FIX173: the last write has happened, so read the delivered packet back --
+   * the receipt, the guide, and the text of the two PDFs -- and assert it
+   * before this build may report a result. */
+  await assertDeliveredPacket();
+
   return {
     familyId: FAMILY_ID,
     status: allZero ? "COMPLETED" : "STOPPED",
@@ -1182,7 +1187,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
   };
 }
 
-async function selfTest() {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. These three assertions read the delivered source-receipt.json, the
+ * delivered participant guide, and the text of the two delivered PDFs
+ * themselves. All three are invariants of what this build ships -- that no
+ * participant-facing text claims a nonexistence the official-index evidence
+ * does not establish, and that the receipt neither calls a rendered petition
+ * undrafted nor hides the outstanding index confirmation. They ran only under
+ * --self-test, which nothing in CI or the integration chain passes.
+ */
+async function assertDeliveredPacket() {
   const receiptText = fs.readFileSync(path.join(ROOT, OUT, "source-receipt.json"), "utf8");
   const instructionsText = fs.readFileSync(path.join(ROOT, OUT, "participant-instructions.md"), "utf8");
   const renderedText = [];
@@ -1195,6 +1211,10 @@ async function selfTest() {
   assert.doesNotMatch(allParticipantFacingText, /Indiana publishes no statewide form|no statewide form exists/i, "participant-facing text must not claim a nonexistence that current official-index evidence does not establish");
   assert.doesNotMatch(receiptText, /open question that keeps it undrafted/i, "receipt must not call a rendered petition undrafted");
   assert.match(receiptText, /official forms index[^.]*confirmation[^.]*outstanding/i, "receipt must disclose the outstanding official-index confirmation");
+}
+
+async function selfTest() {
+  await assertDeliveredPacket();
   console.log("in_infraction_nondisclosure-set source-identity self-test passed");
 }
 
