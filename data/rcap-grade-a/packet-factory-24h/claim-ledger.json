@@ -904,10 +904,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF31",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:31.728Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
     },
     {
@@ -1041,10 +1041,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF31",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:31.943Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14371,7 +14371,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3fb76b09d4b5a039f1ba0f9d216d5c17bb59fcbadb3515fc49dc8e722fa0f716",
+  "claimsDigest": "c2b997fb958ce5e2a954cf3ac235b8e2fd8c3e1f22041ae86cb1988e4d26494a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -53173,6 +53173,28 @@
       "previouslyReleasedAt": "2026-09-10T05:55:09.382Z",
       "transferredAt": "2026-09-10T05:55:09.477Z",
       "reason": "One lane must hold both families still carrying the shifted-caption defect on 600-00228; FIX130 implemented the remedy and gated it by family id"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF31",
+      "previouslyReleasedAt": "2026-09-05T21:16:31.728Z",
+      "transferredAt": "2026-09-10T05:59:37.182Z",
+      "reason": "Released grant reopened for the post-repair read; FIX137 authored the repair and may not approve it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-nonconviction-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF31",
+      "previouslyReleasedAt": "2026-09-05T21:16:31.943Z",
+      "transferredAt": "2026-09-10T05:59:37.278Z",
+      "reason": "Released grant reopened onto the same reader as its sibling; one repair, one host pair, one read"
     }
   ],
   "grants": [
