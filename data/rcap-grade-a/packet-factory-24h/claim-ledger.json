@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "76efea8ab1ffbcf1452f1adf58f44a5b53eeea51",
+  "generatedAtCommit": "60e02b0a9ef58cdf316c83c11ccbb27d9af5f603",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -536,10 +536,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX119",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T18:19:12.920Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -935,7 +935,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T19:11:48.659Z"
@@ -1071,7 +1071,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:31:49.996Z"
@@ -1469,7 +1469,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.688Z"
@@ -1712,7 +1712,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T00:00:27.364Z"
@@ -2501,7 +2501,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -4471,7 +4471,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:26:12.789Z"
@@ -4593,7 +4593,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:26:20.880Z"
@@ -5526,7 +5526,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T17:18:16.708Z"
@@ -5737,7 +5737,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.596Z"
@@ -6438,7 +6438,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T18:46:31.728Z"
@@ -7320,7 +7320,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -8015,7 +8015,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.656Z"
@@ -8107,7 +8107,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T18:52:48.321Z"
@@ -14323,7 +14323,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "51f9179e68e6e82d7b0f738157ac067e8c3cec627d273c278efffe020984cb47",
+  "claimsDigest": "72df49332e34b0610f12ca69e24b24404d88df62f082ae582847cd4a4651fe4f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52804,6 +52804,17 @@
       "previouslyReleasedAt": "2026-09-05T12:17:24.785Z",
       "transferredAt": "2026-09-10T02:20:55.870Z",
       "reason": "The Texas non-disclosure families share one build host and each carries 32 form-own strokes beside its unaccounted ones -- the pattern where the remedy RESTORES rather than removes. Their grants sit released across five different lanes; one worker per host keeps the fix scoped"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX119",
+      "previouslyReleasedAt": "2026-09-09T18:19:12.920Z",
+      "transferredAt": "2026-09-10T02:33:59.620Z",
+      "reason": "FIX01 released it; FIX119 holds both its batch-mates and has the inverted-rect fix in hand. It binds the same CR-65 and still carries the defect, which is now demonstrated repaired on its sibling"
     }
   ],
   "grants": [
