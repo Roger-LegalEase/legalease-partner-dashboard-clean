@@ -484,6 +484,28 @@ if (rai >= 0) { returnedAt = args[rai + 1] ?? null; args.splice(rai, 2); }
 const ri = args.indexOf("--reason"); let reason = null;
 if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
+/*
+ * VF51 read "1 assertable, 0 would refuse" for a two-family preflight and
+ * nearly believed it had confirmed both. `--can-assert` takes ONE
+ * comma-separated argument, so `--can-assert VF51 a b` silently discarded `b`
+ * and answered about `a` alone. Every other mode discarded surplus arguments
+ * the same way: FIX152's dispatch said `--assert FIX152 repair <family>` and
+ * the gate dutifully looked for a subject named "repair".
+ *
+ * A gate that silently ignores part of what it was asked is not a gate. It now
+ * refuses surplus positional arguments instead of answering a narrower question
+ * than the caller asked, and says so in the words a caller needs.
+ */
+const POSITIONAL_ARITY = { "--can-assert": 3, "--assert": 3, "--release": 3, "--reissue": 3,
+  "--transfer": 4, "--grant": 3, "--ownership": 1, "--close-returned": 2, "--status": 2 };
+if (Object.hasOwn(POSITIONAL_ARITY, mode) && args.length > POSITIONAL_ARITY[mode]) {
+  die(20, `SURPLUS_ARGUMENTS: ${mode} takes ${POSITIONAL_ARITY[mode] - 1} positional argument(s) and received `
+    + `${args.length - 1} (${args.slice(1).map((a) => JSON.stringify(a)).join(" ")}). `
+    + (mode === "--can-assert"
+      ? "Several ids go in ONE comma-separated argument: --can-assert LANE a,b,c. Answering about the first alone "
+      + "would report a preflight the caller never ran."
+      : "One subject per call. Nothing was read as a narrower question than you asked."));
+}
 announce(ledgerPath);
 if (mode === "--can-assert" && lane && subjectId) canAssert(ledgerPath, lane, subjectId.split(",").map((x) => x.trim()).filter(Boolean));
 else if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);

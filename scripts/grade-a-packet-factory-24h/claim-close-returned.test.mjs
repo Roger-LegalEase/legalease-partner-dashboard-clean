@@ -122,3 +122,84 @@ test("--ownership writes nothing and closes nothing", () => {
   assert.match(run.stdout, /NECESSARY condition/);
   assert.equal(fs.readFileSync(ledger, "utf8"), before, "a reconciliation report is not a write");
 });
+
+/*
+ * The second regression this file carries. VF51 preflighted two families with
+ * `--can-assert VF51 a b`, read "1 famil(ies) checked ... 0 would refuse" and
+ * came within one careless glance of believing it had cleared both: the gate
+ * takes ONE comma-separated argument and answered about `a` alone. FIX152 was
+ * dispatched `--assert FIX152 repair <family>` and the gate looked for a
+ * subject literally named "repair".
+ *
+ * Both are the same defect -- surplus positional arguments were discarded in
+ * silence, so the gate answered a narrower question than the caller asked and
+ * reported the answer as if it were the whole one. These tests hold the refusal
+ * in place, and hold the correct forms working beside it.
+ */
+const FAM_A = "ia-12347-set";
+const FAM_B = "ma-expunge-k-set";
+
+test("--can-assert refuses space-separated ids instead of silently checking the first", () => {
+  const ledger = ledgerWith([familyClaim("FIX99", FAM_A, "repair", "rapid-repair")]);
+  const out = claim(["--ledger", ledger, "--can-assert", "VF98", FAM_A, FAM_B]);
+  assert.equal(out.status, 20);
+  assert.match(out.stdout + out.stderr, /SURPLUS_ARGUMENTS/);
+  assert.match(out.stdout + out.stderr, /ONE comma-separated argument/);
+  /* The point of the refusal: it must not have answered about FAM_A alone. */
+  assert.doesNotMatch(out.stdout, /1 famil\(ies\) checked/);
+});
+
+test("--can-assert still answers the comma-separated form for every id given", () => {
+  /* VF98 holds FAM_A and not FAM_B, so a correct answer is mixed. A gate that
+   * silently truncated to the first id would report a clean "1 assertable". */
+  const ledger = ledgerWith([familyClaim("VF98", FAM_A, "independent-verification", "independent-verification")]);
+  const out = claim(["--ledger", ledger, "--can-assert", "VF98", `${FAM_A},${FAM_B}`]);
+  /* Exit 1 because one of the two would refuse -- that is the gate answering,
+   * not failing. The regression is that BOTH were checked and reported. */
+  assert.equal(out.status, 1);
+  assert.match(out.stdout, /2 famil\(ies\) checked for VF98/);
+  assert.match(out.stdout, /1 assertable, 1 would refuse/);
+});
+
+test("--assert refuses a lane-kind token wedged between the lane and its subject", () => {
+  const ledger = ledgerWith([familyClaim("FIX152", FAM_A, "repair", "rapid-repair")]);
+  const out = claim(["--ledger", ledger, "--assert", "FIX152", "repair", FAM_A]);
+  assert.equal(out.status, 20);
+  assert.match(out.stdout + out.stderr, /SURPLUS_ARGUMENTS/);
+  /* It must not have gone looking for a subject named "repair" and refused for
+   * that reason -- a NOT_GRANTED here would send a lane to debug the wrong thing. */
+  assert.doesNotMatch(out.stdout + out.stderr, /NOT_GRANTED/);
+});
+
+test("the correct three-token --assert still works", () => {
+  const ledger = ledgerWith([familyClaim("FIX152", FAM_A, "repair", "rapid-repair")]);
+  const out = claim(["--ledger", ledger, "--assert", "FIX152", FAM_A]);
+  assert.equal(out.status, 0);
+  assert.match(out.stdout, /CLAIM_OK/);
+});
+
+test("--transfer's fourth positional argument is not surplus", () => {
+  const ledger = ledgerWith([{ ...familyClaim("FIX01", FAM_A, "repair", "rapid-repair"),
+    released: true, releasedAt: "2026-09-10T00:00:00.000Z" }]);
+  const out = claim(["--ledger", ledger, "--transfer", "FIX01", "FIX99", FAM_A, "--reason", "regression"]);
+  assert.equal(out.status, 0);
+  assert.match(out.stdout, /TRANSFERRED/);
+});
+
+test("a surplus argument after a valid --transfer is still refused", () => {
+  const ledger = ledgerWith([{ ...familyClaim("FIX01", FAM_A, "repair", "rapid-repair"),
+    released: true, releasedAt: "2026-09-10T00:00:00.000Z" }]);
+  const out = claim(["--ledger", ledger, "--transfer", "FIX01", "FIX99", FAM_A, FAM_B, "--reason", "regression"]);
+  assert.equal(out.status, 20);
+  assert.match(out.stdout + out.stderr, /SURPLUS_ARGUMENTS/);
+});
+
+test("refusing surplus arguments writes nothing to the ledger", () => {
+  const ledger = ledgerWith([familyClaim("FIX99", FAM_A, "repair", "rapid-repair")]);
+  const before = fs.readFileSync(ledger, "utf8");
+  for (const args of [["--can-assert", "VF98", FAM_A, FAM_B], ["--assert", "FIX99", "repair", FAM_A],
+    ["--release", "FIX99", FAM_A, "extra"], ["--grant", "FIX99", FAM_A, "extra", "--reason", "r"]]) {
+    assert.equal(claim(["--ledger", ledger, ...args]).status, 20, args.join(" "));
+  }
+  assert.equal(fs.readFileSync(ledger, "utf8"), before);
+});
