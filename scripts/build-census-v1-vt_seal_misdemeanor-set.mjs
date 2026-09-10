@@ -684,16 +684,23 @@ async function censusOf(source, corrections = null) {
  * appearance itself. No mark is added, no box is ticked, /MK /BG is still
  * removed, and the shared module is not modified.
  *
- * WHY THIS IS A SET AND NOT A CONSTANT. This host builds five families and
- * FIX130 holds four of them. vt_seal_dui-set is granted to FIX04 and is being
- * worked now, and vt_seal_misdemeanor-set is outside the FIX130 assignment;
- * their bytes must not move on this lane's rebuild. The defect is the same on
- * all five -- they file the same 600-00228 -- so whoever repairs those two adds
- * its id here and nothing else changes.
+ * WHY THIS IS A SET AND NOT A CONSTANT. This host builds five families and the
+ * remedy is opted into one family at a time, so a family nobody has measured
+ * cannot have its bytes moved by someone else's rebuild.
+ *
+ * FIX130c, 2026-09-10, vt_seal_misdemeanor-set. The cause was re-measured on
+ * THIS family's own delivered canonical bytes rather than inherited from the
+ * three above: a 600 dpi directional difference of packet page 5 against pinned
+ * 600-00228 page 1, both rendered with annotations, reads +1083 dark pixels at
+ * field 15, +947 at 16, +1178 at 21 and +1536 at 22, and packet page 6 against
+ * page 2 reads +1083 at field 72 and +1083 at 73 -- six of six, zero removed at
+ * every one, which is the doubled frame this remedy exists for. The same crops
+ * on the already-repaired vt_seal_felony-set read 0 added and 0 removed.
  */
 const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
   "vt_seal_18_to_21-set",
   "vt_seal_felony-set",
+  "vt_seal_misdemeanor-set",
   "vt_seal_pardon-set"
 ]);
 
@@ -727,15 +734,30 @@ const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
  * blanks can share an identifier again.
  *
  * WHY THIS IS AN OPT-IN SET AND NOT A PROPERTY OF THE HOST. This host builds
- * five families. FIX130 holds three of them. vt_seal_dui-set and
- * vt_seal_misdemeanor-set are not this lane's and their artifacts must not move
- * on this lane's rebuild, so the change is scoped by family id exactly as
- * PRESERVE_SOURCE_SELECTION_PAINT above is. The defect is the same on all five
- * and whoever repairs those two adds its id here.
+ * five families, and the composition is opted into one family at a time so that
+ * a family whose own bound forms nobody has re-read cannot have its labels
+ * rewritten by someone else's rebuild.
+ *
+ * FIX130c, 2026-09-10, vt_seal_misdemeanor-set. Added only after the captions
+ * were re-derived from geometry against the forms THIS family binds, rather
+ * than assumed from the three above. Its source-receipt binds 200-00130 at
+ * ff914f49..., 200-00132 at 088116244572..., 600-00228 at 263d4e19... -- the
+ * same three digests the repaired families bind, re-hashed here from the master
+ * library before the derivation was run, so the printed geometry is the same
+ * geometry and not a similarly named revision. Every 600-00228 caption in
+ * MEASURED_CAPTION_CORRECTIONS was then re-resolved independently: each widget
+ * rect was matched to the printed "$___" run whose baseline falls inside it and
+ * overlaps it in x, and the caption read from the printed items on that run's
+ * baseline band lying inside that run's own COLUMN, the column taken from the
+ * two printed column headings by x-position ("Your Current Monthly Income" at
+ * x=41.64, "Your monthly household expenses" at x=320.40) and never from
+ * extraction order, which interleaves the two columns line by line. The
+ * re-derivation reproduces the committed corrections exactly and adds none.
  */
 const PRINTED_CAPTION_DISCLOSURE_LABELS = new Set([
   "vt_seal_18_to_21-set",
   "vt_seal_felony-set",
+  "vt_seal_misdemeanor-set",
   "vt_seal_pardon-set"
 ]);
 
@@ -775,11 +797,39 @@ const PRINTED_CAPTION_DISCLOSURE_LABELS = new Set([
  * with what the dictionary already says, so both are left exactly as committed.
  * "Total Income in the past 12 months" may have no blank at all on this form.
  *
- * SCOPED, like the label composition above, to the three families this lane
- * holds. vt_seal_dui-set and vt_seal_misdemeanor-set still carry the shifted
- * captions and this lane did not move their bytes; vt_exp_decriminalized-set
- * carries the same shift in its own separate policy table, where 600-00228
- * discloses nothing to a participant because that route does not file it.
+ * SCOPED, like the label composition above, to the families that have opted in.
+ * vt_exp_decriminalized-set carries the same shift in its own separate policy
+ * table, where 600-00228 discloses nothing to a participant because that route
+ * does not file it.
+ *
+ * FIX130c, 2026-09-10. Re-derived against the pinned 600-00228 (263d4e19...)
+ * before vt_seal_misdemeanor-set was opted in, by widget geometry alone. Every
+ * entry above is reproduced: 50 Clothing, 51 Medical, 52 Child Support, 53 Auto
+ * Loan Payment, 54 Property Taxes, 55 Insurance (health, auto, etc.), 56 Other
+ * Expenses, 57 Total Expenses -- and above them 45 Rent or Mortgage Payment, 46
+ * Electric Service, 47 Phone, 48 Fuel (heat and/or gas), 49 Food, which the
+ * dictionary already had right. Field 35 is confirmed to pair with the LEFT
+ * column blank at baseline y=137.80, whose caption band is the italic
+ * SSDI/Disability line, and not with the Self-Employment/Business Income line
+ * above it. The Vehicles headings are confirmed by x-position.
+ *
+ * MonthlyTotal and 41 are left exactly as committed, and the ambiguity is now
+ * measured rather than asserted. Two geometric rules disagree there and only
+ * there. By the widget's own vertical band, the printed label at MonthlyTotal's
+ * height is "(other than wages)" (baseline 103.642, inside its band
+ * 92.56..106.56) and at 41's height is "Total Monthly Income" (91.192, inside
+ * 79.91..93.91) -- one row above what the dictionary says. By the blank inside
+ * the widget, the run at 95.640 is 4.448pt above "Total Monthly Income" and
+ * 8.002pt below "(other than wages)", and the run at 83.400 is 4.448pt above
+ * "Total Income in the past 12 months" and 7.792pt below "Total Monthly Income"
+ * -- which is what the dictionary says, and what the widget's own name
+ * MonthlyTotal says. Two of three signals agree with the committed pairing and
+ * the third does not, so nothing is moved and the disagreement is recorded.
+ * NOTE, against the record above this line: the earlier reading of "5.4 and 5.3
+ * points below the label above it and 6.6 and 6.8 above the label below" was
+ * taken from groupIntoLines' line y, which sits about 1.0-1.4pt under the
+ * items' own baselines and reverses which gap is which. The item baselines give
+ * 8.002/4.448 and 7.792/4.448. The conclusion is unchanged; the numbers are not.
  */
 const MEASURED_CAPTION_CORRECTIONS = {
   "600-00228": {
