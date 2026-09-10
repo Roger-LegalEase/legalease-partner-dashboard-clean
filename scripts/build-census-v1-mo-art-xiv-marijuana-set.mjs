@@ -227,6 +227,31 @@ if (!/no fee figure is published on this track/i.test(String(MO_MEMO_TRACK.rules
     + "none; that silence must be revisited rather than kept by habit");
 }
 
+/* SERVICE AND NOTICE. CR375 names agencies as Defendant(s) and the participant
+ * signs beneath "I have reason to believe the agencies named above as
+ * defendants may possess records subject to expungement" under penalty of
+ * perjury, so the delivered document raises the service question on its face.
+ * The record answers it, and the answer is carried into the filing
+ * instructions the same way rules.filing and rules.feeWaiver already are: the
+ * record's own sentences are quoted, and the build stops if the record stops
+ * saying them, rather than leaving a participant to guess between paying a
+ * process server for service no rule requires and delaying a filing to arrange
+ * it. */
+const MO_SERVICE_RULE = String(MO_MEMO_TRACK.rules?.service ?? "").trim();
+const MO_NOTICE_RULE = String(MO_MEMO_TRACK.rules?.notice ?? "").trim();
+if (!/^None performed by the participant\./.test(MO_SERVICE_RULE)) {
+  throw new Error("MO_MEMO_SERVICE_RULE_NO_LONGER_RELIEVES_THE_PARTICIPANT: the filing instructions tell the "
+    + `participant they serve nobody on the strength of rules.service, which now reads "${MO_SERVICE_RULE}"`);
+}
+if (!/certificate of service/i.test(MO_SERVICE_RULE)) {
+  throw new Error("MO_MEMO_SERVICE_RULE_NO_LONGER_ADDRESSES_THE_CERTIFICATE_OF_SERVICE: the filing instructions "
+    + `state that CR375 carries none on the strength of rules.service, which now reads "${MO_SERVICE_RULE}"`);
+}
+if (!/^Not prescribed for the participant\./.test(MO_NOTICE_RULE)) {
+  throw new Error("MO_MEMO_NOTICE_RULE_NO_LONGER_RELIEVES_THE_PARTICIPANT: the filing instructions tell the "
+    + `participant notice is not theirs to give on the strength of rules.notice, which now reads "${MO_NOTICE_RULE}"`);
+}
+
 /* The disclosure, in the record's own words. Every sentence below is either a
  * quotation from MO.memo.json or a statement about what that record says. */
 const REQUIRED_BEFORE_FILING_LINES = [
@@ -1667,6 +1692,20 @@ function filingInstructions(agencies) {
 File the petition with the clerk of the Missouri circuit court where the conviction was charged or where you were
 found guilty - the court shown in the caption. Hand the clerk both Confidential Case Filing Information Sheets
 with it. The case type is X#, Expunge Marijuana Criminal/Arrest Records, and the sheets already say so.
+
+## Service and notice - what you do NOT have to do
+
+The petition names those agencies as **Defendant(s)**, and you sign beneath the form's own sentence "I have
+reason to believe the agencies named above as defendants may possess records subject to expungement" under
+penalty of perjury. That does not make serving them your job. The Missouri record for this route answers both
+questions, and these are its own words:
+
+- **Service.** ${MO_SERVICE_RULE}
+- **Notice.** ${MO_NOTICE_RULE}
+
+So there is nothing on this route for you to serve, no process server to hire, and no certificate of service on
+CR375 to complete or attach. Handing the set to the clerk, as described above, is the whole of what this route
+asks you to deliver to anyone.
 
 ## The other half of this route
 

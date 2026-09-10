@@ -20,6 +20,20 @@ File the petition with the clerk of the Missouri circuit court where the convict
 found guilty - the court shown in the caption. Hand the clerk both Confidential Case Filing Information Sheets
 with it. The case type is X#, Expunge Marijuana Criminal/Arrest Records, and the sheets already say so.
 
+## Service and notice - what you do NOT have to do
+
+The petition names those agencies as **Defendant(s)**, and you sign beneath the form's own sentence "I have
+reason to believe the agencies named above as defendants may possess records subject to expungement" under
+penalty of perjury. That does not make serving them your job. The Missouri record for this route answers both
+questions, and these are its own words:
+
+- **Service.** None performed by the participant. CR375 carries no certificate of service.
+- **Notice.** Not prescribed for the participant. The agencies named as defendants on CR375 are the entities whose records the order reaches, and the court and clerk handle notice as they do on the other petition routes. Article XIV prescribes no objection window and no prosecutorial notice period of its own.
+
+So there is nothing on this route for you to serve, no process server to hire, and no certificate of service on
+CR375 to complete or attach. Handing the set to the clerk, as described above, is the whole of what this route
+asks you to deliver to anyone.
+
 ## The other half of this route
 
 Article XIV also directs relief the court orders on its own motion, with no petition from you. If your sentence
