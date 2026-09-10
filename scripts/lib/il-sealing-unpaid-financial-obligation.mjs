@@ -19,8 +19,27 @@
  *     unsatisfactory termination, and a sentence is terminated notwithstanding
  *     any outstanding financial legal obligation.";
  *   - the denial half and the restitution carve-out are the directive's own
- *     words, and 20 ILCS 2630/5.2(a)(1)(M) and 20 ILCS 2630/5.2(d)(6)(C) are
- *     both in each track's own `authority` array.
+ *     words, and § 5.2(d)(6)(C) is quoted inside the directive itself on each
+ *     of the three tracks.
+ *
+ * WHERE THE SUPPORT ACTUALLY LIVES, corrected by FIX166 on lane VF58's read.
+ * An earlier version of this comment said "20 ILCS 2630/5.2(a)(1)(M) and
+ * 20 ILCS 2630/5.2(d)(6)(C) are both in each track's own `authority` array".
+ * THAT IS TRUE OF ONE TRACK OF THE THREE. Read out of
+ * data/record-clearing/legal-design-track-registry.json:
+ *
+ *   il-seal-2yr  authority carries both cites.
+ *   il-seal-3yr  authority is (c)(2)(D), (c)(2)(E), (c)(2)(F), (c)(3)(C),
+ *                (a)(1)(F). NEITHER cite is in it.
+ *   il-seal-edu  authority is (c)(3)(E), (c)(2)(C), (c)(2)(D), (c)(2)(E),
+ *                (c)(2)(F). NEITHER cite is in it.
+ *
+ * The sentence below is still supported on all three, through the directive
+ * text itself and through each track's own intake-memo provenance: the
+ * sourceStatement attached to THIS track's copy of the packet_instruction in
+ * data/record-clearing/legal-design-intake/IL.memo.json is where (a)(1)(M) is
+ * named. A later lane relying on the old sentence would look in the authority
+ * array and find nothing, so it is corrected here rather than left standing.
  *
  * The consequence of an unconverted court-ordered restitution obligation is NOT
  * stated, because the record does not state it. The carve-out is reported as
@@ -35,8 +54,10 @@ export const IL_SEALING_UNPAID_FINANCIAL_OBLIGATION_NOTE =
  * Fails the build if the registry no longer carries the directive this prose
  * renders. A stale legal statement printed under an authority the record has
  * dropped is worse than no statement, so this refuses rather than prints.
- * Callers that do not read the registry (il-seal-edu-set) import the constant
- * alone and are not bound by this check.
+ * FIX166: all three Illinois sealing builders now read the registry and call
+ * this. il-seal-edu-set used to import the constant alone, so if the directive
+ * ever left the registry its two siblings would have failed loudly and it would
+ * have gone on printing the statement. That asymmetry is closed.
  */
 export function assertRegistryStillDirectsTheUnpaidFinancialObligationNote(track, trackId) {
   const instructions = Array.isArray(track?.packetInstructions) ? track.packetInstructions : [];

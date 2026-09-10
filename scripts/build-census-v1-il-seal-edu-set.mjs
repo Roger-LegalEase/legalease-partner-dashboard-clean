@@ -80,15 +80,84 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
-import { IL_SEALING_UNPAID_FINANCIAL_OBLIGATION_NOTE } from "./lib/il-sealing-unpaid-financial-obligation.mjs";
+import { IL_SEALING_UNPAID_FINANCIAL_OBLIGATION_NOTE, assertRegistryStillDirectsTheUnpaidFinancialObligationNote } from "./lib/il-sealing-unpaid-financial-obligation.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill";
 const OUT = path.join(ROOT, OUT_REL);
 const FAMILY_ID = "il-seal-edu-set";
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "il-seal-edu";
+
+/*
+ * FIX166. The controlling record this guide quotes, and the refusal if it is not
+ * there.
+ *
+ * This builder used to read no registry at all. It was the only one of the three
+ * Illinois sealing builders that did not, which is why lane VF58 measured its
+ * guide carrying 0 of 10 packetSet.requiredBeforeFiling entries, 0 of 8
+ * selfHelpStopConditions, 0 of 2 fee-and-waiver records and no dollar amount
+ * anywhere -- while both siblings, reading the same registry, carried 10 of 10,
+ * 8 of 8 and 2 of 2. The record held $60, $60-$235 and $136 the whole time and
+ * the guide said fees "vary".
+ *
+ * Every enumerated list this guide prints is now read from the record and
+ * printed in the record's own words, and an empty or absent list fails the build
+ * rather than shipping a section that claims to quote a record it does not have.
+ */
+function controllingRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY_PATH), "utf8"));
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
+  assert.ok(Array.isArray(track.packetSet?.requiredBeforeFiling) && track.packetSet.requiredBeforeFiling.length,
+    `the registry states no requiredBeforeFiling for ${TRACK_ID}; refusing to write a guide that claims to quote it`);
+  assert.ok(Array.isArray(track.selfHelpStopConditions) && track.selfHelpStopConditions.length,
+    `the registry states no selfHelpStopConditions for ${TRACK_ID}; refusing to write a stop section that claims to quote it`);
+  for (const rule of ["fees", "feeWaiver", "filing", "service", "notice", "participantSignature"]) {
+    assert.ok(typeof track.rules?.[rule] === "string" && track.rules[rule].trim(),
+      `the registry states no rules.${rule} for ${TRACK_ID}; refusing to delegate what the record answers`);
+  }
+  // FIX161's directive, and the sixth packetInstruction this family carried
+  // nowhere. Both are refused rather than paraphrased if the record drops them.
+  assertRegistryStillDirectsTheUnpaidFinancialObligationNote(track, TRACK_ID);
+  assert.ok(deniedWaiverInstruction(track),
+    `the registry no longer carries the denied-waiver packetInstruction for ${TRACK_ID}; refusing to print a consequence the record no longer directs`);
+  return track;
+}
+
+/*
+ * FIX166. The SIXTH packetInstruction, which only this track of the three
+ * carries and which no file in this family carried anywhere.
+ *
+ * "Tell the participant that if a waiver petition is denied, the ordinary
+ *  two-year or three-year period still applies to any later petition: filing
+ *  early and losing does not forfeit the ordinary route, but it does not
+ *  accelerate it either."
+ *
+ * The waiver it names is THIS route's waiting-period waiver, not the Rule 298
+ * fee waiver: the registry's own mechanism for il-seal-edu ends "If a petition
+ * under this subparagraph is denied, the ordinary (c)(3)(B) or (c)(3)(C) periods
+ * apply to any subsequent petition." Lane FIX161 flagged that nobody had
+ * measured whether the guide carried it and lane VF58 answered: it did not --
+ * one occurrence of "denied" in the whole guide, inside a stop condition about a
+ * different petition, and no occurrence of "forfeit" or "accelerate".
+ *
+ * A build directive is not participant prose, so the directive is not printed
+ * verbatim; its substance is, and nothing beyond it. What the record does NOT
+ * say -- how a denial affects any other route, or what a later petition must
+ * show -- is not said here.
+ */
+function deniedWaiverInstruction(track) {
+  const instructions = Array.isArray(track?.packetInstructions) ? track.packetInstructions : [];
+  return instructions.find((entry) =>
+    typeof entry === "string"
+    && /waiver petition is denied/.test(entry)
+    && /ordinary/.test(entry)
+    && /period/.test(entry));
+}
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFRef, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFDict, PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFRef, PDFTextField, StandardFonts, decodePDFRawStream } = require("pdf-lib");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
@@ -176,6 +245,222 @@ const ORDER_COURT_OWNED = new Set([
   "Judge's Name",
   "Entered Date"
 ]);
+
+/*
+ * FIX166, ROUTE_OPTIONS. Ported from what FIX06 did for il-seal-2yr-set.
+ *
+ * Lane VF03 failed the sibling il-seal-2yr-set at requiredOptionsMissing 3 for
+ * refusing this route's own other printed grounds with the sentence "A
+ * participant election or financial fact not determined by this packet route".
+ * FIX06 repaired it there. This family was never touched, and lane VF58
+ * measured the result: all SEVENTY-SEVEN unticked selection controls carried
+ * that one sentence, character-identical on every one of them, 0 refusals were
+ * marked isAlternativeToElectedGround, and the delivered guide named not one of
+ * them -- the words Section 16, 17, 18, 19, 20 and 21 did not appear in it.
+ *
+ * WHY IT MATTERS ON THIS ROUTE'S OWN FACTS. The registry lists FIVE dispositions
+ * for il-seal-edu, and the printed face of item 22 -- the one box this packet
+ * ticks -- states a felony conviction at limb c: "The felony conviction resulted
+ * in prison or jail, or conditional discharge or probation that was revoked."
+ * A participant whose certified record is a supervision, a completed probation
+ * or a misdemeanor conviction was handed a Request with a box ticked whose
+ * printed words do not describe them, was told nothing about the nine printed
+ * boxes beside it, and was asked to verify the Request under 735 ILCS 5/1-109.
+ *
+ * The repair ticks NO further box. Every printed election keeps the answer the
+ * route gives it; what changes is that each refusal now names the printed
+ * section, says what the form prints there, says which registry disposition it
+ * states, and says what happens if the participant ticks it instead.
+ *
+ * Every quotation below is the official form's own printed text, read from
+ * EXP-AD Request pages 2, 3, 5 and 6 of the pinned binary.
+ */
+const OUTCOME_LEGEND_LOCATION = "Outcome Abbreviations for Sealing, EXP-AD Request page 4";
+
+/* The waiting-period waiver this route asks for, in the registry's own words. */
+const EDUCATION_WAIVER_MECHANISM = "Records eligible under (c)(2)(C), (D), (E) or (F) may be sealed upon termination of the last sentence with no waiting period where, during the sentence or mandatory supervised release, the petitioner earned a high school diploma, associate's degree, career certificate, vocational technical certification or bachelor's degree, or passed the high-school-level Test of General Educational Development.";
+const EDUCATION_WAIVER_DENIAL = "If a petition under this subparagraph is denied, the ordinary (c)(3)(B) or (c)(3)(C) periods apply to any subsequent petition.";
+
+const ELECTED_SECTION = "Section 22";
+const ELECTED_PRINTED = "22. I have completed my last sentence and may now ask the court to seal eligible felony convictions because (all the following are true): a. I received a high school diploma, associate's degree, career certificate, vocational or technical certification, bachelor's degree, or passed the high school GED Test. b. I did so during the period of my last sentence, aftercare release, or mandatory supervised release. c. The felony conviction resulted in prison or jail, or conditional discharge or probation that was revoked. d. I did not complete the same educational goal before. e. I have attached proof of the program I completed to this Request.";
+
+/*
+ * The ten printed elections in Sections 15 - 24 of the Request, in the form's
+ * own words, with the registry dispositions each one states.
+ *
+ * `dispositions` is empty where the printed section states no disposition this
+ * track declares; that is a fact about this route, not a judgement about the
+ * section. `alternative` marks the sections that ARE printed alternatives to
+ * item 22 for one of this track's own five declared dispositions.
+ */
+const PRINTED_SEALING_ELECTIONS = {
+  "15 - Asking to Seal": {
+    section: "Section 15",
+    printed: "15. I am asking to seal a successfully completed sentence of Second Chance Probation (under Section 5-6-3.4 of the Unified Code of Corrections) or First Time Weapon Offense Program (730 ILCS 5/5-6-3.6), for which there is no waiting period.",
+    inWords: "a successfully completed sentence of Second Chance Probation or the First Time Weapon Offense Program",
+    dispositions: [],
+    alternative: false,
+    outcome: null
+  },
+  "16 -": {
+    section: "Section 16",
+    printed: "16. I successfully completed my supervision and 2 years have passed since the end of my last sentence.",
+    inWords: "a successfully completed sentence of supervision, with two years passed since the end of the last sentence",
+    dispositions: ["supervision_successfully_completed"],
+    alternative: true,
+    outcome: null,
+    outcomeNote: "The printed Outcome Abbreviations for Sealing legend on Request page 4 prints MC, FC, CE and QP and no abbreviation for a successfully completed supervision. No abbreviation is invented here."
+  },
+  "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence": {
+    section: "Section 17",
+    printed: "17. I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence.",
+    inWords: "a misdemeanor conviction or ordinance violation for an offense subject to sealing, with two years passed since the end of the last sentence",
+    dispositions: ["misdemeanor_conviction"],
+    alternative: true,
+    outcome: { code: "MC", meaning: "Misdemeanor Conviction" }
+  },
+  "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act": {
+    section: "Section 18",
+    printed: "18. I successfully completed a sentence under Section 10 of the Cannabis Control Act, Section 410 of the Illinois Controlled Substances Act, Section 70 of the Methamphetamine Control and Community Protection Act, or Offender Initiative Program (under Section 5-6-3.3 of the Unified Code of Corrections) and 2 years have passed since the end of my last sentence.",
+    inWords: "a successfully completed sentence of qualified probation, with two years passed since the end of the last sentence",
+    dispositions: [],
+    alternative: false,
+    outcome: { code: "QP", meaning: "Qualified Probation Successfully Completed" }
+  },
+  "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence": {
+    section: "Section 19.a",
+    printed: "19. I received a felony conviction for an offense subject to sealing AND at least one of these is true: a. I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since the end of my last sentence.",
+    inWords: "a felony conviction whose sentence of conditional discharge or probation was completed and NOT revoked, with two years passed since the end of the last sentence",
+    dispositions: ["conditional_discharge_completed_without_revocation", "probation_completed_without_revocation"],
+    alternative: true,
+    outcome: { code: "FC", meaning: "Felony Conviction" }
+  },
+  "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence": {
+    section: "Section 19.b",
+    printed: "19. I received a felony conviction for an offense subject to sealing AND at least one of these is true: b. My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence.",
+    inWords: "a felony conviction whose sentence of conditional discharge or probation was REVOKED, with three years passed since the end of the last sentence",
+    dispositions: ["felony_conviction"],
+    alternative: true,
+    ordinaryPeriodFor22c: true,
+    outcome: { code: "FC", meaning: "Felony Conviction" }
+  },
+  "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence": {
+    section: "Section 19.c",
+    printed: "19. I received a felony conviction for an offense subject to sealing AND at least one of these is true: c. I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence.",
+    inWords: "a completed Illinois prison or jail sentence, with three years passed since the end of the last sentence",
+    dispositions: ["felony_conviction"],
+    alternative: true,
+    ordinaryPeriodFor22c: true,
+    outcome: { code: "FC", meaning: "Felony Conviction" }
+  },
+  "20 - I am not asking to seal a felony conviction for which I currently have to register on a public registry": {
+    section: "Section 20",
+    printed: "20. I am not asking to seal a felony conviction for which I currently have to register on a public registry, including the Arsonist Registration Act, the Sex Offender Registration Act, or the Murder and Violent Offender Against Youth Registration Act.",
+    inWords: "a statement that you are not asking to seal a felony conviction carrying a current public-registry obligation",
+    dispositions: [],
+    alternative: false,
+    participantCarveOut: true,
+    outcome: null
+  },
+  "21 - For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board": {
+    section: "Section 21",
+    printed: "21. For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board. (Attach a copy of the Certificate.)",
+    inWords: "a Certificate of Eligibility for Sealing issued by the Prisoner Review Board",
+    dispositions: [],
+    alternative: false,
+    outcome: { code: "CE", meaning: "Certificate of Eligibility for Sealing from PRB" }
+  },
+  "23 -  I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim": {
+    section: "Section 23",
+    printed: "23. I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim as defined under Section 10-9 of the Criminal Code of 2012, and as such: a. I was a victim of human trafficking when my last offense was committed; AND b. My participation in the offense was a direct result of human trafficking under Section 10-9 of the Criminal Code of 2012 OR a severe form of trafficking under the federal Trafficking Victims Protection Act.",
+    inWords: "eligibility to seal on completion of the last sentence as a victim of human trafficking",
+    dispositions: [],
+    alternative: false,
+    outcome: null
+  },
+  "24 - For at least one case, I received a conviction for Reckless Driving": {
+    section: "Section 24",
+    printed: "24. For at least one case, I received a conviction for Reckless Driving; AND a. I was under the age of 25 when the offense was committed; AND b. I have no other convictions for DUI or reckless driving; AND c. I have reached the age of 25.",
+    inWords: "a conviction for Reckless Driving committed before the age of 25, with no other DUI or reckless-driving conviction, now that the age of 25 is reached",
+    dispositions: [],
+    alternative: false,
+    outcome: null
+  }
+};
+
+/* The boxes that declare an attached Additional Arrests or Cases form. */
+const ADDITIONAL_RECORD_BOXES = new Set([
+  "EXP-AD Request:4 -  I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form",
+  "EXP-AD Case List:Page 1 - More Arrests or Case Numbers",
+  "EXP-AD Order Granting:Page 1 - Additional Order Form",
+  "EXP-AD Order Granting:Page 1 - Additional Order Form2"
+]);
+
+/*
+ * FIX166, ROUTE_OPTIONS. Why THIS selection control is not ticked, in terms of
+ * this route and of what the official form prints beside the box.
+ *
+ * Returns the refusal fields for one unticked check box. Nothing here ticks a
+ * box: the participant's own facts are theirs to state, and a packet that
+ * guessed them would put a sworn statement on a Request verified under
+ * 735 ILCS 5/1-109. What it removes is the single sentence that used to stand
+ * on all seventy-seven of them and said, untruly of ten of them, that the box
+ * belonged to no route at all.
+ */
+function selectionControlRefusal(documentId, name, page) {
+  const printedElection = documentId === "EXP-AD Request" ? PRINTED_SEALING_ELECTIONS[name] : undefined;
+  if (printedElection) {
+    const consequence = printedElection.outcome
+      ? `If you tick it, the sealing-table Outcome for that case becomes ${printedElection.outcome.code} -- ${printedElection.outcome.meaning} -- from the printed ${OUTCOME_LEGEND_LOCATION}.`
+      : printedElection.outcomeNote
+        ? `If you tick it, leave the sealing-table Outcome for that case for a lawyer or the clerk: ${printedElection.outcomeNote}`
+        : "";
+    if (printedElection.participantCarveOut) {
+      return {
+        reason: `${printedElection.section} is not a statutory ground this or any route elects for you. The form prints: "${printedElection.printed}" Page 5 of the Request says "In Sections 15 - 24, check all of the boxes that apply", and whether you carry a current public-registry obligation is a fact about you that this packet does not hold. Read it, and tick it if it is true of you.`,
+        isParticipantCarveOut: true, printedSection: printedElection.section
+      };
+    }
+    if (printedElection.alternative) {
+      const ordinary = printedElection.ordinaryPeriodFor22c
+        ? ` ${printedElection.section} is the ORDINARY waiting-period route for the same felony conviction ${ELECTED_SECTION} asks the court to seal early. The registry states the relationship for this route in its own words: "${EDUCATION_WAIVER_DENIAL}" So ticking it instead is not a lesser claim; it is the route that applies when the educational-credential waiver does not.`
+        : "";
+      return {
+        reason: `${printedElection.section} is another printed sealing ground on this page, and it states the registry disposition${printedElection.dispositions.length > 1 ? "s" : ""} ${printedElection.dispositions.join(" and ")} that this route also declares. The form prints: "${printedElection.printed}" This packet elects ${ELECTED_SECTION} instead, the educational-credential waiver. If your certified record instead shows ${printedElection.inWords}, tick this box and untick the one this packet ticked, and do not tick both.${ordinary} ${consequence}`.trim(),
+        isAlternativeToElectedGround: true,
+        alternativeSection: printedElection.section,
+        alternativeDispositions: printedElection.dispositions,
+        printedSection: printedElection.section
+      };
+    }
+    return {
+      reason: `${printedElection.section} states a ground this route does not declare: none of this route's five registry dispositions is ${printedElection.inWords}. The form prints: "${printedElection.printed}" This packet does not tick it and cannot know whether it is true of you. If it is, that is a different sealing route from this one, and it should be raised before you file rather than ticked here. ${consequence}`.trim(),
+      printedSection: printedElection.section, statesNoDispositionOfThisRoute: true
+    };
+  }
+  if (documentId === "EXP-AD Request" && page <= 3) {
+    return {
+      reason: "This is a box on the EXPUNGEMENT half of the Request, Sections 3 to 11. This packet answers item 1 \"I am requesting to expunge records\" No and item 12 \"Seal Records\" Yes, so it makes no expungement statement anywhere and ticks nothing in that half. This is a sealing packet. If you believe a case of yours should be EXPUNGED rather than sealed, that is a different remedy on a different route and it is not what this packet asks the court for.",
+      isExpungementHalfOfTheForm: true
+    };
+  }
+  if (ADDITIONAL_RECORD_BOXES.has(`${documentId}:${name}`)) {
+    return {
+      reason: "This box says that an Additional Arrests or Cases form is attached. This packet carries one complete case and attaches no additional-cases form, so it is left unticked. If you add cases on that form, attach it and tick this box yourself.",
+      isAdditionalRecordDeclaration: true
+    };
+  }
+  if (documentId === "FW-CIV-APPLICATION") {
+    return {
+      reason: "This is one of your own financial statements on the Application for Waiver of Court Fees. This packet writes nothing on that form but the caption and your name and contact details; it makes none of its financial statements and holds none of the facts behind them, so every check box on it is yours to make. A dollar amount entered beside an unticked box is not a completed application.",
+      isFeeWaiverFinancialStatement: true
+    };
+  }
+  if (/lawyer|attorney/i.test(name)) {
+    return { reason: "Attorney-only control; the fixture is self-represented and the packet ticks the self-represented box instead.", role: "attorney" };
+  }
+  return null;
+}
 
 function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
@@ -300,6 +585,180 @@ function optionalUnusedSlot(documentId, name, page) {
   return false;
 }
 
+/*
+ * FIX118, ported into this family by FIX166. KNOWN_PREFILLS and
+ * PROTECTED_FIELDS. An unticked box must draw nothing at all.
+ *
+ * The two sibling builders, build-census-v1-il-seal-2yr-set.mjs and
+ * build-census-v1-il-seal-3yr-set.mjs, have carried this repair since FIX118.
+ * This one did not, and it was the only difference between three families built
+ * from the same four official binaries. Lane VF58 measured the consequence and
+ * this lane reproduced every number of it independently before repairing.
+ *
+ * Measured on this family's delivered bytes before this change: each fixture
+ * carried 443 flattened Form XObjects, of which 91 were stroke-only -- each one
+ * "0 0 0 RG", "0 w", a single closed four-segment path, "S", and no text
+ * operator -- one for every check-box widget this route does not tick. Not one
+ * of them comes from the official form: 0 of the 91 match any appearance stream
+ * in the four pinned sources byte for byte, and 0 match after the leading
+ * opaque background fill is stripped. They fell on all thirteen delivered pages
+ * -- 2, 5, 12, 3, 9, 3, 1, 2, 2, 7, 20, 22, 3 -- identically on both fixtures,
+ * and accounted for 8,474 added ink pixels per fixture that no declared write
+ * explains. The two siblings carried ZERO out of the same 443.
+ *
+ * TWO OF THE 91 SAT INSIDE THE JUDGE'S OWN DECISION BOXES on the proposed
+ * Order: "Page 2 - Expungement is Granted" and "Page 2 - Sealing is Granted",
+ * 101 added pixels each at 300 dpi, grey<200, with a 1pt rect allowance,
+ * on BOTH fixtures. It was not a tick and no reader would mistake it for one --
+ * the printed box outline is two device rows thick and the delivered one is
+ * three, because the synthesized rectangle sits one row below it -- but it is
+ * build-added ink inside a judicial decision control on a form the court
+ * prints, and both siblings read 0 there. That is why this repair was taken
+ * even though it moves bytes and owes a fresh central raster.
+ *
+ * All 94 Illinois check-box widgets in this packet set carry an /AP /N
+ * dictionary holding ONLY their on state (/Yes or /No) and no /Off entry, which
+ * is how a form says that an unticked box draws nothing. pdf-lib reads that
+ * absence as a missing appearance: PDFCheckBox.needsAppearancesUpdate() returns
+ * true whenever a widget's /AS is absent from /AP /N, so
+ * form.updateFieldAppearances() replaced every check box's appearance streams
+ * with its own -- an /Off state that strokes a hairline rectangle around the
+ * whole widget /Rect, and an on state that discards the form's own ZapfDingbats
+ * mark in favour of a 1.5 w drawn check.
+ *
+ * The form's own empty box is a glyph, not the widget rectangle. On Request
+ * page 1 the printed box is a 12 pt glyph on a baseline at y=343.5, while the
+ * widget /Rect spans y=341.175 to 353.179 and x=71.9114 to 84.0799, so
+ * pdf-lib's square prints as a second, larger, offset hairline box around the
+ * printed one. VF03 and VF04 scored 19 and 20 of these as visual defects from a
+ * raster of the delivered pages.
+ *
+ * Installing the /Off appearance the form omits -- an empty Form XObject the
+ * size of the widget -- makes needsAppearancesUpdate() false, so pdf-lib
+ * regenerates nothing: a ticked box flattens the official form's own mark, and
+ * an unticked box flattens an empty stream. This writes no participant fact and
+ * adds no ink. It removes ink the source never authored.
+ */
+const OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET = 94;
+function preserveOfficialCheckBoxAppearances(document, form) {
+  let installed = 0;
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFCheckBox)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      const normal = widget.getAppearances()?.normal;
+      assert.ok(normal instanceof PDFDict, `${field.getName()}: the official form states no check-box appearance dictionary; refusing to let pdf-lib invent one`);
+      if (normal.has(PDFName.of("Off"))) continue;
+      const { width, height } = widget.getRectangle();
+      normal.set(PDFName.of("Off"), document.context.register(document.context.formXObject([], { BBox: document.context.obj([0, 0, width, height]) })));
+      installed += 1;
+    }
+  }
+  return installed;
+}
+
+/*
+ * FIX166. The ink the DELIVERED bytes actually carry, read from them.
+ *
+ * This file already published addedGlyphsReadFromOutputBytes,
+ * flattenedWidgetAppearancesReadFromOutputBytes and
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as NULL rather than as invented
+ * zeros, and lane VF58 recorded that as the correct treatment. Nothing here
+ * replaces a null with a zero. What changes is that the first two are now
+ * MEASURED, because the FIX118 repair above has to reopen the finalized bytes
+ * anyway, and a figure that can be read should be read. The third stays null.
+ *
+ * flatten() turns every widget -- written and blank alike -- into a Form
+ * XObject drawn on the page, and a BLANK widget's appearance stream still
+ * carries a font selection and an empty show-text operand. So an appearance is
+ * counted only when it draws at least one non-whitespace glyph, which is what
+ * "a write with no ink is not a write" is asking about.
+ *
+ * What this function does NOT measure: the geometry pass behind
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. That figure stays null, because
+ * this builder never performs that reading and null is what an unmeasured
+ * counter is.
+ */
+/*
+ * FIX166. The total count of flattened widget Form XObjects in the delivered
+ * bytes -- EVERY widget the four official forms declare, written and blank
+ * alike -- as distinct from the inked-appearance count below.
+ *
+ * The two are published side by side because the name
+ * "flattenedWidgetAppearancesReadFromOutputBytes" is ambiguous between them.
+ * Lane VF58 read 443 for the sibling il-seal-3yr-set (all flattened widget
+ * XObjects) against a published 44 (the inked appearances). Both figures are
+ * now read from the saved bytes here too, each named for what it measures.
+ */
+function countFlattenedWidgetXObjects(document) {
+  let total = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      total += 1;
+    }
+  }
+  return total;
+}
+
+function readFlattenedAppearanceInk(document) {
+  const SHOW_TEXT = /\((?:\\[\s\S]|[^\\()])*\)|<([0-9A-Fa-f\s]*)>/g;
+  let appearances = 0;
+  let glyphs = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (!/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      let drawn = 0;
+      for (const operand of body.match(SHOW_TEXT) ?? []) {
+        const text = operand.startsWith("<")
+          ? operand.slice(1, -1).replace(/\s/g, "")
+          : operand.slice(1, -1).replace(/\\(?:[0-7]{1,3}|[\s\S])/g, "x");
+        drawn += text.replace(/\s/g, "").length / (operand.startsWith("<") ? 2 : 1);
+      }
+      if (drawn <= 0) continue;
+      appearances += 1;
+      glyphs += Math.round(drawn);
+    }
+  }
+  return { appearances, glyphs };
+}
+
+/*
+ * The negative control for the repair above, read from the delivered bytes.
+ *
+ * A flattened widget appearance that paints without drawing a glyph is ink no
+ * participant fact accounts for. On these four official forms the only such ink
+ * pdf-lib produced was the synthesized check-box border, so this must count
+ * zero after the repair -- and it counted 91 per fixture before it.
+ */
+function inkWithoutGlyphs(document) {
+  let count = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      if (/(?:^|\s)(?:S|s|f|F|f\*|B|B\*|b|b\*)(?=\s|$)/.test(body)) count += 1;
+    }
+  }
+  return count;
+}
+
 function setComplete(field, value, font) {
   const max = typeof field.getMaxLength === "function" ? field.getMaxLength() : undefined;
   if (max && value.length > max && typeof field.removeMaxLength === "function") field.removeMaxLength();
@@ -322,6 +781,12 @@ function setComplete(field, value, font) {
 async function fillDocument(source, fixtureName, fixture) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
+  // FIX118, ported by FIX166. Before anything reads or writes a field.
+  const emptyOffAppearances = preserveOfficialCheckBoxAppearances(document, form);
+  // FIX166. Counted on the OFFICIAL form before flatten, so the delivered
+  // flattened-appearance total is checked against the source's own widget count
+  // rather than against a literal a later edit could drift from.
+  const officialWidgets = form.getFields().reduce((total, field) => total + field.acroField.getWidgets().length, 0);
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
   const writes = [];
@@ -348,7 +813,13 @@ async function fillDocument(source, fixtureName, fixture) {
         writes.push({ ...base, effectiveLabel: name, factId: "participant.self_represented", isSelectionControl: true, routeDetermined: true });
       } else if (guard) {
         refusals.push({ ...base, effectiveLabel: `Court or later-completion control: ${name}`, reason: guard.reason, refusalClass: guard.refusalClass, role: guard.role });
-      } else refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
+      } else {
+        // FIX166, ROUTE_OPTIONS. One sentence used to stand on all 77 of these.
+        const specific = selectionControlRefusal(source.documentId, name, page);
+        assert.ok(specific, `every unticked selection control must carry a route-specific reason: ${source.documentId}:${name}`);
+        const { reason, role, ...marks } = specific;
+        refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`, reason, refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false, ...(role ? { role } : {}), ...marks });
+      }
       continue;
     }
     if (!(field instanceof PDFTextField)) continue;
@@ -364,7 +835,10 @@ async function fillDocument(source, fixtureName, fixture) {
     else refusals.push({ ...base, effectiveLabel: `Complete ${name} on ${source.documentId} page ${page}`, reason: "The platform does not hold this participant, case, or financial fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
   }
   form.updateFieldAppearances(font);
-  form.flatten();
+  // FIX118, ported by FIX166. updateFieldAppearances:false, as both siblings do.
+  // A second appearance regeneration inside flatten() is what re-synthesized the
+  // check-box borders this repair removes.
+  form.flatten({ updateFieldAppearances: false });
   const danglingAnnotsPruned = pruneDanglingAnnots(document);
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
@@ -372,7 +846,7 @@ async function fillDocument(source, fixtureName, fixture) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals, danglingAnnotsPruned };
+  return { document, writes, refusals, emptyOffAppearances, officialWidgets, danglingAnnotsPruned };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -394,10 +868,28 @@ async function buildPacket(sources, fixtureName, fixture) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), 13);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: 13, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals), danglingAnnotsPruned: filled.reduce((sum, item) => sum + item.danglingAnnotsPruned, 0) };
+  // FIX118, ported by FIX166. Both halves checked on the bytes that ship, not on
+  // the intention: every check-box widget the four official forms declare
+  // received the /Off appearance they omit, and the delivered packet contains no
+  // flattened appearance that paints without drawing a glyph. That second count
+  // was 91 per fixture before this repair, on every one of the thirteen pages.
+  const emptyOffAppearances = filled.reduce((total, item) => total + item.emptyOffAppearances, 0);
+  assert.equal(emptyOffAppearances, OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET,
+    `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
+  const strayInk = inkWithoutGlyphs(reopened);
+  assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
+  // FIX166. Read from the saved bytes rather than asserted by the finalizer.
+  const delivered = readFlattenedAppearanceInk(reopened);
+  delivered.formXObjects = countFlattenedWidgetXObjects(reopened);
+  const officialWidgets = filled.reduce((total, item) => total + item.officialWidgets, 0);
+  assert.equal(delivered.formXObjects, officialWidgets,
+    `the delivered bytes must carry one flattened Form XObject per official widget: ${delivered.formXObjects} for ${officialWidgets}`);
+  delivered.officialWidgets = officialWidgets;
+  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, delivered, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals), danglingAnnotsPruned: filled.reduce((sum, item) => sum + item.danglingAnnotsPruned, 0) };
 }
 
 async function build() {
+  const track = controllingRecord();
   const sources = resolveSources();
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === FAMILY_ID);
@@ -407,16 +899,145 @@ async function build() {
   fs.mkdirSync(path.join(OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
-  const routeSummary = "Education-based sealing after completion of the last sentence and every printed eligibility condition in item 22.";
+  // FIX166, ROUTE_OPTIONS. The record calls this route SEALING. The guide used
+  // to be titled "Illinois expungement or sealing packet" and to tell the
+  // participant to "make the expunge-or-seal election shown on the Request",
+  // which this track's own packetInstructions[2] forbids -- "Never use 'expunge'
+  // as a synonym for 'seal'. Say which remedy applies." -- and which was untrue
+  // of the delivered paper: the packet had already made that election.
+  const routeSummary = `Sealing, under the educational-credential waiver of the waiting period, 20 ILCS 2630/5.2(c)(3)(E). This packet asks the court to SEAL. It does not ask the court to expunge anything: Request item 1, "I am requesting to expunge records", is answered No, and item 12, "Seal Records", is answered Yes. The record states the waiver this way: ${EDUCATION_WAIVER_MECHANISM}`;
   writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: null, flattenedWidgetAppearancesReadFromOutputBytes: null, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "Null, not zero. These three name a reading of the saved bytes that this builder never performs. Counting them is an independent reader's job.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByTheFourPinnedForms: packet.delivered.officialWidgets, flattenedAppearancesPaintingWithoutDrawingAGlyph: packet.inkWithoutGlyphs, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader\u0027s job. A counter nobody measured is null, never 0.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires.\n\n**The Outcome column.** The case table carries ${ROUTE_OUTCOME.abbreviation}, "${ROUTE_OUTCOME.meaning}". ${ROUTE_OUTCOME.why} The full printed legend on that page is: ${PRINTED_LEGEND}. Check it against your certified disposition before you sign, and change it only to another value printed on that legend.\n Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and the educational credential evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.\n\n${IL_SEALING_UNPAID_FINANCIAL_OBLIGATION_NOTE}\n\n**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.\n\n**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects; the court sets a contested hearing; the transcript or certified disposition is ambiguous; a case is unrecognized or may involve identity theft; federal or out-of-state records are involved; a motion to vacate, modify, or reconsider is needed; the petition is denied; the printed education-route facts do not match; or immigration consequences may be involved.\n`);
-  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order, clerk case numbers, and later-completion fields.\n`);
+  // FIX166, REQUIRED_BEFORE_FILING / FEE_AND_WAIVER / ROUTE_OPTIONS.
+  // Everything the record enumerates is printed in the record's own words.
+  const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
+  const stopConditions = track.selfHelpStopConditions.map((line) => `- ${line}`).join("\n");
+  const deniedWaiver = deniedWaiverInstruction(track);
+  assert.ok(deniedWaiver, "the denied-waiver instruction must still be in the record at write time");
+
+  // FIX166, ROUTE_OPTIONS. Every printed election in Sections 15 - 24 reaches
+  // the guide, generated from the same table the refusals are generated from,
+  // so the guide and the field map cannot drift apart.
+  // GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY. The registry's disposition
+  // identifiers -- supervision_successfully_completed and the rest -- are
+  // internal keys and are NOT printed to the participant. They stay in the field
+  // map, where a reviewer reads them; the participant gets the form's own words.
+  const printedElectionLines = Object.entries(PRINTED_SEALING_ELECTIONS).map(([, entry]) => {
+    const role = entry.alternative
+      ? `This is one of the printed grounds that states a kind of record this route also covers. If your certified record shows ${entry.inWords}, this is the box to tick INSTEAD of item 22, and item 22 should then be unticked.${entry.ordinaryPeriodFor22c ? " This is the ordinary waiting-period route for the same felony conviction item 22 asks the court to seal without waiting." : ""}`
+      : entry.participantCarveOut
+        ? "This is not a statutory ground. It is a statement about you, and only you can make it. Read it, and tick it if it is true of you."
+        : "This route covers no record of this kind, so this packet does not tick it. If it is true of you, it is a different sealing route from this one and it should be raised before you file.";
+    return `**${entry.section}.** "${entry.printed}"\n\n${role}`;
+  }).join("\n\n");
+  const printedElectionCount = Object.keys(PRINTED_SEALING_ELECTIONS).length;
+
+  // FIX166, ROUTE_OPTIONS. The fee-waiver form's own elections, generated from
+  // the delivered refusals so the list cannot drift from them.
+  const feeWaiverElectionRows = packets.canonical.refusals.filter((row) => row.isSelectionControl && row.documentId === "FW-CIV-APPLICATION");
+  assert.ok(feeWaiverElectionRows.length, "the fee-waiver form's participant elections must reach the guide");
+  const feeWaiverElections = feeWaiverElectionRows.map((row) => `- ${row.fieldName} — FW-CIV-APPLICATION page ${row.page}`).join("\n");
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}
+
+## Route selected
+
+${routeSummary}
+
+## The Section 22 ground this packet ticked
+
+Request page 5 prints: "In Sections 15 - 24, check all of the boxes that apply". This packet ticks exactly one of them, item 22, and it ticks nothing else in Sections 15 to 24. Item 22 reads:
+
+"${ELECTED_PRINTED}"
+
+Read limb c before you sign. It states a FELONY CONVICTION that resulted in prison or jail, or in conditional discharge or probation that was REVOKED. The controlling record lists five kinds of outcome for this route -- a successfully completed supervision, a conditional discharge completed without revocation, a probation completed without revocation, a misdemeanor conviction, and a felony conviction -- and item 22's printed words describe the last of those, on the facts limb c names. If your certified disposition and your Illinois State Police transcript show one of the other four, item 22's printed words do not describe your record: do not sign it as it stands. The section below prints every other election on that page in the form's own words and says which one states your kind of record.
+
+You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.
+
+**The Outcome column.** The case table carries ${ROUTE_OUTCOME.abbreviation}, "${ROUTE_OUTCOME.meaning}". ${ROUTE_OUTCOME.why} The full printed legend on that page is: ${PRINTED_LEGEND}. Check it against your certified disposition before you sign, and change it only to another value printed on that legend.
+
+## Every other election printed in Sections 15 - 24, and which is yours
+
+This packet ticked one box. It left ${printedElectionCount} others on these pages unticked, and it did not leave them unticked because they do not matter. Each is printed below in the form's own words.
+
+${printedElectionLines}
+
+Do not tick both item 22 and one of the alternatives above for the same case, and do not tick any box on the Request your certified record does not support.
+
+## Required before filing
+
+The controlling record requires each of these before this packet is filed. They are printed here in the record's own words.
+
+${beforeFiling}
+
+Obtain the ISP statewide transcript and certified dispositions for every arrest or case. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back, so start it now. Compare the transcript against every certified disposition and resolve every mismatch before filing. Confirm completion of the last sentence and every condition printed in item 22, and attach the educational credential or other education evidence item 22 limb e requires.
+
+The record's per-case expunge-versus-seal line above places that election in a Case List per-case election column. The official Case List this packet ships carries no such column: its form fields are the county, the caption fields, one clerk-assigned case number, one "More Arrests or Case Numbers" box and seventy unlabelled arrest or case cells, and not one of them is an election field. This packet therefore made the expunge-or-seal election where the official forms do carry it, on the Request: item 1 is answered No and item 12 is answered Yes to sealing. Check that election against your certified disposition and your Illinois State Police transcript before you sign, and if it is wrong correct it on the Request, not on the Case List.
+
+Add the hearing date only when the clerk or court supplies it.
+
+### The Request is not signed for you
+
+${track.rules.participantSignature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. A Request filed without your signature and verification is not a completed filing.
+
+### Every item this packet leaves for you
+
+Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
+
+This packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.
+
+${requiredList}
+
+### The boxes only you can tick
+
+The list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. This packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:
+
+${feeWaiverElections}
+
+Attach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and the educational credential evidence identified above.
+
+## What it costs, and the waiver
+
+${track.rules.fees}
+
+${track.rules.feeWaiver}
+
+${IL_SEALING_UNPAID_FINANCIAL_OBLIGATION_NOTE}
+
+## If this petition is denied
+
+Filing under item 22 asks the court to seal now, without waiting. If that request is refused, the ordinary waiting period still applies to any later petition: filing early and losing does not forfeit the ordinary route, and it does not shorten it either. The record states it this way: "${EDUCATION_WAIVER_DENIAL}" Those are the two-year and three-year periods that Sections 16 to 19 of the Request are printed for. A denied petition is also one of the points at which the record says to stop and get a lawyer, below.
+
+## Who serves, and how
+
+${track.rules.service}
+
+${track.rules.notice}
+
+You serve nobody. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice.
+
+## Where this is filed
+
+${track.rules.filing}
+
+The filing destination is the ${track.destination.name}. ${track.destination.detail} File a separate flattened packet in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case.
+
+## Stop and get help
+
+Stop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.
+
+${stopConditions}
+
+Two of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet. One more is specific to this route: if the printed facts of item 22 do not match your record, stop.
+`);
+
+  // FIX166, FEE_AND_WAIVER. The filing sheet quotes the record too, rather than
+  // paraphrasing a fee schedule beside it.
+  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. All nine are null because this file measures none of them; they used to ship as eight zeros and one null, which reported a clean measurement nobody had taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
 }
@@ -475,7 +1096,73 @@ function selfTest() {
   assert.ok(!/Complete arrest\d+ on/.test(instructions),
     "an interior AcroForm name is not a caption a participant can find on the page");
   assert.ok(instructions.includes(PRINTED_LEGEND), "the guide must print the sealing Outcome legend so the participant can check the cell against it");
-  for (const phrase of ["ISP statewide transcript", "Compare the transcript against every certified disposition", "expunge-or-seal election", "educational credential", "hearing date", "wet signature", "fee waiver", "identity theft", "federal or out-of-state", "vacate, modify, or reconsider", "petition is denied"]) assert.ok(instructions.includes(phrase), `required guidance must include: ${phrase}`);
+  for (const phrase of ["ISP statewide transcript", "Compare the transcript against every certified disposition", "expunge-or-seal election", "educational credential", "hearing date"]) assert.ok(instructions.includes(phrase), `required guidance must include: ${phrase}`);
+
+  /*
+   * FIX166. The guidance asserts are read from the controlling record instead of
+   * from a hand-written phrase list. A phrase list can be satisfied by a
+   * paraphrase; a whole-line match against the record cannot.
+   *
+   * A record description counts as disclosed only when it equals a whole line of
+   * the delivered guide after marker and wrapper stripping -- the same matcher
+   * lane VF58 used to score this family 0 of 10, 0 of 8 and 0 of 2 while both
+   * siblings scored 10 of 10, 8 of 8 and 2 of 2.
+   */
+  const track = controllingRecord();
+  const guideLines = new Set(instructions.split("\n").map((line) => line.replace(/^\s*[-*]\s*/, "").replace(/\*\*/g, "").trim()).filter(Boolean));
+  const carriedWholeLine = (value) => guideLines.has(String(value).replace(/\*\*/g, "").trim());
+  for (const line of track.packetSet.requiredBeforeFiling) {
+    assert.ok(carriedWholeLine(line), `requiredBeforeFiling must reach the participant as a whole line of the guide: ${line.slice(0, 70)}`);
+  }
+  for (const line of track.selfHelpStopConditions) {
+    assert.ok(carriedWholeLine(line), `selfHelpStopConditions must reach the participant as a whole line of the guide: ${line.slice(0, 70)}`);
+  }
+  for (const rule of ["fees", "feeWaiver", "filing", "service", "notice"]) {
+    assert.ok(carriedWholeLine(track.rules[rule]), `rules.${rule} must reach the participant as a whole line of the guide`);
+  }
+  // The record holds three fee figures. A guide that says fees "vary" and prints
+  // none of them is delegating what the record answers.
+  for (const amount of ["$60", "$235", "$136"]) {
+    assert.ok(instructions.includes(amount), `the record states ${amount} and the guide must carry it rather than say fees vary`);
+  }
+  assert.ok(instructions.includes("## What it costs, and the waiver"),
+    "the money statements must sit in their own section, not attached to a filing delegation");
+  // The sixth packetInstruction, carried nowhere in this family before FIX166.
+  assert.ok(deniedWaiverInstruction(track), "the denied-waiver instruction must still be in the record");
+  assert.ok(instructions.includes(EDUCATION_WAIVER_DENIAL),
+    "the guide must carry the registry's own statement of what a denial does to the ordinary period");
+  assert.ok(!instructions.includes(deniedWaiverInstruction(track)),
+    "a build directive is not participant prose: the packetInstruction must not be printed verbatim to the participant");
+  assert.ok(/the ordinary waiting period still applies to any later petition/.test(instructions),
+    "the guide must state that a denial does not forfeit the ordinary waiting-period route");
+  // packetInstructions[2]: never use "expunge" as a synonym for "seal".
+  assert.ok(/^# Illinois sealing packet/m.test(instructions),
+    "the guide title must name ONE remedy; this route is sealing");
+  assert.ok(!/make the expunge-or-seal election shown on the Request/.test(instructions),
+    "the guide must not tell the participant to make an election this packet already made");
+  // ROUTE_OPTIONS: every printed election in Sections 15 - 24 reaches the guide.
+  for (const entry of Object.values(PRINTED_SEALING_ELECTIONS)) {
+    assert.ok(instructions.includes(entry.printed), `the guide must print election ${entry.section} in the form's own words`);
+    assert.ok(instructions.includes(`**${entry.section}.**`), `the guide must name ${entry.section}`);
+    // GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY. The registry's disposition
+    // identifiers are internal keys and must never reach the participant.
+    for (const disposition of entry.dispositions) {
+      assert.ok(!instructions.includes(disposition), `an internal disposition identifier reached the participant: ${disposition}`);
+    }
+  }
+  // FIX166, ROUTE_OPTIONS. Not one selection control may still carry the single
+  // sentence that stood on all seventy-seven of them.
+  const selectionRefusals = fieldMap.refusals.filter((row) => row.isSelectionControl);
+  assert.equal(selectionRefusals.filter((row) => row.reason === "A participant election or financial fact not determined by this packet route").length, 0,
+    "the boilerplate refusal reason must not survive on any selection control");
+  assert.ok(new Set(selectionRefusals.map((row) => row.reason)).size >= 10,
+    `seventy-seven selection controls carried one reason before FIX166; they must now carry route-specific ones: ${new Set(selectionRefusals.map((row) => row.reason)).size}`);
+  const alternatives = selectionRefusals.filter((row) => row.isAlternativeToElectedGround === true);
+  assert.ok(alternatives.length >= 5, `every printed ground stating a record kind this route covers must be disclosed as an alternative to item 22: ${alternatives.length}`);
+  for (const row of alternatives) {
+    assert.ok(row.alternativeSection && Array.isArray(row.alternativeDispositions) && row.alternativeDispositions.length,
+      `an alternative must name its printed section and the record kinds it states: ${row.fieldName}`);
+  }
   console.log("il-seal-edu-set self-test passed");
 }
 
