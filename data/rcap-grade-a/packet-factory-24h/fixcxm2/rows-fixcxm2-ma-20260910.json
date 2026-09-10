@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCXM2",
+  "laneKind": "repair",
+  "baseSha": "aa60c8f06152a851fe505fbc210fb7f48cbafe17",
+  "branch": "lane-fixcxm2-ma-guidance-20260910",
+  "isIndependentVerification": false,
+  "stopped": true,
+  "rows": [
+    {
+      "itemId": "ma-seal-court-set",
+      "familyId": "ma-seal-court-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "VF06 REQUIRED_BEFORE_FILING and SELF_HELP_STOP guidance only; preserve official PDF bytes and guard before final output replacement",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "finding": "VF06 found that the guide omitted the two controlling-record CORI actions and gave no participant stop/help instructions for four recorded conditions.",
+      "correction": "The guide now prints both exact controlling-record actions: obtain the participant's own CORI from DCJIS and check the docket against it, preserving the boundary that LegalEase never collects, inspects or authenticates CORI. It also prints a stop-and-get-help section naming all four registry conditions without deciding eligibility or treating court acts as prerequisites. The builder reads and cross-checks both controlling records and refuses before final writes when those disclosures are absent.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/plain-entrypoint-proof.json",
+      "sourceEvidence": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/identity-digests.json",
+      "originalPlainMutation": {
+        "command": "node scripts/build-census-v1-ma-seal-court-set.mjs --no-raster",
+        "exit": 0,
+        "defectiveGuidanceAccepted": true,
+        "log": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/original-deficient-guidance.log"
+      },
+      "fixedPlainMutation": {
+        "command": "node scripts/build-census-v1-ma-seal-court-set.mjs --no-raster",
+        "exit": 1,
+        "changedFiles": [],
+        "refusalBeforeFinalOutputReplacement": true,
+        "log": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/fixed-deficient-guidance-refused.log"
+      },
+      "validPlainBuild": {
+        "command": "node scripts/build-census-v1-ma-seal-court-set.mjs --no-raster",
+        "exit": 0,
+        "pdfBytesIdentical": true,
+        "publishedFiles": [
+          "participant-instructions.md",
+          "reports/blanks-left-for-the-participant.json"
+        ],
+        "log": "data/rcap-grade-a/packet-factory-24h/fixcxm2/ma-evidence/valid-plain.log"
+      },
+      "countersAfter": null,
+      "countersNote": "This guidance repair is not independent acceptance. VF06's other thirteen PASS findings and any repaired output require independent review under the normal gates.",
+      "grantsNothing": "No verdict, owner adoption, route change or commercial authority."
+    }
+  ]
+}
