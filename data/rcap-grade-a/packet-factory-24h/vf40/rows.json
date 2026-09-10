@@ -1,0 +1,437 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF40",
+  "laneKind": "independent-verification",
+  "worker": "CLAUDE-VF40",
+  "baseSha": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "dispatchSha": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "grantSet": "1f2b0e4afb74b5f2",
+  "claimsAsserted": 3,
+  "claimsReleased": 0,
+  "readingUnderReview": {
+    "repairLane": "FIX09",
+    "repairCommit": "7b7d0a3a31829b7e2c9224263404792d0a641028",
+    "repairBranch": "origin/lane-ln1-20260910",
+    "obligationRepaired": "FEE_AND_WAIVER",
+    "mergedAtCaptainCommit": "80fd3eb51208da7455df654b4550afd0725f9117"
+  },
+  "measuredBy": "independent reread of delivered bytes: sha256 of every fixture and instruction document; pdftotext -layout of both fixtures per family; pikepdf parse for AcroForm fields and annotation subtypes; pdftoppm -r 150 -gray -png measuring render WITH annotations of all 44 delivered pages; held-source rehash against the mounted corpus; and a mutation test of the NH currency self-test",
+  "independence": "VF40 did not build or repair any of these families and has repaired nothing while reading them. The worktree is byte-identical to 80fd3eb51 apart from this return file; the one build script mutated for the NH mutation test was restored and rehashed to its committed digest 4d58320daef98ec3ee5595cfddc6b6ac23e16451a102f2b8f84e51118b66dea1.",
+  "rendererProvenBeforeTrustingAnyZero": {
+    "why": "a zero appearance count is worth nothing unless the renderer is proven to draw widget /AP /N ink in the first place",
+    "probe": "single-page PDF whose page content stream is empty and whose only ink is one /Subtype /Widget annotation carrying an /AP /N form XObject filling a 200x100pt black rectangle",
+    "resolution": "150 dpi",
+    "greyThreshold": 200,
+    "scope": "whole page, 1275x1650 px",
+    "darkPixelsWithAnnotations": 86736,
+    "darkPixelsWithHideAnnotations": 0,
+    "conclusion": "pdftoppm -r 150 -gray -png draws widget appearance ink; -hide-annotations suppresses it. No measuring render in this return used -hide-annotations."
+  },
+  "perWidgetAppearanceCounts": {
+    "result": null,
+    "whyNotZero": "all three families deliver flattened packets: pikepdf reports /AcroForm absent and zero /Subtype /Widget annotations in all six fixtures (MO carries 2 /Link annotations and nothing else). With no widgets to count, a per-widget appearance count is not applicable, not zero.",
+    "acroFormFields": null,
+    "widgetAnnotations": 0
+  },
+  "measuringRender": {
+    "tool": "pdftoppm -r 150 -gray -png (annotations ON)",
+    "resolution": "150 dpi",
+    "greyThreshold": 200,
+    "scope": "every page of canonical.pdf and boundary.pdf for all three claimed families, whole-page dark-pixel count",
+    "pagesRendered": 44,
+    "blankPages": 0,
+    "inkPerPage": {
+      "co_municipal_conviction_seal-set": {
+        "canonical": [117240, 115879, 55806, 102823, 52775],
+        "boundary": [120185, 115879, 55806, 108439, 52775]
+      },
+      "mo-art-xiv-marijuana-set": {
+        "canonical": [149977, 79396, 153352, 61134, 224351, 213217, 143512, 61134, 224351, 213217],
+        "boundary": [152681, 81062, 157304, 63010, 224351, 213217, 143263, 63010, 224351, 213217]
+      },
+      "nh_marijuana_annulment-set": {
+        "canonical": [112069, 141215, 82033, 25182, 129459, 131814, 211588],
+        "boundary": [115843, 139978, 82309, 26609, 131768, 130574, 210343]
+      }
+    },
+    "whatThisDoesNotEstablish": "a whole-page ink count proves no page is blank and that the renderer saw the annotations. It is not a per-field clipping or overlap analysis and is not offered as one."
+  },
+  "digestsRehashedHere": {
+    "note": "FIX09 reported these; VF40 hashed them off disk rather than reading the report. All four reported-unchanged digests match.",
+    "co_municipal_conviction_seal-set": {
+      "canonical": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+      "boundary": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+      "participant-instructions.md": "1dcc96997696b74588682fffef2949a146a4e079a6e40396c89443f79d0f7189",
+      "filing-instructions.md": "6a10db6b6acc4642c91db631daed95646db259444f00495ef32c56c3d50c5162",
+      "agreesWithFix09Report": true
+    },
+    "mo-art-xiv-marijuana-set": {
+      "canonical": "44ffa83102e981e65144007f272ae480c2d4251a23ca2c6b30144f7d28a12397",
+      "boundary": "9db6f9ab18a5a9a6468095e855d3aba65dfa651083ac60c45cc393e874e28dc3",
+      "agreesWithFix09Report": true
+    },
+    "nh_marijuana_annulment-set": {
+      "canonical": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+      "boundary": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+      "agreesWithFix09Report": true
+    },
+    "la-976-arrest-no-conviction-set": {
+      "canonical": "bdd789e24b079cd252de13dd0d9f8f3fee92dd73d76e989e79e5e5368139ba4a",
+      "boundary": "60b5ed462f57dcb08ac74e7b74fd90b129c22131f6f87f88483e8cc2ab6092e5",
+      "agreesWithFix09Report": true,
+      "hashedWithoutAGrant": "these are byte facts about two files, taken to establish the raster-receipt staleness the dispatch asked VF40 to carry forward. No LA packet content was read and no LA obligation is scored."
+    }
+  },
+  "centralRasterCoverage": {
+    "readFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "co_municipal_conviction_seal-set": "RASTER_PASS pins 676d922f/1c483f89 — matches the bytes on disk. Still valid; FIX09 moved only markdown.",
+    "mo-art-xiv-marijuana-set": "RASTER_PASS pins 44ffa831/9db6f9ab — matches the bytes on disk. Still valid.",
+    "nh_marijuana_annulment-set": "RASTER_PASS pins 23390b7f/661ff004 — matches the bytes on disk. Still valid.",
+    "la-976-arrest-no-conviction-set": "RASTER_PASS pins canonical 17fe8e13/boundary f1970b3b. The bytes on disk are bdd789e2/60b5ed46. THE ADMITTED RECEIPT DESCRIBES BYTES THIS REPOSITORY NO LONGER CONTAINS. LA owes a fresh central raster; the old receipt must not be treated as covering the new bytes.",
+    "scopeLimitOnAllFour": "every one of these RASTER_PASS rows declares in its own coverage block that boundary.pdf is 'not rendered by this gate'. A RASTER_PASS here has excluded no defect that appears only in boundary.pdf. VF40's own measuring render covered boundary for the three claimed families and found no blank page, which is a weaker statement than a raster gate."
+  },
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "lane": "VF40",
+      "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFYING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "measuredHere": false,
+        "verifierResult": null,
+        "whyNull": "VF40 did not recompute the completeness contract. The zeros in reports/completeness-counters.json are the BUILDER's own and say so. They are additionally scoped: that file states in terms that the counters do not measure the printed tick boxes or the four underscore blanks, 'because neither form draws a control this build can measure'. A nine-zero on this family is not a whole-packet zero, and VF40 does not restate it as one."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Track co_municipal_conviction_seal in the committed registry names C.R.S. 24-72-708 and the two-component JDF 683 + JDF 686 set; both instruction documents and the delivered fixtures carry that route and no other."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared official forms rehash byte-exact against the mounted corpus: 6b451ae3.. resolves to CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf and abf997d8.. to CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf. The receipt's registry entry pin 22755075.. still equals the current registry entry for this track."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two components, JDF 683 on pages 1-3 and JDF 686 on pages 4-5; both fixtures parse to 5 pages, matching the manifest and every pageCount in reports/."
+        },
+        "KNOWN_PREFILLS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "The field census was not recomputed in this lane." },
+        "REQUIRED_BEFORE_FILING": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here. Note the builder counters exclude this family's tick boxes and underscore blanks from measurement altogether." },
+        "ROUTE_OPTIONS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "REPEATING_ROWS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "PROTECTED_FIELDS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All four delivered digests rehash to the values FIX09 reported. Every pageCount in independent-visual-review.json and rendered-artifacts.json equals the parsed page count of 5. The central RASTER_PASS still pins the bytes on disk."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Extracted page text runs JDF 683 pages 1-3 then JDF 686 pages 1-2 in the declared order in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 10 pages of both fixtures rendered WITH annotations at 150 dpi carry ink (52775-120185 dark px at grey<200, whole page); no blank page. Extracted text is continuous with no truncated captions. This is a no-blank-page and no-truncation reading, not a per-field overlap analysis."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The record's destination 'The municipal court that heard the case' appears verbatim in both instruction documents, together with the record's own warning that municipal courts are outside the state e-filing system."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "THE DEFECT FIX09 DESCRIBES IS GONE FROM EVERY DELIVERED SURFACE, AND VF40 LOOKED FOR A THIRD SITE AND FOUND NONE. Swept both instruction documents, both fixtures and all six report files: the builder instruction 'The fee must be confirmed before building' now survives only inside the labelled blockquote at participant-instructions.md:18 ('The fee, as the record states it: ...') and inside the record-attributed open-items table at filing-instructions.md:17 — both attributed as record text, which is FIX09's own stated standard and the right one. The replacement sentences are faithful to the held record: registry rules.fees reads 'Unconfirmed. The fee must be confirmed before building.' and rules.feeWaiver reads 'The source review does not address a fee waiver.', so 'the committed record does not confirm a filing fee' and 'does not address a fee waiver' are both true, and no amount, waiver form or eligibility test is asserted. Zero currency figures in either instruction document. The only fee text in the fixtures is JDF 686's own printed 'Note to Defendant: The CBI charges a fee before its records are sealed. Contact the CBI to pay that fee', which is the official form's own bytes on the page the participant reads, not an amount this packet states.",
+          "observationsNotScoredAsFailure": [
+            "The new fee-waiver sentence is hardcoded and UNGUARDED. The pre-existing assert at scripts/build-census-v1-co_municipal_conviction_seal-set.mjs:594 covers rules.fees only. FIX09 gave MO a two-sided guard on rules.feeWaiver and gave CO none, so if this record ever starts naming a waiver form the packet will keep asserting that it addresses none. True today; unenforced tomorrow.",
+            "JDF 686's CBI sealing fee is disclosed only by the form's own face. Neither instruction document's fee section mentions it. Not scored as a failure because it is a post-order CBI charge rather than a filing fee or its waiver, and because the participant reads it on the delivered page."
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "THE DEFECT CLASS FIX09 REPAIRED SURVIVES TWO BULLETS BELOW THE BULLET IT REPAIRED. filing-instructions.md:40, under the heading '## Service, notice and signature' that a filer reads to learn whether they must serve anyone, states only: '**Service:** The source review does not state a service requirement.' 'The source review' is an internal build artefact, named to a filer, and the sentence gives no action. participant-instructions.md:103 carries the same sentence unlabelled in the very 'Where it goes' list of directions where FIX09 found and fixed the fee bullet, and participant-instructions.md:104 and filing-instructions.md:46 do it again for notarization. This is structurally identical to the '## Fee' defect just repaired one heading above — track.rules.* recited verbatim, unlabelled, on a participant surface — and it is unrepaired. VF40 records it and does not fix it."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 4 stop conditions the committed record states for this track appear verbatim in participant-instructions.md."
+        }
+      },
+      "failedProofObligations": ["SERVICE"],
+      "notMeasurableHere": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS"],
+      "packetRepairPending": true,
+      "centralRasterPending": false,
+      "fix09ClaimsTested": {
+        "bothFeeSitesRemoved": "CONFIRMED on disk at both named lines",
+        "labelledBlockquoteLeftInPlace": "CONFIRMED at participant-instructions.md:18",
+        "fixtureBytesDidNotMove": "CONFIRMED — 676d922f/1c483f89 unchanged",
+        "markdownDigestsFe050a7eTo1dcc9699And0d8122e2To6a10db6b": "CONFIRMED for the post-repair halves: participant-instructions.md hashes 1dcc9699.. and filing-instructions.md hashes 6a10db6b..",
+        "buildAlreadyAssertsRulesFeesStillReadsUnconfirmed": "CONFIRMED — assert at line 594, pre-existing, not added by FIX09"
+      }
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "lane": "VF40",
+      "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+      "verdict": "PASS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFYING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "measuredHere": false,
+        "verifierResult": null,
+        "whyNull": "VF40 did not recompute the completeness contract. reports/builder-completeness-counters.json is the builder's own count and says so in terms."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Track mo-art-xiv-marijuana; the Article XIV route with CR375 as primary filing and FI-05 as cover sheet plus continuation. The delivered caption reads 'Petition for Expungement - Marijuana-Related Offense(s)' on CR375's own printed face."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "Partial only, so recorded as unmeasured rather than passed. CR375 (2cfca7e9..) rehashes byte-exact against the mounted master library, and the composition record data/record-clearing/legal-design-intake/MO.memo.json rehashes to 53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934, exactly its receipt pin. FI-05 (53f1e04e..) is declared in custody nationwide_recovery_pool_2026_09_02, which is not mounted in this environment, so two of the four declared document digests could not be freshly resolved here."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "CR375 pages 1-2 plus FI-05 as cover sheet and again as continuation; both fixtures parse to 10 pages, matching every declared pageCount. The receipt states in terms why the same binary appears twice, quoting FI-05's own continuation instruction."
+        },
+        "KNOWN_PREFILLS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "The field census was not recomputed in this lane." },
+        "REQUIRED_BEFORE_FILING": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "ROUTE_OPTIONS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "REPEATING_ROWS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "PROTECTED_FIELDS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both delivered digests rehash to the values FIX09 reported (44ffa831../9db6f9ab..), every rendered-artifacts.json pageCount equals the parsed 10, and the central RASTER_PASS still pins the bytes on disk. FIX09 changed markdown only; the fixtures did not move, as reported."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Extracted text runs CR375 pages 1-2, then the FI-05 sheet, then the FI-05 continuation, in the declared order in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 20 pages of both fixtures rendered WITH annotations at 150 dpi carry ink (61134-224351 dark px at grey<200, whole page); no blank page and no truncated caption in the extracted text. A no-blank-page reading, not a per-field overlap analysis."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "filing-instructions.md:19 sends the petition to 'the clerk of the Missouri circuit court where the conviction was charged or where you were found guilty', which tracks the record's destination ('Clerk of the Missouri court where the marijuana conviction was charged or the finding of guilt entered'). The added word 'circuit' is carried by CR375's own printed caption, 'IN THE ___ JUDICIAL CIRCUIT, ___ COUNTY, MISSOURI'."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "THE ONLY SUBSTANTIVE ADDITION OF THE FOUR, AND IT IS HELD ON THE FORM'S OWN BYTES. VF40 opened the held binary itself. sha256 of /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx is 13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e — exactly the digest FIX09 cites. Every claim the packet now makes about GN10 is on those bytes: word/document.xml carries the title line 'Motion and Affidavit in Support of Request to Proceed As a Poor Person'; word/footer1.xml reads 'SJRC (07-15) GN10   PAGE 1 of 1   SCR 77.03, 514.040, RSMo', which supports both the form number and 'cites Missouri Supreme Court Rule 77.03 and section 514.040 RSMo in its own footer'; the body carries Monthly Income, Monthly Expenses, Assets and Debts blocks, supporting 'asks for your income, your expenses, your assets and your debts'; and the closing line reads 'I swear/affirm under penalty of perjury that these facts are true to my best knowledge and belief.', supporting the perjury sentence. The authority is in the record too: MO.memo.json rules.feeWaiver reads 'GN10 under Rule 77.03 and section 514.040 where the participant cannot pay and the filing court accepts the statewide form.', which also supports the packet's careful hedge that the record ties the form to courts that accept it and does not establish that every court does. THE ONE-PAGE QUESTION, TESTED DIRECTLY: the held revision is one page ('PAGE 1 of 1') and its body carries no order-granting block, so FIX09 was right not to carry across the sibling claim. The packet fabricates nothing: it states no amount, no means test and no eligibility conclusion, GN10 is not delivered and no part of it is filled in, and neither instruction document contains a currency figure. The guard FIX09 says it added is real and two-sided — it throws MO_MEMO_FEE_WAIVER_NO_LONGER_NAMES_<token> if rules.feeWaiver stops naming GN10, 77.03 or 514.040, and MO_MEMO_NOW_PUBLISHES_A_FEE_FIGURE if rules.fees stops reading 'no fee figure is published on this track'.",
+          "observationsNotScoredAsFailure": [
+            "RESIDUAL GAP THE CAPTAIN MAY WISH TO ROUTE. The same rules.fees sentence FIX09 read for its guard also says 'the only cost is whatever the clerk charges for the certificate of expungement'. filing-instructions.md:28-29 actively directs the participant to ask the clerk for a copy of that certificate and never says the clerk may charge for it. FIX09 took the last clause of that sentence as its guard token and did not carry the cost clause across. Not scored FAIL because the packet asserts nothing false, states no amount the record does not support, and the record leaves the charge unquantified — but it is the same class as the GN10 gap FIX09 just repaired, in the same field of the same record."
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The record states no participant service ('None performed by the participant. CR375 carries no certificate of service.') and the packet does not manufacture one. No internal-artefact vocabulary reaches either instruction document: the sweep for build-record phrasing across both returned nothing."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 11 stop conditions the committed record states for this track appear verbatim in participant-instructions.md."
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": ["SOURCE_IDENTITY", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS"],
+      "packetRepairPending": false,
+      "centralRasterPending": false,
+      "verdictIsPassNotPassCompleteIndependent": "six obligations are NOT_MEASURABLE_HERE, and PASS_COMPLETE_INDEPENDENT is refused over any of them.",
+      "findingOutsideThisGrant": {
+        "what": "A record-fidelity defect the held GN10 binary contradicts, affecting a DIFFERENT family.",
+        "where": "data/record-clearing/legal-design-intake/MO.memo.json:441, and the same sentence mirrored in data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-specifications.json",
+        "whichTrack": "mo-610-140-conviction",
+        "theClaim": "'The order granting leave to proceed as a poor person is on page two of the form and is the court's to sign.'",
+        "whatTheBytesSay": "The held statewide GN10 at sha256 13ff2514..0421e prints 'PAGE 1 of 1' in its own footer and its body carries no order block at all. The record's sentence is not true of the held revision.",
+        "vf40Action": "recorded, not repaired, and outside VF40's grant. FIX09 was right to refuse to carry it into MO Article XIV; the sentence still governs mo-610-140-conviction, where it may already have produced a packet claim about a page that does not exist."
+      }
+    },
+    {
+      "itemId": "nh_marijuana_annulment-set",
+      "lane": "VF40",
+      "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "queueStateAtRead": "VERIFYING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "measuredHere": false,
+        "verifierResult": null,
+        "whyNull": "VF40 did not recompute the completeness contract. reports/completeness-counters.json is the builder's own count and says so."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Track nh_marijuana_annulment under RSA 651:5-b, delivering NHJB-3124 with NHJB-2311 and NHJB-2328; both instruction documents and the fixtures carry that route and no other."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three declared official forms rehash byte-exact against the mounted corpus: eee78822.. resolves to NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf, f8b5df13.. to NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf and b4384b41.. to NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Three components; both fixtures parse to 7 pages, matching independent-visual-review.json and rendered-artifacts.json."
+        },
+        "KNOWN_PREFILLS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "The field census was not recomputed in this lane." },
+        "REQUIRED_BEFORE_FILING": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "ROUTE_OPTIONS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "REPEATING_ROWS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "PROTECTED_FIELDS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not recomputed here." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "A DELIVERED ARTIFACT NOW PUBLISHES A CONTROL THAT DOES NOT EXIST, AND VF40 DISPROVED IT BY MUTATION. build-findings.json, rewritten by this repair, states as fact: 'The self-test now scans both delivered documents WHOLE for a currency figure. It used to strip every record-quoted sentence first, which is where both amounts lived, so it could not fail on the leak it was written to catch.' The diagnosis is exactly right and the new test is not a fix for it. In scripts/build-census-v1-nh_marijuana_annulment-set.mjs, participantInstructions() and filingInstructions() each end 'return withoutAmounts(...)', which replaces every match of CURRENCY_FIGURE = /\\$\\s?[0-9][0-9,.]*/g with '[amount elided]'. The self-test at line 2001 then scans those same already-scrubbed return values with that same CURRENCY_FIGURE regex. withoutAmounts(x).match(CURRENCY_FIGURE) is empty for every input, so the assertion is a tautology. PROOF: VF40 injected 'the filing fee for this petition is $487.25, payable to the clerk' — a fabricated price appearing in no record sentence — into a delivered participant line ahead of the boundary, and ran the self-test. It exited 0 with no assertion failure. Dumping the delivered document under that mutation shows the line shipping as 'the filing fee for this petition is [amount elided] payable to the clerk.' The old test could not fail because of a carve-out; the new one cannot fail because the generator scrubs first with the identical regex. The build script was restored and rehashed to its committed digest 4d58320daef98ec3ee5595cfddc6b6ac23e16451a102f2b8f84e51118b66dea1. Two consequences the Captain should weigh: (1) that mutation output also shows the scrub eating the comma after '$487.25', because [0-9,.]* consumes trailing punctuation — the page's own promise that 'Nothing else in any quotation is changed' is true of the bytes delivered today, which VF40 confirmed character by character against the record's fees sentence, but is not enforced by anything; (2) the page tells the reader that what was elided is 'a figure recorded against the GENERAL petition to annul a criminal record', and the mutation shows a figure of any origin, including a fabricated one, receives the same elision and the same on-page explanation. Also recorded: the artifact digests themselves rehash correctly (23390b7f../661ff004..), page counts match at 7, and the central RASTER_PASS still pins the bytes on disk — the failure here is the published claim, not the bytes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Extracted text runs NHJB-3124, then NHJB-2311, then NHJB-2328 in the declared order in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 14 pages of both fixtures rendered WITH annotations at 150 dpi carry ink (25182-211588 dark px at grey<200, whole page); no blank page. A no-blank-page reading, not a per-field overlap analysis."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The record's destination 'Clerk of the court of conviction or arrest' appears verbatim in both instruction documents, with the record's own note that this venue is broader than the general rule."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "THE LEAK ITSELF IS GONE FROM THE DELIVERED BYTES, ON EVERY SURFACE VF40 COULD FIND. Zero currency figures in participant-instructions.md and zero in filing-instructions.md; the forbidden figures do not appear in either fixture (grep for $125/125.00/$100 across both returns nothing). The elision is honest on the bytes as delivered: the record's fees sentence, compared character by character against the delivered text, differs in exactly the two spans '$125.00' and '$100' and in nothing else, and the delivered page states on its face that amounts and only amounts were removed and why. The two self-referential sentences the leak had made false now read true. THE ONLY CURRENCY IN THE FIXTURES IS THE OFFICIAL FORM'S OWN STATUTORY TEXT: NHJB-2328 page 7 prints the RSA 511:2(XIX) retirement exemption schedule, '$362.50 per week' and '$725.00 per week' — an exemption threshold on the waiver form, not a price this packet states for this petition, and not alterable. The waiver route is stated correctly and both waiver papers are delivered, as the record directs. Scored PASS because the obligation is about what the delivered packet says about fees and waiver, and what it says is right; the fact that nothing now enforces it is recorded against ARTIFACTS."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet distinguishes the participant's own furnishing of the copy to the prosecutor from court delivery, and delivers the certificate of service blank with the instruction to sign it on the day the copy goes out. No internal-artefact vocabulary in either instruction document."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 7 stop conditions the committed record states for this track appear verbatim in participant-instructions.md."
+        }
+      },
+      "failedProofObligations": ["ARTIFACTS"],
+      "notMeasurableHere": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS"],
+      "packetRepairPending": true,
+      "centralRasterPending": false
+    },
+    {
+      "itemId": "la-976-arrest-no-conviction-set",
+      "lane": "VF40",
+      "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "measuredHere": false,
+        "verifierResult": null,
+        "whyNull": "No grant, so no packet was opened. Every counter is unmeasured."
+      },
+      "proofObligations": {},
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "refusalVerbatim": "ledger: /home/user/v9b-worktree/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (977 claims, generatedAtCommit 112a49e55e67bb05659a2900ca0552e958ac188e)\nNOT_GRANTED: no independent-verification lane holds la-976-arrest-no-conviction-set",
+      "refusalExitCode": 6,
+      "commandRun": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF40 la-976-arrest-no-conviction-set",
+      "whyTheDispatchInstructionCouldNotSucceed": "The dispatch told VF40 to 'assert it yourself first'. It cannot work, and not because of an environment problem. claim.mjs says so in its own comments at lines 59-66: 'A grant is not minted by --assert; it is only validated, so \"nobody holds it\" has never meant \"you can take it\".' locate() refuses with NOT_GRANTED, exit 6, when no candidate grant exists. A grant is minted by --grant or moved by --transfer, both of which are Captain operations that require a --reason. VF40 has read no LA packet content and scores no LA obligation.",
+      "whatCaptainMustDo": "deal the grant with --grant or --transfer, then dispatch a verification lane. LA is the one family of the four whose bytes moved, so it is also the one most in need of an independent read.",
+      "centralRasterPending": true,
+      "rasterNote": "la-976-arrest-no-conviction-set OWES A FRESH CENTRAL RASTER. Its admitted RASTER_PASS row in RASTER_QUEUE.json pins canonicalPdfSha256 17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5 and boundaryPdfSha256 f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3 — the PRE-REPAIR pair. VF40 hashed the files on disk: canonical is bdd789e24b079cd252de13dd0d9f8f3fee92dd73d76e989e79e5e5368139ba4a and boundary is 60b5ed462f57dcb08ac74e7b74fd90b129c22131f6f87f88483e8cc2ab6092e5. The receipt describes bytes this repository no longer contains and MUST NOT be treated as covering the new bytes."
+    }
+  ],
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "PASS": 1,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 1,
+    "STOPPED": 0
+  },
+  "answersToTheSixQuestionsAsked": {
+    "1_isTheDefectGoneFromEverySurfaceOrOnlyTheNamedSite": "For FEE_AND_WAIVER, gone from every delivered surface on all three families VF40 holds. VF40 swept both instruction documents, both fixtures and every report file per family. NO THIRD FEE SITE EXISTS. But on CO the defect CLASS survives at a third and fourth site two bullets below the one FIX09 repaired, under SERVICE and notarization rather than FEE — 'The source review does not state a service requirement' printed unlabelled to the filer at filing-instructions.md:40 and participant-instructions.md:103. Recorded as CO SERVICE=FAIL.",
+    "2_isEveryFeeWaiverFormRuleAndStatuteSupportedByAHeldSource": "Yes for every statement the three packets now make. MO's GN10 claims were checked against the held binary itself, not the memo: sha256 13ff2514..0421e matches, the title line, the footer 'SJRC (07-15) GN10 PAGE 1 of 1 SCR 77.03, 514.040, RSMo', the income/expenses/assets/debts blocks and the perjury line all support what the packet says. The one-page revision does NOT support the sibling record's 'page two' order block, and FIX09 was right to refuse to carry it. CO's two new sentences match registry rules.fees and rules.feeWaiver exactly. NH's elided quotation matches the record's sentence in every character except the two amounts.",
+    "3_didTheRepairIntroduceAnythingNewThatNoCounterReads": "Yes, one thing, on NH: build-findings.json now publishes a claim about the self-test that the self-test does not support, and no counter reads it. See the NH ARTIFACTS finding — the claim was disproved by mutation, not by argument. Also recorded but not scored as new defects: CO's new fee-waiver sentence is hardcoded with no guard while MO got a two-sided one; and the NH on-page elision explanation asserts an origin for every elided figure that nothing enforces. No internal vocabulary, engineer-directed text or multi-blank label was introduced by this repair — the label scan across all three families found reuse only across genuinely distinct documents (MO's FI-05 appears twice by design, NH's three forms each carry a court-name selection) and NH's viewer-control entries are explicitly reasoned as 'viewer ui control; never a filing fact'.",
+    "4_areTheReportedDigestsTheDigestsOnDisk": "Yes, all of them. VF40 hashed rather than read: CO 676d922f/1c483f89 and markdown 1dcc9699/6a10db6b; MO 44ffa831/9db6f9ab; NH 23390b7f/661ff004; LA 17fe8e13->bdd789e2 and f1970b3b->60b5ed46. Every value FIX09 reported matches the bytes on disk.",
+    "5_doesTheRepairedCurrencyTestFailOnTheDefectItWasWrittenToCatch": "NO. It cannot fail on any input. Proven by mutation, not inspection: a fabricated '$487.25' injected into a delivered participant line left the self-test at exit 0, and the delivered document shipped it as '[amount elided]'. The generator scrubs with CURRENCY_FIGURE at the document boundary and the test then scans that scrubbed output with the same CURRENCY_FIGURE, so the assertion is a tautology. FIX09 named this exact failure mode in its own commit message and then rebuilt it in a new shape. The delivered NH bytes are nevertheless clean today — the boundary scrub is a real control even though the test that is supposed to police it is not.",
+    "6_wasTheReceiptRevertSplitRight": "Substantially yes, and for a better reason than the one given. The decisive fact is not that LA's bytes moved: it is that LA's receipt carries a real record movement — its own family's MASTER_QUEUE entry pin changed from cf60f5d8.. to 5d5db011.. and the track-registry whole-file pin moved to b62ae691.., which is the registry on disk now — while CO's reverted receipt loses nothing substantive, because VF40 recomputed CO's registry entry digest and it is still 22755075.., exactly what the reverted receipt pins. So CO's whole-file staleness is other families' churn and the revert costs nothing; NH's and MO's receipts carry no record pins at all, so for NH there was nothing but environment to revert. TWO QUALIFICATIONS. First, keeping LA's receipt also keeps FIX09's own private worktree paths — mountedCustodies and every resolvedPath now read /home/user/ln1-worktree/..., a path that exists nowhere in this repository or this environment. That is the identical churn class reverted on CO and NH, and it was substituted rather than removed (it previously read /home/user/pf14-worktree/...), so it is not a regression, but the split is inconsistent in rule even where it is right in outcome. Second, all four receipts, LA's included, now pin a MASTER_QUEUE whole-file digest that no longer matches the file on disk (current 4d19754e..), because the queue is regenerated centrally on every Captain commit. That is the pin doing its job, not a repair defect."
+  },
+  "packetsBuiltOrRepairedHere": 0,
+  "overlayDirectoriesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsReleased": "none — VF40 released nothing. The Captain releases.",
+  "grantsNothing": [
+    "live",
+    "delivery",
+    "checkout",
+    "payment",
+    "sponsorship",
+    "packet-credit consumption",
+    "route promotion"
+  ]
+}
