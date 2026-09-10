@@ -54,6 +54,7 @@
       "no filing — process guidance"
     ],
     "packetComponents": [
+      "component:pa_pardon_expungement-process-guidance-1",
       "component:pa_pardon_expungement-primary-filing-2",
       "component:pa_pardon_expungement-proposed-order-3"
     ],
@@ -73,14 +74,6 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34403364607",
-      "jobId": "102641250744",
-      "artifactId": "10124554845",
-      "boundToCanonicalSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
-      "coversTheWholeFamily": true
-    },
     "lastIndependentVerification": {
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf12",
@@ -94,6 +87,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
+        "replacedByCanonicalSha256": "2b14758a6d873324c116d3aa49c542d0c1a50ded2fce4a3eb5b6d61a126558fd",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34403364607",
+          "jobId": "102641250744",
+          "artifactId": "10124554845",
+          "boundToCanonicalSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }
