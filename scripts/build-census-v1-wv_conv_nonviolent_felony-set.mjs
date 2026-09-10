@@ -389,7 +389,8 @@ const SPEC = {
     "**Everything on page 4.** It certifies a service that has not happened.",
     "**Your Social Security number.** The shared semantics refuse a government identifier on any form, and this one prints only the last four digits after \"SSN: XXX-XX-\".",
     "**The three date-of-birth boxes on page 1.** See the note below.",
-    "**The circuit court case number.** The committed manifest names it as an item you complete from the court record."
+    "**The circuit court case number.** The committed manifest names it as an item you complete from the court record.",
+    "**The three sworn yes/no elections \u2014 item i on page 2 (twice) and item m on page 3 \u2014 six boxes in all.** Each is a sworn answer only you can give, so this packet ticks none of the six. They are set out one by one in the generated table below."
   ],
 
   notTold: [
@@ -814,6 +815,7 @@ import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay, finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { isoDateInPrintedOrder } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
@@ -1843,7 +1845,14 @@ function countCompleteness(maps, writeProofs, instructionsText) {
   }
 
   for (const p of writeProofs) {
-    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    /*
+     * Only ink counts as visible. The raw flattened-appearance count includes
+     * the form's own empty fields -- 64 of this family's 70 draw no characters
+     * at all -- so adding it here would let a packet that wrote nothing read as
+     * visible. The subset that carries text is the one that is evidence.
+     */
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0)
+      + (p.flattenedWidgetAppearancesCarryingTextReadFromOutputBytes ?? 0);
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) note("invisibleWrites", { fixture: p.fixture, reportedByFinalizer: p.valuesReportedByFinalizer });
     if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
     for (const r of p.refusedFieldsWithInk ?? []) note("protectedWrites", { fixture: p.fixture, field: r.fieldId ?? r, why: "a field the map refused carries ink in the output" });
@@ -1934,7 +1943,7 @@ function declaredRequiredBeforeFiling() {
  * lose one, and a family that loses one stops with its directory untouched. The
  * function keeps the host's name and return shape so the caller is unchanged.
  */
-function forbiddenWordBreaches(markdown) {
+function requiredRecordPhrasesMissing(markdown) {
   const hay = String(markdown);
   return REQUIRED_PHRASES
     .filter((phrase) => !hay.includes(phrase))
@@ -1947,7 +1956,174 @@ function forbiddenWordBreaches(markdown) {
     }));
 }
 
-function participantInstructions(maps, rbf, declared) {
+/* ---- flattened widget appearances, READ FROM THE OUTPUT BYTES -------------------- */
+/*
+ * A PUBLISHED ZERO WHERE NO MEASUREMENT WAS MADE IS A DEFECT, NOT A SHORTCUT.
+ *
+ * This column used to be the literal 0 with a note calling it "zero by
+ * construction": an AcroForm is flattened before it is copied into the packet,
+ * so - the reasoning went - every mark is already page content and counted as a
+ * glyph in the column beside it. The reasoning is not wrong about where the ink
+ * ends up. It is still not a reading of the output bytes, and the delivered
+ * canonical carries 70 /FlatWidget form XObjects, so the published 0 contradicts
+ * the file it describes. The sibling column addedGlyphsReadFromOutputBytes is
+ * genuinely read from the bytes; this one now is too.
+ *
+ * Measured, not asserted: the saved packet is reopened, each page's content
+ * stream is inflated, every `q <cm...> /Name Do` placement is resolved against
+ * that page's own XObject resources, and the FlatWidget placements are counted.
+ * `carryingText` is the subset whose appearance stream actually draws
+ * characters -- 6 on this family's canonical, against 70 appearances -- and it
+ * is that subset, never the raw count, that may stand as evidence a write is
+ * visible. An empty flattened widget is ink-free and must not mask an invisible
+ * write. A measurement that throws yields null with the reason, never 0.
+ */
+async function measureFlattenedWidgets(relativeFile) {
+  const absoluteFile = path.join(ROOT, relativeFile);
+  try {
+    const found = await flattenedWidgets(absoluteFile);
+    const flat = found.filter((w) => /^FlatWidget/.test(String(w.appearance ?? "")));
+    return {
+      flattenedWidgetAppearancesReadFromOutputBytes: flat.length,
+      flattenedWidgetAppearancesCarryingTextReadFromOutputBytes: flat.filter((w) => String(w.text ?? "").length > 0).length,
+      flattenedWidgetMeasurement: {
+        method:
+          "the saved packet was reopened, each page's content stream inflated, every q <cm> /Name Do placement "
+          + "resolved against that page's own XObject resources, and the /FlatWidget placements counted; "
+          + "carryingText counts those whose appearance stream draws characters",
+        otherXObjectPlacementsOnThePages: found.length - flat.length,
+        measuredFrom: relativeFile
+      }
+    };
+  } catch (error) {
+    return {
+      flattenedWidgetAppearancesReadFromOutputBytes: null,
+      flattenedWidgetAppearancesCarryingTextReadFromOutputBytes: null,
+      flattenedWidgetMeasurement: {
+        method: null,
+        whyItIsNullAndNotZero:
+          "the output bytes could not be read for this column, so no measurement exists; null is not zero and "
+          + `may not be read as one. The reader failed with: ${error?.message ?? String(error)}`,
+        measuredFrom: relativeFile
+      }
+    };
+  }
+}
+
+/* ---- every blank this packet leaves unmarked, derived rather than asserted -------- */
+/*
+ * WHY THIS IS GENERATED AND NOT WRITTEN OUT BY HAND.
+ *
+ * SPEC.deliberatelyBlank is a prose summary an author maintains. An independent
+ * verifier failed this family because six real blanks -- the two halves of item
+ * i's CURRENT-order election, the two halves of its PRIOR-order election, and
+ * the two halves of item m's prior-expungement election -- appeared in NEITHER
+ * that summary NOR the "items you must supply" table, while the committed track
+ * registry declares protectiveOrders and priorExpungementGranted as required
+ * participant intake. Leaving a sworn election to the participant is legitimate.
+ * Leaving it undisclosed is not.
+ *
+ * So the disclosure is now derived from the field map itself: every refusal the
+ * map records is either a row in the "items you must supply" table or a row in
+ * the table this builds, and runFamily REFUSES TO WRITE A BYTE if any refusal's
+ * own printed label is missing from the finished guide. A refusal kind this
+ * function does not know how to describe stops the family rather than being
+ * dropped silently, which is the failure mode that produced the defect.
+ */
+const VIEWER_CONTROL_FIELDS = new Set(["petition.ResetButton", "petition.PrintForm"]);
+
+const LEFT_BLANK_ACTIONS = {
+  NOT_APPLICABLE_ON_THIS_ROUTE:
+    "Leave it unmarked. It belongs to the § 61-11-26a three-year branch and this petition is not brought under it.",
+  participant_sworn_narrative_or_legal_election:
+    "You tick this box yourself, or its opposite, from your own knowledge — before you swear the verification on page 3, and after a lawyer has reviewed the petition. This packet ticks neither half.",
+  [SIGNATURE]:
+    "You complete it yourself, and only after the thing it records has actually happened.",
+  [COURT_OWNED]:
+    "The court, clerk, prosecutor or agency completes it. Do not write in it.",
+  viewer_control:
+    "Nothing. It is a button in the PDF viewer, not a blank on the filing."
+};
+
+const LEFT_BLANK_GROUP_TITLES = {
+  participant_sworn_narrative_or_legal_election: "Sworn yes/no elections this packet does not make for you",
+  NOT_APPLICABLE_ON_THIS_ROUTE: "Boxes and dates belonging to a statutory route this petition is not brought under",
+  [SIGNATURE]: "Signature, date and certificate-of-service blocks",
+  [COURT_OWNED]: "Blanks the court, clerk or agency owns",
+  viewer_control: "Controls on the PDF that are not blanks on the filing"
+};
+
+const LEFT_BLANK_GROUP_ORDER = [
+  "participant_sworn_narrative_or_legal_election",
+  "NOT_APPLICABLE_ON_THIS_ROUTE",
+  SIGNATURE,
+  COURT_OWNED,
+  "viewer_control"
+];
+
+/** The group a refused blank belongs to, or null if this builder cannot name one. */
+function leftBlankGroupOf(refusal) {
+  const disposition = refusal.disposition ?? refusal.completenessDisposition ?? null;
+  if (disposition === "REQUIRED_BEFORE_FILING") return "REQUIRED_BEFORE_FILING";
+  if (disposition === "NOT_APPLICABLE_ON_THIS_ROUTE") return "NOT_APPLICABLE_ON_THIS_ROUTE";
+  const category = refusal.category ?? refusal.completenessClass ?? refusal.class ?? null;
+  if (category === "participant_sworn_narrative_or_legal_election") return category;
+  if (category === SIGNATURE) return SIGNATURE;
+  if (category === COURT_OWNED) return COURT_OWNED;
+  if (VIEWER_CONTROL_FIELDS.has(refusal.field)) return "viewer_control";
+  return null;
+}
+
+/**
+ * Rows for the generated left-blank table, plus any refusal this builder cannot
+ * classify. An unclassified refusal is returned rather than skipped so the
+ * caller can stop the family: a blank nobody can describe is a blank nobody
+ * discloses.
+ */
+function leftBlankDisclosures(maps) {
+  const rows = [];
+  const unclassified = [];
+  for (const m of maps) {
+    for (const r of m.canonicalRefusals ?? []) {
+      const group = leftBlankGroupOf(r);
+      if (group === "REQUIRED_BEFORE_FILING") continue;
+      if (group === null) { unclassified.push({ field: r.field, page: r.page, printedLabel: r.printedLabel ?? null }); continue; }
+      rows.push({
+        group,
+        field: r.field,
+        page: r.page,
+        printedLabel: r.printedLabel,
+        why: r.why ?? r.reason ?? null,
+        whatYouDo: LEFT_BLANK_ACTIONS[group]
+      });
+    }
+  }
+  return { rows, unclassified };
+}
+
+/**
+ * Every refusal's own printed label must appear somewhere in the finished guide.
+ *
+ * This is the assertion the Kentucky lane's repair generalised: a builder that
+ * has to prove it rendered every field it loaded cannot make a claim about a
+ * field it never reached. Here it means the guide's two disclosure surfaces --
+ * the supply table and the generated left-blank table -- provably cover the
+ * whole map, so "the packet leaves this blank" is never true and unsaid.
+ */
+function refusalsMissingFromTheGuide(maps, markdown) {
+  const hay = String(markdown ?? "");
+  const missing = [];
+  for (const m of maps) {
+    for (const r of m.canonicalRefusals ?? []) {
+      const label = String(r.printedLabel ?? "").trim();
+      if (label.length >= 3 && hay.includes(label)) continue;
+      missing.push({ field: r.field, page: r.page, printedLabel: r.printedLabel ?? null, group: leftBlankGroupOf(r) });
+    }
+  }
+  return missing;
+}
+
+function participantInstructions(maps, rbf, declared, leftBlank) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
@@ -1997,6 +2173,20 @@ function participantInstructions(maps, rbf, declared) {
     + "record stops declaring it the packet is not built.", "");
   for (const item of declared.items) out.push(`- ${item}`);
   out.push("");
+  const correctionItems = declared.items.filter((i) => String(i).includes("correct the packet"));
+  if (correctionItems.length > 0) {
+    out.push(`### How to read the ${correctionItems.length} items above that say "correct the packet if they disagree"`, "");
+    out.push(
+      "The list above is the record's own words. This paragraph is not; it is this packet describing its own state. "
+      + `This packet writes ${maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0)} values onto the form and `
+      + "nothing else: your name in the caption and again on the verification's own name line, the county, the two "
+      + "address lines and the phone number. Every other answer on the petition is one you write. So where the "
+      + "record's list tells you to check an answer and correct the packet, the answer it means is the one you are "
+      + "about to write, not one this packet wrote for you. On item i — the restitution, protection, restraining or "
+      + "no-contact order — and on item m on page 3, this packet ticks neither Yes nor No, so there is nothing there "
+      + "to correct: what those items ask of you here is to MAKE the election, from the order or the expungement "
+      + "order you obtain, before you swear the verification.", "");
+  }
 
   out.push("### The components the same record declares for this packet set", "");
   out.push("| Component | Role | Required | How it is produced | Official form |", "| --- | --- | --- | --- | --- |");
@@ -2018,6 +2208,20 @@ function participantInstructions(maps, rbf, declared) {
   out.push("## Things the platform deliberately left blank", "");
   for (const b of SPEC.deliberatelyBlank) out.push(`- ${b}`);
   out.push("");
+
+  out.push("### Every blank this packet leaves unmarked, one by one", "");
+  out.push(
+    `These ${leftBlank.rows.length} rows are generated from this packet's own field map, not written out by hand, so `
+    + "a blank the packet leaves empty cannot be missing from them. The blanks listed under \"The items you must "
+    + "supply\" above are not repeated here.", "");
+  for (const group of LEFT_BLANK_GROUP_ORDER) {
+    const rows = leftBlank.rows.filter((r) => r.group === group);
+    if (rows.length === 0) continue;
+    out.push(`**${LEFT_BLANK_GROUP_TITLES[group]}**`, "");
+    out.push("| The blank on the document | Page | Why this packet leaves it unmarked | What you do |", "| --- | --- | --- | --- |");
+    for (const r of rows) out.push(`| ${r.printedLabel} | ${r.page} | ${r.why} | ${r.whatYouDo} |`);
+    out.push("");
+  }
 
   if ((SPEC.notTold ?? []).length > 0) {
     out.push("## What this packet does not tell you, and who does", "");
@@ -2197,16 +2401,44 @@ export async function runFamily(argv = process.argv.slice(2)) {
    */
   const maps = SPEC.components.map((c) => composedMap(c));
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, declaredRecord);
-  const wordBreaches = forbiddenWordBreaches(instructionsText);
+  const leftBlank = leftBlankDisclosures(maps);
+  if (leftBlank.unclassified.length > 0) {
+    fs.rmSync(scratchDir, { recursive: true, force: true });
+    return {
+      familyId: SPEC.familyId, status: "STOPPED",
+      stopClass: "REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE",
+      why:
+        "the field map refuses a blank whose kind this builder has no disclosure wording for, so the guide "
+        + "would have had to leave it out; a blank nobody can describe is a blank nobody discloses, and the "
+        + "family stops rather than shipping an incomplete left-blank list",
+      unclassifiedRefusals: leftBlank.unclassified,
+      overlayDirectoryTouched: false
+    };
+  }
+  const instructionsText = participantInstructions(maps, rbf, declaredRecord, leftBlank);
+  const undisclosed = refusalsMissingFromTheGuide(maps, instructionsText);
+  if (undisclosed.length > 0) {
+    fs.rmSync(scratchDir, { recursive: true, force: true });
+    return {
+      familyId: SPEC.familyId, status: "STOPPED",
+      stopClass: "REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE",
+      why:
+        "a blank this packet leaves unmarked does not appear anywhere in the generated participant guide, by "
+        + "its own printed label. An independent verifier failed this family for exactly that on six boxes; "
+        + "the guide is now checked against the whole map before a byte is written",
+      undisclosedRefusals: undisclosed,
+      overlayDirectoryTouched: false
+    };
+  }
+  const wordBreaches = requiredRecordPhrasesMissing(instructionsText);
   if (wordBreaches.length > 0) {
     fs.rmSync(scratchDir, { recursive: true, force: true });
     return {
       familyId: SPEC.familyId, status: "STOPPED",
-      stopClass: "FORBIDDEN_JURISDICTION_WORD_IN_PARTICIPANT_COPY",
+      stopClass: "REQUIRED_RECORD_PHRASE_MISSING_FROM_PARTICIPANT_COPY",
       why:
-        "the committed track registry directs that Maine participant copy never use the word "
-        + "\"expungement\"; this guide uses it outside the sentences that exist to say Maine does not have it",
+        "a statement the committed records make, and which this family carries word for word, is missing from "
+        + "the generated participant guide; the packet is not built without it",
       breaches: wordBreaches,
       overlayDirectoryTouched: false
     };
@@ -2459,6 +2691,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       return { familyId: SPEC.familyId, status: "STOPPED", stopClass: "RENDERED_TO_A_BLOCKED_HASH", sha256 };
     }
 
+    const flattenedMeasured = await measureFlattenedWidgets(file);
     const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName, drawnValues);
     // The ink audit is per OFFICIAL document and is the only channel that can
     // see ink outside a measured box, or ink sitting on a blank the map
@@ -2473,11 +2706,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "source document's own text so that only what this build added is measured",
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
+      ...flattenedMeasured,
       flattenedWidgetNote:
-        "zero by construction rather than by failure: an AcroForm document is flattened into page content "
-        + "before it is copied into the packet, and a flat overlay draws into page content to begin with, so "
-        + "every mark this family makes is counted as a glyph in the column beside this one",
+        "read from the saved packet, not asserted. An AcroForm document is flattened before it is copied into "
+        + "the packet, and the flattener leaves each appearance as a form XObject the page draws at a point, so "
+        + "the appearances are countable in the output and are counted here. The characters they draw are ALSO "
+        + "counted in addedGlyphsReadFromOutputBytes beside this column; the two are different measurements of "
+        + "the same marks and neither is a substitute for the other",
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
         inkHere.reduce((n, a) => n + a.glyphsOutsideMeasuredWriteBoxes, 0),
       refusedFieldsWithInk: inkHere.flatMap((a) => a.refusedFieldsWithInk.map((r) => ({ ...r, documentId: a.documentId }))),
@@ -2647,6 +2882,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       valuesReportedByFinalizer: p.valuesReportedByFinalizer,
       addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
       flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      flattenedWidgetAppearancesCarryingTextReadFromOutputBytes: p.flattenedWidgetAppearancesCarryingTextReadFromOutputBytes,
+      flattenedWidgetMeasurement: p.flattenedWidgetMeasurement,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
       refusedFieldsWithInk: p.refusedFieldsWithInk
     })),

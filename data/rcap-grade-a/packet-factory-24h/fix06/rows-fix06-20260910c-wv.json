@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260910c-wv",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "pf23-wv-20260910",
+  "baseSha": "76b85d7a47840b81dcd89746060e762d91108507",
+  "headSha": null,
+  "headShaNote": "null until this file is committed; the commit carrying it is the head. Not transcribed by hand.",
+  "writtenAlongsideRatherThanOver": "A new file under a distinct name in data/rcap-grade-a/packet-factory-24h/fix06/. Nothing was overwritten. The earlier WV return of this lane, rows-fix06-20260910b-wv.json, recorded a STOP because the family's directory was not in that worktree; it is left exactly as committed and this file supersedes nothing.",
+  "independence": "No verdict is set and no PASS is issued. This lane repaired the family and may not verify it.",
+  "grantsAsserted": [
+    "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set 932339d5ed64473d)"
+  ],
+  "notTouchedThisShift": "No other worktree, no shared manifest, no queue row, no route, no compiled runtime, no product-wiring.json, no build-status.json. The sparse checkout was not widened; West Virginia is materialized in this worktree.",
+  "rows": [
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateNote": "The committed build-status.json value, unchanged. No re-raster is owed for these fixtures: not one output byte moved, so the acceptance receipt already on the record still binds the exact canonical this build produces.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claim": "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set 932339d5ed64473d)",
+      "claimNote": "Asserted before any artifact of this family was read, per the standing rule. Not released and not transferred; the Captain owns releases.",
+      "verdictThisAnswers": "VF01 FAIL_REPAIR_REQUIRED on REQUIRED_BEFORE_FILING and ARTIFACTS, recorded at base d5c21a6a80e453c05d33d032920ba3a4bc7e67cf and still carried in the family's product-wiring.json binding.lastIndependentVerification, which this lane did NOT move.",
+
+      "governanceBeforeTheFirstRebuild": {
+        "whatThePreviousShiftFlaggedAsUnverified": "That scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs imports no governance-preservation module and contains no occurrence of the string 'wiring', yet the family carries a committed product-wiring.json.",
+        "confirmedAgainstBytes": "Both halves are true. `grep -c -i wiring` over the builder returns 0, and its only writes are fixtures/*.pdf, participant-instructions.md and the four reports/*.json. This builder does not author product-wiring.json and cannot erase it.",
+        "whatActuallyAuthorsIt": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, named by the record's own generatedBy field and confirmed by reading the generator: it is the only writer of that path for this family.",
+        "wasItAlreadyWired": "YES. Line 26 of generate-product-wiring.mjs imports carryForwardGovernance from scripts/rcap-packet-completeness/governance-preservation.mjs, and the refresh branch calls it with the family's measured canonical digests before writing. No wiring change was needed and none was made; this family is not one of the eight wholesale-regenerating builders.",
+        "provedRatherThanAssumed": "Ran `node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family wv_conv_nonviolent_felony-set` AFTER the rebuild: '0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged', exit 0. All six keys are present in binding after the rebuild and the receipt still binds c3c5edd7...; acceptanceReceiptWithdrawn is correctly absent, because nothing was superseded.",
+        "verifierRunBeforeEveryCommit": "npm run rcap:verify-governance-preservation -> EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (253 not measured, all sparse-excluded), GOVERNANCE_PRESERVATION_OK, 16 checks, EXIT 0. Run once at baseline before any edit and again after the final rebuild; both exit 0."
+      },
+
+      "obligationRepaired": ["REQUIRED_BEFORE_FILING", "ARTIFACTS"],
+
+      "requiredBeforeFiling": {
+        "whatWasWrong": "Six real blanks -- petition.CurrentOrderCB1/CB2 (item i, CURRENT restitution/protection/restraining/no-contact order, Yes and No), petition.PriorOrderCB1/CB2 (item i, PRIOR such order, Yes and No) and petition.ExpungementCB1/CB2 (item m, prior expungement, Yes and No) -- appeared in NEITHER the guide's 'items you must supply' table NOR its 'Things the platform deliberately left blank' list, while the committed track registry declares protectiveOrders and priorExpungementGranted as REQUIRED participant intake questions. Reproduced exactly: 19 of the map's 66 canonicalRefusals had no occurrence of their own printedLabel anywhere in participant-instructions.md, and the six elections were the only ones not covered by any group sentence either.",
+        "whichKindOfProblemThisIs": "A MISSING PARTICIPANT INPUT that was not disclosed -- not a renderer defect and not an unresolved legal question. The build holds five neutral facts for each fixture (name, county, street, city/state/zip, phone) and no answer to either intake question, so it cannot tick a sworn box; leaving the election to the participant is right. The defect was purely that the packet never said so.",
+        "theThirdThing": "The record's own required-before-filing list, printed word for word, tells the participant to check an answer 'and correct the packet if they disagree' -- on item i among others. The packet makes no election on item i or item m, so there was nothing there to correct and the instruction read as though there were. The record's words are not altered: a separately headed paragraph now follows the verbatim list, marked as the packet describing its own state and not the record's, saying that the packet writes 6 values and nothing else, that every other answer is the participant's to write, and that on item i and item m what those items ask is to MAKE the election rather than correct one.",
+        "howItWasFixed": "The disclosure is now DERIVED from the field map instead of asserted by hand. leftBlankDisclosures() walks every canonicalRefusal, assigns it a named group, and the guide renders a generated table -- 19 rows in four groups, each row carrying the blank's own printed label, its page, the map's recorded reason and what the participant does. SPEC.deliberatelyBlank kept its six hand-written summary bullets and gained a seventh naming the three elections, so the summary is no longer misleading on its own.",
+        "theGateThatMakesItStick": "runFamily now REFUSES TO WRITE A BYTE unless every canonicalRefusal's own printedLabel occurs in the finished guide (stopClass REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE), and stops separately if any refusal is of a kind this builder has no disclosure wording for (stopClass REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE). This is the Kentucky shape generalised: a builder that must prove it disclosed every blank it refused cannot leave one undisclosed.",
+        "bothGatesTestedByBreakingThem": "Removing the sworn-election group from LEFT_BLANK_GROUP_ORDER produced STOPPED / REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE naming exactly the six boxes VF01 named, with overlayDirectory untouched. Emptying VIEWER_CONTROL_FIELDS produced STOPPED / REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE naming petition.ResetButton and petition.PrintForm. Both gates run before the output directory is created, so a stop leaves the family byte-for-byte unchanged. The builder was restored from a copy and rebuilt after each test.",
+        "whatWasNotDone": "No box was ticked, no election was made, no intake answer was invented, and no field became newly writable. The nine counters were not obtained by making anything unwritable."
+      },
+
+      "artifacts": {
+        "whatWasWrong": "reports/actual-writes.json published flattenedWidgetAppearancesReadFromOutputBytes: 0 as a hardcoded literal with a note calling it 'zero by construction', on the same object where addedGlyphsReadFromOutputBytes IS genuinely read from the bytes. The delivered canonical carries 70 /FlatWidget form XObjects. This is the recorded class a-published-zero-where-a-measurement-existed.",
+        "measuredNotAsserted": "Confirmed twice, independently, before changing anything: pikepdf counted /FlatWidget XObjects in each page's /Resources /XObject -> 70 on canonical (28+22+3+17) and 70 on boundary; the repository's own scripts/rcap-official-forms/pdf-flattened-widgets.mjs, which inflates the content streams and resolves each `q <cm> /Name Do` placement against that page's resources, returned 71 placements of which 70 are FlatWidget and 1 is the image Im0. VF01's 70 is exact.",
+        "howItIsFixedInTheBuilder": "measureFlattenedWidgets() reopens the SAVED packet after it is written and hashed, and publishes flattenedWidgetAppearancesReadFromOutputBytes plus a new sibling flattenedWidgetAppearancesCarryingTextReadFromOutputBytes and a flattenedWidgetMeasurement block naming the method, the repo-relative file it read and the count of non-FlatWidget placements. A read that throws yields null with the reason, never 0.",
+        "theTrapThatWasAvoided": "The completeness pass computed `visible = addedGlyphs + flattenedWidgetAppearances` to decide invisibleWrites. Feeding it the raw 70 would have let a packet that wrote nothing at all read as visible, because 64 of the 70 appearances are the form's own empty fields and draw no characters. The sum now uses the carrying-text subset, which is measured at 6 -- exactly the six values the map declares.",
+        "publishedValuesAfterRepair": {
+          "canonical": {"addedGlyphsReadFromOutputBytes": 101, "flattenedWidgetAppearancesReadFromOutputBytes": 70, "flattenedWidgetAppearancesCarryingTextReadFromOutputBytes": 6, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
+          "boundary": {"addedGlyphsReadFromOutputBytes": 158, "flattenedWidgetAppearancesReadFromOutputBytes": 70, "flattenedWidgetAppearancesCarryingTextReadFromOutputBytes": 6, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+        },
+        "crossCheck": "101 is exactly the non-whitespace character count of the six appearance texts read out of the canonical bytes, so the two columns are two measurements of the same marks and agree."
+      },
+
+      "outputByteGlyphReadings": {
+        "canonical": {"addedGlyphsReadFromOutputBytes": 101, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
+        "boundary": {"addedGlyphsReadFromOutputBytes": 158, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+      },
+
+      "artifactDigests": [
+        {"fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9", "byteLength": 353021, "pageCount": 4},
+        {"fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573", "byteLength": 353085, "pageCount": 4}
+      ],
+      "digestsHowObtained": "sha256sum over the files on disk after the final rebuild, and independently from the builder's own crypto.createHash output. Not transcribed by hand. Both are unchanged from the committed bytes, so the repair moved not one output byte: everything it changed is in the guide, the reports and the builder.",
+
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterHowMeasured": {
+        "basis": "The builder's own recomputation over the delivered bytes, the field map and the generated guide, using the repository's contract functions. It is not a verdict and this lane issues none.",
+        "knownRequiredFieldsMissing": "0. The map declares 6 writes and the delivered bytes carry exactly 6 inked flattened appearances, whose texts are the 6 declared values. Every other field is classified and named in reports/blanks-left-for-the-participant.json.",
+        "requiredFactsNotCollected": "0. All 47 REQUIRED_BEFORE_FILING blanks are named in participant-instructions.md; the builder's existing check for this ran against the regenerated guide.",
+        "unclassifiedBlanks": "0. All 66 canonicalRefusals classify, and the new gate now stops the build if any of them fails to classify or fails to reach the guide.",
+        "incompleteRows": "0. The four-row felony table on page 1 is written in neither fixture, so no row is part-written.",
+        "requiredOptionsMissing": "0. No selection control is route-determined on this route; the four eligibility recitals and the six sworn boxes are all left to the participant and every one of the ten is now disclosed by its own printed label.",
+        "requiredComponentsMissing": "0. All six declared components are accounted for: three official_pdf_fill components on the one SCA-C907 instrument, three process_guidance components carried in the guide, which the record's own text explains.",
+        "invisibleWrites": "0. 6 values reported by the finalizer, 6 inked flattened appearances read back out of the saved bytes, 101 and 158 added non-whitespace glyphs. The sum that decides this counter no longer counts empty appearances.",
+        "protectedWrites": "0. refusedFieldsWithInk is empty on both fixtures, read from the output; no field the map refuses carries ink.",
+        "visualDefects": "0, and here is the exact basis. This lane measured, from the delivered bytes this shift: 0 non-whitespace glyphs outside a measured write box on either fixture; 0 control-chrome glyphs (no flattened appearance draws 'Reset' or 'Print this form'), which is the reading with teeth for the recorded a-geometry-counter-with-no-teeth class, and this form does carry two pushbuttons; and the six inked appearances are the six declared values and nothing else. This lane did NOT run a raster this shift. The two-directional 200 dpi raster leg -- 0 ink added outside a declared write box on any page of either fixture, and 0 form ink removed except the PrintForm/ResetButton cluster -- is VF01's measurement, on bytes whose SHA-256 are byte-for-byte the ones above, so it transfers by byte identity and not by anyone's assurance. It is cited as VF01's, not claimed as this lane's."
+      },
+
+      "defectsNoCounterCanSeeChecked": {
+        "map-honest-writes-not": "Checked from bytes, not from the report -- this class was originally found ON THIS FAMILY by PF04. The six inked appearances in the canonical are the address, the city/state/zip, the phone, the county and the name twice. No legal name is written onto item d's 'current name, previous names and all aliases' lines and no address onto item e's history lines. The PF04 repair holds.",
+        "a-published-zero-where-a-measurement-existed": "This was the ARTIFACTS finding and it is repaired above.",
+        "a-geometry-counter-with-no-teeth": "Measured the teeth-y reading directly: 0 control-chrome glyphs on both fixtures.",
+        "internal-record-text-printed-on-a-filing": "Not applicable to the instrument -- nothing is composed; all four pages are the Court's own SCA-C907. The new prose is in participant-instructions.md, which is a guide and not a filing, and it is marked in its own words as the packet describing itself rather than the record speaking.",
+        "an-inverted-widget-rectangle-places-the-appearance-a-box-away": "petition.MulitipleFelonlySatisfiesDate carries the inverted /Rect. It is still never written -- it stays a NOT_APPLICABLE_ON_THIS_ROUTE refusal -- so normalizeInvertedWidgetRectangles was not needed and no opt-in flag was threaded. The repair does not cause any field to become newly writable. The field's own negative height is now stated in the row the participant reads.",
+        "acroform-index-is-not-the-printed-row": "The four-row felony table is not written by this family in either fixture, so no cell is resolved to a row.",
+        "two-families-one-filing": "Not re-derived here; no fixture byte moved, so no new collision could be introduced."
+      },
+
+      "whatWasDeliberatelyNotDone": [
+        "No verdict set, no PASS issued, and binding.lastIndependentVerification was left reading FAIL_REPAIR_REQUIRED / vf01. A repair lane may not clear the verdict against its own work.",
+        "product-wiring.json, build-status.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json were not edited by hand; the last two were regenerated by the builder and came out byte-identical.",
+        "No sparse path was added, no npm install run, no other worktree read or written, no shared manifest or queue row touched.",
+        "No route changed, no compiled runtime touched, no commercial guard moved, nothing pushed to main and nothing force-pushed.",
+        "No filing fee, clerk practice, service rule, deadline, signature, notarization or approval was invented; the guide's only new factual claim about the world is a count of this packet's own writes."
+      ],
+
+      "measuredThatContradictsARecordInThisRepo": [
+        "data/record-clearing/legal-design-track-registry.json has moved since this family was last built: the committed source-receipt.json pinned 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc / 16778727 bytes and the tree at 76b85d7a4 carries b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 bytes. All 14 anchor statements this family relies on still re-read cleanly from the new bytes and the guide text did not change, so this is another lane's edit to a shared record rather than a fidelity problem, but the receipt's pin is now refreshed by this rebuild and the change is recorded here rather than left to be discovered.",
+        "A rebuild at this base with NO source change already rewrote 130 lines of reports/actual-writes.json before this lane edited anything: the shared finalizer's refusal DIAGNOSTICS drifted (for example petition.Charges1 moved from reason 'protected_category' / category 'disposition_or_hearing' to 'no_allowlisted_fact_matches' / null, and petition.MagCaseNo lost a refusal row entirely). The refusal SET and the output bytes are identical either way, so no blank changed hands; but a lane that reads those reason strings as stable is reading something that moves under it.",
+        "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs carried a stop path whose stopClass and prose were Maine's -- FORBIDDEN_JURISDICTION_WORD_IN_PARTICIPANT_COPY, 'the committed track registry directs that Maine participant copy never use the word expungement' -- attached to a function named forbiddenWordBreaches that in fact checks that REQUIRED phrases from the committed records are PRESENT. It had never fired, so it had never lied out loud; it would have on the day it fired. Renamed to requiredRecordPhrasesMissing with stopClass REQUIRED_RECORD_PHRASE_MISSING_FROM_PARTICIPANT_COPY and honest prose. No behaviour changed. Nothing else in the repository consumes that stopClass."
+      ],
+
+      "attributionCheckedPerFieldNotPerBuilder": "The survey's granularity is per builder and Kentucky's surviving defect was per field, so every sentence in this family's guide that attributes something to a record was checked against the record the builder actually opens. The guide makes three such attributions: the 17-item required-before-filing list, which is read from data/record-clearing/legal-design-packet-set-manifests.json at build time, bound by SHA-256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 and printed verbatim; the component table, read from the same manifest; and the ten self-help stop conditions, which VF01 already confirmed appear verbatim from the track registry. The builder opens all three records -- resolveRecords() binds three by digest and re-reads 14 anchor statements out of the registry bytes at build time, and the build fails if any anchor is gone. No sentence in the guide claims what a record does or does not say about a node the builder never reaches. The one sentence this lane added that speaks about the packet rather than a record is explicitly labelled as such and its number, 6, is derived from the map and confirmed against the delivered bytes.",
+
+      "filesChanged": [
+        "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/source-receipt.json"
+      ],
+
+      "independence": "This lane built the repair and therefore verifies nothing about it. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
+      "rasterOwed": "None for these fixtures. Not one output byte moved, and the acceptance receipt on the record binds the exact canonical SHA-256 this build produces. What is owed is independent RE-VERIFICATION of the two failed obligations by a lane that is not this one.",
+      "grantsNothing": "Nothing was approved, no route was opened, no packet was marked proven, no commercial guard was moved and no fulfillment record was created."
+    }
+  ]
+}
