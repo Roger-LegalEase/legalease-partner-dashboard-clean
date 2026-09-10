@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIXCXN1",
+  "laneKind": "complex-execution-repair",
+  "status": "REPAIRED_AWAITING_INDEPENDENT_REVIEW_AND_RASTER",
+  "isIndependentVerification": false,
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1",
+  "branch": "lane-fixcxn1-20260910",
+  "repairedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
+  "commit": null,
+  "source": {
+    "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "absolutePathUsed": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "byteLength": 1924831,
+    "pageCount": 43,
+    "openedBeforeBuild": true,
+    "openingCommand": "PATH=/tmp/fixcxn1-poppler/bin:$PATH pdftotext -f 19 -l 19 -layout <pinned-source> -",
+    "openingObservation": "Form A item (d) prints the guilty election, date, offence, N.J.S.A. statute, final sentence, court, incarceration completion, probation completion and fine completion cells on page 19."
+  },
+  "repairs": {
+    "families": [
+      "nj_clean_slate-set",
+      "nj_ordinance-set",
+      "nj_indictable_conviction-set"
+    ],
+    "sharedSourceConfig": "Each named document reuses the exact NJ-CN-10557 printed-caption table already carried by nj_arrest_no_conviction-set, plus source-read conviction/election captions needed by the three routes.",
+    "cleanSlate": [
+      "Added NJ_PETITION_CONVICTION_ROW and NJ_CONVICTION_BLANK_DECLARATIONS.",
+      "Withdrew guilty with its incomplete item (d) row; no conviction facts were invented.",
+      "Added truthful note describing declaration-only withdrawal rather than an actually drawn mark."
+    ],
+    "allThree": [
+      "Enabled requiredBlanksCarryPrintedCaptions.",
+      "Enabled declareWithdrawnElectionsInFieldMap and guardFieldMapSelectionsAgainstDeliveredMarks together.",
+      "Applied printed captions and protected-owner treatment for court/judge/clerk/order fields, removing raw AcroForm identifiers from surfaced instructions."
+    ]
+  },
+  "families": [
+    {
+      "familyId": "nj_clean_slate-set",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
+      "buildCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_clean_slate-set.mjs",
+      "buildResult": "PASS (2 PDFs; 86 page rasters)",
+      "checkCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_clean_slate-set.mjs --check",
+      "checkResult": "PASS (2 PDFs; 86 rasters)",
+      "fieldMap": { "fields": 179, "candidateWrites": 18, "refusals": 161, "guiltyDecision": "refuse" },
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "d5064351b7abf88148666bd9c9a95e43dec722d9a9abd71ef2f97faae9a855c6", "byteLength": 571712, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 },
+        { "fixture": "boundary", "sha256": "96744b3c46227de7ad717f26c33345c97eab6a76d0af365bc5be5c2baf711462", "byteLength": 574013, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 }
+      ],
+      "sourceComparison": {
+        "baselineCanonical": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+        "baselineBoundary": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464",
+        "changedPdfCause": "The omitted conviction row now withholds the guilty mark and its three partial writes; caption/owner treatment also refreshes the guide and maps.",
+        "changedRasterPages": { "canonical": [18, 19, 23, 24, 27, 30, 31, 35, 38, 40, 43], "boundary": [18, 19, 23, 24, 27, 30, 31, 35, 38, 40, 43] }
+      },
+      "focusedCompleteness": { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_clean_slate-set", "result": "NOT_MEASURABLE_HERE", "written": 18, "counters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": null, "protectedWrites": 0, "visualDefects": null } }
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "buildCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_ordinance-set.mjs",
+      "buildResult": "PASS (2 PDFs; 86 page rasters)",
+      "checkCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_ordinance-set.mjs --check",
+      "checkResult": "PASS (2 PDFs; 86 rasters)",
+      "fieldMap": { "fields": 179, "candidateWrites": 18, "refusals": 161, "guiltyDecision": "refuse" },
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "byteLength": 571718, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 },
+        { "fixture": "boundary", "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "byteLength": 574020, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 }
+      ],
+      "sourceComparison": { "baselineCanonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "baselineBoundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "changedPdf": false, "changedOutputs": "Maps, guide and regenerated raster/report artifacts carry the caption/guard repair; PDF identity is unchanged." },
+      "focusedCompleteness": { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set", "result": "FAIL_MISSING_REQUIRED_FACTS", "written": 18, "counters": { "knownRequiredFieldsMissing": 15, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": null, "protectedWrites": 0, "visualDefects": null }, "finding": "The existing route's 15 known facts remain withheld; no value was fabricated or silently opened by this repair." }
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "buildCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+      "buildResult": "PASS (2 PDFs; 86 page rasters)",
+      "checkCommand": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_indictable_conviction-set.mjs --check",
+      "checkResult": "PASS (2 PDFs; 86 rasters)",
+      "fieldMap": { "fields": 179, "candidateWrites": 18, "refusals": 161, "guiltyDecision": "refuse" },
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "byteLength": 571718, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 },
+        { "fixture": "boundary", "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "byteLength": 574020, "written": 10, "refused": 169, "selections": 0, "heldButNotPrinted": 9 }
+      ],
+      "sourceComparison": { "baselineCanonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "baselineBoundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "changedPdf": false, "changedOutputs": "Maps, guide and regenerated raster/report artifacts carry the caption/guard repair; PDF identity is unchanged." },
+      "focusedCompleteness": { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set", "result": "NOT_MEASURABLE_HERE", "written": 18, "counters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": null, "protectedWrites": 0, "visualDefects": null } }
+    }
+  ],
+  "guardQualification": {
+    "validRepair": "All three real builds and --check runs passed with row withholding, guilty decision refuse, zero selections and both flags enabled.",
+    "originalDefect": {
+      "familyId": "nj_ordinance-set",
+      "mutation": "Temporarily disabled declareWithdrawnElectionsInFieldMap while leaving guardFieldMapSelectionsAgainstDeliveredMarks enabled.",
+      "command": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_ordinance-set.mjs",
+      "result": "EXPECTED FAILURE",
+      "assertion": "field map declares guilty measured_route_selection and no fixture produced marks it (2 fixtures read, marked: none)",
+      "log": "/tmp/fixcxn1-guard-failure.log",
+      "artifactsRestored": true,
+      "codeRestored": true
+    }
+  },
+  "scopeControls": {
+    "sourceHistoryPreserved": true,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "centralManifestsTouched": false,
+    "siblingDirectoryChanges": false,
+    "onlyChangedCodePath": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "privateSymlink": true,
+    "temporaryPopplerEnvironment": "/tmp/fixcxn1-poppler"
+  },
+  "selfTests": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<repo>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --self-test-fix88",
+    "result": "PASS"
+  },
+  "nextGate": "Independent review and governed raster/admission remain pending; no self-approval or route promotion is asserted."
+}

@@ -1804,7 +1804,7 @@ Object.assign(FAMILY, {
     "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
     ["guilty"], { guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge",
       guiltyCrt: "matter.court" },
-    "Only the measured participant conviction control is marked; the clean-slate checkbox on the proposed court order and all eligibility statements remain blank."
+    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. The clean-slate checkbox on the proposed court order and all eligibility statements remain blank."
   ),
   "nj_disorderly_persons-set": njFamily(
     "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
@@ -2791,6 +2791,98 @@ Object.assign(FAMILY, {
   },
 });
 
+/*
+ * FIX175, NJ FAMILY REPAIR. CN-10557 is the same pinned source block for these
+ * three routes. Reuse the exact printed-caption table and owner treatment that
+ * the already-repaired arrest family carries, while keeping the repair scoped
+ * to FIX175's grant. The conviction row/declarations are applied to clean slate
+ * here because that family was the one config omitted them; the other two
+ * already carry the row and blank declarations.
+ */
+const FIX175_NJ_FAMILY_IDS = Object.freeze([
+  "nj_clean_slate-set", "nj_ordinance-set", "nj_indictable_conviction-set",
+]);
+const NJ_KIT_PRINTED_CAPTIONS = FAMILY["nj_arrest_no_conviction-set"].documents[0].captions;
+const NJ_CONVICTION_PRINTED_CAPTIONS = Object.freeze(Object.fromEntries([
+  ["guilty", NJ_PETITION_CONVICTION_ROW.electionPrinted],
+  ["guiltyDt", "On (date) — Form A, item (d), delivered page 19"],
+  ["guiltyOff1", "charges of (name of offense(s)) — Form A, item (d), delivered page 19"],
+  ...Object.entries(NJ_CONVICTION_BLANK_DECLARATIONS)
+    .map(([field, declaration]) => [field, declaration.effectiveLabel]),
+]));
+const NJ_FIX175_EXTRA_PRINTED_CAPTIONS = Object.freeze({
+  contOwe: "I currently owe restitution, a fine(s) or other court-ordered financial assessment(s) — Petition for Expungement (Form A), paragraph e, delivered pages 19 and 21",
+  seek5yrs: "I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(a)(2) (after four years), or pursuant to N.J.S.A. 2C:52-3(b)(2) (after three years), but less than five years have passed since my most recent conviction, payment of court-ordered financial assessment, satisfactory completion of probation or parole, or release from incarceration, whichever is later, and I have not otherwise been convicted of a crime, disorderly persons offense, or petty disorderly persons offense since the most recent conviction — Petition for Expungement (Form A), page 22",
+  seek34degree: "I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(c)(3) of a third or fourth degree controlled dangerous substance crime — Petition for Expungement (Form A), page 22",
+  seekJuvNever: "I am seeking expungement of a conviction on a criminal case or an adjudication of delinquency on a juvenile case pursuant to N.J.S.A. 2C:52-2, and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court — Verification (Form A), page 24",
+  changeName: "I have legally changed my name. I have explained the details of my name change(s) below, included my previous legal name(s), and the date of the court order for the name change(s) — Verification (Form A), page 24",
+  DefSbiNum: "State Bureau of Identification (SBI number, if available, is (SBI number, if available)) — Expungement Order (Form C), page 30",
+  orderHearMnth: {
+    caption: "IT IS ORDERED this ___ day of ______, ___ — Order for Hearing (Form B), page 27",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The Order for Hearing is dated by the Judge who signs it; the month is part of that court-signed date line and is not a participant blank before filing.",
+  },
+  hearMnth: {
+    caption: "a Hearing before this Court is set for the ___ day of ___ — Order for Hearing (Form B), page 27",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The Court sets the hearing when it signs this Order. The hearing month does not exist when the petition is filed.",
+  },
+  hearYr: {
+    caption: "a Hearing before this Court is set for the ___ day of ___ — Order for Hearing (Form B), page 27",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The Court sets the hearing when it signs this Order. The hearing year does not exist when the petition is filed.",
+  },
+  orderFinalMnth: {
+    caption: "IT IS ORDERED this ___ day of ______, ___ — Expungement Order (Form C), page 30",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The Expungement Order is dated by the Judge after the hearing; its month is not a participant blank before filing.",
+  },
+  orderFinalYr: {
+    caption: "IT IS ORDERED this ___ day of ______, ___ — Expungement Order (Form C), page 30",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The Expungement Order is dated by the Judge after the hearing; its year is not a participant blank before filing.",
+  },
+  mailPetition: "On (date), I mailed a copy of the Petition for Expungement, Order for Hearing and Proposed Final Order — Proof of Notice (Form F), page 40",
+  arrest3Statute: "(statute), arrest row (3) — Expungement Order (Form C - Continued), page 31",
+  arrest4Statute: "(statute), arrest row (4) — Expungement Order (Form C - Continued), page 31",
+  arrest5Statute: "(statute), arrest row (5) — Expungement Order (Form C - Continued), page 31",
+  jdmnt: {
+    caption: "A civil judgment is to be entered in the Judiciary’s automated system in the name of ‘Treasurer, State of New Jersey’ in the following — Expungement Order (Form C), page 32",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "The proposed order's civil-judgment control is completed by the Court when it enters any judgment for monies still owed. It is not a participant blank before filing.",
+  },
+  gradDC: {
+    caption: "Successful graduation from drug court prior to 4/18/2016 pursuant to N.J.S.A. 2C:35-14(m). — Expungement Order (Form C), page 30",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "This proposed-order election is completed by the Court if applicable; the participant does not pre-answer it.",
+  },
+  marijuana: {
+    caption: "Expungement of the marijuana or hashish offenses included in N.J.S.A. 2C:52-5.1. — Expungement Order (Form C), page 30",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "This proposed-order election is completed by the Court if applicable; the participant does not pre-answer it.",
+  },
+  cleanSlate: {
+    caption: "Clean Slate Expungement pursuant to N.J.S.A. 2C:52-5.3. — Expungement Order (Form C), page 30",
+    refusalClass: "court_prosecutor_clerk_or_agency_owned",
+    reason: "This proposed-order election is completed by the Court if applicable; the participant does not pre-answer it.",
+  },
+});
+for (const familyId of FIX175_NJ_FAMILY_IDS) {
+  const doc = FAMILY[familyId].documents[0];
+  doc.captions = {
+    ...NJ_KIT_PRINTED_CAPTIONS, ...NJ_CONVICTION_PRINTED_CAPTIONS,
+    ...NJ_FIX175_EXTRA_PRINTED_CAPTIONS,
+  };
+  doc.requiredBlanksCarryPrintedCaptions = true;
+  doc.declareWithdrawnElectionsInFieldMap = true;
+  doc.guardFieldMapSelectionsAgainstDeliveredMarks = true;
+  if (familyId === "nj_clean_slate-set") {
+    doc.declarations = NJ_CONVICTION_BLANK_DECLARATIONS;
+    doc.repeatingRowGroups = [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW,
+      NJ_PETITION_CONVICTION_ROW];
+  }
+}
+
 const COMPOSED_FAMILY_IDS = new Set(["oh_marijuana_expungement-set", "rcap-oh-custom-pleading-clean-tracks"]);
 const STOP_FAMILY_ID = "pa_6308_underage-set";
 
@@ -2903,7 +2995,7 @@ async function selfTestFix88() {
     }
   }
   assert.equal(FAMILY["nj_clean_slate-set"].documents[0].exactWidgetBindings, undefined);
-  assert.deepEqual(FAMILY["nj_clean_slate-set"].documents[0].repeatingRowGroups, []);
+  assert.ok(FAMILY["nj_clean_slate-set"].documents[0].repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
   console.log("FIX88 source-independent binding regression: PASS (page 18 only, no diversion spill, whole-row withholding blocks both writers, deterministic synthetic bytes, source geometry drift denied; no packet acceptance)");
 }
 
@@ -5699,13 +5791,13 @@ async function buildOfficial(familyId, config) {
      * whose row cannot be written is withdrawn, correctly, and the fix is for
      * the map to say so. This guard is what makes those two records agree.
      *
-     * GATED, AND ON ITS OWN FLAG. Run host-wide this guard refuses
-     * nj_indictable_conviction-set, nj_disorderly_persons-set and
-     * nj_clean_slate-set outright: all three carry the identical false
-     * declaration for the identical reason, and all three are other lanes' to
-     * repair. Turning a record defect in a family this lane may not touch into
-     * a build that cannot run is a worse outcome than the defect. The finding
-     * is reported instead, with the measurement, in this lane's return.
+     * GATED, AND ON ITS OWN FLAG. Before FIX175, the indictment and ordinance
+     * families (and the disorderly family) withheld this row but still carried
+     * the false measured-route declaration; clean slate was the opposite defect:
+     * it omitted row withholding and therefore actually drew the guilty mark.
+     * FIX175 enables both flags on its three granted families so their maps and
+     * delivered marks agree. The disorderly family remains outside this lane's
+     * grant and keeps its existing gate state.
      *
      * The gate is DELIBERATELY NOT declareWithdrawnElectionsInFieldMap. A guard
      * that switches off with the repair it protects proves nothing: breaking
