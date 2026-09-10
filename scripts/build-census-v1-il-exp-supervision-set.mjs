@@ -226,10 +226,30 @@ async function build() {
   fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition, confirm the supervision ended satisfactorily, and resolve every mismatch before filing. Make the per-case expunge or seal election shown on the Request. Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order, clerk case numbers, and later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
+  /* FIX173: the last write has happened, so read the delivered packet back
+   * and assert it before this build may report success. */
+  assertDeliveredPacket();
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
 }
 
-function selfTest() {
+/*
+ * THE DELIVERED PACKET, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion in this function reads a file build() has just
+ * written -- reports/actual-writes.json, production-field-map.json and
+ * participant-instructions.md -- and nothing else. There is no fixture
+ * harness here, no round trip and no scratch file, so all of it is an
+ * invariant of the delivered packet and belongs in the build path.
+ *
+ * It did not run there. Reaching selfTest() needed
+ * process.argv.includes("--self-test"), which nothing in CI or the
+ * integration chain passes; VF61 measured the consequence on the sibling
+ * il-seal-3yr-set by reintroducing a repaired defect and watching a plain
+ * build exit 0 and write it to disk. build() now calls this after its last
+ * write, and --self-test still runs the same function against the committed
+ * tree.
+ */
+function assertDeliveredPacket() {
   const actual = JSON.parse(fs.readFileSync(path.join(OUT, "reports/actual-writes.json"), "utf8"));
   const writes = actual.documents.flatMap((document) => document.actualWrites);
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
@@ -251,6 +271,10 @@ function selfTest() {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(OUT, "production-field-map.json"), "utf8"));
   assert.equal(fieldMap.refusals.filter((row) => /^\d+ - Case Number$/.test(row.fieldName) && row.refusalClass === "court_prosecutor_clerk_or_agency_owned").length, 4,
     "all four clerk-assigned case-number captions must be declared protected");
+}
+
+function selfTest() {
+  assertDeliveredPacket();
   console.log("il-exp-supervision-set self-test passed");
 }
 
