@@ -78,6 +78,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines, captureWidgetContext, normalizeHarvestedText }
   from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding, resolveFact }
@@ -940,6 +941,33 @@ async function main() {
         ],
         captionOnly: doc.captionOnly,
         documentTextLines: census.documentTextLines,
+        /*
+         * FIX137, measured on this family's own bytes on 2026-09-10.
+         *
+         * Both ACIC forms print a heavy bracketed check box at each selection
+         * rectangle, and each of those widgets ships an /AP /N that opens
+         * `1 g 0 0 18 18 re f` -- an opaque white fill the size of the widget --
+         * and then strokes its own thin 17x17 square. A conforming viewer draws
+         * the fill, so the printed bracket is COVERED and the reader sees one
+         * clean square. The shared finalizer's default strips that leading fill,
+         * which is right where the fill covers blank paper and wrong here: with
+         * the fill gone the flattened square is stamped on top of the bracket the
+         * form still prints, and the participant is handed two concentric frames.
+         *
+         * Measured at 600 dpi inside the widget /Rect on the order, page 1:
+         * page art alone 3,057 dark pixels; the source as a viewer renders it
+         * 4,811; the delivered fixture 7,868 -- exactly 4,811 + 3,057, both
+         * drawings present at once. That is the Colorado shape, and the remedy
+         * RESTORES the fill rather than removing the ink.
+         *
+         * preserveUnwrittenSelectionBackgrounds is the committed, opt-in remedy.
+         * It is passed here, at this family's caller, and keeps the source's own
+         * blank-state paint on UNWRITTEN check box and radio widgets only. It
+         * requests no new background: /MK /BG is still cleared, written fields,
+         * text fields and every other field type are unchanged, and no family
+         * that does not pass it moves a byte.
+         */
+        preserveUnwrittenSelectionBackgrounds: true,
         title: `AR ${doc.documentId}`
       });
 
@@ -955,11 +983,26 @@ async function main() {
       });
       allFindings.push(...proof.findings);
 
+      // Read out of the bytes just written, never out of what this run meant to
+      // write, and with placement measured against the pinned source so that
+      // nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a measurement rather
+      // than a literal. Both counters would be `null` if the source were not
+      // supplied; neither is ever asserted as 0 without being read.
+      const glyphs = await readOutputGlyphs(result.bytes, { sourceBytes: bytes });
+      const pageCount = (await PDFDocument.load(result.bytes, { ignoreEncryption: true, updateMetadata: false }))
+        .getPageCount();
+
       console.log(`  ${label}: wrote ${result.report.written.length}, refused ${result.report.refused.length}`
         + `, sha256=${hash.slice(0, 16)}…  charge-blanks checked=${proof.chargeBlanks.length}`
-        + `  findings=${proof.findings.length}`);
+        + `  findings=${proof.findings.length}  pages=${pageCount}`
+        + `  flattenedAppearances=${glyphs.flattenedWidgetAppearancesReadFromOutputBytes}`
+        + `  addedGlyphs=${glyphs.addedGlyphsReadFromOutputBytes}`
+        + `  glyphsOutsideWriteBoxes=${glyphs.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes}`);
 
-      fixtures[label] = { file: rel, sha256: hash, byteLength: result.bytes.length, report: result.report, proof, overflows };
+      fixtures[label] = {
+        file: rel, sha256: hash, byteLength: result.bytes.length, pageCount,
+        report: result.report, proof, overflows, glyphs
+      };
     }
 
     documents.push({ doc, census, indexEntry, fixtures, sourceByteLength: bytes.length });
@@ -1168,12 +1211,26 @@ async function main() {
       documents: documents.flatMap(({ doc, fixtures }) =>
         ["canonical", "boundary"].map((label) => `${doc.documentId} (${label})`))
     }],
+    howTheGlyphReadingsWereTaken:
+      "addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes and "
+      + "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes are read out of each produced PDF by "
+      + "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs after it is written, never from this build's "
+      + "intent and never as a literal. Placement is measured against the pinned source's own widget rectangles; "
+      + "had no source been supplied the outside-write-box reading would be null rather than 0.",
     artifacts: documents.flatMap(({ doc, fixtures }) =>
       ["canonical", "boundary"].map((label) => ({
         document: doc.documentId, fixture: label,
         file: fixtures[label].file, sha256: fixtures[label].sha256, byteLength: fixtures[label].byteLength,
+        pageCount: fixtures[label].pageCount,
         fieldsWritten: fixtures[label].report.written.length,
         fieldsRefused: fixtures[label].report.refused.length,
+        flattenedWidgetAppearancesReadFromOutputBytes:
+          fixtures[label].glyphs.flattenedWidgetAppearancesReadFromOutputBytes,
+        addedGlyphsReadFromOutputBytes: fixtures[label].glyphs.addedGlyphsReadFromOutputBytes,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
+          fixtures[label].glyphs.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+        appearancesNotPlacedAtTheirOwnSourceWidget:
+          fixtures[label].glyphs.appearancesNotPlacedAtTheirOwnSourceWidget,
         unfittable: fixtures[label].report.unfittable,
         refusedForExceedingFormDeclaredMaxLength: fixtures[label].overflows ?? []
       })))

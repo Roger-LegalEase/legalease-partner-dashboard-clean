@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-lane-checkpoints/v1",
+  "lane": "FIX137",
+  "branch": "fix137-ar-20260910",
+  "base": "8614b3e86adc1dbe988f848c2bd56149994f46c8",
+  "lines": [
+    "Base confirmed with git rev-parse HEAD: 8614b3e86adc1dbe988f848c2bd56149994f46c8. The co/ raster/ directory was left untracked and untouched.",
+    "CLAIM_OK FIX137 ar-cs-possession-seal-set (repair, grant set fdf1062791b33bad), exit 0.",
+    "CLAIM_OK FIX137 ar-nonconviction-seal-set (repair, grant set fdf1062791b33bad), exit 0.",
+    "Read the vf90 row for both families. It names ARTIFACTS and, by design, measures none of the nine counters: all nine are null because it is a byte-accounting withdrawal row. The measurement is mine to make.",
+    "ARTIFACTS as defined (canonical and boundary bytes hash to what rendered-artifacts.json names) held at base for BOTH families: every digest, byteLength and pageCount recomputed with sha256sum/stat/pdfinfo matched. What was missing was the two output-byte glyph readings, and on ar-cs-possession also pageCount.",
+    "test-stroke-fill-skeleton.mjs run before importing the normaliser: 9 tests, 9 pass, exit 0. account-stroke-only-against-pinned-sources.mjs NOT run -- it rewrites the shared ledger.",
+    "Render proved before any zero was trusted: pdftoppm -r 600 over the pinned ACIC order vs an annotation-free control of the same file. 9,622 dark pixels on page 1 are drawn by annotations alone; the difference bbox lands exactly on the two declared check-box rects.",
+    "Same control run answered the stripped-fill question directly: 6,114 dark pixels are LOST when annotations are drawn, so the /AP fill covers page-content ink the form itself prints. Colorado shape, not Nebraska.",
+    "Per-widget confirmation at 600 dpi on order page 1: page art alone 3,057; source as a viewer renders it 4,811; delivered 7,868 = 4,811 + 3,057 exactly. Two concentric frames on the delivered page.",
+    "Byte accounting reproduced independently on ar-cs-possession: 36 stroke-only, 0 exact, 36 skeleton-derived, 0 unmatched -- matching the committed sourceStreamMinusItsBackgroundFill 36 exactly.",
+    "Baseline reproducibility established: the UNCHANGED ar-cs-possession builder rebuilt all four committed fixtures byte for byte at base (git reported no diff). Every later byte move is attributable to the repair.",
+    "ar-cs-possession repaired by passing preserveUnwrittenSelectionBackgrounds at its own finalizeOfficialForm call. No shared module modified; the option already exists there and defaults to false.",
+    "ar-cs-possession re-accounted after repair: 36 stroke-only, 36 matched BYTE-IDENTICALLY, 0 derived, 0 unmatched. vf90's matchingNothingInTheSources 36 is discharged by a stricter test than the one that raised it.",
+    "ar-cs-possession directional raster, both directions, all 16 delivered pages: removed dark pixels 0 on every page before and after. 32,290 doubled-frame pixels cleared across the four artifacts. Negative controls (petition p3/p4/p5, order p3) unchanged.",
+    "Every added dark pixel on every repaired page lands inside a source widget rectangle; 0 outside, before and after. This defect was invisible to every counter.",
+    "ar-cs-possession counters measured: verify-packet-completeness --family ar-cs-possession-seal-set, PASS_COMPLETE 15/70 written, exit 0, all nine zero.",
+    "ar-cs-possession governance written through carryForwardGovernance: acceptance receipt bound to b2b487cc withdrawn with both digests and kept as history; five governance keys carried forward; governanceLostBetween empty. npm run rcap:verify-governance-preservation exit 0, with 247 records NOT MEASURED because this checkout is sparse.",
+    "ar-cs-possession product-wiring proposedRepresentation component digests re-measured and re-pinned; they had named the two superseded canonicals.",
+    "ar-cs-possession COMPLETED and returned. No verdict set, no PASS issued, no route opened."
+  ],
+  "grantsNothing": "A checkpoint is a log. It promotes nothing, approves nothing and opens no route."
+}
