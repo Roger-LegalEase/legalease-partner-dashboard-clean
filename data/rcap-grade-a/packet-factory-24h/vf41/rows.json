@@ -6,9 +6,9 @@
   "baseSha": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
   "dispatchSha": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
   "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-  "claimsAsserted": 2,
+  "claimsAsserted": 4,
   "claimsReleased": 0,
-  "grantState": "VF41 holds independent-verification grants for al-felony-nonconviction-90-set and mn_petition_609a02_subd3-set (grant set a0570fad77508fdb, confirmed by claim.mjs --can-assert). No grant exists for al-trafficking-set or ma-expunge-k-set: the dispatched command (claim.mjs --assert) only validates a grant and cannot mint one, and the mint operation (claim.mjs --grant) was refused by the permission system, so VF41 opened no artifact for those two families and returns BLOCKED_BEFORE_CLAIM on both.",
+  "grantState": "VF41 now holds all four independent-verification grants. The first two (al-felony-nonconviction-90-set, mn_petition_609a02_subd3-set) were read at 59b2133a843ffa629b0eb2f6fbd74e4266d1746f under grant set a0570fad77508fdb. The Captain minted the other two after VF41 reported that the dispatched claim.mjs --assert cannot mint a grant and that --grant had been refused by the permission system; al-trafficking-set and ma-expunge-k-set were then asserted under grant set 32c874727944b0fd and read at d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7. Neither of those two families moved between f63d56734 and d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7, so what VF41 read is FIX02 repair exactly.",
   "measuredBy": "independent re-read of FIX02 commit f63d56734 at base 59b2133a843ffa629b0eb2f6fbd74e4266d1746f: fixture digests hashed pre/post/on-disk, every quoted form line re-located in the delivered bytes, four guards flipped by mutation, nine counters run before and after the repair, shared anchor-capture reader probed for encoding fidelity.",
   "independence": "VF41 did not build, repair or raster any of these families, and repaired nothing it read. Every mutation made to test a guard was reverted and the worktree verified clean against HEAD by digest.",
   "measurementMethod": {
@@ -16,16 +16,16 @@
     "greyThreshold": "a pixel counts as ink at grey value <= 200 of 255",
     "resolution": "300 dpi; letter 612x792pt renders 2550x3300 px",
     "scope": "per-checkbox interior rectangle, taken from pdftotext -bbox glyph boxes and named in points beside every count",
-    "positiveControls": "al-felony-nonconviction-90-set: the ZapfDingbats check mark at (53.30,150.85)-(58.30,156.55) on delivered page 9 of BOTH fixtures reads 85 ink px of a 483 px scope in the same render. mn_petition_609a02_subd3-set: six Wingdings made marks (U+F0FE) on delivered page 7 (EXP104 service list) read 1579 ink px of a 5478 px scope. Both controls fire, so the zeros reported below are controlled, not uncontrolled.",
+    "positiveControls": "al-felony-nonconviction-90-set: the ZapfDingbats check mark at (53.30,150.85)-(58.30,156.55) on delivered page 9 of BOTH fixtures reads 85 ink px of a 483 px scope in the same render. mn_petition_609a02_subd3-set: six Wingdings made marks (U+F0FE) on delivered page 7 (EXP104 service list) read 1579 ink px of a 5478 px scope. Both controls fire, so the zeros reported below are controlled, not uncontrolled. al-trafficking-set: FIX02 reported control CONFIRMED and it is the strongest of the four — the page-3 election box at (45.79,320.09)-(53.86,329.27) carries 208 ink px on canonical--felony.pdf and 0 ink px in the SAME box on boundary--misdemeanor.pdf, so the control is a route-dependent made election measured in the same geometry, the same render and the same family. ma-expunge-k-set: no made checkbox mark exists anywhere in its bytes, so a per-box zero there would be uncontrolled; VF41 measured it a different way instead — a whole-page pixel differential against the pinned source PDF (sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, exact on disk), which is self-controlling because the same differential reports 15686 px of build-added ink on canonical page 1 and 37658 px on boundary page 1.",
     "widgetAppearances": "null / not applicable: both families deliver PDFs with NO AcroForm and ZERO widget annotations (measured with pdf-lib: AcroForm ABSENT, formFields 0, widgetAnnotations 0 on all four fixtures), so a per-widget /AP /N appearance count does not exist in these bytes and is not 0."
   },
   "verdictSummary": {
     "PASS_COMPLETE_INDEPENDENT": 0,
-    "PASS": 1,
-    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS": 2,
+    "FAIL_REPAIR_REQUIRED": 2,
     "BLOCKED_SOURCE": 0,
     "BLOCKED_LEGAL_INPUT": 0,
-    "BLOCKED_BEFORE_CLAIM": 2,
+    "BLOCKED_BEFORE_CLAIM": 0,
     "STOPPED": 0
   },
   "rows": [
@@ -151,23 +151,112 @@
       "itemId": "al-trafficking-set",
       "familyId": "al-trafficking-set",
       "lane": "VF41",
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+      "verdict": "PASS",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
-      "grantHeld": false,
-      "why": "No independent-verification grant exists for al-trafficking-set. The dispatched command, claim.mjs --assert VF41 al-trafficking-set, returns NOT_GRANTED: --assert validates a grant and cannot mint one, as the script own header states. The operation that mints, claim.mjs --grant, was refused by the permission system, and VF41 did not work around that refusal. VF41 therefore opened no packet artifact for this family and this row is a statement about the lane, not about the family. The family still needs an independent read.",
-      "whatWasNotDone": "No verdict on any obligation. VF41 read scripts/build-census-v1-al-trafficking-set.mjs as comparison evidence for the granted al-felony family only, and hashed this family four fixtures alongside the others to answer the did-any-fixture-move question; it reads no packet content and issues no finding here."
+      "queueStateAtRead": "BUILT_RASTER_PENDING",
+      "grantHeld": true,
+      "supersedes": "VF41 earlier returned BLOCKED_BEFORE_CLAIM on this family at 59b2133a8 because no grant existed. The grant now exists and this row replaces that refusal.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "30/216",
+        "note": "These are measurements. reports/actual-writes.json carries refusedFieldsWithInk and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes from packet.proof rather than as literals, protectedWrites is reduced from the measured arrays, and build-summary records visualDefects as null rather than 0 — which is the correct treatment of a counter no raster has scored yet, and is what its al-felony sibling should be doing."
+      },
+      "proofObligations": {
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 10 quoted lines are printed on the pages the guide attributes them to, on ALL FOUR delivered fixtures — verified independently with pdftotext -raw, whitespace-normalised, not with the builder own reader. One caveat, identical to the one VF41 recorded for al-felony-nonconviction-90-set: the guide quotes \"(3)(Select one of the following):\" and every fixture prints \"(3) (Select one of the following):\" with a space between. The line is genuinely printed on all four; the guide quotation collapses one inter-word space, so \"verbatim\" is verbatim-per-the-shared-reader rather than per the page. The two second-branch blanks carry the only-if condition at lines 54-55 and the condition sentence is repeated at line 155. All 8 CR-65 elections measured blank on both fixtures VF41 sampled (0 ink px per box interior at 300 dpi, grey<=200), against a control that fires in the same family."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is the family whose measurement VF41 held up as the standard, and it holds up. node scripts/build-census-v1-al-trafficking-set.mjs --negative-control fires 12 controls: with the baseline subtraction removed the reader reports 139 refused-fields-carrying-ink on each of the four fixtures, and with multiple assignment restored it reports 1 (C-10-CRIMINAL:Spouses Full Name if married), while the repaired reader reports 0. A zero that can be made non-zero on demand is a measured zero. A 400-character value in CR-65 Text2 is refused carrying its whole value rather than being silently shortened."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All four fixture digests unmoved at f63d56734^, at d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7 and on disk: canonical--felony e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7, canonical--misdemeanor 735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0, boundary--felony f919d1ab62928c921ce8292079efd2baf7af243dfcfbc7ae7453dd91bdf9778d, boundary--misdemeanor 039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b. A full rebuild reproduces all four byte-identically and leaves the worktree clean. assertPrintedElections also asserts the fixture COUNT is four, so a fixture quietly disappearing cannot pass unnoticed — al-felony hardcodes its two instead."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The unscoped Section IV election is declared as a refusal with its section, statute and reason carried into participant copy, and the build asserts that row exists rather than assuming it."
+        }
+      },
+      "whatVF41DidNotScore": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REPEATING_ROWS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were outside this dispatch. This row is a claim about four obligations, not fifteen.",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set"
     },
     {
       "itemId": "ma-expunge-k-set",
       "familyId": "ma-expunge-k-set",
       "lane": "VF41",
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
-      "grantHeld": false,
-      "why": "No independent-verification grant exists for ma-expunge-k-set, for the same reason as al-trafficking-set: --assert cannot mint a grant and --grant was refused by the permission system. VF41 opened no packet artifact for this family. The CORI finding FIX02 repaired, and its deliberate omission of the three manifest entries whose recorded descriptions are Required., None identified in the review. and None identified., are unverified and still need an independent read.",
-      "whatWasNotDone": "No verdict on any obligation."
+      "queueStateAtRead": "BUILT_RASTER_PENDING",
+      "grantHeld": true,
+      "supersedes": "VF41 earlier returned BLOCKED_BEFORE_CLAIM on this family at 59b2133a8 because no grant existed. The grant now exists and this row replaces that refusal.",
+      "theRepairItselfIsCorrect": "Read this first. FIX02 CORI repair is right and VF41 verified it end to end: both manifest strings are byte-verbatim in the delivered guide, the obtainedFrom is named, the manifest digest printed in the guide equals the file digest, the obtain step is a numbered step in the ordered list, and the guard refuses when flipped. Do NOT undo it. The failure below is one sentence of scope prose in a committed report, and the question that sentence conceals.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "1/22"
+      },
+      "proofObligations": {
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "THE FLAG THAT CERTIFIES THIS REPAIR MISSTATES ITS OWN SCOPE. The committed packet-set manifest marks SEVEN entries requiredBeforeFiling for ma-expunge-k-set. The repair discloses two of them verbatim and excludes five. reports/blanks-left-for-the-participant.json sets everyRequiredBeforeFilingItemIsDisclosed true and explains the exclusion in whatThatFlagCovers as: it does not cover the manifest sign, pay_fee or apply_fee_waiver entries, whose recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and \"None identified.\". That sentence names three excluded entries. There are five. The two it does not name are complete_field entries whose descriptions are NOT empty: \"Petitioner signature — Petition signature block.\" and \"The Specifically narrative — Petition narrative section.\" They are excluded by PARTICIPANT_ACT_KINDS = [\"obtain_document\",\"confirm_answer\"] at builder line 1470, silently. A reader of that report concludes every substantive manifest requirement reaches the guide verbatim; two do not. VF41 checked whether the participant is nonetheless told to do both, and they are — step 8 directs signing and dating and step 6 directs the Specifically narrative, from the form-blank list — so there is NO participant-facing gap here. What fails is the attestation: a committed report that certifies its own completeness and gets its own exclusion list wrong is the misleading-signature-block class, and FIX02 own commit message repeats the same undercount. The repair is: correct the sentence to name all five, or bring the two complete_field acts into the disclosed set, and decide which deliberately rather than by a kinds filter nobody reading the report can see.",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json + scripts/build-census-v1-ma-expunge-k-set.mjs:1470"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Measured on the delivered bytes by whole-page pixel differential against the pinned source form, 300 dpi, grey<=200, WITH annotations, at whole-page scope. Page 1: removed ink 0 px on both fixtures — the build erased nothing the court form prints — and ALL added ink falls inside a single region, x 22.6-165.6 pt / y 79.9-113.5 pt on canonical and x 22.8-244.1 / y 79.9-139.0 on boundary, which is the YOUR NAME AND ADDRESS block, the one box this build declares it writes. Page 2: 0 added, 0 removed, pixel-identical to the source. So none of the twenty-two check boxes carries a build-added mark, and the claim in reports/independent-visual-review.json that NOT ONE of the twenty-two check boxes carries a mark is confirmed rather than accepted. This measurement is self-controlling: the same differential reports 15686 and 37658 px of added ink where the build does write."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixture digests unmoved at f63d56734^, at d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7 and on disk: canonical 084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea, boundary 6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832, 2 pages each, no AcroForm and zero widget annotations. A full rebuild in the committed environment reproduces every artifact byte-identically. One environment note, not a defect in this family: source-receipt.json records custodyRootsSearched, so a rebuild with MASTER_LIBRARY_SOURCE_DIR set to a root that does not hold this document adds a custody row with exists false and the receipt no longer reproduces. The receipt records the search environment as well as the source identity."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The pinned source jud-Petition-for-Expungement.pdf rehashes to its exact pin 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce at 1387408 bytes on disk, and the packet-set manifest the guide quotes rehashes to the digest the guide prints, 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7."
+        }
+      },
+      "failedProofObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "everyRequiredBeforeFilingItemIsDisclosed is true of two of the manifest seven requiredBeforeFiling entries, and its whatThatFlagCovers prose accounts for three of the five exclusions, silently omitting two substantive complete_field acts.",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "readFrom": "proofObligations"
+        }
+      ],
+      "whatVF41DidNotScore": "ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, ROUTE_OPTIONS, REPEATING_ROWS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were outside this dispatch. This row is a claim about four obligations, not fifteen.",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set"
     }
   ],
   "guardsFlippedByVF41": [
@@ -203,6 +292,40 @@
       "result": "REFUSED",
       "message": "the guide does not carry the line FEE102 prints: \"2. I believe that I have good reasons for making this request.\"",
       "real": true
+    },
+    {
+      "guard": "assertPrintedElections (AL trafficking)",
+      "where": "scripts/build-census-v1-al-trafficking-set.mjs:1006",
+      "mutation": "changed the quoted pro se line in BOTH the builder constant and the delivered guide",
+      "result": "REFUSED",
+      "message": "boundary--felony.pdf page 6 does not print the line this guide quotes: \"[ ] pro se (Unrepresented by any attorney)\"",
+      "real": true,
+      "note": "This builder --check DOES run assertRepairInvariants, so the guard is reachable in check mode — unlike MN and MA."
+    },
+    {
+      "guard": "second-branch condition (AL trafficking)",
+      "where": "scripts/build-census-v1-al-trafficking-set.mjs:1278",
+      "mutation": "removed the only-if condition from line 54 of the delivered guide",
+      "result": "REFUSED",
+      "message": "a conditional blank is listed unconditionally: County where any previous expungement was filed",
+      "real": true
+    },
+    {
+      "guard": "obtain-step guard (MA)",
+      "where": "scripts/build-census-v1-ma-expunge-k-set.mjs:1846",
+      "mutation": "dropped obtain_document from PARTICIPANT_ACT_KINDS, FIX02 own stated flip",
+      "result": "REFUSED on a full build, PASSED under --check",
+      "message": "obtaining the required document must be a numbered step in the guide own ordered list, not only a section",
+      "real": true,
+      "caveat": "SAME SHAPE AS MN. --check exits 0 with the guard defeated, because checkOnly returns at line 1726 before any artifact is written. Two of the four families FIX02 repaired cannot have these guards exercised by --check at all."
+    },
+    {
+      "guard": "verbatim-quotation guard (MA)",
+      "where": "scripts/build-census-v1-ma-expunge-k-set.mjs:1837",
+      "mutation": "truncated the blockquote under the printed claim \"Quoted verbatim from ...\" to its first 40 characters, leaving the numbered step intact",
+      "result": "DID NOT REFUSE — full build exited 0",
+      "real": false,
+      "whatThisMeans": "The guard tests instructionsText.includes(act.description), i.e. whether the manifest string occurs ANYWHERE in the guide. The guide prints that string twice: once as the blockquote under an explicit \"Quoted verbatim\" claim, and once inside the numbered step. Paraphrasing the blockquote leaves the numbered-step copy intact and the guard is satisfied. So the sentence the participant reads as a verbatim quotation of the committed record can be a paraphrase with nothing refusing. This is the one guard of the six VF41 flipped that does not hold, and FIX02 did not test it in this direction."
     }
   ],
   "laneFindings": [
@@ -241,7 +364,31 @@
       "title": "FIX02 repaired the guides, not the field map classification.",
       "measured": "All 8 CR-65 page-5/page-6 selection controls in al-felony-nonconviction-90-set production-field-map.json still carry effectiveLabel values of the form \"Participant choice: Check Box3.1.0 (selection)\" — the raw AcroForm field name wrapped — and requiredBeforeFiling is absent on all 8 rather than false.",
       "meaning": "Correct as far as it goes: the guide now names these elections in the form own printed words, which is what reaches the participant. But the classification FIX02 identified as the root cause is unchanged, so any future consumer reading the field map rather than the guide sees the same silence."
+    },
+    {
+      "id": "VF41-6",
+      "severity": "defect-in-guard-design",
+      "title": "MA verbatim-quotation guard cannot fail while the numbered step repeats the string.",
+      "measured": "Truncating the blockquote under \"Quoted verbatim from data/record-clearing/legal-design-packet-set-manifests.json ...\" to 40 characters and running a full build exits 0. See guardsFlippedByVF41.",
+      "meaning": "A guard that a paraphrase cannot trip is not enforcing the verbatim claim printed above it. The fix is to assert the blockquote line itself, not the whole document."
+    },
+    {
+      "id": "VF41-7",
+      "severity": "measurement-the-factory-cannot-make",
+      "title": "The nine-counter invariance now holds on all four families, not two.",
+      "measured": "VF41 repeated the before/after experiment on al-trafficking-set and ma-expunge-k-set: pre-repair participant-instructions.md and blanks-left-for-the-participant.json checked out of f63d56734^, verifier run, artifacts restored. Both read PASS_COMPLETE with all nine counters zero before AND after, exactly as the two families VF41 read first. FIX02 claim is confirmed on all four.",
+      "meaning": "Four families, three distinct causes, four repairs — and not one counter moved. REQUIRED_BEFORE_FILING as a participant-facing obligation is invisible to the whole nine-counter apparatus, in every shape it takes."
+    },
+    {
+      "id": "VF41-8",
+      "severity": "answers-the-question-asked",
+      "title": "What al-felony counters would have said, measured rather than inferred.",
+      "measured": "VF41 measured al-felony-nonconviction-90-set the way its sibling does, independently: a whole-page pixel differential of all 11 delivered pages against BOTH pinned sources (CR-65 c2e0c7bd..., 8 pages; C-10-CRIMINAL 527d4cfd..., 3 pages; delivered 1-8 and 9-11 respectively), 300 dpi, grey<=200, WITH annotations. Canonical: 57672 px of added ink total, removed ink 0 on nine of eleven pages. Boundary: 89654 px added. On delivered pages 5 and 6 the ONLY added ink is the case-number header and, on page 6, the printed petitioner name — no election box on either page carries a single added pixel, on either fixture. Every word carrying added ink across all 11 pages is a value this build declares it writes, plus the one C-10 caption tick the builder asserts it makes.",
+      "therefore": "Had al-felony measured refusedFieldsWithInk instead of typing [], it would have measured empty — the literal happens to be true. That does not make it a measurement, and it is worth saying which of the two claims VF41 is making: the packet is clean, AND the counter proving it is unmeasured. The sibling shows what the difference is worth: al-trafficking --negative-control turns its zero into 139 on demand, so its zero is falsifiable. al-felony zero is not falsifiable by anything.",
+      "andOneThingNoCounterIsDefinedOver": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes cannot be recomputed for al-felony from its committed artifacts at all, because production-field-map.json publishes NO geometry for its writes — a write row carries only fieldId, fieldName, effectiveLabel, documentId, page and factId, and no rectangle. The counter is defined over measured write boxes the family never records. It is not merely unmeasured; it is unmeasurable from what is committed.",
+      "alsoObserved": "Delivered pages 9 and 11 show 194 px and 196 px of REMOVED ink against the source, deterministic and identical on both fixtures, in a narrow left-margin column (page 11: x 52-93 pt, y 157-447 pt) where 145 px is also added. That is the signature of small marks shifting sub-pixel between the AcroForm source render and the flattened delivery, not of erased content — but no counter in the nine is defined over removed ink at all, so nothing in the factory would have told anyone either way."
     }
   ],
-  "worktreeState": "Every mutation VF41 made to flip a guard was reverted. Both granted families were also rebuilt in full against the mounted corpus and reproduce byte-identically. git status is clean against 59b2133a843ffa629b0eb2f6fbd74e4266d1746f apart from this return file."
+  "worktreeState": "Every mutation VF41 made across both reads was reverted. All four families were rebuilt in full and reproduce byte-identically. All ten fixture digests are unmoved at f63d56734^, at both read bases, and on disk. git status is clean apart from this return file.",
+  "secondReadBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7"
 }
