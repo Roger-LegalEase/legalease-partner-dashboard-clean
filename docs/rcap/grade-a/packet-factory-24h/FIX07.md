@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `24f3395c6102c1b98b6f1b855954217268f24a44` (or the newer dispatch base)
+**Minimum required ancestor:** `78c1a9a9a9af670d8470504aeb327ab46177a2c2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ct-cleanslate-petition-set' \
   --codex-cloud \
-  --minimum-captain-sha 24f3395c6102c1b98b6f1b855954217268f24a44
+  --minimum-captain-sha 78c1a9a9a9af670d8470504aeb327ab46177a2c2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -42,7 +42,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ct-cleanslate-petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'mn_petition_15218-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ri_decriminalized-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'mo-art-xiv-marijuana-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ne-setaside-custodial-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -68,7 +68,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ct-cleanslate-petition-set`
 - `mn_petition_15218-set`
 - `ri_decriminalized-set`
-- `mo-art-xiv-marijuana-set`
+- `ne-setaside-custodial-set`
 
 ## What you receive
 
@@ -84,10 +84,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ct-cleanslate-petition-set.mjs`
 - `scripts/build-census-v1-mn_petition_15218-set.mjs`
-- `scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs`
 
 ## Never write here
 

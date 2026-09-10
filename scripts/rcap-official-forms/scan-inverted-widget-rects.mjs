@@ -37,7 +37,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFName, PDFArray, PDFNumber, PDFDict, PDFStream } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFArray, PDFNumber, PDFDict, PDFStream, decodePDFRawStream } = require("pdf-lib");
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
 const args = process.argv.slice(2);
@@ -125,7 +125,25 @@ async function invertedRectsIn(file) {
       }
       for (const stream of streams) {
         let text = "";
-        try { text = stream.getContentsString(); } catch { /* compressed; fall through */ }
+        /*
+         * INFLATE BEFORE READING, OR THIS TEST MEASURES COMPRESSION.
+         *
+         * Both calls below return the stream's RAW STORED BYTES with /Filter
+         * never applied, so on a FlateDecode appearance the regex ran over
+         * deflate output and found no operator. FIX132 caught it: re-running
+         * this same regex with every stream inflated turns "1 of 46 paints"
+         * into "27 of 46", and the 27 are EXACTLY the FlateDecode ones while
+         * the 19 that do not are EXACTLY the ones stored uncompressed.
+         *
+         * Alabama's CR-65 Check Box10.2 -- the widget that stamped a white
+         * rectangle over the word "expired" -- is the only inverted widget in
+         * the fleet whose appearance is stored uncompressed. That is the sole
+         * reason this scan could see it, and it is why the earlier reading
+         * "exactly one paints today" was a property of stream compression
+         * rather than a fact about appearances.
+         */
+        try { text = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { text = ""; }
+        if (!text) { try { text = stream.getContentsString(); } catch { text = ""; } }
         if (!text) { try { text = Buffer.from(stream.getContents()).toString("latin1"); } catch { text = ""; } }
         if (/(^|[\s])(f\*?|F|B\*?|b\*?|S|s|sh|Do|Tj|TJ)([\s]|$)/.test(text)) { paints = true; break; }
       }

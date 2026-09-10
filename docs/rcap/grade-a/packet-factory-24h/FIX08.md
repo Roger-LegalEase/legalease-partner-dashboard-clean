@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `24f3395c6102c1b98b6f1b855954217268f24a44` (or the newer dispatch base)
+**Minimum required ancestor:** `78c1a9a9a9af670d8470504aeb327ab46177a2c2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ma-expunge-k-set' \
   --codex-cloud \
-  --minimum-captain-sha 24f3395c6102c1b98b6f1b855954217268f24a44
+  --minimum-captain-sha 78c1a9a9a9af670d8470504aeb327ab46177a2c2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -44,7 +44,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'tx_nd_veterans_court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'wv_acc_treatment_job_readiness-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ne-setaside-custodial-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ri_deferred_sentence-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -72,7 +72,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `sd_arrest_expungement-set`
 - `tx_nd_veterans_court-set`
 - `wv_acc_treatment_job_readiness-set`
-- `ne-setaside-custodial-set`
+- `ri_deferred_sentence-set`
 
 ## What you receive
 
@@ -90,12 +90,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ma-expunge-k-set.mjs`
 - `scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-tx_nd_veterans_court-set.mjs`
 - `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
+- `scripts/build-census-v1-ri_deferred_sentence-set.mjs`
 
 ## Never write here
 
