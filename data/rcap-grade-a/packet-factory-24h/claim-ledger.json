@@ -906,8 +906,8 @@
       "operation": "independent-verification",
       "lane": "VF31",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T07:42:08.122Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF31 returned its read; the family goes back to repair before it is read again"
     },
     {
@@ -14507,7 +14507,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6c4c36217a403be659ee11e19c07635379bdeac80f7d6e34672fe22668d96eaa",
+  "claimsDigest": "f7823562c29b2093911e8f7ac2853c2a700ab749f13d0e4e32a7bc346f817be1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44344,6 +44344,16 @@
       "previouslyReleasedAt": "2026-09-10T07:42:08.008Z",
       "reissuedAt": "2026-09-10T07:55:47.446Z",
       "reason": "The generated dispatch roster names FIX01 for this family's repair. The ARTIFACTS failure is the flattened-widget counter, whose module predicate was fixed at 462298a41, plus a hardcoded addedGlyphs zero the module fix does not reach. Re-opened so the lane the roster names can begin."
+    },
+    {
+      "lane": "VF31",
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T07:42:08.122Z",
+      "reissuedAt": "2026-09-10T08:14:53.252Z",
+      "reason": "VF31 is the verification lane the roster names for this family and it is not the repair author -- FIX01 is. VF31's earlier read is the FAIL that sent the family to repair; the repair has landed at 6ed680401 with the delivered bytes unmoved, and it owes an independent read by a lane that did not write it."
     }
   ],
   "transfers": [
