@@ -97,6 +97,143 @@ const declaredDeliveryRefusals = [];
  * refusal never displaces a reading, and stands alone only where there is none.
  */
 const NON_READING_VERDICTS = new Set(["BLOCKED_BEFORE_CLAIM"]);
+
+/*
+ * FIX149. TWO THINGS A BINDING SAYS THAT NOTHING WAS KEEPING TRUE.
+ *
+ * (1) `packetComponents` is `f.packetComponents` from the family's MASTER_QUEUE
+ *     row, verbatim. That is a DECLARATION about the packet, and on
+ *     la-977d-marijuana-first-offense-set it disagrees with the packet: it lists
+ *     `component:la-977d-marijuana-first-offense-fee-waiver-4`, which appears in
+ *     no delivered artifact, and omits the primary filing the packet is built
+ *     around. Measured across the whole queue at this base: 5 families agree,
+ *     157 disagree and 184 declare nothing a page manifest can be compared to.
+ *
+ * (2) `acceptanceReceiptWithdrawn[].replacedByCanonicalSha256` is written once,
+ *     at the moment the receipt is withdrawn, and never again. carryForward-
+ *     Governance only reaches that code when the PREVIOUS binding still holds a
+ *     receipt; after the first withdrawal the receipt is null, the branch is
+ *     skipped, and the pointer freezes. la-976-arrest-no-conviction-set has been
+ *     rebuilt twice since its withdrawal and its record still says the receipt
+ *     was replaced by bdd789e2, which is two repairs old. Its sibling
+ *     la-977d's reads current only because its withdrawal happened to be
+ *     recorded on the most recent byte move.
+ *
+ * Neither is repaired by rewriting history. `replacedByCanonicalSha256` was
+ * TRUE when written and stays exactly as written -- Roger's direction on the
+ * staged border remediation is that old receipts are preserved as historical
+ * evidence and never relabelled as covering changed output -- and the queue's
+ * declared list keeps the queue's name. What is added is a MEASURED reading
+ * beside each, refreshed on every run, so a reader can see at a glance that the
+ * pointer no longer names the current bytes.
+ *
+ * OPT-IN PER FAMILY, exactly as build-census-v1-ne-setaside-custodial-set.mjs
+ * gates the same correction behind `carryProductBinding`. This lane holds a
+ * grant on two families. Switching 157 records on for every other lane's
+ * families is not this lane's to do, and a set literal makes the next lane's
+ * decision an explicit one rather than a side effect of a rebuild.
+ */
+const MEASURE_DELIVERED_AGAINST_THE_BYTES = new Set([
+  "la-976-arrest-no-conviction-set",
+  "la-977d-marijuana-first-offense-set"
+]);
+
+/** The components a family's own rendered artifacts actually carry pages for. */
+function deliveredComponentsOf(directory) {
+  try {
+    const rendered = read(`${directory}/reports/rendered-artifacts.json`);
+    const found = new Set();
+    for (const artifact of rendered.artifacts ?? []) {
+      for (const page of artifact.pageManifest ?? []) {
+        if (page.component) found.add(`component:${page.component}`);
+      }
+    }
+    return found.size ? [...found].sort() : null;
+  } catch { return null; }
+}
+
+/** The canonical digests a family's own rendered artifacts report right now. */
+function canonicalDigestsOnDisk(directory) {
+  try {
+    const rendered = read(`${directory}/reports/rendered-artifacts.json`);
+    return (rendered.artifacts ?? [])
+      .filter((a) => a.fixture === "canonical" && /^[0-9a-f]{64}$/.test(String(a.sha256 ?? "")))
+      .map((a) => a.sha256);
+  } catch { return []; }
+}
+
+function measureBindingAgainstTheBytes(familyId, directory, binding) {
+  if (!MEASURE_DELIVERED_AGAINST_THE_BYTES.has(familyId) || !binding) return;
+
+  const delivered = deliveredComponentsOf(directory);
+  if (delivered) {
+    const declared = Array.isArray(binding.packetComponents) ? [...binding.packetComponents].sort() : [];
+    const declaredNotDelivered = declared.filter((c) => !delivered.includes(c));
+    const deliveredNotDeclared = delivered.filter((c) => !declared.includes(c));
+    binding.packetComponentsOnTheQueueRow = declared;
+    binding.packetComponents = delivered;
+    binding.packetComponentsProvenance = "measured from this family's own reports/rendered-artifacts.json page "
+      + "manifest -- the components the delivered bytes actually carry pages for -- rather than declared from the "
+      + "MASTER_QUEUE row. The queue row's list is kept above under its own name.";
+    if (declaredNotDelivered.length || deliveredNotDeclared.length) {
+      binding.packetComponentsDisagreement = {
+        theyDisagree: true,
+        declaredByTheQueueRowButInNoDeliveredArtifact: declaredNotDelivered,
+        deliveredButNotDeclaredByTheQueueRow: deliveredNotDeclared,
+        whyTheQueueRowIsNotEditedHere: "MASTER_QUEUE.json is generated centrally and is not edited by this "
+          + "generator. The disagreement is recorded rather than reconciled away."
+      };
+    } else delete binding.packetComponentsDisagreement;
+  }
+
+  const canonicalNow = canonicalDigestsOnDisk(directory);
+
+  /*
+   * The third thing this binding said that nothing kept true.
+   *
+   * `lastIndependentVerification` names a lane, a verdict and the BASE COMMIT it
+   * was read at. It does not name the canonical digest that lane read, and
+   * VERIFIER_RETURNS.json does not record one -- so from this record alone it is
+   * not decidable whether the verdict describes the bytes on disk. On la-976 it
+   * reads vf43 and on la-977d vf05, and both were read before repairs that moved
+   * every fixture in both families.
+   *
+   * The verdict is NOT edited. Setting a verdict is the independent lane's act
+   * and nothing here does it. What is added is the one thing that IS measurable
+   * from here: that the digest coverage is not measurable from here. It is null
+   * with a reason, never 0 and never an assumed PASS.
+   */
+  if (binding.lastIndependentVerification) {
+    binding.lastIndependentVerification.coversTheCanonicalOnDiskNow = null;
+    binding.lastIndependentVerification.whyCoverageIsNull = "the returns ledger records the base commit a lane read "
+      + "at, not the canonical digest it read, so whether this verdict describes the bytes now on disk cannot be "
+      + "decided from this record. It is null rather than 0 or an assumed pass. Where acceptanceReceiptWithdrawn "
+      + "below reports replacedByIsStillTheCanonicalOnDisk false, the family's bytes have demonstrably moved since "
+      + "some earlier read, which is a reason to re-read and not a verdict.";
+    binding.lastIndependentVerification.canonicalOnDiskNow = canonicalNow.length
+      ? (canonicalNow.length === 1 ? canonicalNow[0] : [...canonicalNow].sort())
+      : null;
+  }
+
+  for (const withdrawal of binding.acceptanceReceiptWithdrawn ?? []) {
+    if (!canonicalNow.length) {
+      withdrawal.canonicalOnDiskNow = null;
+      withdrawal.whyCanonicalOnDiskIsNull = "this family declares no canonical fixture this generator can read, so "
+        + "this run measured no bytes and makes no statement about what the pointer above still names";
+      continue;
+    }
+    withdrawal.canonicalOnDiskNow = canonicalNow.length === 1 ? canonicalNow[0] : [...canonicalNow].sort();
+    withdrawal.replacedByIsStillTheCanonicalOnDisk = canonicalNow.includes(withdrawal.replacedByCanonicalSha256);
+    if (!withdrawal.replacedByIsStillTheCanonicalOnDisk) {
+      withdrawal.readThePointerAsHistory = "replacedByCanonicalSha256 records the canonical this family produced at "
+        + "the moment the receipt was withdrawn, and it was true then. The bytes have moved again since, so it is "
+        + "history and not a description of what is on disk now. It is left as written rather than relabelled; "
+        + "canonicalOnDiskNow beside it is measured on every run. The withdrawn receipt's own workflow run and "
+        + "artifact ids are the ids of the superseded raster and are equally historical.";
+    } else delete withdrawal.readThePointerAsHistory;
+  }
+}
+
 const currentVerdict = new Map();
 const preclaimRefusals = new Map();
 for (const r of verifierReturns.rows ?? []) {
@@ -403,6 +540,7 @@ for (const f of selectedFamilies) {
       if (afterAlign.carried.includes("acceptanceReceipt") && !governanceCarried.includes(f.familyId)) {
         governanceCarried.push(f.familyId);
       }
+      measureBindingAgainstTheBytes(f.familyId, f.directory, existing.binding);
       if (JSON.stringify(existing) !== before) {
         if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
         refreshed++;

@@ -560,6 +560,53 @@ const FIXTURES = Object.freeze({
   }
 });
 
+/*
+ * FIX149. THE SPECIMEN DOCKET, GUARDED.
+ *
+ * VF47 recorded that both fixtures of both families print
+ * "TEST-2026-000001" on every filed caption, that reports/ asserts the docket
+ * READS BACK from the finalized bytes, and that nothing asserts what reads back
+ * is not a specimen -- so a build that shipped a specimen docket to a clerk
+ * would satisfy every counter.
+ *
+ * The value itself is right. These builders build FIXTURES and nothing else:
+ * every fact they draw from is a frozen literal in FIXTURES above, and no
+ * participant datum reaches them. So the hazard is not that this docket is a
+ * specimen -- it is that nothing MAKES it one, and nothing says so where a
+ * reader of the reports would look.
+ *
+ * This asserts the marker rather than the value: every fixture docket must
+ * carry it. A persona later edited to a real-looking docket -- the way a real
+ * case number would be typed in to "check something" -- stops the build instead
+ * of quietly producing filing-shaped bytes with a live docket on them.
+ *
+ * What it does NOT do, and cannot: guard the render path. A packet built for a
+ * real participant is composed elsewhere, from the render transaction's own
+ * facts. Nothing in this file is on that path, so this guard is a statement
+ * about fixtures only and is recorded as one.
+ */
+const SPECIMEN_DOCKET_MARKER = /^TEST-/;
+
+function assertEveryFixtureDocketIsASpecimen() {
+  const dockets = Object.entries(FIXTURES).map(([fixture, facts]) => [fixture, facts["case.docket_number"]]);
+  for (const [fixture, docket] of dockets) {
+    assert.match(String(docket ?? ""), SPECIMEN_DOCKET_MARKER,
+      `fixture "${fixture}" carries docket ${JSON.stringify(docket)}, which does not carry the specimen marker `
+      + `${SPECIMEN_DOCKET_MARKER}. These builders produce specimen bytes only: every filed caption they draw prints `
+      + `this docket, and a docket without the marker is indistinguishable from a live case number on a page shaped `
+      + `like a filing. If a real docket is wanted, it belongs on the render path, not in a fixture persona.`);
+  }
+  return {
+    everyFixtureDocketCarriesTheSpecimenMarker: true,
+    marker: String(SPECIMEN_DOCKET_MARKER),
+    dockets: Object.fromEntries(dockets),
+    whatThisEstablishes: "that the docket printed on every filed caption of these fixtures is a specimen, asserted "
+      + "at build time rather than left to be inferred from the value.",
+    whatThisDoesNotEstablish: "anything about the render path. A packet composed for a real participant is not built "
+      + "by this script and is not covered by this assertion."
+  };
+}
+
 /* ------------------------------------------------------- field-map rows */
 
 const base = (document, id, label, page) => ({
@@ -918,13 +965,23 @@ function sanitize(text) {
 
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-/* FIX146. See the note on the same function in the sibling family: a component
- * identity is this factory's own identifier for a document, not statute or rule
- * text, and it printed in the caption of all three FILED documents. The guide
- * now carries every one of them in a labelled internal-record-text section. */
-function captionBlock(facts, documentTitle, documentId) {
+/* FIX146 removed the component identity from this caption. FIX149 removes the
+ * `documentId` line that was sitting directly above it, on the same reasoning
+ * and with the same evidence -- see the note on the same function in the
+ * sibling family.
+ *
+ * Measured against the source this family is bound to: `pdftotext` over all five
+ * gated Louisiana sources returns ZERO occurrences of the string "LA-CCRP-ART",
+ * and the pinned Article 998 (sha256 8625ccd4) names itself "CCRP 998" and
+ * "Art. 998.". LA-CCRP-ART-998 is the library's index key for those bytes, not
+ * anything the Legislature prints on the form, and Article 986(A) makes this
+ * form exclusive with only the name of the court free to vary under 986(C).
+ *
+ * Both parameters are gone rather than ignored, so no caller can print either
+ * by habit. Every filed document still names itself by Article number, in its
+ * title on the line below and in its `La. C.Cr.P. art.` citation line. */
+function captionBlock(facts, documentTitle) {
   return block(
-    documentId,
     documentTitle.toUpperCase(),
     "",
     `${facts["case.court_name"]}, STATE OF LOUISIANA`,
@@ -942,10 +999,14 @@ function captionBlock(facts, documentTitle, documentId) {
  */
 function motionBody(facts, article998) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.motion], MOTION),
+    captionBlock(facts, TITLES[COMPONENT.motion]),
     block(
       "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
-      "La. C.Cr.P. arts. 977(D) and 998. Article 986 makes this the form to be used for this category; the Article 989 motion the other Louisiana tracks use is not used here.",
+      /* FIX149. "the other Louisiana tracks" -- "track" is this platform's noun for
+       * a route, not Louisiana's noun for a statutory scheme. It was the last piece
+       * of build vocabulary left on a filed page after the identifiers came off.
+       * Louisiana's own noun is the article. The sentence says the same thing. */
+      "La. C.Cr.P. arts. 977(D) and 998. Article 986 makes this the form to be used for this category; the Article 989 motion the other Louisiana expungement articles use is not used here.",
       "",
       "NOW INTO COURT comes mover, who provides the court with the following information in connection with this request:",
       ""
@@ -1022,10 +1083,32 @@ function motionBody(facts, article998) {
       article998.exParte,
       ""
     ),
+    /*
+     * FIX149. This block read:
+     *
+     *     Respectfully submitted,
+     *     <blank>
+     *     LA-CCRP-ART-998. Statutory source note: Acts 2023, No. 342, Sec. 1.
+     *
+     * Two separate things were wrong with it, and only the second was a
+     * placement question.
+     *
+     * THE IDENTIFIER. LA-CCRP-ART-998 is this build's index key, printed inside
+     * the signature block of a form Article 986(A) makes exclusive. FIX146 used
+     * that exclusivity to move six fields OFF this form -- correctly -- and in
+     * the same commit left a line the Legislature did not write inside the
+     * block where the mover signs. It is removed, and carried in the guide's
+     * internal-record-text section with the other identifiers.
+     *
+     * THE ENACTMENT CITATION. "Acts 2023, No. 342, Sec. 1." IS source text and
+     * stays in the packet, but the pinned Article 998 (sha256 8625ccd4) prints
+     * it at the FOOT of source page 2, below both signature blocks, as the
+     * enactment citation of the article. It does not print it between
+     * "Respectfully submitted," and the attorney block. It now sits where the
+     * source puts it, below the unrepresented-mover block.
+     */
     block(
       "Respectfully submitted,",
-      "",
-      `${MOTION}. Statutory source note: ${article998.statutorySourceNote}`,
       ""
     ),
     block(
@@ -1048,6 +1131,9 @@ function motionBody(facts, article998) {
       `Mover postal address: ${DOTS(45)}`,
       `City, State, ZIP Code: ${DOTS(44)}`,
       `Telephone Number: ${DOTS(49)}`,
+      "",
+      /* The enactment citation, at the foot of the form as the source prints it. */
+      article998.statutorySourceNote,
       ""
     ),
     block(
@@ -1063,7 +1149,7 @@ function motionBody(facts, article998) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.order], ORDER),
+    captionBlock(facts, TITLES[COMPONENT.order]),
     block(
       "ORDER",
       "La. C.Cr.P. art. 991, on the statutory Article 991 form.",
@@ -1101,7 +1187,7 @@ function orderBody(facts) {
 
 function expungementOrderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.expungementOrder], EXPUNGEMENT_ORDER),
+    captionBlock(facts, TITLES[COMPONENT.expungementOrder]),
     block(
       "ORDER OF EXPUNGEMENT OF ARREST AND CONVICTION RECORD",
       "La. C.Cr.P. art. 992, on the statutory Article 992 form.",
@@ -1267,13 +1353,60 @@ function participantInstructions(binding, rbf, name, article998) {
     "",
     "**Write your name on the Article 998 motion SURNAME FIRST.** The line is headed `NAME:` and the statute rules it underneath, in its own words, `(Last, First, MI)` - your last name, then your first name, then your middle initial. Spell it exactly as the state rap sheet spells it: the Louisiana Bureau of Criminal Identification and Information matches this motion to your record by that name.",
     "",
-    "This packet left that line blank rather than filling it in. The only form of your name this platform holds is one whole string, with no mark saying which part of it is your surname, so writing it into a line that asks for the surname first would have been a guess about your own name on a document you sign and a clerk files. The rest of the packet uses your name in ordinary order, which is what those places ask for: the caption of each document, and the signature block at the end of the motion.",
+    /*
+     * FIX149 corrects the REASON, not the blank.
+     *
+     * FIX146 was right to blank this line: writing the full-name string onto a
+     * line ruled (Last, First, MI) stated the mover's surname as "Jordan" on
+     * canonical and "Maria-Alejandra" on boundary, on a motion the Bureau
+     * matches to a rap sheet by name. VF47 re-derived that against the pinned
+     * source and agreed it is a repair and not a regression.
+     *
+     * But the sentence justifying it told the participant "The only form of
+     * your name this platform holds is one whole string", and VF47 established
+     * that this is FALSE of the platform:
+     *
+     *   src/lib/rcap/person-identity.ts:8-9  RcapPersonIdentityInput carries
+     *     firstName and lastName, and deriveRcapPersonMatchKey COMPOSES the
+     *     full name from them -- the opposite direction from the assumption.
+     *   supabase/migrations/20260728213131_remote_schema.sql:1823-1824 and
+     *     supabase/phase-18-rcap-wilma-intake.sql:7-8  user_first_name and
+     *     user_last_name are persisted columns, collected as two separate
+     *     inputs by src/app/intake/[partnerSlug]/RcapWilmaIntakeChat.tsx:283-284.
+     *   supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:489-501
+     *     and 20260906120000_sponsored_route_render_transaction.sql:400-412
+     *     Both render transactions insert petitioner_first_name and
+     *     petitioner_last_name when a packet row is created.
+     *
+     * What holds one whole string is this BUILD's fact vocabulary -- the
+     * compiled LA profile declares participant_full_legal_name and no name part
+     * -- so the limit is real but it is a build limit, and it was reported to
+     * the participant as a fact about the platform. The corrected sentence says
+     * which it is. It does not promise the line will fill later, because that
+     * is a supply item nobody has granted: it is recorded in build-findings.json
+     * for the lane that holds the profile.
+     *
+     * The middle initial is genuinely held nowhere in this repository, so this
+     * line stays a participant supply either way.
+     */
+    "This packet left that line blank rather than filling it in, and the reason is this build's, not your court's. The fact vocabulary this packet is built against holds your name as one whole string with no mark saying which part of it is your surname, so writing it into a line that asks for the surname first would have been a guess about your own name on a document you sign and a clerk files. The platform does hold your first and last name separately elsewhere; this build is not wired to them, and no middle initial is held anywhere, so the line would still be yours to finish. The rest of the packet uses your name in ordinary order, which is what those places ask for: the caption of each document, and the signature block at the end of the motion.",
     "",
     "## Internal record text: what the record says, and why it is here rather than on the filing",
     "",
     "The three documents you file - the Article 998 motion, the Article 991 order and the Article 992 order - recite statute text, rule text and your own answers, and nothing else. This build's own identifiers and the committed record's own words are internal record text, and they are set out here instead, so that the pages a clerk stamps and a judge signs carry only what the Legislature put on them. Nothing has been shortened and nothing has been dropped from the packet.",
     "",
-    bullet(`**Component identities.** The Article 998 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the four documents. They used to print in the caption of all three filed documents and again in the motion's signature block; they print on no filed page now.`),
+    /*
+     * FIX149. "they print on no filed page now" was written while LA-CCRP-ART-998,
+     * -991 and -992 were still printing on filed pages 1, 2, 3 and 4 -- true of
+     * the component identities, false of the document identifiers. Both classes
+     * are off every filed page now, both are carried here, and the claim is
+     * asserted against the delivered bytes by assertNoBuildIdentifierOnAFiledPage
+     * so it cannot go back to being false without stopping the build.
+     */
+    bullet(`**Component identities.** The Article 998 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the four documents.`),
+    bullet(`**Document identifiers.** The Article 998 motion is also indexed as \`${MOTION}\`, the Article 991 order as \`${ORDER}\` and the Article 992 order as \`${EXPUNGEMENT_ORDER}\`. Those look like form numbers and they are not: they are this build's index keys for the source library. Louisiana does not print them -- the string "LA-CCRP-ART" appears nowhere in any of the five gated Louisiana sources, and the Article 998 text this packet is bound to names itself "CCRP 998" and "Art. 998." where it names itself at all.`),
+    bullet(`**Where the identifiers used to print, and where they print now.** Between them the two classes above used to appear on filed pages 1, 2, 3 and 4, including inside the signature block of the Article 998 motion itself. Neither class is printed on any page you file now. Each filed document names itself the way the Legislature names it: by its Article number, in its title and in its \`La. C.Cr.P. art.\` citation line.`),
+    bullet(`**The enactment citation on the motion.** \`${article998.statutorySourceNote}\` is the Legislature's own enactment citation for Article 998 and it stays on the motion. It used to print between "Respectfully submitted," and the attorney block, prefixed by this build's identifier and labelled with this build's words ("Statutory source note"). The source prints it at the foot of the form, below both signature blocks, with no label and no prefix, and that is where it prints now.`),
     bullet("**Where the Article 991 and Article 992 order texts come from.** Both are composed from the committed LA-STATUTORY-FORMS authority. Each order now cites only its own Article."),
     bullet(`**Where the Article 998 motion text comes from.** It is composed from the Article 998 statutory text this packet is bound to by the content digest \`${article998.sha256}\`, which is what Article 986(A) requires of a rendering of a mandatory statutory form. The motion now says only that its prayer and ex parte paragraph are the Legislature's own words.`),
     bullet("**Race and gender on the motion.** The committed manual-completion record classifies both as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand."),
@@ -1572,10 +1705,50 @@ function measureInk(drawn) {
 
 /* --------------------------------------------------------- byte proof */
 
+/*
+ * FIX149. The same guard as the sibling family, on the same reasoning: the
+ * guide tells the participant that this build's identifiers print on no page
+ * they file and that the platform's own actor word is not used there, and a
+ * claim about delivered bytes has to be measured on delivered bytes.
+ *
+ * FIX146 wrote a sentence of that shape here while LA-CCRP-ART-998, -991 and
+ * -992 were still printing on filed pages 1, 2, 3 and 4 -- one of them inside
+ * the signature block of a form Article 986(A) makes exclusive -- and all nine
+ * completeness counters read zero before and after, because the identifier is
+ * present, non-empty, in its box and correctly spelled.
+ *
+ * Scope is the FILED pages: every page whose component is not the guide. The
+ * guide is where all three classes belong, so scanning it would make the guard
+ * unfailable in the other direction. It throws rather than counting.
+ */
+const BUILD_IDENTIFIER_CLASSES = Object.freeze([
+  { klass: "documentIdentifier", pattern: /LA-CCRP-ART-\d+/g },
+  { klass: "componentIdentity", pattern: /la-977d-marijuana-first-offense-[a-z-]+-\d+/g },
+  { klass: "platformActor", pattern: /\bparticipants?\b/gi }
+]);
+
+function assertNoBuildIdentifierOnAFiledPage(pageText, pageManifest, fixture) {
+  const hits = [];
+  for (const [index, row] of pageManifest.entries()) {
+    if (row.component === COMPONENT.guide) continue;
+    for (const { klass, pattern } of BUILD_IDENTIFIER_CLASSES) {
+      for (const match of String(pageText[index] ?? "").matchAll(new RegExp(pattern.source, pattern.flags))) {
+        hits.push(`${fixture} filed page ${index + 1} (${row.component}): ${klass} "${match[0]}"`);
+      }
+    }
+  }
+  assert.equal(hits.length, 0,
+    "participant-instructions.md tells the participant that this build's identifiers are printed on no page they "
+    + "file and that the platform's own actor word is not used there. These filed pages contradict it, so either "
+    + "the pages or the sentence is wrong and this build will not ship both:\n  " + hits.join("\n  "));
+  return { filedPagesScanned: pageManifest.filter((row) => row.component !== COMPONENT.guide).length, hits: 0 };
+}
+
 async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixture, article998) {
   const pdf = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
   assert.equal(pdf.getPageCount(), pageManifest.length, "the page manifest must describe every packet page");
   const pageText = pdf.getPages().map((page) => groupIntoLines(extractTextItems(page)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  const identifierScan = assertNoBuildIdentifierOnAFiledPage(pageText, pageManifest, fixture);
   const byDocument = new Map();
   for (const [index, row] of pageManifest.entries()) {
     byDocument.set(row.documentId, `${byDocument.get(row.documentId) ?? ""} ${pageText[index]}`.replace(/\s+/g, " "));
@@ -1615,7 +1788,7 @@ async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixt
     assert.equal(row.foundInOutputBytes, true,
       `${fixture}: the ${row.what} lifted from the bound Article 998 bytes is not readable from the finalized packet bytes`);
   }
-  return { actualWrites, glyphs, statutoryTextProof };
+  return { actualWrites, glyphs, statutoryTextProof, identifierScan };
 }
 
 /* ------------------------------------------------------------ counters */
@@ -1721,6 +1894,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     assert.equal(noRaster, true, "no browser resolves in this container; invoke with --no-raster and let the raster gate run centrally");
   }
 
+  /* FIX149. Before any fixture is composed: a persona edited to a real-looking
+   * docket must stop the build BEFORE filing-shaped bytes exist on disk, not
+   * after. Measured while proving this guard can fail: called from the report
+   * writer it fired correctly and still left a moved canonical.pdf behind. */
+  const specimenDocketProof = assertEveryFixtureDocketIsASpecimen();
   const binding = loadAuthorityBinding();
   const sources = resolveHeldSources(binding.queueFamily);
   assert.equal(sources.absent.length, 0,
@@ -1795,9 +1973,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${OUT}/fixtures/${fixture}.pdf`;
-    fs.writeFileSync(path.join(ROOT, file), packetBytes);
 
+    /*
+     * FIX149. PROVE FIRST, THEN WRITE. The fixture used to be written above and
+     * proved below, so every assertion in proveWritesFromBytes stopped the build
+     * with exit 1 while leaving the rejected bytes in fixtures/ for whoever
+     * looked next. Measured on the sibling family while proving this guard can
+     * fail: all three mutations exited 1 AND moved the canonical fixture on
+     * disk. The proof never read the file, only the buffer, so proving first
+     * costs nothing and makes a failed assertion mean the packet was not
+     * delivered rather than merely complained about.
+     */
     const proof = await proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixture, article998);
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
     const outsideBoxes = measureInk(drawnRows);
     proofs.push({
       fixture,
@@ -1913,6 +2101,52 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindings: binding.pins
   });
 
+  /*
+   * FIX149. What this packet's FILED documents actually are, measured from the
+   * components this build rendered rather than declared from the queue row.
+   *
+   * The guide is a rendered component but it is not an official form, so it is
+   * not in a form family. Everything else this build rendered is.
+   */
+  const deliveredFormFamily = RENDERED_COMPONENTS
+    .filter((componentId) => componentId !== COMPONENT.guide)
+    .map((componentId) => DOCUMENT_OF[componentId])
+    .sort()
+    .join("+");
+  const queueFormFamily = String(binding.queueFamily.officialFormFamily ?? "");
+  const queueForms = new Set(queueFormFamily.split("+").filter(Boolean));
+  const deliveredForms = new Set(deliveredFormFamily.split("+").filter(Boolean));
+  const namedButNotDelivered = [...queueForms].filter((f) => !deliveredForms.has(f)).sort();
+  const deliveredButNotNamed = [...deliveredForms].filter((f) => !queueForms.has(f)).sort();
+
+  /*
+   * The disagreement is asserted, not merely described. If the queue row is
+   * corrected upstream, or if this build's component set changes, these two
+   * assertions fail and this build stops rather than shipping a reconciliation
+   * that has stopped being true.
+   */
+  assert.deepEqual(namedButNotDelivered, [FEE_EXEMPTION],
+    `the queue row's officialFormFamily is expected to name exactly one form this packet does not deliver `
+    + `(${FEE_EXEMPTION}, the Article 988 fee exemption, whose generating condition this track does not meet). `
+    + `It now names ${JSON.stringify(namedButNotDelivered)}. Either the queue was corrected upstream or this `
+    + `packet's component set moved; the reconciliation recorded in source-receipt.json is out of date either way.`);
+  assert.deepEqual(deliveredButNotNamed, [MOTION],
+    `the queue row's officialFormFamily is expected to omit exactly one form this packet does deliver `
+    + `(${MOTION}, the required primary filing). It now omits ${JSON.stringify(deliveredButNotNamed)}.`);
+
+  const formFamilyDisagreement = {
+    theyDisagree: true,
+    namedByTheQueueRowButNotDeliveredByThisPacket: namedButNotDelivered,
+    deliveredByThisPacketButNotNamedByTheQueueRow: deliveredButNotNamed,
+    whatThatWouldHaveMeant: "a route described to a buyer from the queue row's list alone would promise an "
+      + "Article 988 Motion for Fee Exemption this packet does not contain, and would not promise the Article 998 "
+      + "motion that is the whole point of the route.",
+    whyTheQueueRowIsNotEditedHere: "MASTER_QUEUE.json is generated centrally and is not this lane's to write. The "
+      + "same disagreement is recorded under authorityGrantDiscrepancy in this receipt and in build-findings.json, "
+      + "and the determination's own operative text names Article 998 by number.",
+    measuredFrom: "the components this build rendered, excluding the participant guide, which is not an official form"
+  };
+
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1",
     familyId: FAMILY_ID,
@@ -1923,7 +2157,35 @@ export async function runFamily(argv = process.argv.slice(2)) {
     implementationStrategy: STRATEGY,
     custodyClass: CUSTODY_CLASS,
     sourceStatus: CUSTODY_CLASS,
-    officialFormFamily: binding.queueFamily.officialFormFamily,
+    /*
+     * FIX149. COMPONENT_SET.
+     *
+     * This field used to be `binding.queueFamily.officialFormFamily` verbatim:
+     * "LA-CCRP-ART-988+LA-CCRP-ART-991+LA-CCRP-ART-992". Copied into this
+     * family's own receipt with no qualification, it reads as this receipt's
+     * statement about what this packet contains, and as that statement it is
+     * wrong twice over. It NAMES the Article 988 fee-exemption motion, which
+     * this packet does not deliver -- the record's own condition for generating
+     * it is not met on this track and the guide says so in terms -- and it
+     * OMITS LA-CCRP-ART-998, the required primary filing that is the whole point
+     * of the route and the second of this family's two bound sources.
+     *
+     * A route described to a buyer from this line would promise a fee-exemption
+     * motion the packet does not contain and not promise the Article 998 motion
+     * it does.
+     *
+     * The queue's value is not edited: MASTER_QUEUE.json is generated centrally
+     * and is not this lane's to write, and the builder already records the same
+     * disagreement under authorityGrantDiscrepancy. What changes is whose
+     * statement each field is. The queue's list keeps the queue's name, the
+     * delivered list is MEASURED from the components this build actually
+     * rendered, and the two are asserted to disagree in exactly the known way --
+     * so if the queue is corrected upstream, or if this packet's component set
+     * changes, this build stops instead of shipping a stale reconciliation.
+     */
+    officialFormFamilyOnTheQueueRow: binding.queueFamily.officialFormFamily,
+    officialFormFamilyDelivered: deliveredFormFamily,
+    officialFormFamilyDisagreement: formFamilyDisagreement,
     acquisitionCommissioned: false,
     sourceAcquisitionAuthorized: false,
     sourceBinariesRequired: (binding.queueFamily.sourceHashes ?? []).length,
@@ -2116,6 +2378,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1",
+    specimenDocket: specimenDocketProof,
     familyId: FAMILY_ID,
     question: "Is the caption, the controlling authority, the eligibility recital, the FORM and the prayer on this packet this family's own, or a sibling's?",
     whyItIsAsked: "Louisiana runs six expungement tracks off six articles that share a caption shape and share the Article 991 and 992 orders. This track is the one that also uses a DIFFERENT primary form, and three lines of its own committed record name the sibling tracks' Article 989 motion.",
@@ -2191,6 +2454,31 @@ export async function runFamily(argv = process.argv.slice(2)) {
     familyId: FAMILY_ID,
     blocking: [],
     findings: [
+      {
+        finding: "FIX149. The guide told the participant \"The only form of your name this platform holds is one whole "
+          + "string, with no mark saying which part of it is your surname\", and that is false of the platform. "
+          + "RcapPersonIdentityInput carries firstName and lastName separately and COMPOSES the full name from them "
+          + "(src/lib/rcap/person-identity.ts:8-9); rcap_intake_sessions.user_first_name / .user_last_name and "
+          + "rcap_document_packets.petitioner_first_name / .petitioner_last_name are persisted columns; the intake "
+          + "collects the two names as two inputs (src/app/intake/[partnerSlug]/RcapWilmaIntakeChat.tsx:283-284); "
+          + "and BOTH render transactions insert petitioner_first_name and petitioner_last_name when a packet row is "
+          + "created (supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:489-501 and "
+          + "20260906120000_sponsored_route_render_transaction.sql:400-412).",
+        treatment: "The BLANK is not a regression and is unchanged: writing the full-name string onto a line the "
+          + "Article 998 form rules (Last, First, MI) stated the mover's surname as \"Jordan\" on canonical and "
+          + "\"Maria-Alejandra\" on boundary, on a motion the Bureau matches to a rap sheet by name. What was wrong "
+          + "was the REASON given to the participant, and it is corrected: what holds one whole string is this "
+          + "build's fact vocabulary, not the platform. The compiled LA profile "
+          + "(src/lib/rcap-engine/compiled/profiles/LA-louisiana.json) declares participant_authenticated, "
+          + "participant_full_legal_name and participant_packet, and no name part.",
+        supplyItem: "Add family_name and given_name to the LA compiled profile's participant facts and source them "
+          + "from the petitioner_first_name / petitioner_last_name the render transaction already receives. The NAME "
+          + "line then fills to \"<Last>, <First>\".",
+        whyThisLaneDidNotDoIt: "the compiled engine profile is not in this family's grant, and changing the fact "
+          + "vocabulary changes every family built against it. It is recorded for the lane that holds it.",
+        whatWouldStillNotFill: "the middle initial. No first-party column, profile fact or intake input anywhere in "
+          + "this repository holds an MI, so this line stays a declared participant supply even fully wired."
+      },
       {
         finding: "This family was recorded SOURCE_IDENTITY_UNRESOLVED on the nested sourceReadiness.custodyClass of its own queue row, while the same row's top-level sourceStatus read SOURCE_BOUND_BY_HELD_BYTES and sourceBound true. It was held out of the build queue for that nested class.",
         treatment: `Both declared digests resolved by content digest across ${sources.mounted.length} mounted custody root(s) and were re-hashed from the resolved bytes. ${sources.resolved.filter((r) => r.declaredCustodyMounted).length} of ${sources.resolved.length} resolved at the DECLARED path itself, in the declared custody, carrying the declared digest. The nested class is contradicted by measurement and is recorded in source-receipt.json rather than reconciled by this lane; MASTER_QUEUE.json is generated centrally and was not modified.`
