@@ -8,10 +8,42 @@
   "answer": "RESTORE, NOT REMOVE. On this build host every unaccounted stream is a source /AP /N /Off appearance minus its opaque background fill, and the fill is load-bearing.",
   "howItWasEstablished": "The unaccounted streams across the five claimed families reduce to FOUR distinct byte sequences. Each was compared, token by token, against the /AP /N streams the pinned sources ship, with one leading opaque rectangle fill normalised away from both sides. Four of four resolve, nothing left over.",
   "derivation": [
-   {"deliveredSha256": "65994cede8e44c54a01827a704dcddc1cf9b22ae9bd05320933158a9b3bb1000", "bytes": 130, "isSourceStream": "bb7f4e450d198ddfc01ab0916857f5a36ea217a996020f22057370fd12d55124", "sourceBytes": 147, "sourceState": "/AP /N /Off, 18x18", "shippedBy": "the OCA petition and the Statement of Inability", "minusThisOperator": "1 g / 0 0 18 18 re / f"},
-   {"deliveredSha256": "32ad6918ac2b728ad57f9f3f230e103d10e8fb4847566d6dc6dfcf8ed58bf1c8", "bytes": 24, "isSourceStream": "b5b8bff381c240d268ad0aa9a3a20ca17608e2d8891f32c77c2e1c3b8d92b4a8", "sourceBytes": 42, "sourceState": "/AP /N /Off, 18x18", "shippedBy": "the OCA model order", "minusThisOperator": "1 g / 0 0 18 18 re / f"},
-   {"deliveredSha256": "664b8cc992ddcf7b0d3249a90fba7a5fb3ca0146c4f3e7dc6f3eaf6b3dd7ae8d", "bytes": 158, "isSourceStream": "75e5c08cc7d141b9ea4623f135c3f93581f810a15b27b7edb0dec5044921fbe4", "sourceBytes": 179, "sourceState": "/AP /N /Off, 17.999x18", "shippedBy": "the Statement of Inability", "minusThisOperator": "1 g / 0 0 17.999 18 re / f"},
-   {"deliveredSha256": "fee290d0a388463a3adc0421c899214890d41cb013717839352afceca62472dc", "bytes": 165, "isSourceStream": "402ae6ac68188b4acc8c22cb52c079714fc2e5f192a9e757d349ef86ad40dfe2", "sourceBytes": 187, "sourceState": "/AP /N /Off, 18x18.0002", "shippedBy": "the Statement of Inability", "minusThisOperator": "1 g / 0 0 18 18.0002 re / f"}
+   {
+    "deliveredSha256": "65994cede8e44c54a01827a704dcddc1cf9b22ae9bd05320933158a9b3bb1000",
+    "bytes": 130,
+    "isSourceStream": "bb7f4e450d198ddfc01ab0916857f5a36ea217a996020f22057370fd12d55124",
+    "sourceBytes": 147,
+    "sourceState": "/AP /N /Off, 18x18",
+    "shippedBy": "the OCA petition and the Statement of Inability",
+    "minusThisOperator": "1 g / 0 0 18 18 re / f"
+   },
+   {
+    "deliveredSha256": "32ad6918ac2b728ad57f9f3f230e103d10e8fb4847566d6dc6dfcf8ed58bf1c8",
+    "bytes": 24,
+    "isSourceStream": "b5b8bff381c240d268ad0aa9a3a20ca17608e2d8891f32c77c2e1c3b8d92b4a8",
+    "sourceBytes": 42,
+    "sourceState": "/AP /N /Off, 18x18",
+    "shippedBy": "the OCA model order",
+    "minusThisOperator": "1 g / 0 0 18 18 re / f"
+   },
+   {
+    "deliveredSha256": "664b8cc992ddcf7b0d3249a90fba7a5fb3ca0146c4f3e7dc6f3eaf6b3dd7ae8d",
+    "bytes": 158,
+    "isSourceStream": "75e5c08cc7d141b9ea4623f135c3f93581f810a15b27b7edb0dec5044921fbe4",
+    "sourceBytes": 179,
+    "sourceState": "/AP /N /Off, 17.999x18",
+    "shippedBy": "the Statement of Inability",
+    "minusThisOperator": "1 g / 0 0 17.999 18 re / f"
+   },
+   {
+    "deliveredSha256": "fee290d0a388463a3adc0421c899214890d41cb013717839352afceca62472dc",
+    "bytes": 165,
+    "isSourceStream": "402ae6ac68188b4acc8c22cb52c079714fc2e5f192a9e757d349ef86ad40dfe2",
+    "sourceBytes": 187,
+    "sourceState": "/AP /N /Off, 18x18.0002",
+    "shippedBy": "the Statement of Inability",
+    "minusThisOperator": "1 g / 0 0 18 18.0002 re / f"
+   }
   ],
   "whyTheAccountingToolCalledThemUNMATCHED": "Not because the fill colour was unrecognised -- its LEADING_FILL regex does match `1 g`. Two other gaps. FIRST, the regex is anchored at ^ and strips the fill together with the whitespace in front of it, so the SOURCE skeleton begins at `0.501953 g` while the DELIVERED stream, which had the fill removed in place, still begins with the two newlines left behind where it stood. The two skeletons then differ by two whitespace bytes and the SHA-256 comparison separates them. SECOND, the order's /Off opens `q` before its fill, so the fill is not at ^ at all and the regex never fires on that stream. Both are gaps in the normaliser, not evidence about provenance. account-stroke-only-against-pinned-sources.mjs was NOT run -- it rewrites the shared ledger for all 53 families and this lane holds five.",
   "whatTheStrippedFillWasDoing": "It is not decoration and it is not invisible. Rendering the pinned Statement of Inability THREE ways at 600 dpi settles it: with every annotation removed, the court's own page prints a small square check box; as the source ships, the widget's /AP /N /Off paints an opaque white rectangle over that printed box and then strokes its own LARGER bevelled box, so the participant sees ONE box; in the delivered packet, with the fill stripped, the court's printed box shows through INSIDE the stamped appearance box. Two frames at every check box. This is the same defect FIX01 measured on co_petition_seal_arrest-set, on a different form.",
@@ -38,8 +70,22 @@
     "afterRepair": "matchingNothingInTheSources 0. All 40 are now byte-identical to the pinned source /AP /N /Off stream they are derived from: 22 to bb7f4e45..., 14 to b5b8bff3..., 2 to 75e5c08c..., 2 to 402ae6ac... across the two fixtures."
    },
    "artifacts": [
-    {"fixture": "canonical", "sha256": "b9ba48aad4748ed2fade6f6ea3da0bc6d6eede2a7135bf661173c578835367c1", "pageCount": 24, "sha256Before": "dd3c259471713851aa1bf607e3e75fcb6bc1ede719dd934212a0039dcd6f0dd6", "addedGlyphsReadFromOutputBytes": 262, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
-    {"fixture": "boundary", "sha256": "7c0194afb6e801acf09e1adcc3e8de34d91df9ac8d574e8a310e678755112841", "pageCount": 24, "sha256Before": "cc799883f128b0d113bbb448decf7b4fdd8f07640c777d0db9e340d32f4bb988", "addedGlyphsReadFromOutputBytes": 590, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+    {
+     "fixture": "canonical",
+     "sha256": "b9ba48aad4748ed2fade6f6ea3da0bc6d6eede2a7135bf661173c578835367c1",
+     "pageCount": 24,
+     "sha256Before": "dd3c259471713851aa1bf607e3e75fcb6bc1ede719dd934212a0039dcd6f0dd6",
+     "addedGlyphsReadFromOutputBytes": 262,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "boundary",
+     "sha256": "7c0194afb6e801acf09e1adcc3e8de34d91df9ac8d574e8a310e678755112841",
+     "pageCount": 24,
+     "sha256Before": "cc799883f128b0d113bbb448decf7b4fdd8f07640c777d0db9e340d32f4bb988",
+     "addedGlyphsReadFromOutputBytes": 590,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    }
    ],
    "digestsHowRecorded": "sha256sum over the committed files; no digest in this row was transcribed, padded or reconstructed by hand.",
    "counters": {
@@ -61,16 +107,62 @@
    "acceptanceMeasurement": {
     "resolution": "600 dpi grayscale, threshold 128, pdftoppm. The feature at issue is an 18pt box carrying a smaller printed box inside it; it is legible at this resolution and was also read as a crop.",
     "pagesCompared": "20 of 24 delivered pages have a pinned source page. The other four (9, 22, 23, 24) are components this build authors and have no source page to difference against.",
-    "addedInkOutsideDeclaredWriteRects": {"canonical": 0, "boundary": 0, "tolerancePt": 1.5, "declaredRectsFrom": "reports/actual-writes.json"},
-    "negativeControl": {"pages": [2,3,4,7,8,12,13,14,15,18,19], "result": "11 pages the packet writes nothing on, each 0 pixels added and 0 pixels removed, on both fixtures."},
+    "addedInkOutsideDeclaredWriteRects": {
+     "canonical": 0,
+     "boundary": 0,
+     "tolerancePt": 1.5,
+     "declaredRectsFrom": "reports/actual-writes.json"
+    },
+    "negativeControl": {
+     "pages": [
+      2,
+      3,
+      4,
+      7,
+      8,
+      12,
+      13,
+      14,
+      15,
+      18,
+      19
+     ],
+     "result": "11 pages the packet writes nothing on, each 0 pixels added and 0 pixels removed, on both fixtures."
+    },
     "removedInkAccountedLineByLine": {
      "totalPixels": 22360,
      "identicalBeforeAndAfterThisRepair": true,
      "items": [
-      {"page": 1, "px": 8882, "what": "the source-authored default value `is not`, twice, in the petition's numbered blanks (11) and (12) -- `A copy of the judgment ... ___ (11) attached` and `Evidence of Petitioner's completion ... ___ (12) attached`.", "class": "source-authored default on an editable participant field, not printed form furniture", "whyRemovalIsCorrect": "the platform does not know whether the participant is attaching the judgment; shipping `is not` would assert on a filed petition that they are not. The blank is disclosed to the participant instead.", "notIntroducedByThisRepair": true},
-      {"page": 16, "px": 1426, "what": "the source-authored `0` in Total Value of Property, source rect [313.44 131.32 538.685 160.12]", "class": "source-authored default on an editable participant field", "notIntroducedByThisRepair": true},
-      {"page": 17, "px": 1426, "what": "the source-authored `0` in Total Monthly Expenses, source rect [318.218 91.2 538.68 120]", "class": "source-authored default on an editable participant field", "notIntroducedByThisRepair": true},
-      {"page": 20, "px": 10626, "what": "the source-authored `12/15/2022` on the date line of the Option 1 declaration under penalty of perjury, source rect [97.7522 302.312 247.752 324.312]", "class": "source-authored default on a PROTECTED_FIELD", "whyRemovalIsCorrect": "reports/blanks-left-for-the-participant.json classifies this blank PROTECTED_FIELD and participant-instructions.md tells the participant the date is left blank because they date it when they swear it. This is the removal VF05 required of the sibling family; it is already made here.", "notIntroducedByThisRepair": true}
+      {
+       "page": 1,
+       "px": 8882,
+       "what": "the source-authored default value `is not`, twice, in the petition's numbered blanks (11) and (12) -- `A copy of the judgment ... ___ (11) attached` and `Evidence of Petitioner's completion ... ___ (12) attached`.",
+       "class": "source-authored default on an editable participant field, not printed form furniture",
+       "whyRemovalIsCorrect": "the platform does not know whether the participant is attaching the judgment; shipping `is not` would assert on a filed petition that they are not. The blank is disclosed to the participant instead.",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 16,
+       "px": 1426,
+       "what": "the source-authored `0` in Total Value of Property, source rect [313.44 131.32 538.685 160.12]",
+       "class": "source-authored default on an editable participant field",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 17,
+       "px": 1426,
+       "what": "the source-authored `0` in Total Monthly Expenses, source rect [318.218 91.2 538.68 120]",
+       "class": "source-authored default on an editable participant field",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 20,
+       "px": 10626,
+       "what": "the source-authored `12/15/2022` on the date line of the Option 1 declaration under penalty of perjury, source rect [97.7522 302.312 247.752 324.312]",
+       "class": "source-authored default on a PROTECTED_FIELD",
+       "whyRemovalIsCorrect": "reports/blanks-left-for-the-participant.json classifies this blank PROTECTED_FIELD and participant-instructions.md tells the participant the date is left blank because they date it when they swear it. This is the removal VF05 required of the sibling family; it is already made here.",
+       "notIntroducedByThisRepair": true
+      }
      ],
      "formFurnitureRemoved": "none. No rule, box, leader, line art or printed word of the court's own is removed on any page, in either fixture."
     },
@@ -85,6 +177,127 @@
     "productionTouched": false
    },
    "localRasterNote": "Built with --no-raster, so rasterState is BUILT_RASTER_PENDING. The local chromium rasteriser fails in this container (Page.captureScreenshot protocol error) and a local browser render is not a receipt in any case; RASTER_PASS comes from the central workflow bound to the exact SHA-256 recorded above."
+  },
+  {
+   "familyId": "tx_nd_probation_misdemeanor-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
+   "builderChanged": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
+   "repairedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+   "recordedFailureRepaired": {
+    "obligation": "ARTIFACTS",
+    "recordedBy": "VF90, data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json, at base a09ef20d342929fb68141828508f38e65a5a8545",
+    "asRecorded": "strokeOnlyAppearances 76, matchingAPinnedSourceStream 32, matchingNothingInTheSources 44",
+    "reproduced": true,
+    "afterRepair": "matchingNothingInTheSources 0. All 44 are now byte-identical to the pinned source /AP /N /Off stream they are derived from: 18 to b5b8bff3..., 22 to bb7f4e45..., 2 to 75e5c08c..., 2 to 402ae6ac... across the two fixtures.",
+    "verifiedAgainstThisFamilysOwnSources": "This family binds a DIFFERENT petition -- the OCA model under sections 411.073 and 411.0732, SHA-256 0f60ff4c... -- so its /Off streams were read from that form rather than assumed from the sibling. b5b8bff3 and bb7f4e45 are shipped by it and by the order, and 75e5c08c and 402ae6ac by the Statement of Inability."
+   },
+   "artifacts": [
+    {
+     "fixture": "canonical",
+     "sha256": "73d483e1e61db425263a07343decd76838936320367ef0f83b9ae4210ec5c4c1",
+     "pageCount": 24,
+     "sha256Before": "4cbe29eccdb297c6b578da29f7b32d8a5ed64c9d5647c51457fb7398a4543051",
+     "addedGlyphsReadFromOutputBytes": 262,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+     "fixture": "boundary",
+     "sha256": "13b35967499f18062b556dc84acb2700237f2e95561a7493e4d1a0aa8e005427",
+     "pageCount": 24,
+     "sha256Before": "9b905898752d33843a13b1750632040edadaa65f7da8125ddf8c7330eda9bd07",
+     "addedGlyphsReadFromOutputBytes": 590,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    }
+   ],
+   "digestsHowRecorded": "sha256sum over the committed files; nothing transcribed by hand.",
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "eightOfNine": "the builder's own completeness-counters.json.",
+    "visualDefects": "measured by this lane at 600 dpi in both directions on both fixtures, not taken from the builder -- the builder's own number was 0 before the repair while the doubled frames were on the page.",
+    "notAVerdict": "Measurements. This lane repaired these bytes and does not verify them."
+   },
+   "acceptanceMeasurement": {
+    "resolution": "600 dpi grayscale, threshold 128, pdftoppm; crops read directly at that resolution.",
+    "pagesCompared": "20 of 24; pages 9, 22, 23 and 24 are components this build authors and have no pinned source page.",
+    "addedInkOutsideDeclaredWriteRects": {
+     "canonical": 0,
+     "boundary": 0,
+     "tolerancePt": 1.5
+    },
+    "negativeControl": {
+     "pages": [
+      2,
+      3,
+      4,
+      7,
+      8,
+      12,
+      13,
+      14,
+      15,
+      18,
+      19
+     ],
+     "result": "11 pages the packet writes nothing on, each 0 added and 0 removed, on both fixtures."
+    },
+    "removedInkAccountedLineByLine": {
+     "totalPixels": 22360,
+     "identicalBeforeAndAfterThisRepair": true,
+     "items": [
+      {
+       "page": 1,
+       "px": 8882,
+       "what": "the source-authored default `is not`, twice, in the 411.073/411.0732 petition's numbered attachment blanks. Read from THIS family's own petition: stream 5c8b69a30ce5c2c0... carries `(is ) Tj (not) Tj`.",
+       "class": "source-authored default on an editable participant field",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 16,
+       "px": 1426,
+       "what": "the source-authored `0` in Total Value of Property on the Statement of Inability",
+       "class": "source-authored default on an editable participant field",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 17,
+       "px": 1426,
+       "what": "the source-authored `0` in Total Monthly Expenses on the Statement of Inability",
+       "class": "source-authored default on an editable participant field",
+       "notIntroducedByThisRepair": true
+      },
+      {
+       "page": 20,
+       "px": 10626,
+       "what": "the source-authored `12/15/2022` on the date line of the Option 1 declaration under penalty of perjury",
+       "class": "source-authored default on a PROTECTED_FIELD",
+       "notIntroducedByThisRepair": true
+      }
+     ],
+     "formFurnitureRemoved": "none, on any page, in either fixture."
+    },
+    "preservedByTheRepair": "every intended mark, participant write and selection, and every signature, notary and jurat area."
+   },
+   "governance": {
+    "doesThisBuilderRegenerateProductWiring": "NO. Measured: no reference to product-wiring in the builder, and product-wiring.json SHA-256 271e01560045698a4f58cf03fe8faa5ebde0804113ffbb27be1364ce441901dc identical before and after the rebuild.",
+    "sixKeysBefore": "all six ABSENT.",
+    "sixKeysAfter": "unchanged, still absent. Nothing lost, nothing invented, no receipt to withdraw.",
+    "verifier": "npm run rcap:verify-governance-preservation -- exit 0, GOVERNANCE_PRESERVATION_OK, run before this commit.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+   },
+   "localRasterNote": "Built with --no-raster; rasterState BUILT_RASTER_PENDING. RASTER_PASS comes from the central workflow bound to the SHA-256 above."
   }
  ],
  "grantsNothing": "This is a repair return. It opens no route, approves no packet, sets no verdict and issues no PASS."
