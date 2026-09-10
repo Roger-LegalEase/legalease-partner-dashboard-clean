@@ -1978,6 +1978,26 @@ Object.assign(FAMILY, {
       fitTextPerWidget: true,
       declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
+      /*
+       * FIX167, ROUTE_OPTIONS. This family's field map declared the item (d)
+       * election "measured_route_selection" -- the packet's own record that the
+       * build makes it -- for a mark FIX105 withdrew and no fixture of this
+       * family draws. Opting in makes the map state the withdrawal on the
+       * declared channel the completeness contract reads. See the branch in
+       * fieldMapFor for why the box is NOT simply marked, and for why the three
+       * sibling conviction families carrying the identical defect are not opted
+       * in from here.
+       */
+      declareWithdrawnElectionsInFieldMap: true,
+      guardFieldMapSelectionsAgainstDeliveredMarks: true,
+      electionCaseDeterminedNotes: {
+        guilty: "On this municipal-ordinance route there is a further reason the route cannot "
+          + "determine it: item (d) prints a state N.J.S.A. statute line, which a municipal "
+          + "ordinance conviction does not have, and the platform holds no exact ordinance "
+          + "citation or instruction authorizing a substitution into that line. Whether a matter "
+          + "is an ordinance, a disorderly persons offence or a Title 39 motor-vehicle matter is "
+          + "the classification this packet names as a self-help stop.",
+      },
     }
   ),
   "ny_160_59_petition-set": {
@@ -3310,6 +3330,76 @@ function fieldMapFor(doc, census, installed = new Map()) {
       const protection = routeSelectionProtection(field, census);
       assert.equal(protection.protected, false,
         `${doc.documentId}/${field.name}: refusing route selection in ${protection.reason}`);
+      /*
+       * FIX167, ROUTE_OPTIONS. This row used to say "measured_route_selection"
+       * -- the packet's own record that the build makes this election -- for an
+       * election FIX105 withdrew and no build on this route ever draws. VF11
+       * measured the consequence on the delivered bytes: selections empty on
+       * both fixtures, +0 added ink in the widget rect against the pinned blank
+       * form, and a field map still declaring the build made it.
+       *
+       * The repair is NOT to mark the box. Item (d) is a sworn paragraph -- "On
+       * (date) I was convicted of (offence) in violation of N.J.S.A. (statute)",
+       * with the final sentence and the dates incarceration, probation and
+       * fines were completed. Six of those nine cells have no held fact, so the
+       * paragraph identifies no conviction, and a marked box over an unwritten
+       * paragraph is an assertion the packet cannot support. The completeness
+       * contract anticipates exactly this: its CR-180 note says a counter that
+       * can only be satisfied by guessing a legal conclusion is pressure to
+       * ship an unsafe filing. A raster is re-earnable; a pre-answered sworn
+       * election is not curable by disclosure.
+       *
+       * So the record is corrected to state what the build does, on the
+       * declared channel the contract reads -- requiredBeforeFiling with the
+       * auditable determinedByTheCaseNotTheRoute exception and its reason -- and
+       * the counter that was structurally blind to a non-refuse row can now
+       * see it.
+       *
+       * GATED to families that opt in. The identical defect stands in
+       * nj_indictable_conviction-set, nj_disorderly_persons-set and
+       * nj_clean_slate-set, which are other lanes' to repair: checkOfficial
+       * asserts the live map deep-equals the committed one, so turning this on
+       * for them without rebuilding them would leave their --check failing on a
+       * family this lane may not touch. Lifting the gate is a one-line change
+       * once those three are rebuilt by whoever owns them.
+       */
+      const withdrawn = doc.declareWithdrawnElectionsInFieldMap === true
+        ? permanentlyWithdrawnElections(doc).get(field.name) : undefined;
+      if (withdrawn) {
+        const { group, unmapped } = withdrawn;
+        return finish({ field: field.name, decision: "refuse", factId: null,
+          blankTreatment: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true,
+          routeDetermined: false,
+          determinedByTheCaseNotTheRoute: true,
+          whyTheRouteCannotDetermineIt:
+            `The route determines that this is a conviction track. It does not determine the sworn `
+            + `assertion this box makes. Marking it swears the whole of ${group.row}, and `
+            + `${unmapped.length} of that paragraph's ${group.fields.length} cells `
+            + `(${unmapped.join(", ")}) have no held fact on this route, so the paragraph `
+            + `identifies no conviction. Which cells a particular matter fills, and whether it `
+            + `belongs to this item at all, is read off the participant's own court record and is `
+            + `a legal characterisation this packet names as a self-help stop.`
+            + (doc.electionCaseDeterminedNotes?.[field.name]
+              ? ` ${doc.electionCaseDeterminedNotes[field.name]}` : ""),
+          electionWithdrawnWithItsRow: {
+            row: group.row,
+            printed: group.electionPrinted ?? null,
+            cellsWithNoHeldFact: unmapped,
+            withdrawnOnEveryFixture: true,
+          },
+          identity: `${doc.documentId} field ${field.name}`,
+          // The participant-facing label is the box as the COURT'S OWN FORM
+          // prints it, not the AcroForm terminal name. A guide line reading
+          // "- guilty (source field: `guilty`)" tells a participant nothing
+          // about which box on which page they are being asked to decide.
+          effectiveLabel: group.electionPrinted ?? field.effectiveLabel ?? field.name,
+          reason: "REQUIRED_BEFORE_FILING: this box is the election for a paragraph the platform "
+            + "cannot write, so the build withdraws the mark with the row rather than swearing to "
+            + "a conviction the paragraph does not identify. The participant, with the court "
+            + "record and where necessary a lawyer, decides and marks it.",
+          widgets: field.widgets });
+      }
       return { field: field.name, decision: "measured_route_selection", factId: null,
         decisionBasis: "route-specific election drawn only inside an existing measured widget",
         widgets: field.widgets };
@@ -4993,6 +5083,42 @@ function assertPrintedCaptionInvariants(config, fieldMaps, instructions, familyI
  * This function is the single decision both the build and --check read, so the
  * two cannot drift.
  */
+/*
+ * FIX167, nj_ordinance-set, obligation ROUTE_OPTIONS.
+ *
+ * WHICH ELECTIONS THIS BUILD CAN NEVER MAKE, READ RATHER THAN ASSUMED.
+ *
+ * rowIntegrityWithholdings below decides, per fixture, which elections a
+ * broken row takes down with it. Some of those withdrawals are not per-fixture
+ * at all: where a row group declares cells that the family maps to no fact,
+ * the row is broken on EVERY fixture this family can build, so the election
+ * over it can never be made by any build. NJ Form A item (d) is the measured
+ * instance -- nine cells, six of them unmapped on every conviction route on
+ * this host.
+ *
+ * That is a fact about the field map, not about a render, so it is readable at
+ * field-map time, which is the only place it can be told to the record the
+ * completeness contract reads.
+ *
+ * The predicate mirrors rowIntegrityWithholdings exactly: a group with no
+ * mapped cell at all is skipped there and skipped here, because such a group
+ * never reaches the withholding list and its election is still made.
+ */
+function permanentlyWithdrawnElections(doc) {
+  const mappings = factMappingsForDocument(doc);
+  const selections = new Set(doc.selections ?? []);
+  const withdrawn = new Map();
+  for (const group of doc.repeatingRowGroups ?? []) {
+    if (!group.election || !selections.has(group.election)) continue;
+    const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
+    if (declared.length === 0) continue;
+    const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
+    if (unmapped.length === 0) continue;
+    withdrawn.set(group.election, { group, unmapped, declared });
+  }
+  return withdrawn;
+}
+
 function rowIntegrityWithholdings(doc, mappings, refusedFields) {
   const cells = [];
   const elections = [];
@@ -5293,6 +5419,64 @@ async function buildOfficial(familyId, config) {
         })),
       });
       console.log(`  raster: ${rasterRows.length}/${census.pageGeometry.length} pages`);
+    }
+
+    /*
+     * FIX167 GUARD, obligation ROUTE_OPTIONS.
+     *
+     * The defect this refuses: the production field map declaring a control
+     * "measured_route_selection" -- the packet's own record that THIS BUILD
+     * makes that election -- when no fixture this build produces ever draws it.
+     * VF11 measured that on nj_ordinance-set: the map declared `guilty`
+     * measured_route_selection, actual-writes reported selections [] on both
+     * fixtures, and the widget rect carried +0 added ink against the pinned
+     * blank form. The map was describing an intention, not a build.
+     *
+     * It is checked as a READING, against the selections the finalizer
+     * reported for the artifacts actually produced, not against doc.selections,
+     * which is the same intention the map row came from and would agree with
+     * itself.
+     *
+     * What this guard does NOT do is require the box to be marked. An election
+     * whose row cannot be written is withdrawn, correctly, and the fix is for
+     * the map to say so. This guard is what makes those two records agree.
+     *
+     * GATED, AND ON ITS OWN FLAG. Run host-wide this guard refuses
+     * nj_indictable_conviction-set, nj_disorderly_persons-set and
+     * nj_clean_slate-set outright: all three carry the identical false
+     * declaration for the identical reason, and all three are other lanes' to
+     * repair. Turning a record defect in a family this lane may not touch into
+     * a build that cannot run is a worse outcome than the defect. The finding
+     * is reported instead, with the measurement, in this lane's return.
+     *
+     * The gate is DELIBERATELY NOT declareWithdrawnElectionsInFieldMap. A guard
+     * that switches off with the repair it protects proves nothing: breaking
+     * the repair would silence the guard in the same motion. This flag stays on
+     * while the repair is broken, which is how the refusal below was proved.
+     */
+    const deliveredForThisDoc = doc.guardFieldMapSelectionsAgainstDeliveredMarks === true
+      ? artifactReports.filter((row) => row.documentId === doc.documentId) : [];
+    if (deliveredForThisDoc.length > 0) {
+      /* report.selections is the SELECTION FINALIZER's record of the marks it
+       * actually drew, and it names each one `control`. measuredSelections'
+       * pre-draw list names the same thing `label`. Reading the wrong one here
+       * makes every entry undefined and the guard fires on every family that
+       * marks anything -- which is a broken guard, not a found defect. Both
+       * keys are read so the guard cannot be satisfied by a shape change
+       * either. */
+      const actuallyMarked = new Set(deliveredForThisDoc
+        .flatMap((row) => (row.report.selections ?? [])
+          .map((selection) => selection.control ?? selection.label))
+        .filter((name) => typeof name === "string" && name.length > 0));
+      for (const row of map) {
+        if (row.decision !== "measured_route_selection") continue;
+        assert.ok(actuallyMarked.has(row.field),
+          `${familyId}/${doc.documentId}: the field map declares ${row.field} `
+          + "\"measured_route_selection\" -- an election this build makes -- and no fixture this "
+          + `build produced marks it (${deliveredForThisDoc.length} fixture(s) read, marked: `
+          + `${[...actuallyMarked].join(", ") || "none"}). A record that says the build made an `
+          + "election the build withdrew is a false record, whether or not the withdrawal was right.");
+      }
     }
   }
 

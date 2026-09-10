@@ -56,7 +56,16 @@
       "jobId": "102281414246",
       "artifactId": null,
       "boundToCanonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
-      "coversTheWholeFamily": true
+      "coversTheWholeFamily": true,
+      "stillBinds": true,
+      "wholeFamilyReRasterRequired": false,
+      "reCheckedBy": {
+        "lane": "FIX167",
+        "obligationRepaired": "ROUTE_OPTIONS",
+        "foundBy": "VF11, data/rcap-grade-a/packet-factory-24h/vf11/rows.json, verified at df524f2fd",
+        "whyNoRasterIsOwed": "The repair moved no PDF byte. Both fixtures were re-hashed off disk after the rebuild and carry the digests they carried before: canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f, boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494. boundToCanonicalSha256 still names the delivered canonical, so the RASTER_PASS receipt still binds. Only production-field-map.json, participant-instructions.md and reports/actual-writes.json moved.",
+        "independentVerificationOwed": "NOT self-verified. Independent verification is owed to a lane that is neither FIX167 nor VF11."
+      }
     },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
