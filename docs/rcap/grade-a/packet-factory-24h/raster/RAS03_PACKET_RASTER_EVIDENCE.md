@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `38d316cf614d5c909189fba4f6496c11d0c5c15b`
+**Minimum required ancestor:** `0bca312006a26cf3b9dea2bc557abad2eadee585`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
