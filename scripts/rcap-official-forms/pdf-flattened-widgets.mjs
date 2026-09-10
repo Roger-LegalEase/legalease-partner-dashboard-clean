@@ -11,6 +11,33 @@
 // `q <cm> <cm> <cm> /FlatWidget-N Do Q`, and only the composed translation puts
 // the appearance on the page -- a reader that matched one `cm` finds nothing and
 // reports the page clean, which is the wrong answer in the dangerous direction.
+//
+// AND THE NAME MATTERS AS MUCH AS THE MATRIX.
+//
+// The pattern used to accept `/<anything> Do`, because the composed-`cm` bug was
+// the one being fixed and the name looked incidental. It is not: a scanned page
+// image is drawn `q <cm> /ImageN Do Q`, byte for byte the same shape. So every
+// scanned page a source ships was returned here as an appearance this build
+// flattened. On ar-cs-possession-seal-set that published 125 where the bytes
+// carry 41, the extra 84 being the Arkansas ACIC petition's own scanned pages
+// counted as ink the build added.
+//
+// Measured across every family with delivered fixtures before the pattern moved:
+// 144 families, 40 publishing an inflated count, 494 phantom appearances, and
+// every single extra named `ImageN` or `ImN`. Eleven families' placements are
+// ALL images -- they draw into page content rather than through widgets -- so
+// they go from a false positive count to 0, which is their true count and not a
+// blinding. The record is FLATTENED_WIDGET_OVERCOUNT.json.
+//
+// The finalizer names its own output `/FlatWidget-N` and `/ExactFactOverlay-N`,
+// and that is the whole of what this module is about. rcap-output-glyph-reading
+// .mjs already restricted itself this way; this brings the older reader to the
+// same predicate rather than leaving two readers of the same bytes disagreeing.
+//
+// A COUNT PUBLISHED BEFORE THIS CHANGE IS NOT RETROACTIVELY CORRECTED. Forty
+// families' committed reports still carry the inflated number; each becomes true
+// only when that family is rebuilt. The fix is in the module, not yet in what
+// those families publish.
 import fs from "node:fs";
 import zlib from "node:zlib";
 import { createRequire } from "node:module";
@@ -47,7 +74,7 @@ export async function flattenedWidgets(file) {
     const refs = contents instanceof PDFArray ? contents.asArray() : contents ? [contents] : [];
     let stream = "";
     for (const ref of refs) stream += inflate(Buffer.from(ctx.lookup(ref).contents)).toString("latin1");
-    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/(\S+)\s+Do/g;
+    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/((?:FlatWidget|ExactFactOverlay)-\d+)\s+Do/g;
     let match;
     while ((match = placement.exec(stream))) {
       let x = 0, y = 0;
