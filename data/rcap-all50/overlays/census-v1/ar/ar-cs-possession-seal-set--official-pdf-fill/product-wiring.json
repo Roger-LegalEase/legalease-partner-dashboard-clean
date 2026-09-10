@@ -55,14 +55,6 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33605354695",
-      "jobId": "100168605539",
-      "artifactId": 9836989450,
-      "boundToCanonicalSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
-      "coversTheWholeFamily": true
-    },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
@@ -76,7 +68,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+        "replacedByCanonicalSha256": "1a65c2d88b0250a2ef61ced0dcb5205560db3f7da557a4a816cda978f503ca4d,64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33605354695",
+          "jobId": "100168605539",
+          "artifactId": 9836989450,
+          "boundToCanonicalSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -89,7 +96,7 @@
         "order": 1,
         "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
         "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
-        "sha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+        "sha256": "64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
         "requirement": "required"
       },
       {
@@ -98,7 +105,7 @@
         "order": 2,
         "documentId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
         "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
-        "sha256": "720fa15a77c666b425a540f9b72bfc0df43137400ddb50f4614b8ad68c22100c",
+        "sha256": "1a65c2d88b0250a2ef61ced0dcb5205560db3f7da557a4a816cda978f503ca4d",
         "requirement": "required"
       }
     ]

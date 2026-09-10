@@ -1,0 +1,714 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX137",
+  "laneKind": "repair",
+  "dispatch": "Two Arkansas ACIC families, each carrying one recorded failed obligation named ARTIFACTS from lane vf90 at base a09ef20d342929fb68141828508f38e65a5a8545, both recorded in BORDER_COHORT_REMEDIATION as EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED. Decide the stripped fills on the pixels, per widget; restore what masked printed art and leave alone what masked blank paper.",
+  "generatedAtBase": "8614b3e86adc1dbe988f848c2bd56149994f46c8",
+  "worktree": "/home/user/pfa-worktree",
+  "branch": "fix137-ar-20260910",
+  "howTheSourceWasRendered": {
+    "why": "A removed-dark-pixel count taken against an ANNOTATION-FREE render of an AcroForm source is worthless. An AcroForm keeps much of what the court prints inside widget /AP /N appearance streams, so an annotation-free source render is missing exactly the ink whose absence from the delivered page the difference is meant to detect: both sides come up blank in the same places and the difference is zero by construction.",
+    "renderer": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes -f <page> -l <page> <pdf> <prefix>`. Poppler draws widget annotations and applies ISO 32000-1 12.5.5; no flag suppressing annotations was passed and none exists on this tool.",
+    "threshold": "grey < 128 counts as a dark pixel, at 600 dpi, on 5100x6600 letter pages.",
+    "provedNotAssumed": "The same command was run over the pinned ACIC order (b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555) and over a control copy of it with every page /Annots and the catalog /AcroForm removed. Page 1 renders 1,926,487 dark pixels normally and 1,922,979 with annotations removed. 9,622 dark pixels on that page are drawn by annotations ALONE and by nothing in page content, and the difference bounding box (x 881-1030, y 3984-4291 at 600 dpi) falls exactly on the two check-box /Rect values the source declares on that page. The render draws widget /AP /N ink, so a zero taken from it means something.",
+    "andItAlsoAnswersTheQuestion": "The same control run showed 6,114 dark pixels LOST when annotations are drawn. That is the /AP /N opaque white fill covering page-content ink the form itself prints. It is the direct measurement that the stripped fills on this family masked PRINTED ART and not blank paper.",
+    "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and catalog /AcroForm dropped; used only as a control and never as a comparison baseline."
+  },
+  "howTheStrippedFillsWereDecided": {
+    "theQuestion": "Restoring a fill that covered blank paper moves bytes for nothing; leaving one that masked printed art ships a doubled frame. The two lanes that reached opposite conclusions on this class today (Colorado, Nebraska) were both right, so the answer had to be measured on these pages.",
+    "theTest": "At 600 dpi, inside each widget's own /Rect, count dark pixels three ways: the source with annotations OFF (page art alone), the source with annotations ON (what a viewer shows), and the delivered fixture.",
+    "resultOnThisCohort": "COLORADO SHAPE, not Nebraska. On the order page 1 check boxes: page art alone 3,057 dark pixels per control; source as a viewer renders it 4,811; delivered 7,868 = 4,811 + 3,057 exactly. Both drawings are present at once in the delivered page. The form prints a heavy bracketed box, the /AP covers it with `1 g 0 0 18 18 re f` and strokes its own thin 17x17 square in its place, and stripping the fill revealed the bracket while still stamping the square.",
+    "crop": "Rendered and read as an image: source page art alone is a thick bracketed box; the source as a viewer sees it is one clean thin square; the delivered page before repair carries BOTH, superimposed.",
+    "soTheRemedy": "RESTORE the fill. Removing this ink would have deleted the Arkansas Crime Information Center's own check-box stroke from a petition and a proposed order."
+  },
+  "aRTIFACTSObligationIsNotTheBorderFinding": {
+    "whatTheObligationSays": "generate-route-artifact-acceptance.mjs defines it as 'the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names'.",
+    "measuredAtTheBaseBeforeAnyEdit": "Every digest, byteLength and pageCount reports/rendered-artifacts.json named for BOTH families at base 8614b3e86 was recomputed with sha256sum, stat and pdfinfo and matched the bytes exactly. No hardcoded count, no stale digest and no unparsed pageCount was found in either delivered record.",
+    "whatWasActuallyMissing": "ar-cs-possession-seal-set's record carried neither output-byte glyph reading and no pageCount at all; ar-nonconviction-seal-set's carried pageCount but neither glyph reading. Both now emit addedGlyphsReadFromOutputBytes, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, flattenedWidgetAppearancesReadFromOutputBytes and pageCount, every one read out of the produced PDF after it is written.",
+    "andTheByteFinding": "vf90's row names ARTIFACTS for a different reason: the delivered artifacts carried flattened widget appearances matching no pinned-source /AP /N stream byte for byte. That is repaired too, and on its own terms -- see byteAccountingReproducedIndependently."
+  },
+  "sharedModuleChanges": "none modified. scripts/rcap-official-forms/rcap-active-content.mjs and rcap-official-form-finalize.mjs were read and NOT changed: the opt-in this repair needs (preserveUnwrittenSelectionBackgrounds) already exists there and defaults to false, so it is passed at each family's own builder. One NEW file was added, scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, which is imported by these two builders and by nothing else; adding it cannot move any other family's bytes.",
+  "centralArtifactsEdited": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json, BORDER_COHORT_REMEDIATION.json and REPAIR_SUPPLY_QUEUE.json were read and not written. account-stroke-only-against-pinned-sources.mjs was NOT run, because it rewrites the shared ledger as a side effect.",
+  "packetsSelfVerified": 0,
+  "verdictSet": "none. This lane repairs and measures; it issues no PASS, sets no verdict and opens no route. A repair author does not verify their own candidate.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "jurisdiction": "AR",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX137 ar-cs-possession-seal-set (repair, grant set fdf1062791b33bad)",
+      "buildScript": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+      "artifactsAreFourFixturesNotTwo": "This family delivers two documents, each as a canonical and a boundary fixture, so it carries four artifacts and two canonicals. Digests are listed per document below; the top-level canonicalSha256/boundarySha256 name the PETITION, which is the primary filing and the document the withdrawn acceptance receipt was bound to.",
+      "canonicalSha256": "64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
+      "boundarySha256": "1423a809982f86fab3e26d72e7a9e4345667139715de75715c734877c460072c",
+      "canonicalPageCount": 5,
+      "boundaryPageCount": 5,
+      "pageCountMeasuredBy": "pdfinfo, and independently by pdf-lib getPageCount inside the builder",
+      "digestsMeasuredBy": "sha256sum on the committed files, and independently by crypto.createHash inside the builder",
+      "supersededCanonicalSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+      "supersededBoundarySha256": "046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8",
+      "perDocumentDigests": [
+        {
+          "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
+          "byteLength": 527102,
+          "pageCount": 5,
+          "superseded": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e"
+        },
+        {
+          "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "1423a809982f86fab3e26d72e7a9e4345667139715de75715c734877c460072c",
+          "byteLength": 526441,
+          "pageCount": 5,
+          "superseded": "046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8"
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "sha256": "1a65c2d88b0250a2ef61ced0dcb5205560db3f7da557a4a816cda978f503ca4d",
+          "byteLength": 220784,
+          "pageCount": 3,
+          "superseded": "720fa15a77c666b425a540f9b72bfc0df43137400ddb50f4614b8ad68c22100c"
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "sha256": "e54509e57b1ccb586a989c391159cd9c5d6ecdd1049f99e7fa70f654b42fc70e",
+          "byteLength": 220236,
+          "pageCount": 3,
+          "superseded": "9236cd1ae824d715bb0fff4e0b185da9043a98eb4bf92cfce0d7ef1466a7f423"
+        }
+      ],
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED -- the court's own opaque white mask stripped out of every unwritten check-box appearance, revealing a printed box that the appearance was drawn to replace",
+        "widgets": "36 flattened stroke-only appearances across the four fixtures: 8 per petition fixture (field Check Box4 and its siblings on petition pages 1 and 2) and 10 per order fixture (field Check Box1 and its siblings on order pages 1 and 2).",
+        "cause": "Each of those widgets ships an /AP /N of `1 g\\n0 0 18 18 re\\nf\\n0.5 0.5 17 17 re\\ns` -- an opaque white fill the size of the widget's own BBox, then a thin 17x17 stroked square. stripOpaqueBackgroundPaint in scripts/rcap-official-forms/rcap-active-content.mjs removes a leading fill at grey >= 0.9 covering the widget, which is correct where the fill covers blank paper. Here the ACIC page content prints a heavy bracketed check box at each of those rectangles, the /AP covers it and strokes a cleaner one in its place, and with the fill gone the participant was handed the printed bracket AND the stamped square at every one of the 36 controls.",
+        "readOnThePage": "600 dpi, inside the widget /Rect on the order page 1: page art alone 3,057 dark pixels; source as a viewer renders it 4,811; delivered before this repair 7,868 = 4,811 + 3,057. After this repair the delivered page is pixel-identical to the source render inside those rects.",
+        "remedy": "RESTORE -- preserveUnwrittenSelectionBackgrounds passed at this builder's own finalizeOfficialForm call. It keeps the source's authored blank-state paint on a selection this run did not write. /MK /BG is still removed, so no background the form did not itself author is requested, no mark is added and no box is ticked.",
+        "whyNotRemoval": "BORDER_COHORT_REMEDIATION already records this family as EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED, whose remedy RESTORES. That label was reproduced here rather than trusted, and the pixels agree with it."
+      },
+      "byteAccountingReproducedIndependently": {
+        "method": "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs IMPORTED, not reimplemented. Its regression suite scripts/grade-a-packet-factory-24h/test-stroke-fill-skeleton.mjs was run first: 9 tests, 9 pass, exit 0. account-stroke-only-against-pinned-sources.mjs was NOT run, because it rewrites the shared ledger as a side effect.",
+        "sourceAppearanceStreamsInPool": "petition 46 /AP streams, 16 carrying a leading opaque fill; order 39 /AP streams, 20 carrying one.",
+        "beforeRepair": "36 stroke-only flattened appearances across the four fixtures: 0 matched byte-identically, 36 derived from a source stream minus its leading opaque background fill, 0 unmatched. This reproduces the committed ledger figure (sourceStreamMinusItsBackgroundFill 36) exactly.",
+        "afterRepair": "36 stroke-only flattened appearances: 36 matched byte-identically, 0 derived, 0 unmatched. vf90's finding -- matchingNothingInTheSources 36 -- is discharged on its own terms and by a stricter test than the one that raised it.",
+        "noTickWasAdded": "Every restored stream is the source's own blank-state appearance byte for byte. The delivered stroke-only streams reduce to 4 distinct streams on the petition and 1 on the order, all of them source /AP /N streams; none carries a show-text operator and none is a mark."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "dpi": 600,
+        "threshold": "grey < 128 is dark",
+        "sourceRender": "see howTheSourceWasRendered -- annotations DRAWN, proved against an annotation-free control on this family's own order",
+        "pageMapping": "one delivered fixture per source document, page for page; sources resolved by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
+        "bothDirections": "added AND removed reported per page, before and after. Removed is 0 on EVERY page in BOTH directions, before and after: this repair uncovered nothing and erased nothing.",
+        "perPage": [
+          {
+            "fixture": "petition-canonical",
+            "page": 1,
+            "addedBefore": 41601,
+            "addedAfter": 38914,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "2,687 doubled-frame pixels cleared; the remaining 38,914 are the participant's written values"
+          },
+          {
+            "fixture": "petition-canonical",
+            "page": 2,
+            "addedBefore": 7344,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "no writes on this page; all 7,344 were doubled frames and all are gone"
+          },
+          {
+            "fixture": "petition-canonical",
+            "page": 3,
+            "addedBefore": 45359,
+            "addedAfter": 45359,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL: no selection widget on this page; unchanged by the repair"
+          },
+          {
+            "fixture": "petition-canonical",
+            "page": 4,
+            "addedBefore": 23211,
+            "addedAfter": 23211,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL: unchanged by the repair"
+          },
+          {
+            "fixture": "petition-canonical",
+            "page": 5,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL: no write and no selection widget; pixel-identical to the source before and after"
+          },
+          {
+            "fixture": "petition-boundary",
+            "page": 1,
+            "addedBefore": 2687,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "the boundary fixture refuses all three long values on this page, so its whole added count was doubled frames"
+          },
+          {
+            "fixture": "petition-boundary",
+            "page": 2,
+            "addedBefore": 7344,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "fixture": "petition-boundary",
+            "page": 3,
+            "addedBefore": 71311,
+            "addedAfter": 71311,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "petition-boundary",
+            "page": 4,
+            "addedBefore": 8172,
+            "addedAfter": 8172,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "petition-boundary",
+            "page": 5,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "order-canonical",
+            "page": 1,
+            "addedBefore": 45028,
+            "addedAfter": 38914,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "6,114 doubled-frame pixels cleared at the two check boxes"
+          },
+          {
+            "fixture": "order-canonical",
+            "page": 2,
+            "addedBefore": 24128,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "eight check boxes and no writes; the delivered page is now pixel-identical to the source render"
+          },
+          {
+            "fixture": "order-canonical",
+            "page": 3,
+            "addedBefore": 23211,
+            "addedAfter": 23211,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "order-boundary",
+            "page": 1,
+            "addedBefore": 6114,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "pixel-identical to the source render after the repair"
+          },
+          {
+            "fixture": "order-boundary",
+            "page": 2,
+            "addedBefore": 24128,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0
+          },
+          {
+            "fixture": "order-boundary",
+            "page": 3,
+            "addedBefore": 31484,
+            "addedAfter": 31484,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "note": "NEGATIVE CONTROL"
+          }
+        ],
+        "totalDoubledFrameInkCleared": "6,114 dark pixels on each order fixture and 10,031 on each petition fixture, 32,290 across the four artifacts.",
+        "aCounterCouldNotHaveSeenThis": "outsideEveryWidgetRect reads 0 BEFORE and AFTER on every page. The doubled frame draws at the widget's own rectangle and is not a glyph at all, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes and every other counter reads clean on the defective bytes. Only the directional raster against an annotation-drawing source render found it."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set on the rebuilt bytes: 'ok ar-cs-possession-seal-set PASS_COMPLETE 15/70 written', exit 0, all nine printed zero. visualDefects 0 is stated only because the 600 dpi directional raster above was actually taken and read; on the bytes at base it would also have printed 0 while two frames were on the page, which is why the raster and not the counter is the evidence in this row.",
+      "outputByteGlyphReadings": [
+        {
+          "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 124,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        },
+        {
+          "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 214,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 72,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 80,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+          "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+        }
+      ],
+      "outputByteGlyphReadingsHowTaken": "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, run inside the builder over the bytes just written. Placement is measured against the pinned source's own widget rectangles; the module returns null, never 0, if no source is supplied. NEITHER READING IS A LITERAL. The flattened-appearance counts (41/41/29/29) independently reproduce the counts BORDER_COHORT_REMEDIATION recorded for these same four fixtures.",
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "sha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+          "byteLength": 538670,
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR and private/source-imports/, byte-identical",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+          "byteLength": 235941,
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR and private/source-imports/, byte-identical",
+          "recomputedByteExact": true
+        }
+      ],
+      "governance": {
+        "writtenThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs carryForwardGovernance",
+        "canonicalMoved": true,
+        "decision": "withdrew acceptanceReceipt -- bound to b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e, this write produced 64e754057aaf8a17 (petition) and 1a65c2d88b0250a2 (order). Kept whole under acceptanceReceiptWithdrawn with both digests, not deleted and not relabelled as covering the new output.",
+        "carriedForward": [
+          "lastIndependentVerification",
+          "paymentEligible",
+          "sponsorshipEligible",
+          "whyPaymentIsClosed",
+          "maintenanceRelationship"
+        ],
+        "governanceLostBetween": [],
+        "alsoRepinned": "product-wiring.json proposedRepresentation.components carried the two superseded canonical digests. Both were re-measured with crypto.createHash over the file each entry names and re-pinned; leaving them would have left the wiring naming a digest that no longer matches its own file.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierResult": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (247 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks",
+        "verifierCaveat": "The 247 not measured are product-wiring.json files absent from this SPARSE checkout, which the verifier names and warns about itself. That is a limit of this worktree and NOT a pass over them."
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "against": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, which names neither this family nor either ACIC form",
+        "aFieldMapHonestWhileTheFinalizerWritesSomethingElse": "not present. 15 values are written across the four fixtures and every one is a court, case or identity fact read back from the output bytes. No alias line, no 'all names used' line, no signature, no date, no notarization and no fee is written; nothing was invented for any of them.",
+        "anAcroFormIndexIsNotAPrintedRowNumber": "not applicable. No charge table cell is written on either form; the builder's own charge-caption proof examined 6 charge-caption blanks across all fixtures and found 0 carrying a participant name.",
+        "extractedLineOrderIsNotColumnOrder": "no column heading is read here; nothing is written into a table.",
+        "internalRecordTextPrintedOnAFiling": "not present. Nothing recites a controlling record's analysis on either form's face.",
+        "aPublishedZeroWhereAMeasurementExisted": "checked: addedGlyphsReadFromOutputBytes is a real per-document reading (124/214/72/80), not a literal, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is computed from placement rather than hardcoded.",
+        "aGeometryCounterWithNoTeeth": "acknowledged and measured, not assumed: outsideEveryWidgetRect reads 0 on the DEFECTIVE bytes as well as the repaired ones. This defect was invisible to every counter and was found only on the raster."
+      },
+      "blastRadius": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs declares this family alone. MASTER_QUEUE records exclusiveScript true and importedBy [] for it, and nothing in scripts/ or src/ imports it. The behavioural change is one option that defaults to false in the shared module, passed at this family's own call site, so no other family's next rebuild moves a byte because this family passes it. The new glyph-reading module is imported by these two builders and nothing else. Baseline reproducibility was established first: the UNCHANGED builder was run at base and reproduced all four committed fixtures byte for byte (git reported no diff), so every byte that moved afterwards is attributable to this repair.",
+      "whatContradictsACommittedRecord": [
+        "REPAIR_SUPPLY_QUEUE.json (generated 2026-09-10T05:13:45.222Z) records repairOwner [] and releasedRepairGrants [FIX01] for this family. claim-ledger.json -- the record that file names as its ownership source -- carries a live, unreleased rapid-repair claim for lane FIX137 on it, and claim.mjs granted it. The record wins; the queue row is stale."
+      ]
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "jurisdiction": "AR",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX137 ar-nonconviction-seal-set (repair, grant set fdf1062791b33bad)",
+      "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "canonicalSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+      "boundarySha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+      "canonicalPageCount": 7,
+      "boundaryPageCount": 7,
+      "pageCountMeasuredBy": "pdfinfo, and independently by pdf-lib getPageCount inside the builder",
+      "digestsMeasuredBy": "sha256sum on the committed files, and independently by crypto.createHash inside the builder",
+      "supersededCanonicalSha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+      "supersededBoundarySha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+      "artifactShape": "One assembled packet per fixture: petition pages 1-4 then order pages 5-7, each page copied from an official ACIC form bound by exact SHA-256. canonical.pdf and boundary.pdf are the two artifacts.",
+      "twoDefectsWereRepairedHereNotOne": [
+        "the stripped selection background, the same class as the sibling family;",
+        "a hardcoded flattenedWidgetAppearancesReadFromOutputBytes: 0 in the delivered record, which the delivered bytes contradict."
+      ],
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED -- the court's own opaque white mask stripped out of every unwritten check-box appearance, revealing a printed box the appearance was drawn to replace",
+        "widgets": "36 flattened stroke-only appearances across the two fixtures, 18 per fixture, on packet pages 1 and 2 (petition, field Check Box2 and siblings) and packet pages 5 and 6 (order). Distribution per fixture: page 1 four, page 2 four, page 5 six, page 6 four.",
+        "cause": "Each widget ships an /AP /N /Off of `1 g\\n0 0 15.0756 14.0121 re\\nf\\n0.5 0.5 14.0756 13.0121 re\\ns` -- an opaque white fill the size of the widget's BBox, then a thinner stroked square inset half a point. stripOpaqueBackgroundPaint removes a leading fill at grey >= 0.9 covering the widget, which is correct where it covers blank paper. Here the ACIC page content prints its own bracketed box at each of those rectangles, so with the fill gone the participant was handed the printed bracket AND the stamped square at every one of the 36 controls.",
+        "readOnThePage": "600 dpi, per widget, inside each widget's own /Rect, on all 18 affected controls: page art alone carries about 2,488 dark pixels at every one of them, and the delivered fixture exceeds the source-as-a-viewer-renders-it count by 977 to 2,488 pixels at each. Rendered as an image, the source shows one clean box and the delivered page before this repair shows two nested ones.",
+        "remedy": "RESTORE -- preserveUnwrittenSelectionBackgrounds passed at this builder's own finalizeOfficialForm call. /MK /BG is still removed, no mark is added and no box is ticked.",
+        "whyNotRemoval": "Deleting this ink would have deleted the Arkansas Crime Information Center's own check-box stroke from a petition and a proposed order."
+      },
+      "aHardcodedCounterTheBytesContradict": {
+        "what": "reports/actual-writes.json published flattenedWidgetAppearancesReadFromOutputBytes: 0 for both fixtures, with a note asserting it was 'zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet'.",
+        "whyItIsWrong": "pdf-lib's flatten does not inline the appearance into page content. It emits a form XObject named /FlatWidget-<n> and invokes it with `Do`, and those XObjects survive being copied into the assembled packet. Each fixture carries 79 of them.",
+        "corroboration": "79 is also the flattenedAppearances count BORDER_COHORT_REMEDIATION independently recorded for these same two files at its confirmation pass, from a different tool. Two independent readings of the delivered bytes agree with each other and disagree with the published literal.",
+        "repair": "the number is now read from the saved packet bytes by scripts/rcap-official-forms/rcap-output-glyph-reading.mjs after they are written, and it reads 79 for both fixtures. The false note is replaced by one describing what is actually counted.",
+        "whatItDoesNotChange": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes on this family was already computed from the per-document ink audits rather than hardcoded, and it is left as it was. Only the literal was replaced."
+      },
+      "byteAccountingReproducedIndependently": {
+        "method": "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs IMPORTED, not reimplemented; its regression suite passed 9/9 first. account-stroke-only-against-pinned-sources.mjs was NOT run, because it rewrites the shared ledger as a side effect.",
+        "sourceAppearanceStreamsInPool": "petition 54 /AP streams, 16 carrying a leading opaque fill; order 42 /AP streams, 20 carrying one.",
+        "beforeRepair": "36 stroke-only flattened appearances across the two fixtures: 0 matched byte-identically, 36 derived from a source stream minus its leading opaque background fill, 0 unmatched. This reproduces the committed ledger figure (sourceStreamMinusItsBackgroundFill 36) exactly.",
+        "afterRepair": "36 stroke-only flattened appearances: 36 matched byte-identically, 0 derived, 0 unmatched. vf90's matchingNothingInTheSources 36 is discharged on its own terms.",
+        "noTickWasAdded": "Every restored stream is the source's own /Off blank-state appearance byte for byte; none carries a show-text operator and none is a mark."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "dpi": 600,
+        "threshold": "grey < 128 is dark",
+        "sourceRender": "see howTheSourceWasRendered -- annotations DRAWN, proved against annotation-free controls of BOTH of this family's own sources: 13,147 and 12,405 dark pixels on petition pages 1 and 2, and 19,090 and 12,354 on order pages 1 and 2, are drawn by annotations alone and by nothing in page content.",
+        "pageMapping": "reports/rendered-artifacts.json pageManifest: packet pages 1-4 are petition pages 1-4, packet pages 5-7 are order pages 1-3; sources resolved by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR.",
+        "bothDirections": "added AND removed reported per page, before and after. Removed is 0 on EVERY page in BOTH directions, before and after: this repair uncovered nothing and erased nothing.",
+        "perPage": [
+          {
+            "fixture": "canonical",
+            "packetPage": 1,
+            "component": "petition",
+            "sourcePage": 1,
+            "addedBefore": 47145,
+            "addedAfter": 38929,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 8216
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 2,
+            "component": "petition",
+            "sourcePage": 2,
+            "addedBefore": 51606,
+            "addedAfter": 44276,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 7330
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 3,
+            "component": "petition",
+            "sourcePage": 3,
+            "addedBefore": 8172,
+            "addedAfter": 8172,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL: no selection widget on this page; unchanged by the repair"
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 4,
+            "component": "petition",
+            "sourcePage": 4,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL: pixel-identical to the source render before and after"
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 5,
+            "component": "order",
+            "sourcePage": 1,
+            "addedBefore": 36668,
+            "addedAfter": 26354,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 10314
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 6,
+            "component": "order",
+            "sourcePage": 2,
+            "addedBefore": 21705,
+            "addedAfter": 15039,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 6666
+          },
+          {
+            "fixture": "canonical",
+            "packetPage": 7,
+            "component": "order",
+            "sourcePage": 3,
+            "addedBefore": 8172,
+            "addedAfter": 8172,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 1,
+            "component": "petition",
+            "sourcePage": 1,
+            "addedBefore": 95697,
+            "addedAfter": 87481,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 8216
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 2,
+            "component": "petition",
+            "sourcePage": 2,
+            "addedBefore": 88482,
+            "addedAfter": 81152,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 7330
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 3,
+            "component": "petition",
+            "sourcePage": 3,
+            "addedBefore": 8653,
+            "addedAfter": 8653,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 4,
+            "component": "petition",
+            "sourcePage": 4,
+            "addedBefore": 0,
+            "addedAfter": 0,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL"
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 5,
+            "component": "order",
+            "sourcePage": 1,
+            "addedBefore": 46193,
+            "addedAfter": 35879,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 10314
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 6,
+            "component": "order",
+            "sourcePage": 2,
+            "addedBefore": 40519,
+            "addedAfter": 33853,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 6666
+          },
+          {
+            "fixture": "boundary",
+            "packetPage": 7,
+            "component": "order",
+            "sourcePage": 3,
+            "addedBefore": 8653,
+            "addedAfter": 8653,
+            "outsideEveryWidgetRectBefore": 0,
+            "outsideEveryWidgetRectAfter": 0,
+            "removedBefore": 0,
+            "removedAfter": 0,
+            "doubledFrameInkCleared": 0,
+            "note": "NEGATIVE CONTROL"
+          }
+        ],
+        "totalDoubledFrameInkCleared": "32,526 dark pixels on each of the two fixtures, 65,052 across the family.",
+        "anIndependentCrossCheck": "The per-page ink cleared -- 8,216 / 7,330 / 10,314 / 6,666 -- equals, pixel for pixel, the page-content ink the source's own annotations were measured to COVER on those same four source pages in the annotation-free control run. Two independent measurements of what the fill hides agree exactly.",
+        "aCounterCouldNotHaveSeenThis": "outsideEveryWidgetRect reads 0 BEFORE and AFTER on every one of the fourteen pages. The doubled frame draws at the widget's own rectangle and is not a glyph, so every counter read clean on the defective bytes."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set on the rebuilt bytes: 'ok ar-nonconviction-seal-set PASS_COMPLETE 13/78 written', exit 0, all nine printed zero. visualDefects 0 is stated only because the 600 dpi directional raster above was actually taken and read; it printed 0 on the defective bytes too, which is why the raster and not the counter is the evidence in this row.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 156,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 79,
+          "glyphsDrawnInsideThoseFlattenedAppearances": 169
+        },
+        {
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 348,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 79,
+          "glyphsDrawnInsideThoseFlattenedAppearances": 369
+        }
+      ],
+      "outputByteGlyphReadingsHowTaken": "addedGlyphsReadFromOutputBytes is this builder's own byte proof: the finished text of each official document compared item by item against the pinned source's own text, so only what this build added is counted. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is summed from the per-document ink audits. flattenedWidgetAppearancesReadFromOutputBytes and glyphsDrawnInsideThoseFlattenedAppearances are read from the saved packet bytes by scripts/rcap-official-forms/rcap-output-glyph-reading.mjs. NONE OF THE FOUR IS A LITERAL, and the flattened count replaced one that was. All four now also travel in reports/rendered-artifacts.json, which previously carried none of them.",
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
+          "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "byteLength": 529888,
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR and private/source-imports/, byte-identical",
+          "recomputedByteExact": true
+        },
+        {
+          "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
+          "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+          "byteLength": 274824,
+          "resolvedIn": "MASTER_LIBRARY_SOURCE_DIR and private/source-imports/, byte-identical",
+          "recomputedByteExact": true
+        }
+      ],
+      "governance": {
+        "writtenThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs carryForwardGovernance",
+        "canonicalMoved": true,
+        "decision": "withdrew acceptanceReceipt -- bound to 28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5, this write produced 4cf919a7c096f3e8. Kept whole under acceptanceReceiptWithdrawn with both digests, not deleted and not relabelled as covering the new output.",
+        "carriedForward": [
+          "lastIndependentVerification",
+          "paymentEligible",
+          "sponsorshipEligible",
+          "whyPaymentIsClosed",
+          "maintenanceRelationship"
+        ],
+        "governanceLostBetween": [],
+        "alsoRepinned": "product-wiring.json proposedRepresentation component 1 carried the superseded canonical digest and was re-measured with crypto.createHash over the file it names.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierResult": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (247 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks",
+        "verifierCaveat": "The 247 not measured are product-wiring.json files absent from this SPARSE checkout, which the verifier names and warns about itself. That is a limit of this worktree and NOT a pass over them."
+      },
+      "noRasterWasDispatched": {
+        "what": "This builder rasterises locally unless --no-raster is passed, and this container DOES resolve a browser. Run without the flag it wrote 14 local PNG pages, flipped rasterState from BUILT_RASTER_PENDING to RASTER_LOCAL_PENDING_CENTRAL and rewrote rendered-artifacts.json with everyPageRastered true.",
+        "whatWasDone": "That run was discarded whole -- the raster directory deleted and every touched record restored from git -- and every build recorded here was run with --no-raster. A local browser render is not a receipt; only the central workflow issues one, bound to the exact SHA-256 in this row. rasterState stays BUILT_RASTER_PENDING and build-status.json is unchanged.",
+        "notADefectInTheBuilder": "The builder's flag behaves exactly as written. This is recorded so that a later lane rebuilding this family knows to pass it."
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "against": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, which names neither this family nor either ACIC form",
+        "aFieldMapHonestWhileTheFinalizerWritesSomethingElse": "not present. 13 values are written across the packet and every one is read back from the output bytes by the builder's own byte proof. No alias line, no signature, no date, no notarization and no fee is written.",
+        "anAcroFormIndexIsNotAPrintedRowNumber": "not applicable. No table cell is written on either form.",
+        "extractedLineOrderIsNotColumnOrder": "no column heading is read here; nothing is written into a table.",
+        "internalRecordTextPrintedOnAFiling": "not present. Both documents are delivered as ACIC issues them (renderStrategy delivered_unmodified) and this build authored no page; composedComponentsAuthoredByThisBuild is empty in the source receipt.",
+        "aPublishedZeroWhereAMeasurementExisted": "FOUND AND REPAIRED on this family: flattenedWidgetAppearancesReadFromOutputBytes was the literal 0 against 79 in the file. See aHardcodedCounterTheBytesContradict.",
+        "aGeometryCounterWithNoTeeth": "acknowledged and measured, not assumed: outsideEveryWidgetRect reads 0 on the DEFECTIVE bytes as well as the repaired ones."
+      },
+      "blastRadius": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs declares this family alone. MASTER_QUEUE records exclusiveScript true and importedBy [] for it, and nothing in scripts/ or src/ imports it. The behavioural change is one option that defaults to false in the shared module, passed at this family's own call site. Baseline reproducibility was established first: the UNCHANGED builder, run with --no-raster at base, reproduced both committed fixtures AND every committed report byte for byte (git reported no diff at all), so every byte that moved afterwards is attributable to this repair.",
+      "whatContradictsACommittedRecord": [
+        "reports/actual-writes.json at base published flattenedWidgetAppearancesReadFromOutputBytes: 0 for both fixtures while each file contains 79 flattened widget appearances -- a count BORDER_COHORT_REMEDIATION independently recorded as 79 for the same two files. The bytes win; the published literal was wrong and is now read from them.",
+        "REPAIR_SUPPLY_QUEUE.json (generated 2026-09-10T05:13:45.222Z) records repairOwner [] and releasedRepairGrants [FIX02] for this family. claim-ledger.json -- the record that file names as its ownership source -- carries a live, unreleased rapid-repair claim for lane FIX137 on it, and claim.mjs granted it. The record wins; the queue row is stale."
+      ]
+    }
+  ]
+}
