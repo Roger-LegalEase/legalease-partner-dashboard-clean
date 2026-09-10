@@ -1666,10 +1666,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF22",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T04:57:11.956Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Current independent review completed and integrated; resume existing repair lane for all definite findings, preserving source/legal holds and separate post-repair reviewer."
     },
     {
@@ -14328,9 +14328,69 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
+      "itemId": null,
+      "familyId": "me-seal-survivor-set",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF22",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "itemId": null,
+      "familyId": "co_municipal_conviction_seal-set",
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF22",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-summary-marijuana-pardon-set",
+      "itemId": null,
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "familyIds": [
+        "nd-summary-marijuana-pardon-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "itemId": null,
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "familyIds": [
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "55683ebbdefb83f26ac67a6300d78f2627419ff872a46eae2bbdaabe4a8ed206",
+  "claimsDigest": "405b193452815940be28a757200c4379981470d0ef8eb86240b07b2f78fdd419",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52627,6 +52687,17 @@
       "previouslyReleasedAt": "2026-09-08T23:57:02.014Z",
       "transferredAt": "2026-09-09T23:46:12.115Z",
       "reason": "FIX02's grant is released and FIX02 is being worked on Minnesota in this dispatch. Its Colorado motion-seal sibling is on FIX03, and one worker should hold both halves of the same select-one pair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF22",
+      "previouslyReleasedAt": "2026-09-06T04:57:11.956Z",
+      "transferredAt": "2026-09-10T01:40:54.829Z",
+      "reason": "VF01's grant is released and VF01 is reading Alabama and West Virginia in this dispatch; its Colorado batch-mate co_municipal_conviction_seal-set is already on VF22, and both were repaired in the same return"
     }
   ],
   "grants": [
@@ -52837,6 +52908,50 @@
       "grantedAt": "2026-09-10T01:11:33.168Z",
       "grantedBy": "Captain",
       "reason": "Repaired by FIX07/FIX05 with its canonical and boundary digests unchanged, so its committed RASTER_PASS still binds; it owes an independent read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF22",
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:40:40.267Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired today by FIX01/FIX04/FIX03; a repair author may not approve its own repaired candidate, so it owes a read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF22",
+      "subjectType": "packet-family",
+      "subjectId": "co_municipal_conviction_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:40:40.367Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired today by FIX01/FIX04/FIX03; a repair author may not approve its own repaired candidate, so it owes a read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF23",
+      "subjectType": "packet-family",
+      "subjectId": "nd-summary-marijuana-pardon-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:40:40.542Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired today by FIX06/FIX02; a repair author may not approve its own repaired candidate, so it owes a read by a lane that neither built nor repaired it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF23",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T01:40:40.649Z",
+      "grantedBy": "Captain",
+      "reason": "Repaired today by FIX06/FIX02; a repair author may not approve its own repaired candidate, so it owes a read by a lane that neither built nor repaired it",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
