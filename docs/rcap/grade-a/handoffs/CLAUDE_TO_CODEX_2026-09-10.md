@@ -384,3 +384,67 @@ one writes, it writes only inside its own worktree.
 - No packets rebuilt, no returns merged, no national audit.
 - VF67's three Kansas grants were minted before the freeze instruction arrived
   and no agent was ever spawned for them. They are live, unowned and ready.
+
+---
+
+# FREEZE CORRECTION 1 — VF66 confirmed stopped, work pushed
+
+VF66 answered the stop instruction after the addendum above was written. It is
+now **CONFIRMED STOPPED**, not ACTIVE/UNKNOWN, and the addendum's VF66 rows are
+superseded by this section.
+
+| | |
+|---|---|
+| worktree | `/home/user/vfa-worktree` |
+| branch | `lane-vf66-20260910` — **pushed to origin** |
+| commit | `3e16d8a0ccc574fd9743403f9031263eadc127d5` |
+| working tree | clean, 0 dirty |
+| grants | **still LIVE** on `ia-12347-set` and `il-seal-edu-set`, grant set `dca6d65629fe6534` |
+
+Its row is committed at
+`data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260910.json` on that
+branch. The preserved copy at `/home/user/frozen-lane-preservation/vf66/` is now
+redundant — the branch is on the remote and no longer container-only.
+
+**Nothing was in flight.** VF66 reports both families fully measured before the
+stop arrived, all rasters deleted, and no file in the worktree ever mutated —
+its five builder mutation runs used isolated scratch roots under `/tmp` built
+from symlinks to read-only records, with `git status` empty before, between and
+after each.
+
+## Its result — 30 of 30 obligations, NOT YET INTEGRATED
+
+- **`ia-12347-set` — `PASS_COMPLETE_INDEPENDENT`, 15/15.** Not proven: the raster
+  is still owed, because FIX164 withdrew the family's own RASTER_PASS.
+- **`il-seal-edu-set` — `FAIL_REPAIR_REQUIRED`: 14 PASS + 1 `BLOCKED_LEGAL_INPUT`
+  on COMPONENT_SET.** No obligation is FAIL; all five FIX166 repairs hold.
+
+The block is a record conflict, correctly not decided by a lane: the shared
+packet-set manifest declares four components, the registry track declares **six**,
+and `il-seal-edu-proposed-denying-order-5` (EXP-AD Order Denying) is marked
+`required`, does not ship, and its source sits in the same custody folder the
+Case List comes from. **Which record governs is an owner decision.**
+
+It settled the 168,281-vs-163,545 arbitration: VF58's figure covers the nine
+write-carrying pages, FIX166's covers all thirteen, and the four write-free pages
+carry exactly 4,736 px — identical on both fixtures. FIX166 was right; the two
+totals were on different scopes.
+
+**A defect it found that FIX173's sweep did not close:** `il-seal-edu-set`'s
+**nine guidance guards still run only under `--self-test`**. A one-line mutation
+dropping the record's ten required-before-filing lines leaves the build exiting 0
+while writing a guide that scores 3 of 10. Its Iowa guard is on the build path
+and fires, but a narrower break passes it while the participant-facing prose is
+gutted, because the needle survives in a generated refusal echo. The dormant-guard
+work is not finished.
+
+## What a successor must do with it
+
+The return is **not integrated**. Integrating it is a Captain act and was not
+taken. To consume it:
+
+1. `git -C /home/user/captain-worktree cherry-pick 3e16d8a0ccc574fd9743403f9031263eadc127d5`
+   (or fetch `origin/lane-vf66-20260910`).
+2. Release or reassign both grants — VF66 deliberately did not, and said so.
+3. Re-run the integration chain. `ia-12347-set` should reach
+   `BUILT_RASTER_PENDING`, not terminal, until a fresh whole-family raster lands.
