@@ -28,6 +28,7 @@ import { globSync } from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { PDFDict, PDFDocument, PDFName, decodePDFRawStream } from "pdf-lib";
+import { skeleton } from "./stroke-fill-skeleton.mjs";
 
 const LEDGER = "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json";
 const COHORT = "data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json";
@@ -38,57 +39,17 @@ const sha = (buffer) => createHash("sha256").update(buffer).digest("hex");
 const decode = (stream) => { try { return Buffer.from(decodePDFRawStream(stream).decode()); } catch { return null; } };
 
 /*
- * THE DISCRIMINATOR, NAMED ON THE BYTES BY VF22 AND FIX01 ON 2026-09-10.
+ * THE DISCRIMINATOR LIVES IN ./stroke-fill-skeleton.mjs.
  *
- * A delivered stream that matches no source stream is not automatically invented
- * ink. On co_petition_seal_arrest-set all 36 unmatched streams were a source
- * /AP stream minus its opaque background fill, and on
- * co_motion_seal_nonconviction-set every fill-only appearance is byte-identical
- * to a source /AP /N /Off stream whose /N differs from its /D only by a LEADING
- * OPAQUE BACKGROUND FILL -- `0.749023 g ... re f`.
- *
- * That distinction decides the remedy and nothing else does. Ink the source does
- * not ship is invented and is REMOVED. Ink that is the form's own appearance
- * with its background fill stripped is the form's ink and the remedy RESTORES --
- * a lane that removes it erases what the court prints, which has already
- * happened once in this cohort and cost a 213.6pt rule.
- *
- * So an unmatched stream is compared a second time against every source stream
- * with a leading fill removed from BOTH sides. The comparison stays SHA-256 of
- * bytes; only the leading fill is normalised away, and only a fill that sits at
- * the very start before any other painting.
+ * A delivered stream that matches no source stream is not automatically
+ * invented ink: it may be a source /AP stream minus its leading opaque
+ * background fill, in which case the ink belongs on the page and the remedy
+ * RESTORES rather than removes. That normaliser is a separate module because it
+ * has carried three separate bugs, each of which published the form's own ink
+ * as invented, and because importing THIS file to test it would run the whole
+ * pass and rewrite the ledger as a side effect. Its regression suite is
+ * scripts/grade-a-packet-factory-24h/test-stroke-fill-skeleton.mjs.
  */
-/*
- * TWO BUGS FIX131 FOUND IN THIS, AND NEITHER WAS THE FILL COLOUR.
- *
- * The regex matched `1 g` correctly and still reported 0 fill-stripped streams
- * across five Texas families whose ink was 100% fill-stripped source ink.
- *
- * First, whitespace. `^\s*` sat BEFORE the fill, so a source stream skeletonised
- * to text beginning at its next operator while the DELIVERED stream -- which had
- * the fill excised in place -- still began with the newlines left where it stood.
- * The two skeletons differed by two whitespace bytes and SHA-256 separated them.
- * Whitespace is now collapsed on both sides after stripping.
- *
- * Second, the fill is not always first. The Texas order's /Off opens `q` before
- * its fill, so the fill sat at no `^` at all and the pattern never fired. A
- * non-painting preamble -- `q`, a `cm`, a `gs`, a `w` -- is now allowed to
- * precede it, because none of those marks the page.
- */
-const PREAMBLE = "(?:\\s*(?:q|Q|[-\\d.]+(?:\\s+[-\\d.]+){5}\\s+cm|\\/[A-Za-z0-9_.-]+\\s+gs|[-\\d.]+\\s+w|[-\\d.]+\\s+[JjMi]|\\[[^\\]]*\\]\\s*[-\\d.]+\\s+d))*";
-const LEADING_FILL = new RegExp(
-  "^" + PREAMBLE
-  + "\\s*(?:[\\d.]+\\s+g|[\\d.]+\\s+[\\d.]+\\s+[\\d.]+\\s+rg|\\/[A-Za-z0-9_.-]+\\s+cs\\s+[\\d.\\s]+scn)"
-  + "\\s+[-\\d.]+\\s+[-\\d.]+\\s+[-\\d.]+\\s+[-\\d.]+\\s+re\\s+f\\*?\\s*");
-const skeleton = (buffer) => {
-  const text = buffer.toString("latin1");
-  const stripped = text.replace(LEADING_FILL, "");
-  /* Collapse whitespace on BOTH sides after stripping. Excising a fill in place
-   * leaves the newlines that stood around it, and two streams that differ only
-   * by those bytes are the same drawing. */
-  const normalised = stripped.replace(/\s+/g, " ").trim();
-  return { changed: stripped !== text, sha256: sha(Buffer.from(normalised, "latin1")) };
-};
 
 /* Every appearance stream the pinned source itself ships, across every state of
  * every widget -- an /AP /N may be a stream or a dictionary of named states, and
@@ -198,7 +159,7 @@ for (const row of ledger.rows) {
     derivedFromSourceDetail: derivedFromSource.slice(0, 40),
     whatTheThreeClassesMean: {
       matched: "byte-identical to a stream the pinned source ships. The form draws it. Correct.",
-      derivedFromSource: "byte-identical once a LEADING OPAQUE BACKGROUND FILL is removed from both sides -- 0.749023 g ... re f and its rg/scn equivalents. This is the form's own appearance with its background stripped, so the ink belongs on the page and the defect is the STRIPPING. The remedy RESTORES; removing it erases what the court prints.",
+      derivedFromSource: "byte-identical once a LEADING OPAQUE BACKGROUND FILL is removed from both sides, in any colour -- `1 g` (white) and `0.749023 g` (grey) alike, and their rg and cs/scn equivalents, behind any non-painting preamble. This is the form's own appearance with its background stripped, so the ink belongs on the page and the defect is the STRIPPING. The remedy RESTORES; removing it erases what the court prints.",
       unmatched: "matches nothing the source ships, with or without that fill. Invented. The remedy REMOVES.",
     },
     sourceAppearanceStreamsInPool: pool.size,
@@ -228,6 +189,14 @@ ledger.sourceAccountingPass = {
     EVERY_STROKE_IS_THE_FORMS_OWN: formsOwn,
     familiesCarryingAtLeastOneBackgroundFillStrippedStream: fillStripped,
     UNMEASURED: unmeasured,
+  },
+  normaliserCorrectedOn: {
+    when: "2026-09-10",
+    what: "The fill normaliser was consuming the non-painting preamble it had been taught to allow, while the delivered stream kept its own. A source appearance minus its fill and the delivered stream that IS that appearance minus its fill skeletonised one leading `q` apart, and SHA-256 separated them.",
+    effect: "Eight families moved from SYNTHESIZED_INK_CONFIRMED, whose remedy REMOVES, to the form's own ink with its background stripped, whose remedy RESTORES. In every one of the eight the unmatched count fell to zero and the derived count rose by exactly that amount; no family moved the other way, and no previously matched stream stopped matching.",
+    families: ["mi_setaside_trafficking-set", "vt_seal_dui-set", "vt_seal_misdemeanor-set", "co_multiple_conviction_seal-set", "tx_nd_deferred_other-set", "tx_nd_dwi_probation-set", "tx_nd_veterans_court-set", "ne-setaside-custodial-set"],
+    pinnedBy: "scripts/grade-a-packet-factory-24h/test-stroke-fill-skeleton.mjs",
+    itWasNeverTheColour: "FIX133 reported the symptom on Michigan and attributed it to the normaliser recognising grey and not white. `1 g` has always matched the alternation. Widening the colour test would have left the defect in place.",
   },
   stillOwed: "This is byte accounting, not a raster. Over-suppression -- ink the official form itself draws that a remedy removed -- is invisible here and is caught only by a directional raster difference against a render of the pinned source, read in both directions. Every repair still owes that, and no repair author verifies their own repaired candidate.",
   grantsNothing: "A measurement promotes nothing, demotes nothing and approves no packet.",
