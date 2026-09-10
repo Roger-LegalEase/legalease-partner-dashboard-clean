@@ -123,6 +123,73 @@
 //   lane's. The divergence is reported for that owner: the same line 6 reaches
 //   il-seal-2yr, il-exp-qualprob and il-seal-3yr, and it places an election on a
 //   column the official ATJ 2902.1 does not have.
+//
+// WHAT LANE FIX06 REPAIRED HERE, AND WHY.
+//
+//   ROUTE_OPTIONS -- FOUR-PRINTED-TWO-YEAR-GROUNDS, ONE-DELIVERED. The
+//   independent read data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json
+//   (lane VF03, at b8a2495f4) failed the delivered bytes with requiredOptionsMissing
+//   3. The registry track declares FIVE dispositions --
+//   supervision_successfully_completed, qualified_probation,
+//   conditional_discharge_completed_without_revocation,
+//   probation_completed_without_revocation and misdemeanor_conviction -- and
+//   Request page 5 prints all four two-year grounds that state them: Section 16
+//   (supervision), Section 17 (misdemeanor conviction), Section 18 (qualified
+//   probation) and Section 19.a (unrevoked conditional discharge or probation).
+//   The builder ticked Section 17 unconditionally and refused the other three
+//   with "A participant election or financial fact not determined by this packet
+//   route". That sentence is untrue of this route: those three ARE its own other
+//   declared grounds. The guide named neither them nor the choice. A participant
+//   on four of the five declared dispositions therefore received a Request
+//   stating a ground that is not theirs, verified under 735 ILCS 5/1-109, with
+//   nothing telling them which box states theirs.
+//
+//   The repair does NOT tick more boxes. Which ground is true of a person is
+//   theirs to elect, not this packet's to guess, so the elected ground becomes a
+//   FIXTURE fact carried like every other fixture fact -- the same shape the
+//   sibling il-seal-3yr-set already proves for its two Section 19 limbs. Exactly
+//   one two-year ground is ticked per packet; the other three are refused with a
+//   route-specific reason that names them as this route's alternatives and
+//   carries isAlternativeToElectedGround: true; and the guide gained a section
+//   that prints all four printed grounds, says which one this packet ticked and
+//   on what fact, maps each of the five declared dispositions onto the printed
+//   ground that states it, and tells the participant how to swap.
+//
+//   The two delivered fixtures exercise two different grounds, so the builder is
+//   shown expressing more than the one it used to hardcode: the canonical
+//   fixture elects Section 17 and the boundary fixture elects Section 16.
+//
+//   Section 19.a is carried here and NOT in the sibling, and 19.b and 19.c are
+//   carried in the sibling and NOT here. 19.a is the two-year limb; 19.b and
+//   19.c are the three-year limbs. Both builders now refuse the other route's
+//   limbs by name rather than with the boilerplate.
+//
+//   THE OUTCOME CELL FOLLOWS THE ELECTED GROUND, AND ONE GROUND HAS NO PRINTED
+//   ABBREVIATION. ROUTE_OUTCOME used to be a single route constant, MC, sound
+//   only while Section 17 was the only ground the packet could state. It is now
+//   derived from the elected ground, so the sealing-table Outcome cell and the
+//   Section election cannot disagree. Request page 4 prints "Outcome
+//   Abbreviations for Sealing" as exactly four codes -- MC Misdemeanor
+//   Conviction, FC Felony Conviction, CE Certificate of Eligibility for Sealing
+//   from PRB, QP Qualified Probation Successfully Completed -- and instructs the
+//   filer to "Use the shortened version of the outcome from the Outcome
+//   Abbreviations for Sealing section below". Section 17 is MC, Section 18 is QP,
+//   and Section 19.a sits under the Section 19 stem "I received a felony
+//   conviction for an offense subject to sealing", which is FC. Section 16,
+//   successfully completed supervision, has NO code in that legend. "S
+//   Supervision Successfully Completed" is printed on page 2, in the Outcome
+//   Abbreviations for EXPUNGEMENT legend, and the sealing table does not send the
+//   filer there. So on a Section 16 packet the Outcome cell is REFUSED, as a
+//   required-before-filing blank naming the gap in the form's own legend, and it
+//   is disclosed to the participant. No abbreviation is invented. The boundary
+//   fixture elects Section 16 precisely so that the refusing path is the one a
+//   delivered artifact exercises rather than dead code.
+//
+//   The divergence is reported for the record owner and NOT repaired here: the
+//   printed sealing legend has no abbreviation for a successfully completed
+//   supervision, while the registry track declares supervision_successfully_completed
+//   as one of this route's five dispositions and its own requiredBeforeFiling
+//   line asks the participant to confirm an outcome of "supervision".
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -186,35 +253,118 @@ const SOURCES = [
 ];
 
 /*
- * The Outcome cell is derived from the route, never from a fixture.
+ * The four printed two-year sealing grounds, and the five declared dispositions
+ * each of them states.
  *
- * Request page 4 prints: "For Outcome, enter an outcome that reflects the
- * outcome for each charge or case. Use the shortened version of the outcome from
- * the Outcome Abbreviations for Sealing section below." That legend offers
- * exactly MC, FC, CE and QP. This route seals an eligible misdemeanor conviction
- * or ordinance violation two years after the last sentence, which is MC, and it
- * is the same fact Section 17 elects on the next page. Deriving it here means
- * the Outcome cell and the Section 17 election cannot disagree.
+ * Request page 5 prints "In Sections 15 - 24, check all of the boxes that
+ * apply", and four of those sections are this route's two-year grounds. Which
+ * one is true of a person is a fact about their certified record, so the elected
+ * ground is a FIXTURE fact, and every ground this route carries is named here
+ * whether the fixture elects it or not. A ground absent from this table is a
+ * ground no participant on this route can be told about.
+ *
+ * `outcome` is the code the form's own "Outcome Abbreviations for Sealing"
+ * legend prints for that ground. Section 16 has none: see the ROUTE_OPTIONS note
+ * in the header. A null there refuses the Outcome cell; it never invents a code.
  */
-const ROUTE_OUTCOME = {
-  code: "MC",
-  meaning: "Misdemeanor Conviction",
-  printedLegend: "Outcome Abbreviations for Sealing, EXP-AD Request page 4",
-  derivedFrom: "route",
-  consistentWith: "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence"
+const OUTCOME_LEGEND = "Outcome Abbreviations for Sealing, EXP-AD Request page 4";
+const TWO_YEAR_GROUNDS = {
+  "16 -": {
+    section: "Section 16",
+    printed: "16. I successfully completed my supervision and 2 years have passed since the end of my last sentence.",
+    inWords: "a successfully completed sentence of supervision, with two years passed since the end of the last sentence",
+    dispositions: ["supervision_successfully_completed"],
+    authority: "20 ILCS 2630/5.2(c)(2)(C)",
+    outcome: null,
+    outcomeNote: "The printed Outcome Abbreviations for Sealing legend on Request page 4 offers exactly MC, FC, CE and QP and prints no abbreviation for a successfully completed supervision. \"S - Supervision Successfully Completed\" appears only in the Outcome Abbreviations for EXPUNGEMENT legend on page 2, and the sealing table does not send the filer to that legend."
+  },
+  "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence": {
+    section: "Section 17",
+    printed: "17. I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence.",
+    inWords: "a misdemeanor conviction or ordinance violation for an offense subject to sealing, with two years passed since the end of the last sentence",
+    dispositions: ["misdemeanor_conviction"],
+    authority: "20 ILCS 2630/5.2(c)(2)(C)",
+    outcome: { code: "MC", meaning: "Misdemeanor Conviction" }
+  },
+  "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act": {
+    section: "Section 18",
+    printed: "18. I successfully completed a sentence under Section 10 of the Cannabis Control Act, Section 410 of the Illinois Controlled Substances Act, Section 70 of the Methamphetamine Control and Community Protection Act, or Offender Initiative Program (under Section 5-6-3.3 of the Unified Code of Corrections) and 2 years have passed since the end of my last sentence.",
+    inWords: "a successfully completed sentence of qualified probation -- Cannabis Control Act Section 10, Controlled Substances Act Section 410, Methamphetamine Control and Community Protection Act Section 70, or the Offender Initiative Program -- with two years passed since the end of the last sentence",
+    dispositions: ["qualified_probation"],
+    authority: "20 ILCS 2630/5.2(c)(2)(C-5)",
+    outcome: { code: "QP", meaning: "Qualified Probation Successfully Completed" }
+  },
+  "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence": {
+    section: "Section 19.a",
+    printed: "19. I received a felony conviction for an offense subject to sealing AND at least one of these is true: a. I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since the end of my last sentence.",
+    inWords: "a completed sentence of conditional discharge or probation that was not revoked, with two years passed since the end of the last sentence",
+    dispositions: ["conditional_discharge_completed_without_revocation", "probation_completed_without_revocation"],
+    authority: "20 ILCS 2630/5.2(c)(2)(D), (E)",
+    // Section 19 has no box of its own: ticking a lettered limb is how its stem
+    // is asserted, and the stem is "I received a felony conviction for an
+    // offense subject to sealing". That is why the Outcome for 19.a is FC.
+    stem: "19. I received a felony conviction for an offense subject to sealing AND at least one of these is true",
+    outcome: { code: "FC", meaning: "Felony Conviction" }
+  }
 };
+
+/*
+ * The three-year limbs, which belong to il-seal-3yr-set and never to this route.
+ *
+ * They are named here so that they are refused BY NAME rather than with the
+ * boilerplate reason. The sibling family does the same for 19.a, which is this
+ * route's.
+ */
+const THREE_YEAR_LIMBS = {
+  "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence": "a revoked sentence of conditional discharge or probation, with three years passed",
+  "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence": "a completed Illinois prison or jail sentence, with three years passed"
+};
+
+/** The elected ground's Outcome, or null where the printed legend has no code. */
+function outcomeFor(fixture) {
+  const ground = TWO_YEAR_GROUNDS[fixture.sealingGround];
+  assert.ok(ground, `the fixture must state one printed two-year ground: ${fixture.sealingGround}`);
+  if (!ground.outcome) return null;
+  return { ...ground.outcome, printedLegend: OUTCOME_LEGEND, derivedFrom: "elected two-year ground", consistentWith: ground.printed };
+}
 
 /*
  * The route's own elections, exhaustively.
  *
  * A checkbox named here is written to the named widget state; a checkbox not
  * named here is never written. Section 15 was removed from this table: see the
- * ROUTE_OPTIONS note in the header.
+ * ROUTE_OPTIONS note in the header. Section 17 was removed from it too, and for
+ * the opposite reason: it is not route-determined at all. It is one of four
+ * printed grounds, and which one applies is the participant's fact.
  */
 const ELECTIONS = {
-  "12 - Seal Records": { state: "Yes", why: "item 12: this route asks the court to seal" },
-  "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence": { state: "Yes", why: "item 17: the two-year misdemeanor-conviction sealing ground this route is built for, 20 ILCS 2630/5.2(c)(2)(C)" }
+  "12 - Seal Records": { state: "Yes", why: "item 12: this route asks the court to seal" }
 };
+
+/**
+ * This route's elections for one fixture.
+ *
+ * Item 12 is route-determined: this route asks the court to seal. The two-year
+ * ground is not. Exactly one is elected, it comes from the fixture, and the
+ * other three printed two-year grounds are named on the row as the participant's
+ * alternatives.
+ */
+function electionsFor(fixture) {
+  const ground = fixture.sealingGround;
+  const printed = TWO_YEAR_GROUNDS[ground];
+  assert.ok(printed, `the fixture must state one printed two-year ground: ${ground}`);
+  const alternatives = Object.keys(TWO_YEAR_GROUNDS).filter((name) => name !== ground);
+  return {
+    ...ELECTIONS,
+    [ground]: {
+      state: "Yes",
+      routeDetermined: false,
+      factId: "matter.sealing_ground",
+      why: `${printed.section}: this fixture's certified record shows ${printed.inWords}, ${printed.authority}. The two-year bucket is this route's; which of its four printed grounds applies is the participant's fact, not the route's.`,
+      alternatives
+    }
+  };
+}
 
 // The charge is a charge, not a direction to the participant, and it is a
 // misdemeanor: this route seals misdemeanor convictions and ordinance
@@ -235,8 +385,8 @@ const NOT_MEASURED_BY_THIS_BUILDER = {
 };
 
 const FIXTURES = {
-  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Retail theft, Class A misdemeanor", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Retail theft of property not exceeding three hundred dollars, Class A misdemeanor, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Retail theft, Class A misdemeanor", arrestDate: "03/12/2021", sealingGround: "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
+  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Retail theft of property not exceeding three hundred dollars, Class A misdemeanor, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", sealingGround: "16 -", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
 };
 
 function resolveSources() {
@@ -275,13 +425,16 @@ function orderCaseSlot(name) {
 }
 const ACTIVE_ORDER_CELL = "arrest/case number - Sealing 1";
 
+/** The one active sealing-table Outcome cell, row 1 of Request page 4. */
+const isActiveOutcomeCell = (documentId, name, page) =>
+  documentId === "EXP-AD Request" && page === 4 && /(?:outcome.*|4 - outcome) - 1$/i.test(name);
+
 function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
   if (documentId === "EXP-AD Request" && page === 4 && /arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "EXP-AD Request" && page === 4 && /arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
   if (documentId === "EXP-AD Request" && page === 4 && /list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
   if (documentId === "EXP-AD Request" && page === 4 && /date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
-  if (documentId === "EXP-AD Request" && page === 4 && /(?:outcome.*|4 - outcome) - 1$/i.test(name)) return [ROUTE_OUTCOME.code, "matter.outcome"];
   if (documentId === "EXP-AD Case List" && name === "arrest1") return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "EXP-AD Order Granting" && name === ACTIVE_ORDER_CELL) return [fixture.caseNumber, "matter.case_number"];
   // Order page 2 item 3: "Enter the name and contact information of the person
@@ -476,6 +629,51 @@ function preserveOfficialCheckBoxAppearances(document, form) {
  * pdf-lib produced was the synthesized check-box border, so this must count
  * zero after the repair -- and it counted 91 per fixture before it.
  */
+/*
+ * The ink the DELIVERED bytes actually carry, read from them.
+ *
+ * DEFECTS_NO_COUNTER_CAN_SEE, "a-published-zero-where-a-measurement-existed":
+ * this file used to publish addedGlyphsReadFromOutputBytes as the literal 0 and
+ * flattenedWidgetAppearancesReadFromOutputBytes as the finalizer's own write
+ * count. Neither had ever been read from the output. A zero that was never
+ * measured is indistinguishable, downstream, from a zero that was, and the
+ * completeness contract's invisibleWrites check reads both fields.
+ *
+ * flatten() turns every widget -- written and blank alike -- into a Form
+ * XObject drawn on the page, and a BLANK widget's appearance stream still
+ * carries a font selection and an empty show-text operand. So an appearance is
+ * counted only when it draws at least one non-whitespace glyph, which is what
+ * "a write with no ink is not a write" is asking about.
+ */
+function readFlattenedAppearanceInk(document) {
+  const SHOW_TEXT = /\((?:\\[\s\S]|[^\\()])*\)|<([0-9A-Fa-f\s]*)>/g;
+  let appearances = 0;
+  let glyphs = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (!/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      let drawn = 0;
+      for (const operand of body.match(SHOW_TEXT) ?? []) {
+        const text = operand.startsWith("<")
+          ? operand.slice(1, -1).replace(/\s/g, "")
+          : operand.slice(1, -1).replace(/\\(?:[0-7]{1,3}|[\s\S])/g, "x");
+        drawn += text.replace(/\s/g, "").length / (operand.startsWith("<") ? 2 : 1);
+      }
+      if (drawn <= 0) continue;
+      appearances += 1;
+      glyphs += Math.round(drawn);
+    }
+  }
+  return { appearances, glyphs };
+}
+
 function inkWithoutGlyphs(document) {
   let count = 0;
   for (const page of document.getPages()) {
@@ -500,6 +698,12 @@ async function fillDocument(source, fixtureName, fixture) {
   const emptyOffAppearances = preserveOfficialCheckBoxAppearances(document, form);
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
+  // FIX06, ROUTE_OPTIONS. The elected two-year ground and its Outcome are
+  // resolved once per document, from the fixture, so the ticked box and the
+  // sealing-table Outcome cell cannot disagree.
+  const elections = electionsFor(fixture);
+  const elected = TWO_YEAR_GROUNDS[fixture.sealingGround];
+  const outcome = outcomeFor(fixture);
   const writes = [];
   const refusals = [];
   for (const field of form.getFields()) {
@@ -514,16 +718,31 @@ async function fillDocument(source, fixtureName, fixture) {
       continue;
     }
     if (field instanceof PDFCheckBox) {
-      const election = source.documentId === "EXP-AD Request" ? ELECTIONS[name] : undefined;
+      const election = source.documentId === "EXP-AD Request" ? elections[name] : undefined;
       const guard = protectedField(source.documentId, name);
       if (election) {
         selectCheckboxState(field, election.state);
-        writes.push({ ...base, effectiveLabel: name, factId: "route.selection", drawnText: election.state, isSelectionControl: true, routeDetermined: true, routeReason: election.why });
+        writes.push({ ...base, effectiveLabel: name, factId: election.factId ?? "route.selection", drawnText: election.state, isSelectionControl: true, routeDetermined: election.routeDetermined !== false, routeReason: election.why, ...(election.alternatives ? { participantAlternatives: election.alternatives } : {}) });
       } else if (participantSelfControl(source.documentId, name)) {
         field.check();
         writes.push({ ...base, effectiveLabel: name, factId: "participant.self_represented", isSelectionControl: true, routeDetermined: true });
       } else if (guard) {
         refusals.push({ ...base, effectiveLabel: `Court or later-completion control: ${name}`, reason: guard.reason, refusalClass: guard.refusalClass, role: guard.role });
+      } else if (source.documentId === "EXP-AD Request" && TWO_YEAR_GROUNDS[name]) {
+        // FIX06, ROUTE_OPTIONS. One of this route's OWN other two-year grounds.
+        // The boilerplate reason said such a ground belonged to no route at all.
+        const alternative = TWO_YEAR_GROUNDS[name];
+        const outcomeConsequence = alternative.outcome
+          ? `If you tick it, the sealing-table Outcome for that case becomes ${alternative.outcome.code} -- ${alternative.outcome.meaning} -- from the printed ${OUTCOME_LEGEND}.`
+          : `If you tick it, leave the sealing-table Outcome for that case for a lawyer or the clerk: ${alternative.outcomeNote}`;
+        refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`,
+          reason: `${alternative.section} is another of this route's own printed two-year grounds, ${alternative.authority}, and it states the registry disposition${alternative.dispositions.length > 1 ? "s" : ""} ${alternative.dispositions.join(" and ")}. This packet elects ${elected.section} instead, from the fixture's certified record. If your certified record instead shows ${alternative.inWords}, tick this box and untick the one this packet ticked. Do not tick both. ${outcomeConsequence}`,
+          refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false,
+          isAlternativeToElectedGround: true, alternativeSection: alternative.section, alternativeDispositions: alternative.dispositions });
+      } else if (source.documentId === "EXP-AD Request" && THREE_YEAR_LIMBS[name]) {
+        refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`,
+          reason: `That is a THREE-year limb of Section 19 -- ${THREE_YEAR_LIMBS[name]} -- and it belongs to the three-year sealing route, not to this two-year one. It is never elected here. This route's Section 19 limb is 19.a, the unrevoked one.`,
+          refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
       } else refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
       continue;
     }
@@ -533,9 +752,24 @@ async function fillDocument(source, fixtureName, fixture) {
       refusals.push({ ...base, effectiveLabel: `Court or later-completion field: ${name}`, reason: guard.reason, refusalClass: guard.refusalClass, role: guard.role });
       continue;
     }
+    // FIX06, ROUTE_OPTIONS. The Outcome follows the elected ground. Where the
+    // printed sealing legend has no code for that ground -- Section 16,
+    // successfully completed supervision -- the cell is refused and carried to
+    // the participant. No abbreviation is invented.
+    if (isActiveOutcomeCell(source.documentId, name, page)) {
+      if (outcome) {
+        writes.push({ ...base, effectiveLabel: name, factId: "matter.outcome", outcomeDerivedFrom: outcome.derivedFrom, outcomeMeaning: outcome.meaning, printedLegend: outcome.printedLegend, ...setComplete(field, outcome.code, font) });
+      } else {
+        refusals.push({ ...base, effectiveLabel: `Enter the Outcome for this case on ${source.documentId} page ${page}`,
+          reason: `This packet elects ${elected.section} -- ${elected.inWords} -- and the form's printed ${OUTCOME_LEGEND} has no abbreviation for it. ${elected.outcomeNote} No abbreviation is invented here. Ask the circuit clerk in your county what to enter in the Outcome cell for a successfully completed supervision, or ask a lawyer, before you file.`,
+          completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant",
+          noPrintedAbbreviationForElectedGround: true, electedGroundSection: elected.section });
+      }
+      continue;
+    }
     const known = knownValue(source.documentId, name, page, fixture);
     const unusedSlot = optionalUnusedSlot(source.documentId, name, page);
-    if (known) writes.push({ ...base, effectiveLabel: name, factId: known[1], ...(known[1] === "matter.outcome" ? { outcomeDerivedFrom: ROUTE_OUTCOME.derivedFrom, outcomeMeaning: ROUTE_OUTCOME.meaning, printedLegend: ROUTE_OUTCOME.printedLegend } : {}), ...setComplete(field, known[0], font) });
+    if (known) writes.push({ ...base, effectiveLabel: name, factId: known[1], ...setComplete(field, known[0], font) });
     else if (unusedSlot) refusals.push({ ...base, effectiveLabel: `Unused additional-record slot: ${name}`, reason: UNUSED_SLOT_REASON[unusedSlot], unusedSlotKind: unusedSlot, completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", factAvailable: false, routeDetermined: false, role: "participant" });
     else if (attorneyField(name)) refusals.push({ ...base, effectiveLabel: `Attorney field: ${name}`, reason: "Attorney-only; the fixture is self-represented", role: "attorney" });
     else refusals.push({ ...base, effectiveLabel: `Complete ${name} on ${source.documentId} page ${page}`, reason: "The platform does not hold this participant, case, or financial fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
@@ -595,7 +829,13 @@ async function buildPacket(sources, fixtureName, fixture) {
     `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
   const strayInk = inkWithoutGlyphs(reopened);
   assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
-  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  const delivered = readFlattenedAppearanceInk(reopened);
+  // "a write with no ink is not a write", read from the saved bytes rather than
+  // asserted by the finalizer that made them.
+  const finalizerWrites = filled.reduce((total, item) => total + item.writes.length, 0);
+  assert.equal(delivered.appearances, finalizerWrites,
+    `every declared write must draw at least one glyph in the delivered bytes: ${delivered.appearances} inked appearances for ${finalizerWrites} writes`);
+  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, delivered, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 async function build() {
@@ -606,13 +846,40 @@ async function build() {
   assert.ok(family, `family absent from worklist: ${FAMILY_ID}`);
   const packets = {};
   for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture);
+  // FIX06, ROUTE_OPTIONS. Both delivered fixtures, not only the canonical one
+  // the reports are written from. Each states exactly one printed two-year
+  // ground, and the two fixtures state DIFFERENT ones, so a builder that could
+  // only ever emit the hardcoded Section 17 fails here rather than shipping.
+  const electedPerFixture = Object.entries(packets).map(([fixtureName, packet]) => {
+    const ticked = packet.writes.filter((row) => TWO_YEAR_GROUNDS[row.fieldName]).map((row) => row.fieldName);
+    assert.equal(ticked.length, 1, `${fixtureName}: exactly one printed two-year ground must be ticked, got ${ticked.length}`);
+    assert.equal(ticked[0], FIXTURES[fixtureName].sealingGround, `${fixtureName}: the ticked ground must be the fixture's`);
+    const refusedGrounds = packet.refusals.filter((row) => TWO_YEAR_GROUNDS[row.fieldName]);
+    assert.equal(refusedGrounds.length, 3, `${fixtureName}: the three unelected two-year grounds must each carry a refusal row`);
+    for (const row of refusedGrounds) assert.equal(row.isAlternativeToElectedGround, true, `${fixtureName}: ${row.fieldName} must be disclosed as an alternative`);
+    const outcomeWrites = packet.writes.filter((row) => row.factId === "matter.outcome");
+    const expected = TWO_YEAR_GROUNDS[ticked[0]].outcome;
+    assert.equal(outcomeWrites.length, expected ? 1 : 0, `${fixtureName}: the Outcome cell must follow the elected ground`);
+    if (expected) assert.equal(outcomeWrites[0].drawnText, expected.code, `${fixtureName}: the Outcome cell must carry ${expected.code}`);
+    else assert.ok(packet.refusals.some((row) => row.noPrintedAbbreviationForElectedGround === true && row.requiredBeforeFiling === true),
+      `${fixtureName}: a ground with no printed abbreviation must refuse the Outcome cell and carry it to the participant`);
+    return ticked[0];
+  });
+  assert.equal(new Set(electedPerFixture).size, Object.keys(packets).length,
+    "the delivered fixtures must exercise different printed grounds, so the builder is shown expressing more than one");
   fs.mkdirSync(path.join(OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
-  const routeSummary = "Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period. The Request answers item 12 Yes and elects Section 17, and records the outcome as MC, the printed sealing abbreviation for a misdemeanor conviction. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route.";
+  // FIX06, ROUTE_OPTIONS. The summary names the ground THIS packet elected, the
+  // fact it came from, and the fact that three more printed grounds are this
+  // route's too. It used to name Section 17 as though it were the route.
+  const electedGround = TWO_YEAR_GROUNDS[FIXTURES.canonical.sealingGround];
+  const canonicalOutcome = outcomeFor(FIXTURES.canonical);
+  const otherGrounds = Object.keys(TWO_YEAR_GROUNDS).filter((name) => name !== FIXTURES.canonical.sealingGround).map((name) => TWO_YEAR_GROUNDS[name]);
+  const routeSummary = `Sealing after the printed two-year period, 20 ILCS 2630/5.2(c)(2)(C), (C-5), (D), (E) and (c)(3)(B). The Request answers item 12 Yes and states one of the four printed two-year grounds. This packet elects ${electedGround.section} -- ${electedGround.inWords} -- and records the outcome as ${canonicalOutcome ? `${canonicalOutcome.code}, the printed sealing abbreviation for ${canonicalOutcome.meaning}` : "a blank, because the printed sealing legend carries no abbreviation for that ground"}. Which of the four applies is your fact, not the route's: ${otherGrounds.map((ground) => `${ground.section} states ${ground.inWords}`).join("; ")}. Tick the one your certified record supports and untick the one this packet ticked. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route. It never elects Section 19.b or 19.c: those are the three-year limbs and a different route.`;
   writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
@@ -647,7 +914,20 @@ async function build() {
   assert.ok(feeWaiverElectionRows.length, "the fee-waiver form's participant elections must reach the guide");
   const feeWaiverElections = feeWaiverElectionRows.map((row) => `- ${row.fieldName} \u2014 FW-CIV-APPLICATION page ${row.page}`).join("\n");
   const registryCarveOut = "";
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nThe first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. The record's per-case expunge-versus-seal line above places that election in a Case List per-case election column. The official Case List this packet ships carries no such column: its 78 form fields are the county, five caption fields, one clerk-assigned case number, one \"More Arrests or Case Numbers\" box and seventy unlabelled arrest or case cells, and not one of them is an election field. This packet therefore made the per-case expunge-or-seal election where the official forms do carry it, on the Request: item 12 is answered Yes to sealing, and Section 17 states the two-year misdemeanor-conviction ground. Check that election against your certified disposition and your Illinois State Police transcript before you sign, and if it is wrong correct it on the Request, not on the Case List.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\nThis packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.\n\n${requiredList}\n\n### The boxes only you can tick\n\nThe list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.\n\nThis packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:\n\n${feeWaiverElections}${registryCarveOut}\n\nDo not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.\n\n${stopConditions}\n\nTwo of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.\n`);
+  // FIX06, ROUTE_OPTIONS. The guide never named three of this route's four
+  // printed grounds, so a participant on four of the track's five declared
+  // dispositions had nothing telling them which box states theirs. This section
+  // is generated from the same TWO_YEAR_GROUNDS table the builder elects from,
+  // so it cannot drift from what the packet ticked.
+  const groundLines = Object.entries(TWO_YEAR_GROUNDS).map(([name, ground]) => {
+    const ticked = name === FIXTURES.canonical.sealingGround;
+    const outcomeLine = ground.outcome
+      ? `Outcome code ${ground.outcome.code} (${ground.outcome.meaning}).`
+      : `No Outcome code: ${ground.outcomeNote}`;
+    return `- **${ground.section}${ticked ? " -- this is the box this packet ticked" : ""}.** "${ground.printed}" This is the printed ground for ${ground.inWords}, ${ground.authority}. ${outcomeLine}`;
+  }).join("\n");
+  const groundSection = `## The two-year ground this packet ticked, and the three it did not\n\nThis route is the two-year sealing bucket, and the Request prints four two-year grounds. Only one of them is yours. This packet ticks ${electedGround.section}, because that is what this packet's record of your case shows: ${electedGround.inWords}. It leaves the other three blank. It does not guess between them, and no box is ticked that your certified record does not support.\n\nRead all four before you sign:\n\n${groundLines}\n\nIf your certified disposition and your Illinois State Police transcript show one of the other three, tick that box and untick ${electedGround.section}. Do not tick two of them for the same case: the form says "check all of the boxes that apply", which lets several boxes apply across several cases, but one case has one outcome. If you change the box, change the Outcome cell in the sealing table on the page before it to match, using the codes listed above. Where a ground has no code printed in that legend, this packet leaves the Outcome cell for that case blank rather than invent an abbreviation, lists the blank among the items it leaves for you, and tells you to ask the circuit clerk or a lawyer what belongs there.\n\nSection 19 has no box of its own. Its stem reads "I received a felony conviction for an offense subject to sealing AND at least one of these is true", and ticking a lettered limb is how that statement is made -- so ticking 19.a says your conviction was a felony. Do not tick 19.b or 19.c: those are the three-year limbs and belong to a different route. Do not tick Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route either.\n\nYou verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n`;
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n${groundSection}\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nThe first of those is the one to start now. The ISP statewide transcript is a fingerprint-based Access and Review record: you attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor in person, and it takes time to come back. Compare it against every certified disposition and resolve every mismatch before filing. The record's per-case expunge-versus-seal line above places that election in a Case List per-case election column. The official Case List this packet ships carries no such column: its 78 form fields are the county, five caption fields, one clerk-assigned case number, one \"More Arrests or Case Numbers\" box and seventy unlabelled arrest or case cells, and not one of them is an election field. This packet therefore made the per-case expunge-or-seal election where the official forms do carry it, on the Request: item 12 is answered Yes to sealing, and ${electedGround.section} states the two-year ground -- one of the four printed two-year grounds, named in full in the section above. Check that election against your certified disposition and your Illinois State Police transcript before you sign, and if it is wrong correct it on the Request, not on the Case List.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\nThis packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.\n\n${requiredList}\n\n### The boxes only you can tick\n\nThe list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.\n\nThis packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:\n\n${feeWaiverElections}${registryCarveOut}\n\nDo not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\nAttach the Illinois State Police statewide criminal history transcript, the certified disposition for each case, and any other route-specific evidence named in the record above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nYou serve nobody. File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.\n\n${stopConditions}\n\nTwo of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
@@ -669,11 +949,23 @@ function selfTest() {
   for (const row of writes) {
     assert.ok(!/^(?:Complete |Charge )?(?:the )?charge exactly as (?:shown|printed)/i.test(String(row.drawnText ?? "")), `a direction to the participant reached ${row.fieldId}: ${row.drawnText}`);
   }
-  // VF13, OUTCOME-CELL-IS-NOT-A-PRINTED-ABBREVIATION.
+  // VF13, OUTCOME-CELL-IS-NOT-A-PRINTED-ABBREVIATION, kept; FIX06 widened it.
+  // The Outcome follows the elected ground and must always be one of the four
+  // codes the sealing legend actually prints. A ground the legend has no code
+  // for produces a refusal, never an invented abbreviation.
+  const PRINTED_SEALING_CODES = ["MC", "FC", "CE", "QP"];
   const outcomes = writes.filter((row) => row.factId === "matter.outcome");
-  assert.equal(outcomes.length, 1, "exactly one Outcome cell is written");
-  assert.equal(outcomes[0].drawnText, "MC", "the Outcome cell must carry the printed sealing abbreviation MC");
-  assert.equal(outcomes[0].outcomeDerivedFrom, "route", "the Outcome must be derived from the route, not from a fixture literal");
+  const canonicalGround = TWO_YEAR_GROUNDS[FIXTURES.canonical.sealingGround];
+  assert.equal(outcomes.length, canonicalGround.outcome ? 1 : 0, "the Outcome cell is written exactly when the elected ground has a printed code");
+  if (canonicalGround.outcome) {
+    assert.ok(PRINTED_SEALING_CODES.includes(outcomes[0].drawnText), `the Outcome cell must carry a printed sealing abbreviation: ${outcomes[0].drawnText}`);
+    assert.equal(outcomes[0].drawnText, canonicalGround.outcome.code, "the Outcome cell must match the elected ground");
+    assert.equal(outcomes[0].outcomeDerivedFrom, "elected two-year ground", "the Outcome must be derived from the elected ground, not from a fixture literal");
+  }
+  for (const [name, ground] of Object.entries(TWO_YEAR_GROUNDS)) {
+    if (ground.outcome) assert.ok(PRINTED_SEALING_CODES.includes(ground.outcome.code), `no ground may carry an outcome code the form does not print: ${name}`);
+  }
+  assert.equal(TWO_YEAR_GROUNDS["16 -"].outcome, null, "supervision has no abbreviation in the printed Outcome Abbreviations for Sealing legend and none may be invented");
   assert.equal(writes.filter((row) => /dismiss|acquit/i.test(String(row.drawnText ?? ""))).length, 0, "no non-conviction outcome may appear on a conviction-sealing packet");
 
   const fieldMap = JSON.parse(fs.readFileSync(path.join(OUT, "production-field-map.json"), "utf8"));
@@ -681,7 +973,38 @@ function selfTest() {
   const selected = writes.filter((row) => row.isSelectionControl).map((row) => row.fieldName);
   assert.ok(selected.includes("12 - Seal Records"), "item 12 must be answered");
   assert.equal(writes.find((row) => row.fieldName === "12 - Seal Records").drawnText, "Yes", "this route asks the court to seal, so item 12 is Yes");
-  assert.ok(selected.includes("17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence"), "the two-year misdemeanor ground must be elected");
+  // FIX06, ROUTE_OPTIONS. Exactly one of the four printed two-year grounds is
+  // ticked, it is a participant fact rather than a route constant, and the other
+  // three are disclosed as this route's alternatives rather than refused with a
+  // reason that says they belong to no route.
+  const grounds = selected.filter((name) => TWO_YEAR_GROUNDS[name]);
+  assert.equal(grounds.length, 1, `exactly one printed two-year ground must be elected, got ${grounds.length}`);
+  const groundRow = writes.find((row) => row.fieldName === grounds[0]);
+  assert.equal(groundRow.factId, "matter.sealing_ground", "the two-year ground is a participant fact, recorded as one");
+  assert.equal(groundRow.routeDetermined, false, "which of the four printed two-year grounds applies is not settled by the route");
+  assert.equal(groundRow.participantAlternatives.length, 3, "the write must name this route's other three printed grounds as the participant's alternatives");
+  for (const alternativeName of groundRow.participantAlternatives) {
+    const row = fieldMap.refusals.find((entry) => entry.fieldName === alternativeName);
+    assert.ok(row && row.isAlternativeToElectedGround === true, `an unelected two-year ground must be disclosed as the participant's alternative: ${alternativeName}`);
+    assert.notEqual(row.reason, "A participant election or financial fact not determined by this packet route",
+      `this route's own ground must not be refused as belonging to no route: ${alternativeName}`);
+    assert.ok(TWO_YEAR_GROUNDS[alternativeName].dispositions.every((disposition) => row.reason.includes(disposition)),
+      `the refusal must name the registry disposition the ground states: ${alternativeName}`);
+  }
+  // Every disposition the registry track declares reaches exactly one printed
+  // ground. A disposition no printed ground states cannot be elected by anyone.
+  const declaredDispositions = controllingRecord().dispositions;
+  const coveredDispositions = Object.values(TWO_YEAR_GROUNDS).flatMap((ground) => ground.dispositions);
+  for (const disposition of declaredDispositions) {
+    assert.equal(coveredDispositions.filter((entry) => entry === disposition).length, 1,
+      `each declared disposition must map to exactly one printed two-year ground: ${disposition}`);
+  }
+  assert.equal(coveredDispositions.length, declaredDispositions.length, "no printed ground may claim a disposition the registry track does not declare");
+  for (const limb of Object.keys(THREE_YEAR_LIMBS)) {
+    assert.ok(!selected.includes(limb), `a three-year limb is never elected on the two-year route: ${limb}`);
+    const row = fieldMap.refusals.find((entry) => entry.fieldName === limb);
+    assert.ok(row && /THREE-year limb/.test(row.reason), `the three-year limbs must be refused by name, not with the boilerplate: ${limb}`);
+  }
   assert.ok(!selected.includes("15 - Asking to Seal"), "Section 15 is the no-waiting-period Second Chance/FTWOP ground and is not this route's");
   assert.ok(!selected.includes("Page 1 - Request to Expunge Records"), "Request page 1 tells a seal-only filer not to fill out that section");
   // VF13, ORDER-P2-ITEM-3-REFUSED-AS-A-SIGNATURE.
@@ -698,6 +1021,7 @@ function selfTest() {
   assert.equal(fieldMap.refusals.filter((row) => /^arrest\/case number/i.test(row.fieldName) && row.requiredBeforeFiling).length, 0, "unused proposed-Order case slots are not owed before filing");
 
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
+  const electedGroundSection = TWO_YEAR_GROUNDS[FIXTURES.canonical.sealingGround].section;
   // FIX13. These used to match a hand-written paraphrase of the service model. The
   // guide now prints the record's own service and notice sentences, so the same
   // obligation is checked against the record rather than against a restatement.
@@ -719,6 +1043,32 @@ function selfTest() {
   assert.ok(instructions.includes("Sign and date that block yourself, in ink"),
     "the guide must tell the petitioner to sign the verification block the packet leaves blank");
   for (const phrase of ["item 12 Yes", "Section 17", "does not elect Section 15"]) assert.ok(instructions.includes(phrase), `the guide must disclose the route's elections: ${phrase}`);
+  // FIX06, ROUTE_OPTIONS. Every printed two-year ground reaches the guide in the
+  // form's own words, with the registry disposition it states and the Outcome
+  // code it carries, and the guide says how to swap. A ground the guide does not
+  // name is a ground a participant cannot find.
+  for (const [name, ground] of Object.entries(TWO_YEAR_GROUNDS)) {
+    assert.ok(instructions.includes(ground.printed), `the guide must print the two-year ground in the form's own words: ${name}`);
+    assert.ok(instructions.includes(`**${ground.section}`), `the guide must name the printed section: ${ground.section}`);
+    assert.ok(instructions.includes(ground.inWords), `the guide must say in plain words what record the ground states: ${ground.section}`);
+    // The registry's machine vocabulary belongs in the field map, which is a
+    // record, and not in a document a participant reads.
+    for (const disposition of ground.dispositions) {
+      assert.ok(!instructions.includes(disposition), `the guide must not print the registry's machine disposition token: ${disposition}`);
+    }
+    if (ground.outcome) assert.ok(instructions.includes(`Outcome code ${ground.outcome.code}`), `the guide must give the ground's printed Outcome code: ${ground.section}`);
+  }
+  for (const phrase of [
+    "## The two-year ground this packet ticked, and the three it did not",
+    "It leaves the other three blank. It does not guess between them",
+    `tick that box and untick ${electedGroundSection}`,
+    "Do not tick 19.b or 19.c",
+    "ticking 19.a says your conviction was a felony",
+    "leaves the Outcome cell for that case blank rather than invent an abbreviation",
+    "735 ILCS 5/1-109",
+  ]) assert.ok(instructions.includes(phrase), `the guide must disclose the two-year ground election: ${phrase}`);
+  assert.ok(!/Section 17 states the two-year misdemeanor-conviction ground/.test(instructions),
+    "the guide must not present Section 17 as though it were the route's only ground");
   // VF01/VF02, REQUIRED_BEFORE_FILING -- THE ELECTION COLUMN THE FORM DOES NOT
   // HAVE. These assertions replace one that pinned the false sentence in place.
   // The record's own line 6 is still printed verbatim above, because the record is

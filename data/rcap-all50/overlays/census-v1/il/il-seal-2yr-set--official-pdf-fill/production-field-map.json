@@ -5,7 +5,7 @@
   "routeKeys": [
     "obligation:track-pathway:IL:il-seal-2yr:adult-conviction-sealing"
   ],
-  "routeSummary": "Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period. The Request answers item 12 Yes and elects Section 17, and records the outcome as MC, the printed sealing abbreviation for a misdemeanor conviction. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route.",
+  "routeSummary": "Sealing after the printed two-year period, 20 ILCS 2630/5.2(c)(2)(C), (C-5), (D), (E) and (c)(3)(B). The Request answers item 12 Yes and states one of the four printed two-year grounds. This packet elects Section 17 -- a misdemeanor conviction or ordinance violation for an offense subject to sealing, with two years passed since the end of the last sentence -- and records the outcome as MC, the printed sealing abbreviation for Misdemeanor Conviction. Which of the four applies is your fact, not the route's: Section 16 states a successfully completed sentence of supervision, with two years passed since the end of the last sentence; Section 18 states a successfully completed sentence of qualified probation -- Cannabis Control Act Section 10, Controlled Substances Act Section 410, Methamphetamine Control and Community Protection Act Section 70, or the Offender Initiative Program -- with two years passed since the end of the last sentence; Section 19.a states a completed sentence of conditional discharge or probation that was not revoked, with two years passed since the end of the last sentence. Tick the one your certified record supports and untick the one this packet ticked. It does not elect Section 15: that is the Second Chance Probation and First Time Weapon Offense ground, which has no waiting period and is not this route. It never elects Section 19.b or 19.c: those are the three-year limbs and a different route.",
   "writes": [
     {
       "fieldId": "EXP-AD Request:1 - County",
@@ -89,7 +89,7 @@
       "page": 4,
       "effectiveLabel": "4 - Outcome - 1",
       "factId": "matter.outcome",
-      "outcomeDerivedFrom": "route",
+      "outcomeDerivedFrom": "elected two-year ground",
       "outcomeMeaning": "Misdemeanor Conviction",
       "printedLegend": "Outcome Abbreviations for Sealing, EXP-AD Request page 4"
     },
@@ -115,10 +115,15 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
-      "factId": "route.selection",
+      "factId": "matter.sealing_ground",
       "isSelectionControl": true,
-      "routeDetermined": true,
-      "routeReason": "item 17: the two-year misdemeanor-conviction sealing ground this route is built for, 20 ILCS 2630/5.2(c)(2)(C)"
+      "routeDetermined": false,
+      "routeReason": "Section 17: this fixture's certified record shows a misdemeanor conviction or ordinance violation for an offense subject to sealing, with two years passed since the end of the last sentence, 20 ILCS 2630/5.2(c)(2)(C). The two-year bucket is this route's; which of its four printed grounds applies is the participant's fact, not the route's.",
+      "participantAlternatives": [
+        "16 -",
+        "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
+        "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence"
+      ]
     },
     {
       "fieldId": "EXP-AD Request:P6 - Print Name2",
@@ -1779,10 +1784,15 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "Participant choice: 16 -",
-      "reason": "A participant election or financial fact not determined by this packet route",
+      "reason": "Section 16 is another of this route's own printed two-year grounds, 20 ILCS 2630/5.2(c)(2)(C), and it states the registry disposition supervision_successfully_completed. This packet elects Section 17 instead, from the fixture's certified record. If your certified record instead shows a successfully completed sentence of supervision, with two years passed since the end of the last sentence, tick this box and untick the one this packet ticked. Do not tick both. If you tick it, leave the sealing-table Outcome for that case for a lawyer or the clerk: The printed Outcome Abbreviations for Sealing legend on Request page 4 offers exactly MC, FC, CE and QP and prints no abbreviation for a successfully completed supervision. \"S - Supervision Successfully Completed\" appears only in the Outcome Abbreviations for EXPUNGEMENT legend on page 2, and the sealing table does not send the filer to that legend.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "isAlternativeToElectedGround": true,
+      "alternativeSection": "Section 16",
+      "alternativeDispositions": [
+        "supervision_successfully_completed"
+      ]
     },
     {
       "fieldId": "EXP-AD Request:18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
@@ -1790,10 +1800,15 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "Participant choice: 18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
-      "reason": "A participant election or financial fact not determined by this packet route",
+      "reason": "Section 18 is another of this route's own printed two-year grounds, 20 ILCS 2630/5.2(c)(2)(C-5), and it states the registry disposition qualified_probation. This packet elects Section 17 instead, from the fixture's certified record. If your certified record instead shows a successfully completed sentence of qualified probation -- Cannabis Control Act Section 10, Controlled Substances Act Section 410, Methamphetamine Control and Community Protection Act Section 70, or the Offender Initiative Program -- with two years passed since the end of the last sentence, tick this box and untick the one this packet ticked. Do not tick both. If you tick it, the sealing-table Outcome for that case becomes QP -- Qualified Probation Successfully Completed -- from the printed Outcome Abbreviations for Sealing, EXP-AD Request page 4.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "isAlternativeToElectedGround": true,
+      "alternativeSection": "Section 18",
+      "alternativeDispositions": [
+        "qualified_probation"
+      ]
     },
     {
       "fieldId": "EXP-AD Request:19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
@@ -1801,10 +1816,16 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "Participant choice: 19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
-      "reason": "A participant election or financial fact not determined by this packet route",
+      "reason": "Section 19.a is another of this route's own printed two-year grounds, 20 ILCS 2630/5.2(c)(2)(D), (E), and it states the registry dispositions conditional_discharge_completed_without_revocation and probation_completed_without_revocation. This packet elects Section 17 instead, from the fixture's certified record. If your certified record instead shows a completed sentence of conditional discharge or probation that was not revoked, with two years passed since the end of the last sentence, tick this box and untick the one this packet ticked. Do not tick both. If you tick it, the sealing-table Outcome for that case becomes FC -- Felony Conviction -- from the printed Outcome Abbreviations for Sealing, EXP-AD Request page 4.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "isAlternativeToElectedGround": true,
+      "alternativeSection": "Section 19.a",
+      "alternativeDispositions": [
+        "conditional_discharge_completed_without_revocation",
+        "probation_completed_without_revocation"
+      ]
     },
     {
       "fieldId": "EXP-AD Request:19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
@@ -1812,7 +1833,7 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "Participant choice: 19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
-      "reason": "A participant election or financial fact not determined by this packet route",
+      "reason": "That is a THREE-year limb of Section 19 -- a revoked sentence of conditional discharge or probation, with three years passed -- and it belongs to the three-year sealing route, not to this two-year one. It is never elected here. This route's Section 19 limb is 19.a, the unrevoked one.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
       "routeDetermined": false
@@ -1823,7 +1844,7 @@
       "documentId": "EXP-AD Request",
       "page": 5,
       "effectiveLabel": "Participant choice: 19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
-      "reason": "A participant election or financial fact not determined by this packet route",
+      "reason": "That is a THREE-year limb of Section 19 -- a completed Illinois prison or jail sentence, with three years passed -- and it belongs to the three-year sealing route, not to this two-year one. It is never elected here. This route's Section 19 limb is 19.a, the unrevoked one.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
       "routeDetermined": false
