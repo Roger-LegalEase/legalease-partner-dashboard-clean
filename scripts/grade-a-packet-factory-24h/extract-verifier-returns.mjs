@@ -311,7 +311,38 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
     if (failedObligations.length === 0 && FAILING.has(verdict)) {
       const harvested = [...harvestNamedObligations(r).values()];
       if (harvested.length) { failedObligations = harvested; obligationsReadFromElsewhere = true; }
-      else unactionableFailures.push(`${d}/${familyId}`);
+      else {
+        /*
+         * THE FIELD LITERALLY CALLED failedObligationNames.
+         *
+         * The harvest above looks for an obligation name used as a KEY whose
+         * value reads as a failure. A row that simply lists its failing
+         * obligations -- `failedObligationNames: ["ARTIFACTS"]` -- puts the name
+         * in the VALUE, so nothing matched and the row was filed as a failure
+         * naming nothing, which the queue then reports as needing a fresh read
+         * rather than a repair.
+         *
+         * Sixteen failing families were sitting there, the whole vf90 byte-
+         * accounting cohort among them, each carrying ["ARTIFACTS"] on disk and
+         * an empty array after aggregation. The lane named its obligation in the
+         * field named for it; the extractor was not looking at that field.
+         *
+         * Read as a last resort, after proofObligations and after the harvest,
+         * so a row carrying real per-obligation findings still wins. A name that
+         * is not one of the fifteen is ignored rather than trusted.
+         */
+        const listed = [r.failedObligationNames, r.failedObligations]
+          .filter(Array.isArray).flat()
+          .map((x) => canonicalObligation(typeof x === "string" ? x : x?.obligation))
+          .filter(Boolean);
+        const unique = [...new Set(listed)];
+        if (unique.length) {
+          failedObligations = unique.map((o) => ({ obligation: o, finding: null, evidence: null,
+            findingReadFrom: null,
+            readFrom: "the row's own failedObligationNames; no per-obligation finding was recorded beside it" }));
+          obligationsReadFromElsewhere = true;
+        } else unactionableFailures.push(`${d}/${familyId}`);
+      }
     }
     if (verdict === "PASS_COMPLETE_INDEPENDENT" && unmeasuredObligations.length)
       { problems.push(`${d}/${familyId}: claims PASS_COMPLETE_INDEPENDENT with ${unmeasuredObligations.length} unmeasured obligation(s): ${unmeasuredObligations.join(", ")}`); continue; }

@@ -1,18 +1,24 @@
 {
-  "schemaVersion": "rcap-repair-supply-queue/v1",
-  "generatedBy": "Captain, 2026-09-10, from MASTER_QUEUE, the claim ledger, VERIFIER_RETURNS and BORDER_COHORT_REMEDIATION",
-  "whyItExists": "Roger's standing instruction is to keep repair workers supplied with exact, actionable defects rather than with a category. This says, for every failing family, whether a lane can be dispatched onto it right now: who owns it, what obligation was actually recorded against it, and what the border byte-accounting says. It grants nothing and claims nothing.",
-  "totals": {
-    "failRepairRequired": 75,
-    "withALiveRepairOwner": 50,
-    "unowned": 25,
-    "withNoRecordedFailedObligation": 4
+  "schemaVersion": "rcap-repair-supply-queue/v2",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-repair-supply-queue.mjs",
+  "generatedAt": "2026-09-10T05:13:45.222Z",
+  "derivedFrom": {
+    "families": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "obligations": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "ownership": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "borderInk": "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json"
   },
-  "dispatchRule": "A family with a recorded obligation and no owner needs one grant and can then be dispatched immediately. A family with an owner but no live worker needs a worker, not a grant. A family with NO recorded obligation cannot be given an exact defect and must be READ before it is repaired -- dispatching a repair lane onto it would ask it to re-derive the family, which a repair lane does not do.",
+  "whyItIsDerivedAndNotMaintained": "The hand-maintained v1 went stale in a day and its stale border figures reached a dispatch brief, where they told a lane to remove ink that was the court's own. A dispatch brief is where a stale number does the most damage. Regenerate this before dispatching from it, and if a field here disagrees with the record it names, the record wins.",
+  "theRemedyIsADirectionNotALabel": "Stroke-only ink matching a source stream is the form's own and the remedy RESTORES; ink matching nothing is invented and the remedy REMOVES. These are opposite actions and this cohort has been wrong about which is which three times. Neither the tier nor the field name decides it -- only the byte comparison against the family's own pinned sources does, and only a directional pixel difference against a source render WITH annotations shows whether a page is actually right.",
+  "totals": {
+    "failRepairRequired": 70,
+    "withALiveRepairOwner": 65,
+    "unowned": 5,
+    "withNoRecordedFailedObligation": 1,
+    "dispatchableNow": 69
+  },
+  "dispatchRule": "A family with a recorded obligation and no live owner needs one grant and can then be dispatched. A family with an owner but no live worker needs a worker, not a grant. A family with NO recorded obligation cannot be given an exact defect and must be READ before it is repaired -- dispatching a repair lane onto it asks it to re-derive the family, which a repair lane does not do.",
   "unownedGroupedByJurisdiction": {
-    "AL": [
-      "al-felony-dwop-set"
-    ],
     "AR": [
       "ar-cs-possession-seal-set",
       "ar-nonconviction-seal-set"
@@ -20,1045 +26,1127 @@
     "CA": [
       "ca-17b-reduction-set"
     ],
-    "CO": [
-      "co_multiple_conviction_seal-set"
-    ],
     "WV": [
       "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
     ],
-    "IN": [
-      "in_arrest_no_charges-set",
-      "in_section1_petition-set"
-    ],
-    "MI": [
-      "mi_setaside_trafficking-set"
-    ],
     "MO": [
       "mo-art-xiv-marijuana-set"
-    ],
-    "NE": [
-      "ne-setaside-custodial-set"
-    ],
-    "PA": [
-      "pa_pardon_expungement-set"
-    ],
-    "TX": [
-      "rcap-tx-custom-pleading",
-      "tx_exp_acquittal-set",
-      "tx_nd_conviction_no_supervision-set",
-      "tx_nd_dwi_deferred-set",
-      "tx_nd_probation_misdemeanor-set"
-    ],
-    "RI": [
-      "ri_deferred_sentence-set",
-      "ri_first_offender_misdemeanor-set"
-    ],
-    "VT": [
-      "vt_exp_decriminalized-set",
-      "vt_seal_18_to_21-set",
-      "vt_seal_felony-set",
-      "vt_seal_misdemeanor-set",
-      "vt_seal_nonconviction-set",
-      "vt_seal_pardon-set"
     ]
   },
-  "groupingAdvice": "Group by build host rather than by defect name. The Texas non-disclosure families share one host and each carries 32 form-own strokes; the six Vermont families carry none; the Rhode Island pair sit on the host whose route-scoped flag mechanism is already documented in the FIX08 return. One worker per host keeps a fix scoped and keeps unrelated siblings byte-identical.",
   "needsAReadNotARepair": [
     {
       "familyId": "ar-misdemeanor-seal-set",
       "owner": [
         "FIX01"
       ]
-    },
-    {
-      "familyId": "tx_nd_deferred_other-set",
-      "owner": [
-        "FIX04"
-      ]
-    },
-    {
-      "familyId": "tx_nd_veterans_court-set",
-      "owner": [
-        "FIX08"
-      ]
-    },
-    {
-      "familyId": "tx_nd_veterans_reemployment-set",
-      "owner": [
-        "FIX01"
-      ]
-    }
-  ],
-  "unowned": [
-    {
-      "familyId": "al-felony-dwop-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
-      "jurisdiction": "AL",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "ar-cs-possession-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
-      "jurisdiction": "AR",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 36,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "ar-nonconviction-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
-      "jurisdiction": "AR",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "FILING_DESTINATION",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 36,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "ca-17b-reduction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
-      "jurisdiction": "CA",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "co_multiple_conviction_seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
-      "jurisdiction": "CO",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 18,
-        "formsOwn": 116,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
-      "jurisdiction": "WV",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "FEE_AND_WAIVER"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "in_arrest_no_charges-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
-      "jurisdiction": "IN",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "COMPONENT_SET",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 84,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "in_section1_petition-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
-      "jurisdiction": "IN",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 84,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "mi_setaside_trafficking-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
-      "jurisdiction": "MI",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 2,
-        "formsOwn": 26,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "mo-art-xiv-marijuana-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
-      "jurisdiction": "MO",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "ne-setaside-custodial-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
-      "jurisdiction": "NE",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 2,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "pa_pardon_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
-      "jurisdiction": "PA",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "COMPONENT_SET",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 28,
-        "formsOwn": 24,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "rcap-tx-custom-pleading",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "borderAccounting": {
-        "unmatched": 22,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "ri_deferred_sentence-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
-      "jurisdiction": "RI",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "ri_first_offender_misdemeanor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
-      "jurisdiction": "RI",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "tx_exp_acquittal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 22,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "tx_nd_conviction_no_supervision-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": {
-        "unmatched": 40,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "tx_nd_dwi_deferred-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 34,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "tx_nd_probation_misdemeanor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "borderAccounting": {
-        "unmatched": 44,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_exp_decriminalized-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "ARTIFACTS"
-      ],
-      "borderAccounting": {
-        "unmatched": 88,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_18_to_21-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "feeAndWaiver",
-        "knownPrefills",
-        "service"
-      ],
-      "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_felony-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_misdemeanor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_nonconviction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "ARTIFACTS"
-      ],
-      "borderAccounting": {
-        "unmatched": 24,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_pardon-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "FILING_DESTINATION",
-        "SERVICE"
-      ],
-      "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
     }
   ],
   "everyFailingFamily": [
     {
       "familyId": "al-felony-dwop-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
       "jurisdiction": "AL",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
       "recordedFailedObligations": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX119"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
       "jurisdiction": "AL",
-      "repairOwner": [
-        "FIX119"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
       "recordedFailedObligations": [
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf03",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX119"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "al-pardoned-felony-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
       "jurisdiction": "AL",
-      "repairOwner": [
-        "FIX119"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
       "recordedFailedObligations": [
         "ROUTE_OPTIONS"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX119"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "al-trafficking-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
       "jurisdiction": "AL",
-      "repairOwner": [
-        "FIX01"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
       "recordedFailedObligations": [
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX01"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ar-cs-possession-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
       "jurisdiction": "AR",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "SELF_HELP_STOP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [],
+      "releasedRepairGrants": [
+        "FIX01"
+      ],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 36,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 36,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ar-drug-court-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
       "jurisdiction": "AR",
-      "repairOwner": [
-        "FIX01"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
       "recordedFailedObligations": [
         "CLIPPING_AND_OVERLAP",
         "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf05",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX01"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 0,
-        "formsOwn": 40,
-        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 40,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "ar-felony-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
       "jurisdiction": "AR",
-      "repairOwner": [
-        "FIX106"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
       "recordedFailedObligations": [
         "SOURCE_IDENTITY"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX106"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ar-misdemeanor-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
       "jurisdiction": "AR",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "recordedFailedObligations": [],
+      "hasAnActionableDefect": false,
+      "verdictFrom": null,
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": null,
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": false,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ar-nonconviction-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
       "jurisdiction": "AR",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "FILING_DESTINATION",
-        "SELF_HELP_STOP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [],
+      "releasedRepairGrants": [
+        "FIX02"
+      ],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 36,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 36,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ar-pardon-seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
       "jurisdiction": "AR",
-      "repairOwner": [
-        "FIX100"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
       "recordedFailedObligations": [
         "COMPONENT_SET",
         "REQUIRED_BEFORE_FILING",
         "SELF_HELP_STOP",
         "SERVICE"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
-      "jurisdiction": "AZ",
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX100"
       ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "jurisdiction": "AZ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
       "recordedFailedObligations": [
         "FEE_AND_WAIVER",
         "KNOWN_PREFILLS",
         "REQUIRED_BEFORE_FILING",
         "SERVICE"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf02",
+        "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX100"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ca-17b-reduction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
       "jurisdiction": "CA",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
       "recordedFailedObligations": [
         "CLIPPING_AND_OVERLAP"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf05",
+        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [],
+      "releasedRepairGrants": [
+        "FIX03"
+      ],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "co_motion_seal_conviction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
       "jurisdiction": "CO",
-      "repairOwner": [
-        "FIX03"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
       "recordedFailedObligations": [
         "COMPONENT_SET",
         "FEE_AND_WAIVER"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf07",
+        "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX03"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 34,
-        "formsOwn": 56,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 56,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "co_motion_seal_nonconviction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
       "jurisdiction": "CO",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX03"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 0,
-        "formsOwn": 28,
-        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 28,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
       "jurisdiction": "CO",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX135"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 18,
-        "formsOwn": 116,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 116,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 18,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "co_municipal_conviction_seal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
       "jurisdiction": "CO",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX04"
       ],
-      "recordedFailedObligations": [
-        "KNOWN_PREFILLS"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "co_petition_seal_arrest-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
       "jurisdiction": "CO",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": [
-        "SELF_HELP_STOP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 36,
-        "formsOwn": 86,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 96,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 26,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
       "jurisdiction": "WV",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
       "recordedFailedObligations": [
-        "FEE_AND_WAIVER"
+        "SOURCE_IDENTITY"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf03",
+        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [],
+      "releasedRepairGrants": [
+        "FIX04"
+      ],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ct-cleanslate-petition-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
       "jurisdiction": "CT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX07"
       ],
-      "recordedFailedObligations": [
-        "SERVICE"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "SYNTHESIZED_INK_CONFIRMED",
+        "matched": 0,
+        "matchingNothing": 4,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "REMOVE — some stroke-only appearance matches no stream the pinned source ships, with or without a leading background fill normalised away. Prove it stream by stream on the bytes before removing anything."
       }
     },
     {
       "familyId": "de_discretionary_superior_court-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
       "jurisdiction": "DE",
-      "repairOwner": [
-        "FIX06"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
       "recordedFailedObligations": [
         "COMPONENT_SET",
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf02",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX06"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "fl-10yr-bridge-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
       "jurisdiction": "FL",
-      "repairOwner": [
-        "FIX01"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
       "recordedFailedObligations": [
         "SERVICE",
         "SOURCE_IDENTITY"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "verdict": "BLOCKED_SOURCE"
+      },
+      "repairOwner": [
+        "FIX01"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "fl-early-juvenile-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
       "jurisdiction": "FL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "fl-complete-independent-review",
+        "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ia-12347-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
       "jurisdiction": "IA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf03",
+        "verifiedAtBase": "159c0b5cf",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": [
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "il-seal-2yr-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
       "jurisdiction": "IL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf03",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX06"
       ],
-      "recordedFailedObligations": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "in_arrest_no_charges-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
       "jurisdiction": "IN",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "COMPONENT_SET",
-        "SELF_HELP_STOP"
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "SERVICE"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf26",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX132"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 84,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 66,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 18,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "in_infraction_nondisclosure-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
       "jurisdiction": "IN",
-      "repairOwner": [
-        "FIX106"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
       "recordedFailedObligations": [
         "SOURCE_IDENTITY"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX106"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "in_section1_petition-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
       "jurisdiction": "IN",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
       "recordedFailedObligations": [
+        "ARTIFACTS",
         "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET",
-        "SELF_HELP_STOP"
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf26",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX132"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 84,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 66,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 18,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ky_protective_order_record_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
       "jurisdiction": "KY",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf24",
+        "verifiedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX06"
       ],
-      "recordedFailedObligations": [
-        "KNOWN_PREFILLS",
-        "ROUTE_IDENTITY",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "la-976-arrest-no-conviction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
       "jurisdiction": "LA",
-      "repairOwner": [
-        "FIX05"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
       "recordedFailedObligations": [
         "FEE_AND_WAIVER"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf07",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX05"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "la-977d-marijuana-first-offense-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
       "jurisdiction": "LA",
-      "repairOwner": [
-        "FIX03"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS",
         "ROUTE_IDENTITY"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "la-985-1-interim-expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
-      "jurisdiction": "LA",
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf05",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX03"
       ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "jurisdiction": "LA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX03"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ma-expunge-k-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
       "jurisdiction": "MA",
-      "repairOwner": [
-        "FIX08"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
       "recordedFailedObligations": [
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX08"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ma-seal-court-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill",
       "jurisdiction": "MA",
-      "repairOwner": [
-        "FIX04"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill",
       "recordedFailedObligations": [
         "REQUIRED_BEFORE_FILING",
         "SELF_HELP_STOP"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX04"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "md_10105_early-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
       "jurisdiction": "MD",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX05"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "md_pardon_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
       "jurisdiction": "MD",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf01",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 0,
-        "formsOwn": 12,
-        "result": "EVERY_STROKE_IS_THE_FORMS_OWN"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 10,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "me-seal-survivor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
       "jurisdiction": "ME",
-      "repairOwner": [
-        "FIX01"
-      ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "mi_setaside_trafficking-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
-      "jurisdiction": "MI",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 2,
-        "formsOwn": 26,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "mn_petition_15218-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
-      "jurisdiction": "MN",
-      "repairOwner": [
-        "FIX07"
-      ],
-      "recordedFailedObligations": [
-        "PROTECTED_FIELDS"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "mn_petition_609a02_subd3-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
-      "jurisdiction": "MN",
-      "repairOwner": [
-        "FIX05"
-      ],
-      "recordedFailedObligations": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "mn_petition_juvenile_as_adult-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
-      "jurisdiction": "MN",
-      "repairOwner": [
-        "FIX02"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS",
         "REQUIRED_BEFORE_FILING"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf22",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX01"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "jurisdiction": "MI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX133"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 26,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 2,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
+      }
+    },
+    {
+      "familyId": "mn_petition_15218-set",
+      "jurisdiction": "MN",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "PROTECTED_FIELDS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf20",
+        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX07"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "jurisdiction": "MN",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "recordedFailedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf20",
+        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX05"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "mo-art-xiv-marijuana-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
       "jurisdiction": "MO",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf05",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+      "releasedRepairGrants": [
+        "FIX05"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "nd-summary-marijuana-pardon-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
-      "jurisdiction": "ND",
-      "repairOwner": [
-        "FIX06"
-      ],
-      "recordedFailedObligations": [
-        "KNOWN_PREFILLS"
-      ],
-      "borderAccounting": null
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "ne-setaside-custodial-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
       "jurisdiction": "NE",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX135"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 2,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 2,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "nh_marijuana_annulment-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
       "jurisdiction": "NH",
-      "repairOwner": [
-        "FIX01"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
       "recordedFailedObligations": [
         "FEE_AND_WAIVER"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf02",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX01"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "nj_disorderly_persons-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
       "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf11",
+        "verifiedAtBase": "df524f2fd",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX121"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "nj_indictable_conviction-set",
+      "jurisdiction": "NJ",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
-      "jurisdiction": "NJ",
-      "repairOwner": [
-        "FIX121"
-      ],
-      "recordedFailedObligations": [
-        "KNOWN_PREFILLS"
-      ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "nj_ordinance-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
-      "jurisdiction": "NJ",
-      "repairOwner": [
-        "FIX121"
-      ],
       "recordedFailedObligations": [
         "ROUTE_OPTIONS"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf11",
+        "verifiedAtBase": "df524f2fd",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX121"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf11",
+        "verifiedAtBase": "df524f2fd",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX121"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "oh_marijuana_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
       "jurisdiction": "OH",
-      "repairOwner": [
-        "FIX99"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
       "recordedFailedObligations": [
         "ARTIFACTS",
         "COMPONENT_SET",
@@ -1067,406 +1155,654 @@
         "SELF_HELP_STOP",
         "SERVICE"
       ],
-      "borderAccounting": null
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf30",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX99"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     },
     {
       "familyId": "pa_pardon_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
       "jurisdiction": "PA",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
         "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "ROUTE_OPTIONS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX133"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 28,
-        "formsOwn": 24,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 32,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "rcap-hi-custom-pleading",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
       "jurisdiction": "HI",
-      "repairOwner": [
-        "FIX06"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "rcap-in-custom-pleading",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
-      "jurisdiction": "IN",
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf07",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX06"
       ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
+    },
+    {
+      "familyId": "rcap-in-custom-pleading",
+      "jurisdiction": "IN",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
       "recordedFailedObligations": [
         "CLIPPING_AND_OVERLAP",
         "COMPONENT_SET",
         "PROTECTED_FIELDS",
         "SELF_HELP_STOP"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "rcap-tx-custom-pleading",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
-      "jurisdiction": "TX",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf05",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX06"
       ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 22,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
       }
     },
     {
       "familyId": "ri_decriminalized-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
       "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX07"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 4,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ri_deferred_sentence-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
       "jurisdiction": "RI",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX134"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 4,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
       "jurisdiction": "RI",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX134"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 4,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
       "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf02",
+        "verifiedAtBase": "47c85d4ef80b144b11e1202f13832315b039c63f",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX08"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 4,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 4,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "ri_nonconviction_sealing-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
       "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf07",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX99"
       ],
-      "recordedFailedObligations": [
-        "FEE_AND_WAIVER"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 78,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "SYNTHESIZED_INK_CONFIRMED",
+        "matched": 0,
+        "matchingNothing": 74,
+        "sourceStreamMinusItsBackgroundFill": 4,
+        "whichRemedyThisImplies": "REMOVE — some stroke-only appearance matches no stream the pinned source ships, with or without a leading background fill normalised away. Prove it stream by stream on the bytes before removing anything."
       }
     },
     {
       "familyId": "sd_arrest_expungement-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
       "jurisdiction": "SD",
-      "repairOwner": [
-        "FIX08"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
       "recordedFailedObligations": [
         "SOURCE_IDENTITY"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf34",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX08"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 30,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "SYNTHESIZED_INK_CONFIRMED",
+        "matched": 0,
+        "matchingNothing": 30,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "REMOVE — some stroke-only appearance matches no stream the pinned source ships, with or without a leading background fill normalised away. Prove it stream by stream on the bytes before removing anything."
       }
     },
     {
       "familyId": "tx_exp_acquittal-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
       "jurisdiction": "TX",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
       "recordedFailedObligations": [
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX131"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 22,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 54,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_conviction_no_supervision-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
       "jurisdiction": "TX",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "SELF_HELP_STOP"
+        "KNOWN_PREFILLS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX131"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 40,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 72,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_deferred_other-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill",
       "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX04"
       ],
-      "recordedFailedObligations": null,
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 56,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 32,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 56,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_dwi_deferred-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
       "jurisdiction": "TX",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX131"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 34,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 66,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_dwi_probation-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
       "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX06"
       ],
-      "recordedFailedObligations": [
-        "PROTECTED_FIELDS",
-        "SELF_HELP_STOP"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 38,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 32,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 38,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_probation_misdemeanor-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
       "jurisdiction": "TX",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING"
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf08",
+        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX131"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 44,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 76,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_veterans_court-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill",
       "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX08"
       ],
-      "recordedFailedObligations": null,
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 34,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 32,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 34,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "tx_nd_veterans_reemployment-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill",
       "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX01"
       ],
-      "recordedFailedObligations": null,
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 22,
-        "formsOwn": 32,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 32,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 22,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "vt_exp_decriminalized-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
       "jurisdiction": "VT",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "ARTIFACTS"
+        "KNOWN_PREFILLS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf25",
+        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX130"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 88,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 24,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "vt_seal_18_to_21-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
       "jurisdiction": "VT",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "feeAndWaiver",
-        "knownPrefills",
-        "service"
+        "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf25",
+        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX130"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 12,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "vt_seal_dui-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
       "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "recordedFailedObligations": [
+        "ARTIFACTS"
+      ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
         "FIX04"
       ],
-      "recordedFailedObligations": [
-        "feeAndWaiver",
-        "knownPrefills",
-        "service"
-      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 12,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "vt_seal_felony-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
       "jurisdiction": "VT",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
+        "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf25",
+        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX130"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 12,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
+      "jurisdiction": "VT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
-      }
-    },
-    {
-      "familyId": "vt_seal_nonconviction-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
-      "jurisdiction": "VT",
-      "repairOwner": [],
       "recordedFailedObligations": [
         "ARTIFACTS"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf90",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX130"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 24,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED",
+        "matched": 0,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 12,
+        "whichRemedyThisImplies": "RESTORE, NOT REMOVE — every stroke-only appearance is the form's own once a leading opaque background fill is normalised away, so the ink belongs on the page and what is wrong is that the fill was stripped. Removing it erases what the court prints."
       }
     },
     {
       "familyId": "vt_seal_pardon-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
       "jurisdiction": "VT",
-      "repairOwner": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
       "recordedFailedObligations": [
-        "FILING_DESTINATION",
-        "SERVICE"
+        "REQUIRED_BEFORE_FILING"
       ],
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf25",
+        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "repairOwner": [
+        "FIX130"
+      ],
+      "releasedRepairGrants": [],
+      "dispatchable": true,
       "borderAccounting": {
-        "unmatched": 12,
-        "formsOwn": 0,
-        "result": "SYNTHESIZED_INK_CONFIRMED"
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "matched": 12,
+        "matchingNothing": 0,
+        "sourceStreamMinusItsBackgroundFill": 0,
+        "whichRemedyThisImplies": "NOTHING TO REMEDIATE HERE — every stroke-only appearance is byte-identical to a stream the source itself ships. Removing any of it erases what the court prints."
       }
     },
     {
       "familyId": "wv_acc_treatment_job_readiness-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading",
       "jurisdiction": "WV",
-      "repairOwner": [
-        "FIX08"
-      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading",
       "recordedFailedObligations": [
         "KNOWN_PREFILLS",
         "SELF_HELP_STOP"
       ],
-      "borderAccounting": null
-    },
-    {
-      "familyId": "wv_conv_nonviolent_felony-set",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
-      "jurisdiction": "WV",
+      "hasAnActionableDefect": true,
+      "verdictFrom": {
+        "lane": "vf06",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
       "repairOwner": [
-        "FIX06"
+        "FIX08"
       ],
-      "recordedFailedObligations": [
-        "CLIPPING_AND_OVERLAP",
-        "ROUTE_OPTIONS"
-      ],
-      "borderAccounting": null
+      "releasedRepairGrants": [],
+      "dispatchable": true,
+      "borderAccounting": {
+        "result": "NOT_IN_THE_BORDER_COHORT",
+        "whichRemedyThisImplies": "This family carries no border finding at all. Do not send a lane to remove border ink from it."
+      }
     }
   ],
-  "grantsNothing": "A queue is not a grant. No claim here is asserted and no family is promoted, demoted or approved by appearing in it."
+  "grantsNothing": "A queue promotes nothing, demotes nothing and approves no packet."
 }
