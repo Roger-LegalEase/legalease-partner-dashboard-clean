@@ -5,30 +5,28 @@
   "runProvedOn": "34403364607",
   "packetCommit": "b311ef0660e4f2dbb406ce8b5d19e0f7354d7169",
   "enabledBy": "commit b311ef066, which made scripts/rcap-raster-batch.mjs print the verdict and the page-image inventory to stdout inside RCAP_RECEIPT_BEGIN/VERDICT/INVENTORY/END delimiters.",
-
   "doesItWork": true,
   "answer": "Yes. The receipt block is readable from the job log and both JSON payloads parse. In pa_pardon_expungement-set (job 102641250744) all four delimited lines were present in full; the verdict line ran unbroken from {\"schemaVersion\" to \"productionTouched\":false} and the inventory array closed with all ten entries. Nothing truncated. The same held for every other family read this way.",
-
   "howItIsRead": {
     "tool": "mcp__github__get_job_logs with return_content true",
     "whyNotCurl": "The REST job-log endpoint 302s to the same blocked host. curl -L against /actions/jobs/<id>/logs redirected to productionresultssa14.blob.core.windows.net and failed with 'CONNECT tunnel failed, response 403'. The MCP tool works because it fetches the log server-side and returns the text; the blob store is still unreachable from this session.",
     "windowing": "get_job_logs takes only tail_lines, with no offset. The receipt sits 68-72 lines from the end of a family job log, so tail_lines=72 lands the whole block plus the artifact id and zip digest. Smaller tails silently return a window that starts mid-receipt, which looks like truncation but is not."
   },
-
   "whatItCost": {
-    "perFamilyReceiptChars": {"pa_pardon_expungement-set (10 pages, 2 docs)": 10840, "al-felony-nonconviction-90-set (22 pages, 2 docs)": 21686},
+    "perFamilyReceiptChars": {
+      "pa_pardon_expungement-set (10 pages, 2 docs)": 10840,
+      "al-felony-nonconviction-90-set (22 pages, 2 docs)": 21686
+    },
     "roughly": "About 1.0 KB of receipt per measured page, split between the verdict and the inventory.",
     "theRealCost": "The payload can only reach a bundle by passing through the reading agent's context and being written back out. That is paid twice per family, and it is transcription rather than transfer. It is the reason this session admitted one family rather than seven.",
     "mitigation": "Every write was checked, not trusted: the parser JSON.parses both payloads and refuses unless the verdict and the inventory agree entry by entry on member name, byte length, SHA-256 and PNG dimensions, and unless documentsDigest and both PDF pins match RASTER_QUEUE.json. A mistyped hex digit fails one of those."
   },
-
   "limits": [
     "No family read here exceeded the log API. The largest carried was 22 pages / 21,686 receipt characters, well inside a single tail_lines=72 response, so no size ceiling was found. The ceiling is untested above that: al-trafficking-set (44 pages), rcap-or-official-pdf-fill (36) and ne-seal-pre2017-set (30) rendered successfully in this run but their receipts were not carried, so whether a ~45 KB receipt line survives the log API is still an open question.",
     "Job logs are retained for a limited window; this transport is not an archive and does not replace the artifact.",
     "PNG bodies are never carried. This is the importer's identity path, and each admitted image records viewportDimensionsCheckedAgainstASecondSource: false.",
     "The transport carries what the renderer measured. It cannot see whether the packet the renderer measured is the right document -- see notAGate below."
   ],
-
   "provenEndToEnd": {
     "family": "pa_pardon_expungement-set",
     "jobId": "102641250744",
@@ -39,8 +37,24 @@
     "admissionControlsRejected": 20,
     "result": "Admitted through the existing bundle-directory path of scripts/rcap-packet-recovery/admit-completed-fixture-raster.py with no modification to that script and no weakened check."
   },
-
   "notAGate": "A readable receipt is not a correct packet. Two families in this same run, al-felony-nonconviction-90-set and al-pardoned-felony-set, produced clean RASTER_PASS receipts with zero problems whose 22 page images are byte-identical to each other; their canonical.pdf and boundary.pdf differ only in the invisible /Title metadata string, and neither ticks any eligibility box on the CR-65 it files. The raster gate cannot see this and the importer would have admitted both. They were held back deliberately, not refused by any check.",
-
-  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production."
+  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production.",
+  "correctedOn20260910": {
+    "by": "the lane that transported and admitted run 34418960259, which measured the bytes rather than repeating this file",
+    "twoStatementsHereWereWrong": [
+      {
+        "key": "notAGate",
+        "whatItSaid": "of al-felony-nonconviction-90-set and al-pardoned-felony-set, that \"their canonical.pdf and boundary.pdf differ only in the invisible /Title metadata string\".",
+        "whatIsTrue": "The /Title-only identity is real and it sits BETWEEN THE TWO FAMILIES, not between a family s two fixtures. Within each family the canonical and boundary fixtures are genuinely different documents: different petitioner, county, case number, address and date of birth, 321 extracted text lines differing, and 9 of 11 page images differing -- only pages 7 and 11, which carry no fillable field, match. The bytes have not moved: the same four SHA-256s appear at b311ef066, where this note was written, and at deead9f25.",
+        "whyItMatters": "Read as written, it says each family ships one document twice, which would make every boundary fixture worthless. What is actually true is narrower and worse in a different way: two FAMILIES ship the same petition."
+      },
+      {
+        "key": "howItIsRead.windowing",
+        "whatItSaid": "that the receipt block sits 68-72 lines from the end of a family job log, so tail_lines 72 lands it.",
+        "whatIsTrue": "Not in this workflow. rcap-raster-batch.mjs prints the block at the end of the render step, and the workflow s LATER \"Print the verdict and the page digests\" step then re-prints the whole verdict pretty-printed plus a sha256sum listing on top of it. tail_lines 72 returns no receipt block at all. The block sits at 427 lines for a 4-page family and 890 for an 11-page one.",
+        "andAUsefulSideEffect": "A tail that large exceeds the tool s inline cap, so the log is written to a FILE instead of returned inline. That is better, not worse: the payloads can then be extracted programmatically and no digest passes through a reading agent s context to be retyped. The cost this file records under whatItCost -- transcription paid twice per family -- is avoidable, and was avoided in run 34418960259."
+      }
+    ],
+    "aThirdDefectFoundInAnotherRecord": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json carried packetCommitSha 741d0bcde on all four rows of run 34418960259 while the run actually rendered deead9f25. The fixture bytes are identical at both commits so nothing turned on it, but the row field is stale and a later reader could bind a receipt to the wrong commit on its authority."
+  }
 }
