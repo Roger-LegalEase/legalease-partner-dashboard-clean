@@ -1,0 +1,438 @@
+{
+ "schemaVersion": "rcap-verifier-return/v1",
+ "lane": "VF29",
+ "laneKind": "independent-verification",
+ "generatedBy": "VF29 independent read at 9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+ "whatThisLaneDidNotDo": [
+  "It repaired nothing, rerendered nothing, dispatched no workflow and opened no pull request.",
+  "It edited no builder, no shared module, no overlay directory and no central artifact.",
+  "It released and transferred no claim.",
+  "It set no rasterState and requested no raster run."
+ ],
+ "grantsNothing": "An independent verdict is a measurement. It approves no output, promotes no route and opens no commercial path.",
+ "rows": [
+  {
+   "itemId": "co_multiple_conviction_seal-set",
+   "lane": "VF29",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "postRepairReread": true,
+   "firstIndependentRead": false,
+   "repairAuthorWasNotThisLane": "FIX135 repaired this family earlier today at this same worktree and set no verdict. This lane built nothing here, repaired nothing here, edited no builder, edited no overlay directory and moved no packet byte. It re-measured the delivered bytes, the delivered guide and the pinned sources, and it names a remedy it did not apply.",
+   "claimStatus": {
+    "assertedBeforeAnyRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF29 'co_multiple_conviction_seal-set'",
+    "result": "CLAIM_OK VF29 co_multiple_conviction_seal-set (independent-verification, grant set 7af138b097153cc1)"
+   },
+   "digestsAsIMeasuredThem": {
+    "measuredWith": "sha256sum on the two committed fixtures in this worktree at 9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+    "canonicalSha256": "b73f1b3c3121c3a8d7d1142002957383d25a9fcaaebd5a4c41d63edbf17bf7c5",
+    "boundarySha256": "acf6d40fbd83d87e7a702327b28954ece1e8067a4b0178e05e383b622c2b443c",
+    "canonicalPageCount": 7,
+    "boundaryPageCount": 7,
+    "pageCountMeasuredBy": "pdfinfo",
+    "matchesFix135Report": true,
+    "rasterReceipt": "No RASTER_PASS binds these bytes. The bytes moved in FIX135's repair (superseded canonical 48cf9bf5cf44, boundary ff74f8da5062) and the acceptance receipt bound to the superseded canonical was withdrawn and kept as history. This row does not dispatch a raster and does not make the family eligible for one: the verdict is FAIL."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 16
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "0. The map declares 14 writes (8 explicitMappings on JDF-641, 6 on JDF-642) and the finalizer performed exactly those 14 (form, field) pairs on both fixtures; the set difference is empty in both directions. Every other field on either form is a fact the platform does not hold and each is individually refused with a reason and disclosed.",
+    "requiredFactsNotCollected": "0. Eight facts are bound - matter.county, matter.case_number, participant.full_legal_name, participant.date_of_birth, participant.street_address, participant.city_state_zip, participant.phone, participant.email - and I read all eight back out of the delivered stream bytes as hex string operands inside the flattened appearances. All eight resolve and all eight appear on the page. No bound fact is missing a value.",
+    "unclassifiedBlanks": "0. I counted the denominator myself from the pinned binaries rather than from the report: 113 distinct field names over 122 widgets on JDF-641 and 19 over 21 widgets on JDF-642, 132 in total. 14 are written and 118 are not. reports/blanks-left-for-the-participant.json classifies exactly 118: 84 required-before-filing, 21 participant elections, 13 protected. reports/completeness-counters.json also totals 118 with a different split (81 + 2 + 1 required-ish, 19 elections, 15 protected). The two disagree on the ownership of two JDF-642 'By the Court' controls, but under either split every one of the 118 carries a classification and none is unclassified.",
+    "incompleteRows": "0. The one real repeating table is section 4 of JDF-641, fifteen rows of four columns, resolved by geometry from the source widget rects (4A at y0 336.753 down to 4O at y0 77.760, with 4i printed ninth despite sorting last). All 60 cells are blank on both fixtures, so no row is partially filled.",
+    "requiredOptionsMissing": "0. 21 selection controls are left unmade and the route determines none of them - routeDeterminedSelections is empty and the map states why. 19 are disclosed to the participant by their own printed label; the remaining 2 are the court's own elections on the proposed order and are disclosed as the court's. No control this route may determine is left silently unmade. Zero streams in either fixture reference ZapfDingbats or ZaDb, so no box is ticked.",
+    "requiredComponentsMissing": "0. Two required components declared in legal-design-packet-set-manifests.json, both delivered, in declared order, confirmed against the forms' own printed footers by pdftotext.",
+    "invisibleWrites": "0. 16 glyph-bearing flattened appearances per fixture. I parsed each stream and checked its fill and font operators: every one is '0 g' (black) at Helvetica 10.24 or 11 pt, non-zero size, inside its widget's own BBox. There is no white-on-white write and no zero-size write.",
+    "protectedWrites": "0. The 13 protected blanks intersected with the 14 written fields is empty on both fixtures. I also tested for ink rather than intent: 0 added dark pixels outside every declared write box on packet pages 1-6 of both fixtures at 600 dpi, so no protected field carries ink this packet put there.",
+    "visualDefects": "16, MEASURED and not copied. 16 written text widgets per fixture (9 on JDF-641 at packet pages 1 and 5, 7 on JDF-642 at packet page 6) are delivered as a closed stroked black rectangle where the pinned source ships a rule-only /AP /N and the widget declares /BS /S /U. Found by reading the delivered streams and by cropping the page at 600 dpi, and quantified as 277,805 (canonical) and 277,809 (boundary) added dark pixels in the 2 pt bands along the three sides the source does not print. FIX135 and this family's own reports publish 0 here; the builder's counter is gated on a hardcoded literal 0 and cannot report anything else.",
+    "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": "MEASURED INDEPENDENTLY AND NOT COPIED, because the builder hardcodes this key. My value is 0 on canonical and 0 on boundary, and here is why it is a real zero rather than a repeated one. Every delivered page content stream is 'q' + the source page's own content + a tail, and those 7 tails carry ZERO text-showing operators, so no glyph is drawn directly on the page. Every added glyph therefore lives inside a FlatWidget Form XObject, which PDF clips to its own /BBox. I enumerated all 144 placements per fixture, computed each one's placed rectangle from its CTM and /Matrix and /BBox, and found 16 glyph-bearing placements carrying 218 non-whitespace glyphs on canonical and 461 on boundary, every one of them contained in a declared write box to within 0.01 pt, and 0 placements beyond the 612x792 MediaBox. So the true value is 0 - and it is the wrong instrument for this packet's actual defect, which is a stroke and not a glyph."
+   },
+   "perArtifactOutputByteGlyphReadings": [
+    {
+     "fixture": "canonical",
+     "form": "JDF-641",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 127,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 122,
+     "glyphBearingAppearances": 9
+    },
+    {
+     "fixture": "canonical",
+     "form": "JDF-642",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 91,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 21,
+     "glyphBearingAppearances": 7
+    },
+    {
+     "fixture": "boundary",
+     "form": "JDF-641",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 268,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 122,
+     "glyphBearingAppearances": 9
+    },
+    {
+     "fixture": "boundary",
+     "form": "JDF-642",
+     "addedNonWhitespaceGlyphsReadFromOutputBytes": 193,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 21,
+     "glyphBearingAppearances": 7
+    },
+    {
+     "note": "These are NON-WHITESPACE glyph counts. This family's own reports publish 136 / 100 / 285 / 203 for the same four documents; I reproduced those figures exactly when spaces are counted, so the two readings agree and differ only in whether a space is a glyph. The second key is measured by me here and is a literal 0 in the builder."
+    }
+   ],
+   "howTheSourceWasRendered": "The pinned source was rendered WITH annotations drawn: poppler pdftoppm 24.02.0 at -r 600 -gray -png with NO -hide-annotations flag, so widget /AP /N appearance streams are drawn under ISO 32000-1 12.5.5. The render was PROVED, not assumed, and proved twice over against two independently built annotation-free controls: (a) the same pdftoppm command with -hide-annotations, and (b) a copy of JDF-641 built with pdf-lib with every page /Annots deleted and /AcroForm dropped. JDF-641 page 5 renders 725,313 dark pixels with annotations and 521,645 in BOTH controls, which agree to the pixel; inside the /Rect of field 11.1 [147.6 488.654 540 553.334], whose /AP /N is 'q 0 G 0.5 0.5 395 63.6794 re s Q', the annotation-drawing render carries 60,688 dark pixels and both controls carry 0. The court's writing box at 11.1 exists only inside that widget appearance and this render draws it, so a zero produced by this render is a measurement and not a blindness.",
+   "directionalRasterAgainstThePinnedSource": {
+    "dpi": 600,
+    "threshold": "grey < 128 is dark",
+    "declaredWriteBoxes": "the /Rect of every widget this run actually wrote, per fixture, read from reports/actual-writes.json and cross-checked against the widget rects I read first-hand from the pinned binaries",
+    "perPageCanonical": [
+     {
+      "packetPage": 1,
+      "form": "JDF-641",
+      "sourcePage": 1,
+      "sourceDark": 1372953,
+      "deliveredDark": 1614066,
+      "added": 241113,
+      "addedInsideWriteBoxes": 241113,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 2,
+      "form": "JDF-641",
+      "sourcePage": 2,
+      "sourceDark": 1086848,
+      "deliveredDark": 1086848,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 3,
+      "form": "JDF-641",
+      "sourcePage": 3,
+      "sourceDark": 1396915,
+      "deliveredDark": 1396915,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 4,
+      "form": "JDF-641",
+      "sourcePage": 4,
+      "sourceDark": 690246,
+      "deliveredDark": 690246,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 5,
+      "form": "JDF-641",
+      "sourcePage": 5,
+      "sourceDark": 725313,
+      "deliveredDark": 758566,
+      "added": 33253,
+      "addedInsideWriteBoxes": 33253,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 6,
+      "form": "JDF-642",
+      "sourcePage": 1,
+      "sourceDark": 1428915,
+      "deliveredDark": 1627115,
+      "added": 198200,
+      "addedInsideWriteBoxes": 198200,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 7,
+      "form": "JDF-642",
+      "sourcePage": 2,
+      "sourceDark": 1077939,
+      "deliveredDark": 1077940,
+      "added": 1,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 1,
+      "removed": 0
+     }
+    ],
+    "perPageBoundary": [
+     {
+      "packetPage": 1,
+      "form": "JDF-641",
+      "sourcePage": 1,
+      "sourceDark": 1372953,
+      "deliveredDark": 1690865,
+      "added": 317912,
+      "addedInsideWriteBoxes": 317912,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 2,
+      "form": "JDF-641",
+      "sourcePage": 2,
+      "sourceDark": 1086848,
+      "deliveredDark": 1086848,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 3,
+      "form": "JDF-641",
+      "sourcePage": 3,
+      "sourceDark": 1396915,
+      "deliveredDark": 1396915,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 4,
+      "form": "JDF-641",
+      "sourcePage": 4,
+      "sourceDark": 690246,
+      "deliveredDark": 690246,
+      "added": 0,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 5,
+      "form": "JDF-641",
+      "sourcePage": 5,
+      "sourceDark": 725313,
+      "deliveredDark": 774128,
+      "added": 48815,
+      "addedInsideWriteBoxes": 48815,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 6,
+      "form": "JDF-642",
+      "sourcePage": 1,
+      "sourceDark": 1428915,
+      "deliveredDark": 1699023,
+      "added": 270108,
+      "addedInsideWriteBoxes": 270108,
+      "addedOutsideEveryWriteBox": 0,
+      "removed": 0
+     },
+     {
+      "packetPage": 7,
+      "form": "JDF-642",
+      "sourcePage": 2,
+      "sourceDark": 1077939,
+      "deliveredDark": 1077940,
+      "added": 1,
+      "addedInsideWriteBoxes": 0,
+      "addedOutsideEveryWriteBox": 1,
+      "removed": 0
+     }
+    ],
+    "removedTotal": "0 on every page of both fixtures. Nothing the Colorado Judicial Department prints has been erased by this packet. This is a directional measurement against an annotation-DRAWING source render, so it is capable of showing erasure and shows none.",
+    "theOneResidualPixel": "Confirmed exactly where FIX135 put it, and characterised. One isolated dark pixel per fixture on packet page 7 at image row 5865, column 1554 = PDF x 186.48, 703.80 pt from the top of the page (88.20 pt from the bottom). Its 3x3 neighbourhood is identical in source and delivered except for that one cell, where the source renders grey 128 and the delivered renders grey 110; 128 is exactly the threshold, so a difference of 18 grey levels at one anti-aliased glyph edge flips it. Its neighbours are already black (0 and 24) in both renders. It is a renderer rounding artefact on the edge of an existing glyph, not court ink lost or gained.",
+    "negativeControl": "Packet pages 2, 3 and 4 are pages this packet writes nothing on. All three read 0 added and 0 removed in both fixtures, and their source and delivered dark-pixel totals are identical to the pixel (1,086,848 / 1,396,915 / 690,246). Page 2 is the stronger control because it carries four of the nine check-box controls FIX135 repaired: its zero is direct evidence that the repaired appearances are now byte-identical to the source's."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "One route, and it is carried consistently in every record I read, with one naming difference that is not a conflict. production-field-map.json routeKeys, source-receipt.json routeKey, both documentPolicy blocks and the footer line of participant-instructions.md all carry 'track:CO:co_multiple_conviction_seal'. MASTER_QUEUE.json and product-wiring.json carry the obligation form of the same key, 'obligation:track-only:CO:co_multiple_conviction_seal', and data/record-clearing/legal-design-packet-set-manifests.json carries trackId 'co_multiple_conviction_seal' with packetSetId 'co_multiple_conviction_seal-set'. Statutory authority is C.R.S. 24-72-709 in the source receipt, in the field map's routeSelectionNote and on the guide's own face. No second route and no route election: routeDeterminedSelections is empty and the map states why."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both sources resolve byte-exact under MASTER_LIBRARY_SOURCE_DIR, recomputed by me with sha256sum, and both match the digests in MASTER_QUEUE sourceHashes, source-receipt.json and reports/rendered-artifacts.json pageManifest: official-form:JDF-641 = 6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02 at STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf, and official-form:JDF-642 = 584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c at STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf. I went further than digest identity and proved the delivered pages carry those exact source pages: each of the 7 delivered page content streams decompresses to EXACTLY 'q\\n' + the pinned source page's own decompressed content stream + a tail, on both fixtures. The 7 tails carry 1979, 6314, 175, 869, 1213, 952 and 860 bytes and ZERO text-showing glyphs between them - they are nothing but 'q ... cm /FlatWidget-N Do Q' placements. Not one byte of the Colorado Judicial Department's printed page content has been altered, reordered or removed."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "legal-design-packet-set-manifests.json declares exactly two required components for this packet set: co_multiple_conviction_seal-primary-filing-1 (role primary_filing, officialFormId JDF-641, order 1) and co_multiple_conviction_seal-proposed-order-2 (role proposed_order, officialFormId JDF-642, order 2). Both are delivered, in that order: pdftotext reads 'JDF 641 / Page 1 of 5' through 'Page 5 of 5' on packet pages 1-5 and 'JDF 642 / Page 1 of 2' and 'Page 2 of 2' on packet pages 6-7. Nothing is declared and undelivered and nothing is delivered undeclared. I record separately that product-wiring.json proposedRepresentation.components lists only ONE component while its own binding.packetComponents lists two; that file is explicitly a specification for a later lane and DECLARED_NOT_INSTALLED, so it does not change what the packet contains, but the two halves of one file disagree and I did not reconcile them."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "14 writes, and the map and the finalizer agree exactly in both directions on both fixtures. production-field-map.json explicitMappings declares 8 fields on JDF-641 and 6 on JDF-642; reports/actual-writes.json records writes at exactly those 14 (form, field) pairs and no others. I did not take that on the report's word: I read the 14 values back out of the delivered stream bytes myself, as hex string operands inside the flattened appearance XObjects - <44656E766572> = 'Denver', <323031394352303034323137> = '2019CR004217', <4A6F7264616E204176657279205265796573> = 'Jordan Avery Reyes', <313939312D30342D3137> = '1991-04-17', and so on - and every one matches its expected value and lands in a field about the petitioner. The DEFECTS_NO_COUNTER_CAN_SEE alias trap does not arise here and I confirmed that rather than assuming it: the strings alias, previous name, other name, maiden, also known and a/k/a appear NOWHERE in this family's field census, field map or guide, and neither Colorado form carries an alias or previous-names line. The full legal name is written on two widgets of one field per form (caption and print-name line on JDF-641, caption and 2(a) on JDF-642), which is one field with two widgets and not a value doubled on the page."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "13 blanks are classified protected (court_prosecutor_clerk_or_agency_owned): JDF-641 D/C, Sig, Sig_Date, Sig_Aty, CoS_Date, CoS_Name, CoS_Address, CoS_Other; JDF-642 Division, Courtroom, Sig, Sig_Date, 4D.1. The intersection of that set with the 14 written fields is EMPTY on both fixtures. I also tested for ink rather than only for intent: the 600 dpi directional raster finds 0 added dark pixels outside every declared write box on packet pages 1-6 of both fixtures, so no signature line, no date line, no certificate-of-service line and no court-use box carries any ink this packet put there. No signature, notarization, date or fee is written anywhere."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Every WRITTEN text widget on both Colorado forms is delivered as a closed stroked black RECTANGLE where the pinned source prints a single writing RULE. Proved three independent ways. (1) On the page: at 600 dpi the source shows 'Colorado County: ______', 'Date of Birth: ______', 'Mailing Address: ______', 'City, State, & Zip: ______', 'Phone: ______' and 'Email: ______' as ruled lines; the delivered packet shows each value inside a four-sided box. (2) In the source bytes: the County widget's /AP /N is exactly '0 G\\n0 0.5 m\\n193.636 0.5 l\\ns\\n' - one bottom rule - and the widget declares /BS /S /U (underline style, ISO 32000-1 Table 168) with /BS /W 1 and /MK /BC [0 0 0]. All 16 written widgets declare /BS /S /U and all 16 ship a rule-only /AP /N. (3) In the delivered bytes: the flattened appearance for County is '0 0 0 RG 1 w [] 0 d 1 0 0 1 0.5 0.5 cm 0 0 m 0 11.24 l 192.636 11.24 l 192.636 0 l h S' - a closepath-stroke of all four sides. This is pdf-lib's unconditional rectangle synthesised from /MK /BC, drawn in place of the declared underline. Magnitude measured at 600 dpi as added dark pixels in the 2 pt bands along the three sides the source does not print: 277,805 per canonical fixture and 277,809 per boundary fixture, i.e. 58.8% of all added ink in the canonical packet (472,566 added dark pixels over pages 1, 5 and 6) is a frame the Colorado Judicial Department does not print. 9 widgets on JDF-641 (8 on packet page 1, 1 on packet page 5) and 7 on JDF-642 packet page 6. The shared module already carries the exact remedy - honorWidgetBorderStyle in scripts/rcap-official-forms/rcap-active-content.mjs, whose own comment reads 'a court's writing rule delivered as a boxed field is wrong wherever it occurs' - and scripts/build-census-v1-co_multiple_conviction_seal-set.mjs does not pass it. This lane repaired nothing and names the remedy without applying it. || I separately re-measured the two things the record says about this obligation on this family and both hold. (a) VF08's recorded CLIPPING_AND_OVERLAP FAIL - field 11.1 on JDF-641 page 5, an /AP /BBox 396 pt wide against a /Rect 392.4 pt wide - DOES NOT REPRODUCE at this base. I read the delivered placement matrices myself: 11.1 is placed at exactly [147.6 488.65 540 553.33], overhang 0.0 pt on all four sides, and every one of the 14 placements on packet page 5 sits inside its own source /Rect to within 0.001 pt. A full sweep of both fixtures finds 0 placements beyond the 612x792 MediaBox. (b) The doubled check-box outline FIX135 repaired is genuinely gone: packet page 2, which carries four of the nine repaired controls and nothing this packet writes, reads 0 added and 0 removed dark pixels against the source, and on packet page 1 I cropped the four service controls at 600 dpi and read one clean box at each in both the source and the delivered page. That repair is sound. The synthesized rectangle above is a DIFFERENT overlap on the same pages that the repair did not address, and it is why this obligation fails."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present and specific. participant-instructions.md closes with 'What this packet is not': 'This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for you, and it does not decide whether your convictions can be sealed.' It then points the participant at page 3 of JDF 641, which prints the list of convictions that are not eligible, and tells them to read it against their own record before signing. The eligibility election at section 5 is left unmade and disclosed as the participant's, with the reason that the packet does not decide eligibility. Nothing in the guide asserts eligibility, a deadline, a clerk's practice or an outcome."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated, and stated by refusal where the platform holds nothing. The guide's 'Where you file this' names the clerk of the Colorado court that handled the convictions - the District or County Court in the county already filled in on both forms - and then refuses the street address in as many words: 'The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.' The Court Address field is left blank on both forms and disclosed to the participant on both. No address is fabricated. The county written into both captions is matter.county = Denver, the same value on both forms."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Instructed, and correctly sequenced. Step 5 of 'What you must do before you file' reads 'Serve a copy on the prosecuting attorney, then complete the certificate of service in section 9 - the date, the method and who you sent it to. After you have served, not before.' The four certificate-of-service fields (CoS_Date, CoS_Name, CoS_Address, CoS_Other) and the service-method selection GroupCoS are all left blank; I confirmed by raster that none of them carries ink. The guide states no service deadline and no service rule beyond what the form itself prints, which is the correct refusal for a rule no bound source establishes."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "84 items are declared required before filing and 84 are disclosed to the participant, each named by form, section and blank in the two tables of participant-instructions.md. I checked the denominator independently rather than trusting the count: the two pinned sources carry 132 distinct AcroForm field names (113 on JDF-641 over 122 widgets, 19 on JDF-642 over 21 widgets), 14 are written, and 132 - 14 = 118 unwritten, which is exactly 84 required-before-filing + 21 participant elections + 13 protected. The 60 offence-table cells are the bulk of the 84 and each is disclosed by its own row number. The guide additionally carries a plain-language warning specific to this route: 'Fill a row completely or leave it empty - a row with the charge in it and the end date missing looks finished and is not.'"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "This is the obligation MASTER_QUEUE records as failed on this family and it is NOT discharged at this base. Two independent grounds. (1) The delivered artifact carries 16 flattened widget appearances per fixture that match NO stream either pinned source ships - they are pdf-lib's own regenerated appearances, each drawing a synthesized closepath rectangle plus the written value, in place of a source /AP /N that draws one rule (full proof under CLIPPING_AND_OVERLAP). VF90's byte-accounting sweep, which is what recorded this obligation, counts only STROKE-ONLY appearances, so by construction it cannot see a synthesized rectangle drawn in the same stream as a written value; FIX135's post-repair figure of '134 stroke-only flattened appearances, 134 matched byte-identically, 0 unmatched' is true within that subset and silent about these 16. (2) reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as 0 on all four documents, and scripts/build-census-v1-co_multiple_conviction_seal-set.mjs line 904 emits that key as a LITERAL 0 that no code path computes, while line 713 gates the visualDefects counter on that same literal - so this family's visualDefects counter cannot become non-zero however the page looks. That is the recorded defect class 'a-published-zero-where-a-measurement-existed' plus 'a-geometry-counter-with-no-teeth', present together, in an artifact this family ships. I measured the true value myself and it is 0 (see countersHowMeasured), so the published number is right by coincidence of these bytes and not because anything measured it. Everything else about the artifact set is in order: 7 pages in both fixtures by pdfinfo, digests recompute, 14 raster page PNGs present, and reports/ carries actual-writes, blanks-left-for-the-participant, caption-evidence, completeness-counters, independent-visual-review and rendered-artifacts."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Correct and verified against the forms' own printed footers rather than against the manifest. pdftotext page by page over the delivered canonical reads: p1 'JDF 641 ... Page 1 of 5', p2 'Page 2 of 5', p3 'Page 3 of 5', p4 'Page 4 of 5', p5 'Page 5 of 5', p6 'JDF 642 ... Page 1 of 2', p7 'Page 2 of 2'. That matches reports/rendered-artifacts.json pageManifest exactly, matches the manifest's component order (primary_filing order 1, proposed_order order 2), and my page-content comparison confirms each delivered page carries that source page's own content stream verbatim, so no page is transposed, duplicated or dropped. 7 pages in both fixtures."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a measurement, not a not-applicable. There are 21 selection controls left unmade and the route determines none of them: production-field-map.json routeDeterminedSelections is an empty array and its routeSelectionNote gives the reason - C.R.S. 24-72-709 is one section and JDF 641 is its form, so the court type, the eligibility statement, the district attorney's position, the interpreter and attendance choices and the agency list are all facts about the participant's own record rather than route elections. 19 of the 21 are disclosed to the participant by their own printed label in the guide's 'The choices that are yours' table. The other two - JDF-642/642.3.0 and JDF-642/Group_Sig - are labelled 'By the Court' on their own face and are the court's elections on the proposed order; the guide handles them correctly under 'What the platform deliberately left blank' as the court's findings and the judge's or magistrate's signature. I confirmed by raster that no selection control carries a mark: zero streams in either delivered fixture reference ZapfDingbats or ZaDb, and 0 added dark pixels fall outside every declared write box on packet pages 1-6. Recorded and not reconciled: this family's own reports/blanks-left-for-the-participant.json lists those two court elections under participantElections (21) while reports/completeness-counters.json classifies them PROTECTED_FIELD (19 elections, 15 protected). Both records total 118 blanks and neither leaves anything unclassified; they disagree on the ownership of exactly those two, and the guide follows the safer of the two readings."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "There is a real repeating table here, so this is a measurement. Section 4 of JDF-641 is fifteen rows of four columns on packet page 2. The DEFECTS_NO_COUNTER_CAN_SEE warning 'acroform-index-is-not-the-printed-row' applies directly and the field array is exactly the shape that trips it - the rows are named 4A through 4H, then 4i, then 4J through 4O, so a naive alphabetical sort puts lowercase 4i LAST when it is printed NINTH. I resolved every row by geometry from the source widget rects instead: 4A y0 336.753, 4B 318.302, 4C 299.761, 4D 281.432, 4E 262.779, 4F 244.288, 4G 225.852, 4H 207.233, 4i 188.615, 4J 170.106, 4K 151.615, 4L 133.178, 4M 114.632, 4N 96.087, 4O 77.760 - fifteen bands in strict descending page order, each with exactly four cells at consistent column x of about 110.6, 289.3, 402.3 and 474.5, so no cell matches none or more than one row and no column is transposed. I then checked the guide's numbering against that geometric order and it agrees on all fifteen: 4A is disclosed as 'Offense 1', 4H as 'Offense 8', 4i as 'Offense 9', 4J as 'Offense 10' and 4O as 'Offense 15'. All 60 cells are blank on both fixtures and all 60 are individually disclosed, so no charge can land on another charge's line and no row is partially filled."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Measured, and the packet's treatment is a refusal rather than a gap. The guide states: 'Ask the clerk what fee applies. It is not established in any source this packet holds, so it is not stated here.' It then states the one fee a bound source does establish, and attributes it: 'The Colorado Bureau of Investigation charges its own fee. JDF 642 says so on its face, in a note addressed to you.' I confirmed that note is printed on JDF 642. No filing fee, no waiver eligibility rule and no waiver deadline is invented anywhere in the packet. No fee-waiver instrument is a declared component of this packet set - the manifest carries exactly two components, both official_pdf_fill - so none is missing. Recorded and not reconciled: the same manifest's participantActionRequired carries an apply_fee_waiver entry whose own description is 'The source review does not address a fee waiver', and a pay_fee and a notarize entry both marked requirement 'required' whose descriptions read 'The source review does not state a filing fee for this motion' and 'The source review does not state a notarization requirement'. Those three manifest rows contradict themselves; the packet resolves each by refusing to state what no source establishes, which is the correct direction, and the guide mentions no notarization at all."
+    }
+   },
+   "crossChecks": {
+    "DEFECTS_NO_COUNTER_CAN_SEE": "All ten entries checked deliberately against these bytes. FOUND, two of them, together: 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth'. scripts/build-census-v1-co_multiple_conviction_seal-set.mjs line 904 emits nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a literal 0 and line 713 gates the visualDefects counter on that same literal, so this family's visualDefects can never be non-zero. I measured the true glyph value myself (0) and the true visual value myself (16 boxed writing rules) and they disagree in the way the registry predicts. NOT PRESENT: 'map-honest-writes-not' - the map's 14 declared writes and the finalizer's 14 actual writes are identical sets and no alias, previous-name, address-history, signature, date, notarization or fee line is written; neither Colorado form even carries an alias line. NOT PRESENT: 'acroform-index-is-not-the-printed-row' - measured on a real fifteen-row table by geometry against a field array that genuinely does sort wrongly (4i sorts last and prints ninth); the guide's numbering agrees with the printed order on all fifteen. NOT PRESENT: 'extracted-line-order-is-not-column-order' - the four offence columns sit at consistent x of about 110.6, 289.3, 402.3 and 474.5 across all fifteen rows and nothing is written into the table. NOT PRESENT: 'internal-record-text-printed-on-a-filing' - the delivered page content is the source's own content stream byte for byte on all 7 pages and the only added text is 14 court, case and identity facts. NOT PRESENT: 'a-participant-fact-written-into-a-field-about-someone-else' - all 14 writes land in fields about the petitioner or the case. NOT PRESENT: 'an-inverted-widget-rectangle' - this family is absent from INVERTED_WIDGET_RECTANGLES.json and my own sweep finds 0 placements beyond the MediaBox. NOT PRESENT: 'annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink' - my source render draws annotations and is proved twice against annotation-free controls.",
+    "CLONED_FAMILY_PACKETS": "This family is named nowhere in CLONED_FAMILY_PACKETS.json. I checked the near-clone question myself as well: the eight other Colorado overlay directories at this base deliver eight different canonical digests (d002c853e5a2, 455f7387b715, 9761a68d7d92, 676d922f062c, d285a03f788c, f15bde74dc58, 53170a66c121, 34f8c5450197) against this family's b73f1b3c3121, and this is the only Colorado family built on JDF-641 and JDF-642.",
+    "INVERTED_WIDGET_RECTANGLES": "This family is named nowhere in INVERTED_WIDGET_RECTANGLES.json, and my own placement sweep of both fixtures finds 0 placements beyond the 612x792 MediaBox and 0 widget rects with inverted corners among the written 16."
+   },
+   "recordsThatDisagree": [
+    {
+     "about": "the name of this family's failed obligation",
+     "whatIWasToldToExpect": "that the queue at this base would name CLIPPING_AND_OVERLAP after an extractor fix",
+     "whatIActuallySee": "MASTER_QUEUE.json at 9b5f732769578aed5b32f94346dee5b25e5fb5e4 still records failedObligationNames ['ARTIFACTS'] for this family, with failedObligations[0].readFrom = 'the row\\'s own failedObligationNames; no per-obligation finding was recorded beside it' and finding, evidence and findingReadFrom all null. It records the same ['ARTIFACTS'] for ne-setaside-custodial-set. CLIPPING_AND_OVERLAP appears in neither queue row. The selected verdict both rows point at is vf90 at base a09ef20d34, whose own row also names only ARTIFACTS.",
+     "whatIMeasuredAgainst": "I scored all fifteen obligations from the delivered bytes and the pinned sources rather than from either name, and I fail BOTH ARTIFACTS and CLIPPING_AND_OVERLAP on evidence set out under each."
+    },
+    {
+     "about": "VF08's recorded CLIPPING_AND_OVERLAP failure on field 11.1",
+     "whatTheRecordSays": "an /AP /BBox 396 pt wide against a /Rect 392.4 pt wide, 1,179 dark pixels per fixture outside that rect at 300 dpi, measured on canonical 3cb52dc5 / boundary 204a36fd",
+     "whatIMeasured": "It does not reproduce at this base, and the digests it was measured on are not the digests on disk. Field 11.1 is placed at exactly its source /Rect [147.6 488.65 540 553.33] with 0.0 pt overhang on all four sides, packet page 5 carries 0 added dark pixels outside every declared write box in either fixture, and a full sweep finds 0 placements beyond the MediaBox. FIX135's account of this holds."
+    },
+    {
+     "about": "two reports in this family's own directory classifying the same two blanks differently",
+     "whatIMeasured": "reports/blanks-left-for-the-participant.json lists JDF-642/642.3.0 and JDF-642/Group_Sig under participantElections (21 elections, 13 protected) while reports/completeness-counters.json classifies them PROTECTED_FIELD (19 elections, 15 protected). Both total 118 blanks and neither leaves anything unclassified. Both controls are labelled 'By the Court' on the form's own face, so the counters report has them right; participant-instructions.md follows that safer reading and treats them as the court's."
+    },
+    {
+     "about": "product-wiring.json disagreeing with itself on component count",
+     "whatIMeasured": "proposedRepresentation.components lists one component (primary_filing, canonical) while binding.packetComponents in the same file lists two, matching the manifest and the queue. The file is DECLARED_NOT_INSTALLED and changes nothing about the packet, but the two halves disagree."
+    },
+    {
+     "about": "legal-design-packet-set-manifests.json participantActionRequired rows that contradict their own descriptions",
+     "whatIMeasured": "notarize is requirement 'required' with description 'The source review does not state a notarization requirement'; pay_fee is 'required' with 'The source review does not state a filing fee for this motion'; apply_fee_waiver is 'conditional' with 'The source review does not address a fee waiver'. The packet resolves all three by refusing to state what no source establishes, which is the correct direction, and never mentions notarization at all."
+    },
+    {
+     "about": "an arithmetic slip in FIX135's own render-proof prose",
+     "whatIMeasured": "FIX135 reports JDF-641 page 5 at 725,313 dark pixels with annotations and 521,645 without, then says '210,820 dark pixels on that page are drawn by annotations alone'. I reproduce both endpoints exactly, twice over, but 725,313 - 521,645 = 203,668. The two measurements are right and the subtraction between them is not. It changes nothing about the conclusion, which the 60,688-against-0 reading inside field 11.1 carries on its own."
+    },
+    {
+     "about": "MASTER_QUEUE internal consistency on this family's build host",
+     "whatIMeasured": "The Colorado row records exclusiveScript true, importedBy empty and sharedBuildHost null, which agrees with the tree: nothing in scripts/ imports scripts/build-census-v1-co_multiple_conviction_seal-set.mjs. No disagreement here; recorded because I checked it before naming a remedy in that builder."
+    }
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/field-census.census-v1.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+    "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs (read only)",
+    "scripts/rcap-official-forms/rcap-active-content.mjs (read only)",
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (read only)",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fix135/rows-fix135-cone-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json"
+   ],
+   "toolsRun": [
+    "sha256sum on both fixtures and all pinned sources",
+    "pdfinfo for page counts and page size",
+    "pdftotext -f N -l N -layout for printed page footers",
+    "pdftoppm 24.02.0 -r 600 -gray -png, with and without -hide-annotations",
+    "pdf-lib, to build an annotation-free control and to read page /Annots, /AP, /BS, /MK, page content streams and flattened XObject placements first-hand",
+    "numpy + Pillow for the directional dark-pixel difference and the per-widget band measurement"
+   ],
+   "visualDefects": [
+    {
+     "defect": "a court's writing rule delivered as a boxed field",
+     "count": 16,
+     "where": "JDF-641 packet page 1 fields County, Case Number, delta, delta DoB, delta Street Address, delta CSZ, delta Phone, delta Email; JDF-641 packet page 5 field delta; JDF-642 packet page 6 fields County, Case Number, delta (caption), delta (2a), delta DoB, delta Street Address, delta CSZ",
+     "sourceSays": "/BS /S /U with /BS /W 1, and an /AP /N that draws one bottom rule, on all 16",
+     "deliveredDraws": "a 1 pt black closepath rectangle on all four sides, plus the written value",
+     "addedDarkPixelsInTheThreeInventedSides": {
+      "canonical": 277805,
+      "boundary": 277809
+     },
+     "remedyThatExistsAndIsNotPassed": "honorWidgetBorderStyle in scripts/rcap-official-forms/rcap-active-content.mjs"
+    }
+   ],
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP",
+    "ARTIFACTS"
+   ],
+   "grantsNothing": "This row is a measurement of delivered bytes at one commit. It is a FAIL, so it approves nothing, promotes no route, opens no commercial path and creates no fulfillment record. It makes this family eligible for no central raster: the bytes moved in FIX135's repair and no RASTER_PASS binds them, and a raster dispatch is the Captain's to make and not this lane's. This lane repaired nothing, released no claim, edited no central artifact and moved no packet byte."
+  }
+ ]
+}
