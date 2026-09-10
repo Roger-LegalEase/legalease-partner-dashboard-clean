@@ -5664,9 +5664,9 @@
       "operation": "packet-build",
       "lane": "PF23",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+      "released": true,
+      "releasedAt": "2026-09-10T23:03:47.275Z",
+      "releaseReason": "PF23 own committed rows-pf23-20260909.json returns all3 assigned builds COMPLETED including this family; checkpoint2 marks this exact family complete and pushed. Close only this returned family, preserving all other PF23 grants."
     },
     {
       "subjectType": "packet-family",
@@ -5678,9 +5678,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIXCXM2",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Prior repair assignment recorded returned/released by Captain at2026-09-10T11:23:26.223Z; current FIX08 grant is automatic dispatch reissue11:29:29 after that return, not a new worker. Frozen Captain names its only executing lanes and correction2 confirms their stops. Close this returned lineage only."
     },
     {
       "subjectType": "packet-family",
@@ -15046,7 +15048,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b196fd327f1ca0dc40e66f90eb63b0f57b6794ded25f86f19e9dee31a4372d9a",
+  "claimsDigest": "879fa96cfd610fdda0bb5be3d2216c2cc805181e8a2a7ccad0b0bc74ec0ab4b9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39591,6 +39593,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T23:01:56.421Z",
       "reason": "Exact family review finished and was released by VF49 at92837810f304e425bfd5a87b700c0673672e2b83, recorded in releases. Current VF02 grant is the automatic dispatch reissue at2026-09-10T14:05:04Z after that return, not a new worker assignment; frozen Captain identifies only FIX175/FIX176/VF66 as running and correction2 confirms all stopped. Close this returned review lineage only; other VF02 grants untouched."
+    },
+    {
+      "lane": "PF23",
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T23:03:47.275Z",
+      "reason": "PF23 own committed rows-pf23-20260909.json returns all3 assigned builds COMPLETED including this family; checkpoint2 marks this exact family complete and pushed. Close only this returned family, preserving all other PF23 grants."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T23:03:47.433Z",
+      "reason": "Prior repair assignment recorded returned/released by Captain at2026-09-10T11:23:26.223Z; current FIX08 grant is automatic dispatch reissue11:29:29 after that return, not a new worker. Frozen Captain names its only executing lanes and correction2 confirms their stops. Close this returned lineage only."
     }
   ],
   "reissues": [
@@ -60230,6 +60250,17 @@
       "previouslyReleasedAt": "2026-09-10T23:01:56.421Z",
       "transferredAt": "2026-09-10T23:01:56.569Z",
       "reason": "Independent delta reviewer has completed juvenile assignment and did not author FIX152 Kentucky repair. Retain applicable VF49 exact-PDF evidence; review three repaired guidance obligations and consequences."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIXCXM2",
+      "previouslyReleasedAt": "2026-09-10T23:03:47.433Z",
+      "transferredAt": "2026-09-10T23:03:47.577Z",
+      "reason": "Bounded VF06 guidance repair: required CORI obtain/confirm actions plus all four self-help stops. Own only MA family builder and guide/report scope, preserve PDFs; Captain author, later independent review required."
     }
   ],
   "grants": [
