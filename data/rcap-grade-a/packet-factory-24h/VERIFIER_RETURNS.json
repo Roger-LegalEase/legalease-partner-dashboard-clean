@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 181,
-    "rows": 1214,
+    "returnDirectories": 182,
+    "rows": 1218,
     "independentVerdicts": 292,
-    "failRepairRequired": 55,
-    "passIndependent": 215
+    "failRepairRequired": 54,
+    "passIndependent": 216
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -55,7 +55,6 @@
     "co_multiple_conviction_seal-set",
     "co_municipal_conviction_seal-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-    "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "ct-cleanslate-petition-set",
     "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
@@ -2959,7 +2958,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_marijuana_expungement_arrest_no_charges-set",
@@ -3046,6 +3045,57 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
       "superseded": true
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf53",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAILS. vf02's finding STILL STANDS and this lane proved it in pixels rather than from the report. The canonical writes all 13 mapped values; the BOUNDARY writes only 12. The mapped 'Email Address' header on page 1 is refused by the finalizer as value_exceeds_widget_width_at_minimum_font, category unfittable, and reports/actual-writes.json records that write's textReadFromOutputBytes as null. MEASURED ON THE DELIVERED BYTES: rendering boundary page 1 and the pinned source page 1 at 200dpi grayscale to PGM P5 and counting pixels darker than gray 200 that the delivered page has and the source does not, the email-top rectangle (x 145.21, y 636.80, 251.2 x 11.2 pt; 21,638 px of area) carries EXACTLY 0 ADDED INK PIXELS. That zero is licensed by four positive controls in the same rectangle set, on the same page, in the same fixture, at the same threshold: filer-name 3,711 added px, mailing-address-top 3,244, city-state-zip-top 2,966, telephone-top 1,412 — and by the SAME rectangle on the CANONICAL fixture, which carries 1,977. Confirmed a second way without reference to any declared rectangle: a whole-page added-ink band scan of boundary page 1 returns EIGHT bands where canonical page 1 returns NINE, and the missing band is precisely the one at y 643.3-635.4pt. The petition therefore goes to the Superior Court clerk with the petitioner's email line blank on page 1 while the SAME email is printed in full in the page-2 declaration block (the box there is 427.2pt wide against 251.2pt), so the value is held, is writable, and is simply lost on the narrower line. WHAT WOULD SATISFY IT: write the value the form asks for on that line — by wrapping, by continuing onto the printed second line, or by an explicit measured abbreviation — or, if it genuinely cannot be fitted, refuse it VISIBLY and list it among the blanks the participant must complete by hand, which the guide currently does not do. Either way this moves delivered PDF bytes and costs the family a fresh central raster.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAILS. vf02's finding STILL STANDS, on bytes that have not moved. The packet-set manifest declares five requiredBeforeFiling actions. The guide covers three: the caption Case Number left blank for the court to assign (stated twice, with the reason that no charge was filed so no number exists yet), signing the petition, and — as a bonus — checking the arresting agency against the participant's own paperwork. It does NOT cover the manifest's FIRST action: 'Check your answer to \"How much marijuana, or how many plants, did the arrest involve?\" against Supporting exhibits: police report, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.' This lane searched participant-instructions.md for 'police report', 'lab report', 'DPS', 'FBI', 'How much marijuana' and 'how many plants': ZERO hits for every one. The single hits for 'quantity' and 'plant count' are inside the stop-conditions list, quoting the registry's stop wording, not a before-filing action. And the manifest's fifth action, 'none. Rule 36(a)(4) bars a filing fee', is not merely omitted but CONTRADICTED — see FEE_AND_WAIVER. A FURTHER WEAKNESS vf02 did not name: the registry and the manifest both record 'Petitioner signs under penalty of perjury', and the word 'perjury' appears NOWHERE in the guide, which says only 'Sign and date the petition yourself'. The participant is not told what they are attesting to. WHAT WOULD SATISFY IT: add the quantity/plant-count cross-check against the police report, lab report or DPS/FBI extract as a numbered before-filing step, and state that the declaration is signed under penalty of perjury. Guidance only; no PDF byte moves.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAILS, on a limb vf02 did not name. The guide identifies the right court: it quotes the form's own printed caption 'In the Superior Court of Arizona for ______ County' and says to file with the Superior Court clerk in the county the platform wrote there. What it drops are the two things the held record adds about THIS route in particular. The registry's rules.filing reads 'File in the superior court in the county of arrest. CONFIRM THE COUNTY-SPECIFIC INTAKE ROUTE BEFORE FILING', and its destination.detail reads 'Local intake varies. Maricopa County directs arrest-only petitions to a civil petition form and a civil case number.' Neither the instruction to confirm the county intake route nor the named Maricopa divergence appears anywhere in participant-instructions.md — this lane read the whole 'Where you file this' section. The omission is not incidental to this family: the Maricopa variation is expressly about ARREST-ONLY petitions, which is exactly this route, and Maricopa is Arizona's largest county, so the participants most likely to use this packet are the ones most likely to be sent to the wrong intake with the wrong case-number treatment. That also interacts with this route's own deliberate blank: the packet leaves the case number for the court to assign, while Maricopa assigns a CIVIL case number through a civil petition form. WHAT WOULD SATISFY IT: carry the registry's confirm-the-county-intake-route instruction and the Maricopa civil-petition detail in the 'Where you file this' section. Guidance only; no PDF byte moves.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAILS. vf02's finding STILL STANDS, verbatim, on guidance that has not moved. The committed track registry states rules.fees as 'none. Rule 36(a)(4) bars a filing fee' and rules.feeWaiver as 'none', and the packet-set manifest repeats the no-fee rule in its requiredBeforeFiling list. The guide instead prints, under a heading that introduces it as something the repository does not establish: 'The filing fee, and whether it can be waived. Ask the Superior Court clerk in the county above what the fee is for a petition to expunge marijuana records, and whether a fee-waiver or deferral application applies to you.' That is not a gap, it is contrary money guidance: the record says there is NO fee and NO waiver is needed, and the packet tells the participant there may be a fee and that they may need to apply for a waiver. The guide's own framing compounds it, presenting the answer as unestablished — 'not established in this repository and writing an unsourced figure into a filing instruction would be worse than leaving it out' — when the repository does establish it, by rule number. A participant who reads this may delay filing to arrange money they do not owe, or file a waiver application that does not exist for this route. WHAT WOULD SATISFY IT: state that Rule 36(a)(4) bars a filing fee on this route and that no waiver is needed, and delete the instruction to ask the clerk what the fee is. Guidance only; no PDF byte moves.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAILS. vf02's finding STILL STANDS, on guidance that has not moved. The registry states rules.service as 'none. Rule 36(b)(2) puts transmittal on the court' and rules.notice as 'The court sends the petition to the prosecuting agency within 10 days.' The guide instead prints, in the same 'not established in this repository' block as the fee: 'Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method.' The held answer is that the participant serves NOBODY and that the court transmits to the prosecuting agency within ten days. Sending a participant to ask a clerk who they must serve, on a route where the rule puts transmittal on the court, invites them to perform a service step that does not exist and to believe the filing is incomplete until they do. Compare this family's OWN sibling treatment in this factory: the WV and OH families in this same return both open the equivalent section with 'You serve nobody' where the record supports it. WHAT WOULD SATISFY IT: state that Rule 36(b)(2) puts transmittal on the court, that the court sends the petition to the prosecuting agency within 10 days, and that the participant serves no one. Guidance only; no PDF byte moves.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
+      "superseded": false
     },
     {
       "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
@@ -7792,7 +7842,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
@@ -7918,6 +7968,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf32/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf53",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "superseded": false
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
@@ -10880,7 +10944,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-2yr-set",
@@ -10934,6 +10998,29 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
       "superseded": true
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf53",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAILS, on a limb vf03 did not name. The registry's rules.fees and rules.feeWaiver ARE carried verbatim — the ISP $60 order-processing charge, the roughly $60-$235 county range, McLean County's published $136, the county-specific caveat, and the Rule 298 / § 5.2(d)(1) waiver. What is not carried is the fourth of this track's five packetInstructions in data/record-clearing/legal-design-track-registry.json, which is a participant-facing money statement the record directs the packet to make: 'Tell the participant that unpaid fines and fees do not delay sealing: a sentence terminates notwithstanding any outstanding financial legal obligation, and § 5.2(d)(6)(C) bars denial of a sealing petition for an unsatisfied financial obligation, excluding court-ordered restitution unless converted to a civil judgment.' This lane searched participant-instructions.md, filing-instructions.md and the extracted text of the delivered canonical PDF for 'restitution', '5.2(d)(6)(C)', 'unpaid' and 'outstanding': zero hits in all three files for all four terms. The two hits for 'financial' are both about the fee-waiver form's own financial statements. The held record answers a money question that decides whether a participant with court debt files at all, and the packet is silent on it, so a participant who owes fines may reasonably conclude the debt must be cleared first and not file. The route's own statutoryOrAuthority string in the committed route-obligation census ENDS with 20 ILCS 2630/5.2(d)(6)(C), so this is the route's own cited authority going unstated. WHAT WOULD SATISFY IT: carry that statement's substance in participant language in the guide's 'What it costs, and the waiver' section — its substance, not the directive's text, because printing build directives verbatim into a participant guide is its own defect and the sibling il-seal-nonconv-set does exactly that. Cost: guidance only; no PDF byte moves and no raster debt is added. SCOPE: three Illinois tracks carry this directive — il-seal-2yr, il-seal-3yr and il-seal-edu — and none of the three families carries the statement, so this is best dispatched once across those three rather than family by family.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": false
     },
     {
       "familyId": "il-seal-3yr-set",
@@ -20935,6 +21022,29 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf53",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAILS, though NOT on the limb vf30 named — that limb is cured. vf30's finding was that the instructions said no held source stated a fee or waiver and delegated both to the clerk while the committed records held the exact answer. The guide now states it: 'Fifty dollars unless indigent. Indigency excuses the fee under Sec. 2953.321(G)', with the statutory allocation of the fee, and it flags that no held source fixes an additional local court fee and names the clerk for that residual question only. That is correct and complete against rules.fees and rules.feeWaiver. WHAT STILL FAILS is the second of this track's two packetInstructions in data/record-clearing/legal-design-track-registry.json, which the record itself marks as urgent: '\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.' This lane searched participant-instructions.md, tracks/oh_marijuana_expungement/participant-instructions.md, companion/companion-guidance.md and the extracted text of the delivered canonical PDF for 'court costs', 'unpaid', 'does not include', 'delay eligibility' and 'misunderstanding': ZERO hits, in all four files, for all five terms. The record holds the answer, names the harm, and directs that participants be told explicitly; the packet is silent. An Ohio participant who owes court costs and is not told this may wait to file, or not file, on a misunderstanding the repository already knows about. WHAT WOULD SATISFY IT: state, in the guide's 'What this costs' section, that 'sentence' does not include payment of court costs and that unpaid court costs therefore do not delay eligibility. Cost: guidance only; no PDF byte moves, and because the pleading fixtures' raster receipt currently binds, keeping the change out of the PDFs preserves that binding.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
       "superseded": false
     },
