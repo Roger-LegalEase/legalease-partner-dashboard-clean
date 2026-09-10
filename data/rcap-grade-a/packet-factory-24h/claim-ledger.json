@@ -4759,10 +4759,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIXCXIN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T18:47:15.166Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15047,7 +15047,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1579a43116ef7b30bc83690bf36f94d16ed1b2d68ea02e75e0281f076010d71d",
+  "claimsDigest": "f4a8ddeeb11ab8d51a9df8169ecf9027b8a86d8de04ff44235ded5d2665d2ac0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -60425,6 +60425,17 @@
       "previouslyReleasedAt": "2026-09-10T15:31:00.723Z",
       "transferredAt": "2026-09-10T23:46:18.741Z",
       "reason": "FIX142 released completed repair. Captain assigns only route completeness adapter to forward the existing named N/A condition; actual HI read-only command reproduces dropped key, no packet change or legal decision."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIXCXIN1",
+      "previouslyReleasedAt": "2026-09-10T18:47:15.166Z",
+      "transferredAt": "2026-09-10T23:57:39.929Z",
+      "reason": "FIX02 released; repair exact VF63 unmeasured visual zero/allNineZero report finding in existing composed builder, preserve PDFs and owner Q7 required-component decision."
     }
   ],
   "grants": [
