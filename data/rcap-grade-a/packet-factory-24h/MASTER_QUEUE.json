@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b480f9dcf8ecd71cecf0d02839afa98671b4a15b",
+  "minimumCaptainSha": "9628eae8c673b7dc7585d6fd3d650e57fd335be7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ac2fb6504f1fbb9ba1fc6e3821244125b32e2d907ac3334da9dab0b2bc3dfe6b",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "208ddca18fcb31771572edaadc8fbd5910c94ca6dd7738f3b821e1b48b6d0d0a",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 12,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 334,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 2,
-    "repairRequired": 37,
+    "verifyPending": 0,
+    "repairRequired": 40,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 51,
+    "FAIL_REPAIR_REQUIRED": 52,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 2,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -112,13 +112,11 @@
     "families": [
       "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
-      "al-trafficking-set",
       "ar-drug-court-set",
       "ar-felony-seal-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
       "ia-12347-set",
-      "ma-expunge-k-set",
       "mi_setaside_trafficking-set",
       "mn_petition_15218-set",
       "mo-art-xiv-marijuana-set",
@@ -3659,8 +3657,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX162",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3671,8 +3669,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-act346-set",
@@ -19261,14 +19258,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf53",
-        "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf58",
+        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -19297,20 +19292,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAILS, on a limb vf03 did not name. The registry's rules.fees and rules.feeWaiver ARE carried verbatim — the ISP $60 order-processing charge, the roughly $60-$235 county range, McLean County's published $136, the county-specific caveat, and the Rule 298 / § 5.2(d)(1) waiver. What is not carried is the fourth of this track's five packetInstructions in data/record-clearing/legal-design-track-registry.json, which is a participant-facing money statement the record directs the packet to make: 'Tell the participant that unpaid fines and fees do not delay sealing: a sentence terminates notwithstanding any outstanding financial legal obligation, and § 5.2(d)(6)(C) bars denial of a sealing petition for an unsatisfied financial obligation, excluding court-ordered restitution unless converted to a civil judgment.' This lane searched participant-instructions.md, filing-instructions.md and the extracted text of the delivered canonical PDF for 'restitution', '5.2(d)(6)(C)', 'unpaid' and 'outstanding': zero hits in all three files for all four terms. The two hits for 'financial' are both about the fee-waiver form's own financial statements. The held record answers a money question that decides whether a participant with court debt files at all, and the packet is silent on it, so a participant who owes fines may reasonably conclude the debt must be cleared first and not file. The route's own statutoryOrAuthority string in the committed route-obligation census ENDS with 20 ILCS 2630/5.2(d)(6)(C), so this is the route's own cited authority going unstated. WHAT WOULD SATISFY IT: carry that statement's substance in participant language in the guide's 'What it costs, and the waiver' section — its substance, not the directive's text, because printing build directives verbatim into a participant guide is its own defect and the sibling il-seal-nonconv-set does exactly that. Cost: guidance only; no PDF byte moves and no raster debt is added. SCOPE: three Illinois tracks carry this directive — il-seal-2yr, il-seal-3yr and il-seal-edu — and none of the three families carries the statement, so this is best dispatched once across those three rather than family by family.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
@@ -19442,18 +19428,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf03",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf58",
+        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -19479,11 +19464,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL. The delivered PDFs themselves are sound - both re-hashed here and matching reports/rendered-artifacts.json and approval-request.json by digest, byte length and measured page count (a41c124a.../1,726,367/13pp and c8ca8931.../1,727,058/13pp), 443 flattened widget XObjects, 0 residual /Widget annotations, no AcroForm dictionary, 0 AcroForm fields, and 21 surviving /Link annotations which are exactly the 21 the four pinned sources carry. WHAT FAILS IS WHAT THE FAMILY PUBLISHES ABOUT THOSE BYTES. reports/actual-writes.json declares, for each fixture, addedGlyphsReadFromOutputBytes 0, flattenedWidgetAppearancesReadFromOutputBytes 44 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. Read from the builder rather than guessed at: scripts/build-census-v1-il-seal-3yr-set.mjs line 667 writes `addedGlyphsReadFromOutputBytes: 0` and `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0` as HARDCODED LITERALS and `flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length`, which is the finalizer's own intent. Not one of the three is a reading of the saved bytes, and two of them are false: this lane measured 579 added glyphs on the canonical and 1,170 on the boundary by a per-page character-multiset difference against the pinned sources with whitespace excluded, and 443 flattened widget appearances. THE HARM IS NOT COSMETIC AND IT IS NOT SPECULATIVE. scripts/rcap-packet-completeness/verify-packet-completeness.mjs derives invisibleWrites from the first two fields (line 669) and visualDefects from the third (line 670). Run at this base with --family, it prints for il-seal-3yr-set: 'ok il-seal-3yr-set PASS_COMPLETE 44/424 written', with 'invisibleWrites 0 · visualDefects 0'. That visualDefects 0 is the builder's hardcoded literal read back and printed as a measurement. Run against the two sibling families whose builders publish null honestly, the same tool prints NOT_MEASURABLE_HERE with 'visualDefects UNMEASURED'. So of the three Illinois families this lane holds, the ONLY one the completeness verifier calls PASS_COMPLETE is the one whose counters are fabricated. This is the repository's own recorded defect class: the sibling builder scripts/build-census-v1-il-seal-2yr-set.mjs carries the comment naming it - DEFECTS_NO_COUNTER_CAN_SEE, 'a-published-zero-where-a-measurement-existed' - and says 'this file used to publish addedGlyphsReadFromOutputBytes as the literal 0 and flattenedWidgetAppearancesReadFromOutputBytes as the finalizer's own write count. Neither had ever been read from the output.' il-seal-2yr-set was repaired. il-seal-3yr-set was not.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
@@ -19615,18 +19609,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf03",
-        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf58",
+        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -19652,11 +19645,48 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL. THIS PACKET DRAWS 91 BLACK RECTANGLES PER FIXTURE THAT THE OFFICIAL ILLINOIS FORMS DO NOT PRINT, and no declared write accounts for one of them. Measured three independent ways. (1) APPEARANCE STREAMS: all 443 flattened widget XObjects were decompressed and read; 92 carry a path-painting operator and 91 are STROKE-ONLY. Applying the confirmation test BORDER_COHORT_REMEDIATION.json sets out, and importing the repository's own scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs so the discriminator is the repository's, 0 of the 91 match any appearance stream in the four pinned sources byte for byte and 0 of 91 match after the leading opaque background fill is stripped. Each is `0 0 0 RG / 0 w / <path around the whole BBox> / S` - a black stroke around the widget rectangle, invented at flatten time. The two sibling families carry ZERO stroke-only appearances out of the same 443. (2) PIXELS: at 300 dpi grey<200 the canonical carries 109,198 added ink pixels of which 8,474 are accounted for by NO declared write - 3,738 on the nine pages that do carry writes and 4,736 on pages 2, 3, 11 and 12, which declare no write at all and which are pixel-identical to their sources in both siblings. The boundary carries the identical 8,474 in the identical places. (3) APPEARANCE, at the pixel level, on delivered page 2 at the check box the form draws at x 61.26-73.26 / y 569.14-581.14: the pinned source renders a two-row-thick box outline, and the delivered page renders the same outline with ONE EXTRA ROW of black along its bottom edge, because the synthesized rectangle sits one device row below the printed box. The same doubling is at all 91. THE REPOSITORY ALREADY FIXED THIS, TWICE, AND MISSED THIS FAMILY: scripts/build-census-v1-il-seal-2yr-set.mjs and scripts/build-census-v1-il-seal-3yr-set.mjs both carry the FIX118 repair - install the /Off appearance the official forms omit on every check-box widget before flatten, so pdf-lib has nothing to synthesize - and both assert the negative control on their own delivered bytes with `assert.equal(strayInk, 0)`. Their comment states the number: 'it counted 91 per fixture before it.' 91 is exactly what this lane counted here. scripts/build-census-v1-il-seal-edu-set.mjs contains no inkWithoutGlyphs function, no /Off installation and no such assert. The declared writes themselves are fine: 45 declared, all 43 carrying drawnText read back out of the delivered canonical text with 0 absent, and the two without drawnText measured in pixels and drawn.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL. The packet-set manifest marks TEN participantActionRequired entries requiredBeforeFiling. Measured line-anchored against the delivered guide - a record description counts as disclosed only when it equals a whole line after marker and wrapper stripping - this family scores 0 of 10, and 0 of 10 on the looser substring test as well. Its two siblings score 10 of 10 and 10 of 10 on the same matcher against the same ten descriptions. Read for substance rather than for text, eight of the ten are present in compressed form: obtain the ISP transcript, obtain certified dispositions, compare them, the per-case expunge-or-seal election, the hearing date, and the wet signature. TWO ARE ABSENT IN ANY FORM, and they are the two the record states as amounts: 'A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136.' and 'Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.' Neither reaches the participant. The guide's whole treatment of both is one clause: 'Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.' This shares one cause with the FEE_AND_WAIVER failure below - the guide has no fee-and-waiver section at all - and both are recorded because the two obligations test different things and both fail.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL, and this is the defect VF03 failed on the sibling and FIX06 repaired there. The Request's page 5 prints 'In Sections 15 - 24, check all of the boxes that apply' above ten selection controls. This packet ticks exactly one, item 22. production-field-map.json declares ZERO refusals with isAlternativeToElectedGround true - the two siblings declare three and one respectively, each with its own alternativeSection, its own alternativeDispositions from the registry and its own route-specific reason. Here all SEVENTY-SEVEN unticked selection controls in the family carry ONE reason, character-identical on every one of them: 'A participant election or financial fact not determined by this packet route.' That is the boilerplate VF03 failed il-seal-2yr-set for, at requiredOptionsMissing 3; it survives here at 77. The delivered guide names not one of them: it has no section about the grounds it did not tick, no section about the boxes only the participant can tick, and the words Section 16, 17, 18, 19, 20 and 21 do not appear in it. Its two siblings each devote a headed section to exactly this. WHY IT MATTERS ON THIS ROUTE'S OWN FACTS: the registry lists FIVE dispositions for il-seal-edu - supervision successfully completed, conditional discharge completed without revocation, probation completed without revocation, misdemeanor conviction and felony conviction - while the printed face of item 22, the one box this packet ticks, reads 'I have completed my last sentence and may now ask the court to seal eligible FELONY convictions because (all the following are true) ... c. The felony conviction resulted in prison or jail, or conditional discharge or probation that was revoked.' A participant whose record is a supervision, a completed probation or a misdemeanor conviction is handed a form with a box ticked whose printed words do not describe them, is told nothing about the nine boxes beside it, and is asked to verify the Request under 735 ILCS 5/1-109. COMPOUNDING IT, the guide misdescribes what the packet did: it says 'For each case, make the expunge-or-seal election shown on the Request' when the packet has already made that election - page 1 'Request to Expunge Records' written No and item 12 'Seal Records' written Yes, both routeDetermined true - and its title, 'Illinois expungement or sealing packet', offers both remedies for a route the record calls sealing, which is what this track's own packetInstructions[2] forbids: 'Never use \"expunge\" as a synonym for \"seal\". Say which remedy applies.'",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "FAIL. Nineteen widget rectangles carry a protected classification. Seventeen read exactly 0 added ink on both fixtures. TWO DO NOT: 'Page 2 - Expungement is Granted' at Rect 70.81, 516.91, 82.81, 528.91 and 'Page 2 - Sealing is Granted' at Rect 69.76, 332.44, 81.79, 344.47 - the two boxes on the proposed order by which the JUDGE records the decision - each carry 101 added ink pixels on the canonical AND 101 on the boundary, at 300 dpi grey<200 with a 1pt allowance. Both are classified court_prosecutor_clerk_or_agency_owned in this family's own production-field-map.json. WHAT THE INK IS, stated exactly so nobody over-reads it: it is one of the 91 synthesized borders, not a tick. Cropping the pixels at 150 dpi shows the pinned source drawing a two-row box outline and the delivered page drawing the same outline with one extra black row along its bottom edge. It does not assert that anything was granted and a reader would not mistake it for a mark of election. It is nonetheless build-added ink inside a judicial decision control on a proposed order, on a form the court prints, and the standard this factory applies elsewhere - and that both siblings meet on these same two rectangles - is zero. protectedWrites 0 in the sense of values; protected rectangles carrying build-added ink, 2.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL, on a limb FIX161 did not repair and did not claim to. WHAT FIX161 DID LANDS: the directed money statement is at line 79 of the delivered guide, immediately after the fee sentence in the 'Filing and notice' section - '**Unpaid fines and fees do not delay sealing.** ...' - rendered from the same shared constant as the two siblings and character-identical to theirs. The packetInstructions entry it renders is character-identical across all three tracks (sha256 efefe34f...). Nothing is invented and the unconverted-restitution consequence is withheld, exactly as on the siblings. WHAT FAILS IS EVERYTHING AROUND IT. This track's rules.fees and rules.feeWaiver hold specific answers - the ISP $60 order-processing charge, the roughly $60-$235 county range, McLean County's published $136, the county-specific caveat, Supreme Court Rule 298 and section 5.2(d)(1) - and NOT ONE of them reaches the participant. Measured whole-line and substring against the delivered guide: 0 of 2 and 0 of 2; both siblings score 2 of 2 and 2 of 2 on the same matcher against the same two records. The guide's entire treatment of cost is 'Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.' It contains no dollar amount at all, and it has no fee-and-waiver section: the repaired paragraph now sits in a filing section, attached to a delegation. So the result is a guide that tells a participant with court debt that unpaid fines do not delay sealing, and in the same breath tells them the fee 'varies' when the record it is built from holds the figures. That is the same shape as the defect vf30 found on the Ohio family and vf53 scored cured there: delegating what the held record answers. THIS IS NOT A CRITICISM OF FIX161. FIX161's grant was the unpaid-fines directive and it carried it correctly; this limb was never in its scope and it never claimed it.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
@@ -24609,8 +24639,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX162",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-k-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24621,8 +24651,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ma-expunge-mj-set",
@@ -35950,9 +35979,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf53",
-        "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json"
+        "lane": "vf58",
+        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -35986,12 +36015,12 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAILS, though NOT on the limb vf30 named — that limb is cured. vf30's finding was that the instructions said no held source stated a fee or waiver and delegated both to the clerk while the committed records held the exact answer. The guide now states it: 'Fifty dollars unless indigent. Indigency excuses the fee under Sec. 2953.321(G)', with the statutory allocation of the fee, and it flags that no held source fixes an additional local court fee and names the clerk for that residual question only. That is correct and complete against rules.fees and rules.feeWaiver. WHAT STILL FAILS is the second of this track's two packetInstructions in data/record-clearing/legal-design-track-registry.json, which the record itself marks as urgent: '\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.' This lane searched participant-instructions.md, tracks/oh_marijuana_expungement/participant-instructions.md, companion/companion-guidance.md and the extracted text of the delivered canonical PDF for 'court costs', 'unpaid', 'does not include', 'delay eligibility' and 'misunderstanding': ZERO hits, in all four files, for all five terms. The record holds the answer, names the harm, and directs that participants be told explicitly; the packet is silent. An Ohio participant who owes court costs and is not told this may wait to file, or not file, on a misunderstanding the repository already knows about. WHAT WOULD SATISFY IT: state, in the guide's 'What this costs' section, that 'sentence' does not include payment of court costs and that unpaid court costs therefore do not delay eligibility. Cost: guidance only; no PDF byte moves, and because the pleading fixtures' raster receipt currently binds, keeping the change out of the PDFs preserves that binding.",
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL, and this lane differs from VF53 on this obligation with new evidence VF53 did not have. Six fields are declared candidate_write in production-field-map.json and all six were read back out of the delivered canonical bytes with pdftotext: applicantName 'JORDAN AVERY REYES', applicantMailingAddress '118 Maple Street, Columbus, Ohio 43215', docketNumber '24-CR-001234', chargeDescription, disposition and eligibilityBasisStatement. None is missing and none is truncated. WHAT FAILS IS WHAT THREE OF THOSE SIX SAY. The delivered canonical prints, as numbered paragraphs of a document the applicant signs under a verification block: '5. Applicant was charged with Possession offense shown on the certified disposition by [ARRESTING AGENCY MUST BE CONFIRMED].' '7. The matter was resolved with the following disposition: Disposition shown on the certified disposition.' '8. Applicant may be eligible for expungement on the following basis: Eligibility is not certified by this artifact; source review and local-court confirmation are required.' Each puts a POINTER, or this build's own disclaimer, in the grammatical slot where the fact belongs, and NONE of the three carries the bracketed capitalised marking that makes every other unresolved item on the same page self-evidently untransferable - the page marks the caption, the arrest date, the disposition date and the arresting agency that way, and marks these three not at all. The instruction the packet gives the participant is to transfer reviewed content onto the court's own application. A participant following it transcribes 'Possession offense shown on the certified disposition' as their charge and 'Eligibility is not certified by this artifact' as their statutory eligibility basis, and 'this artifact' is this platform's word, not a word any Ohio court filing should carry. ON THE BOUNDARY FIXTURE IT IS PLAINER STILL: paragraph 8 reads 'Applicant may be eligible for expungement on the following basis: Boundary fixture only; eligibility, remedy, statutory version, timing, and local practice all require source-backed review.' The delivered pleading prints the words 'Boundary fixture only' inside a numbered eligibility allegation. THE REPOSITORY ALREADY CALLS THIS A DEFECT AND ALREADY FIXED IT ELSEWHERE. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, fixtureForOhioTrack(), carries the repair under the heading 'KNOWN_PREFILLS repair. Paragraphs 5, 7 and 8 printed a POINTER in the grammatical slot where the FACT belongs -- \"Possession offense shown on the certified disposition\", \"Disposition shown on the certified disposition\", and, worst, this build's own non-certification sentence inside the pleading's eligibility allegation ... They are now marked exactly the way every other unresolved item on this paper is marked.' It names these three paragraphs and these exact strings. IT IS GUARDED ON `OH_CLEAN_TRACK_ROUTE_RULES[trackId]`, AND THIS TRACK IS NOT IN THAT TABLE. The code says why in terms: this track's route rules were 'Kept in its OWN table rather than added to OH_CLEAN_TRACK_ROUTE_RULES above ... Membership of that table is ALSO the switch that fixtureForOhioTrack reads to rewrite a track's charge, disposition and eligibility strings, and rewriting them here would move this family's pleading bytes and void its raster receipt for a defect no verifier measured on it.' A verifier has now measured it on this family. VF53 saw paragraph 8 and read it as 'a refusal printed as a value rather than an asserted eligibility', which is a fair reading of the sentence in isolation; what it did not weigh is that the same build treats the identical construction as a defect everywhere else, and that the three sentences are unmarked while everything else unresolved on the page is bracketed.",
           "findingReadFrom": "finding",
           "evidence": null
         }
