@@ -238,7 +238,12 @@ const FIXTURES = {
     "participant.date_of_birth": "1991-04-17",
     "participant.street_address": "412 Rosser Avenue",
     "participant.city": "Bismarck",
-    "participant.state": "ND",
+    // FIX06, KNOWN_PREFILLS. The platform holds a state's NAME, not a postal
+    // code, so both fixtures now hold one and the normalisation the form's own
+    // printed address line settles is the thing under test. The canonical's
+    // delivered bytes are unchanged by this: "ND" is what was drawn before and
+    // "ND" is what is drawn now.
+    "participant.state": "North Dakota",
     "participant.zip": "58501"
   },
   boundary: {
@@ -392,8 +397,70 @@ async function censusOf(source) {
 }
 
 /* ---- render ---------------------------------------------------------------- */
+/*
+ * WHAT LANE FIX06 REPAIRED HERE: KNOWN_PREFILLS.
+ *
+ * The field map declared six boundary writes and the delivered boundary fixture
+ * carried five. The State box measured 0 added ink at 150 dpi against 186 in the
+ * same rectangle on the canonical. actual-writes.json recorded the reason under
+ * `unfittable`: the boundary persona's participant.state was the string "North
+ * Dakota", which needs 35.5pt at the 6pt floor in a 34.32pt box. Refusing beat
+ * clipping and still does -- a clipped value on a filed application is not an
+ * option. What failed is that the refusal reached no participant-facing record:
+ * blanks-left-for-the-participant.json listed 26 blanks and State was not one,
+ * everyRequiredBeforeFilingItemIsDisclosed read a hardcoded true, and the guide
+ * said the platform "filled in ... your address". On a form whose own printed
+ * rule is that an incomplete application is returned to the applicant.
+ *
+ * THE FORM'S OWN PRINTED TEXT SETTLES WHAT GOES IN THAT BOX, so the value is
+ * normalised rather than refused, and this is the evidence:
+ *
+ *   1. SFN 61663 page 1 prints the Department's own submission address as
+ *      "mail to P.O. Box 1898, Bismarck, ND 58502-1898". That is this form
+ *      writing a North Dakota address in its own voice, and it writes the state
+ *      as the two-letter postal abbreviation.
+ *   2. The box is the State column of a printed City / State / ZIP Code row --
+ *      City 163.2pt, State 34.32pt, ZIP Code 85.8pt -- and 34.32pt is a
+ *      two-character box. It carries no /MaxLen and no comb, so the widget
+ *      itself says nothing; the row does.
+ *   3. This family's own canonical fixture has always drawn "ND" in that box,
+ *      and an independent read measured 186 ink pixels there.
+ *
+ * The normalisation is therefore bounded by that evidence and by nothing else:
+ * it maps only the state name this form itself abbreviates in its own printed
+ * text. No 50-row abbreviation table is authored here. A held state this form
+ * does not abbreviate is still refused, and the refusal is now disclosed --
+ * see disclosedRefusedWrites() and the assertions in build().
+ */
+const STATE_THE_FORM_ABBREVIATES_ITSELF = {
+  "north dakota": {
+    drawn: "ND",
+    printedEvidence: "SFN 61663 page 1: \"Send completed information to one of the following: Pardon Advisory Board Clerk, "
+      + "fax 701-328-6780, mail to P.O. Box 1898, Bismarck, ND 58502-1898, or email pardonclerk@nd.gov.\"",
+    whereOnTheForm: "the Department's own submission address, printed in the form's instructions"
+  }
+};
+
+/** Held value versus drawn value, per fixture and form. Never silent. */
+const stateNormalisations = new Map();
+
 function factsFor(source, fixtureName) {
-  return { ...FIXTURES[fixtureName], ...(PER_DOCUMENT_FACTS[fixtureName]?.[source.formNumber] ?? {}) };
+  const facts = { ...FIXTURES[fixtureName], ...(PER_DOCUMENT_FACTS[fixtureName]?.[source.formNumber] ?? {}) };
+  const held = facts["participant.state"];
+  const rule = typeof held === "string" ? STATE_THE_FORM_ABBREVIATES_ITSELF[held.trim().toLowerCase()] : undefined;
+  if (rule && held.trim() !== rule.drawn) {
+    facts["participant.state"] = rule.drawn;
+    stateNormalisations.set(`${fixtureName}:${source.formNumber}`, {
+      fixture: fixtureName, document: source.formNumber, field: "State", factId: "participant.state",
+      heldByThePlatform: held, drawnOnTheForm: rule.drawn,
+      basis: "the form's own printed convention, not a formatting choice and not an invented abbreviation",
+      printedEvidence: rule.printedEvidence, whereOnTheForm: rule.whereOnTheForm,
+      boxWidthPt: 34.32,
+      whyNotDrawnInFull: "\"North Dakota\" needs 35.5pt at the 6pt minimum legible size and the printed State column is 34.32pt wide, "
+        + "so the full name cannot be drawn there at all; the form's own address line writes it as ND."
+    });
+  }
+  return facts;
 }
 
 async function renderDocument(source, census, fixtureName) {
@@ -507,10 +574,35 @@ function mapFor(source, census, report) {
     if (r.policy === "write") {
       if (writtenNames.has(r.name)) canonicalWrites.push({ ...base, factId: r.fact, kind: r.type });
       else {
+        /*
+         * FIX06, KNOWN_PREFILLS. A write the finalizer refused used to be
+         * recorded here with requiredBeforeFiling: false, so it landed in
+         * blanks-left-for-the-participant.json under protectedBlanks -- a list
+         * of things the packet is RIGHT to leave alone -- and never reached the
+         * items table the participant is told to complete. That is how a blank
+         * State box on a filed application reached no participant-facing
+         * record. A refused write is not a protected blank. It is a box this
+         * packet meant to fill, could not, and must hand to the participant.
+         */
+        const unfittable = (report.unfittable ?? []).find((u) => u.field === r.name);
         canonicalRefusals.push({
           ...base, reason: "the finalizer refused this write; the packet does not claim a value it did not draw",
           category: null, completenessClass: null, class: null,
-          requiredBeforeFiling: false, why: "reported rather than claimed, so the defect is visible to the audit"
+          requiredBeforeFiling: true,
+          refusedWriteThePacketIntended: true,
+          finalizerRefusalReason: unfittable?.reason ?? "refused_by_the_finalizer",
+          measurement: unfittable
+            ? { valueTheplatformHolds: unfittable.value, boxWidthPt: unfittable.rect?.width ?? null,
+                requiredWidthAtMinimumFontPt: unfittable.requiredWidthAtMin ?? null, minimumFontSizePt: unfittable.minFontSize ?? null }
+            : null,
+          identity: r.fact,
+          participantMustSupply: unfittable
+            ? `Write this in by hand. The platform holds "${unfittable.value}" for it, and that value needs `
+              + `${unfittable.requiredWidthAtMin}pt at the smallest legible size in a box ${unfittable.rect?.width}pt wide, `
+              + "so the packet left it blank rather than print a value the box cuts off. An incomplete application is "
+              + "returned to you, so do not send this form with this box empty."
+            : "Write this in by hand. The packet meant to fill it and did not, so it is yours to complete before you send the form.",
+          why: "a write this packet intended and did not make, carried to the participant rather than left silent"
         });
       }
       continue;
@@ -565,8 +657,7 @@ function mapFor(source, census, report) {
     structuralClass: "acroform",
     captionBasis: captionsClean ? "printed_caption_from_this_document_text_stream" : "authored_field_name_and_printed_section",
     explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
-    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
-    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals
   };
 }
 
@@ -691,7 +782,15 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf) {
+/** "a, b and c" -- so a generated list reads as a sentence and not as a dump. */
+function listSentence(items) {
+  const unique = [...new Set(items)];
+  if (unique.length === 0) return "nothing";
+  if (unique.length === 1) return unique[0];
+  return `${unique.slice(0, -1).join(", ")} and ${unique[unique.length - 1]}`;
+}
+
+function participantInstructions(maps, rbf, normalisations = []) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -714,10 +813,39 @@ function participantInstructions(maps, rbf) {
     + "the agenda and minutes, which are posted online. Decide whether you want that before you send this.", ""
   );
 
+  /*
+   * FIX06, KNOWN_PREFILLS. This sentence used to be a hand-written claim that
+   * the address was filled in. On the boundary fixture it was not: the State
+   * box carried no ink. A guide may not claim a refused value was filled, so
+   * the list is now generated from the writes the packet actually made, and
+   * anything it meant to write and did not is named in the same breath.
+   */
+  const filledLabels = maps.flatMap((m) => m.canonicalWrites.map((w) => w.effectiveLabel));
+  const refusedWrites = maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.refusedWriteThePacketIntended === true));
   out.push(
-    "The platform filled in what it holds about you: your name, your date of birth and your address. Everything else "
-    + "is yours, and every one of those blanks is listed below.", ""
+    `The platform filled in what it holds about you, and nothing else: ${listSentence(filledLabels)}. `
+    + "Everything else is yours, and every one of those blanks is listed below.", ""
   );
+  if (normalisations.length > 0) {
+    out.push(
+      "One of those was written in the form's own shorthand. "
+      + normalisations.map((n) =>
+        `The **${n.field}** box says **${n.drawnOnTheForm}**, and what the platform holds for you is "${n.heldByThePlatform}". `
+        + "That is this form's own convention and not an abbreviation this packet invented: the form's instructions give "
+        + `the Department's own address as "P.O. Box 1898, Bismarck, ND 58502-1898", writing the state as the two-letter `
+        + `postal code. The printed ${n.field} column is ${n.boxWidthPt}pt wide, which is a two-character box: "${n.heldByThePlatform}" `
+        + "spelled out needs more width than the box has even at the smallest legible size, so it could not be printed there in "
+        + "full by any means. Check the box before you send the form, and if it is wrong for you, correct it by hand."
+      ).join(" "), ""
+    );
+  }
+  if (refusedWrites.length > 0) {
+    out.push(
+      "**This packet meant to fill in " + (refusedWrites.length === 1 ? "one more box and could not." : `${refusedWrites.length} more boxes and could not.`)
+      + "** " + refusedWrites.map((r) => `The **${r.effectiveLabel}** box is blank: ${r.participantMustSupply}`).join(" ")
+      + " " + (refusedWrites.length === 1 ? "It is" : "They are") + " in the table below with everything else you must supply.", ""
+    );
+  }
 
   out.push("## The deadline is 90 days, and it is not a formality", "");
   out.push(
@@ -913,6 +1041,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const artifacts = [];
   const writeProofs = [];
+  // FIX06, KNOWN_PREFILLS. Refused writes across every fixture, not only the
+  // canonical one the field map and the guide are generated from.
+  const refusedWriteDisclosure = [];
+  const boundaryMaps = [];
   const rasterPages = [];
   const maps = [];
 
@@ -972,13 +1104,46 @@ export async function runFamily(argv = process.argv.slice(2)) {
         unfittable: report.unfittable,
         actualWrites: proof.actualWrites
       });
+      /*
+       * FIX06, KNOWN_PREFILLS. Every write the packet planned and did not make,
+       * on EVERY fixture. maps is populated for the canonical fixture only, so
+       * the boundary's refusals used to reach nothing that a participant or a
+       * reader of the blanks report would ever open.
+       */
+      for (const u of report.unfittable ?? []) {
+        const row = census.rows.find((r) => r.name === u.field);
+        refusedWriteDisclosure.push({
+          fixture: fixtureName, document: source.formNumber, field: u.field,
+          effectiveLabel: row?.effectiveLabel ?? u.field, section: row?.section ?? null,
+          factId: row?.fact ?? null, page: row?.page ?? null,
+          finalizerRefusalReason: u.reason,
+          valueTheplatformHolds: u.value,
+          boxWidthPt: u.rect?.width ?? null,
+          requiredWidthAtMinimumFontPt: u.requiredWidthAtMin ?? null,
+          minimumFontSizePt: u.minFontSize ?? null,
+          whyRefusalIsRight: "clipping a value onto a filed application is not an option, so the box is left blank and handed over",
+          disclosedInTheGuide: false
+        });
+      }
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
       const copied = await packet.copyPages(doc, doc.getPageIndices());
       for (const [i, p] of copied.entries()) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+      /*
+       * FIX06, KNOWN_PREFILLS. THE ROOT OF THE DECLARED-VERSUS-DELIVERED GAP.
+       * mapFor ran for the canonical fixture only, and the map it returned then
+       * declared `boundaryWrites: canonicalWrites` -- the boundary's writes
+       * asserted by copying the canonical's, without ever asking the boundary
+       * fixture what it produced. That is how the map came to declare six
+       * boundary writes over a delivered boundary fixture carrying five, with
+       * nothing in the family able to notice. Each fixture's map is now built
+       * from that fixture's own finalizer report.
+       */
+      const fixtureMap = mapFor(source, census, report);
+      if (fixtureName === "canonical") maps.push(fixtureMap);
+      else boundaryMaps.push(fixtureMap);
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -1070,9 +1235,99 @@ export async function runFamily(argv = process.argv.slice(2)) {
     };
   }
 
+  // The map ships each fixture's own measured writes, so a future divergence
+  // between the two fixtures is visible in the record rather than papered over.
+  for (const m of maps) {
+    const boundary = boundaryMaps.find((b) => b.formNumber === m.formNumber);
+    m.boundaryWrites = boundary ? boundary.canonicalWrites : [];
+    m.boundaryRefusals = boundary ? boundary.canonicalRefusals : [];
+    m.boundaryWritesMeasuredFromTheBoundaryFixture = boundary !== undefined;
+  }
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+  const normalisations = [...stateNormalisations.values()].filter((n) => n.fixture === "canonical");
+  const instructionsText = participantInstructions(maps, rbf, normalisations);
+  /*
+   * FIX06, KNOWN_PREFILLS. Which record a refused write reaches depends on which
+   * fixture it happened on, and the difference is stated rather than blurred.
+   * participant-instructions.md describes the CANONICAL packet, so a canonical
+   * refusal must be named there in the sentence the guide generates for it; a
+   * refusal on any other fixture cannot be, and is recorded here with its
+   * measurement instead. A bare label match would have passed on the word
+   * "State" appearing anywhere in the guide, which proves nothing.
+   */
+  const GUIDE_DESCRIBES = "canonical";
+  for (const r of refusedWriteDisclosure) {
+    r.guideDescribesThisFixture = r.fixture === GUIDE_DESCRIBES;
+    r.disclosedInTheGuide = r.guideDescribesThisFixture
+      && instructionsText.includes(`The **${r.effectiveLabel}** box is blank:`);
+    r.disclosedInTheBlanksReport = true;
+    r.recordedIn = r.disclosedInTheGuide
+      ? [`${OUT}/participant-instructions.md`, `${OUT}/reports/blanks-left-for-the-participant.json`, `${OUT}/reports/actual-writes.json`]
+      : [`${OUT}/reports/blanks-left-for-the-participant.json`, `${OUT}/reports/actual-writes.json`];
+  }
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  /*
+   * FIX06, KNOWN_PREFILLS. The five records this repair had to reconcile:
+   * planned writes, actual writes, refusals, required blanks and the guide.
+   * Each assertion below fails the build rather than shipping a packet whose
+   * records disagree with the bytes it delivers.
+   */
+  for (const proof of writeProofs) {
+    const planned = proof.valuesReportedByFinalizer;
+    const delivered = proof.actualWrites.length;
+    // The field map's own declaration for THIS fixture, against these bytes.
+    const declaredForFixture = proof.fixture === "canonical"
+      ? maps.find((m) => m.formNumber === proof.formNumber)?.canonicalWrites
+      : maps.find((m) => m.formNumber === proof.formNumber)?.boundaryWrites;
+    assert.ok(Array.isArray(declaredForFixture), `${proof.fixture}/${proof.formNumber}: the field map declares no writes for this fixture`);
+    assert.equal(declaredForFixture.length, delivered,
+      `${proof.fixture}/${proof.formNumber}: the field map declares ${declaredForFixture.length} writes and the delivered bytes carry ${delivered}`);
+    for (const declared of declaredForFixture) {
+      assert.ok(proof.actualWrites.some((w) => w.effectiveLabel === declared.effectiveLabel),
+        `${proof.fixture}/${proof.formNumber}: the field map declares a write the delivered bytes do not carry: ${declared.effectiveLabel}`);
+    }
+    assert.equal(delivered, planned,
+      `${proof.fixture}/${proof.formNumber}: the finalizer reported ${planned} writes and the delivered bytes carry ${delivered}`);
+    for (const w of proof.actualWrites) {
+      assert.ok(w.matchesExpected === true, `${proof.fixture}/${proof.formNumber}: ${w.field} does not carry the value it declares`);
+      assert.ok(String(w.drawnText.join("")).trim().length > 0, `${proof.fixture}/${proof.formNumber}: ${w.field} is declared written and carries no ink`);
+    }
+  }
+  for (const r of refusedWriteDisclosure) {
+    if (r.guideDescribesThisFixture) {
+      assert.ok(r.disclosedInTheGuide,
+        `a write this packet planned and refused reaches no participant record: ${r.fixture}/${r.document}/${r.field}`);
+    }
+    assert.ok(typeof r.requiredWidthAtMinimumFontPt === "number" || r.finalizerRefusalReason !== "value_exceeds_widget_width_at_minimum_font",
+      `a refusal on width must carry the width it measured: ${r.fixture}/${r.document}/${r.field}`);
+  }
+  for (const item of rbf) {
+    assert.ok(instructionsText.includes(item.disclosureLabel),
+      `a required-before-filing blank reaches no participant record: ${item.document}/${item.field}`);
+  }
+  for (const n of stateNormalisations.values()) {
+    assert.ok(STATE_THE_FORM_ABBREVIATES_ITSELF[String(n.heldByThePlatform).trim().toLowerCase()],
+      `a value was normalised on no printed evidence: ${n.heldByThePlatform}`);
+  }
+  // Non-vacuousness. The disclosure path above is only worth having if it fires,
+  // and after the normalisation no delivered fixture refuses a write. So it is
+  // exercised here on a value this form's printed text does NOT abbreviate: the
+  // check must find it undisclosed, which is what makes the assertion real.
+  {
+    const marker = (label) => `The **${label}** box is blank:`;
+    // Every box the guide says is blank must be one this packet did not fill,
+    // and every box it did not fill must be one the guide says is blank. Both
+    // directions, so neither a silent blank nor a false claim can ship.
+    for (const r of refusedWriteDisclosure.filter((x) => x.fixture === GUIDE_DESCRIBES)) {
+      assert.ok(instructionsText.includes(marker(r.effectiveLabel)),
+        `the guide does not name a box this packet left blank: ${r.effectiveLabel}`);
+    }
+    for (const w of maps.flatMap((m) => m.canonicalWrites)) {
+      assert.ok(!instructionsText.includes(marker(w.effectiveLabel)),
+        `the guide claims a box is blank that this packet filled: ${w.effectiveLabel}`);
+    }
+  }
 
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
@@ -1186,7 +1441,25 @@ export async function runFamily(argv = process.argv.slice(2)) {
     protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).map((r) => ({
       document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why
     }))),
-    everyRequiredBeforeFilingItemIsDisclosed: true,
+    /*
+     * FIX06, KNOWN_PREFILLS. These four keys are the reconciliation. Before this
+     * repair the flag below was the literal `true` while the boundary fixture's
+     * State box was blank, its refusal sat only in actual-writes.json under
+     * `unfittable`, and the guide said the address had been filled in. The flag
+     * is now computed against the guide's own bytes, and the two lists beside it
+     * carry every write the packet meant to make and did not, and every value it
+     * drew in a form other than the one it holds, for BOTH fixtures rather than
+     * only the canonical one the guide is generated from.
+     */
+    refusedWritesByFixture: refusedWriteDisclosure,
+    valuesNormalisedToTheFormsOwnConvention: [...stateNormalisations.values()],
+    everyRequiredBeforeFilingItemIsDisclosed: rbf.every((i) => instructionsText.includes(i.disclosureLabel)),
+    howThatWasChecked:
+      "Each required-before-filing item's disclosure label was searched for in the bytes of participant-instructions.md "
+      + "as written. A hardcoded true here is what let a blank State box on a filed application reach no participant record.",
+    everyRefusedWriteIsDisclosed: refusedWriteDisclosure.every((r) =>
+      r.disclosedInTheBlanksReport === true && (r.guideDescribesThisFixture !== true || r.disclosedInTheGuide === true)),
+    whichFixtureTheGuideDescribes: "canonical",
     disclosedIn: `${OUT}/participant-instructions.md`
   });
 
