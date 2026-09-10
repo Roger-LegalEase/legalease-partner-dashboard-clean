@@ -1,0 +1,25 @@
+{
+ "schemaVersion": "rcap-shared-locator-not-yet-enforced/v1",
+ "generatedBy": "Captain, reading every build-census-v1 host at the commit that merged the shared module",
+ "generatedAt": "2026-09-10T09:14:58.729959Z",
+ "atCommit": "21c7eebd23a23ff671b530940ea93bb941cc4094",
+ "theModule": "scripts/rcap-official-forms/rcap-participant-blank-locator.mjs, extracted by FIX130",
+ "whyItExists": "the same logic had already been hand-written twice -- the misdemeanor host, then FIX05's decriminalized host -- and vt_seal_nonconviction-set was missed PRECISELY because the first copy was scoped to one host. It went terminal carrying the defect and had to be withdrawn from terminal today. A third inline copy sets up the fourth miss.",
+ "enforcementRightNow": {
+  "hostsImportingTheSharedModule": [
+   "build-census-v1-vt_seal_nonconviction-set.mjs"
+  ],
+  "hostsStillCarryingAHandWrittenCopy": [
+   "build-census-v1-vt_exp_decriminalized-set.mjs",
+   "build-census-v1-vt_seal_misdemeanor-set.mjs"
+  ],
+  "hostsBuildingARequiredBeforeFilingList": 208,
+  "soTheSharedFixReaches": "1 of the 3 hosts that implement this logic today, and 208 hosts build a requiredBeforeFiling list from the same census shape"
+ },
+ "thisIsNotEnforced": "A shared fix is not enforced while its callers remain unwired. Two hosts still carry hand copies that can drift from the module and from each other, and neither is covered by the module's guards.",
+ "whyFIX130DidNotRewireThem": "They build families it holds no grant for, and verifying a change to them is not its work. That is the correct boundary and I am not overriding it -- it is scheduled, not ignored.",
+ "whatSchedulingItMeans": "a lane holding grants on vt_exp_decriminalized-set and the five families built by the misdemeanor host, rewiring both to the shared module, with an independent read of each family afterwards because the rewire moves what those families publish.",
+ "aGuardDefectFIX130FoundByBreakingItsOwnGuards": "assert.ok's message template is evaluated even when the assertion HOLDS, so a null dereference on the unnumbered path -- 12 of 15 groups -- would have crashed every sound build. Not visible by reading; found only by deliberately breaking the guard. The same shape may exist in other builders' assertions.",
+ "anUnreachableAssertionKeptAndLabelled": "the band-SPREAD assertion cannot fail: bands are seeded on a baseline that never moves, so spread is bounded by the tolerance by construction. FIX130 measured it over 20,000 random layouts, max spread exactly 4.000, kept it because it would fail first if the seed ever became a running mean, and documented it as unreachable so no reader counts a pass there as a measurement. Both hand copies carry the same unreachable assertion.",
+ "grantsNothing": "This records what the shared fix does and does not yet reach."
+}
