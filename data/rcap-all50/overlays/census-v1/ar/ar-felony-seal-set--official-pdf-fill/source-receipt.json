@@ -15,20 +15,35 @@
     {
       "recordId": "packet-set-manifest:ar-felony-seal-set",
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-      "byteLength": 3683419,
+      "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+      "byteLength": 3694688,
       "anchorStatementsVerified": 4,
       "identityRefresh": {
-        "refreshedOn": "2026-09-05",
+        "refreshedOn": "2026-09-10",
         "was": {
-          "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
-          "byteLength": 3677637
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
         },
-        "why": "The shared record was rewritten around this receipt's anchors by unrelated work. Every entry this family binds was recovered from the historical blob carrying the previous pin and is byte-identical on disk, so the bound content is unchanged and only the containing file's identity moved.",
+        "why": "Second re-anchor of the same pin in five days. The shared record was rewritten around this receipt's anchors again by unrelated work. Every packetSets entry this family binds is byte-identical across the whole move -- and across the earlier move from 563147bf8431e5d3 that the previous annotation recorded -- so the bound content has not moved and only the containing file's identity has. No packet byte changed in this repair: the fixtures and the participant-facing markdown are byte-identical before and after the rebuild that recomputed this pin.",
         "anchorsCompared": 1,
         "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "77f24687c",
-        "allSourcesExactRederivedOver": "Recomputed over the 2 pin(s) that resolve to a file in this checkout. 2 further pin(s) name a path outside the repository -- Master Library entries -- which this process cannot read; an unreadable path is a fact about the reader and is not evidence that a source drifted."
+        "previousPinLastSeenAtCommit": "d798dc66b",
+        "originalPinLastSeenAtCommit": "77f24687c",
+        "driftCommits": [
+          "00d2425ca fix(rcap): integrate NC indigency branches and preserve measured WI review and DE receipt admission",
+          "f06f33bc6 FIX96: CO conviction motion states JDF 611's fee and waiver, and names the two absent components",
+          "1784eec3d FIX120: repair the four Rhode Island families against the 2026-09-07 independent review"
+        ],
+        "entriesThatMovedInThatDrift": [
+          "co_motion_seal_conviction-set",
+          "nc_146_dismissal_petition-set",
+          "ri_deferred_sentence-set",
+          "ri_first_offender_felony-set",
+          "ri_first_offender_misdemeanor-set",
+          "ri_multiple_misdemeanors-set"
+        ],
+        "howCompared": "every packetSets entry compared object-for-object between the blob at d798dc66b and the working tree at this base, keyed on packetSetId, over a key-sorted canonical serialisation; 6 of 497 entries differ and none of them is this family's",
+        "whatThisDoesNotEstablish": "that binding a shared, mutable repository record by whole-file SHA-256 is the right binding. It is not a source; it is a record other lanes rewrite several times a week, and this pin has now gone stale twice without any counter reporting it."
       }
     },
     {

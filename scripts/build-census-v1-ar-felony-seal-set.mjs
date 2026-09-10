@@ -18,7 +18,8 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
-import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+import { preserveIdentityRefresh, carryForwardIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+import { carryForwardGovernance, assertGovernancePreserved } from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(ROOT);
@@ -214,13 +215,53 @@ const SELECTED_PETITION_CONTROLS = new Set([
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+
+/*
+ * THE WIPE DEFEATED BOTH PRESERVATION MODULES, SILENTLY.
+ *
+ * runFamily() removes OUT wholesale (fs.rmSync, recursive) before it rebuilds.
+ * Both preserveIdentityRefresh() and preserveGovernanceState() decide what to
+ * carry forward by READING THE COMMITTED FILE AT THE WRITE PATH -- and by then
+ * that file is gone. preserveIdentityRefresh is fail-safe on a missing file, so
+ * it returned the builder's document untouched and every hand-written
+ * identityRefresh annotation was erased regardless of whether its source had
+ * moved. product-wiring.json never went through the governance module at all,
+ * so a rebuild at base, changing nothing, deleted the committed `binding` whole
+ * -- a hash-bound RASTER_PASS acceptance receipt, the last independent verdict,
+ * and the paymentEligible / sponsorshipEligible / whyPaymentIsClosed commercial
+ * guards. That is the defect recorded in
+ * data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json,
+ * reached here by a different route: not a builder that forgot to preserve, but
+ * a builder that deleted the evidence before asking.
+ *
+ * The committed documents are snapshotted BEFORE the wipe and the preservation
+ * reads the snapshot.
+ */
+const PRIOR_DOCUMENTS = new Map();
+function snapshotPriorDocuments() {
+  PRIOR_DOCUMENTS.clear();
+  for (const rel of [`${OUT}/source-receipt.json`, `${OUT}/product-wiring.json`]) {
+    const file = path.join(ROOT, rel);
+    if (!fs.existsSync(file)) continue;
+    try { PRIOR_DOCUMENTS.set(rel, JSON.parse(fs.readFileSync(file, "utf8"))); }
+    catch (error) {
+      throw new Error(`${rel} exists and does not parse as JSON (${error.message}). `
+        + "Rebuilding over it would erase whatever governance or identity state it holds.");
+    }
+  }
+}
+
 const writeJson = (rel, value) => {
   const file = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   /* A hand-written identityRefresh on a source pin this build did not move
    * survives the rebuild; one whose source moved again does not. See
    * scripts/rcap-packet-completeness/identity-refresh.mjs. */
-  fs.writeFileSync(file, `${JSON.stringify(preserveIdentityRefresh(fs, file, value), null, 2)}\n`);
+  const prior = PRIOR_DOCUMENTS.get(rel) ?? null;
+  const document = prior
+    ? carryForwardIdentityRefresh(prior, value).document
+    : preserveIdentityRefresh(fs, file, value);
+  fs.writeFileSync(file, `${JSON.stringify(document, null, 2)}\n`);
 };
 
 function verifyLegalRecords() {
@@ -605,9 +646,64 @@ function upsertLaneRow(artifacts, maps, rbf) {
     productionTouched: false,
     grantsNothing: "A built family is not independently verified, approved for live, or commercially deliverable."
   };
-  const rows = (doc.rows ?? []).filter((existing) => existing.itemId !== FAMILY_ID);
-  rows.push(row);
+  /* Replace in place. Filtering the row out and pushing it back moved it to the
+   * end of the lane's rows on every rebuild, so an unchanged row produced a
+   * whole-file reordering diff that says nothing -- noise a reviewer has to
+   * read past to find the repair. */
+  const existing = doc.rows ?? [];
+  const at = existing.findIndex((candidate) => candidate.itemId === FAMILY_ID);
+  const rows = at === -1 ? [...existing, row] : existing.map((candidate, index) => (index === at ? row : candidate));
   writeJson(ROWS, { ...doc, rows });
+}
+
+/*
+ * product-wiring.json carries six keys this build does not author -- the
+ * acceptance receipt, the last independent verdict, and the four commercial
+ * guards. They are control-plane state. This write states the descriptive
+ * fields it can measure, and routes the governance six through
+ * scripts/rcap-packet-completeness/governance-preservation.mjs, which carries
+ * what is committed and WITHDRAWS (never deletes) an acceptance receipt that has
+ * stopped describing the canonical bytes. Nothing here issues a receipt, sets
+ * paymentEligible, or opens a route.
+ */
+function writeWiring(artifacts) {
+  const rel = `${OUT}/product-wiring.json`;
+  const previous = PRIOR_DOCUMENTS.get(rel) ?? null;
+  const previousBinding = previous && typeof previous.binding === "object" && previous.binding !== null
+    ? previous.binding : null;
+  const canonical = artifacts.find((a) => a.fixture === "canonical");
+  assert.ok(canonical?.sha256, "the canonical packet must be assembled before the wiring is written");
+
+  const document = {
+    schemaVersion: "rcap-product-wiring/v1", familyId: FAMILY_ID,
+    routeKeys: [ROUTE_KEY], routeSelectionId: "ar-felony-conviction-act-1460",
+    componentSet: Object.values(COMPONENTS), generationAllowed: false,
+    runtimeSelectable: false, commercialRoutesOpened: 0, productionTouched: false
+  };
+  if (!previousBinding) { writeJson(rel, document); return; }
+
+  document.binding = {
+    family: FAMILY_ID, jurisdiction: "AR", routeKeys: [ROUTE_KEY],
+    deliveryType: "official_pdf_fill",
+    instrumentKinds: SOURCES.map((source) => source.role),
+    packetComponents: Object.values(COMPONENTS).map((component) => `component:${component}`),
+    fieldMap: `${OUT}/production-field-map.json`,
+    instructions: `${OUT}/participant-instructions.md`,
+    renderedArtifacts: `${OUT}/reports/rendered-artifacts.json`,
+    sourceReceipt: `${OUT}/source-receipt.json`,
+    sourceVersion: [...SOURCES]
+      .map((source) => ({ sourceId: `official-form:${source.documentId}`, sha256: source.sha256,
+        tier: "exact_identity_confirmed_from_document_text" }))
+      .sort((a, b) => a.sourceId.localeCompare(b.sourceId)),
+    /* Reserve the committed key order so a rebuild of unchanged inputs writes
+     * byte-identical wiring. JSON.stringify drops an undefined value, so this
+     * states nothing when there is no receipt to carry. */
+    acceptanceReceipt: undefined
+  };
+  const result = carryForwardGovernance(previousBinding, document.binding, { canonicalSha256: canonical.sha256 });
+  for (const decision of result.decisions) console.error(`governance: ${decision}`);
+  assertGovernancePreserved(previousBinding, result.binding, { at: rel });
+  writeJson(rel, document);
 }
 
 export async function runFamily(argv = process.argv.slice(2)) {
@@ -621,6 +717,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rbf = requiredBeforeFiling(maps);
   assert.equal(rbf.length, 4, "both forms must disclose their ATN and SID blanks");
 
+  snapshotPriorDocuments();
   fs.rmSync(path.join(ROOT, OUT), { recursive: true, force: true });
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
@@ -746,12 +843,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatThisIsNot: "An independent verdict, raster receipt, visual review, or approval."
   });
 
-  writeJson(`${OUT}/product-wiring.json`, {
-    schemaVersion: "rcap-product-wiring/v1", familyId: FAMILY_ID,
-    routeKeys: [ROUTE_KEY], routeSelectionId: "ar-felony-conviction-act-1460",
-    componentSet: Object.values(COMPONENTS), generationAllowed: false,
-    runtimeSelectable: false, commercialRoutesOpened: 0, productionTouched: false
-  });
+  writeWiring(artifacts);
   writeJson(`${OUT}/build-status.json`, {
     schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID,
     buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: BUILD_SCRIPT,
