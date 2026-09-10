@@ -1,0 +1,237 @@
+{
+ "lane": "FIX01",
+ "laneKind": "repair",
+ "shift": "fix01-repair-20260909",
+ "generatedAtBase": "181ac2ece",
+ "branch": "pfa-fix-20260909",
+ "worktree": "/home/user/pfa-worktree",
+ "assignedFamilies": [
+  "me-seal-survivor-set",
+  "md_pardon_expungement-set",
+  "co_petition_seal_arrest-set"
+ ],
+ "assignedFamiliesWorkedInThisReturn": [
+  "me-seal-survivor-set"
+ ],
+ "claimsAsserted": "Asserted per family before any artifact of it was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>'. me-seal-survivor-set returned CLAIM_OK (repair, grant set 914af21a28d51a60).",
+ "verdictsSet": "none. This lane repaired these bytes, so it cannot verify them. No PASS is issued here and no RASTER_PASS is claimed - that comes from the central workflow only.",
+ "grantsNothing": "A repair proves a defect removed. It approves no output, promotes no route, closes no delivery gate and opens no commercial path.",
+ "productionTouched": false,
+ "packetsSelfVerified": 0,
+ "centralManifestsTouched": 0,
+ "sharedModulesModified": 0,
+ "rows": [
+  {
+   "itemId": "me-seal-survivor-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "repair",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP",
+    "PROTECTED_FIELDS",
+    "SELF_HELP_STOP",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "obligationCoverage": "These are the four obligations VF01 scored FAIL on this family at 7d6453f51. CLIPPING_AND_OVERLAP and PROTECTED_FIELDS had one cause and took one repair; SELF_HELP_STOP and REQUIRED_BEFORE_FILING are participant-copy failures and took a second. Nothing else on this family was touched.",
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER_PASS - none is produced here and none could be. This repair CHANGED THE DELIVERED BYTES, so the admitted RASTER_PASS recorded in product-wiring.json (workflowRunId 34413372916, boundToCanonicalSha256 0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07) no longer covers the packet and this build does not carry it forward. The family must be re-rastered centrally against the digests below.",
+    "Independent verification - this lane repaired and measured these bytes, so it cannot verify them. No verdict is set here and no PASS is issued.",
+    "me_2264_7_cr308_warning_conflict and me_2264_7_prosecutor_notice_method - both source-acquisition gates remain OPEN and owned by RCAP source acquisition. Nothing here closes either. The packet stays generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0.",
+    "The CR-308 findings-of-fact /AP /N dict that ships with no /Subtype - VF01 measured it as the published source's own defect. It is still measured, named and carried to the raster gate rather than rewritten. This lane does not rewrite an official form's appearance streams.",
+    "The MASTER_QUEUE component disagreement - see recordsThatDisagree below. Not a build defect and not this lane's to resolve."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 3,
+    "visualDefects": 9
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "The seven zero counters are the shared verifier's, run here on this tree: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-survivor-set returns PASS_COMPLETE, 10/30 written, all nine zero, both before and after. IT RETURNED ALL NINE ZEROS BEFORE THE REPAIR TOO, on bytes that carried nine synthesized outlines including three on the judge's ordering boxes - every counter it reads is a glyph or field counter and this defect draws no glyph. So the two counters that move above, protectedWrites 3 to 0 and visualDefects 9 to 0, are NOT the verifier's. They are VF01's independent readings of the delivered bytes, and this row re-measures the same two quantities on the repaired bytes by the same two methods. A green counter set is not the evidence for this row; the control readings are.",
+   "countersMeasuredBy": "protectedWrites and visualDefects: (1) stroke-only flattened form XObjects counted in the delivered PDF bytes with pikepdf, each compared by SHA-256 of its raw stream against every /AP /N stream in both pinned sources; (2) pdftoppm at 150 dpi, per page, differenced against the pinned source page that page claims, splitting added dark pixels by whether they fall inside a declared write rect. The other seven: the shared completeness verifier.",
+   "controlReadings": {
+    "whyAControlReading": "The brief's instruction was not to certify a decrease. Both readings below name what ink is left and where it came from, and the appearance reading names the source stream every remaining appearance matches.",
+    "strokeOnlyFlattenedAppearances": {
+     "method": "pikepdf: every /Subtype /Form XObject in each delivered page's /Resources /XObject, classified as stroke-only when it carries a path-painting operator (S s f F f* B B* b b*) and no text-showing operator (Tj TJ ' \"). Each is hashed and looked up against a table of every /AP /N, /D and /R stream in cr-307-pikepdf-unlocked.pdf and cr-308-pikepdf-unlocked.pdf.",
+     "before": {
+      "measuredOn": "the bytes at HEAD 181ac2ece, canonical 0ee66d97... and boundary 84d03dd8...",
+      "flattenedFormXObjects": 29,
+      "strokeOnly": 9,
+      "strokeOnlyMatchingASourceApStream": 0,
+      "detail": "Nine per fixture on both fixtures: three on packet page 1 (CR-307's court-for-filing boxes) and six on packet page 2 (CR-308's three court boxes and all three GRANTED / GRANTED / DENIED ordering boxes). Each stream is a bare rectangle outline the size of the widget /Rect - `q 0 0 0 RG 0 w [] 0 d ... 0 0 m 0 h l w h l w 0 l h S Q`. NONE of the nine matched any /AP /N stream in either pinned source. This reproduces VF01's count exactly."
+     },
+     "after": {
+      "flattenedFormXObjects": 29,
+      "strokeOnly": 0,
+      "strokeOnlyMatchingASourceApStream": 0,
+      "whatIsLeftAndWhatItIs": "ZERO stroke-only appearances remain, so there is no remaining stroke-only appearance to match to a source stream - the Maryland acceptance test is met vacuously rather than by matching. The 29 flattened XObjects per fixture are now: 19 text-field appearances each byte-identical to the source's own `/Tx BMC \\nEMC\\n` (13 bytes, no ink, matched against the source /AP /N table); 9 EMPTY streams of zero bytes, one at each check box, installed by suppressSynthesizedSelectionAppearances for the /Off state the source omits - an empty stream paints nothing, which is what ISO 32000-1 12.5.5 says a conforming viewer draws at a widget whose /AS state is absent from /AP /N; and 1 appearance of 363 bytes on CR-307 page 1, a text widget whose stream draws a clip path (h h, W n) and shows an EMPTY string (`<> Tj`) - no paint operator, no glyph, zero ink. Checked against the pixel reading below, which finds nothing added anywhere outside the ten declared write rects."
+     }
+    },
+    "pixelDifferenceAgainstThePinnedSources": {
+     "method": "pdftoppm -r 150 -gray per page for the delivered packet and for the source page that page claims, converted to 8-bit grey, compared pixel for pixel. A delivered pixel more than 24 levels darker than its source pixel is added ink; more than 24 levels lighter is removed ink. Added pixels are split by whether they fall inside a declared write rect from reports/actual-writes.json, expanded 1pt for antialiasing.",
+     "pageMap": "packet page 1 = CR-307 page 1; packet page 2 = CR-308 page 1; packet page 3 = CR-308 page 2.",
+     "before": {
+      "canonical": {
+       "addedInsideDeclaredWriteRects": 10135,
+       "addedOutsideEveryDeclaredWriteRect": 469,
+       "removed": 0,
+       "perPageOutside": {
+        "1": 193,
+        "2": 276,
+        "3": 0
+       }
+      },
+      "boundary": {
+       "addedInsideDeclaredWriteRects": 15558,
+       "addedOutsideEveryDeclaredWriteRect": 469,
+       "removed": 0,
+       "perPageOutside": {
+        "1": 193,
+        "2": 276,
+        "3": 0
+       }
+      },
+      "note": "VF01 measured 445 outside at 110 dpi; 469 at 150 dpi is the same nine outlines counted at a higher resolution, not a different defect. The distribution is the same: three boxes on page 1, six on page 2, nothing on page 3."
+     },
+     "after": {
+      "canonical": {
+       "addedInsideDeclaredWriteRects": 10135,
+       "addedOutsideEveryDeclaredWriteRect": 0,
+       "removed": 0,
+       "perPageOutside": {
+        "1": 0,
+        "2": 0,
+        "3": 0
+       }
+      },
+      "boundary": {
+       "addedInsideDeclaredWriteRects": 15558,
+       "addedOutsideEveryDeclaredWriteRect": 0,
+       "removed": 0,
+       "perPageOutside": {
+        "1": 0,
+        "2": 0,
+        "3": 0
+       }
+      },
+      "note": "Added ink inside the declared write rects is UNCHANGED to the pixel on both fixtures, which is the check that the repair removed only the invented outlines and touched none of the ten values. Removed pixels are 0 on every page, so nothing the Maine Judicial Branch printed was erased. Page 3 remains pixel-identical to CR-308 page 2."
+     }
+    },
+    "participantCopyCarriage": {
+     "method": "exact substring test of each controlling-record string against the delivered participant-instructions.md and filing-instructions.md, plus the case-insensitive keyword search VF01 used.",
+     "selfHelpStopConditionsCarriedVerbatim": "7 of 7, all in participant-instructions.md",
+     "scopeRestrictionsCarriedVerbatim": "2 of 2",
+     "requiredBeforeFilingStringsCarriedVerbatim": "11 of 11",
+     "obtainDocumentDescriptionsCarriedVerbatim": "3 of 3, plus the confirm_answer action",
+     "keywordsVF01FoundAbsent": {
+      "advocate": 9,
+      "legal-aid": 3,
+      "victim services": 1,
+      "victim-services": 3,
+      "referral": 4,
+      "assess": 6,
+      "immigration": 12,
+      "State Bureau of Identification": 1,
+      "certified": 4,
+      "docket record": 3,
+      "documentation": 12,
+      "affidavit": 2,
+      "presumption": 4,
+      "courtroom": 2,
+      "note": "counts are OCCURRENCES across both guides, case-insensitive, and every one of these was 0 in both guides before the repair. `legal aid` unhyphenated is 0 because the record's own wording is `legal-aid`, which is what is carried verbatim."
+     },
+     "terminologyRuleStillHeld": "the words `expungement` and `expunge` occur 0 times in either guide. The Maine record's rule is `Never use 'expungement' in Maine participant copy`, and VF01's ROUTE_IDENTITY PASS rested on it, so it was re-checked after the new copy was added."
+    }
+   },
+   "whatWasWrong": {
+    "clippingAndOverlapAndProtectedFields": "One cause, two obligations. Every check box on CR-307 and CR-308 carries /AS /Off with an /AP /N dictionary holding an /On entry and NO /Off entry, and /MK << /CA (8) >> with no /BC. pdf-lib's PDFCheckBox.needsAppearancesUpdate() is true on exactly that condition, so form.updateFieldAppearances() invented an appearance from its default provider - a stroked square the size of the widget /Rect - and flatten() stamped it onto the page. Under ISO 32000-1 12.5.5 a conforming viewer paints nothing at such a widget, so the square was ink this build added and not ink the Maine Judicial Branch authored, landing as a doubled ring around the box the form already prints. Three of the nine sat on CR-308's GRANTED / GRANTED / DENIED ordering boxes, which the build's own reports/blanks.json refuses as `an ordering box on the order the judge signs` and participant-instructions.md tells the participant belong to the judge - so the same synthesis was the PROTECTED_FIELDS failure as well.",
+    "whyNoCounterSawIt": "It draws no glyph, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes read 0 honestly while the page was wrong, and it grows the ink extent about 0.6pt, so a bounding-box test could not see it either. The shared completeness verifier returned all nine zeros on the defective bytes.",
+    "selfHelpStop": "The most sensitive route in the sprint carried almost none of the boundary its own record states. None of the track record's seven selfHelpStopConditions reached participant copy verbatim and only one reached it in substance. Neither scopeRestriction appeared. The State Bureau of Identification dissemination instruction did not appear. No durability statement appeared at all - while CR-308 page 2 prints the extinguishment warning verbatim in the delivered packet, so a survivor read the form's warning as the law. And filing-instructions.md affirmatively pointed the participant at the consent route (`CR-308's first ordering box is the no-hearing route`) without saying that choosing it is on the record's own stop list.",
+    "requiredBeforeFiling": "The four form blanks classed required-before-filing were disclosed properly; the record's participant-action list was not. The certified judgment and docket record, the § 2264(4-A) documentation and the professional affidavit were named nowhere, and the words certified, docket record, documentation, affidavit, presumption and courtroom were absent from participant copy."
+   },
+   "whatWasDone": {
+    "one": "scripts/build-census-v1-me-seal-survivor-set.mjs now calls the shared finalizer with suppressSynthesizedAppearances: true - `sanitizeAndFlatten(pdf, { writtenFields: new Set(), suppressSynthesizedAppearances: true })`. That is the flag behind suppressSynthesizedSelectionAppearances in scripts/rcap-official-forms/rcap-active-content.mjs, the same helper md_pardon_expungement-set uses and the same mechanism its confirmed repair rests on. It installs an EMPTY appearance for the state the source omits, so needsAppearancesUpdate() is false, pdf-lib regenerates nothing and the flatten stamps a stream that paints nothing. THE SHARED MODULE WAS NOT MODIFIED and no copy of it was made, so no other family's next rebuild is changed by this. writtenFields stays empty because this build marks no box, so no mark can be suppressed by it.",
+    "two": "participant-instructions.md and filing-instructions.md are now GENERATED from the two controlling records rather than hand-written. The builder reads data/record-clearing/legal-design-track-registry.json (track me-seal-survivor) and data/record-clearing/legal-design-packet-set-manifests.json (packetSet me-seal-survivor-set), hashes both, and records the digests in build-findings.json under participantBoundaryCopy.generatedFrom. All seven stop conditions, both scope restrictions, all eleven requiredBeforeFiling strings and all three obtain_document descriptions are carried VERBATIM. Each of the three legalDesignLimitations the guide quotes is located by its own recorded words, not by index, and the build STOPS if a record no longer carries exactly one limitation saying it - so the guide cannot silently quote a substituted instruction.",
+    "three": "The durability conflict is stated rather than papered over. The guide gives the record's statutory rule (`There is no self-reporting duty on this track and a later conviction does not unseal a § 2262-B record`), then quotes CR-308's page-2 warning AS THE FORM'S OWN PRINTED WORDS - lifted at build time out of CR-308's printed word boxes, not transcribed - says in terms that the two do not agree and that the disagreement is recorded and unresolved, and names the open gate and both of its items. It does not repeat the warning as advice and does not tell the participant the form is wrong.",
+    "four": "filing-instructions.md no longer points at the consent route without its boundary. The no-hearing sentence is followed by the record's own stop condition on seeking the State's consent, and the section says describing what the box is is not advice to ask for consent. A new section carries the immigration stop condition, and the hearing section names the hearing date, time and courtroom the manifest requires.",
+    "five": "product-wiring.json regained paymentEligible false, sponsorshipEligible false, whyPaymentIsClosed and maintenanceRelationship, which existed in the committed record but were not emitted by the builder and would otherwise have been dropped by this rebuild. The stale acceptanceReceipt was NOT carried forward, deliberately: it binds canonical 0ee66d97..., which these bytes no longer are.",
+    "notDone": "Nothing VF01 found sound was touched. Source identity is unchanged - both bound digests are still the encrypted official binaries, CR-308 b2e78f24... at 162,514 bytes, and the receipt still records the pikepdf derivatives separately with their own digests. The build still reports that the recovered CR-308 does not satisfy the warning gate. The CR-308 findings-of-fact /AP /N dict without /Subtype is still left as the source's own and carried to the raster gate. No box is marked on either form; routeSelectionsMade is still 0."
+   },
+   "recordsThatDisagree": [
+    {
+     "about": "how many components this family owes",
+     "recordA": "legal-design-packet-set-manifests.json packetSets[me-seal-survivor-set]: three components, CR-307, CR-308 and an instructions component (process_guidance, required, order 3)",
+     "recordB": "MASTER_QUEUE.json families[me-seal-survivor-set].packetComponents: two entries, and product-wiring.json's binding.packetComponents is generated from the builder's SOURCES, so it carries the same two",
+     "measuredHere": "all three are delivered - CR-307 as packet page 1, CR-308 as pages 2-3, and the instructions component as participant-instructions.md with filing-instructions.md - so requiredComponentsMissing is 0 either way. Confirming VF01's cross-check rather than resolving it; this lane holds no grant over MASTER_QUEUE."
+    },
+    {
+     "about": "whether the delivered bytes were ever rastered",
+     "recordA": "product-wiring.json at HEAD 181ac2ece carried acceptanceReceipt RASTER_PASS bound to canonical 0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+     "recordB": "VF01 at 7d6453f51 recorded FAIL_REPAIR_REQUIRED against those same bytes",
+     "measuredHere": "both were true of the same bytes at once. The raster was admitted against a packet carrying nine synthesized outlines, three of them on the judge's ordering boxes, because the raster gate does not difference against the pinned source. Those bytes no longer exist here; the receipt is not carried forward and this family needs a fresh central raster."
+    }
+   ],
+   "artifacts": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256BeforeRepair": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+     "sha256": "8c68fd472c6ecbf05e880299e4eeb9d1d6360739e99568040bc623c719f661b3",
+     "byteLength": 322162,
+     "pageCount": 3,
+     "addedGlyphsReadFromOutputBytes": 140,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256BeforeRepair": "84d03dd83fa56368c2de6b3cd48fff764e18f88d3a0724a2321a6588d7e44f62",
+     "sha256": "b1f0e96409895339eba19a4ec5c563f01cec34b5cd8696993cce578f6840eb88",
+     "byteLength": 322372,
+     "pageCount": 3,
+     "addedGlyphsReadFromOutputBytes": 336,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    "digestsTakenWith": "sha256sum on the committed files, and crypto.createHash in the builder's own return. Neither is transcribed.",
+    "boundSources": [
+     {
+      "sourceId": "official-form:CR-307",
+      "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+      "byteLength": 175213
+     },
+     {
+      "sourceId": "official-form:CR-308",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "byteLength": 162514
+     }
+    ],
+    "determinism": "the builder was run four times across the repair; every run reproduced the fixture digests of the run before it, and a run at HEAD before any edit reproduced 0ee66d97... and 84d03dd8... exactly. Every byte that moved is attributable to an edit made here."
+   },
+   "filesChanged": [
+    "scripts/build-census-v1-me-seal-survivor-set.mjs",
+    "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/ (regenerated: fixtures, both guides, field census, field map, reports, findings, receipts, wiring, status)"
+   ],
+   "sharedArtifactsTouched": "none. scripts/rcap-official-forms/rcap-active-content.mjs was READ and CALLED but not modified, so no other family's next rebuild is changed by this row. No central manifest, no MASTER_QUEUE row, no claim ledger entry and no other family's directory was written.",
+   "verdictSet": null,
+   "packetsSelfVerified": 0,
+   "productionTouched": false,
+   "claimReleased": false,
+   "commit": null
+  }
+ ]
+}

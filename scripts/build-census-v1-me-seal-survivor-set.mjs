@@ -159,6 +159,29 @@ const OUT = "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--officia
 const BUILD_SCRIPT = "scripts/build-census-v1-me-seal-survivor-set.mjs";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const ROUTE_CONTRACT = "src/lib/legal-authority/routes/national-report-batch-b.json";
+/*
+ * FIX01, SELF_HELP_STOP and REQUIRED_BEFORE_FILING. THE TWO CONTROLLING
+ * RECORDS THE PARTICIPANT COPY IS GENERATED FROM.
+ *
+ * VF01 measured, at 7d6453f51, that none of the track record's seven
+ * selfHelpStopConditions reached participant copy verbatim and only one reached
+ * it in substance; that neither scopeRestriction, the State Bureau of
+ * Identification dissemination instruction and the durability rule were present
+ * at all; and that most of the packet-set manifest's participant-action list
+ * was absent -- the words certified, docket record, documentation, affidavit,
+ * presumption, courtroom, advocate, legal aid, victim services, referral, assess
+ * and immigration appeared nowhere in either guide.
+ *
+ * The repair is not to write that copy by hand. Both records are read here, hashed,
+ * and the guide's boundary and participant-action sections are GENERATED from
+ * them, so the copy cannot drift from the record and the digest in
+ * build-findings.json says which bytes it was generated from. Every stop
+ * condition, scope restriction and required-before-filing string is carried
+ * VERBATIM; nothing is paraphrased, summarised or dropped.
+ */
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_ID = "me-seal-survivor";
 
 const SOURCES = Object.freeze([
   {
@@ -629,7 +652,43 @@ async function renderForm({ document, census, facts }) {
     overlayWrites.push({ field, decision, value });
   }
 
-  const { clean } = await sanitizeAndFlatten(pdf, { writtenFields: new Set() });
+  /*
+   * FIX01, CLIPPING_AND_OVERLAP and PROTECTED_FIELDS. A BORDER NEITHER MAINE
+   * FORM PRINTS.
+   *
+   * Every check box on CR-307 and CR-308 carries /AS /Off with an /AP /N
+   * dictionary that holds an /On entry and NO /Off entry, and /MK << /CA (8) >>
+   * with no /BC. pdf-lib's PDFCheckBox.needsAppearancesUpdate() is true on
+   * exactly that condition, so updateFieldAppearances() invents an appearance
+   * from its default provider -- a stroked square the size of the widget /Rect
+   * -- and flatten() stamps it onto the page. Under ISO 32000-1 12.5.5 a
+   * conforming viewer paints NOTHING at a widget whose /AS state is absent from
+   * /AP /N, so the square is ink this build adds rather than ink the Maine
+   * Judicial Branch authored, and it lands around the box the form already
+   * prints.
+   *
+   * VF01 measured it on the delivered bytes at 7d6453f51: nine stroke-only
+   * flattened appearances per fixture, none of them matching any /AP /N stream
+   * in either pinned source, and 445 added pixels per fixture outside every
+   * declared write rect with every one of them inside a check-box rect. Three
+   * of the nine sit on CR-308's GRANTED / GRANTED / DENIED ordering boxes,
+   * which this build expressly refuses as the judge's -- so the same synthesis
+   * is also the PROTECTED_FIELDS failure, and one repair answers both.
+   *
+   * It draws no glyph, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0
+   * honestly while the page is wrong, and the ink extent grows about 0.6pt so a
+   * bounding-box test cannot see it either.
+   *
+   * suppressSynthesizedAppearances installs an EMPTY appearance for the missing
+   * state, which is what the source's own silence means; needsAppearancesUpdate()
+   * is then false, pdf-lib regenerates nothing and the flatten stamps a stream
+   * that paints nothing. This build marks no box, so writtenFields is empty and
+   * no mark can be suppressed by it. It is the same helper, called in the same
+   * position, that md_pardon_expungement-set uses -- imported through the shared
+   * finalizer rather than reimplemented, so the two cannot drift apart.
+   */
+  const { clean, report: finalizerReport } = await sanitizeAndFlatten(pdf,
+    { writtenFields: new Set(), suppressSynthesizedAppearances: true });
   const font = await clean.embedFont(StandardFonts.Helvetica);
   for (const { field, decision, value } of overlayWrites) {
     const widget = field.widgets[0];
@@ -661,6 +720,14 @@ async function renderForm({ document, census, facts }) {
   if (!active.inspectable) fail(`${document.formNumber}: the produced artifact is not byte-inspectable`);
   if (active.hits.length > 0) fail(`${document.formNumber}: active-content residue remains`, active.hits.join(", "));
   report.activeContentScan = active;
+  /* What the suppression actually did on THIS document, carried out of the
+   * render so build-findings.json can state it per form rather than assert it
+   * in prose. `installed` is one entry per widget that had no stream for its
+   * own /AS state and was given an empty one; `skippedStateAlreadyDrawn` is a
+   * widget whose source ships its own appearance for that state, which is
+   * reproduced untouched. */
+  report.synthesizedSelectionAppearancesSuppressed =
+    finalizerReport?.synthesizedSelectionAppearancesSuppressed ?? null;
   return { bytes, report };
 }
 
@@ -816,7 +883,63 @@ function proofFor({ document, census, report, added, addedRuns, font }) {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, supplyRows, electionRows, protectRows }) {
+/*
+ * The controlling participant-boundary record, read and hashed rather than
+ * restated. A missing field is a full stop: this build will not publish a guide
+ * that silently drops a stop condition because the record moved under it.
+ */
+function readParticipantBoundaryRecord() {
+  const registryBytes = fs.readFileSync(absFor(TRACK_REGISTRY));
+  const manifestBytes = fs.readFileSync(absFor(PACKET_SET_MANIFESTS));
+  const registry = JSON.parse(registryBytes.toString("utf8"));
+  const manifests = JSON.parse(manifestBytes.toString("utf8"));
+  const track = (registry.tracks ?? []).find((row) => row.trackId === TRACK_ID);
+  if (!track) fail("the committed track registry no longer carries this family's track", TRACK_ID);
+  const packetSet = (manifests.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  if (!packetSet) fail("the committed packet-set manifests no longer carry this family", FAMILY_ID);
+
+  const stopConditions = track.selfHelpStopConditions ?? [];
+  const scopeRestrictions = track.scopeRestrictions ?? [];
+  if (stopConditions.length === 0) fail("the track record carries no selfHelpStopConditions to publish");
+  if (scopeRestrictions.length === 0) fail("the track record carries no scopeRestrictions to publish");
+
+  /* Two packet_instruction limitations this guide is required to carry in
+   * terms. Each is located by its own recorded statement rather than by index,
+   * so a reordered record cannot silently substitute a different instruction. */
+  const limitationSaying = (needle) => {
+    const found = (track.legalDesignLimitations ?? [])
+      .filter((row) => typeof row.statement === "string" && row.statement.includes(needle));
+    if (found.length !== 1) {
+      fail("the track record no longer carries exactly one limitation stating this, so the guide cannot quote it",
+        `${JSON.stringify(needle)} matched ${found.length}`);
+    }
+    return found[0];
+  };
+  const disseminationLimitation = limitationSaying("State Bureau of Identification");
+  const durabilityLimitation = limitationSaying("a later conviction does not unseal");
+  const documentationLimitation = limitationSaying("§ 2264(4-A)(B)");
+
+  const requiredBeforeFiling = packetSet.requiredBeforeFiling ?? [];
+  if (requiredBeforeFiling.length === 0) fail("the packet-set manifest carries no requiredBeforeFiling list");
+  const obtainDocuments = (packetSet.participantActionRequired ?? [])
+    .filter((row) => row.kind === "obtain_document");
+  const confirmAnswers = (packetSet.participantActionRequired ?? [])
+    .filter((row) => row.kind === "confirm_answer");
+  if (obtainDocuments.length === 0) fail("the packet-set manifest carries no obtain_document actions");
+
+  return {
+    track, packetSet, stopConditions, scopeRestrictions,
+    disseminationLimitation, durabilityLimitation, documentationLimitation,
+    requiredBeforeFiling, obtainDocuments, confirmAnswers,
+    digests: {
+      trackRegistry: { path: TRACK_REGISTRY, sha256: sha256(registryBytes) },
+      packetSetManifests: { path: PACKET_SET_MANIFESTS, sha256: sha256(manifestBytes) }
+    }
+  };
+}
+
+function renderParticipantInstructions({ documents, supplyRows, electionRows, protectRows, boundary,
+  warningGate, warningStillPrinted, cr308WarningPrintedText }) {
   const lines = [];
   lines.push("# Your Maine survivor sealing packet");
   lines.push("");
@@ -831,6 +954,67 @@ function renderParticipantInstructions({ documents, supplyRows, electionRows, pr
       + `${doc.role === "court_order" ? "This is the order the judge signs. Only its caption is filled in." : "This is the motion you sign and file."}`);
   }
   lines.push("");
+  lines.push("## Before this packet is used at all");
+  lines.push("");
+  lines.push("The committed legal-design record for this track sets a boundary on what an automated service");
+  lines.push("may do here, and the first line of it is that this track is not self-help. The record's own");
+  lines.push("words, carried here in full and unchanged:");
+  lines.push("");
+  for (const condition of boundary.stopConditions) lines.push(`> ${condition}`, ">");
+  lines.pop();
+  lines.push("");
+  lines.push("Some of those sentences are written to the people who build and operate this service rather");
+  lines.push("than to you. They are printed here unchanged so that you can see the limits the service is");
+  lines.push("under, and so that nothing in this packet reads as advice it is not.");
+  lines.push("");
+  lines.push("The same record restricts when this track may be opened at all:");
+  lines.push("");
+  for (const restriction of boundary.scopeRestrictions) lines.push(`> ${restriction}`, ">");
+  lines.pop();
+  lines.push("");
+  lines.push("An attorney, legal-aid provider or qualified victim-services advocate must assess your case");
+  lines.push("before a packet is prepared, and a named referral partner must be in place before this track is");
+  lines.push("opened. If you are reading this without that assessment and that referral, this packet is not");
+  lines.push("ready to be used. LegalEase does not assess your case, does not decide what documentation to");
+  lines.push("present, and does not decide whether to ask the State to consent.");
+  lines.push("");
+  lines.push("## What sealing does, and what it does not do");
+  lines.push("");
+  lines.push("Sealing restricts what criminal justice agencies may disseminate and what appears on a State");
+  lines.push("Bureau of Identification background check. It does not make the court case disappear, and");
+  lines.push("nothing in this packet says or implies that it does. Maine seals records; it does not");
+  lines.push("erase them.");
+  lines.push("");
+  lines.push("That is a requirement of the committed record, not a summary of it. The record states:");
+  lines.push("");
+  lines.push(`> ${boundary.disseminationLimitation.statement}`);
+  lines.push("");
+  lines.push("## Whether a later conviction can undo this");
+  lines.push("");
+  lines.push(`> ${boundary.durabilityLimitation.statement}`);
+  lines.push("");
+  if (warningStillPrinted) {
+    lines.push("Read that against the form in your hand. CR-308 page 2 prints, in a box of its own:");
+    lines.push("");
+    lines.push(`> ${cr308WarningPrintedText}`);
+    lines.push("");
+    lines.push("Those two things do not agree, and the disagreement is recorded and unresolved. The committed");
+    lines.push("record's position is that 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513 governs and does");
+    lines.push("not apply to § 2262-B records, so the statutory rule is the one quoted above. What a Maine");
+    lines.push("court actually does about the printed warning is not settled in the committed record. This");
+    lines.push("packet does not repeat the form's warning as advice and does not tell you it is wrong. Ask your");
+    lines.push("lawyer or advocate before you rely on either sentence.");
+    lines.push("");
+    if (warningGate) {
+      lines.push(`This is an open question on the record, not an oversight: gate \`${warningGate.id}\` is`);
+      lines.push("pending and asks for");
+      lines.push("");
+      for (const item of warningGate.items ?? []) lines.push(`- ${item}`);
+      lines.push("");
+      lines.push("Until it closes, this packet is a review artifact and is not delivered to a participant.");
+      lines.push("");
+    }
+  }
   lines.push("## What signing the motion says");
   lines.push("");
   lines.push("CR-307 item 2 is printed on the form with no box to fill. It reads:");
@@ -843,7 +1027,36 @@ function renderParticipantInstructions({ documents, supplyRows, electionRows, pr
   lines.push("");
   lines.push("## You must supply these before you file");
   lines.push("");
+  lines.push("These are the blanks on the forms themselves that this packet leaves for you:");
+  lines.push("");
   for (const row of supplyRows) lines.push(`- **${row.form} — ${row.effectiveLabel}.** ${row.what}.`);
+  lines.push("");
+  lines.push("And this is the packet-set record's own required-before-filing list, carried in full and");
+  lines.push("unchanged. Some of its entries record that nothing is required rather than asking you for");
+  lines.push("something; they are printed as the record has them so that nothing is quietly dropped:");
+  lines.push("");
+  for (const item of boundary.requiredBeforeFiling) lines.push(`- ${item}`);
+  lines.push("");
+  lines.push("## Documents to gather");
+  lines.push("");
+  lines.push("The packet-set record names these, and each entry below is the record's own description:");
+  lines.push("");
+  for (const action of boundary.obtainDocuments) {
+    lines.push(`- ${action.description}`);
+    if (action.obtainedFrom) lines.push(`  Obtained from: ${action.obtainedFrom}.`);
+    if (action.conditionDescription) lines.push(`  ${action.conditionDescription}`);
+  }
+  for (const action of boundary.confirmAnswers) {
+    lines.push(`- ${action.description}`);
+    if (action.conditionDescription) lines.push(`  ${action.conditionDescription}`);
+  }
+  lines.push("");
+  lines.push("On documentation of victim status in particular, the record says:");
+  lines.push("");
+  lines.push(`> ${boundary.documentationLimitation.statement}`);
+  lines.push("");
+  lines.push("Whether to present any of it, and whether to rely on the § 2264(4-A)(B) presumption, is a");
+  lines.push("decision for your lawyer or advocate and not one this packet makes or asks you to make.");
   lines.push("");
   lines.push("## Choices only you can make");
   lines.push("");
@@ -866,7 +1079,21 @@ function renderParticipantInstructions({ documents, supplyRows, electionRows, pr
   return `${lines.join("\n")}\n`;
 }
 
-function renderFilingInstructions() {
+function renderFilingInstructions({ boundary }) {
+  /* Each of the three is located by its own recorded words rather than by
+   * position, so a reordered record cannot silently substitute a different
+   * boundary for the one this section is about. */
+  const stopSaying = (needle) => {
+    const found = boundary.stopConditions.filter((row) => row.includes(needle));
+    if (found.length !== 1) {
+      fail("the track record no longer carries exactly one stop condition stating this",
+        `${JSON.stringify(needle)} matched ${found.length}`);
+    }
+    return found[0];
+  };
+  const consentStop = stopSaying("whether to seek the State's consent");
+  const opposeStop = stopSaying("The State opposes");
+  const immigrationStop = stopSaying("immigration-adjacent");
   const lines = [];
   lines.push("# Filing your Maine survivor sealing motion");
   lines.push("");
@@ -895,8 +1122,26 @@ function renderFilingInstructions() {
   lines.push("§ 2262-B the court may grant the motion without a hearing where the State consents. CR-308's");
   lines.push("first ordering box is the no-hearing route.");
   lines.push("");
+  lines.push("**Whether to take that route is not a choice this packet makes for you or recommends to you.**");
+  lines.push("The committed record puts it on the list of things automated assistance stops at:");
+  lines.push("");
+  lines.push(`> ${consentStop}`);
+  lines.push("");
+  lines.push("Describing what the box is is not advice to ask for consent. Ask your lawyer or advocate.");
+  lines.push("");
+  lines.push("Where a hearing is set, you will need the hearing date, time and courtroom. The court gives you");
+  lines.push("those; this packet does not know them and states none.");
+  lines.push("");
   lines.push("If the State opposes, or the court sets a contested hearing, automated assistance ends and you");
-  lines.push("need a lawyer.");
+  lines.push("need a lawyer. That sentence is the record's, in full:");
+  lines.push("");
+  lines.push(`> ${opposeStop}`);
+  lines.push("");
+  lines.push("## If you have an immigration matter");
+  lines.push("");
+  lines.push(`> ${immigrationStop}`);
+  lines.push("");
+  lines.push("Raise it with your lawyer or advocate before you file. This packet does not advise on it.");
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -914,6 +1159,11 @@ async function build({ check = false } = {}) {
   const gates = route.deliveryGates ?? [];
   const warningGate = gates.find((gate) => gate.id === "me_2264_7_cr308_warning_conflict") ?? null;
   if (!warningGate) fail("the route contract no longer carries the CR-308 warning gate this build reports on");
+
+  /* The participant-boundary record, read and hashed before anything is
+   * rendered. The guide's boundary and participant-action sections are
+   * generated from these bytes and from nothing else. */
+  const boundary = readParticipantBoundaryRecord();
 
   const derivedDir = absFor(`${OUT}/derived-sources`);
   const bridge = runBridge(sources.map((source) => ({
@@ -933,6 +1183,23 @@ async function build({ check = false } = {}) {
   const cr308Words = bridge.forms["CR-308"].printedWords;
   const cr308Text = cr308Words.map((word) => word.text).join(" ").replace(/\s+/g, " ");
   const warningStillPrinted = cr308Text.toLowerCase().includes(CR308_WARNING.toLowerCase());
+  /*
+   * The warning sentence AS PRINTED, lifted out of CR-308's own word boxes so
+   * the guide quotes the form rather than a transcription of it. A quotation the
+   * build could not lift is not printed at all: renderParticipantInstructions
+   * only reaches the quote when warningStillPrinted is true, and this stops the
+   * build if the sentence is there but cannot be delimited.
+   */
+  let cr308WarningPrintedText = null;
+  if (warningStillPrinted) {
+    const start = cr308Text.search(/WARNING:/i);
+    const end = cr308Text.toLowerCase().indexOf(CR308_WARNING.toLowerCase());
+    if (start < 0 || end < start) {
+      fail("CR-308 prints the warning this packet discloses but the sentence could not be delimited");
+    }
+    cr308WarningPrintedText = cr308Text.slice(start, end + CR308_WARNING.length).trim()
+      .replace(/[.\s]*$/, "") + ".";
+  }
   const cr307Text = bridge.forms["CR-307"].printedWords.map((word) => word.text).join(" ").replace(/\s+/g, " ");
   if (!cr307Text.includes("substantial result of sex trafficking or sexual exploitation")) {
     fail("CR-307 no longer prints the item 2 averment this packet discloses");
@@ -1069,8 +1336,9 @@ async function build({ check = false } = {}) {
   const offRouteRows = rowsOf((row) => row.approvedDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE");
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ documents, supplyRows, electionRows, protectRows }));
-  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions());
+    renderParticipantInstructions({ documents, supplyRows, electionRows, protectRows, boundary,
+      warningGate, warningStillPrinted, cr308WarningPrintedText }));
+  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions({ boundary }));
 
   const withheldFor = (document) => document.census.fields
     .map((field) => ({ field, decision: DECISIONS[document.formNumber][field.name] }))
@@ -1315,6 +1583,37 @@ async function build({ check = false } = {}) {
         + "The gate's first item is unmet on both limbs, and its second item — what the court actually does "
         + "when a survivor is later convicted of a new crime — has no record at all."
     },
+    participantBoundaryCopy: {
+      whatThisIs: "the FIX01 repair of SELF_HELP_STOP and REQUIRED_BEFORE_FILING. The guide's boundary and "
+        + "participant-action sections are GENERATED from the two records named below and bound to their "
+        + "digests, so the copy cannot drift from the record and a reader can check which bytes it came from.",
+      generatedFrom: boundary.digests,
+      trackId: TRACK_ID, packetSetId: boundary.packetSet.packetSetId,
+      carriedVerbatimIntoParticipantInstructions: {
+        selfHelpStopConditions: boundary.stopConditions.length,
+        scopeRestrictions: boundary.scopeRestrictions.length,
+        requiredBeforeFilingStrings: boundary.requiredBeforeFiling.length,
+        obtainDocumentActions: boundary.obtainDocuments.length,
+        confirmAnswerActions: boundary.confirmAnswers.length,
+        legalDesignLimitationsQuoted: [
+          boundary.disseminationLimitation.statement,
+          boundary.durabilityLimitation.statement,
+          boundary.documentationLimitation.statement
+        ]
+      },
+      whatWasMissingBefore: "VF01 measured at 7d6453f51 that none of the seven stop conditions reached "
+        + "participant copy verbatim and only one reached it in substance; that neither scope restriction, "
+        + "the State Bureau of Identification dissemination instruction and the durability rule appeared at "
+        + "all; and that most of the packet-set record's participant-action list was absent. The words "
+        + "advocate, legal aid, victim services, referral, assess, immigration, certified, docket record, "
+        + "documentation, affidavit, presumption and courtroom appeared nowhere in either guide.",
+      howTheDurabilityConflictIsHandled: "the guide states the record's statutory rule, quotes CR-308's "
+        + "page-2 warning as the form's own printed words rather than as advice, says in terms that the two "
+        + "do not agree and that the disagreement is unresolved, and names the open gate. It does not tell "
+        + "the participant the form is wrong and does not repeat the warning as advice.",
+      terminology: "the words expungement and expunge appear nowhere in either guide, which is the Maine "
+        + "terminology rule the track record states."
+    },
     observations: [
       "Both binaries are AES-256 encrypted against modification with an empty user password. They are read "
         + "and rendered through a deterministic pikepdf-unlocked derivative, proved equivalent to the exact "
@@ -1362,6 +1661,18 @@ async function build({ check = false } = {}) {
       sourceReceipt: `${OUT}/source-receipt.json`,
       sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256,
         tier: "exact_content_hash" })),
+      paymentEligible: false,
+      sponsorshipEligible: false,
+      whyPaymentIsClosed: "Commercial authority comes from a Grade-A fulfillment record keyed to an exact "
+        + "route and packet family, and from nothing else. This binding is not that record, and nothing in "
+        + "this repository has produced one.",
+      maintenanceRelationship: {
+        rebuiltFrom: BUILD_SCRIPT,
+        sharedBuildHost: null,
+        reRasterRequiredWhen: "any fixture byte moves; an acceptance receipt binds exact hashes and refuses "
+          + "a packet nobody rendered",
+        reVerificationRequiredWhen: "the packet bytes, its bound source, or its legal treatment changes"
+      },
       declaredInstrumentKindMismatch: {
         queueDeclares: ["Maine § 2264(7) Survivor Sealing Motion"],
         measured: "MASTER_QUEUE's instrumentKinds for this family holds the packet-family LABEL rather than "
