@@ -250,10 +250,183 @@
     "buildReproducibilityWhyNull": "The builder could not be executed in this container; see THE_BUILD_COULD_NOT_BE_RUN_IN_THIS_CONTAINER."
    },
    "selfVerified": false
+  },
+  {
+   "familyId": "ma-expunge-k-set",
+   "itemId": "ma-expunge-k-set",
+   "jurisdiction": "MA",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verdictIsTERMINALONTHISLANESWORD": "Yes, on the raster limb: this family owes no fresh central raster and this lane verified that binding itself rather than adopting it. It remains true that no person has looked at a page of it, so visualDefects stays null here as it does everywhere.",
+   "verifiedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+   "priorVerdicts": {
+    "VF55": "FAIL_REPAIR_REQUIRED on SELF_HELP_STOP; fourteen other obligations PASS.",
+    "FIX162": "REPAIRED_PENDING_INDEPENDENT_REVERIFICATION."
+   },
+   "theFIX162REPAIRHOLDS": "Yes, on every limb, and it moved no PDF byte.",
+   "deliveredDigestsHashedByThisLane": {
+    "fixtures/canonical.pdf": "084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea",
+    "fixtures/boundary.pdf": "6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832"
+   },
+   "bytesMoved": false,
+   "theRECEIPTBINDSANDTHISLANECHECKEDTHEBINDINGITSELF": "raster-runs/admitted/ma-expunge-k-set/ma-expunge-k-set.verdict.json, read in full: RASTER_PASS, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490, coversTheWholeFamily true, pagesMeasured 4, problems [] and environmentProblems [] both empty, packetPdfsModified 0, calibrationResidualPx 0 and 0.358, every page cropped to the page and nonblank. hashesBound.canonical.pinned = 084ed28b... at fixtures/canonical.pdf; hashesBound.boundary.pinned = 6a6b0903... at fixtures/boundary.pdf. This lane re-hashed both delivered files on disk at HEAD and got exactly those two digests, and grepped both strings across the whole of raster-runs/: each occurs in exactly one file, that verdict. The receipt therefore binds THESE bytes, by path and by digest. NO RENDER IS OWED.",
+   "sourceDigestsHashedByThisLane": {
+    "MA petition (private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-Petition-for-Expungement.pdf)": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, 1,387,408 bytes, 2 pages, 26 /Widget annotations per page [25,1], 1 /Link",
+    "legal-design-track-registry.json": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "legal-design-packet-set-manifests.json": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c"
+   },
+   "theSTOPSECTION_REMEASURED": {
+    "matcher": "This lane's own line-anchored matcher, written in Python for this lane and not imported from FIX153, FIX162 or any builder. A record string counts as disclosed only when, after NFC normalisation, non-breaking-space folding, whitespace collapse and marker/wrapper stripping, it EQUALS a whole line of the delivered guide.",
+    "declaredByTheTRACK": 4,
+    "carriedVerbatimAsAWHOLELINE": 4,
+    "carriedAsASUBSTRING": 4,
+    "theFOURSTOPS": [
+     "Whether the facts meet a listed ground is unclear.",
+     "What 'demonstrable' requires for a law enforcement, witness or fraud ground is in issue.",
+     "The district attorney opposes.",
+     "A hearing is set."
+    ],
+    "read": "All four read directly out of data/record-clearing/legal-design-track-registry.json (b62ae691...), track ma-expunge-k, and matched against the delivered participant-instructions.md. All four sit under '## Stop and get help', as their own bullet lines, in a section that quotes the registry's path and digest. The word 'lawyer' occurs, once, in that section.",
+    "theMATCHERDISCRIMINATES": "Run against the PRE-repair guide at 2dfd52dbc^ the same matcher returns 0 of 4 line-anchored, 1 of 4 substring, 'lawyer' 0 -- reproducing VF55's published reading exactly, from a matcher VF55 did not write. A matcher that returned 4 of 4 on both texts would prove nothing.",
+    "theINTERNALVOCABULARYISGONE": "'follow generation' 0 occurrences, 'Hand off' 0, 'postGenerationHandoffs' 0, 'handoff' 0 in the delivered guide. All were present pre-repair. No route key is printed to the participant in the body; see the observation about the footer below."
+   },
+   "theDABULLETSELECTION_ISITSOUND": {
+    "whatTHEBUILDERDOES": "const daOpposesStop = route.contestedHandoff.find((entry) => stops.includes(entry)), with an assertion that refuses the build if no entry of the census cell is also a declared stop.",
+    "whatTHISLANEREADFIRSTHAND": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json, family ma-expunge-k-set, route[0].deliverable.contestedHearingOrOppositionHandoff, status recorded, entries: [0] 'Filing, service on the district attorney and any hearing follow generation. Hand off when the district attorney opposes or a hearing is set.' and [1] 'The district attorney opposes.' The track's four declared stops contain [1] and do not contain [0].",
+    "verdict": "THE SELECTION IS SOUND, NOT COINCIDENTAL. The intersection of the census cell and the track's stop list is a SINGLETON on the committed records -- this lane computed it, it did not take the builder's word -- and the one member is exactly the sentence a bullet headed 'If the district attorney opposes' should carry. It is grounded in agreement between two records that were written independently of each other, which is a stronger warrant than an index. FIX162's account of what it found is accurate: the right sentence was the second entry of the same cell the build was printing entry 0 of.",
+    "theRESIDUALWEAKNESS_RECORDEDNOTFAILED": "`.find()` returns the FIRST match and the guard only asserts that at least one exists. If the census cell ever came to carry two entries that are both declared stops, the build would silently take whichever came first -- the by-index failure mode the repair removed, one record edit away. A `filter(...).length === 1` assertion would close it. On the committed records the intersection is a singleton, so nothing delivered today turns on this, and this lane does not fail the obligation for it.",
+    "theHEARINGBULLETTOO": "The neighbouring bullet quotes route.uncontestedHearing[0], 'A hearing is set.', which is ALSO the track's fourth declared stop; the bullet now points the participant at the stop section instead of leaving the stop repurposed as an election prompt, which was VF55's specific complaint about that sentence."
+   },
+   "theFIX153WORKISUNTOUCHED_CHECKEDTWOWAYS": {
+    "byTHISLANESOWNMATCHER": "The manifest marks 7 participantActionRequired entries requiredBeforeFiling for packetSet ma-expunge-k-set. Measured against the delivered guide: 7 of 7 LINE-ANCHORED and 7 of 7 substring. obtain_document, confirm_answer, two complete_field, sign, pay_fee, apply_fee_waiver.",
+    "byTHEDIFF": "git diff 2dfd52dbc^..HEAD on participant-instructions.md is FOUR hunks and none of them touches the required-before-filing section. Every one of the seven quoted lines is byte-identical across the repair. The three bare record entries print exactly as the record writes them -- sign 'Required.', pay_fee 'None identified in the review.', apply_fee_waiver 'None identified.' with its conditionDescription 'Applies only when the participant cannot pay the filing fee.' carried verbatim -- and nothing was added to them or resolved into an amount, deadline or procedure. The guide announces **7** and prints 7.",
+    "andNOTHINGWASINVENTEDAROUNDTHEM": "The delivered guide contains 0 dollar signs and 0 URLs, grepped. rules.fees reads 'None identified in the review.' and rules.feeWaiver 'None identified.', so nothing was suppressed either."
+   },
+   "theTWOCOLLATERALCORRECTIONS_CHECKEDFORCONTENTNEUTRALITY": {
+    "theMANIFESTPIN": "CONFIRMED CONTENT-NEUTRAL, and the pre-repair pin was demonstrably FALSE of the committed file. This lane extracted legal-design-packet-set-manifests.json at b3f6fbc7a^ and at b3f6fbc7a and hashed both: 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 before, b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c after, and HEAD is still b28edfb9... So the guide was printing a digest no committed version of that file had carried since b3f6fbc7a. It then diffed the file entry by entry: the ONLY packetSets that changed at b3f6fbc7a are co_motion_seal_nonconviction-set and co_motion_seal_conviction-set, the schemaVersion and factoryV2RouteMigrations keys are unchanged, and the ma-expunge-k-set entry is byte-identical at b3f6fbc7a^, at b3f6fbc7a and at HEAD (canonicalised and hashed: 87bb44949c9e483a...). al-trafficking-set's entry is byte-identical too. Refreshing the pin corrected a false statement and changed nothing the participant is told.",
+    "theCUSTODYROOTFIELD": "CONFIRMED, AND THE OLD FIELD WAS FALSE ON ITS FACE. source-receipt.json previously published custodyRootsSearched as {root, exists}. This lane checked both halves on the ground: /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 EXISTS as a directory, and 'LegalEase massachusetts/jud-Petition-for-Expungement.pdf' does NOT exist under it. So `exists: false` beside a root that is present read as a claim that the mount is missing. The receipt now publishes pathSearched and declaredPathExistsUnderThisRoot beside the root, both of which are true statements of what this lane measured, and the second root's sha256 19842819... is the digest this lane re-hashed off disk. The builder derives the value from fs.existsSync on the joined declared path -- read in the source, not assumed -- so it is a reading and not a literal. The correction is content-neutral: it changes no root, no path and no digest, only the name of the thing being reported.",
+    "bothWEREOUTSIDEFIX162SGRANTANDBOTHWERERIGHTTOMAKE": "Each corrects a statement the family was publishing that was false of the committed tree. Neither touches a shared record: the manifest itself was not edited, only the guide's quotation of its digest."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS"
+    },
+    "ARTIFACTS": {
+     "result": "PASS"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS"
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS"
+    },
+    "SERVICE": {
+     "result": "PASS"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS"
+    }
+   },
+   "obligationFindings": {
+    "ROUTE_IDENTITY": "PASS. Exactly one route key occurs anywhere in the family -- obligation:track-pathway:MA:ma-expunge-k:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k, 88 occurrences, no second key -- and it is the key the census row carries, which the builder asserts against before it renders. One track ma-expunge-k, one packet set, strategy official_pdf_fill, statutory authority G.L. c. 276, s 100K. status DECLARED_NOT_INSTALLED, commercialRoutesOpened 0, selfVerified false, approvedForLive false. OBSERVATION, NOT SCORED AGAINST THIS OBLIGATION: the guide's last line prints the route key itself to the participant ('_Route: obligation:track-pathway:MA:...'). Alabama's guide prints no route key at all. That footer is internal vocabulary on a participant page and belongs to the PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class this repository already has a record for; it is pre-existing at this base, outside SELF_HELP_STOP, and untouched by FIX162.",
+    "SOURCE_IDENTITY": "PASS, fully measured. The pinned binary was opened at its recorded path and re-hashed by this lane: 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, 1,387,408 bytes, 2 pages, 26 /Widget annotations distributed [25,1] -- matching source-receipt.json by digest, byte length, page count and acroFieldCount, and matching the digest the guide's own footer prints. The two controlling records were re-hashed and match what the delivered artifacts now cite: legal-design-track-registry.json b62ae691... (quoted in the new stop section) and legal-design-packet-set-manifests.json b28edfb9... (the refreshed pin, which this lane proved is the digest of the committed file and proved the pre-repair pin was not).",
+    "COMPONENT_SET": "PASS. The packet-set manifest declares ONE required component, ma-expunge-k-primary-filing-1, role primary_filing, outputStrategy official_pdf_fill. Both fixtures deliver 2 pages, which this lane paired against source pages 1 and 2: page 2 is pixel-identical to its source on both fixtures, and page 1 carries added ink only inside the single declared write rectangle. No page belongs to a component that is not declared. requiredComponentsMissing 0.",
+    "KNOWN_PREFILLS": "PASS, measured on the delivered pixels. The build declares ONE write per fixture: a composed name-and-address block into form1[0].#subform[0].TextField1[1], Rect x 21.55-267.16 / y 641.84-717.17. At 300 dpi grey<200 with annotations drawn, added ink on canonical page 1 totals 15,673 px with a bounding box of x 22.6-165.6 / y 678.5-712.1 pt, and on boundary page 1 totals 37,618 px with a bounding box of x 22.8-244.1 / y 653.0-712.1 pt. Both lie wholly inside that one declared rectangle. THE DECISIVE MEASUREMENT: this lane differenced each of the 26 declared widget rectangles individually against the pinned source. Exactly ONE of the 26 carries a non-zero delta on each fixture, and it is the write rectangle; the other 25 are identical to the source at every pixel. Page 2 is identical at every pixel on both fixtures. invisibleWrites 0, addedInkOutsideEveryDeclaredRect 0, and no synthesized appearance drew ink anywhere -- which this lane can state from the pixels rather than from an operator census.",
+    "REQUIRED_BEFORE_FILING": "PASS, and FIX153's repair is confirmed on this lane's OWN matcher and by the diff, not adopted. 7 declared, 7 of 7 line-anchored, 7 of 7 substring. The section is untouched by FIX162: the four hunks of the guide diff across 2dfd52dbc^..HEAD are the ground-table stop pointer, the two rewritten bullets, the refreshed manifest pin and the new stop section, and none of them is inside it. The three bare record entries print exactly as the record writes them and carry no invented amount, deadline, criterion, phone number or URL; the guide contains no dollar sign and no URL at all. The guide announces the number the manifest actually holds.",
+    "ROUTE_OPTIONS": "PASS, measured on the delivered pixels at every selection control. The pinned form carries EIGHTEEN /Btn widget controls, all on page 1: four court departments, the eight statutory grounds and six genuine participant elections. Added ink summed over all eighteen rectangles is 0 px on canonical and 0 px on boundary, at 300 dpi grey<200 with annotations drawn, against a detector that reports 15,673 and 37,618 px where the build does write and 23,599 px against a deliberately painted patch. Not one box carries a build-added mark, and the field map records routeDeterminedSelections as an empty array. All eighteen are disclosed: the eight grounds under a heading that says in terms the packet has ticked none and why, the four departments under the case-not-the-route reasoning, and the six elections in their own table with a reason each. FIX162 ADDED A POINTER HERE AND IT IS THE RIGHT ONE: the ground table now closes with 'If you cannot tell which one fits, stop here', naming the record's first stop condition, which is exactly the question that table asks.",
+    "REPEATING_ROWS": "PASS. The obligation does not arise and that is itself the measurement: this form prints no repeating row structure -- no numbered charge table, no continuation rows, no per-item schedule. The charges are collected in a single free-text field. incompleteRows 0 is a reading of nothing to read, and no row was refused, truncated or partly filled because none exists. The pixel corroboration is that 25 of the 26 declared rectangles carry zero added ink, so there is no partly-filled anything on either fixture.",
+    "PROTECTED_FIELDS": "PASS, measured with a detector proven to fire. One blank is classified protected: TextField1[5], the date certifying the district attorney received a copy, Rect x 21.55-177.16 / y 114.84-134.69. It is one of the 25 rectangles this lane measured at exactly zero added ink on both fixtures. The classification is right on the form's own text: the instruction sheet puts that delivery 'on or before the day that this petition is filed', which is after the build, so certifying it at build time would certify an act that has not happened. The two service-method boxes beside it are likewise blank and likewise disclosed. protectedWrites 0.",
+    "ARTIFACTS": "PASS. Both digests re-hashed by this lane and unmoved from VF41's, FIX153's, VF55's and FIX162's: canonical 084ed28b..., boundary 6a6b0903..., 2 pages each. Read from the delivered bytes by this lane's own reader: 26 FlatWidget placements per fixture, per page [25,1], 26 FlatWidget XObjects declared in page resources, 0 placements whose name the page does not declare, 0 residual /Widget annotations, 0 annotations of ANY subtype, 0 AcroForm fields. 26 is exactly the pinned source's own widget count, page for page. TWO OBSERVATIONS, NEITHER A DEFECT IN WHAT IS DELIVERED: (a) the source carries 1 /Link annotation and the delivered packets carry 0, so a hyperlink is lost in flattening -- it puts no ink on the page and nothing the court prints is affected, but it is a difference from the source worth someone's attention; (b) this family still publishes the key flattenedWidgetAppearancesReadFromOutputBytes, the name FIX155 retired from the two Alabama families as false. Here the name is NOT false -- the MA builder derives it from a read of the finalized bytes and this lane's independent count agrees at 26 -- so it stays a shared name over two different computations, a hazard for anyone comparing families rather than an untruth here.",
+    "PAGE_ORDER": "PASS, proved by pairing rather than asserted. Packet page 1 was differenced against source page 1 and packet page 2 against source page 2, on both fixtures, at 300 dpi: 0 px of printed source ink lost on either page of either fixture, and page 2 identical at every pixel. A transposed or dropped page could not produce a zero here -- the same differential run against a scratch copy of page 2 carrying a 420x14 pt opaque white patch reports 23,599 px lost.",
+    "CLIPPING_AND_OVERLAP": "PASS, both halves measured, neither inferred. CLIPPING: 0 px of printed source ink erased, anywhere, on either page of either fixture -- not merely 0 outside widget rectangles but 0 in total, so nothing the court's form prints was covered, clipped or overdrawn. OVERLAP: every added pixel on both fixtures falls inside the single declared widget rectangle the build writes; added ink outside every declared rectangle is 0 px, and 25 of the 26 rectangles carry no added ink at all. Scope: both pages of both fixtures against their pinned source pages, 4 page pairs, 300 dpi, pdftoppm -gray P5 PGM, threshold grey<200, annotations drawn, +1 pt rectangle allowance, rasters held in memory and released. Detector proven to fire at 23,599 px. No visual approval is inferred and visualDefects stays null: this measures ink, not readability.",
+    "FILING_DESTINATION": "PASS. The track's venue -- 'Statewide form, court-specific filing. File in the clerk's office in the court where the case was heard.' -- occurs verbatim in the delivered guide, twice, once under '## Where it goes' and once in the department section; and the same destination is carried a second time in the court's OWN words from the form's page 2 instruction sheet. The four department boxes are presented as WHERE THE CASE WAS HEARD rather than as a branch of the statute, which is what the destination record says, and the builder refuses to render if the census stops recording that.",
+    "FEE_AND_WAIVER": "PASS. rules.fees 'None identified in the review.' and rules.feeWaiver 'None identified.' both appear verbatim in the guide -- both are among the seven entries this lane measured line-anchored -- and the guide states the consequence plainly instead of resolving it: no amount is stated anywhere, the participant is told to ask the clerk's office, and the guide says in terms that an unsourced figure in a filing instruction is worse than none. 0 dollar signs and 0 URLs in the whole document. No amount, waiver criterion or procedure was invented. This is the correct treatment of a recorded silence.",
+    "SERVICE": "PASS. The manifest's serve_party entry is a pointer ('Per the form's service block.', requiredBeforeFiling false) and the guide follows the pointer rather than quoting it: '## Giving the district attorney a copy' carries the form's own instruction sheet verbatim -- 'You must provide a copy of this petition and any documents that you file with the petition to the District Attorney's Office that prosecuted the case on or before the day that this petition is filed in the court.' Recipient, what, and timing are all present and all sourced to the form. The two service-method boxes and the service date are left blank with the reason stated, and this lane measured all three at zero added ink. FIX162 IMPROVED THE NEIGHBOURING BULLET rather than this section: 'If the district attorney opposes' now carries the record's stop instead of the platform's own workflow string.",
+    "SELF_HELP_STOP": "PASS. THIS IS THE OBLIGATION VF55 FAILED AND IT IS REPAIRED. The track declares four selfHelpStopConditions; all four are carried verbatim, each as a whole line of its own, under '## Stop and get help' -- the same heading and bullet shape both Alabama families use -- in a section that quotes the track registry's path and digest (b62ae691..., which this lane re-hashed and matched). 4 of 4 line-anchored on this lane's own matcher, which returns 0 of 4 on the pre-repair text. The word 'lawyer' occurs. The ground table now points at the first condition, which is the condition about exactly the choice that table asks the participant to make, and the hearing bullet points at the fourth. The postGenerationHandoffs string is gone from the participant document along with the bare markers 'follow generation' and 'Hand off', and the district-attorney bullet now carries the record's own stop, selected by intersecting two independent records rather than by index. The section also says what the packet is not: 'This packet prepares a petition. It does not argue one.'"
+   },
+   "countersThisLaneMeasured": {
+    "flattenedWidgetAppearancePlacementsReadFromDeliveredBytes": 26,
+    "flattenedWidgetXObjectsDeclaredInPageResources": 26,
+    "placementsWhoseNameThePageDoesNotDeclare": 0,
+    "residualWidgetAnnotationsInDeliveredBytes": 0,
+    "annotationsOfANYSubtypeInDeliveredBytes": 0,
+    "acroFormFieldsInDeliveredBytes": 0,
+    "widgetAnnotationsInThePinnedSource": 26,
+    "linkAnnotationsInThePinnedSourceNotCarriedForward": 1,
+    "declaredWritesPerFixture": 1,
+    "declaredWidgetRectanglesMeasuredIndividually": 26,
+    "declaredWidgetRectanglesCarryingANONZEROInkDelta": 1,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "refusedFieldsWithInk": 0,
+    "selectionControlsOnThePinnedForm": 18,
+    "selectionControlsCarryingBUILDADDEDINK": 0,
+    "printedSourceInkErasedAnywhere": 0,
+    "addedInkOutsideEveryDeclaredWidgetRect": 0,
+    "declaredStopConditions": 4,
+    "stopConditionsCarriedVerbatimAsAWholeLine": 4,
+    "internalWorkflowStringsPrintedToTheParticipant": 0,
+    "requiredBeforeFilingDeclared": 7,
+    "requiredBeforeFilingLineAnchored": 7,
+    "dollarAmountsInTheGuide": 0,
+    "urlsInTheGuide": 0,
+    "pdfBytesMoved": 0
+   },
+   "countersThisLaneDidNotMeasure": {
+    "visualDefects": null,
+    "visualDefectsWhyNull": "This lane measured ink inside named rectangles and differenced pages. No person has looked at any page of this family, and the family's own admitted raster records that the PNG bodies were never read. A counter this lane could not measure is null, never 0.",
+    "buildReproducibility": null,
+    "buildReproducibilityWhyNull": "The builder could not be executed in this container; see THE_BUILD_COULD_NOT_BE_RUN_IN_THIS_CONTAINER. FIX162 reports this family PDF-CLEAN but not FILE-CLEAN at its base, for reasons it names and corrects; this lane could neither confirm nor contradict that by rebuilding."
+   },
+   "aCOUNTERTHISFAMILYPUBLISHESTHATSHOULDNOTREADZERO": {
+    "where": "reports/completeness-counters.json",
+    "what": "It publishes visualDefects: 0 and allNineZero: true.",
+    "whyTHATISAHAZARD": "No person and no rasterizer has assessed a page of this family for legibility; the admitted raster's own proof records that the PNG bodies were never read. A zero there is the same shape of statement VF58 caught in Illinois.",
+    "whyITISNOTTHESAMEDEFECT": "This lane read the derivation in the builder rather than assuming. MA's visualDefects is NOT a hardcoded literal: it is incremented from two byte-level readings -- glyphs landing outside every measured write box, and synthesized appearances found -- and both are genuinely zero here, which this lane confirmed independently at the pixel level (25 of 26 declared rectangles identical to the source, 0 added ink outside the one write rectangle, page 2 identical at every pixel). So the number is derived and the underlying readings are true.",
+    "whatISwrongWITHITANYWAY": "The NAME outruns the computation. 'visualDefects' names a question about whether a page reads correctly; what is measured is where ink landed. It should be null, or renamed to what it counts, and allNineZero should not be able to be true while one of the nine is unmeasurable. Pre-existing at this base, not introduced by FIX162, and not within SELF_HELP_STOP. Recorded for whoever owns that counter.",
+    "thisLANESOWNvisualDefects": null
+   },
+   "selfVerified": false
   }
  ],
  "grantsNothing": "This return opens no commercial route, promotes no build status, admits no raster, and repairs nothing. commercialRoutesOpened 0, packetsSelfVerified 0, approvedForLive false for both families.",
  "grantsReleased": [
-  "al-trafficking-set"
- ]
+  "al-trafficking-set",
+  "ma-expunge-k-set"
+ ],
+ "whatThisLaneCouldNotDo": [
+  "It could not run either builder: the environment classifier refused the command twice, in two phrasings. Build reproducibility is null for both families, not passed.",
+  "It could not mutation-test the Massachusetts guards, because they live inside runFamily and runFamily is the build. Their CONDITIONS were re-measured on the delivered bytes with this lane own matcher, and the same matcher was shown to fail on the pre-repair text; that they FIRE was not executed here.",
+  "It looked at no page as a person would. visualDefects is null for both families.",
+  "It admitted no raster and rendered nothing. al-trafficking-set still owes a fresh central raster.",
+  "It repaired nothing. Where something falls short it is recorded with what would satisfy it."
+ ],
+ "independentReVerificationOWEDTOWHOM": "Nothing further is owed on ma-expunge-k-set from this lane: fifteen of fifteen, receipt binds the delivered bytes, no render owed. al-trafficking-set is fifteen of fifteen on the obligations but is NOT terminal until a central raster binds its four new digests."
 }
