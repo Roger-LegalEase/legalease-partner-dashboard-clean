@@ -1,19 +1,17 @@
 # Petition to Expunge a Misdemeanour Conviction, I.C. 35-38-9-2
 
-Prepared for **Jordan Avery Reyes**. Packet set `in_conviction_misd-set`, version 1.0.0.
+Prepared for **Jordan Avery Reyes**.
 
-This packet set serves 1 route(s):
-
-- `obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access`
+This packet is prepared for one route under I.C. 35-38-9-2: the relief named at the top of this page.
 
 ## What is in this packet
 
-- `in_conviction_misd-primary-filing-1` - Verified Petition for Expungement of Conviction Records (primary_filing, required). Composed for you from Indiana authority and prefilled with the facts you gave.
-- `in_conviction_misd-proposed-order-2` - Order on the Verified Petition for Expungement of Conviction Records (proposed_order, required). Composed for you from Indiana authority and prefilled with the facts you gave.
-- `in_conviction_misd-attachment-3` - CCA-XP-0220-7008, the Section 2 conviction insert carrying the facts, findings and exhibit pages that the petition and the order both call for (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it, 3 page(s). The SHA-256 of that 3-page publication is 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0. It arrives blank.
-- `in_conviction_misd-attachment-4` - CCA-GF-0120-3016, the Appearance by Unrepresented Person in Expungement Matter, which also carries the certificate of service to the county prosecutor (attachment, conditional). Delivered exactly as Indiana Coalition for Court Access published it: 2 page(s), taken from page(s) 1, 2 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
-- `in_conviction_misd-attachment-5` - CCA-XP-0120-7002 Form ACR, Form ACR, the Notice of Exclusion of Confidential Information from Public Access (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it: 1 page(s), taken from page(s) 7 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
-- `in_conviction_misd-attachment-6` - Confidential Information Form, the Confidential Information Form, which carries the full Social Security number and is filed as a confidential document (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it: 1 page(s), taken from page(s) 8 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- **Verified Petition for Expungement of Conviction Records** - the document you file, required. Composed for you from Indiana authority and prefilled with the facts you gave.
+- **Order on the Verified Petition for Expungement of Conviction Records** - the order you give the court to sign, required. Composed for you from Indiana authority and prefilled with the facts you gave.
+- **CCA-XP-0220-7008**, the Section 2 conviction insert carrying the facts, findings and exhibit pages that the petition and the order both call for - filed together with the petition, required. Delivered exactly as Indiana Coalition for Court Access published it, 3 pages. The SHA-256 of that 3-page publication is 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0. It arrives blank.
+- **CCA-GF-0120-3016**, the Appearance by Unrepresented Person in Expungement Matter, which also carries the certificate of service to the county prosecutor - filed together with the petition, included only where its condition applies. Delivered exactly as Indiana Coalition for Court Access published it: 2 pages, taken from pages 1, 2 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the pages delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- **CCA-XP-0120-7002 Form ACR**, the Notice of Exclusion of Confidential Information from Public Access - filed together with the petition, required. Delivered exactly as Indiana Coalition for Court Access published it: 1 page, taken from page 7 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- **Confidential Information Form**, which carries the full Social Security number and is filed as a confidential document - filed together with the petition, required. Delivered exactly as Indiana Coalition for Court Access published it: 1 page, taken from page 8 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
 
 ## The blank official forms, and what this packet does not do to them
 
@@ -32,23 +30,23 @@ Check every prefilled fact against your own court record and your certified limi
 | Verified Petition for Expungement of Conviction Records | Whether the offense involved serious bodily injury | the answer, taken from your own court record and from legal advice if it is not obvious |
 | Verified Petition for Expungement of Conviction Records | Additional information the petitioner wants the court to know | anything else you want the court to know, in your own words |
 
-## What you must obtain or confirm before filing (15 item(s) held by the committed track registry)
+## What you must obtain or confirm before filing (15 items)
 
-- **obtain_document** (required, required before filing): Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time. Obtained from: Indiana State Police.
-- **confirm_answer** (required, required before filing): Check your answer to "List every conviction you have in Indiana, in any county, and whether each is eligible yet." against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.
-- **obtain_document** (required, required before filing): Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution. Obtained from: Clerk of the court of conviction.
-- **confirm_answer** (required, required before filing): Check your answer to "Have you paid all fines, fees and court costs, and satisfied any restitution?" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.
-- **obtain_document** (conditional, required before filing): Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent. Obtained from: Prosecuting attorney of the county of conviction. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
-- **confirm_answer** (conditional, required before filing): Check your answer to "Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?" against Written prosecutor consent, and correct the packet if they disagree. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
-- **complete_field** (required, required before filing): Verification and signature — Petition, verification block.
-- **complete_field** (required, required before filing): Section classification — Petition, offence classification.
-- **complete_field** (required, required before filing): Additional-information narrative — Petition, additional information.
-- **complete_field** (required, required before filing): Full Social Security number — Confidential Information Form.
-- **sign** (required, required before filing): The petition is verified and signed by the petitioner.
-- **pay_fee** (required, required before filing): A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.
-- **apply_fee_waiver** (conditional, required before filing): Unresolved. Indigency waiver availability has not been confirmed. Condition: Applies only when the participant cannot pay the filing fee.
-- **serve_party** (required): Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.
-- **file** (required): File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.
+- **Obtain a document** (required, required before filing): Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time. Obtained from: Indiana State Police.
+- **Confirm an answer** (required, required before filing): Check your answer to "List every conviction you have in Indiana, in any county, and whether each is eligible yet." against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.
+- **Obtain a document** (required, required before filing): Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution. Obtained from: Clerk of the court of conviction.
+- **Confirm an answer** (required, required before filing): Check your answer to "Have you paid all fines, fees and court costs, and satisfied any restitution?" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.
+- **Obtain a document** (conditional, required before filing): Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent. Obtained from: Prosecuting attorney of the county of conviction. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
+- **Confirm an answer** (conditional, required before filing): Check your answer to "Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?" against Written prosecutor consent, and correct the packet if they disagree. Condition: Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.
+- **Complete a field** (required, required before filing): Verification and signature — Petition, verification block.
+- **Complete a field** (required, required before filing): Section classification — Petition, offence classification.
+- **Complete a field** (required, required before filing): Additional-information narrative — Petition, additional information.
+- **Complete a field** (required, required before filing): Full Social Security number — Confidential Information Form.
+- **Sign** (required, required before filing): The petition is verified and signed by the petitioner.
+- **Pay a fee** (required, required before filing): A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.
+- **Apply for a fee waiver** (conditional, required before filing): Unresolved. Indigency waiver availability has not been confirmed. Condition: Applies only when the participant cannot pay the filing fee.
+- **Serve a party** (required): Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.
+- **File** (required): File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.
 
 ## Where this is filed
 
@@ -74,7 +72,7 @@ Check every prefilled fact against your own court record and your certified limi
 - Signature: The petition is verified and signed by the petitioner.
 - Notarization: none
 
-## What the committed record requires this packet to say (6 instruction(s))
+## What the committed record requires this packet to say (6 instructions)
 
 - [packet_instruction] Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.
 - [packet_instruction] Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.
@@ -112,7 +110,7 @@ Check every prefilled fact against your own court record and your certified limi
 - Stop 12 of 13: Immigration, firearm, licensing or CDL consequences are in play.
 - Stop 13 of 13: The person wants to attack the underlying conviction rather than expunge it.
 
-## Hard eligibility boundaries the record states (4 exclusion(s))
+## Hard eligibility boundaries the record states (4 exclusions)
 
 - Convictions excluded by the statutory exclusion structure, which must be verified against the current text of §§ 35-38-9-2 through 5.
 - Charges pending anywhere.
@@ -123,7 +121,7 @@ Waiting periods:
 
 - The date of conviction: 5 years, shortened by the prosecuting attorney's written consent
 
-## What the record does not settle (3 open question(s))
+## What the record does not settle (3 open questions)
 
 - The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available. (impact: release_blocker; affects: filing_process)
 - Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them. (impact: release_blocker; affects: eligibility_branch)

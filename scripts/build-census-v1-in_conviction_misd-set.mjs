@@ -738,6 +738,83 @@ function orderBody(facts) {
 
 const bullet = (text) => `- ${text}`;
 
+/* PARTICIPANT-FACING NAMES, NOT FACTORY IDENTIFIERS.
+ *
+ * VF36 scored this family's participant guidance under ARTIFACTS with
+ * visualDefects 6. The page that addresses the participant by name opened in
+ * this factory's own vocabulary: the packet-set id and its version, a count of
+ * the routes the set "serves", a bare route key, then every component labelled
+ * by its internal component id, with snake_case role and action enums and a
+ * code-shaped "N page(s)" plural. The same identifiers ran through the filing
+ * instructions, which are rendered into the back of the same guidance PDF --
+ * that second half is where 6 of the 12 leaked component ids lived.
+ *
+ * Every replacement below is either the document's own printed name, the
+ * committed record's own words, or an English rendering of a controlled
+ * vocabulary token. Nothing here composes a name for a document, states a fact
+ * about the participant's case, or drops the form number and title that already
+ * sat beside each leaked id.
+ *
+ * The two enum tables REFUSE an unknown value rather than passing it through.
+ * That is the point: the defect being repaired is a raw enum reaching a
+ * participant, and a silent fallback would let the next new token do it again.
+ */
+const ROLE_IN_THE_PACKET = Object.freeze({
+  primary_filing: "the document you file",
+  proposed_order: "the order you give the court to sign",
+  attachment: "filed together with the petition"
+});
+const REQUIREMENT_IN_THE_PACKET = Object.freeze({
+  required: "required",
+  conditional: "included only where its condition applies"
+});
+const ACTION_KIND_IN_THE_PACKET = Object.freeze({
+  obtain_document: "Obtain a document",
+  confirm_answer: "Confirm an answer",
+  complete_field: "Complete a field",
+  sign: "Sign",
+  pay_fee: "Pay a fee",
+  apply_fee_waiver: "Apply for a fee waiver",
+  serve_party: "Serve a party",
+  file: "File"
+});
+function roleAndRequirement(role, requirement) {
+  const said = ROLE_IN_THE_PACKET[role];
+  const need = REQUIREMENT_IN_THE_PACKET[requirement];
+  assert.ok(said, `no participant-facing wording is held for the component role "${role}"; add one rather than printing the token`);
+  assert.ok(need, `no participant-facing wording is held for the requirement "${requirement}"; add one rather than printing the token`);
+  return `${said}, ${need}`;
+}
+function actionKind(kind) {
+  const said = ACTION_KIND_IN_THE_PACKET[kind];
+  assert.ok(said, `no participant-facing wording is held for the action kind "${kind}"; add one rather than printing the token`);
+  return said;
+}
+const countOf = (n, noun) => `${n} ${noun}${n === 1 ? "" : "s"}`;
+
+/* The committed record sometimes repeats a document's own name at the head of
+ * its description -- documentId "Confidential Information Form" against
+ * whatItIs "the Confidential Information Form, which carries ...", and
+ * documentId "CCA-XP-0120-7002 Form ACR" against whatItIs "Form ACR, the Notice
+ * of ...". Printed straight, the guidance stutters the name twice. This removes
+ * the repeat only where the description literally begins with the document's
+ * name, or with the trailing words of it, and alters no other word. Where the
+ * description is nothing but the name again it returns null and the caller
+ * prints the name once. */
+function describeWithoutRepeatingTheName(documentId, whatItIs) {
+  let text = whatItIs;
+  let lead = "";
+  const article = text.match(/^the\s+/i);
+  if (article) { lead = article[0]; text = text.slice(article[0].length); }
+  const words = documentId.split(" ");
+  for (let i = 0; i < words.length; i += 1) {
+    const repeated = words.slice(i).join(" ");
+    if (text === repeated) return null;
+    if (text.startsWith(`${repeated}, `)) return text.slice(repeated.length + 2);
+  }
+  return lead + text;
+}
+
 function participantInstructions(binding, rbf, retainedSummary, name, orderBlanks) {
   const { registryTrack, memoTrack, packetSet, components, queueFamily } = binding;
   const rules = registryTrack.rules ?? {};
@@ -747,23 +824,27 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
   const gates = limitations.filter((row) => row.classification === "scope_restriction");
   assert.ok(gates.length > 0, "the committed record no longer carries the scope restrictions this packet carries, labelled, further down");
 
+  /* The sentence below says "one route". It is checked rather than assumed, so
+   * that adding a second route to this family fails the build instead of
+   * quietly printing a false count to the participant. */
+  assert.equal(queueFamily.routeKeys.length, 1,
+    "the guidance tells the participant this packet is prepared for one route; the committed record now holds more than one, so that sentence would be false");
+
   const lines = [
     `# ${registryTrack.legalName}`,
     ""
   ];
   lines.push(
-    `Prepared for **${name}**. Packet set \`${FAMILY_ID}\`, version ${packetSet.version}.`,
+    `Prepared for **${name}**.`,
     "",
-    `This packet set serves ${queueFamily.routeKeys.length} route(s):`,
-    "",
-    ...queueFamily.routeKeys.map((key) => bullet(`\`${key}\``)),
+    `This packet is prepared for one route under ${STATUTE}: the relief named at the top of this page.`,
     "",
     "## What is in this packet",
     ""
   );
   for (const componentId of COMPOSED_COMPONENTS) {
     const row = components.find((c) => c.componentId === componentId);
-    lines.push(bullet(`\`${componentId}\` - ${TITLES[componentId]} (${row.role}, ${row.requirement}). Composed for you from Indiana authority and prefilled with the facts you gave.`));
+    lines.push(bullet(`**${TITLES[componentId]}** - ${roleAndRequirement(row.role, row.requirement)}. Composed for you from Indiana authority and prefilled with the facts you gave.`));
   }
   for (const retained of retainedSummary) {
     const row = components.find((c) => c.componentId === retained.componentId);
@@ -773,9 +854,10 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
      * reader who hashes the file the digest names is not left comparing 15 pages
      * against a printed "1 page(s)". */
     const provenance = retained.sourcePageCount === retained.pageCount
-      ? `Delivered exactly as ${retained.issuer} published it, ${retained.pageCount} page(s). The SHA-256 of that ${retained.sourcePageCount}-page publication is ${retained.sourceSha256}.`
-      : `Delivered exactly as ${retained.issuer} published it: ${retained.pageCount} page(s), taken from page(s) ${retained.sourcePages.join(", ")} of the issuer's ${retained.sourcePageCount}-page publication. The SHA-256 of that whole ${retained.sourcePageCount}-page publication, not of the page(s) delivered here, is ${retained.sourceSha256}.`;
-    lines.push(bullet(`\`${retained.componentId}\` - ${retained.documentId}, ${retained.whatItIs} (${row.role}, ${row.requirement}). ${provenance} It arrives blank.`));
+      ? `Delivered exactly as ${retained.issuer} published it, ${countOf(retained.pageCount, "page")}. The SHA-256 of that ${retained.sourcePageCount}-page publication is ${retained.sourceSha256}.`
+      : `Delivered exactly as ${retained.issuer} published it: ${countOf(retained.pageCount, "page")}, taken from ${retained.sourcePages.length === 1 ? "page" : "pages"} ${retained.sourcePages.join(", ")} of the issuer's ${retained.sourcePageCount}-page publication. The SHA-256 of that whole ${retained.sourcePageCount}-page publication, not of the ${retained.pageCount === 1 ? "page" : "pages"} delivered here, is ${retained.sourceSha256}.`;
+    const described = describeWithoutRepeatingTheName(retained.documentId, retained.whatItIs);
+    lines.push(bullet(`**${retained.documentId}**${described ? `, ${described}` : ""} - ${roleAndRequirement(row.role, row.requirement)}. ${provenance} It arrives blank.`));
   }
   lines.push(
     "",
@@ -792,11 +874,11 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
   );
   for (const item of rbf) lines.push(`| ${item.documentTitle} | ${item.disclosureLabel} | ${item.participantMustSupply} |`);
 
-  lines.push("", `## What you must obtain or confirm before filing (${actions.length} item(s) held by the committed track registry)`, "");
+  lines.push("", `## What you must obtain or confirm before filing (${countOf(actions.length, "item")})`, "");
   for (const action of actions) {
     const qualifier = action.requirement === "conditional" && action.conditionDescription ? ` Condition: ${action.conditionDescription}` : "";
     const from = action.obtainedFrom ? ` Obtained from: ${action.obtainedFrom}.` : "";
-    lines.push(bullet(`**${action.kind}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${action.description}${from}${qualifier}`));
+    lines.push(bullet(`**${actionKind(action.kind)}** (${action.requirement}${action.requiredBeforeFiling ? ", required before filing" : ""}): ${action.description}${from}${qualifier}`));
   }
 
   lines.push(
@@ -816,7 +898,7 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
     "", "## Signing", "",
     bullet(`Signature: ${rules.participantSignature ?? "the committed record states no signature rule for this track."}`),
     bullet(`Notarization: ${rules.notarization ?? "the committed record states no notarization rule for this track."}`),
-    "", `## What the committed record requires this packet to say (${limitations.length} instruction(s))`, ""
+    "", `## What the committed record requires this packet to say (${countOf(limitations.length, "instruction")})`, ""
   );
   for (const row of limitations) lines.push(bullet(`[${row.classification}] ${row.statement}`));
 
@@ -829,13 +911,13 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
   stops.forEach((stop, index) => lines.push(bullet(`Stop ${index + 1} of ${stops.length}: ${stop}`)));
 
   const exclusions = memoTrack.exclusions ?? [];
-  lines.push("", `## Hard eligibility boundaries the record states (${exclusions.length} exclusion(s))`, "");
+  lines.push("", `## Hard eligibility boundaries the record states (${countOf(exclusions.length, "exclusion")})`, "");
   for (const exclusion of exclusions) lines.push(bullet(exclusion));
   lines.push("", "Waiting periods:", "");
   for (const period of memoTrack.waitingPeriods ?? []) lines.push(bullet(`${period.condition}: ${period.duration}`));
 
   const unresolved = memoTrack.unresolvedQuestions ?? [];
-  lines.push("", `## What the record does not settle (${unresolved.length} open question(s))`, "");
+  lines.push("", `## What the record does not settle (${countOf(unresolved.length, "open question")})`, "");
   for (const row of unresolved) lines.push(bullet(`${row.question} (impact: ${row.impact}; affects: ${row.affectedElement})`));
 
   lines.push(
@@ -869,14 +951,12 @@ function filingInstructions(binding, retainedSummary, name) {
     "What you file, in order:",
     ""
   ];
-  lines.push(bullet(`${TITLES[COMPONENT.petition]} (${COMPONENT.petition}), from this packet, completed and signed by you.`));
-  lines.push(bullet(`${TITLES[COMPONENT.order]} (${COMPONENT.order}), from this packet, tendered unsigned and otherwise blank. Its page prints "${ORDER_COURT_USE_BANNER}" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.`));
-  for (const retained of retainedSummary) lines.push(bullet(`${retained.documentId} (${retained.componentId}), ${retained.pageCount} page(s), completed by hand.`));
+  lines.push(bullet(`**${TITLES[COMPONENT.petition]}**, from this packet, completed and signed by you.`));
+  lines.push(bullet(`**${TITLES[COMPONENT.order]}**, from this packet, tendered unsigned and otherwise blank. Its page prints "${ORDER_COURT_USE_BANNER}" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.`));
+  for (const retained of retainedSummary) lines.push(bullet(`**${retained.documentId}**, ${countOf(retained.pageCount, "page")}, completed by hand.`));
   lines.push(
     "",
     "The expungement case file is public until the order is granted. Where the prosecuting attorney does not object or waives objection, the court may grant without a hearing under I.C. 35-38-9-9(a); a victim may submit an oral or written statement in support or opposition.",
-    "",
-    `Packet set: ${FAMILY_ID}`,
     ""
   );
   return lines.join("\n");
