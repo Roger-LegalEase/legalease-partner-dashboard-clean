@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7d0ea5b62c95d37ff02d23ee8e0b9c42c221af79",
+  "generatedAtCommit": "66f0930b1ca43cac12f8dabf77a69cee52cfc6cc",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1000,10 +1000,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX165",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:34:22.457Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1031,10 +1031,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX165",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:26:44.153Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3837,10 +3837,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX164",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:26:43.750Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5794,18 +5794,16 @@
     {
       "subjectType": "packet-family",
       "subjectId": "me-seal-survivor-set",
-      "itemId": null,
       "familyId": "me-seal-survivor-set",
+      "itemId": null,
       "familyIds": [
         "me-seal-survivor-set"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF56",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T17:02:13.758Z",
-      "releaseReason": "VF56 returned at 2d33ace18"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5895,10 +5893,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX163",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:31:00.393Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5926,10 +5924,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX164",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:34:09.146Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6109,10 +6107,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX163",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:28.186Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -14832,7 +14830,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9de9071e8821991ab798dbd8252e3e20882062529f3a79f261222a8314b5fd01",
+  "claimsDigest": "75d93020280616c12af00787e79a1271ef976cd80ea430d2cb3ad81a8383760a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -48034,6 +48032,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-10T15:35:38Z",
       "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-survivor-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-10T17:20:12Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -58640,6 +58648,72 @@
       "previouslyReleasedAt": "2026-09-09T11:48:42.791Z",
       "transferredAt": "2026-09-10T17:15:25.232Z",
       "reason": "ChatGPT independent-review batch 1: repaired and never independently re-read"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-art-xiv-marijuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX163",
+      "previouslyReleasedAt": "2026-09-10T11:23:28.186Z",
+      "transferredAt": "2026-09-10T17:22:13.961Z",
+      "reason": "VF54: SERVICE, guidance-only"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX163",
+      "previouslyReleasedAt": "2026-09-10T15:31:00.393Z",
+      "transferredAt": "2026-09-10T17:22:14.093Z",
+      "reason": "VF54: undeclared write, records-only"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-12347-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX164",
+      "previouslyReleasedAt": "2026-09-10T15:26:43.750Z",
+      "transferredAt": "2026-09-10T17:22:14.218Z",
+      "reason": "VF57: three obligations"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX164",
+      "previouslyReleasedAt": "2026-09-10T15:34:09.146Z",
+      "transferredAt": "2026-09-10T17:22:14.339Z",
+      "reason": "VF56: four obligations"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-drug-court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX165",
+      "previouslyReleasedAt": "2026-09-10T15:34:22.457Z",
+      "transferredAt": "2026-09-10T17:22:14.465Z",
+      "reason": "VF56: withheld facts undisclosed"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX165",
+      "previouslyReleasedAt": "2026-09-10T15:26:44.153Z",
+      "transferredAt": "2026-09-10T17:22:14.600Z",
+      "reason": "VF57: unauthorised sworn elections"
     }
   ],
   "grants": [
