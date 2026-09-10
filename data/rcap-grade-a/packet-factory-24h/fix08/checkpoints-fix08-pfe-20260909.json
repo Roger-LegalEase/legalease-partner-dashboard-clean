@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-lane-checkpoints/v1",
+  "lane": "FIX08",
+  "laneKind": "repair",
+  "shift": "pfe-20260909",
+  "worker": "CLAUDE-PFE-FIX08-RI-MULTIPLE-MISDEMEANORS",
+  "baseSha": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "mergedCaptainSha": "6bf196d81",
+  "workerBranch": "pfe-fix-20260909",
+  "assigned": [
+    "ri_multiple_misdemeanors-set"
+  ],
+  "checkpoints": [
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "claim": "CLAIM_OK FIX08 ri_multiple_misdemeanors-set (repair, grant set 914af21a28d51a60)",
+      "state": "PARTIALLY_REPAIRED_AND_RETURNED",
+      "status": "STOPPED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "ROUTE_IDENTITY"
+      ],
+      "obligationMeasuredAndLeftOpen": [
+        "SYNTHESIZED_INK_ON_A_SWORN_CONTROL"
+      ],
+      "repairedObligationConfirmed": "ROUTE_IDENTITY: the machine route trailer is gone from packet page 6, page 2 of the composed proposed order, and from page 5. It survives on the three guidance pages 8, 14 and 15, labelled 'INTERNAL RECORD REFERENCE, not part of any filing and nothing a court or a clerk needs', which is what the recorded standard permits. Confirmed page by page with pdftotext -layout across all 15 delivered pages.",
+      "openFinding": "Two synthesized flattened appearances per fixture at radio group Group2 on packet page 4 - 'How the notary identified the person who appeared', policy protect - INSIDE the notarial certificate of a sworn affidavit. 129 added dark pixels and 0 removed against the pinned DC-33, identical on both fixtures. At 600 dpi the mark is an inset partial rectangle: a black vertical bar standing in the box interior with a black rule along its bottom. Not repaired, and recorded open.",
+      "correctionToThisLanesOwnEarlierReading": "At 150 dpi this lane called it 'a second outline inside the box'. At 600 dpi it is an inset PARTIAL rectangle, outer border and grey bevel pixel-identical to the source. 600 dpi is the magnification that settled it; 150 dpi found it.",
+      "recordContradicted": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json examined these exact two widgets and recorded them as not a defect: 'it does not read as a tick - the box interior stays white'. At 600 dpi the interior does not stay white. VF01 states it magnified 8x; magnifying a coarse render enlarges pixels rather than adding detail, and at that resolution the inner mark and the form's own grey bevel are not separable. The resolution is the whole difference.",
+      "tieringNote": "The border cohort tiers this family as OTHER with every namedControls list empty, because it tiers by field NAME and the field is called 'Group2'. The name carries nothing. The census label, the protect policy and the page are what settled it.",
+      "flagTriedAndReverted": "suppressSynthesizedWidgetBorders was wired as a per-route opt-in and was completely inert: the build with it set and the build with it removed produced BYTE-IDENTICAL fixtures. It was reverted rather than shipped. fitAppearancesToRect is not the candidate either - the outer box is pixel-identical at 0 removed while new ink appears inside, which is synthesis rather than misplacement. No third flag was guessed on a jurat.",
+      "artifactsUnchanged": false,
+      "canonicalSha256": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
+      "boundarySha256": "fba4e614fdf2d70528e6b4a862d0d096062d499feebc2a64dc005bb155766349",
+      "previousCanonicalSha256": "7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37",
+      "previousBoundarySha256": "c2ea5d906ef5674fcec2a12c20f9023ff36acc20f4e42d2217ef9aef9e855bdc",
+      "rasterReceiptNote": "The committed receipt in RASTER_QUEUE.json is bound to the two previous digests and no longer describes these bytes. It was not relabelled, re-pointed or deleted; it stays as history. A fresh central raster against the two new digests is owed before anything else.",
+      "visualDefectsRecorded": 2,
+      "whyNotZero": "The builder reports 0 because no counter it runs can see stroke-only synthesized ink. Two such marks per fixture are still in the delivered bytes, so this return records 2.",
+      "siblingsNotTouched": "The other four families on scripts/build-census-v1-ri_decriminalized-set.mjs are byte-identical and were not claimed. ri_first_offender_felony-set is live on FIX120 and ri_nonconviction_sealing-set on FIX99. Porting instructions are in the rows file.",
+      "verdict": null,
+      "whyNoVerdict": "A repair worker sets no verdict and issues no PASS. This family owes a read by a lane that neither built nor repaired it, and a central RASTER_PASS bound to the two new digests.",
+      "rowsFile": "data/rcap-grade-a/packet-factory-24h/fix08/rows-fix08-pfe-20260909-ri-multiple-misdemeanors.json"
+    }
+  ]
+}

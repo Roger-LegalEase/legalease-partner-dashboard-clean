@@ -924,6 +924,30 @@ const ORDER_COURT_BLOCK_NOTICE =
   + "condition, no signature, no date of entry, no certification and no seal is written here by the moving "
   + "party or by LegalEase.";
 
+/*
+ * THE MACHINE ROUTE TRAILER, BY SURFACE.
+ *
+ * Default behaviour is unchanged and byte-identical: the bare "Route: <keys>"
+ * line, everywhere it was printed before. A route that opts in gets the
+ * repaired behaviour VF02's ROUTE_IDENTITY finding requires -- nothing at all
+ * on a filing, and on guidance the same keys under a label that says what they
+ * are and that no court or clerk needs them.
+ *
+ * `surface` is "filing" for a document handed to a court and "guidance" for a
+ * page that says on its own face that it is not a filing.
+ */
+const INTERNAL_RECORD_REFERENCE_PREFIX = "INTERNAL RECORD REFERENCE, not part of any filing";
+function machineRouteTrailer(route, surface) {
+  if (route.machineRouteTrailerIsInternalRecordText !== true) {
+    return [`Route: ${route.routeKeys.join(" ; ")}`];
+  }
+  if (surface === "filing") return [];
+  return [
+    `${INTERNAL_RECORD_REFERENCE_PREFIX} and nothing a court or a clerk needs. It records which LegalEase route `
+    + `record this packet was built from: ${route.routeKeys.join(" ; ")}`
+  ];
+}
+
 const ORDER_VARIANTS = {
   DISTRICT_COURT: {
     variantId: "ri-district-court-proposed-order",
@@ -992,7 +1016,11 @@ function proposedOrderBody(route, facts) {
   L.push(`Composed by LegalEase for ${name}, as the moving party's own proposed order. It is not an official `
     + "Rhode Island form, and no part of it is a finding, a grant, a denial, a signature, an entry, a "
     + "certification or a seal.", "");
-  L.push(`Route: ${route.routeKeys.join(" ; ")}`, "");
+  /* The proposed order is a FILING. Under the opt-in nothing goes here at all:
+   * an earlier repair moved the trailer above the rule so it stopped sitting
+   * under the clerk's certification, but above the rule it still reads as text
+   * the moving party put on the order it asks a justice to sign. */
+  for (const line of machineRouteTrailer(route, "filing")) L.push(line, "");
   L.push(DOTS(96), "");
   L.push(ORDER_COURT_BLOCK_NOTICE, "");
   L.push("The Court's findings:");
@@ -1294,7 +1322,7 @@ function filingInstructionsBody(route, facts) {
   L.push("WHAT THIS PACKET IS NOT. It is the state's own motion and affidavit, a proposed order composed for the "
     + "hearing because the state publishes none, and instructions. It is not legal advice, it is not filed for "
     + "you, and it does not decide whether you are eligible.", "");
-  L.push(`Route: ${route.routeKeys.join(" ; ")}`);
+  L.push(...machineRouteTrailer(route, "guidance"));
   return L.join("\n");
 }
 
@@ -1312,7 +1340,7 @@ function noticePackageBody(route, facts) {
   L.push("Two of the findings in that sentence - good moral character, and rehabilitation to the court's "
     + "satisfaction - are the court's to make. They are not facts LegalEase can supply and nothing in this "
     + "packet asserts them.", "");
-  L.push(`Route: ${route.routeKeys.join(" ; ")}`);
+  L.push(...machineRouteTrailer(route, "guidance"));
   return L.join("\n");
 }
 
@@ -1325,7 +1353,7 @@ function certifiedCopyChecklistBody(route, facts) {
   L.push(...certifiedCopySection(route));
   L.push("Nothing on this checklist can be done before the court grants the motion, and none of it is done by "
     + "the court for you.", "");
-  L.push(`Route: ${route.routeKeys.join(" ; ")}`);
+  L.push(...machineRouteTrailer(route, "guidance"));
   return L.join("\n");
 }
 
@@ -1458,6 +1486,53 @@ const FAMILIES = {
   "ri_multiple_misdemeanors-set": {
     trackId: "ri_multiple_misdemeanors", form: "DC-33", partId: "THREE_B", orderVariant: "DISTRICT_COURT",
     splitAffidavitComponent: false, singleGuidanceComponent: false,
+    /*
+     * TWO REPAIRS THIS HOST APPLIES TO THIS FAMILY ONLY, AND WHY THEY ARE
+     * PER-ROUTE RATHER THAN HOST-WIDE.
+     *
+     * Both defects are almost certainly present on all five families this host
+     * builds. Neither is repaired host-wide here, because two of the four
+     * siblings are LIVE on other lanes right now -- ri_first_offender_felony-set
+     * on FIX120 and ri_nonconviction_sealing-set on FIX99 -- and a repair lane
+     * holding one family does not get to move four other families' bytes, or
+     * invalidate a raster receipt bound to them, while their own lanes are
+     * mid-rebuild. This is the same opt-in reasoning the shared finalizer states
+     * for each of its ten flags. Every other family on this host is
+     * byte-unaffected, and the Captain can widen either flag once the siblings
+     * are free.
+     *
+     * machineRouteTrailerIsInternalRecordText -- VF02 failed this family on
+     * ROUTE_IDENTITY: the line "Route: obligation:unit:RI:..." prints on four
+     * packet pages, and the decisive one is packet page 6, page 2 of the
+     * composed proposed order, where it sits at the top of the page the moving
+     * party hands a District Court justice. Those are this factory's own
+     * obligation-census keys and they mean nothing to a Rhode Island court. The
+     * recorded standard is exact: filings recite statute and rule text only, and
+     * the record's own words belong in the guide, LABELLED as internal record
+     * text. So on the filing it is dropped, and on the three guidance pages it
+     * is kept and labelled.
+     *
+     * MEASURED HERE AND DELIBERATELY NOT REPAIRED: the two synthesized
+     * appearances at the notary's own radio group Group2 on packet page 4,
+     * INSIDE the notarial certificate of a sworn affidavit. The border cohort
+     * accounting finds them matching no /AP /N stream DC-33 ships, and a 150 dpi
+     * directional raster against the pinned page 4 measures 129 added dark
+     * pixels and 0 removed, identically on both fixtures. At 600 dpi the mark is
+     * a black vertical bar standing inside the box interior with a black rule
+     * along its bottom -- an inset partial rectangle. The interior does NOT stay
+     * white.
+     *
+     * suppressSynthesizedWidgetBorders WAS TRIED on this route and was inert:
+     * stroke-only stayed at 2 per fixture and the raster stayed at 129 added and
+     * 0 removed, cluster for cluster. It is therefore NOT set here, because a
+     * flag that changed nothing must not sit in a route record implying that it
+     * did. fitAppearancesToRect is not the candidate either: that corrects the
+     * SCALE of a carried stream, and here the outer box is pixel-identical to
+     * the source while new ink appears inside it, which is synthesis rather than
+     * misplacement. Closing it needs a reader who can name the shared step that
+     * generates that stream. This lane measured it and did not guess.
+     */
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit",
@@ -2002,7 +2077,11 @@ async function renderComposedPdf(fullText, title) {
    * how rows are wrapped or how blocks are formed changes: a block is still a
    * run of consecutive non-blank rows, and a blank line is still its own block.
    */
-  const TRAILER_LINE = /^Route: /;
+  /* Both spellings of the trailer, so the sole-occupant pull-down below keeps
+   * working for a route that has relabelled it as internal record text. Without
+   * the second alternative the labelled line stops being recognised and page 8
+   * of the notice package can go back to being a page of bare identifiers. */
+  const TRAILER_LINE = new RegExp(`^(Route: |${INTERNAL_RECORD_REFERENCE_PREFIX})`);
   const rows = [];
   for (const raw of sanitizePdfText(fullText).split("\n")) {
     const trailer = TRAILER_LINE.test(raw);
