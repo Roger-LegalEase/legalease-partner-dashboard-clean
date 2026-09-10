@@ -147,37 +147,98 @@ function assertLineGeometry(census, where) {
  *
  * @returns Map keyed `${row.key}@p${row.page}` -> locator phrase.
  */
-export function rowLocatorsFor(census, where = "census") {
+function analyseGroups(census, where) {
   assertLineGeometry(census, where);
   const byLabel = new Map();
   for (const r of census.rows) {
     const key = `p${r.page}|${r.effectiveLabel}`;
     byLabel.set(key, [...(byLabel.get(key) ?? []), r]);
   }
-  const locator = new Map();
+  const groups = [];
   for (const group of byLabel.values()) {
     if (group.length < 2) continue;
     const ordered = [...group].sort((a, b) => b.rect.y - a.rect.y);
-    const lines = census.pageText.find((p) => p.page === ordered[0].page)?.lines ?? [];
+    const page = ordered[0].page;
+    const lines = census.pageText.find((p) => p.page === page)?.lines ?? [];
     const printed = ordered.map((r) => lines.find((l) => /^\d+\.$/.test(l.text)
       // inside this blank's OWN vertical band, read from its own rectangle
       && l.yExact >= r.rect.y - ROW_NUMBER_BELOW_BASELINE_PT
       && l.yExact <= r.rect.y + r.rect.height
       // and to the left of it, which is where a row number is printed
       && l.x < r.rect.x - ROW_NUMBER_LEFT_OF_BLANK_PT) ?? null);
+    const found = printed.filter((l) => l !== null).length;
+    /*
+     * ALL OR NOTHING, and the build refuses in between.
+     *
+     * This is the premise the participant's label asserts about the paper. If a
+     * number is found beside SOME rows of a group and not others, the old
+     * behaviour was to fall back to positional ordinals and print "the form
+     * prints no row numbers here" -- a plain false statement about a page that
+     * demonstrably prints some. That is the shape a repin would produce if a
+     * revised form nudged one row number out of its band, and it would reach a
+     * participant silently, so it stops the build instead.
+     */
+    assert.ok(found === 0 || found === ordered.length,
+      `${where} page ${page}: the caption "${ordered[0].effectiveLabel}" names ${ordered.length} blanks and a printed row number was found beside ${found} of them. Either the form numbers that table or it does not; a partial reading would publish "the form prints no row numbers here" about a page that prints ${found}`);
     const numbers = printed.map((l) => (l ? Number(l.text.slice(0, -1)) : null));
-    const everyRowNumbered = printed.every((l) => l !== null)
+    const everyRowNumbered = found === ordered.length
       && numbers.every((n, i) => i === 0 || n > numbers[i - 1])
       && printed.every((l) => Math.abs(l.x - printed[0].x) <= ROW_NUMBER_COLUMN_TOLERANCE_PT);
-    ordered.forEach((r, i) => {
-      assert.ok(everyRowNumbered || i < ORDINALS.length,
-        `${where}: a caption names ${ordered.length} blanks on one page and the form prints no row numbers, which is more positions than there are ordinals to name them by`);
-      locator.set(`${r.key}@p${r.page}`, everyRowNumbered
-        ? `row ${numbers[i]} as printed on the form`
+    /*
+     * Found beside every row, but not as a COLUMN -- out of order down the page,
+     * or not at one left edge. Same reasoning: falling back to ordinals would
+     * deny in print that the form numbers a table it does number.
+     *
+     * Written as a branch rather than as `assert.ok(found === 0 || ...)`: a
+     * template literal passed to assert.ok is evaluated whether the assertion
+     * holds or not, and on the unnumbered path -- which is 12 of this family's
+     * 15 groups -- every entry of `printed` is null, so composing the message
+     * would throw on a page that is perfectly sound. Found by mutation-testing
+     * the guard rather than by reading it.
+     */
+    if (found > 0 && !everyRowNumbered) {
+      assert.fail(`${where} page ${page}: the caption "${ordered[0].effectiveLabel}" has a printed number beside every one of its ${ordered.length} blanks, but they do not read as a row-number column (numbers ${JSON.stringify(numbers)}, left edges ${JSON.stringify(printed.map((l) => l?.x ?? null))})`);
+    }
+    groups.push({
+      page, label: ordered[0].effectiveLabel, size: ordered.length,
+      numbered: everyRowNumbered, numbers: everyRowNumbered ? numbers : null, ordered
+    });
+  }
+  return groups;
+}
+
+export function rowLocatorsFor(census, where = "census") {
+  const locator = new Map();
+  for (const g of analyseGroups(census, where)) {
+    g.ordered.forEach((r, i) => {
+      assert.ok(g.numbered || i < ORDINALS.length,
+        `${where}: a caption names ${g.size} blanks on one page and the form prints no row numbers, which is more positions than there are ordinals to name them by`);
+      locator.set(`${r.key}@p${r.page}`, g.numbered
+        ? `row ${g.numbers[i]} as printed on the form`
         : `${ORDINALS[i]} row (the form prints no row numbers here)`);
     });
   }
   return locator;
+}
+
+/**
+ * What the forms were found to print, in a shape a build host can PIN.
+ *
+ * A locator that silently changes from "row 2 as printed on the form" to
+ * "second row (the form prints no row numbers here)" because a repinned revision
+ * moved a number two points is a change to what a participant reads, and nothing
+ * downstream would see it: both strings are well-formed, both are honest about
+ * the page as measured, and every counter stays zero. A host that pins the
+ * expected shape here turns that into a refused build.
+ *
+ * @returns [{ formNumber, page, label, size, numbered }]
+ */
+export function describeRowNumberGroups(censuses) {
+  return censuses.flatMap(({ source, census }) =>
+    analyseGroups(census, source.formNumber).map((g) => ({
+      formNumber: source.formNumber, page: g.page, label: g.label,
+      size: g.size, numbered: g.numbered
+    })));
 }
 
 /**
