@@ -345,6 +345,202 @@
         "siblingsRebuiltAfterThisEdit": "All four other families on this host were REBUILT after this edit, not reasoned about. ri_decriminalized-set and ri_first_offender_felony-set reproduce to their exact committed digests f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc and ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3, which are the digests their live RASTER_PASS receipts bind. ri_deferred_sentence-set reproduces to the digests this lane committed for it one commit earlier. ri_multiple_misdemeanors-set reproduces its fixture bytes exactly."
       },
       "whatThisPacketStillDoesNotClaim": "No Rhode Island clerk, court or lawyer has approved this packet or this proposed order. No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was invented here. This lane sets no verdict, issues no PASS, opens no commercial route and consumes no packet credit."
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX134 ri_multiple_misdemeanors-set (repair, grant set 97765282dc236416)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "pinnedSource": {
+        "sourceId": "official-form:DC-33",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "resolvedFrom": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+        "digestConfirmedWith": "sha256sum, first-hand, against the pin declared in this family's source-receipt.json",
+        "pages": 4
+      },
+      "routeIdentityWasVERIFIEDNotAssumed": {
+        "finding": "SETTLED on this family before any edit, and still settled after.",
+        "howItWasChecked": "pdftotext over the committed canonical.pdf at base 65a118c82. Packet pages 5 and 6 — both pages of the composed proposed order — contain ZERO occurrences of 'Route:' or 'obligation:'. Its packet page 6 opens with ORDER_COURT_BLOCK_NOTICE at yTop 64.5, where the unrepaired sibling ri_first_offender_misdemeanor-set opened with the word 'Route:' at the same coordinate. The three obligation keys appear on exactly three packet pages — 8, 14 and 15 — each under the label 'INTERNAL RECORD REFERENCE, not part of any filing and nothing a court or a clerk needs.'",
+        "afterThisLanesRebuild": "unchanged: 0 route hits on packet pages 5 and 6 of both fixtures, and 3 labelled guidance occurrences in each."
+      },
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED — the court's own opaque mask stripped off its /AP appearance",
+        "whereOnTheDeliveredPage": "packet page 4 = DC-33 page 4, at the notary's own radio group Group2, INSIDE THE NOTARIAL CERTIFICATE of a sworn affidavit — the two boxes recording how the notary identified the person who appeared.",
+        "measuredOnThisFamilysOwnBytesBeforeAnyRepair": "600 dpi directional raster against the pinned DC-33 with annotations drawn: packet page 4 carried 1,026 added dark pixels and 0 removed, IDENTICALLY on canonical and boundary. All 1,026 fell OUTSIDE every write rect and selection box this family declares, in three clusters: 602 px at 74.4-81.6 x 516.1-522.0 pt, 330 px at 226.4-227.3 x 516.1-521.6 pt, and 94 px at 233.8-233.9 x 516.1-521.6 pt.",
+        "theStaleNoteThisCorrects": "The committed comment at this family called these marks 'synthesis rather than misplacement', said the border cohort accounting found them 'matching no /AP /N stream DC-33 ships', and left the defect unrepaired pending 'a reader who can name the shared step that generates that stream'. VF01 read that note as stale. It is stale, and the bytes say so: nothing is synthesized and the streams DO match ones DC-33 ships.",
+        "theByteEvidenceMeasuredOnTHISFAMILYSBYTES": [
+          "source DC-33 object 157 0 R: 219 bytes, /BBox [0 0 12.2227 9.9118], sha256 a79c3a7b25a532ca... — begins '1 g / 0 0 12.2227 9.9118 re / f' and then the bevel",
+          "delivered appearance 154 0 R at base: 193 bytes, IDENTICAL /BBox, sha256 6cb26ada17ea4de1...",
+          "the source stream with that 28-byte leading fill normalised away is the delivered stream BYTE FOR BYTE",
+          "source DC-33 object 165 0 R: 216 bytes, /BBox [0 0 11.4524 9.5267], sha256 a2d80ac0efea6b86...",
+          "delivered appearance 155 0 R at base: 190 bytes, IDENTICAL /BBox, sha256 277981825d66cae6...",
+          "same result: source minus the 28-byte leading fill is the delivered stream byte for byte"
+        ],
+        "cause": "DC-33 both PRINTS a check box in its page content stream AND covers it with the widget's own /Off appearance, which paints an opaque white rectangle over the printed box and then strokes a beveled box of its own. A conforming viewer and the court's own PDF therefore show ONE box. stripWidgetBackground in scripts/rcap-official-forms/rcap-active-content.mjs removed that leading fill — it strips unconditionally unless the caller opts out, and this host never opted out for this route — and the printed box reappeared inside the widget's box."
+      },
+      "whySuppressSynthesizedWidgetBordersWasInert": {
+        "theOldNoteObservedItButCouldNotExplainIt": "The committed comment recorded that the flag was tried and changed nothing, cluster for cluster, but did not say why.",
+        "theCodeSaysWhy": "In the walker in scripts/rcap-official-forms/rcap-active-content.mjs, suppressSynthesizedWidgetBorders does exactly one thing on a widget with an appearance: it calls neutralizeSynthesizedBorderCharacteristics(acroField), which clears the /MK border characteristics a viewer consults ONLY when it must construct an appearance itself. These Group2 widgets ship an /AP /N, so nothing is being synthesized and there is nothing for that flag to prevent. stripWidgetBackground runs further down the same loop, on the PRESERVE_SOURCE_APPEARANCE branch, and preserveUnwrittenSelectionBackgrounds is the only option on that branch that changes it. The flag never reaches the code that does this, which is precisely why it was inert.",
+        "confirmsVF01": "VF01's reading is confirmed by the code and by the bytes. fitAppearancesToRect was never the candidate either: nothing is misscaled, and the delivered /BBox is identical to the source's."
+      },
+      "remedy": {
+        "mechanism": "preserveSourceAuthoredSelectionPaint on this family's FAMILIES entry, which the host passes to the shared finalizer as preserveUnwrittenSelectionBackgrounds",
+        "itRESTORESAndNeverRemoves": "After the repair the delivered appearances 154 0 R and 155 0 R are 219 and 216 bytes with sha256 a79c3a7b25a532ca... and a2d80ac0efea6b86... — BYTE-IDENTICAL to the source streams 157 0 R and 165 0 R. The court's own appearance is delivered whole. Deleting the stroke instead would have erased the court's own bevel and outline, which is the over-suppression that already cost Colorado a 213.6pt rule the form itself draws. /MK /BG is still stripped, so no background the form did not author is requested.",
+        "sharedModuleChanges": "none. The option already existed and is already used by two siblings; scripts/rcap-official-forms/** is untouched."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "method": "600 dpi grey, poppler pdftoppm, annotations drawn on BOTH sides; dark = grey <= 128; added = dark in the delivered page and not in the source page, removed = dark in the source page and not in the delivered page; added pixels attributed by mask to the write rects and selection boxes this family's own reports/actual-writes.json declares, padded 2pt",
+        "scope": "packet pages 1-4 only, which are the official DC-33 slice. Packet pages 5-15 are composed and have no source page to difference against.",
+        "canonicalBefore": [
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 18198,
+            "removed": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 15858,
+            "removed": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 1026,
+            "removed": 0,
+            "addedOutsideDeclaredBoxes": 1026
+          }
+        ],
+        "canonicalAfter": [
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 18198,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 18198,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 15858,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 15858,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
+        ],
+        "boundaryAfter": [
+          {
+            "page": 1,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 2,
+            "added": 30821,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 30821,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 3,
+            "added": 28481,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 28481,
+            "addedOutsideDeclaredBoxes": 0
+          },
+          {
+            "page": 4,
+            "added": 0,
+            "removed": 0,
+            "addedInsideDeclaredBoxes": 0,
+            "addedOutsideDeclaredBoxes": 0
+          }
+        ],
+        "removedInkTotal": "0 on every page of both fixtures, before and after. The repair added a mask back; it erased nothing.",
+        "addedInkOutsideDeclaredBoxesTotal": "1,026 on packet page 4 before, 0 after; 0 on every other page throughout."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "visualDefects read 1 on the committed bytes at base 65a118c82 — the two uncovered printed boxes at Group2 inside the notarial certificate on packet page 4 — and reads 0 on the bytes this row records. ROUTE_IDENTITY was verified settled on this family before and after, so it contributes no defect here. The builder's own committed completeness-counters.json read visualDefects 0 both before and after, which is the point: no counter can see either defect.",
+      "artifacts": [
+        {
+          "fixture": "canonical.pdf",
+          "sha256": "4b77e151246ef516a546a3d4d562f1edba76cd9f6a5b4fac4f5ab67231a24c4a",
+          "pages": 15,
+          "byteLength": 312804,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary.pdf",
+          "sha256": "637ca130cf69d3a547e7e3f20155e1558e9748c5ff23213bedbe45be7bb452db",
+          "pages": 15,
+          "byteLength": 312980,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum over the produced files; page counts with pdfinfo; appearance-stream digests with crypto.createHash over the inflated stream bodies. Nothing transcribed, padded or reconstructed.",
+      "priorDigestsThisReplaces": {
+        "canonical": "fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80",
+        "boundary": "fba4e614fdf2d70528e6b4a862d0d096062d499feebc2a64dc005bb155766349",
+        "pageCountUnchanged": "15 before and 15 after, measured with pdfinfo on both"
+      },
+      "whatChanged": [
+        "scripts/build-census-v1-ri_decriminalized-set.mjs — preserveSourceAuthoredSelectionPaint: true added to the ri_multiple_misdemeanors-set entry; the stale 'synthesis rather than misplacement' paragraph replaced with the byte evidence; the paragraph that said 'two of the four siblings' and named ri_nonconviction_sealing-set as being on this host corrected",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/build-status.json"
+      ],
+      "aCommittedRecordThisContradicts": {
+        "what": "This family's committed build-status.json carried rasterState RASTER_LOCAL_PENDING_CENTRAL, rasterEngine chromium_calibrated and rasterPages 30, and its committed reports/rendered-artifacts.json carried everyPageRastered true plus 30 per-page PNG sha256 values under a raster/ directory.",
+        "themeasurement": "No raster/ directory is committed for this family — `git ls-tree -d HEAD` on the family directory returns only fixtures and reports. The 30 recorded PNG digests describe files that are not in the repository, and they were bound to canonical bytes this repair has now replaced.",
+        "whatThisLaneDid": "Rebuilt with --no-raster, as instructed not to dispatch a raster. That moves rasterState to BUILT_RASTER_PENDING, rasterPages to 0 and everyPageRastered to false, and drops 30 stale local raster hashes that bound bytes which no longer exist. This is a correction toward the standard the factory states — a local browser render is not a receipt; only the central workflow produces one — not a regression. It is recorded here because it is a committed record this lane moved, and this lane did not measure whether those 30 PNGs ever existed."
+      },
+      "governance": {
+        "wiringPath": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json",
+        "thisHostNeverWritesTheWiring": "measured — no reference to product-wiring exists anywhere in the host, and git status reports the wiring unchanged after every rebuild in this lane.",
+        "carryForwardGovernanceRunExplicitly": "carryForwardGovernance was run over the committed binding against a simulated wholesale rewrite authoring none of the six keys, with canonicalSha256 4b77e151246ef516a546a3d4d562f1edba76cd9f6a5b4fac4f5ab67231a24c4a. It carries lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship verbatim; governanceLostBetween reports nothing lost.",
+        "nothingNewIsWithdrawnAndWhy": "The committed binding already holds acceptanceReceipt: null, so there is no live receipt on this family to withdraw. The one historical withdrawal already on the record — RASTER_PASS workflow run 34297296663 bound to 7af4bd63575276800b4513cc2b9abb05c3c27b59a7ab4e64ec5357899f374e37, replaced by fa45008d221d71af4f5b852de4daa68c4678f0bf62acbbc4c4825a80dc555f80 — is preserved whole under acceptanceReceiptWithdrawn and is not relabelled to cover the bytes this build produced.",
+        "reRasterIsRequired": "the canonical and boundary bytes moved, so the family needs a central raster run bound to the digests in artifacts above. This lane dispatched none and issues no receipt.",
+        "lastIndependentVerificationLeftAlone": "the committed lastIndependentVerification on this family is verdict FAIL_REPAIR_REQUIRED from lane vf02 at base 47c85d4ef80b144b11e1202f13832315b039c63f. This lane did not touch it. Setting a verdict is not this lane's to do."
+      },
+      "reproducibility": {
+        "siblingsRebuiltAfterThisEdit": "All four other families on this host were REBUILT after this edit, not reasoned about. ri_decriminalized-set and ri_first_offender_felony-set reproduce to their exact committed digests f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc and ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3, which are the digests their live RASTER_PASS receipts bind; ri_deferred_sentence-set and ri_first_offender_misdemeanor-set reproduce to the digests this lane committed for them earlier on this branch. git status lists none of the four."
+      },
+      "whatThisPacketStillDoesNotClaim": "No Rhode Island clerk, court or lawyer has approved this packet, this proposed order, or the mark on its relief bullet. Nothing on the court's own form is marked for the participant at Group2 — the repair restores the court's blank-state appearance and marks no box. No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was invented here. This lane sets no verdict, issues no PASS, opens no commercial route and consumes no packet credit."
     }
   ],
   "packetsSelfVerified": false,
