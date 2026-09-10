@@ -263,6 +263,8 @@ const DOCUMENTS = [
       { field: "County4", class: "certificate_of_service_block", why: "The same, on the e-filing limb of the petition's certificate." },
       { field: "County5", class: "certificate_of_service_block", why: "The same, on Form ACR's certificate of service." },
       { field: "County6", class: "certificate_of_service_block", why: "The same, on the e-filing limb of Form ACR's certificate." },
+      { field: "List-MailingAddresses_LEA", class: "court_ordered_agency_directive",
+        why: "The block of blank rules printed under the heading \"Law Enforcement Agencies:\" on page 14 of the PROPOSED ORDER — 240 by 408 points, where the mailing addresses of the agencies the order must be served on are listed. The shared binder matched participant.street_address onto it and wrote the PETITIONER'S HOME ADDRESS there, so the order the judge signs would name the petitioner's own home as a law-enforcement agency's service address. It was matched on a label the census read as the two control characters BEL and ACK, which is not a printed label at all. This family already declares the whole of the order below its caption as court-owned in PROPOSED_ORDER_FIELDS and says in participant-instructions.md that it writes nothing there; that declaration was true of the field map and false of the bytes. Refusing the field makes them agree. The participant lists the agencies from their own records." },
       { field: "Fax", class: "fax_number_not_held",
         why: "The Appearance's fax line. The platform holds no fax number, and the corrected printed label must avoid the word \"Petitioner\" because the shared binder matches its full-name descriptor on it — a first attempt drew the participant\'s name into the fax box." },
       { field: "PetDOB", class: "proposed_order_finding",
@@ -1035,10 +1037,22 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
       && Math.abs(w.rect.x - appearance.x) <= 3 && Math.abs(w.rect.y - appearance.y) <= 3));
   });
 
+  /*
+   * FIX132. Both readings are GLYPH counts taken from the output bytes, not
+   * appearance counts and not intent. Once a widget is flattened its appearance
+   * is the page's ink, so an added-glyph reading that excludes flattened widget
+   * text is a reading of what the builder meant rather than of what it shipped.
+   * Whitespace is excluded because a space marks nothing.
+   */
+  const glyphs = (list) => list.reduce(
+    (total, appearance) => total + String(appearance.text ?? "").replace(/\s/g, "").length, 0);
+
   return {
     findings, chargeBlanks, namePlacements,
     appearancesDrawn: drawn.length,
-    appearancesOutsideMeasuredWriteBoxes: outside.length
+    appearancesOutsideMeasuredWriteBoxes: outside.length,
+    addedGlyphsReadFromOutputBytes: glyphs(drawn),
+    nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: glyphs(outside)
   };
 }
 
@@ -1089,12 +1103,23 @@ function actualWritesArtifacts(documents) {
           + "field's own measured /Rect.",
         valuesReportedByFinalizer: fixtures[label].report.written.length,
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearancesDrawn,
-        addedGlyphsReadFromOutputBytes: 0,
+        /*
+         * FIX132. This was published as a hard 0 with a note saying "zero by
+         * construction, not by measurement". It is measurable and it is not
+         * zero. Once a widget is flattened its appearance IS the page's ink, so
+         * a reading that excludes it reports intent rather than the artifact,
+         * and a published zero where a measurement exists is a defect class
+         * this factory has already recorded. The number now comes from the
+         * bytes; the distinction the old note drew is kept in words.
+         */
+        addedGlyphsReadFromOutputBytes: proof.addedGlyphsReadFromOutputBytes,
         addedGlyphsNote:
-          "Zero by construction, not by measurement: this family writes through AcroForm widgets rather than by "
-          + "drawing into page content, so every mark it makes is a widget appearance and is counted in the "
-          + "column beside this one.",
-        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.appearancesOutsideMeasuredWriteBoxes,
+          "Non-whitespace glyphs read back from the finished PDF's own flattened widget appearances. This family "
+          + "writes through AcroForm widgets rather than by drawing into page content, so every one of these "
+          + "glyphs is a widget appearance the flatten stamped onto the page. It is not a count of ink outside a "
+          + "widget; that is the column beside this one.",
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+        appearancesCarryingTextOutsideMeasuredWriteBoxes: proof.appearancesOutsideMeasuredWriteBoxes,
         refusedFieldsWithInk: proof.findings
           .filter((x) => x.check === "refused_field_carries_ink")
           .map((x) => ({ fieldId: x.field, drawnText: x.drawnText })),
@@ -1233,6 +1258,47 @@ async function main() {
          * rebuild; a single-widget field measures identically either way.
          */
         fitTextPerWidget: true,
+        /*
+         * ARTIFACTS, vf90 at base a09ef20d — the cause, established on this
+         * family's own bytes rather than taken from the label.
+         *
+         * vf90 recorded 84 stroke-only flattened appearances across this
+         * family's four fixtures, 0 of them byte-identical to any /AP /N stream
+         * in the pinned sources, and said plainly that this establishes no
+         * cause. FIX132 established it: ALL 84 are a source /AP /N stream MINUS
+         * its leading opaque background fill — 24 + 24 on the inserts, 18 + 18
+         * on the bundle, nothing left over. The ink is the court's own, so none
+         * of it is removed.
+         *
+         * The defect the stripped fill leaves behind is the Colorado one.
+         * Measured at 300 dpi against an annotation-free render of each pinned
+         * source: 16 of the insert's 16 selection widgets and 15 of the
+         * bundle's 17 sit over form art the page itself prints — a check box
+         * drawn in the page content. The court's /AP covers that printed box
+         * with an opaque near-white fill and strokes a slightly larger one, so
+         * on the official form one box appears. Strip the fill and the printed
+         * box is revealed under the stamped box: TWO CONCENTRIC FRAMES at every
+         * one of those 31 controls, on a filing.
+         *
+         * preserveUnwrittenSelectionBackgrounds keeps the court's own
+         * blank-state paint on an UNWRITTEN check box or radio group only. It
+         * requests no new background — /MK /BG is still removed — and it does
+         * not touch a written field, a text field or any other disposition.
+         *
+         * normalizeInvertedWidgetRects travels with it and is not optional
+         * here. This family's second bound source, CCA-XP-0120-7003 sha256
+         * 65500e2c…, stores ELEVEN widget rectangles upside down on its Exhibit
+         * A page, every one of whose /AP paints. They belong to dropped choice
+         * fields today, so nothing is stamped at them; the day any of them is
+         * preserved or written, PDFForm.flatten() would place its appearance
+         * 11.68pt above the control, which is the Alabama CR-65 defect. ISO
+         * 32000-1 7.9.5 requires a consumer to normalise such a rectangle, and a
+         * form whose rectangles are all conventional is byte-unaffected.
+         *
+         * Opt-in per FAMILY, on the same reasoning as fitTextPerWidget above.
+         */
+        preserveUnwrittenSelectionBackgrounds: true,
+        normalizeInvertedWidgetRects: true,
         title: `IN ${doc.documentId}`
       });
 
