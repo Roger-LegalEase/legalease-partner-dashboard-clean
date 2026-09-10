@@ -1,0 +1,158 @@
+{
+  "lane": "FIX130",
+  "laneKind": "repair",
+  "shift": "packet-factory-24h",
+  "generatedAtBase": "18640d9d8fa4095a6af39a744449786f9ce42b8b",
+  "branch": "fix130b-vt-20260910",
+  "worktree": "/home/user/pfd-worktree",
+  "assignedFamilies": [
+    "vt_exp_decriminalized-set",
+    "vt_seal_18_to_21-set",
+    "vt_seal_felony-set",
+    "vt_seal_pardon-set"
+  ],
+  "claimsAsserted": {
+    "granted": [
+      "vt_exp_decriminalized-set",
+      "vt_seal_18_to_21-set",
+      "vt_seal_felony-set",
+      "vt_seal_pardon-set"
+    ],
+    "refused": []
+  },
+  "notThisLanes": [
+    "vt_seal_dui-set",
+    "vt_seal_misdemeanor-set"
+  ],
+  "verdictsSet": 0,
+  "packetsSelfVerified": 0,
+  "grantsNothing": "A repair opens no route, promotes nothing and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
+  "productionTouched": false,
+  "centralManifestsTouched": [],
+  "sharedModulesModified": [],
+  "sourceRenderMethod": {
+    "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws widget /AP /N appearance streams by default and -hide-annotations was never passed, so the source render carries the ink whose absence from a delivered page the difference is meant to detect.",
+    "provenNotAssumed": "Pinned 600-00228 page 1 rendered both ways in this container: 1611695 dark pixels with annotations and 1602354 with -hide-annotations, a 9341-pixel gap that is entirely widget /AP /N ink. That is the figure VF25 published as the check, reproduced here before any zero from this render was trusted.",
+    "thresholded": "grayscale < 128 counted as dark; added = dark in delivered and not in source, removed = dark in source and not in delivered, per page."
+  },
+  "rows": [
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "whatWasWrong": "The packet wrote eight participant-identity values onto 600-00228, the fee-waiver application -- docket number, case name, name, street address, city/state/zip, email and home/cell phone on page 1, and the participant's name on page 2 at field 117, the Printed Name line of Section 5 beneath 'I declare that the above statement is true and accurate ... I will be subject to the penalty of perjury' -- on a form the same packet's participant-instructions.md and its own bound instruction pages twice told the reader not to complete or file. The same map refused the other 66 fields of that form for the recorded reason 'no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route'. A packet may not fill a form in and tell the reader not to fill it in.",
+      "whichHalfWasFalse": "The controlling record settles it and no legal input was needed. legal-design-packet-set-manifests.json, packetSets[vt_exp_decriminalized-set], component vt_exp_decriminalized-fee-waiver-application-3, carries requirement 'conditional' with conditionDescription 'Only where a fee is charged; on this track none is.' The held fee answer for this route is that no fee is charged (32 V.S.A. Sec. 1431(e)'s $90 reaches only sealing a conviction under 23 V.S.A. Sec. 1201(a)). The condition is not met, the form is not filed, and the instruction page was right: the prefills were the false half. The docket number on a perjury declaration's Printed Name line was wrong under either reading and is gone under this one.",
+      "howItWasRepaired": "In this family's own builder only. The eight 600-00228 entries in POLICY_600_00228 moved from WRITE to a new NOT_FILED policy, which the existing feeWaiverNotApplicable branch already routes into a recorded refusal carrying that same reason, requiredBeforeFiling false. The form is still DELIVERED, exactly as the Judiciary publishes it, because the manifest carries it as a component of the set -- the treatment the sibling vt_seal_nonconviction-set already records for the identical form on the identical no-fee reasoning, whose FEE_WAIVER_COMPONENT_REQUIREMENT shape (nothingIsWrittenOnIt: true, deliveryTreatment 'delivered_unfilled') is now recorded here too, in production-field-map.json and reports/rendered-artifacts.json. A build-time assertion reads the OUTPUT BYTES and refuses the build if 600-00228 carries any drawn value in either fixture; the map was honest before this repair while the artifact still carried the eight values, so the map is not the place to check.",
+      "noSharedModuleChanged": "No shared module was touched. The change is confined to scripts/build-census-v1-vt_exp_decriminalized-set.mjs, which builds this family alone.",
+      "instructionProseUnchanged": "participant-instructions.md and the composed instruction pages are byte-identical to the committed ones: they already said, once and consistently, that no fee is charged on this track and that 600-00228 is not to be completed or filed. Nothing was added to paper over the contradiction; the write was removed instead.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set run in this container after the rebuild: PASS_COMPLETE, 18/169 written, down from 26/169. visualDefects was measured from the raster in both directions rather than read from a counter: see acceptanceMeasuredAfterRepair.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "document": "200-00129",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "200-00132A",
+          "addedGlyphsReadFromOutputBytes": 130,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00129",
+          "addedGlyphsReadFromOutputBytes": 266,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "200-00132A",
+          "addedGlyphsReadFromOutputBytes": 208,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "document": "600-00228",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "acceptanceMeasuredAfterRepair": {
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN on BOTH the delivered packet and the pinned source, thresholded at 128. Proven before it was trusted: pinned 600-00228 page 1 measures 1611695 dark with annotations and 1602354 with -hide-annotations, a 9341-pixel gap of widget /AP /N ink.",
+        "canonical": "p1 ADDED 32625 REMOVED 0; p2 ADDED 75989 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 0 REMOVED 0; p6 ADDED 0 REMOVED 0; pp7-8 are composed instruction pages with no pinned source to difference against.",
+        "boundary": "p1 ADDED 53057 REMOVED 0; p2 ADDED 134009 REMOVED 0; p3 ADDED 158502 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 0 REMOVED 0; p6 ADDED 0 REMOVED 0; pp7-8 composed.",
+        "negativeControl": "Pages 1-4 are pages this repair did not touch. Their added counts are IDENTICAL to the figures VF25 published for the pre-repair bytes (32625 / 75989 / 108866 canonical and 53057 / 134009 / 158502 boundary) and page 4, the proposed order, stays 0 added and 0 removed in both fixtures.",
+        "theRepairedPages": "Packet pages 5 and 6 are 600-00228 pages 1 and 2. Both now measure darkDelivered EXACTLY EQUAL to darkSource -- 1611695 and 1236377, which are the annotations-ON figures -- so nothing was written and nothing was erased. Had the render hidden annotations it would have read 1602354 and 1231064 and published ADDED 9341 and 5313 instead of 0.",
+        "borderRepairStillHolds": "The earlier FIX130 border repair was not undone: page 5 renders pixel-identical to the pinned source, so the six restored source-authored /AP /N /Off appearances on 600-00228 are still there and no second frame stands at any check box. Read on the delivered page as well as counted."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a037678f261d665110b15b66fd3a2d02ee5d555097f0d8c1b780d5b36473c97b",
+          "pageCount": 8,
+          "pageCountMeasuredWith": "pdfinfo",
+          "supersedes": "d986a5b34c3028d3c62a004c0a78552ac9504025d5d57b9ad40c8af446e3a89d"
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "80a016982254099af7ab558616ba8d96169e61244c5796d2fbaf6bcebefecd6a",
+          "pageCount": 8,
+          "pageCountMeasuredWith": "pdfinfo",
+          "supersedes": "9a4418753acda84cf4272a30250df2e9feb0a44a1ffeb00e330c207c454c1962"
+        }
+      ],
+      "sourcesResolved": [
+        {
+          "sourceId": "official-form:200-00129",
+          "sha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5"
+        },
+        {
+          "sourceId": "official-form:200-00132A",
+          "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec"
+        },
+        {
+          "sourceId": "official-form:600-00228",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+        }
+      ],
+      "governance": {
+        "routedThrough": "scripts/rcap-packet-completeness/governance-preservation.mjs, carryForwardGovernance, run against this family's committed product-wiring.json with the measured new canonical a037678f...",
+        "decision": "The committed binding holds acceptanceReceipt null and one acceptanceReceiptWithdrawn entry already on the record (the RASTER_PASS bound to 4d9b64e0..., withdrawn when the border repair moved the bytes). There was no standing receipt to withdraw, so the module carried the five unauthored keys forward verbatim and authored nothing. The resulting binding is content-identical to the committed one, so product-wiring.json is left unmodified rather than rewritten with a reordered key.",
+        "verifier": "npm run rcap:verify-governance-preservation -- exit status 0, 'product-wiring records compared against HEAD: 295 · carrying governance state: 295 · withdrawn receipts on the record: 35 / EVERY_GOVERNANCE_KEY_SURVIVED / GOVERNANCE_PRESERVATION_OK · 16 checks'.",
+        "noReceiptCoversTheseBytes": "No RASTER_PASS covers canonical a037678f... or boundary 80a01698.... None was dispatched by this lane."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "No raster receipt. rasterState is BUILT_RASTER_PENDING and only the central workflow issues one.",
+        "The three open legal inputs on this track are untouched and still open: the Sec. 7602(a)(5) CDL question, the Sec. 7602(a)(4) stipulated-expungement question, and whether question 2(d) of 200-00129 is route-determined."
+      ],
+      "grantsNothing": "This repair opens no route, promotes nothing, issues no PASS and sets no verdict."
+    }
+  ]
+}

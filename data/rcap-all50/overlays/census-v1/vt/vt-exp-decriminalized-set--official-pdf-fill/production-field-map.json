@@ -29,7 +29,12 @@
     "fee_waiver_application": {
       "requirement": "conditional",
       "conditionDescription": "Only where a filing fee is actually charged; on this track none is.",
-      "filingDispositionForThisTrack": "do_not_file"
+      "conditionMetOnThisTrack": false,
+      "filingDispositionForThisTrack": "do_not_file",
+      "deliveryTreatment": "delivered_unfilled",
+      "whyItIsStillDelivered": "600-00228 is the Vermont Judiciary's single statewide fee-waiver application and the packet-set manifest carries it as a component of this set. It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file. The instructions and the composed instruction pages name the form, say no fee is charged on this track, and say the only circumstance in which it is used.",
+      "nothingIsWrittenOnIt": true,
+      "manifestRecord": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_exp_decriminalized-set].components[vt_exp_decriminalized-fee-waiver-application-3]"
     }
   },
   "captionBasis": "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
@@ -5852,16 +5857,7 @@
       },
       "structuralClass": "acroform",
       "component": "fee_waiver_application",
-      "explicitMappings": {
-        "2": "participant.street_address",
-        "3": "participant.full_legal_name",
-        "4": "participant.city_state_zip",
-        "6": "participant.phone",
-        "117": "participant.full_legal_name",
-        "Docket Number": "matter.case_number",
-        "Case Name": "participant.full_legal_name",
-        "5a": "participant.email"
-      },
+      "explicitMappings": {},
       "roleRefusals": [],
       "selectionControls": [
         {
@@ -6141,208 +6137,7 @@
           "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
         }
       ],
-      "canonicalWrites": [
-        {
-          "field": "Docket Number",
-          "widgetName": "Docket Number",
-          "page": 1,
-          "rect": {
-            "x": 452.78,
-            "y": 709.27,
-            "width": 121.86,
-            "height": 18.73
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Unit Case No. ______________________",
-          "printedLine": "Unit Case No. ______________________",
-          "regionHeading": "Case No. (docket number)",
-          "sectionHeading": null,
-          "effectiveLabel": "Case No. (docket number)",
-          "captionReadAt": {
-            "page": 1,
-            "y": 712,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "matter.case_number",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "Case Name",
-          "widgetName": "Case Name",
-          "page": 1,
-          "rect": {
-            "x": 86.23,
-            "y": 636.53,
-            "width": 485,
-            "height": 22.12
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Case Name",
-          "printedLine": "Case Name",
-          "regionHeading": "Case Name",
-          "sectionHeading": null,
-          "effectiveLabel": "Case Name",
-          "captionReadAt": {
-            "page": 1,
-            "y": 651,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "3",
-          "widgetName": "3",
-          "page": 1,
-          "rect": {
-            "x": 133.63,
-            "y": 606.9,
-            "width": 429.36,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Name: (First & Last) ________________________________________________________________________________",
-          "printedLine": "Name: (First & Last) ________________________________________________________________________________",
-          "regionHeading": "Name: (First & Last)",
-          "sectionHeading": null,
-          "effectiveLabel": "Name: (First & Last)",
-          "captionReadAt": {
-            "page": 1,
-            "y": 609,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "2",
-          "widgetName": "2",
-          "page": 1,
-          "rect": {
-            "x": 108.76,
-            "y": 588.4,
-            "width": 454.23,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Street Address: ___________________________________________________________________________________",
-          "printedLine": "Street Address: ___________________________________________________________________________________",
-          "regionHeading": "Street Address:",
-          "sectionHeading": null,
-          "effectiveLabel": "Street Address:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 591,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.street_address",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "6",
-          "widgetName": "6",
-          "page": 1,
-          "rect": {
-            "x": 126.38,
-            "y": 515.45,
-            "width": 175.82,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
-          "printedLine": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
-          "regionHeading": "Home / Cell Phone:",
-          "sectionHeading": null,
-          "effectiveLabel": "Home / Cell Phone:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 517,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.phone",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "4",
-          "widgetName": "4",
-          "page": 1,
-          "rect": {
-            "x": 103.52,
-            "y": 570,
-            "width": 459.47,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "City/State/Zip: ______________________________________________________________________________________________________",
-          "printedLine": "City/State/Zip: ______________________________________________________________________________________________________",
-          "regionHeading": "City/State/Zip:",
-          "sectionHeading": null,
-          "effectiveLabel": "City/State/Zip:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 572,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.city_state_zip",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "5a",
-          "widgetName": "5a",
-          "page": 1,
-          "rect": {
-            "x": 104.41,
-            "y": 532.54,
-            "width": 459.47,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Email Address: ____________________________________________________________________________________",
-          "printedLine": "Email Address: ____________________________________________________________________________________",
-          "regionHeading": "Email Address:",
-          "sectionHeading": null,
-          "effectiveLabel": "Email Address:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 535,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.email",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "117",
-          "widgetName": "117",
-          "page": 2,
-          "rect": {
-            "x": 326.81,
-            "y": 82.48,
-            "width": 233.87,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "_______________________________________",
-          "printedLine": "_______________________________________",
-          "regionHeading": "Printed Name",
-          "sectionHeading": null,
-          "effectiveLabel": "Printed Name",
-          "captionReadAt": {
-            "page": 2,
-            "y": 86,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
-        }
-      ],
+      "canonicalWrites": [],
       "canonicalRefusals": [
         {
           "field": "Division",
@@ -6405,6 +6200,126 @@
           "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
         },
         {
+          "field": "Docket Number",
+          "widgetName": "Docket Number",
+          "page": 1,
+          "rect": {
+            "x": 452.78,
+            "y": 709.27,
+            "width": 121.86,
+            "height": 18.73
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Unit Case No. ______________________",
+          "printedLine": "Unit Case No. ______________________",
+          "regionHeading": "Case No. (docket number)",
+          "sectionHeading": null,
+          "effectiveLabel": "Case No. (docket number)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 712,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "Case Name",
+          "widgetName": "Case Name",
+          "page": 1,
+          "rect": {
+            "x": 86.23,
+            "y": 636.53,
+            "width": 485,
+            "height": 22.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Case Name",
+          "printedLine": "Case Name",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 651,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "3",
+          "widgetName": "3",
+          "page": 1,
+          "rect": {
+            "x": 133.63,
+            "y": 606.9,
+            "width": 429.36,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Name: (First & Last) ________________________________________________________________________________",
+          "printedLine": "Name: (First & Last) ________________________________________________________________________________",
+          "regionHeading": "Name: (First & Last)",
+          "sectionHeading": null,
+          "effectiveLabel": "Name: (First & Last)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 609,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "2",
+          "widgetName": "2",
+          "page": 1,
+          "rect": {
+            "x": 108.76,
+            "y": 588.4,
+            "width": 454.23,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Street Address: ___________________________________________________________________________________",
+          "printedLine": "Street Address: ___________________________________________________________________________________",
+          "regionHeading": "Street Address:",
+          "sectionHeading": null,
+          "effectiveLabel": "Street Address:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 591,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
           "field": "5",
           "widgetName": "5",
           "page": 1,
@@ -6423,6 +6338,36 @@
           "captionReadAt": {
             "page": 1,
             "y": 554,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "6",
+          "widgetName": "6",
+          "page": 1,
+          "rect": {
+            "x": 126.38,
+            "y": 515.45,
+            "width": 175.82,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
+          "printedLine": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
+          "regionHeading": "Home / Cell Phone:",
+          "sectionHeading": null,
+          "effectiveLabel": "Home / Cell Phone:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 517,
             "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
           },
           "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
@@ -6663,6 +6608,66 @@
           "captionReadAt": {
             "page": 1,
             "y": 322,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "4",
+          "widgetName": "4",
+          "page": 1,
+          "rect": {
+            "x": 103.52,
+            "y": 570,
+            "width": 459.47,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "City/State/Zip: ______________________________________________________________________________________________________",
+          "printedLine": "City/State/Zip: ______________________________________________________________________________________________________",
+          "regionHeading": "City/State/Zip:",
+          "sectionHeading": null,
+          "effectiveLabel": "City/State/Zip:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 572,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "5a",
+          "widgetName": "5a",
+          "page": 1,
+          "rect": {
+            "x": 104.41,
+            "y": 532.54,
+            "width": 459.47,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Email Address: ____________________________________________________________________________________",
+          "printedLine": "Email Address: ____________________________________________________________________________________",
+          "regionHeading": "Email Address:",
+          "sectionHeading": null,
+          "effectiveLabel": "Email Address:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 535,
             "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
           },
           "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
@@ -8321,183 +8326,6 @@
           "requiredBeforeFiling": false,
           "document": "600-00228",
           "why": "the participant signs and dates this themselves at filing time"
-        }
-      ],
-      "boundaryWrites": [
-        {
-          "field": "Docket Number",
-          "widgetName": "Docket Number",
-          "page": 1,
-          "rect": {
-            "x": 452.78,
-            "y": 709.27,
-            "width": 121.86,
-            "height": 18.73
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Unit Case No. ______________________",
-          "printedLine": "Unit Case No. ______________________",
-          "regionHeading": "Case No. (docket number)",
-          "sectionHeading": null,
-          "effectiveLabel": "Case No. (docket number)",
-          "captionReadAt": {
-            "page": 1,
-            "y": 712,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "matter.case_number",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "Case Name",
-          "widgetName": "Case Name",
-          "page": 1,
-          "rect": {
-            "x": 86.23,
-            "y": 636.53,
-            "width": 485,
-            "height": 22.12
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Case Name",
-          "printedLine": "Case Name",
-          "regionHeading": "Case Name",
-          "sectionHeading": null,
-          "effectiveLabel": "Case Name",
-          "captionReadAt": {
-            "page": 1,
-            "y": 651,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "3",
-          "widgetName": "3",
-          "page": 1,
-          "rect": {
-            "x": 133.63,
-            "y": 606.9,
-            "width": 429.36,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Name: (First & Last) ________________________________________________________________________________",
-          "printedLine": "Name: (First & Last) ________________________________________________________________________________",
-          "regionHeading": "Name: (First & Last)",
-          "sectionHeading": null,
-          "effectiveLabel": "Name: (First & Last)",
-          "captionReadAt": {
-            "page": 1,
-            "y": 609,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "2",
-          "widgetName": "2",
-          "page": 1,
-          "rect": {
-            "x": 108.76,
-            "y": 588.4,
-            "width": 454.23,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Street Address: ___________________________________________________________________________________",
-          "printedLine": "Street Address: ___________________________________________________________________________________",
-          "regionHeading": "Street Address:",
-          "sectionHeading": null,
-          "effectiveLabel": "Street Address:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 591,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.street_address",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "6",
-          "widgetName": "6",
-          "page": 1,
-          "rect": {
-            "x": 126.38,
-            "y": 515.45,
-            "width": 175.82,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
-          "printedLine": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
-          "regionHeading": "Home / Cell Phone:",
-          "sectionHeading": null,
-          "effectiveLabel": "Home / Cell Phone:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 517,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.phone",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "4",
-          "widgetName": "4",
-          "page": 1,
-          "rect": {
-            "x": 103.52,
-            "y": 570,
-            "width": 459.47,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "City/State/Zip: ______________________________________________________________________________________________________",
-          "printedLine": "City/State/Zip: ______________________________________________________________________________________________________",
-          "regionHeading": "City/State/Zip:",
-          "sectionHeading": null,
-          "effectiveLabel": "City/State/Zip:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 572,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.city_state_zip",
-          "kind": "text",
-          "document": "600-00228"
-        },
-        {
-          "field": "5a",
-          "widgetName": "5a",
-          "page": 1,
-          "rect": {
-            "x": 104.41,
-            "y": 532.54,
-            "width": 459.47,
-            "height": 12.96
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
-          "printedLabel": "Email Address: ____________________________________________________________________________________",
-          "printedLine": "Email Address: ____________________________________________________________________________________",
-          "regionHeading": "Email Address:",
-          "sectionHeading": null,
-          "effectiveLabel": "Email Address:",
-          "captionReadAt": {
-            "page": 1,
-            "y": 535,
-            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
-          },
-          "factId": "participant.email",
-          "kind": "text",
-          "document": "600-00228"
         },
         {
           "field": "117",
@@ -8520,11 +8348,17 @@
             "y": 86,
             "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
           },
-          "factId": "participant.full_legal_name",
-          "kind": "text",
-          "document": "600-00228"
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
         }
       ],
+      "boundaryWrites": [],
       "boundaryRefusals": [
         {
           "field": "Division",
@@ -8587,6 +8421,126 @@
           "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
         },
         {
+          "field": "Docket Number",
+          "widgetName": "Docket Number",
+          "page": 1,
+          "rect": {
+            "x": 452.78,
+            "y": 709.27,
+            "width": 121.86,
+            "height": 18.73
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Unit Case No. ______________________",
+          "printedLine": "Unit Case No. ______________________",
+          "regionHeading": "Case No. (docket number)",
+          "sectionHeading": null,
+          "effectiveLabel": "Case No. (docket number)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 712,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "Case Name",
+          "widgetName": "Case Name",
+          "page": 1,
+          "rect": {
+            "x": 86.23,
+            "y": 636.53,
+            "width": 485,
+            "height": 22.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Case Name",
+          "printedLine": "Case Name",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 651,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "3",
+          "widgetName": "3",
+          "page": 1,
+          "rect": {
+            "x": 133.63,
+            "y": 606.9,
+            "width": 429.36,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Name: (First & Last) ________________________________________________________________________________",
+          "printedLine": "Name: (First & Last) ________________________________________________________________________________",
+          "regionHeading": "Name: (First & Last)",
+          "sectionHeading": null,
+          "effectiveLabel": "Name: (First & Last)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 609,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "2",
+          "widgetName": "2",
+          "page": 1,
+          "rect": {
+            "x": 108.76,
+            "y": 588.4,
+            "width": 454.23,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Street Address: ___________________________________________________________________________________",
+          "printedLine": "Street Address: ___________________________________________________________________________________",
+          "regionHeading": "Street Address:",
+          "sectionHeading": null,
+          "effectiveLabel": "Street Address:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 591,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
           "field": "5",
           "widgetName": "5",
           "page": 1,
@@ -8605,6 +8559,36 @@
           "captionReadAt": {
             "page": 1,
             "y": 554,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "6",
+          "widgetName": "6",
+          "page": 1,
+          "rect": {
+            "x": 126.38,
+            "y": 515.45,
+            "width": 175.82,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
+          "printedLine": "Home / Cell Phone: _________________________________ Work Phone: ___________________________________",
+          "regionHeading": "Home / Cell Phone:",
+          "sectionHeading": null,
+          "effectiveLabel": "Home / Cell Phone:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 517,
             "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
           },
           "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
@@ -8845,6 +8829,66 @@
           "captionReadAt": {
             "page": 1,
             "y": 322,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "4",
+          "widgetName": "4",
+          "page": 1,
+          "rect": {
+            "x": 103.52,
+            "y": 570,
+            "width": 459.47,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "City/State/Zip: ______________________________________________________________________________________________________",
+          "printedLine": "City/State/Zip: ______________________________________________________________________________________________________",
+          "regionHeading": "City/State/Zip:",
+          "sectionHeading": null,
+          "effectiveLabel": "City/State/Zip:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 572,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+        },
+        {
+          "field": "5a",
+          "widgetName": "5a",
+          "page": 1,
+          "rect": {
+            "x": 104.41,
+            "y": 532.54,
+            "width": 459.47,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Email Address: ____________________________________________________________________________________",
+          "printedLine": "Email Address: ____________________________________________________________________________________",
+          "regionHeading": "Email Address:",
+          "sectionHeading": null,
+          "effectiveLabel": "Email Address:",
+          "captionReadAt": {
+            "page": 1,
+            "y": 535,
             "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
           },
           "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
@@ -10503,6 +10547,36 @@
           "requiredBeforeFiling": false,
           "document": "600-00228",
           "why": "the participant signs and dates this themselves at filing time"
+        },
+        {
+          "field": "117",
+          "widgetName": "117",
+          "page": 2,
+          "rect": {
+            "x": 326.81,
+            "y": 82.48,
+            "width": 233.87,
+            "height": 12.96
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "_______________________________________",
+          "printedLine": "_______________________________________",
+          "regionHeading": "Printed Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Printed Name",
+          "captionReadAt": {
+            "page": 2,
+            "y": 86,
+            "basis": "nearest printed line to this widget's own baseline, read from the pinned binary at build time"
+          },
+          "reason": "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "document": "600-00228",
+          "why": "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
         }
       ]
     },

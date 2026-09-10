@@ -86,6 +86,56 @@ const WRITE = (fact) => ({ policy: "write", fact });
 const SUPPLY = (what) => ({ policy: "supply", what });
 const PROTECT = (why) => ({ policy: "protect", refusalClass: why });
 const ELECTION = () => ({ policy: "election" });
+/*
+ * FIX130. A blank on a component this route does not file.
+ *
+ * 600-00228 is delivered as a component of this packet set and its own manifest
+ * record -- legal-design-packet-set-manifests.json, packetSets[vt_exp_decriminalized-set]
+ * component vt_exp_decriminalized-fee-waiver-application-3 -- carries
+ * requirement "conditional" with conditionDescription "Only where a fee is
+ * charged; on this track none is." No fee is charged here, so the condition is
+ * not met, the form is not filed, and nothing participant-supplied belongs on
+ * it. `not_filed` says that in the policy table itself rather than leaving a
+ * blank to be read as a write the platform simply has no value for.
+ */
+const NOT_FILED = (what) => ({ policy: "not_filed", what });
+
+/*
+ * FIX130. What this packet does with 600-00228, and the record that decides it.
+ *
+ * The build used to deliver the fee-waiver application AND prefill it with the
+ * participant's docket number, case name, name, street address, city/state/zip,
+ * email, telephone and -- on page 2, on the Printed Name line of a declaration
+ * made under penalty of perjury -- their name again, while this same packet's
+ * instruction page and composed instruction pages told the reader twice not to
+ * complete or file that form on this track. A packet may not fill a form in and
+ * tell the reader not to fill it in: one of the two is false.
+ *
+ * The manifest decides which. legal-design-packet-set-manifests.json,
+ * packetSets[vt_exp_decriminalized-set], component
+ * vt_exp_decriminalized-fee-waiver-application-3, carries requirement
+ * "conditional" and conditionDescription "Only where a fee is charged; on this
+ * track none is." The held fee answer for this route is that no fee is charged
+ * -- 32 V.S.A. Sec. 1431(e)'s $90 reaches only sealing a conviction under
+ * 23 V.S.A. Sec. 1201(a) -- so the condition is not met and the form is not
+ * filed. The instruction page was right and the prefills were the false half.
+ *
+ * The form is still DELIVERED, because the manifest carries it as a component
+ * of this set, and it is delivered exactly as the Judiciary publishes it with
+ * nothing written on it. That is the treatment the sibling family
+ * vt_seal_nonconviction-set already records for the identical form on the
+ * identical no-fee reasoning.
+ */
+const FEE_WAIVER_COMPONENT_REQUIREMENT = Object.freeze({
+  requirement: "conditional",
+  conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+  conditionMetOnThisTrack: false,
+  filingDispositionForThisTrack: "do_not_file",
+  deliveryTreatment: "delivered_unfilled",
+  whyItIsStillDelivered: "600-00228 is the Vermont Judiciary's single statewide fee-waiver application and the packet-set manifest carries it as a component of this set. It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file. The instructions and the composed instruction pages name the form, say no fee is charged on this track, and say the only circumstance in which it is used.",
+  nothingIsWrittenOnIt: true,
+  manifestRecord: "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_exp_decriminalized-set].components[vt_exp_decriminalized-fee-waiver-application-3]"
+});
 
 const COMPONENTS = ["petition", "stipulation_and_proposed_order", "fee_waiver_application", "filing_and_expectation_instructions"];
 const DOCUMENT_OF_COMPONENT = {
@@ -188,14 +238,14 @@ const POLICY_200_00132A = {
 const POLICY_600_00228 = {
   "Division": { ...SUPPLY("the Superior Court division your case is in"), label: "SUPERIOR COURT DIVISION" },
   "Unit": { ...SUPPLY("the Superior Court unit (county) where the case was decided"), label: "Unit (Superior Court unit)" },
-  "Docket Number": { ...WRITE("matter.case_number"), label: "Case No. (docket number)" },
-  "Case Name": { ...WRITE("participant.full_legal_name"), label: "Case Name" },
-  "3": { ...WRITE("participant.full_legal_name"), label: "Name: (First & Last)" },
-  "2": { ...WRITE("participant.street_address"), label: "Street Address:" },
-  "4": { ...WRITE("participant.city_state_zip"), label: "City/State/Zip:" },
+  "Docket Number": { ...NOT_FILED("the docket number, only if a fee is actually charged and this waiver is used"), label: "Case No. (docket number)" },
+  "Case Name": { ...NOT_FILED("the case name, only if a fee is actually charged and this waiver is used"), label: "Case Name" },
+  "3": { ...NOT_FILED("your name, only if a fee is actually charged and this waiver is used"), label: "Name: (First & Last)" },
+  "2": { ...NOT_FILED("your street address, only if a fee is actually charged and this waiver is used"), label: "Street Address:" },
+  "4": { ...NOT_FILED("your city, state and zip, only if a fee is actually charged and this waiver is used"), label: "City/State/Zip:" },
   "5": { ...SUPPLY("a mailing address, only if it is different from your street address"), label: "Mailing Address: (if different from street address)" },
-  "5a": { ...WRITE("participant.email"), label: "Email Address:" },
-  "6": { ...WRITE("participant.phone"), label: "Home / Cell Phone:" },
+  "5a": { ...NOT_FILED("your email address, only if a fee is actually charged and this waiver is used"), label: "Email Address:" },
+  "6": { ...NOT_FILED("your home or cell phone number, only if a fee is actually charged and this waiver is used"), label: "Home / Cell Phone:" },
   "7": { ...SUPPLY("your work phone number, if you have one"), label: "Work Phone:" },
   "8": { ...SUPPLY("how many people live in your household, counting a spouse or partner and any dependants"), label: "Total Number Living in Household (spouse, partner & dependents)" },
   "15": { ...ELECTION(), label: "Are you employed? Yes" },
@@ -265,7 +315,7 @@ const POLICY_600_00228 = {
   "113": { ...SUPPLY("anything else you want the court to know about why you cannot afford the fees — this is yours to write"), label: "These are additional reasons why I cannot afford the fees:" },
   "115": { ...PROTECT(SIGNATURE), label: "Date" },
   "116": { ...PROTECT(SIGNATURE), label: "Applicant Signature" },
-  "117": { ...WRITE("participant.full_legal_name"), label: "Printed Name" },
+  "117": { ...NOT_FILED("your printed name under the declaration, only if a fee is actually charged and this waiver is used"), label: "Printed Name" },
 };
 
 /* 200-00129 asks one question 200-00130 does not: whether the conduct is still
@@ -1069,13 +1119,7 @@ function writeArtifacts(ctx) {
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
     componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
-    componentRequirements: {
-      fee_waiver_application: {
-        requirement: "conditional",
-        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
-        filingDispositionForThisTrack: "do_not_file"
-      }
-    },
+    componentRequirements: { fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT },
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: [],
@@ -1110,13 +1154,7 @@ function writeArtifacts(ctx) {
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
-    componentRequirements: {
-      fee_waiver_application: {
-        requirement: "conditional",
-        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
-        filingDispositionForThisTrack: "do_not_file"
-      }
-    },
+    componentRequirements: { fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT },
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     /*
      * Every write the finalizer refused, per fixture. Silence here is what let
@@ -1220,7 +1258,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       familyId, status: "CHECK_ONLY",
       documents: censuses.map((c) => {
         const by = (p) => c.census.rows.filter((r) => r.policy === p).length;
-        return { formNumber: c.source.formNumber, sha256: c.source.sha256, widgets: c.census.rows.length, write: by("write"), supply: by("supply"), protect: by("protect"), election: by("election") };
+        return { formNumber: c.source.formNumber, sha256: c.source.sha256, widgets: c.census.rows.length, write: by("write"), supply: by("supply"), protect: by("protect"), election: by("election"), notFiled: by("not_filed") };
       })
     };
   }
@@ -1260,6 +1298,18 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
         prefillsRefusedByTheFinalizer: refusedPrefills,
         actualWrites: proof.actualWrites
       });
+      /*
+       * FIX130. The form this route does not file carries no platform ink, and
+       * that is asserted against the OUTPUT BYTES rather than against the map.
+       * The map was honest before this repair and the artifact still carried
+       * eight participant-identity values, so the map is not the place to check.
+       */
+      if (source.formNumber === "600-00228") {
+        assert.equal(report.written.length, 0,
+          `600-00228 is not filed on this route and the finalizer reported ${report.written.length} write(s) on it`);
+        assert.equal(proof.actualWrites.length, 0,
+          `600-00228 is not filed on this route and its ${fixtureName} bytes carry ${proof.actualWrites.length} drawn value(s)`);
+      }
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
       for (const [i, p] of (await packet.copyPages(doc, doc.getPageIndices())).entries()) {
         packet.addPage(p);
