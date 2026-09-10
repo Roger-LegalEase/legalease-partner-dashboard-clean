@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-checkpoints/v1",
+  "lane": "FIX135",
+  "laneKind": "repair",
+  "date": "2026-09-10",
+  "base": "cac0c40c93dc72fa5551438d11ec7e1ce7fa5331",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "fix135b-cone-20260910",
+  "rowsReturn": "data/rcap-grade-a/packet-factory-24h/fix135/rows-fix135b-cone-20260910.json",
+  "lines": [
+    {
+      "at": "claim",
+      "line": "CLAIM_OK FIX135 co_multiple_conviction_seal-set (repair, grant set 26f8666a03fab4fc) and CLAIM_OK FIX135 ne-setaside-custodial-set (repair, grant set 26f8666a03fab4fc). Both asserted before any family content was read."
+    },
+    {
+      "at": "render proof",
+      "line": "The pinned Colorado sources render WITH annotations: pdftoppm 24.02.0 -r 600 -gray -png, no -hide-annotations. Proved on my own tooling before any zero was trusted -- JDF-641 page 5 is 725,313 dark with annotations and 521,645 with them hidden, and inside field 11.1's /Rect the drawing render carries 60,688 against 0 in the control. The difference between the two page totals is 203,668; I carry VF29's correction of my earlier 210,820 rather than re-deriving it."
+    },
+    {
+      "at": "CO CLIPPING_AND_OVERLAP",
+      "line": "All 16 written text widgets -- 9 on JDF-641, 7 on JDF-642 -- declared /BS /S /U with a rule-only /AP /N and delivered a closepath-stroked rectangle on all four sides. honorWidgetBorderStyle passed at this family's own call site; the shared default stays false and the other three Colorado forms in DECLARED_UNDERLINE_WIDGETS.json are untouched. All 16 now deliver as a single line, read from the delivered bytes: added dark pixels in the 2 pt bands along the three sides the source does not print fell from 280,002 to 19 canonical and 280,005 to 9 boundary, and all 19 are the descender of the leading 'j' of the e-mail address inside the widget's own rect."
+    },
+    {
+      "at": "CO ARTIFACTS",
+      "line": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes was a literal 0 and visualDefects was gated on that literal. Both output-byte glyph readings are now measured from the produced PDF through the shared FIX137 module, an ABSENT reading counts as a defect rather than a zero, and the counter additionally reads what the delivered appearance at each declared-underline widget strokes. That last reading fires 16 times on the pre-repair bytes and 0 times after."
+    },
+    {
+      "at": "CO directional raster",
+      "line": "600 dpi, both fixtures, against the annotation-drawing source render. Removed: 0 on every page of both fixtures, and 0 outside every declared write box. Added, canonical: p1 100,576 / p2 0 / p3 0 / p4 0 / p5 12,473 / p6 80,219 / p7 1. Boundary: p1 177,588 / p2 0 / p3 0 / p4 0 / p5 28,035 / p6 152,468 / p7 1. Negative control on pages 2, 3 and 4, which this packet writes nothing on: identical to the pixel in both directions. The single page-7 pixel is the known renderer rounding artefact and was left alone."
+    },
+    {
+      "at": "CO governance",
+      "line": "Written through generate-product-wiring.mjs --family, which routes through carryForwardGovernance. Digest re-pinned b73f1b3c3121 -> dd8a44b18681; all six governance keys survive; the receipt withdrawn at the earlier repair (48cf9bf5cf44 -> b73f1b3c3121) is preserved verbatim. There was no live receipt to withdraw this time and I authored none. npm run rcap:verify-governance-preservation exits 0, but it reports 279 of 295 records NOT MEASURED because they are not checked out here -- a limit of the sparse worktree, not a pass."
+    },
+    {
+      "at": "CO raster images",
+      "line": "Built with --no-raster as instructed. The 14 committed PNGs depicted the superseded bytes and were removed rather than left to describe a packet that no longer exists; rendered-artifacts.json and independent-visual-review.json now say so in words. rasterState BUILT_RASTER_PENDING. No raster dispatched."
+    }
+  ],
+  "outcome": "COLORADO returned. NEBRASKA in progress.",
+  "verdictSet": "none",
+  "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, promotes no route and opens no commercial path."
+}

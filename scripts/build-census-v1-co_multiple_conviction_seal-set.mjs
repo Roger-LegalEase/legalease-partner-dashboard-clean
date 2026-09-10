@@ -50,6 +50,9 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { declaredUnderlineBorder, sourceAppearancePaintsRectangle }
+  from "./rcap-official-forms/rcap-active-content.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -70,7 +73,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFRawStream, decodePDFRawStream } = require("pdf-lib");
 
 const FAMILY_ID = "co_multiple_conviction_seal-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -496,6 +499,49 @@ async function renderDocument(source, census, fixtureName) {
      * /MK /BG is still removed, and the shared module is not modified, so no
      * other family's next rebuild moves a byte because this family passes it. */
     preserveUnwrittenSelectionBackgrounds: true,
+    /* FIX135b. THE PACKET BOXES THE COURT'S WRITING RULES. SIXTEEN OF THEM.
+     *
+     * VF29 measured this on the committed bytes and it reproduces here. Every
+     * WRITTEN text widget on both forms -- 9 on JDF-641, 7 on JDF-642 --
+     * declares `/BS << /S /U /W 1 >>`, ISO 32000-1 Table 168's underline: "a
+     * single line along the bottom of the annotation rectangle". Each ships an
+     * `/AP /N` that draws exactly that one rule and nothing else; County's is
+     * `0 G / 0 0.5 m / 193.636 0.5 l / s`. pdf-lib's text provider never reads
+     * `/BS /S` and strokes a full rectangle from `/MK /BC [0 0 0]`, so the
+     * delivered appearance is `0 0 0 RG 1 w [] 0 d ... 0 0 m 0 11.24 l
+     * 192.636 11.24 l 192.636 0 l h S` -- a closepath stroke of all four sides.
+     *
+     * WHAT THAT HANDS THE PARTICIPANT. "Colorado County: ______", "Date of
+     * Birth: ______", "Mailing Address: ______", "City, State, & Zip: ______",
+     * "Phone: ______" and "Email: ______" all arrive as boxed fields. Measured
+     * at 600 dpi against an annotation-DRAWING render of the pinned sources, in
+     * 2 pt bands along the three sides the source does not print: 280,002 added
+     * dark pixels on the canonical fixture and 280,005 on the boundary, the
+     * majority of all added ink in the packet. It sits INSIDE a declared write
+     * box, so no completeness counter sees it, and it is drawn in the same
+     * stream as the written value, so a byte-accounting sweep that classifies
+     * stroke-ONLY appearances cannot see it either.
+     *
+     * The two border remedies this family already passes do not reach it.
+     * suppressSynthesizedWidgetBorders above acts only on a field this run left
+     * UNWRITTEN; preserveUnwrittenSelectionBackgrounds acts only on an unwritten
+     * SELECTION widget. These sixteen are written text fields.
+     *
+     * honorWidgetBorderStyle removes `/MK /BC` before regeneration so no
+     * rectangle is synthesised, then draws the declared underline back from that
+     * same `/MK /BC` and the widget's `/BS /W`, in the appearance's own /BBox
+     * space and last, so the court's rule is KEPT rather than traded away. A
+     * widget whose declared style and shipped appearance contradict each other
+     * is refused and counted, never repaired.
+     *
+     * Passed at THIS FAMILY'S OWN CALL SITE and not by changing the shared
+     * default: the option is default-false in
+     * scripts/rcap-official-forms/rcap-active-content.mjs, Colorado declares 209
+     * underline widgets across five forms per
+     * data/rcap-grade-a/packet-factory-24h/DECLARED_UNDERLINE_WIDGETS.json, and
+     * the other three forms' delivered bytes have not been measured. No other
+     * family's next rebuild moves a byte because this family passes it. */
+    honorWidgetBorderStyle: true,
     title: source.title
   });
   if (process.env.CO641_DEBUG_RENDER) {
@@ -503,6 +549,148 @@ async function renderDocument(source, census, fixtureName) {
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
   }
   return { bytes, report };
+}
+
+/* ---- what the DELIVERED bytes draw at a widget that declares an underline ----
+ *
+ * FIX135b. A geometry counter has to read the geometry. This reads the produced
+ * PDF -- not the finalizer's report of what it meant to do -- and asks, of every
+ * written text widget whose PINNED SOURCE declares `/BS << /S /U >>` and ships
+ * an `/AP /N` that draws no rectangle: does the appearance the packet actually
+ * delivers at that widget stroke a closed four-sided box, or the one rule the
+ * declared style means?
+ *
+ * `SINGLE_RULE` and `BOX` are the two answers that matter. `OTHER` is anything
+ * else and is reported rather than folded into either, because a reading that
+ * cannot tell the two apart must not be counted as the good one.
+ */
+const STROKE_OPERATORS = new Set(["S", "s", "B", "B*", "b", "b*"]);
+const PATH_SEGMENT_OPERATORS = new Set(["l", "c", "v", "y"]);
+const PATH_ENDING_OPERATORS = new Set(["n", "f", "F", "f*", "W", "W*", "q", "Q"]);
+
+/* Coarse but safe tokenizing: a string operand is consumed whole, so an `S`
+ * inside a participant's name is never read as a stroke and an `f` in a street
+ * name is never read as a fill. */
+function operatorsOf(streamText) {
+  const tokens = [];
+  for (let i = 0; i < streamText.length;) {
+    const c = streamText[i];
+    if (c === "(") { let d = 1; i += 1; while (i < streamText.length && d > 0) { if (streamText[i] === "\\") { i += 2; continue; } if (streamText[i] === "(") d += 1; else if (streamText[i] === ")") d -= 1; i += 1; } continue; }
+    if (c === "<" && streamText[i + 1] !== "<") { const e = streamText.indexOf(">", i); i = e < 0 ? streamText.length : e + 1; continue; }
+    if (/[\s[\]{}<>/%]/.test(c)) { i += 1; continue; }
+    let e = i;
+    while (e < streamText.length && !/[\s[\]{}<>()/%]/.test(streamText[e])) e += 1;
+    if (e === i) { i += 1; continue; }
+    const token = streamText.slice(i, e);
+    i = e;
+    if (!/^[-+.\d]/.test(token)) tokens.push(token);
+  }
+  return tokens;
+}
+
+/*
+ * What a stream STROKES, attributed to the painting operator that consumes each
+ * path -- never a running maximum over the whole stream.
+ *
+ * That distinction is the whole measurement here. pdf-lib emits an unpainted
+ * four-sided path and a four-sided CLIP in every text appearance it generates,
+ * both of which a running maximum reads as a box; the repaired County appearance
+ * builds `0 0 m 0 11.24 l 192.636 11.24 l 192.636 0 l h h Q` and never paints
+ * it, then clips with `2 2 m ... h W n`, then strokes exactly one line. A reader
+ * that does not attribute segments to their painting operator calls that a box
+ * and reports a clean page as broken -- and, in the other direction, would call
+ * a real box a rule as soon as a rule were stroked anywhere in the same stream.
+ */
+function classifyStrokedPath(streamText) {
+  let segments = 0, widest = 0, closed = false, rectangle = false;
+  let box = 0, rule = 0, other = 0;
+  const reset = () => { segments = 0; widest = 0; closed = false; rectangle = false; };
+  for (const token of operatorsOf(streamText)) {
+    if (token === "re") { rectangle = true; continue; }
+    if (token === "m") { widest = Math.max(widest, segments); segments = 0; continue; }
+    if (PATH_SEGMENT_OPERATORS.has(token)) { segments += 1; continue; }
+    if (token === "h") { closed = true; continue; }
+    if (STROKE_OPERATORS.has(token)) {
+      widest = Math.max(widest, segments);
+      if (rectangle || widest >= 3 || (closed && widest >= 2)) box += 1;
+      else if (widest === 1) rule += 1;
+      else if (widest > 0) other += 1;
+      reset();
+      continue;
+    }
+    if (PATH_ENDING_OPERATORS.has(token)) reset();
+  }
+  if (box > 0) return "BOX";
+  if (rule > 0 && other === 0) return "SINGLE_RULE";
+  if (rule > 0 || other > 0) return "OTHER";
+  return "NO_STROKE";
+}
+
+async function writingRulesAsDelivered(source, census, artifactBytes, report) {
+  const sourceDoc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+  const writtenNames = new Set(report.written.map((w) => w.field));
+  // What the SOURCE declares, read from the pinned binary.
+  const declares = [];
+  for (const field of sourceDoc.getForm().getFields()) {
+    const name = field.getName();
+    if (!writtenNames.has(name)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      if (!declaredUnderlineBorder(widget)) continue;
+      if (sourceAppearancePaintsRectangle(sourceDoc, widget) !== false) continue;
+      const rect = widget.getRectangle();
+      declares.push({ name, x: rect.x, y: rect.y, matched: false });
+    }
+  }
+  // What the DELIVERED bytes draw there.
+  const tmp = path.join(ROOT, `.co-641-rule-proof-${source.formNumber}-${process.pid}.pdf`);
+  fs.writeFileSync(tmp, artifactBytes);
+  let placements = [];
+  try { placements = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
+  const doc = await PDFDocument.load(artifactBytes, { ignoreEncryption: true, updateMetadata: false });
+  const streams = new Map();
+  for (const page of doc.getPages()) {
+    const resources = page.node.get(PDFName.of("Resources"));
+    const xobjects = resources && doc.context.lookup(resources).get(PDFName.of("XObject"));
+    if (!xobjects) continue;
+    for (const [key, ref] of doc.context.lookup(xobjects).entries()) {
+      const stream = doc.context.lookup(ref);
+      if (!(stream instanceof PDFRawStream)) continue;
+      let text = "";
+      try { text = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { text = ""; }
+      streams.set(key.asString().replace(/^\//, ""), text);
+    }
+  }
+  const rows = [];
+  for (const r of census.rows) {
+    if (!writtenNames.has(r.name)) continue;
+    for (const wdg of r.widgets) {
+      // Matched by geometry within 0.02 pt rather than by a rounded key: a
+      // widget that fails to match must be VISIBLE, and the assertion below
+      // makes it so. A silent miss here would read as a clean page.
+      const declared = declares.find((d) => !d.matched
+        && Math.abs(d.x - wdg.rect.x) < 0.02 && Math.abs(d.y - wdg.rect.y) < 0.02);
+      if (!declared) continue;
+      declared.matched = true;
+      const at = drawnAt(placements, { page: wdg.page, rect: wdg.rect });
+      const kinds = at.map((a) => classifyStrokedPath(streams.get(a.appearance) ?? ""));
+      rows.push({
+        field: r.key, acroFieldName: r.name, page: wdg.page, rect: wdg.rect,
+        sourceDeclares: "/BS /S /U, and an /AP /N that draws no rectangle",
+        appearancesFound: at.length,
+        deliveredDraws: kinds.length === 0 ? "NOTHING_FOUND" : kinds.join("+")
+      });
+    }
+  }
+  const unmatched = declares.filter((d) => !d.matched).map((d) => ({ field: d.name, x: d.x, y: d.y }));
+  return {
+    sourceWidgetsDeclaringAnUnderlineAmongWrittenFields: declares.length,
+    declaredUnderlineWrittenWidgets: rows.length,
+    sourceWidgetsNotFoundInTheCensus: unmatched,
+    deliveredAsASingleRule: rows.filter((x) => x.deliveredDraws === "SINGLE_RULE").length,
+    deliveredAsABox: rows.filter((x) => x.deliveredDraws.includes("BOX")).length,
+    deliveredOtherwise: rows.filter((x) => x.deliveredDraws !== "SINGLE_RULE" && !x.deliveredDraws.includes("BOX")).length,
+    widgets: rows
+  };
 }
 
 /* ---- byte proof ------------------------------------------------------------ */
@@ -710,7 +898,42 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) {
       note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
     }
-    if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, why: "ink landed outside every measured write box" });
+    /* FIX135b. UNGATED FROM THE LITERAL. This used to read a hardcoded 0 that no
+     * code path computed, with `?? 0` turning an absent reading into a clean one
+     * as well -- two ways for the counter to be unable to fire. It now reads a
+     * measurement taken from the produced bytes, and an ABSENT reading counts as
+     * a defect, because a reading nobody took is not a reading of zero. */
+    const outside = p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes;
+    if (outside === null || outside === undefined) {
+      note("visualDefects", { fixture: p.fixture, formNumber: p.formNumber,
+        why: "the output-byte placement reading was not taken, and an unmeasured quantity is not a zero" });
+    } else if (outside > 0) {
+      note("visualDefects", { fixture: p.fixture, formNumber: p.formNumber, count: outside,
+        why: "ink landed outside every measured write box" });
+    }
+    /* FIX135b. THE GEOMETRY THE COUNTER COULD NOT SEE. Ink drawn INSIDE a
+     * declared write box is invisible to the reading above by construction, and
+     * the sixteen boxed writing rules VF29 measured on the committed bytes all
+     * sat inside one. This reads the delivered appearance at each written widget
+     * whose pinned source declares `/BS /S /U` and asks what it draws. */
+    const rules = p.writingRulesDeliveredAsDrawn;
+    if (!rules) {
+      note("visualDefects", { fixture: p.fixture, formNumber: p.formNumber,
+        why: "what the delivered bytes draw at each declared-underline widget was not read" });
+    } else if (rules.deliveredAsABox > 0 || rules.deliveredOtherwise > 0) {
+      note("visualDefects", { fixture: p.fixture, formNumber: p.formNumber,
+        declaredUnderlineWrittenWidgets: rules.declaredUnderlineWrittenWidgets,
+        deliveredAsASingleRule: rules.deliveredAsASingleRule,
+        deliveredAsABox: rules.deliveredAsABox, deliveredOtherwise: rules.deliveredOtherwise,
+        why: "a court's writing rule is delivered as something other than the single line its declared /BS /S /U means" });
+    } else if ((rules.sourceWidgetsNotFoundInTheCensus ?? []).length > 0) {
+      /* A widget the pinned source declares an underline on that this reading
+       * could not find on the page was not READ, and an unread widget is not a
+       * clean one. */
+      note("visualDefects", { fixture: p.fixture, formNumber: p.formNumber,
+        sourceWidgetsNotFoundInTheCensus: rules.sourceWidgetsNotFoundInTheCensus,
+        why: "a widget whose pinned source declares /BS /S /U was not located in the delivered bytes and so was not read" });
+    }
     for (const refused of p.refusedFieldsWithInk ?? []) {
       note("protectedWrites", { fixture: p.fixture, field: refused.fieldId, why: "a field the map refused carries ink in the output" });
     }
@@ -895,13 +1118,38 @@ export async function runFamily(argv = process.argv.slice(2)) {
     for (const { source, census } of censuses) {
       const { bytes, report } = await renderDocument(source, census, fixtureName);
       const proof = await byteProof(source, census, bytes, report, fixtureName);
+      /* FIX135b. BOTH OUTPUT-BYTE GLYPH READINGS, MEASURED FROM THE PRODUCED PDF.
+       *
+       * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes used to be emitted here as
+       * a LITERAL 0 that no code path computed, and countCompleteness gated the
+       * visualDefects counter on that same literal -- so this family's
+       * visualDefects could not become non-zero however the page looked. VF29
+       * recorded it as the defect class "a published zero where a measurement
+       * existed" plus "a geometry counter with no teeth", present together in an
+       * artifact this family ships. Both are now read out of the bytes that were
+       * actually written, by the shared FIX137 module, with placement measured
+       * against the PINNED SOURCE's own widget rectangles. That module returns
+       * null -- never 0 -- when no source was supplied to measure against, and
+       * the counter below treats null as unmeasured rather than as clean. */
+      const outputGlyphs = await readOutputGlyphs(bytes, { sourceBytes: source.bytes, pageOffset: 0 });
+      /* FIX135b, the geometry the counter was missing: what the delivered bytes
+       * draw at each written widget whose source declares an underline. */
+      const rules = await writingRulesAsDelivered(source, census, bytes, report);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
         proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
         valuesReportedByFinalizer: report.written.length,
-        flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
-        addedGlyphsReadFromOutputBytes: proof.glyphs,
-        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+        flattenedWidgetAppearancesReadFromOutputBytes: outputGlyphs.flattenedWidgetAppearancesReadFromOutputBytes,
+        addedGlyphsReadFromOutputBytes: outputGlyphs.addedGlyphsReadFromOutputBytes,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: outputGlyphs.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+        outputByteGlyphReadingMethod:
+          "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, read from the produced PDF; placement measured "
+          + "against the pinned source's own widget rectangles. Neither number is a literal.",
+        appearancesNotPlacedAtTheirOwnSourceWidget: outputGlyphs.appearancesNotPlacedAtTheirOwnSourceWidget,
+        placementMeasuredAgainstThePinnedSource: outputGlyphs.placementMeasuredAgainstThePinnedSource,
+        appearancesReadAtMeasuredWidgetRects: proof.appearances,
+        glyphsAtWrittenWidgetRects: proof.glyphs,
+        writingRulesDeliveredAsDrawn: rules,
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
         unfittable: report.unfittable,
@@ -1032,7 +1280,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
-    byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
+    byteDerivedHashes: true,
+    /* FIX135b. An engine that did not run is not this artifact's engine. With
+     * --no-raster the pages are not rendered, and naming Chromium here beside an
+     * empty rasterPages array would describe a run that did not happen. */
+    rasterEngine: skipRaster ? "not rendered in this run (--no-raster)" : RASTER_ENGINE,
+    rasterPages,
     independentVerificationPending: true
   });
 
@@ -1070,9 +1323,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID,
     required: true, granted: false, reviewedBy: null,
     note:
-      "Every page of both fixtures is rastered for a human who did not build this family. It matters more than usual "
-      + "here: these two forms cannot be caption-checked from their own text stream, so a reviewer reading the paper is "
-      + "the check that a value sits under the heading it belongs to.",
+      (skipRaster
+        ? "No page of either fixture was rastered in this run: it was built with --no-raster, and the raster this "
+          + "family carried before was bound to superseded bytes and was removed rather than left to describe a packet "
+          + "it no longer depicts. "
+        : "Every page of both fixtures is rastered for a human who did not build this family. ")
+      + "Visual review matters more than usual here: these two forms cannot be caption-checked from their own text "
+      + "stream, so a reviewer reading the paper is the check that a value sits under the heading it belongs to.",
     whatToLookAt: [
       "JDF 641 sections A, B, C and 2, and JDF 642 sections A, B, C and 2: confirm the county, case number, defendant "
         + "name, birth date, address, phone and e-mail each sit under the heading they belong to. The text stream is "
