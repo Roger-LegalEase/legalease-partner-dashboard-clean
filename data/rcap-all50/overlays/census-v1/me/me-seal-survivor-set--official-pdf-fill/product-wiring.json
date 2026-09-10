@@ -64,6 +64,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+        "replacedByCanonicalSha256": "8c68fd472c6ecbf05e880299e4eeb9d1d6360739e99568040bc623c719f661b3",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34413372916",
+          "jobId": "102673422679",
+          "artifactId": "10128266840",
+          "boundToCanonicalSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }

@@ -71,7 +71,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "e48735ac0ce95d253521ae40b35af659177130ddb3ffdf798496a190b8304b9b",
+        "replacedByCanonicalSha256": "bd0881fb24b1e781c329bde7f33d8aff34944e47582b7054a8ede3cf1c2a517d",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33836771479",
+          "jobId": "100911322069",
+          "artifactId": "9923810519",
+          "boundToCanonicalSha256": "e48735ac0ce95d253521ae40b35af659177130ddb3ffdf798496a190b8304b9b",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
