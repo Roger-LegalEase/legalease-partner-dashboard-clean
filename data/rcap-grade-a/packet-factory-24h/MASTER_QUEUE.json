@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9a07a8bc23a7b56acdf1ad6137487b5ab0074690",
+  "minimumCaptainSha": "46e5d14425b7d8bc8125a3eb20ec3b10f8ff1c87",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 29,
+    "activeFamiliesExcluded": 24,
     "guidanceOnly": 0,
-    "remaining": 317,
+    "remaining": 322,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 69,
+    "FAIL_REPAIR_REQUIRED": 64,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 5,
+    "BUILT_RASTER_PENDING": 10,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -133,12 +133,7 @@
       "tx_nd_conviction_no_supervision-set",
       "tx_nd_dwi_deferred-set",
       "tx_nd_probation_misdemeanor-set",
-      "vt_exp_decriminalized-set",
-      "vt_seal_18_to_21-set",
-      "vt_seal_dui-set",
-      "vt_seal_felony-set",
-      "vt_seal_misdemeanor-set",
-      "vt_seal_pardon-set"
+      "vt_exp_decriminalized-set"
     ],
     "staleRosterFamilies": [
       {
@@ -46019,8 +46014,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf25",
-        "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json"
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -46054,13 +46049,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The packet writes eight participant-identity values onto 600-00228 -- packet page 5: case number '123-4-21 Cncr' at the Docket Number widget, 'Jordan Avery Reyes' at Case Name and at field 3 'Name: (First & Last)', '42 Maple Street' at field 2 Street Address, 'Burlington, VT 05401' at field 4 City/State/Zip, 'jordan.reyes@example.org' at field 5a Email Address, '802-555-0142' at field 6 Home/Cell Phone; and packet page 6: 'Jordan Avery Reyes' at field 117, the Printed Name line of Section 5 'Signatures and Declaration', beneath 'I declare that the above statement is true and accurate ... I will be subject to the penalty of perjury'. All eight were read out of the delivered bytes and confirmed on the rendered page. Three committed records say that must not happen. (1) The packet's own bound instruction page, packet page 7, prints 'No fee is charged on this track, so do not complete or file the fee-waiver form for this petition', and participant-instructions.md prints 'do not complete or file 600-00228 for this petition'. (2) production-field-map.json refuses the OTHER 66 fields of the same form with the recorded reason 'no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route' -- while the same map's canonicalWrites populates eight of that form's fields with participant data on that route. (3) The sibling family vt_seal_nonconviction-set delivers the identical source form on the identical no-fee reasoning and records the opposite, deliberate treatment in reports/rendered-artifacts.json: 'nothingIsWrittenOnIt': true, 'It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file.' The prefills onto the petition and the stipulation are correct and are not part of this failure: all sixteen of those land at their mapped rects with the right values in both fixtures.",
-          "findingReadFrom": "detail",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
           "evidence": null
         }
       ],
@@ -46275,14 +46270,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf25",
-        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json"
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46311,22 +46304,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -46337,8 +46321,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_seal_dui-set",
@@ -46439,14 +46422,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf25",
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46506,23 +46487,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -46533,8 +46504,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_seal_felony-set",
@@ -46635,14 +46605,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf25",
-        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json"
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46671,22 +46639,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -46697,8 +46656,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -46799,14 +46757,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf25",
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46835,23 +46791,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46867,8 +46813,7 @@
         "vt_seal_felony-set",
         "vt_seal_pardon-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -47122,14 +47067,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf25",
-        "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json"
+        "verifiedAtBase": "cf4c808019d9812dff5d3ea1523dc9c500157d33",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910b-vt.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -47158,22 +47101,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -47184,8 +47118,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_seal_under_25-set",
