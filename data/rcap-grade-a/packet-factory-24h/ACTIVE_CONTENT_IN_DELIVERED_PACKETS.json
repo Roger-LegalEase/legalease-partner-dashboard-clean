@@ -1,0 +1,230 @@
+{
+ "schemaVersion": "rcap-active-content-in-delivered-packets/v1",
+ "generatedBy": "Captain, after FIX147 found live JavaScript in a packet it was repairing for something else",
+ "generatedAt": "2026-09-10T13:05:56.609Z",
+ "atCommit": "a0d0122f8bfce70365ea4f719f34f9591f84d7f3",
+ "foundBy": "FIX147, in its own words: 'The delivered IL packet carries 13 live JavaScript app.launchURL actions, reachable from the catalog, on 13 of its 22 surviving /Link annotations. The shared finalizer's scanBytesForActiveContent refuses to emit such bytes; this builder never asks it.'",
+ "scan": {
+  "fixturesScanned": 720,
+  "carryingAnActiveContentMarker": 22,
+  "distinctFamilies": 11,
+  "method": "byte scan of every delivered fixture for /JavaScript, app.launchURL, /Launch and /SubmitForm"
+ },
+ "twoClasses": {
+  "outboundActions": {
+   "whatItIs": "app.launchURL -- JavaScript that opens a URL when the document is used.",
+   "families": [
+    "il-cannabis-vacate-set--official-pdf-fill",
+    "il-exp-nonconv-set--official-pdf-fill",
+    "il-exp-pardon-set--official-pdf-fill",
+    "il-exp-precompletion-set--official-pdf-fill",
+    "il-exp-qualprob-set--official-pdf-fill",
+    "il-exp-supervision-set--official-pdf-fill",
+    "il-seal-2yr-set--official-pdf-fill",
+    "il-seal-3yr-set--official-pdf-fill",
+    "il-seal-edu-set--official-pdf-fill",
+    "il-seal-nonconv-set--official-pdf-fill"
+   ],
+   "count": "20 fixtures across 10 Illinois families",
+   "whyItMatters": "This is executable code with an outbound action in a document a participant files with a court. The shared finalizer refuses to emit such bytes; these builders do not call it."
+  },
+  "fieldFormattingScripts": {
+   "whatItIs": "AFDate_FormatEx and AFDate_KeystrokeEx -- Acrobat's own date-format handlers attached to a form field.",
+   "families": [
+    "in-conviction-d6-set--custom-pleading"
+   ],
+   "whyItIsDifferent": "No outbound action and no URL. It is the issuer's own field behaviour riding on retained widgets. Still executable content in a delivered document, and still worth knowing about, but it is not the same finding and must not be reported as one.",
+   "andOneOfThemIsTERMINAL": "in_conviction_d6-set became COMPLETE_PACKET_PROVEN today. Six /JavaScript entries per fixture, all date formatters, no launchURL, no /Names catalog entry."
+  }
+ },
+ "theProvenanceQuestionIsNotAnsweredHERE": {
+  "question": "Do the pinned Illinois sources ship these actions themselves, or does the build introduce them?",
+  "whyItIsUnanswered": "All six pinned source PDFs for il-cannabis-vacate-set live under 'LegalEase Illinois/' in a custody path this container does not mount. I looked; they are not here.",
+  "whyItDecidesTheRemedy": "If the issuer ships them, removing them is a deliberate change to the court's own document and needs the same care as the 'Submit forms to:' text I nearly swept this morning. If the build introduces them, they are simply defects.",
+  "whatWouldAnswerIt": "Reading the pinned sources under custody, or the builder, which is reachable from here and which a repair lane should read first."
+ },
+ "whatIsNotClaimed": [
+  "That any of this has ever executed. A viewer may ignore it, and paper certainly does.",
+  "That the Illinois families are defective in law.",
+  "Any count of how many of the actions are on filed pages as against guidance pages. FIX147 established that page-by-page split for the CAPTIONS on one family; nobody has done it for the actions."
+ ],
+ "grantsNothing": "This records a measurement. It repairs nothing and withdraws nothing.",
+ "fixtures": [
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-cannabis-vacate-set--official-pdf-fill",
+   "javascriptEntries": 13,
+   "appLaunchURL": 13,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-cannabis-vacate-set--official-pdf-fill",
+   "javascriptEntries": 13,
+   "appLaunchURL": 13,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-exp-nonconv-set--official-pdf-fill",
+   "javascriptEntries": 21,
+   "appLaunchURL": 21,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-exp-nonconv-set--official-pdf-fill",
+   "javascriptEntries": 21,
+   "appLaunchURL": 21,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-exp-pardon-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-exp-pardon-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-exp-precompletion-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-exp-precompletion-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-exp-qualprob-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-exp-qualprob-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-exp-supervision-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-exp-supervision-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-seal-2yr-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-seal-2yr-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-seal-3yr-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-seal-3yr-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-seal-edu-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-seal-edu-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/fixtures/boundary.pdf",
+   "family": "il-seal-nonconv-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/fixtures/canonical.pdf",
+   "family": "il-seal-nonconv-set--official-pdf-fill",
+   "javascriptEntries": 20,
+   "appLaunchURL": 20,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/boundary.pdf",
+   "family": "in-conviction-d6-set--custom-pleading",
+   "javascriptEntries": 6,
+   "appLaunchURL": 0,
+   "launchActions": 0,
+   "submitFormActions": 0
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+   "family": "in-conviction-d6-set--custom-pleading",
+   "javascriptEntries": 6,
+   "appLaunchURL": 0,
+   "launchActions": 0,
+   "submitFormActions": 0
+  }
+ ]
+}
