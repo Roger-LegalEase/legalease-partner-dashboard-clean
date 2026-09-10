@@ -107,6 +107,82 @@ function hashRepoFile(rel) {
   return { path: rel, sha256: sha256(bytes), byteLength: bytes.length };
 }
 
+const readRepoJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+
+/*
+ * THE SERVICE REQUIREMENT THE RECORDS HELD AND THE PAGE NEVER PRINTED.
+ *
+ * Three records this family binds carry a service requirement for the court
+ * stage, in identical words. The participant page printed none of them: it named
+ * service only inside a list of things to "confirm ... with the clerk", which
+ * tells a self-represented filer that service is a local detail to ask about
+ * rather than a requirement the record already settles. VF02 read that as a
+ * SERVICE failure on the delivered bytes and it is one.
+ *
+ * WHY THIS IS ASSERTED AND NOT PINNED. The receipt already binds all three of
+ * these records by whole-file SHA-256, and two of those three pins are stale at
+ * this base for reasons that have nothing to do with Florida -- other lanes
+ * rewrite the shared records several times a week. A whole-file pin cannot say
+ * whether THIS SENTENCE moved, which is the only thing the page depends on. So
+ * the sentence is asserted verbatim, from every record that carries it, at build
+ * time: if any of them changes the wording, this build fails instead of printing
+ * a requirement the record no longer states.
+ *
+ * NOTHING HERE IS AUTHORED. The quoted sentence is the record's own. The records
+ * name no recipient and no method for this track, and the page says exactly that
+ * rather than borrowing the recipients named on Florida's other tracks.
+ */
+const SERVICE_TRACK_ID = "fl-10yr-bridge";
+
+function serviceRequirement() {
+  const memoTrack = readRepoJson("data/record-clearing/legal-design-intake/FL.memo.json")
+    .tracks.find((track) => track.trackId === SERVICE_TRACK_ID);
+  const registryTrack = readRepoJson("data/record-clearing/legal-design-track-registry.json")
+    .tracks.find((track) => track.trackId === SERVICE_TRACK_ID);
+  const packetSet = readRepoJson("data/record-clearing/legal-design-packet-set-manifests.json")
+    .packetSets.find((entry) => entry.packetSetId === FAMILY_ID);
+  assert.ok(memoTrack, `FL.memo.json carries no track ${SERVICE_TRACK_ID}`);
+  assert.ok(registryTrack, `legal-design-track-registry.json carries no track ${SERVICE_TRACK_ID}`);
+  assert.ok(packetSet, `legal-design-packet-set-manifests.json carries no packet set ${FAMILY_ID}`);
+
+  const servePartyActions = packetSet.participantActionRequired.filter((action) => action.kind === "serve_party");
+  assert.equal(servePartyActions.length, 1,
+    `expected exactly one serve_party action on ${FAMILY_ID}, found ${servePartyActions.length}`);
+  const [serveParty] = servePartyActions;
+  assert.equal(serveParty.requirement, "required",
+    `the serve_party action on ${FAMILY_ID} is no longer 'required' (${serveParty.requirement}); `
+    + "the participant page states that it is, so the page must be re-derived rather than reprinted");
+
+  const stated = [
+    { record: "data/record-clearing/legal-design-intake/FL.memo.json", sentence: memoTrack.rules?.service },
+    { record: "data/record-clearing/legal-design-track-registry.json", sentence: registryTrack.rules?.service },
+    { record: "data/record-clearing/legal-design-packet-set-manifests.json", sentence: serveParty.description }
+  ];
+  const [first, ...rest] = stated;
+  assert.ok(typeof first.sentence === "string" && first.sentence.trim().length > 0,
+    `${first.record} states no service requirement for ${SERVICE_TRACK_ID}`);
+  for (const other of rest) {
+    assert.equal(other.sentence, first.sentence,
+      `the service requirement is stated differently by ${other.record} (${JSON.stringify(other.sentence)}) `
+      + `than by ${first.record} (${JSON.stringify(first.sentence)}); this build will not choose between them`);
+  }
+
+  /* The records settle THAT a certificate of service is owed, not to whom or by
+   * what method. The page must not fill that in from anywhere else. */
+  const namesRecipientOrMethod =
+    /\b(recipient|by mail|certified mail|e-?service|hand deliver|state attorney|prosecutor)\b/i.test(first.sentence);
+  assert.equal(namesRecipientOrMethod, false,
+    `the service sentence now names a recipient or a method (${JSON.stringify(first.sentence)}); `
+    + "the participant page states that the records name neither, so that sentence must be re-derived");
+
+  const components = packetSet.components.map((component) => component.role);
+  assert.equal(components.includes("certificate_of_service"), false,
+    "the packet set now declares a certificate_of_service component; the participant page states that this packet "
+    + "contains none, so that statement must be re-derived");
+
+  return { sentence: first.sentence, statedBy: stated.map((entry) => entry.record) };
+}
+
 function sourceBytes() {
   const sourcePath = process.env.PF17_FL_FDLE_SOURCE || DEFAULT_SOURCE;
   assert.ok(fs.existsSync(sourcePath), `BLOCKED_SOURCE: ${SOURCE_ID} is absent at the read-only custody mount ${sourcePath}`);
@@ -524,19 +600,26 @@ function requiredBeforeFiling(fieldMaps) {
     })));
 }
 
-function participantInstructions(items) {
+function participantInstructions(items, service) {
   const out = [
     "# Before you use the Florida ten-year sealed-record bridge packet", "",
     "This review artifact contains three components in the controlling PF17 family: the six-page FDLE Application for a Certificate of Eligibility, a composed Rule 3.989 petition, and a composed proposed order.", "",
     "## Two-stage sequence", "",
     "1. Stage 1 — verify the same record has remained sealed by court order for at least ten years, then complete and submit the fresh FDLE expunction application. Obtain the certified sealing order and any certified disposition the FDLE instructions require. Have fingerprints taken, obtain the State Attorney or Statewide Prosecutor written certified statement, sign before a notary or deputy clerk, and include the $75 nonrefundable FDLE processing fee stated by the held application.",
-    "2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, review and sign the petition, and confirm the current filing, service, fee, hearing, and local-format requirements with the clerk in the circuit of arrest.", "",
+    "2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, review and sign the petition, prepare the certificate of service described below, and confirm the current filing, fee, hearing, and local-format requirements with the clerk in the circuit of arrest.", "",
     "The prior sealing exception applies only to the same record that has remained sealed for at least ten years. Stop and obtain attorney review if a different prior sealing or expunction exists, the State objects, the sealing order is not in force, the record has not reached ten years, later record history changes eligibility, or immigration consequences matter.", "",
     "Court-ordered expunction is discretionary. This packet does not promise relief and opens no route.", "",
     "## Required before filing or submission", "",
     "| Blank printed in the packet | What you must supply |", "| --- | --- |"
   ];
   for (const item of items) out.push(`| ${item.disclosureLabel.replaceAll("|", "-")} | ${item.participantMustSupply.replaceAll("|", "-")} |`);
+  out.push(
+    "", "## Certificate of service", "",
+    "The records this packet is built from state a service requirement for the court stage, in these words:", "",
+    `> ${service.sentence}`, "",
+    "A certificate of service is a short signed statement, filed together with the petition, saying who you gave a copy of it to and how. It is required on this route, and this packet does not contain one: the components here are the FDLE application, the petition, the proposed order, and these instructions.", "",
+    "What the records do not settle is who must be served and by what method. They name no recipient and no method for this route, and this packet will not guess at either. Ask the clerk in the circuit of arrest who must be served and in what form, then prepare the certificate and file it with the petition. That this packet contains no certificate of service does not mean none is owed."
+  );
   out.push(
     "", "## Protected fields", "",
     "Do not pre-sign or pre-date the FDLE application, fingerprint card, or petition. The notary or deputy clerk completes the acknowledgment. The fingerprinting official completes the official signature, ORI/stamp, and impressions. The State Attorney or Statewide Prosecutor completes all of the written certified statement below the applicant identity row. The judge completes the decision, order date, and judicial signature.", "",
@@ -621,7 +704,7 @@ async function run(argv = process.argv.slice(2)) {
     artifacts.push(await assembleFixture(bytes, fixtureName, FIXTURES[fixtureName], fieldMaps));
   }
   const rbf = requiredBeforeFiling(fieldMaps);
-  const instructions = participantInstructions(rbf);
+  const instructions = participantInstructions(rbf, serviceRequirement());
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructions);
   const counted = countCompleteness(fieldMaps, artifacts, instructions);
   assert.ok(PASS_COUNTERS.every((counter) => counted.counters[counter] === 0),
