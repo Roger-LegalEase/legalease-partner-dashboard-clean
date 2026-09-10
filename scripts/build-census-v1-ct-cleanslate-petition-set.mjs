@@ -1381,6 +1381,49 @@ async function main() {
         unwritableFields: doc.unwritable.map((u) => ({ field: u.field, class: u.class })),
         captionOnly: doc.captionOnly,
         documentTextLines: census.documentTextLines,
+        /*
+         * FIX143. TWO CLASSES OF FLATTENED APPEARANCE THAT NO PINNED SOURCE
+         * STREAM ACCOUNTS FOR, AND WHY EACH OPT-IN IS THE RIGHT HALF.
+         *
+         * VF90 recorded ARTIFACTS on this family: 4 stroke-only flattened
+         * appearances, 0 matching a pinned source stream. That number
+         * REPRODUCES at HEAD under the corrected fill normaliser -- unlike the
+         * three other families re-derived beside it -- so it is a defect and
+         * not a stale reading. Re-deriving it also found 8 MORE unaccounted
+         * appearances the stroke-only sweep cannot see by construction, because
+         * they draw a caption in the same stream as the box.
+         *
+         * detachNestedControlFields. JD-CR-202 is a LiveCycle form whose fields
+         * hang below one AcroForm root -- `form1[0].#pageSet[0].Page1[0].
+         * PrintButton1[0]` and its Reset twin, on both pages. All four are
+         * /Ff 65536 pushbuttons, so structuralDisposition already calls them
+         * SUPPRESS_CONTROL_APPEARANCE; the flat scan simply never reaches them,
+         * updateFieldAppearances regenerates each from its /MK /CA, and
+         * flatten() stamps "Print Form" and "Reset Form" onto the filing
+         * through the widget's own /P. Measured at 600 dpi, grey < 128 of 255,
+         * on rendered page 2: 16,840 and 17,985 dark pixels of button chrome.
+         * Removing it is not over-suppression, and that was checked rather than
+         * assumed -- pdftoppm -hide-annotations renders 0 dark pixels at both
+         * button rectangles, so the court prints no button there; the ink is
+         * viewer chrome painted by the widget alone.
+         *
+         * suppressSynthesizedAppearances. DENIED[0] and GRANTED[0] on page 2
+         * are the court's own disposition boxes: read-only checkboxes whose
+         * /AP /N dictionary ships only the on-state /1, so nothing answers the
+         * widget's /AS and pdf-lib synthesises a 10x10 closepath-stroked square
+         * for it. This installs the empty off-state instead, so no square is
+         * invented. It removes NO visible ink, and that too was measured: the
+         * checkbox outline is PAGE CONTENT -- 1,336 dark pixels still present
+         * with annotations hidden -- and the synthesised square lands exactly
+         * on it, 0 added and 0 removed pixels in both directions. The court's
+         * printed box survives; only the duplicate stops being drawn.
+         *
+         * Neither option touches a written field, and this form's only
+         * checkboxes are those two, so the scope is exactly the six widgets
+         * named above.
+         */
+        detachNestedControlFields: true,
+        suppressSynthesizedAppearances: true,
         title: `CT ${doc.formNumber}`
       });
 
