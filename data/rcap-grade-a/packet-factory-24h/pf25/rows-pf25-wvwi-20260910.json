@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "PF25",
+  "laneKind": "packet-build",
+  "dispatch": "Two official_pdf_fill families at PRODUCT_PATH_PENDING, each carrying an owner executionReclassification that moved it out of the legal queue into route- and field-election mapping. wv_nc_acquittal_dismissal-set: map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, release the official-form build. wi_exp_cr266-set: map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, release the build.",
+  "generatedAtBase": "cf2e93239157eb6d42c0e50b7ded17f1798770ba",
+  "worktree": "/home/user/pfc-worktree",
+  "branch": "pf25-wvwi-20260910",
+  "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "packetsSelfVerified": 0,
+  "verdictSet": "none. This lane builds and measures; it issues no PASS, sets no verdict and opens no route. RASTER_PASS comes from the central workflow and this lane dispatched none.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralArtifactsEdited": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json, PRODUCT_PATH_PENDING_DIAGNOSIS.json, DEFECTS_NO_COUNTER_CAN_SEE.json and SOURCE_READY_BUILDABILITY.json were READ and not written. Nothing under scripts/grade-a-packet-factory-24h/ was written.",
+  "sharedModuleChanges": "none. Both builders are exclusiveScript:true with importedBy:[] in MASTER_QUEUE and neither existed before this lane; each is imported by nothing.",
+  "rows": [
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "jurisdiction": "WV",
+      "status": "STOPPED",
+      "stopClass": "DISPOSITION_FACT_MAPS_TO_NO_GROUND_ON_THE_BOUND_FORM",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateNote": "carried from MASTER_QUEUE unchanged. Nothing was rendered, so there is nothing for the central workflow to receipt. No workflow was dispatched.",
+      "claim": "CLAIM_OK PF25 wv_nc_acquittal_dismissal-set (packet-build, grant set cb8e7d7a03867ab2)",
+      "buildScript": "scripts/build-census-v1-wv_nc_acquittal_dismissal-set.mjs",
+      "buildScriptIsNew": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill",
+      "familyDirectoryTouched": false,
+      "familyDirectoryExists": false,
+      "canonicalSha256": null,
+      "boundarySha256": null,
+      "canonicalPageCount": null,
+      "boundaryPageCount": null,
+      "digestsAreNullBecause": "no artifact was produced. A digest here would name bytes that do not exist.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "not measured. No packet was built, so no counter has a subject. Every counter is null rather than zero; a zero would be a claim about a packet that does not exist.",
+      "outputByteGlyphReadings": [],
+      "outputByteGlyphReadingsHowTaken": "not taken. Both readings are measured from a produced PDF and this family produced none.",
+      "directionalRasterAgainstThePinnedSource": {
+        "measured": false,
+        "why": "there is no delivered artifact to difference against the pinned source. No render, of the source or of anything else, was performed for this family.",
+        "perPage": []
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:SCA-C903",
+          "formNumber": "SCA-C903",
+          "revision": "REV-2010-04",
+          "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+          "declaredSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+          "measuredSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+          "measuredBy": "sha256sum on the Master Library file, and independently by crypto.createHash inside the builder",
+          "byteLength": 23275,
+          "pageCount": 3,
+          "pageCountMeasuredBy": "pdfinfo, and independently by pikepdf len(pdf.pages)",
+          "acroFormPresent": false,
+          "annotationsPerPage": [
+            0,
+            0,
+            0
+          ],
+          "encrypted": "AES-256 (R6/V5) with an EMPTY user password. pdf-lib cannot open it; poppler and pikepdf both can.",
+          "resolves": true,
+          "custody": "master_library"
+        }
+      ],
+      "theMappingThisAssignmentAskedFor": {
+        "ownerAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+        "whatTheFormOffersToElect": "nothing. SCA-C903 has no AcroForm, no annotations and no selection control of any kind on any of its three pages. Its only enumerated alternatives are the three SERVICE METHODS on page 3 — First Class Mail, Hand Delivery, Certified Mail – Return Receipt — which are methods of service, not grounds for relief. A ground on this form is therefore a printed recital in the body, and the document prints exactly one disposition recital.",
+        "mapped": [
+          {
+            "dispositionFact": "the charges were dismissed, and not in exchange for a guilty plea to another offence",
+            "boundTo": "SCA-C903 page 1, paragraph 2 — \"That on ____ (Date of Dismissal), this matter was dismissed by the ____ Court of ____ County, due to ____ (Reason for Dismissal.)\", reinforced by pre-printed paragraph 4 \"That 60 days have elapsed since the above referenced dismissal and that same dismissal was not in exchange for a guilty plea to another offense.\"",
+            "whereTheControllingRecordStatesTheFact": [
+              "src/lib/legal-authority/routes/national-report-batch-c.json, route WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication, requiredFacts[0], second branch: \"Did the case end in acquittal, in dismissal, or in a dismissal following diversion or deferred adjudication?\"",
+              "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json, eligibility signal likely_eligible_dismissal_60_days, and the statutory clause \"A person charged under West Virginia law who was found not guilty or whose charges were dismissed, and not dismissed in exchange for a guilty plea to another offense resulting in conviction, may file a civil petition in the circuit court where the charges were filed.\"",
+              "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId wv_nc_acquittal_dismissal-set, confirm_answer: \"On what date were you found not guilty, or on what date were the charges dismissed?\""
+            ],
+            "candidateGroundCount": 1
+          }
+        ],
+        "refused": [
+          {
+            "dispositionFact": "the movant was ACQUITTED — found not guilty",
+            "candidateGroundsOnTheForm": [],
+            "candidateGroundCount": 0,
+            "whereTheControllingRecordStatesTheFact": [
+              "src/lib/legal-authority/routes/national-report-batch-c.json requiredFacts[0], FIRST branch: \"Did the case end in acquittal, in dismissal, or in a dismissal following diversion or deferred adjudication?\"",
+              "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json, eligibility signal likely_eligible_acquittal_60_days, held separately from likely_eligible_dismissal_60_days",
+              "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId wv_nc_acquittal_dismissal-set, obtain_document: \"Obtain Certified copy of the order of acquittal or dismissal. … the 60-day clock runs from that order\"",
+              "the family's own id and MASTER_QUEUE laneReturnLegalHold.why: \"SCA-C903: approved route-election mapping among acquittal, dismissal, diversion, and deferred-adjudication grounds\""
+            ],
+            "measuredOnThePinnedBytes": "the word \"acquittal\" occurs 5 times in SCA-C903 and NOT ONCE in an operative allegation: line 13 is the page-1 title block, lines 53, 71 and 116 are the running footer on pages 1, 2 and 3, and line 87 is the certificate of service naming the document being served. The strings \"not guilty\", \"verdict\" and \"judgment of acquittal\" do not occur in the document at all.",
+            "why": "the only disposition recital SCA-C903 prints states that the matter WAS DISMISSED BY A COURT, and its blanks are printed \"(Date of Dismissal)\", \"(Type of Court: Municipal, Magistrate, Circuit)\" and \"(Reason for Dismissal.)\". Electing it for an acquittal writes an acquittal fact into blanks the Supreme Court of Appeals printed as dismissal blanks — the same class of defect as a value disclosed by a label one row off its own — and leaves pre-printed paragraph 4 swearing that 60 days have elapsed since \"the above referenced dismissal\", a dismissal that did not happen, on a motion the movant signs pro se. The nearest ground is not the correct ground and this lane did not select it.",
+            "andSubstitutingTheOtherBinaryDoesNotFixIt": "the alternative SCA-C903 publication in custody — private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C-903.pdf, sha256 242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035, 2 pages, AcroForm, unencrypted — was read and carries the SAME dismissal-only operative body: \"2. That on ____ (Date of Dismissal), this matter was dismissed by the …\" and the same paragraph 4. It was read only to test whether the refusal is an artefact of which binary is bound. It is not, and nothing was substituted."
+          }
+        ]
+      },
+      "whyTheFamilyStopsRatherThanShippingHalfOfItself": "The refused fact is not a corner of this family. It is the first word of the family id, the first branch of the route's own first required fact, and a separately held eligibility signal in the compiled profile. Delivering a dismissal-only packet under the id wv_nc_acquittal_dismissal-set would ship a family whose name and whose route both promise a disposition the delivered artifact cannot carry. Narrowing a family's scope is an owner decision, not a build step, so nothing was written: the overlay directory data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill was not created.",
+      "whatIsNotTheReasonThisStops": [
+        "CUSTODY. The one declared source resolves byte-exact under the Master Library and its digest was measured twice.",
+        "ENCRYPTION. The bound binary is AES-256 (R6/V5) with an empty user password. pdf-lib cannot open it and the committed corpus index records it as structuralClassObserved \"unreadable\"; poppler and pikepdf open it without a password. It is flat and encrypted, not corrupt, and it could have been decrypted with the empty password and overlaid.",
+        "THE PENDING artifact_legal_review GATE. Route WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication carries deliveryGate wv_61_11_25_sca_c903_currency, kind artifact_legal_review, pending. It is real, and it blocks approval rather than building. Its own note says SCA-C903's \"operative paragraphs still track current subsection (a) for a straight acquittal or dismissal, so it is usable there with a supplement\" — which is why this stop is reported on the acquittal branch specifically and not on the form's currency."
+      ],
+      "whatWouldUnblockIt": [
+        "an owner decision to narrow this family to the straight-dismissal branch and to name where the acquittal branch goes instead. The dismissal branch maps cleanly to paragraph 2 today and nothing else about the form stands in the way of building it.",
+        "binding an instrument that can state an acquittal. The route contract's own gate calls for \"a current-law supplement covering what the published form omits\" and its note says \"a custom current-law civil petition preferred\"; the compiled profile describes § 61-11-25 relief as a CIVIL PETITION, which is not what SCA-C903 is.",
+        "a revision of SCA-C903 that prints an acquittal recital in its operative body. Neither binary in custody does."
+      ],
+      "governance": {
+        "required": false,
+        "why": "no bytes moved on this family. It has no overlay directory, no acceptance receipt and no product-wiring.json in this checkout, so there is nothing for carryForwardGovernance to preserve and it was not invoked.",
+        "verifierRun": false
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "read": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, 11 entries, read before any mapping decision.",
+        "applicability": "No artifact was produced, so the delivered-page classes cannot apply. The class that DID apply is the one this stop is: a value written into a blank by a label other than the one printed beside it (the Vermont fee-waiver 'Total Expenses' disclosed as 'Other Expenses'). Here the blanks are printed '(Date of Dismissal)' and '(Reason for Dismissal.)' and the fact offered for them is an acquittal. That is the same defect one level earlier, at the field map rather than at the render, and it was refused rather than written.",
+        "labelsReadFromGeometryNotFromAnIndex": "SCA-C903 has no AcroForm, so there is no index and no /TU tooltip to be misled by. Every label quoted in this row was read from poppler's -layout text at its printed position on the page."
+      },
+      "blastRadius": {
+        "filesWritten": [
+          "scripts/build-census-v1-wv_nc_acquittal_dismissal-set.mjs (new; imported by nothing)",
+          "data/rcap-grade-a/packet-factory-24h/pf25/rows-pf25-wvwi-20260910.json (this lane's own rows file)",
+          "data/rcap-grade-a/packet-factory-24h/pf25/checkpoints-pf25-wvwi-20260910.json (this lane's own checkpoints file)"
+        ],
+        "sharedModulesChanged": [],
+        "centralArtifactsChanged": [],
+        "overlayDirectoriesChanged": []
+      },
+      "whatContradictsACommittedRecord": [
+        {
+          "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "field": "packetSets[packetSetId=wv_nc_acquittal_dismissal-set].requiredBeforeFiling — its SCA-C903 page references",
+          "says": "\"Signature of movant — SCA-C903, page 1, signature block beneath the prayer for relief\"; \"Signature and date on the certificate of service — SCA-C903, page 2, certificate of service\"; \"Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service\"; \"Circuit court case number — SCA-C903, page 1, caption block\".",
+          "measured": "the BOUND binary bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878 is THREE pages (pdfinfo and pikepdf). Its prayer for relief and signature of movant are on PAGE 2, and the whole certificate of service — caption, prosecuting attorney's office, both address lines, the three service methods, the date and the second signature — is on PAGE 3. The manifest's page numbers describe a TWO-page document. The manifest's own officialSourceUrl, https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C-903.pdf, is the 2-page AcroForm re-typeset held at 242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035 (measured here: 112,484 bytes, 2 pages, AcroForm present, unencrypted). The packet-set manifest and MASTER_QUEUE are pinned to two different binaries of the same form number, and a guide repeating the manifest's page numbers over the bound binary would send a participant to the wrong page."
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json",
+          "field": "entries[path=STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__…].structuralClassObserved",
+          "says": "\"unreadable\", loadError \"Expected instance of PDFDict, but got instance of undefined\"",
+          "measured": "the document opens with an empty user password: 3 pages, 612x792 pts each, no /AcroForm in the catalog and no /Annots on any page. It is a flat AES-256-encrypted PDF, not a corrupt one. The recorded class is a property of pdf-lib, and recording it as unreadable invites a later lane to stop on the wrong ground."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[]",
+          "says": "73 rows; none of them is wv_nc_acquittal_dismissal-set.",
+          "measured": "The brief directs a lane to read its family's row there before building. This family has no row. The nearest measurement is the row for wv_nc_diversion_deferred-set, which is bound to the SAME SCA-C903 digest and records verdict EVERY_BOUND_SOURCE_IS_A_HELD_PDF with custodyClass null — while MASTER_QUEUE's own sourceReadiness.custodyClass for this family says NO_ACQUISITION_TASK_NAMED. The binding was therefore re-measured here from the bytes rather than read off either record."
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[wv_nc_acquittal_dismissal-set].rasterEnrolmentRefusal",
+          "says": "[\"no overlay directory\", \"no completeness audit\"]",
+          "measured": "both remain true after this lane. Nothing was rendered and no receipt was sought.",
+          "isNotAContradiction": true
+        }
+      ]
+    }
+  ]
+}
