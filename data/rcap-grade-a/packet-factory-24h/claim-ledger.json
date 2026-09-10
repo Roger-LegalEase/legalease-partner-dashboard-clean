@@ -6074,10 +6074,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX176",
+      "lane": "FIXCXM1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T20:46:55.135Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX176 confirmed stopped and committed diagnosis-only return c60fae635477889ad5d1f5d58c1826e0e4e64086; no repair applied"
     },
     {
@@ -6137,10 +6137,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX176",
+      "lane": "FIXCXM1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T20:46:55.135Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX176 confirmed stopped and committed diagnosis-only return c60fae635477889ad5d1f5d58c1826e0e4e64086; no repair applied"
     },
     {
@@ -7742,8 +7742,9 @@
       "operation": "packet-build",
       "lane": "PF26",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T21:26:53.817Z",
+      "releaseReason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
     },
     {
       "subjectType": "packet-family",
@@ -8182,8 +8183,9 @@
       "operation": "packet-build",
       "lane": "PF26",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T21:26:54.041Z",
+      "releaseReason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
     },
     {
       "subjectType": "packet-family",
@@ -10261,8 +10263,9 @@
       "operation": "packet-build",
       "lane": "PF26",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T21:26:54.281Z",
+      "releaseReason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
     },
     {
       "subjectType": "packet-family",
@@ -15044,7 +15047,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "ff60d5192c04d8c02cdb02a4fac9640c55bc62b930382f0f5db851357dac0ce6",
+  "claimsDigest": "a1ffa51639ea16d567d239f9786a75816c3841e92e46b719dc4cd907dfe50b5d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39352,6 +39355,33 @@
         "rowFiles": 1,
         "namedReturnCommit": "664deb17a9ed93c64912a489bb8cb27bcc4c0a85"
       }
+    },
+    {
+      "lane": "PF26",
+      "subjectType": "packet-family",
+      "subjectId": "pa_6308_underage-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T21:26:53.817Z",
+      "reason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
+    },
+    {
+      "lane": "PF26",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-oh-custom-pleading-clean-tracks",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T21:26:54.041Z",
+      "reason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
+    },
+    {
+      "lane": "PF26",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_substance_use_disorder-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-10T21:26:54.281Z",
+      "reason": "PF26 committed explicit STOPPED return 035c0e2ce2239f386181d2369c453109f5d2bb08; assignment ended with blockers and preserved artifacts, confirmed from its checkpoint and final rows"
     }
   ],
   "reissues": [
@@ -59787,6 +59817,28 @@
       "previouslyReleasedAt": "2026-09-10T19:26:28.657Z",
       "transferredAt": "2026-09-10T19:51:29.731Z",
       "reason": "the completeness reader now sees its selection controls and finds two unmade route elections FIX172 could not have known about, including item 9 box 1 which is this packet's own statutory route"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX176",
+      "toLane": "FIXCXM1",
+      "previouslyReleasedAt": "2026-09-10T20:46:55.135Z",
+      "transferredAt": "2026-09-10T21:27:11.330Z",
+      "reason": "Confirmed stopped FIX176 diagnosis consumed; successor Luna owns both Minnesota exclusive builders for the complete recorded repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX176",
+      "toLane": "FIXCXM1",
+      "previouslyReleasedAt": "2026-09-10T20:46:55.135Z",
+      "transferredAt": "2026-09-10T21:27:11.493Z",
+      "reason": "Confirmed stopped FIX176 diagnosis consumed; successor Luna owns both Minnesota exclusive builders for the complete recorded repair"
     }
   ],
   "grants": [
