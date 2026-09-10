@@ -135,8 +135,12 @@ async function measureFamily(familyId) {
         const expected = expectedFor(w, facts.fixtures[fixture]);
         const selected = w.decision === "select";
         const positive = hits.filter(a => a.nonempty);
-        const textOk = selected ? positive.length >= 1 : positive.length >= 1 && norm(positive[0].text) === norm(expected);
-        writes.push({ component: mm.componentId, documentId: mm.documentId, field: w.field, fieldName: w.fieldName, factId: w.factId ?? null, sourcePage: w.page, packetPage, rect: target.rect, expected, selected, hits: hits.map(a => ({ name: a.name, text: a.text, nonempty: a.nonempty, bbox: a.bbox })), pass: textOk });
+        // Only literal/hex text decoded from a saved appearance is usable in
+        // this bounded correction. A nonempty vector hit is not proof that a
+        // route checkbox was correctly marked, so selection controls remain
+        // explicitly uncovered.
+        const textOk = !selected && positive.length >= 1 && norm(positive[0].text) === norm(expected);
+        writes.push({ component: mm.componentId, documentId: mm.documentId, field: w.field, fieldName: w.fieldName, factId: w.factId ?? null, sourcePage: w.page, packetPage, rect: target.rect, expected, selected, hits: hits.map(a => ({ name: a.name, text: a.text, nonempty: a.nonempty, bbox: a.bbox })), pass: textOk, directTextDecoded: textOk });
       }
       // Every source page's entire decompressed stream must survive in the
       // assembled page stream. This is a byte-level source-ink retention test.
@@ -145,7 +149,7 @@ async function measureFamily(familyId) {
         const srcDoc = await PDFDocument.load(actual.bytes, { ignoreEncryption: true, updateMetadata: false });
         const ss = contents(srcDoc, srcDoc.getPages()[sp - 1]).replace(/\s+/g, "");
         const os = packet.pageStreams[pm.packetPage - 1].replace(/\s+/g, "");
-        sourceChecks.push({ type: "source_stream_retained", component: mm.componentId, documentId: mm.documentId, sourcePage: sp, packetPage: pm.packetPage, sourceStreamSha256: sha(Buffer.from(ss)), sourceStreamLength: ss.length, retainedInSavedPage: os.includes(ss) });
+        sourceChecks.push({ type: "source_stream_sequence_observed", component: mm.componentId, documentId: mm.documentId, sourcePage: sp, packetPage: pm.packetPage, sourceStreamSha256: sha(Buffer.from(ss)), sourceStreamLength: ss.length, normalizedSequenceFound: os.includes(ss), sourceInkLoss: null, limitation: "sequence presence does not detect occlusion or arbitrary page additions" });
       }
       // Refused/selection fields are checked against every actual output
       // FlatWidget at their own measured source rectangle. No report count is
@@ -177,7 +181,7 @@ async function measureFamily(familyId) {
     }
     const populated = writes.filter(w=>w.pass).map(w=>({...w, x:w.rect.x,y:w.rect.y,width:w.rect.width,height:w.rect.height}));
     const overlaps=[]; for(let i=0;i<populated.length;i++)for(let j=i+1;j<populated.length;j++){const a=populated[i],b=populated[j];if(a.packetPage!==b.packetPage)continue;const ix=Math.max(0,Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)),iy=Math.max(0,Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y));if(ix*iy>0.25)overlaps.push({a:a.field,b:b.field,page:a.packetPage,area:+(ix*iy).toFixed(3)});}
-    results.fixtures[fixture] = { packet:{path:packetPath,sha256:sha(packetBytes),byteLength:packetBytes.length,pageCount:packet.pageCount}, writes, sourceChecks, protectedInk, geometry, overlaps, counters:{knownPrefillsChecked:writes.length, knownPrefillsPass:writes.filter(w=>w.pass).length, sourceWidgetsChecked:[...allSourcePages.values()].reduce((n,s)=>n+s.fields.length,0), protectedWrites:protectedInk.length, geometryChecked:geometry.length, geometryOutside:geometry.filter(x=>!x.within).length, overlaps:overlaps.length, sourcePagesChecked:sourceChecks.filter(x=>x.type==="source_stream_retained").length, sourcePagesRetained:sourceChecks.filter(x=>x.type==="source_stream_retained"&&x.retainedInSavedPage).length}, pageScope:[...new Set(manifest.map(x=>x.packetPage))].sort((a,b)=>a-b)};
+    results.fixtures[fixture] = { packet:{path:packetPath,sha256:sha(packetBytes),byteLength:packetBytes.length,pageCount:packet.pageCount}, writes, sourceChecks, protectedInk: null, geometry: null, overlaps: null, counters:{knownPrefillsTextChecked:writes.filter(w=>!w.selected).length, knownPrefillsTextPass:writes.filter(w=>w.pass).length, selectionControlsUnmeasured:writes.filter(w=>w.selected).length, sourceWidgetsChecked:[...allSourcePages.values()].reduce((n,s)=>n+s.fields.length,0), protectedWrites:null, geometryChecked:null, geometryOutside:null, overlaps:null, sourcePagesChecked:sourceChecks.filter(x=>x.type==="source_stream_sequence_observed").length, sourcePagesRetained:null}, pageScope:[...new Set(manifest.map(x=>x.packetPage))].sort((a,b)=>a-b)};
   }
   return results;
 }
@@ -196,8 +200,6 @@ async function qualifyInjectedVector(file, rect) {
 
 const all = { schemaVersion:"vf67-measurement-completion/v1", lane:"VF67", verifiedAtBase:"c968d1b85840d870bbfa7579ff9948f7bb35ff5a", generatedBy: path.relative(ROOT, fileURLToPath(import.meta.url)), method:"direct source PDF AcroForm geometry + saved PDF decompressed page streams and FlatWidget XObjects; no builder/report counts", settings:{placementTolerancePoints:TOL, sourceStreamWhitespaceNormalization:"remove all PDF whitespace for retention comparison", raster:"none; central raster remains pending"}, families:[] };
 for (const f of FAMILIES) all.families.push(await measureFamily(f));
-const scratchFamily = all.families[0], scratchMap = JSON.parse(read("data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/production-field-map.json"));
-const scratchRect = scratchMap.maps[0].canonicalRefusals.find(x => !x.isSelectionControl).widgets[0].rect;
-all.qualifier = { type:"known_injected_scratch_vector_defect", method:"pdf-lib drawRectangle at a refused source widget on saved canonical PDF, then direct decompressed content-stream regex", result: await qualifyInjectedVector(`${ROOT}/${scratchFamily.fixtures.canonical.packet.path}`, scratchRect) };
+all.qualifier = { type:"known_injected_scratch_vector_defect", status:"NOT_MEASURABLE_HERE", method:"Prior scratch helper only regex-matched injected operands and did not run measureFamily; it is not evidence for protected ink or clipping.", result:null };
 fs.mkdirSync(path.dirname(OUT), { recursive:true }); fs.writeFileSync(OUT, JSON.stringify(all,null,2)+"\n");
 console.log(JSON.stringify({output:path.relative(ROOT,OUT),families:all.families.map(f=>({familyId:f.familyId,canonical:f.fixtures.canonical.counters,boundary:f.fixtures.boundary.counters}))},null,2));
