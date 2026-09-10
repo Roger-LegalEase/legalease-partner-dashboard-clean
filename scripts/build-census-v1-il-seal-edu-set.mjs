@@ -896,22 +896,8 @@ async function build() {
   assert.ok(family, `family absent from worklist: ${FAMILY_ID}`);
   const packets = {};
   for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture);
-  fs.mkdirSync(path.join(OUT, "fixtures"), { recursive: true });
-  fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
-  for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
-  // FIX166, ROUTE_OPTIONS. The record calls this route SEALING. The guide used
-  // to be titled "Illinois expungement or sealing packet" and to tell the
-  // participant to "make the expunge-or-seal election shown on the Request",
-  // which this track's own packetInstructions[2] forbids -- "Never use 'expunge'
-  // as a synonym for 'seal'. Say which remedy applies." -- and which was untrue
-  // of the delivered paper: the packet had already made that election.
   const routeSummary = `Sealing, under the educational-credential waiver of the waiting period, 20 ILCS 2630/5.2(c)(3)(E). This packet asks the court to SEAL. It does not ask the court to expunge anything: Request item 1, "I am requesting to expunge records", is answered No, and item 12, "Seal Records", is answered Yes. The record states the waiver this way: ${EDUCATION_WAIVER_MECHANISM}`;
-  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
-  writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByTheFourPinnedForms: packet.delivered.officialWidgets, flattenedAppearancesPaintingWithoutDrawingAGlyph: packet.inkWithoutGlyphs, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader\u0027s job. A counter nobody measured is null, never 0.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
-  const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
-  writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
-  writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
+  const fieldMap = { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals };
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
   // FIX166, REQUIRED_BEFORE_FILING / FEE_AND_WAIVER / ROUTE_OPTIONS.
   // Everything the record enumerates is printed in the record's own words.
@@ -942,7 +928,7 @@ async function build() {
   const feeWaiverElectionRows = packets.canonical.refusals.filter((row) => row.isSelectionControl && row.documentId === "FW-CIV-APPLICATION");
   assert.ok(feeWaiverElectionRows.length, "the fee-waiver form's participant elections must reach the guide");
   const feeWaiverElections = feeWaiverElectionRows.map((row) => `- ${row.fieldName} — FW-CIV-APPLICATION page ${row.page}`).join("\n");
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois sealing packet - ${FAMILY_ID}
+  const participantInstructions = `# Illinois sealing packet - ${FAMILY_ID}
 
 ## Route selected
 
@@ -1033,8 +1019,28 @@ Stop automated assistance and get a lawyer if any of these is true. They are the
 ${stopConditions}
 
 Two of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet. One more is specific to this route: if the printed facts of item 22 do not match your record, stop.
-`);
+`;
 
+  // Validate participant-facing output before replacing any final artifact.
+  assertGuidance(fieldMap, participantInstructions);
+  fs.mkdirSync(path.join(OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
+  for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
+  // FIX166, ROUTE_OPTIONS. The record calls this route SEALING. The guide used
+  // to be titled "Illinois expungement or sealing packet" and to tell the
+  // participant to "make the expunge-or-seal election shown on the Request",
+  // which this track's own packetInstructions[2] forbids -- "Never use 'expunge'
+  // as a synonym for 'seal'. Say which remedy applies." -- and which was untrue
+  // of the delivered paper: the packet had already made that election.
+
+  writeJson(path.join(OUT, "production-field-map.json"), fieldMap);
+  writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByTheFourPinnedForms: packet.delivered.officialWidgets, flattenedAppearancesPaintingWithoutDrawingAGlyph: packet.inkWithoutGlyphs, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader\u0027s job. A counter nobody measured is null, never 0.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
+  const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
+  writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
+  writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
+
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), participantInstructions);
   // FIX166, FEE_AND_WAIVER. The filing sheet quotes the record too, rather than
   // paraphrasing a fee schedule beside it.
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
@@ -1113,6 +1119,11 @@ function assertDeliveredPacket() {
     assert.ok(refusal && refusal.routeDetermined === false, `the inapplicable three-year option must remain unselected: ${option}`);
   }
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
+  assertGuidance(fieldMap, instructions);
+}
+
+// Same guidance checks for pending production bytes and saved --self-test input.
+function assertGuidance(fieldMap, instructions) {
   assert.ok(!/Complete arrest\d+ on/.test(instructions),
     "an interior AcroForm name is not a caption a participant can find on the page");
   assert.ok(instructions.includes(PRINTED_LEGEND), "the guide must print the sealing Outcome legend so the participant can check the cell against it");
