@@ -129,6 +129,8 @@ import { extractTextItems, groupIntoLines, normalizeHarvestedText }
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { preserveGovernanceState, writeWiringChecked }
+  from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -282,6 +284,18 @@ const BOUNDARY = {
 // plumbing
 // ---------------------------------------------------------------------------
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+function preservedSourceTiers(wiringPath, composed) {
+  let previous = null;
+  try { previous = JSON.parse(fs.readFileSync(wiringPath, "utf8")); } catch { return composed; }
+  const held = new Map(((previous?.binding?.sourceVersion) ?? [])
+    .filter((row) => row && typeof row.sourceId === "string")
+    .map((row) => [row.sourceId, row]));
+  return composed.map((row) => {
+    const before = held.get(row.sourceId);
+    if (!before || typeof before.tier !== "string" || before.sha256 !== row.sha256) return row;
+    return { ...row, tier: before.tier };
+  });
+}
 const round = (n) => Number(Number(n).toFixed(2));
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const absFor = (rel) => path.join(ROOT, rel);
@@ -371,6 +385,46 @@ const NOTARIZE_MEASURED_AGAINST_THESE_FORMS =
   + "close with a declaration under Minn. Stat. § 358.116, signed under penalty of perjury, and none of "
   + "them prints a notarial certificate or a seal line. EXP106 is signed by the judge. Nothing in this "
   + "packet has to be notarised.";
+
+/*
+ * The ten EXP102 item-9 grounds this route does not use: box 1 and boxes 3–11.
+ * These are read from the printed words of the exact EXP102 binary. Every
+ * unused ground has its own reason because a single route sentence does not
+ * tell a participant which statutory basis, waiting period, or proposed order
+ * the printed box represents.
+ */
+const ITEM_9_GROUNDS_NOT_USED = Object.freeze([
+  { key: "controlled-substance-152-18", match: /A criminal case against you for a possession of a controlled substance/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106)",
+    reason: "This box is EXP102 item 9's first ground: a controlled-substance case dismissed and discharged under Minn. Stat. § 152.18. That is the separate § 152.18 packet family, not this juvenile-certification route under Minn. Stat. § 260B.125. This packet is not prepared to prove a § 152.18 discharge. Leave this box empty and use the § 152.18 packet if that is your ground." },
+  { key: "resolved-in-your-favor", match: /A criminal matter was resolved/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's third ground: a criminal matter was resolved in your favor. The form routes that ground to EXP105 under Minn. Stat. § 609A.02, subd. 3, while this packet carries EXP106 for the juvenile-certification route. Leave it empty; a different proposed order is required." },
+  { key: "diversion-or-stay", match: /diversion program or stay of adjudication/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's fourth ground: successful completion of a diversion program or stay of adjudication, followed by the printed one-year condition. That disposition is different from adult prosecution after juvenile certification and the form routes it to EXP105. Leave it empty and use the packet built for diversion or stay relief." },
+  { key: "petty-misdemeanor-or-misdemeanor-conviction", match: /convicted of a petty misdemeanor or misdemeanor/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's fifth ground: a petty-misdemeanor or misdemeanor conviction, with the printed two-year waiting period. This packet concerns an adult conviction following juvenile certification, not this conviction ground, and the form routes it to EXP105. Leave it empty." },
+  { key: "gross-misdemeanor-conviction", match: /convicted of a gross misdemeanor, or the sentence imposed/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's sixth ground: a gross-misdemeanor conviction or equivalent sentence, with the printed three-year waiting period. It is a different conviction route and the form routes it to EXP105. Leave it empty." },
+  { key: "gross-misdemeanor-deemed-misdemeanor", match: /convicted of a gross misdemeanor that is deemed to be for a/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's seventh ground: a gross misdemeanor deemed a misdemeanor under Minn. Stat. § 609.13, subd. 2(2), with the printed three-year waiting period. That is a separate conviction route sent to EXP105, not this juvenile-certification route. Leave it empty." },
+  { key: "felony-152-025-conviction", match: /convicted of a felony violation of Minn\. Stat\. § 152\.025/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's eighth ground: a felony conviction under Minn. Stat. § 152.025, with the printed four-year waiting period. A conviction under § 152.025 is not the adult-conviction-after-juvenile-certification ground this packet proves, and the form routes it to EXP105. Leave it empty." },
+  { key: "felony-deemed-lesser", match: /convicted of a felony that is deemed to be for a gross misdemeanor or/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's ninth ground: a felony deemed a gross misdemeanor or misdemeanor under Minn. Stat. § 609.13, subd. 1(2), with the printed four- or five-year waiting period. It is a different conviction route sent to EXP105. Leave it empty." },
+  { key: "felony-listed-offense", match: /convicted of a felony violation of an offense listed/i,
+    routedOrder: "Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)",
+    reason: "This box is EXP102 item 9's tenth ground: a felony conviction for an offense listed in Minn. Stat. § 609A.02, subd. 3(b), with the printed four-year waiting period. This packet does not carry the EXP105 order for that ground. Leave it empty." },
+  { key: "judicial-records-only", match: /does not qualify for expungement under/i,
+    routedOrder: "Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only (court form EXP107)",
+    reason: "This box is EXP102 item 9's eleventh ground: an offense that does not qualify for ordinary expungement but may support judicial-records-only relief after rehabilitation. The form routes it to EXP107, which this packet does not carry and which does not reach records outside the courthouse. Leave it empty." }
+]);
 
 const cleanText = (value) => normalizeHarvestedText(String(value ?? ""))
   .replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").replace(/[:.,;\s]+$/, "").trim();
@@ -514,8 +568,15 @@ function selectionControlsOfPage(lines, pageNumber, checkboxGlyphs) {
       const glyph = checkboxGlyphs.get(chars[i].c + chars[i + 1].c);
       if (!glyph) continue;
       const originX = chars[i].x;
-      const advance = (chars[i].w ?? 0) + (chars[i + 1].w ?? 0);
+      /* The shared extractor has no per-character width for this two-byte
+       * ballot-box CID. Absence is null, never the fabricated number zero. */
+      const widths = [chars[i].w, chars[i + 1].w];
+      const advance = widths.every((w) => Number.isFinite(w)) ? widths[0] + widths[1] : null;
       const outline = glyph.outline;
+      if (!outline && advance === null) {
+        fail("a printed selection control has neither a readable glyph outline nor a measurable advance, so its cell cannot be measured from this source",
+          `page ${pageNumber} at x ${round(originX)} y ${round(line.y)}`);
+      }
       const geometry = outline
         ? {
           x0: round(originX + outline.xMin * size), y0: round(line.y + outline.yMin * size),
@@ -534,7 +595,11 @@ function selectionControlsOfPage(lines, pageNumber, checkboxGlyphs) {
         printedGlyph: "☐", observedState: "unmarked",
         sourceCid: glyph.cid, outlineBasis: glyph.outlineBasis,
         decodedAsTwoOneByteCharsByTheSharedExtractor: true,
-        glyphAdvance: round(advance), printedSize: round(size),
+        glyphAdvance: advance === null ? null : round(advance), glyphAdvanceMeasured: advance !== null,
+        whyGlyphAdvanceIsNull: advance === null
+          ? "the shared text extractor returned no per-character width for the ballot-box bytes; the control cell is measured from its embedded glyph outline instead"
+          : null,
+        printedSize: round(size),
         geometry, printedContext: cleanText(line.text)
       });
       i += 1;
@@ -562,11 +627,18 @@ function inkBetween(line, x0, x1) {
 }
 
 /** How much printed text already sits on this rule. A rule under printed words is an underline. */
-function inkOnRule(rule, lines) {
+function ruleLiesBetween(rule, line, rules) {
+  return (rules ?? []).some((other) => other !== rule
+    && other.y > rule.y + 0.75 && other.y < line.y - 0.75
+    && Math.min(other.endX, rule.endX) - Math.max(other.x, rule.x) >= 4);
+}
+
+function inkOnRule(rule, lines, rules = []) {
   let best = { ink: 0, line: null };
   for (const line of lines) {
     const size = line.size || 12;
     if (line.y < rule.y - 0.75 || line.y > rule.y + size * 1.3) continue;
+    if (ruleLiesBetween(rule, line, rules)) continue;
     const ink = inkBetween(line, rule.x, rule.endX);
     if (ink > best.ink) best = { ink, line };
   }
@@ -962,16 +1034,22 @@ function decideSelection(document, control, elected) {
     };
   }
   if (control.page === 4 || (control.page === 5 && /You were convicted|does not qualify/i.test(context))) {
+    const matched = ITEM_9_GROUNDS_NOT_USED.filter((ground) => ground.match.test(context));
+    if (matched.length !== 1) {
+      fail("an EXP102 item 9 ground this build must explain matched no single printed entry",
+        `${matched.length} match(es) for ${JSON.stringify(shortContext)}`);
+    }
+    const ground = matched[0];
     return {
       mark: false, approvedDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
       effectiveLabel: `Item 9 qualification box not used on this route — ${shortContext}`,
+      item9GroundKey: ground.key,
       routeConditionThatMakesItInapplicable:
         `this family is built for ${ROUTE_KEY}, the expungement of an adult conviction from a case the `
         + "participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 "
-        + "item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on "
-        + "item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining "
-        + "boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for "
-        + "judicial-records-only relief — which this family does not bind."
+        + "item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground "
+        + `routes to ${ground.routedOrder}, while this family carries EXP106 for the juvenile-certification route.`,
+      reason: ground.reason
     };
   }
   return {
@@ -993,10 +1071,12 @@ function selectionRow(control, decision) {
     construction: control.construction, sourceCid: control.sourceCid, geometry: control.geometry,
     isSelectionControl: true, marked: decision.mark === true,
     completenessDisposition: decision.mark === true ? null : decision.approvedDisposition,
+    ...(decision.mark === true ? { disposition: "selected_route_option" } : {}),
     ...(refusalClass ? { refusalClass, category: refusalClass } : {}),
     ...(decision.routeDetermined ? { routeDetermined: true, authority: decision.authority } : {}),
     ...(decision.routeConditionThatMakesItInapplicable
       ? { routeConditionThatMakesItInapplicable: decision.routeConditionThatMakesItInapplicable } : {}),
+    ...(decision.item9GroundKey ? { item9GroundKey: decision.item9GroundKey } : {}),
     ...(decision.courtCompletesAfterFiling
       ? { courtCompletesAfterFiling: true, laterCompletionTrigger: decision.laterCompletionTrigger } : {}),
     reason: decision.reason ?? decision.why ?? null,
@@ -1140,7 +1220,7 @@ async function censusDocument(document) {
       columnCounts.set(key, (columnCounts.get(key) ?? 0) + 1);
     }
     for (const rule of rules) {
-      const ink = inkOnRule(rule, lines);
+      const ink = inkOnRule(rule, lines, rules);
       const columnKey = `${round(rule.x)}|${round(rule.endX)}`;
       const repeated = columnCounts.get(columnKey) ?? 0;
       let construction = "drawn_horizontal_rule";
@@ -1461,7 +1541,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, requiredBeforeFiling, laterCompletion, elections, recordActions }) {
+function renderParticipantInstructions({ documents, censuses, requiredBeforeFiling, laterCompletion, elections, otherGroundBoxes, recordActions }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1487,6 +1567,16 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
   lines.push("this packet was built for, and it is the basis that goes with the proposed order EXP106. If you");
   lines.push("were not certified or referenced into district court under Minn. Stat. § 260B.125, this is the");
   lines.push("wrong packet and you should not file it.");
+  lines.push("");
+  lines.push("## Item 9 boxes printed for other grounds");
+  lines.push("");
+  lines.push("EXP102 item 9 has ten other grounds. This packet leaves each of them empty because each is a");
+  lines.push("different legal basis with a different waiting rule or proposed order. Read the printed words");
+  lines.push("against your records. If one describes your case, stop and get the packet built for that ground.");
+  lines.push("");
+  for (const box of otherGroundBoxes) {
+    lines.push(`- **EXP102 page ${box.page} — the box printed \"${box.printedWords}\"** ${box.reason}`);
+  }
   lines.push("");
   lines.push("## You must supply these before you file");
   lines.push("");
@@ -1552,6 +1642,19 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
   lines.push("them. EXP106 is signed by the judge, not by you.");
   lines.push("");
   return `${lines.join("\n")}\n`;
+}
+
+function auditSelectionDisclosure({ selectionDispositions, otherGroundBoxes, participantInstructions }) {
+  const rows = Object.values(selectionDispositions).flat();
+  const unmarked = rows.filter((row) => !row.marked);
+  const missingReason = unmarked.filter((row) => !String(row.reason ?? "").trim());
+  if (missingReason.length) fail("a selection control is delivered empty without a printed-ground-specific reason", JSON.stringify(missingReason.slice(0, 4)));
+  const other = rows.filter((row) => row.approvedDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE");
+  const reasons = new Set(other.map((row) => row.reason));
+  if (reasons.size !== other.length) fail("two unused selection controls share one reason", `${other.length} controls, ${reasons.size} reasons`);
+  const undisclosed = otherGroundBoxes.filter((box) => !participantInstructions.includes(box.printedWords) || !participantInstructions.includes(box.reason));
+  if (undisclosed.length) fail("an unused item 9 ground is absent from participant instructions", JSON.stringify(undisclosed.slice(0, 4)));
+  return { schemaVersion: "rcap-selection-disclosure-audit/v1", familyId: FAMILY_ID, selectionControls: rows.length, marked: rows.filter((row) => row.marked).length, otherStatutoryGround: other.length, selectionControlsWithNoStatedReason: missingReason.length, distinctReasonsAcrossOtherStatutoryGroundBoxes: reasons.size, otherStatutoryGroundBoxesNamedInTheParticipantGuide: otherGroundBoxes.length - undisclosed.length };
 }
 
 function renderFilingInstructions({ documents, recordActions }) {
@@ -1902,15 +2005,28 @@ async function build({ check = false } = {}) {
   const laterRows = dedupe(laterCompletion, (r) => `${r.form}|${r.effectiveLabel}`);
   const electionRows = dedupe(elections, (r) => `${r.form}|${r.effectiveLabel}`);
 
+  const otherGroundBoxes = [];
+  for (const document of documents) {
+    for (const row of selectionDispositions[document.key]
+      .filter((row) => !row.marked && row.approvedDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE")) {
+      otherGroundBoxes.push({ form: document.formNumber, page: row.page, blankId: row.blankId,
+        printedWords: cleanText(row.printedContext), reason: row.reason, item9GroundKey: row.item9GroundKey ?? null });
+    }
+  }
+
   const recordActions = participantActionsFromTheControllingRecord();
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
     renderParticipantInstructions({
       documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows,
-      elections: electionRows, recordActions
+      elections: electionRows, otherGroundBoxes, recordActions
     }));
   fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`),
     renderFilingInstructions({ documents, recordActions }));
+
+  const participantInstructions = fs.readFileSync(absFor(`${OUT}/participant-instructions.md`), "utf8");
+  const selectionDisclosure = auditSelectionDisclosure({ selectionDispositions, otherGroundBoxes, participantInstructions });
+  writeJson(`${OUT}/reports/selection-disclosure.json`, selectionDisclosure);
 
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1",
@@ -1950,7 +2066,9 @@ async function build({ check = false } = {}) {
         })),
         selectionControls: census.selectionControls.map((control) => ({
           ...control,
-          disposition: selectionDispositions[document.key].find((row) => row.selectionId === control.id)?.approvedDisposition ?? null,
+          disposition: selectionDispositions[document.key].find((row) => row.selectionId === control.id)?.disposition
+            ?? selectionDispositions[document.key].find((row) => row.selectionId === control.id)?.approvedDisposition ?? null,
+          completenessDisposition: selectionDispositions[document.key].find((row) => row.selectionId === control.id)?.completenessDisposition ?? null,
           marked: selectionDispositions[document.key].find((row) => row.selectionId === control.id)?.marked === true
         }))
       };
@@ -2139,29 +2257,8 @@ async function build({ check = false } = {}) {
    * with both digests recorded so the withdrawal is legible. A receipt is never
    * re-issued from here; only the central raster workflow issues one.
    */
-  const previousWiring = fs.existsSync(absFor(`${OUT}/product-wiring.json`))
-    ? readJson(`${OUT}/product-wiring.json`) : null;
-  const previousBinding = previousWiring?.binding ?? {};
-  const carriedForward = {};
-  for (const key of ["lastIndependentVerification", "paymentEligible", "sponsorshipEligible",
-    "whyPaymentIsClosed", "maintenanceRelationship"]) {
-    if (previousBinding[key] !== undefined) carriedForward[key] = previousBinding[key];
-  }
-  const canonicalSha = sha256(canonical.bytes);
-  const previousReceipt = previousBinding.acceptanceReceipt ?? null;
-  if (previousReceipt && previousReceipt.boundToCanonicalSha256 === canonicalSha) {
-    carriedForward.acceptanceReceipt = previousReceipt;
-  } else if (previousReceipt) {
-    carriedForward.acceptanceReceiptWithdrawn = {
-      why: "the acceptance receipt binds an exact canonical SHA-256 and this build produced different "
-        + "bytes, so the receipt does not describe this packet. Only the central raster acceptance "
-        + "workflow issues a receipt; this build issues none and sets no verdict.",
-      withdrawnReceipt: previousReceipt,
-      canonicalSha256AtWithdrawal: canonicalSha
-    };
-  }
-
-  writeJson(`${OUT}/product-wiring.json`, {
+  const wiringPath = absFor(`${OUT}/product-wiring.json`);
+  const wiring = {
     schemaVersion: "rcap-family-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     routeSelectionId: ROUTE_SELECTION_ID, implementationStrategy: "official_pdf_fill",
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
@@ -2178,10 +2275,16 @@ async function build({ check = false } = {}) {
       filingInstructions: `${OUT}/filing-instructions.md`,
       renderedArtifacts: `${OUT}/reports/rendered-artifacts.json`,
       sourceReceipt: `${OUT}/source-receipt.json`,
-      sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" })),
-      ...carriedForward
+      sourceVersion: preservedSourceTiers(wiringPath,
+        SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256, tier: "exact_content_hash" }))),
     }
-  });
+  };
+  fs.mkdirSync(path.dirname(wiringPath), { recursive: true });
+  writeWiringChecked(fs, wiringPath,
+    preserveGovernanceState(fs, wiringPath, wiring, {
+      canonicalSha256: sha256(canonical.bytes),
+      log: (line) => console.error(line)
+    }));
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],

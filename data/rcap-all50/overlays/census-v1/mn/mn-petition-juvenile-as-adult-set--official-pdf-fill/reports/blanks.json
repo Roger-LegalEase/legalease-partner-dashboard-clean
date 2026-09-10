@@ -180,6 +180,28 @@
       }
     },
     {
+      "form": "EXP104",
+      "page": 1,
+      "blankId": "p1-y690.24-x418.56",
+      "effectiveLabel": "Judicial District of the court",
+      "printedCaption": "Judicial District",
+      "sourcePrintedCaption": "Judicial District",
+      "reason": "the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "whatToSupply": "the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each",
+      "approvedDisposition": "REQUIRED_BEFORE_FILING",
+      "measured": {
+        "x0": 418.56,
+        "x1": 534.96,
+        "baselineY": 690.24,
+        "width": 116.4,
+        "thickness": 0.48,
+        "printedSize": 10,
+        "geometrySource": "content_stream"
+      }
+    },
+    {
       "form": "EXP106",
       "page": 1,
       "blankId": "p1-y658.8-x148.32",
@@ -2862,8 +2884,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "controlled-substance-152-18",
+      "reason": "This box is EXP102 item 9's first ground: a controlled-substance case dismissed and discharged under Minn. Stat. § 152.18. That is the separate § 152.18 packet family, not this juvenile-certification route under Minn. Stat. § 260B.125. This packet is not prepared to prove a § 152.18 discharge. Leave this box empty and use the § 152.18 packet if that is your ground.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -2887,8 +2910,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "resolved-in-your-favor",
+      "reason": "This box is EXP102 item 9's third ground: a criminal matter was resolved in your favor. The form routes that ground to EXP105 under Minn. Stat. § 609A.02, subd. 3, while this packet carries EXP106 for the juvenile-certification route. Leave it empty; a different proposed order is required.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -2912,8 +2936,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "diversion-or-stay",
+      "reason": "This box is EXP102 item 9's fourth ground: successful completion of a diversion program or stay of adjudication, followed by the printed one-year condition. That disposition is different from adult prosecution after juvenile certification and the form routes it to EXP105. Leave it empty and use the packet built for diversion or stay relief.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -2937,8 +2962,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "petty-misdemeanor-or-misdemeanor-conviction",
+      "reason": "This box is EXP102 item 9's fifth ground: a petty-misdemeanor or misdemeanor conviction, with the printed two-year waiting period. This packet concerns an adult conviction following juvenile certification, not this conviction ground, and the form routes it to EXP105. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -2962,8 +2988,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "gross-misdemeanor-conviction",
+      "reason": "This box is EXP102 item 9's sixth ground: a gross-misdemeanor conviction or equivalent sentence, with the printed three-year waiting period. It is a different conviction route and the form routes it to EXP105. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -2987,8 +3014,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "gross-misdemeanor-deemed-misdemeanor",
+      "reason": "This box is EXP102 item 9's seventh ground: a gross misdemeanor deemed a misdemeanor under Minn. Stat. § 609.13, subd. 2(2), with the printed three-year waiting period. That is a separate conviction route sent to EXP105, not this juvenile-certification route. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -3012,8 +3040,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "felony-152-025-conviction",
+      "reason": "This box is EXP102 item 9's eighth ground: a felony conviction under Minn. Stat. § 152.025, with the printed four-year waiting period. A conviction under § 152.025 is not the adult-conviction-after-juvenile-certification ground this packet proves, and the form routes it to EXP105. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -3037,8 +3066,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "felony-deemed-lesser",
+      "reason": "This box is EXP102 item 9's ninth ground: a felony deemed a gross misdemeanor or misdemeanor under Minn. Stat. § 609.13, subd. 1(2), with the printed four- or five-year waiting period. It is a different conviction route sent to EXP105. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -3062,8 +3092,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "felony-listed-offense",
+      "reason": "This box is EXP102 item 9's tenth ground: a felony conviction for an offense listed in Minn. Stat. § 609A.02, subd. 3(b), with the printed four-year waiting period. This packet does not carry the EXP105 order for that ground. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     },
     {
@@ -3087,8 +3118,9 @@
       "isSelectionControl": true,
       "marked": false,
       "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. Every other basis on item 9 is a different route: the § 152.18 discharge is its own packet family, and the remaining boxes carry a different proposed order — EXP105 under Minn. Stat. § 609A.02, subd. 3, or EXP107 for judicial-records-only relief — which this family does not bind.",
-      "reason": null,
+      "routeConditionThatMakesItInapplicable": "this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only (court form EXP107), while this family carries EXP106 for the juvenile-certification route.",
+      "item9GroundKey": "judicial-records-only",
+      "reason": "This box is EXP102 item 9's eleventh ground: an offense that does not qualify for ordinary expungement but may support judicial-records-only relief after rehabilitation. The form routes it to EXP107, which this packet does not carry and which does not reach records outside the courthouse. Leave it empty.",
       "approvedDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
     }
   ],
@@ -3114,6 +3146,7 @@
       "isSelectionControl": true,
       "marked": true,
       "completenessDisposition": null,
+      "disposition": "selected_route_option",
       "routeDetermined": true,
       "authority": "Minn. Stat. § 260B.125; Minn. Stat. § 609A.02, subd. 1 or 2",
       "reason": "This packet is built for one statutory route and the petition must state which. Item 9 box 2 is the certification or reference for prosecution as an adult, and it is the only box on item 9 besides the § 152.18 discharge box that routes to EXP106, which is the proposed order this family binds.",
@@ -3140,6 +3173,7 @@
       "isSelectionControl": true,
       "marked": true,
       "completenessDisposition": null,
+      "disposition": "selected_route_option",
       "routeDetermined": true,
       "authority": "Minn. Stat. § 563.01",
       "reason": "FEE102 item 2 asks whether the affidavit accompanies pleadings or asks only for copy fees to be waived. This packet contains the petition, the proof of service and the proposed order, so the answer is a fact about the packet rather than a choice the participant makes.",

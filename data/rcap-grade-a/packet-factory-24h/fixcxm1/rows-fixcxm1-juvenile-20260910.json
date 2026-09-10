@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIXCXM1",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "repairedAtBase": "abcfeebb0289853ff53c93cc388dfacb13b1df95",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxm1",
+  "branch": "lane-fixcxm1-20260910",
+  "laneComplete": true,
+  "builtAnything": true,
+  "repairsMade": 1,
+  "repairsMadeForADISPATCHEDFINDING": true,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesChanged": 0,
+  "verdictsSet": 0,
+  "receiptsIssued": 0,
+  "grantsReleased": 0,
+  "sharedManifestsTouched": false,
+  "rows": [
+    {
+      "itemId": "mn_petition_juvenile_as_adult-set",
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationRepaired": ["ROUTE_OPTIONS", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "actualProductionCommand": "node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+      "originalDefectCommand": "node data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/verify-repair.mjs --original",
+      "originalDefectExit": 1,
+      "validHarnessCommand": "node data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/verify-repair.mjs",
+      "validHarnessExit": 0,
+      "focusedCompleteness": "PASS_COMPLETE; all nine counters zero",
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+        "fixtures/boundary.pdf": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+      },
+      "fixtureDigestsBeforeAndAfterIdentical": true,
+      "sourceDigestsChecked": {
+        "EXP102": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+        "EXP104": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+        "EXP106": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+        "FEE102": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8"
+      },
+      "markedSelectionContract": "Both marked rows now carry disposition:selected_route_option and completenessDisposition:null; no tick moved.",
+      "unusedGroundContract": "Ten unused EXP102 item-9 rows (box 1 and boxes 3-11) have distinct printed-ground-specific reasons, and all ten are named in participant-instructions.md.",
+      "glyphAdvanceContract": "Unmeasurable ballot-box advance is null with glyphAdvanceMeasured:false and embedded-outline geometry retained; it is never published as zero.",
+      "governanceContract": "Existing governance/history values are preserved by preserveGovernanceState/writeWiringChecked; FEE102 source tier exact_form_number remains unchanged; acceptance receipt history remains recorded.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/repair-measurements.json"
+    }
+  ],
+  "grantsNothing": "This repair issues no independent verdict, raster receipt, commercial authority, route promotion or live status.",
+  "stopped": true
+}
