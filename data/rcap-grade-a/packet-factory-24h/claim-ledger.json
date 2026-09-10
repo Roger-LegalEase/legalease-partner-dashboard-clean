@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0bab0ce4c0b33643248678f3644184c7dd6b6e73",
+  "generatedAtCommit": "75fde059692a985a2771c6c9ee17ec06d0cf0e90",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -996,11 +996,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX145",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX03 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "released": true,
+      "releasedAt": "2026-09-10T12:38:28.153Z"
     },
     {
       "subjectType": "packet-family",
@@ -1132,7 +1131,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.052Z"
@@ -1178,7 +1177,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.181Z"
@@ -1649,7 +1648,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.309Z"
@@ -1695,7 +1694,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:21.658Z"
@@ -2534,7 +2533,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -3198,7 +3197,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:23.313Z"
@@ -3789,11 +3788,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX145",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX07 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "released": true,
+      "releasedAt": "2026-09-10T12:38:28.153Z"
     },
     {
       "subjectType": "packet-family",
@@ -4325,7 +4323,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:23.973Z"
@@ -4679,10 +4677,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX145",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:38:28.153Z"
     },
     {
       "subjectType": "packet-family",
@@ -4909,6 +4907,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T02:01:40.382Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky-expungement-certification-set",
+      "itemId": null,
+      "familyId": "ky-expungement-certification-set",
+      "familyIds": [
+        "ky-expungement-certification-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX147",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5217,7 +5230,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -5694,7 +5707,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:38.952Z"
@@ -7020,7 +7033,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.407Z"
@@ -7375,7 +7388,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.546Z"
@@ -7590,7 +7603,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8489,7 +8502,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.349Z"
@@ -8534,10 +8547,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX145",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:38:28.153Z"
     },
     {
       "subjectType": "packet-family",
@@ -8580,7 +8593,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8641,7 +8654,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8688,7 +8701,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -8749,7 +8762,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -8795,7 +8808,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -8841,7 +8854,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -8933,7 +8946,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.112Z"
@@ -14683,24 +14696,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ky-expungement-certification-set",
-      "itemId": null,
-      "familyId": "ky-expungement-certification-set",
-      "familyIds": [
-        "ky-expungement-certification-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX147",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "130685cfd781dec63641748cb97b690c41a7377d35064570438315e6c42bb3c6",
+  "claimsDigest": "ccca8b2a767e97afd10032bc6f8ae7089993e802786225d86eed94e1be832b34",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37309,6 +37307,66 @@
       "returnEvidence": {
         "file": "data/rcap-grade-a/packet-factory-24h/vf44/rows.json",
         "committedAt": "7958f25b69c63f571e94017f3aee41b8cb90e76a",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "FIX145",
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:38:28.153Z",
+      "reason": "FIX145 finished and returned: rows at data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json. Two source-identity repairs, one Iowa repair, one family blocked on a source not held. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json",
+        "committedAt": "9c90a0ce20a608dcaaff1b96dc641c53842392ab",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "FIX145",
+      "subjectType": "packet-family",
+      "subjectId": "ia-12347-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:38:28.153Z",
+      "reason": "FIX145 finished and returned: rows at data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json. Two source-identity repairs, one Iowa repair, one family blocked on a source not held. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json",
+        "committedAt": "9c90a0ce20a608dcaaff1b96dc641c53842392ab",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "FIX145",
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:38:28.153Z",
+      "reason": "FIX145 finished and returned: rows at data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json. Two source-identity repairs, one Iowa repair, one family blocked on a source not held. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json",
+        "committedAt": "9c90a0ce20a608dcaaff1b96dc641c53842392ab",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "FIX145",
+      "subjectType": "packet-family",
+      "subjectId": "sd_arrest_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T12:38:28.153Z",
+      "reason": "FIX145 finished and returned: rows at data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json. Two source-identity repairs, one Iowa repair, one family blocked on a source not held. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix145/rows-fix145-20260910.json",
+        "committedAt": "9c90a0ce20a608dcaaff1b96dc641c53842392ab",
         "rowFiles": 1
       }
     }
