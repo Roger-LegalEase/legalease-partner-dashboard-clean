@@ -1050,11 +1050,6 @@ export function petitionMap(componentId, h, ctx) {
       + "fact. protectCategoryOf(\"Attorney Name (if any)\") is \"attorney\" in the shared registry, so the "
       + "finalizer refuses it as well; writing the participant's name into a block the Prothonotary reads as "
       + "counsel's would tell the court something untrue about who is appearing"),
-    h.election("The continued existence and possible dissemination of criminal records relating to Petitioner causes or may cause circumstances",
-      "The continued existence and possible dissemination of criminal records relating to Petitioner causes, or may cause, circumstances which constitute a manifest injustice to the Petitioner.",
-      "a sworn assertion of manifest injustice, which is the substantive test the petition must satisfy and "
-      + "is the participant's to make. The committed track registry records that LegalEase \"does not decide "
-      + "whether the showing is sufficient\""),
     h.agencyBlank("day of", "Sworn to and subscribed before me this",
       "the day of the jurat, completed by the clerk of court or notary before whom the petition is sworn. "
       + "The committed record's notarization rule is that filing in person means bringing the petition "
@@ -1092,6 +1087,50 @@ export function petitionMap(componentId, h, ctx) {
         + "prints over that cell, read by x-position."));
     }
   }
+
+  /*
+   * THE ASSERTION BOX THE FORM ITSELF MARKS MUST.
+   *
+   * Its widget is at x[46.68,55.44] y[400.56,409.32], between the charge table
+   * (y 431-490) and the four ruled lines (y 308-359), and it is declared here
+   * so the participant guide reads down the printed page.
+   *
+   * The form prints "The following information MUST be completed for the Court
+   * to consider the petition" immediately above it. It was declared through
+   * `h.election` and therefore carried requiredBeforeFiling false, which is the
+   * classification for a box the form leaves optional -- and because
+   * requiredBeforeFiling false is also what keeps a blank out of the guide's
+   * "items you must supply" table, the participant was handed a petition
+   * carrying a box the Court says must be completed and told nothing about it
+   * anywhere in the packet. The four narrative lines beneath it were disclosed;
+   * the assertion they explain was not.
+   *
+   * A blank the form marks MUST is requiredBeforeFiling true. It stays the
+   * participant's to make -- nothing here ticks it, and the packet still makes
+   * no manifest-injustice assertion on anyone's behalf -- but the packet now
+   * names it, says what ticking it asserts, and says that the decision is the
+   * participant's.
+   */
+  refusals.push(h.requiredElection(
+    "The continued existence and possible dissemination of criminal records relating to Petitioner causes or may cause circumstances",
+    "The continued existence and possible dissemination of criminal records relating to Petitioner causes, or may cause, circumstances which constitute a manifest injustice to the Petitioner.",
+    "your own decision on the sworn assertion this box makes. Tick it only if it is true of you: that the "
+    + "continued existence and possible dissemination of these criminal records causes, or may cause, "
+    + "circumstances which constitute a manifest injustice to you. The form prints \"The following "
+    + "information MUST be completed for the Court to consider the petition\" directly above this box, so "
+    + "the Court will not consider the petition with it left blank. This packet does not tick it and does "
+    + "not decide it for you; the four ruled lines under it are where you explain it",
+    "a sworn assertion of manifest injustice, which is the substantive test the petition must satisfy and "
+    + "is the participant's to make. The committed track registry records that LegalEase \"does not decide "
+    + "whether the showing is sufficient\". The form marks it required: it prints \"The following "
+    + "information MUST be completed for the Court to consider the petition\" as the section heading "
+    + "immediately above this widget, which sits at x[46.68,55.44] y[400.56,409.32] on page 1",
+    "the route is a statutory pathway and this is a fact about this participant's own life. Whether the "
+    + "continued existence and possible dissemination of these records causes, or may cause, circumstances "
+    + "constituting a manifest injustice is decided by the participant's circumstances, not by which "
+    + "expungement statute the petition travels under, and both Superior Court routes that use this form "
+    + "put the same assertion to the petitioner. The committed track registry records that LegalEase "
+    + "\"does not decide whether the showing is sufficient\", so the platform may not answer it either"));
 
   /* Declared last because the four ruled lines are printed last: the charge
    * table sits at y 431-490 on this page and the manifest-injustice lines at
