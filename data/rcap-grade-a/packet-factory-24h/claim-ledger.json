@@ -4489,8 +4489,9 @@
       "operation": "independent-verification",
       "lane": "VF30",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:42.551Z",
+      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
       "subjectType": "packet-family",
@@ -4519,8 +4520,9 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:42.664Z",
+      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -4534,8 +4536,9 @@
       "operation": "independent-verification",
       "lane": "VF30",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:42.782Z",
+      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
       "subjectType": "packet-family",
@@ -4564,9 +4567,9 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "No live worker; the three Indiana conviction families share one defect class and one remedy and should be repaired by one lane"
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:42.904Z",
+      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -4580,8 +4583,9 @@
       "operation": "independent-verification",
       "lane": "VF30",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:43.013Z",
+      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
     },
     {
       "subjectType": "packet-family",
@@ -4610,9 +4614,9 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Same"
+      "released": true,
+      "releasedAt": "2026-09-10T07:47:43.121Z",
+      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -14511,7 +14515,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9c75a679c2f2413d3bdd24521fb8ee928070e5af0d7c78dd7595e7d193e1913a",
+  "claimsDigest": "b67119df651d7701d9d15e7b9b95ad4d86e4ac0def704cd63def2c13e1619eac",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35406,6 +35410,60 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T07:46:54.179Z",
       "reason": "VF25 returned its independent read of all six Vermont families; this row is merged at 1beb7183a. The family goes back to repair before it is read again."
+    },
+    {
+      "lane": "VF30",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T07:47:42.551Z",
+      "reason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T07:47:42.664Z",
+      "reason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+    },
+    {
+      "lane": "VF30",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T07:47:42.782Z",
+      "reason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T07:47:42.904Z",
+      "reason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+    },
+    {
+      "lane": "VF30",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T07:47:43.013Z",
+      "reason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T07:47:43.121Z",
+      "reason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
     }
   ],
   "reissues": [
