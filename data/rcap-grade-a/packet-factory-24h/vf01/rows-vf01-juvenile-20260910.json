@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
+  "rows": [
+    {
+      "schemaVersion": "rcap-verifier-lane-return/v1",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "shift": "20260910",
+      "worker": "juvenile-vf01-review",
+      "branch": "lane-vf01-juvenile-20260910",
+      "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
+      "claim": "CLAIM_OK VF01 mn_petition_juvenile_as_adult-set (independent-verification, grant set 98306bde6f7fb0ba)",
+      "independence": "This lane did not build, repair or edit the Minnesota juvenile family. FIXCXM1 authored the repair and Captain integrated it; those author claims are excluded. Current inputs were compared exactly with the retained VF23 evidence at b090c6a80d6f1b35eaea45a890606a78bda5a095, and changed obligations were reread directly.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/juvenile-evidence/delta-audit.json",
+      "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf23/rows-vf23-20260910.json",
+      "postRepairDeltaReview": true,
+      "deltaSummary": {
+        "method": "Supported delta review: exact current inputs were compared with the retained VF23 input snapshot; unchanged obligations retain only VF23 evidence whose PDFs, source receipt, actual-writes and rendered-artifact manifest hashes match. Changed map/census/guide/selection obligations were reread directly. No build or raster dispatch was run.",
+        "changedInputFiles": [
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/blanks.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/caption-evidence.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/selection-disclosure.json"
+        ],
+        "unchangedInputFiles": [
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/filing-instructions.md",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/reports/rendered-artifacts.json"
+        ],
+        "repairCommits": [
+          "6a9c777c0",
+          "091caffce"
+        ],
+        "integrationCommits": [
+          "74088f384"
+        ],
+        "sourceHashesExact": true,
+        "currentFixtureHashes": {
+          "canonical": {
+            "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+            "bytes": 909240,
+            "pages": 17,
+            "pageManifestPages": 17
+          },
+          "boundary": {
+            "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5",
+            "bytes": 909605,
+            "pages": 17,
+            "pageManifestPages": 17
+          }
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNineZeroMeasuredExceptVisual": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current map, source receipt, product wiring and controlling track record agree on routeKey obligation:track-only:MN:mn_petition_juvenile_as_adult, routeSelectionId mn-exp102-juvenile-certified-as-adult, family ID and the four-form packet set. generationAllowed and runtimeSelectable remain false."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Rehashed the four current source binaries from the mounted recovery/master paths. EXP102, EXP104, EXP106 and FEE102 each match current source-receipt.json hash and byte length exactly; the receipt is unchanged from VF23 and declares allSourcesExact."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current controlling packetSet still declares EXP102 primary filing, EXP104 certificate of service, EXP106 proposed order and conditional FEE102 in order 1–4. Current rendered-artifacts manifest still carries both 17-page fixtures in that order."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current actual-writes.json is byte-identical to the VF23 input and both current fixture PDFs hash to the retained VF23 PDFs. The current map factMap and writable anchors are unchanged: the same participant/county/case-number prefills remain and no new offense type, offense date, charge or certification recital appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current PDFs and actual-writes report are unchanged, and the current blank census still classifies 67 protected fields with no generated write. The repair added completeness dispositions to selection controls and glyphAdvance:null metadata; it did not mark or write a protected field."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current fixture bytes and writable-anchor geometry are byte-identical to VF23. The retained VF23 source-differential/geometry measurement therefore applies; current selection geometry is unchanged while glyph advance is explicitly null rather than guessed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Reread current participant-instructions.md after its delta. It still says the packet is not filed and no court has decided anything, stops when the § 260B.125 route does not fit, directs another packet for every other item-9 ground, and sends objections/contested hearings to the court/lawyer path. No outcome is promised."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current filing-instructions.md is byte-identical to VF23 and was reread against the current registry: file with the district court administrator in the county where the case was decided, the district court of adult certification, not juvenile court. The current product-wiring pointer to filing-instructions.md is absent despite the file existing; this is recorded as a governance observation and does not change the file contents or destination statement."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current EXP104 source and filing-instructions.md are unchanged and were reread. The guide still leaves service details blank until mailing, names the six required agencies from the printed form, supplies no invented method/deadline, and directs completion after service."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This delta was reread directly. EXP104 page 1 Judicial District is now a measured drawn rule classified REQUIRED_BEFORE_FILING, and the current guide names it with the same district instruction as EXP102/EXP106/FEE102. Current reports/blanks.json has 13 form-level required entries; the controlling record still has 10 requiredBeforeFiling actions, all current guide text present."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current canonical and boundary PDFs were rehashed as ccd5f00f… and c5f2e418… and match reports/rendered-artifacts.json and the existing raster receipt. The current actual-writes byte proof remains unchanged. No new PNG bodies were read; visualDefects is therefore null under the retained hash-matched receipt."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current rendered-artifacts.json is byte-identical to VF23: EXP102 pages 1–6, EXP104 pages 1–2, EXP106 pages 1–3 and FEE102 pages 1–6, 17 pages per fixture. No page or component order delta exists."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current selection audit covers 95 controls: exactly two marked controls carry disposition selected_route_option and completenessDisposition null, one EXP102 item-9 box 2 and one FEE102 item-2 pleadings branch. The other ten EXP102 item-9 boxes have distinct printed-ground-specific reasons, NOT_APPLICABLE_ON_THIS_ROUTE dispositions, and all ten are named in the current guide. Existing source-geometry measurement confirms the marked box positions; no mark moved."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The only intervening-rule census delta is EXP102 page 3 rule p3-y385.6-x72: printedInkFractionOnTheRule 0.4→0.23 while disposition remains NOT_A_FIELD, writable false and factId null. The item-7 criminal-record table and EXP104 agency rows remain wholly withheld/blank; current guide still requires the participant’s full record and service addresses."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Current FEE102 source hash, FEE102 bytes, fee guidance and fee-waiver component are unchanged from VF23. The guide states the fee applies unless a statutory/granted waiver, gives no invented amount, includes conditional FEE102 and excludes FEE103 except where the court requests detail. Product wiring still reports payment/sponsorship false and route closed; its FEE102 source tier remains exact_form_number despite the source receipt’s exact hash, a retained governance-record mismatch not a changed participant fee instruction."
+        }
+      },
+      "unmeasuredObligations": [],
+      "unmeasuredItems": {
+        "visualDefects": null,
+        "participantImpact": null,
+        "sourceFreshnessBeyondExactHashes": null,
+        "reason": "The existing RASTER_PASS hash/settings match is retained, but this lane did not read PNG bodies. No external currentness claim is made beyond exact pinned hashes."
+      },
+      "rasterState": "RASTER_PASS_EXISTING_RECEIPT_HASH_MATCH_BODIES_NOT_READ",
+      "rasterWorkflowRunId": "34428745884",
+      "rasterHashBinding": {
+        "canonical": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+        "boundary": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5",
+        "settings": "requestedScale 2.5; 34 pages; current hashes match"
+      },
+      "failedObligationNames": [],
+      "observations": [
+        "The supported delta reread directly covers the ten EXP102 item-9 grounds, two selected route controls, null glyphAdvance metadata, EXP104 Judicial District reclassification, and the intervening-rule census change; retained VF23 evidence is used only for exact unchanged PDFs, source receipt, actual-writes and rendered-artifact manifest inputs.",
+        "The existing RASTER_PASS receipt is reused only because current PDF hashes and requestedScale match. Its PNG bodies were not read in this lane, so visualDefects and participantImpact remain null.",
+        "Current product wiring remains closed: generationAllowed false, runtimeSelectable false, paymentEligible false, sponsorshipEligible false and commercialRoutesOpened 0. The missing binding.filingInstructions pointer and FEE102 exact_form_number versus exact source hash are recorded governance observations and were not repaired.",
+        "No terminal legal or eligibility conclusion is made; this is packet coverage verification only."
+      ],
+      "packetsBuiltOrRepairedHere": 0,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsReleased": 0,
+      "grantsNothing": "This return writes only rows-vf01-juvenile-20260910.json and juvenile-evidence/delta-* under the VF01 allowlist. It does not modify sources, fixture PDFs, guides, maps, queues, ledgers, manifests, raster records or runtime authority.",
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "itemId": "mn_petition_juvenile_as_adult-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT"
+    }
+  ]
+}
