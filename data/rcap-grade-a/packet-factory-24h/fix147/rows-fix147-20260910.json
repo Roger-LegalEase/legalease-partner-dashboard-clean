@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "FIX147",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "verifiedAtBase": "4ad6f4d857dd94ea6428d0034a0a2087d8df87cc",
+  "whatThisLaneIs": "A repair lane holding the two families the Captain's corpus-wide text scan named as genuine form-control captions on delivered pages. It established what the scan explicitly did not -- which page each caption is on, whether that page is filed, and a pixel measurement with its own controls -- then repaired the cause in each builder. It verifies nothing it built.",
+  "obligationResultVocabulary": ["PASS", "FAIL", "NOT_MEASURABLE_HERE", "BLOCKED_LEGAL_INPUT"],
+  "grantsNothing": "A repair promotes nothing, opens no route and approves no packet. No commercial route was opened, no production path touched, no grant released. Both grants stay held by FIX147.",
+
+  "theDeterminismControlRanFirst": {
+    "what": "Both builders were run UNCHANGED at this base before any edit, and both reproduced the committed digests exactly, with `git status` clean afterwards.",
+    "il": "canonical 2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689, boundary 3b6995830519a2d04e9233e3715e1c1c568dac1adf54c0eeaa9501bdd7a64b60 -- byte for byte as committed.",
+    "ky": "canonical d57289137b84e372f3de9edefaf070b41e0b61c11b268c229a2119a2a74d15e2, boundary 964a9b4b17a293235f9b75ec4e2a8581227850f590fa2338d84bcbec07e3f338 -- byte for byte as committed.",
+    "whyItMatters": "Every byte that moved afterwards is attributable to the change in this commit and to nothing else."
+  },
+
+  "howTheMeasurementWasTaken": {
+    "renderer": "pdftoppm -r 600 -gray, PGM (P5) single channel. Not -png: a -gray -png render emits an RGB PNG that a naive grayscale reader misreads silently, so the raw single-channel PGM is read directly instead.",
+    "darkPixel": "grey strictly less than the published threshold, of 255. Counts are published at 128, 160 and 200 wherever a grey fill is in scope, because a threshold choice can hide or invent a fill.",
+    "scope": "the widget's own /Rect, converted from PDF user space at 600/72 with the page height taken from the MediaBox (792pt on every page of both families).",
+    "positiveControl": "On the COURT'S OWN SOURCE, annotations-on minus annotations-hidden at each button rect. The buttons are LIVE WIDGETS there, so a non-zero delta proves the render draws the ink being counted. It is non-zero on all nineteen widgets.",
+    "whatIsNotANegativeControl": "The same annotations-on vs annotations-hidden comparison on the DELIVERED pre-repair bytes reads IDENTICALLY both ways, on every page and at every threshold. That is NOT a negative control. It is the proof the caption had been flattened into page CONTENT and would print from any viewer and off any printer however it handles annotations. VF44 corrected exactly this labelling in FIX143's work.",
+    "overSuppressionControl": "With annotations hidden, the court's own page reads 0 dark pixels inside all nineteen rectangles at thresholds 128, 160 and 200. The paper under every button is blank, so what was withdrawn is viewer chrome and not one mark of the form."
+  },
+
+  "rows": [
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "disposition": "FAIL_REPRODUCED_AND_REPAIRED",
+      "priorState": "COMPLETE_PACKET_PROVEN, RASTER_PASS admitted, allNineCountersZero true, visualDefects 0.",
+      "theFindingRederived": "The Captain's text scan read 17 caption-only lines in each delivered fixture. Reproduced here page by page: 17 in canonical and 17 in boundary, and 0 in both after the repair.",
+      "whichPagesTheCaptionsWereActuallyOn": {
+        "question": "The scan did not establish whether these sat on a FILED page or on a cover, checklist or guidance page bound into the same PDF. Read page by page against the packet's own component order, they are:",
+        "pages": [
+          { "packetPage": 3, "document": "CXP Motion to Vacate and Expunge", "documentPage": "3 of 3", "componentKind": "primary_filing", "captions": ["Print Form", "Save Form", "Reset Form"], "filed": true, "note": "the signature page of the sworn Motion" },
+          { "packetPage": 5, "document": "CXP Additional Cannabis Convictions", "documentPage": "2 of 2", "componentKind": "continuation", "captions": ["Print Form", "Save Form", "Reset Form"], "filed": true },
+          { "packetPage": 6, "document": "CXP Getting Started Motion to Vacate and Expunge", "documentPage": "1 of 1", "componentKind": "instructions", "captions": ["Print Form", "Save Form"], "filed": false, "note": "THE ONE EXCEPTION. This is a guidance sheet bound into the packet and never filed. Two of the seventeen are here. They were repaired with the rest because the same flattener puts them there, not because this page is filed." },
+          { "packetPage": 8, "document": "CXP Notice of Court Date for Motion", "documentPage": "2 of 2", "componentKind": "local_addendum", "captions": ["PRINT FORM", "SAVE FORM", "RESET FORM"], "filed": true },
+          { "packetPage": 9, "document": "CXP Additional Notice of Court Date", "documentPage": "1 of 1", "componentKind": "local_addendum", "captions": ["Print Form", "Save Form", "Reset Form"], "filed": true },
+          { "packetPage": 11, "document": "CXP Order Granting or Denying Motion", "documentPage": "2 of 2", "componentKind": "proposed_order", "captions": ["PRINT FORM", "SAVE FORM", "RESET FORM"], "filed": true, "note": "the face of the order a judge signs" }
+        ],
+        "answer": "Fifteen of the seventeen are on a document a clerk stamps and a judge reads. Two are on the guidance sheet. The defect is therefore not a cover-page artefact and the repair is not discretionary."
+      },
+      "whatWasActuallyWrong": "Each CXP source ships the issuer's viewer chrome as /Ff 65536 push buttons in the page's bottom margin. form.updateFieldAppearances() regenerates each one's appearance from its /MK /CA caption and form.flatten() then draws that appearance onto the page through the widget's own /P, so the caption became page CONTENT. FIX06 declared all seventeen in the field map months ago and said in the map's own reason text that the flattener carried them onto the page. Declaring a caption does not stop it printing.",
+      "howThisDiffersFromConnecticut": "FIX143 repaired the same CLASS with detachNestedControlFields and suppressSynthesizedAppearances at a finalizeOfficialForm call site. Neither flag is reachable here: this builder does not call finalizeOfficialForm at all, it drives pdf-lib directly. The mechanism differs too -- Connecticut's controls hang below a NESTED AcroForm root, which is what detachNestedControlFields exists for, while all seventeen of these sit DIRECTLY in the AcroForm's own /Fields array, where a flat detachment reaches them. Verified field by field: inFlatFieldsArray true on all seventeen.",
+      "repair": "In the builder, not the output. A family-local opt-in constant DETACH_SOURCE_FORM_CONTROLS detaches the seventeen push buttons BEFORE updateFieldAppearances and BEFORE flatten. No shared module was touched and no shared default moved. A builder-side guard asserts, after flatten, that no detached control's appearance stream is still referenced from any page's /Resources /XObject -- proof the detachment reached the page rather than a report that it was attempted -- and a second assertion holds the per-document counts (3/3/2/3/3/3).",
+      "measurementPositiveControl": {
+        "unit": "dark pixels, 600 dpi, PGM, annotations on minus annotations hidden, on the COURT'S SOURCE",
+        "threshold128": { "p3": 28951, "p5": 28951, "p6": 27039, "p8": 58249, "p9": 28951, "p11": 58249, "total": 230390 },
+        "threshold200": { "p3": 69179, "p5": 69179, "p6": 53445, "p8": 109629, "p9": 69179, "p11": 109629, "total": 480240 }
+      },
+      "measurementAfterRepair": {
+        "atTheButtonRects": "0 dark pixels at every one of the seventeen rectangles, at thresholds 128, 160 and 200, on both fixtures.",
+        "wholePagePixelDiff": "Pre-repair vs post-repair, all 11 pages, both fixtures, threshold 128: 0 pixels ADDED anywhere; 230,390 pixels removed on canonical and 230,390 on boundary; addedOutsideRects 0 and removedOutsideRects 0 on every page. The five pages that carry no button are pixel-identical. Spot-checked at threshold 200 on pages 6 and 8 with the same shape (0 added, all removal inside the rects).",
+        "textScan": "17 caption-only lines before, 0 after, on both fixtures.",
+        "meaning": "Every pixel that moved is button chrome inside a button rectangle. Nothing of the court's form moved in either direction."
+      },
+      "beforeAfterDigests": {
+        "canonical": "2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689 -> 130ccba7073cedaec918191053c2d7340da973e952ebff0cd482585197598fab",
+        "boundary": "3b6995830519a2d04e9233e3715e1c1c568dac1adf54c0eeaa9501bdd7a64b60 -> 8d0f9ac0877f52d86975d152f9c6587e82194644edc65190de1e55317d31a946",
+        "byteLength": "canonical 1904154 -> 1885925, boundary 1905024 -> 1886795"
+      },
+      "theTradeThisMakes": "il-cannabis-vacate-set IS TERMINAL and its RASTER_PASS at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-cannabis-vacate-set/ is pinned to the two OLD digests, over 22 measured pages. Moving these bytes WITHDRAWS that raster evidence and the terminal status resting on it until a fresh central raster is obtained. That trade is taken deliberately and stated rather than assumed: a proposed order and a sworn motion that print 'PRINT FORM' across the bottom of the page a judge signs are a confirmed defect on a filed page, which is the case the trade exists for. THE FAMILY OWES A FRESH CENTRAL RASTER.",
+      "whatThisLaneDoesNotClaim": "It does not claim the family is still COMPLETE_PACKET_PROVEN, does not re-run the completeness verifier, does not touch the admitted receipt, RASTER_QUEUE.json, MASTER_QUEUE.json or the claim ledger, and verifies none of its own work."
+    },
+    {
+      "itemId": "ky-expungement-certification-set",
+      "queueFamilyId": "ky_expungement_certification-set",
+      "disposition": "FAIL_REPRODUCED_AND_REPAIRED",
+      "priorState": "COMPLETE_PACKET_PROVEN, allNineCountersZero true, visualDefects 0, no admitted central raster.",
+      "theFindingRederived": "2 caption-only lines in each delivered fixture -- 'Print Form' and 'Reset Form' -- reproduced here, and 0 in both after the repair.",
+      "whichPageTheCaptionsWereActuallyOn": {
+        "question": "Same question as Illinois, and it has a shorter answer.",
+        "answer": "This packet is ONE PAGE. AOC-RU-009 page 1 is the request the participant signs and mails to the AOC Records Unit with the $40 payment. There is no cover, checklist or guidance page in this PDF to absorb the defect: the captions were on the only page there is, and it is the one that gets sent.",
+        "fieldNamesVersusCaptions": "Worth recording because it defeats a name-based scan: the two fields are NAMED 'Print Form 2' and 'Clear Form 2', but the appearance the issuer drew for the second reads 'Reset Form'. A sweep keyed to field NAMES would have reported a Clear button and missed what the paper says."
+      },
+      "whatWasActuallyWrong": "Both are /Ff 65536 push buttons sitting directly in the AcroForm's /Fields array in the page's bottom margin. The builder already refused both as viewer UI controls and wrote nothing to them; refusing a field does not stop flatten() drawing the appearance the source put on it. Unlike Illinois these carry no /MK /CA -- the caption lives in the issuer's own /AP /N stream, which flatten reuses by reference.",
+      "repair": "Identical shape to Illinois and for the same reasons: family-local opt-in DETACH_SOURCE_FORM_CONTROLS, detached before updateFieldAppearances and before flatten, same post-flatten /Resources /XObject guard, expected count 2. No shared module touched, no shared default moved.",
+      "measurementPositiveControl": {
+        "unit": "dark pixels, 600 dpi, PGM, annotations on minus annotations hidden, on the ISSUER'S SOURCE",
+        "printFormRect": { "rect": [191.43, 6.67276, 97.48, 23.00004], "t128": 29901, "t160": 30182, "t200": 30463 },
+        "clearFormRect": { "rect": [321.09, 6.67276, 97.48, 23.00004], "t128": 31544, "t160": 31849, "t200": 32180 },
+        "note": "The caption is near-black: the three thresholds differ by under 2.5 per cent, so this ink does not hide under a threshold choice the way an issuer grey box does."
+      },
+      "measurementAfterRepair": {
+        "atTheButtonRects": "0 dark pixels at both rectangles, at thresholds 128, 160 and 200, on both fixtures.",
+        "wholePagePixelDiff": "Pre vs post, threshold 128: 0 added, 61,445 removed, of which 29,901 in the Print rect and 31,544 in the Clear rect -- addedOutsideRects 0 and removedOutsideRects 0. At threshold 200: 0 added, 62,643 removed, 30,463 and 32,180, again nothing outside the rects. Identical on both fixtures.",
+        "textScan": "2 caption-only lines before, 0 after, on both fixtures."
+      },
+      "beforeAfterDigests": {
+        "canonical": "d57289137b84e372f3de9edefaf070b41e0b61c11b268c229a2119a2a74d15e2 -> 02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+        "boundary": "964a9b4b17a293235f9b75ec4e2a8581227850f590fa2338d84bcbec07e3f338 -> 3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3",
+        "byteLength": "canonical 209691 -> 207230, boundary 209881 -> 207420"
+      },
+      "correctionToTheDispatch": "The dispatch named only il-cannabis-vacate-set as terminal. ky_expungement_certification-set is ALSO COMPLETE_PACKET_PROVEN in MASTER_QUEUE with allNineCountersZero true. It carries no admitted central raster, so no raster receipt is withdrawn by this move -- but its RASTER_QUEUE entry pins the two old digests and is now stale.",
+      "whatThisLaneDoesNotClaim": "Same as Illinois. No self-verification, no queue or ledger edit."
+    }
+  ],
+
+  "theFailureModeThatCaughtConnecticut": {
+    "what": "FIX143's PDF repair was correct and its family still FAILED, because two delivered artifacts kept asserting the defect after it was gone and neither digest moved. Every artifact in both of these families was swept for sentences describing the captions.",
+    "whatWasFound": "The only delivered artifact in either family that described the defect was production-field-map.json. Its seventeen (Illinois) and two (Kentucky) refusal rows carried the reason text 'flatten() carries the source's own button caption into the delivered page' and, on Illinois, the flag sourceAuthoredInk: true. BOTH were repaired in this same commit: the reason text now says the control is detached before flatten so the delivered page carries no button caption, sourceAuthoredInk is false, and a new controlDetachedBeforeFlatten: true records what was actually done. The builder self-test was inverted to match -- it now asserts 17 rows detached and ZERO rows claiming ink, where it used to assert 17 rows claiming ink.",
+    "whatWasNotFound": "Neither participant-instructions.md nor filing-instructions.md in either family ever mentioned the buttons, and neither family carries an independent-visual-review.json. So there is no Connecticut-shaped stale instruction here. That is a finding, not an absence of work: it was grepped for.",
+    "theOneFileWhoseDigestDidNotMoveAndShouldBeReadAnyway": "reports/actual-writes.json published refusedFieldsWithInk as a LITERAL empty array while all seventeen Illinois refusals carried sourceAuthoredInk: true -- the report contradicted the map beside it and nothing compared them. It is now DERIVED from the map. Its VALUE is still [], so that field alone would have moved no digest -- which is exactly the shape of the trap: a reader diffing digests would have concluded nothing changed there. What changed is that the empty array is now the map's own answer instead of a literal, and a new self-test assertion compares them on every build. The file's digest did move in this commit, but for a different reason -- the three unmeasured byte-reading counters below -- so the digest is not evidence that this particular field was looked at."
+  },
+
+  "aDefectNoCounterCanSee": {
+    "what": "The delivered Illinois packet carries THIRTEEN live JavaScript actions, reachable from the document catalog, on 13 of the 22 surviving /Link annotations, on packet pages 1, 3, 5, 7 and 8.",
+    "whatTheyAre": "The issuer's own hyperlinks, each an /A dictionary with /S /JavaScript running app.launchURL(...) to ilga.gov and illinoiscourts.gov. They draw no ink; they are active content in a document a court receives.",
+    "whyNothingFired": "The shared finalizer REFUSES to emit bytes carrying active-content residue -- scripts/rcap-official-forms/rcap-active-content.mjs scanBytesForActiveContent, enforced in finalizeOfficialForm. This builder does not call finalizeOfficialForm, so that refusal never ran. pdfinfo reports 'JavaScript: yes' on the delivered file and no counter reads pdfinfo.",
+    "status": "PRE-EXISTING and UNCHANGED by this repair -- 13 before, 13 after, same objects. Not in this lane's dispatch and not repaired here. Named so it is not discovered a third time.",
+    "kentucky": "AOC-RU-009 carries none: 0 /JavaScript, 0 /JS, 0 /AA, 0 /OpenAction before and after."
+  },
+
+  "aSecondDefectNoCounterCanSee": {
+    "what": "The delivered Illinois packet's page /Annots arrays hold 87 DANGLING references beside 22 live ones -- entries pointing at indirect objects that no longer exist in the file. pdf-lib's flatten() deletes the widget objects and leaves the /Annots entries behind.",
+    "status": "PRE-EXISTING and UNCHANGED: 22 live / 87 dangling before this repair and 22 live / 87 dangling after, so the detachment introduced none and cleared none. FIX08 recorded the same count of 87 on this family in a different context, which is independent corroboration of the number.",
+    "related": "Poppler cannot read the delivered Illinois packet's cross-reference table and reconstructs it ('Couldn't find trailer dictionary', 'Invalid XRef entry 106'). Identical before and after, down to the object number. Kentucky's bytes are clean. Any tool that reads these PDFs is reading a reconstruction, which is worth knowing before anyone treats a poppler-derived number from this family as exact."
+  },
+
+  "aThirdThingWorthSaying": {
+    "what": "Both families were carrying published measurements that had never been taken, on a terminal family, with every counter green.",
+    "theCounters": [
+      "reports/build-summary.json on KENTUCKY published eight literal zeros beside one null for the nine completeness counters. This builder counts none of the nine. Illinois had already been corrected to nine nulls with a note; Kentucky had not. It is nine nulls now, with the same note. A counter that could not be measured is null, never 0.",
+      "reports/actual-writes.json on BOTH families published addedGlyphsReadFromOutputBytes: 0 -- while every packet adds glyphs at every write -- and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, and republished the WRITE COUNT under the name flattenedWidgetAppearancesReadFromOutputBytes, which is not the number of appearances flatten() draws. Three field names promise a reading of the output bytes; all three were literals. They are null now, with a note naming scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, which reads these properly and which neither builder calls."
+    ],
+    "whyThisIsTheSameDefectAsTheCaption": "A caption in the field map still prints, and a zero in a report still reads as a clean measurement. Both are a document saying something about the artifact that nobody checked against the artifact.",
+    "theStaleVerdictRestingOnIt": "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json gives BOTH families PASS_COMPLETE with visualDefects: 0, and counts the button fields as NOT_APPLICABLE_ON_THIS_ROUTE blanks -- 21 of them on Illinois, exactly 2 on Kentucky. It carries NO packet digest anywhere on either row, so nothing on the row could have detected that the bytes it judged had changed. The same shape FIX143 found in BORDER_COHORT_REMEDIATION.json. Confirmed against the row keys directly; not edited by this lane.",
+    "andTheRasterGate": "The Illinois RASTER_PASS measured 22 pages of paper geometry on bytes that were stamping 'PRINT FORM' onto the proposed order. That is not a fault in the raster gate -- it measures what it measures -- but it is worth stating plainly that RASTER_PASS on a family is not evidence that the pages carry no form-control chrome."
+  },
+
+  "pinsNowStaleAndDeliberatelyLeftAlone": {
+    "rule": "A record pinned to bytes nobody has reviewed must not be re-pointed by the lane that moved the bytes: re-pointing a review record at new bytes fabricates a review, and re-pointing product wiring is a route change this lane cannot make.",
+    "left": [
+      "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/product-wiring.json -- boundToCanonicalSha256 and six further sha256 entries pin the OLD Illinois canonical. Not regenerated by the builder. A live product binding now pointing at bytes that no longer exist.",
+      "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/product-wiring.json -- same shape, boundToCanonicalSha256 and one further entry pin the OLD Kentucky canonical.",
+      "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json -- pins all four old digests. Forbidden to this lane.",
+      "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-cannabis-vacate-set/{admission-proof.json,il-cannabis-vacate-set.verdict.json} -- the admitted receipt. Forbidden to this lane, and withdrawn in substance by the byte move.",
+      "data/rcap-grade-a/packet-factory-24h/raster-runs/RECEIPT_RECOVERY_34352802308.json and scripts/grade-a-packet-factory-24h/raster-enrolment-baseline.json -- pin the old digests.",
+      "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json and data/rcap-grade-a/codex-cloud/verify-ca-ia-ky-018/rows.json -- the two selected independent verdicts, each pinned to an old digest. Another lane's returns; describing them is this lane's business, editing them is not."
+    ],
+    "otherLanesRecordsThatNowDescribeInkThatIsGone": [
+      "data/rcap-grade-a/packet-factory-24h/vf13/rows.json -- VF13's independent read of this Illinois family describes the PRINT FORM / SAVE FORM ink it found in the delivered fixtures. True of the bytes it read; no longer true of the bytes at HEAD. Another lane's return, not edited.",
+      "data/rcap-grade-a/packet-factory-24h/fix06/rows.json -- FIX06's record that seventeen captions 'reach the delivered pages as static ink'. True when written; no longer true. Not edited."
+    ]
+  },
+
+  "whatIsOwed": {
+    "centralRaster": "il-cannabis-vacate-set OWES A FRESH CENTRAL RASTER. Its admitted RASTER_PASS is pinned to digests that no longer exist and its terminal status rests on it. ky_expungement_certification-set has no admitted central raster to withdraw, but its RASTER_QUEUE pins are stale.",
+    "independentRead": "BOTH families need an independent read. This lane built these repairs and verifies nothing it built. The specific things worth re-deriving independently: that 0 dark pixels remain at all nineteen button rects; that 0 pixels were ADDED anywhere on any page of either fixture; that the court's own page under each rect is blank with annotations hidden, which is the whole basis for calling this chrome; and that no delivered artifact in either family still asserts the caption.",
+    "notRepairedHere": "The 13 live JavaScript link actions and the 87 dangling annotation references in the Illinois packet, and the unreadable cross-reference table poppler reconstructs. All pre-existing, all unchanged, none in this lane's dispatch.",
+    "nothingWasBlockedOnALegalInput": "No obligation in this lane was BLOCKED_LEGAL_INPUT. No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment, judicial finding or professional review was created, moved or implied by this repair."
+  }
+}

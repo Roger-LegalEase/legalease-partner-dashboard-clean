@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-actual-writes/v2",
   "familyId": "ky_expungement_certification-set",
+  "countersNote": "Three counters here name a byte reading this builder does not perform. addedGlyphsReadFromOutputBytes published a literal 0 while the packet adds glyphs at every write; flattenedWidgetAppearancesReadFromOutputBytes republished the WRITE count, which is not the number of appearances flatten() draws; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes published a literal 0 that was never measured. FIX147 made them null rather than inventing a measurement. scripts/rcap-official-forms/rcap-output-glyph-reading.mjs reads these from the output bytes and this builder does not call it.",
   "documents": [
     {
       "documentId": "AOC-RU-009",
@@ -132,18 +133,18 @@
     {
       "fixture": "canonical",
       "valuesReportedByFinalizer": 12,
-      "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 12,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "minimumFontSize": 8,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
       "valuesReportedByFinalizer": 12,
-      "addedGlyphsReadFromOutputBytes": 0,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 12,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "minimumFontSize": 8,
       "refusedFieldsWithInk": []
     }
