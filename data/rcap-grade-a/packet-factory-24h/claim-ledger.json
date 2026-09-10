@@ -492,10 +492,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIXCG1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:05.599Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -538,10 +538,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIXCG1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:19.838Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -631,10 +631,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIXCG1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:05.924Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -677,10 +677,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIXCG1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T06:38:06.029Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14643,9 +14643,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-nonconviction-90-set",
+      "itemId": null,
+      "familyId": "al-misd-nonconviction-90-set",
+      "familyIds": [
+        "al-misd-nonconviction-90-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIXCG1",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "d2e18d664e658aac1663a0ce35deb5bad1d204907cf476121156bc38cea676d0",
+  "claimsDigest": "5619fc3f8dbab9bea1c26b7a74819e5192c41830eb1b328c9acc7a5e75c8ec80",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56229,6 +56244,50 @@
       "previouslyReleasedAt": "2026-09-10T12:08:39.513Z",
       "transferredAt": "2026-09-10T12:08:40.350Z",
       "reason": "Captain dispatch: handed to a newly dispatched lane; the recorded lane returned and released it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-diversion-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIXCG1",
+      "previouslyReleasedAt": "2026-09-09T06:38:05.599Z",
+      "transferredAt": "2026-09-10T12:13:13.673Z",
+      "reason": "Captain dispatch to an external repair lane (FIXCG1): the recorded lane returned and released this grant. FIXCG1 repairs the typed-literal build-summary counters on the Alabama CR-65 cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIXCG1",
+      "previouslyReleasedAt": "2026-09-10T11:23:19.838Z",
+      "transferredAt": "2026-09-10T12:13:13.815Z",
+      "reason": "Captain dispatch to an external repair lane (FIXCG1): the recorded lane returned and released this grant. FIXCG1 repairs the typed-literal build-summary counters on the Alabama CR-65 cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIXCG1",
+      "previouslyReleasedAt": "2026-09-09T06:38:05.924Z",
+      "transferredAt": "2026-09-10T12:13:13.963Z",
+      "reason": "Captain dispatch to an external repair lane (FIXCG1): the recorded lane returned and released this grant. FIXCG1 repairs the typed-literal build-summary counters on the Alabama CR-65 cohort. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIXCG1",
+      "previouslyReleasedAt": "2026-09-09T06:38:06.029Z",
+      "transferredAt": "2026-09-10T12:13:14.098Z",
+      "reason": "Captain dispatch to an external repair lane (FIXCG1): the recorded lane returned and released this grant. FIXCG1 repairs the typed-literal build-summary counters on the Alabama CR-65 cohort. The transfer accepts, rejects and supersedes nothing."
     }
   ],
   "grants": [
@@ -56659,6 +56718,17 @@
       "grantedAt": "2026-09-10T11:53:54.326Z",
       "grantedBy": "Captain",
       "reason": "Captain dispatch: an independent read is owed on this family and no independent-verification grant existed for it. Minted so VF41 can read what FIX02 built. The refusal it hit was my dispatch error: --assert validates a grant, it never mints one.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIXCG1",
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-nonconviction-90-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T12:13:14.238Z",
+      "grantedBy": "Captain",
+      "reason": "No repair grant has ever existed for this family and it is in the Alabama CR-65 cohort whose build-summary counters are typed literals. Minted so FIXCG1 can repair it with its four siblings.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
