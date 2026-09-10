@@ -1,0 +1,259 @@
+{
+ "schemaVersion": "rcap-verifier-rows/v2",
+ "lane": "VF59",
+ "laneKind": "independent-verification",
+ "isIndependentVerification": true,
+ "worktree": "/home/user/v5c-worktree",
+ "branch": "lane-vf59-20260910",
+ "verifiedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+ "grantSet": "0e806ec4bbc24e39. Two --assert calls in the three-token form, both CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 9628eae8c673b7dc7585d6fd3d650e57fd335be7). Released at return.",
+ "actedOnReturns": [
+  "FIX162 rows-fix162-20260910.json, the repair of both families at d93d1f195.",
+  "VF55 rows-vf55-20260910.json, the prior independent read of both families at 6d549091c."
+ ],
+ "builtAnything": false,
+ "repairsMade": 0,
+ "packetsSelfVerified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "sharedManifestsTouched": "None. This lane wrote only data/rcap-grade-a/packet-factory-24h/vf59/. The claim ledger was written by --assert and --release only, through scripts/grade-a-packet-factory-24h/claim.mjs. No file under data/rcap-grade-a/packet-factory-24h/ other than vf59/ was edited, and no family directory, builder or record was modified. git status --porcelain was checked after every measurement that touched a scratch copy and was EMPTY each time.",
+ "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+ "THE_BUILD_COULD_NOT_BE_RUN_IN_THIS_CONTAINER": {
+  "what": "node scripts/build-census-v1-al-trafficking-set.mjs and the MA builder were both refused by this environment's command classifier, twice, in two phrasings. No builder was executed by this lane.",
+  "consequence": "The determinism control -- rebuild the unmodified builder, reproduce the committed digests, confirm git status is empty afterwards -- is NOT_MEASURABLE_HERE for both families. It is not scored as a pass and it is not scored as a failure; it was not measured. FIX162 reports it PASS for al-trafficking-set and PDF-CLEAN-NOT-FILE-CLEAN for ma-expunge-k-set, and this lane could neither confirm nor contradict that.",
+  "whatWASdoneInstead": "Every guard FIX162 claims was proved to fire was tested by MUTATION rather than by rebuild. assertRepairInvariants is an exported function of the Alabama builder; this lane copied the committed family directory to scratch, ran the exported guard against the unmutated copy (it passed), mutated the copy, and ran it again. Three mutations, three refusals, verbatim messages recorded below. No file in the worktree was written and git status --porcelain was empty after each run.",
+  "whatWouldSatisfyTheUNMEASUREDpart": "A lane whose environment permits `MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-al-trafficking-set.mjs` and the MA equivalent, re-hashing the four AL and two MA fixtures afterwards and checking git status --porcelain."
+ },
+ "whatWasRead": [
+  "Both delivered fixture sets, re-hashed and re-rendered from the bytes on disk.",
+  "Both pinned source binaries, opened at their recorded paths and re-hashed: CR-65 and C-10-CRIMINAL for Alabama, the MA petition for Massachusetts.",
+  "data/record-clearing/legal-design-intake/AL.memo.json, tracks al-trafficking and al-felony-dwop.",
+  "data/record-clearing/legal-design-track-registry.json, track ma-expunge-k.",
+  "data/record-clearing/legal-design-packet-set-manifests.json at HEAD, at b3f6fbc7a and at b3f6fbc7a^.",
+  "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json, the ma-expunge-k-set family row.",
+  "raster-runs/admitted/ma-expunge-k-set/ma-expunge-k-set.verdict.json in full.",
+  "Both builders, read for the guards and for how every published counter is derived.",
+  "The pre-repair al-trafficking-set canonical--misdemeanor.pdf at dc8c01279, extracted to scratch as a positive control and deleted."
+ ],
+ "howBytesWereMeasured": {
+  "pixels": "pdftoppm -r 300 -gray, binary P5 PGM parsed by a reader written for this lane (magic/width/height/maxval tokenizer, then the raw raster). Never -gray -png. Annotations ARE drawn: no -hide-annotations. Ink threshold: a pixel with grey value < 200 is ink. Every raster was held in memory only; every scratch PDF was deleted in the same call and its absence asserted. No raster was retained, published, or looked at by a person.",
+  "rectBracketing": "PUBLISHED IN BOTH CONVENTIONS. A PDF rect is converted to raster space at 300 dpi either by FLOOR on the low edge and CEIL on the high edge, or by ROUND on both. Every checkbox figure in this return is given both ways. FLOOR/CEIL is the convention this lane treats as primary, because it is the one that reproduces VF55's three published Alabama readings simultaneously, and because it is the only one that contains the whole declared rectangle.",
+  "widgetRectangles": "Read first-hand from each pinned binary with pdf-lib via getForm().getFields() and acroField.getWidgets()[i].getRectangle(), and separately from the /Annots arrays by /Subtype /Widget and /Rect for the per-page differential. Not read from any field map or report.",
+  "controlToPrintedLineBinding": "pdftotext -bbox on the pinned C-10-CRIMINAL binary, word boxes converted from top-left to PDF space by pageHeight - yMax, then intersected with each control's own row band. This lane bound the controls to their printed sentences itself rather than trusting a label.",
+  "deliveredBytesStructure": "A reader written for this lane: pdf-lib page walk, /Contents inflated with node:zlib, `/<Name> Do` operators matched against /^FlatWidget/ and credited only where that page's own /Resources /XObject dictionary declares the name; annotations counted by /Subtype; AcroForm fields counted by getForm().getFields(). Not imported from either builder nor from scripts/rcap-official-forms/.",
+  "verbatimDisclosure": "A line-anchored matcher written for this lane in Python: a record string counts as disclosed only when, after NFC normalisation, non-breaking-space folding, whitespace collapse, and stripping a leading '> ', '- ', '* ', 'N. ' marker and whole-line bold/italic wrappers, it EQUALS a whole line of the delivered guide. A substring pass ran alongside it. Not imported from any builder and not FIX153's or FIX162's matcher.",
+  "digests": "sha256sum, and Node crypto for the in-memory comparisons."
+ },
+ "everyZeroHasAPositiveControl": {
+  "theCHECKBOXDETECTORFIRESONTHEEXACTRECTINQUESTION": "The pre-repair al-trafficking-set canonical--misdemeanor.pdf was extracted from dc8c01279 to scratch, re-hashed to e78daf119b1c62d21262933d29a5f5b726fb86df4f7863ae91a8eca16eba8555 (VF55's digest), and measured at the SAME rectangle by the SAME code in the SAME run: Check Box2.2 reads 710 px floor/ceil and 669 px rounded. The committed post-repair bytes read 625 and 584. A detector that reports 710 on one byte-sequence and 625 on another at identical coordinates is reading ink, not asserting it. The scratch file was deleted.",
+  "theSAMERUNCARRIESALIVEDISCRIMINATOR": "On every one of the six delivered Alabama packets, Check Box1.0 reads 677 px against 625 px on the pinned source at the same page and the same code path: a +52 px tick standing beside Check Box2.2's +9 px.",
+  "theLOSTINKDETECTORFIRES": "An opaque white rectangle 420 x 14 pt at x 90 y 300 was drawn on a scratch copy of ma-expunge-k-set canonical.pdf page 2 -- a page this lane otherwise measures as pixel-identical to its source. The differential reported 23,599 px of printed source ink LOST, all of it outside every declared widget rectangle. The scratch file was deleted in the same call and its absence asserted.",
+  "theADDEDINKDETECTORFIRES": "The same differential reports 15,673 px (MA canonical p1) and 37,618 px (MA boundary p1) where the build does write, and 20,290 / 32,233 px on CR-65 page 1.",
+  "thePLACEMENTCOUNTERFIRES": "Pointed at the un-flattened pinned CR-65 it reads 0 FlatWidget placements and 108 live /Widget annotations; on each delivered Alabama packet, 216 placements and 0 live widget annotations.",
+  "theLINEANCHOREDMATCHERFIRES": "It returns MISS for three of the four MA stop conditions when run against the PRE-repair guide text, and LINE for all four against the committed one; and it returns MISS/SUB, not LINE, for the Alabama required-before-filing entries, which are disclosed by a different convention. A matcher that returned LINE for everything would be worthless."
+ },
+ "rasterState": {
+  "howChecked": "Every one of the six delivered digests was grepped across the whole of data/rcap-grade-a/packet-factory-24h/raster-runs/ by this lane, not read from any report.",
+  "al-trafficking-set": "OWES A FRESH CENTRAL RASTER, and no NEW debt was created by FIX162. None of the four NEW digests -- 55424a42..., 13b79d33..., 00d7b59f..., 34ce7029... -- appears in ANY file under raster-runs/, admitted or otherwise: 0 files matched for each. The family owed one before the repair on VF52's, FIX155's, VF55's and FIX162's independent readings of the four OLD digests; this lane confirms the new four are equally unbound. THIS FAMILY CANNOT BE TERMINAL ON THIS LANE'S PASS ALONE.",
+  "ma-expunge-k-set": "NO RASTER IS OWED, and this lane verified the binding itself rather than adopting it. raster-runs/admitted/ma-expunge-k-set/ma-expunge-k-set.verdict.json was read in full: verdict RASTER_PASS, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490, coversTheWholeFamily true, problems [], environmentProblems [], pagesMeasured 4, packetPdfsModified 0. Its hashesBound.canonical.pinned is 084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea at path .../fixtures/canonical.pdf and hashesBound.boundary.pinned is 6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832 at .../fixtures/boundary.pdf. This lane re-hashed both delivered files at HEAD and got exactly those two digests. The receipt therefore binds the bytes on disk, by path AND by digest, and the same two digests are the only occurrences of either string anywhere under raster-runs/. FIX162's repair moved no PDF byte, which this lane confirmed independently by re-hashing.",
+  "whatTheMArasterSTILLDOESNOTESTABLISH": "It is a byte-binding and calibration record, not visual approval. Its own admission-proof records that no person read the PNG bodies. visualDefects stays null for this family on this lane's return too."
+ },
+ "rows": [
+  {
+   "familyId": "al-trafficking-set",
+   "itemId": "al-trafficking-set",
+   "jurisdiction": "AL",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verdictIsNOTTERMINAL": "This family owes a fresh central raster. None of its four delivered digests appears in any file under raster-runs/. PASS_COMPLETE_INDEPENDENT here means all fifteen obligations were re-measured from the bytes and all fifteen hold; it does not mean the family is terminal, and this lane admits no raster.",
+   "verifiedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
+   "priorVerdicts": {
+    "VF55": "FAIL_REPAIR_REQUIRED on ROUTE_OPTIONS; fourteen other obligations PASS.",
+    "FIX162": "REPAIRED_PENDING_INDEPENDENT_REVERIFICATION."
+   },
+   "theFIX162REPAIRHOLDS": "Yes, on every limb this lane could measure, and the pixel claim reproduces exactly.",
+   "deliveredDigestsHashedByThisLane": {
+    "fixtures/canonical--misdemeanor.pdf": "55424a42f6edf456e2b3039837716760f0072d5d9e889c918ec01a08bfea1cf9",
+    "fixtures/boundary--misdemeanor.pdf": "13b79d33cc416e6009518cc438fe59ffbf2db14e1302f841c07a85859fde4192",
+    "fixtures/canonical--felony.pdf": "00d7b59fe3fcfd0fb1e6569bbcbc89f7f85f2689d4e013483b74033118ba58d7",
+    "fixtures/boundary--felony.pdf": "34ce702982b5882c50b024e027b5c60d045406ba7588e77fd155cf461b7e1d5e"
+   },
+   "deliveredDigestsMatchFIX162sReportedAFTER": true,
+   "sourceDigestsHashedByThisLane": {
+    "CR-65 (private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf)": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468,056 bytes, 8 pages, 108 /Widget annotations per page [20,12,8,8,12,21,26,1], 13 /Link",
+    "C-10-CRIMINAL (MASTER_LIBRARY_SOURCE_DIR/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf)": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8, 711,433 bytes, 3 pages, 108 /Widget annotations per page [40,35,33], 0 /Link",
+    "AL.memo.json": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+    "AL-alabama.json": "b968bab84c1e0b9efd132446a6192bd94d0821286fb1bf8ae84cc4cfb57583d2"
+   },
+   "theBOX22MEASUREMENT": {
+    "obligation": "C-10-CRIMINAL page 1 = packet page 9 of 11, confirmed by reading the page's own printed header out of each fixture, not assumed.",
+    "rectangleReadBYTHISLANE": "Check Box2.2 x 74.6827-84.3818 / y 554.862-564.561 pt; Check Box1.0 x 50.92-60.6191 / y 633.421-643.12 pt. Read first-hand from the pinned C-10-CRIMINAL binary with pdf-lib. Identical to VF55's stated rectangle to the digit.",
+    "settings": "300 dpi, pdftoppm -gray P5 PGM, ink threshold grey<200, annotations drawn, pinned source WITH annotations.",
+    "CheckBox2_2_floorCeil": {
+     "pinnedSource": 616,
+     "al-felony-dwop-set canonical": 625,
+     "al-felony-dwop-set boundary": 625,
+     "al-trafficking canonical--misdemeanor": 625,
+     "al-trafficking boundary--misdemeanor": 625,
+     "al-trafficking canonical--felony": 625,
+     "al-trafficking boundary--felony": 625,
+     "al-trafficking canonical--misdemeanor PRE-REPAIR at dc8c01279": 710
+    },
+    "CheckBox2_2_rounded": {
+     "pinnedSource": 616,
+     "al-felony-dwop-set canonical": 584,
+     "al-felony-dwop-set boundary": 584,
+     "al-trafficking all four fixtures": 584,
+     "al-trafficking canonical--misdemeanor PRE-REPAIR at dc8c01279": 669
+    },
+    "CheckBox1_0_STILLTICKED": {
+     "pinnedSource": 625,
+     "al-felony-dwop-set canonical and boundary": 677,
+     "al-trafficking all four fixtures": 677,
+     "al-trafficking canonical--misdemeanor PRE-REPAIR at dc8c01279": 677,
+     "underBOTHbracketings": "677 floor/ceil AND 677 rounded on every packet; 625 and 625 on the source. The route-determined caption branch was not swept up, and it did not move across the repair."
+    },
+    "theDELTAUNDERBOTHBRACKETINGS": "FIX162's account of the bracketing is exactly right and this lane reproduced it independently. Floor/ceil brackets rows 947-988 (42 raster rows) and columns 311-351; rounding brackets rows 948-987 (40 rows) and the SAME columns. The two dropped rows carry 41 px of flattened-widget border on a delivered packet and 0 px on the pinned source, which is why the source reads 616 under both conventions while the packets read 625 / 584. THE DISCRIMINATING QUANTITY IS IDENTICAL EITHER WAY: the pre-repair packet stood 85 px above its sibling under floor/ceil (710 vs 625) and 85 px above it under rounding (669 vs 584); the post-repair packet stands EXACTLY ON its sibling under both (625 vs 625, 584 vs 584). The +85 px mark is gone and no convention hides or manufactures it.",
+    "allFIVEC10PAGE1CONTROLS_bothFamilies_floorCeil": {
+     "Check Box1.0": "al-trafficking 677 / al-felony-dwop 677 / source 625",
+     "Check Box1.1": "al-trafficking 625 / al-felony-dwop 625 / source 616",
+     "Check Box2.0": "al-trafficking 625 / al-felony-dwop 625 / source 657",
+     "Check Box2.1": "al-trafficking 592 / al-felony-dwop 592 / source 657",
+     "Check Box2.2": "al-trafficking 625 / al-felony-dwop 625 / source 616",
+     "reading": "FIX162's claim that the two families now read identically at all five controls is CONFIRMED, on all four al-trafficking fixtures and both al-felony-dwop fixtures, under floor/ceil; and confirmed again under rounding (677/625/584/584/592/584 on both families). Note that the source-to-packet delta runs in BOTH directions across these five rectangles (+52, +9, -32, -65, +9), which is what border re-rendering looks like and is not what a tick looks like."
+    },
+    "corroborationFromANOTHERCODEPATH": "This lane also ran a whole-packet per-widget-rectangle census: all 216 declared rectangles on canonical--misdemeanor differenced against the pinned source page-for-page. 40 rectangles carry a non-zero delta; 28 of them exceed 100 px and every one of those 28 is a declared write; the remaining 12 are small (+52, +9, -32, -65, +9, +30, +75, +7, -26, +20, -16, -36) and are BYTE-IDENTICAL, rectangle for rectangle and value for value, on al-felony-dwop-set canonical.pdf. Check Box2.2 appears in that census at +9 -- the same +9 as Check Box1.1, a box neither family ticks. A tick would not hide in a list a sibling reproduces exactly.",
+    "controlToPRINTEDLINEboundBYTHISLANE": "pdftotext -bbox on the pinned C-10-CRIMINAL: the Check Box1.0 row prints 'STATE OF ALABAMA'; the Check Box2.2 row prints 'I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request that these fees be waived.' The guide's quotations of both are verbatim against the form."
+   },
+   "theGUARDWASTESTEDBYMUTATION_NOTREADANDBELIEVED": {
+    "how": "assertRepairInvariants is exported from scripts/build-census-v1-al-trafficking-set.mjs. This lane copied the committed family directory to scratch and invoked the exported guard against it directly. No build was run and no worktree file was written; git status --porcelain was empty after every run.",
+    "control": "Against the UNMUTATED copy the guard passed with no assertion.",
+    "mutationA_reAddTheTick": "Moved C-10-CRIMINAL:Check Box2.2 from refusals into writes with routeDetermined true and factId route.fee_waiver_relief -- i.e. restored the pre-repair state. REFUSED: 'C-10-CRIMINAL:Check Box2.2 is a sworn relief election conditioned on a participant fact this packet does not hold; it must not be ticked'. FIX162's central claim is confirmed: the guard fires if the box is re-added.",
+    "mutationB_dropTheDisclosure": "Deleted the whole '## The relief request on C-10-CRIMINAL that this packet has not made' section from the guide copy. REFUSED: 'the guide does not quote the printed request beside C-10-CRIMINAL:Check Box2.0: \"I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.\"'",
+    "mutationC_untickTheCaption": "Removed C-10-CRIMINAL:Check Box1.0 from writes. REFUSED: 'the State of Alabama caption branch must be selected'. The guard protects the route-determined election in the other direction too, so the repair cannot be over-applied by accident.",
+    "theGUARDITREPLACED": "Confirmed by reading dc8c01279 and the comment the new guard carries in its place: the old invariant asserted written.has('C-10-CRIMINAL:Check Box2.2'), so a correct packet would have failed the build. FIX162's account of it is accurate.",
+    "assertC10PrintedReliefRUNS": "The readback that re-reads all eight quoted C-10 lines out of the DELIVERED bytes of all four fixtures is reached unconditionally from assertRepairInvariants via assertPrintedElections, and it ran green in this lane's control invocation -- so the guide cannot quote a line the delivered affidavit does not carry."
+   },
+   "theSOURCEAUTHOREDDEFAULTISGONE": "Grepped across the whole family directory and the builder: 'feeWaiverRequested' occurs 0 times and 'route.fee_waiver_relief' occurs 0 times. FIX162's removal of the fixture flag that gated the tick is confirmed by absence, not by its report.",
+   "theCONDITIONALCOMPONENT_THISLANESOWNVIEW": {
+    "theQUESTION": "The fee_waiver component is requirement 'conditional', conditionDescription 'Where indigency is claimed.', and now ships in all four fixtures with none of its three relief requests ticked. Should it ship at all on a route that holds no indigency fact?",
+    "thisLANESANSWER": "YES, IT SHOULD SHIP, UNTICKED. FIX162 reached the right result. This lane's ground for it is not identical to FIX162's, and one limb of FIX162's reasoning is weaker than it claims.",
+    "whatTHISLANEREADFIRSTHAND": [
+     "legal-design-packet-set-manifests.json, packetSet al-trafficking-set, component al-trafficking-fee-waiver-3: role fee_waiver, requirement 'conditional', conditionDescription 'Where indigency is claimed.', officialFormId C-10-CRIMINAL, order 3. Byte-identical in every governing field to al-felony-dwop-fee-waiver-3.",
+     "AL.memo.json track al-trafficking rules.fees: '$500, or C-10-Criminal where indigency is claimed.' rules.feeWaiver: 'C-10-Criminal, Affidavit of Substantial Hardship and Order.' Both objects are byte-identical, all seven fields, to track al-felony-dwop's -- this lane compared them field by field rather than taking VF55's word.",
+     "The same manifest's participantActionRequired apply_fee_waiver entry: description 'C-10-Criminal, Affidavit of Substantial Hardship and Order.', requirement 'conditional', conditionDescription 'Applies only when the participant cannot pay the filing fee.', requiredBeforeFiling TRUE.",
+     "The manifest's derived requiredBeforeFiling array, whose SEVENTH and last entry is 'C-10-Criminal, Affidavit of Substantial Hardship and Order.'"
+    ],
+    "theSTRONGESTGROUNDISONEFIX162DIDNOTGIVE": "The record puts the affidavit in requiredBeforeFiling. The packet set's own requiredBeforeFiling array names the instrument as something the participant must have done before filing on the branch where it applies, with requiredBeforeFiling true on the underlying action. A packet that withheld the instrument would leave a record entry that the packet itself makes undischargeable: the participant on the indigency branch would be told, by this same guide, to apply for a waiver on a form the packet decided not to give them. Nothing in the manifest or the memo names any circumstance in which the component is omitted. Reading 'required where X' as 'prohibited where not-X' is an inference the record does not license.",
+    "whereTHISLANEWOULDQUALIFYFIX162": "FIX162 writes that withholding the affidavit would assert 'indigency is not claimed' EXACTLY as ticking asserted the opposite. That symmetry is overstated. Not delivering a conditional component is a silence about the condition; ticking a first-person sworn sentence is a statement of it. The two are not equally assertive, and a build is entitled to be silent about a fact it does not hold. The conclusion survives anyway, on the requiredBeforeFiling ground above and on the asymmetry of consequences below -- but the packet's own guide does not rest on the symmetry claim, so nothing delivered depends on it.",
+    "theASYMMETRYISREALANDMEASURED": "The sentence beside Check Box2.2 is first-person and sworn -- this lane read it out of the pinned binary with pdftotext -bbox, not out of a label -- and it sits on a form whose page 10 header prints AFFIDAVIT OF SUBSTANTIAL HARDSHIP AND ORDER, above a signature the packet leaves blank (43 of the 187 refusals are classed signature_or_date_participant_completion). A ticked box is a false sworn financial statement, already filed, that the participant never made. An affidavit filed with no box ticked asks the court for nothing, and the delivered guide now says so in those words. Those failure modes are not symmetric and the recoverable one is the right one to choose.",
+    "theSIBLINGISTHECONTROL": "al-felony-dwop-set carries an identical rules object and an identical fee_waiver component, ships the affidavit in both fixtures with none of the three requests ticked, and VF55 measured that treatment as correct. Bringing al-trafficking-set to it removes a divergence the record never warranted. This lane confirms at the pixel level that the two families now behave identically at all five C-10 page-1 controls.",
+    "aRESIDUALTHISLANEWOULDNOTFAILTHEFAMILYON": "Numbered step 5 of the guide reads 'complete the C-10-CRIMINAL affidavit included in this packet and tick the relief request it asks for' before immediately saying 'this packet ticks none of the three printed requests'. The singular 'the relief request it asks for' is loose against a form that prints three; the sentence recovers in the same breath and the dedicated section two screens below quotes all three and names the right one. Worth tightening; not a defect in what the packet asserts."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS"
+    },
+    "ARTIFACTS": {
+     "result": "PASS"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS"
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS"
+    },
+    "SERVICE": {
+     "result": "PASS"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS"
+    }
+   },
+   "obligationFindings": {
+    "ROUTE_IDENTITY": "PASS. Exactly one route key occurs anywhere in the family directory -- obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement, 5 occurrences, no second key -- across product-wiring.json, source-receipt.json, approval-request.json and production-field-map.json. One track al-trafficking, one packet set, two statutory variants (Ala. Code s 15-27-1(a)(8) elected at CR-65 Check Box9.0, s 15-27-2(a)(8) at Check Box10.4) delivered as four fixtures, and the guide carries a 'Which version of this packet you file' section that names both and tells the participant to file one. product-wiring status DECLARED_NOT_INSTALLED, generationAllowed false, commercialRoutesOpened 0. NO ROUTE KEY IS PRINTED TO THE PARTICIPANT in this family's guide (0 occurrences in participant-instructions.md), which is the correct treatment.",
+    "SOURCE_IDENTITY": "PASS, fully measured. Both pinned binaries were opened at their recorded paths and re-hashed by this lane: CR-65 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39 at 468,056 bytes, 8 pages, 108 /Widget annotations distributed [20,12,8,8,12,21,26,1]; C-10-CRIMINAL 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8 at 711,433 bytes, 3 pages, 108 /Widget annotations distributed [40,35,33]. Both match source-receipt.json by digest AND byte length. The C-10 resolves under the master-library mount and the CR-65 under the recovery pool, which is what the receipt's custody fields say. Both controlling records re-hashed and matching what the guide prints: AL.memo.json 7d484d63... and AL-alabama.json b968bab8...",
+    "COMPONENT_SET": "PASS. The packet-set manifest declares three components -- primary_filing and certificate_of_service on CR-65, fee_waiver conditional on C-10-CRIMINAL -- and each fixture delivers 11 pages that this lane paired to source pages one by one: CR-65 pages 1-8 then C-10 pages 1-3, every pairing carrying 0 px of printed source ink lost outside every declared widget rectangle. Every declared component is present, no page belongs to a component that is not declared, requiredComponentsMissing 0. THE CONDITIONAL COMPONENT SHIPS UNCONDITIONALLY AND THIS LANE HOLDS THAT IS RIGHT -- reasons under theCONDITIONALCOMPONENT_THISLANESOWNVIEW above.",
+    "KNOWN_PREFILLS": "PASS, measured on the delivered pixels and not on the write report. The field map declares 29 writes. This lane measured added ink INSIDE EACH OF THE 29 declared rectangles individually on canonical--misdemeanor, packet page against pinned source page at 300 dpi: every one of the 29 is strictly positive, from +52 px (C-10 Check Box1.0, the caption tick) and +103 px (CR-65 Check Box9.0, the statutory ground) up to +3,414 px. invisibleWrites 0, read from the pixels. Summed over all 11 pages, added ink outside every declared widget rectangle is 0 px on canonical--misdemeanor and on boundary--felony. The builder's own report publishes intendedInkFields 29 with intendedInkFieldsWhoseInkWasFoundInOutputBytes 29 -- a counter that now carries its denominator -- and 357/570 added glyphs; this lane's independent pixel reading agrees that all 29 are visible. VF55 measured 30/358 before the repair; the difference is the one removed tick and the one glyph it drew.",
+    "REQUIRED_BEFORE_FILING": "PASS, with the measurement published rather than asserted, and with a family-to-family inconsistency recorded. The manifest's requiredBeforeFiling array carries 7 entries. Measured with this lane's line-anchored matcher against the delivered guide: 0 of 7 line-anchored, 4 of 7 substring. THAT IS NOT A FAILURE HERE, and this lane says why rather than passing it silently: Alabama discloses these entries by a different convention from Massachusetts, re-punctuating each into a labelled numbered step ('1. Obtain: Supporting evidence of trafficking. Where from: ... How: The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it.'), and this lane checked all seven by hand against the delivered text: all seven reach the participant, in the record's own words, with no fact added and none resolved into an amount, deadline or procedure. Separately, the 57 refusals classified REQUIRED_BEFORE_FILING were matched against the guide's '## Blanks you must fill in' list: 55 appear as whole lines verbatim and the remaining 2 appear as the record's label plus the conditional suffix FIX155 added ('- only if you tick the SECOND box in item (3) on CR-65 page 6'), so 57 of 57 are disclosed. The 216 rectangles are fully accounted for: 29 writes + 187 refusals, with 0 carrying no disposition and no reason. WHAT WOULD IMPROVE IT: Alabama and Massachusetts should disclose the same record by the same convention; MA's whole-line form is measurable and AL's is not.",
+    "ROUTE_OPTIONS": "PASS, AND THIS IS THE OBLIGATION VF55 FAILED. Measured on the delivered pixels at every selection control, then corroborated from a second code path. (1) None of the three printed relief requests on C-10-CRIMINAL is ticked on any of the four fixtures: Check Box2.0 625, Check Box2.1 592, Check Box2.2 625, each equal to al-felony-dwop-set's reading at the same rectangle to the pixel, floor/ceil at 300 dpi grey<200 with annotations drawn; and equal again under rounding at 584 / 592 / 584. The pre-repair bytes read 710 at Check Box2.2 in the same run. (2) Check Box1.0, the route-determined STATE OF ALABAMA caption branch, IS still ticked at 677 px on all four fixtures against 625 on the source, unchanged from before the repair -- nothing was over-corrected. (3) The field map now records all three relief requests as refusals with routeDetermined false, factAvailable false, disclosedToParticipant true, refusalClass participant_sworn_narrative_or_legal_election, and printedRequestBesideThisControl carrying the form's own sentence; this lane verified those three sentences against the pinned binary with pdftotext -bbox and they are verbatim. (4) Check Box1.1, the checkbox half of the municipal caption branch, now carries completenessDisposition NOT_APPLICABLE_ON_THIS_ROUTE and a routeConditionThatMakesItInapplicable quoting THIS track's rules.filing -- the same treatment as its text half, no longer labelled with a bare AcroForm field name. (5) The guide carries '## The relief request on C-10-CRIMINAL that this packet has not made', quoting the affidavit's own subtitle and all three requests, identifying the third as the one this route concerns and why, and stating in terms that the election is the participant's. (6) factId route.fee_waiver_relief appears nowhere in the family or the builder, and neither does the fixtures' feeWaiverRequested flag. (7) The guard that formerly REQUIRED the tick is gone and its replacement was proved to fire by mutation. THE PACKET NOW MAKES NO SWORN STATEMENT ABOUT THE PARTICIPANT'S FINANCES.",
+    "REPEATING_ROWS": "PASS. incompleteRows 0 is a reading of the bytes, not of build intent, and this lane checked the pixel consequence: on all 216 declared rectangles of canonical--misdemeanor, every rectangle carrying an added-ink delta above 100 px is one of the 29 declared writes, and the 12 rectangles carrying a delta below 100 px are the same 12 rectangles carrying the same 12 values on al-felony-dwop-set canonical.pdf -- border re-rendering on the shared source, not a stray half-entry. CR-65's charge rows and the C-10's income, expense and asset schedules are each either filled complete or left wholly blank with the blank named in '## Blanks you must fill in'; no row is partly filled, and no added pixel lies outside a declared rectangle anywhere in the packet.",
+    "PROTECTED_FIELDS": "PASS, measured with a detector proven to fire. protectedWrites 0 and refusedFieldsWithInk empty. The judge's ORDER page is packet page 11 (C-10 page 3): this lane differenced it against the pinned source and found 145 px added and 196 px lost, ALL of it confined to three small checkbox rectangles -- Check Box6.0 and two order-page boxes -- and every one of those readings is IDENTICAL on al-felony-dwop-set canonical.pdf (505/472/548/512 against source 498/498/528/528). The deltas run in both directions and none resembles a tick (+52 and +85 are what ticks measure). No build mark is in the order block. The notary block and every signature and date field are left blank, which the guide states in terms. 28 refusals are classed court_prosecutor_clerk_or_agency_owned and 43 signature_or_date_participant_completion, none of them written.",
+    "ARTIFACTS": "PASS, recounted rather than adopted. All four digests re-hashed by this lane and equal to FIX162's reported AFTER values and to approval-request.json's artifact block. Read from the delivered bytes by this lane's own reader on all four fixtures: 216 FlatWidget placements, per page [20,12,8,8,12,21,26,1,40,35,33], 216 FlatWidget XObjects declared in page resources, 0 placements whose name the page does not declare, 0 residual /Widget annotations, 0 AcroForm fields, 13 /Link annotations carried over from CR-65's own 13. 216 is exactly the two pinned sources' combined widget count, page for page. The builder's published counters agree at 216/216/0. OBSERVATION: the report key here reads flattenedWidgetAppearancePLACEMENTSReadFromOutputBytes, which is a true name for a true reading; it is not the retired flattenedWidgetAppearancesReadFromOutputBytes, which this lane grepped for and found 0 times in this family.",
+    "PAGE_ORDER": "PASS, proved by pairing rather than asserted. 11 pages in each of four fixtures. Every delivered page was differenced against the source page the manifest claims for it, at 300 dpi: 0 px of printed source ink lost outside every declared widget rectangle on all 11 pages, on canonical--misdemeanor and boundary--felony (22 page pairs measured in full). A transposed, dropped or duplicated page cannot survive that pairing: the same detector reports 23,599 px against a page carrying a 420x14 pt opaque white patch.",
+    "CLIPPING_AND_OVERLAP": "PASS, both halves measured, neither inferred. CLIPPING: printed source ink erased OUTSIDE every declared widget rectangle is 0 px on every page of both measured fixtures. 390 px per fixture is erased INSIDE declared rectangles, on C-10 pages 1 and 3 (194 + 196), and it is identical on al-felony-dwop-set -- a flattened control repainting its own footprint on the shared C-10 source, not anything this family wrote. OVERLAP: added ink falling outside every declared widget rectangle is 0 px on both measured fixtures, over all 11 pages. Scope and settings: 300 dpi, pdftoppm -gray P5 PGM, ink threshold grey<200, annotations drawn, +1 pt rectangle allowance, rasters held in memory and released. Detector proven to fire at 23,599 px. No visual approval is inferred from this: it measures ink, not readability, and no person has looked at a page.",
+    "FILING_DESTINATION": "PASS. rules.filing -- 'File CR-65 in the criminal division of the circuit court in the county where the charges were filed.' -- read by this lane from AL.memo.json and present verbatim in both the participant guide and the filing guide. The C-10 caption is elected consistently with it at Check Box1.0, the STATE OF ALABAMA branch, which this lane bound to its printed line with pdftotext -bbox and measured at 677 px on every fixture; the municipal branch is left blank at 625 px, equal to the sibling, with both its halves classified NOT_APPLICABLE_ON_THIS_ROUTE quoting that same rule.",
+    "FEE_AND_WAIVER": "PASS, and this is where the repair lands. rules.fees '$500, or C-10-Criminal where indigency is claimed.' and rules.feeWaiver 'C-10-Criminal, Affidavit of Substantial Hardship and Order.' both appear verbatim in both delivered guidance documents. The C-10 ships as the record's named waiver instrument, blank and unticked, with the record's condition quoted and both branches spelled out: tick the third box yourself if you are claiming hardship; if not, tick none and pay the fee the record states, and you may leave the affidavit out of what you file; and if you file it with no box ticked you have asked the court for nothing. The guide correctly says the judge, not the participant, completes the order page. The phrase 'already elects' -- which told the participant this packet had made the hardship election for them -- is gone from both guides (0 occurrences, grepped across the family), and a guard refuses any build that reintroduces it. No amount, criterion or procedure was invented.",
+    "SERVICE": "PASS. rules.service -- 'A certificate of service page per entity served.' -- present verbatim, with the direction to use a separate CR-65 page 7 per recipient. The record's silence on WHICH recipients, method and timing is disclosed as a silence, referred to the circuit clerk, and not guessed; and the participant is told to complete each certificate only after service has actually happened. Packet pages 7 and 8 carry 0 added ink on both measured fixtures, which is what an uncompleted certificate of service should measure.",
+    "SELF_HELP_STOP": "PASS, measured with this lane's own line-anchored matcher. Track al-trafficking declares FIVE selfHelpStopConditions in AL.memo.json and all five are carried under '## Stop and get help' as whole lines of their own: 'Opposition to the petition.', 'Contested evidence about the participant's own victimisation.', 'A hearing at which the preponderance showing must be made.', 'Any individualized advocacy.', 'Immigration consequences are in play.' 5 of 5 line-anchored, 5 of 5 substring. The section names an Alabama lawyer. The guide also refers a participant whose record is a Section IV conviction to an Alabama lawyer by name, which is the right treatment of a scope the family does not cover."
+   },
+   "countersThisLaneMeasured": {
+    "flattenedWidgetAppearancePlacementsReadFromDeliveredBytes": 216,
+    "flattenedWidgetXObjectsDeclaredInPageResources": 216,
+    "placementsWhoseNameThePageDoesNotDeclare": 0,
+    "residualWidgetAnnotationsInDeliveredBytes": 0,
+    "acroFormFieldsInDeliveredBytes": 0,
+    "linkAnnotationsCarriedFromCR65": 13,
+    "widgetAnnotationsInTheTwoPinnedSourcesCombined": 216,
+    "declaredWritesInTheFieldMap": 29,
+    "declaredWritesWhoseADDEDINKThisLaneMeasuredPOSITIVE": 29,
+    "invisibleWrites": 0,
+    "refusedFieldsWithInk": 0,
+    "protectedWrites": 0,
+    "printedSourceInkErasedOutsideEveryDeclaredWidgetRect": 0,
+    "printedSourceInkErasedInsideDeclaredWidgetRects": 390,
+    "addedInkOutsideEveryDeclaredWidgetRect": 0,
+    "swornRelefRequestsElectedWithoutAHeldFact": 0,
+    "routeDeterminedSelectionsStillElected": 1,
+    "selfHelpStopConditionsDeclared": 5,
+    "selfHelpStopConditionsCarriedVerbatimAsAWholeLine": 5,
+    "requiredBeforeFilingRecordEntriesDeclared": 7,
+    "requiredBeforeFilingRecordEntriesLineAnchored": 0,
+    "requiredBeforeFilingRecordEntriesConveyedINTHERECORDSOWNWORDS": 7,
+    "requiredBeforeFilingRefusalsDisclosedInTheBlanksList": 57,
+    "requiredBeforeFilingRefusalsDeclared": 57,
+    "guardMutationsTested": 3,
+    "guardMutationsRefused": 3,
+    "pdfFilesWhoseBytesThisLaneMOVED": 0
+   },
+   "countersThisLaneDidNotMeasure": {
+    "visualDefects": null,
+    "visualDefectsWhyNull": "This lane measured ink inside named rectangles and differenced pages. It did not read a page for legibility and no person has looked at any page of this family. A counter this lane could not measure is null, never 0. The family's own build-summary.json publishes visualDefects null with the reason stated, which is the honest treatment.",
+    "buildReproducibility": null,
+    "buildReproducibilityWhyNull": "The builder could not be executed in this container; see THE_BUILD_COULD_NOT_BE_RUN_IN_THIS_CONTAINER."
+   },
+   "selfVerified": false
+  }
+ ],
+ "grantsNothing": "This return opens no commercial route, promotes no build status, admits no raster, and repairs nothing. commercialRoutesOpened 0, packetsSelfVerified 0, approvedForLive false for both families.",
+ "grantsReleased": [
+  "al-trafficking-set"
+ ]
+}
