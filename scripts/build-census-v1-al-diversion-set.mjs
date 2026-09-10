@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import zlib from "node:zlib";
 import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -144,9 +145,179 @@ const FAMILY_CONFIG = {
         { box: "Check Box11.5", printed: "The conviction is not a serious traffic offense, as provided in Article 9 of Chapter 5A of Title 32.", record: "The held record does not say whether your conviction is a serious traffic offense, and never asks." },
         { box: "Check Box11.6", printed: "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit.", record: "The held record holds no commercial-licence fact for you and never asks for one." }
       ]
-    }
+    },
+    /*
+     * FIX144: the three elections CR-65 makes EVERY petitioner make.
+     *
+     * Section V is not the only thing this packet leaves blank on the sworn
+     * petition. CR-65 page 5 prints an attachment block the form itself calls
+     * mandatory -- "Petition must include either item 1 or item 2; All
+     * Petitions must include item 3" -- and page 6 prints, under the perjury
+     * heading, "(3)(Select one of the following)", the pair "was [ ] granted
+     * [ ] denied", and "[ ] pro se". All eight of those boxes are blank in this
+     * packet's delivered bytes, on both fixtures, and until now the guide named
+     * none of them.
+     *
+     * FIX02 found and repaired exactly this on the sibling family
+     * al-felony-nonconviction-90-set, on the same form, against the same field
+     * ids and the same refusals. The defect is identical here and the repair is
+     * the same repair; nothing about it turns on which statutory ground the
+     * route runs on, so porting it needs no legal call.
+     *
+     * The prior-expungement half of it is the sharp end. "County where any
+     * previous expungement was filed" and "Court case number of any previous
+     * expungement" were printed in this guide's "Blanks you must fill in" list
+     * unconditionally, under "Fill every one ... before filing" -- but both
+     * blanks hang off the SECOND branch of the page-6 select-one, and this guide
+     * never told the participant that branch exists. A participant who has never
+     * sought an expungement and follows the list literally writes a county and a
+     * case number for a prior expungement that does not exist, on a sworn page,
+     * while the attestation that governs those two blanks stays empty. On THIS
+     * route that page also carries weight the other families' do not: CR-65
+     * Section V's own lead-in reads "was convicted of the above-named offense, a
+     * felony, and more than one expungement has not been granted", so the page-6
+     * disclosure is how the court checks that limit.
+     *
+     * Set on this family alone, because this lane holds this family alone. The
+     * three other families this host builds carry no such section and their
+     * guides do not move.
+     */
+    printedElectionsNotMade: true
   }
 };
+
+/*
+ * Lines CR-65 ITSELF prints. None of them is this packet's characterisation of
+ * Alabama law: "must", "either item 1 or item 2" and "Select one of the
+ * following" are the form's own words. assertPrintedElections() re-reads every
+ * one of them out of the DELIVERED bytes on each build and refuses the build if
+ * a quoted line is no longer printed on the page this guide attributes it to.
+ */
+const PRINTED_ELECTIONS = {
+  attachments: {
+    page: 5,
+    heading: "Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)",
+    options: [
+      "[ ] (1) a certified record of arrest from the appropriate agency for the court record I seek to have",
+      "[ ] (2) a certified record of disposition or a certified record of the case action summary from the",
+      "[ ] (3) a certified official criminal record obtained from the Alabama Law Enforcement Agency (ALEA)."
+    ]
+  },
+  swornSelectOne: {
+    page: 6,
+    oath: "I swear or affirm, under the penalty of perjury:",
+    heading: "(3)(Select one of the following):",
+    firstBranch: "[ ] that I have not previously applied for an expungement in this or any other jurisdiction.",
+    secondBranchOpening: "[ ] that I have previously filed for an expungement. My previous expungement was filed in",
+    grantedDenied: "was [ ] granted [ ] denied."
+  },
+  proSe: { page: 6, line: "[ ] pro se (Not represented by an attorney)" }
+};
+
+/* Every quoted line, with the delivered page it is attributed to. */
+function quotedElectionLines() {
+  const { attachments: a, swornSelectOne: s, proSe: p } = PRINTED_ELECTIONS;
+  return [
+    [a.page, a.heading], ...a.options.map((line) => [a.page, line]),
+    [s.page, s.oath], [s.page, s.heading], [s.page, s.firstBranch],
+    [s.page, s.secondBranchOpening], [s.page, s.grantedDenied],
+    [p.page, p.line]
+  ];
+}
+
+/*
+ * The two blanks that exist only on the SECOND branch of the page-6 select-one.
+ * Keyed by field id rather than by label so a label rewrite cannot silently drop
+ * the condition.
+ */
+const SECOND_BRANCH_ONLY = new Set([
+  "CR-65:COUNTY and it was given Court Case Number",
+  "CR-65:was     granted"
+]);
+const SECOND_BRANCH_CONDITION = "only if you tick the SECOND box in item (3) on CR-65 page 6";
+
+function electionsSection() {
+  const a = PRINTED_ELECTIONS.attachments;
+  const s = PRINTED_ELECTIONS.swornSelectOne;
+  return `## Elections on CR-65 that this packet has not made
+
+CR-65 prints choices that turn on facts this packet does not hold. It ticks
+none of them, and the list above does not name them, because the field map
+classifies them as elections rather than as blanks owed before filing. They are
+still choices the form makes you make. Every line quoted below was read back
+out of the delivered petition at build time, on the page named beside it.
+
+**Page ${a.page} - what you attach.** The form prints:
+
+> ${a.heading}
+
+and three boxes under it:
+
+${a.options.map((line) => `> ${line}`).join("\n>\n")}
+
+All three are blank in this packet. Tick them yourself to match what you are
+actually attaching, following the rule the form prints above them.
+
+**Page ${s.page} - the sworn select-one.** Under the printed line
+
+> ${s.oath}
+
+the form prints
+
+> ${s.heading}
+
+and offers two boxes. The first reads:
+
+> ${s.firstBranch}
+
+The second begins:
+
+> ${s.secondBranchOpening}
+
+and runs on into a blank for the county it was filed in, a blank for its court
+case number, and the printed pair
+
+> ${s.grantedDenied}
+
+Both boxes are blank in this packet, on both fixtures. Tick the one that is
+true of you. It sits under the perjury line, so tick it before you sign.
+
+The county, the case number and the granted-or-denied pair belong to the second
+box alone. If you tick the first box, leave all three of them empty - that is
+why they are listed above marked "${SECOND_BRANCH_CONDITION}".
+
+**Page ${PRINTED_ELECTIONS.proSe.page} - the pro se box.** Beside the signature line the form prints:
+
+> ${PRINTED_ELECTIONS.proSe.line}
+
+It is blank in this packet, and this packet writes nothing into the attorney
+block beside it, because it holds no representation fact for you.`;
+}
+
+/*
+ * Read the delivered PDF's own printed lines back out of its page content
+ * streams. A quotation this packet attributes to a printed page must be on that
+ * printed page.
+ */
+async function printedLinesOf(file, page) {
+  const doc = await PDFDocument.load(fs.readFileSync(file), { updateMetadata: false });
+  const target = doc.getPages()[page - 1];
+  assert.ok(target, `${path.basename(file)} has no page ${page}`);
+  return groupIntoLines(extractTextItems(target)).map((line) => String(line.text ?? "").replace(/\s+/g, " ").trim());
+}
+
+export async function assertPrintedElections(out) {
+  for (const fixture of ["canonical.pdf", "boundary.pdf"]) {
+    const file = path.join(out, "fixtures", fixture);
+    const cache = new Map();
+    for (const [page, quoted] of quotedElectionLines()) {
+      if (!cache.has(page)) cache.set(page, await printedLinesOf(file, page));
+      const want = quoted.replace(/\s+/g, " ").trim();
+      assert.ok(cache.get(page).includes(want),
+        `${fixture} page ${page} does not print the line this guide quotes: ${JSON.stringify(quoted)}`);
+    }
+  }
+}
 
 const FIXTURES = {
   canonical: {
@@ -546,7 +717,13 @@ async function buildPacket(sources, fixtureName, fixture, config) {
  * container that cannot produce a PDF.
  */
 export function writeGuides({ out, familyId, config, rules, track, memoDigest, required }) {
-  const requiredList = required.map((row) => `- ${row.effectiveLabel}`).join("\n");
+  /*
+   * FIX144: on a family that names the page-6 select-one, the two blanks that
+   * hang off its SECOND branch carry that condition. On the families that do
+   * not, the list is unchanged and the annotation never appears.
+   */
+  const requiredList = required.map((row) =>
+    `- ${row.effectiveLabel}${config.printedElectionsNotMade && SECOND_BRANCH_ONLY.has(row.fieldId) ? ` - ${SECOND_BRANCH_CONDITION}` : ""}`).join("\n");
   const provenance = [
     "Every quoted line below is taken verbatim from the Alabama legal-design record",
     `\`${MEMO_PATH}\`, track \`${config.trackId}\` (sha256 ${memoDigest}).`,
@@ -601,10 +778,12 @@ ${beforeFiling}
 
 Each line names a blank on the paper that this packet did not fill because it
 does not hold that fact. Fill every one on both the canonical and the
-boundary-style packet before filing.
+boundary-style packet before filing${config.printedElectionsNotMade ? ` - except the lines that carry an "only if"
+condition, which belong to a box on page 6 you may not be ticking. The section
+below names that box.` : "."}
 
 ${requiredList}
-${handedBack}
+${handedBack}${config.printedElectionsNotMade ? `\n${electionsSection()}\n` : ""}
 ## Service
 
 The record states: "${rules.service}" Serve the district attorney, the

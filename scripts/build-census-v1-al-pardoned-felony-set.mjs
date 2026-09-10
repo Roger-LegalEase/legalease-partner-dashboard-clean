@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildAlabamaFamily, assertRepairInvariants } from "./build-census-v1-al-diversion-set.mjs";
+import { buildAlabamaFamily, assertRepairInvariants, assertPrintedElections } from "./build-census-v1-al-diversion-set.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MEMO_PATH = "data/record-clearing/legal-design-intake/AL.memo.json";
@@ -81,16 +81,46 @@ function assertPardonedFelonyInvariants(dir) {
     "the guide must say the record holds no waiting period");
   assert.ok(instructions.includes(crypto.createHash("sha256").update(memoBytes).digest("hex")),
     "the guide must carry the digest of the record it quotes");
+
+  /*
+   * FIX144. Section V is not the only thing left blank on this sworn petition.
+   * CR-65 pages 5 and 6 print three elections every petitioner must make, and
+   * all eight of their boxes are blank in the delivered bytes. The guide must
+   * name them, and the two blanks that hang off the SECOND branch of the page-6
+   * select-one must carry that condition rather than being listed flat under
+   * "Fill every one ... before filing" -- a participant with no prior
+   * expungement who follows an unconditional list writes a county and a case
+   * number for an expungement that does not exist, on a sworn page.
+   */
+  assert.ok(instructions.includes("## Elections on CR-65 that this packet has not made"),
+    "the guide must name the elections it did not make");
+  for (const quoted of [
+    "Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)",
+    "(3)(Select one of the following):",
+    "was [ ] granted [ ] denied.",
+    "[ ] pro se (Not represented by an attorney)"
+  ]) assert.ok(instructions.includes(quoted), `the guide must quote the printed election: ${quoted}`);
+
+  const condition = "only if you tick the SECOND box in item (3) on CR-65 page 6";
+  for (const fieldId of ["CR-65:COUNTY and it was given Court Case Number", "CR-65:was     granted"]) {
+    const row = fieldMap.refusals.find((entry) => entry.fieldId === fieldId);
+    assert.ok(row, `second-branch blank missing from the refusals: ${fieldId}`);
+    const line = instructions.split("\n").find((entry) => entry.startsWith(`- ${row.effectiveLabel}`));
+    assert.ok(line, `second-branch blank is not listed in the guide: ${fieldId}`);
+    assert.ok(line.includes(condition), `second-branch blank is listed unconditionally: ${fieldId}`);
+  }
 }
 
 if (process.argv.includes("--check")) {
   assertRepairInvariants(out);
   assertPardonedFelonyInvariants(out);
+  await assertPrintedElections(out);
   console.log("al-pardoned-felony-set: repair invariants PASS");
 } else {
   await buildAlabamaFamily("al-pardoned-felony-set");
   assertRepairInvariants(out);
   assertPardonedFelonyInvariants(out);
+  await assertPrintedElections(out);
 }
 
 export { assertPardonedFelonyInvariants };

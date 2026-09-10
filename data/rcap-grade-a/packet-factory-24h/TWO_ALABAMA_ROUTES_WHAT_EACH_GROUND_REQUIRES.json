@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "rcap-two-alabama-routes-what-each-ground-requires/v1",
+  "generatedBy": "FIX144, answering the question left open by TWO_ALABAMA_ROUTES_ONE_IDENTICAL_FILING.json",
+  "generatedAt": "2026-09-10",
+  "answers": "data/rcap-grade-a/packet-factory-24h/TWO_ALABAMA_ROUTES_ONE_IDENTICAL_FILING.json",
+  "grantsNothing": "This records measurements, a guide repair and one owner decision. It repairs no eligibility branch, promotes nothing, opens no commercial route, and issues no acceptance receipt.",
+
+  "theShortAnswer": "The two packets are page-text identical because BOTH correctly refuse every election on CR-65, and they refuse DIFFERENT sections of it. al-felony-nonconviction-90-set owes a disjunctive election in Section III; al-pardoned-felony-set owes a conjunctive sworn certification in Section V. Neither section can be ticked from what the platform holds, so both render blank, and blank equals blank. Identity here is the consequence of two correct refusals, not a defect of either. What was genuinely wrong is that neither packet said WHICH section was its own on the paper, and one of the two guides omitted three elections CR-65 makes every petitioner make.",
+
+  "heldSourceOpened": {
+    "documentId": "CR-65",
+    "title": "Petition for Expungement of Records, Form CR-65 Rev. 10/2024, Section 15-27-1 et seq., Ala. Code 1975",
+    "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+    "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+    "byteLength": 468056,
+    "pageCount": 8,
+    "acroFormFields": 108,
+    "digestMatchesBothSourceReceipts": true,
+    "note": "CR-65 is not in the master library corpus. STATES/AL of Expungement_AI_RCAP_Master_Library_Edition_1 holds only C-10-CRIMINAL, SBI-FORM-46 and C-94A. Both families resolve CR-65 through the Nationwide recovery pool, and both source receipts pin this exact digest."
+  },
+
+  "sectionToFieldIdMap": {
+    "howDerived": "Widget /Rect read from the pinned source with pdf-lib, normalised per ISO 32000-1 7.9.5, then ordered by descending y within each page and matched to the printed lines from pdftotext -layout. AcroForm field NAMES are not in visual order on this form -- Section III's first three boxes are Check Box9.9, Check Box9.1, Check Box9.10, in that printed order -- so name order cannot be used. Cross-checked against three sibling families' committed selections, which land where this mapping says they should.",
+    "sectionI_misdemeanorNonConviction": { "pages": [1, 2], "boxes": ["Check Box8.0", "Check Box8.1", "Check Box8.2", "Check Box8.3", "Check Box8.4", "Check Box8.5", "Check Box8.6", "Check Box9.0"], "rule": "Check ONLY one (1) of the eight (8) options" },
+    "sectionII_misdemeanorConviction": { "pages": [2], "boxes": ["Check Box9.2", "Check Box9.3", "Check Box9.4", "Check Box9.5", "Check Box9.6", "Check Box9.7", "Check Box9.8"], "rule": "AND ALL OF THE FOLLOWING HAVE OCCURRED ... all seven boxes" },
+    "sectionIII_felonyNonConviction": { "pages": [2, 3], "boxes": ["Check Box9.9", "Check Box9.1", "Check Box9.10", "Check Box10.0", "Check Box10.1", "Check Box10.2", "Check Box10.3", "Check Box10.4"], "rule": "Check ONLY one (1) of the eight (8) options below: If none apply, the charge is not eligible for expungement", "leadIn": "I, the above-named Defendant/Petitioner, was charged with the above-named offense, a felony" },
+    "sectionIV_traffickingViolentFelony": { "pages": [3], "boxes": ["Check Box10.5"] },
+    "sectionV_pardonedFelonyConviction": { "pages": [3, 4], "boxes": ["Check Box10.6", "Check Box11.0", "Check Box11.1", "Check Box11.2", "Check Box11.3", "Check Box11.4", "Check Box11.5", "Check Box11.6"], "rule": "AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement", "leadIn": "I, the above-named Defendant/Petitioner, was convicted of the above-named offense, a felony, and more than one expungement has not been granted" },
+    "whyTheTwoSectionsAreMutuallyExclusive": "Section III's own printed lead-in says 'was charged'; Section V's says 'was convicted'. AL.memo.json gives al-felony-nonconviction-90 eligibleRecordTypes ['felony charge'] and al-pardoned-felony eligibleRecordTypes ['felony conviction']. A route on one of those record types cannot elect in the other's section. This is read off the printed form and the held memo; it is not an interpretation."
+  },
+
+  "families": [
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "controllingSourceAndSection": {
+        "statute": "Ala. Code § 15-27-2(a)(1) through (a)(5), with §§ 15-27-3 and 15-27-5(b)",
+        "citedFrom": "AL.memo.json track al-felony-nonconviction-90, controllingAuthority.citations",
+        "onTheForm": "CR-65 Rev. 10/2024 Section III, pages 2-3",
+        "sourceDigest": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+      },
+      "requiredFilingElement": {
+        "what": "Exactly one box ticked in Section III, and no more than one. The section is DISJUNCTIVE and the form says so: 'Check ONLY one (1) of the eight (8) options below: If none apply, the charge is not eligible for expungement.'",
+        "where": "CR-65 page 2, the three boxes below the Section III heading (Check Box9.9, Check Box9.1, Check Box9.10); CR-65 page 3, the five boxes above the Section IV heading (Check Box10.0 through Check Box10.4)",
+        "alsoRequired": "CR-65 page 5 attachment block: item (1) or item (2), and item (3) in every case. CR-65 page 6: one of the two boxes under '(3)(Select one of the following)', under the perjury heading."
+      },
+      "participantFactsNeededToStateIt": [
+        "howMatterEnded -- which of the five recognised outcomes the certified record actually shows",
+        "dismissalWithPrejudice -- on the dismissal basis only",
+        "dispositionDate -- to establish that more than 90 days have run",
+        "refiled -- that the charges have not been refiled"
+      ],
+      "factsCurrentlyHeldByThePlatform": {
+        "memoDeclares": "All four are declared participantInputs on the track; howMatterEnded, dispositionDate and refiled are requirement 'required'.",
+        "fieldMapHolds": "None of them. production-field-map.json carries 30 writes, all identity, address, county and case-number facts, and 186 refusals. Not one write has a factId for how the matter ended.",
+        "buildFixturesHold": "Neither the canonical nor the boundary fixture carries a disposition fact. The builder's FIXTURES objects hold name, address, e-mail, phone, date of birth, case number and county only.",
+        "worklistRegistryHolds": "waitingPeriodCalculation recorded as 'From the disposition / 90 days'. requiredParticipantAttachments not_recorded."
+      },
+      "theActualGap": {
+        "kind": "MISSING_INPUT",
+        "goesTo": "owner / intake mapping, not counsel",
+        "statement": "The design already says the platform is supposed to have howMatterEnded -- the memo makes it a required participantInput and enumerates the five answers, and each of the five maps one-to-one onto a printed Section III box. The intake does not collect it and the field map has no factId for it. That is a mapping hole, not a legal question.",
+        "correctBehaviourUntilItIsClosed": "A disclosed blank and an instruction. Ticking one of five to differentiate this fixture from its sibling would be a sworn guess. The packet already refuses correctly and its guide already names all five outcomes."
+      },
+      "separateUnresolvedLegalQuestion": {
+        "kind": "DISPUTED_INTERPRETATION",
+        "memoEntry": "unresolvedQuestions[0], impact build_blocker, affectedElement eligibility_branch",
+        "question": "Whether 'any felony offense' survived the most recent amendments to § 15-27-2(a), given that the archive and the internal reference both carry the older non-violent framing.",
+        "whatTheHeldSourceShows": "CR-65 Rev. 10/2024 Section III prints no non-violence qualifier anywhere in its lead-in or in any of its eight options. The AOC handles violent felonies separately, in Section IV, and only as CONVICTIONS within the trafficking exception. The form revision post-dates the track's effectiveFrom of 2024-10-01.",
+        "whatThatDoesAndDoesNotSettle": "It removes the stated basis for the doubt -- the older non-violent framing is not what the current official petition prints. It does not read § 15-27-2(a) itself, which AL.memo.json separately records as never having been read. A form is evidence of the AOC's reading of the statute; it is not the statute.",
+        "proposedNarrowFix": "Acquire the current official § 15-27-2(a) text from alison.legislature.state.al.us and compare. That is source acquisition, not a legal call, and it is already the memo's own second unresolvedQuestion for this track."
+      }
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "controllingSourceAndSection": {
+        "statute": "Ala. Code § 15-27-2(c)",
+        "citedFrom": "AL.memo.json track al-pardoned-felony, controllingAuthority.citations",
+        "onTheForm": "CR-65 Rev. 10/2024 Section V, pages 3-4",
+        "sourceDigest": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+      },
+      "requiredFilingElement": {
+        "what": "All eight boxes in Section V ticked, and the petition sworn on page 6. The section is CONJUNCTIVE and the form says so: 'AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement.' A partly-ticked conjunctive certification still swears the limbs it ticks.",
+        "where": "CR-65 page 3, the last box on the page (Check Box10.6); CR-65 page 4, the seven boxes above the 'Additional Information' rule (Check Box11.0 through Check Box11.6)",
+        "extraElementThisRouteAlone": "Section V's lead-in also states 'and more than one expungement has not been granted'. The page-6 select-one is how the court tests that limit on this route. Section III prints no such count limit."
+      },
+      "participantFactsNeededToStateIt": [
+        "pardonDate -- and the 180 days counted from it",
+        "restorationLanguage -- what the certificate says about restoration of civil and political rights",
+        "firearmRightsExcluded -- whether the certificate expressly withholds firearm rights",
+        "whether the conviction is a violent offense under § 12-25-32",
+        "whether it is a sex offense under § 15-20A-5",
+        "whether it is an offense involving moral turpitude under § 17-3-30.1, plus a 15-year arrest history",
+        "whether it is a serious traffic offense under Article 9 of Chapter 5A of Title 32",
+        "commercial-driver status at the time of the offense"
+      ],
+      "factsCurrentlyHeldByThePlatform": {
+        "memoDeclares": "Four participantInputs only: pardonDate, restorationLanguage, firearmRightsExcluded, countyOfFiling. exclusions []. waitingPeriods [] -- EMPTY.",
+        "memoOmission": "CR-65 Section V box 3 requires that 180 days have passed from issuance of the certificate of pardon. AL.memo.json records no waiting period for this track at all, and the build worklist records waitingPeriodCalculation as not_recorded for both of this family's route keys. The form states a period the legal-design record does not carry.",
+        "fieldMapHolds": "None of the eight. All eight are refusals with routeDetermined false.",
+        "notHeldAtAll": "Five of the eight limbs -- violent offense, sex offense, moral turpitude plus 15-year arrest history, serious traffic offense, commercial-driver status -- correspond to no participantInput and no exclusion in the memo. The record never asks for them."
+      },
+      "theActualGap": {
+        "kind": "BOTH, and they separate cleanly",
+        "missingInput": {
+          "kind": "MISSING_INPUT",
+          "goesTo": "owner / intake mapping",
+          "boxes": ["Check Box11.1", "Check Box11.2", "Check Box11.3", "Check Box11.4", "Check Box11.5", "Check Box11.6"],
+          "statement": "Six limbs the participant must swear that the intake never asks about. Check Box11.1 is the mildest: pardonDate IS a declared required input, so the 180 days is arithmetic the platform could do -- but the memo records no waiting period against which to do it. The other five are simply not collected."
+        },
+        "disputedInterpretation": {
+          "kind": "DISPUTED_INTERPRETATION",
+          "goesTo": "counsel / owner legal decision",
+          "boxes": ["Check Box10.6", "Check Box11.0"],
+          "memoEntry": "AL-7, unresolvedQuestions[0], impact build_blocker, affectedElement eligibility_branch",
+          "question": "Whether a pardon that expressly withholds firearm rights satisfies the statutory requirement of restoration of civil and political rights. Alabama pardons are commonly granted with restrictions, and after State ex rel. Sokira v. Burr the Board commonly excludes firearm rights expressly.",
+          "whyItIsDispositiveAndNotClerical": "Check Box10.6 asks the petitioner to swear to a certificate of pardon WITH RESTORATION of civil and political rights; Check Box11.0 asks them to swear that all forfeited civil and political rights HAVE BEEN RESTORED. If a firearms carve-out defeats restoration, this route does not fit the participant at all and the correct output is a refusal, not a petition. The same memo carries it as a selfHelpStopCondition: 'The pardon withholds firearm rights and the restoration question controls.'"
+        }
+      },
+      "searchForAnAlreadyAdoptedDecision": {
+        "result": "NONE FOUND that resolves AL-7.",
+        "scopeSearched": "All 15 files in data/record-clearing/legal-decisions/, plus route-ratification-registry.json.",
+        "evidence": "2026-08-28-national-legal-decisions.json carries 35 questionDecisions. Not one has jurisdiction AL. Alabama appears in that overlay only in researchTrackDecisions, for al-olr and al-uncharged-arrest. No file mentions al-pardoned-felony, 15-27-2, or AL-7.",
+        "nearestAdoptedDecision": {
+          "id": "Q-002 / reportQuestionId Q-001",
+          "jurisdiction": "KY",
+          "trackId": "ky_felony_expungement_after_pardon",
+          "file": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+          "fileSha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+          "holdingSha256": "c12faaa4fe87df4560cf4e2672ed7f12c5fba0824ac64a95350759ca5b37d01f",
+          "holding": "Treat the pardon route as available only when the operative clemency instrument expressly grants a full pardon of the conviction sought to be expunged. A commutation, reprieve, remission of fine, restoration of civil rights, or partial/conditional grant is not the same legal instrument. An ambiguous document should not be characterized by participant attestation alone.",
+          "whyItDoesNotDecideAL7": "It is keyed to a Kentucky track and answers a different question -- is this instrument a full pardon -- where AL-7 asks whether a full pardon carrying a firearms carve-out satisfies Alabama's statutory restoration requirement. Jurisdiction membership grants nothing and a route sells only what a record keyed to it proves.",
+          "whyItStillMatters": "Its adopted product rule -- do not characterise the instrument from attestation, route conditional or ambiguous grants to counsel -- is the shape this packet already takes. The pardoned-felony packet ticks nothing, hands the certificate reading back to the participant, and carries the firearm stop condition verbatim. So the packet's current behaviour needs no repair on that limb; only the eligibility branch behind it needs a decision."
+        }
+      },
+      "proposedNarrowFix": {
+        "made": "The guide repair below, which is bounded and needs no legal call.",
+        "notMade": "No change to the eligibility branch, no tick, no memo edit. Recording a 180-day waiting period into AL.memo.json from the form alone would be authoring a legal fact into the legal-design record and would break the memo digest that every AL guide quotes.",
+        "forTheOwner": "Decide AL-7. Until then this family cannot pass a completeness gate on its own ground, because six of the eight limbs it must swear are facts the platform never collects and two turn on the open question."
+      }
+    }
+  ],
+
+  "measurementOfDeliveredInk": {
+    "why": "FIX02 reported that scripts/build-census-v1-al-felony-nonconviction-90-set.mjs writes refusedFieldsWithInk: [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as LITERALS rather than computing them. That is correct, and the same literals are in the shared host that builds al-pardoned-felony-set. An asserted zero is not a measured zero, so this lane measured it independently.",
+    "method": "pdftoppm -r 300 -gray on the pinned sources and on all four delivered fixtures. Dark-pixel count with grey < 200 inside each widget /Rect, normalised per ISO 32000-1 7.9.5, plus a 2px pad, delivered minus source.",
+    "threshold": 200,
+    "resolution": "300 dpi",
+    "scope": "all 108 CR-65 widgets and all 108 C-10-CRIMINAL widgets, on canonical and boundary, for both families",
+    "controlThatTheRenderDrawsInk": {
+      "verdict": "PASS",
+      "examples": [
+        { "field": "CR-65:Name of County", "page": 1, "deltaCanonical": 1691, "deltaBoundary": 1173 },
+        { "field": "CR-65:Last Name", "page": 1, "deltaCanonical": 854, "deltaBoundary": 3279 },
+        { "field": "C-10-CRIMINAL:Complete Home Address", "page": 1, "deltaCanonical": 2675, "deltaBoundary": 6832 }
+      ],
+      "note": "A zero elsewhere is trustworthy only because these are not zero."
+    },
+    "results": {
+      "cr65RefusedFieldsCarryingInk": { "alPardonedFelonySet": 0, "alFelonyNonconviction90Set": 0, "verdict": "PASS" },
+      "sectionIIIBoxes": { "deltaCanonical": 0, "deltaBoundary": 0, "bothFamilies": true },
+      "sectionVBoxes": { "deltaCanonical": 0, "deltaBoundary": 0, "bothFamilies": true },
+      "unclassifiedWidgets": 0,
+      "c10RefusedFieldsCarryingInk": {
+        "count": 0,
+        "twoBorderlineReadingsInspectedPixelByPixel": [
+          { "field": "C-10-CRIMINAL:Check Box5.0", "sourcePage": 2, "packetPage": 10, "delta": 30 },
+          { "field": "C-10-CRIMINAL:Check Box5.1", "sourcePage": 2, "packetPage": 10, "delta": 75 }
+        ],
+        "whatTheDeltaIs": "The flattened widget's own border re-rendered one pixel wider, on the 'Do you own anything else of value? Yes No' pair. A pixel-by-pixel diff of the region shows no mark of any kind inside either box in the delivered bytes. Not participant ink.",
+        "verdict": "PASS"
+      }
+    },
+    "whatThisMeansForTheLiterals": "The literal claim happens to be TRUE for these two families, and is now measured rather than asserted. It remains a defect in the builders: the value is typed, so it would still read [] and 0 on a build where it was false, and no counter would notice. build-summary.json's counters block likewise carries eight typed zeros -- knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites -- alongside visualDefects: null. This lane did not convert them to computed values, because doing so touches four families held by other lanes.",
+    "theSharpestIllustration": "requiredOptionsMissing read 0 for al-pardoned-felony-set while all eight Section V boxes were being ticked on the participant's behalf, and it reads 0 now that none of them is. The counter reads the field map as its classification authority and can only ask whether a write happened -- never whether the participant could truthfully swear it. No counter compares two families, so none of them could have seen the identity either."
+  },
+
+  "correctionsMade": [
+    {
+      "id": "FIX144-1",
+      "file": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
+      "what": "Removed the retired al-pardoned-felony-set entry from FAMILY_CONFIG. It carried selected: [Check Box10.6, Check Box11.0 ... Check Box11.6] -- the exact eight-tick configuration AL6-04 retired -- for a family this lane holds and whose live builder now ticks none of them. buildAlabamaFamily asserts its own familyId so the entry could not be driven, but a retired ticking configuration for a repaired family, sitting in a live file, reads as the current design. The sibling host documents the same rule for the same reason.",
+      "outputsMoved": "none. Rebuilt: canonical 504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2, boundary 645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208, both unchanged.",
+      "legalCallRequired": false
+    },
+    {
+      "id": "FIX144-2",
+      "files": ["scripts/build-census-v1-al-diversion-set.mjs", "scripts/build-census-v1-al-pardoned-felony-set.mjs", "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/participant-instructions.md"],
+      "what": "Ported FIX02's printed-elections disclosure to al-pardoned-felony-set. That guide named the eight Section V limbs but was silent on the three elections CR-65 makes EVERY petitioner make: the page-5 attachment block ('Petition must include either item 1 or item 2; All Petitions must include item 3'), the page-6 '(3)(Select one of the following)' under the perjury heading with its 'was [ ] granted [ ] denied' pair, and '[ ] pro se'. All eight of those boxes are blank in the delivered bytes and the guide named none of them.",
+      "theSharpEnd": "'County where any previous expungement was filed' and 'Court case number of any previous expungement' were listed unconditionally under 'Fill every one ... before filing', though both hang off the SECOND branch of a page-6 select-one the guide never mentioned. A participant with no prior expungement who followed that list literally would write a county and a case number for an expungement that does not exist, on a sworn page, while the attestation governing those two blanks stayed empty. Both lines now carry the condition.",
+      "whyNoLegalCallWasNeeded": "Same form, same field ids, same refusals, same defect FIX02 already repaired on the sibling family. Nothing about it turns on which statutory ground the route runs on. Every quoted line is CR-65's own printed text, re-read out of the delivered bytes on each build by assertPrintedElections(), which refuses the build if a quoted line is no longer printed on the page the guide attributes it to.",
+      "gating": "config.printedElectionsNotMade, set on al-pardoned-felony-set alone. The three other families this shared host builds are held by other lanes, carry no such section, and were not rebuilt.",
+      "outputsMoved": "participant-instructions.md only. Fixture bytes unchanged: canonical b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb, boundary c7efd5ab764e9f96628290f0df18cebf51244b9d31beb1c9ebcc1cf79279165b. No re-raster is triggered.",
+      "legalCallRequired": false
+    }
+  ],
+
+  "correctionsDeliberatelyNotMade": [
+    "No box ticked in Section III or Section V on either family. The packet cannot know which ground applies to a given participant, so the answer is a disclosed blank and an instruction.",
+    "No eligibility branch changed, on either family.",
+    "No edit to AL.memo.json. The 180-day period CR-65 Section V prints is absent from the pardoned track's waitingPeriods, but writing it in from the form alone would author a legal fact into the legal-design record and would move the memo digest every Alabama guide quotes.",
+    "No counter converted from literal to computed. That touches four families held by other lanes.",
+    "No section named on the delivered PDF itself. Nothing may be drawn on a sworn petition that the form does not print."
+  ],
+
+  "obligations": {
+    "REFUSED_FIELDS_CARRY_NO_INK": "PASS",
+    "ELECTIONS_DISCLOSED_TO_PARTICIPANT": "PASS",
+    "ROUTE_GROUND_ELECTED_ON_THE_PETITION": "BLOCKED_LEGAL_INPUT",
+    "SECTION_V_CERTIFICATION_SUPPORTED_BY_HELD_FACTS": "BLOCKED_LEGAL_INPUT",
+    "SECTION_III_ELECTION_SUPPORTED_BY_HELD_FACTS": "FAIL",
+    "BUILD_SUMMARY_COUNTERS_MEASURED": "FAIL",
+    "CURRENT_STATUTORY_TEXT_READ": "NOT_MEASURABLE_HERE"
+  },
+
+  "whoDecidesWhat": {
+    "roger": [
+      "AL-7. Whether a pardon that expressly withholds firearm rights satisfies § 15-27-2(c)'s restoration requirement. This gates Check Box10.6 and Check Box11.0 and therefore the whole conjunctive Section V certification, and therefore whether al-pardoned-felony-set has a shippable eligibility branch at all."
+    ],
+    "ownerOrIntakeMapping": [
+      "Collect howMatterEnded and map its five declared answers onto the five Section III boxes they already correspond to, for al-felony-nonconviction-90-set.",
+      "Collect the six Section V facts al-pardoned-felony-set must swear and does not ask for, or accept that this route can never complete its own certification.",
+      "Reconcile CR-65 Section V's printed 180-day period against AL.memo.json's empty waitingPeriods for al-pardoned-felony."
+    ],
+    "sourceAcquisition": [
+      "Current official text of Ala. Code § 15-27-2(a), and of §§ 15-27-3, 15-27-5 and 15-27-12, from the Legislature's own site. The memo records that it was never read."
+    ]
+  }
+}
