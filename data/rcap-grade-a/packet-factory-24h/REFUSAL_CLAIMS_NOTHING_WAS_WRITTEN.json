@@ -1,0 +1,188 @@
+{
+ "schemaVersion": "rcap-refusal-claims-nothing-was-written/v1",
+ "generatedBy": "Captain, measuring VF31's finding across every builder that prints the sentence",
+ "generatedAt": "2026-09-10T09:27:19.043Z",
+ "atCommit": "be0010620da01db1c1b219806f0bd6cb2f6375f4",
+ "theFinding": "A builder's refusal path prints \"Nothing was written.\" while output files are already on disk. On ar-cs-possession-seal-set the three newest guards sit at lines 1573-1575, downstream of the four fixture PDFs (1279) and every report (1315-1556): twelve files exist when they fire.",
+ "foundBy": "VF31, re-reading FIX01's repair. FIX01 relayed the stock sentence as an observation, and its supporting evidence -- a clean git diff -- does not establish it either, because these outputs are deterministic and an identical rewrite leaves the tree clean whether or not it wrote.",
+ "theMeasurement": {
+  "buildersPrintingTheSentence": 24,
+  "withAtLeastOneRefusalAfterTheFirstWrite": 14,
+  "withEveryRefusalBeforeTheFirstWrite": 10,
+  "method": "source order of every fail() CALL against the line of the first writeFileSync. Source order is a PROXY for execution order and is stated as one -- a call site above the first write can still run after it, and one below can be unreachable."
+ },
+ "whyItMatters": "The sentence is what a reader relies on to know a refused build left nothing behind. Where it is false, a refused build has published artifacts and reports that no verdict covers, and the operator has been told the opposite.",
+ "whatIsNotClaimedHere": "That any of these builders has actually refused after writing. Nothing here establishes a single such run. It establishes that the guarantee the sentence gives is not one the code structure can keep.",
+ "builders": [
+  {
+   "builder": "build-census-v1-ar-cs-possession-seal-set.mjs",
+   "firstWriteAtLine": 404,
+   "totalRefusalCallSites": 25,
+   "refusalsAfterFirstWrite": 25,
+   "lastRefusalAtLine": 1572
+  },
+  {
+   "builder": "build-census-v1-ar-pardon-seal-set.mjs",
+   "firstWriteAtLine": 188,
+   "totalRefusalCallSites": 21,
+   "refusalsAfterFirstWrite": 21,
+   "lastRefusalAtLine": 2531
+  },
+  {
+   "builder": "build-census-v1-ct-cleanslate-petition-set.mjs",
+   "firstWriteAtLine": 681,
+   "totalRefusalCallSites": 11,
+   "refusalsAfterFirstWrite": 11,
+   "lastRefusalAtLine": 1488
+  },
+  {
+   "builder": "build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
+   "firstWriteAtLine": 149,
+   "totalRefusalCallSites": 10,
+   "refusalsAfterFirstWrite": 10,
+   "lastRefusalAtLine": 1254
+  },
+  {
+   "builder": "build-census-v1-in_arrest_no_charges-set.mjs",
+   "firstWriteAtLine": 766,
+   "totalRefusalCallSites": 8,
+   "refusalsAfterFirstWrite": 8,
+   "lastRefusalAtLine": 1351
+  },
+  {
+   "builder": "build-census-v1-in_section1_petition-set.mjs",
+   "firstWriteAtLine": 775,
+   "totalRefusalCallSites": 8,
+   "refusalsAfterFirstWrite": 8,
+   "lastRefusalAtLine": 1361
+  },
+  {
+   "builder": "build-census-v1-mi-setaside-marihuana-set.mjs",
+   "firstWriteAtLine": 341,
+   "totalRefusalCallSites": 7,
+   "refusalsAfterFirstWrite": 7,
+   "lastRefusalAtLine": 761
+  },
+  {
+   "builder": "build-census-v1-ar-act531-set.mjs",
+   "firstWriteAtLine": 394,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 938
+  },
+  {
+   "builder": "build-census-v1-ar-arrest-seal-set.mjs",
+   "firstWriteAtLine": 400,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 990
+  },
+  {
+   "builder": "build-census-v1-id_clean_slate_shield-set.mjs",
+   "firstWriteAtLine": 263,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 776
+  },
+  {
+   "builder": "build-census-v1-id_isp_expungement-set.mjs",
+   "firstWriteAtLine": 239,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 760
+  },
+  {
+   "builder": "build-census-v1-nd-nonconviction-close-petition-set.mjs",
+   "firstWriteAtLine": 301,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 894
+  },
+  {
+   "builder": "build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs",
+   "firstWriteAtLine": 445,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 6,
+   "lastRefusalAtLine": 968
+  },
+  {
+   "builder": "build-census-v1-ar-misdemeanor-seal-set.mjs",
+   "firstWriteAtLine": 503,
+   "totalRefusalCallSites": 5,
+   "refusalsAfterFirstWrite": 5,
+   "lastRefusalAtLine": 1281
+  },
+  {
+   "builder": "build-census-v1-in_conviction_d6-set.mjs",
+   "firstWriteAtLine": 1242,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "build-census-v1-in_conviction_felony-set.mjs",
+   "firstWriteAtLine": 1231,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "build-census-v1-in_conviction_misd-set.mjs",
+   "firstWriteAtLine": 1219,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "build-census-v1-wi_exp_cr266-set.mjs",
+   "firstWriteAtLine": 923,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "build-census-v1-wv_conv_nonviolent_felony-set.mjs",
+   "firstWriteAtLine": 978,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "generate-rcap-pdf-promotion-source-resolution.mjs",
+   "firstWriteAtLine": 188,
+   "totalRefusalCallSites": 6,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": 187
+  },
+  {
+   "builder": "implement-rcap-official-forms-d1.mjs",
+   "firstWriteAtLine": 755,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "provision-rcap-production-canary.mjs",
+   "firstWriteAtLine": null,
+   "totalRefusalCallSites": 31,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": 481
+  },
+  {
+   "builder": "verify-rcap-lane-i-oregon-first-packet.mjs",
+   "firstWriteAtLine": 436,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  },
+  {
+   "builder": "verify-rcap-partner-provisioning.mjs",
+   "firstWriteAtLine": null,
+   "totalRefusalCallSites": 0,
+   "refusalsAfterFirstWrite": 0,
+   "lastRefusalAtLine": null
+  }
+ ],
+ "notFixedHere": "Fourteen builders across many families, none dispatched for this, and the honest fix is not one edit -- either the refusal moves above the first write, or the sentence tells the truth about what is already on disk. Recorded for scheduling.",
+ "grantsNothing": "This records a measurement of the builders' refusal paths."
+}
