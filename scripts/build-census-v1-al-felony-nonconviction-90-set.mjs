@@ -6,6 +6,8 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import zlib from "node:zlib";
+import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -28,6 +30,29 @@ const FAMILY_CONFIG = {
   "al-felony-nonconviction-90-set": {
     trackId: "al-felony-nonconviction-90",
     selected: [],
+    /*
+     * CR-65 page 3 check box `Check Box10.2` -- the quashed-indictment ground,
+     * one of the five printed outcomes THIS route hands back to the participant
+     * -- stores its /Rect as [45.317 623.137 56.5341 608.779], corners in the
+     * inverted order. ISO 32000-1 7.9.5 permits that and requires a consumer to
+     * normalise it in situ; pdf-lib does not, so flatten() translates the
+     * widget's own white /Off fill to the raw first corner and paints an
+     * 11.2171 by 14.3578 white rectangle 14.358pt high -- across the word
+     * "expired" in that same ground's printed sentence, "expired or the
+     * prosecuting agency confirms that the charge or charges will not be
+     * refiled."
+     *
+     * On this family that is worse than a blemish. This route elects nothing and
+     * asks the participant to read the five printed outcomes and choose one
+     * themselves; the defect painted out part of the text of one of the five
+     * they are being asked to read.
+     *
+     * Set on this family alone because this lane holds this family alone. The
+     * other five entries in this host's config are built elsewhere and are not
+     * rebuilt here.
+     */
+    normalizeInvertedWidgetRects: true,
+    measureOutputByteGlyphs: true,
     routeSummary: "Felony nonconviction route after the applicable 90-day period. The participant must select the exact outcome printed in Section III; the route family does not determine whether it was dismissal with prejudice, no-bill, acquittal, or unconditional nolle prosequi.",
     /*
      * This route deliberately elects nothing on the petition. Five printed
@@ -190,6 +215,68 @@ function attorneyField(documentId, name, page) {
   return /attorney|state bar|business address of attorney|email address_2|telephone number_2/.test(key);
 }
 
+
+/*
+ * BOTH OUTPUT-BYTE GLYPH READINGS, READ FROM THE PRODUCED PDF.
+ *
+ * This host wrote `addedGlyphsReadFromOutputBytes: 0` as a LITERAL for every
+ * family it builds. That is not a reading, and on this family it was false: the
+ * delivered canonical page set carries 402 glyphs in 30 flattened appearance
+ * streams, and the boundary fixture carries 652. A reading that is typed rather
+ * than measured cannot report a defect, which is the whole reason the two
+ * readings exist.
+ *
+ * Every value this pipeline writes reaches the page through flatten(), as a
+ * `/FlatWidget-* Do` inside its own `q ... cm ... Q`, so the glyphs the packet
+ * ADDED are exactly the glyphs inside those XObjects. Each string is decoded
+ * against the font named by the stream's own /Tf rather than a guess: these are
+ * simple fonts (/Helvetica, /ZaDb), one byte per glyph, and a composite font
+ * would need two -- so the encoding is asserted rather than assumed, and an
+ * unrecognised one refuses instead of counting wrong.
+ */
+function measureOutputByteGlyphs(bytes) {
+  const text = bytes.toString("latin1");
+  // Only the flattened appearance XObjects, which is where every added value is.
+  const streams = [];
+  const objects = /(\d+) 0 obj\b([\s\S]*?)\bendobj/g;
+  let m;
+  while ((m = objects.exec(text))) {
+    const body = m[2];
+    if (!/\/Subtype\s*\/Form/.test(body)) continue;
+    const stream = /stream\r?\n([\s\S]*?)\r?\nendstream/.exec(body);
+    if (!stream) continue;
+    let content = stream[1];
+    if (/\/Filter\s*\/FlateDecode/.test(body)) {
+      try { content = zlib.inflateSync(Buffer.from(stream[1], "latin1")).toString("latin1"); } catch { continue; }
+    }
+    streams.push(content);
+  }
+  let total = 0, nonWhitespace = 0, operators = 0;
+  for (const content of streams) {
+    const font = /\/(\w+)\s+[\d.]+\s+Tf/.exec(content);
+    // Simple fonts only. Anything else is refused rather than miscounted.
+    if (font && !["Helvetica", "ZaDb"].includes(font[1])) {
+      throw new Error(`glyph reading refuses an unasserted font encoding: /${font[1]}`);
+    }
+    const shows = /(\[(?:[^\]\\]|\\.)*\]|\((?:\\.|[^\\()])*\)|<[0-9A-Fa-f\s]*>)\s*(?:TJ|Tj|'|")/g;
+    let s;
+    while ((s = shows.exec(content))) {
+      operators += 1;
+      const parts = s[1].startsWith("[")
+        ? (s[1].match(/\((?:\\.|[^\\()])*\)|<[0-9A-Fa-f\s]*>/g) ?? [])
+        : [s[1]];
+      for (const part of parts) {
+        const inner = part.slice(1, -1);
+        const drawn = part.startsWith("<")
+          ? (inner.replace(/\s+/g, "").match(/.{2}/g) ?? []).map((c) => String.fromCharCode(parseInt(c, 16))).join("")
+          : inner.replace(/\\([nrtbf()\\])/g, "$1").replace(/\\[0-7]{1,3}/g, "?");
+        for (const ch of drawn) { total += 1; if (!/\s/.test(ch)) nonWhitespace += 1; }
+      }
+    }
+  }
+  return { addedGlyphsReadFromOutputBytes: total, nonWhitespaceGlyphs: nonWhitespace, textShowingOperators: operators };
+}
+
 /*
  * The second way a value gets shortened: the box, not the maxLength.
  *
@@ -274,6 +361,12 @@ async function fillDocument(source, fixtureName, fixture, config) {
     }
   }
   const font = await document.embedFont(StandardFonts.Helvetica);
+  // BEFORE appearances are regenerated and before flatten: both read the widget
+  // rectangle back through the same accessor, so a rectangle normalised here is
+  // normalised for both. See normalizeInvertedWidgetRectangles.
+  const invertedRects = config.normalizeInvertedWidgetRects
+    ? normalizeInvertedWidgetRectangles(document, form)
+    : null;
   form.updateFieldAppearances(font);
   form.flatten();
   document.setTitle(`${source.documentId} - ${fixtureName}`);
@@ -282,7 +375,7 @@ async function fillDocument(source, fixtureName, fixture, config) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, invertedRects };
 }
 
 async function buildPacket(sources, fixtureName, fixture, config) {
@@ -303,7 +396,12 @@ async function buildPacket(sources, fixtureName, fixture, config) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), sources.reduce((sum, source) => sum + filled.find((item) => item.source.documentId === source.documentId).document.getPageCount(), 0));
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  const invertedRects = filled.map((item) => item.invertedRects).filter(Boolean);
+  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals),
+    invertedRects: invertedRects.length > 0
+      ? { perSource: filled.filter((item) => item.invertedRects).map((item) => ({ documentId: item.source.documentId, ...item.invertedRects })),
+          normalizedCount: invertedRects.reduce((sum, report) => sum + report.normalizedCount, 0) }
+      : null };
 }
 
 
@@ -553,7 +651,10 @@ export async function buildAlabamaFamily(familyId) {
   writeJson(path.join(out, "reports", "actual-writes.json"), {
     schemaVersion: "rcap-actual-writes/v2", familyId,
     documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
+    /* Measured, not typed. See measureOutputByteGlyphs. */
+    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
+      addedGlyphsReadFromOutputBytes: config.measureOutputByteGlyphs ? measureOutputByteGlyphs(packet.bytes).addedGlyphsReadFromOutputBytes : 0,
+      flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
   });
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
     schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
