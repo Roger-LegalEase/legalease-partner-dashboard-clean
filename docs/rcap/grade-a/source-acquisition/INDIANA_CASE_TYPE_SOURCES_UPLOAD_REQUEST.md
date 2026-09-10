@@ -21,7 +21,7 @@ The hosts are not retried in any lane. The network policy is not changed.
 | 1 | Administrative Rule 8 (current page, effective January 1, 2025) | https://rules.incourts.gov/Content/admin/rule8/current.htm | Rule 8(B)(3) identifies **FB** as Class B and **FD** as Class D |
 | 2 | Administrative Rule 1 (effective July 1, 2026) | https://rules.incourts.gov/Content/admin/rule1/current.htm | Rule 1(B)(4)(a)(i)–(iii) assigns the case category by the **most serious charge** |
 | 3 | QCSR Application Guide, August 2026, 67 PDF pages | https://www.in.gov/courts/iocs/files/court-frm-icor-qcsr-application.guide.pdf | **Printed page 9 / PDF index 9**: the category follows the most serious original charge and **remains** after later amendments or a lesser conviction |
-| 4 | Case Type Quick Reference, January 1, 2025 | https://www.in.gov/dA/8240b60638/casetype-quick-reference.pdf?language_id=1 | **Printed page 8 / PDF index 7**: the case-type code table |
+| 4 | Case Type Quick Reference, January 1, 2025 |  https://www.in.gov/courts/iocs/files/casetype-quick-reference.pdf | **Printed page 8 / PDF index 7**: the case-type code table |
 
 Save each as the file the browser downloads — the published bytes, not a print
 to PDF, not a screenshot, not a copy-paste into a document. A re-encoded copy
