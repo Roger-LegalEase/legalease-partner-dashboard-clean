@@ -69,6 +69,21 @@
       "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36",
+        "replacedByCanonicalSha256": "ee454a96d0415e567ba3882045a10da5d7b73a33509cf1307d741065ac3f1080,f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504,f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33844904078",
+          "jobId": "100935414045",
+          "artifactId": "9926401850",
+          "boundToCanonicalSha256": "bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }
