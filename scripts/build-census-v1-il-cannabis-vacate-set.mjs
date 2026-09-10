@@ -120,13 +120,89 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFButton, PDFDocument, PDFCheckBox, PDFDropdown, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFButton, PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts } = require("pdf-lib");
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INDEX_PATH = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST_PATH = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+
+/*
+ * FIX147. THE SEVENTEEN PUSH-BUTTON CAPTIONS THIS PACKET WAS PRINTING ONTO
+ * COURT FILINGS, AND WHY THE REPAIR IS LOCAL RATHER THAN THE SHARED FLAG.
+ *
+ * WHAT WAS WRONG. Each CXP source ships the issuer's own viewer chrome as
+ * /Ff 65536 push buttons in the page's bottom margin -- "Print Form", "Save
+ * Form", "Reset Form", and on the Notice and the Order the same three in
+ * capitals. `form.updateFieldAppearances()` regenerates each one's appearance
+ * from its /MK /CA caption and `form.flatten()` then draws that appearance
+ * onto the page, so seventeen captions became page CONTENT in the delivered
+ * bytes. FIX06 declared them in the field map and said so explicitly; nothing
+ * removed them, and a caption in the field map still prints.
+ *
+ * WHERE THEY LANDED, WHICH FIX06 DID NOT ESTABLISH. Read page by page out of
+ * the delivered canonical, they are on packet pages 3, 5, 6, 8, 9 and 11:
+ *
+ *   p3   Motion to Vacate and Expunge, last page      primary_filing   3
+ *   p5   Additional Cannabis Convictions, last page   continuation     3
+ *   p6   Getting Started                              instructions     2
+ *   p8   Notice of Court Date, last page              local_addendum   3
+ *   p9   Additional Notice of Court Date              local_addendum   3
+ *   p11  Order Granting or Denying Motion, last page  proposed_order   3
+ *
+ * Fifteen of the seventeen are on a document a clerk stamps and a judge reads,
+ * including the signature page of the sworn Motion and the face of the proposed
+ * Order. Two -- the Getting Started sheet on p6 -- are on a guidance page that
+ * is bound into the packet and never filed; they are repaired with the rest
+ * because the same flattener puts them there, not because that page is filed.
+ *
+ * MEASURED, NOT ASSUMED. 600 dpi, PGM single channel, dark = grey < 128 of 255,
+ * rendered WITH annotations. On the COURT'S OWN SOURCE, annotations on minus
+ * annotations hidden reads 28,951 / 28,951 / 27,039 / 58,249 / 28,951 / 58,249
+ * dark pixels at the button rects on those six pages -- 230,390 in all. That is
+ * the POSITIVE control: the render draws the ink being counted. At threshold
+ * 200, where the buttons' grey fill also counts, the same six pages read
+ * 69,179 / 69,179 / 53,445 / 109,629 / 69,179 / 109,629 -- 480,240.
+ *
+ * The DELIVERED pre-repair bytes read those same counts with annotations ON and
+ * with annotations HIDDEN, identically, on every page and at both thresholds.
+ * That is NOT a negative control. It is the proof that the caption had been
+ * flattened into page content and would print from any viewer, and off any
+ * printer, however it handles annotations.
+ *
+ * OVER-SUPPRESSION WAS CHECKED RATHER THAN ASSUMED. With annotations hidden the
+ * court's own source draws 0 dark pixels inside all seventeen rectangles, at
+ * thresholds 128, 160 and 200. The paper under the button is blank, so what is
+ * withdrawn here is viewer chrome and not one mark of the form.
+ *
+ * WHY NOT THE SHARED FLAG. FIX143 repaired the same class on Connecticut with
+ * `detachNestedControlFields` and `suppressSynthesizedAppearances` at its
+ * `finalizeOfficialForm` call site. This builder does not call
+ * finalizeOfficialForm at all -- it drives pdf-lib directly -- so neither flag
+ * is reachable from here, and reaching them would mean migrating the family
+ * onto the shared finalizer, which would move far more of these bytes than the
+ * defect does. The two mechanisms also differ: Connecticut's controls hang
+ * below a nested AcroForm root, which is what `detachNestedControlFields` was
+ * written for, while all seventeen here sit DIRECTLY in the AcroForm's own
+ * /Fields array. A flat detachment reaches them, and that is what this does.
+ *
+ * Opt-in and local, for the same reason every flag in the shared finalizer is
+ * opt-in: nothing outside this family is touched, no shared default moves, and
+ * a family not rebuilt against this constant keeps the bytes it has.
+ */
+const DETACH_SOURCE_FORM_CONTROLS = true;
+// Push buttons per source document, in SOURCES order. Held here so the count is
+// a claim the build must keep meeting rather than a number in a commit message.
+const EXPECTED_CONTROLS_PER_DOCUMENT = {
+  "CXP Motion to Vacate and Expunge": 3,
+  "CXP Additional Cannabis Convictions": 3,
+  "CXP Getting Started Motion to Vacate and Expunge": 2,
+  "CXP Notice of Court Date for Motion": 3,
+  "CXP Additional Notice of Court Date": 3,
+  "CXP Order Granting or Denying Motion": 3
+};
+const EXPECTED_CONTROLS_TOTAL = Object.values(EXPECTED_CONTROLS_PER_DOCUMENT).reduce((sum, n) => sum + n, 0);
 
 // Component order 1-6 of data/record-clearing/legal-design-packet-set-manifests.json
 // packetSetId il-cannabis-vacate-set. The packet assembles in SOURCES order, so this
@@ -408,6 +484,10 @@ async function fillDocument(source, fixtureName, fixture, config) {
   const font = await document.embedFont(StandardFonts.Helvetica);
   const writes = [];
   const refusals = [];
+  // The source's own viewer chrome, collected while the form is still walkable
+  // and detached below, before any appearance is generated. See
+  // DETACH_SOURCE_FORM_CONTROLS.
+  const controls = [];
   for (const field of form.getFields()) {
     const name = field.getName();
     const page = pageOf(field, pages);
@@ -446,13 +526,20 @@ async function fillDocument(source, fixtureName, fixture, config) {
        * The form's own PRINT FORM / SAVE FORM / RESET FORM push buttons.
        *
        * flatten() draws every widget's appearance onto the page, these included,
-       * so seventeen widgets across five of the six CXP documents carry ink in
+       * so seventeen widgets across five of the six CXP documents carried ink in
        * the delivered bytes. That ink is the source form's own caption and no
        * fact of this packet -- but the field map listed them in neither writes
        * nor refusals, so nothing downstream could account for ink it could see.
-       * They are declared now, in the contract's own words for this class.
+       * FIX06 declared them here, in the contract's own words for this class.
+       *
+       * FIX147. Declaring the caption did not stop it printing. The seventeen
+       * are now DETACHED below, before any appearance is generated, so the
+       * sentence this refusal carries is true of the delivered bytes. They stay
+       * declared: a map that simply stopped listing them would be silent about
+       * seventeen widgets the source ships, which is the state FIX06 corrected.
        */
-      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Viewer UI control: ${name}`, documentId: source.documentId, page, reason: "Viewer UI control printed by the source form itself; never a filing fact. flatten() carries the source's own button caption into the delivered page; this packet writes nothing to it.", refusalClass: "not_applicable_on_this_route", role: "none", sourceAuthoredInk: true });
+      controls.push(field);
+      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Viewer UI control: ${name}`, documentId: source.documentId, page, reason: DETACH_SOURCE_FORM_CONTROLS ? "Viewer UI control printed by the source form itself; never a filing fact. This packet writes nothing to it and detaches it before flatten(), so the delivered page carries no button caption." : "Viewer UI control printed by the source form itself; never a filing fact. flatten() carries the source's own button caption into the delivered page; this packet writes nothing to it.", refusalClass: "not_applicable_on_this_route", role: "none", sourceAuthoredInk: !DETACH_SOURCE_FORM_CONTROLS, controlDetachedBeforeFlatten: DETACH_SOURCE_FORM_CONTROLS });
       continue;
     }
     if (!(field instanceof PDFTextField)) continue;
@@ -468,15 +555,53 @@ async function fillDocument(source, fixtureName, fixture, config) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Complete ${name} on ${source.documentId} page ${page}`, documentId: source.documentId, page, reason: "The platform does not hold this participant, case, or financial fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
     }
   }
+  /*
+   * Detach BEFORE updateFieldAppearances and BEFORE flatten, which is the only
+   * order that works: updateFieldAppearances regenerates a push button's
+   * appearance from its /MK /CA caption, and flatten then reaches the page
+   * through the widget's own /P rather than through /Annots, so a control still
+   * listed at either moment is stamped anyway.
+   */
+  const controlAppearanceRefs = new Set();
+  let controlsDetached = 0;
+  if (DETACH_SOURCE_FORM_CONTROLS) {
+    for (const field of controls) {
+      for (const widget of field.acroField.getWidgets()) {
+        const ap = widget.dict.get(PDFName.of("AP"));
+        if (ap) controlAppearanceRefs.add(String(ap));
+        const normal = widget.dict.lookup(PDFName.of("AP"))?.get?.(PDFName.of("N"));
+        if (normal) controlAppearanceRefs.add(String(normal));
+      }
+      form.removeField(field);
+      controlsDetached += 1;
+    }
+  }
   form.updateFieldAppearances(font);
   form.flatten();
+  /*
+   * Proof in the builder that the detachment reached the page, rather than a
+   * report that it was attempted: flatten() draws a widget by referencing its
+   * existing appearance stream from the page's own /Resources /XObject. If a
+   * detached control's appearance is still referenced there, its caption is on
+   * the page and this build must not emit.
+   */
+  for (const page of document.getPages()) {
+    const resources = page.node.lookup(PDFName.of("Resources"));
+    const xobjects = resources?.lookup?.(PDFName.of("XObject"));
+    for (const [, value] of xobjects?.entries?.() ?? []) {
+      assert.ok(!controlAppearanceRefs.has(String(value)),
+        `${source.documentId}: a detached viewer control's appearance is still drawn on the page`);
+    }
+  }
+  assert.equal(controlsDetached, DETACH_SOURCE_FORM_CONTROLS ? (EXPECTED_CONTROLS_PER_DOCUMENT[source.documentId] ?? 0) : 0,
+    `${source.documentId}: unexpected number of source viewer controls`);
   document.setTitle(`${source.documentId} - ${fixtureName}`);
   document.setAuthor("LegalEase packet factory");
   document.setCreator("LegalEase deterministic official-form builder");
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, controlsDetached };
 }
 
 async function buildPacket(sources, fixtureName, fixture, config) {
@@ -497,7 +622,10 @@ async function buildPacket(sources, fixtureName, fixture, config) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), sources.reduce((sum, source) => sum + filled.find((item) => item.source.documentId === source.documentId).document.getPageCount(), 0));
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  const controlsDetached = filled.reduce((sum, item) => sum + item.controlsDetached, 0);
+  assert.equal(controlsDetached, DETACH_SOURCE_FORM_CONTROLS ? EXPECTED_CONTROLS_TOTAL : 0,
+    "every source viewer control must be detached before the packet is assembled");
+  return { bytes, pageCount: reopened.getPageCount(), controlsDetached, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 export async function buildIllinoisFamily(familyId) {
@@ -518,7 +646,7 @@ export async function buildIllinoisFamily(familyId) {
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   writeJson(path.join(out, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary: config.routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(out, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(out, "reports", "actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
+  writeJson(path.join(out, "reports", "actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId, countersNote: "Three counters here name a byte reading this builder does not perform. addedGlyphsReadFromOutputBytes published a literal 0 while the packet adds glyphs at every write; flattenedWidgetAppearancesReadFromOutputBytes republished the WRITE count, which is not the number of appearances flatten() draws; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes published a literal 0 that was never measured. FIX147 made them null rather than inventing a measurement. scripts/rcap-official-forms/rcap-output-glyph-reading.mjs reads these from the output bytes and this builder does not call it.", documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: null, flattenedWidgetAppearancesReadFromOutputBytes: null, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: packet.refusals.filter((row) => row.sourceAuthoredInk === true).map((row) => row.fieldId) })) });
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING", packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(out, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
@@ -639,12 +767,23 @@ function selfTest() {
       `the Notice must leave the clerk-supplied hearing field blank: ${hearingField}`);
   }
   assert.equal(writes.filter((row) => String(row.drawnText ?? "").includes("\u2026")).length, 0, "held values must not be ellipsized");
-  // Found by this lane: flatten() carries the source form's own PRINT/SAVE/RESET
+  // Found by FIX06: flatten() carried the source form's own PRINT/SAVE/RESET
   // button captions into the delivered pages, and the map accounted for neither.
-  assert.equal(fieldMap.refusals.filter((row) => row.sourceAuthoredInk === true).length, 17,
-    "every source-authored push-button caption the flattener carries into the page must be declared");
+  // Repaired by FIX147: they are declared AND detached, so no caption prints.
+  assert.equal(fieldMap.refusals.filter((row) => row.controlDetachedBeforeFlatten === true).length, 17,
+    "every source push-button must be declared and detached before the flattener can stamp it");
+  assert.equal(fieldMap.refusals.filter((row) => row.sourceAuthoredInk === true).length, 0,
+    "no push-button caption may survive into the delivered page: FIX147 detaches all seventeen");
   assert.equal(writes.filter((row) => row.sourceAuthoredInk === true).length, 0,
     "a viewer UI control is never a write");
+  // The report used to publish this list as a literal empty array while all
+  // seventeen refused controls carried ink. It is derived now, so it cannot
+  // disagree with the map it sits beside.
+  const actualWrites = JSON.parse(fs.readFileSync(path.join(out, "reports", "actual-writes.json"), "utf8"));
+  for (const artifact of actualWrites.artifacts) {
+    assert.deepEqual(artifact.refusedFieldsWithInk, fieldMap.refusals.filter((row) => row.sourceAuthoredInk === true).map((row) => row.fieldId),
+      "refusedFieldsWithInk must be the map's own answer, not a literal");
+  }
   console.log("il-cannabis-vacate-set self-test passed");
 }
 
