@@ -538,10 +538,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX151",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T12:14:14.447Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -833,9 +833,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX151",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
     },
     {
       "subjectType": "packet-family",
@@ -3986,10 +3988,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF49",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T15:13:26.569Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4651,10 +4653,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX150",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:24.799Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4773,10 +4775,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF49",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "VF02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
     },
     {
       "subjectType": "packet-family",
@@ -4969,9 +4972,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX149",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "FIX06 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
     },
     {
       "subjectType": "packet-family",
@@ -5046,10 +5051,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX149",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T12:53:53.595Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5855,7 +5860,9 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-10T13:32:50.779Z",
+      "releaseReason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
     },
     {
       "subjectType": "packet-family",
@@ -8938,7 +8945,9 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-10T13:32:50.779Z",
+      "releaseReason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them."
     },
     {
       "subjectType": "packet-family",
@@ -14734,7 +14743,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "efb4f2f54d3c171b409af0f96e78d20df4cb56c3e4590705a5fb1267c2aa15f0",
+  "claimsDigest": "25b4ad39e9b9f01909a3ad48edfae49bb6143760a99e6472a94ecacedd58f565",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37717,6 +37726,81 @@
         "committedAt": "9ff94955fd72d58cf27f75e0acfaea2319a75208",
         "rowFiles": 21
       }
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ky_expungement_certification-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T13:32:50.340Z",
+      "reason": "VF02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf02/checkpoints-vf02-20260909d.json",
+        "committedAt": "d8f6ed3d3e2749ab86fa8270cbd324e9c118756f",
+        "rowFiles": 11
+      }
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:32:50.554Z",
+      "reason": "FIX06 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix06/ATTRIBUTION_WITHOUT_READING_SURVEY-fix06-20260910.json",
+        "committedAt": "ecb8d986b8126dec0dc3523958c428c03607210e",
+        "rowFiles": 15
+      }
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:32:50.779Z",
+      "reason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix02/checkpoints-fix02-20260909-pfd.json",
+        "committedAt": "63025cc0d8a8df3437c57d07638becce85377b7a",
+        "rowFiles": 7
+      }
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:32:50.779Z",
+      "reason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix02/checkpoints-fix02-20260909-pfd.json",
+        "committedAt": "63025cc0d8a8df3437c57d07638becce85377b7a",
+        "rowFiles": 7
+      }
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:32:50.779Z",
+      "reason": "FIX02 returned earlier in this session and its work is merged; the dispatch packer has since re-dealt families to its label. No process holds these grants. Closed at its return boundary so the finishing lanes can take them.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix02/checkpoints-fix02-20260909-pfd.json",
+        "committedAt": "63025cc0d8a8df3437c57d07638becce85377b7a",
+        "rowFiles": 7
+      }
     }
   ],
   "reissues": [
@@ -56992,6 +57076,83 @@
       "previouslyReleasedAt": "2026-09-04T06:29:18.238Z",
       "transferredAt": "2026-09-10T13:06:24.321Z",
       "reason": "Captain dispatch: the recorded lane returned and released this grant; handed to FIX148, which must establish whether the delivered app.launchURL actions are source-authored or build-introduced BEFORE repairing anything. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF49",
+      "previouslyReleasedAt": "2026-09-09T15:13:26.569Z",
+      "transferredAt": "2026-09-10T13:32:40.007Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX149",
+      "previouslyReleasedAt": "2026-09-10T12:53:53.595Z",
+      "transferredAt": "2026-09-10T13:32:40.376Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX150",
+      "previouslyReleasedAt": "2026-09-10T11:23:24.799Z",
+      "transferredAt": "2026-09-10T13:32:40.509Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX151",
+      "previouslyReleasedAt": "2026-09-10T12:14:14.447Z",
+      "transferredAt": "2026-09-10T13:32:40.742Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_expungement_certification-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF49",
+      "previouslyReleasedAt": "2026-09-10T13:32:50.340Z",
+      "transferredAt": "2026-09-10T13:32:50.912Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX149",
+      "previouslyReleasedAt": "2026-09-10T13:32:50.554Z",
+      "transferredAt": "2026-09-10T13:32:51.047Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX151",
+      "previouslyReleasedAt": "2026-09-10T13:32:50.779Z",
+      "transferredAt": "2026-09-10T13:32:51.201Z",
+      "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
     }
   ],
   "grants": [
