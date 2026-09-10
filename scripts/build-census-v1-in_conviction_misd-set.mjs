@@ -549,13 +549,18 @@ function sanitize(text) {
 
 /* ---------------------------------------------------------- the bodies */
 
+// Printed verbatim on the face of the proposed order, and quoted verbatim by the
+// filing instructions and the participant instructions, so the guide and the page
+// cannot drift apart on whether the participant signs a judge's order.
+const ORDER_COURT_USE_BANNER =
+  "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.";
+
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-function captionBlock(facts, documentId, componentId, heading) {
+function captionBlock(facts, documentId, heading) {
   return block(
     documentId,
     heading.toUpperCase(),
-    `Assigned component identity: ${componentId}`,
     "",
     "STATE OF INDIANA",
     `County of conviction: ${facts["matter.county"]}`,
@@ -581,7 +586,7 @@ function matterBlock(facts) {
 
 function petitionBody(facts) {
   return [
-    captionBlock(facts, PETITION, COMPONENT.petition, TITLES[COMPONENT.petition]),
+    captionBlock(facts, PETITION, TITLES[COMPONENT.petition]),
     block(
       "VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS",
       `Brought under ${STATUTE}, with the petition's contents fixed by I.C. 35-38-9-8 and the court's decision governed by I.C. 35-38-9-9.`,
@@ -632,7 +637,7 @@ function petitionBody(facts) {
     ),
     block(
       "VERIFICATION AND SIGNATURE",
-      `${PETITION}, assigned component identity ${COMPONENT.petition}`,
+      PETITION,
       "",
       "VERIFICATION",
       "I affirm, under the penalties for perjury, that the foregoing representations are true.",
@@ -662,12 +667,12 @@ function petitionBody(facts) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, ORDER, COMPONENT.order, TITLES[COMPONENT.order]),
+    captionBlock(facts, ORDER, TITLES[COMPONENT.order]),
     block(
       "ORDER ON THE VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS",
       `Tendered under ${STATUTE} and I.C. 35-38-9-9.`,
       "",
-      "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided. The petitioner supplies the caption and the identifiers of the conviction and nothing else.",
+      ORDER_COURT_USE_BANNER,
       ""
     ),
     matterBlock(facts),
@@ -703,24 +708,20 @@ function orderBody(facts) {
 
 const bullet = (text) => `- ${text}`;
 
-function participantInstructions(binding, rbf, retainedSummary, name) {
+function participantInstructions(binding, rbf, retainedSummary, name, orderBlanks) {
   const { registryTrack, memoTrack, packetSet, components, queueFamily } = binding;
   const rules = registryTrack.rules ?? {};
   const actions = registryTrack.packetSet?.participantActionRequired ?? [];
   const stops = memoTrack.selfHelpStopConditions ?? [];
   const limitations = registryTrack.legalDesignLimitations ?? [];
   const gates = limitations.filter((row) => row.classification === "scope_restriction");
-  assert.ok(gates.length > 0, "the committed record no longer carries the scope restrictions this packet prints first");
+  assert.ok(gates.length > 0, "the committed record no longer carries the scope restrictions this packet carries, labelled, further down");
 
   const lines = [
     `# ${registryTrack.legalName}`,
-    "",
-    "## READ THIS FIRST",
     ""
   ];
-  for (const gate of gates) lines.push(bullet(gate.statement));
   lines.push(
-    "",
     `Prepared for **${name}**. Packet set \`${FAMILY_ID}\`, version ${packetSet.version}.`,
     "",
     `This packet set serves ${queueFamily.routeKeys.length} route(s):`,
@@ -783,7 +784,8 @@ function participantInstructions(binding, rbf, retainedSummary, name) {
 
   lines.push("", "## Fields deliberately left blank", "",
     bullet("Sign and date the verification on the petition yourself, after reading it. The petition is verified, and signing it is an affirmation under the penalties for perjury."),
-    bullet("Leave every finding, granted-or-denied election, decretal paragraph, sealing directive, date and judge's signature on the proposed order blank. Those are the court's."),
+    bullet(`Do not sign, date or complete any part of the proposed order. It is delivered unexecuted, and its page prints "${ORDER_COURT_USE_BANNER}" Every line listed below is printed on that order under the label shown here, and every one of them is the court's or the clerk's to complete:`),
+    ...orderBlanks.map((row) => bullet(`"${row.effectiveLabel}" on the proposed order - ${row.why}`)),
     bullet("Leave the XP cause number and the filed-on stamp blank. The clerk supplies both when the petition is filed."),
     "", `## Stop self-help and get legal help (all ${stops.length} stop conditions the record holds)`, "");
   stops.forEach((stop, index) => lines.push(bullet(`Stop ${index + 1} of ${stops.length}: ${stop}`)));
@@ -829,7 +831,8 @@ function filingInstructions(binding, retainedSummary, name) {
     "What you file, in order:",
     ""
   ];
-  for (const componentId of COMPOSED_COMPONENTS) lines.push(bullet(`${TITLES[componentId]} (${componentId}), from this packet, completed and signed.`));
+  lines.push(bullet(`${TITLES[COMPONENT.petition]} (${COMPONENT.petition}), from this packet, completed and signed by you.`));
+  lines.push(bullet(`${TITLES[COMPONENT.order]} (${COMPONENT.order}), from this packet, tendered unsigned and otherwise blank. Its page prints "${ORDER_COURT_USE_BANNER}" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.`));
   for (const retained of retainedSummary) lines.push(bullet(`${retained.documentId} (${retained.componentId}), ${retained.pageCount} page(s), completed by hand.`));
   lines.push(
     "",
@@ -1211,6 +1214,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const maps = [petitionMap(), orderMap()];
   const rbf = requiredBeforeFilingFields(maps);
+  // Every blank the proposed order leaves, carried into the guide under the label the
+  // order itself prints, rather than a paraphrase of it.
+  const orderBlanks = maps.find((map) => map.componentId === COMPONENT.order).canonicalRefusals;
 
   if (checkOnly) {
     return {
@@ -1237,7 +1243,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const guidance = [];
   for (const fixture of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixture];
-    const participantText = participantInstructions(binding, rbf, retainedSummary, facts["participant.full_legal_name"]);
+    const participantText = participantInstructions(binding, rbf, retainedSummary, facts["participant.full_legal_name"], orderBlanks);
     const filingText = filingInstructions(binding, retainedSummary, facts["participant.full_legal_name"]);
 
     const packet = await PDFDocument.create();
@@ -1329,7 +1335,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const canonicalName = FIXTURES.canonical["participant.full_legal_name"];
-  const participantText = participantInstructions(binding, rbf, retainedSummary, canonicalName);
+  const participantText = participantInstructions(binding, rbf, retainedSummary, canonicalName, orderBlanks);
   const filingText = filingInstructions(binding, retainedSummary, canonicalName);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), participantText);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingText);
@@ -1661,7 +1667,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding: `The registry holds ${(binding.registryTrack.legalDesignLimitations ?? []).length} packet instructions and scope restrictions for this track, including the one-petition-per-lifetime rule and the Chastain gate.`,
-        treatment: "Every one is carried verbatim, and the two scope restrictions are printed under a READ THIS FIRST heading at the top of the participant instructions."
+        treatment: "Every one is carried verbatim and labelled with its own classification under 'What the committed record requires this packet to say'. None is repeated unlabelled at the top of the participant instructions: several of these statements are addressed to the builder rather than to the participant, and printing them unlabelled as the first thing the participant reads is the defect class internal-record-text-printed-on-a-filing."
       },
       {
         finding: `The memo holds ${(binding.memoTrack.selfHelpStopConditions ?? []).length} self-help stop conditions and ${(binding.memoTrack.exclusions ?? []).length} exclusions for this track.`,

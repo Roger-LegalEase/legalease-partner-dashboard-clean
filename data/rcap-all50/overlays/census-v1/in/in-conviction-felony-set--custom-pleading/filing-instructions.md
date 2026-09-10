@@ -12,8 +12,8 @@ Prepared for **Jordan Avery Reyes**.
 
 What you file, in order:
 
-- Verified Petition for Expungement of Conviction Records (in_conviction_felony-primary-filing-1), from this packet, completed and signed.
-- Order on the Verified Petition for Expungement of Conviction Records (in_conviction_felony-proposed-order-2), from this packet, completed and signed.
+- Verified Petition for Expungement of Conviction Records (in_conviction_felony-primary-filing-1), from this packet, completed and signed by you.
+- Order on the Verified Petition for Expungement of Conviction Records (in_conviction_felony-proposed-order-2), from this packet, tendered unsigned and otherwise blank. Its page prints "COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided." Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.
 - CCA-XP-0220-7010 (in_conviction_felony-attachment-3), 3 page(s), completed by hand.
 - CCA-GF-0120-3016 (in_conviction_felony-attachment-4), 2 page(s), completed by hand.
 - CCA-XP-0120-7002 Form ACR (in_conviction_felony-attachment-5), 1 page(s), completed by hand.
