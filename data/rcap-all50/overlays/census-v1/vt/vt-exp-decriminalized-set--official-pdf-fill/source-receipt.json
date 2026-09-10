@@ -60,17 +60,18 @@
     {
       "recordId": "legal-design-track-registry:vt_exp_decriminalized:selfHelpStopConditions",
       "path": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-      "byteLength": 16778727,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "role": "the eleven held self-help stopping conditions reproduced in both participant instruction surfaces",
       "conditionCount": 11,
       "identityRefresh": {
-        "refreshedOn": "2026-09-09",
+        "refreshedOn": "2026-09-10",
+        "refreshedBy": "FIX130",
         "was": {
           "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
           "byteLength": 16775681
         },
-        "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+        "why": "The record has been rewritten around this receipt's anchor twice since that pin, and this rebuild re-pinned it to the bytes it actually consumed. Three named entries moved across the whole span -- ri_first_offender_misdemeanor and ri_multiple_misdemeanors, then co_motion_seal_conviction -- and this receipt anchors none of them. The one entry it does bind, vt_exp_decriminalized, was recovered from the 6aafbf81 blob and compared object-for-object against the b62ae691 bytes this build read, and it is identical, its eleven selfHelpStopConditions included.",
         "anchorsCompared": 1,
         "anchorDetail": [
           "vt_exp_decriminalized:selfHelpStopConditions: identical"
@@ -78,9 +79,24 @@
         "anchorsIdentical": 1,
         "entriesThatMovedInThisRecord": [
           "ri_first_offender_misdemeanor",
-          "ri_multiple_misdemeanors"
+          "ri_multiple_misdemeanors",
+          "co_motion_seal_conviction"
         ],
-        "previousPinLastSeenAtCommit": "94445c6a4",
+        "howCompared": "git show bebf87632:data/record-clearing/legal-design-track-registry.json against the file on disk, each parsed and compared as objects rather than as text, with SHA-256 taken over both blobs to confirm which version each was.",
+        "intermediateMove": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727,
+          "comparedOn": "2026-09-09",
+          "anchorDetail": [
+            "vt_exp_decriminalized:selfHelpStopConditions: identical"
+          ],
+          "entriesThatMoved": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "note": "This is the digest the receipt named at HEAD and the endpoint of the 2026-09-09 comparison, kept rather than deleted. It was already stale against this lane's own base commit 7d072beb5, where the registry on disk was b62ae691: the record moved again in FIX03's commit fe7fd55f3 and the receipt was not re-pinned. FIX130 compared the anchor across that second move as well and found it identical. The 2026-09-09 lane recorded that pin as last seen at commit 94445c6a4; that fact is kept here rather than dropped.",
+          "previousPinLastSeenAtCommit": "94445c6a4"
+        },
         "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
       }
     }

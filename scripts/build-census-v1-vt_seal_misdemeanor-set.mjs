@@ -599,8 +599,58 @@ async function censusOf(source) {
   return { rows, unmapped, captionDrift, pageText };
 }
 
+/*
+ * FIX130. The families this host builds whose 600-00228 selection controls keep
+ * the court's own blank-state paint. Opt-in, by family, and deliberately not a
+ * property of the host.
+ *
+ * WHAT WAS MEASURED, on this family's own delivered bytes rather than on a
+ * prediction. Each delivered fixture carries six stroke-only flattened widget
+ * appearances, all on 600-00228, and VF90 recorded that none of them matches a
+ * pinned-source /AP /N stream byte for byte. That label is sound as a byte
+ * comparison and says nothing about CAUSE, so the cause was established here:
+ *
+ *   delivered  /FlatWidget-7888911063   "0.5 0.5 13.4 13.4 re s"
+ *   source     600-00228 field 16 /N/Off
+ *              "1 g / 0 0 14.4 14.4 re / f / 0.5 0.5 13.4 13.4 re / s"
+ *
+ * Six of six are the source's own appearance with its leading opaque background
+ * fill removed, and nothing is left over. The ink is the COURT'S, not ours, so
+ * the remedy is to restore it rather than to delete it -- deleting it is what
+ * erased a rule the form draws elsewhere in this cohort.
+ *
+ * WHY THE MISSING FILL IS A DEFECT AND NOT A TIDY-UP. 600-00228 prints its check
+ * boxes as text, not as art: page 1 draws `/C2_1 1 Tf <0706> Tj` at 11.04pt on
+ * the "Are you employed?" line, a ballot-box glyph, and the widget sits over it.
+ * The white fill is what makes the widget's appearance REPLACE that printed
+ * glyph instead of doubling it. Stripped, the printed box is revealed AND the
+ * appearance's own box is stamped: two frames at every one of the six boxes. A
+ * 600 dpi directional difference against the pinned source measures it at every
+ * one of them -- +1144 dark pixels in a 132x132 crop at field 15, 0 removed --
+ * and the crop shows a second outline standing inside the court's clean box.
+ *
+ * preserveUnwrittenSelectionBackgrounds is the committed, opt-in remedy for
+ * exactly this symptom, taken by FIX01 on co_petition_seal_arrest-set for the
+ * same measured cause. It preserves ONLY source-authored paint, only in an
+ * unwritten check box or radio widget, and only where the source ships the
+ * appearance itself. No mark is added, no box is ticked, /MK /BG is still
+ * removed, and the shared module is not modified.
+ *
+ * WHY THIS IS A SET AND NOT A CONSTANT. This host builds five families and
+ * FIX130 holds four of them. vt_seal_dui-set is granted to FIX04 and is being
+ * worked now, and vt_seal_misdemeanor-set is outside the FIX130 assignment;
+ * their bytes must not move on this lane's rebuild. The defect is the same on
+ * all five -- they file the same 600-00228 -- so whoever repairs those two adds
+ * its id here and nothing else changes.
+ */
+const PRESERVE_SOURCE_SELECTION_PAINT = new Set([
+  "vt_seal_18_to_21-set",
+  "vt_seal_felony-set",
+  "vt_seal_pardon-set"
+]);
+
 /* ---- render one document -------------------------------------------------- */
-async function renderDocument(source, census, fixtureName) {
+async function renderDocument(source, census, fixtureName, familyId) {
   const facts = FIXTURES[fixtureName];
   const writable = census.rows.filter((r) => r.policy === "write");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
@@ -718,7 +768,13 @@ async function renderDocument(source, census, fixtureName) {
      * tolerance are untouched. This is the shared step's defect, not Vermont's;
      * the option is default-off and no other family's bytes move because these
      * five pass it. */
-    fitAppearancesToRect: true
+    fitAppearancesToRect: true,
+    /*
+     * FIX130. See PRESERVE_SOURCE_SELECTION_PAINT above for what was measured
+     * and why. Gated per family so the two families this lane does not hold
+     * rebuild byte-identically.
+     */
+    preserveUnwrittenSelectionBackgrounds: PRESERVE_SOURCE_SELECTION_PAINT.has(familyId)
   });
   if (process.env.VT_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
@@ -781,8 +837,32 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
     });
   }
 
+  /*
+   * FIX130. This number was the literal 0.
+   *
+   * The write proof published `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0`
+   * as a constant, for every fixture of every family this host builds, without
+   * reading a glyph. A published zero where no measurement was made is a defect
+   * class this factory has already recorded, and it is worse than a missing
+   * field: a reader cannot tell it apart from a measured zero. The two sibling
+   * Vermont hosts, vt_exp_decriminalized-set and vt_seal_nonconviction-set,
+   * already measure it the way it is measured here.
+   *
+   * It reads the flattened appearances back out of the produced bytes and counts
+   * the non-whitespace glyphs of every one that does not sit at a rectangle this
+   * document's census measured. It is a measurement of the OUTPUT, not of the
+   * intent, and it is free to come back non-zero.
+   */
+  const measured = census.rows.map((r) => ({ page: r.page, rect: r.rect }));
+  let outside = 0;
+  for (const w of widgets) {
+    const at = measured.some((m) => m.page === w.page
+      && Math.abs(w.x - m.rect.x) <= 2 && Math.abs(w.y - m.rect.y) <= 2);
+    if (!at) outside += String(w.text ?? "").replace(/\s+/g, "").length;
+  }
+
   const appearances = widgets.length;
-  return { actualWrites, appearances, mappedWritesNotInTheBytes };
+  return { actualWrites, appearances, mappedWritesNotInTheBytes, outside };
 }
 
 /* ---- the one exported entry point ---------------------------------------- */
@@ -843,7 +923,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     stampDeterministic(packet);
     const pageManifest = [];
     for (const { source, census } of censuses) {
-      const { bytes, report } = await renderDocument(source, census, fixtureName);
+      const { bytes, report } = await renderDocument(source, census, fixtureName, familyId);
       const proof = await byteProof(source, census, bytes, report, fixtureName);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
@@ -851,7 +931,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
         valuesReportedByFinalizer: report.written.length,
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
         addedGlyphsReadFromOutputBytes: proof.actualWrites.reduce((n, w) => n + w.drawnText.join("").length, 0),
-        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.outside,
         mappedWritesNotInTheBytes: proof.mappedWritesNotInTheBytes,
         actualWrites: proof.actualWrites
       });
