@@ -1621,6 +1621,23 @@ const FAMILIES = {
      * printed box show through beneath the beveled one. See the flag's full
      * reasoning and byte evidence at the finalizer call in renderOfficialForm. */
     preserveSourceAuthoredSelectionPaint: true,
+    /* FIX134b, ROUTE_IDENTITY. Measured on this family's own delivered bytes at
+     * base 65a118c82: the line "Route: obligation:unit:RI:ri_deferred_sentence:
+     * ..." prints on FOUR packet pages, and the decisive one is packet page 5 --
+     * page 1 of the composed proposed order -- where pdftotext -bbox-layout puts
+     * it at yTop 659.0 to 688.0, x 72.0, immediately under the "Composed by
+     * LegalEase" disclaimer and above the rule that opens the court's own block.
+     * Those are this factory's own obligation-census keys. They mean nothing to
+     * a Rhode Island Superior Court justice, and the recorded standard is exact:
+     * filings recite statute and rule text only. The remedy is the one this host
+     * already implements and ri_multiple_misdemeanors-set already uses -- nothing
+     * at all on the filing, and on the three guidance pages the same keys under a
+     * label saying what they are and that no court or clerk needs them.
+     *
+     * No counter and no raster reaches this. The counters read the field map,
+     * and the pinned source exists only for packet pages 1 to 4 while the
+     * trailer sits on a composed page. It was found by reading the page. */
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-2-court-motion-and-affidavit",
@@ -1960,13 +1977,28 @@ async function renderOfficialForm(source, census, facts, familyId) {
      * outline, which is the over-suppression that already cost Colorado a
      * 213.6pt rule the form itself draws.
      *
-     * PER ROUTE AND NOT HOST-WIDE, for the reason the sibling note at
-     * ri_multiple_misdemeanors-set states: the other four families on this host
-     * are live on FIX07, FIX08, FIX99 and FIX120 right now, their receipts bind
-     * their current bytes, and a lane holding two families does not move four
-     * others'. The defect is almost certainly on all five. Every family that
-     * does not set the flag is byte-unaffected, which this lane measured rather
-     * than assumed, and the Captain can widen it once the siblings are free. */
+     * PER ROUTE AND NOT HOST-WIDE. This host defines FIVE families, so a lane
+     * holding two has THREE siblings and not four -- an earlier revision of this
+     * comment said four, and named ri_nonconviction_sealing-set among them. That
+     * family is NOT on this host: scripts/build-census-v1-ri_nonconviction_
+     * sealing-set.mjs imports runEastFamily from the New Jersey host and never
+     * touches this file. Re-derive the sibling list from FAMILIES below, not
+     * from this paragraph. A sibling's committed receipt binds its current
+     * bytes, and a lane does not move bytes another lane's receipt covers.
+     *
+     * WHAT WAS ACTUALLY MEASURED, AND WHAT WAS NOT. An earlier revision claimed
+     * the byte-unaffectedness of every family that does not set the flag was
+     * "measured rather than assumed". That overstated it: the lane REASONED from
+     * the default, and its own return row said the siblings were not rebuilt.
+     * The reasoning is sound -- preserveUnwrittenSelectionBackgrounds defaults to
+     * false at every entry point (this call site, sanitizeAndFlatten, and the
+     * inner walker in rcap-active-content.mjs), so an explicit false is
+     * byte-equivalent to omission -- but reasoning is not measurement and this
+     * comment will not call it one. FIX134b did then rebuild all five families
+     * at unmodified base 65a118c82 and confirmed every one reproduces to its
+     * committed fixture digests, and re-proved the unmoved siblings after each
+     * edit. A comment that overstates its evidence is the same defect class as a
+     * published zero nobody measured. */
     preserveUnwrittenSelectionBackgrounds: FAMILIES[familyId]?.preserveSourceAuthoredSelectionPaint === true,
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${familyId}:${source.formNumber}`)
   });
