@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 147,
-    "rows": 1125,
+    "returnDirectories": 148,
+    "rows": 1126,
     "independentVerdicts": 291,
     "failRepairRequired": 75,
     "passIndependent": 194
@@ -11678,6 +11678,96 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf24",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The controlling record declares a required component this packet does not deliver, and no artifact in the family discloses the gap. KY.memo.json track ky_protective_order_record_expungement carries three components. components[0], role primary_filing, requirement 'required', AOC-275.18 — delivered, one page, correct. components[1], role court_order, requirement 'conditional', conditionDescription 'Reference only. The court enters the order.' — correctly not delivered. components[2], role service_instructions, requirement 'required', outputStrategy process_guidance, whose note reads in full: 'The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.' The packet performs the first half — filing-instructions.md has a Service section that states the rule accurately. It does not perform the second: there is no certificate of service in this family. A case-insensitive search for the string 'certificate' across every file in the family directory returns nothing. The record's manualCompletionItems[1] compounds it by locating a manual step 'whereInPacket: Notice distribution list', a component the packet does not contain under that or any other name. Meanwhile product-wiring.json binding.instrumentKinds and MASTER_QUEUE.json both advertise instrumentKinds ['court_order','primary_filing','service_instructions'] while packetComponents lists only the primary filing and build-status.json records builtDocuments 1. build-findings.json reports blocking [] and findingCount 0 and does not mention the absent certificate at all, so a reader of the build artifacts has no way to learn of it. FIX06 recorded 'No certificate of service was authored' under what it deliberately did not do, which records the repair lane's scope but is not a disclosure inside the packet and does not reach the participant or the reviewer.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "recordComponentsDeclared": 3,
+            "requiredComponentsDeclared": 2,
+            "requiredComponentsDelivered": 1,
+            "missingComponentRole": "service_instructions",
+            "missingComponentRequirement": "required",
+            "recordNoteVerbatim": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+            "searchPerformed": "grep -rin 'certificate' over the whole family directory — zero hits in any file",
+            "advertisedInstrumentKinds": [
+              "court_order",
+              "primary_filing",
+              "service_instructions"
+            ],
+            "deliveredDocuments": 1,
+            "buildFindingsDisclosure": "none; blocking [] and findingCount 0"
+          }
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The respondent-name repair is sound, and that part re-passes: the three respondent widgets carry the participant's decomposed name in both fixtures, at their own rectangles, left to right in first/middle/last order by x-position, and the PETITIONER block carries zero participant ink in both. The failure is elsewhere and is on the delivered boundary page. The boundary fixture writes the 'movant' anchor from participant.full_legal_name with the value 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran', while the same page's caption names the respondent 'Alexandrina-Katharine | Montgomery-Vandenberg-Oyelaran | Fitzwilliam III'. On this form the movant and the respondent are the same person — the form's own sentence is 'The movant, ____, seeks expungement of the records of this case' directly above that caption — and the delivered page names that person two different ways, dropping the surname and generational suffix from the operative sentence. Read at the source: BOUNDARY sets participant.last_name to 'Fitzwilliam III' but sets participant.full_legal_name to a string that omits it, so the composed identity contradicts its own parts. The canonical fixture does not have this problem: 'Jordan Avery Reyes' is exactly first plus middle plus last. This is a source-authored default that reaches the page, and it survives every counter: the map declares the anchor, the finalizer wrote what the map's fact held, the ink lands inside the write box, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0. It has a second consequence recorded under CLIPPING_AND_OVERLAP: because the shortened value fits, the movant field's overflow behaviour was never exercised at the width the fixture's own persona implies.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "boundaryMovantInkReadFromBytes": "Alexandrina-Katharine (x 101.06-209.88) Montgomery-Vandenberg-Oyelaran (x 212.94-385.95), y 546.96-557.13; no third token on that line",
+            "boundaryCaptionInkReadFromBytes": "Alexandrina-Katharine (x 39.30-148.12) | Montgomery-Vandenberg-Oyelaran (x 204.38-338.06) | Fitzwilliam (x 346.25-396.96) III (x 400.02-409.20)",
+            "fixtureSource": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs, the BOUNDARY object: participant.last_name 'Fitzwilliam III' alongside participant.full_legal_name 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran'",
+            "canonicalIsConsistent": "participant.full_legal_name 'Jordan Avery Reyes' equals first 'Jordan' + middle 'Avery' + last 'Reyes'",
+            "disclosedAnywhere": false,
+            "whyNoCounterSeesIt": "The value written matches the fact the map names, the ink is inside the declared write box, and reports/blanks.json lists only 'Case  No' under valuesTooLongForTheWidgetTheFormDraws. Nothing in the artifact set compares full_legal_name against its own name parts.",
+            "petitionerBlockZeroInkConfirmed": {
+              "method": "every added word token in each fixture was diffed against the pinned source and attributed to a source widget rectangle with a 2pt tolerance",
+              "canonical": "8 added non-whitespace tokens, 54 glyph characters; 0 attributable to first pet, middle pet or last pet",
+              "boundary": "7 added non-whitespace tokens, 128 glyph characters; 0 attributable to first pet, middle pet or last pet",
+              "bandCheck": "Reading the PETITIONER band y 630.43-651.94 directly in both delivered files returns only the source's own printed 'PETITIONER' label and a whitespace-only tab run that is present in the source too. No participant ink.",
+              "whyThisMattered": "Writing the participant's own name into a field about the other party is the North Dakota victim-column defect mirrored, and it is catalogued as a-participant-fact-written-into-a-field-about-someone-else. The packet does not do it."
+            }
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "filing-instructions.md tells the participant, under 'The filing fee': 'The committed record says the Clerks' Manual records no filing fee for this motion. It does not record a fee-waiver treatment, and this packet states no fee amount. Ask the clerk.' The first clause is accurate — rules.fees reads 'none identified. The Clerks' Manual records no filing fee for this motion.' The second is false. The record does record a fee-waiver treatment: rules.feeWaiver exists and reads 'not applicable; no fee is identified.' And the builder never opens it. loadControllingRecord() captures fees, service, notarization and participantSignature from the rules node and does not capture feeWaiver, so nothing in the build reaches that field. This is the same defect the family was just repaired for, surviving in the sibling document: a negative claim about what a record does not say, unfalsifiable from inside the packet, asserted by a builder that does not read the node it is describing, and wrong. It is worse than a stale paraphrase because it cannot go stale loudly — no assertion guards it. The wider condition is that filing-instructions.md is built entirely from hardcoded string literals: every one of its 'The committed record says...' sentences is a lines.push() literal, and RECORD.fees, RECORD.service, RECORD.notarization, RECORD.participantSignature and RECORD.clerkDuties are all loaded by the repaired loader and none of them is used to build this document. FIX06 recorded that it left filing-instructions.md alone and that its prose 'is still a paraphrase rather than a read'; on the fee-waiver sentence that paraphrase is not merely unread, it contradicts the record. Recorded alongside, and part of the same literal block: 'The record does not state a service deadline or a filing deadline, so this packet states none.' No deadline node exists under rules, so as to deadlines that is true, but the record does carry a timing rule at waitingPeriods — condition 'Dismissal of the protective-order petition without a full order having issued', duration 'six months from the dismissal' — which is the whole gate of this route and which the builder also never reads.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "packetSentence": "It does not record a fee-waiver treatment, and this packet states no fee amount. Ask the clerk.",
+            "recordNodePath": "tracks[ky_protective_order_record_expungement].rules.feeWaiver",
+            "recordNodeExists": true,
+            "recordNodeValue": "not applicable; no fee is identified.",
+            "builderReadsThatNode": false,
+            "whereTheBuilderReadsRules": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs loadControllingRecord() returns fees, service, notarization and participantSignature; feeWaiver is not among them and the string 'feeWaiver' does not occur in the builder",
+            "howTheSentenceIsProduced": "a literal at lines 809-810 of the builder, pushed into the filing-instructions line buffer",
+            "filingInstructionsIsFullyLiteral": true,
+            "recordFieldsLoadedButUnusedByThatDocument": [
+              "fees",
+              "service",
+              "notarization",
+              "participantSignature",
+              "clerkDuties"
+            ],
+            "secondNegativeClaim": "The record does not state a service deadline or a filing deadline, so this packet states none.",
+            "unreadTimingNode": {
+              "path": "waitingPeriods",
+              "condition": "Dismissal of the protective-order petition without a full order having issued",
+              "duration": "six months from the dismissal"
+            },
+            "noFeeAmountFabricated": true,
+            "noWaiverProcedureFabricated": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set",
       "superseded": false
     },
