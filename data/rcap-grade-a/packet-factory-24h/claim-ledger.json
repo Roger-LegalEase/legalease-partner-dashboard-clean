@@ -9483,7 +9483,7 @@
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF02 third read on the FIX61-repaired bytes at aed273b29: PASS_COMPLETE_INDEPENDENT, fifteen obligations pass, nine counters zero, raster receipt bound; rows.json committed at 0856358d5"
+      "releaseReason": "VF25 returned. Its read of this family predates the caption/locator repair FIX130 applied to five siblings on a different host, and VF25 explicitly listed this family under notThisLanes and never ran the collision query against it. Released so a lane can read the defect FIX05 found and I reproduced."
     },
     {
       "subjectType": "packet-family",
@@ -35456,6 +35456,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T07:47:43.121Z",
       "reason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+    },
+    {
+      "lane": "VF25",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T08:23:09.018Z",
+      "reason": "VF25 returned. Its read of this family predates the caption/locator repair FIX130 applied to five siblings on a different host, and VF25 explicitly listed this family under notThisLanes and never ran the collision query against it. Released so a lane can read the defect FIX05 found and I reproduced."
     }
   ],
   "reissues": [
@@ -44354,6 +44363,16 @@
       "previouslyReleasedAt": "2026-09-10T07:42:08.122Z",
       "reissuedAt": "2026-09-10T08:14:53.252Z",
       "reason": "VF31 is the verification lane the roster names for this family and it is not the repair author -- FIX01 is. VF31's earlier read is the FAIL that sent the family to repair; the repair has landed at 6ed680401 with the delivered bytes unmoved, and it owes an independent read by a lane that did not write it."
+    },
+    {
+      "lane": "VF25",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T08:23:09.018Z",
+      "reissuedAt": "2026-09-10T08:23:09.139Z",
+      "reason": "Re-opened for the read this family owes: it is COMPLETE_PACKET_PROVEN while its delivered participant table hands the participant nine blanks in colliding groups with no locator, the exact condition VF25 itself failed vt_exp_decriminalized-set for."
     }
   ],
   "transfers": [
