@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a886765057d6f930f9522e6e6ce84816f434c94a",
+  "minimumCaptainSha": "60a89fafacaf1e703ccafb5e83ee2170f3264403",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 17,
+    "activeFamiliesExcluded": 18,
     "guidanceOnly": 0,
-    "remaining": 329,
+    "remaining": 328,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 4,
-    "repairRequired": 39,
+    "verifyPending": 5,
+    "repairRequired": 35,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,13 +81,13 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 56,
+    "FAIL_REPAIR_REQUIRED": 53,
     "SOURCE_READY": 33,
+    "VERIFY_PENDING": 5,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
-    "VERIFY_PENDING": 4,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 3,
+    "BUILT_RASTER_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -113,19 +113,20 @@
     "families": [
       "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
+      "ar-felony-seal-set",
       "ca-17b-reduction-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
       "fl-early-juvenile-set",
+      "ia-12347-set",
       "in_arrest_no_charges-set",
+      "in_infraction_nondisclosure-set",
       "in_section1_petition-set",
-      "la-985-1-interim-expungement-set",
       "md_10105_early-set",
       "mi_setaside_trafficking-set",
       "ne-setaside-custodial-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
-      "rcap-hi-custom-pleading",
       "ri_decriminalized-set",
       "vt_exp_decriminalized-set"
     ],
@@ -3638,14 +3639,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
+        "verdict": "PASS",
+        "lane": "vf41",
+        "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -3674,20 +3673,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "THE TEXT BLANKS PASS AND THE SELECTIONS FAIL. First the part that passes, so the failure is not overstated: the field map carries 57 refusals dispositioned REQUIRED_BEFORE_FILING and I found all 57 of their effectiveLabel strings verbatim in participant-instructions.md, and both of the controlling manifest's obtain_document items - supporting evidence of trafficking, and the certified ALEA criminal record - are disclosed as numbered steps 1 and 2 of 'Do these before you file'. WHAT FAILS: the official CR-65 prints, in the delivered bytes, three elections it marks mandatory, and the packet neither makes them nor tells the participant to. (1) Packet page 6, under the printed heading 'I swear or affirm, under the penalty of perjury:', item '(3) (Select one of the following):' offers '[ ] that I have not previously applied for an expungement in this or any other jurisdiction.' and '[ ] that I have previously filed for an expungement.' In all four delivered fixtures BOTH boxes are blank. I confirmed this at appearance level by rendering delivered page 6 at 130 dpi and reading it. (2) Packet page 5 prints 'Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)' over three boxes - certified record of arrest, certified record of disposition, and certified official criminal record from ALEA. All three are blank in all four fixtures, so neither the either-1-or-2 requirement nor the always-required item 3 is elected. NOW THE DISCLOSURE: I grepped both instruction files for 'select one', 'previously applied', 'previously filed', 'pro se', 'granted', 'denied', 'penalty of perjury', 'swear' and 'attach'. The only hit in either file is the closing line of filing-instructions.md, 'Do not sign or date the petition until every required blank and every attachment is complete' - which names no election and no attachment. Neither file names item (3), neither names the attachment boxes, and neither names the 'was [ ] granted [ ] denied' pair or the '[ ] pro se (Not represented by an attorney)' box, all of which are also blank on page 6. THE MECHANISM THAT KEEPS THE COUNTERS GREEN: the field map holds 50 selection-control refusals and 46 of them carry the identical boilerplate reason, 'A genuine participant election not determined by this route. This petition elects one statutory ground only.' That sentence is factually untrue of the page-5 attachment boxes, of the page-6 sworn select-one, of granted/denied and of pro se - none of them is a statutory ground. Worse, all 50 carry an effectiveLabel that is only the raw AcroForm field name ('Participant choice: Check Box2.0 (selection)'), so the record never states what any of these blanks says on the paper, and I confirmed that 0 of the 50 labels appears anywhere in participant-instructions.md. Every one of the 50 is recorded with requiredBeforeFiling false, which drops the mandatory ones out of the required-before-filing set entirely and is why nothing downstream can see them. A participant who follows this guide files a sworn CR-65 whose perjury clause has an unelected item (3) and whose attachment certification is unelected.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
@@ -4560,8 +4550,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX145",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ar-felony-seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4572,7 +4562,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -16831,8 +16822,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX145",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -16843,7 +16834,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ia-7251-set",
@@ -20812,8 +20804,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX145",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -20824,7 +20816,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "in_section1_petition-set",
@@ -23477,9 +23470,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+        "lane": "vf43",
+        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -23513,14 +23506,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "EIGHTEEN instances of internal record and build vocabulary remain on the FILED pages of this packet, identically on both fixtures, and four of them are on canonical page 7 -- the face of the Article 988 Motion for Fee Exemption, the page that goes to a district attorney's office before filing and is appended to the motion at filing. This is the same defect class VF06 failed the sibling family la-985-1 on and that FIX142 cleared to zero there, so the two Louisiana siblings now hold different standards. The instances, by line of the delivered filed-page text: four literal component-identity strings printed in captions and a signature block (lines 4, 113, 139, 177, 230 -- five sites, including 'Assigned component identity: la-976-arrest-no-conviction-fee-waiver-4' at the head of the DA-facing page); four build-provenance recitals of the form 'composed from the committed LA-STATUTORY-FORMS authority' (lines 13, 148, 186, and the Article 988 form's own at 242 in the form of 'as the committed record records it'); and record-voice recitals at lines 31, 70, 81, 88, 94, 99, 122, 206 and 255, including 'This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel', 'this packet writes none of it', and -- on the DA-facing page -- 'The committed manual-completion record fixes this split: LegalEase completes only the participant-owned identifying fields on this form', which puts both the internal record's vocabulary and the vendor's own name on a filed page. A nineteenth of the same class sits on filed page 8, also DA-facing, and the regex above does not catch it: 'The exemption is very often available on this track and must be screened before filing rather than after' -- 'on this track' is the build's routing vocabulary. FIX09 is not at fault for these: its grant was FEE_AND_WAIVER and it removed the one paragraph that was a fee-and-waiver defect. But the delivered bytes carry them, and this obligation is about the delivered bytes.",
+          "findingReadFrom": "finding",
+          "evidence": "pdftotext -layout -f 1 -l 8 over both fixtures with an eleven-pattern scan: 18 hits on each, versus 19 on the pre-repair canonical recovered from 7b7d0a3a3^. Line numbers are into that extraction."
         }
       ],
       "continuationResult": null,
@@ -24124,14 +24117,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json"
+        "verdict": "PASS",
+        "lane": "vf43",
+        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24160,22 +24151,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX142",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24186,8 +24168,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "la-985-expungement-by-redaction-set",
@@ -24633,9 +24614,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json"
+        "lane": "vf41",
+        "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -24674,9 +24655,9 @@
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Two committed controlling records make obtaining a CORI a required-before-filing act and the delivered guide never discloses it. (1) data/record-clearing/legal-design-packet-set-manifests.json, packetSet ma-expunge-k-set, participantActionRequired[0]: kind obtain_document, requirement required, requiredBeforeFiling true, obtainedFrom 'Massachusetts Department of Criminal Justice Information Services', description 'Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS.' The same string is the first entry of that packetSet's requiredBeforeFiling array. (2) data/record-clearing/legal-design-track-registry.json, track ma-expunge-k, packetSet.participantActionRequired[0] carries the identical item. participantActionRequired[1] is the paired confirm_answer item, 'Check your answer to \"What is the docket number?\" against Your own CORI ... and correct the packet if they disagree', also requiredBeforeFiling true. WHAT THE DELIVERED GUIDE ACTUALLY SAYS: I read participant-instructions.md end to end and grepped it. It contains three references to a CORI and all three are as an OPTIONAL ALTERNATIVE SOURCE to copy from, never as a document to obtain — line 64 'Write in the docket number and the charges from your own court papers or your CORI', line 85 'copied from your own court papers or from your CORI', line 87 'listed from your own court papers or CORI'. There is no step directing the participant to obtain it, no 'documents you must obtain first' section anywhere in the guide, and the only occurrence of 'Department of Criminal Justice Information' (line 7) is inside a quotation from the court's instruction sheet about which agencies must DESTROY records on expungement — the opposite role. DCJIS is never named. A participant who follows the guide's own numbered eight-step list and holds their court papers never obtains a CORI at all, and never performs the confirm_answer cross-check, because neither is stated. THE FAMILY'S OWN CLAIM AND WHY IT READS CLEAN: reports/blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true with disclosedIn participant-instructions.md, but its requiredBeforeFiling array holds 16 entries and every one of them is a FORM BLANK on the petition face; the controlling records' seven participant-action strings are outside its scope, so the assertion is true of a narrower set than its name claims. This is the same defect shape and the same standard on which this lane failed co_petition_seal_arrest-set on 20260909b, where the record's obtain_document item (the CBI criminal-history report) was likewise absent from the guide while the guide mentioned the agency in a different role.",
-          "findingReadFrom": "detail",
-          "evidence": null
+          "finding": "THE FLAG THAT CERTIFIES THIS REPAIR MISSTATES ITS OWN SCOPE. The committed packet-set manifest marks SEVEN entries requiredBeforeFiling for ma-expunge-k-set. The repair discloses two of them verbatim and excludes five. reports/blanks-left-for-the-participant.json sets everyRequiredBeforeFilingItemIsDisclosed true and explains the exclusion in whatThatFlagCovers as: it does not cover the manifest sign, pay_fee or apply_fee_waiver entries, whose recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and \"None identified.\". That sentence names three excluded entries. There are five. The two it does not name are complete_field entries whose descriptions are NOT empty: \"Petitioner signature — Petition signature block.\" and \"The Specifically narrative — Petition narrative section.\" They are excluded by PARTICIPANT_ACT_KINDS = [\"obtain_document\",\"confirm_answer\"] at builder line 1470, silently. A reader of that report concludes every substantive manifest requirement reaches the guide verbatim; two do not. VF41 checked whether the participant is nonetheless told to do both, and they are — step 8 directs signing and dating and step 6 directs the Specifically narrative, from the form-blank list — so there is NO participant-facing gap here. What fails is the attestation: a committed report that certifies its own completeness and gets its own exclusion list wrong is the misleading-signature-block class, and FIX02 own commit message repeats the same undercount. The repair is: correct the sentence to name all five, or bring the two complete_field acts into the disclosed set, and decide which deliberately rather than by a kinds filter nobody reading the report can see.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json + scripts/build-census-v1-ma-expunge-k-set.mjs:1470"
         }
       ],
       "continuationResult": null,
@@ -35128,9 +35109,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf43",
+        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "sources do not bind"
@@ -35164,14 +35145,14 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "64 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 7. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A delivered page names a court that is not the participant's, and it does so under the participant's own name on a sworn instrument. Delivered page 15 (NM-4-222, Application for Free Process and Affidavit of Indigency) and delivered page 20 (the Order on Application for Free Process bound with it) both print, as page content, 'STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT'. On page 20 the petitioner's name is written directly beneath it -- 'Elena Marisol Trujillo' on canonical, 'Maria-Alejandra O'Shaughnessy-Whitfield' on boundary, both confirmed as ink (4580 pixels at gray<200 in the declared rect). Elena's matter is Bernalillo County, the SECOND judicial district; Maria-Alejandra's is Sierra County, the SEVENTH. The Sixth is Grant, Hidalgo and Luna. This is VF01's finding and it survives FIX95's rebuild: what FIX95 fixed is the build's own aggravation of it -- the county blank above the line is now correctly left EMPTY on both fixtures, where VF01 found 'Bernalillo' and 'Sierra' written there -- but the wrong district's name is still on the delivered page. Scored under this obligation because that is how this factory uses it: a defect visible on a delivered page fails it even when the counters are green, which is the sentence VF01 scored it under, and this lane follows that precedent rather than inventing a new obligation for it.",
           "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": "pdftotext -layout page by page over both fixtures for the caption; the source is confirmed as the origin, not the build -- the master-library binary NM__SUPPORT__NM-4-222__...pdf, rehashed here to 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, itself prints 'SIXTH JUDICIAL DISTRICT COURT' at both sites."
         }
       ],
       "continuationResult": null,
@@ -37841,14 +37822,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+        "verdict": "PASS",
+        "lane": "vf43",
+        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37877,22 +37856,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX142",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -37903,8 +37873,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "rcap-in-custom-pleading",

@@ -34,17 +34,16 @@
     }
   ],
   "counts": {
-    "returnDirectories": 171,
-    "rows": 1190,
+    "returnDirectories": 172,
+    "rows": 1194,
     "independentVerdicts": 292,
-    "failRepairRequired": 61,
-    "passIndependent": 209
+    "failRepairRequired": 58,
+    "passIndependent": 212
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
-    "al-trafficking-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
@@ -68,7 +67,6 @@
     "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
     "la-977d-marijuana-first-offense-set",
-    "la-985-1-interim-expungement-set",
     "ma-expunge-k-set",
     "ma-seal-court-set",
     "md_10105_early-set",
@@ -86,7 +84,6 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "rcap-hi-custom-pleading",
     "rcap-in-custom-pleading",
     "ri_decriminalized-set",
     "ri_nonconviction_sealing-set",
@@ -131,9 +128,7 @@
       "vf09/ny_160_59_petition-set",
       "vf12/oh_marijuana_expungement-set",
       "vf12/pa_pardon_expungement-set",
-      "vf40/la-976-arrest-no-conviction-set",
-      "vf41/al-trafficking-set",
-      "vf41/ma-expunge-k-set"
+      "vf40/la-976-arrest-no-conviction-set"
     ]
   },
   "unactionableFailures": {
@@ -1771,14 +1766,14 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-trafficking-set",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdict": "PASS",
       "lane": "vf41",
       "isIndependentVerification": true,
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
       "failedObligations": [],
       "failedObligationNames": [],
       "unmeasuredObligations": [],
@@ -12662,7 +12657,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "la-976-arrest-no-conviction-set",
@@ -12674,6 +12669,36 @@
       "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf43",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "EIGHTEEN instances of internal record and build vocabulary remain on the FILED pages of this packet, identically on both fixtures, and four of them are on canonical page 7 -- the face of the Article 988 Motion for Fee Exemption, the page that goes to a district attorney's office before filing and is appended to the motion at filing. This is the same defect class VF06 failed the sibling family la-985-1 on and that FIX142 cleared to zero there, so the two Louisiana siblings now hold different standards. The instances, by line of the delivered filed-page text: four literal component-identity strings printed in captions and a signature block (lines 4, 113, 139, 177, 230 -- five sites, including 'Assigned component identity: la-976-arrest-no-conviction-fee-waiver-4' at the head of the DA-facing page); four build-provenance recitals of the form 'composed from the committed LA-STATUTORY-FORMS authority' (lines 13, 148, 186, and the Article 988 form's own at 242 in the form of 'as the committed record records it'); and record-voice recitals at lines 31, 70, 81, 88, 94, 99, 122, 206 and 255, including 'This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel', 'this packet writes none of it', and -- on the DA-facing page -- 'The committed manual-completion record fixes this split: LegalEase completes only the participant-owned identifying fields on this form', which puts both the internal record's vocabulary and the vendor's own name on a filed page. A nineteenth of the same class sits on filed page 8, also DA-facing, and the regex above does not catch it: 'The exemption is very often available on this track and must be screened before filing rather than after' -- 'on this track' is the build's routing vocabulary. FIX09 is not at fault for these: its grant was FEE_AND_WAIVER and it removed the one paragraph that was a fee-and-waiver defect. But the delivered bytes carry them, and this obligation is about the delivered bytes.",
+          "findingReadFrom": "finding",
+          "evidence": "pdftotext -layout -f 1 -l 8 over both fixtures with an eleven-pattern scan: 18 hits on each, versus 19 on the pre-repair canonical recovered from 7b7d0a3a3^. Line numbers are into that extraction."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "FILING_DESTINATION",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
       "superseded": false
@@ -12756,6 +12781,24 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "verdict": "PASS",
+      "lane": "vf43",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
       "superseded": false
     },
@@ -13152,16 +13195,25 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-expunge-k-set",
-      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf41",
       "isIndependentVerification": true,
-      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
-      "failedObligations": [],
-      "failedObligationNames": [],
+      "verifiedAtBase": "d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "THE FLAG THAT CERTIFIES THIS REPAIR MISSTATES ITS OWN SCOPE. The committed packet-set manifest marks SEVEN entries requiredBeforeFiling for ma-expunge-k-set. The repair discloses two of them verbatim and excludes five. reports/blanks-left-for-the-participant.json sets everyRequiredBeforeFilingItemIsDisclosed true and explains the exclusion in whatThatFlagCovers as: it does not cover the manifest sign, pay_fee or apply_fee_waiver entries, whose recorded descriptions for this packet set are \"Required.\", \"None identified in the review.\" and \"None identified.\". That sentence names three excluded entries. There are five. The two it does not name are complete_field entries whose descriptions are NOT empty: \"Petitioner signature — Petition signature block.\" and \"The Specifically narrative — Petition narrative section.\" They are excluded by PARTICIPANT_ACT_KINDS = [\"obtain_document\",\"confirm_answer\"] at builder line 1470, silently. A reader of that report concludes every substantive manifest requirement reaches the guide verbatim; two do not. VF41 checked whether the participant is nonetheless told to do both, and they are — step 8 directs signing and dating and step 6 directs the Specifically narrative, from the form-blank list — so there is NO participant-facing gap here. What fails is the attestation: a committed report that certifies its own completeness and gets its own exclusion list wrong is the misleading-signature-block class, and FIX02 own commit message repeats the same undercount. The repair is: correct the sentence to name all five, or bring the two complete_field acts into the disclosed set, and decide which deliberately rather than by a kinds filter nobody reading the report can see.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json + scripts/build-census-v1-ma-expunge-k-set.mjs:1470"
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
@@ -19089,6 +19141,38 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nm_release_without_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf43",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A delivered page names a court that is not the participant's, and it does so under the participant's own name on a sworn instrument. Delivered page 15 (NM-4-222, Application for Free Process and Affidavit of Indigency) and delivered page 20 (the Order on Application for Free Process bound with it) both print, as page content, 'STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT'. On page 20 the petitioner's name is written directly beneath it -- 'Elena Marisol Trujillo' on canonical, 'Maria-Alejandra O'Shaughnessy-Whitfield' on boundary, both confirmed as ink (4580 pixels at gray<200 in the declared rect). Elena's matter is Bernalillo County, the SECOND judicial district; Maria-Alejandra's is Sierra County, the SEVENTH. The Sixth is Grant, Hidalgo and Luna. This is VF01's finding and it survives FIX95's rebuild: what FIX95 fixed is the build's own aggravation of it -- the county blank above the line is now correctly left EMPTY on both fixtures, where VF01 found 'Bernalillo' and 'Sierra' written there -- but the wrong district's name is still on the delivered page. Scored under this obligation because that is how this factory uses it: a defect visible on a delivered page fails it even when the counters are green, which is the sentence VF01 scored it under, and this lane follows that precedent rather than inventing a new obligation for it.",
+          "findingReadFrom": "finding",
+          "evidence": "pdftotext -layout page by page over both fixtures for the caption; the source is confirmed as the origin, not the build -- the master-library binary NM__SUPPORT__NM-4-222__...pdf, rehashed here to 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, itself prints 'SIXTH JUDICIAL DISTRICT COURT' at both sites."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
       "superseded": false
     },
     {
@@ -21722,6 +21806,25 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "verdict": "PASS",
+      "lane": "vf43",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
       "superseded": false
     },

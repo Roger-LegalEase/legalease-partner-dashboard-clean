@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a886765057d6f930f9522e6e6ce84816f434c94a",
+  "generatedAtCommit": "60a89fafacaf1e703ccafb5e83ee2170f3264403",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -538,11 +538,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIXCG1",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:14:14.447Z",
-      "releaseReason": "Removed from the FIXCG1 assignment before dispatch: its builder is not the shared Alabama host and its live row fails CLIPPING_AND_OVERLAP, REQUIRED_BEFORE_FILING and ARTIFACTS, which is a different cause. A lane should not hold a family it is not working."
+      "releasedAt": "2026-09-10T12:14:14.447Z"
     },
     {
       "subjectType": "packet-family",
@@ -717,6 +716,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "al-misd-nonconviction-90-set",
+      "itemId": null,
+      "familyId": "al-misd-nonconviction-90-set",
+      "familyIds": [
+        "al-misd-nonconviction-90-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIXCG1",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "al-pardon-set",
       "familyId": "al-pardon-set",
       "itemId": null,
@@ -780,18 +794,16 @@
     {
       "subjectType": "packet-family",
       "subjectId": "al-trafficking-set",
-      "itemId": null,
       "familyId": "al-trafficking-set",
+      "itemId": null,
       "familyIds": [
         "al-trafficking-set"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF41",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T12:08:18.954Z",
-      "releaseReason": "VF41 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf41/rows.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -1820,7 +1832,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T11:23:22.339Z"
@@ -4910,8 +4922,9 @@
       "operation": "independent-verification",
       "lane": "VF43",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "releaseReason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
     },
     {
       "subjectType": "packet-family",
@@ -4970,11 +4983,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:08:39.513Z",
-      "releaseReason": "FIX07 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T12:08:39.513Z"
     },
     {
       "subjectType": "packet-family",
@@ -5003,8 +5015,9 @@
       "operation": "independent-verification",
       "lane": "VF43",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "releaseReason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
     },
     {
       "subjectType": "packet-family",
@@ -5174,11 +5187,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:08:39.314Z",
-      "releaseReason": "FIX06 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T12:08:39.314Z"
     },
     {
       "subjectType": "packet-family",
@@ -5422,7 +5434,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T11:23:26.850Z"
@@ -5652,11 +5664,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:08:38.952Z",
-      "releaseReason": "FIX01 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T12:08:38.952Z"
     },
     {
       "subjectType": "packet-family",
@@ -5912,7 +5923,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:00:16.266Z"
@@ -6979,7 +6990,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.407Z"
@@ -7090,9 +7101,9 @@
       "operation": "independent-verification",
       "lane": "VF43",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Completed independent return and canonical result-schema repair integrated d06b308c7/c7c572c1e/3ae8c699d; worker now assigned separate PA/VA repairs."
+      "released": true,
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "releaseReason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
     },
     {
       "subjectType": "packet-family",
@@ -7334,7 +7345,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.546Z"
@@ -7549,7 +7560,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -7611,9 +7622,9 @@
       "operation": "independent-verification",
       "lane": "VF43",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "released": true,
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "releaseReason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary."
     },
     {
       "subjectType": "packet-family",
@@ -8448,7 +8459,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.349Z"
@@ -8539,7 +8550,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8600,7 +8611,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -8647,11 +8658,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:08:39.314Z",
-      "releaseReason": "FIX06 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T12:08:39.314Z"
     },
     {
       "subjectType": "packet-family",
@@ -8709,7 +8719,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -8755,7 +8765,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -8801,7 +8811,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -8896,8 +8906,7 @@
       "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T12:08:39.112Z",
-      "releaseReason": "FIX03 returned earlier in this session and its work is merged into the captain branch; no process holds these grants. Closed at its return boundary so the families can be dispatched. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T12:08:39.112Z"
     },
     {
       "subjectType": "packet-family",
@@ -14644,24 +14653,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "al-misd-nonconviction-90-set",
-      "itemId": null,
-      "familyId": "al-misd-nonconviction-90-set",
-      "familyIds": [
-        "al-misd-nonconviction-90-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIXCG1",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "35cdef2c318595f142b335a9d8622b26bde54d1ad43b49d1cb2207d871ba7730",
+  "claimsDigest": "ab9bd47dfa56ed535f20fe326054c7824c1ab276fb5e656a6af7fbb8265b5a06",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37182,6 +37176,66 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T12:14:14.447Z",
       "reason": "Removed from the FIXCG1 assignment before dispatch: its builder is not the shared Alabama host and its live row fails CLIPPING_AND_OVERLAP, REQUIRED_BEFORE_FILING and ARTIFACTS, which is a different cause. A lane should not hold a family it is not working."
+    },
+    {
+      "lane": "VF43",
+      "subjectType": "packet-family",
+      "subjectId": "la-976-arrest-no-conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "reason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+        "committedAt": "b001e75f37cfd3faeb32abebe8a0a638f9094132",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "VF43",
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "reason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+        "committedAt": "b001e75f37cfd3faeb32abebe8a0a638f9094132",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "VF43",
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "reason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+        "committedAt": "b001e75f37cfd3faeb32abebe8a0a638f9094132",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "VF43",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T12:22:33.975Z",
+      "reason": "VF43 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json, four verdicts recorded (two PASS, two FAIL_REPAIR_REQUIRED). Closed at its return boundary.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
+        "committedAt": "b001e75f37cfd3faeb32abebe8a0a638f9094132",
+        "rowFiles": 1
+      }
     }
   ],
   "reissues": [
@@ -46439,6 +46493,16 @@
       "dispatchNames": "VF01",
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-10T12:01:11Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-trafficking-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-10T12:24:01Z",
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
