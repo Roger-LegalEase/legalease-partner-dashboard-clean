@@ -172,6 +172,151 @@
         "theFOURTHPACKETINSTRUCTIONISHONOURED": "'Do not add a proposed order to any Iowa Rule 2.86 packet.' No proposed order is delivered -- the packet is 2 pages, both of them the court's own form -- and filing-instructions.md states it: 'nothing here asks the court to sign an order drafted by this packet.'"
       },
       "whatThisRowGrantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. ia-12347-set returns FAIL_REPAIR_REQUIRED on three obligations and may not reach approved_for_live until they are repaired by a lane that did not verify them."
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "itemId": "in_infraction_nondisclosure-set",
+      "jurisdiction": "IN",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "theRECORDEDFAILURESTANDS_BUTNOTFORTHEREASONRECORDED": "VF08's SOURCE_IDENTITY FAIL at 9e7582a9d named the drift from 563147bf/6076f734, and FIX145 answered that one at 662de750d. FIX156 re-measured it and was right: at ITS base the pin bound exact. It does not bind at THIS base. FIX157 moved the shared record again at b3f6fbc7a, and the re-anchor at 8f5ec7184 covered nine families of which this is not one and no Indiana family is. So the obligation fails again, on the third drift of the same record, and this lane is scoring the current failure rather than re-scoring VF08's.",
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/canonical.pdf": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+        "fixtures/canonical.pdf byteLength": 13299,
+        "fixtures/boundary.pdf": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+        "fixtures/boundary.pdf byteLength": 13363,
+        "pageCountBothFixtures": 4,
+        "bothUnmovedFromVF08ANDFIX156": true
+      },
+      "groundingRecordsRecomputedByThisLane": [
+        {
+          "path": "data/record-clearing/legal-design-intake/IN.memo.json",
+          "declared": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+          "recomputed": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+          "byteLength": 176778,
+          "bindsExact": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "declared": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+          "declaredByteLength": 3694688,
+          "recomputed": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "recomputedByteLength": 3708050,
+          "bindsExact": false
+        },
+        {
+          "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+          "declared": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+          "recomputed": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+          "byteLength": 8069,
+          "bindsExact": true
+        }
+      ],
+      "rasterState": "OWES A FRESH CENTRAL RASTER. Neither delivered digest appears in ANY file under data/rcap-grade-a/packet-factory-24h/raster-runs/, admitted or otherwise, and there is no admitted/ directory for this family. This lane grepped both digests and the family id across the whole of raster-runs/ rather than reading the claim off a report. THIS FAMILY CANNOT BE TERMINAL ON THIS LANE'S READ, and this lane claims no raster for it. FIX156's freshRasterOwed:false is correct only in its own narrow sense -- no byte moved in FIX156, so FIX156 created no new raster debt -- but the family has never had a raster at all.",
+      "areTheseTheBytesTheCentralRasterCarries": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "FAIL"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS"
+        },
+        "ARTIFACTS": {
+          "result": "PASS"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS"
+        },
+        "SERVICE": {
+          "result": "PASS"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS"
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "FAIL, on where the route keys are printed rather than on what they are. THE IDENTITY ITSELF IS CLEAN: two route keys, obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1 and -stage-2, identical in product-wiring.json, source-receipt.json and production-field-map.json, agreeing with the registry track in_infraction_nondisclosure (compositionMode sequential, two units in that order) and with the shared manifest's two components. THE DEFECT: both internal route keys are PRINTED IN THE DELIVERED PDF, on page 2 and again on page 4 of both fixtures, and once more as the last line of participant-instructions.md. This lane read page 4 to establish what it is, which is the thing the Captain's own record says was not established for this family: page 4 is the last page of the verified petition. It carries paragraph 6 NO FEE, paragraph 7 SERVICE ON THE PROSECUTING ATTORNEY, the WHEREFORE clause, 'VERIFICATION. I affirm under the penalties for perjury that the foregoing representations are true.', SIGNATURE OF PETITIONER, DATE, PRINTED NAME, and the 'FOR THE COURT ONLY' judge block. That is unambiguously a page the participant signs under penalty of perjury and hands to a clerk, and 'Routes: obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1 ; obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2' is printed on it. THIS IS NOT A NEW DISCOVERY AND THIS LANE DOES NOT CLAIM IT AS ONE: data/rcap-grade-a/packet-factory-24h/PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS.json, generated at e6511c2cd which is an ancestor of this base, already lists this exact directory with pagesCarryingARouteKey [2,4] and onLastPage true, and already says the defect is dispatched deliberately. What this lane adds is the determination that record expressly leaves open -- 'Which of the 123 print it on a page that is FILED, as against a cover, guidance or checklist page bound into the same PDF' -- and for this family the answer is that it is the filed page. Recording it as a PASS on this family would put a verifier's signature under an internal identifier printed on a sworn pleading. WHAT WOULD SATISFY IT: the route keys come off the delivered PDF pages. That moves bytes and therefore costs a fresh central raster, which this family owes in any case because it has never had one.",
+        "SOURCE_IDENTITY": "FAIL, on two independent grounds, and the second is the one no counter can see. GROUND ONE, THE STALE PIN. The receipt's groundingRecords declare data/record-clearing/legal-design-packet-set-manifests.json at 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688 bytes. This lane recomputed it: b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3,708,050 bytes. It does not bind. The other two grounding records DO bind exact -- IN.memo.json eea7b693... / 176,778 and the stage-2 dependency.json d511a5e3... / 8,069 -- both recomputed here. THE REFRESH QUESTION, ASKED HONESTLY AND ANSWERED: this lane recovered the blob carrying the declared pin (git show 1784eec3d:..., which hashes to exactly 80b5e071...) and compared it to the working tree entry by entry over a key-sorted canonical serialisation. 497 entries in both; none added, none removed; no top-level field changed (schemaVersion and factoryV2RouteMigrations both identical); and EXACTLY TWO entries moved -- co_motion_seal_conviction-set and co_motion_seal_nonconviction-set, FIX157's two Colorado families. This family's own entry hashes 2c6b198999afbdbb01061fdcf9a70e04ef1b25477023aa1a5ed001bee8fba785 on BOTH sides. All three of the builder's declared manifest anchors are still present in it verbatim, and so are all eleven memo anchors and all five dependency anchors -- nineteen of nineteen, checked here. SO THE BOUND CONTENT DID NOT MOVE AND A REFRESH WOULD BE HONEST. It has not been made: commit 8f5ec7184 re-anchored nine families and this is not one of them, and no Indiana family is. The pin is stale and the receipt still publishes allSourcesExact true, so nothing in the family's own artifacts says so. GROUND TWO, A NONEXISTENCE CLAIM THE RECEIPT REFUSES. source-receipt.json records officialFormExistenceStatus 'NOT_CONFIRMED_CURRENT' and lists, under whatThisReceiptDoesNotEstablish, 'whether a current statewide form exists for the stage-2 petition; official forms index live confirmation remains outstanding after the recorded refused fetch'. The delivered PDF honours that on both pages that raise it -- 'No applicable statewide form is held in this packet's governed source corpus; live confirmation at the official forms index remains outstanding after a refused fetch... not a claim that no form exists.' But participant-instructions.md, in its closing paragraph, says: 'It is not an official Indiana form - none exists for this petition - it is not legal advice...' That is the nonexistence claim, made flatly, in the same delivered file that four paragraphs earlier says 'this packet does not claim that no form exists.' The document contradicts itself and lands on the side its own receipt refuses. WHAT WOULD SATISFY IT: (a) re-anchor the manifest pin through the mechanism the contract requires, recording anchorsCompared and anchorsIdentical and the entry comparison above -- scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs is that mechanism; and (b) the closing paragraph says what the rest of the packet says, that no applicable form is held in the governed corpus and existence is unconfirmed.",
+        "COMPONENT_SET": "PASS. The shared manifest declares two components -- in_infraction_nondisclosure-process-guidance-1 (role process_guidance, required, order 1) and in_infraction_nondisclosure-primary-filing-2 (role primary_filing, conditional, order 2). Both are delivered, in that order, in both fixtures: pages 1-2 are the stage-1 check and pages 3-4 the verified petition, established by reading the pages. No third component was added and none declared is absent. requiredComponentsMissing 0. OBSERVED WITHIN THE PASS, NOT SCORED AGAINST IT: the stage-2 component's declared condition is 'once the form and MC case-type gates close', and by the family's own registry record neither gate has closed -- units[1].available is still false with unavailableReason 'No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed', and scopeRestrictions still reads 'Stage 2 stays unavailable until the form and MC case-type questions close.' The component is nonetheless built, under owner correction Q7 of 2026-09-02 in data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json, which this lane read in full: 'THE REQUIRED COMPONENT MUST BE BUILT. The reduced packet is not approved while a component the family's own record declares required is absent. The alternative is a new legal-design decision expressly removing or changing that requirement.' That decision is the authority for building it and this lane does not second-guess an owner determination. The build then discloses both open gates on the delivered page rather than closing them by assertion, and leaves the MC caption line blank rather than guessing -- which is the right handling. What is worth the Captain's attention is only that the registry has not been reconciled to the owner's decision, so the record still says unavailable while the packet ships.",
+        "KNOWN_PREFILLS": "PASS, measured from the delivered bytes. Exactly two writes are declared, both the same fact: participant.full_legal_name into each component. Both were read back out of the extracted text of both fixtures by this lane. Nothing else is written: the canonical-to-boundary raster differential at 300 dpi differs on pages 1, 3 and 4 and is BYTE-IDENTICAL on page 2 (0 added, 0 lost px), and every differing region is where the name prints -- p1 rows 448-490 ('Prepared for:'), p3 rows 689-1396 (the IN RE caption, the opening petition sentence and paragraph 1 IDENTITY, which reflow because the boundary name is longer), p4 rows 1475-1517 ('PRINTED NAME:'). The reflow loses nothing: canonical/boundary word counts are 372/371 on p1, 285/285 on p2, 384/381 on p3 and 376/375 on p4, and each delta is exactly the word-count difference of the name ('Jordan Avery Reyes', 3 words, against 'Maria-Alejandra O'Shaughnessy-Whitfield', 2) multiplied by the number of times it prints on that page. invisibleWrites 0, measured at the operator level and not inferred: this lane inflated every page content stream of both fixtures and found ZERO text-rendering-mode operators of any kind, zero white fill operators and zero non-black fill operators across all eight pages, so no show-text operator paints anything a reader cannot see.",
+        "REQUIRED_BEFORE_FILING": "PASS. Two lists were checked and both are satisfied. (1) The field map and the blank ledger declare 13 required-before-filing blanks -- 5 on the stage-1 worksheet and 8 on the petition -- and all 13 appear in participant-instructions.md, each in a two-column table giving the printed blank and what to write, with the reason where there is one. This lane counted the dotted blanks on the delivered pages independently and found exactly 13 participant blanks plus 4 protected ones, 17 in all, which is the ledger's own total. (2) The shared manifest's own requiredBeforeFiling list has four entries and each reaches the participant in substance: the clerk-answer check ('Write down the answer', and again 'if it was, do not file this petition'), the verification and signature ('sign the verification yourself, on the day you file... affirmed under the penalties for perjury, so it is signed when it is true and not before'), the petition being verified and signed by the petitioner (same sentence), and the fee position ('There is no fee'). OBSERVED, NOT SCORED: the family's two own reports split the same 17 blanks differently -- reports/completeness-counters.json publishes REQUIRED_BEFORE_FILING 10 / PROTECTED_FIELD 6 / NOT_APPLICABLE_ON_THIS_ROUTE 1, while reports/blanks-left-for-the-participant.json publishes 13 required and 4 protected. Both total 17 and the delivered pages carry 17. The disagreement is in the classification, not in the pages, so it fails nothing here; it does mean the counter report and the ledger cannot both be describing the same taxonomy.",
+        "ROUTE_OPTIONS": "PASS, and the obligation genuinely arises here rather than being waved through. The field map's routeSelectionsMade is 0 and this lane confirmed it against the delivered pages: the packet makes NO election on the participant's behalf anywhere. The route has a real branch -- the automatic non-disclosure situations against the deferral and satisfied-judgment branch -- and the record's rule for it ('The automatic branch does not apply where prosecution was deferred. Those participants use the five-year deferral branch instead.') is carried in substance on the delivered guidance page ('ONE EXCLUSION BEFORE ANYTHING ELSE. The automatic rule does not apply where prosecution was DEFERRED') and in participant-instructions.md. Which branch applies is left as a worksheet blank answered from the participant's own papers, which is right, because only their papers hold it. The petition's paragraph 5 likewise states the answer must be supplied rather than asserting it. Nothing sworn is pre-elected on either document.",
+        "REPEATING_ROWS": "PASS. The obligation does not arise and that is a measurement. Both composed documents were read end to end: the stage-1 worksheet is five labelled single blanks, the petition is seven numbered paragraphs each with one blank, and neither carries a table, a charge or case list, or any repeated field group. There is no row that could be left partly completed. incompleteRows 0.",
+        "PROTECTED_FIELDS": "PASS, read off the delivered pages. Four protected blanks are declared and all four are empty in both fixtures: SIGNATURE OF PETITIONER and the DATE beside it (refusal class signature_or_date_participant_completion), and the Court's ORDERS line and the JUDGE signature and date (refusal class court_prosecutor_clerk_or_agency_owned), the last two under a printed 'FOR THE COURT ONLY - do not write below this line.' The participant's name IS printed at PRINTED NAME, which is correct and is not a signature. protectedWrites 0. The verification wording is honest about what the signature means -- 'I affirm under the penalties for perjury that the foregoing representations are true' -- and the instructions tell the participant to sign it on the day of filing and not before.",
+        "ARTIFACTS": "PASS. Both fixtures re-hashed by this lane with sha256sum: canonical f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7 at 13,299 bytes and boundary bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf at 13,363 bytes, both matching reports/rendered-artifacts.json by digest and by byte length. Page count 4 in both, read from the page tree with pdf-lib, matching the declared pageCount. Every page is 612x792. 0 AcroForm (no /AcroForm dictionary at all), 0 /Widget annotations, 0 annotations of any kind on any page -- correct for a composed pleading with no form controls. Both digests are unmoved from what VF08 and FIX156 recorded.",
+        "PAGE_ORDER": "PASS, established by reading the pages rather than the manifest. Delivered order is: page 1 the stage-1 check opening 'CHECKING WHETHER THE COURT ALREADY ORDERED NON-DISCLOSURE OF YOUR INFRACTION (I.C. 34-28-5-15)'; page 2 its continuation, the worksheet's closing guidance and its stop list; page 3 the petition caption, IN RE, title 'VERIFIED PETITION FOR AN ORDER OF NON-DISCLOSURE OF INFRACTION INFORMATION (I.C. 34-28-5-15)' and paragraphs 1 to 5; page 4 paragraphs 6 and 7, the WHEREFORE, the verification, the signature block and the court's order block. That is the manifest's declared component order (process_guidance order 1, primary_filing order 2) and it is also the order the packet's own text tells the participant to use them in -- 'It is two documents, in the order you use them' -- with the check first because 'where it did there is nothing to file'. A packet that put the petition first would invite filing before the check.",
+        "CLIPPING_AND_OVERLAP": "PASS, explicitly measured on all eight delivered pages, not inferred. NOTHING IS OFF THE PAGE: word bounding boxes from pdftotext -bbox give a text extent of x 72.0 to 542.2 on a 612 pt page and y 64.5 to 712.4 on a 792 pt page across all eight pages, and the count of words whose box falls outside the media box is 0 on every page. NOTHING OVERLAPS: this lane compared every pair of word boxes on every page whose baselines differ and found 0 cross-baseline box intersections in either fixture. NOTHING IS TRUNCATED BY THE LONG VALUE: the boundary name 'Maria-Alejandra O'Shaughnessy-Whitfield' prints whole in all four of its occurrences, reflowing the paragraphs it sits in without pushing any text off page 3 or page 4 -- both fixtures end their last text line at the same y, 697.9 pt -- and the word-count deltas account for the reflow exactly. Ink is present on every page of both fixtures at 300 dpi (290,289 to 427,871 px per page), so no page is blank.",
+        "FILING_DESTINATION": "PASS. rules.filing is 'Stage 1 has no filing. Stage 2 is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held.' Both halves are carried on the delivered guidance page verbatim in substance -- 'it is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held' -- and the stage-1 half is carried harder than the record states it: 'the first step is never to file anything' and 'where it was, there is nothing to file.' The registry's destination (kind court, 'The court where the infraction was handled') is where the packet sends the clerk enquiry. The MC case-type line is left blank with the county clerk named as the authority and the reason given, rather than guessed -- which is what the record directs and what the memo's unconfirmed-practice note requires.",
+        "FEE_AND_WAIVER": "PASS. rules.fees is 'None.' and rules.feeWaiver is 'Not applicable. There is no fee.' Both are carried and neither is overstated: the delivered petition states it as a numbered paragraph the court reads -- '6. NO FEE. No filing fee is charged for this petition.' -- the delivered guidance page states 'there is no fee', and participant-instructions.md step 4 states 'There is no fee.' No amount is stated anywhere, no waiver instrument is included (correctly, since there is no fee to waive), and no fee-waiver election is pre-made.",
+        "SERVICE": "PASS. rules.service is 'Service on the prosecuting attorney. Confirm local practice on the MC case-type assignment.' and rules.notice is 'Service on the prosecuting attorney, who has thirty days to file a notice in opposition...' Both are carried in both delivered documents: the guidance page states 'it is served on the prosecuting attorney, who has thirty days to file a notice in opposition'; the petition's paragraph 7 states it as a paragraph of the pleading with the thirty days spelled out, and leaves the served party and address blank; and participant-instructions.md step 7 tells the participant to write who was served and the address used 'after service has actually happened' -- the same discipline the Iowa family applies to its certificate, and the right one. The MC-practice half of the service rule is carried as an instruction to call the clerk. OBSERVED, NOT SCORED: one clause of rules.notice reaches neither document -- 'The court may summarily grant, set a hearing, or summarily deny. A hearing is required if opposition is filed and the court does not rule summarily.' The participant is told opposition and a hearing are each a stop condition, which is the part that governs their conduct, so the omission does not fail the obligation; it does mean the packet never tells them the court may simply grant it without a hearing.",
+        "SELF_HELP_STOP": "PASS, measured. The registry track declares four selfHelpStopConditions and all four reach the participant in THREE places: participant-instructions.md under '## When to stop and get help instead', the delivered guidance page under 'WHEN TO STOP AND GET HELP INSTEAD:', and the delivered petition's last page under 'STOP AND GET HELP INSTEAD IF:'. 4 of 4 in all three. The exact form of the match, stated so nobody reads more into it than this lane measured: the conditions are carried as a bulleted list, so each appears with a lower-case initial letter and a semicolon rather than the record's capitalised sentence and full stop -- 'the prosecuting attorney files a notice in opposition;' for 'The prosecuting attorney files a notice in opposition.' Every other character is the record's. Matched case-insensitively and ignoring terminal punctuation, all four are exact substrings of all three documents. Putting the stop list on the filed page itself, not only in the guidance, is better than the obligation requires."
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "declaredWrites": 2,
+        "declaredWritesReadBackFromDeliveredBytes": 2,
+        "participantBlanksOnDeliveredPages": 13,
+        "protectedBlanksOnDeliveredPages": 4,
+        "textRenderingModeOperatorsAcrossAllEightPages": 0,
+        "whiteOrNonBlackFillOperatorsAcrossAllEightPages": 0,
+        "wordsOutsideTheMediaBoxAnyPage": 0,
+        "crossBaselineWordBoxCollisionsAnyPage": 0,
+        "annotationsOfAnyKindInDeliveredBytes": 0,
+        "acroFormFieldsInDeliveredBytes": 0,
+        "selfHelpStopConditionsDeclared": 4,
+        "selfHelpStopConditionsCarriedOnTheDELIVEREDPETITIONPAGE": 4,
+        "groundingRecordsDeclared": 3,
+        "groundingRecordsThatRecomputeExact": 2,
+        "manifestEntriesThatMovedAcrossTheDRIFT": 2,
+        "manifestEntriesTotal": 497,
+        "thisFAMILYSOWNENTRYMOVED": false,
+        "builderRecordAnchorsStillPresent": 19,
+        "builderRecordAnchorsDeclared": 19,
+        "deliveredPDFPagesPrintingAnInternalRouteKey": 2,
+        "pdfFilesWhoseBytesMoved": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "note": "null because NOT MEASURED in this lane, never because measured as zero.",
+        "visualDefects": null
+      },
+      "visualDefectsWhyNull": "No raster of any kind exists for this family and no person has seen a page. This lane rendered pages to measure ink and deleted every raster; it retained none, published none and claims none.",
+      "whyTHISLANEDIDNOTRUNTHEBUILDER": "Deliberately, and it matters. scripts/build-census-v1-in_infraction_nondisclosure-set.mjs groundRecords() RECOMPUTES each grounding record's sha256 from the bytes on disk and writes the result into the receipt; it asserts only that named anchor STRINGS are still present, never that the pin matches. At this base a run would therefore rewrite the pin from 80b5e071 to b28edfb9 with no comparison of whether the family's own entry moved -- and scripts/rcap-packet-completeness/identity-refresh.mjs, correctly and by its own stated rule, DROPS the existing identityRefresh annotation when the rebuild computes a different sha256, because that annotation describes a transition that no longer ends where the bytes are. The net effect of a rebuild today would be a receipt pinning the current digest with the comparison evidence removed: a stale pin turned into a fresh-looking one by a process that proved nothing. That is a repair, and a bad one, and this lane may make no repair at all. FIX156's determinism control was run at a base where the pin still matched, so it is not evidence about this base.",
+      "whatThisRowGrantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. in_infraction_nondisclosure-set returns FAIL_REPAIR_REQUIRED on two obligations, has never been rastered, and may not reach approved_for_live until both are repaired by a lane that did not verify them and a central raster covers these bytes."
     }
   ],
   "grantsReleased": []
