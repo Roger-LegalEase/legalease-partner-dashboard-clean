@@ -282,16 +282,39 @@
       "atCommit": "d91c14a8d67a58b66b06237909db3c14ca4e92fa",
       "totalRows": 28,
       "hawaiiRows": 0,
-      "requirements": "Requires deterministicRebuild, current hash/page count, routeScopedCompleteness, and rasterAcceptance bound to each route artifact; independentVerification remains pending.",
-      "currentHawaiiEvidence": "No HI rows."
+      "requirements": "The acceptance assembler emits one row per route artifact with current on-disk SHA/page binding, deterministicRebuild (which may be NOT_MEASURED), routeScopedCompleteness, rasterAcceptance, and independentVerification.pending. It does not itself define or close a terminal route status; the independentVerification field remains pending.",
+      "currentHawaiiEvidence": "No HI rows.",
+      "actualStatusPredicate": {
+        "source": "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs:132-182,184-190",
+        "rasterState": "A row reads RASTER_PASS only from an exact route receipt (or an exact applicable one-route family receipt); absent receipt yields RASTER_PENDING.",
+        "independentState": "Every emitted row sets independentVerification.pending=true. No route-terminal conversion is implemented by this consumer."
+      }
     },
     "routeArtifactCompleteness": {
       "path": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
       "generatedBy": "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs",
       "routeArtifactsMeasured": 28,
       "hawaiiRows": 0,
-      "requirements": "Builder-side route bytes bind, declared route component set is exact, route writes read back, and nine route-scoped counters are measured. This is not independent verification or a raster verdict.",
-      "currentHawaiiEvidence": "No HI rows."
+      "requirements": "The verifier measures route bytes/component membership/read-back and nine counters. Its result is builder-side evidence and is not itself independent verification or a raster/terminal verdict.",
+      "currentHawaiiEvidence": "No HI rows.",
+      "currentFocusedMeasurement": {
+        "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-hi-custom-pleading",
+        "writeFlag": "none; read-only invocation",
+        "exitCode": 1,
+        "log": "/tmp/rcap-hi-route-completeness-20260910.log",
+        "routeArtifactsMeasured": 10,
+        "resultCounts": {
+          "FAIL_MISSING_PREFILLS": 10
+        },
+        "commonObservedFields": {
+          "components": "3 per artifact",
+          "valuesReadBack": "7/7 per artifact",
+          "written": "7/44 per artifact",
+          "unclassifiedBlanks": "1 per artifact"
+        },
+        "finding": "outside this route: every route in this family is a conviction expungement under HRS 706-622.5, 706-622.8, 706-622.9 or 291E-64(e); the non-conviction paragraph applies to arrest records under HRS 831-3.2, which no route here reaches",
+        "interpretation": "Preserve this exact verifier discrepancy for cause comparison. Do not call it a packet defect from the counter alone; it conflicts with the current VF54 family findings/record and is not a terminal route decision."
+      }
     },
     "routeArtifactDeterminism": {
       "path": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
@@ -306,7 +329,7 @@
         "kansasArtifactsWithdrawn": 6
       },
       "hawaiiArtifacts": 0,
-      "requirements": "Two from-scratch --no-raster rebuilds after deleting fixtures, then hash comparison; unsafe here because the documented method uses git checkout and git clean for restoration. Not run.",
+      "requirements": "The recorded determinism file reports two from-scratch --no-raster rebuilds, but that measurement method is unsafe here because its restoration uses git checkout and git clean. No HI determinism result is present; this is not asserted as a universal route-acceptance predicate by the acceptance assembler.",
       "currentHawaiiEvidence": "No HI rows."
     },
     "routeRasterQueue": {
@@ -314,7 +337,7 @@
       "packetCommitSha": "d91c14a8d67a58b66b06237909db3c14ca4e92fa",
       "requestedScale": 2.5,
       "hawaiiRows": 5,
-      "requirements": "Each route row requires route-owned canonical/boundary paths, exact hashes/page count, and a route-specific receipt to become RASTER_PASS. familyAssemblyIsRouteArtifact=false makes existing family receipt inapplicable.",
+      "requirements": "The queue generator admits a route row when both route-owned canonical/boundary artifacts are present with exact paths, hashes and page counts. Its RASTER_PASS state uses the exact receipt predicate cited below; familyAssemblyIsRouteArtifact=false makes the family receipt inapplicable.",
       "centralRun": {
         "path": "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json",
         "workflowRunId": "33879628067",
@@ -332,8 +355,8 @@
     "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
     "baseIsAncestorOfCurrent": true,
     "legitimateBinding": [
-      "Exact hashes/byte lengths/page counts for all twelve fixture PDFs, including the ten route PDFs.",
-      "Family-level 15-obligation semantic findings and source/guide/component evidence, where inputs remain unchanged."
+      "Exact hashes/byte lengths/page counts for all twelve fixture PDFs, including the ten route PDFs, as independently re-hashed by VF54.",
+      "The unchanged VF54 family-level fifteen-obligation findings and source/guide/component evidence, including the recorded five-track route identity and ten route-fixture checks."
     ],
     "doesNotBind": [
       "Route-specific RASTER_PASS or visual receipt.",
@@ -341,30 +364,48 @@
       "Two-run route determinism evidence.",
       "A new independent route-scoped verdict."
     ],
-    "reason": "VF54 is a family assembly review; reports/rendered-artifacts.json marks route fixtures participant-deliverable and rasterPending=true, and the route queue sets familyAssemblyIsRouteArtifact=false."
+    "reason": "VF54 is a family-level independent read with explicit five-track and ten-route fixture evidence. The route acceptance consumer keeps route-specific receipt/completeness/determinism/independent-verification state separate; retained unchanged VF54 coverage does not manufacture those records.",
+    "scopeStatement": "VF54 independently reviewed the HI family at 6483ce2468dbbfa98525859abf80bc3c96de5433: its row marks all fifteen obligations PASS and its HI findings cover all five tracks, the shared source/records, the fifteen components, the combined fixtures, and all ten route fixtures. That unchanged family evidence may be retained. It does not silently become a per-route acceptance verdict, and it does not require a new full fifteen-obligation review merely because route acceptance evidence is still absent.",
+    "independentlyAssessedAtVF54": [
+      "All fifteen named obligations are marked PASS in the HI family row; the findings explicitly read all five route tracks and their shared guide/source conditions.",
+      "ROUTE_IDENTITY, COMPONENT_SET, PAGE_ORDER and ARTIFACTS include route-specific scope: all five route keys, exact ten route fixture hashes, five route slices, and exact component/page correspondence.",
+      "SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were assessed at the family/five-track scope recorded in the VF54 row."
+    ],
+    "notIndependentlyDocumentedAtVF54": [
+      "No HI row exists in ROUTE_ARTIFACT_ACCEPTANCE or ROUTE_ARTIFACT_COMPLETENESS, so no separate current per-route acceptance/completeness result is documented.",
+      "No route-specific raster receipt exists for the ten route files; the family receipt is scoped to the combined family fixtures and is not inherited.",
+      "No separate HI route determinism record or route-scoped independent acceptance return exists. These are acceptance records, not missing fifteen-obligation findings."
+    ]
   },
   "statusPredicateReferences": {
     "routeAcceptanceGenerator": [
-      "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs:65 (route identity), 87-95 (queue/receipt inputs), 116-126 (hash/page binding), 136-160 (family receipt versus exact route receipt), 179-210 (route-specific raster/independent fields)"
+      "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs:132-160 (receipt-derived raster fields), 164-182 (preexisting receipt or RASTER_PENDING), 184-190 (independentVerification.pending is always true; no terminal conversion)"
     ],
     "routeRasterQueueGenerator": [
-      "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs:101-115 (routeArtifacts and exact files), 136-160 (family receipt only when familyAssemblyIsRouteArtifact=true; exact route receipt checks), 167-231 (composite route rows and RASTER_PENDING)"
+      "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs:139-147 (exact family receipt predicate only when familyAssemblyIsRouteArtifact=true), 148-160 (exact route RASTER_PASS predicate: verdict, whole-family flag, no problems, documentsDigest, exact canonical/boundary paths and pins, page measurement/nonblank/cropped checks), 166-202 (composite route row and RASTER_PENDING state)"
     ],
     "routeCompletenessVerifier": [
-      "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs:195-217 (route artifacts), 230-295 (hash/page/component/read-back/counter checks)"
+      "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs:195-217 (route artifacts), 230-295 (byte/component/read-back/counter measurement); its result is evidence, not an acceptance-terminal predicate"
     ],
     "rasterBatch": [
       "scripts/rcap-raster-batch.mjs:51-55 (requires explicit manifest row in RASTER_PENDING); route receipt measures each route artifact set"
     ],
     "routeProductization": [
-      "scripts/generate-rcap-grade-a-fulfillment-authority.mjs:168-247 enumerates exact productized routes (DC/MS/WY/IL; no HI); 1230-1253 requires exact route/family/artifact evidence; 1316-1324 requires current route return with 15 obligations; 1393-1432 binds current verification/artifacts/builder. HI has no entry in this consumer."
+      "scripts/generate-rcap-grade-a-fulfillment-authority.mjs:168-247 enumerates current productized routes (DC/MS/WY/IL; no HI); this is a separate commercial-authority consumer, not a prerequisite or authorization for HI route acceptance/productization."
     ]
   },
   "minimalSupportedNextAction": {
-    "manifestOwner": "Run the existing focused queue generator only when authorized to write the lane/central manifest: node scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs --family rcap-hi-custom-pleading",
-    "rasterOwner": "Dispatch the existing workflow with the generated immutable manifest, family_batch=rcap-hi-custom-pleading, requested_scale=2.5; do not inherit the family receipt.",
-    "acceptanceOwner": "After route receipts exist, run the existing route-artifact acceptance/completeness generation for the five route rows, then an independent route-scoped review. Determinism remains a separate measurement and must use a safe restoration environment.",
-    "notRunHere": true
+    "manifestOwner": "Do not regenerate the unchanged queue. The existing data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json already contains the five full composite route IDs listed below.",
+    "rasterOwner": "When separately authorized, consume the existing immutable route queue with the existing raster workflow using its manifest; process these five composite rows and their ten pinned files at requested_scale=2.5. Do not inherit the family receipt or redispatch from this lane.",
+    "acceptanceOwner": "After route receipts exist, run the existing route-artifact acceptance assembler and completeness verifier for these five routes, then obtain independent route-scoped verification if required by the governing admission process. No HI route-terminal predicate exists in the acceptance assembler itself.",
+    "notRunHere": true,
+    "existingCompositeRouteIds": [
+      "rcap-hi-custom-pleading::route::hi-first-time-drug-offender",
+      "rcap-hi-custom-pleading::route::hi-first-time-property-offender",
+      "rcap-hi-custom-pleading::route::hi-marijuana-three-grams",
+      "rcap-hi-custom-pleading::route::hi-pre-2004-drug-offender",
+      "rcap-hi-custom-pleading::route::hi-under-21-dui"
+    ]
   },
   "observedOneArtifact": {
     "route": "hi-first-time-drug-offender",
@@ -381,7 +422,11 @@
     "The queue coverage.rastered array is an enrollment/document-set field; it does not override currentRasterState=RASTER_PENDING or supply a raster receipt.",
     "The existing family RASTER_PASS is for the two 20-page assembly PDFs and cannot be inherited by these ten route artifacts.",
     "No determinism script was run because its recorded method uses forbidden git clean/tree restoration.",
-    "Failed Hawaii raster run 34542054952 has no receipt and was not redispatched."
+    "Failed Hawaii raster run 34542054952 has no receipt and was not redispatched.",
+    "VF54 independently assessed all fifteen family obligations with explicit five-track/ten-route fixture evidence; no separate route acceptance record is documented, which is a record-scope gap rather than a demand for a duplicate full fifteen review.",
+    "The read-only focused completeness invocation exited 1 for all ten route artifacts because each reported one unclassified blank for the out-of-route HRS 831-3.2 paragraph (7/7 read back, 7/44 written, 3 components). This discrepancy is retained for cause comparison and is not classified as a packet defect from the counter alone.",
+    "Absence of HI in the separate fulfillment-authority generator is not treated as an acceptance prerequisite or as productization authority."
   ],
-  "grantsNothing": "Evidence only; no approval, demotion, terminal claim, route productization, central writes or commercial authority."
+  "grantsNothing": "Evidence only; no approval, demotion, terminal claim, route productization, central writes or commercial authority.",
+  "commercialAuthoritySeparation": "HI being absent from the hardcoded fulfillment-authority generator is a separate authority-scope fact. It is neither an acceptance prerequisite nor an authorization to productize; this evidence opens nothing."
 }

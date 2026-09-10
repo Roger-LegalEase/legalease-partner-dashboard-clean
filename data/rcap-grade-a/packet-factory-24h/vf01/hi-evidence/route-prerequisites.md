@@ -1,19 +1,19 @@
-# Hawaii route acceptance prerequisites
+# Hawaii route acceptance prerequisites (corrected)
 
-Base: 9cd82641fc949ea2d03ba555384e7ab6c45c118c; family rcap-hi-custom-pleading; VF01 claim asserted 5bea53cdc68e2e80. This is a bounded prerequisite comparison, not a route verdict or approval.
+Base `9cd82641fc949ea2d03ba555384e7ab6c45c118c`; VF01 grant `5bea53cdc68e2e80`. This remains bounded prerequisite evidence, not a route verdict, approval, or second 15-obligation review.
 
-| Route | Route artifact identity | Existing acceptance state | Missing prerequisite beyond raster | Reusable VF54 evidence |
-|---|---|---|---|---|
-| hi-first-time-drug-offender | 2 files, 4 pages each; canonical da91374bd13b…, boundary de47ff637c0a…; routeKey present | rendered-artifacts routeArtifacts present; route queue row present; no acceptance/completeness/determinism row; independent route review absent | route-specific receipt, route acceptance row, route completeness row, safe determinism record, and independent route-scoped review | exact route PDF hashes/bytes/pages plus unchanged family semantic/source evidence only; no route raster or route verdict |
-| hi-first-time-property-offender | 2 files, 4 pages each; canonical 5cd8f1dc2fe1…, boundary 9a16c496616f…; routeKey present | rendered-artifacts routeArtifacts present; route queue row present; no acceptance/completeness/determinism row; independent route review absent | route-specific receipt, route acceptance row, route completeness row, safe determinism record, and independent route-scoped review | exact route PDF hashes/bytes/pages plus unchanged family semantic/source evidence only; no route raster or route verdict |
-| hi-marijuana-three-grams | 2 files, 4 pages each; canonical 4d45ae1ee783…, boundary 251520a44f03…; routeKey present | rendered-artifacts routeArtifacts present; route queue row present; no acceptance/completeness/determinism row; independent route review absent | route-specific receipt, route acceptance row, route completeness row, safe determinism record, and independent route-scoped review | exact route PDF hashes/bytes/pages plus unchanged family semantic/source evidence only; no route raster or route verdict |
-| hi-pre-2004-drug-offender | 2 files, 4 pages each; canonical 3ff758aa8461…, boundary 93b67f7cfc47…; routeKey present | rendered-artifacts routeArtifacts present; route queue row present; no acceptance/completeness/determinism row; independent route review absent | route-specific receipt, route acceptance row, route completeness row, safe determinism record, and independent route-scoped review | exact route PDF hashes/bytes/pages plus unchanged family semantic/source evidence only; no route raster or route verdict |
-| hi-under-21-dui | 2 files, 4 pages each; canonical c53fa4d424ca…, boundary 62b92bb71189…; routeKey present | rendered-artifacts routeArtifacts present; route queue row present; no acceptance/completeness/determinism row; independent route review absent | route-specific receipt, route acceptance row, route completeness row, safe determinism record, and independent route-scoped review | exact route PDF hashes/bytes/pages plus unchanged family semantic/source evidence only; no route raster or route verdict |
+The existing route queue already has the five full composite IDs below, each with canonical and boundary route PDFs (4 pages each), exact hashes recorded in the JSON, and `currentRasterState=RASTER_PENDING`:
 
-The existing route queue has five rows and ten route files. Each row says unitOfDelivery=route_artifact, familyAssemblyIsRouteArtifact=false, currentRasterState=RASTER_PENDING, preexistingRasterAcceptance=null, and requests scale 2.5. Its coverage.rastered list identifies the files enrolled in the row; it is not proof that they were rastered. The central run 33879628067 did not involve this queue and covered no HI routes. The failed run 34542054952 produced no receipts.
+- `rcap-hi-custom-pleading::route::hi-first-time-drug-offender`
+- `rcap-hi-custom-pleading::route::hi-first-time-property-offender`
+- `rcap-hi-custom-pleading::route::hi-marijuana-three-grams`
+- `rcap-hi-custom-pleading::route::hi-pre-2004-drug-offender`
+- `rcap-hi-custom-pleading::route::hi-under-21-dui`
 
-The family-level VF54 PASS at 6483ce2468dbbfa98525859abf80bc3c96de5433 is an ancestor of this base and legitimately binds exact hashes for all twelve PDFs plus family semantic evidence where unchanged. It cannot satisfy route-specific receipt, route-scoped completeness/determinism, or independent route acceptance.
+There are no HI rows in `ROUTE_ARTIFACT_ACCEPTANCE` or `ROUTE_ARTIFACT_DETERMINISM`, and no route receipts. The acceptance assembler’s actual predicate is receipt-derived: `generate-route-artifact-raster-queue.mjs:151-160` requires `RASTER_PASS`, whole-route coverage, no problems, exact documents digest, exact canonical/boundary paths and pins, page-count agreement, and every page nonblank/cropped. `generate-route-artifact-acceptance.mjs:184-190` always leaves `independentVerification.pending=true`; no HI route-terminal predicate exists there.
 
-Supported next action is the existing focused queue generator, followed by the existing raster workflow and route acceptance/completeness generation. This lane did not run them. The determinism record’s method uses git checkout and git clean for restoration; it is flagged unsafe and was not run.
+VF54 independently read the HI family’s all-fifteen obligations, all five tracks, shared source/records, fifteen components, combined fixtures, and ten route fixtures. Its exact byte inventory and unchanged family findings are reusable. They do not create route acceptance/completeness/determinism records or route raster receipts, and do not require a duplicate full review.
 
-STOPPED.
+A read-only completeness command exited 1 for all ten route artifacts (`/tmp/rcap-hi-route-completeness-20260910.log`): 3 components, 7/7 values read back, 7/44 written, one unclassified out-of-route HRS 831-3.2 blank. Preserve this discrepancy for cause comparison; do not call it a packet defect from the counter alone.
+
+HI’s absence from the separate fulfillment-authority generator is neither an acceptance prerequisite nor productization authority. STOPPED.
