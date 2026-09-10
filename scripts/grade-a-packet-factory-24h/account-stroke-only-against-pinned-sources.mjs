@@ -93,45 +93,34 @@ const skeleton = (buffer) => {
 /* Every appearance stream the pinned source itself ships, across every state of
  * every widget -- an /AP /N may be a stream or a dictionary of named states, and
  * an unticked box's correct mark can live under either. */
+/*
+ * EVERY APPEARANCE STREAM THE SOURCE SHIPS, FOUND BY SHAPE RATHER THAN BY ROUTE.
+ *
+ * This used to walk AcroForm Fields and page Annots and recurse into /Kids, and
+ * FIX130 measured what that missed: on Vermont's three sources it built a pool
+ * of 29 streams where the documents ship 70, and 24 of 24 unaccounted delivered
+ * streams were source streams minus their fill that the comparison could not
+ * see because their originals were never in the pool. A pool that is missing
+ * the stream you are looking for reports invented ink.
+ *
+ * So the pool is now built by enumerating every indirect object in the document
+ * and taking every stream whose dict carries a /BBox -- which is what a form
+ * XObject is, and therefore what every appearance stream is, however it is
+ * referenced. It cannot miss a nested kid, an /AP /N sub-state, an inherited
+ * widget or a stream reached by a route nobody anticipated.
+ */
 async function sourceAppearanceDigests(pdfPath) {
   const doc = await PDFDocument.load(readFileSync(pdfPath), { updateMetadata: false, ignoreEncryption: true, throwOnInvalidObject: false });
   const digests = new Set();
   const skeletons = new Set();
-  const form = doc.catalog.lookup(PDFName.of("AcroForm"));
-  const seen = new Set();
-  const visit = (node, depth) => {
-    if (depth > 8 || !(node instanceof PDFDict)) return;
-    const ap = node.lookup(PDFName.of("AP"));
-    if (ap instanceof PDFDict) {
-      for (const [, entry] of ap.entries()) {
-        const value = doc.context.lookupMaybe ? doc.context.lookup(entry) : entry;
-        if (value instanceof PDFDict && value.entries && !value.contents) {
-          for (const [, sub] of value.entries()) {
-            const stream = doc.context.lookup(sub);
-            const bytes = stream && stream.dict ? decode(stream) : null;
-            if (bytes) { digests.add(sha(bytes)); skeletons.add(skeleton(bytes).sha256); }
-          }
-        }
-        const stream = doc.context.lookup(entry);
-        const bytes = stream && stream.dict ? decode(stream) : null;
-        if (bytes) { digests.add(sha(bytes)); skeletons.add(skeleton(bytes).sha256); }
-      }
-    }
-    const kids = node.lookup(PDFName.of("Kids"));
-    if (kids && kids.asArray) for (const kid of kids.asArray()) {
-      const tag = kid.tag ?? String(kid);
-      if (seen.has(tag)) continue;
-      seen.add(tag);
-      visit(doc.context.lookup(kid), depth + 1);
-    }
-  };
-  if (form instanceof PDFDict) {
-    const fields = form.lookup(PDFName.of("Fields"));
-    if (fields && fields.asArray) for (const ref of fields.asArray()) visit(doc.context.lookup(ref), 0);
-  }
-  for (const page of doc.getPages()) {
-    const annots = page.node.lookup(PDFName.of("Annots"));
-    if (annots && annots.asArray) for (const ref of annots.asArray()) visit(doc.context.lookup(ref), 0);
+  for (const [, object] of doc.context.enumerateIndirectObjects()) {
+    const dict = object?.dict;
+    if (!(dict instanceof PDFDict)) continue;
+    if (!dict.get(PDFName.of("BBox"))) continue;
+    const bytes = decode(object);
+    if (!bytes) continue;
+    digests.add(sha(bytes));
+    skeletons.add(skeleton(bytes).sha256);
   }
   return { digests, skeletons };
 }
