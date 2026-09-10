@@ -325,16 +325,38 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
       if (detail) return { finding: detail, findingReadFrom: "detail" };
       return { finding: null, findingReadFrom: null };
     };
+    /*
+     * A LANE MAY WRITE THE RESULT AS THE VALUE ITSELF.
+     *
+     * The strict reader took `v.result` and nothing else, so a lane writing
+     * `proofObligations: { ROUTE_IDENTITY: "PASS", ... }` -- the vocabulary,
+     * spelled correctly, just not wrapped in an object -- threw on
+     * `result undefined` and LOST THE WHOLE ROW. VF49 wrote fifteen PASSes
+     * that way and both its families stayed VERIFY_PENDING with the
+     * verdict discarded.
+     *
+     * The asymmetry is what makes this a defect rather than a house style: the
+     * harvest below already reads exactly that shape, so the same row was
+     * readable when it FAILED and unreadable when it PASSED. A passing row is
+     * the one that moves a family, so the strictness fell entirely on the
+     * outcome it most mattered for.
+     *
+     * This stays fail-closed. `resultOf` reads the wrapped form first and falls
+     * back to the value only when the value is a string, which
+     * canonicalResult then checks against the vocabulary exactly as before --
+     * anything outside it still throws and still refuses the row.
+     */
+    const resultOf = (v) => (v && typeof v === "object" ? v.result : (typeof v === "string" ? v : undefined));
     if (r.proofObligations) {
       try {
         failedObligations = Object.entries(r.proofObligations)
-          .filter(([, v]) => obligationFailed(v?.result))
-          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v.evidence ?? null }));
+          .filter(([, v]) => obligationFailed(resultOf(v)))
+          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v?.evidence ?? null }));
         unmeasuredObligations = Object.entries(r.proofObligations)
-          .filter(([, v]) => obligationUnmeasured(v?.result)).map(([k]) => k).sort();
+          .filter(([, v]) => obligationUnmeasured(resultOf(v))).map(([k]) => k).sort();
         blockedLegalObligations = Object.entries(r.proofObligations)
-          .filter(([, v]) => obligationBlockedLegal(v?.result))
-          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v.evidence ?? null }));
+          .filter(([, v]) => obligationBlockedLegal(resultOf(v)))
+          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v?.evidence ?? null }));
       } catch (e) { problems.push(`${d}/${familyId}: ${e.message}`); continue; }
     }
     let obligationsReadFromElsewhere = false;

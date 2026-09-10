@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 177,
-    "rows": 1205,
+    "returnDirectories": 178,
+    "rows": 1209,
     "independentVerdicts": 292,
-    "failRepairRequired": 56,
-    "passIndependent": 214
+    "failRepairRequired": 57,
+    "passIndependent": 213
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -64,6 +64,7 @@
     "in_arrest_no_charges-set",
     "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
+    "ky_expungement_certification-set",
     "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
     "la-977d-marijuana-first-offense-set",
@@ -10180,7 +10181,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-cannabis-vacate-set",
@@ -10211,6 +10212,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
       "superseded": true
+    },
+    {
+      "familyId": "il-cannabis-vacate-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf49",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+      "superseded": false
     },
     {
       "familyId": "il-exp-nonconv-set",
@@ -12454,6 +12469,43 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/verify-ca-ia-ky-018/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_expungement_certification-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ky_expungement_certification-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf49",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_expungement_certification-set",
       "superseded": false
     },
     {
@@ -12832,6 +12884,32 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf47",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3a3d0f140cd882a1cf1ac68d47fa52d161aed6d0",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf47/rows-vf47-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-976-arrest-no-conviction-set",
       "superseded": false
     },
     {
@@ -12875,6 +12953,40 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-977d-marijuana-first-offense-set",
+      "superseded": true
+    },
+    {
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf47",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3a3d0f140cd882a1cf1ac68d47fa52d161aed6d0",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf47/rows-vf47-20260910.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-977d-marijuana-first-offense-set",
       "superseded": false
     },
@@ -36291,7 +36403,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 32,
+  "rowsRefused": 30,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
@@ -36318,8 +36430,6 @@
     "vf13/il-seal-2yr-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "vf13/il-seal-3yr-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "vf13/il-cannabis-vacate-set: unreadable obligation result \"PASS_WITH_OBSERVATION\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf47/la-976-arrest-no-conviction-set: unreadable obligation result undefined; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf47/la-977d-marijuana-first-offense-set: unreadable obligation result undefined; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json/de_mandatory_expungement-set: complete chat pass does not bind both current whole PDFs",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_felony-set: bounded review no longer describes both current PDFs",
     "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_misdemeanor-set: bounded review no longer describes both current PDFs",

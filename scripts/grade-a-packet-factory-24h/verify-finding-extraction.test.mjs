@@ -77,3 +77,34 @@ test("the lane files still carry detail-only obligations for this to matter", ()
   }
   assert.ok(detailOnly > 0, "if every lane now writes `finding`, retire this fallback deliberately rather than by attrition");
 });
+
+/*
+ * A lane may write the obligation result as the value itself.
+ *
+ * VF49 wrote fifteen PASSes as `{ ROUTE_IDENTITY: "PASS", ... }` -- the
+ * vocabulary, spelled correctly, just not wrapped in an object -- and lost BOTH
+ * rows: the strict reader took only `v.result`, threw on undefined and refused
+ * them. The asymmetry is what makes it a defect rather than a house style: the
+ * harvest path already read that exact shape when the row FAILED, so the same
+ * row was readable failing and unreadable passing. A passing row is the one
+ * that moves a family.
+ */
+test("the strict reader accepts a bare vocabulary string as the result", () => {
+  const src = fs.readFileSync(EXTRACTOR, "utf8");
+  assert.match(src, /const resultOf = /, "one derivation, not a repeated ternary");
+  assert.match(src, /typeof v === "string" \? v : undefined/, "a bare string must be read as the result");
+  assert.doesNotMatch(src, /obligationFailed\(v\?\.result\)/, "the wrapped-only read must be gone");
+  assert.match(src, /obligationFailed\(resultOf\(v\)\)/, "the failure test must go through resultOf");
+});
+
+test("a row written as bare strings is extracted, and its obligations are read", () => {
+  const d = JSON.parse(fs.readFileSync(RETURNS, "utf8"));
+  const bare = (d.rows ?? []).filter((r) => String(r.lane ?? "").toLowerCase() === "vf49");
+  assert.equal(bare.length, 2, "VF49 wrote two rows as bare vocabulary strings; both must be extracted");
+  const pass = bare.find((r) => r.verdict === "PASS_COMPLETE_INDEPENDENT");
+  const fail = bare.find((r) => r.verdict === "FAIL_REPAIR_REQUIRED");
+  assert.ok(pass, "the passing row must survive extraction -- it is the one that moves a family");
+  assert.deepEqual(pass.unmeasuredObligations ?? [], [], "a fifteen-of-fifteen pass has no unmeasured obligation");
+  assert.ok(fail, "the failing row must survive too");
+  assert.ok((fail.failedObligations ?? []).length > 0, "the failing row must name its obligations");
+});

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "33143677e273fd4ecd0a6a7642c5ab41b44d4628",
+  "minimumCaptainSha": "cd6a77879fc4f0d791848dcd4cf2475aebb43452",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,27 +66,27 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 16,
+    "activeFamiliesExcluded": 14,
     "guidanceOnly": 0,
-    "remaining": 330,
+    "remaining": 332,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 7,
-    "repairRequired": 37,
+    "verifyPending": 5,
+    "repairRequired": 40,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 187,
+    "COMPLETE_PACKET_PROVEN": 188,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 53,
+    "FAIL_REPAIR_REQUIRED": 54,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 5,
     "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -111,10 +111,8 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "al-felony-dwop-set",
       "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
-      "al-trafficking-set",
       "ca-17b-reduction-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
@@ -2719,8 +2717,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX151",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -2731,8 +2729,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -3688,8 +3685,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX151",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3700,8 +3697,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-act346-set",
@@ -17937,17 +17933,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf02",
-        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909b.json"
+        "lane": "vf49",
+        "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -17977,7 +17970,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
@@ -22290,18 +22283,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "verify-ca-ia-ky-018",
-        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/verify-ca-ia-ky-018/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf49",
+        "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf49/rows-vf49-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -22327,11 +22319,34 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_expungement_certification-set.mjs",
@@ -23442,9 +23457,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf43",
-        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
+        "lane": "vf47",
+        "verifiedAtBase": "3a3d0f140cd882a1cf1ac68d47fa52d161aed6d0",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf47/rows-vf47-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -23483,9 +23498,9 @@
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "EIGHTEEN instances of internal record and build vocabulary remain on the FILED pages of this packet, identically on both fixtures, and four of them are on canonical page 7 -- the face of the Article 988 Motion for Fee Exemption, the page that goes to a district attorney's office before filing and is appended to the motion at filing. This is the same defect class VF06 failed the sibling family la-985-1 on and that FIX142 cleared to zero there, so the two Louisiana siblings now hold different standards. The instances, by line of the delivered filed-page text: four literal component-identity strings printed in captions and a signature block (lines 4, 113, 139, 177, 230 -- five sites, including 'Assigned component identity: la-976-arrest-no-conviction-fee-waiver-4' at the head of the DA-facing page); four build-provenance recitals of the form 'composed from the committed LA-STATUTORY-FORMS authority' (lines 13, 148, 186, and the Article 988 form's own at 242 in the form of 'as the committed record records it'); and record-voice recitals at lines 31, 70, 81, 88, 94, 99, 122, 206 and 255, including 'This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel', 'this packet writes none of it', and -- on the DA-facing page -- 'The committed manual-completion record fixes this split: LegalEase completes only the participant-owned identifying fields on this form', which puts both the internal record's vocabulary and the vendor's own name on a filed page. A nineteenth of the same class sits on filed page 8, also DA-facing, and the regex above does not catch it: 'The exemption is very often available on this track and must be screened before filing rather than after' -- 'on this track' is the build's routing vocabulary. FIX09 is not at fault for these: its grant was FEE_AND_WAIVER and it removed the one paragraph that was a fee-and-waiver defect. But the delivered bytes carry them, and this obligation is about the delivered bytes.",
-          "findingReadFrom": "finding",
-          "evidence": "pdftotext -layout -f 1 -l 8 over both fixtures with an eleven-pattern scan: 18 hits on each, versus 19 on the pre-repair canonical recovered from 7b7d0a3a3^. Line numbers are into that extraction."
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -23764,9 +23779,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json"
+        "lane": "vf47",
+        "verifiedAtBase": "3a3d0f140cd882a1cf1ac68d47fa52d161aed6d0",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf47/rows-vf47-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -23800,20 +23815,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "ROUTE_IDENTITY"
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "The packet IS built for the route the record names, and that half is right: one route key, obligation:track-pathway:LA:la-977d-marijuana-first-offense:first-offense-marijuana-expungement-after-90-days-art-998; the primary filing is the Article 998 statutory motion Article 986 makes mandatory for this category; and the delivered motion states the route in its title, its Part II statutory heading and its recital. IT FAILS BECAUSE THIS PACKET'S INTERNAL IDENTITY AND ITS BUILD RECORD'S ANALYSIS ARE PRINTED ON THE FACE OF ALL THREE FILING DOCUMENTS. Read on the delivered pages, both fixtures. (1) The machine component identifier appears four times on documents that go to a court: canonical page 1 line 4 'Assigned component identity: la-977d-marijuana-first-offense-primary-filing-1'; page 2 foot 'LA-CCRP-ART-998, assigned component identity la-977d-marijuana-first-offense-primary-filing-1. Statutory source note: Acts 2023, No. 342, Sec. 1.'; page 4 line 3 'Assigned component identity: la-977d-marijuana-first-offense-proposed-order-2'; page 5 line 3 'Assigned component identity: la-977d-marijuana-first-offense-proposed-order-3'. This is the defect VF02 failed ri_multiple_misdemeanors-set on at this same base - a route's internal identifier printed on the filing. (2) Build-record analysis is printed five times on the filings, in the record's own internal vocabulary: page 1, 'The committed manual-completion record classifies both as manual completion items pending a data-protection review'; page 2, 'which the committed record makes the first condition on which self-help stops'; page 2, 'reproduced from the Article 998 statutory text this packet is bound to by content digest, as Article 986(A) requires'; page 3, 'The committed record requires both signature blocks the statute prints to be carried, which is why this one appears at all.' (3) WORST OF THE FIVE, because of where it is: canonical page 5 is the proposed Article 992 ORDER OF EXPUNGEMENT, a document handed to a judge to sign, and it recites this build's own design rationale - 'The Article 998 statutory motion prints no field for the date of arrest, for how many charges or counts the arrest carries, or for the original arrest charges, and Article 986(C) allows only the name of the court to vary on a statutory form. Those three are required participant inputs on the committed record, so they are carried here instead, on the order that identifies the record of arrest and conviction the decree reaches, rather than added to the face of a mandatory form.' That paragraph is addressed to this packet's own builder and reviewer and to nobody in the case. DEFECTS_NO_COUNTER_CAN_SEE records this exact class ('internal-record-text-printed-on-a-filing'), records that its first instance was found on THIS FAMILY'S SIBLING la-976-arrest-no-conviction-set, and states the fix in terms: 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' On this packet the guide, pages 7-19, is the right place and already does this well; the four filing pages are not.",
-          "findingReadFrom": "detail",
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
           "evidence": null
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "All 25 declared values are on the delivered pages of both fixtures - I found 25 of 25 by string search rather than accepting the report. THE FAILURE IS THAT THE MOVER'S NAME IS WRITTEN IN THE INVERSE OF THE ORDER THE FORM'S OWN PRINTED CAPTION DEMANDS, ON A MANDATORY STATUTORY FORM, ON BOTH FIXTURES, AND NOTHING TELLS THE PARTICIPANT TO CORRECT IT. The Article 998 statutory text this packet is bound to prints 'NAME: ____ (Last, First, MI)' - I read that from the pinned source bytes. The delivered page 1 prints 'NAME (Last, First, MI): Jordan Avery Reyes' on canonical and 'NAME (Last, First, MI): Maria-Alejandra O'Shaughnessy-Whitfield' on boundary. The factory's own fixture personas are first Jordan / middle Avery / last Reyes and last O'Shaughnessy-Whitfield / first Maria-Alejandra, which I confirmed from the shared persona used across build scripts. So Part I of a motion filed with the clerk, and matched by the Bureau against the state rap sheet, states the mover's surname as 'Jordan'. This is the same defect VF07 recorded today on rcap-hi-custom-pleading, where the caption was 'Current Legal Name (Last, First, Middle):' and the ink was given-name-first. Searched both instruction documents and all 19 delivered pages: no sentence anywhere tells the participant the name order, and the packet's own guide insists on rap-sheet matching for race and gender ('written as the state rap sheet writes it, so Part I matches the record the Bureau holds') while saying nothing about the name. TWO FURTHER FIDELITY ITEMS ON THE SAME MANDATORY FORM, RECORDED WITH IT because they share a repair. (a) The family asserts twice - build-findings 'no field the statutory form does not print was added to it' and packet-set-manifest.fieldsDeliberatelyNotAddedToThisForm - that Article 986(C) was applied without exception, and the delivered Article 998 motion prints three fields the statute does not: 'Whether the conviction is a misdemeanour or a felony: Misdemeanour' (a WRITE, LA-CCRP-ART-998.conviction_level, in the family's own actual-writes), 'Statute the mover was convicted under' and 'Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative'. I read the pinned statutory source end to end: its Part II is the heading and 'l. Mover was convicted on ___/___/___ (MM/DD/YYYY)' and then the prayer, and it prints none of those three. The build applied its own 986(C) rule to the arrest date, the count and the original charges and moved them to the Article 992 order, then added three others to the same page. (b) The statute prints '(MM/DD/YYYY)' beside both of its date lines; the delivered motion drops that instruction and writes ISO - 'DOB: 1991-04-17' and '1. Mover was convicted on 2026-02-11' - on the form whose date the ninety-day computation runs from.",
-          "findingReadFrom": "detail",
+          "finding": null,
+          "findingReadFrom": null,
           "evidence": null
         }
       ],

@@ -55,14 +55,7 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34407406641",
-      "jobId": "102654459235",
-      "artifactId": "10126308637",
-      "boundToCanonicalSha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -76,7 +69,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0",
+        "replacedByCanonicalSha256": "098482cc217601c9d6e5d60f405aa0042027285770855cee2062d294ac0584be,e78daf119b1c62d21262933d29a5f5b726fb86df4f7863ae91a8eca16eba8555",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459235",
+          "artifactId": "10126308637",
+          "boundToCanonicalSha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -89,7 +97,7 @@
         "order": 1,
         "documentId": "canonical--misdemeanor",
         "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--misdemeanor.pdf",
-        "sha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0",
+        "sha256": "e78daf119b1c62d21262933d29a5f5b726fb86df4f7863ae91a8eca16eba8555",
         "requirement": "required"
       },
       {
@@ -98,7 +106,7 @@
         "order": 2,
         "documentId": "canonical--felony",
         "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--felony.pdf",
-        "sha256": "e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7",
+        "sha256": "098482cc217601c9d6e5d60f405aa0042027285770855cee2062d294ac0584be",
         "requirement": "required"
       }
     ]
