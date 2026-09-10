@@ -54,6 +54,7 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { disclosureLabelsFor, inReadingOrder, assertNoTwoBlanksShareALabel } from "./rcap-official-forms/rcap-participant-blank-locator.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -672,7 +673,20 @@ async function censusOf(source) {
   const pages = doc.getPages();
   const pageText = pages.map((p, i) => ({
     page: i + 1,
-    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: String(l.text ?? "").trim(), chars: l.chars ?? [] })).filter((l) => l.text)
+    /*
+     * FIX130. `x` and `yExact` are carried alongside the rounded `y`.
+     *
+     * The rounded `y` is what the caption search and `captionReadAt` have
+     * always used, and it is left exactly as it was, so no committed caption
+     * coordinate moves. The row locator needs two things this line record did
+     * not keep: the run's LEFT EDGE, because a printed row number is
+     * recognised by sitting to the left of the blank it numbers, and the
+     * UNROUNDED baseline, because the locator tests that baseline against the
+     * widget's own rectangle and a rectangle is not an integer. `yExact` is the
+     * baseline at the precision the anchor capture reports it, one decimal
+     * place, not a claim of exactness beyond that.
+     */
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), yExact: l.y, x: l.x, text: String(l.text ?? "").trim(), chars: l.chars ?? [] })).filter((l) => l.text)
   }));
 
   // How many boxes each name carries, so a name that carries one keeps its own
@@ -1264,14 +1278,113 @@ function builderCounters(maps, actualWrites, instructionsText) {
   return { counters, findings, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
 }
 
-function requiredBeforeFilingItems(maps) {
+/*
+ * FIX130, 2026-09-10. The participant's item list: which blank, and in what
+ * order. Both defects here are invisible to all nine completeness counters,
+ * which read zero on this family before this repair and read zero after it.
+ * They are visible only by reading the delivered list against the printed page,
+ * which is how VF25 found them.
+ *
+ * (1) FIFTEEN CAPTIONS EACH NAMED MORE THAN ONE BLANK, across BOTH tables this
+ *     packet publishes -- 28 items on 200-00130 and 18 on 200-00132, 46 in all,
+ *     41 of them inside a colliding group. Three consecutive items all reading
+ *     "Description of Offense", three all "Year", three all
+ *     "Docket Number (If Any)" in the question-1 charge table of 200-00130
+ *     page 1; four groups of three in the new-charges table on the same page;
+ *     two pairs in the state-agency table on page 2; four groups of three and
+ *     two more pairs on 200-00132 page 1.
+ *
+ *     The prose what-to-write column carried an ordinal on many rows and
+ *     rescued seven of the fifteen. It did NOT rescue the other eight, covering
+ *     20 of the 46 rows, because in each of those the FIRST member carries no
+ *     ordinal at all while its siblings carry "second" and "third" -- "any new
+ *     offence since the offence in question 1" against "a second new offence"
+ *     and "a third new offence"; "the name of any other state agency" against
+ *     "a second agency"; "that agency's address" against "that second agency's
+ *     address". A participant reading "any new offence" cannot tell that it
+ *     means the top row of a three-row table rather than a general instruction
+ *     about the table.
+ *
+ *     The distinguisher already existed in this map and was thrown away at
+ *     render time: every entry carries its own measured /Rect, and for the nine
+ *     items in the question-1 charge table the form itself prints the row
+ *     number. Read from the pinned 200-00130
+ *     (ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed), that
+ *     table prints three lines whose whole text is "1.", "2." and "3.", all at
+ *     x=54.40, at baselines 534.20, 519.60 and 505.90 -- each inside the
+ *     vertical band of its own row's widgets ([531.08, 544.69], [516.17,
+ *     529.78], [503.15, 516.76]) and to the left of them. The other six groups
+ *     print no row numbers anywhere in their bands, on either form, and are
+ *     told so in those words rather than being given a number the paper does
+ *     not carry.
+ *
+ * (2) FOUR ROWS WERE EMITTED IN REVERSE READING ORDER. The old sort was
+ *     document, then page, then descending rect.y, with no tie-break on x. Two
+ *     blanks that share one printed line do not share an exact baseline, so the
+ *     right-hand blank sorted first whenever it happened to sit a hair higher.
+ *     On 200-00132 page 1 the state-agency table did exactly that, twice:
+ *     "Address ... | that agency's address" (34a, x=254.61 y=356.35) printed
+ *     ABOVE the row that names the agency (34, x=53.17 y=356.30), 0.05pt below
+ *     it, and again at 36 (y=341.28) above 35 (y=340.06). The demonstrative
+ *     "that agency" preceded its antecedent both times. The identical block on
+ *     200-00130 page 2 is 1.96pt apart and came out correct, which is why this
+ *     never showed up as a systemic ordering fault: it only bites inside about
+ *     a point.
+ *
+ * WHAT THIS IS NOT. Not a mis-mapping. Every one of the 46 items named the
+ * correct blank before this repair and names the same blank after it. No value
+ * changes, no policy changes, and NO PDF BYTE MOVES: `rbf` is computed after
+ * every fixture has been written and is not an input to any rendered page --
+ * the composed instruction pages are drawn from `composedBody`, which never
+ * receives it. It reaches production-field-map.json and
+ * participant-instructions.md and nothing else.
+ *
+ * WHERE THE REPAIR LIVES. In scripts/rcap-official-forms/rcap-participant-blank-locator.mjs,
+ * NOT in this file. The same defect was repaired by hand on the five seal
+ * families of build-census-v1-vt_seal_misdemeanor-set.mjs and again on the
+ * expungement families of build-census-v1-vt_exp_decriminalized-set.mjs, and
+ * THIS family was missed precisely because the first repair was scoped by an
+ * opt-in set inside one host. A third hand-written copy would set up the fourth
+ * miss. Nothing here is hand-typed: no literal row number, no literal label and
+ * no literal ordering appears in this file or in that module.
+ *
+ * The `printedContext` this list publishes is left exactly as the census
+ * measured it, including on 200-00132 fields 30 to 33, where the nearest-line
+ * caption heuristic picked the paragraph beneath the table rather than the
+ * column header. That is a separate latent defect in the committed map, it is
+ * recorded in build-findings.json, and this repair deliberately does not read
+ * it: the locator groups on `effectiveLabel`, which comes from the authored
+ * policy label, and finds row numbers by reading the pinned page directly.
+ */
+function requiredBeforeFilingItems(maps, censuses) {
+  const labels = disclosureLabelsFor(censuses);
   const order = Object.fromEntries(ORDER.map((f, i) => [f, i]));
-  return maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
-    document: m.formNumber, field: r.field, page: r.page, y: r.rect?.y ?? null,
-    printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
-    identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-  })))
-    .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
+  const documents = maps
+    .filter((m) => (m.canonicalRefusals ?? []).some((r) => r.requiredBeforeFiling === true))
+    .sort((a, b) => (order[a.formNumber] ?? 99) - (order[b.formNumber] ?? 99));
+  const out = [];
+  for (const m of documents) {
+    const items = m.canonicalRefusals.filter((r) => r.requiredBeforeFiling === true).map((r) => {
+      /*
+       * The order and the locator are both read off this rectangle. A missing
+       * one is an unmeasured position, not position zero, and coalescing it to
+       * zero would sort the blank to the bottom of the page and say nothing.
+       */
+      assert.ok(r.rect && Number.isFinite(r.rect.y) && Number.isFinite(r.rect.x),
+        `${m.formNumber} ${r.field}: no measured rectangle, so its place in the participant's reading order cannot be derived`);
+      const disclosureLabel = labels.get(`${m.formNumber}|${r.field}|${r.page}`);
+      assert.ok(typeof disclosureLabel === "string" && disclosureLabel.length > 0,
+        `${m.formNumber} ${r.field} p${r.page}: no disclosure label was derived for a blank the participant is asked to fill in`);
+      return {
+        document: m.formNumber, field: r.field, page: r.page, y: r.rect.y, x: r.rect.x,
+        printedContext: r.printedLabel, disclosureLabel,
+        identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+      };
+    });
+    out.push(...inReadingOrder(items, m.formNumber));
+  }
+  assertNoTwoBlanksShareALabel(out, "vt_seal_nonconviction-set");
+  return out;
 }
 
 function instructionsMarkdown(config, resolved, rbf, maps) {
@@ -1477,7 +1590,11 @@ function writeArtifacts(ctx) {
       { finding: "The participant does not serve the prosecutor with process.", consequence: "The court provides a filed petition to the prosecutor. For a stipulation, the participant takes or sends the form to the prosecuting office, and the prosecutor signs and files it with the court." },
       { finding: "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.", consequence: "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal." },
       { finding: "The packet-set manifest declares FIVE components for this family and the packet declared four. The fifth, vt_seal_nonconviction-interests-of-justice-prompts-4, is conditional on the Sec. 7603(g) ordinary petition route -- a route this packet expressly carries -- so its condition is met, and it was neither rendered nor dispositioned. No counter could see it: a component that was never built has no field-map row to count.", consequence: "It is now a composed component page of participant-facing prompts, appended after the guidance page so that no page of the three official forms and no page of the guidance moves. It carries questions only: no drafted statement, no example, no argument, because the manifest, the intake memo and the track registry all say the statement is participant-authored with prompts and never generated argument. Question 4 of 200-00130 is unchanged and still a participant supply. The build now reads the manifest at build time and refuses, per fixture, if any declared component neither reaches a page nor carries a componentRequirements disposition." },
-      { finding: "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.", consequence: "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched." }
+      { finding: "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.", consequence: "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched." },
+      { finding: "FIX130. Across BOTH tables of participant-instructions.md -- 28 items on 200-00130 and 18 on 200-00132, 46 in all -- 15 captions each named more than one blank on the same form and page, covering 41 of the 46 rows, and the naming column carried no disambiguator at all. The what-to-write column rescued 7 of the 15 with ordinals; the other 8, covering 20 of the 46 rows, stayed ambiguous reading all three columns, because in each of those the first member carries no ordinal while its siblings carry 'second' and 'third'.", consequence: "Every caption that names more than one blank now carries a locator derived from source geometry. Where the form prints a row-number column beside every blank in the group -- the '1.', '2.' and '3.' printed at x=54.40 inside each row's own widget band in the question-1 charge table of 200-00130 page 1 -- that printed number is the locator and the label says it is printed. Where the form prints none, which is every other group on both forms, the locator is the blank's position down the page and the label says in those words that the form prints no row numbers there, so no number the paper does not carry is ever implied. 15 colliding groups before, 0 after; 8 residually ambiguous groups before, 0 after. No item's mapping changed, no value changed, and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it." },
+      { finding: "FIX130. Four rows of the 200-00132 table were emitted in reverse reading order. The sort was document, page, descending rect.y with no tie-break on x, and two blanks that share one printed line do not share an exact baseline: 'Address ... | that agency's address' (field 34a, x=254.61 y=356.35) printed above the row naming the agency (field 34, x=53.17 y=356.30), 0.05pt below it, and again at field 36 (y=341.28) above field 35 (y=340.06). The demonstrative preceded its antecedent twice. The identical block on 200-00130 page 2 is 1.96pt apart and came out correct, so this was a tie-break fault rather than a systemic ordering fault.", consequence: "The list is emitted page, then down the page, then across the row, clustered into rows from each widget's own measured /Rect and ordered within a row by left edge. The band tolerance is checked against the geometry it is given rather than asserted: the build stops if two bands on a page ever come closer together than it, which is the property that decides whether a blank's row is derivable from its baseline at all. On this family the widest band is 1.96pt and the closest two bands are 13.02pt apart, so the 4pt tolerance sits with a wide margin on both sides. The companion spread check is unreachable as the clustering is written -- bands are seeded on a baseline that never moves, so spread is bounded by the tolerance by construction -- and it is documented as unreachable in the shared module rather than counted as a measurement. State Agency now precedes Address in all four pairs on both forms." },
+      { finding: "FIX130, recorded and NOT repaired, outside this lane's grant. On 200-00132 fields 30 to 33 -- the third offence row -- the committed map's printedContext is the paragraph beneath the table ('We further understand that the effect of this Order will be...') rather than the column header the other two rows carry. The nearest-printed-line heuristic that captionBasis advertises picked a semantically wrong line for that row.", consequence: "It is latent in the committed map and it does reach the participant artifact through the printedContext column of production-field-map.json, though not through the instruction table. This repair deliberately does not read it: the locator groups on effectiveLabel, which comes from the authored policy label rather than from the caption heuristic, and it finds row numbers by reading the pinned page directly. Left for a lane that holds the caption-basis grant." },
+      { finding: "FIX130. The repair itself lives in scripts/rcap-official-forms/rcap-participant-blank-locator.mjs, not in this build host. The same defect had already been repaired by hand on the five seal families of build-census-v1-vt_seal_misdemeanor-set.mjs and again on the expungement families of build-census-v1-vt_exp_decriminalized-set.mjs, and THIS family was missed precisely because the first repair was scoped by an opt-in set inside one host.", consequence: "A third hand-written copy would have set up the fourth miss. The shared module additionally refuses a census whose printed-line records carry no left edge or no unrounded baseline, rather than silently publishing 'the form prints no row numbers here' for a form that prints them. The two hosts that carry hand-written copies are NOT rewired by this lane: that would change families this lane holds no grant for, and verifying it is not this lane's to do. It is recorded here so the captain can schedule it." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -1685,7 +1802,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  const rbf = requiredBeforeFilingItems(maps);
+  const rbf = requiredBeforeFilingItems(maps, censuses);
   const instructions = instructionsMarkdown(config, resolved, rbf, maps);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
