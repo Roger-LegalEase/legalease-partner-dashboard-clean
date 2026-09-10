@@ -150,6 +150,28 @@ const ROUTE_ELECTION = Object.freeze({
     + "routes to EXP106, which is the proposed order this family binds."
 });
 
+/*
+ * FEE102 ITEM 2 IS A PRINTED "Choose one:", AND THIS PACKET MAKES THE CHOICE.
+ *
+ * The affidavit is sworn under Minn. Stat. § 563.01. Item 2 offers two
+ * branches under the printed instruction "Choose one:", and which one is true
+ * is a fact about what is in the envelope rather than a fact about the person:
+ * this packet carries the petition, the proof of service and the proposed
+ * order, so the pleadings ARE being filed with the affidavit and the first
+ * branch is the true one. This build marks it.
+ *
+ * The second branch is therefore not a choice left open. It was classified as
+ * a genuine participant election and offered under "Choices only you can
+ * make", which meant a reader who followed the packet's own instructions would
+ * mark BOTH branches of a choose-one on a sworn affidavit. An election this
+ * packet has already made is not an election it may also hand back.
+ */
+const FEE102_ITEM_2 = Object.freeze({
+  printedInstruction: "Choose one:",
+  electedBranch: /I am including my pleadings with this Affidavit/i,
+  alternativeBranch: /I only want to have copy fees waived/i
+});
+
 const SOURCES = Object.freeze([
   {
     key: "EXP102", formNumber: "EXP102", instrumentKind: "primary_filing",
@@ -429,12 +451,39 @@ function inkBetween(line, x0, x1) {
   return width;
 }
 
+/*
+ * A PRINTED LINE UNDERLINES THE NEAREST RULE BENEATH IT, AND ONLY THAT ONE.
+ *
+ * The window below is generous on purpose -- it has to reach a rule drawn a
+ * little under its text -- and a large heading reaches further than a small
+ * one, because the window scales with the line's own size. On EXP104 page 1
+ * the 14-point heading "State of Minnesota   District Court" reaches 18.25
+ * points down, and TWO rules sit inside that reach: the one drawn 3.46 points
+ * under it, which it really does underline, and the Judicial District rule
+ * 16.66 points under it, which it does not. Without this test the heading is
+ * counted as ink on both, the second measures 0.70 of its width as "printed
+ * text already there", and a blank the participant has to fill is classified
+ * NOT_A_FIELD and disappears from the packet's own instructions.
+ *
+ * Physically a rule cannot underline text that has another rule between it and
+ * the text. That is the whole test: a candidate line is ignored when a second
+ * horizontal rule lies between the two and shares this rule's x span. It
+ * cannot turn a genuine underline into a blank -- a genuine underline has
+ * nothing between it and its text -- so it only ever removes a false one.
+ */
+function ruleLiesBetween(rule, line, rules) {
+  return (rules ?? []).some((other) => other !== rule
+    && other.y > rule.y + 0.75 && other.y < line.y - 0.75
+    && Math.min(other.endX, rule.endX) - Math.max(other.x, rule.x) >= 4);
+}
+
 /** How much printed text already sits on this rule. A rule under printed words is an underline. */
-function inkOnRule(rule, lines) {
+function inkOnRule(rule, lines, rules = []) {
   let best = { ink: 0, line: null };
   for (const line of lines) {
     const size = line.size || 12;
     if (line.y < rule.y - 0.75 || line.y > rule.y + size * 1.3) continue;
+    if (ruleLiesBetween(rule, line, rules)) continue;
     const ink = inkBetween(line, rule.x, rule.endX);
     if (ink > best.ink) best = { ink, line };
   }
@@ -526,7 +575,7 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
  * first page. The words are the form's own; the facts are the participant's and
  * the matter's, and they are the same four on all four binaries.
  */
-function captionBandDecision(caption) {
+function captionBandDecision(caption, blank) {
   const text = caption.toLowerCase();
   if (/^county of$/.test(text) || /^county$/.test(text)) return WRITE("matter.county", "County of the case");
   if (/court file number/.test(text)) return WRITE("matter.case_number", "Court File Number");
@@ -536,7 +585,29 @@ function captionBandDecision(caption) {
       + "districts and www.mncourts.gov lists which counties are in each");
   }
   if (/^case type$/.test(text)) {
-    return NOT_A_FIELD("the form prints its own answer, Criminal, on this rule");
+    /*
+     * DECIDED ON THE MEASUREMENT, NOT ON THE CAPTION.
+     *
+     * EXP102, EXP104 and EXP106 print their own answer, Criminal, on this rule,
+     * and their measured ink fractions say so: 0.23, 0.34 and 0.25. FEE102 is
+     * the general civil fee-waiver affidavit, it prints no case type at all,
+     * and its measured ink fraction on the same captioned rule is 0.00. Reading
+     * the caption alone gave all four the same sentence, so FEE102's Case Type
+     * rule carried a stated reason its own measurement contradicts, and a blank
+     * the participant has to fill was named nowhere in the packet.
+     *
+     * This is the same shape as the Plaintiff/Petitioner rule a few lines
+     * below, which FEE102 also prints empty while the three court forms print
+     * it, and it is answered the same way: nothing is written, and the
+     * participant is told what goes in it and where to copy it from.
+     */
+    if ((blank?.printedInkFractionOnTheRule ?? 0) > 0) {
+      return NOT_A_FIELD("the form prints its own answer, Criminal, on this rule");
+    }
+    return SUPPLY("Case Type on the fee-waiver affidavit caption",
+      "the case type of the criminal case this fee waiver belongs to. FEE102 is the general civil fee-waiver "
+      + "form and prints no case type on its caption, while the three court forms in this packet all print "
+      + "Criminal on their own faces. Copy the case type exactly as EXP102 prints it");
   }
   if (/^state of minnesota$/.test(text)) {
     return NOT_A_FIELD("the form prints the plaintiff, State of Minnesota, on this rule");
@@ -574,7 +645,7 @@ function decideBlank(document, blank, captionBandFloorY) {
   }
 
   if (inCaptionBand) {
-    const band = captionBandDecision(caption);
+    const band = captionBandDecision(caption, blank);
     if (band) return band;
     if (isDefendantRule(caption)) {
       return document.role === "sworn_financial_affidavit"
@@ -750,9 +821,13 @@ function decideSelection(document, control, elected) {
       effectiveLabel: `Route election — ${shortContext}`,
       authority: document.role === "sworn_financial_affidavit" ? "Minn. Stat. § 563.01" : ROUTE_ELECTION.authority,
       why: document.role === "sworn_financial_affidavit"
-        ? "FEE102 item 2 asks whether the affidavit accompanies pleadings or asks only for copy fees to be "
-          + "waived. This packet contains the petition, the proof of service and the proposed order, so the "
-          + "answer is a fact about the packet rather than a choice the participant makes."
+        ? "FEE102 item 2 prints \"Choose one:\" and asks whether the affidavit accompanies pleadings or asks "
+          + "only for copy fees to be waived. This packet contains the petition, the proof of service and the "
+          + "proposed order, so the answer is a fact about the packet rather than a choice the participant "
+          + "makes. The other branch of the same choose-one says the opposite and is left empty: marking both "
+          + "would swear to two contradictory statements on one affidavit under Minn. Stat. § 563.01. If you "
+          + "file this affidavit without the petition, asking only for copy fees to be waived, unmark this box "
+          + "and mark that one instead."
         : ROUTE_ELECTION.why
     };
   }
@@ -770,6 +845,23 @@ function decideSelection(document, control, elected) {
       reason: "checking this box states, under Minn. Stat. § 358.116 and penalty of perjury, that this party "
         + "was served by mail. The mailing has not happened when the packet is generated, so it is checked by "
         + "whoever mails the packet, after they mail it."
+    };
+  }
+  if (document.role === "sworn_financial_affidavit" && FEE102_ITEM_2.alternativeBranch.test(context)) {
+    return {
+      mark: false, approvedDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      effectiveLabel: `Item 2 alternative this packet does not use — ${shortContext}`,
+      routeConditionThatMakesItInapplicable:
+        "FEE102 item 2 prints \"Choose one:\" and this packet carries pleadings to file with the affidavit "
+        + "— the petition EXP102, the proof of service EXP104 and the proposed order EXP106 — so the first "
+        + "branch is marked. This is the other branch of that same choose-one, and it says the opposite: "
+        + "that there are no pleadings to file. It is not reachable while the first branch is marked.",
+      reason:
+        "the other branch of FEE102 item 2's printed \"Choose one:\". This packet marks the first branch, "
+        + "because the pleadings are in the envelope with the affidavit. Leave this one empty: marking both "
+        + "branches would swear to two contradictory statements on one affidavit under Minn. Stat. § 563.01. "
+        + "If you file the affidavit WITHOUT the petition — asking only for copy fees to be waived — then "
+        + "this is your branch, and you have to unmark the first one."
     };
   }
   if (document.role === "sworn_financial_affidavit") {
@@ -968,7 +1060,7 @@ async function censusDocument(document) {
       columnCounts.set(key, (columnCounts.get(key) ?? 0) + 1);
     }
     for (const rule of rules) {
-      const ink = inkOnRule(rule, lines);
+      const ink = inkOnRule(rule, lines, rules);
       const columnKey = `${round(rule.x)}|${round(rule.endX)}`;
       const repeated = columnCounts.get(columnKey) ?? 0;
       let construction = "drawn_horizontal_rule";
@@ -1289,7 +1381,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, requiredBeforeFiling, laterCompletion, elections }) {
+function renderParticipantInstructions({ documents, censuses, marks, requiredBeforeFiling, laterCompletion, elections }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1309,10 +1401,24 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
   lines.push("");
   lines.push("## What this packet already says for you");
   lines.push("");
-  lines.push("On EXP102 item 9 the first box is checked: the box for a controlled-substance case dismissed and");
-  lines.push("discharged under Minn. Stat. § 152.18. That is the statutory basis this packet was built for, and");
-  lines.push("it is the basis that goes with the proposed order EXP106. If your case was not discharged under");
-  lines.push("§ 152.18, this is the wrong packet and you should not file it.");
+  /*
+   * GENERATED FROM THE MARKS THIS BUILD ACTUALLY MADE, never from a sentence
+   * written beside them. This section named the EXP102 item 9 mark and nothing
+   * else while the build was also marking FEE102 item 2 -- a sworn statement on
+   * a Minn. Stat. § 563.01 affidavit that the packet made for the participant
+   * and never told them about. A hand-written disclosure goes stale the moment
+   * a second mark is added; a generated one cannot.
+   */
+  lines.push(`This packet marks ${marks.length} box${marks.length === 1 ? "" : "es"} for you and no others. They are`);
+  lines.push("listed below. Every other box on every form in this packet is empty, and every one of them is");
+  lines.push("yours to decide.");
+  lines.push("");
+  for (const mark of marks) {
+    lines.push(`- **${mark.form} page ${mark.page} — ${mark.effectiveLabel}.** ${mark.reason}`);
+  }
+  lines.push("");
+  lines.push("If your case was not discharged under § 152.18, this is the wrong packet and you should not");
+  lines.push("file it.");
   lines.push("");
   lines.push("## You must supply these before you file");
   lines.push("");
@@ -1389,6 +1495,11 @@ function renderFilingInstructions({ documents }) {
   lines.push("under penalty of perjury, that you HAVE served the parties you check at the addresses you list.");
   lines.push("Until you have actually put the envelopes in the mail, none of that is true. Complete EXP104");
   lines.push("after you mail, not before, and then file it with the court.");
+  lines.push("");
+  lines.push("EXP104's caption is not finished either. This packet writes the county and the court file number");
+  lines.push("onto it; the Judicial District line is blank and is yours to fill, on EXP104 exactly as on EXP102,");
+  lines.push("EXP106 and FEE102. \"Blank below its caption\" above means below it, not including it — the list");
+  lines.push("of blanks to fill before you file is in your participant instructions.");
   lines.push("");
   lines.push("The committed record for this route does not state a service method, a service deadline or a");
   lines.push("filing deadline, so this packet states none. Ask the court administrator.");
@@ -1620,8 +1731,24 @@ async function build({ check = false } = {}) {
   }
 
   const feeWaiverPleadings = censuses.FEE102.selectionControls.find((control) =>
-    /I am including my pleadings with this Affidavit/i.test(control.printedContext));
+    FEE102_ITEM_2.electedBranch.test(control.printedContext));
   if (!feeWaiverPleadings) fail("FEE102 no longer prints the item 2 pleadings option");
+  /*
+   * The packet marks one branch of a printed choose-one, so the build refuses
+   * to run unless it can still read BOTH branches and the instruction that
+   * makes them exclusive. If FEE102 stops printing either, the classification
+   * of the unmarked branch stops being readable off the form and this build
+   * stops rather than guessing which of them is still a choice.
+   */
+  const feeWaiverCopyFeesOnly = censuses.FEE102.selectionControls.find((control) =>
+    FEE102_ITEM_2.alternativeBranch.test(control.printedContext));
+  if (!feeWaiverCopyFeesOnly) fail("FEE102 no longer prints the item 2 copy-fees-only option");
+  /* documentTextLines are cleanText()'d, which strips the trailing colon, so the
+   * printed instruction is compared through the same normalisation. */
+  if (!censuses.FEE102.documentTextLines.some((line) => line === cleanText(FEE102_ITEM_2.printedInstruction))) {
+    fail(`FEE102 no longer prints "${FEE102_ITEM_2.printedInstruction}" over item 2, so this build can no `
+      + "longer read the two options as mutually exclusive");
+  }
 
   const electedControlIds = new Set([elected.id, feeWaiverPleadings.id]);
 
@@ -1672,6 +1799,17 @@ async function build({ check = false } = {}) {
   const requiredBeforeFiling = [];
   const laterCompletion = [];
   const elections = [];
+  /*
+   * Every mark this build made, in the order the packet is assembled, so the
+   * guide's disclosure section is a reading of the marks rather than a
+   * sentence maintained beside them.
+   */
+  const marks = [];
+  for (const document of documents) {
+    for (const row of selectionDispositions[document.key].filter((row) => row.marked)) {
+      marks.push({ form: document.formNumber, page: row.page, effectiveLabel: row.effectiveLabel, reason: row.reason });
+    }
+  }
   for (const document of documents) {
     const rows = [
       ...anchorSets[document.key].withheld,
@@ -1695,7 +1833,7 @@ async function build({ check = false } = {}) {
   const electionRows = dedupe(elections, (r) => `${r.form}|${r.effectiveLabel}`);
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
+    renderParticipantInstructions({ documents, censuses, marks, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
   fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions({ documents }));
 
   writeJson(`${OUT}/field-census.census-v1.json`, {

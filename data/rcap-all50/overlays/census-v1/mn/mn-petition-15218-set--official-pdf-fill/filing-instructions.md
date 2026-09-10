@@ -26,6 +26,11 @@ under penalty of perjury, that you HAVE served the parties you check at the addr
 Until you have actually put the envelopes in the mail, none of that is true. Complete EXP104
 after you mail, not before, and then file it with the court.
 
+EXP104's caption is not finished either. This packet writes the county and the court file number
+onto it; the Judicial District line is blank and is yours to fill, on EXP104 exactly as on EXP102,
+EXP106 and FEE102. "Blank below its caption" above means below it, not including it — the list
+of blanks to fill before you file is in your participant instructions.
+
 The committed record for this route does not state a service method, a service deadline or a
 filing deadline, so this packet states none. Ask the court administrator.
 
