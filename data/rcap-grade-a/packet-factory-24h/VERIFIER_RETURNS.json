@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 154,
-    "rows": 1146,
+    "returnDirectories": 155,
+    "rows": 1148,
     "independentVerdicts": 291,
-    "failRepairRequired": 75,
-    "passIndependent": 194
+    "failRepairRequired": 74,
+    "passIndependent": 195
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -48,7 +48,6 @@
     "ar-cs-possession-seal-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
-    "ar-nonconviction-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "ca-17b-reduction-set",
@@ -2135,6 +2134,29 @@
     {
       "familyId": "ar-cs-possession-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf31",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -2155,7 +2177,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-drug-court-set",
@@ -2602,6 +2624,20 @@
     },
     {
       "familyId": "ar-nonconviction-seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf31",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
@@ -2623,7 +2659,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-pardon-seal-set",

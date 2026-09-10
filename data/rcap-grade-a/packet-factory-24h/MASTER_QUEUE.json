@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "cf2ec6862a2f2d617dbfd1895a44c6b8db7fd6ca",
+  "minimumCaptainSha": "ce60592387782f41e53da68be629333fc8ff715c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 33,
+    "activeFamiliesExcluded": 32,
     "guidanceOnly": 0,
-    "remaining": 313,
+    "remaining": 314,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 73,
+    "FAIL_REPAIR_REQUIRED": 72,
     "SOURCE_READY": 33,
+    "BUILT_RASTER_PENDING": 3,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -115,7 +115,6 @@
       "al-pardoned-felony-set",
       "ar-cs-possession-seal-set",
       "ar-felony-seal-set",
-      "ar-nonconviction-seal-set",
       "ar-pardon-seal-set",
       "az_marijuana_expungement_arrest_no_charges-set",
       "co_multiple_conviction_seal-set",
@@ -4199,9 +4198,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "lane": "vf31",
+        "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -4241,9 +4240,8 @@
         {
           "obligation": "ARTIFACTS",
           "finding": null,
-          "evidence": null,
           "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -4962,14 +4960,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf90",
-        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf31",
+        "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4998,23 +4994,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "evidence": null,
-          "findingReadFrom": null,
-          "readFrom": "the row's own failedObligationNames; no per-obligation finding was recorded beside it"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX137",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -5025,8 +5011,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ar-pardon-seal-set",

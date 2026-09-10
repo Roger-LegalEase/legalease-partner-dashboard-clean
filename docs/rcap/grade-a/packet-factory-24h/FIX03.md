@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `cf2ec6862a2f2d617dbfd1895a44c6b8db7fd6ca` (or the newer dispatch base)
+**Minimum required ancestor:** `ce60592387782f41e53da68be629333fc8ff715c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'co_motion_seal_conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha cf2ec6862a2f2d617dbfd1895a44c6b8db7fd6ca
+  --minimum-captain-sha ce60592387782f41e53da68be629333fc8ff715c
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,10 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'co_motion_seal_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'co_motion_seal_nonconviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'in_conviction_d6-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'in_conviction_felony-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'in_conviction_misd-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'la-977d-marijuana-first-offense-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'la-985-1-interim-expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'mo-art-xiv-marijuana-set'`
@@ -65,11 +67,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 8 families
 
 - `co_motion_seal_conviction-set`
 - `co_motion_seal_nonconviction-set` — failing: requiredOptionsMissing
 - `in_conviction_d6-set`
+- `in_conviction_felony-set`
+- `in_conviction_misd-set`
 - `la-977d-marijuana-first-offense-set`
 - `la-985-1-interim-expungement-set`
 - `mo-art-xiv-marijuana-set`
@@ -88,12 +92,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/**`
 - `scripts/build-census-v1-co_motion_seal_conviction-set.mjs`
 - `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
 - `scripts/build-census-v1-in_conviction_d6-set.mjs`
+- `scripts/build-census-v1-in_conviction_felony-set.mjs`
+- `scripts/build-census-v1-in_conviction_misd-set.mjs`
 - `scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs`
 - `scripts/build-census-v1-la-985-1-interim-expungement-set.mjs`
 - `scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs`
