@@ -4490,7 +4490,7 @@
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+      "releaseReason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
     },
     {
       "subjectType": "packet-family",
@@ -4535,7 +4535,7 @@
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+      "releaseReason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
     },
     {
       "subjectType": "packet-family",
@@ -4582,7 +4582,7 @@
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF30 returned its read of all three at verifiedAtBase 4761ef4fdd9498093511ed2d94f8d90d6ae9fd03; those rows are merged and are the verdicts that withdrew these families. FIX03 has since repaired them and the repaired bytes have no independent reader."
+      "releaseReason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
     },
     {
       "subjectType": "packet-family",
@@ -9485,9 +9485,9 @@
       "operation": "independent-verification",
       "lane": "VF25",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF25 returned. Its read of this family predates the caption/locator repair FIX130 applied to five siblings on a different host, and VF25 explicitly listed this family under notThisLanes and never ran the collision query against it. Released so a lane can read the defect FIX05 found and I reproduced."
+      "released": true,
+      "releasedAt": "2026-09-10T08:44:44.793Z",
+      "releaseReason": "VF25 returned the read that withdrew this family from terminal at 05faf648a. The family now owes a repair, not another read."
     },
     {
       "subjectType": "packet-family",
@@ -9517,7 +9517,8 @@
       "lane": "FIX130",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "FIX130 returned. Its Vermont repair was scoped by an opt-in Set inside one host and never reached this family, which is why the defect survived here. Released for a lane that will repair it."
     },
     {
       "subjectType": "packet-family",
@@ -14511,7 +14512,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c3cdf012fa06a452aa5b467abe7d2db3d0dcc285e336d52c852040008b0475fb",
+  "claimsDigest": "bb9faa18673bab98648411e9ff2905ee1d345783e515ad652f051413378ac529",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35487,6 +35488,51 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T08:24:55.671Z",
       "reason": "Consolidating with in_conviction_d6-set and in_conviction_felony-set onto FIX04: one defect class, one remedy, one lane."
+    },
+    {
+      "lane": "VF25",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T08:44:44.793Z",
+      "reason": "VF25 returned the read that withdrew this family from terminal at 05faf648a. The family now owes a repair, not another read."
+    },
+    {
+      "lane": "FIX130",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T08:44:44.903Z",
+      "reason": "FIX130 returned. Its Vermont repair was scoped by an opt-in Set inside one host and never reached this family, which is why the defect survived here. Released for a lane that will repair it."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T08:44:53.798Z",
+      "reason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T08:44:54.027Z",
+      "reason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T08:44:54.268Z",
+      "reason": "VF36's read is stale: FIX04's repair at f2fa1648b moved every delivered PDF in this family, so the rows VF36 wrote describe bytes that no longer exist."
     }
   ],
   "reissues": [
@@ -44395,6 +44441,46 @@
       "previouslyReleasedAt": "2026-09-10T08:23:09.018Z",
       "reissuedAt": "2026-09-10T08:23:09.139Z",
       "reason": "Re-opened for the read this family owes: it is COMPLETE_PACKET_PROVEN while its delivered participant table hands the participant nine blanks in colliding groups with no locator, the exact condition VF25 itself failed vt_exp_decriminalized-set for."
+    },
+    {
+      "lane": "FIX130",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-10T08:44:44.903Z",
+      "reissuedAt": "2026-09-10T08:44:53.692Z",
+      "reason": "Re-opened on the lane the ledger names, to perform the repair FIX130's opt-in Set never reached: the participant table names eight groups covering 20 of 46 rows that stay ambiguous across all three columns, while the committed map already holds the row number the form itself prints and the renderer discards it."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T08:44:53.798Z",
+      "reissuedAt": "2026-09-10T08:44:53.905Z",
+      "reason": "Re-opened for the read the moved bytes owe. FIX04 repaired; a repair author may not verify its own repair, and VF36 is neither builder nor repairer here."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T08:44:54.027Z",
+      "reissuedAt": "2026-09-10T08:44:54.147Z",
+      "reason": "Re-opened for the read the moved bytes owe. FIX04 repaired; a repair author may not verify its own repair, and VF36 is neither builder nor repairer here."
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-10T08:44:54.268Z",
+      "reissuedAt": "2026-09-10T08:44:54.389Z",
+      "reason": "Re-opened for the read the moved bytes owe. FIX04 repaired; a repair author may not verify its own repair, and VF36 is neither builder nor repairer here."
     }
   ],
   "transfers": [
