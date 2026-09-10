@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX03",
+  "worker": "CLAUDE-PFE-FIX03-CO-MOTION-PAIR",
+  "laneKind": "repair",
+  "baseSha": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "mergedCaptainSha": "6bf196d81",
+  "workerBranch": "pfe-fix-20260909",
+  "worktree": "/home/user/pfe-worktree",
+  "whyThisFileHasItsOwnName": "data/rcap-grade-a/packet-factory-24h/fix03/rows.json is another worker's committed FIX03 return, and rows-fix03-pfe-20260909-co-nonconviction.json is this worker's other family. One file per family, none overwritten.",
+  "claimHandling": "FIX03 repair grants were asserted for both halves of the pair. No claim was released, transferred or modified.",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "familiesRepaired": [],
+  "familiesStopped": [
+    "co_motion_seal_conviction-set"
+  ],
+  "nineCountersZeroOn": [],
+  "rasterRuleApplied": "This family's delivered bytes MOVED. Both fixtures are new and both are BUILT_RASTER_PENDING against the new SHA-256 values below. visualDefects is recorded null, not 0: this lane rastered locally to measure ink in both directions, and a local render is not a receipt.",
+  "grantsNothing": "This repair return issues no independent verdict, proves no family, releases no claim, opens no commercial route, touches no Production path, and weakens no gate.",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "familyId": "co_motion_seal_conviction-set",
+      "routeKeys": [
+        "track:CO:co_motion_seal_conviction"
+      ],
+      "status": "STOPPED",
+      "whyStopped": "COMPONENT_SET is a recorded failed obligation on this family and it is not repairable by a repair lane. The packet delivers 2 of the 4 documents the official JDF 611 guide requires. See componentSetRemainsOpen below, including a custody measurement that contradicts the recorded basis for it.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX03 co_motion_seal_conviction-set (repair, grant set 914af21a28d51a60)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "FEE_AND_WAIVER (the record half; the packet half was already repaired)",
+        "SYNTHESIZED_WIDGET_INK (not a named obligation on this family's row; carried by the border cohort)"
+      ],
+      "obligationStillOpen": [
+        "COMPONENT_SET"
+      ],
+      "recordedFailureRead": {
+        "source": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[152]",
+        "lane": "vf07",
+        "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+        "failedObligations": [
+          "COMPONENT_SET",
+          "FEE_AND_WAIVER"
+        ]
+      },
+
+      "theColoradoBorderResult": {
+        "headline": "THE PREVIOUS BUILD WAS OVER-SUPPRESSING, AND THE NEGATIVE CONTROL IS WHAT CAUGHT IT. Removed dark pixels on JDF-612 page 4 fell from 525 to 0 across this repair, and what came back is a rule the official form itself draws.",
+        "whyThisMattersMoreThanTheAddedInk": "A remedy that removes the court's own ink is worse than the ink it was sent to remove. Every measurement in this cohort so far has been read in the added direction. This is the first time the removed direction has been read on a repaired candidate and returned a finding either way, and it returned one: the bytes shipped before this repair were missing ink JDF-612 prints.",
+        "whatTheRestoredInkIs": "A horizontal rule 213.6 points long and 0.5 points thick at x 254.4, y 192.0 on JDF-612 page 4, in the b) Appeals block. It is drawn by the official form. The pre-repair bytes suppressed it entirely: 445 of the 525 removed dark pixels on that page were that one rule. It is present again in the delivered bytes.",
+        "removedDarkPixelsPerPage": {
+          "measuredAgainst": "a 150 dpi pdftoppm render of the pinned JDF-612 and JDF-615, page for page",
+          "before": {
+            "canonical": { "p1": 0, "p2": 0, "p3": 0, "p4": 525, "p5": 0, "p6": 0, "p7": 0, "p8": 0 },
+            "boundary": { "p1": 0, "p2": 0, "p3": 0, "p4": 525, "p5": 0, "p6": 0, "p7": 0, "p8": 0 }
+          },
+          "after": {
+            "canonical": { "p1": 0, "p2": 0, "p3": 0, "p4": 0, "p5": 0, "p6": 0, "p7": 0, "p8": 0 },
+            "boundary": { "p1": 0, "p2": 0, "p3": 0, "p4": 0, "p5": 0, "p6": 0, "p7": 0, "p8": 0 }
+          },
+          "breakdownOfThe525": "445 px was the 213.6 x 0.5pt rule described above. The other 80 px was the outline of the two 'b) Appeals - Yes./No.' check boxes, which the previous bytes replaced with a stamp about 1.4pt oversized: 139 added px at 11.5 x 11.5 against 80 removed px at the source's own 10 x 10. Both halves are now zero."
+        },
+        "howTheLast80WereSettled": {
+          "instrument": "fitAppearancesToRect",
+          "why": "The oversized stamp is ISO 32000-1 12.5.5: an appearance whose transformed /BBox is not its /Rect, flattened by pdf-lib with the translation only and never the fit. That flag pre-composes the mapping into the stream's own /Matrix.",
+          "result": "Page 4 goes to added 0 / removed 0 on BOTH fixtures. It disturbed nothing else: every other page's added count is identical to the build before it, and no page gained a removed pixel.",
+          "answerToTheQuestionAsAsked": "fitAppearancesToRect DID fix the two 'b) Appeals - Yes./No.' boxes. Removed goes to 0."
+        },
+        "addedDarkPixelsReconfirmedAtTheEnd": {
+          "why": "A flag combination that clears removed pixels by re-introducing added ones has fixed nothing, so added ink was re-read on the final bytes rather than assumed from the intermediate build.",
+          "canonical": {
+            "before": { "p1": 7367, "p2": 199, "p3": 0, "p4": 139, "p5": 899, "p6": 6531, "p7": 41, "p8": 0, "total": 15176 },
+            "after": { "p1": 6909, "p2": 0, "p3": 0, "p4": 0, "p5": 823, "p6": 6531, "p7": 0, "p8": 0, "total": 14263 },
+            "netChange": -913
+          },
+          "boundary": {
+            "before": { "p1": 8843, "p2": 199, "p3": 0, "p4": 139, "p5": 1941, "p6": 10861, "p7": 41, "p8": 0, "total": 22024 },
+            "after": { "p1": 8385, "p2": 0, "p3": 0, "p4": 0, "p5": 1865, "p6": 10861, "p7": 0, "p8": 0, "total": 21111 },
+            "netChange": -913
+          },
+          "conclusion": "Added ink went DOWN by 913 dark pixels on each fixture and up on no page. Nothing was traded."
+        },
+        "negativeControl": {
+          "pages": "JDF-612 page 3 (packet p3) and JDF-615 page 3 (packet p8) carry no write from this packet.",
+          "before": "added 0, removed 0 on both, on both fixtures",
+          "after": "added 0, removed 0 on both, on both fixtures",
+          "reading": "The control gained nothing and lost nothing before or after, so the deltas above are the repair and not a rendering difference."
+        },
+        "byteAccountingAfterTheRepair": {
+          "tool": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs, run on each delivered fixture",
+          "strokeOnlyBefore": "90 across the two fixtures (45 per fixture), of which BORDER_COHORT_REMEDIATION.json accounted 56 as byte-identical to /AP /N streams the pinned JDF-612 and JDF-615 ship, and 34 as matching nothing",
+          "strokeOnlyAfter": "56 across the two fixtures, 28 per fixture",
+          "reading": "56 is exactly the number the accounting said were the form's own. All 34 synthesized appearances are gone and all 56 of the form's own survive. That is the outcome the dispatch required, and the removed-pixel column above is the independent confirmation that none of the 56 was lost."
+        },
+        "flagsUsedAndWhyEach": [
+          {
+            "flag": "suppressSynthesizedWidgetBorders",
+            "did": "Restored the 213.6 x 0.5pt rule on page 4 (removed px on that page fell from 525 to 80). On its own it did NOT clear the 34: stroke-only fell only from 45 to 44 per fixture.",
+            "whyNotEnough": "The synthesized appearances here carry the painting operators ['f','f'] - two fills and no stroke. They are not /MK /BC borders, which is what that flag neutralises."
+          },
+          {
+            "flag": "suppressSynthesizedAppearances",
+            "did": "Cleared the 34. Added ink fell by 913 px per fixture across pages 1, 2, 5 and 7.",
+            "why": "pdf-lib's default check-box provider draws an appearance for a widget whose current /AS state has no entry in /AP /N. This flag installs an EMPTY appearance for the missing state instead, and leaves alone both a widget that ships its own /Off stream and a box this run ticked."
+          },
+          {
+            "flag": "fitAppearancesToRect",
+            "did": "Closed the last 80 removed px and the 139 added px that went with them, on page 4 of both fixtures.",
+            "why": "ISO 32000-1 12.5.5 placement, as above."
+          }
+        ]
+      },
+
+      "feeAndWaiver": {
+        "packetHalf": {
+          "status": "ALREADY REPAIRED IN THE COMMITTED TREE BEFORE THIS LANE TOUCHED IT",
+          "recordedFindingVerbatim": "participant-instructions.md, 'Where you file this': \"**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a conviction record is not established in any source this packet holds, so it is not stated here.\"",
+          "whatTheCommittedGuideActuallyHolds": "A section headed 'The filing fee, and what to do if you cannot pay it' which quotes JDF 611 on the clerk setting the fee, then states: 'If you cannot afford it, Colorado has a waiver and JDF 611 names the two forms for it' and quotes the guide verbatim, then says neither JDF 205 nor JDF 206 is in this packet and the participant obtains both from the Colorado Judicial Department. Nothing was changed here.",
+          "verifiedAgainstTheSourceBytesRatherThanTheVerifiersQuote": "pdftotext -layout of the pinned JDF 611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages) page 2 section 3 reads: 'Filing Fees / The Clerk will let you know the fee (if any) when filing. / If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees / JDF 206 Order (Just do §§ A-C)'. Read first-hand from the mounted Master Library, not taken from the verifier row."
+        },
+        "recordHalf": {
+          "status": "REPAIRED BY THIS LANE",
+          "recordedFindingVerbatim": "CO.memo.json track co_motion_seal_conviction rules.feeWaiver reads 'The source review does not address a fee waiver.' and participantActionRequired carries the same sentence under kind apply_fee_waiver. The memo is contradicted by the held JDF-611 too, so the repair is needed at both the memo and the packet.",
+          "whereItWasStillLive": "data/record-clearing/legal-design-track-registry.json, track co_motion_seal_conviction: rules.feeWaiver, participantActionRequired[kind=apply_fee_waiver].description, and the requiredBeforeFiling array entry derived from it. All three carried the false sentence.",
+          "whereItWasAlreadyFixed": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[co_motion_seal_conviction-set].participantActionRequired[kind=apply_fee_waiver] already quoted JDF 611 correctly. The registry and the manifest disagreed with each other; they now agree.",
+          "whatWasWritten": "All three now read: 'JDF 611, the official guide for this route, states the waiver route in its own words: \"If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).\" Neither JDF 205 nor JDF 206 is held in the verified corpus, so neither is prepared here; the participant obtains both from the Colorado Judicial Department. No amount is established: the same guide says only that the clerk states the fee, if any, at filing.' A feeWaiverBasis sibling records the source digest and the correction date.",
+          "noAmountWasInvented": "The fee AMOUNT is still not stated anywhere, by the registry, the manifest or the packet, because JDF 611 states none.",
+          "theSiblingWasDeliberatelyNOTMirrored": "co_motion_seal_nonconviction keeps 'The source review does not address a fee waiver.' Its own official guide, JDF 491 (sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685), carries NO Filing Fees section at all, so the sentence remains true there and mirroring would be an invention. The asymmetry is recorded in feeWaiverBasis so a later reader does not 'fix' it. This is the pair-mirroring rule applied in the direction that matters: the two halves must not contradict each other, and here that means one moves and the other does not."
+        }
+      },
+
+      "componentSetRemainsOpen": {
+        "whatIsTrue": "The official JDF 611 guide, page 1, under its printed heading 'File the Request - File these forms into your criminal case', lists four forms: 'JDF 612 Motion', 'JDF 613 Order (just do §§ A-C)', 'JDF 614 Notice (Just do §§ A-C)' and 'JDF 615 Order (just do §§ A-C)'. This packet delivers JDF-612 and JDF-615. Read first-hand from the pinned guide bytes.",
+        "whyARepairLaneCannotCloseIt": "Delivering JDF 613 and JDF 614 is a build of two new components - census, field map, fixtures, page manifest, guides - not a repair of a recorded obligation on existing bytes. vf07's own words apply: 'A truthful account of an absent component is honesty, not delivery.'",
+        "theRecordedBasisForNOTDELIVERINGTHEMISFALSEINTHISCONTAINER": {
+          "whatTheManifestSays": "packetSetCompleteness.basis: '...their binaries sit in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts, so neither can be bound by SHA-256 and neither may be rendered.' The same sentence appears in both components' sourceStatusBasis, and vf07 repeats it.",
+          "whatIMeasured": "That custody IS mounted in this worktree, at private/source-imports/Nationwide_Recovery_Pool_2026-09-02, and both binaries are present and hash to the digests the committed corpus index declares.",
+          "jdf614": {
+            "paths": [
+              "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/JDF614.pdf",
+              "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-614__order-and-notice-of-hearing-sealing-conviction-records__rev-2024-08-07.pdf"
+            ],
+            "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+            "byteLength": 555787,
+            "pages": 1,
+            "note": "Both paths are the same bytes. The digest matches the one the track registry already binds as sourceBindings[official-form:JDF-614]."
+          },
+          "jdf613": {
+            "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+            "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+            "byteLength": 545525,
+            "pages": 1
+          },
+          "howItWasHashed": "sha256sum on the mounted files. Not transcribed from the index; the index digests were then compared to what the files hash to, and they agree."
+        },
+        "theCautionTHEMANIFESTCOULDNOTRESOLVEISNOWRESOLVED": {
+          "manifestSaid": "'ONE CAUTION FOR WHOEVER RENDERS IT: that index filename calls JDF 613 the ORDER DENYING the request. If that is right, the second order this route requires is the denial order tendered alongside the grant order, not a second grant - and it must not be described to a participant as a second grant order until it is confirmed against the JDF-613 bytes. FIX96 could not confirm it: the custody is not mounted.'",
+          "confirmedFromTheBytes": "JDF 613 page 1 heading reads 'JDF 613  Order Denying Request to Seal Conviction Records', and its item 1 Decision offers the court 'The motion, on its face, is insufficient' or 'After review of matters outside the motion, the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710', followed by 'The Court denies the motion because:'. The caution is CORRECT: JDF 613 is the denial order, not a second grant order.",
+          "andJdf614": "JDF 614 page 1 heading reads 'JDF 614  Order and Notice of Hearing (re sealing conviction records)', item 1 'Hearing Scheduled' with date, time and an 'If checked, the Defendant is required to attend the hearing' box. It is a court-completed order and notice, which is consistent with JDF 611's instruction to complete only §§ A-C - the caption - on both."
+        },
+        "aSecondDisagreementBetweenTHEREPOSITORYSOWNRECORDS": "data/record-clearing/legal-design-track-registry.json officialFormSetMapping for this track lists JDF-614 as role 'hearing_notice', requirement 'conditional' ('The court determines that a hearing is necessary'), courtOwned true, and does not list JDF-613 at all. data/record-clearing/legal-design-packet-set-manifests.json lists both as requirement 'required' components of the packet set. Whether this route owes two more documents at all is therefore contested inside the repository's own records, and that is a dispatch question rather than a repair one.",
+        "whatThisLaneDidAboutIt": "Named it with digests and first-hand quotations. Changed no manifest component, built nothing from either binary, and left COMPONENT_SET open. This family is returned STOPPED for that reason."
+      },
+
+      "internalRecordTextOnAFiling": {
+        "result": "ABSENT",
+        "basis": "pdftotext -layout over all 8 delivered pages of the canonical fixture returns no match for 'obligation:', 'Route:', 'scripts/', 'census-v1' or 'build-findings'. reports/actual-writes.json shows nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on all four documents. The family's _Route:_ line exists only in participant-instructions.md, which is the guide and not a filing."
+      },
+
+      "deterministicRebuild": "Four full builds were run from the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1: one control before any edit (which reproduced the committed bytes exactly, cea9d35a... / 1f8232b8...), then one per flag added. Each build's fixtures were re-hashed with node crypto and re-rastered before the next flag was considered.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersNote": "The eight numeric values are the builder's own count over this family's field maps, byte proof, rendered artifacts and participant-instructions.md, recomputed on the final bytes. requiredComponentsMissing is 0 because the builder counts components that reach no rendered page among the components the family DECLARES, and this family declares the two it renders; it is not a contradiction of COMPONENT_SET, which is about the two documents the official guide requires and the packet set does not declare as rendered. visualDefects is null because this lane rastered only to measure and a local render is not a receipt.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "455f7387b715af77fc6b89a1c5ca9fb497f0dfb4c4d413376c572fa97bfad3da",
+          "byteLength": 355659,
+          "pageCount": 8,
+          "previousSha256": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+          "documents": [
+            { "document": "JDF-612", "addedGlyphsReadFromOutputBytes": 138, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 61 },
+            { "document": "JDF-615", "addedGlyphsReadFromOutputBytes": 115, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 26 }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "66ca31e0c3ccd8181f3c67d085401ca0bd22a57b2ae8332d4733d1c287b1726d",
+          "byteLength": 355952,
+          "pageCount": 8,
+          "previousSha256": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556",
+          "documents": [
+            { "document": "JDF-612", "addedGlyphsReadFromOutputBytes": 287, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 61 },
+            { "document": "JDF-615", "addedGlyphsReadFromOutputBytes": 239, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 26 }
+          ]
+        }
+      ],
+      "anyPriorRasterReceiptNoLongerBinds": "Both fixture digests changed. A RASTER_PASS bound to cea9d35a... or 1f8232b8... no longer binds and this family owes a fresh central raster against the two digests above.",
+      "filesChanged": [
+        "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/raster/**",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/reports/**",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/source-receipt.json"
+      ],
+      "whoMayCloseThis": "Not this lane. The repair is not verified by its author: this family owes a read by a lane that neither built nor repaired it, and a central RASTER_PASS bound to the two digests above."
+    }
+  ]
+}
