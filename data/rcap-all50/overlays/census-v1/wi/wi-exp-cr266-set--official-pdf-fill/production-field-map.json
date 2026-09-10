@@ -1,0 +1,1745 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "wi_exp_cr266-set",
+  "routeKeys": [
+    "obligation:track-only:WI:wi_exp_cr266"
+  ],
+  "routeSelectionId": "wi-exp-cr266-set-cr-266-cr-267",
+  "renderStrategy": "measured_flat_overlay",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeDeterminedSelections": [],
+  "routeSelectionNote": "There is nothing on either form to elect. CR-266 carries no AcroForm field, no annotation, no stroked check box and no selection glyph — the three marks under paragraph 1 are SymbolMT bullets by the font's own /ToUnicode CMap. CR-267's eight printed check boxes are all the court's. The discharge-type election this route makes is the choice of THESE FORMS, recorded under dischargeFactsThatSelectedTheseForms.",
+  "dischargeFactsThatSelectedTheseForms": {
+    "ownerAction": "Map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, and release the build.",
+    "resolvedTo": "CR-266 has no selections. The established discharge facts select the FORM; nothing on the form is elected because nothing on it is electable.",
+    "gate": [
+      {
+        "factId": "matter.wi_expungement_ordered_at_sentencing",
+        "mustBe": true,
+        "why": "Wis. Stat. § 973.015 lets the SENTENCING court order expungement upon successful completion, and the compiled Wisconsin profile records that \"nothing in the statute lets the circuit court revisit the expungement decision later\". CR-266 paragraph 2 asserts the order was made. If the record does not establish it, CR-266 is not the instrument."
+      },
+      {
+        "factId": "matter.wi_sentence_included_probation",
+        "mustBe": false,
+        "why": "CR-266 paragraph 3 asserts \"I was not placed on probation\", and the form is captioned (Non-Probation/Non-Incarceration). A probation discharge is a different pathway and a different form."
+      },
+      {
+        "factId": "matter.wi_sentence_included_jail_or_prison",
+        "mustBe": false,
+        "why": "CR-266 paragraph 4 asserts \"I was not sentenced to jail or prison\". An incarceration discharge is a different pathway and a different form."
+      },
+      {
+        "factId": "matter.wi_sentence_completed",
+        "mustBe": true,
+        "why": "CR-266 paragraph 5 asserts the sentence was successfully completed, including all court-ordered financial obligations. Expungement under § 973.015 takes effect on successful completion."
+      }
+    ],
+    "established": [
+      {
+        "factId": "matter.wi_expungement_ordered_at_sentencing",
+        "value": true
+      },
+      {
+        "factId": "matter.wi_sentence_included_probation",
+        "value": false
+      },
+      {
+        "factId": "matter.wi_sentence_included_jail_or_prison",
+        "value": false
+      },
+      {
+        "factId": "matter.wi_sentence_completed",
+        "value": true
+      }
+    ],
+    "hardStopProof": {
+      "recordTested": "the canonical record with matter.wi_sentence_included_probation set to null",
+      "refused": true,
+      "factsNotEstablished": [
+        {
+          "factId": "matter.wi_sentence_included_probation",
+          "recordValue": null,
+          "requiredValue": false,
+          "why": "CR-266 paragraph 3 asserts \"I was not placed on probation\", and the form is captioned (Non-Probation/Non-Incarceration). A probation discharge is a different pathway and a different form."
+        }
+      ]
+    }
+  },
+  "participantAssertionsLeftAsPrinted": {
+    "what": "CR-266 paragraphs 1 to 6",
+    "why": "each is unconditional pre-printed text the petitioner adopts by signing under the criminal penalty of false swearing. There is no blank in any of them: nothing was written and nothing could be left blank. All six are printed verbatim in participant-instructions.md, read out of the pinned bytes, so the participant checks each against their own record before signing.",
+    "declarations": [
+      {
+        "number": 1,
+        "text": "I am the person convicted in this criminal case. I am asking that the court record of my criminal conviction be expunged. I understand that if the record is expunged:",
+        "subItems": [
+          " only the court record of the conviction will be expunged;",
+          " other court records and records of the police, the Crime Information Bureau, other law enforcement agencies, and the district attorney will not be affected, AND",
+          " the conviction is not vacated or set aside."
+        ]
+      },
+      {
+        "number": 2,
+        "text": "At the time the sentence was imposed, the court ordered that the record be expunged upon successful completion of the sentence.",
+        "subItems": []
+      },
+      {
+        "number": 3,
+        "text": "I was not placed on probation.",
+        "subItems": []
+      },
+      {
+        "number": 4,
+        "text": "I was not sentenced to jail or prison.",
+        "subItems": []
+      },
+      {
+        "number": 5,
+        "text": "I have successfully completed my sentence in this case, including payment of all court-ordered financial obligations.",
+        "subItems": []
+      },
+      {
+        "number": 6,
+        "text": "Between the date of conviction in this case and successful completion of my sentence, I was not convicted of another criminal offense.",
+        "subItems": []
+      }
+    ]
+  },
+  "requiredBeforeFilingCount": 2,
+  "requiredBeforeFiling": [
+    {
+      "document": "CR-266",
+      "field": "CR-266/signature",
+      "page": 1,
+      "section": "Declaration — signature block",
+      "disclosureLabel": "Signature",
+      "identity": "CR-266 blank signature",
+      "why": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature",
+      "participantMustSupply": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature"
+    },
+    {
+      "document": "CR-266",
+      "field": "CR-266/date-signed",
+      "page": 1,
+      "section": "Declaration — signature block",
+      "disclosureLabel": "Date",
+      "identity": "CR-266 blank date-signed",
+      "why": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made",
+      "participantMustSupply": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "CR-266",
+      "documentId": "CR-266",
+      "documentRole": "primary_filing",
+      "componentId": "wi_exp_cr266-primary-filing-1",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:WI:wi_exp_cr266"
+      },
+      "structuralClass": "flat_pdf_measured_overlay",
+      "explicitMappings": {
+        "CR-266/county-venue": "matter.county",
+        "CR-266/defendant-name": "participant.full_legal_name",
+        "CR-266/date-of-birth": "participant.date_of_birth",
+        "CR-266/case-number": "matter.case_number",
+        "CR-266/name-printed-or-typed": "participant.full_legal_name",
+        "CR-266/address": "participant.street_address",
+        "CR-266/email-address": "participant.email",
+        "CR-266/telephone-number": "participant.phone"
+      },
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "CR-266/county-venue",
+          "fieldName": "CR-266/county-venue",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 243.49,
+            "y": 737.6,
+            "width": 146.98,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 735.6,
+            "x": 241.49,
+            "endX": 392.47,
+            "width": 150.98,
+            "thickness": 1.08
+          },
+          "printedLabel": "County",
+          "printedLine": "County",
+          "sectionHeading": "Caption — venue",
+          "regionHeading": "County",
+          "effectiveLabel": "County",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the word COUNTY is printed at x=395.23 on the same line, immediately after this rule ends at x=392.47",
+          "printedTextAtCoordinate": [
+            {
+              "y": 738,
+              "extracted": "STATE OF WISCONSIN, CIRCUIT COURT, COUNTY"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/defendant-name",
+          "fieldName": "CR-266/defendant-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 693.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 691.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Defendant’s Name",
+          "printedLine": "Defendant’s Name",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Defendant’s Name",
+          "effectiveLabel": "Defendant’s Name",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Defendant’s Name\" prints at y=684.22 x=41.40, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 691,
+              "extracted": "(Non-Probation/"
+            },
+            {
+              "y": 684,
+              "extracted": "DefendNamanet’s"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/date-of-birth",
+          "fieldName": "CR-266/date-of-birth",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 669.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 667.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date of Birth\" prints at y=660.22 x=41.40, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 660,
+              "extracted": "Date of Birth"
+            },
+            {
+              "y": 677,
+              "extracted": "Non-Incarceration)"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/case-number",
+          "fieldName": "CR-266/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 356.91,
+            "y": 655.62,
+            "width": 73.16,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 653.62,
+            "x": 354.91,
+            "endX": 432.07,
+            "width": 77.16,
+            "thickness": 0.48
+          },
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption — case",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Case No.\" prints at y=655.18 x=310.49 and ends before this rule begins at x=354.91; the rule is 77.16pt and the caption box's vertical divider is at x=464.26",
+          "printedTextAtCoordinate": [
+            {
+              "y": 655,
+              "extracted": "Case No."
+            },
+            {
+              "y": 660,
+              "extracted": "Date of Birth"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/name-printed-or-typed",
+          "fieldName": "CR-266/name-printed-or-typed",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 274.93,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.93,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Name Printed or Typed",
+          "printedLine": "Name Printed or Typed",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Name Printed or Typed",
+          "effectiveLabel": "Name Printed or Typed",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Name Printed or Typed\" prints at y=266.09 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 266,
+              "extracted": "Name Printed or Typed"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/address",
+          "fieldName": "CR-266/address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 252.97,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 250.97,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Address",
+          "printedLine": "Address",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Address",
+          "effectiveLabel": "Address",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Address\" prints at y=244.13 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 244,
+              "extracted": "Address"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.street_address",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/email-address",
+          "fieldName": "CR-266/email-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 230.29,
+            "width": 167.06,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "ruleSpanTaken": {
+            "x0": 284.69,
+            "x1": 455.75
+          },
+          "sharesRuleWith": "telephone-number",
+          "printedLabel": "Email Address",
+          "printedLine": "Email Address",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Email Address",
+          "effectiveLabel": "Email Address",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Email Address\" prints at y=222.17 x=284.69; the next caption on that line, \"Telephone Number\", prints at x=457.75, which is where this blank stops",
+          "printedTextAtCoordinate": [
+            {
+              "y": 222,
+              "extracted": "Email Address Telephone Number"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.email",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/telephone-number",
+          "fieldName": "CR-266/telephone-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 230.29,
+            "width": 43.55,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "ruleSpanTaken": {
+            "x0": 457.75,
+            "x1": 505.3
+          },
+          "sharesRuleWith": "email-address",
+          "printedLabel": "Telephone Number",
+          "printedLine": "Telephone Number",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Telephone Number",
+          "effectiveLabel": "Telephone Number",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Telephone Number\" prints at y=222.17 x=457.75 and runs past the right end of the rule at x=505.30; the blank the form gives is the 47.55pt of rule above it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 222,
+              "extracted": "Email Address Telephone Number"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.phone",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "CR-266/signature",
+          "fieldName": "CR-266/signature",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 296.29,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 294.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "printedLabel": "Signature",
+          "printedLine": "Signature",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Signature",
+          "effectiveLabel": "Signature",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Signature\" prints at y=288.17 x=284.69, directly beneath this rule; the ► glyph sits on the rule at x=284.69",
+          "printedTextAtCoordinate": [
+            {
+              "y": 296,
+              "extracted": "\u0001y"
+            },
+            {
+              "y": 288,
+              "extracted": "Signature"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": true,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "identity": "CR-266 blank signature",
+          "participantMustSupply": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature",
+          "why": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature"
+        },
+        {
+          "field": "CR-266/date-signed",
+          "fieldName": "CR-266/date-signed",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 208.69,
+            "width": 167.06,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 206.69,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.6
+          },
+          "ruleSpanTaken": {
+            "x0": 284.69,
+            "x1": 455.75
+          },
+          "sharesRuleWith": "state-bar-no",
+          "printedLabel": "Date",
+          "printedLine": "Date",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Date",
+          "effectiveLabel": "Date",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date\" prints at y=200.09 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 200,
+              "extracted": "Date State Bar No. (if any)"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": true,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "identity": "CR-266 blank date-signed",
+          "participantMustSupply": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made",
+          "why": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made"
+        },
+        {
+          "field": "CR-266/state-bar-no",
+          "fieldName": "CR-266/state-bar-no",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 208.69,
+            "width": 43.55,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 206.69,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.6
+          },
+          "ruleSpanTaken": {
+            "x0": 457.75,
+            "x1": 505.3
+          },
+          "sharesRuleWith": "date-signed",
+          "printedLabel": "State Bar No. (if any)",
+          "printedLine": "State Bar No. (if any)",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "State Bar No. (if any)",
+          "effectiveLabel": "State Bar No. (if any)",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"State Bar No. (if any)\" prints at y=200.09 x=457.75",
+          "printedTextAtCoordinate": [
+            {
+              "y": 200,
+              "extracted": "Date State Bar No. (if any)"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "a Wisconsin State Bar number belongs to a lawyer signing the petition. This is an attorney-only line, no representation fact is held on this route, the packet is prepared for a petitioner acting for themselves, and the form itself marks the line \"(if any)\"",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "a Wisconsin State Bar number belongs to a lawyer signing the petition. This is an attorney-only line, no representation fact is held on this route, the packet is prepared for a petitioner acting for themselves, and the form itself marks the line \"(if any)\""
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "CR-266/county-venue",
+          "fieldName": "CR-266/county-venue",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 243.49,
+            "y": 737.6,
+            "width": 146.98,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 735.6,
+            "x": 241.49,
+            "endX": 392.47,
+            "width": 150.98,
+            "thickness": 1.08
+          },
+          "printedLabel": "County",
+          "printedLine": "County",
+          "sectionHeading": "Caption — venue",
+          "regionHeading": "County",
+          "effectiveLabel": "County",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the word COUNTY is printed at x=395.23 on the same line, immediately after this rule ends at x=392.47",
+          "printedTextAtCoordinate": [
+            {
+              "y": 738,
+              "extracted": "STATE OF WISCONSIN, CIRCUIT COURT, COUNTY"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/defendant-name",
+          "fieldName": "CR-266/defendant-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 693.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 691.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Defendant’s Name",
+          "printedLine": "Defendant’s Name",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Defendant’s Name",
+          "effectiveLabel": "Defendant’s Name",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Defendant’s Name\" prints at y=684.22 x=41.40, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 691,
+              "extracted": "(Non-Probation/"
+            },
+            {
+              "y": 684,
+              "extracted": "DefendNamanet’s"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/date-of-birth",
+          "fieldName": "CR-266/date-of-birth",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 669.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 667.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date of Birth\" prints at y=660.22 x=41.40, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 660,
+              "extracted": "Date of Birth"
+            },
+            {
+              "y": 677,
+              "extracted": "Non-Incarceration)"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/case-number",
+          "fieldName": "CR-266/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 356.91,
+            "y": 655.62,
+            "width": 73.16,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 653.62,
+            "x": 354.91,
+            "endX": 432.07,
+            "width": 77.16,
+            "thickness": 0.48
+          },
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption — case",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Case No.\" prints at y=655.18 x=310.49 and ends before this rule begins at x=354.91; the rule is 77.16pt and the caption box's vertical divider is at x=464.26",
+          "printedTextAtCoordinate": [
+            {
+              "y": 655,
+              "extracted": "Case No."
+            },
+            {
+              "y": 660,
+              "extracted": "Date of Birth"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/name-printed-or-typed",
+          "fieldName": "CR-266/name-printed-or-typed",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 274.93,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.93,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Name Printed or Typed",
+          "printedLine": "Name Printed or Typed",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Name Printed or Typed",
+          "effectiveLabel": "Name Printed or Typed",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Name Printed or Typed\" prints at y=266.09 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 266,
+              "extracted": "Name Printed or Typed"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/address",
+          "fieldName": "CR-266/address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 252.97,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 250.97,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "printedLabel": "Address",
+          "printedLine": "Address",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Address",
+          "effectiveLabel": "Address",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Address\" prints at y=244.13 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 244,
+              "extracted": "Address"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.street_address",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/email-address",
+          "fieldName": "CR-266/email-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 230.29,
+            "width": 167.06,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "ruleSpanTaken": {
+            "x0": 284.69,
+            "x1": 455.75
+          },
+          "sharesRuleWith": "telephone-number",
+          "printedLabel": "Email Address",
+          "printedLine": "Email Address",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Email Address",
+          "effectiveLabel": "Email Address",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Email Address\" prints at y=222.17 x=284.69; the next caption on that line, \"Telephone Number\", prints at x=457.75, which is where this blank stops",
+          "printedTextAtCoordinate": [
+            {
+              "y": 222,
+              "extracted": "Email Address Telephone Number"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.email",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-266/telephone-number",
+          "fieldName": "CR-266/telephone-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 230.29,
+            "width": 43.55,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "ruleSpanTaken": {
+            "x0": 457.75,
+            "x1": 505.3
+          },
+          "sharesRuleWith": "email-address",
+          "printedLabel": "Telephone Number",
+          "printedLine": "Telephone Number",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Telephone Number",
+          "effectiveLabel": "Telephone Number",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Telephone Number\" prints at y=222.17 x=457.75 and runs past the right end of the rule at x=505.30; the blank the form gives is the 47.55pt of rule above it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 222,
+              "extracted": "Email Address Telephone Number"
+            }
+          ],
+          "document": "CR-266",
+          "factId": "participant.phone",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "CR-266/signature",
+          "fieldName": "CR-266/signature",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 296.29,
+            "width": 216.61,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 294.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "printedLabel": "Signature",
+          "printedLine": "Signature",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Signature",
+          "effectiveLabel": "Signature",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Signature\" prints at y=288.17 x=284.69, directly beneath this rule; the ► glyph sits on the rule at x=284.69",
+          "printedTextAtCoordinate": [
+            {
+              "y": 296,
+              "extracted": "\u0001y"
+            },
+            {
+              "y": 288,
+              "extracted": "Signature"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": true,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "identity": "CR-266 blank signature",
+          "participantMustSupply": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature",
+          "why": "the petitioner signs this under the criminal penalty of false swearing; a packet never prefills a signature"
+        },
+        {
+          "field": "CR-266/date-signed",
+          "fieldName": "CR-266/date-signed",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 208.69,
+            "width": 167.06,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 206.69,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.6
+          },
+          "ruleSpanTaken": {
+            "x0": 284.69,
+            "x1": 455.75
+          },
+          "sharesRuleWith": "state-bar-no",
+          "printedLabel": "Date",
+          "printedLine": "Date",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "Date",
+          "effectiveLabel": "Date",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date\" prints at y=200.09 x=284.69, directly beneath this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 200,
+              "extracted": "Date State Bar No. (if any)"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": true,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "identity": "CR-266 blank date-signed",
+          "participantMustSupply": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made",
+          "why": "this is the date the petitioner signs the declaration. Signing has not happened when this packet is prepared, and a date written for a signature that does not exist would date a declaration nobody made"
+        },
+        {
+          "field": "CR-266/state-bar-no",
+          "fieldName": "CR-266/state-bar-no",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 208.69,
+            "width": 43.55,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream_split_at_the_printed_caption_beside_it",
+          "measuredRule": {
+            "y": 206.69,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.6
+          },
+          "ruleSpanTaken": {
+            "x0": 457.75,
+            "x1": 505.3
+          },
+          "sharesRuleWith": "date-signed",
+          "printedLabel": "State Bar No. (if any)",
+          "printedLine": "State Bar No. (if any)",
+          "sectionHeading": "Declaration — signature block",
+          "regionHeading": "State Bar No. (if any)",
+          "effectiveLabel": "State Bar No. (if any)",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"State Bar No. (if any)\" prints at y=200.09 x=457.75",
+          "printedTextAtCoordinate": [
+            {
+              "y": 200,
+              "extracted": "Date State Bar No. (if any)"
+            }
+          ],
+          "document": "CR-266",
+          "reason": "a Wisconsin State Bar number belongs to a lawyer signing the petition. This is an attorney-only line, no representation fact is held on this route, the packet is prepared for a petitioner acting for themselves, and the form itself marks the line \"(if any)\"",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "a Wisconsin State Bar number belongs to a lawyer signing the petition. This is an attorney-only line, no representation fact is held on this route, the packet is prepared for a petitioner acting for themselves, and the form itself marks the line \"(if any)\""
+        }
+      ],
+      "selectionControlsOnThisDocument": {
+        "acroFormSelectionFields": 0,
+        "annotations": 0,
+        "strokedCheckBoxPaths": 0,
+        "printedSelectionControlsNotMeasured": [],
+        "note": "CR-266 carries NO selection control of any kind. The three marks under paragraph 1 are SymbolMT glyph 0x78, whose own /ToUnicode CMap maps it to U+F0B7 — the Symbol bullet — and they head a three-item list of consequences, not a set of options. Every one of the six numbered declarations is unconditional pre-printed text adopted by the petitioner's signature."
+      }
+    },
+    {
+      "formNumber": "CR-267",
+      "documentId": "CR-267",
+      "documentRole": "proposed_order",
+      "componentId": "wi_exp_cr266-proposed-order-2",
+      "documentPolicy": {
+        "mode": "court_issued_order",
+        "captionOnly": true,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:WI:wi_exp_cr266"
+      },
+      "structuralClass": "flat_pdf_measured_overlay",
+      "explicitMappings": {
+        "CR-267/county-venue": "matter.county",
+        "CR-267/defendant-name": "participant.full_legal_name",
+        "CR-267/date-of-birth": "participant.date_of_birth",
+        "CR-267/case-number": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "CR-267/county-venue",
+          "fieldName": "CR-267/county-venue",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 238.09,
+            "y": 557.82,
+            "width": 193.18,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 555.82,
+            "x": 236.09,
+            "endX": 433.27,
+            "width": 197.18,
+            "thickness": 1.08
+          },
+          "printedLabel": "County",
+          "printedLine": "County",
+          "sectionHeading": "Caption — venue",
+          "regionHeading": "County",
+          "effectiveLabel": "County",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the word COUNTY is printed at x=436.03 on the same line, immediately after this rule ends at x=433.27",
+          "printedTextAtCoordinate": [
+            {
+              "y": 558,
+              "extracted": "STATE OF WISCONSIN, CIRCUIT COURT, COUNTY"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/defendant-name",
+          "fieldName": "CR-267/defendant-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 513.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 511.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "printedLabel": "Defendant’s Name",
+          "printedLine": "Defendant’s Name",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Defendant’s Name",
+          "effectiveLabel": "Defendant’s Name",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Defendant’s Name\" prints at y=504.31 x=36.00, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 505,
+              "extracted": "DefendNamanet’s (Non-Probation/Non-Incarceration)"
+            },
+            {
+              "y": 520,
+              "extracted": "to Expunge Court Record of Conviction"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/date-of-birth",
+          "fieldName": "CR-267/date-of-birth",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 489.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 487.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date of Birth\" prints at y=480.31 x=36.00, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 485,
+              "extracted": "Case No."
+            },
+            {
+              "y": 480,
+              "extracted": "Date of B irth"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/case-number",
+          "fieldName": "CR-267/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 392.91,
+            "y": 485.31,
+            "width": 89.02,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 483.31,
+            "x": 390.91,
+            "endX": 483.93,
+            "width": 93.02,
+            "thickness": 0.48
+          },
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption — case",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Case No.\" prints at y=484.87 x=346.51 and ends at x=387.54, before this rule begins at x=390.91",
+          "printedTextAtCoordinate": [
+            {
+              "y": 485,
+              "extracted": "Case No."
+            },
+            {
+              "y": 480,
+              "extracted": "Date of B irth"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "CR-267/hearing-date",
+          "fieldName": "CR-267/hearing-date",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 224.41,
+            "y": 364.23,
+            "width": 83,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 362.23,
+            "x": 222.41,
+            "endX": 309.41,
+            "width": 87,
+            "thickness": 0.48
+          },
+          "printedLabel": "4. The court conducted a hearing on",
+          "printedLine": "4. The court conducted a hearing on",
+          "sectionHeading": "THE COURT FINDS",
+          "regionHeading": "4. The court conducted a hearing on",
+          "effectiveLabel": "4. The court conducted a hearing on",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "finding 4 prints at y=363.79 beginning x=50.28 and its sentence ends with a full stop after this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 364,
+              "extracted": "4. The court conducted a hearing on ."
+            }
+          ],
+          "document": "CR-267",
+          "reason": "the date of a hearing the court conducted is a judicial fact recorded by the court. A proposed order that stated it would be reciting a hearing that has not happened",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the date of a hearing the court conducted is a judicial fact recorded by the court. A proposed order that stated it would be reciting a hearing that has not happened"
+        },
+        {
+          "field": "CR-267/denial-reason-failed-to",
+          "fieldName": "CR-267/denial-reason-failed-to",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 453.39,
+            "y": 228.01,
+            "width": 119.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 226.01,
+            "x": 451.39,
+            "endX": 575.13,
+            "width": 123.74,
+            "thickness": 0.48
+          },
+          "printedLabel": "the defendant did not successfully complete sentence because he or she failed to:",
+          "printedLine": "the defendant did not successfully complete sentence because he or she failed to:",
+          "sectionHeading": "THE COURT ORDERS — 2. DENIED because",
+          "regionHeading": "the defendant did not successfully complete sentence because he or she failed to:",
+          "effectiveLabel": "the defendant did not successfully complete sentence because he or she failed to:",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the denial reason prints at y=227.60 and its sentence ends with a full stop after this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 228,
+              "extracted": "the defendant did not successfully complete sentence because he or she failed to: ."
+            },
+            {
+              "y": 215,
+              "extracted": "between the date of conviction in this case and completion of the sentence, the defendant was convicted of"
+            }
+          ],
+          "document": "CR-267",
+          "reason": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial"
+        },
+        {
+          "field": "CR-267/denial-reason-other",
+          "fieldName": "CR-267/denial-reason-other",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 117.94,
+            "y": 192.01,
+            "width": 455.19,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 190.01,
+            "x": 115.94,
+            "endX": 575.13,
+            "width": 459.19,
+            "thickness": 0.48
+          },
+          "printedLabel": "Other:",
+          "printedLine": "Other:",
+          "sectionHeading": "THE COURT ORDERS — 2. DENIED because",
+          "regionHeading": "Other:",
+          "effectiveLabel": "Other:",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Other:\" prints at y=191.60 x=36.00 and this rule begins at x=115.94 on the same line",
+          "printedTextAtCoordinate": [
+            {
+              "y": 192,
+              "extracted": "Other:"
+            },
+            {
+              "y": 203,
+              "extracted": "another criminal offense."
+            }
+          ],
+          "document": "CR-267",
+          "reason": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "CR-267/county-venue",
+          "fieldName": "CR-267/county-venue",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 238.09,
+            "y": 557.82,
+            "width": 193.18,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 555.82,
+            "x": 236.09,
+            "endX": 433.27,
+            "width": 197.18,
+            "thickness": 1.08
+          },
+          "printedLabel": "County",
+          "printedLine": "County",
+          "sectionHeading": "Caption — venue",
+          "regionHeading": "County",
+          "effectiveLabel": "County",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the word COUNTY is printed at x=436.03 on the same line, immediately after this rule ends at x=433.27",
+          "printedTextAtCoordinate": [
+            {
+              "y": 558,
+              "extracted": "STATE OF WISCONSIN, CIRCUIT COURT, COUNTY"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/defendant-name",
+          "fieldName": "CR-267/defendant-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 513.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 511.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "printedLabel": "Defendant’s Name",
+          "printedLine": "Defendant’s Name",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Defendant’s Name",
+          "effectiveLabel": "Defendant’s Name",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Defendant’s Name\" prints at y=504.31 x=36.00, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 505,
+              "extracted": "DefendNamanet’s (Non-Probation/Non-Incarceration)"
+            },
+            {
+              "y": 520,
+              "extracted": "to Expunge Court Record of Conviction"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/date-of-birth",
+          "fieldName": "CR-267/date-of-birth",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 489.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 487.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "Caption — parties",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Date of Birth\" prints at y=480.31 x=36.00, directly beneath this rule and flush with its left end",
+          "printedTextAtCoordinate": [
+            {
+              "y": 485,
+              "extracted": "Case No."
+            },
+            {
+              "y": 480,
+              "extracted": "Date of B irth"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "CR-267/case-number",
+          "fieldName": "CR-267/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 392.91,
+            "y": 485.31,
+            "width": 89.02,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 483.31,
+            "x": 390.91,
+            "endX": 483.93,
+            "width": 93.02,
+            "thickness": 0.48
+          },
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption — case",
+          "regionHeading": "Case No.",
+          "effectiveLabel": "Case No.",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Case No.\" prints at y=484.87 x=346.51 and ends at x=387.54, before this rule begins at x=390.91",
+          "printedTextAtCoordinate": [
+            {
+              "y": 485,
+              "extracted": "Case No."
+            },
+            {
+              "y": 480,
+              "extracted": "Date of B irth"
+            }
+          ],
+          "document": "CR-267",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "CR-267/hearing-date",
+          "fieldName": "CR-267/hearing-date",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 224.41,
+            "y": 364.23,
+            "width": 83,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 362.23,
+            "x": 222.41,
+            "endX": 309.41,
+            "width": 87,
+            "thickness": 0.48
+          },
+          "printedLabel": "4. The court conducted a hearing on",
+          "printedLine": "4. The court conducted a hearing on",
+          "sectionHeading": "THE COURT FINDS",
+          "regionHeading": "4. The court conducted a hearing on",
+          "effectiveLabel": "4. The court conducted a hearing on",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "finding 4 prints at y=363.79 beginning x=50.28 and its sentence ends with a full stop after this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 364,
+              "extracted": "4. The court conducted a hearing on ."
+            }
+          ],
+          "document": "CR-267",
+          "reason": "the date of a hearing the court conducted is a judicial fact recorded by the court. A proposed order that stated it would be reciting a hearing that has not happened",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the date of a hearing the court conducted is a judicial fact recorded by the court. A proposed order that stated it would be reciting a hearing that has not happened"
+        },
+        {
+          "field": "CR-267/denial-reason-failed-to",
+          "fieldName": "CR-267/denial-reason-failed-to",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 453.39,
+            "y": 228.01,
+            "width": 119.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 226.01,
+            "x": 451.39,
+            "endX": 575.13,
+            "width": 123.74,
+            "thickness": 0.48
+          },
+          "printedLabel": "the defendant did not successfully complete sentence because he or she failed to:",
+          "printedLine": "the defendant did not successfully complete sentence because he or she failed to:",
+          "sectionHeading": "THE COURT ORDERS — 2. DENIED because",
+          "regionHeading": "the defendant did not successfully complete sentence because he or she failed to:",
+          "effectiveLabel": "the defendant did not successfully complete sentence because he or she failed to:",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the denial reason prints at y=227.60 and its sentence ends with a full stop after this rule",
+          "printedTextAtCoordinate": [
+            {
+              "y": 228,
+              "extracted": "the defendant did not successfully complete sentence because he or she failed to: ."
+            },
+            {
+              "y": 215,
+              "extracted": "between the date of conviction in this case and completion of the sentence, the defendant was convicted of"
+            }
+          ],
+          "document": "CR-267",
+          "reason": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial"
+        },
+        {
+          "field": "CR-267/denial-reason-other",
+          "fieldName": "CR-267/denial-reason-other",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 117.94,
+            "y": 192.01,
+            "width": 455.19,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 190.01,
+            "x": 115.94,
+            "endX": 575.13,
+            "width": 459.19,
+            "thickness": 0.48
+          },
+          "printedLabel": "Other:",
+          "printedLine": "Other:",
+          "sectionHeading": "THE COURT ORDERS — 2. DENIED because",
+          "regionHeading": "Other:",
+          "effectiveLabel": "Other:",
+          "captionBasis": "the printed caption beside or beneath the measured rule, located by its own x and y on the page",
+          "captionEvidence": "the caption \"Other:\" prints at y=191.60 x=36.00 and this rule begins at x=115.94 on the same line",
+          "printedTextAtCoordinate": [
+            {
+              "y": 192,
+              "extracted": "Other:"
+            },
+            {
+              "y": 203,
+              "extracted": "another criminal offense."
+            }
+          ],
+          "document": "CR-267",
+          "reason": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a reason a court gives for denying the petition. A packet does not draft the court's denial"
+        }
+      ],
+      "selectionControlsOnThisDocument": {
+        "acroFormSelectionFields": 0,
+        "annotations": 0,
+        "strokedCheckBoxPaths": 0,
+        "printedSelectionControlsNotMeasured": [
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT FINDS",
+            "printedNear": "4. The court conducted a hearing on",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS",
+            "printedNear": "1. GRANTED. The clerk is ordered to expunge the court's record of the conviction.",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS",
+            "printedNear": "2. DENIED because",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS — 2. DENIED because",
+            "printedNear": "at the time the sentence was imposed, the court did not order that the record be expunged upon successful completion of the sentence.",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS — 2. DENIED because",
+            "printedNear": "the defendant did not successfully complete sentence because he or she failed to pay all court-ordered financial obligations.",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS — 2. DENIED because",
+            "printedNear": "the defendant did not successfully complete sentence because he or she failed to:",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS — 2. DENIED because",
+            "printedNear": "between the date of conviction in this case and completion of the sentence, the defendant was convicted of another criminal offense.",
+            "owner": "court"
+          },
+          {
+            "document": "CR-267",
+            "page": 1,
+            "section": "THE COURT ORDERS — 2. DENIED because",
+            "printedNear": "Other:",
+            "owner": "court"
+          }
+        ],
+        "note": "CR-267 prints eight check boxes that a render shows and no extractor can measure: zero stroked paths and no glyph at any of them. All eight are the court's — the hearing finding, GRANTED, DENIED and the four denial reasons. No geometry was invented for them and none is marked."
+      }
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

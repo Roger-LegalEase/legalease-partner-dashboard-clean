@@ -1,0 +1,691 @@
+{
+  "schemaVersion": "rcap-actual-writes-byte-proof/v1",
+  "familyId": "wi_exp_cr266-set",
+  "derivedFromArtifactBytes": true,
+  "note": "Read back from the produced PDF bytes, not from the finalizer's report. Both glyph readings below are measured: addedGlyphsReadFromOutputBytes counts every glyph the output draws that the source does not, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes counts the non-whitespace part of those that land outside every measured write box on their page. Neither is a literal, and both come back null rather than 0 if the source cannot be read back for subtraction.",
+  "documents": [
+    {
+      "fixture": "canonical",
+      "formNumber": "CR-266",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "proofMethod": "every text item in the produced PDF that the pinned source does not draw at the same coordinate is ink this build added; each added item is tested against every measured write box on its own page. Read from the bytes that were written, never from the finalizer's report.",
+      "valuesReportedByFinalizer": 8,
+      "addedGlyphsReadFromOutputBytes": 138,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "flattenedWidgetAppearancesNote": "zero because there are none to read: both sources are flat PDFs with no AcroForm and no annotation, so finalizeFlatOverlay draws into page content and creates no widget appearance. This is a measured absence, not a skipped measurement.",
+      "addedInkOutsideEveryMeasuredWriteBox": [],
+      "refusedFieldsWithInk": [],
+      "unfittable": [],
+      "refusedByTheFinalizer": [],
+      "normalized": [],
+      "actualWrites": [
+        {
+          "field": "county-venue",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 243.49,
+            "y": 737.6,
+            "width": 146.98,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 735.6,
+            "x": 241.49,
+            "endX": 392.47,
+            "width": 150.98,
+            "thickness": 1.08
+          },
+          "section": "Caption — venue",
+          "effectiveLabel": "County",
+          "drawnText": "Dane",
+          "expected": "Dane",
+          "matchesExpected": true
+        },
+        {
+          "field": "defendant-name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 693.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 691.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Defendant’s Name",
+          "drawnText": "Devon Marie Kessler",
+          "expected": "Devon Marie Kessler",
+          "matchesExpected": true
+        },
+        {
+          "field": "date-of-birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 669.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 667.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Date of Birth",
+          "drawnText": "1996-03-08",
+          "expected": "1996-03-08",
+          "matchesExpected": true
+        },
+        {
+          "field": "case-number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 356.91,
+            "y": 655.62,
+            "width": 73.16,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 653.62,
+            "x": 354.91,
+            "endX": 432.07,
+            "width": 77.16,
+            "thickness": 0.48
+          },
+          "section": "Caption — case",
+          "effectiveLabel": "Case No.",
+          "drawnText": "2018CM001274",
+          "expected": "2018CM001274",
+          "matchesExpected": true
+        },
+        {
+          "field": "name-printed-or-typed",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 274.93,
+            "width": 216.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 272.93,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Name Printed or Typed",
+          "drawnText": "Devon Marie Kessler",
+          "expected": "Devon Marie Kessler",
+          "matchesExpected": true
+        },
+        {
+          "field": "address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 252.97,
+            "width": 216.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 250.97,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Address",
+          "drawnText": "742 Sherman Avenue, Madison, WI 53704",
+          "expected": "742 Sherman Avenue, Madison, WI 53704",
+          "matchesExpected": true
+        },
+        {
+          "field": "email-address",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 230.29,
+            "width": 167.06,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Email Address",
+          "drawnText": "devon.kessler@example.org",
+          "expected": "devon.kessler@example.org",
+          "matchesExpected": true
+        },
+        {
+          "field": "telephone-number",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 230.29,
+            "width": 43.55,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Telephone Number",
+          "drawnText": "608-555-0142",
+          "expected": "608-555-0142",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "canonical",
+      "formNumber": "CR-267",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "proofMethod": "every text item in the produced PDF that the pinned source does not draw at the same coordinate is ink this build added; each added item is tested against every measured write box on its own page. Read from the bytes that were written, never from the finalizer's report.",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 45,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "flattenedWidgetAppearancesNote": "zero because there are none to read: both sources are flat PDFs with no AcroForm and no annotation, so finalizeFlatOverlay draws into page content and creates no widget appearance. This is a measured absence, not a skipped measurement.",
+      "addedInkOutsideEveryMeasuredWriteBox": [],
+      "refusedFieldsWithInk": [],
+      "unfittable": [],
+      "refusedByTheFinalizer": [],
+      "normalized": [],
+      "actualWrites": [
+        {
+          "field": "county-venue",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 238.09,
+            "y": 557.82,
+            "width": 193.18,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 555.82,
+            "x": 236.09,
+            "endX": 433.27,
+            "width": 197.18,
+            "thickness": 1.08
+          },
+          "section": "Caption — venue",
+          "effectiveLabel": "County",
+          "drawnText": "Dane",
+          "expected": "Dane",
+          "matchesExpected": true
+        },
+        {
+          "field": "defendant-name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 513.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 511.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Defendant’s Name",
+          "drawnText": "Devon Marie Kessler",
+          "expected": "Devon Marie Kessler",
+          "matchesExpected": true
+        },
+        {
+          "field": "date-of-birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 489.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 487.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Date of Birth",
+          "drawnText": "1996-03-08",
+          "expected": "1996-03-08",
+          "matchesExpected": true
+        },
+        {
+          "field": "case-number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 392.91,
+            "y": 485.31,
+            "width": 89.02,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 483.31,
+            "x": 390.91,
+            "endX": 483.93,
+            "width": 93.02,
+            "thickness": 0.48
+          },
+          "section": "Caption — case",
+          "effectiveLabel": "Case No.",
+          "drawnText": "2018CM001274",
+          "expected": "2018CM001274",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CR-266",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "proofMethod": "every text item in the produced PDF that the pinned source does not draw at the same coordinate is ink this build added; each added item is tested against every measured write box on its own page. Read from the bytes that were written, never from the finalizer's report.",
+      "valuesReportedByFinalizer": 8,
+      "addedGlyphsReadFromOutputBytes": 225,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "flattenedWidgetAppearancesNote": "zero because there are none to read: both sources are flat PDFs with no AcroForm and no annotation, so finalizeFlatOverlay draws into page content and creates no widget appearance. This is a measured absence, not a skipped measurement.",
+      "addedInkOutsideEveryMeasuredWriteBox": [],
+      "refusedFieldsWithInk": [],
+      "unfittable": [],
+      "refusedByTheFinalizer": [],
+      "normalized": [
+        {
+          "anchor": "County",
+          "factId": "matter.county",
+          "from": "Fond du Lac County",
+          "to": "Fond du Lac",
+          "why": "the form prints \"County\" after this blank, so the value must not repeat it"
+        }
+      ],
+      "actualWrites": [
+        {
+          "field": "county-venue",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 243.49,
+            "y": 737.6,
+            "width": 146.98,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 735.6,
+            "x": 241.49,
+            "endX": 392.47,
+            "width": 150.98,
+            "thickness": 1.08
+          },
+          "section": "Caption — venue",
+          "effectiveLabel": "County",
+          "drawnText": "Fond du Lac",
+          "expected": "Fond du Lac",
+          "matchesExpected": true,
+          "normalizedFromRecordValue": "Fond du Lac County",
+          "becauseTheFormPrints": "County"
+        },
+        {
+          "field": "defendant-name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 693.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 691.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Defendant’s Name",
+          "drawnText": "Anne-Sophie Vandenberg-Okonkwo",
+          "expected": "Anne-Sophie Vandenberg-Okonkwo",
+          "matchesExpected": true
+        },
+        {
+          "field": "date-of-birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 43.4,
+            "y": 669.66,
+            "width": 198.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 667.66,
+            "x": 41.4,
+            "endX": 244.01,
+            "width": 202.61,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Date of Birth",
+          "drawnText": "1968-11-30",
+          "expected": "1968-11-30",
+          "matchesExpected": true
+        },
+        {
+          "field": "case-number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 356.91,
+            "y": 655.62,
+            "width": 73.16,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 653.62,
+            "x": 354.91,
+            "endX": 432.07,
+            "width": 77.16,
+            "thickness": 0.48
+          },
+          "section": "Caption — case",
+          "effectiveLabel": "Case No.",
+          "drawnText": "2015CF000884",
+          "expected": "2015CF000884",
+          "matchesExpected": true
+        },
+        {
+          "field": "name-printed-or-typed",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 274.93,
+            "width": 216.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 272.93,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Name Printed or Typed",
+          "drawnText": "Anne-Sophie Vandenberg-Okonkwo",
+          "expected": "Anne-Sophie Vandenberg-Okonkwo",
+          "matchesExpected": true
+        },
+        {
+          "field": "address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 252.97,
+            "width": 216.61,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 250.97,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.48
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Address",
+          "drawnText": "10488 North Port Washington Road, Apartment 21C, Mequon, WI 53092-2214",
+          "expected": "10488 North Port Washington Road, Apartment 21C, Mequon, WI 53092-2214",
+          "matchesExpected": true
+        },
+        {
+          "field": "email-address",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 286.69,
+            "y": 230.29,
+            "width": 167.06,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Email Address",
+          "drawnText": "anne.sophie.vandenberg.okonkwo@longmailexample.org",
+          "expected": "anne.sophie.vandenberg.okonkwo@longmailexample.org",
+          "matchesExpected": true
+        },
+        {
+          "field": "telephone-number",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 459.75,
+            "y": 230.29,
+            "width": 43.55,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 228.29,
+            "x": 284.69,
+            "endX": 505.3,
+            "width": 220.61,
+            "thickness": 0.72
+          },
+          "section": "Declaration — signature block",
+          "effectiveLabel": "Telephone Number",
+          "drawnText": "414-555-0199",
+          "expected": "414-555-0199",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CR-267",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "proofMethod": "every text item in the produced PDF that the pinned source does not draw at the same coordinate is ink this build added; each added item is tested against every measured write box on its own page. Read from the bytes that were written, never from the finalizer's report.",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 63,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "flattenedWidgetAppearancesNote": "zero because there are none to read: both sources are flat PDFs with no AcroForm and no annotation, so finalizeFlatOverlay draws into page content and creates no widget appearance. This is a measured absence, not a skipped measurement.",
+      "addedInkOutsideEveryMeasuredWriteBox": [],
+      "refusedFieldsWithInk": [],
+      "unfittable": [],
+      "refusedByTheFinalizer": [],
+      "normalized": [
+        {
+          "anchor": "County",
+          "factId": "matter.county",
+          "from": "Fond du Lac County",
+          "to": "Fond du Lac",
+          "why": "the form prints \"County\" after this blank, so the value must not repeat it"
+        }
+      ],
+      "actualWrites": [
+        {
+          "field": "county-venue",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 238.09,
+            "y": 557.82,
+            "width": 193.18,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 555.82,
+            "x": 236.09,
+            "endX": 433.27,
+            "width": 197.18,
+            "thickness": 1.08
+          },
+          "section": "Caption — venue",
+          "effectiveLabel": "County",
+          "drawnText": "Fond du Lac",
+          "expected": "Fond du Lac",
+          "matchesExpected": true,
+          "normalizedFromRecordValue": "Fond du Lac County",
+          "becauseTheFormPrints": "County"
+        },
+        {
+          "field": "defendant-name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 513.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 511.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Defendant’s Name",
+          "drawnText": "Anne-Sophie Vandenberg-Okonkwo",
+          "expected": "Anne-Sophie Vandenberg-Okonkwo",
+          "matchesExpected": true
+        },
+        {
+          "field": "date-of-birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 38,
+            "y": 489.75,
+            "width": 176.05,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 487.75,
+            "x": 36,
+            "endX": 216.05,
+            "width": 180.05,
+            "thickness": 0.48
+          },
+          "section": "Caption — parties",
+          "effectiveLabel": "Date of Birth",
+          "drawnText": "1968-11-30",
+          "expected": "1968-11-30",
+          "matchesExpected": true
+        },
+        {
+          "field": "case-number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 392.91,
+            "y": 485.31,
+            "width": 89.02,
+            "height": 12
+          },
+          "measuredRule": {
+            "y": 483.31,
+            "x": 390.91,
+            "endX": 483.93,
+            "width": 93.02,
+            "thickness": 0.48
+          },
+          "section": "Caption — case",
+          "effectiveLabel": "Case No.",
+          "drawnText": "2015CF000884",
+          "expected": "2015CF000884",
+          "matchesExpected": true
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "formNumber": "CR-266",
+      "valuesReportedByFinalizer": 8,
+      "addedGlyphsReadFromOutputBytes": 138,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "canonical",
+      "formNumber": "CR-267",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 45,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CR-266",
+      "valuesReportedByFinalizer": 8,
+      "addedGlyphsReadFromOutputBytes": 225,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "formNumber": "CR-267",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 63,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "refusedFieldsWithInk": []
+    }
+  ],
+  "blockingFindings": []
+}

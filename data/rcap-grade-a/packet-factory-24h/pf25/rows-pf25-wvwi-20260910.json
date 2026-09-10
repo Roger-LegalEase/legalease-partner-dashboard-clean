@@ -164,6 +164,424 @@
           "isNotAContradiction": true
         }
       ]
+    },
+    {
+      "familyId": "wi_exp_cr266-set",
+      "jurisdiction": "WI",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateNote": "--no-raster was passed deliberately; no page raster was produced and no workflow was dispatched. A local render is not a receipt: only the central raster workflow issues one, bound to the exact SHA-256 recorded below.",
+      "claim": "CLAIM_OK PF25 wi_exp_cr266-set (packet-build, grant set cb8e7d7a03867ab2)",
+      "buildScript": "scripts/build-census-v1-wi_exp_cr266-set.mjs",
+      "buildScriptIsNew": true,
+      "buildScriptIsASharedHost": false,
+      "buildScriptSharingChecked": "MASTER_QUEUE records exclusiveScript true and importedBy [] for this family, and the script did not exist before this lane. Nothing imports it, so no sibling can rebuild differently because of it; no sibling was rebuilt and none needed to be.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill",
+      "artifactsAreSixFixturesNotTwo": "This family delivers two documents. Each is written on its own (cr-266-*, cr-267-*) and the two are also assembled into one packet per fixture (canonical.pdf, boundary.pdf). The top-level canonicalSha256/boundarySha256 name the ASSEMBLED PACKETS, which are the delivered artifacts; per-document digests are listed below.",
+      "canonicalSha256": "06148923f8a22f900e67e706de1c67205fd5bf62faa9f4c29332f4d69758845f",
+      "boundarySha256": "fe4d30fa6fe3dca9e181babe74b8b376b64ecb9586085c218878cb67af50dc66",
+      "canonicalPageCount": 2,
+      "boundaryPageCount": 2,
+      "pageCountMeasuredBy": "pdfinfo on the committed files, and independently by pdf-lib getPageCount inside the builder",
+      "digestsMeasuredBy": "sha256sum on the committed files, and independently by crypto.createHash inside the builder",
+      "supersededCanonicalSha256": null,
+      "supersededBoundarySha256": null,
+      "perDocumentDigests": [
+        {
+          "document": "CR-266",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/cr-266-canonical.pdf",
+          "sha256": "8bb983f810a9ec7df85daa4030ab461bcb45227008119d522806235cbb6d82f9",
+          "byteLength": 126585,
+          "pageCount": 1
+        },
+        {
+          "document": "CR-266",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/cr-266-boundary.pdf",
+          "sha256": "8f34ef8c0d45af161c8208bea6a3159cf26645d7463db7b07991f5eba30bd1e7",
+          "byteLength": 126649,
+          "pageCount": 1
+        },
+        {
+          "document": "CR-267",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/cr-267-canonical.pdf",
+          "sha256": "fb69bb58d970e048b50b67b871150cbd54fccd6888e4474a3caf85bdab58d4c6",
+          "byteLength": 69865,
+          "pageCount": 1
+        },
+        {
+          "document": "CR-267",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/cr-267-boundary.pdf",
+          "sha256": "557bb201d42c1d1e2df20f98b8c8881f5ab8fbb855ccab42cc460030286bd2af",
+          "byteLength": 69887,
+          "pageCount": 1
+        },
+        {
+          "document": "PACKET (CR-266 + CR-267)",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "06148923f8a22f900e67e706de1c67205fd5bf62faa9f4c29332f4d69758845f",
+          "byteLength": 195301,
+          "pageCount": 2
+        },
+        {
+          "document": "PACKET (CR-266 + CR-267)",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "fe4d30fa6fe3dca9e181babe74b8b376b64ecb9586085c218878cb67af50dc66",
+          "byteLength": 195387,
+          "pageCount": 2
+        }
+      ],
+      "reproducibility": "Two consecutive full builds from the same inputs produced byte-identical artifacts, all six digests. This did NOT hold before a defect this lane found and fixed in its own builder: PDFDocument.create() stamps the wall clock, so the two per-document PDFs were stable across runs while the assembled packet was not. stampDeterministic (scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs) is now applied to the packet, and the digests above are the reproducible ones.",
+      "theMappingThisAssignmentAskedFor": {
+        "ownerAction": "Map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, and release the build.",
+        "whatTheFormOffersToElect": "NOTHING. Measured from the pinned CR-266 bytes on every run: no /AcroForm in the catalog, 0 annotations, 0 stroked check-box paths (checkboxCandidates), and the only symbol glyphs on the page are three SymbolMT marks whose own /ToUnicode CMap maps glyph 0x78 to U+F0B7 — the Symbol bullet. They head the three-item list of consequences under paragraph 1 and are not controls. All six numbered declarations are unconditional pre-printed text.",
+        "soTheMappingResolvedTo": "a PRECONDITION over the record, not a mark on the page. The established discharge facts select WHICH FORM is used; nothing on the form is elected because nothing on it is electable.",
+        "theRecordFactBoundToTheSelection": {
+          "recordFact": "the sentence carried no probation and no jail or prison, expungement was ordered at sentencing, and the sentence was completed",
+          "boundTo": "the choice of CR-266 (petition) and CR-267 (proposed order) as the instruments for this route",
+          "whereTheControllingRecordStatesIt": [
+            "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json, ruleClause, verbatim: \"CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration.\" — the exact sentence is located inside the agent-facing clause that carries it and quoted whole; the clause's own sentences are run together without spaces and quoting the whole clause would put a mangled quotation in front of a participant.",
+            "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId wi_exp_cr266-set, components: CR-266 as primary_filing and CR-267 as proposed_order, both official_pdf_fill",
+            "the pinned CR-266 bytes themselves: the form is captioned \"(Non-Probation/Non-Incarceration)\" and paragraphs 3, 4 and 5 assert no probation, no jail or prison, and successful completion"
+          ]
+        },
+        "theGateThatEnforcesIt": [
+          {
+            "factId": "matter.wi_expungement_ordered_at_sentencing",
+            "mustBe": true,
+            "showsAt": "CR-266 paragraph 2"
+          },
+          {
+            "factId": "matter.wi_sentence_included_probation",
+            "mustBe": false,
+            "showsAt": "CR-266 paragraph 3"
+          },
+          {
+            "factId": "matter.wi_sentence_included_jail_or_prison",
+            "mustBe": false,
+            "showsAt": "CR-266 paragraph 4"
+          },
+          {
+            "factId": "matter.wi_sentence_completed",
+            "mustBe": true,
+            "showsAt": "CR-266 paragraph 5"
+          }
+        ],
+        "hardStopIsExecutedAndProved": "The gate runs before any source is bound. It is also run, on every build, against a copy of the canonical record with matter.wi_sentence_included_probation set to null, and the build stops if that record is ACCEPTED. It was refused. A gate nobody exercised is a gate nobody can trust.",
+        "participantAssertionsLeftAsPrinted": "CR-266 paragraphs 1 to 6 are participant assertions and are PRE-PRINTED, so there was no blank to leave blank. Nothing was written anywhere in the declaration block, the signature and its date were left empty, and all six declarations are printed verbatim in participant-instructions.md — read out of the pinned bytes, with paragraph 1's three bulleted sub-items kept apart by the indent the form prints, because the SymbolMT bullets are dropped by every text extractor here and reading the paragraph as one string would run three printed list items into one sentence the form does not print."
+      },
+      "whatWasWrittenAndWhere": {
+        "CR-266": [
+          "County (venue) — on the rule y=735.6 x=241.49-392.47; the form prints COUNTY at x=395.23 immediately after, so the printed suffix is stripped from the value: the boundary record's \"Fond du Lac County\" is drawn as \"Fond du Lac\" and the page reads \"Fond du Lac COUNTY\", not doubled",
+          "Defendant’s Name — rule y=691.66 x=41.4-244.01, caption printed beneath at y=684.22 x=41.40",
+          "Date of Birth — rule y=667.66 x=41.4-244.01, caption printed beneath at y=660.22 x=41.40",
+          "Case No. — rule y=653.62 x=354.91-432.07 (77.16pt), caption printed to its left at y=655.18 x=310.49; the value stays inside the rule and does not cross the caption box's vertical divider at x=464.26",
+          "Name Printed or Typed — rule y=272.93 x=284.69-505.30",
+          "Address — rule y=250.97 x=284.69-505.30",
+          "Email Address — rule y=228.29, sub-span x=284.69-455.75",
+          "Telephone Number — rule y=228.29, sub-span x=457.75-505.30, drawn at 8pt"
+        ],
+        "CR-267": [
+          "County (venue) — rule y=555.82 x=236.09-433.27; COUNTY printed at x=436.03, suffix stripped",
+          "Defendant’s Name — rule y=511.75 x=36-216.05",
+          "Date of Birth — rule y=487.75 x=36-216.05",
+          "Case No. — rule y=483.31 x=390.91-483.93"
+        ],
+        "andNothingElse": "Twelve writes across both documents in each fixture, all participant or matter facts. CR-267's anchors are declared captionOnly, so the shared binder refuses any non-caption fact on a court-issued order even if a later edit mapped one."
+      },
+      "whatWasRefusedAndWhy": [
+        {
+          "document": "CR-266",
+          "blank": "Signature (rule y=294.29)",
+          "why": "the petitioner signs under the criminal penalty of false swearing; a packet never prefills a signature",
+          "disposition": "REQUIRED_BEFORE_FILING, disclosed in the guide by the caption the form prints"
+        },
+        {
+          "document": "CR-266",
+          "blank": "Date (rule y=206.69, sub-span x=284.69-455.75)",
+          "why": "the date of a signature that has not happened. Writing one would date a declaration nobody made",
+          "disposition": "REQUIRED_BEFORE_FILING, disclosed in the guide"
+        },
+        {
+          "document": "CR-266",
+          "blank": "State Bar No. (if any) (rule y=206.69, sub-span x=457.75-505.30)",
+          "why": "an attorney-only line; no representation fact is held on this route and the form itself marks it \"(if any)\"",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
+        },
+        {
+          "document": "CR-267",
+          "blank": "4. The court conducted a hearing on ___ (rule y=362.23)",
+          "why": "a judicial fact. A proposed order stating it would recite a hearing that has not happened",
+          "disposition": "PROTECTED_FIELD"
+        },
+        {
+          "document": "CR-267",
+          "blank": "…failed to: ___ (rule y=226.01)",
+          "why": "a reason a court gives for denying the petition",
+          "disposition": "PROTECTED_FIELD"
+        },
+        {
+          "document": "CR-267",
+          "blank": "Other: ___ (rule y=190.01)",
+          "why": "a reason a court gives for denying the petition",
+          "disposition": "PROTECTED_FIELD"
+        },
+        {
+          "document": "CR-267",
+          "blank": "all eight printed check boxes",
+          "why": "all eight are the court's — the hearing finding, GRANTED, DENIED and the four denial reasons. A 300 dpi render of the pinned page shows them; checkboxCandidates finds 0 stroked paths and the text extractor finds no glyph at any of them, so there is no measured box. NO GEOMETRY WAS INVENTED and none is marked",
+          "disposition": "printedSelectionControlsNotMeasured, named in the guide"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "the BUILDER's own count, computed with the repository's own contract functions (scripts/rcap-packet-completeness/completeness-contract.mjs: classifyField, classifyBlank, rowKeyOf, BLANK_DISPOSITIONS, PASS_COUNTERS) over this family's field map, its byte proof read from the produced PDFs, its rendered artifacts and its participant-instructions.md. Not a verdict: this lane does not verify its own packets and ran no independent verifier over them.",
+      "countersAreNotAllThatWasChecked": "The delivered pages were read at 200 and 300 dpi and the delivered bytes were text-extracted. All six declarations unmarked, both signature lines empty, both dates empty, all eight CR-267 check boxes unmarked, no route key, component id, digest or build vocabulary anywhere on either filed page.",
+      "outputByteGlyphReadings": [
+        {
+          "document": "CR-266",
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 138,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0
+        },
+        {
+          "document": "CR-267",
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 45,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0
+        },
+        {
+          "document": "CR-266",
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 225,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0
+        },
+        {
+          "document": "CR-267",
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 63,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0
+        }
+      ],
+      "outputByteGlyphReadingsHowTaken": "MEASURED, not asserted, and neither is a literal. Every text item in the produced PDF that the pinned source does not draw at the same coordinate is ink this build added; addedGlyphsReadFromOutputBytes counts those glyphs and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes counts the non-whitespace part of the ones landing outside every measured write box on their page. Both return null rather than 0 if the source cannot be read back for subtraction, and visualDefects is raised — not cleared — when either is null. flattenedWidgetAppearancesReadFromOutputBytes is 0 because there are none to read: both sources are flat PDFs with no AcroForm and no annotation, so finalizeFlatOverlay draws into page content and creates no widget appearance. That is a measured absence, not a skipped measurement.",
+      "directionalRasterAgainstThePinnedSource": {
+        "dpi": 600,
+        "threshold": "grey < 128 is dark, on 5100x6600 US-Letter pages",
+        "renderer": "poppler pdftoppm 24.02.0, `pdftoppm -r 600 -gray -aa yes -f <page> -l <page> -png <pdf> <prefix>`",
+        "sourceRender": "The pinned sources were rendered WITH annotations drawn, and the render was PROVED rather than assumed. Each source was rendered twice — once normally and once from a pdf-lib control copy with every page /Annots deleted and the catalog /AcroForm dropped — and the two differenced: CR-266 1,073,979 dark pixels either way, difference 0; CR-267 1,014,311 either way, difference 0. Both binaries declare zero annotations and no AcroForm, so there is no widget /AP /N ink for an annotation-free render to lose. To show the renderer draws annotation ink at all, the identical command was run over an AcroForm-bearing control in the same custody (SCA-C-903, 242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035, 2 pages, 25 fields) and its annotation-free copy: 35,765 dark pixels on page 1 and 8,846 on page 2 are drawn by annotations ALONE. The renderer draws /AP /N ink, so a zero taken from it means something.",
+        "pageMapping": "packet page 1 is CR-266 page 1, packet page 2 is CR-267 page 1; sources resolved by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
+        "bothDirections": "added AND removed reported per page. Removed is 0 on EVERY page of BOTH fixtures.",
+        "perPage": [
+          {
+            "fixture": "canonical",
+            "page": 1,
+            "sourceForm": "CR-266",
+            "added": 95038,
+            "removed": 0,
+            "sourceDark": 1073979,
+            "deliveredDark": 1169017
+          },
+          {
+            "fixture": "canonical",
+            "page": 2,
+            "sourceForm": "CR-267",
+            "added": 35438,
+            "removed": 0,
+            "sourceDark": 1014311,
+            "deliveredDark": 1049749
+          },
+          {
+            "fixture": "boundary",
+            "page": 1,
+            "sourceForm": "CR-266",
+            "added": 106172,
+            "removed": 0,
+            "sourceDark": 1073979,
+            "deliveredDark": 1180151
+          },
+          {
+            "fixture": "boundary",
+            "page": 2,
+            "sourceForm": "CR-267",
+            "added": 48402,
+            "removed": 0,
+            "sourceDark": 1014311,
+            "deliveredDark": 1062713
+          }
+        ],
+        "negativeControl": {
+          "whyRegionsAndNotPages": "each source is one page and this packet writes on both, so there is no untouched PAGE. The controls are REGIONS this build writes nothing in, each carrying hundreds of thousands of the court's own dark pixels, so a zero there is a live comparison and not an empty one.",
+          "regions": [
+            {
+              "form": "CR-266",
+              "region": "the six numbered declarations, y 395-634pt",
+              "sourceDarkInRegion": 523845,
+              "canonicalAdded": 0,
+              "canonicalRemoved": 0,
+              "boundaryAdded": 0,
+              "boundaryRemoved": 0
+            },
+            {
+              "form": "CR-266",
+              "region": "the printed footer, y 18-40pt",
+              "sourceDarkInRegion": 86830,
+              "canonicalAdded": 0,
+              "canonicalRemoved": 0,
+              "boundaryAdded": 0,
+              "boundaryRemoved": 0
+            },
+            {
+              "form": "CR-267",
+              "region": "everything below the caption — THE COURT FINDS, THE COURT ORDERS, all eight check boxes, all three fill-in rules, y 100-474pt",
+              "sourceDarkInRegion": 643564,
+              "canonicalAdded": 0,
+              "canonicalRemoved": 0,
+              "boundaryAdded": 0,
+              "boundaryRemoved": 0
+            },
+            {
+              "form": "CR-267",
+              "region": "the printed footer, y 18-45pt",
+              "sourceDarkInRegion": 86551,
+              "canonicalAdded": 0,
+              "canonicalRemoved": 0,
+              "boundaryAdded": 0,
+              "boundaryRemoved": 0
+            }
+          ]
+        },
+        "writtenTo": "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/reports/directional-raster-against-pinned-source.json",
+        "intermediatesDeleted": "every 600 dpi PNG was deleted as it was read; none is committed."
+      },
+      "sourcesBoundByDigest": [
+        {
+          "sourceId": "official-form:CR-266",
+          "declaredPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+          "declaredSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+          "measuredSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+          "byteLength": 130733,
+          "pageCount": 1,
+          "acroFieldCount": 0,
+          "annotations": 0,
+          "resolves": true
+        },
+        {
+          "sourceId": "official-form:CR-267",
+          "declaredPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+          "declaredSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+          "measuredSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+          "byteLength": 74520,
+          "pageCount": 1,
+          "acroFieldCount": 0,
+          "annotations": 0,
+          "resolves": true
+        }
+      ],
+      "sourcePathNote": "MASTER_QUEUE's sourceHashes name these under private/source-imports/rcap-d-source-packs-2026-08-12/D1/…; the committed corpus index resolves the SAME two digests under the Master Library at STATES/WI/02_PACKET_FORMS/. One identity at several paths. Binding is by content digest, both were re-measured with sha256sum, and nothing was substituted.",
+      "governance": {
+        "required": false,
+        "why": "no acceptance receipt existed for this family: MASTER_QUEUE records artifactStatus NOT_RENDERED, completenessStatus NOT_BUILT and selectedIndependentVerdict null, and the overlay directory did not exist before this lane. There is no prior canonical digest to withdraw and no governance key to carry forward, so carryForwardGovernance had nothing to preserve and no product-wiring.json was authored.",
+        "verifier": "npm run rcap:verify-governance-preservation",
+        "verifierExitStatus": 0,
+        "verifierResult": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (285 not measured) and GOVERNANCE_PRESERVATION_OK, 16 checks",
+        "verifierCaveat": "The 285 not measured are product-wiring.json files absent from this SPARSE checkout, which the verifier names and warns about itself (\"If that is a sparse checkout, widen it and re-run before trusting this result\"). That is a limit of this worktree and NOT a pass over them."
+      },
+      "defectsNoCounterCanSeeChecked": {
+        "read": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json, 11 entries, read before the field map was written.",
+        "checkedAgainstThisFamily": [
+          "A field map honest about its intent while the finalizer writes something else — every write in reports/actual-writes.json was read back OUT OF THE PRODUCED PDF and compared with the expected value; 12 of 12 match in each fixture. The one value that differs from the record (\"Fond du Lac County\" drawn as \"Fond du Lac\") is recorded as a normalization with its reason, and the page reads \"Fond du Lac COUNTY\" using the form's own printed word.",
+          "An AcroForm index is not a printed row number — not reachable here: neither form has an AcroForm, so there is no index and no /TU tooltip to be misled by. Every caption was located by its own x and y on the page and captionEvidence records which printed text was used for each blank.",
+          "Extracted line order is not column order — this bit, and was caught: CR-266 prints ONE rule under TWO captions twice over (Email Address / Telephone Number, and Date / State Bar No.). The captions were read by x-position, not by line order, and each blank's extent is bounded by the printed x of the caption beside it. Had the rule been treated as one blank, an e-mail address would have been drawn across the telephone's part of the line.",
+          "The Vermont label-one-row-out class — every caption on both forms was resolved by geometry and recorded with the evidence used; nothing was disclosed to the participant under a label other than the one the form prints beside it.",
+          "Internal record text printed on a filing — both delivered fixtures were text-extracted and searched for route keys, component ids, digests, census vocabulary and record-voice recitals. None appears on either filed page. Route key and authority appear only in participant-instructions.md, which is an instruction page.",
+          "A hardcoded literal 0 on nonWhitespaceGlyphsOutsideMeasuredWriteBoxes with visualDefects gated on it — this family's builder computes both readings from the produced PDF and returns null, never 0, when the source cannot be read back for subtraction; visualDefects is RAISED, not cleared, on a null."
+        ]
+      },
+      "blastRadius": {
+        "filesWritten": [
+          "scripts/build-census-v1-wi_exp_cr266-set.mjs (new; imported by nothing)",
+          "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/** (new overlay directory: 6 fixtures, 6 reports, participant-instructions.md, source-receipt.json, field-census.census-v1.json, production-field-map.json, build-status.json, build-findings.json, approval-request.json)",
+          "data/rcap-grade-a/packet-factory-24h/pf25/rows-pf25-wvwi-20260910.json",
+          "data/rcap-grade-a/packet-factory-24h/pf25/checkpoints-pf25-wvwi-20260910.json"
+        ],
+        "sharedModulesChanged": [],
+        "sharedModulesReadAndNotChanged": [
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs",
+          "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+          "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+          "scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs",
+          "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs",
+          "scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "scripts/lib/pdf-stroked-boxes.mjs",
+          "scripts/lib/corpus-index-paths.mjs"
+        ],
+        "centralArtifactsChanged": [],
+        "otherFamiliesTouched": []
+      },
+      "whatContradictsACommittedRecord": [
+        {
+          "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "field": "packetSets[packetSetId=wi_exp_cr266-set].participantActionRequired / requiredBeforeFiling",
+          "says": "\"Judge's signature and date of entry — CR-267, signature block.\"",
+          "measured": "CR-267 HAS NO SIGNATURE BLOCK. The pinned binary 2c0ac53b…30bb was searched for \"judge\", \"by the court\", \"signature\" and \"dated\": zero occurrences of any of them. Below the denial reasons it prints only \"THIS IS A FINAL ORDER FOR THE PURPOSE OF APPEAL.\" and the three-line distribution list. The requiredBeforeFiling item names a place on the form that does not exist. Nothing was fabricated to receive it and the guide says so to the participant."
+        },
+        {
+          "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "field": "packetSets[packetSetId=wi_exp_cr266-set].participantActionRequired / requiredBeforeFiling",
+          "says": "\"Any benefit-and-no-harm assertion — CR-266, grounds.\"",
+          "measured": "CR-266 HAS NO GROUNDS SECTION AND NO BENEFIT-AND-NO-HARM ASSERTION. The form's whole body is \"I DECLARE THAT:\" followed by six numbered declarations, none of which mentions benefit or harm, and the words do not appear anywhere on the page. Under § 973.015 that finding is the SENTENCING court's, made when expungement was ordered. Disclosed to the participant rather than answered with an invented blank."
+        },
+        {
+          "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "field": "packetSets[packetSetId=wi_exp_cr266-set].participantActionRequired / requiredBeforeFiling",
+          "says": "\"Any assertion that the sentencing court ordered expungement — CR-266, grounds.\"",
+          "measured": "That assertion IS on the form, but not as a blank and not in a grounds section: it is paragraph 2, pre-printed, adopted by the petitioner's signature. Recorded because a reader taking \"grounds\" literally would go looking for a blank that is not there."
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json and the archive filename",
+          "field": "revision label for CR-267",
+          "says": "REV-2024-05",
+          "measured": "the form's own face prints \"CR-267, 02/15\" — February 2015 — and its filename carries both tokens (cr-267-02-15-…__REV-2024-05__). CR-266 prints \"CR-266, 05/24\" and agrees with its label. The bytes are the ones MASTER_QUEUE binds and nothing was substituted; the label is recorded as observed in source-receipt.json."
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[wi_exp_cr266-set].sourceHashes[].path",
+          "says": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/WI/02_PACKET_FORMS/…",
+          "measured": "the committed corpus index resolves the SAME two digests under the Master Library at STATES/WI/02_PACKET_FORMS/…, and that is where they were read from. One identity at several paths — sourceReadiness.resolvedBy already says so. Not a conflict, recorded so a later lane does not read a path mismatch as drift."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "field": "rows[]",
+          "says": "73 rows; none of them is wi_exp_cr266-set",
+          "measured": "The brief directs a lane to read its family's row there before building. This family has no row, so both digests were re-measured from the bytes instead of read off any summary."
+        },
+        {
+          "record": "observed in the pinned CR-267 binary, contradicting nothing but worth a reviewer's eye",
+          "field": "page layout",
+          "says": "—",
+          "measured": "CR-267's content begins about 30% down a 612x792 page: its caption baseline is at y=557.98 where CR-266's is at y=737.76, leaving roughly three inches of blank paper above the caption. It is a property of the pinned binary and was not altered — the form's own foot prints \"This form shall not be modified.\""
+        }
+      ],
+      "selfVerification": "none. This lane built these packets and ran no verifier over them; the nine counters above are the BUILDER's own count using the repository's contract functions, not a verdict. No PASS was issued, no verdict was set, no route was opened and no raster workflow was dispatched."
     }
   ]
 }
