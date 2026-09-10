@@ -46,34 +46,105 @@
       ],
       "recordId": "legal-design-track-registry:nv_seal_decrim+nv_seal_multi+nv_seal_pardon+nv_seal_conviction+nv_seal_nonconviction+nv_seal_reentry",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-      "byteLength": 16778727,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
       "anchorStatementsVerified": 79,
       "identityRefresh": {
-        "refreshedOn": "2026-09-09",
+        "refreshedOn": "2026-09-10",
         "was": {
-          "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
-          "byteLength": 16775681
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
         },
-        "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
-        "anchorsCompared": 6,
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 7 were identical.",
+        "anchorsCompared": 7,
         "anchorDetail": [
-          "nv_seal_decrim: identical",
-          "nv_seal_multi: identical",
-          "nv_seal_pardon: identical",
-          "nv_seal_conviction: identical",
-          "nv_seal_nonconviction: identical",
-          "nv_seal_reentry: identical"
+          "registryGlobalMetadata: identical",
+          "track:nv_seal_conviction: identical",
+          "track:nv_seal_decrim: identical",
+          "track:nv_seal_multi: identical",
+          "track:nv_seal_nonconviction: identical",
+          "track:nv_seal_pardon: identical",
+          "track:nv_seal_reentry: identical"
         ],
-        "anchorsIdentical": 6,
+        "anchorsIdentical": 7,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nv_seal_conviction": "15fdfe7252400f33bea92d4da1a77c696f9ba484ef97849be6e1d6854cb711f5",
+          "track:nv_seal_decrim": "d5193abbbff8fdd4807fb75d721dd588c47e1c4ba98c8ec1460f6d5804791f0f",
+          "track:nv_seal_multi": "efda934d0c5e14e65944056db29191921aabb799e20acfaa238400b936392aa2",
+          "track:nv_seal_nonconviction": "d55e51d4b7eb18be4e327463c0b652f9361ef70e2ff835839de596485cfb2a8c",
+          "track:nv_seal_pardon": "94f6d914fefff374cac4e1d75f7cd97a6c8fdab254e3993e755c870a98edeaf8",
+          "track:nv_seal_reentry": "cc69800475e9e1039cf201ab3819058926d648fb24ca55eeb27ecf8efce2f738"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nv_seal_conviction",
+            "nv_seal_decrim",
+            "nv_seal_multi",
+            "nv_seal_nonconviction",
+            "nv_seal_pardon",
+            "nv_seal_reentry"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nv_seal_decrim",
+              "nv_seal_multi",
+              "nv_seal_pardon",
+              "nv_seal_conviction",
+              "nv_seal_nonconviction",
+              "nv_seal_reentry"
+            ],
+            "fromReceiptRouteKeys": [
+              "nv_seal_decrim",
+              "nv_seal_multi",
+              "nv_seal_pardon",
+              "nv_seal_conviction",
+              "nv_seal_nonconviction",
+              "nv_seal_reentry"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
         "entriesThatMovedInThisRecord": [
-          "ri_first_offender_misdemeanor",
-          "ri_multiple_misdemeanors"
+          "co_motion_seal_conviction"
         ],
-        "previousPinLastSeenAtCommit": "94445c6a4",
-        "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-09",
+          "was": {
+            "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+            "byteLength": 16775681
+          },
+          "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+          "anchorsCompared": 6,
+          "anchorDetail": [
+            "nv_seal_decrim: identical",
+            "nv_seal_multi: identical",
+            "nv_seal_pardon: identical",
+            "nv_seal_conviction: identical",
+            "nv_seal_nonconviction: identical",
+            "nv_seal_reentry: identical"
+          ],
+          "anchorsIdentical": 6,
+          "entriesThatMovedInThisRecord": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "previousPinLastSeenAtCommit": "94445c6a4",
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     },
     {

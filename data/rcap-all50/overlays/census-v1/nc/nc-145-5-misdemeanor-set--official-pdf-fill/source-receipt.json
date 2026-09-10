@@ -44,11 +44,58 @@
       ],
       "recordId": "track-registry:nc_145_5_misdemeanor",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-      "byteLength": 16778727,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry entry for this track. It settles the venue and destination this packet states, the waiting-period tiers it explains, and it is the source of the exclusions and the stop conditions the packet carries word for word",
-      "anchorStatementsVerified": 10
+      "anchorStatementsVerified": 10,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:nc_145_5_misdemeanor: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nc_145_5_misdemeanor": "f6ec22edeb5a7c808c6dc8fa45aeb4f2c2e54852506749ca883af455b30b2138"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nc_145_5_misdemeanor"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nc_145_5_misdemeanor"
+            ],
+            "fromReceiptRouteKeys": [
+              "nc_145_5_misdemeanor"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     }
   ],
   "documents": [
