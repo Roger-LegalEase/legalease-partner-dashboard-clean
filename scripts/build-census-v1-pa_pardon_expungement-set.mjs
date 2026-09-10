@@ -53,6 +53,8 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { HORIZONTAL_PADDING, usableWidthOf } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { GOVERNANCE_KEYS, preserveGovernanceState, writeWiringChecked }
+  from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -183,15 +185,55 @@ function componentConditionsFromManifest(familyId) {
   }));
 }
 
-function declarePacketComponents(outDir, familyId) {
+/*
+ * AND THE ACCEPTANCE RECEIPT, WHICH THIS WRITE DOES NOT AUTHOR AND MUST NOT
+ * LAUNDER.
+ *
+ * This builder does not regenerate the wiring record wholesale -- it sets one
+ * key on the committed document and leaves the rest as its generator wrote it --
+ * so the six-key erasure REBUILD_ERASES_GOVERNANCE_STATE.json describes has
+ * never been reachable from here. What IS reachable is the other half of the
+ * same rule: `binding.acceptanceReceipt` asserts that the central raster
+ * workflow rendered ONE exact canonical SHA-256 and returned a verdict over it.
+ * The moment this build produces different canonical bytes, that assertion has
+ * stopped describing the packet, and rewriting the file around it would leave a
+ * RASTER_PASS sitting on bytes nobody rendered.
+ *
+ * So the decision is handed to the shared module rather than made here. The six
+ * governance keys are removed from the document this write hands over -- this
+ * write authors none of them -- and carryForwardGovernance puts each back
+ * verbatim, comparing the receipt's bound digest against the canonical digests
+ * actually produced. Equal, and the receipt is carried unchanged. Different, and
+ * it is WITHDRAWN under acceptanceReceiptWithdrawn carrying both digests, kept
+ * as history and never deleted. Nothing here issues a receipt or sets a verdict;
+ * only the central acceptance workflow does that.
+ */
+function declarePacketComponents(outDir, familyId, canonicalSha256) {
   const wiringPath = path.join(ROOT, outDir, "product-wiring.json");
   if (!fs.existsSync(wiringPath)) return null;
   const wiring = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
   if (!wiring.binding || typeof wiring.binding !== "object") return null;
   const before = JSON.stringify(wiring);
   wiring.binding.packetComponents = packetComponentsFromManifest(familyId);
+  /*
+   * Hand the module a binding that states none of the six, so it decides each
+   * one against the committed record instead of reading this write's copy of a
+   * value it did not author as an authored value. The committed key order is
+   * captured first and restored after, so a rebuild that changes nothing writes
+   * byte-identical wiring rather than a diff that only moved keys about.
+   */
+  const committedOrder = Object.keys(wiring.binding);
+  for (const key of GOVERNANCE_KEYS) delete wiring.binding[key];
+  preserveGovernanceState(fs, wiringPath, wiring, {
+    canonicalSha256,
+    log: (line) => { if (process.env.PA_DEBUG_RENDER) console.log(`   ${line}`); }
+  });
+  const restored = {};
+  for (const key of committedOrder) if (key in wiring.binding) restored[key] = wiring.binding[key];
+  for (const key of Object.keys(wiring.binding)) if (!(key in restored)) restored[key] = wiring.binding[key];
+  wiring.binding = restored;
   const after = JSON.stringify(wiring);
-  if (after !== before) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+  if (after !== before) writeWiringChecked(fs, wiringPath, wiring);
   return wiring.binding.packetComponents;
 }
 
@@ -572,7 +614,53 @@ async function renderDocument(source, census, fixtureName) {
     // whatever this builder's policy table says.
     captionOnly: FORMS[source.formNumber].captionOnly === true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: FORMS[source.formNumber].title
+    title: FORMS[source.formNumber].title,
+    /*
+     * TWO CHECK-BOX DEFECTS MEASURED ON THIS FAMILY'S OWN DELIVERED BYTES, AND
+     * THE TWO SHARED OPTIONS THAT ANSWER THEM. Both are opt-in and both are
+     * passed here rather than defaulted on, because this builder renders one
+     * family and no other family's next rebuild is decided by this file.
+     *
+     * FIRST, ink this packet adds. Checkbox1/2/3 on the ORDER and both
+     * Checkbox2 widgets on the PETITION carry an /AP /N with an /On state only.
+     * Their /AS is /Off, and under ISO 32000-1 12.5.5 a state absent from
+     * /AP /N is drawn as NOTHING. pdf-lib instead synthesizes a bordered
+     * rectangle the size of the widget /Rect and flatten() stamps it, over a
+     * box the official page already prints for itself:
+     *
+     *   0 0 0 RG / 0 w / [] 0 d / 0 0 m ... h / S
+     *
+     * Read at 600 dpi against the pinned sources, that lands 136 added dark
+     * pixels on ORDER Checkbox1 and 136 and 80 on the two PETITION Checkbox2
+     * widgets, every one of them on the left and right edges of a box the court
+     * already drew -- a thickened, doubled outline. suppressSynthesizedAppearances
+     * supplies the empty appearance the source's silence means, so nothing is
+     * synthesized and nothing is stamped.
+     *
+     * SECOND, and in the opposite direction, ink this packet UNCOVERS. The two
+     * `Check Box1` widgets on the PETITION ship an /Off appearance that is the
+     * court's own:
+     *
+     *   1 g / 0 0 15.0306 12.8043 re / f / 0.5 0.5 14.0306 11.8043 re / s
+     *
+     * The leading `1 g` fill is not decoration. The petition's own page content
+     * stream draws its own smaller box at each of these two positions --
+     * `0.72 w 1 J / 466.68 271.62 -9.3 -9.3 re / S` and the same at 538.68 --
+     * and the widget's white fill masks it so the control reads as ONE hollow
+     * box, which is what a conforming viewer and the court's own PDF show.
+     * stripOpaqueBackgroundPaint removes any leading fill at grey >= 0.9 covering
+     * the widget, so it removes this one, and the printed 9.3pt box reappears
+     * INSIDE the widget's 15.03 x 12.80 box: 1,262 added dark pixels at 600 dpi,
+     * two concentric outlines at each of the Yes/No controls on a filing.
+     * preserveUnwrittenSelectionBackgrounds keeps the source's authored
+     * blank-state paint on a selection this run did not write. /MK /BG is still
+     * removed, so this requests no background the form did not itself author.
+     *
+     * Neither option removes court ink: the directional raster read is 0 removed
+     * dark pixels on every page of both fixtures in both directions.
+     */
+    suppressSynthesizedAppearances: true,
+    preserveUnwrittenSelectionBackgrounds: true
   });
   if (process.env.PA_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
@@ -1117,7 +1205,8 @@ function writeArtifacts(ctx) {
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
-  declarePacketComponents(outDir, familyId);
+  declarePacketComponents(outDir, familyId,
+    artifacts.filter((a) => a.fixture.startsWith("canonical")).map((a) => a.sha256));
   W("approval-request.json", `${JSON.stringify({
     schemaVersion: "rcap-family-approval-request/v1", familyId,
     requested: "visual review and counsel review", buildStatus: "state_built",
