@@ -61,7 +61,14 @@ const FIXTURES = Object.freeze({
     "matter.charge": "Trespass in a structure or conveyance, Fla. Stat. 810.08"
   },
   boundary: {
-    "participant.full_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+    /* FIX171, CHATB-FL-03. Was "Maria-Alejandra O'Shaughnessy-Whitfield": the
+     * whole name dropped the middle name the same fixture holds, so page 2 (the
+     * whole name) and pages 1 and 3 (the parts) named two different applicants.
+     * Nothing is invented -- Isabel is this fixture's own participant.middle_name.
+     * Measured with the builder's own fitter before the change: 182.59 pt at
+     * 8.5 pt Helvetica against the 257 pt page-2 rectangle, so it fits without
+     * shrinking. assertFixtureNamesAreConsistent refuses if they part again. */
+    "participant.full_name": "Maria-Alejandra Isabel O'Shaughnessy-Whitfield",
     "participant.last_name": "O'Shaughnessy-Whitfield",
     "participant.first_name": "Maria-Alejandra",
     "participant.middle_name": "Isabel",
@@ -440,12 +447,41 @@ function participantInstructions(items) {
     out.push(`| ${item.disclosureLabel.replaceAll("|", "-")} | ${item.participantMustSupply.replaceAll("|", "-")} |`);
   }
   out.push(
-    "| Completed Written Certified Statement Page | Obtain the completed statement from the appropriate State Attorney or Statewide Prosecutor; submit application pages 1 and 2 to that office as the official packet directs. |",
+    "| Completed Written Certified Statement Page | Obtain the completed statement from the appropriate State Attorney or Statewide Prosecutor; submit application pages 1 and 2 to that office as the official packet directs. If the arrests or charges in this request were prosecuted in more than one judicial circuit, obtain the approval of the State Attorney (or the Statewide Prosecutor) of EVERY affected circuit. Stop and get help if any required approval is missing or refused: this packet cannot proceed without all of them, and nobody here may sign or decide for a prosecutor. |",
     "| Certified disposition for every listed case or charge | Obtain an original certified disposition from the clerk in the county where each case or charge originated. Include probation termination documentation or diversion completion proof when applicable. |",
     "| Completed fingerprint form or card | Have an authorized law-enforcement or criminal-justice official take the fingerprints and complete the official signature and ORI or agency-stamp fields. |",
-    "| Processing fee | Include the nonrefundable $75 payment in an accepted form exactly as page 5 directs; this packet is early juvenile expunction, not the juvenile-diversion fee exception. |",
+    "| Processing fee | Include the nonrefundable $75 payment in an accepted form exactly as page 5 directs, unless the executive director of FDLE waives it. This packet is early juvenile expunction, not the juvenile-diversion fee exception, and that exception is not the waiver. |",
     "| Original supporting documents | The official checklist says submitted documentation must be original; keep copies for your own records before submission. |",
     "| Attorney letterhead, if represented | Include a letter of representation on attorney letterhead when an attorney represents you. |",
+    "",
+    "## The $75 fee, and the waiver the statute provides for",
+    "",
+    "The fee for this application is $75, and it is nonrefundable. It is paid unless the",
+    "executive director of the Florida Department of Law Enforcement waives it: section",
+    "943.0515, Florida Statutes, provides for that waiver and gives the decision to the",
+    "executive director. Nobody here can grant it, predict it, or decide that you qualify.",
+    "",
+    "If you want to ask for it, ask FDLE's Seal & Expunge Section for the current",
+    "instructions for requesting a fee waiver on an early juvenile expunction, at the same",
+    "address the packet is mailed to. The request steps are not printed on this packet and",
+    "are not stated here, because this packet's own held source does not carry them and",
+    "nothing has been substituted for them.",
+    "",
+    "Until the executive director actually grants a waiver, the $75 is still owed and the",
+    "packet still goes in with the payment. Do not treat this as a court fee-waiver motion,",
+    "an indigency finding, or the juvenile-diversion fee exception; none of those is this.",
+    "",
+    "## Every circuit the request touches must approve",
+    "",
+    "The State Attorney or Statewide Prosecutor completes the written certified statement",
+    "on page 2. If the arrests or charges you are asking to expunge were prosecuted in more",
+    "than one judicial circuit, section 943.0515, Florida Statutes, requires the approval of",
+    "the prosecutor of EVERY affected circuit, not just one of them. Getting each approval is",
+    "not routine paperwork and it is not service of process: it is a decision each office",
+    "makes for itself, and it may be refused.",
+    "",
+    "Stop and get help before sending anything if any required approval is missing or",
+    "refused. Every prosecutor field, decision and signature stays blank in this packet.",
     "",
     "## Protected fields left blank",
     "",
@@ -457,6 +493,27 @@ function participantInstructions(items) {
     ""
   );
   return out.join("\n");
+}
+
+/** The submission steps, as their own function so they can be read and tested
+ *  without a source binary in custody. */
+function filingInstructions() {
+  return [
+    "# Submission instructions - FDLE early juvenile expunction",
+    "",
+    "1. Review and complete page 1. List every arrest and charge included in the request.",
+    "2. Send pages 1 and 2 to the appropriate State Attorney or Statewide Prosecutor and obtain the completed written certified statement. If the included arrests or charges span more than one judicial circuit, obtain that approval from the prosecutor of every affected circuit; section 943.0515, Florida Statutes, requires all of them. Do not send the packet if any one of them is missing or refused.",
+    "3. Obtain an original certified disposition for every listed case or charge, plus probation-termination or diversion-completion proof when applicable.",
+    "4. Have an authorized law-enforcement or criminal-justice official take the fingerprints and complete the official fields on page 3.",
+    "5. Sign page 1 before a notary public or deputy clerk, and sign/date the fingerprint card at fingerprinting. Do not prefill official-owned fields.",
+    "6. Include the $75 nonrefundable processing fee in an accepted payment form and all original supporting documents specified by the official checklist. Section 943.0515, Florida Statutes, lets the executive director of FDLE waive that fee; ask FDLE's Seal & Expunge Section for the current waiver-request instructions if you want to seek it. The request steps are not stated here because this packet's held source does not carry them. Absent an actual waiver, the $75 is still owed and goes in with the packet.",
+    "7. Mail the complete packet to Florida Department of Law Enforcement, ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489, as printed on page 4. Confirm current submission instructions before mailing.",
+    "",
+    "This is an FDLE agency submission, not a court filing. Keep copies of the complete packet and delivery proof.",
+    "",
+    `Route: ${ROUTE_KEY}`,
+    ""
+    ].join("\n");
 }
 
 function countCompleteness(fieldMaps, artifacts, instructions) {
@@ -537,10 +594,88 @@ function countCompleteness(fieldMaps, artifacts, instructions) {
   return { counters, findings, ledger };
 }
 
+/*
+ * FIX171, KNOWN_PREFILLS. THE TWO NAMES A FIXTURE MAY NOT HAVE.
+ *
+ * The Florida independent review (CHATB-FL-03) found the boundary packet
+ * printing "Maria-Alejandra O'Shaughnessy-Whitfield" on page 2 while pages 1
+ * and 3 carry the held middle name Isabel, and noted that comparing the write
+ * to drawnText cannot catch it: the report faithfully reproduces the incomplete
+ * expectation, because the expectation itself is short. The cause is here, in
+ * FIXTURES: `participant.full_name` was written out by hand beside the split
+ * parts and does not contain `participant.middle_name`. Page 2 writes the full
+ * name and pages 1 and 3 write the parts, so one packet states two different
+ * identities for the same applicant.
+ *
+ * Nothing is synthesized to paper over that. The check refuses a fixture whose
+ * whole name does not contain each of its own parts, so the two facts cannot
+ * disagree again; correcting the DRAWN page-2 value in the printed
+ * "Last, First Middle" order needs a rebuild, and this family has no source
+ * binary in custody to rebuild from.
+ */
+function assertFixtureNamesAreConsistent() {
+  for (const [name, facts] of Object.entries(FIXTURES)) {
+    const whole = String(facts["participant.full_name"] ?? "");
+    for (const part of ["participant.first_name", "participant.middle_name", "participant.last_name"]) {
+      const value = String(facts[part] ?? "");
+      if (!value) continue;
+      assert.ok(whole.includes(value),
+        `${FAMILY_ID}/${name}: participant.full_name "${whole}" does not contain ${part} "${value}". `
+        + "One packet would print two different applicant identities. Fix the fixture facts; "
+        + "never drop a held name part and never invent one.");
+    }
+  }
+}
+
+/*
+ * FIX171, FEE_AND_WAIVER and SERVICE. TWO THINGS THE GUIDE MAY NOT LEAVE OUT.
+ *
+ * CHATB-FL-04: both instruction files presented the $75 as unconditional and
+ * explained only that the juvenile-diversion exception is not this route, while
+ * section 943.0515 provides for a waiver by FDLE's executive director. A fee
+ * stated as unconditional is a participant paying money the statute may not
+ * require of them.
+ *
+ * CHATB-FL-07: both files said "the appropriate State Attorney or Statewide
+ * Prosecutor", singular, while section 943.0515 requires the approval of every
+ * affected circuit. A participant whose charges span circuits would have sent a
+ * packet that cannot be granted.
+ *
+ * The statute's own words are NOT quoted here. Egress to flsenate.gov is
+ * blocked in this container, so this lane did not read the section text; what is
+ * carried is the finding of the independent review that did read it, at
+ * data/rcap-grade-a/chat-parallel-2026-09-07/review/fl-complete-independent-review.json.
+ * The waiver REQUEST MECHANICS are stated nowhere, because no held source in
+ * this repository carries them, and the guide says so rather than inventing a
+ * procedure.
+ */
+function assertFeeWaiverAndEveryCircuitAreDisclosed(participantMd, filingMd) {
+  const required = [
+    ["the fee waiver and who decides it", /waive|waiver/i, /executive director/i],
+    ["the every-affected-circuit approval", /every affected circuit|EVERY affected circuit|every affected circuit/i, null]
+  ];
+  for (const [what, first, second] of required) {
+    for (const [label, text] of [["participant-instructions.md", participantMd], ["filing-instructions.md", filingMd]]) {
+      assert.ok(first.test(text) && (!second || second.test(text)),
+        `${FAMILY_ID}: ${label} does not disclose ${what}. `
+        + "CHATB-FL-04 and CHATB-FL-07 are open findings; a guide that drops either one is the defect returning.");
+    }
+  }
+  assert.ok(/\$75/.test(participantMd) && /\$75/.test(filingMd),
+    `${FAMILY_ID}: the guide must carry the record's own fee amount, $75, on both files.`);
+}
+
 async function run(argv = process.argv.slice(2)) {
   process.chdir(ROOT);
-  const { sourcePath, bytes } = sourceBytes();
+  /* FIX171. Every gate that needs no source binary runs BEFORE the source gate,
+   * so a container that does not hold the bytes still exercises them. */
   const fieldMaps = maps();
+  assertFixtureNamesAreConsistent();
+  const rbf = requiredBeforeFiling(fieldMaps);
+  const instructions = participantInstructions(rbf);
+  const filing = filingInstructions();
+  assertFeeWaiverAndEveryCircuitAreDisclosed(instructions, filing);
+  const { sourcePath, bytes } = sourceBytes();
   if (argv.includes("--check")) {
     return {
       familyId: FAMILY_ID,
@@ -559,26 +694,8 @@ async function run(argv = process.argv.slice(2)) {
   for (const fixtureName of ["canonical", "boundary"]) {
     artifacts.push(await buildFixture(bytes, fixtureName, FIXTURES[fixtureName], fieldMaps));
   }
-  const rbf = requiredBeforeFiling(fieldMaps);
-  const instructions = participantInstructions(rbf);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructions);
-  fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), [
-    "# Submission instructions - FDLE early juvenile expunction",
-    "",
-    "1. Review and complete page 1. List every arrest and charge included in the request.",
-    "2. Send pages 1 and 2 to the appropriate State Attorney or Statewide Prosecutor and obtain the completed written certified statement.",
-    "3. Obtain an original certified disposition for every listed case or charge, plus probation-termination or diversion-completion proof when applicable.",
-    "4. Have an authorized law-enforcement or criminal-justice official take the fingerprints and complete the official fields on page 3.",
-    "5. Sign page 1 before a notary public or deputy clerk, and sign/date the fingerprint card at fingerprinting. Do not prefill official-owned fields.",
-    "6. Include the $75 nonrefundable processing fee in an accepted payment form and all original supporting documents specified by the official checklist.",
-    "7. Mail the complete packet to Florida Department of Law Enforcement, ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489, as printed on page 4. Confirm current submission instructions before mailing.",
-    "",
-    "This is an FDLE agency submission, not a court filing. Keep copies of the complete packet and delivery proof.",
-    "",
-    `Route: ${ROUTE_KEY}`,
-    ""
-  ].join("\n"));
-
+  fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filing);
   const counted = countCompleteness(fieldMaps, artifacts, instructions);
   assert.ok(PASS_COUNTERS.every((counter) => counted.counters[counter] === 0),
     `builder completeness counters are nonzero: ${JSON.stringify(counted.counters)}`);
