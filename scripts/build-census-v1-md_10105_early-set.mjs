@@ -713,15 +713,53 @@ async function renderDocument(source, census, fixtureName) {
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title,
-    /* All three are opt-in flags whose comments in the finalizer say the
-     * default should flip once every family can be rebuilt together. This
-     * family is new, so there are no earlier bytes for them to move, and each
+    /* All four are opt-in flags whose comments in the finalizer say the
+     * default should flip once every family can be rebuilt together, and each
      * closes a measured defect: a fit the widget's own /DA would have ignored,
-     * a value refused without the declared minimum ever being tried, and a
-     * pushbutton caption stamped onto the filed page. */
+     * a value refused without the declared minimum ever being tried, a
+     * pushbutton caption stamped onto the filed page, and a check-box border
+     * this build invented. */
     evaluateDeclaredMinimumSize: true,
     alignWidgetFontSizeToFit: true,
-    detachNestedControlFields: true
+    detachNestedControlFields: true,
+    /*
+     * FIX141, CLIPPING_AND_OVERLAP. VF06 read this family at 7d6453f51 and
+     * scored the obligation FAIL on THIRTEEN SQUARES OF INK THIS PACKET ADDED
+     * that neither Maryland form carries: one stroked hairline square per
+     * check box, on a petition affirmed under penalties of perjury and on a
+     * release of tort claims.
+     *
+     * Measured here first-hand on the committed bytes at 80fd3eb51 rather
+     * than taken from the row. Every check-box widget on both binaries sits at
+     * /AS /Off and its /AP /N dictionary holds ONLY the on state and no /Off
+     * entry -- eleven on CC-DC-CR-072C (/On) and two on CC-DC-CR-078 (/Yes),
+     * thirteen in all, and not one of the thirteen ships a court-authored /Off
+     * stream. ISO 32000-1 12.5.5 has a conforming viewer draw the stream named
+     * by /AS, so where there is none it paints nothing; pdf-lib instead treats
+     * the missing state as an appearance to regenerate, and its default
+     * provider strokes a square the size of the widget /Rect, which flatten()
+     * then stamps onto the page. The delivered bytes carried exactly thirteen
+     * flattened Form XObjects whose whole stream is "0 0 0 RG 0 w [] 0 d ...
+     * h S" over an 8pt or 9pt BBox and no glyph. The forms print their own box
+     * in page content at a slightly different place and size, so the
+     * synthesized hairline lands offset inside the printed one: at 300 dpi,
+     * grey <= 128, the thirteen rectangles carried 419 dark pixels MORE than
+     * the same rectangles of the pinned sources rendered with their own
+     * annotations, on both fixtures.
+     *
+     * suppressSynthesizedAppearances installs the empty /Off appearance the
+     * two forms omit, so needsAppearancesUpdate() is false and pdf-lib
+     * regenerates nothing for those thirteen widgets. It writes no participant
+     * fact, marks no box and adds no ink; it withholds ink the Maryland
+     * Judiciary never authored. Nothing the court draws is touched: there is no
+     * /Off stream on any of the thirteen to remove, which is the distinction
+     * RI-OFF-APPEARANCE and FIX134 turn on, and it was checked on both binaries
+     * before the flag was set.
+     *
+     * THIS FAMILY ONLY. The flag is passed from this family's own builder, so
+     * every other caller of the shared finalizer is byte-unaffected.
+     */
+    suppressSynthesizedAppearances: true
   });
   return { bytes, report };
 }
@@ -1776,6 +1814,23 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "the custody each document's bytes actually came from. Nothing is bound by path. Note also that the "
           + "recovery pool is declared a PARTIAL custody: it satisfies an individual source obligation and never a "
           + "completeness assertion, and no completeness assertion is made from it here."
+      },
+      {
+        finding:
+          "Every check-box widget on both binaries sits at /AS /Off and its /AP /N dictionary holds only the on "
+          + "state -- eleven /On boxes on CC-DC-CR-072C and two /Yes boxes on CC-DC-CR-078 -- so not one of the "
+          + "thirteen ships a court-authored /Off appearance. pdf-lib reads the missing state as an appearance to "
+          + "regenerate and its default provider strokes a square the size of the widget /Rect, which flatten() "
+          + "stamps onto the page over the box the Maryland Judiciary already prints in page content.",
+        consequence:
+          "Before FIX141 the delivered bytes carried exactly thirteen flattened Form XObjects whose whole stream was "
+          + "a stroked square and no glyph, and at 300 dpi, grey <= 128, those thirteen rectangles carried 419 dark "
+          + "pixels more than the same rectangles of the pinned sources rendered with their own annotations, on both "
+          + "fixtures. suppressSynthesizedAppearances now installs the empty /Off appearance the two forms omit, so "
+          + "pdf-lib regenerates nothing there. The delivered check boxes are now pixel-identical to the sources at "
+          + "every threshold measured, and no /Off stream the court authored was touched because there is none to "
+          + "touch. Nothing this build writes moved: every one of the fourteen write boxes carries the same ink "
+          + "before and after, and every pixel that changed on either page got lighter."
       },
       {
         finding:
