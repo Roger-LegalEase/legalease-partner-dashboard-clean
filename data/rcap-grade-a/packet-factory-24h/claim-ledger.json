@@ -6029,10 +6029,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX176",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T19:26:28.657Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14932,9 +14932,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "itemId": null,
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "familyIds": [
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX176",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "87a8438dbf791ceacce27d8e347f90baf559a05b27fe49ab6a835f7ec1bc7f16",
+  "claimsDigest": "759e56824e42a0f6695ebdd29bfab3c4e644ec6e8011ca7dc69ee056424fea20",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -59514,6 +59529,17 @@
       "previouslyReleasedAt": "2026-09-10T15:31:00.723Z",
       "transferredAt": "2026-09-10T19:50:35.989Z",
       "reason": "VF62 proved host-wide that this family declares an election it never draws; it shares the form and builder with the two families above and must not be repaired by a separate lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX176",
+      "previouslyReleasedAt": "2026-09-10T19:26:28.657Z",
+      "transferredAt": "2026-09-10T19:51:29.731Z",
+      "reason": "the completeness reader now sees its selection controls and finds two unmade route elections FIX172 could not have known about, including item 9 box 1 which is this packet's own statutory route"
     }
   ],
   "grants": [
@@ -60142,6 +60168,17 @@
       "grantedAt": "2026-09-10T19:04:05.881Z",
       "grantedBy": "Captain",
       "reason": "routeMappingStatus BOUND and artifactStatus NOT_RENDERED: the route mapping is settled and no packet has ever been built. Six Kansas families in one lane because they share a statutory family",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX176",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-10T19:51:29.866Z",
+      "grantedBy": "Captain",
+      "reason": "carries ten selection controls with reason null -- the defect FIX172 just repaired in its sibling -- plus the same two unmade route elections; it was COMPLETE_PACKET_PROVEN only because the anchors-and-withheld reader never looked at selection controls",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
