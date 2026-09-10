@@ -322,6 +322,119 @@ function grant(ledgerPath, lane, subjectId, reason) {
   console.log(`GRANTED ${lane} ${subjectId} (${kind}) — ${reason}`);
 }
 
+/*
+ * CLOSE A LANE'S GRANTS AT ITS RETURN BOUNDARY, ON EVIDENCE.
+ *
+ * The defect this exists for, measured: 116 grants across 40 lanes over 87
+ * families read LIVE while nothing was executing them, because a lane that
+ * returns keeps its grant until someone releases it. Every dispatch batch the
+ * Captain tried refused at the gate with GRANTED_ELSEWHERE, and the ledger --
+ * not the work -- was the limit on throughput. That is a lifecycle hole at the
+ * RETURN boundary, so it is closed here, in the same script that opens grants.
+ *
+ * Three rules this obeys, each of them the reason a naive sweep would be wrong:
+ *
+ *   1. A CLAIM IS NEVER CLOSED BECAUSE ITS TIMESTAMP IS OLD. Age is not
+ *      evidence of anything: a lane can hold a grant for hours while rendering,
+ *      and a grant asserted a minute ago can belong to a lane that has already
+ *      returned. This refuses unless the caller can point at the lane's own
+ *      committed return -- its rows under data/rcap-grade-a/packet-factory-24h/
+ *      <lane>/, or a commit named with --returned-at that this repository
+ *      actually contains. No date arithmetic appears in this function.
+ *
+ *   2. A REMOTE OWNER IS NEVER RECLAIMED FROM HERE. PF lanes run in Codex Cloud
+ *      and SRC lanes hold source inventory; neither has a process visible in
+ *      this container, so "no local process" says nothing about them. They are
+ *      refused outright rather than judged.
+ *
+ *   3. A STATUS LABEL IS NOT EXECUTION. The only thing that counts as finished
+ *      is an artifact the lane itself wrote and committed. If a lane is
+ *      deliberately retaining a grant for a follow-up repair, the Captain says
+ *      so with --reason and does not close it; that is a bounded continuation,
+ *      and it is recorded as one by simply not closing.
+ *
+ * What it does NOT do: it does not accept, reject or supersede the lane's work.
+ * A release moves ownership and nothing else.
+ */
+const laneReturnEvidence = (lane) => {
+  const dir = path.join("data/rcap-grade-a/packet-factory-24h", lane.toLowerCase());
+  if (!fs.existsSync(dir)) return null;
+  const rows = fs.readdirSync(dir).filter((f) => f.endsWith(".json"));
+  if (!rows.length) return null;
+  const file = path.join(dir, rows[0]);
+  const tracked = git(["log", "-1", "--format=%H", "--", file]);
+  return tracked ? { file, committedAt: tracked, rowFiles: rows.length } : null;
+};
+
+export function ownershipReconciliation(ledger) {
+  const rows = [];
+  const lanes = [...new Set((ledger.claims ?? []).filter((c) => !c.released).map((c) => c.lane))].sort();
+  for (const lane of lanes) {
+    const live = (ledger.claims ?? []).filter((c) => c.lane === lane && !c.released);
+    const remote = /^(PF|SRC)/.test(lane);
+    const evidence = remote ? null : laneReturnEvidence(lane);
+    rows.push({
+      lane, liveClaims: live.length, laneKind: LANE_KIND(lane),
+      classification: remote ? "remote_owner_not_judged_from_here"
+        : evidence ? "has_committed_output_here"
+        : "no_committed_return_found_here",
+      returnEvidence: evidence,
+      subjectIds: live.map((c) => c.subjectId)
+    });
+  }
+  return rows;
+}
+
+function ownership(ledgerPath) {
+  const { ledger } = read(ledgerPath); validate(ledger);
+  const rows = ownershipReconciliation(ledger);
+  const closable = rows.filter((r) => r.classification === "has_committed_output_here");
+  console.log(`${rows.length} lane(s) holding ${rows.reduce((n, r) => n + r.liveClaims, 0)} live grant(s)`);
+  for (const r of rows) console.log(`  ${r.lane.padEnd(10)} ${String(r.liveClaims).padStart(3)}  ${r.classification}${r.returnEvidence ? `  ${r.returnEvidence.file}` : ""}`);
+  console.log();
+  console.log(`${closable.length} lane(s) have committed output in this tree. That is a NECESSARY condition for closing a grant, not a sufficient one:`);
+  console.log(`  a lane commits its rows and keeps working, so the Captain must know the assignment is finished -- or is a bounded`);
+  console.log(`  continuation with an executing owner -- before running --close-returned <LANE> --reason "<why>".`);
+  console.log(`No claim is closed by this command, and none is ever closed because its timestamp is old.`);
+}
+
+function closeReturned(ledgerPath, lane, reason, returnedAt) {
+  const { absolute, ledger } = read(ledgerPath); validate(ledger);
+  if (!reason) die(10, `CLOSE_NEEDS_REASON: closing ${lane}'s grants requires --reason "<why>"`);
+  const kind = LANE_KIND(lane);
+  if (kind === "unknown") die(4, `UNKNOWN_LANE: ${lane}`);
+  if (/^(PF|SRC)/.test(lane)) {
+    die(17, `REMOTE_OWNER: ${lane} runs outside this container, so the absence of a local process is not evidence it finished.`
+      + ` Release its grants one at a time with --release, on evidence from the worker itself.`);
+  }
+  let evidence = laneReturnEvidence(lane);
+  if (returnedAt) {
+    const resolved = git(["rev-parse", "--verify", `${returnedAt}^{commit}`]);
+    if (!resolved) die(18, `RETURN_COMMIT_NOT_IN_THIS_REPOSITORY: ${returnedAt}. A return boundary is a commit this checkout contains, never a sha typed from a report.`);
+    evidence = { ...(evidence ?? {}), namedReturnCommit: resolved };
+  }
+  if (!evidence) {
+    die(19, `NO_RETURN_EVIDENCE: nothing committed under data/rcap-grade-a/packet-factory-24h/${lane.toLowerCase()}/ and no --returned-at given.`
+      + ` A grant is not stale because it is old; it is stale because the lane returned. Say where the return is.`);
+  }
+  const live = (ledger.claims ?? []).filter((c) => c.lane === lane && !c.released);
+  if (!live.length) die(20, `NOTHING_LIVE: ${lane} holds no live grant`);
+  const closedAt = new Date().toISOString();
+  for (const grant of live) {
+    grant.released = true; grant.releasedAt = closedAt; grant.releaseReason = reason;
+    ledger.releases = [...(ledger.releases ?? []), {
+      lane, subjectType: grant.subjectType, subjectId: grant.subjectId, operation: grant.operation,
+      laneKind: grant.laneKind, releasedAt: closedAt, reason,
+      closedAtReturnBoundary: true, returnEvidence: evidence
+    }];
+  }
+  ledger.claimsDigest = claimsDigest(ledger.claims);
+  fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
+  console.log(`CLOSED ${live.length} grant(s) held by ${lane} at its return boundary — ${reason}`);
+  console.log(`  evidence: ${JSON.stringify(evidence)}`);
+  for (const g of live) console.log(`  released ${g.subjectId}`);
+}
+
 function status(ledgerPath, lane) {
   const { ledger } = read(ledgerPath); validate(ledger);
   const claims = ledger.claims.filter((c) => (!lane || c.lane === lane) && !c.released);
@@ -349,8 +462,25 @@ const announce = (ledgerFile) => {
   }
 };
 
+/*
+ * Run the CLI only when this file IS the program.
+ *
+ * Everything above is also the gate other code must be able to ASK rather than
+ * re-model: claim-close-returned.test.mjs needs claimsDigest and the closed
+ * lane-kind vocabulary to build a fixture ledger the real validate() accepts,
+ * and a test that hand-typed a digest instead would be testing a ledger this
+ * gate would reject. Without this guard, importing the module ran the argv
+ * dispatch and exited 2 before the importer got anything -- so the only way to
+ * reuse the vocabulary was to copy it, which is how two readings of one rule
+ * start to disagree.
+ */
+const INVOKED_DIRECTLY = process.argv[1]
+  && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+if (INVOKED_DIRECTLY) {
 const args = process.argv.slice(2); let ledgerPath = DEFAULT_LEDGER;
 const li = args.indexOf("--ledger"); if (li >= 0) { ledgerPath = args[li + 1]; args.splice(li, 2); }
+const rai = args.indexOf("--returned-at"); let returnedAt = null;
+if (rai >= 0) { returnedAt = args[rai + 1] ?? null; args.splice(rai, 2); }
 const ri = args.indexOf("--reason"); let reason = null;
 if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
@@ -361,5 +491,8 @@ else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, su
 else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
 else if (mode === "--transfer" && lane && subjectId && args[3]) transfer(ledgerPath, lane, subjectId, args[3], reason);
 else if (mode === "--grant" && lane && subjectId) grant(ledgerPath, lane, subjectId, reason);
+else if (mode === "--ownership") ownership(ledgerPath);
+else if (mode === "--close-returned" && lane) closeReturned(ledgerPath, lane, reason, returnedAt);
 else if (mode === "--status") status(ledgerPath, lane);
-else die(2, "usage: claim.mjs [--ledger path] --can-assert <LANE> <id[,id...]> | --assert|--release <LANE> <familyId|itemId> | --grant <LANE> <subjectId> --reason \"<why>\" | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
+else die(2, "usage: claim.mjs [--ledger path] --can-assert <LANE> <id[,id...]> | --assert|--release <LANE> <familyId|itemId> | --grant <LANE> <subjectId> --reason \"<why>\" | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --ownership | --close-returned <LANE> --reason \"<why>\" [--returned-at <sha>] | --status [LANE]");
+}
