@@ -99,8 +99,8 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-      "byteLength": 3683419,
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
       "packetSetId": "nh_petition_vacated-set",
       "fieldsQuotedOnParticipantSurfaces": [],
       "declaredComponents": [
@@ -111,7 +111,28 @@
         "nh_petition_vacated-post-filing-instructions-5",
         "nh_petition_vacated-effect-and-limits-disclosure-6"
       ],
-      "whyItIsBound": "This record declares the six components of the packet set, and independent verification measured the delivered nine pages as rendering four of them: the two required process_guidance components reached no page. The manifest is now read at build time, every declared component is matched to pages of both fixtures, and a component that reaches no page stops the build. It is bound by SHA-256 because the assertion is only as good as the list it is made against."
+      "whyItIsBound": "This record declares the six components of the packet set, and independent verification measured the delivered nine pages as rendering four of them: the two required process_guidance components reached no page. The manifest is now read at build time, every declared component is matched to pages of both fixtures, and a component that reaches no page stops the build. It is bound by SHA-256 because the assertion is only as good as the list it is made against.",
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
+        },
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nh_petition_vacated-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:nh_petition_vacated-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:nh_petition_vacated-set": "4a918fcd85d3eb2bba5c1eec2d5e4ca22e7d66c685613fb667b0c137a8f870c3"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+      }
     }
   ],
   "sourceBinaryCommitted": false,

@@ -28,18 +28,28 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-      "byteLength": 3683419,
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
       "identityRefresh": {
-        "refreshedOn": "2026-09-05",
+        "refreshedOn": "2026-09-10",
         "was": {
-          "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
-          "byteLength": 3674510
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
         },
-        "why": "The shared record was rewritten around this receipt's anchors by unrelated work. Every entry this family binds was recovered from the historical blob carrying the previous pin and is byte-identical on disk, so the bound content is unchanged and only the containing file's identity moved.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "148382ab2"
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nd-deferred-imposition-records-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:nd-deferred-imposition-records-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:nd-deferred-imposition-records-set": "c3ae8b4ad7f87346f71d71e3f5fe7ee8baa5591bb219e8911c84765df21eed99"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
       }
     }
   ],
