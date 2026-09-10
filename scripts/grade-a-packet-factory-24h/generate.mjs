@@ -3337,9 +3337,29 @@ const liveVerificationLaneOf = (() => {
 const VF_IDS = Array.from({ length: VF_LANES }, (_, i) => `VF${String(i + 1).padStart(2, "0")}`);
 const heldByLane = new Map(VF_IDS.map((id) => [id, []]));
 const unheldPool = [];
+/*
+ * A LIVE GRANT PINS THE LANE EVEN WHEN THE LANE IS NOT ON THIS ROSTER.
+ *
+ * The roster is VF01..VF{VF_LANES}. Captain dispatches verification lanes
+ * outside it -- VF44, VF47, VF49 -- when a repaired family needs a reader that
+ * is neither its builder nor the lane that already formed a view of it. The
+ * test below used to be `heldByLane.has(lane)`, so a live grant on such a lane
+ * was INVISIBLE here: the family fell into the unheld pool, was dealt
+ * round-robin to a roster lane, and the integrator then refused the whole run
+ * on the mismatch this packer had just created. It cost a full generation with
+ * two lanes executing, and the refusal was right -- the dispatch was wrong.
+ *
+ * The comment below already states the intent: a live grant is authority to
+ * perform work and pins the lane. So a family whose live verification grant
+ * names ANY lane is held, and a family held off-roster is simply not dealt.
+ * It is named in heldOffRoster so the dispatch record says where it went
+ * rather than silently omitting it.
+ */
+const heldOffRoster = new Map();
 for (const f of verifyPending) {
   const lane = liveVerificationLaneOf.get(f.familyId);
   if (lane && heldByLane.has(lane)) heldByLane.get(lane).push(f.familyId);
+  else if (lane) heldOffRoster.set(f.familyId, lane);
   else unheldPool.push(f.familyId);
 }
 /*
@@ -3357,7 +3377,7 @@ for (const f of verifyPending) {
  * pins that current work to its holder. The grant is authority to perform work,
  * not authority to manufacture work the state machine says is finished.
  */
-const seededAlready = new Set([...heldByLane.values()].flat());
+const seededAlready = new Set([...[...heldByLane.values()].flat(), ...heldOffRoster.keys()]);
 for (const [familyId, lane] of liveVerificationLaneOf) {
   if (seededAlready.has(familyId) || !heldByLane.has(lane)) continue;
   heldByLane.get(lane).push(familyId);

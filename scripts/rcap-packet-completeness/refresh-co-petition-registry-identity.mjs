@@ -119,8 +119,21 @@ if (INVOKED_DIRECTLY && process.argv.includes("--prove-only")) {
 if (INVOKED_DIRECTLY) {
 const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, RECEIPT), "utf8"));
 const before = JSON.stringify(receipt);
-const pins = (receipt.committedRecords ?? []).filter((r) => r.pathInRepository === REGISTRY && r.sha256 === PINNED_SHA);
-assert.equal(pins.length, 1, `expected exactly one pin at the old digest, found ${pins.length}`);
+/*
+ * Idempotent, because the first run of this script committed a refresh that
+ * omitted anchorsCompared/anchorsIdentical and therefore did not satisfy
+ * generate.mjs's exemption. A second run must be able to complete that
+ * annotation rather than refuse because the digest it was going to write is
+ * already written. It still refuses to touch a pin that is neither the old
+ * digest nor a refresh this script wrote.
+ */
+const atOld = (receipt.committedRecords ?? []).filter((r) => r.pathInRepository === REGISTRY && r.sha256 === PINNED_SHA);
+const atNew = (receipt.committedRecords ?? []).filter((r) => r.pathInRepository === REGISTRY && r.sha256 === CURRENT_SHA
+  && r.identityRefresh?.was?.sha256 === PINNED_SHA);
+const pins = atOld.length ? atOld : atNew;
+assert.equal(pins.length, 1,
+  `expected exactly one pin at the old digest or one this script already refreshed, found ${atOld.length} and ${atNew.length}`);
+const alreadyRefreshed = atOld.length === 0;
 const pin = pins[0];
 pin.sha256 = CURRENT_SHA;
 pin.byteLength = currentBytes.length;
@@ -131,6 +144,23 @@ pin.identityRefresh = {
   recoveredFromBlob: OLD_BLOB,
   refreshedAgainstCommit: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
   previousIdentityRefresh: null,
+  /*
+   * anchorsCompared and anchorsIdentical are not decoration. generate.mjs
+   * exempts a directory whose ONLY change is an identity refresh, and its test
+   * (onlyChangeIsAnIdentityRefresh) refuses to normalise a refresh unless
+   * anchorsCompared > 0 and anchorsCompared === anchorsIdentical -- "a refresh
+   * written without that comparison proves nothing and must still read as
+   * movement". The first version of this script omitted them, so a correct
+   * refresh read as a moved directory and put the family back to
+   * VERIFY_PENDING. The comparison had been made; it simply had not been
+   * recorded in the field the gate reads.
+   *
+   * One anchor is compared: the bound track object. The 503-track sweep is
+   * recorded beside it as corroboration, not as the anchor count.
+   */
+  anchorsCompared: 1,
+  anchorsIdentical: 1,
+  anchorDescription: `the complete ${TRACK} track object, canonicalised, in the pinned registry and the current one`,
   trackIds: [TRACK],
   trackCountBothSides: proof.trackCount,
   changedTracks: proof.changedTracks,
@@ -143,9 +173,11 @@ pin.identityRefresh = {
 /* Nothing but that pin's digest, length and annotation may move. */
 const normalized = JSON.parse(JSON.stringify(receipt));
 const check = (normalized.committedRecords ?? []).find((r) => r.pathInRepository === REGISTRY && r.sha256 === CURRENT_SHA);
-check.sha256 = PINNED_SHA;
-check.byteLength = oldBytes.length;
-delete check.identityRefresh;
+check.sha256 = alreadyRefreshed ? CURRENT_SHA : PINNED_SHA;
+check.byteLength = alreadyRefreshed ? currentBytes.length : oldBytes.length;
+if (alreadyRefreshed) check.identityRefresh = JSON.parse(before).committedRecords
+  .find((r) => r.pathInRepository === REGISTRY && r.sha256 === CURRENT_SHA).identityRefresh;
+else delete check.identityRefresh;
 assert.equal(JSON.stringify(normalized), before, "something other than the pin, its length and its annotation changed");
 
 fs.writeFileSync(path.join(ROOT, RECEIPT), `${JSON.stringify(receipt, null, 2)}\n`);
