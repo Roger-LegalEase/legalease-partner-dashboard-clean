@@ -903,6 +903,45 @@ export async function finalizeOfficialForm({
    */
   fitAppearancesToRect = false,
   /*
+   * A WIDGET RECTANGLE STORED UPSIDE DOWN.
+   *
+   * ISO 32000-1 7.9.5 lets a rectangle be written with ANY two diagonally
+   * opposite corners and requires a consumer to normalise it in situ. pdf-lib
+   * normalises nothing: getRectangle() hands back the raw first corner as the
+   * origin and a negative height, and PDFForm.flatten() translates the
+   * appearance to that raw corner -- so an inverted rectangle stamps its
+   * appearance exactly one box height above where every conforming viewer draws
+   * it.
+   *
+   * Alabama's CR-65 is the measured case. Page 3 check box `Check Box10.2`
+   * carries /Rect [45.317 623.137 56.5341 608.779], the only inverted rectangle
+   * among that form's 108 widgets, and its unticked appearance is a WHITE FILLED
+   * RECTANGLE 11.2171 by 14.3578. Flattened 14.3578pt high it paints out part of
+   * the first eligibility ground's own sentence.
+   *
+   * No completeness counter can see it: the appearance draws no glyphs, so the
+   * outside-write-box glyph reading is honestly zero, and the stream is
+   * byte-identical to the form's own /AP, so stroke-only source accounting
+   * returns MATCHED. It is found only by a directional raster difference against
+   * a render of the pinned source.
+   *
+   * Passing true normalises such a rectangle before any step reads it. This is
+   * NOT the same defect as fitAppearancesToRect and does not overlap it: on
+   * CR-65 the 12.5.5 fit corrects four appearances and this widget is not among
+   * them, because its BBox already maps onto its rectangle with the identity.
+   *
+   * Opt-in, on the same reasoning as the flags above: the families sharing this
+   * finalizer are rebuilt by different workers at different times, and a repair
+   * lane holding one family does not get to decide what the others' next rebuild
+   * produces. Every caller that does not pass this is byte-unaffected, and so is
+   * every form whose rectangles are all written the conventional way.
+   *
+   * CAPTAIN DECISION: this is the eleventh flag carrying that paragraph, and the
+   * second that implements a clause of the specification rather than a judgement
+   * about ink. It should flip to true with fitAppearancesToRect.
+   */
+  normalizeInvertedWidgetRects = false,
+  /*
    * A BORDER THE FORM DOES NOT PRINT, AT A QUESTION THE PACKET LEAVES UNMADE.
    *
    * `/MK /BC` and `/MK /BG` are a widget's border and background colours. Under
@@ -1522,6 +1561,7 @@ export async function finalizeOfficialForm({
     detachNestedControlFields,
     suppressSynthesizedAppearances,
     fitAppearancesToRect,
+    normalizeInvertedWidgetRects,
     suppressSynthesizedWidgetBorders,
     honorWidgetBorderStyle,
     preserveUnwrittenSelectionBackgrounds

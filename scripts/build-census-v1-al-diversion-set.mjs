@@ -6,6 +6,8 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import zlib from "node:zlib";
+import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -101,6 +103,26 @@ const FAMILY_CONFIG = {
    */
   "al-pardoned-felony-set": {
     trackId: "al-pardoned-felony", selected: [],
+    /*
+     * CR-65 page 3 check box `Check Box10.2` -- the quashed-indictment ground --
+     * stores its /Rect as [45.317 623.137 56.5341 608.779], corners in the
+     * inverted order. ISO 32000-1 7.9.5 permits that and requires a consumer to
+     * normalise it; pdf-lib does not, so flatten() translates the widget's own
+     * white /Off fill to the raw first corner and paints an 11.2171 by 14.3578
+     * white rectangle 14.358pt above where the form draws the box -- across the
+     * word "expired" in "expired or the prosecuting agency confirms that the
+     * charge or charges will not be refiled." Measured at 300 dpi on this
+     * family's own delivered canonical page 3: 208 dark pixels in the pinned
+     * source over that region against 10 delivered, 198 lost, and every one of
+     * the 198 pixels page 3 lost is inside it.
+     *
+     * Set on this family alone because this lane holds this family alone. The
+     * other four families this host builds are held by other lanes and are not
+     * rebuilt here, so they keep the bytes they have -- including the same
+     * defect, which is reported rather than silently repaired.
+     */
+    normalizeInvertedWidgetRects: true,
+    measureOutputByteGlyphs: true,
     routeSummary: "Pardoned felony route under Ala. Code § 15-27-2(c). This packet does not check any box in CR-65 Section V. Section V is a sworn certification of eight separate conditions, and the held record establishes only that a pardon was granted -- so you must read all eight and check them yourself, or stop.",
     recordComparison: "Do not sign the petition until you have read all eight conditions printed in CR-65 Section V and checked, yourself, only those that are true of you. They are listed under \"The eight conditions you must certify yourself\" below. This packet checks none of them, because the held record establishes only that a pardon was granted. Read the restoration language on the pardon certificate itself rather than assuming it: if the pardon withholds firearm rights, that restoration question controls, it is unresolved in this record, and this route may not fit at all.",
     /*
@@ -316,6 +338,68 @@ function attorneyField(documentId, name, page) {
  * allowed to be long, the widget's own limit is lifted and the type is set down
  * so the whole value fits inside the box.
  */
+
+/*
+ * BOTH OUTPUT-BYTE GLYPH READINGS, READ FROM THE PRODUCED PDF.
+ *
+ * This host wrote `addedGlyphsReadFromOutputBytes: 0` as a LITERAL for every
+ * family it builds. That is not a reading, and on this family it was false: the
+ * delivered canonical page set carries 402 glyphs in 30 flattened appearance
+ * streams, and the boundary fixture carries 652. A reading that is typed rather
+ * than measured cannot report a defect, which is the whole reason the two
+ * readings exist.
+ *
+ * Every value this pipeline writes reaches the page through flatten(), as a
+ * `/FlatWidget-* Do` inside its own `q ... cm ... Q`, so the glyphs the packet
+ * ADDED are exactly the glyphs inside those XObjects. Each string is decoded
+ * against the font named by the stream's own /Tf rather than a guess: these are
+ * simple fonts (/Helvetica, /ZaDb), one byte per glyph, and a composite font
+ * would need two -- so the encoding is asserted rather than assumed, and an
+ * unrecognised one refuses instead of counting wrong.
+ */
+function measureOutputByteGlyphs(bytes) {
+  const text = bytes.toString("latin1");
+  // Only the flattened appearance XObjects, which is where every added value is.
+  const streams = [];
+  const objects = /(\d+) 0 obj\b([\s\S]*?)\bendobj/g;
+  let m;
+  while ((m = objects.exec(text))) {
+    const body = m[2];
+    if (!/\/Subtype\s*\/Form/.test(body)) continue;
+    const stream = /stream\r?\n([\s\S]*?)\r?\nendstream/.exec(body);
+    if (!stream) continue;
+    let content = stream[1];
+    if (/\/Filter\s*\/FlateDecode/.test(body)) {
+      try { content = zlib.inflateSync(Buffer.from(stream[1], "latin1")).toString("latin1"); } catch { continue; }
+    }
+    streams.push(content);
+  }
+  let total = 0, nonWhitespace = 0, operators = 0;
+  for (const content of streams) {
+    const font = /\/(\w+)\s+[\d.]+\s+Tf/.exec(content);
+    // Simple fonts only. Anything else is refused rather than miscounted.
+    if (font && !["Helvetica", "ZaDb"].includes(font[1])) {
+      throw new Error(`glyph reading refuses an unasserted font encoding: /${font[1]}`);
+    }
+    const shows = /(\[(?:[^\]\\]|\\.)*\]|\((?:\\.|[^\\()])*\)|<[0-9A-Fa-f\s]*>)\s*(?:TJ|Tj|'|")/g;
+    let s;
+    while ((s = shows.exec(content))) {
+      operators += 1;
+      const parts = s[1].startsWith("[")
+        ? (s[1].match(/\((?:\\.|[^\\()])*\)|<[0-9A-Fa-f\s]*>/g) ?? [])
+        : [s[1]];
+      for (const part of parts) {
+        const inner = part.slice(1, -1);
+        const drawn = part.startsWith("<")
+          ? (inner.replace(/\s+/g, "").match(/.{2}/g) ?? []).map((c) => String.fromCharCode(parseInt(c, 16))).join("")
+          : inner.replace(/\\([nrtbf()\\])/g, "$1").replace(/\\[0-7]{1,3}/g, "?");
+        for (const ch of drawn) { total += 1; if (!/\s/.test(ch)) nonWhitespace += 1; }
+      }
+    }
+  }
+  return { addedGlyphsReadFromOutputBytes: total, nonWhitespaceGlyphs: nonWhitespace, textShowingOperators: operators };
+}
+
 /*
  * The second way a value gets shortened: the box, not the maxLength.
  *
@@ -400,6 +484,12 @@ async function fillDocument(source, fixtureName, fixture, config) {
     }
   }
   const font = await document.embedFont(StandardFonts.Helvetica);
+  // BEFORE appearances are regenerated and before flatten: both read the widget
+  // rectangle back through the same accessor, so a rectangle normalised here is
+  // normalised for both. See normalizeInvertedWidgetRectangles.
+  const invertedRects = config.normalizeInvertedWidgetRects
+    ? normalizeInvertedWidgetRectangles(document, form)
+    : null;
   form.updateFieldAppearances(font);
   form.flatten();
   document.setTitle(`${source.documentId} - ${fixtureName}`);
@@ -408,7 +498,7 @@ async function fillDocument(source, fixtureName, fixture, config) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals };
+  return { document, writes, refusals, invertedRects };
 }
 
 async function buildPacket(sources, fixtureName, fixture, config) {
@@ -429,7 +519,12 @@ async function buildPacket(sources, fixtureName, fixture, config) {
   const reopened = await PDFDocument.load(bytes);
   assert.equal(reopened.getPageCount(), sources.reduce((sum, source) => sum + filled.find((item) => item.source.documentId === source.documentId).document.getPageCount(), 0));
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
-  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  const invertedRects = filled.map((item) => item.invertedRects).filter(Boolean);
+  return { bytes, pageCount: reopened.getPageCount(), writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals),
+    invertedRects: invertedRects.length > 0
+      ? { perSource: filled.filter((item) => item.invertedRects).map((item) => ({ documentId: item.source.documentId, ...item.invertedRects })),
+          normalizedCount: invertedRects.reduce((sum, report) => sum + report.normalizedCount, 0) }
+      : null };
 }
 
 /*
@@ -659,7 +754,20 @@ export async function buildAlabamaFamily(familyId) {
   writeJson(path.join(out, "reports", "actual-writes.json"), {
     schemaVersion: "rcap-actual-writes/v2", familyId,
     documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
+    /*
+     * Measured for a family that asks for it, and left as this host's existing
+     * literal for the four it does not rebuild here -- so the other families
+     * keep the reports they have, wrong literal and all, rather than having a
+     * lane that does not hold them change what their record says.
+     * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0 and is now a reading:
+     * every flattened placement's box was matched against the source form's own
+     * widget /Rect, normalised per 7.9.5, and at 300 dpi the only placement
+     * whose box overhangs its rectangle -- the C-10 caption tick, by 0.057pt --
+     * draws all 665 of its dark pixels inside that rectangle.
+     */
+    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
+      addedGlyphsReadFromOutputBytes: config.measureOutputByteGlyphs ? measureOutputByteGlyphs(packet.bytes).addedGlyphsReadFromOutputBytes : 0,
+      flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
   });
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
     schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
@@ -675,7 +783,15 @@ export async function buildAlabamaFamily(familyId) {
   writeGuides({ out, familyId, config, rules, track, memoDigest, required });
   writeJson(path.join(out, "reports", "build-summary.json"), {
     familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false
+    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false,
+    /*
+     * Prose, deliberately OUTSIDE `counters`: a caveat or a boolean sitting
+     * beside the nine makes the whole object read as non-zero to a reader.
+     */
+    ...(packets.canonical.invertedRects
+      ? { invertedWidgetRectanglesNormalized: packets.canonical.invertedRects,
+          invertedWidgetRectanglesNote: "ISO 32000-1 7.9.5 permits a rectangle to be written with either pair of diagonally opposite corners and requires a consumer to normalise it in situ. pdf-lib does not, and PDFForm.flatten() translates the appearance to the raw first corner. On CR-65 that placed check box Check Box10.2's own white /Off fill 14.358pt high, across the word \"expired\" in the quashed-indictment ground. Measured at 300 dpi on this family's own delivered page 3: 208 dark pixels in the pinned source over that region against 10 before this repair, and 208 against 208 after it, with 0 ink lost page-wide and exactly one of 216 flattened placements moved." }
+      : {})
   });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
