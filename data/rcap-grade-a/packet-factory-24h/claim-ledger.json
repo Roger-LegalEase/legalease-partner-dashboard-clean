@@ -4532,9 +4532,9 @@
       "operation": "independent-verification",
       "lane": "VF36",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Stale: FIX04's repair at 7ae046e88 moved the guidance PDFs and the d6 boundary filed page."
+      "released": true,
+      "releasedAt": "2026-09-10T13:49:38.214Z",
+      "releaseReason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair."
     },
     {
       "subjectType": "packet-family",
@@ -4578,9 +4578,9 @@
       "operation": "independent-verification",
       "lane": "VF36",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Stale: FIX04's repair at 7ae046e88 moved the guidance PDFs and the d6 boundary filed page."
+      "released": true,
+      "releasedAt": "2026-09-10T13:49:38.214Z",
+      "releaseReason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair."
     },
     {
       "subjectType": "packet-family",
@@ -4622,11 +4622,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF36",
+      "lane": "VF50",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "Stale: FIX04's repair at 7ae046e88 moved the guidance PDFs and the d6 boundary filed page."
+      "releaseReason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair."
     },
     {
       "subjectType": "packet-family",
@@ -14742,7 +14742,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "17a35d88ee4265aaa0ad8935f31b3c9eb69dc239342cec16c959cd5c947bea15",
+  "claimsDigest": "4b2ede2d7c25af525b2fcd171d978476d519b35fd39ad8a71962ee7055ad57b3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37813,6 +37813,51 @@
       "returnEvidence": {
         "namedReturnCommit": "d0d7d155ea60cfb9bd7af566ff2524bea75a5f0c"
       }
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T13:49:38.214Z",
+      "reason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
+        "committedAt": "70d66339951e0f038b4dc8b0b49df1f52535ccd3",
+        "rowFiles": 6
+      }
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T13:49:38.214Z",
+      "reason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
+        "committedAt": "70d66339951e0f038b4dc8b0b49df1f52535ccd3",
+        "rowFiles": 6
+      }
+    },
+    {
+      "lane": "VF36",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T13:49:38.214Z",
+      "reason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910-in.json",
+        "committedAt": "70d66339951e0f038b4dc8b0b49df1f52535ccd3",
+        "rowFiles": 6
+      }
     }
   ],
   "reissues": [
@@ -57165,6 +57210,17 @@
       "previouslyReleasedAt": "2026-09-10T13:32:50.779Z",
       "transferredAt": "2026-09-10T13:32:51.201Z",
       "reason": "Captain dispatch to a finishing lane; the recorded lane returned. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF36",
+      "toLane": "VF50",
+      "previouslyReleasedAt": "2026-09-10T13:49:38.214Z",
+      "transferredAt": "2026-09-10T13:49:38.370Z",
+      "reason": "Captain dispatch: VF36 already read this family before the source arrived and formed a view of the CM pairing. FIX150 has now repaired it on the held documents, so the read goes to a lane that has not."
     }
   ],
   "grants": [
