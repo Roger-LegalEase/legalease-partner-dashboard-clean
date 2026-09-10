@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "759841b44b9bb1b4e3dfabb39e0c2603d1515f3c",
+  "minimumCaptainSha": "6bd543d240cd260820a6a959fd43fd68dedf9ade",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,15 +73,15 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 37,
+    "repairRequired": 40,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 177,
+    "COMPLETE_PACKET_PROVEN": 174,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 70,
+    "FAIL_REPAIR_REQUIRED": 73,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
@@ -20251,12 +20251,14 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf02",
-        "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf30",
+        "verifiedAtBase": "4761ef4fdd9498093511ed2d94f8d90d6ae9fd03",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows-vf30-20260910-in.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20285,11 +20287,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure of blanks is complete and correct: 6 REQUIRED_BEFORE_FILING items, each named in participant-instructions.md with what the participant must supply, and a 15-item obtain-or-confirm list carried from the track registry (13 of which are before-filing items, which is why reports/blanks-left-for-the-participant.json lists 13 and the guide lists 15 - those two do not contradict each other). What fails is a delivered instruction. filing-instructions.md, line 16, tells the participant: 'Order on the Verified Petition for Expungement of Conviction Records (in_conviction_d6-proposed-order-2), from this packet, completed and signed.' The same packet says the opposite twice: participant-instructions.md line 94 says 'Leave every finding, granted-or-denied election, decretal paragraph, sealing directive, date and judge's signature on the proposed order blank. Those are the court's', and the delivered order page itself prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' All seven substantive lines of that order are refused by the field map as court_prosecutor_clerk_or_agency_owned. A participant who follows the filing instructions signs a judge's order and tenders it. The line is template text applied to both composed components; on the petition it is right and on the proposed order it is wrong.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The artifact accounting is exact - canonical.pdf 37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a / 1,727,505 bytes / 10 pages and boundary.pdf 5cbca55230f082a5ede6be2bfb3749e6f8b28a2d2e2c7c23ce5012ca2f84d4e6 / 1,728,002 bytes / 10 pages, both recomputed here and both equal to component-page-manifest.json, reports/rendered-artifacts.json and the RASTER_PASS binding in product-wiring.json; the two guidance PDFs hash-bind too, at 7 pages each. What fails is what the artifacts carry on their faces, which is the class DEFECTS_NO_COUNTER_CAN_SEE records as internal-record-text-printed-on-a-filing, whose stated rule is 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' Measured against that rule this packet breaks it six times. On the filing: 'Assigned component identity: in_conviction_d6-primary-filing-1' prints in the caption of the verified petition on page 1 and again in the page 2 header, and 'Assigned component identity: in_conviction_d6-proposed-order-2' prints in the caption of the proposed order on page 3 - this factory's own component identifiers, in the caption of a document filed with an Indiana court. The proposed order additionally recites 'The petitioner supplies the caption and the identifiers of the conviction and nothing else', which is a statement about what the builder wrote, on a page handed to a judge. On the participant guidance PDF, page 1, under an unlabelled 'READ THIS FIRST', the participant is told to 'Build the eligibility calendar and the 365-day window optimiser before the petition generator' and that a gate is 'a delivery gate, not a generation blocker' - directives addressed to this factory's engineers, presented as the first thing the participant must read. The same two sentences appear again later in the same PDF under 'What the committed record requires this packet to say', tagged [scope_restriction], and THAT copy is the registry's approved treatment; it is the unlabelled copy at the top that fails. The caption line comes from captionBlock() at scripts/build-census-v1-in_conviction_d6-set.mjs:559 and is not fixture-gated, so it is what this route would print at runtime with a real participant's facts. Repair is bounded: drop the component-identity line from the caption block, drop the builder-facing sentence from the order's court-use banner, and either label or move the two unlabelled scope restrictions.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_d6-set.mjs",
@@ -20438,12 +20456,14 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf03",
-        "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf30",
+        "verifiedAtBase": "4761ef4fdd9498093511ed2d94f8d90d6ae9fd03",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows-vf30-20260910-in.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20472,11 +20492,34 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "24 declared writes, 24 actual writes, no divergence in either direction, and all 24 read back off the delivered pages of both fixtures - so nothing is missing. One of them is wrong, and it is wrong in a way no counter can see. The canonical fixture writes 'Cause number of the conviction: 49D01-1503-F6-011234' into the caption of the verified petition and of the proposed order, and three lines below it writes 'Offense level as it appears on the court record: Level 5 felony not covered by I.C. 35-38-9-2 or 35-38-9-3'. The charge-level token inside that cause number is F6, and the same cause number string is used verbatim by the in_conviction_d6-set canonical fixture, whose stated offence level IS Level 6 - so within this repository the identifier is already bound to the other family's offence level. The delivered filing therefore states two different offence levels about one conviction, on the same page of a document verified under the penalties for perjury. The boundary fixture of this family does not have the defect: it uses 45C01-0812-FB-00000000000123456 beside 'Class B felony under the pre-2014 sentencing scheme', which is internally consistent, which is what makes the canonical value look like a copied constant rather than a considered one. Everything else about the prefills is sound: every value lands in a field about the petitioner or about the conviction, none is written into a field about someone else, the four retained forms are delivered unfilled and that is disclosed in three places, and no Social Security number is held or written at all.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure of blanks is complete and correct: 6 REQUIRED_BEFORE_FILING items each named in participant-instructions.md with what the participant must supply, and a 15-item obtain-or-confirm list carried from the track registry (13 of them before-filing items, which is why the report lists 13 and the guide 15 - those two do not contradict each other). What fails is a delivered instruction. filing-instructions.md line 16 tells the participant: 'Order on the Verified Petition for Expungement of Conviction Records (in_conviction_felony-proposed-order-2), from this packet, completed and signed.' The same packet says the opposite twice: participant-instructions.md line 101 says 'Leave every finding, granted-or-denied election, decretal paragraph, sealing directive, date and judge's signature on the proposed order blank. Those are the court's', and the delivered order page prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' All seven substantive lines of that order are refused by the field map as court_prosecutor_clerk_or_agency_owned. A participant who follows the filing instructions signs a judge's order and tenders it. The line is template text applied to both composed components; on the petition it is right and on the proposed order it is wrong.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The artifact accounting is exact - canonical.pdf 0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0 / 988,097 bytes / 10 pages and boundary.pdf 092cf31c9b4499a4b0515c86de8d3536005f4ff2a5bf2ca66b80835919f898dd / 988,554 bytes / 10 pages, both recomputed here and both equal to component-page-manifest.json, reports/rendered-artifacts.json and the RASTER_PASS binding in product-wiring.json; the two guidance PDFs hash-bind too, at 7 pages each. What fails is what the artifacts carry on their faces, which is the class DEFECTS_NO_COUNTER_CAN_SEE records as internal-record-text-printed-on-a-filing, whose stated rule is 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' Measured against that rule this packet breaks it six times. On the filing: 'Assigned component identity: in_conviction_felony-primary-filing-1' prints in the caption of the verified petition on page 1 and again in the page 2 header, and 'Assigned component identity: in_conviction_felony-proposed-order-2' prints in the caption of the proposed order on page 3 - this factory's own component identifiers, in the caption of a document filed with an Indiana court. The proposed order additionally recites 'The petitioner supplies the caption and the identifiers of the conviction and nothing else', a statement about what the builder wrote, on a page handed to a judge. On page 1 of both guidance PDFs, under an unlabelled 'READ THIS FIRST', the participant is told to 'Build the eligibility calendar and the 365-day window optimiser before the petition generator' and that a gate is 'a delivery gate, not a generation blocker' - directives addressed to this factory's engineers, presented as the first thing the participant must read. The same two sentences appear again later in the same PDF under 'What the committed record requires this packet to say', tagged [scope_restriction], and THAT copy is the registry's approved treatment; it is the unlabelled copy at the top that fails. The caption line comes from captionBlock() in scripts/build-census-v1-in_conviction_felony-set.mjs and is not fixture-gated, so it is what this route would print at runtime with a real participant's facts. Repair is bounded: drop the component-identity line from the caption block, drop the builder-facing sentence from the order's court-use banner, and either label or move the two unlabelled scope restrictions.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_felony-set.mjs",
@@ -20625,12 +20668,14 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf04",
-        "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf30",
+        "verifiedAtBase": "4761ef4fdd9498093511ed2d94f8d90d6ae9fd03",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows-vf30-20260910-in.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20659,11 +20704,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure of blanks is complete and correct: 6 REQUIRED_BEFORE_FILING items each named in participant-instructions.md with what the participant must supply, and a 15-item obtain-or-confirm list carried from the track registry (13 of them before-filing items, which is why the report lists 13 and the guide 15 - those two do not contradict each other). What fails is a delivered instruction. filing-instructions.md line 16 tells the participant: 'Order on the Verified Petition for Expungement of Conviction Records (in_conviction_misd-proposed-order-2), from this packet, completed and signed.' The same packet says the opposite twice: participant-instructions.md line 94 says 'Leave every finding, granted-or-denied election, decretal paragraph, sealing directive, date and judge's signature on the proposed order blank. Those are the court's', and the delivered order page prints 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.' All seven substantive lines of that order are refused by the field map as court_prosecutor_clerk_or_agency_owned. A participant who follows the filing instructions signs a judge's order and tenders it. The line is template text applied to both composed components; on the petition it is right and on the proposed order it is wrong.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The artifact accounting is exact - canonical.pdf b8dab03eb354af295a890cdf3f6319189013a70b78a2e861ed6a3073acae1de6 / 1,791,490 bytes / 10 pages and boundary.pdf 55a851e6a344bf742a73444686a98bfbff957ed291305cb3cfdecaa6c6b3ea02 / 1,791,969 bytes / 10 pages, both recomputed here and both equal to component-page-manifest.json, reports/rendered-artifacts.json and the RASTER_PASS binding in product-wiring.json; the two guidance PDFs hash-bind too, at 7 pages each. What fails is what the artifacts carry on their faces, which is the class DEFECTS_NO_COUNTER_CAN_SEE records as internal-record-text-printed-on-a-filing, whose stated rule is 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' Measured against that rule this packet breaks it six times. On the filing: 'Assigned component identity: in_conviction_misd-primary-filing-1' prints in the caption of the verified petition on page 1 and again in the page 2 header, and 'Assigned component identity: in_conviction_misd-proposed-order-2' prints in the caption of the proposed order on page 3 - this factory's own component identifiers, in the caption of a document filed with an Indiana court. The proposed order additionally recites 'The petitioner supplies the caption and the identifiers of the conviction and nothing else', a statement about what the builder wrote, on a page handed to a judge. On page 1 of both guidance PDFs, under an unlabelled 'READ THIS FIRST', the participant is told to 'Build the eligibility calendar and the 365-day window optimiser before the petition generator' and that a gate is 'a delivery gate, not a generation blocker' - directives addressed to this factory's engineers, presented as the first thing the participant must read. The same two sentences appear again later in the same PDF under 'What the committed record requires this packet to say', tagged [scope_restriction], and THAT copy is the registry's approved treatment; it is the unlabelled copy at the top that fails. The caption line comes from captionBlock() in scripts/build-census-v1-in_conviction_misd-set.mjs and is not fixture-gated, so it is what this route would print at runtime with a real participant's facts. Repair is bounded: drop the component-identity line from the caption block, drop the builder-facing sentence from the order's court-use banner, and either label or move the two unlabelled scope restrictions.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_misd-set.mjs",

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `759841b44b9bb1b4e3dfabb39e0c2603d1515f3c` (or the newer dispatch base)
+**Minimum required ancestor:** `6bd543d240cd260820a6a959fd43fd68dedf9ade` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'co_municipal_conviction_seal-set' \
   --codex-cloud \
-  --minimum-captain-sha 759841b44b9bb1b4e3dfabb39e0c2603d1515f3c
+  --minimum-captain-sha 6bd543d240cd260820a6a959fd43fd68dedf9ade
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 3 exact families before reading or writing family content:
+- Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'co_municipal_conviction_seal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'in_conviction_felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ma-seal-court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'tx_nd_deferred_other-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
@@ -62,9 +63,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
 - `co_municipal_conviction_seal-set`
+- `in_conviction_felony-set`
 - `ma-seal-court-set`
 - `tx_nd_deferred_other-set`
 
@@ -80,9 +82,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/**`
 - `scripts/build-census-v1-co_municipal_conviction_seal-set.mjs`
+- `scripts/build-census-v1-in_conviction_felony-set.mjs`
 - `scripts/build-census-v1-ma-seal-court-set.mjs`
 - `scripts/build-census-v1-tx_nd_deferred_other-set.mjs`
 
