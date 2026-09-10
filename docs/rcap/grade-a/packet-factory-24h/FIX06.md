@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a37764dd39f34d152042414d82971ced49002ce1` (or the newer dispatch base)
+**Minimum required ancestor:** `617b37a1a5351f724e730b802265e8d16c1541db` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_discretionary_superior_court-set' \
   --codex-cloud \
-  --minimum-captain-sha a37764dd39f34d152042414d82971ced49002ce1
+  --minimum-captain-sha 617b37a1a5351f724e730b802265e8d16c1541db
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 11 exact families before reading or writing family content:
+- Assert only these 10 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'de_discretionary_superior_court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-seal-2yr-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ky_protective_order_record_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'nd-summary-marijuana-pardon-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-hi-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-in-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'tx_nd_dwi_probation-set'`
@@ -70,12 +69,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 11 families
+## The 10 families
 
 - `de_discretionary_superior_court-set`
 - `il-seal-2yr-set`
 - `ky_protective_order_record_expungement-set`
-- `nd-summary-marijuana-pardon-set`
 - `rcap-hi-custom-pleading`
 - `rcap-in-custom-pleading`
 - `tx_nd_dwi_probation-set`
@@ -98,7 +96,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/**`
@@ -109,7 +106,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
-- `scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs`
 - `scripts/build-census-v1-rcap-hi-custom-pleading.mjs`
 - `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
 - `scripts/build-census-v1-tx_nd_dwi_probation-set.mjs`

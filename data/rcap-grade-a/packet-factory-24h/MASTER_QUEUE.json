@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a37764dd39f34d152042414d82971ced49002ce1",
+  "minimumCaptainSha": "617b37a1a5351f724e730b802265e8d16c1541db",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,7 +73,7 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 64,
+    "repairRequired": 62,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 75,
+    "FAIL_REPAIR_REQUIRED": 73,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -27471,14 +27471,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909e.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf23",
+        "verifiedAtBase": "b090c6a80d6f1b35eaea45a890606a78bda5a095",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf23/rows-vf23-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27507,27 +27505,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL. Placement is exact and the values are honestly reported; the value SET is wrong for the route this packet elects, and the contradiction is legible on the delivered page. I diffed all 17 delivered pages against the four pinned sources with pdftotext -layout, whitespace-normalised, and the delivered packet differs from its sources by exactly the 28 declared write values and by nothing else -- no source text removed, no caption altered, no unreported string added. Each write's rect sits inside the measured source rule it names and each value's non-whitespace glyph count reconciles: 262 on EXP102, 42 on EXP104, 52 on EXP106, 42 on FEE102, summing to the 398 the artifact report publishes, which I recomputed from the values rather than copying. THE FAILURE: three of those prefills contradict the route's elected ground on the same document. EXP102 item 3 is written 'participant.date_of_birth = 1991-04-17' and item 10 'matter.offense_date = 2019-08-04', making the petitioner 28 years, 3 months and 18 days old on the date of the offence, on a petition whose ticked item-9 box asserts the crime was committed 'when you were a juvenile'. Item 10 is also written 'matter.charge = Fifth-degree possession of a controlled substance', which is the subject matter of item 9 box 1 (the Sec. 152.18 branch) and not of box 2. The date of birth is written twice -- EXP102 page 2 and EXP106 page 1 -- so the proposed order carries the same refutation. The boundary fixture repeats both dates unchanged and extends the charge to '... aiding and abetting, continued for dismissal'. The controlling registry names this track's only disposition as 'adult_conviction_after_certification' and no delivered fact expresses it. This is invisible to every counter: each value is present, in its box, in its declared field, and the field map is honest about all three.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL. Ten measured blanks are classified REQUIRED_BEFORE_FILING and all ten are reproduced verbatim in participant-instructions.md under 'You must supply these before you file', each with the words the form uses and a reason -- judicial district on EXP102, EXP106 and FEE102, item 2 aliases, item 5 addresses, item 7 criminal-record table, item 8 earlier requests, item 11 victims, the FEE102 plaintiff caption and the FEE102 financial lines. That part is complete and honest, and item 2 in particular is genuinely blank on the delivered bytes rather than filled with the legal name. THE FAILURE is what the controlling record requires and the packet omits. legal-design-packet-set-manifests.json packetSets[234].participantActionRequired and the identical block in legal-design-track-registry.json tracks[234].packetSet declare TWO actions with requiredBeforeFiling true: (1) kind obtain_document -- 'Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO ... LegalEase never collects, inspects or authenticates them', obtainedFrom 'Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online'; and (2) kind confirm_answer -- 'Check your answer to \"What is the court file number?\" against [those records], and correct the packet if they disagree.' Neither reaches the participant. I grepped the whole family directory for BCA, 'Bureau of Criminal', MCRO, 'Records Online', 'criminal history' and 'participantAction': the only hits are printed source text inside EXP106's ordering boxes in the census and field map. I also grepped the builder, scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs, and it never reads participantActionRequired at all. The second omission is consequential on these exact bytes: the packet PREFILLS matter.case_number '62-CR-20-1234' onto all four forms, twelve times, and the controlling record requires the participant be told to check that number against MCRO and correct it. They are not told.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
@@ -31555,14 +31537,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf23",
+        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf23/rows-vf23-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31591,20 +31571,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Every write in the canonical fixture is correct and lands correctly. The FAILURE is in the boundary fixture and is narrow, provable and cheap to repair. production-field-map.json, maps[0].boundaryWrites, declares SIX writes including 'State' at rect x 452.76, y 455.76, width 34.32, height 18.6, factId participant.state. The delivered boundary fixture carries FIVE. I measured the State rectangle at 150 dpi on the delivered boundary page against the pinned source: ZERO added ink pixels, against 186 in the same rectangle on the canonical fixture. The State box on the delivered boundary filing is blank. reports/actual-writes.json records the cause honestly under `unfittable`: the boundary persona's participant.state is the string 'North Dakota', which needs 35.5pt at the 6pt minimum font in a 34.32pt box, so the shared finalizer refused it rather than clipping it. Refusing rather than clipping is the right instinct. What fails is what happens next. The refusal reaches no participant-facing record. reports/blanks-left-for-the-participant.json is fixture-independent and lists 26 required-before-filing blanks; State is not one of them, and its own field everyRequiredBeforeFilingItemIsDisclosed reads true. participant-instructions.md has no row for State and affirmatively tells the reader 'The platform filled in what it holds about you: your name, your date of birth and your address', which on this fixture is not true of the state component. The field map -- the document the completeness contract reads -- still declares the write. It matters because of this form's own printed rule, quoted in the packet's own instructions: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you, which could result in a postponement of your hearing.' This is the DEFECTS_NO_COUNTER_CAN_SEE entry `map-honest-writes-not` running in reverse: there the map declared a blank and the finalizer wrote, here the map declares a write and the finalizer did not, and nothing compares the two. The builder's own reports/completeness-counters.json reads knownRequiredFieldsMissing 0 with the box blank. The repair is one of two lines: normalise participant.state to its two-letter postal abbreviation before fitting -- the canonical fixture proves 'ND' fits the box with room to spare -- or route the finalizer's unfittable refusal into blanks-left-for-the-participant.json so the participant is told to write it in.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
