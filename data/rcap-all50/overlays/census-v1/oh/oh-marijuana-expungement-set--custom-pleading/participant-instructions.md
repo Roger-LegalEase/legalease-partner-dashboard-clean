@@ -38,6 +38,8 @@ The compiled Ohio profile and the committed legal-design track registry (`data/r
 
 - **Ohio Rev. Code Sec. 2953.321.** Fifty dollars unless indigent. Indigency excuses the fee under Sec. 2953.321(G), which also directs thirty dollars of the fee to the state treasury, half of that credited to the Attorney General Reimbursement Fund, and twenty dollars to the county general revenue fund. No held source fixes an additional local court fee for this section; ask the clerk of the sentencing court whether that court charges one and how it takes an indigency affidavit.
 
+**Unpaid court costs do not delay eligibility.** "Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility for this route. The committed Ohio legal review this packet is built from calls that a common and expensive misunderstanding, so this packet states it rather than leaving you to ask. This is separate from the application fee above, which is payable at filing unless you are indigent.
+
 ## Who is served
 
 You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile and the committed track registry both state the mechanism for this route:

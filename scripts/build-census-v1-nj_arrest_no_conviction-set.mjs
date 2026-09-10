@@ -6580,6 +6580,28 @@ function composedParticipantInstructions(familyId) {
           ? `\nThe waiver limb is indigency: where the applicant is indigent, the $50 application fee is not charged. The additional local court fee is permitted up to $50 and is not fixed by the statute, so ask the clerk of the filing court what that court charges and how it takes an indigency affidavit.\n\n`
           : `\n`)
       : `No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.\n\n`)
+    /* FIX161, FEE_AND_WAIVER. The second of this track's two packetInstructions
+     * in data/record-clearing/legal-design-track-registry.json directs that
+     * participants be told this explicitly, and its provenance is the committed
+     * OH__LEGAL-REVIEW__STATEWIDE__ohio-record-clearing-legal-review__ASOF-2026-08-01__EN.md,
+     * HEADLINE FINDINGS 5. The directive's own second sentence -- that this is a
+     * common and expensive misunderstanding -- is a build instruction and is
+     * rendered as attribution rather than printed as participant prose.
+     *
+     * Deliberately NOT carried: the source's final-discharge sentence, which
+     * states that final discharge means completion of the sentence, parole,
+     * fines and restitution. Sec. 2953.321 imposes no waiting period at all --
+     * this track's only waitingPeriods entry is "none. The section imposes no
+     * waiting period; what it requires is that the disposition predate the
+     * effective date" -- so describing a final-discharge clock here would state
+     * a rule this route does not have. The court-costs point is carried; the
+     * clock it qualifies elsewhere is not imported into a route without one.
+     *
+     * Track-guarded: a non-marijuana Ohio packet is not told a Sec. 2953.321
+     * statement, and no NJ family sees this at all. */
+    + (tracks.includes("oh_marijuana_expungement")
+      ? `**Unpaid court costs do not delay eligibility.** "Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility for this route. The committed Ohio legal review this packet is built from calls that a common and expensive misunderstanding, so this packet states it rather than leaving you to ask. This is separate from the application fee above, which is payable at filing unless you are indigent.\n\n`
+      : "")
     + `## Who is served\n\n`
     + (routeRules.length > 0
       ? (tracks.includes("oh_marijuana_expungement")

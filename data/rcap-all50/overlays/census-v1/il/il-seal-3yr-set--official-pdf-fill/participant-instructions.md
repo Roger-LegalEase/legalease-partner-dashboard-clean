@@ -159,6 +159,8 @@ A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charg
 
 Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
 
+**Unpaid fines and fees do not delay sealing.** A sentence terminates notwithstanding any outstanding financial legal obligation; "terminate" at § 5.2(a)(1)(M) covers unsatisfactory as well as satisfactory termination. Section 5.2(d)(6)(C) bars denial of a sealing petition for an unsatisfied financial obligation. If you still owe fines or fees on a case, that is not a reason to wait before filing. The one exception § 5.2(d)(6)(C) carries is court-ordered restitution, which is excluded unless it has been converted to a civil judgment.
+
 ## Who serves, and how
 
 The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.
