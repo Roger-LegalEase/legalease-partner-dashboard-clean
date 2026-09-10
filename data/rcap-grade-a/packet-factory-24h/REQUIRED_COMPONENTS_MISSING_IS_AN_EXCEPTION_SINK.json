@@ -1,0 +1,50 @@
+{
+ "schemaVersion": "rcap-required-components-missing-is-an-exception-sink/v1",
+ "generatedBy": "Captain, verifying FIX07's diagnosis at the source rather than relaying it",
+ "generatedAt": "2026-09-10T10:02:50.091Z",
+ "atCommit": "dc5eb1ccc63aaf4c89795777e5d7bbec3737cdaf",
+ "theFinding": "requiredComponentsMissing is not a component counter. It is the catch-all exception sink of auditMdConditionalCandidate: ANY throw in the adapter is relabelled as a missing packet component, the eight real counter measurements are overwritten with null, and totals is zeroed to rowsInspected: 0.",
+ "theCode": {
+  "file": "scripts/rcap-packet-completeness/md-conditional-native-candidates.mjs",
+  "lines": "165-169",
+  "shape": "catch(error){ return { result:'FAIL_COMPONENT_SET', counters: PASS_COUNTERS.map(k => k==='requiredComponentsMissing' ? 1 : null), totals:{rowsInspected:0}, findings:[{counter:'requiredComponentsMissing', why:error.message}] } }"
+ },
+ "whatItErases": "FIX07 ran the raw audit across all 43 fixtures of both Maryland families. Exactly ONE counter is genuinely null there -- visualDefects. The other eight are measured, and measured correctly: the diagnostic fixtures return real nonzero readings with populated findings (unclassifiedBlanks 1 on diagnostic/waiver-missing-financial, knownRequiredFieldsMissing 1 on diagnostic/missing-completion). The eight-null shape exists only in the published matrix row, manufactured by this line.",
+ "measuredAcrossTheMatrix": {
+  "matrixRows": 294,
+  "rowsCarryingARequiredComponentsMissingFinding": 2,
+  "ofThoseNamingAnActualComponent": 0,
+  "carriers": [
+   "md_10110_conviction-set",
+   "md_cannabis_petition-set"
+  ]
+ },
+ "theGenuineCheckHasNeverFired": "verify-packet-completeness.mjs:560-565 emits a real component finding carrying a `component: docId` field. Zero rows in the matrix carry one. Every requiredComponentsMissing in the factory today is the sink.",
+ "soTheCounterIsUnfalsifiable": "As wired, it can only ever mean 'the adapter threw'. A reader trusting the matrix goes looking for a missing document that does not exist, and eight real measurements were erased on the way.",
+ "twoOfMyOwnClaimsItCorrected": {
+  "matrixRowCount": "I said 328. It is 294. FIX07 caught it; verified here from familiesAudited and the results array.",
+  "eightCountersNull": "I said eight of nine counters are null, and treated that as the family being unmeasurable. False at the measurement: only visualDefects is null in the raw audit, and the other eight are erased by the sink after being measured. My diagnosis had the direction of causation backwards."
+ },
+ "andWhyMyProposedRemedyWasUnavailable": "I offered the lane the option of correcting a stale expectation. It is not available: md-conditional-native-candidates.mjs:145-146 independently hardcodes assert.equal(raw.result,'PASS_COMPLETE') for every prepared fixture AND asserts all nine counters are 0. Editing expectedRawResult moves the throw from line 143 to line 146 and changes nothing. FIX07 called that the correct design -- the adapter already refuses to accept an unmeasured prepared fixture -- and it is right.",
+ "aThirdDefinitionOfTheFlattenedWidgetKey": {
+  "finding": "These builders compute flattenedWidgetAppearancesReadFromOutputBytes as apparent.filter(x => x.text).length -- only NON-EMPTY appearances, 19 on the canonical conviction -- where rcap-output-glyph-reading.mjs counts all invocations, 47.",
+  "whyItMatters": "That key is what currently makes invisibleWrites measurable for these families, so a counter is riding on a definition neither FLATTENED_WIDGET_FIX_ENFORCEMENT.json nor FLATTENED_WIDGET_OVERCOUNT.json records. Both families are absent from both records."
+ },
+ "notMeasurableHereMissingFromResultClasses": {
+  "declaredResultClasses": [
+   "PASS_COMPLETE",
+   "FAIL_PROTECTED_WRITE",
+   "FAIL_VISIBLE_APPEARANCE",
+   "FAIL_MISSING_REQUIRED_FACTS",
+   "FAIL_ROUTE_SELECTION",
+   "FAIL_MISSING_PREFILLS",
+   "FAIL_COMPONENT_SET",
+   "FAIL_CURRENTNESS"
+  ],
+  "rowsCarryingNotMeasurableHere": 23,
+  "why": "NOT_MEASURABLE_HERE is a live return value at verify-packet-completeness.mjs:664 and is absent from the matrix's declared class list. A consumer validating results against that list rejects every row carrying it."
+ },
+ "theGoodNews": "FIX07 rebuilt both families into scratch and reproduced all 43 PDFs AND both actual-writes.json files byte-for-byte. These builders are deterministic, so publishing real readings costs no raster receipts -- both families keep their live RASTER_PASS.",
+ "notFixedHere": "The sink, the third definition and the missing result class are all recorded and unrepaired. The sink in particular is in a shared adapter and its repair changes what a red row means; it is scheduled, not ignored.",
+ "grantsNothing": "This records a diagnosis. It repairs nothing and promotes no family."
+}
