@@ -876,7 +876,11 @@ export function writeGuides({ out, record, artifacts, required, heldButUnprintab
   const beforeFiling = [
     ...supporting.map((doc, index) => `${index + 1}. Obtain: ${doc.name}. Where from: ${doc.obtainedFrom}. How: ${doc.howToObtain}`),
     `${supporting.length + 1}. Read the certified record and confirm the offence level. This packet is delivered in two versions because Alabama carries two statutes, and the version you file must match your charge. If the record shows a felony charge, file the § 15-27-2(a)(8) version; if it shows a misdemeanor, violation, traffic violation or municipal ordinance violation, file the § 15-27-1(a)(8) version. Do not file both, and do not tick the other section's box on the copy you file: CR-65 says "Check ONLY one (1) of the eight (8) options" and "Only one offense per petition".`,
-    `${supporting.length + 2}. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.`,
+    // VF52 recorded this step as a wording weakness rather than a failure: it
+    // directed unconditional completion of a list that is conditional, and the
+    // list heading two lines later contradicted it. The step is the one written
+    // as an instruction, so the step is the one that carries the exception.
+    `${supporting.length + 2}. Fill in the blanks listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you. Some of those lines carry an "only if" condition; fill one of those in only if the condition is true of you, exactly as the list says.`,
     `${supporting.length + 3}. Decide the fee. The record states: "${rules.fees}" The C-10-CRIMINAL affidavit in this packet already elects the printed request for waiver of the expungement petition administrative filing fee, because that is the fee this petition carries. If you are NOT claiming financial hardship, remove the affidavit from the packet and pay the filing fee instead — the hardship statement is yours, and you make it by signing it.`,
     ...manual.map((item, index) => `${supporting.length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
@@ -1092,6 +1096,28 @@ export async function assertRepairInvariants(out) {
     assert.equal(artifact.refusedFieldsWithInk.length, 0, `${artifact.fixture}: a refused field carries ink in the delivered bytes`);
     assert.equal(artifact.incompleteValues.length, 0, `${artifact.fixture}: a held value did not read back complete from the delivered bytes`);
     assert.ok(artifact.addedGlyphsReadFromOutputBytes > 0, `${artifact.fixture}: no glyph was measured in any write box`);
+    /*
+     * THE COUNTER THAT PUBLISHED 30 WHILE THE BYTES PLACED 216.
+     *
+     * `flattenedWidgetAppearancesReadFromOutputBytes` was `boxes with expectInk`
+     * minus `writes the delivered bytes draw no glyph for` -- sound arithmetic
+     * whose minuend is this build's own INTENT, published under a name that
+     * asserts a reading of flattened widget appearances out of the output
+     * bytes. VF52 counted the placements in the delivered content streams: 216
+     * in every fixture, one for each of the two pinned sources' 216 widgets,
+     * against a published 30. The quantity is kept and correctly named, with
+     * its denominator, and the reading the old name promised is now taken.
+     */
+    assert.equal(artifact.intendedInkFields, artifact.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      `${artifact.fixture}: the delivered bytes draw no ink for ${artifact.intendedInkFields - artifact.intendedInkFieldsWhoseInkWasFoundInOutputBytes} field(s) this build intended to ink`);
+    assert.equal(artifact.flattenedWidgetAppearancePlacementsReadFromOutputBytes, 216,
+      `${artifact.fixture}: the delivered bytes must place one flattened appearance for each of the two pinned sources' 216 widgets, and place ${artifact.flattenedWidgetAppearancePlacementsReadFromOutputBytes}`);
+    assert.equal(artifact.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources, 216,
+      `${artifact.fixture}: every placement must be backed by an appearance the page's own resources declare`);
+    assert.equal(artifact.flattenedWidgetAppearancePlacementsPerPage.reduce((sum, n) => sum + n, 0), 216,
+      `${artifact.fixture}: the per-page placement distribution must account for every placement counted`);
+    assert.equal(artifact.residualWidgetAnnotationsInDeliveredBytes, 0,
+      `${artifact.fixture}: a widget annotation survives in the delivered bytes, so flattening did not finish`);
   }
 
   /*
@@ -1277,7 +1303,12 @@ export async function build() {
       fixture: packet.name,
       valuesReportedByFinalizer: packet.writes.length,
       addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      intendedInkFields: packet.proof.intendedInkFields,
+      intendedInkFieldsWhoseInkWasFoundInOutputBytes: packet.proof.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      flattenedWidgetAppearancePlacementsReadFromOutputBytes: packet.proof.flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+      flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources: packet.proof.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources,
+      flattenedWidgetAppearancePlacementsPerPage: packet.proof.flattenedWidgetAppearancePlacementsPerPage,
+      residualWidgetAnnotationsInDeliveredBytes: packet.proof.residualWidgetAnnotationsInDeliveredBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: packet.proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
       printedFormGlyphsInsideFieldRectsIgnored: packet.proof.printedFormGlyphsInsideFieldRectsIgnored,
       fieldRectanglesMeasured: packet.proof.fieldsMeasured,
@@ -1357,7 +1388,7 @@ export async function build() {
 
   writeJson(path.join(out, "reports", "build-summary.json"), {
     familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters,
-    countersMeasuredFrom: "invisibleWrites, protectedWrites and incompleteRows are read from the delivered packet bytes by proveDeliveredInk; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries by assertPrintedFormInkSurvives, at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, and is published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
+    countersMeasuredFrom: "invisibleWrites, protectedWrites and incompleteRows are read from the delivered packet bytes by proveDeliveredInk -- as are the flattened-widget placement readings under deliveredInk, while intendedInkFields is build intent published as a denominator; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries by assertPrintedFormInkSurvives, at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, and is published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
     statutoryVariantsDelivered: Object.values(VARIANTS).map((v) => v.statute),
     ownerDeterminationsSurfaced: [
       { what: `${UNSCOPED_ELECTION.section}, ${UNSCOPED_ELECTION.statute}`, why: UNSCOPED_ELECTION.why },
@@ -1377,7 +1408,12 @@ export async function build() {
     deliveredInk: packets.map((packet) => ({
       fixture: packet.name,
       addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      intendedInkFields: packet.proof.intendedInkFields,
+      intendedInkFieldsWhoseInkWasFoundInOutputBytes: packet.proof.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      flattenedWidgetAppearancePlacementsReadFromOutputBytes: packet.proof.flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+      flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources: packet.proof.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources,
+      flattenedWidgetAppearancePlacementsPerPage: packet.proof.flattenedWidgetAppearancePlacementsPerPage,
+      residualWidgetAnnotationsInDeliveredBytes: packet.proof.residualWidgetAnnotationsInDeliveredBytes,
       fieldRectanglesMeasured: packet.proof.fieldsMeasured,
       invisibleWrites: packet.proof.invisibleWrites,
       refusedFieldsWithInk: packet.proof.refusedFieldsWithInk,

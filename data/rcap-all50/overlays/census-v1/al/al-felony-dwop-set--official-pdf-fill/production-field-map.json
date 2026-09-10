@@ -1222,12 +1222,13 @@
     {
       "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
       "fieldName": "MUNICIPALITY OF",
-      "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+      "effectiveLabel": "Municipal-court caption line on C-10-CRIMINAL page 1 — this route does not use it",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "reason": "The platform does not hold this participant or case fact; supply it before filing",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
+      "reason": "C-10-CRIMINAL page 1 offers two caption branches, \"STATE OF ALABAMA\" and \"MUNICIPALITY OF ____\". AL.memo.json rules.filing files this petition in the criminal division of the circuit court, so this packet elects the State of Alabama branch at Check Box1.0 and the municipal line belongs to the branch this route does not take.",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "routeConditionThatMakesItInapplicable": "AL.memo.json track al-felony-dwop rules.filing: \"File CR-65 in the criminal division of the circuit court in the county where the charges were filed.\" A circuit court is not a municipality, so the municipal caption branch of C-10-CRIMINAL is outside this route.",
+      "requiredBeforeFiling": false,
       "factAvailable": false,
       "routeDetermined": false,
       "role": "participant"
@@ -2084,10 +2085,12 @@
     {
       "fieldId": "C-10-CRIMINAL:Check Box1.1",
       "fieldName": "Check Box1.1",
-      "effectiveLabel": "Participant choice: Check Box1.1 (selection)",
+      "effectiveLabel": "Municipal-court caption branch on C-10-CRIMINAL page 1 — this route does not use it (selection)",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "reason": "A genuine participant election not determined by this route",
+      "reason": "C-10-CRIMINAL page 1 offers two caption branches, \"STATE OF ALABAMA\" and \"MUNICIPALITY OF ____\". AL.memo.json rules.filing files this petition in the criminal division of the circuit court, so this packet elects the State of Alabama branch at Check Box1.0 and the municipal line belongs to the branch this route does not take.",
+      "routeConditionThatMakesItInapplicable": "AL.memo.json track al-felony-dwop rules.filing: \"File CR-65 in the criminal division of the circuit court in the county where the charges were filed.\" A circuit court is not a municipality, so the municipal caption branch of C-10-CRIMINAL is outside this route.",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true,
       "routeDetermined": false
@@ -2095,35 +2098,41 @@
     {
       "fieldId": "C-10-CRIMINAL:Check Box2.0",
       "fieldName": "Check Box2.0",
-      "effectiveLabel": "Participant choice: Check Box2.0 (selection)",
+      "effectiveLabel": "Relief this route does not seek: a court-appointed attorney (selection)",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "reason": "A genuine participant election not determined by this route",
+      "reason": "The printed request beside this box asks the court to appoint an attorney. Nothing in AL.memo.json track al-felony-dwop seeks counsel, and it is not the relief this route's fee waiver concerns.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "disclosedToParticipant": true
     },
     {
       "fieldId": "C-10-CRIMINAL:Check Box2.1",
       "fieldName": "Check Box2.1",
-      "effectiveLabel": "Participant choice: Check Box2.1 (selection)",
+      "effectiveLabel": "Relief this route does not seek: waiver of ignition interlock device fees (selection)",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "reason": "A genuine participant election not determined by this route",
+      "reason": "The printed request beside this box asks for waiver of ignition interlock device fees. Nothing in AL.memo.json track al-felony-dwop concerns ignition interlock fees.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that these fees be waived.",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "disclosedToParticipant": true
     },
     {
       "fieldId": "C-10-CRIMINAL:Check Box2.2",
       "fieldName": "Check Box2.2",
-      "effectiveLabel": "Participant choice: Check Box2.2 (selection)",
+      "effectiveLabel": "Relief this route concerns, and yours to elect: waiver of the expungement petition administrative filing fee (selection)",
       "documentId": "C-10-CRIMINAL",
       "page": 1,
-      "reason": "A genuine participant election not determined by this route",
+      "reason": "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument, so of the three printed requests this is the one this route concerns. This packet does not tick it: the same rule conditions the waiver on indigency being CLAIMED, and the sentence beside the box is a sworn first-person statement about the participant's own finances, which this packet does not hold. The guide names the box and leaves the election to the participant.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "printedRequestBesideThisControl": "I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request that these fees be waived.",
       "isSelectionControl": true,
-      "routeDetermined": false
+      "routeDetermined": false,
+      "disclosedToParticipant": true
     },
     {
       "fieldId": "C-10-CRIMINAL:Check Box3.0.0",

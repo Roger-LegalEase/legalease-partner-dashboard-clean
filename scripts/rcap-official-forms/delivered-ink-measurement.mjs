@@ -25,12 +25,13 @@
  * one answers "is the form's own ink still there".
  */
 import assert from "node:assert/strict";
+import zlib from "node:zlib";
 import { createRequire } from "node:module";
 import { extractTextItems } from "./rcap-pdf-anchor-capture.mjs";
 import { normalizeInvertedWidgetRectangles } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFName, PDFNumber, PDFArray, PDFRef, StandardFonts } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFNumber, PDFArray, PDFRef, PDFRawStream, StandardFonts } = require("pdf-lib");
 
 /*
  * THE REPAIR. A WIDGET RECTANGLE MUST BE NORMALIZED BEFORE IT IS USED AS AN
@@ -144,11 +145,89 @@ export async function baselineInk(source) {
   return reopened.getPages().map((page) => new Set(extractTextItems(page).map(inkKey)));
 }
 
+/*
+ * HOW MANY FLATTENED WIDGET APPEARANCES DO THE DELIVERED BYTES ACTUALLY PLACE?
+ *
+ * This module used to publish `flattenedWidgetAppearancesReadFromOutputBytes`,
+ * computed as (boxes this build INTENDED to ink) minus (writes the delivered
+ * bytes draw no glyph for). The subtrahend is a reading. The minuend is not: it
+ * is the build's own intent, so the counter was intent minus a reading,
+ * published under a name that asserts a reading of the output bytes -- and 31
+ * and 30 are what it published while the output bytes place 216. A reader
+ * taking that number at face value concludes 185 of the two forms' widgets were
+ * never flattened. All 216 were. VF52 read the placements out of the delivered
+ * content streams and named the counter as a number that reads as a finding and
+ * is not.
+ *
+ * The repair is a name and a denominator, not a change to any packet byte.
+ * Both quantities are now published, each under a name that says which it is:
+ *
+ *   intendedInkFieldsWhoseInkWasFoundInOutputBytes / intendedInkFields
+ *      -- the old quantity, correctly named, carrying its denominator.
+ *   flattenedWidgetAppearancePlacementsReadFromOutputBytes
+ *      -- this reading: `q <cm...> /FlatWidget-N Do` placements counted in the
+ *         decoded page content streams of the delivered file, credited only
+ *         where the page's own /XObject resources declare that name.
+ *
+ * The predicate matches pdf-flattened-widgets.mjs deliberately, so two readers
+ * of the same bytes do not disagree: the name must be one the finalizer emits.
+ * `/<anything> Do` would also count a source's scanned page images as ink this
+ * build added, which is the over-count FLATTENED_WIDGET_OVERCOUNT.json records.
+ *
+ * residualWidgetAnnotationsInDeliveredBytes is the companion the placement
+ * count needs to mean "flattening finished": a widget annotation still present
+ * in the delivered file is a control that was never flattened at all.
+ */
+const inflateOrPassThrough = (buffer) => { try { return zlib.inflateSync(buffer); } catch { return buffer; } };
+
+function readFlattenedWidgetAppearances(pdf) {
+  const ctx = pdf.context;
+  const perPage = [];
+  let placements = 0;
+  let xObjects = 0;
+  let residualWidgetAnnots = 0;
+  for (const page of pdf.getPages()) {
+    const resources = page.node.get(PDFName.of("Resources"));
+    const xObjectDict = resources && ctx.lookup(resources).get(PDFName.of("XObject"));
+    const declared = xObjectDict ? ctx.lookup(xObjectDict) : null;
+    if (declared) {
+      for (const key of declared.keys()) {
+        if (/^\/(?:FlatWidget|ExactFactOverlay)-\d+$/.test(key.asString())) xObjects += 1;
+      }
+    }
+
+    const contents = page.node.get(PDFName.of("Contents"));
+    const refs = contents instanceof PDFArray ? contents.asArray() : contents ? [contents] : [];
+    let stream = "";
+    for (const ref of refs) {
+      const raw = ctx.lookup(ref);
+      if (raw instanceof PDFRawStream) stream += inflateOrPassThrough(Buffer.from(raw.contents)).toString("latin1");
+    }
+
+    let onThisPage = 0;
+    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/((?:FlatWidget|ExactFactOverlay)-\d+)\s+Do/g;
+    let match;
+    while ((match = placement.exec(stream))) {
+      if (declared && declared.has(PDFName.of(match[2]))) onThisPage += 1;
+    }
+    perPage.push(onThisPage);
+    placements += onThisPage;
+
+    const annots = page.node.Annots()?.asArray() ?? [];
+    for (const ref of annots) {
+      const annot = ctx.lookup(ref);
+      if (annot?.get?.(PDFName.of("Subtype"))?.asString?.() === "/Widget") residualWidgetAnnots += 1;
+    }
+  }
+  return { placements, xObjects, perPage, residualWidgetAnnots };
+}
+
 export async function proveDeliveredInk(packetBytes, pageManifest, baselines, mode = {}) {
   const subtractBaseline = mode.subtractBaseline !== false;
   const singleAssignment = mode.singleAssignment !== false;
   const pdf = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
   const itemsByPage = pdf.getPages().map((page) => extractTextItems(page));
+  const flatten = readFlattenedWidgetAppearances(pdf);
 
   const inside = (item, rect) =>
     item.x >= rect.x - 1.5 && item.x <= rect.x + rect.width + 1.5 &&
@@ -233,7 +312,12 @@ export async function proveDeliveredInk(packetBytes, pageManifest, baselines, mo
     pagesRead: pdf.getPageCount(),
     fieldsMeasured: pageManifest.boxes.filter((box) => box.rect).length,
     addedGlyphsReadFromOutputBytes: glyphsInWriteBoxes,
-    flattenedWidgetAppearancesReadFromOutputBytes: pageManifest.boxes.filter((box) => box.expectInk).length - invisibleWrites.length,
+    intendedInkFields: pageManifest.boxes.filter((box) => box.expectInk).length,
+    intendedInkFieldsWhoseInkWasFoundInOutputBytes: pageManifest.boxes.filter((box) => box.expectInk).length - invisibleWrites.length,
+    flattenedWidgetAppearancePlacementsReadFromOutputBytes: flatten.placements,
+    flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources: flatten.xObjects,
+    flattenedWidgetAppearancePlacementsPerPage: flatten.perPage,
+    residualWidgetAnnotationsInDeliveredBytes: flatten.residualWidgetAnnots,
     printedFormGlyphsInsideFieldRectsIgnored: baselineGlyphsIgnored,
     nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: addedGlyphsOutsideAnyFieldRect,
     invisibleWrites,

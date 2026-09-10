@@ -10,6 +10,7 @@ import {
   normalizeWidgetRectangles, baselineInk, proveDeliveredInk
 } from "./rcap-official-forms/delivered-ink-measurement.mjs";
 import { assertPrintedSourceInkSurvives, measurePrintedSourceInkSurvival, DEFAULT_RECT_TOLERANCE_PTS } from "./rcap-official-forms/printed-source-ink-survival.mjs";
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import {
   CR65_PRINTED_ELECTIONS, assertCR65PrintedElections, cr65QuotedElectionLines,
   CR65_SECOND_BRANCH_ONLY, CR65_SECOND_BRANCH_CONDITION
@@ -198,6 +199,151 @@ function knownValue(documentId, name, page, fixture) {
   return null;
 }
 
+/*
+ * BLANKS AND CONTROLS THIS ROUTE DOES NOT USE, AND WHY DIRECTING THEM IS A
+ * DEFECT RATHER THAN AN OVER-COUNT.
+ *
+ * VF52, on al-felony-dwop-set: the guide directed, with no condition of any
+ * kind, `Complete "MUNICIPALITY OF" on C-10-CRIMINAL page 1`.
+ *
+ * C-10-CRIMINAL page 1 offers two mutually exclusive caption branches. The
+ * form prints "STATE OF ALABAMA" beside Check Box1.0 and "MUNICIPALITY OF
+ * ____ v. ____, Defendant" beside Check Box1.1, and this packet ticks Check
+ * Box1.0 -- the State branch -- because AL.memo.json track al-felony-dwop
+ * rules.filing files this petition in the criminal division of the CIRCUIT
+ * court, and a circuit court is not a municipality. So the packet elected the
+ * State branch on the paper and the guide sent the participant to complete the
+ * municipal one, on the same page of the same form. C-10-CRIMINAL is a sworn
+ * Affidavit of Substantial Hardship; that direction was a direction to
+ * mis-caption a sworn filing.
+ *
+ * The sibling family al-trafficking-set already classifies the identical field
+ * of the identical form NOT_APPLICABLE_ON_THIS_ROUTE, on a rules.filing string
+ * that is character-for-character the same in both tracks. This brings the two
+ * into line on the record rather than on the sibling's say-so: the condition
+ * quoted below is read out of THIS family's own track.
+ *
+ * The checkbox halves of the same branch are labelled here too. Leaving Check
+ * Box1.1 described as an undifferentiated "participant choice" beside a field
+ * map that says the municipal caption is outside this route would reintroduce
+ * the same contradiction one line down.
+ */
+const NOT_OWED = {
+  "C-10-CRIMINAL:MUNICIPALITY OF": {
+    label: "Municipal-court caption line on C-10-CRIMINAL page 1 — this route does not use it",
+    reason: "C-10-CRIMINAL page 1 offers two caption branches, \"STATE OF ALABAMA\" and \"MUNICIPALITY OF ____\". AL.memo.json rules.filing files this petition in the criminal division of the circuit court, so this packet elects the State of Alabama branch at Check Box1.0 and the municipal line belongs to the branch this route does not take.",
+    routeCondition: "AL.memo.json track al-felony-dwop rules.filing: \"File CR-65 in the criminal division of the circuit court in the county where the charges were filed.\" A circuit court is not a municipality, so the municipal caption branch of C-10-CRIMINAL is outside this route.",
+    disposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
+  }
+};
+
+/*
+ * THE THREE RELIEF REQUESTS ON C-10-CRIMINAL PAGE 1.
+ *
+ * VF52: the packet ticks none of them and the guide never says the choice
+ * exists, so a participant who follows the guide files an Affidavit of
+ * Substantial Hardship requesting no relief.
+ *
+ * WHOSE ELECTION IS IT? The committed record answers both halves separately.
+ *
+ * WHICH of the three this route concerns is settled by the record. rules.fees
+ * reads "$500, or C-10-Criminal where indigency is claimed" and rules.feeWaiver
+ * names "C-10-Criminal, Affidavit of Substantial Hardship and Order". The third
+ * printed request is the one that asks for waiver of the expungement petition
+ * administrative filing fee. The first asks the court to appoint an attorney
+ * and the second asks to waive ignition interlock device fees; neither appears
+ * anywhere in this route's record. That is a mapping from the record to the
+ * form's own printed words, not a legal conclusion.
+ *
+ * WHETHER to make it is NOT the packet's. The same rule conditions the waiver
+ * on the participant -- "where indigency is claimed" -- and the sentence beside
+ * the box is sworn in the first person: "I, because of financial hardship, am
+ * unable to pay...". This packet holds no fact about the participant's
+ * finances; its own field map records factAvailable false on every income,
+ * expense and asset line of this affidavit. So the packet identifies the box
+ * and does not tick it.
+ *
+ * THIS DIVERGES FROM THE SIBLING, DELIBERATELY AND ON THE RECORD.
+ * al-trafficking-set ticks Check Box2.2 and tells the participant to remove the
+ * affidavit if they are not claiming hardship. That is defensible on the same
+ * rule. It is not what this family does, because this family's guide already
+ * makes filing the affidavit at all conditional ("If you are claiming
+ * indigency, complete the C-10-CRIMINAL affidavit included in this packet"), and
+ * a packet that ticks a sworn hardship assertion under a guide that says the
+ * affidavit is optional contradicts itself. Unlike the MUNICIPALITY OF defect,
+ * where one of the two families contradicted rules.filing outright, both
+ * treatments here are consistent with the record; this is a build decision and
+ * is recorded as one, not a finding against the sibling.
+ *
+ * Every line quoted below is a line the form itself prints, re-read out of the
+ * DELIVERED bytes of every fixture on every build by assertC10PrintedRelief.
+ */
+const C10_PRINTED_RELIEF = Object.freeze({
+  page: 1,
+  subtitle: "Form C-10-CRIMINAL (Request for Court-Appointed Attorney and/or",
+  subtitleContinued: "Waiver of Fees)",
+  options: [
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.0",
+      lines: ["I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me."],
+      label: "Relief this route does not seek: a court-appointed attorney (selection)",
+      reason: "The printed request beside this box asks the court to appoint an attorney. Nothing in AL.memo.json track al-felony-dwop seeks counsel, and it is not the relief this route's fee waiver concerns."
+    },
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.1",
+      lines: [
+        "I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that",
+        "these fees be waived."
+      ],
+      label: "Relief this route does not seek: waiver of ignition interlock device fees (selection)",
+      reason: "The printed request beside this box asks for waiver of ignition interlock device fees. Nothing in AL.memo.json track al-felony-dwop concerns ignition interlock fees."
+    },
+    {
+      fieldId: "C-10-CRIMINAL:Check Box2.2",
+      lines: [
+        "I, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request",
+        "that these fees be waived."
+      ],
+      label: "Relief this route concerns, and yours to elect: waiver of the expungement petition administrative filing fee (selection)",
+      reason: "AL.memo.json rules.fees records \"$500, or C-10-Criminal where indigency is claimed\" and rules.feeWaiver names C-10-Criminal as this route's fee-waiver instrument, so of the three printed requests this is the one this route concerns. This packet does not tick it: the same rule conditions the waiver on indigency being CLAIMED, and the sentence beside the box is a sworn first-person statement about the participant's own finances, which this packet does not hold. The guide names the box and leaves the election to the participant."
+    }
+  ]
+});
+
+/** [packetPage, printedLine] for every C-10 line the guide quotes. */
+function c10QuotedReliefLines(c10PageOffset) {
+  const page = C10_PRINTED_RELIEF.page + c10PageOffset;
+  return [
+    [page, C10_PRINTED_RELIEF.subtitle], [page, C10_PRINTED_RELIEF.subtitleContinued],
+    ...C10_PRINTED_RELIEF.options.flatMap((option) => option.lines.map((line) => [page, line]))
+  ];
+}
+
+/*
+ * The readback. A guide may not quote a line the delivered affidavit does not
+ * carry. This proves the line was DRAWN, never that it is VISIBLE -- that is
+ * printed-source-ink-survival.mjs's question, and the two are complements.
+ */
+async function assertC10PrintedRelief(fixtureFiles, c10PageOffset) {
+  assert.ok(fixtureFiles.length > 0, "no fixture was offered for the C-10 relief readback");
+  for (const file of fixtureFiles) {
+    const document = await PDFDocument.load(fs.readFileSync(file), { updateMetadata: false });
+    const cache = new Map();
+    for (const [packetPage, quoted] of c10QuotedReliefLines(c10PageOffset)) {
+      if (!cache.has(packetPage)) {
+        const target = document.getPages()[packetPage - 1];
+        assert.ok(target, `${path.basename(file)} has no page ${packetPage}`);
+        cache.set(packetPage, groupIntoLines(extractTextItems(target)).map((line) => String(line.text ?? "").replace(/\s+/g, " ").trim()));
+      }
+      const want = quoted.replace(/\s+/g, " ").trim();
+      assert.ok(cache.get(packetPage).includes(want),
+        `${path.basename(file)} page ${packetPage} does not print the line this guide quotes: ${JSON.stringify(quoted)}`);
+    }
+  }
+}
+
+const C10_RELIEF_BY_FIELD = new Map(C10_PRINTED_RELIEF.options.map((option) => [option.fieldId, option]));
+
 function protectedField(documentId, name, page) {
   const key = name.toLowerCase();
   if (documentId === "C-10-CRIMINAL" && page >= 3) return true;
@@ -313,6 +459,27 @@ async function fillDocument(source, fixtureName, fixture, config, { normalizeRec
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion control: ${name}`, documentId: source.documentId, page, reason: "court, clerk, prosecutor, agency, or hearing field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
         boxes.push({ ...box, expectInk: false });
+      } else if (C10_RELIEF_BY_FIELD.has(id)) {
+        const option = C10_RELIEF_BY_FIELD.get(id);
+        refusals.push({
+          fieldId: id, fieldName: name, effectiveLabel: option.label, documentId: source.documentId, page,
+          reason: option.reason, refusalClass: "participant_sworn_narrative_or_legal_election",
+          printedRequestBesideThisControl: option.lines.join(" "),
+          isSelectionControl: true, routeDetermined: false, disclosedToParticipant: true
+        });
+        boxes.push({ ...box, expectInk: false });
+      } else if (source.documentId === "C-10-CRIMINAL" && name === "Check Box1.1") {
+        refusals.push({
+          fieldId: id, fieldName: name,
+          effectiveLabel: "Municipal-court caption branch on C-10-CRIMINAL page 1 — this route does not use it (selection)",
+          documentId: source.documentId, page,
+          reason: NOT_OWED["C-10-CRIMINAL:MUNICIPALITY OF"].reason,
+          routeConditionThatMakesItInapplicable: NOT_OWED["C-10-CRIMINAL:MUNICIPALITY OF"].routeCondition,
+          completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+          refusalClass: "participant_sworn_narrative_or_legal_election",
+          isSelectionControl: true, routeDetermined: false
+        });
+        boxes.push({ ...box, expectInk: false });
       } else {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Participant choice: ${name} (selection)`, documentId: source.documentId, page, reason: "A genuine participant election not determined by this route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
         boxes.push({ ...box, expectInk: false });
@@ -330,6 +497,19 @@ async function fillDocument(source, fixtureName, fixture, config, { normalizeRec
       boxes.push({ ...box, expectInk: false });
     } else if (attorneyField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "attorney-only; no representation fact is held", role: "attorney" });
+      boxes.push({ ...box, expectInk: false });
+    } else if (NOT_OWED[id]) {
+      const rule = NOT_OWED[id];
+      refusals.push({
+        fieldId: id, fieldName: name, effectiveLabel: rule.label, documentId: source.documentId, page,
+        reason: rule.reason, completenessDisposition: rule.disposition,
+        routeConditionThatMakesItInapplicable: rule.routeCondition,
+        requiredBeforeFiling: false, factAvailable: false,
+        // Declaring both routeDetermined and NOT_APPLICABLE_ON_THIS_ROUTE is a
+        // contradiction the contract refuses: a route election this route DOES
+        // use can never be inapplicable to it.
+        routeDetermined: false, role: "participant"
+      });
       boxes.push({ ...box, expectInk: false });
     } else {
       const label = requiredLabel(source.documentId, name, page);
@@ -502,6 +682,60 @@ It is blank in this packet, and this packet writes nothing into the attorney
 block beside it, because it holds no representation fact for you.`;
 }
 
+const C10_RELIEF_SECTION_TITLE = "The relief request on C-10-CRIMINAL that this packet has not made";
+
+/*
+ * The disclosure VF52 found missing. Nothing here ticks anything or states a
+ * fact about the participant. It quotes the form, maps the third request to
+ * this route's own fee rule, and hands the election back with what each branch
+ * means -- which is what the packet's job is when the record makes the election
+ * the participant's.
+ */
+function reliefSection(rules) {
+  const [counsel, interlock, filingFee] = C10_PRINTED_RELIEF.options;
+  // The form wraps the second and third requests across two printed lines. They
+  // are quoted as consecutive blockquote lines so each request reads as one
+  // paragraph; a blank quote line between requests is what separates the three.
+  const quote = (option) => option.lines.map((line) => `> ${line}`).join("\n");
+  return `## ${C10_RELIEF_SECTION_TITLE}
+
+C-10-CRIMINAL is one form carrying three different requests, and its own
+subtitle says so:
+
+> ${C10_PRINTED_RELIEF.subtitle.replace("Form C-10-CRIMINAL ", "")} ${C10_PRINTED_RELIEF.subtitleContinued}
+
+Page 1 of that affidavit prints three boxes. **This packet ticks none of them,
+on either fixture.** They are, in the order the form prints them:
+
+${quote(counsel)}
+>
+${quote(interlock)}
+>
+${quote(filingFee)}
+
+**The third one is the request this route concerns.** The held record states the
+filing fee as "${rules.fees}" and names the fee waiver as "${rules.feeWaiver}"
+The third box is the one that asks for waiver of the expungement petition
+administrative filing fee, and it is the only one of the three that mentions an
+expungement petition at all. The first box
+asks the court to appoint an attorney and the second asks to waive ignition
+interlock device fees; neither is relief this route seeks, and neither appears
+anywhere in this route's record.
+
+**The election is yours, not this packet's.** The same rule makes the waiver
+conditional on indigency being claimed, and the sentence printed beside the box
+is sworn and in your own voice - it states that you, because of financial
+hardship, are unable to pay. This packet holds no fact about your finances, so
+it will not make that statement for you.
+
+So: if you are claiming financial hardship, tick the third box yourself, complete
+the affidavit's income, expense and asset items from the list above, and sign it
+when you sign the petition. If you are not claiming financial hardship, tick
+none of the three and pay the filing fee the record states instead. If you file
+the affidavit with no box ticked, you have filed a sworn Affidavit of
+Substantial Hardship that asks the court for nothing.`;
+}
+
 function writeGuides({ out, familyId, config, rules, track, memoDigest, required }) {
   const secondBranchOnly = new Set(CR65_SECOND_BRANCH_ONLY);
   const requiredList = required.map((row) =>
@@ -524,8 +758,8 @@ function writeGuides({ out, familyId, config, rules, track, memoDigest, required
     ...(track.supportingDocuments ?? []).map((doc, index) =>
       `${index + 1}. Obtain: ${doc.name}. Where from: ${doc.obtainedFrom}. How: ${doc.howToObtain}`),
     `${(track.supportingDocuments ?? []).length + 1}. ${config.recordComparison}`,
-    `${(track.supportingDocuments ?? []).length + 2}. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.`,
-    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.`,
+    `${(track.supportingDocuments ?? []).length + 2}. Fill in the blanks listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you. Some of those lines are marked with a condition; fill one of those in only if the condition is true of you, exactly as the list says.`,
+    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet and tick the relief request it asks for - this packet ticks none of the three printed requests, and "${C10_RELIEF_SECTION_TITLE}" below names them and says which one this route concerns. The judge, not you, completes the affidavit's order page.`,
     ...(track.manualCompletionItems ?? []).map((item, index) =>
       `${(track.supportingDocuments ?? []).length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
@@ -556,6 +790,8 @@ which you fill in only if that condition is true of you.
 ${requiredList}
 
 ${electionsSection()}
+
+${reliefSection(rules)}
 
 ## Service
 
@@ -603,6 +839,13 @@ attachment above is complete.
 `);
 }
 
+function rulesFilingOf(fieldMap) {
+  const memo = JSON.parse(fs.readFileSync(path.join(ROOT, MEMO_PATH), "utf8"));
+  const track = memo.tracks.find((entry) => entry.trackId === FAMILY_CONFIG[fieldMap.familyId].trackId);
+  assert.ok(track?.rules?.filing, "this family's track states no filing rule");
+  return track.rules.filing;
+}
+
 export async function assertRepairInvariants(out) {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
   const instructions = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
@@ -624,6 +867,47 @@ export async function assertRepairInvariants(out) {
   assert.match(instructions, /certified local record/i);
   assert.match(instructions, /minor traffic violation/i);
   assert.match(instructions, /licensing or firearm consequences/i);
+
+  /*
+   * VF52's REQUIRED_BEFORE_FILING failure: the guide directed the participant
+   * to complete the municipal caption line of a sworn affidavit on a route this
+   * packet captions "STATE OF ALABAMA" on the same page. Both halves are
+   * asserted -- the direction is gone from the blank list, AND the field map
+   * says why, so the classification cannot silently revert to a blank owed.
+   */
+  assert.doesNotMatch(instructions, /^- Complete "MUNICIPALITY OF"/m,
+    "the guide directs completion of the municipal caption line of a route captioned STATE OF ALABAMA");
+  const municipality = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:MUNICIPALITY OF");
+  assert.ok(municipality, "C-10-CRIMINAL:MUNICIPALITY OF must be classified");
+  assert.equal(municipality.completenessDisposition, "NOT_APPLICABLE_ON_THIS_ROUTE",
+    "the municipal caption line is not a blank this route owes before filing");
+  assert.equal(municipality.requiredBeforeFiling, false, "the municipal caption line must not be required before filing");
+  assert.ok(municipality.routeConditionThatMakesItInapplicable?.includes(rulesFilingOf(fieldMap)),
+    "the inapplicability must be justified by this family's own rules.filing, quoted verbatim");
+
+  /*
+   * VF52's ROUTE_OPTIONS failure: C-10-CRIMINAL page 1 prints three mutually
+   * exclusive relief requests, this packet ticks none, and nothing in the guide
+   * said the choice existed -- so a participant following it filed a sworn
+   * Affidavit of Substantial Hardship asking for nothing. Refusing to elect is
+   * defensible; not disclosing is not.
+   */
+  assert.match(instructions, new RegExp(`^## ${C10_RELIEF_SECTION_TITLE}$`, "m"),
+    "the guide must disclose the C-10-CRIMINAL relief requests it has not made");
+  for (const option of C10_PRINTED_RELIEF.options) {
+    for (const line of option.lines) {
+      assert.ok(instructions.includes(line), `the guide must quote the printed request beside ${option.fieldId}`);
+    }
+    const refusal = fieldMap.refusals.find((row) => row.fieldId === option.fieldId);
+    assert.ok(refusal, `${option.fieldId} must be classified`);
+    assert.equal(refusal.routeDetermined, false, `${option.fieldId}: this packet does not make this election`);
+    assert.ok(!/^Participant choice: /.test(refusal.effectiveLabel),
+      `${option.fieldId}: an undifferentiated "participant choice" label does not say what the box asks for`);
+    assert.ok(!fieldMap.writes.some((row) => row.fieldId === option.fieldId),
+      `${option.fieldId}: this packet must not swear a hardship request on the participant's behalf`);
+  }
+  assert.ok(instructions.includes("The third one is the request this route concerns"),
+    "the guide must say which of the three printed requests this route concerns");
 
   /*
    * REQUIRED_BEFORE_FILING, the half of it a blank list cannot answer.
@@ -710,14 +994,33 @@ export async function assertRepairInvariants(out) {
     assert.equal(artifact.refusedFieldsWithInk.length, 0, `${artifact.fixture}: a refused field carries ink in the delivered bytes`);
     assert.equal(artifact.incompleteValues.length, 0, `${artifact.fixture}: a held value did not read back complete from the delivered bytes`);
     /*
-     * flattenedWidgetAppearancesReadFromOutputBytes is NOT asserted to differ
-     * from the finalizer's write count. It used to BE that count, republished;
-     * it is now `boxes with expectInk` minus `writes the delivered bytes draw
-     * no glyph for`, and when nothing is invisible those two numbers coincide
-     * legitimately. Asserting they differ would demand a defect. What separates
-     * a measurement from a literal is that a measurement carries the
-     * denominator it was taken over, so that is what is checked.
+     * THE COUNTER THAT PUBLISHED 31 WHILE THE BYTES PLACED 216.
+     *
+     * `flattenedWidgetAppearancesReadFromOutputBytes` used to be published here
+     * as `boxes with expectInk` minus `writes the delivered bytes draw no glyph
+     * for`. The arithmetic was sound and its subtrahend was a genuine reading,
+     * but its minuend is this build's own INTENT, and the name asserted a
+     * reading of flattened widget appearances out of the output bytes. VF52
+     * counted the placements in the delivered content streams: 216 in every
+     * fixture, one for each of the two pinned sources' 216 widgets, while the
+     * counter published 31. A reader taking 31 at face value concludes 185
+     * widgets were never flattened.
+     *
+     * So the quantity is kept and correctly named, with the denominator that
+     * makes it a measurement, and the reading the old NAME promised is now
+     * actually taken. Both are asserted here, because the failure this repair
+     * fixes was invisible to every counter that existed.
      */
+    assert.equal(artifact.intendedInkFields, artifact.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      `${artifact.fixture}: the delivered bytes draw no ink for ${artifact.intendedInkFields - artifact.intendedInkFieldsWhoseInkWasFoundInOutputBytes} field(s) this build intended to ink`);
+    assert.equal(artifact.flattenedWidgetAppearancePlacementsReadFromOutputBytes, 216,
+      `${artifact.fixture}: the delivered bytes must place one flattened appearance for each of the two pinned sources' 216 widgets, and place ${artifact.flattenedWidgetAppearancePlacementsReadFromOutputBytes}`);
+    assert.equal(artifact.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources, 216,
+      `${artifact.fixture}: every placement must be backed by an appearance the page's own resources declare`);
+    assert.equal(artifact.flattenedWidgetAppearancePlacementsPerPage.reduce((sum, n) => sum + n, 0), 216,
+      `${artifact.fixture}: the per-page placement distribution must account for every placement counted`);
+    assert.equal(artifact.residualWidgetAnnotationsInDeliveredBytes, 0,
+      `${artifact.fixture}: a widget annotation survives in the delivered bytes, so flattening did not finish`);
     assert.equal(artifact.fieldRectanglesMeasured, 216,
       `${artifact.fixture}: the measurement must be taken over all 216 widget rectangles of the two pinned sources, and reports ${artifact.fieldRectanglesMeasured}`);
     assert.ok(Number.isInteger(artifact.printedFormGlyphsInsideFieldRectsIgnored) && artifact.printedFormGlyphsInsideFieldRectsIgnored > 0,
@@ -732,6 +1035,8 @@ export async function assertRepairInvariants(out) {
   const fixtures = fs.readdirSync(path.join(out, "fixtures")).filter((f) => f.endsWith(".pdf")).sort();
   assert.equal(fixtures.length, 2, `this family delivers two fixtures and the directory holds ${fixtures.length}`);
   await assertCR65PrintedElections(fixtures.map((f) => path.join(out, "fixtures", f)), { cr65PageOffset: 0 });
+  // CR-65 occupies packet pages 1-8, so C-10-CRIMINAL page 1 is packet page 9.
+  await assertC10PrintedRelief(fixtures.map((f) => path.join(out, "fixtures", f)), SOURCE_PAGE_COUNTS["CR-65"]);
   await assertPrintedFormInkSurvives(out);
 }
 
@@ -836,12 +1141,17 @@ export async function buildAlabamaFamily(familyId) {
   writeJson(path.join(out, "reports", "actual-writes.json"), {
     schemaVersion: "rcap-actual-writes/v2", familyId,
     documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    countersMeasuredFrom: "every counter below except valuesReportedByFinalizer is read from the delivered packet bytes by proveDeliveredInk, which reopens the finished file, walks its content streams, recurses through the Form XObjects flattening leaves behind, and subtracts what the blank form prints inside the same rectangles",
+    countersMeasuredFrom: "every counter below except valuesReportedByFinalizer and intendedInkFields is read from the delivered packet bytes by proveDeliveredInk, which reopens the finished file, walks its content streams, recurses through the Form XObjects flattening leaves behind, and subtracts what the blank form prints inside the same rectangles. intendedInkFields is this build's own intent, not a reading, and is published only as the denominator of intendedInkFieldsWhoseInkWasFoundInOutputBytes; flattenedWidgetAppearancePlacementsReadFromOutputBytes, flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources, flattenedWidgetAppearancePlacementsPerPage and residualWidgetAnnotationsInDeliveredBytes are readings of the delivered file's decoded page content streams, page resources and annotation arrays.",
     artifacts: Object.entries(packets).map(([fixture, packet]) => ({
       fixture,
       valuesReportedByFinalizer: packet.writes.length,
       addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      intendedInkFields: packet.proof.intendedInkFields,
+      intendedInkFieldsWhoseInkWasFoundInOutputBytes: packet.proof.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      flattenedWidgetAppearancePlacementsReadFromOutputBytes: packet.proof.flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+      flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources: packet.proof.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources,
+      flattenedWidgetAppearancePlacementsPerPage: packet.proof.flattenedWidgetAppearancePlacementsPerPage,
+      residualWidgetAnnotationsInDeliveredBytes: packet.proof.residualWidgetAnnotationsInDeliveredBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: packet.proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
       printedFormGlyphsInsideFieldRectsIgnored: packet.proof.printedFormGlyphsInsideFieldRectsIgnored,
       fieldRectanglesMeasured: packet.proof.fieldsMeasured,
@@ -899,11 +1209,16 @@ export async function buildAlabamaFamily(familyId) {
        */
       visualDefects: null
     },
-    countersMeasuredFrom: "incompleteRows, invisibleWrites and protectedWrites are read from the delivered packet bytes by proveDeliveredInk; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
+    countersMeasuredFrom: "incompleteRows, invisibleWrites and protectedWrites are read from the delivered packet bytes by proveDeliveredInk -- as are the flattened-widget placement readings under deliveredInk, while intendedInkFields is build intent published as a denominator; printedSourceInkErasedOutsideWidgetRects is read from the delivered fixture bytes on disk against the pinned source binaries at 300 dpi with ink threshold 200 and a 1 pt widget-rectangle allowance, published in full in reports/printed-source-ink-survival.json; visualDefects is null because nobody has looked at a raster of these pages",
     deliveredInk: Object.entries(packets).map(([fixture, packet]) => ({
       fixture,
       addedGlyphsReadFromOutputBytes: packet.proof.addedGlyphsReadFromOutputBytes,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.proof.flattenedWidgetAppearancesReadFromOutputBytes,
+      intendedInkFields: packet.proof.intendedInkFields,
+      intendedInkFieldsWhoseInkWasFoundInOutputBytes: packet.proof.intendedInkFieldsWhoseInkWasFoundInOutputBytes,
+      flattenedWidgetAppearancePlacementsReadFromOutputBytes: packet.proof.flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+      flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources: packet.proof.flattenedWidgetAppearanceXObjectsDeclaredInDeliveredPageResources,
+      flattenedWidgetAppearancePlacementsPerPage: packet.proof.flattenedWidgetAppearancePlacementsPerPage,
+      residualWidgetAnnotationsInDeliveredBytes: packet.proof.residualWidgetAnnotationsInDeliveredBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: packet.proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
       fieldRectanglesMeasured: packet.proof.fieldsMeasured,
       invisibleWrites: packet.proof.invisibleWrites,
@@ -1008,6 +1323,30 @@ export async function negativeControls() {
     console.log(`delivered-ink baseline control: repaired=${repaired.proof.refusedFieldsWithInk.length} refused-with-ink, `
       + `no-baseline=${noBaseline.refusedFieldsWithInk.length} (control fires); `
       + `addedGlyphsReadFromOutputBytes=${repaired.proof.addedGlyphsReadFromOutputBytes} against the 0 this family used to publish.`);
+
+    /*
+     * 4. The flattened-appearance placement counter is a READING, and it fires.
+     *
+     * The counter it replaces could not fail: it was computed from the build's
+     * own intent, so no state of the delivered bytes could move it. This one is
+     * read out of the decoded page content streams, so it must report something
+     * different when it is pointed at bytes that were never flattened. The
+     * pinned CR-65 source is exactly those bytes: 108 live widget annotations,
+     * no flattened appearance placed anywhere.
+     */
+    const unflattened = await proveDeliveredInk(cr65.bytes, { boxes: [] }, baselines);
+    assert.equal(unflattened.flattenedWidgetAppearancePlacementsReadFromOutputBytes, 0,
+      "CONTROL DID NOT FIRE — the un-flattened pinned source must place no flattened widget appearance");
+    assert.ok(unflattened.residualWidgetAnnotationsInDeliveredBytes > 0,
+      "CONTROL DID NOT FIRE — the un-flattened pinned source must still carry live widget annotations");
+    assert.equal(repaired.proof.residualWidgetAnnotationsInDeliveredBytes, 0,
+      "the delivered packet must carry no live widget annotation");
+    console.log(`flattened-appearance placement control: pinned un-flattened CR-65 reads `
+      + `${unflattened.flattenedWidgetAppearancePlacementsReadFromOutputBytes} placements and `
+      + `${unflattened.residualWidgetAnnotationsInDeliveredBytes} live widget annotations; the delivered packet reads `
+      + `${repaired.proof.flattenedWidgetAppearancePlacementsReadFromOutputBytes} placements and `
+      + `${repaired.proof.residualWidgetAnnotationsInDeliveredBytes} live widget annotations `
+      + `(control fires; the counter reads the bytes it is given).`);
   } finally {
     fs.rmSync(scratch, { recursive: true, force: true });
   }
