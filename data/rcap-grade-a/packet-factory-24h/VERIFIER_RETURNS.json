@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 151,
-    "rows": 1139,
+    "returnDirectories": 152,
+    "rows": 1141,
     "independentVerdicts": 291,
     "failRepairRequired": 72,
     "passIndependent": 197
@@ -24605,6 +24605,29 @@
     {
       "familyId": "ri_deferred_sentence-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5971049ec2be4a6ed62d4f5173d48401b8c55c9a",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910d-ri.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "0cc3c9b5c",
@@ -24805,7 +24828,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_felony-set",
@@ -25006,6 +25029,29 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
       "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5971049ec2be4a6ed62d4f5173d48401b8c55c9a",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910d-ri.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -25230,7 +25276,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_marijuana-set",
