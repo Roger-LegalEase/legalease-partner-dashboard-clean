@@ -6,11 +6,11 @@
   "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
   "grantSet": "a9956c8db0b9c13d",
   "measuredBy": "the fifteen proof obligations measured in this container from the committed bytes and records; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here; every artifact SHA-256 and raster PNG recomputed from the committed bytes; every flattened widget appearance decoded from the fixture PDF bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs; the boundSource SHA-256 recomputed from the corpus file under MASTER_LIBRARY_SOURCE_DIR, and the pinned form's own instruction sheet read from those corpus bytes",
-  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read (vf01, FAIL on ROUTE_IDENTITY and SERVICE) is the claim under test: both failed obligations were re-measured here from the current bytes — one reproduced, one did not — and neither the prior FAIL nor the later spelling-variance characterization was inherited.",
+  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read (vf01, FAIL on ROUTE_IDENTITY and SERVICE) is the claim under test: both failed obligations were re-measured here from the current bytes \u2014 one reproduced, one did not \u2014 and neither the prior FAIL nor the later spelling-variance characterization was inherited.",
   "sourceIdentityNote": "Unlike the vf01 read, the Master Library corpus IS mounted in this container, so SOURCE_IDENTITY is measured from the source bytes themselves.",
   "verdictSummary": {
-    "PASS_COMPLETE_INDEPENDENT": 0,
-    "FAIL_REPAIR_REQUIRED": 1,
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 5,
     "BLOCKED_SOURCE": 0,
     "BLOCKED_LEGAL_INPUT": 0
   },
@@ -52,7 +52,7 @@
         "ROUTE_IDENTITY": {
           "measured": true,
           "result": "FAIL",
-          "detail": "re-measured on the current bytes rather than inherited from either prior conclusion. The route is NOT wrong: every record that names a route names exactly one — obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e (product-wiring.json routeKeys, local-filing-variation.json routeKeys) or its route-key form track:MI:mi_setaside_marihuana (source-receipt.json, production-field-map.json, the instructions footer), and product-wiring.json's worklistGroupId is the correct 'mi_setaside_marihuana-set'. But the familyId — the exact key a fulfillment record, the claim ledger, the raster queue and the worklist all use — does not agree across the family's own records: 12 records carry 'mi_setaside_marihuana-set' and 4 carry 'mi-setaside-marihuana-set' (product-wiring.json, local-filing-variation.json, reports/shared-vocabulary-gaps.json, reports/squashed-caption-band-findings.json — enumerated by grep over every committed JSON in the directory). The closest line the packet has is product-wiring.json line 3: \"familyId\": \"mi-setaside-marihuana-set\". An exact-match lookup keyed on the worklist family id misses those four records, and commercial authority is keyed to an exact route AND packet family, so the identity must agree byte for byte. build-findings.json itself records the origin: the hyphenated build script predates this lane and also writes this overlay directory."
+          "detail": "re-measured on the current bytes rather than inherited from either prior conclusion. The route is NOT wrong: every record that names a route names exactly one \u2014 obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e (product-wiring.json routeKeys, local-filing-variation.json routeKeys) or its route-key form track:MI:mi_setaside_marihuana (source-receipt.json, production-field-map.json, the instructions footer), and product-wiring.json's worklistGroupId is the correct 'mi_setaside_marihuana-set'. But the familyId \u2014 the exact key a fulfillment record, the claim ledger, the raster queue and the worklist all use \u2014 does not agree across the family's own records: 12 records carry 'mi_setaside_marihuana-set' and 4 carry 'mi-setaside-marihuana-set' (product-wiring.json, local-filing-variation.json, reports/shared-vocabulary-gaps.json, reports/squashed-caption-band-findings.json \u2014 enumerated by grep over every committed JSON in the directory). The closest line the packet has is product-wiring.json line 3: \"familyId\": \"mi-setaside-marihuana-set\". An exact-match lookup keyed on the worklist family id misses those four records, and commercial authority is keyed to an exact route AND packet family, so the identity must agree byte for byte. build-findings.json itself records the origin: the hyphenated build script predates this lane and also writes this overlay directory."
         },
         "SOURCE_IDENTITY": {
           "measured": true,
@@ -62,22 +62,22 @@
         "COMPONENT_SET": {
           "measured": true,
           "result": "PASS",
-          "detail": "the route names one component, the MC 227a primary filing; both fixtures render both pages of the pinned binary — the application (page 1) and the court's own instruction sheet INST MC 227a (page 2), which the participant instructions direct the reader to; requiredComponentsMissing=0 measured here."
+          "detail": "the route names one component, the MC 227a primary filing; both fixtures render both pages of the pinned binary \u2014 the application (page 1) and the court's own instruction sheet INST MC 227a (page 2), which the participant instructions direct the reader to; requiredComponentsMissing=0 measured here."
         },
         "KNOWN_PREFILLS": {
           "measured": true,
           "result": "PASS",
-          "detail": "decoded from the flattened widget appearance streams of both fixtures (37 appearances each): exactly the 2 mapped facts are drawn — the county at its mapped rect (36,672) and the case number at (409.2,697.2) — in both fixtures, matching the field map's two explicitMappings and the instructions' own claim ('The platform filled in what it holds about your case: the county and the case number'); knownRequiredFieldsMissing=0 measured by the completeness verifier here. The form's narrow fillability (the defendant name/address/phone box, the caption court fields and the whole conviction table are participant-supplied) is disclosed item by item, and product-wiring.json records it as an enablement blocker in its own words. The build-findings boundary-apostrophe advisory is moot on this family: no name is written on this form."
+          "detail": "decoded from the flattened widget appearance streams of both fixtures (37 appearances each): exactly the 2 mapped facts are drawn \u2014 the county at its mapped rect (36,672) and the case number at (409.2,697.2) \u2014 in both fixtures, matching the field map's two explicitMappings and the instructions' own claim ('The platform filled in what it holds about your case: the county and the case number'); knownRequiredFieldsMissing=0 measured by the completeness verifier here. The form's narrow fillability (the defendant name/address/phone box, the caption court fields and the whole conviction table are participant-supplied) is disclosed item by item, and product-wiring.json records it as an enablement blocker in its own words. The build-findings boundary-apostrophe advisory is moot on this family: no name is written on this form."
         },
         "REQUIRED_BEFORE_FILING": {
           "measured": true,
           "result": "PASS",
-          "detail": "production-field-map.json declares 26 REQUIRED_BEFORE_FILING items and participant-instructions.md names all 26 — six caption fields, four parties fields, and all sixteen cells of the four-line conviction table — each with the section, the printed words and what to write, matched one for one in this lane. The decoded bytes confirm every one of those blanks carries no ink."
+          "detail": "production-field-map.json declares 26 REQUIRED_BEFORE_FILING items and participant-instructions.md names all 26 \u2014 six caption fields, four parties fields, and all sixteen cells of the four-line conviction table \u2014 each with the section, the printed words and what to write, matched one for one in this lane. The decoded bytes confirm every one of those blanks carries no ink."
         },
         "ROUTE_OPTIONS": {
           "measured": true,
           "result": "PASS",
-          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: nothing on MC 227a is a route election — the two People-of boxes state who prosecuted and the multiple-case-numbers box states what the table lists, all facts about the participant's record. All 3 selection controls are disclosed in 'The choices that are yours', and the form's own routing of the two neighbouring applications (MC 227b for trafficking victims, MC 227 for non-marijuana misdemeanours) is carried into 'Check you are on the right form'."
+          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: nothing on MC 227a is a route election \u2014 the two People-of boxes state who prosecuted and the multiple-case-numbers box states what the table lists, all facts about the participant's record. All 3 selection controls are disclosed in 'The choices that are yours', and the form's own routing of the two neighbouring applications (MC 227b for trafficking victims, MC 227 for non-marijuana misdemeanours) is carried into 'Check you are on the right form'."
         },
         "REPEATING_ROWS": {
           "measured": true,
@@ -87,7 +87,7 @@
         "PROTECTED_FIELDS": {
           "measured": true,
           "result": "PASS",
-          "detail": "proven from the decoded appearance streams: all 35 non-prefill widget appearances are empty in both fixtures — the sworn Certificate of Mailing at the foot of page 1, the signature and date, the judge's name (court-owned), the attorney block, every caption and conviction field. protectedWrites=0 and invisibleWrites=0 measured here."
+          "detail": "proven from the decoded appearance streams: all 35 non-prefill widget appearances are empty in both fixtures \u2014 the sworn Certificate of Mailing at the foot of page 1, the signature and date, the judge's name (court-owned), the attorney block, every caption and conviction field. protectedWrites=0 and invisibleWrites=0 measured here."
         },
         "ARTIFACTS": {
           "measured": true,
@@ -97,7 +97,7 @@
         "PAGE_ORDER": {
           "measured": true,
           "result": "PASS",
-          "detail": "2 pages read from the bytes of each fixture (pdfinfo), equal to the raster queue's expectedPages and the pageManifest (packet pages 1-2 → MC-227A source pages 1-2); the decoded appearance positions confirm the application content on page 1, and page 2 is the form's own instruction sheet."
+          "detail": "2 pages read from the bytes of each fixture (pdfinfo), equal to the raster queue's expectedPages and the pageManifest (packet pages 1-2 \u2192 MC-227A source pages 1-2); the decoded appearance positions confirm the application content on page 1, and page 2 is the form's own instruction sheet."
         },
         "CLIPPING_AND_OVERLAP": {
           "measured": true,
@@ -107,17 +107,17 @@
         "FILING_DESTINATION": {
           "measured": true,
           "result": "PASS",
-          "detail": "participant-instructions.md: 'File in the court where the conviction happened, and use a separate application for each court — instruction 2', matching the worklist's recorded destination ('File in the convicting court') and the pinned form's own instruction sheet, read in this lane from the corpus bytes ('You must file the application in the court where the conviction occurred. You must use a separate application for each court.'). The court's street address and telephone are disclosed REQUIRED_BEFORE_FILING items."
+          "detail": "participant-instructions.md: 'File in the court where the conviction happened, and use a separate application for each court \u2014 instruction 2', matching the worklist's recorded destination ('File in the convicting court') and the pinned form's own instruction sheet, read in this lane from the corpus bytes ('You must file the application in the court where the conviction occurred. You must use a separate application for each court.'). The court's street address and telephone are disclosed REQUIRED_BEFORE_FILING items."
         },
         "FEE_AND_WAIVER": {
           "measured": true,
           "result": "PASS",
-          "detail": "the filing fee IS stated, from a named checkable authority that ships inside the packet: 'There should be no filing fee, instruction 6 says so' — and this lane confirmed instruction 6 on the pinned form's own instruction sheet in the corpus bytes: 'There should be no filing fee for filing the application.' The one fee that can arise — for certified copies of each conviction — is stated with its source (instruction 4) and the packet says the platform does not obtain them. The worklist's caution to 'confirm against the current MC 227a form before quoting $0' is satisfied the strong way: the quote is the current pinned form's own sentence, rendered as page 2 of the packet."
+          "detail": "the filing fee IS stated, from a named checkable authority that ships inside the packet: 'There should be no filing fee, instruction 6 says so' \u2014 and this lane confirmed instruction 6 on the pinned form's own instruction sheet in the corpus bytes: 'There should be no filing fee for filing the application.' The one fee that can arise \u2014 for certified copies of each conviction \u2014 is stated with its source (instruction 4) and the packet says the platform does not obtain them. The worklist's caution to 'confirm against the current MC 227a form before quoting $0' is satisfied the strong way: the quote is the current pinned form's own sentence, rendered as page 2 of the packet."
         },
         "SERVICE": {
           "measured": true,
           "result": "PASS",
-          "detail": "re-measured on the current bytes: the catch-all the vf01 read failed is no longer the packet's only word on service. 'The order of the last three steps matters' states WHO ('Mail a copy of the whole packet to the prosecuting official who prosecuted the offence — instruction 7'), HOW (by mail), PROOF ('Only then fill in and sign the Certificate of Mailing on both remaining copies, and take or mail one to the court — instruction 8', sworn under the penalties of perjury), and ORDER (sign, copy, file, mail, then certify — with the certificate's date and signature left blank until step 4). Every step was confirmed against the pinned form's own instruction sheet (instructions 5-8) read from the corpus bytes in this lane, and the post-filing 30-day/60-day consequences are carried in 'What happens after you file'."
+          "detail": "re-measured on the current bytes: the catch-all the vf01 read failed is no longer the packet's only word on service. 'The order of the last three steps matters' states WHO ('Mail a copy of the whole packet to the prosecuting official who prosecuted the offence \u2014 instruction 7'), HOW (by mail), PROOF ('Only then fill in and sign the Certificate of Mailing on both remaining copies, and take or mail one to the court \u2014 instruction 8', sworn under the penalties of perjury), and ORDER (sign, copy, file, mail, then certify \u2014 with the certificate's date and signature left blank until step 4). Every step was confirmed against the pinned form's own instruction sheet (instructions 5-8) read from the corpus bytes in this lane, and the post-filing 30-day/60-day consequences are carried in 'What happens after you file'."
         },
         "SELF_HELP_STOP": {
           "measured": true,
@@ -129,13 +129,13 @@
         "ROUTE_IDENTITY"
       ],
       "smallestExactRepair": {
-        "ROUTE_IDENTITY": "In exactly four files, change the familyId value 'mi-setaside-marihuana-set' to 'mi_setaside_marihuana-set' and nothing else: data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/product-wiring.json (line 3), .../local-filing-variation.json, .../reports/shared-vocabulary-gaps.json, .../reports/squashed-caption-band-findings.json. The directory name and build-script name keep their hyphenated forms (path conventions, not identity keys), and no fixture byte changes, so the RASTER_PASS receipt's pinned hashes remain valid — this is a records-only repair requiring no rerender."
+        "ROUTE_IDENTITY": "In exactly four files, change the familyId value 'mi-setaside-marihuana-set' to 'mi_setaside_marihuana-set' and nothing else: data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/product-wiring.json (line 3), .../local-filing-variation.json, .../reports/shared-vocabulary-gaps.json, .../reports/squashed-caption-band-findings.json. The directory name and build-script name keep their hyphenated forms (path conventions, not identity keys), and no fixture byte changes, so the RASTER_PASS receipt's pinned hashes remain valid \u2014 this is a records-only repair requiring no rerender."
       },
       "notMeasurableHere": [],
       "openLegalInputs": [],
       "recordedDeviations": [
         "this lane's SERVICE outcome diverges from the vf01 read because the packet changed underneath it: the current participant-instructions.md (from the PF16 rebuild, commit 968c82269, which postdates vf01's first read) carries the four-step service section vf01 found missing; the divergence is a repaired packet, not a different standard.",
-        "the vf01 ROUTE_IDENTITY finding is REPRODUCED on current bytes: the PF16 rebuild did not touch the four variant-spelling records. The later characterization ('spelling variance, not a wrong route') is confirmed by measurement — the route is the correct single route everywhere — but the identity key still fails to agree, so the obligation still fails until the four values are corrected."
+        "the vf01 ROUTE_IDENTITY finding is REPRODUCED on current bytes: the PF16 rebuild did not touch the four variant-spelling records. The later characterization ('spelling variance, not a wrong route') is confirmed by measurement \u2014 the route is the correct single route everywhere \u2014 but the identity key still fails to agree, so the obligation still fails until the four values are corrected."
       ],
       "rasterCeiling": {
         "currentRasterState": "RASTER_PASS",
@@ -205,6 +205,908 @@
         "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
         "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf"
       ]
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "independence": "VF25 built and repaired nothing. The FIX130 repair of 2026-09-10 (commit b3a2e365b) is the claim under test; every figure below was re-measured in this container from the committed bytes and none was inherited from the repair row.",
+      "postRepairReread": {
+        "repairUnderTest": "FIX130, commit b3a2e365b, 'three defects, three opposite remedies, on vt_exp_decriminalized-set'",
+        "theBorderRepairIsCORRECTANDVERIFIED": "All three class assignments were re-derived per stream from the source bytes, not from the totals. RESTORE class: the six stroke-only appearances the delivered 600-00228 still carries are EXACT byte-for-byte matches of the pinned source widget's own /AP /N /Off streams for fields 15, 16, 21, 22 (page 1) and 72, 73 (page 2) -- e.g. delivered '1 g 0 0 14.4 14.4 re f 0.5 0.5 13.4 13.4 re s' equals source field 16 /Off exactly, including its leading opaque fill; all six source widgets carry /MK /BC [0] /BG [1] and ship their own /Off, so restoring is the right remedy and deleting would have erased the court's ink. REMOVE class: every one of the 14 check-box widgets on 200-00129 and both on 200-00132A ships /AP /N /Yes ONLY, with no /Off state, and /MK carrying only /CA (4) -- no /BC and no /BG -- so the source declares no border for them and the removed stroke was pdf-lib's own construction; removal is the right remedy for all 16. MIS-SCALE class: source field 15's /Off /BBox is [0 0 18 18] against a /Rect 14.4 x 14.4, and the delivered appearance now carries /Matrix [0.8 0 0 0.8 0 0], which is the 12.5.5 fit.",
+        "theMostSeriousClaimIsCONFIRMEDONTHEBYTES": "The pre-repair canonical (sha256 4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0, recovered with git show b3a2e365b^) was rendered at 600 dpi against pinned 600-00228 page 1 and reproduces the erasure exactly: REMOVED 1407 dark pixels in ONE connected component, bounding box x 1103-1213, y 2826-2937 at 600 dpi, which is 132.36-145.56 pt by 439.56-452.88 pt on the page -- the rect of field 15, [131.309 438.449 145.709 452.849]. The packet had erased the Judiciary's own check box there. The current canonical (d986a5b3) renders REMOVED 0 at that page and at every other.",
+        "directionalRaster600dpiBothDirectionsMeasuredHere": {
+          "canonical": "p1 ADDED 32625 REMOVED 0; p2 ADDED 75989 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 100500 REMOVED 0; p6 ADDED 15078 REMOVED 0",
+          "boundary": "p1 ADDED 53057 REMOVED 0; p2 ADDED 134009 REMOVED 0; p3 ADDED 158502 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214166 REMOVED 0; p6 ADDED 33684 REMOVED 0",
+          "negativeControl": "packet page 4 (200-00132A page 2, the proposed order) is a page this packet writes nothing on: 0 added and 0 removed in both fixtures.",
+          "howRendered": "pdftoppm -r 600 -gray on BOTH the delivered PDF and the pinned source PDF, thresholded at 128. The committed raster/**/page.png files were NOT used as evidence of change; FIX130's own record shows those PNGs move on pages that are pixel-identical under pdftoppm.",
+          "whyMyAddedCountsDifferFromFIX130s": "FIX130 reports p1 34889, p2 80745, p3 115921, p5 107014, p6 16006 where I measure 32625, 75989, 108866, 100500, 15078. The direction and the decisive figure agree exactly (REMOVED 0 on every page, and 1407 removed at field 15 before the repair); the ADDED spread is a threshold/rasteriser difference between two independent renders, not a contradiction."
+        },
+        "perFeatureCropAt600dpi": "Three of the twelve 200-00129 page-1 check boxes were cropped against the pinned source with an 8px margin: field 10 (1160 dark pixels delivered, 1160 source), field 14 (1178/1178) and field 21 (1178/1178) are PIXEL-IDENTICAL to the source crop, and the crop shows the court's own empty ballot box standing, single-framed. Removing the synthesized border left the printed box and doubled nothing.",
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render. See sourceRenderMethod for the proof."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set run by me in this container: PASS_COMPLETE, 26/169 written. Independently cross-checked by matching the map's 48 requiredBeforeFiling disclosureLabel values one-for-one against the 48 rows of the two instruction tables in participant-instructions.md: exact overlap 48 of 48.",
+        "requiredFactsNotCollected": "same verifier run; and every fact the map binds (name, DOB, street address, city/state/zip, phone, email, case number) was found drawn in the delivered bytes.",
+        "unclassifiedBlanks": "same verifier run; every unwritten widget on the three forms is either a requiredBeforeFiling disclosure, a recorded refusal with a reason, or a selection control disclosed in 'Every checkbox'.",
+        "incompleteRows": "same verifier run; and read from the delivered bytes: the 3-row charge tables on 200-00129 and 200-00132A and the new-charge table on 200-00129 page 2 carry NO platform ink at all, so no row is half-filled.",
+        "requiredOptionsMissing": "same verifier run; routeSelectionsMade is empty with a recorded reason and the registry's own manualCompletionItems require the 2(d) assertion to be left to the participant.",
+        "requiredComponentsMissing": "same verifier run; and all four declared components were located in the delivered 8-page canonical by text extraction (pp1-2 200-00129, pp3-4 200-00132A, pp5-6 600-00228, pp7-8 the composed instruction pages).",
+        "invisibleWrites": "decoded every flattened appearance of both assembled fixtures with pdf-lib in this container: 163 appearances each, of which exactly 24 carry a non-empty show-text operand on canonical and 23 on boundary. That equals the map's 8+8+8 declared writes, less the one recorded finalizer refusal (200-00132A field 34i, participant.email, on boundary). No declared write produced an appearance with no glyphs.",
+        "protectedWrites": "proven from the same decode by position: on 200-00132A the State's Attorney block widgets 34j (y 61.61), 34k (y 61.92) and 34l (y 33.08) carry no ink, the Defendant Date 34b and Signature 34c carry none, the whole ORDER page (packet page 4) is 0-added/0-removed against the source, and no signature or date widget on any of the three forms is written.",
+        "visualDefects": "measured from the raster, not from a report: REMOVED 0 on every page of both fixtures against the pinned sources; every ADDED dark pixel on every page of both fixtures falls inside a declared write rect at +/-2 pt (addedOutsideDeclaredWriteRects 0, twelve page comparisons); no doubled frame at any check box. THE DEFECT THIS ROW FAILS ON IS NOT A RENDERING DEFECT and this counter does not model it, which is why it is 0 and the verdict is still FAIL."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every identity key in the family directory agrees. All 8 occurrences of a \"familyId\" value across the directory's committed JSON are the underscore form vt_exp_decriminalized-set; the 24 hyphenated occurrences are all inside directory paths, none is an identity value. product-wiring.json family, source-receipt.json familyId and worklistGroupId, production-field-map.json familyId and reports/rendered-artifacts.json familyId all read vt_exp_decriminalized-set, and the single routeKey obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route is identical in product-wiring.json, production-field-map.json and every map's documentPolicy. It matches the MASTER_QUEUE row's routeKeys and worklistGroupId."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All three bound sources recomputed with sha256sum from the mounted custody at private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT: 200-00129 = 6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5 (2000422 bytes), 200-00132A = 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec (1959576), 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072). Each equals source-receipt.json documents[].sha256 and byteLength, the MASTER_QUEUE sourceHashes, and every pageManifest sourceSha256 in reports/rendered-artifacts.json. All six per-document fixtures were also classified against these exact bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's packetSet for vt_exp_decriminalized names four components in order -- petition 200-00129 (required), stipulation_and_proposed_order 200-00132A (conditional), fee_waiver_application 600-00228 (conditional), filing_and_expectation_instructions (required, process_guidance). All four are present in the delivered 8-page canonical and boundary, located by text extraction from the bytes, in that order. The instruction component is BOUND INTO the PDF here as pages 7-8, not left as a repository file."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The packet writes eight participant-identity values onto 600-00228 -- packet page 5: case number '123-4-21 Cncr' at the Docket Number widget, 'Jordan Avery Reyes' at Case Name and at field 3 'Name: (First & Last)', '42 Maple Street' at field 2 Street Address, 'Burlington, VT 05401' at field 4 City/State/Zip, 'jordan.reyes@example.org' at field 5a Email Address, '802-555-0142' at field 6 Home/Cell Phone; and packet page 6: 'Jordan Avery Reyes' at field 117, the Printed Name line of Section 5 'Signatures and Declaration', beneath 'I declare that the above statement is true and accurate ... I will be subject to the penalty of perjury'. All eight were read out of the delivered bytes and confirmed on the rendered page. Three committed records say that must not happen. (1) The packet's own bound instruction page, packet page 7, prints 'No fee is charged on this track, so do not complete or file the fee-waiver form for this petition', and participant-instructions.md prints 'do not complete or file 600-00228 for this petition'. (2) production-field-map.json refuses the OTHER 66 fields of the same form with the recorded reason 'no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route' -- while the same map's canonicalWrites populates eight of that form's fields with participant data on that route. (3) The sibling family vt_seal_nonconviction-set delivers the identical source form on the identical no-fee reasoning and records the opposite, deliberate treatment in reports/rendered-artifacts.json: 'nothingIsWrittenOnIt': true, 'It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file.' The prefills onto the petition and the stipulation are correct and are not part of this failure: all sixteen of those land at their mapped rects with the right values in both fixtures.",
+          "whyNoCounterSawIt": "Every one of the eight is a real terminal field, written inside its own measured rect with the right value, and the field map lists it, so the completeness contract, the glyph-outside-write-box reading and all nine counters read clean.",
+          "smallestExactRepair": "In scripts/build-census-v1-vt_exp_decriminalized-set.mjs, stop writing to 600-00228 on this track -- move the eight 600-00228 entries (Docket Number, Case Name, 3, 2, 6, 4, 5a, 117) from writes to refusals under the reason the map already records for the other 66 fields, matching the treatment vt_seal_nonconviction-set records for the same form. Nothing on 200-00129 or 200-00132A changes. Fixture bytes move, so a fresh central raster is required after."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven from the decoded appearance streams of both assembled fixtures rather than from the map. No signature, no date beside a signature, no judge's or court's field and no prosecutor field carries ink: on 200-00132A the State's Attorney Date (34j, y 61.61), Signature (34k, y 61.92) and Printed Name (34l, y 33.08) are all empty, as are the Defendant Date (34b) and Signature (34c); packet page 4, the whole proposed ORDER page, is 0-added and 0-removed against the pinned source at 600 dpi in both fixtures; and on 600-00228 the Applicant Signature and Date lines are empty. protectedWrites 0 also returned by the shared verifier run here."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the raster in twelve page comparisons (six pages, two fixtures) at 600 dpi: every ADDED dark pixel falls inside one of the declared write rectangles for that page at a 2 pt margin -- addedOutsideDeclaredWriteRects 0 on all twelve, including the boundary fixture's 58-character email and its 45-character street address. No write crosses a printed rule and nothing is clipped: the one value that would not fit at a readable size (200-00132A field 34i on boundary) is refused, left empty, and named on the packet's own instruction page under 'VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT'."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The eleven selfHelpStopConditions held at data/record-clearing/legal-design-track-registry.json for track vt_exp_decriminalized were read here and compared to the packet: all eleven appear in participant-instructions.md and on the delivered instruction page (packet page 7) in the record's own words and in its own order, including the CDL condition, the pending-charge condition and 'Old marijuana is not enough'. 'What this packet is not' states it is not legal advice, is not filed for the participant and does not decide the outcome."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's venue is 'The Criminal Division of the Vermont Superior Court (13 V.S.A. Sec. 7601(1)), in the county that handled the case' and its destination.name is 'Criminal Division of the Vermont Superior Court, in the county that handled the case'. The delivered instruction page prints 'File the completed packet with the VERMONT SUPERIOR COURT, CRIMINAL DIVISION, in the unit where your case was decided', and points the reader at the Unit box the two forms print, which this lane confirmed is an unwritten, disclosed requiredBeforeFiling item on both forms."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's rules.service reads 'The participant does not serve the prosecutor with process. Where a stipulation is used, the Judiciary directs the participant to take or send the stipulation form to the prosecutor ... Under Sec. 7602(a)(4) the respondent files the stipulation.' The delivered instruction page states exactly that, names WHO (the State's Attorney, or the Attorney General if that office prosecuted, quoting the census destination detail verbatim), HOW (the court provides the petition copy; the participant takes or sends the stipulation), and WHAT HAPPENS IF NOT (file the petition alone; a scheduled hearing is a stopping condition). Nothing about service is invented: every clause traces to rules.service, rules.notice or destination.detail."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares 48 requiredBeforeFiling items (31 on 200-00129, 17 on 200-00132A) and participant-instructions.md carries exactly 48 table rows whose printed-blank column matches the 48 disclosureLabel values one for one -- exact multiset overlap 48 of 48, computed here. Each row names the form, the page, the printed words and what to write. The decoded bytes confirm all 48 blanks carry no ink in both fixtures."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every declared artifact recomputed with sha256sum here and equal to its record: canonical.pdf d986a5b34c3028d3c62a004c0a78552ac9504025d5d57b9ad40c8af446e3a89d at 849285 bytes and boundary.pdf 9a4418753acda84cf4272a30250df2e9feb0a44a1ffeb00e330c207c454c1962 at 850319 bytes, plus the six per-document fixtures, and all 16 committed raster PNG digests in reports/rendered-artifacts.json rasterPages bind to the files on disk. NO CURRENT RASTER_PASS COVERS THESE BYTES and that is correctly recorded rather than a defect: the withdrawal is written in product-wiring.json (acceptanceReceipt null, acceptanceReceiptWithdrawn naming boundToCanonicalSha256 4d9b64e0... replaced by d986a5b3..., withdrawnReceipt run 33836771479 job 100911322162)."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pdfinfo reports 8 pages at 612 x 792 pt for both fixtures, equal to the raster queue's expectedPages and to reports/rendered-artifacts.json pageCount. The order was read from the bytes, not from the manifest: pages 1-2 carry 'PETITION TO EXPUNGE CRIMINAL HISTORY' (200-00129 pages 1-2), pages 3-4 the stipulation and its ORDER page (200-00132A pages 1-2), pages 5-6 'APPLICATION TO WAIVE FILING FEES AND SERVICE COSTS' with its own '600-00228 ... Page 2 of 2' footer, and pages 7-8 the composed 'FILING AND EXPECTATION INSTRUCTIONS'. That is the registry packetSet order 1-2-3-4."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "22 selection controls exist across the three forms (14 on 200-00129, 2 on 200-00132A, 6 on 600-00228) and the packet ticks none; routeSelectionsMade is empty with a recorded reason. The reason is supported by the controlling record rather than only by the builder: the registry's manualCompletionItems require 'The assertion that the underlying conduct is no longer prohibited by law, including the drug-amount showing' to be the participant's, and say the engine 'must not conclude decriminalisation on its own'. Every box is a statement about the participant's own record (was convicted / was not convicted, probation completed, restitution paid, 2(d) no longer prohibited, email-consent yes/no), so none is a route election the platform owes. The instructions disclose this in terms and tell the reader to tick the ones that are true. approval-request.json raises the contrary reading as an open counsel question, which is recorded and remains open."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This obligation arises here and is satisfied. 200-00129 carries a 3-row charge table (Description of Offense / Year / Docket Number) and a 3-row new-charge table (Offense / Date of Offense / Date of Charge / Date of Conviction); 200-00132A carries a 3-row table (Description / Date of Offense / Incident Number / Docket Number). The platform writes NO cell of any of them -- confirmed from the delivered bytes, where the 24 text-bearing appearances are all caption, party and contact fields -- so no row is partly filled and no charge can land on another charge's line. All rows are disclosed cell by cell in the instruction tables (Description of Offense x6, Year x3, Docket Number x6, Date of Offense x3, Incident Number x3, Offense x3 and their dates), and the resolution risk the AcroForm-index defect describes cannot arise because no index is used to place any value."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee is stated from the controlling record, not invented. The registry's rules.fees reads 'No filing fee. Under 32 V.S.A. Sec. 1431(e) the $90 fee applies only to a motion to seal a criminal history record of a violation of 23 V.S.A. Sec. 1201(a), and expressly does not apply to any other motion to seal or expunge under 13 V.S.A. Sec. 7602 ...' and the delivered instruction page and participant-instructions.md say exactly that, with the citation. The waiver form is named by number and title, its condition is stated (only where a fee is actually charged and the participant cannot pay), and the participant is told not to file it. THAT STATEMENT IS TRUE OF THE PACKET'S WORDS; the packet's BYTES contradict it by writing eight identity values onto the waiver form, which is scored under KNOWN_PREFILLS rather than counted twice here."
+        }
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "visualDefects": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "vt-exp-decriminalized-set--official-pdf-fill appears nowhere in data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json (0 occurrences). Its canonical d986a5b3 and boundary 9a441875 are unique among the Vermont families measured here.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately against all nine entries. 'map-honest-writes-not' and 'a-participant-fact-written-into-a-field-about-someone-else': no participant fact lands in a field about another party -- 200-00132A's 34d/34e/34f/34h/34i are all inside the printed Defendant block, and the State's Attorney block below is empty; 200-00129 'Defendant' is the In RE: party line, not an alias line, and no 'previous names or aliases' or 'all addresses' field exists on these forms. 'acroform-index-is-not-the-printed-row': not reachable -- no table cell is written. 'extracted-line-order-is-not-column-order': headings were read by x-position, which is how the Defendant-block split across two columns was resolved. 'internal-record-text-printed-on-a-filing': the composed pages 7-8 were read in full; they carry no analysis, no instruction to a builder and no record commentary, and they are instructions rather than a filing. 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth': not relied on -- geometry was re-measured from the raster in both directions rather than read from a counter. 'an-inverted-widget-rectangle': re-measured, see below. 'two-families-one-filing': not applicable, see CLONED_FAMILY_PACKETS.",
+        "INVERTED_WIDGET_RECTS": "FIX130's claim of zero inverted /Rect across the Vermont sources is TRUE but its named tool does not measure it here. scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads each family's source-receipt.json under the key 'sources', and every Vermont receipt declares its bound sources under 'documents' instead, so the scan run against the Vermont overlays reports boundSourcesDeclared 0 and widgetsScanned 0 -- a zero that measured nothing. I measured it directly instead, reading every widget /Rect out of the five pinned Vermont sources with pdf-lib: 200-00129 54 widgets, 200-00130 52, 200-00132 33, 200-00132A 33, 600-00228 80 -- 252 widgets, 0 with x2 < x1 or y2 < y1. The conclusion holds; the tool's zero does not support it.",
+        "BORDER_COHORT_REMEDIATION": "Its READ_THIS_BEFORE_ACTING_ON_A_SYNTHESIZED_INK_CONFIRMED_ROW note was read first. Its row for this family still carries currentState FAIL_REPAIR_REQUIRED and measuredFixtures describing the PRE-repair bytes (14 stroke-only on boundary--200-00129 with paintingOperators ['S'], 6 on boundary--600-00228 with ['s']). Post-repair I measure 0 on 200-00129, 0 on 200-00132A and 6 on 600-00228 with ['f','s']. The file's own currentStateIsASnapshot note anticipates this. Its figures were not used for anything in this row.",
+        "COHORT_ARITHMETIC": "The '40 unaccounted stroke-only streams, 16 removed and 24 restored' framing does not reconstruct from the committed cohort rows for the five families I hold. Their pre-repair rows carry 22 per fixture on vt_exp_decriminalized-set (14 + 2 + 6) and 6 each on the other four, which is 46 counted per family, or 34 if the three byte-identical seal families are counted once. I record both readings and name neither as the true total; what I verified is the class assignment stream by stream, which is the question the totals were standing in for."
+      },
+      "recordedDeviations": [
+        "MASTER_QUEUE.json rows this family state FAIL_REPAIR_REQUIRED with failedObligationNames [] and failedObligations [] -- a failure naming no failed obligation. Its selectedIndependentVerdict points at vf90, whose own return file the FIX130 row says names ['ARTIFACTS']. I measured against the bytes, not against either record.",
+        "MASTER_QUEUE.json rows legalInputStatus SETTLED for this family while the controlling legal-design-track-registry record for track vt_exp_decriminalized carries two unresolved release-blocking questions and five blockers, one of which (affectedElement packet_components) is 'Is a stipulated expungement available under Sec. 7602(a)(4)? ... It decides which stipulation form ships with the expungement packet.' buildBlockers is empty, so this is a release gate rather than a build gate, and it does not block this verification -- but SETTLED is not what the registry says.",
+        "RASTER_QUEUE.json was regenerated at packetCommitSha bb9ef30ad (the FIX130 merge) and its historical row for this family still publishes currentRasterState 'RASTER_PASS' while binding boundToCanonicalSha256 4d9b64e0... and boundToBoundarySha256 d56f5a0f..., neither of which is on disk. The withdrawal IS recorded around it -- historicalOnly true, currentGateAuthority false, movedToHistoryBecause 'the receipt remains true only of the exact bytes and coverage it names', and the family is listed in notEligible -- and product-wiring.json records the withdrawal properly. A reader keying on currentRasterState alone would still read RASTER_PASS for bytes that moved today.",
+        "RASTER_QUEUE.json gives the ineligibility reason as 'the current failed obligations have not been repaired'. The border defects WERE repaired on 2026-09-10 and I verified the repair; the queue row predates or does not reflect it."
+      ],
+      "openLegalInputs": [
+        "legal-design-track-registry, track vt_exp_decriminalized, releaseBlockers[0]: whether Sec. 7602(a)(5) bars a CDL holder from the expungement route as well as the sealing routes. Recorded, carried into the packet as a self-help stopping condition, and open.",
+        "legal-design-track-registry, track vt_exp_decriminalized, releaseBlockers[1]: whether a stipulated expungement is available under Sec. 7602(a)(4), which the record says decides which stipulation form ships with this packet. Open.",
+        "approval-request.json: whether question 2(d) of 200-00129 is route-determined for a decriminalized-conduct packet, in which case it becomes a route selection. Open and raised by the builder."
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical--200-00129.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical--200-00132A.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical--600-00228.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary--200-00129.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary--200-00132A.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary--600-00228.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track vt_exp_decriminalized)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/fix130/rows-fix130-vt-border-repair-20260910.json",
+        "git show b3a2e365b^:.../fixtures/canonical.pdf (the pre-repair bytes, 4d9b64e0...)"
+      ],
+      "toolsRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF25 vt_exp_decriminalized-set",
+        "node scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs on all six per-document fixtures with --source",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+        "node scripts/rcap-official-forms/scan-inverted-widget-rects.mjs --overlays <vt only>",
+        "pdftoppm -r 600 -gray directional raster of delivered vs pinned source, both fixtures, both directions",
+        "sha256sum on every fixture, every bound source and every committed raster PNG",
+        "a pdf-lib appearance-stream dumper written in this container to compare delivered flattened streams against source /AP /N sub-states byte for byte"
+      ],
+      "grantsNothing": "This is a measurement. It approves no output, promotes no route, opens no commercial path, issues no RASTER_PASS and releases no claim.",
+      "sourceRenderMethod": {
+        "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render.",
+        "provenNotAssumed": "Rendering pinned 600-00228 page 1 both ways in this container gives 1611695 dark pixels with annotations and 1602354 with -hide-annotations: a 9341-pixel gap that is entirely widget /AP /N ink. Cropping field 16's rect shows the widget's full 14.4pt frame and its opaque fill in the default render, and shows only the smaller printed ballot-box glyph with -hide-annotations. Every figure in this row came from the default render, the one that draws the widgets.",
+        "twoIndependentConfirmationsInsideThisReadItself": "First, the pre-repair vt_exp_decriminalized canonical measured REMOVED 1407 at field 15's rect. That erased ink IS field 15's own /AP /N /Off stream, so an annotation-free source render could only have returned a false zero there; it returned 1407. Second, vt_seal_nonconviction's delivered pages 5 and 6 came out with darkDelivered EQUAL to darkSource at 1611695 and 1236377 -- the annotations-ON figures. Had the source render hidden annotations it would have read 1602354 and 1231064 and I would have published ADDED 9341 and 5313 instead of 0.",
+        "whereThisExposureLivesInTheVermontCohort": "Measured per source page, annotations on minus annotations hidden: 600-00228 carries 9341 dark pixels of widget-appearance ink on page 1 and 5313 on page 2, and 200-00129, 200-00130, 200-00132 and 200-00132A carry ZERO on both of their pages. Those four print their check boxes as text glyphs in the page content stream and every one of their widgets ships /Yes with no /Off, so there is no unwritten-state appearance to draw. The Indiana failure mode -- a source whose printed rules live inside /AP /N -- can only arise on 600-00228 in this cohort, which is exactly the form the erasure was found on, and my render drew it."
+      }
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "c91299d7b8698d372f7b468bc46c89de57ad39bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "independence": "VF25 built and repaired nothing. FIX130's repair of this family (commit bd910c762) is the claim under test and every figure below was re-measured here from the committed bytes.",
+      "postRepairReread": {
+        "repairUnderTest": "FIX130, commit bd910c762, 'restore the court's own check-box paint on vt_seal_nonconviction-set'",
+        "classAssignmentVerifiedPerStream": "The six stroke-only appearances the delivered 600-00228 carries are EXACT byte-for-byte matches of the pinned source widgets' own /AP /N /Off streams -- fields 15, 16, 21, 22 on page 1 and 72, 73 on page 2 -- each of which carries /MK /BC [0] /BG [1] and ships its own /Off, so RESTORE is the correct remedy and there is nothing here in the invented class. Field 15's 18pt /BBox is stamped at /Matrix [0.8 0 0 0.8 0 0] against its 14.4pt /Rect, which is the 12.5.5 fit.",
+        "theStrongestEvidenceTheRestoreIsCORRECT": "Delivered packet pages 5 and 6 are now PIXEL-IDENTICAL to the pinned 600-00228 at 600 dpi: darkDelivered equals darkSource exactly (1611695 and 1236377), ADDED 0 and REMOVED 0, in BOTH fixtures. A form the packet says it delivers exactly as the Judiciary publishes it renders exactly as the Judiciary publishes it. That is the byte-level proof that stripping the fill was the defect and that restoring it undid the defect completely.",
+        "noErasureHereBeforeOrAfter": "The pre-repair canonical (1f510c618b3f87e50403f61273d7fd5175e6ebc5a67805870da932a3e875002a, recovered with git show bd910c762^) renders page 5 ADDED 4744 REMOVED 0 and page 6 ADDED 2166 REMOVED 0 against the pinned source. So FIX130's claim that vt_exp_decriminalized-set was the ONLY one of the five whose bytes removed the court's ink holds for this family, and the reason is visible: this host already passed fitAppearancesToRect, so field 15's box was drawn in the right place and the missing fill only ADDED a doubled frame here, where on the mis-scaled host it moved the box and REMOVED 1407 pixels.",
+        "directionalRaster600dpiBothDirections": {
+          "canonical": "p1 ADDED 34719 REMOVED 0; p2 ADDED 76050 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 0 REMOVED 0; p6 ADDED 0 REMOVED 0",
+          "boundary": "p1 ADDED 55151 REMOVED 0; p2 ADDED 134196 REMOVED 0; p3 ADDED 174051 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 0 REMOVED 0; p6 ADDED 0 REMOVED 0",
+          "negativeControls": "packet page 4 (200-00132 page 2, the proposed ORDER) and both fee-waiver pages are 0/0 in both fixtures.",
+          "howRendered": "pdftoppm -r 600 -gray on both the delivered PDF and the pinned source PDF. The committed raster/**/page.png files were not used as evidence of change."
+        },
+        "howRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render. See sourceRenderMethod for the proof."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set run here: PASS_COMPLETE, 21/169 written. Cross-checked independently: all 46 requiredBeforeFiling disclosureLabel values were matched against the instruction tables in participant-instructions.md and every one is present.",
+        "requiredFactsNotCollected": "same verifier run; every bound fact (name, DOB, street address, city/state/zip, phone, email, case number) was found drawn in the delivered bytes on both official forms in both fixtures.",
+        "unclassifiedBlanks": "same verifier run; every unwritten widget is a requiredBeforeFiling disclosure, a refusal carrying a reason (32 on 200-00130, 23 on 200-00132, 74 on 600-00228) or one of the 20 disclosed selection controls.",
+        "incompleteRows": "same verifier run; and read from the delivered bytes: the 3-row charge tables on 200-00130 and 200-00132 and the new-charge table on 200-00130 page 2 carry no platform ink at all.",
+        "requiredOptionsMissing": "same verifier run; and measured on the page. All 20 selection controls carry a disposition and a reason; exactly one is selected_by_route and I confirmed on the raster that exactly that one is marked.",
+        "requiredComponentsMissing": "same verifier run; and checked against the controlling manifest rather than the builder's list. data/record-clearing/legal-design-packet-set-manifests.json declares five components for vt_seal_nonconviction-set and all five reach a page of the delivered 9-page packet: automatic_sealing_verification_guidance (pp7-8), petition 200-00130 (pp1-2), stipulation 200-00132 (pp3-4), interests_of_justice_prompts (p9) and fee_waiver_application 600-00228 (pp5-6). This family's manifest declares NO filing_and_expectation_instructions component, so none is owed.",
+        "invisibleWrites": "decoded every flattened appearance of both assembled fixtures with pdf-lib here: 161 appearances each, exactly 16 carrying a non-empty show-text operand in each -- 8 on 200-00130 and 8 on 200-00132, and ZERO on 600-00228, matching the map's 8/8/0. The four composed-page writes are page content and were read from the rendered text (Petitioner and Case No. on pages 7 and 9). No declared write produced an appearance with no glyphs, and the boundary fixture's 58-character email reaches field 34i in visible ink rather than disappearing.",
+        "protectedWrites": "proven from the decoded appearance positions: on 200-00132 the lowest write is field 34i at y 120.6, inside the printed Defendant block; the State's Attorney Date, Signature and Printed Name widgets below it carry no ink, as do the Defendant Date and Signature; packet page 4, the whole ORDER page, is 0-added and 0-removed against the pinned source in both fixtures; and 600-00228's Applicant Signature, Date and every financial field are untouched -- pages 5-6 are pixel-identical to the Judiciary's own bytes.",
+        "visualDefects": "measured from the raster: REMOVED 0 on every one of the six official-form pages in both fixtures; every ADDED dark pixel falls inside a declared write rect or the one route-selection box at +/-2 pt (addedOutsideDeclaredWriteRects 0 across twelve page comparisons); and crop-by-crop at 600 dpi, nine of the ten check boxes on 200-00130 page 1 are pixel-identical to the source (0 added, 0 removed) while the tenth, field 18, gains 2094 pixels and loses none."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every identity value in the directory agrees: 8 \"familyId\" and 2 \"family\" occurrences, all vt_seal_nonconviction-set, plus worklistGroupId vt_seal_nonconviction-set. The three routeKeys are byte-identical in product-wiring.json and production-field-map.json and equal to the MASTER_QUEUE row's three unit keys -- vt-nonconviction-automatic-and-verification, vt-nonconviction-ordinary-petition and vt-nonconviction-stipulated-petition -- and all three are also named on the delivered guidance page as the three routes the packet carries."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed with sha256sum from mounted custody: 200-00130 = ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes), 200-00132 = 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317), 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072). Each equals source-receipt.json documents[].sha256 and byteLength, the MASTER_QUEUE sourceHashes and every pageManifest sourceSha256. Every per-document fixture was classified against these exact bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the controlling packet-set manifest, not the builder's componentSet. All five declared components reach a page: the guidance page carries the automatic_sealing_verification_guidance role (its section 3 is the Sec. 7603(a)(1) route and how to verify it), and the interests-of-justice prompts component, which build-findings records as previously unbuilt and invisible to every counter, is now page 9 with its condition dispositioned as met on the Sec. 7603(g) route the family carries. The conditional fee-waiver component is delivered with its condition recorded as NOT met and nothing written on it."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Sixteen writes, all decoded from the delivered bytes and all landing at their mapped rects with the right values: on 200-00130 the docket number, In RE: Defendant name, DOB and the five defendant contact fields on page 2; on 200-00132 the same caption trio plus printed name, mailing address, city/state/zip, phone and email inside the printed Defendant block. NOTHING is written on 600-00228 -- 0 show-text appearances and pages 5-6 pixel-identical to the Judiciary's file -- which the packet states in terms on its guidance page: 'It is in this packet BLANK on purpose ... because page 2 of that form is a financial declaration made under oath and this packet asserts no financial fact on your behalf.' The delivered bytes and that sentence agree."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven from decoded appearance streams and from the raster rather than from the map. No signature, no signature date, no judge's field and no prosecutor field carries ink: on 200-00132 the State's Attorney block and the Defendant Date and Signature widgets are empty and packet page 4, the ORDER page, is 0-added and 0-removed against the pinned source in both fixtures. On 600-00228 every field including the sworn Section 5 declaration is untouched. protectedWrites 0 also returned by the shared verifier run here."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the raster in twelve page comparisons at 600 dpi: addedOutsideDeclaredWriteRects 0 on every page of both fixtures at a 2 pt margin, with the route-selection box counted as a declared rect. The boundary fixture's 58-character email and 45-character street address are inside their boxes and visible; nothing is clipped and nothing crosses a printed rule. The route mark itself is inset inside the court's printed box and does not touch or redraw it: the crop shows a clean X with the court's own frame unchanged, and drewANewBox / redrewTheCourtsBox are both false in the map and both confirmed on the page."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The six selfHelpStopConditions held at data/record-clearing/legal-design-track-registry.json for track vt_seal_nonconviction were read here and all six appear in participant-instructions.md in the record's own words and order, including the Sec. 7603(b) objection condition and the Act 60 sealing-not-expungement condition. The prompts page states in terms that the platform writes nothing in question 4, drafts no statement, shows no example and suggests no sentence to sign; I read all eight prompts and every one is a question, none supplies a ground.",
+          "observationRecorded": "Those six conditions are NOT bound into the delivered PDF. participant-instructions.md is the family's declared instructions artifact (product-wiring.json binding.instructions) and this family's manifest declares no filing_and_expectation_instructions component, so no packet page is owed -- but packet page 9 tells the reader 'Where self-help ends on this route is the instructions page, which lists the registry's stop conditions in its own words', and the 9-page packet has no such page. The sibling vt_exp_decriminalized-set binds the equivalent content in as packet pages 7-8. The content exists and is complete; the cross-reference inside the delivered document points outside it."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's venue is the Criminal Division of the Vermont Superior Court in the county that handled the case, and its destination.detail distinguishes the three routes: 'On the automatic route the court acts on its own within 60 days of final disposition and nothing is submitted. On the stipulated and petition routes the participant files in the same court.' The delivered guidance page says exactly that, route by route: file 200-00130 in the unit where the case was decided; take or send 200-00132 to the prosecuting office, which files it; and on the automatic route file nothing and ask the clerk."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's rules.service is reproduced in substance on the delivered guidance page and in the instructions: the participant does not serve the prosecutor with process, the court provides a filed petition to the prosecutor, and a stipulation is taken or sent to the prosecuting office which signs and files it. Nothing about service is invented; every clause traces to rules.service or destination.detail."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "46 requiredBeforeFiling items are declared (23 on 200-00130 page 1, 5 on its page 2, 18 on 200-00132 page 1) and every one of the 46 disclosureLabel values was matched here against the instruction tables in participant-instructions.md -- none missing. Separately, all 20 selection controls across the three forms are disclosed in the generated checkbox table with the printed words beside the box and what to do with it. The decoded bytes confirm all 46 blanks carry no ink."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 951d18666bcfd19d917c88a1604214696f1340cb49d8a55a75a3646688005967 at 861533 bytes and boundary.pdf c97b47dfbde20fdfe935a56d37280dd9e8a4c9ba03611cd609b3b6deaadb6fb5, both equal to reports/rendered-artifacts.json, plus the six per-document fixtures and all 18 committed raster PNG digests, none mismatched. NO CURRENT RASTER_PASS COVERS THESE BYTES, and the withdrawal is properly recorded rather than a stale receipt being carried: product-wiring.json has acceptanceReceipt null and acceptanceReceiptWithdrawn naming boundToCanonicalSha256 1f510c61... replaced by 951d1866..., with the withdrawn run 33985056691."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pdfinfo reports 9 pages at 612 x 792 pt for both fixtures. The order was read from the bytes: pp1-2 'PETITION TO SEAL CRIMINAL HISTORY' with its own '200-00130 ... Page 1 of 2' footer, pp3-4 the stipulation and its ORDER page, pp5-6 the fee-waiver application, pp7-8 'PROCESS GUIDANCE, INCLUDING THE ROUTE THAT FILES NOTHING', p9 'INTERESTS-OF-JUSTICE PROMPTS'. That matches manifestComponentDelivery's declared pages exactly, and the prompts page was appended last so that no official-form page and no guidance page moved."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This family DOES make a route election and it is the right one, verified on the page rather than from the map. routeSelectionsMade declares one selection: 200-00130 field 18, box [55.11 292.33 69.51 306.73], 'I was not convicted for the offenses listed above.' I resolved that box independently -- the source widget at that exact /Rect is field 18, and ordering page 1's ten check-box widgets by descending y reproduces the printed order (I was convicted / probation Yes / probation No / restitution Yes / restitution No / restitution not ordered / I was NOT convicted), so field 18 is the printed line the map names. At 600 dpi the delivered page carries two diagonal strokes inside that box, 2094 added pixels with 0 removed, and every one of the other nine boxes on the page is PIXEL-IDENTICAL to the source. Exactly one box is marked and it is the correct one. The remaining 19 controls each carry an explicit refusal with a reason -- six for the conviction branch this route does not take, three for which of the Sec. 7603(a)(1) endings applies (a fact about the participant's own case), four email-consent elections and six on the unfilled fee-waiver form -- and each YES/NO pair's option word was located by x-position in the binary (36a xOfWord 50.76 for the box at 34.27 = YES, 36b xOfWord 96.96 for the box at 81.27 = NO), which is the correct handling of the column-order defect class."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This obligation arises and is satisfied. 200-00130 carries a 3-row charge table and a 3-row new-charge table; 200-00132 carries a 3-row table. The platform writes no cell of any of them, confirmed from the delivered bytes where the 16 text-bearing appearances are all caption, party and contact fields, so no row is half-filled and no charge can land on another charge's line. All the rows are disclosed cell by cell in the instruction tables. The AcroForm-index-versus-printed-row defect cannot arise because no index places any value."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee statement comes from the record: registry rules.fees says no filing fee and that the $90 fee under 32 V.S.A. Sec. 1431(e) reaches only a motion to seal a 23 V.S.A. Sec. 1201(a) conviction, and the delivered guidance page says exactly that with the citation. The waiver form is named by number and title with its condition, the condition is recorded as not met on this track, and -- uniquely well among the families I read -- the delivered bytes match the words: 600-00228 is delivered with nothing written on it and renders pixel-identical to the Judiciary's own file. The packet also does the harder thing correctly on the automatic route, telling the reader a separate Form 200-00331 record search carries a fee, which is what the registry's participantFilingRequirements say."
+        }
+      },
+      "failedObligationNames": [],
+      "visualDefects": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "vt-seal-nonconviction-set--official-pdf-fill appears in no cloned-deliverable group. Its canonical 951d1866 and boundary c97b47df are unique among the Vermont families, and its 9-page shape differs from every sibling. This is the ONE Vermont sealing family that is not part of the five-family clone group.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked against all nine. 'map-honest-writes-not': the map's writes and the finalizer's writes agree exactly -- 16 declared, 16 decoded from the bytes, 0 on the form the map declares empty. 'a-participant-fact-written-into-a-field-about-someone-else': 200-00132's 34d/34e/34f/34h/34i are all inside the printed Defendant block, resolved by x-position across the block's two columns; the State's Attorney block is empty; no alias or address-history field exists on these forms. 'acroform-index-is-not-the-printed-row': not reachable, no table cell is written; and the one selection was resolved by geometry against the printed line order rather than by field number. 'extracted-line-order-is-not-column-order': handled correctly by the build and verified here -- each YES/NO box carries the option word located by x-position in the binary. 'internal-record-text-printed-on-a-filing': pages 7-9 read in full; they carry participant-facing guidance and questions only, no analysis, no builder instruction, no record commentary, and the prompts page says in terms that it is not filed. 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth': not relied on, geometry re-measured from the raster in both directions. 'an-inverted-widget-rectangle': re-measured, zero. 'two-families-one-filing': not applicable.",
+        "INVERTED_WIDGET_RECTS": "Measured directly, because scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads source-receipt.json under the key 'sources' while every Vermont receipt declares 'documents', so a run against the Vermont overlays reports boundSourcesDeclared 0 and widgetsScanned 0 -- a zero that measured nothing. Reading every widget /Rect out of the five pinned Vermont sources with pdf-lib gives 252 widgets and 0 stored inverted (200-00129 54, 200-00130 52, 200-00132 33, 200-00132A 33, 600-00228 80). FIX130's conclusion is right; its cited tool does not support it here.",
+        "BORDER_COHORT_REMEDIATION": "Its READ_THIS note was read before any figure was used. Its row for this family still describes the PRE-repair bytes (6 stroke-only with paintingOperators ['s'] and sourceWidgetField null) and still reads currentState FAIL_REPAIR_REQUIRED; post-repair I measure 6 with ['f','s'], each matched to its own source widget. The file's own currentStateIsASnapshot note anticipates this and its figures were not used."
+      },
+      "recordedDeviations": [
+        "MASTER_QUEUE.json rows this family FAIL_REPAIR_REQUIRED with failedObligationNames [] and failedObligations [] -- a failure naming no failed obligation -- and gives the raster ineligibility reason as 'the current failed obligations have not been repaired'. The border defect WAS repaired on 2026-09-10 and I verified the repair; the queue row does not reflect it.",
+        "RASTER_QUEUE.json was regenerated at packetCommitSha bb9ef30ad and its historical row for this family still publishes currentRasterState 'RASTER_PASS' bound to canonical 1f510c61... and boundary 8374cf99..., neither of which is on disk. The row is flagged historicalOnly true and currentGateAuthority false and the family is in notEligible, and product-wiring.json records the withdrawal properly, so the withdrawal IS recorded -- but a reader keying on currentRasterState alone would read RASTER_PASS for bytes that moved today.",
+        "MASTER_QUEUE.json rows legalInputStatus SETTLED while the registry track vt_seal_nonconviction carries one unresolved release-blocking question (whether victims receive notice on the Sec. 7603(a)(1) court-initiated route) and one nonblocking research note. buildBlockers is empty, so these are release gates rather than build gates and they do not block this verification, but SETTLED is not what the registry says.",
+        "The build's own build-findings.json records that an earlier build of THIS family prefilled name, address, telephone, email, docket number and printed name onto 600-00228 and that it was corrected because 'A packet may not fill a form in and tell the reader not to fill it in.' The sibling vt_exp_decriminalized-set still does exactly that on the same source form; I have failed it there on KNOWN_PREFILLS. The standard is this family's, stated in its own words."
+      ],
+      "openLegalInputs": [
+        "legal-design-track-registry, track vt_seal_nonconviction, releaseBlockers[0]: whether victims receive notice on the Sec. 7603(a)(1) court-initiated route. Recorded and open; it changes nothing generated because nothing is generated on that route.",
+        "approval-request.json raises three counsel questions, all recorded and open: whether marking 'I was not convicted' is right for all three routes; whether the Sec. 7603(a)(1) timetable statement on the guidance page is right as written; and whether the eight prompts ask without answering. On the second I confirmed the statement is not invented -- it reproduces the registry unit description for vt-nonconviction-automatic-and-verification, including the 60-day clock, the three triggers and the Sec. 7603(b) objection -- and on the third I read all eight and each is a question."
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--200-00130.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--200-00132.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--600-00228.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary--200-00130.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary--200-00132.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary--600-00228.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track vt_seal_nonconviction)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets vt_seal_nonconviction-set)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "git show bd910c762^:.../fixtures/canonical.pdf (the pre-repair bytes, 1f510c61...)"
+      ],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route, opens no commercial path, issues no RASTER_PASS and releases no claim. The family still needs a fresh central raster because its bytes moved today.",
+      "sourceRenderMethod": {
+        "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render.",
+        "provenNotAssumed": "Rendering pinned 600-00228 page 1 both ways in this container gives 1611695 dark pixels with annotations and 1602354 with -hide-annotations: a 9341-pixel gap that is entirely widget /AP /N ink. Cropping field 16's rect shows the widget's full 14.4pt frame and its opaque fill in the default render, and shows only the smaller printed ballot-box glyph with -hide-annotations. Every figure in this row came from the default render, the one that draws the widgets.",
+        "twoIndependentConfirmationsInsideThisReadItself": "First, the pre-repair vt_exp_decriminalized canonical measured REMOVED 1407 at field 15's rect. That erased ink IS field 15's own /AP /N /Off stream, so an annotation-free source render could only have returned a false zero there; it returned 1407. Second, vt_seal_nonconviction's delivered pages 5 and 6 came out with darkDelivered EQUAL to darkSource at 1611695 and 1236377 -- the annotations-ON figures. Had the source render hidden annotations it would have read 1602354 and 1231064 and I would have published ADDED 9341 and 5313 instead of 0.",
+        "whereThisExposureLivesInTheVermontCohort": "Measured per source page, annotations on minus annotations hidden: 600-00228 carries 9341 dark pixels of widget-appearance ink on page 1 and 5313 on page 2, and 200-00129, 200-00130, 200-00132 and 200-00132A carry ZERO on both of their pages. Those four print their check boxes as text glyphs in the page content stream and every one of their widgets ships /Yes with no /Off, so there is no unwritten-state appearance to draw. The Indiana failure mode -- a source whose printed rules live inside /AP /N -- can only arise on 600-00228 in this cohort, which is exactly the form the erasure was found on, and my render drew it."
+      }
+    },
+    {
+      "itemId": "vt_seal_18_to_21-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "independence": "VF25 built and repaired nothing. FIX130's repair (commit f6cb05908) is the claim under test and every figure below was re-measured here from the committed bytes.",
+      "bytesSharedWithSiblings": "This family's canonical.pdf (81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee) and boundary.pdf (7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e) are BYTE-IDENTICAL to those of vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set, recomputed here with sha256sum. The PDF measurements below were therefore made once on those exact bytes and are true of this family; every records measurement was made on this family's own files.",
+      "sourceRenderMethod": {
+        "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render.",
+        "provenNotAssumed": "Rendering pinned 600-00228 page 1 both ways in this container gives 1611695 dark pixels with annotations and 1602354 with -hide-annotations: a 9341-pixel gap that is entirely widget /AP /N ink. Cropping field 16's rect shows the widget's full 14.4pt frame and its opaque fill in the default render, and only the smaller printed ballot-box glyph with -hide-annotations. Every figure in this row came from the default render, the one that draws the widgets.",
+        "whereThisExposureLivesInTheVermontCohort": "Measured per source page, annotations on minus annotations hidden: 600-00228 carries 9341 dark pixels of widget-appearance ink on page 1 and 5313 on page 2, and 200-00129, 200-00130, 200-00132 and 200-00132A carry ZERO on both of their pages. Those four print their check boxes as text glyphs in the page content stream and every one of their widgets ships /Yes with no /Off, so there is no unwritten-state appearance to draw. The Indiana failure mode -- a source whose printed rules live inside /AP /N -- can only arise on 600-00228 in this cohort, and my render drew it.",
+        "whyTheZeroesInThisRowAreRealZeroes": "This packet's pages 5 and 6 are the 600-00228 pages, the only ones with widget ink at stake, and they measure ADDED 100500 / 15078 with REMOVED 0 against a source render that carries that ink. The sibling vt_seal_nonconviction-set, whose fee-waiver pages carry no writes at all, measures darkDelivered EQUAL to darkSource at exactly 1611695 and 1236377 -- the annotations-ON figures -- which is only possible if the source render drew all six check-box appearances."
+      },
+      "postRepairReread": {
+        "repairUnderTest": "FIX130, commit f6cb05908",
+        "classAssignmentVerifiedPerStream": "The six stroke-only appearances the delivered packet carries, all on 600-00228 at packet pages 5 and 6, are EXACT byte-for-byte matches of the pinned source widgets' own /AP /N /Off streams for fields 15, 16, 21, 22, 72 and 73. Each of those six source widgets carries /MK /BC [0] /BG [1] and ships its own /Off, so RESTORE is the correct remedy and none belongs to the invented class. Field 15's 18pt /BBox is stamped at /Matrix [0.8 0 0 0.8 0 0] against its 14.4pt /Rect, which is the ISO 32000-1 12.5.5 fit. No stroke-only appearance survives anywhere on 200-00130 or 200-00132, and neither form's widgets ship an /Off to restore.",
+        "noErasureBeforeOrAfter": "REMOVED is 0 on every official-form page of both fixtures against the pinned sources. FIX130's claim that vt_exp_decriminalized-set was the only one of the five whose bytes removed the court's ink is consistent with what I measured here.",
+        "directionalRaster600dpiBothDirections": {
+          "canonical": "p1 ADDED 32625 REMOVED 0; p2 ADDED 76050 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 100500 REMOVED 0; p6 ADDED 15078 REMOVED 0",
+          "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0"
+        },
+        "negativeControl": "packet page 4, the proposed ORDER page of 200-00132, is 0-added and 0-removed in both fixtures.",
+        "howRendered": "pdftoppm -r 600 -gray on BOTH the delivered PDF and the pinned source PDF, with annotations drawn on both sides -- see sourceRenderMethod for the proof that the source render carries widget /AP /N ink. The committed raster/**/page.png files were not used as evidence of change.",
+        "aCleanCrossCheckOnTheMarkCount": "This packet marks no check box, and the byte-identical sibling family vt_seal_nonconviction-set marks exactly one. Their packet page 1 ADDED counts against the same pinned 200-00130 page differ by 34719 - 32625 = 2094, which is exactly the pixel count of the two diagonal strokes I measured inside that one box. The two independent measurements reconcile to the pixel."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set run here: PASS_COMPLETE, 24/165 written. Cross-checked independently: the map's 112 requiredBeforeFiling disclosureLabel values and the 112 rows of the instruction tables match one for one in both directions, none missing and none extra. The DEFECT THIS ROW FAILS ON IS IN THE TEXT OF THOSE LABELS, not in their coverage, and no counter models that.",
+        "requiredFactsNotCollected": "same verifier run; every bound fact was found drawn in the delivered bytes on all three forms in both fixtures.",
+        "unclassifiedBlanks": "same verifier run; every unwritten widget is a requiredBeforeFiling disclosure, a refusal carrying a reason (32 on 200-00130, 23 on 200-00132, 66 on 600-00228) or one of the 20 selection controls, each of which carries a disposition and a reason.",
+        "incompleteRows": "same verifier run; and read from the delivered bytes: the 3-row charge table on 200-00130, its 3-row new-charge table and the 3-row table on 200-00132 carry no platform ink at all, so no row is half-filled.",
+        "requiredOptionsMissing": "same verifier run; and measured on the page. All 20 selection controls carry an explicit_refusal with a reason, routeSelectionsMade is null, and the raster confirms no box on any page is marked -- packet page 1 ADDED 32625 is entirely the eight text writes.",
+        "requiredComponentsMissing": "same verifier run; and checked against the controlling manifest. data/record-clearing/legal-design-packet-set-manifests.json declares four components for vt_seal_18_to_21-set: petition 200-00130 (required), stipulation 200-00132 (conditional), fee_waiver_application 600-00228 (conditional) and filing_and_expectation_instructions (required, process_guidance). The three forms are packet pages 1-2, 3-4 and 5-6, read from the bytes; the required instructions component is delivered as participant-instructions.md rather than as a packet page, which product-wiring.json binding.instructions declares as this family's instructions artifact.",
+        "invisibleWrites": "decoded every flattened appearance of both assembled fixtures with pdf-lib here: 161 appearances each, exactly 24 carrying a non-empty show-text operand in each, matching the map's 8+8+8. No declared write produced an appearance with no glyphs, and the boundary fixture's 58-character email and 45-character address reach their boxes in visible ink with no refusal.",
+        "protectedWrites": "proven from the decoded appearance positions: on 200-00132 the lowest write is field 34i at y 120.6, inside the printed Defendant block; the State's Attorney Date, Signature and Printed Name widgets below it carry no ink, as do the Defendant Date and Signature; packet page 4, the whole ORDER page, is 0-added and 0-removed against the pinned source in both fixtures; and on 600-00228 the Applicant Signature and Date lines are empty.",
+        "visualDefects": "measured from the raster: REMOVED 0 on every one of the six pages in both fixtures; addedOutsideDeclaredWriteRects 0 across twelve page comparisons at a 2 pt margin; no doubled frame at any check box. The defect this row fails on is not a rendering defect and this counter does not model it, which is why it is 0 and the verdict is still FAIL."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every identity value in the directory agrees: 7 \"familyId\" and 2 \"family\" occurrences, all vt_seal_18_to_21-set, and the single routeKey obligation:track-pathway:VT:vt_seal_18_to_21:young-adult-sealing-for-offenses-committed-at-ages-18-21 is identical in product-wiring.json and production-field-map.json and equal to the MASTER_QUEUE row's routeKeys. The instruction page's footer prints that same route key. See crossChecks.CLONED_FAMILY_PACKETS for the separate question the byte-identical siblings raise; it is not an identity-key disagreement."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed with sha256sum from mounted custody: 200-00130 = ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes), 200-00132 = 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317), 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072), each equal to source-receipt.json documents[].sha256 and byteLength and to every pageManifest sourceSha256. A FOURTH authority is quoted in the instructions and it also binds: the fee and service directions are quoted from the Judiciary's own instruction guide 200-00130A, declared in the instructions with SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078, which I recomputed from the master-library file and which matches at 675949 bytes. I read that file: both quoted passages are verbatim from it, including its own typo 'brough', and its footer prints '200-00130A - Filing a Petition to Expunge or Seal a Criminal Record (07/2025)', so the 07/2025 revision the packet asserts is confirmed from the document's own bytes even though the corpus filename carries REV-UNKNOWN. The one gap: source-receipt.json's documents array does not carry 200-00130A, so allSourcesExact:true covers three of the four authorities the packet actually relies on."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the controlling packet-set manifest. Four components declared, four delivered: 200-00130 at packet pages 1-2, 200-00132 at 3-4 and 600-00228 at 5-6, each located by text extraction from the delivered bytes and each carrying its own form footer; and the required filing_and_expectation_instructions component delivered as participant-instructions.md, the artifact product-wiring.json binds as this family's instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty-four writes, all decoded from the delivered bytes and all landing at their mapped rects with the right values: eight on 200-00130 (docket, In RE: name, DOB, and the five defendant contact fields on page 2), eight on 200-00132 (the caption trio plus printed name, mailing address, city/state/zip, phone and email, all inside the printed Defendant block) and eight on 600-00228 (docket, case name, name, street address, city/state/zip, email, phone, and the Section 5 printed name). The eight on the fee-waiver form are DISCLOSED and consistent with what this packet says: its instructions state 'It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply', and it never tells the reader not to complete the form -- it says to file it only if a fee is actually charged and cannot be paid. That is the opposite of the contradiction I failed vt_exp_decriminalized-set for, and it is why this obligation passes here."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven from decoded appearance streams and from the raster. No signature, no signature date, no judge's field and no prosecutor field carries ink: on 200-00132 the State's Attorney block is empty and packet page 4, the entire proposed ORDER, is 0-added and 0-removed against the pinned source in both fixtures. On 600-00228 the Applicant Signature and Date lines are empty; the participant's printed name is written on the Section 5 Printed Name line, which is a name line rather than a signature and is disclosed. protectedWrites 0 also returned by the shared verifier run here."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the raster in twelve page comparisons at 600 dpi: addedOutsideDeclaredWriteRects 0 on every page of both fixtures at a 2 pt margin, including the boundary fixture's 58-character email and 45-character street address, which are written in visible ink rather than refused. Nothing is clipped and nothing crosses a printed rule."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 11 selfHelpStopConditions held at data/record-clearing/legal-design-track-registry.json for track vt_seal_18_to_21 were read here and all of them appear in participant-instructions.md in the record's own words and order, together with the track's own 6 exclusions and its waiting-period conditions, each reproduced verbatim. 'What this packet is not' states it is not legal advice, is not filed for the participant and does not decide the outcome. The instruction page is genuinely this route's: it quotes the registry's Sec. 7609 30-day clock (not the Sec. 7602(d) seven-year clock its two byte-identical siblings quote), and its four exclusions are this track's own, including the Sec. 7609(b)(1) absolute bar where the record mixes qualifying and nonqualifying offences and the 18-to-21 age band with its pointer to 33 V.S.A. Sec. 5119(g) for an offence before age 25.",
+          "observationRecorded": "Those conditions are not bound into the delivered PDF; they live in participant-instructions.md, which this family's manifest declares as the required instructions component and which product-wiring.json binds. The sibling vt_exp_decriminalized-set binds the equivalent content in as packet pages."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's venue is the Criminal Division of the Vermont Superior Court in the county that handled the case, and the instructions say 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', pointing at the Unit box both forms print, which I confirmed is an unwritten, disclosed requiredBeforeFiling item on both."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The service direction is quoted, not inferred, and I verified the quote against the source bytes: 'Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step' is verbatim from 200-00130A at the digest the instructions declare and I recomputed. The packet adds, correctly and from the same document, that the prosecutor may file a response and that a hearing must be attended, and it says in terms that the State's Attorney's signature on the stipulation is not service. That agrees with the registry's rules.service, which says the participant does not serve the prosecutor with process."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "whyThisIsNotStylistic": "The two Vermont families built by other hosts do not do this: vt_exp_decriminalized-set and vt_seal_nonconviction-set produce the same tables with disclosureLabel values of 'Unit (Superior Court unit)', 'Description of Offense', 'Year', 'Docket Number (If Any)' and no appended identifier. The factory's own standard is the other way, and the three families on the shared misdemeanor build host are the exception.",
+          "smallestExactRepair": "In the shared build host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, stop appending the field name when composing disclosureLabel -- emit the printed caption alone, as the two sibling Vermont hosts already do -- and, where a caption alone would not distinguish two rows of one table, distinguish them by the printed row number the form actually shows rather than by the AcroForm field name. No fixture byte changes: participant-instructions.md and production-field-map.json are the only files affected, so no rerender and no fresh raster is needed for this repair alone."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee and boundary.pdf 7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e, both equal to reports/rendered-artifacts.json, and all 12 committed raster PNG digests bind to the files on disk, none mismatched. NO CURRENT RASTER_PASS COVERS THESE BYTES and the withdrawal is properly recorded rather than an old receipt being presented as current: product-wiring.json has acceptanceReceipt null and acceptanceReceiptWithdrawn naming boundToCanonicalSha256 c360eac4... replaced by 81dd74a0..., with the withdrawn verdict RASTER_PASS kept as history."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pdfinfo reports 6 pages at 612 x 792 pt for both fixtures. The order was read from the bytes, not the manifest: p1 'PETITION TO SEAL CRIMINAL HISTORY', p2 its own '200-00130 ... Page 2 of 2' footer, p3 'STIPULATION TO SEAL CRIMINAL HISTORY RECORD', p4 'ORDER', p5 'APPLICATION TO WAIVE FILING FEES AND SERVICE COSTS', p6 its '600-00228 ... Page 2 of 2' footer. That is the manifest's component order 1-2-3."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty selection controls exist across the three forms (12 on 200-00130, 2 on 200-00132, 6 on 600-00228) and the packet ticks none; routeSelectionsMade is null and every control carries an explicit_refusal. I confirmed on the raster that no box is marked anywhere: the byte-identical sibling that DOES make one election, vt_seal_nonconviction-set, shows 2094 more added pixels on the same page against the same source, and that difference is entirely its single mark. The refusals are defensible on the record: question 2 of 200-00130 is a sworn assertion about the participant's own record, and the registry's manualCompletionItems for this track leave the interests-of-justice statement and the signature to the participant. The instructions disclose the treatment in terms -- 'Every checkbox. Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.'",
+          "observationRecorded": "Two asymmetries against the sibling built by another host, recorded rather than scored. First, vt_seal_nonconviction-set determines question 2 for its route ('I was not convicted') on the reasoning that a non-conviction family determines that answer; a conviction-sealing family could be read to determine the opposite box, and this packet does not. Second, the six 600-00228 controls here carry the generic reason 'a sworn assertion or legal election the route does not determine' rather than the fee-branch reason the sibling records for the same six boxes on the same form."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This obligation arises and the packet writes nothing into any repeating table, which is what makes it satisfied: 200-00130's 3-row charge table, its new-charge table and 200-00132's 3-row table carry no platform ink at all, confirmed from the delivered bytes where all 24 text-bearing appearances are caption, party and contact fields. No row is half-filled and no charge can land on another charge's line. The row-identity risk that DOES exist here is in the disclosure text rather than in a write, and it is scored under REQUIRED_BEFORE_FILING."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee rule is quoted from a named, digest-bound authority and I verified the quote against that authority's bytes: 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees' is verbatim from 200-00130A at SHA-256 8a44b91c..., which the instructions declare and I recomputed from the master library. The packet does not overclaim: it says filing is free unless the conviction is under 23 V.S.A. Sec. 1201(a), names that as the DUI offence, and says whether the participant's own conviction is one is a fact about their docket that the clerk can answer. That is consistent with the registry's rules.fees. The waiver form is named by number and title, is delivered in the packet, and the direction is to file it only if a fee is actually charged and cannot be paid -- which matches the fact that it is delivered prefilled with identity but with every financial field left blank and disclosed as the participant's."
+        }
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "visualDefects": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "This family is IN the recorded clone group and I reproduced it. data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json records five Vermont sealing families sharing one canonical and one boundary fixture; I recomputed the digests of the three I hold and vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set deliver byte-identical canonical.pdf and boundary.pdf today, after the repair, exactly as the record says they did before it. The record's own position is that 'a clone names a question, not its answer', and I do not convert it into a failed obligation, because I cannot show that the delivered filing owed different content: 200-00130 carries no field that names the statutory subsection, question 2's answer is the same on all three conviction-sealing routes, and it is left to the participant on all three. What I can say precisely is that the ONLY thing that distinguishes these three routes reaches the participant outside the PDF -- participant-instructions.md, which genuinely does differ per family and correctly reproduces each track's own clock, exclusions and stop conditions. Two further families the central record places in the same group, vt_seal_dui-set and vt_seal_misdemeanor-set, are not mine and I opened none of their artifacts; the digests I cite for them come only from CLONED_FAMILY_PACKETS.json and RASTER_QUEUE.json.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked against all nine, and one of them is present -- see REQUIRED_BEFORE_FILING for 'acroform-index-is-not-the-printed-row'. Of the rest: 'map-honest-writes-not': the map's 24 writes and the 24 decoded from the bytes agree exactly. 'a-participant-fact-written-into-a-field-about-someone-else': 200-00132's 34d/34e/34f/34h/34i are all inside the printed Defendant block, resolved by x-position across its two columns; the State's Attorney block is empty; no alias or address-history field exists on these forms. 'extracted-line-order-is-not-column-order': present in a weaker form and recorded -- field 12's effectiveLabel is 'b. I completed all of the conditions of my probation:' with no option word while field 14's is bare 'No', so the map cannot say which of that pair is Yes; the sibling nonconviction host resolves exactly this by locating the option word by x-position, and it does not reach a participant here because these instructions do not enumerate the check boxes. 'internal-record-text-printed-on-a-filing': the packet composes no page, so nothing internal can reach a filing; the three pages the packet delivers are the Judiciary's own. 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth': not relied on, geometry re-measured from the raster in both directions. 'an-inverted-widget-rectangle': re-measured, zero. 'two-families-one-filing': present and addressed above.",
+        "INVERTED_WIDGET_RECTS": "Measured directly, because scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads source-receipt.json under the key 'sources' while every Vermont receipt declares 'documents', so a run against the Vermont overlays reports boundSourcesDeclared 0 and widgetsScanned 0 -- a zero that measured nothing. Reading every widget /Rect out of the five pinned Vermont sources with pdf-lib gives 252 widgets and 0 stored inverted. FIX130's conclusion is right; its cited tool does not support it here.",
+        "BORDER_COHORT_REMEDIATION": "Its READ_THIS note was read before any figure was used. Its row for this family still describes the PRE-repair bytes (6 stroke-only with paintingOperators ['s'] and sourceWidgetField null) and still reads currentState FAIL_REPAIR_REQUIRED; post-repair I measure 6 with ['f','s'], each matched byte for byte to its own source widget's /Off. Its figures were not used.",
+        "COHORT_ARITHMETIC": "The '40 streams, 16 removed and 24 restored' framing does not reconstruct from the committed cohort rows for the five families I hold: their pre-repair rows carry 22 per fixture on vt_exp_decriminalized-set and 6 each on the other four, which is 46 counted per family, or 34 if the three byte-identical seal families are counted once. I record both readings and name neither as the true total; what I verified is the class assignment stream by stream."
+      },
+      "recordedDeviations": [
+        "MASTER_QUEUE.json rows this family FAIL_REPAIR_REQUIRED with failedObligationNames [] and failedObligations [] -- a failure naming no failed obligation -- and gives the raster ineligibility reason as 'the current failed obligations have not been repaired'. The border defect WAS repaired on 2026-09-10 and I verified the repair; the queue row does not reflect it.",
+        "RASTER_QUEUE.json was regenerated at packetCommitSha bb9ef30ad and its historical row for this family still publishes currentRasterState 'RASTER_PASS' bound to canonical c360eac4... and boundary 21fa17be..., neither of which is on disk. The row is flagged historicalOnly true and currentGateAuthority false and the family is in notEligible, and product-wiring.json records the withdrawal properly -- but a reader keying on currentRasterState alone would read RASTER_PASS for bytes that moved today.",
+        "MASTER_QUEUE.json rows legalInputStatus SETTLED while the registry track vt_seal_18_to_21 carries an unresolved release-blocking question. buildBlockers is empty, so it is a release gate rather than a build gate and it does not block this verification, but SETTLED is not what the registry says.",
+        "source-receipt.json declares allSourcesExact true over three documents, and the packet relies on a fourth authority it does not list there: the Judiciary's instruction guide 200-00130A, from which both the fee rule and the service rule are quoted verbatim. It IS bound -- the instructions declare its SHA-256 and I recomputed it from the master library and matched -- but the binding lives in participant-facing prose rather than in the receipt, so the receipt's own guarantee does not reach it. The registry's packetInstructions for this jurisdiction warns specifically that archived copies of 200-00130A are superseded until the revision date is checked; I checked it and the document's own footer reads (07/2025), which is what the packet asserts, even though the corpus filename says REV-UNKNOWN.",
+        "The packet ships form 200-00132, 'Stipulation to Seal Criminal History Record + Order', on a route the registry places under 13 V.S.A. Sec. 7609, while the registry's own release blocker records that Sec. 7609 'contains no stipulation clause of its own, unlike Sec. 7602(a)(4)' and that whether the stipulation route carries across 'is not stated by the text'. The manifest declares the stipulation component as conditional for this family, so the component set is as the record specifies; the open question is recorded, not resolved here."
+      ],
+      "openLegalInputs": [
+        "legal-design-track-registry, track vt_seal_18_to_21, releaseBlockers[0]: Sec. 7609 names 'the respondent' without defining it and carries no stipulation clause of its own, so whether the Sec. 7602(a)(3) respondent definition and the Sec. 7602(a)(4) stipulation route carry across to a Sec. 7609 petition is unstated. The packet's own treatment matches what the record says it did about that -- it names the prosecuting office as respondent and offers the stipulation as a request rather than an entitlement -- but the question is open and the packet ships the Sec. 7602 stipulation form 200-00132 on a Sec. 7609 route."
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "$MASTER_LIBRARY_SOURCE_DIR/STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track vt_seal_18_to_21)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets vt_seal_18_to_21-set)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/fix130/rows-fix130-vt-border-repair-20260910.json"
+      ],
+      "grantsNothing": "This is a measurement. It approves no output, promotes no route, opens no commercial path, issues no RASTER_PASS and releases no claim."
+    },
+    {
+      "itemId": "vt_seal_felony-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "independence": "VF25 built and repaired nothing. FIX130's repair (commit 4f974b02d) is the claim under test and every figure below was re-measured here from the committed bytes.",
+      "bytesSharedWithSiblings": "This family's canonical.pdf (81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee) and boundary.pdf (7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e) are BYTE-IDENTICAL to those of vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set, recomputed here with sha256sum. The PDF measurements below were therefore made once on those exact bytes and are true of this family; every records measurement was made on this family's own files.",
+      "sourceRenderMethod": {
+        "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render.",
+        "provenNotAssumed": "Rendering pinned 600-00228 page 1 both ways in this container gives 1611695 dark pixels with annotations and 1602354 with -hide-annotations: a 9341-pixel gap that is entirely widget /AP /N ink. Cropping field 16's rect shows the widget's full 14.4pt frame and its opaque fill in the default render, and only the smaller printed ballot-box glyph with -hide-annotations. Every figure in this row came from the default render, the one that draws the widgets.",
+        "whereThisExposureLivesInTheVermontCohort": "Measured per source page, annotations on minus annotations hidden: 600-00228 carries 9341 dark pixels of widget-appearance ink on page 1 and 5313 on page 2, and 200-00129, 200-00130, 200-00132 and 200-00132A carry ZERO on both of their pages. Those four print their check boxes as text glyphs in the page content stream and every one of their widgets ships /Yes with no /Off, so there is no unwritten-state appearance to draw. The Indiana failure mode -- a source whose printed rules live inside /AP /N -- can only arise on 600-00228 in this cohort, and my render drew it.",
+        "whyTheZeroesInThisRowAreRealZeroes": "This packet's pages 5 and 6 are the 600-00228 pages, the only ones with widget ink at stake, and they measure ADDED 100500 / 15078 with REMOVED 0 against a source render that carries that ink. The sibling vt_seal_nonconviction-set, whose fee-waiver pages carry no writes at all, measures darkDelivered EQUAL to darkSource at exactly 1611695 and 1236377 -- the annotations-ON figures -- which is only possible if the source render drew all six check-box appearances."
+      },
+      "postRepairReread": {
+        "repairUnderTest": "FIX130, commit 4f974b02d",
+        "classAssignmentVerifiedPerStream": "The six stroke-only appearances the delivered packet carries, all on 600-00228 at packet pages 5 and 6, are EXACT byte-for-byte matches of the pinned source widgets' own /AP /N /Off streams for fields 15, 16, 21, 22, 72 and 73. Each of those six source widgets carries /MK /BC [0] /BG [1] and ships its own /Off, so RESTORE is the correct remedy and none belongs to the invented class. Field 15's 18pt /BBox is stamped at /Matrix [0.8 0 0 0.8 0 0] against its 14.4pt /Rect, which is the ISO 32000-1 12.5.5 fit. No stroke-only appearance survives anywhere on 200-00130 or 200-00132, and neither form's widgets ship an /Off to restore.",
+        "noErasureBeforeOrAfter": "REMOVED is 0 on every official-form page of both fixtures against the pinned sources. FIX130's claim that vt_exp_decriminalized-set was the only one of the five whose bytes removed the court's ink is consistent with what I measured here.",
+        "directionalRaster600dpiBothDirections": {
+          "canonical": "p1 ADDED 32625 REMOVED 0; p2 ADDED 76050 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 100500 REMOVED 0; p6 ADDED 15078 REMOVED 0",
+          "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0"
+        },
+        "negativeControl": "packet page 4, the proposed ORDER page of 200-00132, is 0-added and 0-removed in both fixtures.",
+        "howRendered": "pdftoppm -r 600 -gray on BOTH the delivered PDF and the pinned source PDF, with annotations drawn on both sides -- see sourceRenderMethod for the proof that the source render carries widget /AP /N ink. The committed raster/**/page.png files were not used as evidence of change.",
+        "aCleanCrossCheckOnTheMarkCount": "This packet marks no check box, and the byte-identical sibling family vt_seal_nonconviction-set marks exactly one. Their packet page 1 ADDED counts against the same pinned 200-00130 page differ by 34719 - 32625 = 2094, which is exactly the pixel count of the two diagonal strokes I measured inside that one box. The two independent measurements reconcile to the pixel."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set run here: PASS_COMPLETE, 24/165 written. Cross-checked independently: the map's 112 requiredBeforeFiling disclosureLabel values and the 112 rows of the instruction tables match one for one in both directions, none missing and none extra. The DEFECT THIS ROW FAILS ON IS IN THE TEXT OF THOSE LABELS, not in their coverage, and no counter models that.",
+        "requiredFactsNotCollected": "same verifier run; every bound fact was found drawn in the delivered bytes on all three forms in both fixtures.",
+        "unclassifiedBlanks": "same verifier run; every unwritten widget is a requiredBeforeFiling disclosure, a refusal carrying a reason (32 on 200-00130, 23 on 200-00132, 66 on 600-00228) or one of the 20 selection controls, each of which carries a disposition and a reason.",
+        "incompleteRows": "same verifier run; and read from the delivered bytes: the 3-row charge table on 200-00130, its 3-row new-charge table and the 3-row table on 200-00132 carry no platform ink at all, so no row is half-filled.",
+        "requiredOptionsMissing": "same verifier run; and measured on the page. All 20 selection controls carry an explicit_refusal with a reason, routeSelectionsMade is null, and the raster confirms no box on any page is marked -- packet page 1 ADDED 32625 is entirely the eight text writes.",
+        "requiredComponentsMissing": "same verifier run; and checked against the controlling manifest. data/record-clearing/legal-design-packet-set-manifests.json declares four components for vt_seal_felony-set: petition 200-00130 (required), stipulation 200-00132 (conditional), fee_waiver_application 600-00228 (conditional) and filing_and_expectation_instructions (required, process_guidance). The three forms are packet pages 1-2, 3-4 and 5-6, read from the bytes; the required instructions component is delivered as participant-instructions.md rather than as a packet page, which product-wiring.json binding.instructions declares as this family's instructions artifact.",
+        "invisibleWrites": "decoded every flattened appearance of both assembled fixtures with pdf-lib here: 161 appearances each, exactly 24 carrying a non-empty show-text operand in each, matching the map's 8+8+8. No declared write produced an appearance with no glyphs, and the boundary fixture's 58-character email and 45-character address reach their boxes in visible ink with no refusal.",
+        "protectedWrites": "proven from the decoded appearance positions: on 200-00132 the lowest write is field 34i at y 120.6, inside the printed Defendant block; the State's Attorney Date, Signature and Printed Name widgets below it carry no ink, as do the Defendant Date and Signature; packet page 4, the whole ORDER page, is 0-added and 0-removed against the pinned source in both fixtures; and on 600-00228 the Applicant Signature and Date lines are empty.",
+        "visualDefects": "measured from the raster: REMOVED 0 on every one of the six pages in both fixtures; addedOutsideDeclaredWriteRects 0 across twelve page comparisons at a 2 pt margin; no doubled frame at any check box. The defect this row fails on is not a rendering defect and this counter does not model it, which is why it is 0 and the verdict is still FAIL."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every identity value in the directory agrees: 7 \"familyId\" and 2 \"family\" occurrences, all vt_seal_felony-set, and the single routeKey obligation:track-pathway:VT:vt_seal_felony:adult-felony-conviction-sealing is identical in product-wiring.json and production-field-map.json and equal to the MASTER_QUEUE row's routeKeys. The instruction page's footer prints that same route key. See crossChecks.CLONED_FAMILY_PACKETS for the separate question the byte-identical siblings raise; it is not an identity-key disagreement."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed with sha256sum from mounted custody: 200-00130 = ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes), 200-00132 = 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317), 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072), each equal to source-receipt.json documents[].sha256 and byteLength and to every pageManifest sourceSha256. A FOURTH authority is quoted in the instructions and it also binds: the fee and service directions are quoted from the Judiciary's own instruction guide 200-00130A, declared in the instructions with SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078, which I recomputed from the master-library file and which matches at 675949 bytes. I read that file: both quoted passages are verbatim from it, including its own typo 'brough', and its footer prints '200-00130A - Filing a Petition to Expunge or Seal a Criminal Record (07/2025)', so the 07/2025 revision the packet asserts is confirmed from the document's own bytes even though the corpus filename carries REV-UNKNOWN. The one gap: source-receipt.json's documents array does not carry 200-00130A, so allSourcesExact:true covers three of the four authorities the packet actually relies on."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the controlling packet-set manifest. Four components declared, four delivered: 200-00130 at packet pages 1-2, 200-00132 at 3-4 and 600-00228 at 5-6, each located by text extraction from the delivered bytes and each carrying its own form footer; and the required filing_and_expectation_instructions component delivered as participant-instructions.md, the artifact product-wiring.json binds as this family's instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty-four writes, all decoded from the delivered bytes and all landing at their mapped rects with the right values: eight on 200-00130 (docket, In RE: name, DOB, and the five defendant contact fields on page 2), eight on 200-00132 (the caption trio plus printed name, mailing address, city/state/zip, phone and email, all inside the printed Defendant block) and eight on 600-00228 (docket, case name, name, street address, city/state/zip, email, phone, and the Section 5 printed name). The eight on the fee-waiver form are DISCLOSED and consistent with what this packet says: its instructions state 'It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply', and it never tells the reader not to complete the form -- it says to file it only if a fee is actually charged and cannot be paid. That is the opposite of the contradiction I failed vt_exp_decriminalized-set for, and it is why this obligation passes here."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven from decoded appearance streams and from the raster. No signature, no signature date, no judge's field and no prosecutor field carries ink: on 200-00132 the State's Attorney block is empty and packet page 4, the entire proposed ORDER, is 0-added and 0-removed against the pinned source in both fixtures. On 600-00228 the Applicant Signature and Date lines are empty; the participant's printed name is written on the Section 5 Printed Name line, which is a name line rather than a signature and is disclosed. protectedWrites 0 also returned by the shared verifier run here."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the raster in twelve page comparisons at 600 dpi: addedOutsideDeclaredWriteRects 0 on every page of both fixtures at a 2 pt margin, including the boundary fixture's 58-character email and 45-character street address, which are written in visible ink rather than refused. Nothing is clipped and nothing crosses a printed rule."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 11 selfHelpStopConditions held at data/record-clearing/legal-design-track-registry.json for track vt_seal_felony were read here and all of them appear in participant-instructions.md in the record's own words and order, together with the track's own 6 exclusions and its waiting-period conditions, each reproduced verbatim. 'What this packet is not' states it is not legal advice, is not filed for the participant and does not decide the outcome. The instruction page is genuinely this route's: it quotes the registry's Sec. 7602(d) seven-year clock and this track's own four exclusions, including that Sec. 7601(4)(B) is an exhaustive inclusion list, the burglary-into-an-occupied-dwelling carve-out and the subsection-level regulated-drug requirement.",
+          "observationRecorded": "Those conditions are not bound into the delivered PDF; they live in participant-instructions.md, which this family's manifest declares as the required instructions component and which product-wiring.json binds. The sibling vt_exp_decriminalized-set binds the equivalent content in as packet pages."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's venue is the Criminal Division of the Vermont Superior Court in the county that handled the case, and the instructions say 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', pointing at the Unit box both forms print, which I confirmed is an unwritten, disclosed requiredBeforeFiling item on both."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The service direction is quoted, not inferred, and I verified the quote against the source bytes: 'Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step' is verbatim from 200-00130A at the digest the instructions declare and I recomputed. The packet adds, correctly and from the same document, that the prosecutor may file a response and that a hearing must be attended, and it says in terms that the State's Attorney's signature on the stipulation is not service. That agrees with the registry's rules.service, which says the participant does not serve the prosecutor with process."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "whyThisIsNotStylistic": "The two Vermont families built by other hosts do not do this: vt_exp_decriminalized-set and vt_seal_nonconviction-set produce the same tables with disclosureLabel values of 'Unit (Superior Court unit)', 'Description of Offense', 'Year', 'Docket Number (If Any)' and no appended identifier. The factory's own standard is the other way, and the three families on the shared misdemeanor build host are the exception.",
+          "smallestExactRepair": "In the shared build host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, stop appending the field name when composing disclosureLabel -- emit the printed caption alone, as the two sibling Vermont hosts already do -- and, where a caption alone would not distinguish two rows of one table, distinguish them by the printed row number the form actually shows rather than by the AcroForm field name. No fixture byte changes: participant-instructions.md and production-field-map.json are the only files affected, so no rerender and no fresh raster is needed for this repair alone."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee and boundary.pdf 7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e, both equal to reports/rendered-artifacts.json, and all 12 committed raster PNG digests bind to the files on disk, none mismatched. NO CURRENT RASTER_PASS COVERS THESE BYTES and the withdrawal is properly recorded rather than an old receipt being presented as current: product-wiring.json has acceptanceReceipt null and acceptanceReceiptWithdrawn naming boundToCanonicalSha256 c360eac4... replaced by 81dd74a0..., with the withdrawn verdict RASTER_PASS kept as history."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pdfinfo reports 6 pages at 612 x 792 pt for both fixtures. The order was read from the bytes, not the manifest: p1 'PETITION TO SEAL CRIMINAL HISTORY', p2 its own '200-00130 ... Page 2 of 2' footer, p3 'STIPULATION TO SEAL CRIMINAL HISTORY RECORD', p4 'ORDER', p5 'APPLICATION TO WAIVE FILING FEES AND SERVICE COSTS', p6 its '600-00228 ... Page 2 of 2' footer. That is the manifest's component order 1-2-3."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty selection controls exist across the three forms (12 on 200-00130, 2 on 200-00132, 6 on 600-00228) and the packet ticks none; routeSelectionsMade is null and every control carries an explicit_refusal. I confirmed on the raster that no box is marked anywhere: the byte-identical sibling that DOES make one election, vt_seal_nonconviction-set, shows 2094 more added pixels on the same page against the same source, and that difference is entirely its single mark. The refusals are defensible on the record: question 2 of 200-00130 is a sworn assertion about the participant's own record, and the registry's manualCompletionItems for this track leave the interests-of-justice statement and the signature to the participant. The instructions disclose the treatment in terms -- 'Every checkbox. Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.'",
+          "observationRecorded": "Two asymmetries against the sibling built by another host, recorded rather than scored. First, vt_seal_nonconviction-set determines question 2 for its route ('I was not convicted') on the reasoning that a non-conviction family determines that answer; a conviction-sealing family could be read to determine the opposite box, and this packet does not. Second, the six 600-00228 controls here carry the generic reason 'a sworn assertion or legal election the route does not determine' rather than the fee-branch reason the sibling records for the same six boxes on the same form."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This obligation arises and the packet writes nothing into any repeating table, which is what makes it satisfied: 200-00130's 3-row charge table, its new-charge table and 200-00132's 3-row table carry no platform ink at all, confirmed from the delivered bytes where all 24 text-bearing appearances are caption, party and contact fields. No row is half-filled and no charge can land on another charge's line. The row-identity risk that DOES exist here is in the disclosure text rather than in a write, and it is scored under REQUIRED_BEFORE_FILING."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee rule is quoted from a named, digest-bound authority and I verified the quote against that authority's bytes: 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees' is verbatim from 200-00130A at SHA-256 8a44b91c..., which the instructions declare and I recomputed from the master library. The packet does not overclaim: it says filing is free unless the conviction is under 23 V.S.A. Sec. 1201(a), names that as the DUI offence, and says whether the participant's own conviction is one is a fact about their docket that the clerk can answer. That is consistent with the registry's rules.fees. The waiver form is named by number and title, is delivered in the packet, and the direction is to file it only if a fee is actually charged and cannot be paid -- which matches the fact that it is delivered prefilled with identity but with every financial field left blank and disclosed as the participant's."
+        }
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "visualDefects": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "This family is IN the recorded clone group and I reproduced it. data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json records five Vermont sealing families sharing one canonical and one boundary fixture; I recomputed the digests of the three I hold and vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set deliver byte-identical canonical.pdf and boundary.pdf today, after the repair, exactly as the record says they did before it. The record's own position is that 'a clone names a question, not its answer', and I do not convert it into a failed obligation, because I cannot show that the delivered filing owed different content: 200-00130 carries no field that names the statutory subsection, question 2's answer is the same on all three conviction-sealing routes, and it is left to the participant on all three. What I can say precisely is that the ONLY thing that distinguishes these three routes reaches the participant outside the PDF -- participant-instructions.md, which genuinely does differ per family and correctly reproduces each track's own clock, exclusions and stop conditions. Two further families the central record places in the same group, vt_seal_dui-set and vt_seal_misdemeanor-set, are not mine and I opened none of their artifacts; the digests I cite for them come only from CLONED_FAMILY_PACKETS.json and RASTER_QUEUE.json.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked against all nine, and one of them is present -- see REQUIRED_BEFORE_FILING for 'acroform-index-is-not-the-printed-row'. Of the rest: 'map-honest-writes-not': the map's 24 writes and the 24 decoded from the bytes agree exactly. 'a-participant-fact-written-into-a-field-about-someone-else': 200-00132's 34d/34e/34f/34h/34i are all inside the printed Defendant block, resolved by x-position across its two columns; the State's Attorney block is empty; no alias or address-history field exists on these forms. 'extracted-line-order-is-not-column-order': present in a weaker form and recorded -- field 12's effectiveLabel is 'b. I completed all of the conditions of my probation:' with no option word while field 14's is bare 'No', so the map cannot say which of that pair is Yes; the sibling nonconviction host resolves exactly this by locating the option word by x-position, and it does not reach a participant here because these instructions do not enumerate the check boxes. 'internal-record-text-printed-on-a-filing': the packet composes no page, so nothing internal can reach a filing; the three pages the packet delivers are the Judiciary's own. 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth': not relied on, geometry re-measured from the raster in both directions. 'an-inverted-widget-rectangle': re-measured, zero. 'two-families-one-filing': present and addressed above.",
+        "INVERTED_WIDGET_RECTS": "Measured directly, because scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads source-receipt.json under the key 'sources' while every Vermont receipt declares 'documents', so a run against the Vermont overlays reports boundSourcesDeclared 0 and widgetsScanned 0 -- a zero that measured nothing. Reading every widget /Rect out of the five pinned Vermont sources with pdf-lib gives 252 widgets and 0 stored inverted. FIX130's conclusion is right; its cited tool does not support it here.",
+        "BORDER_COHORT_REMEDIATION": "Its READ_THIS note was read before any figure was used. Its row for this family still describes the PRE-repair bytes (6 stroke-only with paintingOperators ['s'] and sourceWidgetField null) and still reads currentState FAIL_REPAIR_REQUIRED; post-repair I measure 6 with ['f','s'], each matched byte for byte to its own source widget's /Off. Its figures were not used.",
+        "COHORT_ARITHMETIC": "The '40 streams, 16 removed and 24 restored' framing does not reconstruct from the committed cohort rows for the five families I hold: their pre-repair rows carry 22 per fixture on vt_exp_decriminalized-set and 6 each on the other four, which is 46 counted per family, or 34 if the three byte-identical seal families are counted once. I record both readings and name neither as the true total; what I verified is the class assignment stream by stream."
+      },
+      "recordedDeviations": [
+        "MASTER_QUEUE.json rows this family FAIL_REPAIR_REQUIRED with failedObligationNames [] and failedObligations [] -- a failure naming no failed obligation -- and gives the raster ineligibility reason as 'the current failed obligations have not been repaired'. The border defect WAS repaired on 2026-09-10 and I verified the repair; the queue row does not reflect it.",
+        "RASTER_QUEUE.json was regenerated at packetCommitSha bb9ef30ad and its historical row for this family still publishes currentRasterState 'RASTER_PASS' bound to canonical c360eac4... and boundary 21fa17be..., neither of which is on disk. The row is flagged historicalOnly true and currentGateAuthority false and the family is in notEligible, and product-wiring.json records the withdrawal properly -- but a reader keying on currentRasterState alone would read RASTER_PASS for bytes that moved today.",
+        "MASTER_QUEUE.json rows legalInputStatus SETTLED while the registry track vt_seal_felony carries an unresolved release-blocking question. buildBlockers is empty, so it is a release gate rather than a build gate and it does not block this verification, but SETTLED is not what the registry says.",
+        "source-receipt.json declares allSourcesExact true over three documents, and the packet relies on a fourth authority it does not list there: the Judiciary's instruction guide 200-00130A, from which both the fee rule and the service rule are quoted verbatim. It IS bound -- the instructions declare its SHA-256 and I recomputed it from the master library and matched -- but the binding lives in participant-facing prose rather than in the receipt, so the receipt's own guarantee does not reach it. The registry's packetInstructions for this jurisdiction warns specifically that archived copies of 200-00130A are superseded until the revision date is checked; I checked it and the document's own footer reads (07/2025), which is what the packet asserts, even though the corpus filename says REV-UNKNOWN."
+      ],
+      "openLegalInputs": [
+        "legal-design-track-registry, track vt_seal_felony, releaseBlockers[0]: the Sec. 7601(4)(B)(iii) regulated-drug subsections and the twenty-five Sec. 7601(5) designated felony property offences must be encoded at subsection level before release, and were not expanded. The packet does not route any felony as eligible -- it prints the exclusions and tells the reader to check each against their own case -- so the gap is disclosed rather than acted on, but it is open."
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "$MASTER_LIBRARY_SOURCE_DIR/STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track vt_seal_felony)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets vt_seal_felony-set)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/fix130/rows-fix130-vt-border-repair-20260910.json"
+      ],
+      "grantsNothing": "This is a measurement. It approves no output, promotes no route, opens no commercial path, issues no RASTER_PASS and releases no claim."
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "047a5966f028eec6b62be7d1f3ec3a54a71c614d",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "independence": "VF25 built and repaired nothing. FIX130's repair (commit d7ff21c64) is the claim under test and every figure below was re-measured here from the committed bytes.",
+      "bytesSharedWithSiblings": "This family's canonical.pdf (81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee) and boundary.pdf (7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e) are BYTE-IDENTICAL to those of vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set, recomputed here with sha256sum. The PDF measurements below were therefore made once on those exact bytes and are true of this family; every records measurement was made on this family's own files.",
+      "sourceRenderMethod": {
+        "howTheSourceWasRendered": "pdftoppm -r 600 -gray -png WITH ANNOTATIONS DRAWN. Poppler 24.02.0 draws annotation appearance streams by default and the -hide-annotations flag was never passed, so widget /AP /N ink reaches the source render.",
+        "provenNotAssumed": "Rendering pinned 600-00228 page 1 both ways in this container gives 1611695 dark pixels with annotations and 1602354 with -hide-annotations: a 9341-pixel gap that is entirely widget /AP /N ink. Cropping field 16's rect shows the widget's full 14.4pt frame and its opaque fill in the default render, and only the smaller printed ballot-box glyph with -hide-annotations. Every figure in this row came from the default render, the one that draws the widgets.",
+        "whereThisExposureLivesInTheVermontCohort": "Measured per source page, annotations on minus annotations hidden: 600-00228 carries 9341 dark pixels of widget-appearance ink on page 1 and 5313 on page 2, and 200-00129, 200-00130, 200-00132 and 200-00132A carry ZERO on both of their pages. Those four print their check boxes as text glyphs in the page content stream and every one of their widgets ships /Yes with no /Off, so there is no unwritten-state appearance to draw. The Indiana failure mode -- a source whose printed rules live inside /AP /N -- can only arise on 600-00228 in this cohort, and my render drew it.",
+        "whyTheZeroesInThisRowAreRealZeroes": "This packet's pages 5 and 6 are the 600-00228 pages, the only ones with widget ink at stake, and they measure ADDED 100500 / 15078 with REMOVED 0 against a source render that carries that ink. The sibling vt_seal_nonconviction-set, whose fee-waiver pages carry no writes at all, measures darkDelivered EQUAL to darkSource at exactly 1611695 and 1236377 -- the annotations-ON figures -- which is only possible if the source render drew all six check-box appearances."
+      },
+      "postRepairReread": {
+        "repairUnderTest": "FIX130, commit d7ff21c64",
+        "classAssignmentVerifiedPerStream": "The six stroke-only appearances the delivered packet carries, all on 600-00228 at packet pages 5 and 6, are EXACT byte-for-byte matches of the pinned source widgets' own /AP /N /Off streams for fields 15, 16, 21, 22, 72 and 73. Each of those six source widgets carries /MK /BC [0] /BG [1] and ships its own /Off, so RESTORE is the correct remedy and none belongs to the invented class. Field 15's 18pt /BBox is stamped at /Matrix [0.8 0 0 0.8 0 0] against its 14.4pt /Rect, which is the ISO 32000-1 12.5.5 fit. No stroke-only appearance survives anywhere on 200-00130 or 200-00132, and neither form's widgets ship an /Off to restore.",
+        "noErasureBeforeOrAfter": "REMOVED is 0 on every official-form page of both fixtures against the pinned sources. FIX130's claim that vt_exp_decriminalized-set was the only one of the five whose bytes removed the court's ink is consistent with what I measured here.",
+        "directionalRaster600dpiBothDirections": {
+          "canonical": "p1 ADDED 32625 REMOVED 0; p2 ADDED 76050 REMOVED 0; p3 ADDED 108866 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 100500 REMOVED 0; p6 ADDED 15078 REMOVED 0",
+          "boundary": "p1 ADDED 53047 REMOVED 0; p2 ADDED 134190 REMOVED 0; p3 ADDED 174033 REMOVED 0; p4 ADDED 0 REMOVED 0; p5 ADDED 214150 REMOVED 0; p6 ADDED 33680 REMOVED 0"
+        },
+        "negativeControl": "packet page 4, the proposed ORDER page of 200-00132, is 0-added and 0-removed in both fixtures.",
+        "howRendered": "pdftoppm -r 600 -gray on BOTH the delivered PDF and the pinned source PDF, with annotations drawn on both sides -- see sourceRenderMethod for the proof that the source render carries widget /AP /N ink. The committed raster/**/page.png files were not used as evidence of change.",
+        "aCleanCrossCheckOnTheMarkCount": "This packet marks no check box, and the byte-identical sibling family vt_seal_nonconviction-set marks exactly one. Their packet page 1 ADDED counts against the same pinned 200-00130 page differ by 34719 - 32625 = 2094, which is exactly the pixel count of the two diagonal strokes I measured inside that one box. The two independent measurements reconcile to the pixel."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set run here: PASS_COMPLETE, 24/165 written. Cross-checked independently: the map's 112 requiredBeforeFiling disclosureLabel values and the 112 rows of the instruction tables match one for one in both directions, none missing and none extra. The DEFECT THIS ROW FAILS ON IS IN THE TEXT OF THOSE LABELS, not in their coverage, and no counter models that.",
+        "requiredFactsNotCollected": "same verifier run; every bound fact was found drawn in the delivered bytes on all three forms in both fixtures.",
+        "unclassifiedBlanks": "same verifier run; every unwritten widget is a requiredBeforeFiling disclosure, a refusal carrying a reason (32 on 200-00130, 23 on 200-00132, 66 on 600-00228) or one of the 20 selection controls, each of which carries a disposition and a reason.",
+        "incompleteRows": "same verifier run; and read from the delivered bytes: the 3-row charge table on 200-00130, its 3-row new-charge table and the 3-row table on 200-00132 carry no platform ink at all, so no row is half-filled.",
+        "requiredOptionsMissing": "same verifier run; and measured on the page. All 20 selection controls carry an explicit_refusal with a reason, routeSelectionsMade is null, and the raster confirms no box on any page is marked -- packet page 1 ADDED 32625 is entirely the eight text writes.",
+        "requiredComponentsMissing": "same verifier run; and checked against the controlling manifest. data/record-clearing/legal-design-packet-set-manifests.json declares four components for vt_seal_pardon-set: petition 200-00130 (required), stipulation 200-00132 (conditional), fee_waiver_application 600-00228 (conditional) and filing_and_expectation_instructions (required, process_guidance). The three forms are packet pages 1-2, 3-4 and 5-6, read from the bytes; the required instructions component is delivered as participant-instructions.md rather than as a packet page, which product-wiring.json binding.instructions declares as this family's instructions artifact.",
+        "invisibleWrites": "decoded every flattened appearance of both assembled fixtures with pdf-lib here: 161 appearances each, exactly 24 carrying a non-empty show-text operand in each, matching the map's 8+8+8. No declared write produced an appearance with no glyphs, and the boundary fixture's 58-character email and 45-character address reach their boxes in visible ink with no refusal.",
+        "protectedWrites": "proven from the decoded appearance positions: on 200-00132 the lowest write is field 34i at y 120.6, inside the printed Defendant block; the State's Attorney Date, Signature and Printed Name widgets below it carry no ink, as do the Defendant Date and Signature; packet page 4, the whole ORDER page, is 0-added and 0-removed against the pinned source in both fixtures; and on 600-00228 the Applicant Signature and Date lines are empty.",
+        "visualDefects": "measured from the raster: REMOVED 0 on every one of the six pages in both fixtures; addedOutsideDeclaredWriteRects 0 across twelve page comparisons at a 2 pt margin; no doubled frame at any check box. The defect this row fails on is not a rendering defect and this counter does not model it, which is why it is 0 and the verdict is still FAIL."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every identity value in the directory agrees: 7 \"familyId\" and 2 \"family\" occurrences, all vt_seal_pardon-set, and the single routeKey obligation:track-only:VT:vt_seal_pardon is identical in product-wiring.json and production-field-map.json and equal to the MASTER_QUEUE row's routeKeys. The instruction page's footer prints that same route key. See crossChecks.CLONED_FAMILY_PACKETS for the separate question the byte-identical siblings raise; it is not an identity-key disagreement."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed with sha256sum from mounted custody: 200-00130 = ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (1535506 bytes), 200-00132 = 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (1999317), 600-00228 = 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (2871072), each equal to source-receipt.json documents[].sha256 and byteLength and to every pageManifest sourceSha256. A FOURTH authority is quoted in the instructions and it also binds: the fee and service directions are quoted from the Judiciary's own instruction guide 200-00130A, declared in the instructions with SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078, which I recomputed from the master-library file and which matches at 675949 bytes. I read that file: both quoted passages are verbatim from it, including its own typo 'brough', and its footer prints '200-00130A - Filing a Petition to Expunge or Seal a Criminal Record (07/2025)', so the 07/2025 revision the packet asserts is confirmed from the document's own bytes even though the corpus filename carries REV-UNKNOWN. The one gap: source-receipt.json's documents array does not carry 200-00130A, so allSourcesExact:true covers three of the four authorities the packet actually relies on."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the controlling packet-set manifest. Four components declared, four delivered: 200-00130 at packet pages 1-2, 200-00132 at 3-4 and 600-00228 at 5-6, each located by text extraction from the delivered bytes and each carrying its own form footer; and the required filing_and_expectation_instructions component delivered as participant-instructions.md, the artifact product-wiring.json binds as this family's instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty-four writes, all decoded from the delivered bytes and all landing at their mapped rects with the right values: eight on 200-00130 (docket, In RE: name, DOB, and the five defendant contact fields on page 2), eight on 200-00132 (the caption trio plus printed name, mailing address, city/state/zip, phone and email, all inside the printed Defendant block) and eight on 600-00228 (docket, case name, name, street address, city/state/zip, email, phone, and the Section 5 printed name). The eight on the fee-waiver form are DISCLOSED and consistent with what this packet says: its instructions state 'It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply', and it never tells the reader not to complete the form -- it says to file it only if a fee is actually charged and cannot be paid. That is the opposite of the contradiction I failed vt_exp_decriminalized-set for, and it is why this obligation passes here."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Proven from decoded appearance streams and from the raster. No signature, no signature date, no judge's field and no prosecutor field carries ink: on 200-00132 the State's Attorney block is empty and packet page 4, the entire proposed ORDER, is 0-added and 0-removed against the pinned source in both fixtures. On 600-00228 the Applicant Signature and Date lines are empty; the participant's printed name is written on the Section 5 Printed Name line, which is a name line rather than a signature and is disclosed. protectedWrites 0 also returned by the shared verifier run here."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the raster in twelve page comparisons at 600 dpi: addedOutsideDeclaredWriteRects 0 on every page of both fixtures at a 2 pt margin, including the boundary fixture's 58-character email and 45-character street address, which are written in visible ink rather than refused. Nothing is clipped and nothing crosses a printed rule."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 10 selfHelpStopConditions held at data/record-clearing/legal-design-track-registry.json for track vt_seal_pardon were read here and all of them appear in participant-instructions.md in the record's own words and order, together with the track's own 4 exclusions and its waiting-period conditions, each reproduced verbatim. 'What this packet is not' states it is not legal advice, is not filed for the participant and does not decide the outcome. The instruction page is genuinely this route's: its first exclusion is the conditional pardon (Sec. 7601(4)(B)(iv) reaches an unconditional pardon only), stated twice and in the record's own words, and its last stop condition is the unresolved pardoned-misdemeanour clock.",
+          "observationRecorded": "Those conditions are not bound into the delivered PDF; they live in participant-instructions.md, which this family's manifest declares as the required instructions component and which product-wiring.json binds. The sibling vt_exp_decriminalized-set binds the equivalent content in as packet pages."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's venue is the Criminal Division of the Vermont Superior Court in the county that handled the case, and the instructions say 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', pointing at the Unit box both forms print, which I confirmed is an unwritten, disclosed requiredBeforeFiling item on both."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The service direction is quoted, not inferred, and I verified the quote against the source bytes: 'Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step' is verbatim from 200-00130A at the digest the instructions declare and I recomputed. The packet adds, correctly and from the same document, that the prosecutor may file a response and that a hearing must be attended, and it says in terms that the State's Attorney's signature on the stipulation is not service. That agrees with the registry's rules.service, which says the participant does not serve the prosecutor with process."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Coverage is complete and the labelling is wrong. The map declares 112 requiredBeforeFiling items (30 on 200-00130, 18 on 200-00132, 64 on 600-00228) and participant-instructions.md carries exactly 112 table rows matching them one for one in both directions -- so nothing is missing. But EVERY ONE of the 112 disclosureLabel values is the printed caption with the AcroForm FIELD NAME appended, and the packet twice tells the reader that column is the printed words: 'this page lists every one of them by the words printed beside the blank' and 'Each one names the form, the page and the printed words next to the blank.' It does not. The rows read 'Description of Offense 1', 'Description of Offense 4', 'Description of Offense 7', 'Year 2', 'Year 5', 'Year 8', 'Docket Number (If Any) 3', '6', '9', 'a. Date of conviction: 11', 'Yes - Date of Completion: 13', 'Unit (Superior Court unit) Unit', and '4. I believe that sealing of my criminal history is in the interests of justice because: 36'. The form prints NO such numbers beside those blanks: I extracted 200-00130 page 1 from the pinned bytes and its charge table prints exactly three rows, numbered 1., 2. and 3., so a participant told to fill 'Description of Offense 7' has been handed a row number the form does not have. It gets worse on the shared fields: 200-00130's fields 26, 27, 30 and 31 each carry TWO widgets -- one in the question-3 new-charge table on page 1 and one in the question-5 state-agency table on page 2 -- which I confirmed by resolving the AcroForm field tree with pdf-lib, so the instruction table contains 'Offense (new charges since) 26' and 'State Agency (other state entities to notify) 26' as two different rows bearing the same identifier and two different meanings, distinguishable only by the page column. This is the AcroForm-index-is-not-a-printed-row defect from DEFECTS_NO_COUNTER_CAN_SEE, arriving in the participant-facing disclosure instead of in a write, and no counter can see it because coverage is 112 of 112 and every caption is genuinely read from the binary.",
+          "whyThisIsNotStylistic": "The two Vermont families built by other hosts do not do this: vt_exp_decriminalized-set and vt_seal_nonconviction-set produce the same tables with disclosureLabel values of 'Unit (Superior Court unit)', 'Description of Offense', 'Year', 'Docket Number (If Any)' and no appended identifier. The factory's own standard is the other way, and the three families on the shared misdemeanor build host are the exception.",
+          "smallestExactRepair": "In the shared build host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, stop appending the field name when composing disclosureLabel -- emit the printed caption alone, as the two sibling Vermont hosts already do -- and, where a caption alone would not distinguish two rows of one table, distinguish them by the printed row number the form actually shows rather than by the AcroForm field name. No fixture byte changes: participant-instructions.md and production-field-map.json are the only files affected, so no rerender and no fresh raster is needed for this repair alone."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 81dd74a0ee1d178cefcb0f028dfba3e9bc7dbd7687bcf58193b0b9d62d767dee and boundary.pdf 7ff3cc2272008865eba1d723e1d8dc4074b8163c7c6dbca82cf665003e32750e, both equal to reports/rendered-artifacts.json, and all 12 committed raster PNG digests bind to the files on disk, none mismatched. NO CURRENT RASTER_PASS COVERS THESE BYTES and the withdrawal is properly recorded rather than an old receipt being presented as current: product-wiring.json has acceptanceReceipt null and acceptanceReceiptWithdrawn naming boundToCanonicalSha256 c360eac4... replaced by 81dd74a0..., with the withdrawn verdict RASTER_PASS kept as history."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pdfinfo reports 6 pages at 612 x 792 pt for both fixtures. The order was read from the bytes, not the manifest: p1 'PETITION TO SEAL CRIMINAL HISTORY', p2 its own '200-00130 ... Page 2 of 2' footer, p3 'STIPULATION TO SEAL CRIMINAL HISTORY RECORD', p4 'ORDER', p5 'APPLICATION TO WAIVE FILING FEES AND SERVICE COSTS', p6 its '600-00228 ... Page 2 of 2' footer. That is the manifest's component order 1-2-3."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twenty selection controls exist across the three forms (12 on 200-00130, 2 on 200-00132, 6 on 600-00228) and the packet ticks none; routeSelectionsMade is null and every control carries an explicit_refusal. I confirmed on the raster that no box is marked anywhere: the byte-identical sibling that DOES make one election, vt_seal_nonconviction-set, shows 2094 more added pixels on the same page against the same source, and that difference is entirely its single mark. The refusals are defensible on the record: question 2 of 200-00130 is a sworn assertion about the participant's own record, and the registry's manualCompletionItems for this track leave the interests-of-justice statement and the signature to the participant. The instructions disclose the treatment in terms -- 'Every checkbox. Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.'",
+          "observationRecorded": "Two asymmetries against the sibling built by another host, recorded rather than scored. First, vt_seal_nonconviction-set determines question 2 for its route ('I was not convicted') on the reasoning that a non-conviction family determines that answer; a conviction-sealing family could be read to determine the opposite box, and this packet does not. Second, the six 600-00228 controls here carry the generic reason 'a sworn assertion or legal election the route does not determine' rather than the fee-branch reason the sibling records for the same six boxes on the same form."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This obligation arises and the packet writes nothing into any repeating table, which is what makes it satisfied: 200-00130's 3-row charge table, its new-charge table and 200-00132's 3-row table carry no platform ink at all, confirmed from the delivered bytes where all 24 text-bearing appearances are caption, party and contact fields. No row is half-filled and no charge can land on another charge's line. The row-identity risk that DOES exist here is in the disclosure text rather than in a write, and it is scored under REQUIRED_BEFORE_FILING."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The fee rule is quoted from a named, digest-bound authority and I verified the quote against that authority's bytes: 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees' is verbatim from 200-00130A at SHA-256 8a44b91c..., which the instructions declare and I recomputed from the master library. The packet does not overclaim: it says filing is free unless the conviction is under 23 V.S.A. Sec. 1201(a), names that as the DUI offence, and says whether the participant's own conviction is one is a fact about their docket that the clerk can answer. That is consistent with the registry's rules.fees. The waiver form is named by number and title, is delivered in the packet, and the direction is to file it only if a fee is actually charged and cannot be paid -- which matches the fact that it is delivered prefilled with identity but with every financial field left blank and disclosed as the participant's."
+        }
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "visualDefects": [],
+      "crossChecks": {
+        "CLONED_FAMILY_PACKETS": "This family is IN the recorded clone group and I reproduced it. data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json records five Vermont sealing families sharing one canonical and one boundary fixture; I recomputed the digests of the three I hold and vt_seal_18_to_21-set, vt_seal_felony-set and vt_seal_pardon-set deliver byte-identical canonical.pdf and boundary.pdf today, after the repair, exactly as the record says they did before it. The record's own position is that 'a clone names a question, not its answer', and I do not convert it into a failed obligation, because I cannot show that the delivered filing owed different content: 200-00130 carries no field that names the statutory subsection, question 2's answer is the same on all three conviction-sealing routes, and it is left to the participant on all three. What I can say precisely is that the ONLY thing that distinguishes these three routes reaches the participant outside the PDF -- participant-instructions.md, which genuinely does differ per family and correctly reproduces each track's own clock, exclusions and stop conditions. Two further families the central record places in the same group, vt_seal_dui-set and vt_seal_misdemeanor-set, are not mine and I opened none of their artifacts; the digests I cite for them come only from CLONED_FAMILY_PACKETS.json and RASTER_QUEUE.json.",
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Checked against all nine, and one of them is present -- see REQUIRED_BEFORE_FILING for 'acroform-index-is-not-the-printed-row'. Of the rest: 'map-honest-writes-not': the map's 24 writes and the 24 decoded from the bytes agree exactly. 'a-participant-fact-written-into-a-field-about-someone-else': 200-00132's 34d/34e/34f/34h/34i are all inside the printed Defendant block, resolved by x-position across its two columns; the State's Attorney block is empty; no alias or address-history field exists on these forms. 'extracted-line-order-is-not-column-order': present in a weaker form and recorded -- field 12's effectiveLabel is 'b. I completed all of the conditions of my probation:' with no option word while field 14's is bare 'No', so the map cannot say which of that pair is Yes; the sibling nonconviction host resolves exactly this by locating the option word by x-position, and it does not reach a participant here because these instructions do not enumerate the check boxes. 'internal-record-text-printed-on-a-filing': the packet composes no page, so nothing internal can reach a filing; the three pages the packet delivers are the Judiciary's own. 'a-published-zero-where-a-measurement-existed' and 'a-geometry-counter-with-no-teeth': not relied on, geometry re-measured from the raster in both directions. 'an-inverted-widget-rectangle': re-measured, zero. 'two-families-one-filing': present and addressed above.",
+        "INVERTED_WIDGET_RECTS": "Measured directly, because scripts/rcap-official-forms/scan-inverted-widget-rects.mjs reads source-receipt.json under the key 'sources' while every Vermont receipt declares 'documents', so a run against the Vermont overlays reports boundSourcesDeclared 0 and widgetsScanned 0 -- a zero that measured nothing. Reading every widget /Rect out of the five pinned Vermont sources with pdf-lib gives 252 widgets and 0 stored inverted. FIX130's conclusion is right; its cited tool does not support it here.",
+        "BORDER_COHORT_REMEDIATION": "Its READ_THIS note was read before any figure was used. Its row for this family still describes the PRE-repair bytes (6 stroke-only with paintingOperators ['s'] and sourceWidgetField null) and still reads currentState FAIL_REPAIR_REQUIRED; post-repair I measure 6 with ['f','s'], each matched byte for byte to its own source widget's /Off. Its figures were not used.",
+        "COHORT_ARITHMETIC": "The '40 streams, 16 removed and 24 restored' framing does not reconstruct from the committed cohort rows for the five families I hold: their pre-repair rows carry 22 per fixture on vt_exp_decriminalized-set and 6 each on the other four, which is 46 counted per family, or 34 if the three byte-identical seal families are counted once. I record both readings and name neither as the true total; what I verified is the class assignment stream by stream."
+      },
+      "recordedDeviations": [
+        "MASTER_QUEUE.json rows this family FAIL_REPAIR_REQUIRED with failedObligationNames [] and failedObligations [] -- a failure naming no failed obligation -- and gives the raster ineligibility reason as 'the current failed obligations have not been repaired'. The border defect WAS repaired on 2026-09-10 and I verified the repair; the queue row does not reflect it.",
+        "RASTER_QUEUE.json was regenerated at packetCommitSha bb9ef30ad and its historical row for this family still publishes currentRasterState 'RASTER_PASS' bound to canonical c360eac4... and boundary 21fa17be..., neither of which is on disk. The row is flagged historicalOnly true and currentGateAuthority false and the family is in notEligible, and product-wiring.json records the withdrawal properly -- but a reader keying on currentRasterState alone would read RASTER_PASS for bytes that moved today.",
+        "MASTER_QUEUE.json rows legalInputStatus SETTLED while the registry track vt_seal_pardon carries an unresolved release-blocking question. buildBlockers is empty, so it is a release gate rather than a build gate and it does not block this verification, but SETTLED is not what the registry says.",
+        "source-receipt.json declares allSourcesExact true over three documents, and the packet relies on a fourth authority it does not list there: the Judiciary's instruction guide 200-00130A, from which both the fee rule and the service rule are quoted verbatim. It IS bound -- the instructions declare its SHA-256 and I recomputed it from the master library and matched -- but the binding lives in participant-facing prose rather than in the receipt, so the receipt's own guarantee does not reach it. The registry's packetInstructions for this jurisdiction warns specifically that archived copies of 200-00130A are superseded until the revision date is checked; I checked it and the document's own footer reads (07/2025), which is what the packet asserts, even though the corpus filename says REV-UNKNOWN.",
+        "THE RECORD CONTRADICTS ITSELF AND THE PACKET FOLLOWS ONE HALF OF IT. legal-design-track-registry track vt_seal_pardon carries waitingPeriods[0] 'At least seven years since the date the person completed the terms and conditions of the sentence', and the packet quotes exactly that. The same track's releaseBlockers[0] says of the same question 'No timing is quoted on this track until it is answered.' The packet quotes the seven-year figure AND discloses the conflict in the record's own terms -- 'you should not read the seven-year figure above as a settled answer for a misdemeanour' -- so nothing is fabricated and nothing is hidden. I record both halves of the record and name which I measured against: the packet's text against waitingPeriods[0], which it reproduces verbatim."
+      ],
+      "openLegalInputs": [
+        "legal-design-track-registry, track vt_seal_pardon, releaseBlockers[0]: which waiting period applies to a pardoned misdemeanour, the Sec. 7602(c) three-year clock or the Sec. 7602(d) seven-year clock. The record's own instruction is 'No timing is quoted on this track until it is answered.'"
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+        "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "$MASTER_LIBRARY_SOURCE_DIR/STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+        "data/record-clearing/legal-design-track-registry.json (track vt_seal_pardon)",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets vt_seal_pardon-set)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/fix130/rows-fix130-vt-border-repair-20260910.json"
+      ],
+      "grantsNothing": "This is a measurement. It approves no output, promotes no route, opens no commercial path, issues no RASTER_PASS and releases no claim."
     }
   ]
 }
