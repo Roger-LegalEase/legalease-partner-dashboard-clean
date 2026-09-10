@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-lane-checkpoints/v1",
+ "lane": "VF31",
+ "laneKind": "independent-verification",
+ "worktree": "/home/user/pfa-worktree",
+ "branch": "vf31-ar-20260910",
+ "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+ "lines": [
+  "Checked out vf31-ar-20260910 at aa23761c0d142c3bc796537a04f281897c497487, confirmed with git rev-parse HEAD; the untracked Colorado raster/ directory was left alone and is the only entry in git status.",
+  "Claimed both families before reading any family content. CLAIM_OK VF31 ar-cs-possession-seal-set and CLAIM_OK VF31 ar-nonconviction-seal-set, both grant set c2b997fb958ce5e2, both exit 0.",
+  "PROVED THE SOURCE RENDER before trusting any zero from it. Built a pdf-lib control of the pinned ACIC order with every page /Annots and the catalog /AcroForm deleted (confirmed 0 widgets on all 3 pages) and rendered both at 600 dpi with annotations drawn: 1,926,487 dark pixels normally, 1,922,979 annotation-free. 9,622 pixels are drawn by annotations ALONE, bounding box x 881-1030 y 3984-4291, which lands exactly on the two check-box /Rects that page declares. 6,114 page-content pixels are covered by the /AP fill. FIX137's control figures reproduce exactly.",
+  "ar-cs-possession-seal-set: recomputed all four fixture digests, byte lengths and page counts with sha256sum, stat and pdfinfo. All four match reports/rendered-artifacts.json and FIX137's row exactly.",
+  "ar-cs-possession-seal-set: 600 dpi directional raster over all 16 delivered pages against an annotation-drawing source render. Removed = 0 on every page in both directions; addedOutsideEveryWidgetRect = 0 on every page. All twelve of FIX137's post-repair per-page added figures reproduce exactly.",
+  "ar-cs-possession-seal-set: read the repaired check boxes as an image at three levels. Source page art alone is a heavy bracketed box; the source as a viewer renders it is one clean thin square; THE DELIVERED PAGE IS ONE CLEAN THIN SQUARE. The doubled frame is gone and no box is ticked. Inside the order page 1 check-box rects, source 4,811 and delivered 4,811 -- pixel-identical.",
+  "ar-cs-possession-seal-set: byte accounting with stroke-fill-skeleton.mjs IMPORTED (regression suite 9/9, exit 0; account-stroke-only-against-pinned-sources.mjs NOT run). 36 stroke-only flattened appearances, 36 matched BYTE-IDENTICALLY, 0 derived, 0 unmatched. vf90's ARTIFACTS byte finding is discharged by a stricter test than raised it.",
+  "ar-cs-possession-seal-set: verified the new module scripts/rcap-official-forms/rcap-output-glyph-reading.mjs reports what it claims. Imported and ran it myself: every number reproduces the delivered rendered-artifacts.json, and with sourceBytes omitted it returns null and never 0.",
+  "ar-cs-possession-seal-set FINDING: reports/actual-writes.json publishes addedGlyphsReadFromOutputBytes 0 on all four fixtures with prose asserting it is 'Zero by construction, not by measurement' while the bytes carry 124/214/72/80, and publishes flattenedWidgetAppearancesReadFromOutputBytes 125 on both petitions while the bytes carry 41. The 125 is 84 of the official form's own scanned page images counted as appearances this build added, because pdf-flattened-widgets.mjs matches any '/<name> Do' rather than only /FlatWidget. Measured three independent ways: 41 by the module, 41 by counting XObject definitions and Do invocations directly, 41 by the pinned petition's own AcroForm field count in source-receipt.json.",
+  "ar-cs-possession-seal-set FINDING: FIX137's row publishes appearancesNotPlacedAtTheirOwnSourceWidget 0 for both ACIC-ORDER fixtures while the record it wrote publishes 1 and its own module returns 1. Traced to /FlatWidget-7888911063 on order page 2, an empty '/Tx BMC EMC' stream 35.689pt narrower than its source widget rect. It draws no ink and is not a page defect; the lane row understates its own measurement.",
+  "ar-cs-possession-seal-set: verdict FAIL_REPAIR_REQUIRED on ARTIFACTS. The digest clause of that obligation PASSES and I say so; the failure is the delivered byte-proof record contradicting the delivered bytes, which is the DEFECTS_NO_COUNTER_CAN_SEE class 'a-published-zero-where-a-measurement-existed' that FIX137 repaired on the sibling family today and reported not present here. All nine counters measured 0; the packet on the page is sound.",
+  "ar-cs-possession-seal-set: row written and pushed before starting the second family."
+ ]
+}

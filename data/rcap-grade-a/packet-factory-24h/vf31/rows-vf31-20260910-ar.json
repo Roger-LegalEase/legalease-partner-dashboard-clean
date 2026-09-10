@@ -1,0 +1,452 @@
+{
+ "schemaVersion": "rcap-verifier-lane-rows/v1",
+ "lane": "VF31",
+ "laneKind": "independent-verification",
+ "generatedBy": "VF31 independent read of the two Arkansas ACIC official-pdf-fill families after the FIX137 repair, at base aa23761c0d142c3bc796537a04f281897c497487",
+ "worktree": "/home/user/pfa-worktree",
+ "branch": "vf31-ar-20260910",
+ "howTheSourceWasRendered": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes -f <page> -l <page> <pdf> <prefix>`, with ANNOTATIONS DRAWN -- no flag suppressing them was passed and poppler applies ISO 32000-1 12.5.5, so widget /AP /N appearance streams are painted. Dark is grey < 128 on 5100x6600 letter pages. I PROVED THE RENDER BEFORE TRUSTING ANY ZERO FROM IT, on this family's own pinned order (b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555): I built a control copy with pdf-lib in which every page /Annots array and the catalog /AcroForm were deleted, confirmed the control carries 0 widgets on all three pages, and rendered both. Page 1 gives 1,926,487 dark pixels normally and 1,922,979 annotation-free. 9,622 dark pixels on that page are drawn by ANNOTATIONS ALONE and by nothing in page content, and their bounding box is x 881-1030, y 3984-4291 at 600 dpi -- which lands exactly on the two check-box /Rect values that page declares, Check Box1 [105.746,295.941,123.746,313.941] and Check Box2 [105.746,276.994,123.746,294.994] (x 881.2-1031.2, y 3983.8-4291.7 at 8.3333 px/pt). The same control also shows 6,114 dark pixels LOST when annotations are drawn -- the /AP opaque white fill covering page-content ink the form itself prints. My render draws widget /AP /N ink, so a removed-pixel zero taken from it means something. I also read the region as an image at three levels -- source page art alone, source as a viewer renders it, and the delivered fixture -- and the picture is unambiguous: page art alone is a heavy bracketed [_] box, the source as a viewer sees it is one clean thin square, and THE DELIVERED PAGE IS ONE CLEAN THIN SQUARE, not two nested frames. The doubled frame FIX137 repaired is gone and no box is ticked.",
+ "whatThisLaneDidNotDo": "Built nothing, repaired nothing, re-rendered no packet, edited no overlay directory, no builder and no central artifact, dispatched no workflow, released and transferred no claim, opened no pull request and pushed to no protected branch. The repair under review is FIX137's; this lane is not that lane and wrote none of the bytes it measured.",
+ "grantsNothing": "Independent verification approves no output, promotes no route and opens no commercial path.",
+ "rows": [
+  {
+   "itemId": "ar-cs-possession-seal-set",
+   "lane": "VF31",
+   "laneKind": "independent-verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "postRepairReread": true,
+   "repairAuthorWasNotThisLane": "The repair under review is FIX137's, recorded at data/rcap-grade-a/packet-factory-24h/fix137/rows-fix137-ar-20260910.json. This lane built nothing, repaired nothing, re-rendered no packet, edited no builder, no overlay directory and no central artifact, dispatched no workflow and released no claim.",
+   "claimStatus": {
+    "assertedBeforeAnyRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF31 'ar-cs-possession-seal-set'",
+    "result": "CLAIM_OK VF31 ar-cs-possession-seal-set (independent-verification, grant set c2b997fb958ce5e2)",
+    "exitStatus": 0
+   },
+   "artifactShape": "Four fixtures, two documents: an ACIC PETITION (5 pages) and an ACIC PROPOSED ORDER (3 pages), each delivered as a separate canonical and boundary PDF. This family does NOT assemble a single packet -- the sibling ar-nonconviction-seal-set does.",
+   "receiptBindsTheBytes": {
+    "recomputedWith": "sha256sum, stat -c%s and pdfinfo on the committed fixtures in this worktree at aa23761c0d142c3bc796537a04f281897c497487",
+    "canonicalSha256": "64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
+    "boundarySha256": "1423a809982f86fab3e26d72e7a9e4345667139715de75715c734877c460072c",
+    "whichDocumentTheTopLevelDigestsName": "the PETITION, which is the primary filing",
+    "perDocument": [
+     {
+      "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+      "fixture": "canonical",
+      "sha256": "64e754057aaf8a177a8ab2e07a8f400962a391689683497df31bf760b92c433a",
+      "byteLength": 527102,
+      "pageCount": 5
+     },
+     {
+      "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+      "fixture": "boundary",
+      "sha256": "1423a809982f86fab3e26d72e7a9e4345667139715de75715c734877c460072c",
+      "byteLength": 526441,
+      "pageCount": 5
+     },
+     {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "canonical",
+      "sha256": "1a65c2d88b0250a2ef61ced0dcb5205560db3f7da557a4a816cda978f503ca4d",
+      "byteLength": 220784,
+      "pageCount": 3
+     },
+     {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "boundary",
+      "sha256": "e54509e57b1ccb586a989c391159cd9c5d6ecdd1049f99e7fa70f654b42fc70e",
+      "byteLength": 220236,
+      "pageCount": 3
+     }
+    ],
+    "everyDigestByteLengthAndPageCountInRenderedArtifactsJsonRecomputedCorrectly": true,
+    "matchesFix137Report": true,
+    "rasterState": "BUILT_RASTER_PENDING -- no RASTER_PASS exists over these bytes and this lane dispatched none."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "I read every value back out of the delivered bytes at its own source widget /Rect with my own reader (flattened appearance XObject, its /BBox composed through the page's own cm chain, matched to the pinned source's widget rectangle within 1.5pt). 10 values on the petition canonical, 5 on the order canonical -- exactly the fieldsWritten rendered-artifacts.json declares. Every fact the field map decides to write is present and readable on the page it belongs to. 0 missing.",
+    "requiredFactsNotCollected": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set (read-only; the writer is gated behind --write, which I did not pass): 'ok ar-cs-possession-seal-set PASS_COMPLETE 15/70 written', exit 0. 0.",
+    "unclassifiedBlanks": "reports/blanks-left-for-the-participant.json classifies 55 blanks with a reason for each; 55 + 15 written = the 70 terminal fields the verifier counts. Nothing is unaccounted. 0.",
+    "incompleteRows": "Neither ACIC form carries a repeating table. I enumerated all 41 petition widgets and all 29 order widgets from the pinned sources; there is no indexed row group on either. No row can be partly filled. 0.",
+    "requiredOptionsMissing": "Every selection control on both forms is a participant or record fact, not a route election, and each is protected in the field map as type_guard or disposition_or_hearing. Byte accounting confirms all 36 delivered stroke-only appearances are the source's own blank-state /Off streams matched BYTE-IDENTICALLY; none carries a show-text operator and none is a mark. No route-determined election exists to be missing. 0.",
+    "requiredComponentsMissing": "The route names instrumentKinds [primary_filing, proposed_order]. Both are present as delivered PDFs -- petition 5pp and order 3pp -- each in canonical and boundary. 0.",
+    "invisibleWrites": "My per-widget reader found ink at 10 widgets on the petition canonical and 5 on the order canonical and at no others, and reported ZERO orphan ink -- no drawn appearance sits anywhere that is not a source widget rectangle. Cross-checked against the 600 dpi raster: addedOutsideEveryWidgetRect is 0 on all 16 pages. 0.",
+    "protectedWrites": "I tested every one of the 30 petition and 23 order protectedFields entries for drawn ink at its own source /Rect in the delivered bytes. None carries ink: judge's signature and date blank, defendant's signature and date blank, the whole Certificate of Service blank, the whole notary jurat including COUNTY OF blank, Race / Sex / ATN / SID / FBI blank, and no check box ticked. 0.",
+    "visualDefects": "0, and stated ONLY because the 600 dpi directional raster was actually taken against an annotation-drawing source render and read as an image. FIX137 is right that every counter also read zero on the defective bytes -- the doubled frame drew at the widget's own rect and is not a glyph -- so the raster and not the counter is the evidence. I re-measured all 16 delivered pages: removed = 0 on every page, addedOutsideEveryWidgetRect = 0 on every page, and inside the check-box rects the delivered page is pixel-identical to the source-as-a-viewer render (4,811 vs 4,811 on the order page 1 boxes). 0."
+   },
+   "perArtifactOutputByteGlyphReadings": [
+    {
+     "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+     "fixture": "canonical",
+     "addedGlyphsReadFromOutputBytes": 124,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+     "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+    },
+    {
+     "document": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+     "fixture": "boundary",
+     "addedGlyphsReadFromOutputBytes": 214,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 41,
+     "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+    },
+    {
+     "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+     "fixture": "canonical",
+     "addedGlyphsReadFromOutputBytes": 72,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+     "appearancesNotPlacedAtTheirOwnSourceWidget": 1
+    },
+    {
+     "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+     "fixture": "boundary",
+     "addedGlyphsReadFromOutputBytes": 80,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+     "appearancesNotPlacedAtTheirOwnSourceWidget": 1
+    }
+   ],
+   "iVerifiedTheNewModuleReportsWhatItClaims": {
+    "module": "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs",
+    "howITestedIt": "I imported readOutputGlyphs myself and ran it over the four committed fixtures. Every number it returned reproduces reports/rendered-artifacts.json exactly (41/124/0/0, 41/214/0/0, 29/72/0/1, 29/80/0/1).",
+    "itIsNotALiteral": "Run with sourceBytes omitted on the same file it returns nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null and appearancesNotPlacedAtTheirOwnSourceWidget: null, never 0, and placementMeasuredAgainstThePinnedSource: false. The null-not-zero contract the module documents is real and I exercised it.",
+    "andIVerifiedTheCountIndependently": "Without the module, by decompressing each page's own content streams and counting /FlatWidget-<n> Do invocations and XObject definitions separately: 41 definitions and 41 invocations on each petition fixture, 29 and 29 on each order fixture. The pinned sources' own AcroForm field counts, recorded in source-receipt.json, are 41 and 29 -- a third, independent agreement."
+   },
+   "directionalRasterIMeasured": {
+    "dpi": 600,
+    "threshold": "grey < 128 is dark",
+    "howTheSourceWasRendered": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes -f <page> -l <page> <pdf> <prefix>`, with ANNOTATIONS DRAWN -- no flag suppressing them was passed and poppler applies ISO 32000-1 12.5.5, so widget /AP /N appearance streams are painted. Dark is grey < 128 on 5100x6600 letter pages. I PROVED THE RENDER BEFORE TRUSTING ANY ZERO FROM IT, on this family's own pinned order (b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555): I built a control copy with pdf-lib in which every page /Annots array and the catalog /AcroForm were deleted, confirmed the control carries 0 widgets on all three pages, and rendered both. Page 1 gives 1,926,487 dark pixels normally and 1,922,979 annotation-free. 9,622 dark pixels on that page are drawn by ANNOTATIONS ALONE and by nothing in page content, and their bounding box is x 881-1030, y 3984-4291 at 600 dpi -- which lands exactly on the two check-box /Rect values that page declares, Check Box1 [105.746,295.941,123.746,313.941] and Check Box2 [105.746,276.994,123.746,294.994] (x 881.2-1031.2, y 3983.8-4291.7 at 8.3333 px/pt). The same control also shows 6,114 dark pixels LOST when annotations are drawn -- the /AP opaque white fill covering page-content ink the form itself prints. My render draws widget /AP /N ink, so a removed-pixel zero taken from it means something. I also read the region as an image at three levels -- source page art alone, source as a viewer renders it, and the delivered fixture -- and the picture is unambiguous: page art alone is a heavy bracketed [_] box, the source as a viewer sees it is one clean thin square, and THE DELIVERED PAGE IS ONE CLEAN THIN SQUARE, not two nested frames. The doubled frame FIX137 repaired is gone and no box is ticked.",
+    "pageMapping": "one delivered fixture per source document, page for page; sources resolved by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
+    "bothDirectionsReported": true,
+    "removedIsZeroOnEveryPage": true,
+    "perPage": [
+     {
+      "fixture": "petition-canonical",
+      "page": 1,
+      "added": 38914,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "county, case number and defendant name written in the caption"
+     },
+     {
+      "fixture": "petition-canonical",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "no writes; PIXEL-IDENTICAL to the annotation-drawing source render"
+     },
+     {
+      "fixture": "petition-canonical",
+      "page": 3,
+      "added": 45359,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "prayer-line name, street, city, state, ZIP"
+     },
+     {
+      "fixture": "petition-canonical",
+      "page": 4,
+      "added": 23211,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "verification 'Comes the Petitioner' name and DOB"
+     },
+     {
+      "fixture": "petition-canonical",
+      "page": 5,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "Certificate of Service left wholly blank; PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "petition-boundary",
+      "page": 1,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "all three caption values refused for width; PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "petition-boundary",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "petition-boundary",
+      "page": 3,
+      "added": 71311,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "over-long name and address written, all inside their own widget rects"
+     },
+     {
+      "fixture": "petition-boundary",
+      "page": 4,
+      "added": 8172,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "DOB only; 'Comes the Petitioner' refused for width, not clipped"
+     },
+     {
+      "fixture": "petition-boundary",
+      "page": 5,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "order-canonical",
+      "page": 1,
+      "added": 38914,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "county, case number and defendant name in the caption"
+     },
+     {
+      "fixture": "order-canonical",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "eight check boxes and no writes; PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "order-canonical",
+      "page": 3,
+      "added": 23211,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "decree-line defendant name and DOB in the identification block"
+     },
+     {
+      "fixture": "order-boundary",
+      "page": 1,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "order-boundary",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "PIXEL-IDENTICAL to source"
+     },
+     {
+      "fixture": "order-boundary",
+      "page": 3,
+      "added": 31484,
+      "removed": 0,
+      "addedOutsideEveryWidgetRect": 0,
+      "removedOutsideEveryWidgetRect": 0,
+      "note": "decree-line name and DOB"
+     }
+    ],
+    "perWidgetTripleOnTheRepairedControls": "Inside the order page 1 check-box /Rects: source as a viewer renders it 4,811 dark pixels per box, delivered 4,811 per box -- pixel-identical. FIX137's pre-repair arithmetic (page art alone 3,057; source 4,811; delivered 7,868 = 4,811 + 3,057) is consistent with what I measure on the repaired bytes and with my own annotation-free control, which shows 6,114 page-content pixels covered by the fill on that page -- exactly the doubled ink FIX137 reports clearing there. I REPRODUCE its arithmetic; I do not contradict it.",
+    "aCounterCouldNotHaveSeenThis": "addedOutsideEveryWidgetRect reads 0 on the repaired bytes and, per FIX137, read 0 on the defective ones too. The doubled frame draws at the widget's own rectangle and is not a glyph, so nine green counters prove nothing about it. Only the annotation-drawing directional raster settles it."
+   },
+   "byteAccountingIReproduced": {
+    "method": "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs IMPORTED, not reimplemented. Its regression suite scripts/grade-a-packet-factory-24h/test-stroke-fill-skeleton.mjs was run first: 9 tests, 9 pass, exit 0. account-stroke-only-against-pinned-sources.mjs was NOT run, because it rewrites the shared ledger as a side effect.",
+    "sourceAppearanceStreamsInPool": "petition 46 /AP streams, 16 carrying a leading opaque fill; order 39 /AP streams, 20 carrying one. Both reproduce FIX137 exactly.",
+    "strokeOnlyFlattenedAppearances": "8 per petition fixture and 10 per order fixture, 36 across the four artifacts -- the same 36 vf90 recorded.",
+    "result": "36 matched BYTE-IDENTICALLY against a pinned-source /AP /N stream, 0 derived from a source stream minus its background fill, 0 unmatched. vf90's finding 'matchingNothingInTheSources 36' is discharged, and by the stricter test: they now match raw, not after normalisation.",
+    "noTickWasAdded": "The 36 reduce to 4 distinct streams on the petition and 1 on the order. None carries a show-text operator; every one is the source's own blank-state appearance.",
+    "flattenedClassBreakdown": "petition canonical 23 MARKS_NOTHING / 10 SHOW_TEXT_ONLY / 8 STROKE_ONLY = 41; order canonical 14 / 5 / 10 = 29."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "what": "The family declares exactly one routeKey, obligation:track-only:AR:ar-cs-possession-seal, and it is the same string on all four records that carry it: MASTER_QUEUE.json (routeCount 1, exclusiveScript true, importedBy []), product-wiring.json, production-field-map.json and source-receipt.json. Exact one-route family equivalence.",
+     "andNothingMachineReadableIsPrintedOnAFiling": "I checked for the class that failed two Rhode Island families today. I extracted the text of all four fixtures and grepped for route, obligation:, census-v1, familyId, packetId, rcap, grade-a, sha256, componentId, track-only, overlay and manifest vocabulary: nothing. Stronger than the text check, the 600 dpi directional raster shows EVERY added pixel on all 16 pages falling inside a source widget /Rect, so no trailer could have been drawn anywhere on the page, including on the proposed order a judge signs. This family composes no page at all -- both documents are the ACIC forms filled through their own AcroForm widgets."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "what": "Both pinned sources recomputed first-hand with sha256sum under MASTER_LIBRARY_SOURCE_DIR and matched byte-exact to source-receipt.json: petition 015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029, 538,670 bytes, 5 pages; order b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555, 235,941 bytes, 3 pages. Nothing was substituted and no locator page stood in for a form."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "what": "The route names instrumentKinds [primary_filing, proposed_order] and packetComponents component:ar-cs-possession-seal-primary-filing-1 and component:ar-cs-possession-seal-proposed-order-2. Both are present in this artifact set: the ACIC petition and the ACIC proposed order, each as a canonical and a boundary fixture. No third document appears, and no component belonging to another route appears -- the only two documents in the directory are the two this route binds by digest."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "what": "Every fact the field map decides to write is written and readable from the artifact's own bytes, on the page it belongs to. Read back at each field's own source /Rect: petition canonical -- COURT OF 'Example County' p1, Case No '24-CR-001234' p1, First Middle and Last name 'Jordan Avery Reyes' p1, WHEREFORE the Defendant 'Jordan Avery Reyes' p3, address '118 Maple Street' p3, City 'Springfield' p3, State 'XX' p3, Zip code '01234' p3, Comes the Petitioner 'Jordan Avery Reyes' p4, DOB '1991-04-17' p4 (10, matching fieldsWritten 10). Order canonical -- COURT OF, Case No, First Middle and Last name p1, Defendant p3, DOB p3 (5, matching fieldsWritten 5). The boundary fixture writes 6 and 2 and REFUSES four over-long values for exceeding widget width at minimum font rather than clipping them.",
+     "andTheAliasTrapIsNotPresent": "No blank on either form asks for previous names or aliases, and no such line is written. The petition's sworn VERIFICATION page carries only 'Comes the Petitioner, Jordan Avery Reyes' -- the petitioner's own name in the oath sentence, which is what that blank is -- and the DOB. Nothing was invented for any value."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "what": "I tested every protectedFields entry -- 30 on the petition, 23 on the order -- for drawn ink at its own source /Rect in the delivered bytes, and none carries any. The judge's signature line and the date beside it are blank; the defendant's signature and date on petition page 3 are blank; the whole page 5 Certificate of Service (name, signature, date) is blank; the whole page 4 notary jurat is blank, including COUNTY OF, which the field map refuses as the county where the oath is taken rather than the county of the case; Race, Sex, Arrest Tracking Number, SID and FBI number are blank. Not one of the 18 check boxes is ticked: all 36 delivered stroke-only appearances match a pinned-source blank-state /AP /N stream byte-for-byte and none carries a show-text operator."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "what": "600 dpi directional raster against an annotation-drawing source render, all 16 delivered pages: addedOutsideEveryWidgetRect = 0 and removedOutsideEveryWidgetRect = 0 on every page. Independently, my own flattened-appearance reader found ZERO orphan ink -- no drawn appearance sits at any position that is not a source widget rectangle. The boundary fixture demonstrates the refusal path rather than the clipping path: four values that do not fit at minimum font are refused and recorded with their required width."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "what": "participant-instructions.md carries a 'Where self-help ends' section naming eight stop conditions, three of them quoted from the family's own committed record in its own words -- opposition or a contested hearing, immigration/licensing/firearm consequences, and an unclear pre-sentencing predicate -- plus five read off the forms themselves. It names who to go to: a lawyer licensed in Arkansas, or the circuit clerk of the county in the caption."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "what": "The instructions name the court the route names: 'File in the circuit court of the county where the offense was committed and where you were convicted', attributed to the committed route record and to the packet-set manifest, which is quoted: 'Statewide Arkansas track; circuit court in the county where the offense was committed and the person was convicted.' They also state honestly that the court-name blank is left empty because the platform holds no court fact keyed to the matter, and tell the participant to ask the circuit clerk and to write the same answer on both forms."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "what": "Who and how are both stated. Who: the prosecuting attorney, quoted from the committed packet-set manifest -- 'Serve the prosecuting attorney within three days of filing' -- plus the arresting agency, which the form's own page 5 Certificate of Service adds. How: by United States mail, postage prepaid, or by hand delivery, quoted from that certificate. When: within three days of filing. The instructions also direct that the certificate be completed only after service has actually happened, and say why."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "what": "participant-instructions.md carries a 'What you must do before you file' list of nine numbered items, checked against the file: obtain the ACIC criminal history; obtain the Judgment and Commitment Order from the sentencing clerk; read and complete petition pages 1 and 2 on paper; ask the circuit clerk which court takes the petition; complete every blank in the table; sign the page 4 VERIFICATION before a notary; sign and date page 3; serve both offices within three days and complete the Certificate of Service; leave the order alone below its caption. Every item the family declares is named."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "theClauseThatPasses": "The literal obligation -- the canonical and boundary bytes hash to what reports/rendered-artifacts.json names -- PASSES. I recomputed all four digests with sha256sum, all four byteLengths with stat and all four pageCounts with pdfinfo, and every one matches the delivered record exactly. FIX137's claim on that point is correct and I confirm it.",
+     "whatFails": "The family's OTHER delivered byte-proof record, reports/actual-writes.json, publishes two numbers its own bytes contradict, and one of them is a hardcoded zero carrying prose asserting the quantity cannot be measured. This is the class DEFECTS_NO_COUNTER_CAN_SEE already records as 'a-published-zero-where-a-measurement-existed', and it is the same defect FIX137 found and repaired TODAY on the sibling family ar-nonconviction-seal-set while reporting it 'not present' here.",
+     "defect1": "addedGlyphsReadFromOutputBytes: 0 on ALL FOUR fixtures, with addedGlyphsNote: 'Zero by construction, not by measurement: this family writes through AcroForm widgets rather than by drawing into page content, so every mark it makes is a widget appearance and is counted in the column beside this one.' The bytes carry 124 / 214 / 72 / 80 added glyphs. I read them independently by importing readOutputGlyphs from the family's own new module, and the family's own reports/rendered-artifacts.json publishes exactly 124 / 214 / 72 / 80. The record asserts a measurement does not exist while the measurement sits in the next file in the same directory.",
+     "defect2": "flattenedWidgetAppearancesReadFromOutputBytes: 125 on BOTH petition fixtures. The bytes carry 41. I measured 41 three independent ways: by importing the family's new module (41); by decompressing each page's own content streams and counting /FlatWidget-<n> XObject definitions and Do invocations separately (41 and 41, distributed 10/6/8/14/3 across the five pages); and against the pinned petition's own AcroForm field count, which source-receipt.json records as 41. reports/rendered-artifacts.json also says 41. The 125 comes from scripts/rcap-official-forms/pdf-flattened-widgets.mjs, whose placement regex matches `/(\\S+)\\s+Do` -- ANY XObject invocation, not only a flattened widget. I tallied the petition canonical's invocations by name class and they are exactly 84 Image XObjects plus 41 FlatWidgets = 125. The record counts 84 of the official form's own scanned page images as appearances this build added. The order fixtures invoke no images, which is why 29 is right there and only the petitions are wrong.",
+     "whyThisMatters": "This file is the one that says of itself: 'The finalizer's report says what this build believes it wrote; this says what the paper shows.' It is the family's declared byte proof, and on two of its four keys it does not show what the paper shows. No counter can see it: all nine read zero, the digests all match, and the packet on the page is correct.",
+     "notAVisualDefect": "I want this precise -- the PDFs themselves are sound. Nothing here is wrong on the page. What fails is a delivered record about those bytes."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "what": "This family's rendered-artifacts.json declares no pageManifest, because each fixture is one whole official document rather than an assembled packet -- so the obligation reduces to whether the delivered page order is the source's. I measured it page for page at 600 dpi: delivered petition pages 1-5 against source petition pages 1-5 and delivered order pages 1-3 against source order pages 1-3, on both fixtures of each. Every pair is an exact match plus additive ink only, removed = 0 on all sixteen, which is only possible if each delivered page is the source page the manifest position implies. No page is transposed, duplicated or dropped, and pdfinfo confirms 5 and 3 pages."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "what": "A measurement, not an omission: this route determines NO election, so there is none that could be missing. I enumerated every selection control on both forms from the pinned sources -- 8 on the petition (Check Box4-11) and 10 on the order (Check Box1-10) -- and each is a fact about the participant's own record rather than about the route: which substance the conviction was for, whether the sentence was completed or a year has passed since a denial, whether felony charges are pending, whether sex-offender registration is required, and whether the defendant has been rehabilitated. The field map protects all 18 as type_guard or disposition_or_hearing, the instructions list four of them under 'The choices that are yours' with the reason each is the participant's, and the delivered bytes tick none: all 36 stroke-only appearances are the source's own blank-state /Off streams matched byte-identically."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "what": "A measurement, not an omission: neither form carries a repeating table, so no row can carry written cells beside required cells left blank. I enumerated all 41 petition widgets and all 29 order widgets from the pinned sources and there is no indexed row group on either -- the only multi-line construct is the two-line pending-charge status rule on order page 2, which is a single protected field and is blank. The AcroForm-index-is-not-the-printed-row trap cannot arise here: no table cell is written on either form."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "what": "The fee is stated and so is the waiver route. The instructions state there is no filing fee for this petition and attribute it three ways to the compiled Arkansas profile the route is built from: 'Act 1460 eliminated sealing filing fees'; 'Sealing petition filing fee $0 -- Filing fees eliminated by the 2019 amendments'; and the filing rule 'Act 1460 eliminated filing fees for sealing'. They tie that to these forms by their own printed titles, which recite Act 1460 of 2013. They explain what the form's fee averment means where no fee is owed and warn against reading it as a bill. The waiver route is named for the case where a clerk nevertheless asks for money: ask that clerk what the charge is for and whether a waiver or reduction is available, and settle it before signing, because the fee paragraph is sworn. The non-filing costs -- ACIC record fee, clerk copy fee, notary, counsel -- are separated out and named as not filing fees. No amount was fabricated; no amount appears on either form."
+    }
+   },
+   "crossChecks": {
+    "DEFECTS_NO_COUNTER_CAN_SEE": "Checked deliberately, all eleven entries. map-honest-writes-not: NOT present -- declared writes and delivered ink reconcile in both directions, 10 and 5 on the canonicals, and no alias or 'all names used' line exists on either form. a-participant-fact-written-into-a-field-about-someone-else: NOT present -- every one of the 15 values goes to a field whose meaning matches it, and reports/charge-caption-proof.json's finding of 0 participant names in 6 charge-caption blanks is confirmed by my own per-widget read. acroform-index-is-not-the-printed-row: cannot arise -- no table cell is written. extracted-line-order-is-not-column-order: cannot arise -- no column heading is read and nothing is written into a table. internal-record-text-printed-on-a-filing: NOT present -- I grepped all four fixtures' extracted text for machine vocabulary and found none, and the raster shows every added pixel inside a source widget rect, so nothing was drawn onto the page at all. a-published-zero-where-a-measurement-existed: PRESENT AND UNREPAIRED -- see the ARTIFACTS obligation. a-geometry-counter-with-no-teeth: acknowledged, not assumed -- nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 here and I did not rest on it; I took the directional raster and read the page as an image instead. two-families-one-filing: NOT present -- see CLONED_FAMILY_PACKETS below. an-inverted-widget-rectangle-places-the-appearance-a-box-away: NOT present -- I tested all 70 source widget /Rect values on both forms and none is stored inverted (every one has x0 < x1 and y0 < y1), so pdf-lib's un-normalised getRectangle() cannot displace an appearance here. annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink: this is the trap I was warned about and I defeated it by proving my render -- 9,622 pixels on the order page 1 are drawn by annotations alone in my own control run, landing exactly on the two declared check-box rects. a-caption-read-from-the-neighbouring-row-on-a-sworn-affidavit: NOT present, and this family shows the opposite behaviour -- production-field-map.json's printedLabelCorrections records that the petition page 3 second address line HARVESTS the caption of the signature rule in the other column of the same visual row, names that harvest wrong, and the role refusal keeps the field blank. The neighbouring-row read was caught by the builder rather than shipped.",
+    "CLONED_FAMILY_PACKETS": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json read 943 fixtures and names neither AR family; there is no path beginning 'ar/' anywhere in the file, in clonedDeliverableGroups, familiesDeliveringACloneOfAnother, sharedDocumentGroups or nearCloneGroups. I confirmed the distinction first-hand rather than resting on the absence.",
+    "whatDistinguishesTheTwoDeliveredPackets": "They are different filings on every axis I can measure. DIFFERENT RELIEF: this family seals a CONVICTION for possession of a controlled or counterfeit substance under Act 1460 of 2013, A.C.A. 16-90-1401 et seq., with the prayer citing 16-90-1407 and the standard 16-90-1415(c); ar-nonconviction-seal-set seals NON-CONVICTION records -- nolle prosequi, dismissals, acquittals and no-charge arrests. DIFFERENT FORMS, bound by four distinct digests: 015c7246 / b347754f here against 09f32317 / 4ca0a57a there, different ACIC revisions (REV-2015-04-01 and REV-2014-01-01 against REV-2020-04-22 and REV-2023-10-25). DIFFERENT ROUTE KEYS: obligation:track-only:AR:ar-cs-possession-seal against obligation:track-only:AR:ar-nonconviction-seal. DIFFERENT DELIVERY SHAPE, which is the point worth naming: this family ships the petition and the order as SEPARATE fixtures -- four PDFs, 5+5 and 3+3 pages, and two canonicals -- while the sibling assembles ONE 7-page packet per fixture, petition pages 1-4 then order pages 5-7, so it ships two PDFs and one canonical. A reader comparing top-level canonicalSha256 alone would be comparing a 5-page petition against a 7-page assembled packet. DIFFERENT WRITE SETS: 15 values across four fixtures here against 13 across two there, and the sibling writes a charge value ('Theft of property') that this family has no blank for.",
+    "theRecordedObligationWasARTIFACTS": "vf90 recorded ARTIFACTS FAIL on this family at base a09ef20d3 for a byte reason: the delivered artifacts carried flattened widget appearances matching nothing in the pinned sources, 36 of them. I reproduced that class independently and it IS discharged on its own terms -- all 36 now match a pinned-source /AP /N stream BYTE-IDENTICALLY, 0 derived and 0 unmatched, which is stricter than the skeleton test that raised it. FIX137's claim on this point is true and I confirm it. My ARTIFACTS FAIL is a DIFFERENT and NEWLY MEASURED defect on the same obligation, not a restatement of vf90's.",
+    "fix137sRepairIsSoundOnThePage": "Every one of FIX137's post-repair raster figures reproduces exactly on my own independent render: petition canonical 38,914 / 0 / 45,359 / 23,211 / 0; petition boundary 0 / 0 / 71,311 / 8,172 / 0; order canonical 38,914 / 0 / 23,211; order boundary 0 / 0 / 31,484 -- with removed 0 and outside-rect 0 on all sixteen. Its diagnosis is right, its remedy is right, and the delivered check box is now the ACIC's own single clean square rather than a bracket with a square stamped over it. I looked at the picture, not only the arithmetic."
+   },
+   "recordsThatDisagree": [
+    {
+     "record": "reports/actual-writes.json against reports/rendered-artifacts.json, both delivered in this family directory at this base",
+     "disagreement": "addedGlyphsReadFromOutputBytes is 0 / 0 / 0 / 0 in the first and 124 / 214 / 72 / 80 in the second; flattenedWidgetAppearancesReadFromOutputBytes is 125 / 125 / 29 / 29 in the first and 41 / 41 / 29 / 29 in the second.",
+     "whichIMeasuredAgainst": "The delivered PDF bytes. They give 124 / 214 / 72 / 80 and 41 / 41 / 29 / 29, so reports/rendered-artifacts.json is right and reports/actual-writes.json is wrong on both keys. The pinned sources' own AcroForm field counts in source-receipt.json (41 and 29) are a third witness for the flattened count."
+    },
+    {
+     "record": "FIX137's own row, rows-fix137-ar-20260910.json, against the reports/rendered-artifacts.json that same lane wrote",
+     "disagreement": "FIX137's outputByteGlyphReadings publish appearancesNotPlacedAtTheirOwnSourceWidget: 0 for both ACIC-ORDER fixtures. The delivered rendered-artifacts.json publishes 1 for both, and importing FIX137's own module and running it myself returns 1 for both.",
+     "whichIMeasuredAgainst": "The bytes and the module. The value is 1. I ran the placement down to the object: it is /FlatWidget-7888911063 on order page 2, whose /BBox is 353.28 wide while the source widget 'Defendant IS or IS NOT required to register as a sex' declares a rect 388.969 wide, so the composed placement is 35.689pt short of its own source rectangle. IT IS NOT A PAGE DEFECT -- the stream is the twelve bytes '/Tx BMC\\nEMC\\n', it draws no ink at all, and my raster confirms order page 2 is pixel-identical to the source in both fixtures. The delivered record is correct; the lane row understates its own measurement."
+    },
+    {
+     "record": "MASTER_QUEUE.json against the brief for this lane and against the family's current state",
+     "disagreement": "MASTER_QUEUE still carries state FAIL_REPAIR_REQUIRED, activeOwner FIX137, selectedIndependentVerdict from vf90 at base a09ef20d3 and rasterEnrolmentRefusal 'the current failed obligations have not been repaired'. That is stale with respect to today's repair. Separately, brief-verify.md says every family a verifier holds has a RASTER_PASS admitted against its exact bytes; this family has none and the assignment says so.",
+     "whichIMeasuredAgainst": "The overlay directory bytes at this base and the assignment. rasterState is BUILT_RASTER_PENDING, no RASTER_PASS exists over these bytes, and I dispatched none -- that is the Captain's to do. I record both readings and reconcile neither; MASTER_QUEUE has one writer and it is not me."
+    },
+    {
+     "record": "participant-instructions.md against the delivered proposed order",
+     "disagreement": "The instructions tell the participant twice that the packet writes nothing on the order below its caption: 'Its thirteen recital paragraphs, its GRANTED decree, its direction to the clerk, the judge's signature and the date beside it are the court's alone; this packet writes nothing there', and 'Leave the order alone below its caption.' The delivered order writes the participant's legal name INSIDE the GRANTED decree sentence -- field 'Defendant' at rect [149.04, 687.48, 382.56, 704.28] on page 3, on the 'Petition of the Defendant, ______,' line of the paragraph ending 'and hereby is GRANTED' -- and their date of birth in the order's identification block on the same page. The instructions' own list of what the order's identification block leaves to the clerk names race, sex, ATN, SID and FBI number and omits the DOB the packet fills.",
+     "whichIMeasuredAgainst": "The delivered bytes, and I rendered the decree line as an image: the name is correctly typeset on the rule, inside the blank, not clipped and not below it. THE ARTIFACT IS RIGHT AND THE PROSE IS WRONG -- a proposed order should name the petitioner in its decree, the family's own production-field-map.json maps that widget to participant.full_legal_name with decision 'write', and reports/participant-name-placement.json lists 'Defendant' in the order's allowlist of blanks the name may appear in. Two of the family's records say it is a write and one tells the participant it is not. I did not score an obligation on this -- it is not a protected field by any record that governs writing -- but a participant told the packet wrote nothing in the decree has no reason to check the one value there that, if wrong, seals the wrong person's record. It should be corrected in prose, not in the PDF."
+    },
+    {
+     "record": "REPAIR_SUPPLY_QUEUE.json, as reported by FIX137",
+     "disagreement": "FIX137 records that file as carrying repairOwner [] and releasedRepairGrants [FIX01] for this family while claim-ledger.json carried a live unreleased claim.",
+     "whichIMeasuredAgainst": "I did not re-measure this and take no position on it; I record FIX137's finding as its own. My own claim asserted cleanly at exit 0."
+    }
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+    "the same directory's reports/rendered-artifacts.json, reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/charge-caption-proof.json, reports/participant-name-placement.json",
+    "the same directory's production-field-map.json, source-receipt.json, product-wiring.json, build-findings.json, participant-instructions.md",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+    "data/rcap-grade-a/packet-factory-24h/fix137/rows-fix137-ar-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (read only)",
+    "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, scripts/rcap-official-forms/pdf-flattened-widgets.mjs",
+    "scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs, classify-flattened-widget-appearances.mjs, generate-route-artifact-acceptance.mjs",
+    "scripts/build-census-v1-ar-cs-possession-seal-set.mjs (read only, for the declared fixture facts)"
+   ],
+   "toolsRun": [
+    "git fetch, git checkout -B, git rev-parse HEAD, git status --porcelain",
+    "sha256sum and stat -c%s over all four committed fixtures and both pinned sources",
+    "pdfinfo for every page count",
+    "pdftoppm -r 600 -gray -aa yes, ANNOTATIONS DRAWN, over every source page and every delivered page",
+    "pdftoppm over a pdf-lib control copy with every page /Annots and the catalog /AcroForm deleted, to prove the render",
+    "pdftotext -layout, source against delivered, page for page, on all four fixtures",
+    "numpy per-pixel directional difference at grey < 128 with a source-widget-rect mask, both directions, per page",
+    "PIL crops read as images at the check-box rects and at the order decree line",
+    "node: imported readOutputGlyphs from scripts/rcap-official-forms/rcap-output-glyph-reading.mjs (with and without sourceBytes)",
+    "node: imported skeleton from scripts/grade-a-packet-factory-24h/stroke-fill-skeleton.mjs for all byte accounting",
+    "node scripts/grade-a-packet-factory-24h/test-stroke-fill-skeleton.mjs -- 9 tests, 9 pass, exit 0",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set (read-only, no --write)",
+    "node: my own readers for widget rectangles, flattened XObject definitions and Do invocations, appearance placement, and per-widget drawn text"
+   ],
+   "whatIDidNotRun": "account-stroke-only-against-pinned-sources.mjs was NOT run, because it rewrites the shared ledger as a side effect. No builder was run, so the local-raster trap in the sibling family's builder was never reached from this lane.",
+   "visualDefects": [],
+   "failedObligationNames": [
+    "ARTIFACTS"
+   ],
+   "grantsNothing": "This row is a measurement of delivered bytes at one commit. It approves no output, promotes no route, opens no commercial path, issues no receipt and dispatches no raster."
+  }
+ ]
+}
