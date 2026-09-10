@@ -935,10 +935,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX137",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T19:11:48.659Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1071,10 +1071,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX137",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:31:49.996Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14323,7 +14323,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7af138b097153cc12a19a81be9d28834ffe47388612ae12a4b5c8b07564ce591",
+  "claimsDigest": "fdf1062791b33bad67cf927dfade6f714ff0844d6437023b9b5d2df139eb331b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -53063,6 +53063,28 @@
       "previouslyReleasedAt": "2026-09-06T20:27:37.237Z",
       "transferredAt": "2026-09-10T05:24:17.575Z",
       "reason": "Released grant reopened; its sibling's reader should also read the family FIX135 concluded needed nothing"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX137",
+      "previouslyReleasedAt": "2026-09-02T19:11:48.659Z",
+      "transferredAt": "2026-09-10T05:27:56.249Z",
+      "reason": "Released grant reopened; ARTIFACTS is now a named obligation on this family and its border ink is measured as the form's own with its fill stripped"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-nonconviction-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX137",
+      "previouslyReleasedAt": "2026-09-04T22:31:49.996Z",
+      "transferredAt": "2026-09-10T05:27:56.343Z",
+      "reason": "Released grant reopened onto the same live lane as its sibling; same obligation, same source pair, same remedy direction"
     }
   ],
   "grants": [
