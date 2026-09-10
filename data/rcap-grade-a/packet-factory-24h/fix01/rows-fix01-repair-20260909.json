@@ -158,6 +158,34 @@
       "note": "counts are OCCURRENCES across both guides, case-insensitive, and every one of these was 0 in both guides before the repair. `legal aid` unhyphenated is 0 because the record's own wording is `legal-aid`, which is what is carried verbatim."
      },
      "terminologyRuleStillHeld": "the words `expungement` and `expunge` occur 0 times in either guide. The Maine record's rule is `Never use 'expungement' in Maine participant copy`, and VF01's ROUTE_IDENTITY PASS rested on it, so it was re-checked after the new copy was added."
+    },
+    "directionalRasterDifference": {
+     "whyItIsHereAndNotOnlyTheByteAccounting": "Byte accounting cannot see OVER-suppression - ink the official form itself draws that a remedy removed. Only a raster read in BOTH directions can, and the removals are read first.",
+     "method": "pdftoppm -r 150 -gray, page by page, of the delivered packet BEFORE the repair (from HEAD 181ac2ece) against the delivered packet AFTER it, plus the same comparison of each delivered page against the pinned source page it claims. A pixel more than 24 grey levels darker on one side than the other is ink on that side.",
+     "repairAddedPixels": {
+      "canonical": 0,
+      "boundary": 0,
+      "note": "Zero added anywhere on any page of either fixture. The repair paints nothing."
+     },
+     "repairRemovedPixels": {
+      "canonical": 469,
+      "boundary": 469,
+      "perPage": {
+       "1": 193,
+       "2": 276,
+       "3": 0
+      },
+      "everyOneOfThemAccountedFor": "469 of 469 removed pixels on each fixture fall INSIDE a check-box widget /Rect, and 0 fall outside every check-box rect. Measured by taking the nine square widgets from reports/blanks.json (13.08 by 13.08, the only square widgets on either form), expanding each by 1pt for antialiasing, and classifying every removed pixel against them. The nine are CR-307's three court-for-filing boxes and, on CR-308, its three court boxes and the three GRANTED / GRANTED / DENIED ordering boxes.",
+      "nothingNearASignatureNotaryOrJurat": "The nearest signature area to any removal is CR-307's signature and date block; no removed pixel is inside or adjacent to it, and CR-308's judge signature line is on packet page 3, which lost nothing. No notarization appears on either form and the packet says so."
+     },
+     "overSuppressionCheck": "NONE FOUND. Against the pinned sources, removed pixels are 0 on every page of both fixtures before and after the repair, so no ink the Maine Judicial Branch prints was taken off the page. The 469 pixels the repair removed were not in the source either - they are the synthesized outlines, which is why they show as removed against the previous DELIVERED bytes and as added-outside-write-rects against the SOURCE.",
+     "negativeControl": {
+      "page": 3,
+      "whatItIs": "packet page 3 is CR-308 page 2 and the packet writes nothing on it",
+      "expected": "gains nothing and loses nothing",
+      "measured": "0 pixels added and 0 removed, on both fixtures, in both directions - against the previous delivered bytes and against the pinned source page. It is pixel-identical to CR-308 page 2 before and after."
+     },
+     "measuredBy": "this lane, which repaired the family. It is a measurement and not a verification: an independent reader that neither built nor repaired this family still owes the same reading."
     }
    },
    "whatWasWrong": {
@@ -233,7 +261,8 @@
    "packetsSelfVerified": 0,
    "productionTouched": false,
    "claimReleased": false,
-   "commit": "0c432edc2"
+   "commit": "0c432edc2",
+   "toolsUsed": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs (committed, read-only) for appearance classification, and a SHA-256 comparison of each stroke-only stream against every /AP /N stream in the pinned sources. That comparison was validated against the committed cohort tool's own standing proof before it was relied on: run on the pre-repair md_pardon_expungement-set bytes it returns 6 matched / 0 unmatched per fixture, 12 / 0 across both, which is exactly what BORDER_COHORT_REMEDIATION.json records for that family. scripts/grade-a-packet-factory-24h/account-stroke-only-against-pinned-sources.mjs was NOT run: it rewrites data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json for every family in the cohort, which is a central manifest and not this lane's to write. Its already-committed results were read instead."
   },
   {
    "itemId": "md_pardon_expungement-set",
@@ -248,7 +277,8 @@
    "obligationCoverage": "These are the two obligations VF01 scored FAIL on this family at 7d6453f51, and nothing else was touched. Both were contradictions between the delivered records and the delivered bytes rather than defects in the geometry: VF01 measured all 38 values correct, complete and inside their boxes, and this lane did not move a single one of them.",
    "theMarksWereNotTouched": {
     "why": "The brief said the outline repair on this family already holds and not to touch the marks. It does hold, and I proved it on the bytes at HEAD 181ac2ece before changing anything: 6 stroke-only flattened appearances in the delivered canonical fixture, and all 6 byte-identical by SHA-256 to an /AP /N ON-STATE stream in a pinned source - 2 in ccdccr072B.pdf (a 69-byte /Yes and an 81-byte /On) and 4 at 45 bytes each in the CC-DC-089 binary. 50 further flattened appearances were empty streams, which is the suppression working.",
-    "afterThisRepair": "5 stroke-only appearances, and all 5 still match a source /AP /N on-state stream byte for byte; empty streams 50 to 51. The one that went is item 1's arrest tick, and its widget now carries the same empty appearance every other unticked box on the form carries. No mark's stream, placement or rect changed."
+    "afterThisRepair": "5 stroke-only appearances, and all 5 still match a source /AP /N on-state stream byte for byte; empty streams 50 to 51. The one that went is item 1's arrest tick, and its widget now carries the same empty appearance every other unticked box on the form carries. No mark's stream, placement or rect changed.",
+    "coordinatorNote": "The coordinator's byte-accounting pass records 12 stroke-only appearances on this family across both fixtures, all 12 byte-identical to a pinned-source /AP /N stream, and instructed that the marks and the builder's flatten not be touched. Neither was: flattenWithoutDeleting, its suppressSynthesizedSelectionAppearances call and the shared module are unchanged, and no mark's stream, placement or rect moved. The count is 10 across both fixtures rather than 12 because the repair STOPS TICKING one box - item 1's 'I was arrested' - which the same instruction requires, since the record establishes no answer to that select-one. Removing a tick is not border remediation, and the ten marks that remain still match a pinned-source stream byte for byte."
    },
    "obligationsThisRowDoesNotDischarge": [
     "RASTER_PASS - this repair changed the delivered bytes, so any raster receipt keyed to canonical 2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb no longer covers the packet. rasterState is BUILT_RASTER_PENDING and no page image was rendered here as a receipt.",
@@ -316,6 +346,48 @@
      "method": "grep for the blanket sentence in all three places VF01 found it.",
      "before": "production-field-map.json gave 18 page-4 refusals the reason 'page 3 of this form is the court's order on the request and every field on it belongs to the court'; build-findings.json said 'Every field on it is refused as court-owned'; participant-instructions.md told the participant 'Page 3 of CC-DC-089 is the court's order and every line on it belongs to the court' - while the packet ticked the DISTRICT COURT box and printed the court's city or county, the case number, the petitioner and the respondent on that page.",
      "after": "zero occurrences of 'every field on it', 'every line on it' or 'belongs to the court' in any of the three files. All three now say the same thing: the 18 fields of the ORDER are the judge's, and the caption at the head of that page is not part of the order and is filled by this packet."
+    },
+    "directionalRasterDifference": {
+     "method": "pdftoppm -r 150 -gray, page by page, of the delivered packet BEFORE the repair (HEAD 181ac2ece) against the delivered packet AFTER it, and of each delivered page against the pinned source page it claims.",
+     "repairAddedPixels": {
+      "canonical": 0,
+      "perPage": {
+       "1": 0,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "note": "The repair paints nothing anywhere on the packet."
+     },
+     "repairRemovedPixels": {
+      "canonical": 60,
+      "perPage": {
+       "1": 60,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "oneClusterOnly": {
+       "xPt": [
+        351.36,
+        355.68
+       ],
+       "yPt": [
+        578.88,
+        583.2
+       ],
+       "pixels": 60,
+       "whatItIs": "item 1's 'I was arrested' check box, whose widget /Rect is x 349.99-357.91, y 576.629-584.669. The removal is entirely inside that one widget."
+      },
+      "thisRemovalIsDELIBERATEAndIsTheRepair": "It is the only mark this lane took off the page and it was taken off because the packet had no fact behind it. It is NOT border remediation: the builder's flatten, its suppression call and the shared module were not touched, and the mark that came off is one of the form's own /AP /N streams, which is exactly why it was ticked and exactly why ticking it asserted something. The coordinator's instruction that the packet must not tick a select-one the record does not establish requires this pixel to go.",
+      "nothingNearASignatureNotaryOrJurat": "The nearest signature-family field on packet page 1 is 'Printed Name' at y 142.579; the removal is at y 578.88-583.2, over 420 points away. CC-DC-089's party, attorney and judge signature blocks are on packet pages 3 and 4, which lost and gained nothing at all."
+     },
+     "overSuppressionCheck": "NONE FOUND, and the negative control is unusually strong here: packet pages 2, 3 and 4 are pixel-identical before and after the repair - 0 added and 0 removed on each - so the entire byte change is the one 60-pixel cluster on page 1. Against the pinned sources, removed pixels are 2,943 per fixture before AND after, unchanged to the pixel; those are the two Reset viewer push-buttons the field map declares under viewerControlsRemoved, and this repair neither added to them nor touched them.",
+     "negativeControl": {
+      "whatItIs": "this family writes on all four pages, so there is no write-free page to use. The control used instead is the before-versus-after comparison of the three pages the repair does not concern.",
+      "measured": "packet pages 2, 3 and 4: 0 pixels added, 0 removed, on both fixtures."
+     },
+     "measuredBy": "this lane, which repaired the family. A measurement, not a verification."
     }
    },
    "whatWasWrong": {
@@ -377,7 +449,8 @@
    "packetsSelfVerified": 0,
    "productionTouched": false,
    "claimReleased": false,
-   "commit": null
+   "commit": "2059fd753",
+   "toolsUsed": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs (committed, read-only) for appearance classification, and a SHA-256 comparison of each stroke-only stream against every /AP /N stream in the pinned sources. That comparison was validated against the committed cohort tool's own standing proof before it was relied on: run on the pre-repair md_pardon_expungement-set bytes it returns 6 matched / 0 unmatched per fixture, 12 / 0 across both, which is exactly what BORDER_COHORT_REMEDIATION.json records for that family. scripts/grade-a-packet-factory-24h/account-stroke-only-against-pinned-sources.mjs was NOT run: it rewrites data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json for every family in the cohort, which is a central manifest and not this lane's to write. Its already-committed results were read instead."
   }
  ]
 }
