@@ -46,57 +46,57 @@ Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is con
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
-| 1 | Description of Offense | the description of the first offence you are asking the court to expunge |
-| 1 | Year | the year of the first offence |
-| 1 | Docket Number (If Any) | the docket number of the first offence, if it has one |
-| 1 | Description of Offense | the description of a second offence from the same incident, if there is one |
-| 1 | Year | the year of the second offence |
-| 1 | Docket Number (If Any) | the docket number of the second offence |
-| 1 | Description of Offense | the description of a third offence from the same incident, if there is one |
-| 1 | Year | the year of the third offence |
-| 1 | Docket Number (If Any) | the docket number of the third offence |
+| 1 | Description of Offense — row 1 as printed on the form | the description of the first offence you are asking the court to expunge |
+| 1 | Year — row 1 as printed on the form | the year of the first offence |
+| 1 | Docket Number (If Any) — row 1 as printed on the form | the docket number of the first offence, if it has one |
+| 1 | Description of Offense — row 2 as printed on the form | the description of a second offence from the same incident, if there is one |
+| 1 | Year — row 2 as printed on the form | the year of the second offence |
+| 1 | Docket Number (If Any) — row 2 as printed on the form | the docket number of the second offence |
+| 1 | Description of Offense — row 3 as printed on the form | the description of a third offence from the same incident, if there is one |
+| 1 | Year — row 3 as printed on the form | the year of the third offence |
+| 1 | Docket Number (If Any) — row 3 as printed on the form | the docket number of the third offence |
 | 1 | a. Date of conviction: | the date you were convicted, from your docket sheet or judgment order |
 | 1 | Yes – Date of Completion: | the date you completed probation, if you were on probation |
 | 1 | name of arresting law enforcement agency or department | the name of the law enforcement agency that cited or arrested you, if no charge was filed |
-| 2 | Offense (new charges since) | any new offence since the offence in question 1 — leave blank if there are none |
-| 2 | Date of Offense (new charges since) | the date of that new offence |
-| 2 | Date of Charge (new charges since) | the date that new charge was brought |
-| 2 | Date of Conviction (new charges since) | the date of conviction on that new charge, if there was one |
-| 2 | Date of Charge (new charges since) | the date that second new charge was brought |
-| 2 | Date of Conviction (new charges since) | the date of conviction on that second new charge |
-| 2 | Offense (new charges since) | a second new offence, if there is one |
-| 2 | Date of Offense (new charges since) | the date of that second new offence |
-| 2 | Date of Charge (new charges since) | the date that third new charge was brought |
-| 2 | Date of Conviction (new charges since) | the date of conviction on that third new charge |
-| 2 | Offense (new charges since) | a third new offence, if there is one |
-| 2 | Date of Offense (new charges since) | the date of that third new offence |
+| 2 | Offense (new charges since) — first row (the form prints no row numbers here) | any new offence since the offence in question 1 — leave blank if there are none |
+| 2 | Date of Offense (new charges since) — first row (the form prints no row numbers here) | the date of that new offence |
+| 2 | Date of Charge (new charges since) — first row (the form prints no row numbers here) | the date that new charge was brought |
+| 2 | Date of Conviction (new charges since) — first row (the form prints no row numbers here) | the date of conviction on that new charge, if there was one |
+| 2 | Offense (new charges since) — second row (the form prints no row numbers here) | a second new offence, if there is one |
+| 2 | Date of Offense (new charges since) — second row (the form prints no row numbers here) | the date of that second new offence |
+| 2 | Date of Charge (new charges since) — second row (the form prints no row numbers here) | the date that second new charge was brought |
+| 2 | Date of Conviction (new charges since) — second row (the form prints no row numbers here) | the date of conviction on that second new charge |
+| 2 | Offense (new charges since) — third row (the form prints no row numbers here) | a third new offence, if there is one |
+| 2 | Date of Offense (new charges since) — third row (the form prints no row numbers here) | the date of that third new offence |
+| 2 | Date of Charge (new charges since) — third row (the form prints no row numbers here) | the date that third new charge was brought |
+| 2 | Date of Conviction (new charges since) — third row (the form prints no row numbers here) | the date of conviction on that third new charge |
 | 2 | 4. I believe that expungement of my criminal history is in the interests of justice because: | your own statement of why expungement is in the interests of justice — this is yours to write and the platform never writes it for you |
-| 2 | Address (other state entities to notify) | that agency's address |
-| 2 | State Agency (other state entities to notify) | the name of any other state agency the court should notify, if you know of one |
-| 2 | Address (other state entities to notify) | that second agency's address |
-| 2 | State Agency (other state entities to notify) | a second agency the court should notify, if there is one |
+| 2 | State Agency (other state entities to notify) — first row (the form prints no row numbers here) | the name of any other state agency the court should notify, if you know of one |
+| 2 | Address (other state entities to notify) — first row (the form prints no row numbers here) | that agency's address |
+| 2 | State Agency (other state entities to notify) — second row (the form prints no row numbers here) | a second agency the court should notify, if there is one |
+| 2 | Address (other state entities to notify) — second row (the form prints no row numbers here) | that second agency's address |
 
 ### 200-00132A — Stipulation to Expunge Criminal History Record + Order
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
-| 1 | Description of Offense | the description of the first offence, exactly as on the petition |
-| 1 | Date of Offense | the date of the first offence |
-| 1 | Incident Number | the incident number for the first offence, if the record shows one |
-| 1 | Docket Number (if any) | the docket number of the first offence, if it has one |
-| 1 | Description of Offense | the description of a second offence from the same incident, if there is one |
-| 1 | Date of Offense | the date of the second offence |
-| 1 | Incident Number | the incident number for the second offence |
-| 1 | Docket Number (if any) | the docket number of the second offence |
-| 1 | Description of Offense | the description of a third offence from the same incident, if there is one |
-| 1 | Date of Offense | the date of the third offence |
-| 1 | Incident Number | the incident number for the third offence |
-| 1 | Docket Number (if any) | the docket number of the third offence |
-| 1 | Address (other state entities to notify) | that agency's address |
-| 1 | State Agency (other state entities to notify) | the name of any other state agency the court should notify, if you know of one |
-| 1 | Address (other state entities to notify) | that second agency's address |
-| 1 | State Agency (other state entities to notify) | a second agency the court should notify, if there is one |
+| 1 | Description of Offense — first row (the form prints no row numbers here) | the description of the first offence, exactly as on the petition |
+| 1 | Date of Offense — first row (the form prints no row numbers here) | the date of the first offence |
+| 1 | Incident Number — first row (the form prints no row numbers here) | the incident number for the first offence, if the record shows one |
+| 1 | Docket Number (if any) — first row (the form prints no row numbers here) | the docket number of the first offence, if it has one |
+| 1 | Description of Offense — second row (the form prints no row numbers here) | the description of a second offence from the same incident, if there is one |
+| 1 | Date of Offense — second row (the form prints no row numbers here) | the date of the second offence |
+| 1 | Incident Number — second row (the form prints no row numbers here) | the incident number for the second offence |
+| 1 | Docket Number (if any) — second row (the form prints no row numbers here) | the docket number of the second offence |
+| 1 | Description of Offense — third row (the form prints no row numbers here) | the description of a third offence from the same incident, if there is one |
+| 1 | Date of Offense — third row (the form prints no row numbers here) | the date of the third offence |
+| 1 | Incident Number — third row (the form prints no row numbers here) | the incident number for the third offence |
+| 1 | Docket Number (if any) — third row (the form prints no row numbers here) | the docket number of the third offence |
+| 1 | State Agency (other state entities to notify) — first row (the form prints no row numbers here) | the name of any other state agency the court should notify, if you know of one |
+| 1 | Address (other state entities to notify) — first row (the form prints no row numbers here) | that agency's address |
+| 1 | State Agency (other state entities to notify) — second row (the form prints no row numbers here) | a second agency the court should notify, if there is one |
+| 1 | Address (other state entities to notify) — second row (the form prints no row numbers here) | that second agency's address |
 | 1 | Mailing Address (third line) | a third mailing-address line, only if your address needs one |
 
 ## Boxes too small for a long value

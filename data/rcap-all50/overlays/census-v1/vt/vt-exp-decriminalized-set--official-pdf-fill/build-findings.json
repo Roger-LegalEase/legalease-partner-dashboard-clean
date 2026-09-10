@@ -29,6 +29,10 @@
     {
       "finding": "The committed vt_exp_decriminalized track holds 11 self-help stopping conditions.",
       "consequence": "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages."
+    },
+    {
+      "finding": "FIX05. The participant's list of items to supply disclosed 15 captions that each named more than one blank on the same form and page, and emitted the items in AcroForm field-tree order rather than in the order they are read on the page.",
+      "consequence": "Every caption that names more than one blank now carries a locator derived from source geometry -- the row number the form itself prints where it prints one, which on 200-00129 page 1 is the '1.', '2.' and '3.' printed at x=54.4 inside each row's own widget band, and the blank's position down the page where the form prints none -- and the list is emitted page, then down the page, then across the row, from each widget's own measured /Rect. No item's mapping changed, no value changed and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it; the defect was visible only by reading the delivered list against the printed page."
     }
   ]
 }

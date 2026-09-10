@@ -528,7 +528,18 @@ async function censusOf(source) {
   const pages = doc.getPages();
   const pageText = pages.map((p, i) => ({
     page: i + 1,
-    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: String(l.text ?? "").trim() })).filter((l) => l.text)
+    /*
+     * FIX05. `x` and `yExact` are carried alongside the rounded `y`.
+     *
+     * The rounded `y` is what the caption search and `captionReadAt` have
+     * always used, and it is left exactly as it was, so no committed caption
+     * coordinate moves. The row locator below needs two things this line
+     * record did not keep: the run's LEFT EDGE, because a printed row number
+     * is recognised by sitting to the left of the blank it numbers, and the
+     * UNROUNDED baseline, because the locator tests that baseline against the
+     * widget's own rectangle and a rectangle is not an integer.
+     */
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), yExact: l.y, x: l.x, text: String(l.text ?? "").trim() })).filter((l) => l.text)
   }));
 
   // How many boxes each name carries, so a name that carries one keeps its own
@@ -1011,14 +1022,238 @@ function builderCounters(maps, actualWrites, instructionsText) {
   return { counters, findings, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
 }
 
-function requiredBeforeFilingItems(maps) {
+/*
+ * FIX05, 2026-09-10. The participant's item list: which blank, and in what
+ * order.
+ *
+ * WHAT WAS WRONG. Two things, on the only list this packet gives a participant
+ * to work from. Both are invisible to all nine completeness counters, which
+ * read zero on this family before this repair and read zero after it.
+ *
+ * (1) FIFTEEN CAPTIONS EACH NAMED MORE THAN ONE BLANK. The 48 items were
+ *     disclosed by the printed caption alone, so on 200-00129 page 1 three
+ *     consecutive items all read "Description of Offense", three all read
+ *     "Year" and three all read "Docket Number (If Any)"; on page 2 four more
+ *     groups of three in the new-charges table and two pairs in the
+ *     state-agency table; on 200-00132A page 1 four groups of three and two
+ *     more pairs. Grouping the committed list by (document, page,
+ *     disclosureLabel) gives 15 groups of size greater than one. Only the
+ *     what-to-write column distinguished them, and that column is prose.
+ *
+ *     The form itself offers a distinguisher for nine of them and the list used
+ *     none of it. Read from the pinned 200-00129
+ *     (6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5), the
+ *     question-1 charge table prints three lines whose whole text is "1.", "2."
+ *     and "3.", all three at x=54.4, at baselines 484.4, 469.8 and 456.1 --
+ *     each inside the vertical band of its own row's widgets ([482.07, 495.69],
+ *     [467.17, 480.78], [454.15, 467.76]) and to the left of them.
+ *
+ * (2) THE LIST WAS EMITTED IN ACROFORM FIELD-TREE ORDER, NOT READING ORDER.
+ *     The old sort was document, then page, then descending rect.y, and a row's
+ *     cells on these forms do not share an exact y -- they differ by up to
+ *     1.22pt -- so within a row the sort either fell back on the array order it
+ *     was given, which is the field tree, or ordered the columns by a fraction
+ *     of a point. On 200-00129 page 2 that emitted 22,23,24,25 then 28,29 then
+ *     26,27 then 32,33 then 30,31 where the geometry reads 22 through 33 in
+ *     sequence. On the page it put "Address (other state entities to notify) |
+ *     that agency's address" ABOVE the row that introduces the agency -- twice
+ *     on 200-00129 page 2 (rects y=431.42 against y=431.38, and y=416.04
+ *     against y=415.00) and twice on 200-00132A page 1 (y=356.35 against
+ *     y=356.30, and y=341.28 against y=340.06) -- so the demonstrative "that
+ *     agency" printed before its antecedent. It also put "the date that second
+ *     new charge was brought" two rows above "a second new offence, if there is
+ *     one".
+ *
+ * WHAT THIS IS NOT. Not a mis-mapping. Every one of the 48 items named the
+ * correct blank before this repair and names the same blank after it. No value
+ * changes, no policy changes, and NO PDF BYTE MOVES: `rbf` is computed after
+ * every fixture has been written and is not an input to any rendered page --
+ * the composed instruction pages are drawn from `composedBody`, which never
+ * receives it. It reaches production-field-map.json and
+ * participant-instructions.md and nothing else.
+ *
+ * WHAT REPLACES IT. Both the locator and the order are derived from the source
+ * widgets' own measured /Rect and the source page's own printed runs. Nothing
+ * here is hand-typed: there is no literal row number, no literal label and no
+ * literal ordering in this file.
+ *
+ * This is the standard FIX130 applied to the five sibling seal families in this
+ * same shift, from this same host and the same corpus. It is re-derived here
+ * against the forms THIS family binds rather than carried across: 200-00129 and
+ * 200-00132A are the expungement counterparts of 200-00130 and 200-00132, not
+ * the same binaries, and their printed geometry was measured on the digests
+ * this family's own source-receipt pins.
+ */
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+
+/*
+ * A printed row number is only accepted as one when it behaves like a table's
+ * row-number COLUMN: every row in the group has one, they increase down the
+ * page, and they are all printed at the same left edge. The tolerance is the
+ * width of that column, not a guess about the page.
+ */
+const ROW_NUMBER_COLUMN_TOLERANCE_PT = 2;
+
+/*
+ * The cells of one printed row do not share an exact baseline on these forms.
+ * The largest spread measured across the three repeating tables and the two
+ * state-agency tables this packet discloses is 1.22pt (200-00132A page 1,
+ * y=341.28 against y=340.06); the smallest gap between two different rows is
+ * 13.02pt (200-00129 page 1, y=467.17 against y=454.15). Any tolerance between
+ * those two numbers separates the rows and joins each row's own cells, and the
+ * band builder below ASSERTS both properties on the geometry it is actually
+ * given rather than trusting this paragraph.
+ */
+const READING_ORDER_BAND_PT = 4;
+
+/*
+ * FIX05. Which of several identically-captioned blanks this one is, resolved by
+ * geometry against the printed page and never by AcroForm field name -- the
+ * field names on these forms are bare ordinals that agree with the printed row
+ * numbers nowhere, and four of them (26, 27, 30 and 31 on 200-00129) name two
+ * different blanks in two unrelated tables.
+ *
+ * A locator is attached only where one is NEEDED: where the same printed words
+ * appear beside more than one blank on one page of one form. Those blanks are
+ * ordered by their own rectangles, top of the page first. Where the form prints
+ * a row number beside every one of them, that printed number is used and the
+ * label says it is printed. Where it does not, the locator is the blank's
+ * position down the page, which is something the participant can see, and the
+ * label says the form prints no numbers there rather than implying one.
+ */
+function rowLocatorsFor(census) {
+  const byLabel = new Map();
+  for (const r of census.rows) {
+    const key = `p${r.page}|${r.effectiveLabel}`;
+    byLabel.set(key, [...(byLabel.get(key) ?? []), r]);
+  }
+  const locator = new Map(); // `${key}@p${page}` -> locator string
+  for (const group of byLabel.values()) {
+    if (group.length < 2) continue;
+    const ordered = [...group].sort((a, b) => b.rect.y - a.rect.y);
+    const lines = census.pageText.find((p) => p.page === ordered[0].page)?.lines ?? [];
+    const printed = ordered.map((r) => lines.find((l) => /^\d+\.$/.test(l.text)
+      // inside this blank's OWN vertical band, read from its own rectangle
+      && l.yExact >= r.rect.y - 2 && l.yExact <= r.rect.y + r.rect.height
+      // and to the left of it, which is where a row number is printed
+      && typeof l.x === "number" && l.x < r.rect.x - 4) ?? null);
+    const numbers = printed.map((l) => (l ? Number(l.text.slice(0, -1)) : null));
+    const everyRowNumbered = printed.every((l) => l !== null)
+      && numbers.every((n, i) => i === 0 || n > numbers[i - 1])
+      && printed.every((l) => Math.abs(l.x - printed[0].x) <= ROW_NUMBER_COLUMN_TOLERANCE_PT);
+    ordered.forEach((r, i) => {
+      locator.set(`${r.key}@p${r.page}`, everyRowNumbered
+        ? `row ${numbers[i]} as printed on the form`
+        : `${ORDINALS[i] ?? `row ${i + 1}`} row (the form prints no row numbers here)`);
+    });
+  }
+  return locator;
+}
+
+/*
+ * FIX05. The label a participant reads: the words the form prints beside that
+ * blank, and -- only where those words name more than one blank on that page --
+ * which one. Two blanks on one page of one form may not carry the same
+ * identifier, and the build refuses rather than emit a list where they do.
+ */
+function disclosureLabelsFor(censuses) {
+  const labels = new Map(); // `${form}|${key}|${page}` -> label
+  const seen = new Map();
+  for (const { source, census } of censuses) {
+    const locator = rowLocatorsFor(census);
+    for (const r of census.rows) {
+      const where = locator.get(`${r.key}@p${r.page}`);
+      const label = where ? `${r.effectiveLabel} — ${where}` : r.effectiveLabel;
+      labels.set(`${source.formNumber}|${r.key}|${r.page}`, label);
+      const uniquenessKey = `${source.formNumber}|p${r.page}|${label}`;
+      seen.set(uniquenessKey, [...(seen.get(uniquenessKey) ?? []), r.key]);
+    }
+  }
+  const collisions = [...seen.entries()].filter(([, keys]) => keys.length > 1)
+    .map(([key, widgets]) => ({ key, widgets }));
+  assert.equal(collisions.length, 0,
+    `two blanks on one page of one form would be disclosed under the same label: ${JSON.stringify(collisions.slice(0, 4))}`);
+  return labels;
+}
+
+/*
+ * FIX05. Page, then down the page, then across the row -- clustered into rows
+ * first, because ordering on the raw baseline interleaves the columns of a row
+ * whose cells sit a point apart.
+ *
+ * The band tolerance is not asserted to be right in a comment; it is proven
+ * against the geometry of the items actually passed in. If a band ever held two
+ * cells further apart than the tolerance, or two bands on a page ever came
+ * closer together than the tolerance, the clustering would be arbitrary and the
+ * build stops instead of publishing an order it cannot justify.
+ */
+function inReadingOrder(items, where) {
+  const bands = [];
+  for (const r of [...items].sort((a, b) => a.page - b.page || b.y - a.y)) {
+    const band = bands.find((b) => b.page === r.page && Math.abs(b.y - r.y) <= READING_ORDER_BAND_PT);
+    if (band) band.rows.push(r);
+    else bands.push({ page: r.page, y: r.y, rows: [r] });
+  }
+  for (const b of bands) {
+    const ys = b.rows.map((r) => r.y);
+    const spread = Math.max(...ys) - Math.min(...ys);
+    assert.ok(spread <= READING_ORDER_BAND_PT,
+      `${where} page ${b.page}: one row band spans ${spread.toFixed(2)}pt, wider than the ${READING_ORDER_BAND_PT}pt tolerance that built it, so the row clustering is not sound`);
+  }
+  for (const page of new Set(bands.map((b) => b.page))) {
+    const extents = bands.filter((b) => b.page === page)
+      .map((b) => ({ lo: Math.min(...b.rows.map((r) => r.y)), hi: Math.max(...b.rows.map((r) => r.y)) }))
+      .sort((a, b) => b.hi - a.hi);
+    for (let i = 1; i < extents.length; i += 1) {
+      const gap = extents[i - 1].lo - extents[i].hi;
+      assert.ok(gap > READING_ORDER_BAND_PT,
+        `${where} page ${page}: two row bands are ${gap.toFixed(2)}pt apart, within the ${READING_ORDER_BAND_PT}pt tolerance, so which row a blank belongs to is not decidable from its baseline alone`);
+    }
+  }
+  return bands.flatMap((b) => [...b.rows].sort((a, b2) => a.x - b2.x));
+}
+
+function requiredBeforeFilingItems(maps, censuses) {
+  const labels = disclosureLabelsFor(censuses);
   const order = Object.fromEntries(ORDER.map((f, i) => [f, i]));
-  return maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
-    document: m.formNumber, field: r.field, page: r.page, y: r.rect?.y ?? null,
-    printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
-    identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-  })))
-    .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
+  const documents = maps
+    .filter((m) => (m.canonicalRefusals ?? []).some((r) => r.requiredBeforeFiling === true))
+    .sort((a, b) => (order[a.formNumber] ?? 99) - (order[b.formNumber] ?? 99));
+  const out = [];
+  for (const m of documents) {
+    const items = m.canonicalRefusals.filter((r) => r.requiredBeforeFiling === true).map((r) => {
+      /*
+       * The order and the locator are both read off this rectangle. A missing
+       * one is an unmeasured position, not position zero, and coalescing it to
+       * zero would sort the blank to the bottom of the page and say nothing.
+       */
+      assert.ok(r.rect && Number.isFinite(r.rect.y) && Number.isFinite(r.rect.x),
+        `${m.formNumber} ${r.field}: no measured rectangle, so its place in the participant's reading order cannot be derived`);
+      const disclosureLabel = labels.get(`${m.formNumber}|${r.field}|${r.page}`);
+      assert.ok(typeof disclosureLabel === "string" && disclosureLabel.length > 0,
+        `${m.formNumber} ${r.field} p${r.page}: no disclosure label was derived for a blank the participant is asked to fill in`);
+      return {
+        document: m.formNumber, field: r.field, page: r.page, y: r.rect.y, x: r.rect.x,
+        printedContext: r.printedLabel, disclosureLabel,
+        identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+      };
+    });
+    out.push(...inReadingOrder(items, m.formNumber));
+  }
+  /*
+   * The assertion in disclosureLabelsFor covers every widget on every form.
+   * This one covers the list actually emitted, which is the artifact the defect
+   * lived in, and it is the one that would fail if the two ever came apart.
+   */
+  const disclosed = new Map();
+  for (const i of out) {
+    const key = `${i.document}|p${i.page}|${i.disclosureLabel}`;
+    disclosed.set(key, [...(disclosed.get(key) ?? []), i.field]);
+  }
+  const shared = [...disclosed.entries()].filter(([, fields]) => fields.length > 1);
+  assert.equal(shared.length, 0,
+    `the participant's item list would name ${shared.length} caption(s) against more than one blank: ${JSON.stringify(shared.slice(0, 4))}`);
+  return out;
 }
 
 function instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture) {
@@ -1206,7 +1441,8 @@ function writeArtifacts(ctx) {
       { finding: "The held fee answer is no filing fee on this track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.", consequence: "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track." },
       { finding: `The finalizer refused ${refusedEverywhere.length} prefill(s) across the two fixtures because the value did not fit its box at a readable size: ${refusedEverywhere.map((r) => `${r.fixture}/${r.formNumber} ${r.field} (${r.factId})`).join(", ") || "none"}.`, consequence: "The box is left empty rather than carrying illegible ink, and every refusal is now named on the instruction page bound into that packet and recorded in reports/rendered-artifacts.json. Before this repair a refusal reached no artifact at all and the participant page promised the value had been filled in." },
       { finding: `The prosecutor identity is read from the committed route-obligation census, bound at ${routeRecord.sha256.slice(0, 12)} and re-asserted against ${SERVICE_ANCHORS.length} anchor statements.`, consequence: "The packet states that the participant does not serve process: the court provides a filed petition to the prosecutor, while a stipulation is taken or sent to the prosecuting office and filed by the prosecutor under 13 V.S.A. Sec. 7602(a)(4)." },
-      { finding: `The committed vt_exp_decriminalized track holds ${stopRecord.conditions.length} self-help stopping conditions.`, consequence: "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages." }
+      { finding: `The committed vt_exp_decriminalized track holds ${stopRecord.conditions.length} self-help stopping conditions.`, consequence: "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages." },
+      { finding: "FIX05. The participant's list of items to supply disclosed 15 captions that each named more than one blank on the same form and page, and emitted the items in AcroForm field-tree order rather than in the order they are read on the page.", consequence: "Every caption that names more than one blank now carries a locator derived from source geometry -- the row number the form itself prints where it prints one, which on 200-00129 page 1 is the '1.', '2.' and '3.' printed at x=54.4 inside each row's own widget band, and the blank's position down the page where the form prints none -- and the list is emitted page, then down the page, then across the row, from each widget's own measured /Rect. No item's mapping changed, no value changed and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it; the defect was visible only by reading the delivered list against the printed page." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -1362,7 +1598,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  const rbf = requiredBeforeFilingItems(maps);
+  const rbf = requiredBeforeFilingItems(maps, censuses);
   const instructions = instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
