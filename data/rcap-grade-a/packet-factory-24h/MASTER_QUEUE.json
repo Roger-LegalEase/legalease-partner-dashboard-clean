@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0a7fe44b42efeed3089cba7917ebe53baa54f1cf",
+  "minimumCaptainSha": "8046572dee833b147fc0719d2758476c319b98db",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,7 +73,7 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 49,
+    "repairRequired": 46,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,9 +81,9 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 60,
+    "FAIL_REPAIR_REQUIRED": 57,
     "SOURCE_READY": 33,
-    "BUILT_RASTER_PENDING": 5,
+    "BUILT_RASTER_PENDING": 8,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
@@ -20194,14 +20194,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf36",
-        "verifiedAtBase": "0e46a57a57965a62c850209c47fced147cdc3f55",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910d-in-guidance2.json"
+        "verifiedAtBase": "44ae27ac7f5b723d53961cdbbc5056cadd2d44dc",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910e-in-fd.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20230,27 +20228,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL, and correctly so - FIX04 was instructed not to touch this and did not. Read off the delivered boundary filed bytes: 'Cause number of the conviction: 45C01-0812-FB-00000000000654321' sits beside 'Offense level as it appears on the court record: Class D felony under the pre-2014 sentencing scheme'. In the Indiana cause-number scheme the charge-class segment FB denotes a Class B felony, and the sibling family in_conviction_felony-set binds the identical FB segment on 45C01-0812-FB-00000000000123456 to 'Class B felony'. The same token is therefore bound to two different offence classes across two families, and inside this family it contradicts its own cause number. This lane verified FIX04 invented no token, moved no offence class, removed nothing and left the owner decision unmodified: the filed bytes did not move. Scored as found, not as expected-to-be-repaired.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "FAIL. FIX04 claims zero residuals across all six guidance PDFs for the participant-address defect class. That claim is false. A ninth print site survives on page 6 of both delivered guidance fixtures and in all six delivered guidance PDFs: the bullet label 'What the registry says about filing:'. 'The registry' is this factory's own record-keeping, named to the participant, which is precisely the class FIX04 described as 'headings describing this system's record-keeping rather than the reader's case' and reported as fully repaired at four sites. It is also redundant - the bullet's value repeats verbatim the 'Filing:' bullet printed three lines above it. Source: scripts/build-census-v1-in_conviction_felony-set.mjs:1009, scripts/build-census-v1-in_conviction_d6-set.mjs:1020 and scripts/build-census-v1-in_conviction_misd-set.mjs:997, all reading bullet(`What the registry says about filing: ${pick(\"file\") ?? \"the committed record holds no filing action for this track.\"}`). A second, weaker residual of the same class sits in the exclusions block on the same page: 'Convictions excluded by the statutory exclusion structure, to be verified against the current text' (d6, felony) and '...which must be verified against the current text of Secs. 35-38-9-2 through 5' (misd) - an actorless verification directive whose actor in the pre-repair record was this factory's evaluator. Everything else in this obligation now passes: 0 pipes, 0 identifier leaks, 0 bracketed markers, 0 impact/affects tags, and the page-2, page-3, page-4, page-5 and page-6 sites are repaired on the delivered bytes.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_d6-set.mjs",
@@ -20399,14 +20381,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf36",
-        "verifiedAtBase": "0e46a57a57965a62c850209c47fced147cdc3f55",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910d-in-guidance2.json"
+        "verifiedAtBase": "44ae27ac7f5b723d53961cdbbc5056cadd2d44dc",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910e-in-fd.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20435,20 +20415,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "FAIL. FIX04 claims zero residuals across all six guidance PDFs for the participant-address defect class. That claim is false. A ninth print site survives on page 7 of both delivered guidance fixtures and in all six delivered guidance PDFs: the bullet label 'What the registry says about filing:'. 'The registry' is this factory's own record-keeping, named to the participant, which is precisely the class FIX04 described as 'headings describing this system's record-keeping rather than the reader's case' and reported as fully repaired at four sites. It is also redundant - the bullet's value repeats verbatim the 'Filing:' bullet printed three lines above it. Source: scripts/build-census-v1-in_conviction_felony-set.mjs:1009, scripts/build-census-v1-in_conviction_d6-set.mjs:1020 and scripts/build-census-v1-in_conviction_misd-set.mjs:997, all reading bullet(`What the registry says about filing: ${pick(\"file\") ?? \"the committed record holds no filing action for this track.\"}`). A second, weaker residual of the same class sits in the exclusions block on the same page: 'Convictions excluded by the statutory exclusion structure, to be verified against the current text' (d6, felony) and '...which must be verified against the current text of Secs. 35-38-9-2 through 5' (misd) - an actorless verification directive whose actor in the pre-repair record was this factory's evaluator. Everything else in this obligation now passes: 0 pipes, 0 identifier leaks, 0 bracketed markers, 0 impact/affects tags, and the page-2, page-3, page-4, page-5 and page-6 sites are repaired on the delivered bytes.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_felony-set.mjs",
@@ -20597,14 +20568,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf36",
-        "verifiedAtBase": "0e46a57a57965a62c850209c47fced147cdc3f55",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910d-in-guidance2.json"
+        "verifiedAtBase": "44ae27ac7f5b723d53961cdbbc5056cadd2d44dc",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows-vf36-20260910e-in-fd.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20633,20 +20602,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "FAIL. FIX04 claims zero residuals across all six guidance PDFs for the participant-address defect class. That claim is false. A ninth print site survives on page 7 of both delivered guidance fixtures and in all six delivered guidance PDFs: the bullet label 'What the registry says about filing:'. 'The registry' is this factory's own record-keeping, named to the participant, which is precisely the class FIX04 described as 'headings describing this system's record-keeping rather than the reader's case' and reported as fully repaired at four sites. It is also redundant - the bullet's value repeats verbatim the 'Filing:' bullet printed three lines above it. Source: scripts/build-census-v1-in_conviction_felony-set.mjs:1009, scripts/build-census-v1-in_conviction_d6-set.mjs:1020 and scripts/build-census-v1-in_conviction_misd-set.mjs:997, all reading bullet(`What the registry says about filing: ${pick(\"file\") ?? \"the committed record holds no filing action for this track.\"}`). A second, weaker residual of the same class sits in the exclusions block on the same page: 'Convictions excluded by the statutory exclusion structure, to be verified against the current text' (d6, felony) and '...which must be verified against the current text of Secs. 35-38-9-2 through 5' (misd) - an actorless verification directive whose actor in the pre-repair record was this factory's evaluator. Everything else in this obligation now passes: 0 pipes, 0 identifier leaks, 0 bracketed markers, 0 impact/affects tags, and the page-2, page-3, page-4, page-5 and page-6 sites are repaired on the delivered bytes.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_conviction_misd-set.mjs",
