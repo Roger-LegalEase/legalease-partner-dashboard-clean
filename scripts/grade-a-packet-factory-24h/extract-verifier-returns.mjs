@@ -219,6 +219,36 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
   try { doc = JSON.parse(fs.readFileSync(p, "utf8")); }
   catch (e) { problems.push(`${d}/rows.json is unreadable: ${e.message}`); continue; }
   const list = Array.isArray(doc) ? doc : doc.rows ?? [];
+  /*
+   * A SINGLE-LANE FILE'S DECLARED BASE IS ITS ROWS' BASE.
+   *
+   * The refusal to inherit a document-level base below is right, and the hazard
+   * it names is real: files appended to by successive lanes would stamp a later
+   * team's baseSha onto older rows it never read, which is how a stale vf11
+   * FAIL came to wear a fresh base.
+   *
+   * But that hazard needs more than one lane in the file. VF31 wrote a
+   * single-lane file declaring `lane`, `laneKind` and one `verifiedAtBase` at
+   * the top -- every row in it is that lane's, read at that commit -- and its
+   * rows therefore carried no base of their own. The extractor read them as
+   * declaring none, so a complete PASS_COMPLETE_INDEPENDENT lost supersession
+   * to that same lane's older FAIL, which did carry a per-row base. A correct
+   * later read was discarded in favour of the stale one it replaced.
+   *
+   * Measured before changing it: of 313 row files, 61 carry a document-level
+   * base with at least one row lacking one. 50 of those declare a single lane
+   * and every row belongs to it -- the hazard cannot arise. 11 are multi-lane
+   * or declare no lane at all, and those keep the refusal.
+   *
+   * So the inheritance is allowed exactly where the file proves it is safe: the
+   * document names a lane, and no row names a different one.
+   */
+  const documentDeclaredLane = typeof doc?.lane === "string" ? doc.lane : null;
+  const everyRowIsThatLane = documentDeclaredLane !== null
+    && list.every((r) => !r?.lane || r.lane === documentDeclaredLane);
+  const inheritableBase = documentDeclaredLane && everyRowIsThatLane
+    ? (doc.verifiedAtBase ?? doc.reviewBase ?? doc.baseSha ?? null)
+    : null;
   // Only lanes that are actually independent verification. A builder's own row
   // is not a verdict, and counting one would be the self-verification the whole
   // design refuses.
@@ -359,7 +389,7 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
        * side and recorded per-row bases to avoid stamping its commit onto
        * VF-SRC-A's rows in the files it shared.
        */
-      verifiedAtBase: r.verifiedAtBase ?? r.reviewBase ?? r.baseSha ?? null,
+      verifiedAtBase: r.verifiedAtBase ?? r.reviewBase ?? r.baseSha ?? inheritableBase,
       ...(narrowlyScored ? {
         downgradedFrom: "PASS_COMPLETE_INDEPENDENT",
         downgradedBecause: `the lane scored ${PROOF_OBLIGATIONS.length - unscoredObligations.length} of ${PROOF_OBLIGATIONS.length} proof obligations; the strongest verdict is a claim about all of them`,
