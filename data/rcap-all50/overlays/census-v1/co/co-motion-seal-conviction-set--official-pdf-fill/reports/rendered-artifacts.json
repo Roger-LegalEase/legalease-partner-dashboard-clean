@@ -453,7 +453,7 @@
   ],
   "componentSet": {
     "countedFrom": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=co_motion_seal_conviction-set].components",
-    "groundingRecordSha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+    "groundingRecordSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
     "requiredByTheRoute": 4,
     "renderedHere": 2,
     "complete": false,
@@ -493,28 +493,46 @@
         "role": "required_filing",
         "officialFormId": null,
         "requiredOfficialFormId": "JDF-614",
-        "disposition": "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+        "disposition": "NOT_RENDERED_COMMITTED_INDEX_DOES_NOT_IDENTIFY_THE_HELD_BINARY",
         "identityResolved": true,
         "identityResolvedFrom": "JDF-611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e) names it \"JDF 614 Notice (Just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
-        "reason": "JDF 614 is required by the route and its identity is established, but its binary is not here: the committed corpus index records it at LegalEase Colorado/JDF614.pdf, sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555787 bytes, in custody nationwide_recovery_pool_2026_09_02, which this container does not mount. A source that does not bind may not be rendered and may not be substituted, so the component is absent and the participant is told so by form number in participant-instructions.md.",
-        "digestProvenance": "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted",
-        "cautionForWhoeverRendersIt": null,
+        "reason": "JDF 614 is required by the route, its identity is established, and its binary is HELD: the committed corpus index records it at LegalEase Colorado/JDF614.pdf, sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555787 bytes, in custody nationwide_recovery_pool_2026_09_02. What it does NOT record is which form that file is -- the entry carries formNumber null and assetClass null -- and resolveSources() binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it. So the source does not bind, and a source that does not bind may not be rendered and may not be substituted. The component is absent and the participant is told so by form number in participant-instructions.md.",
+        "digestProvenance": "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests.",
+        "indexIdentity": {
+          "path": "LegalEase Colorado/JDF614.pdf",
+          "formNumber": null,
+          "assetClass": null,
+          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+          "byteLength": 555787,
+          "pageCount": 1,
+          "acroFieldCount": 16
+        },
+        "whatThisFormIs": null,
         "disclosedToTheParticipant": true,
-        "whatWouldChangeThis": "mount nationwide_recovery_pool_2026_09_02 or promote the binary into the Master Library, then re-hash and render"
+        "whatWouldChangeThis": "a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries: record state, formNumber and assetClass FORM against this index row (or promote the binary into the Master Library under its naming), after which the source binds by digest and the component renders. Not a re-acquisition: the bytes are held at the recorded digest."
       },
       {
         "componentId": "co_motion_seal_conviction-second-order-4",
         "role": "proposed_order",
         "officialFormId": null,
         "requiredOfficialFormId": "JDF-613",
-        "disposition": "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+        "disposition": "NOT_RENDERED_COMMITTED_INDEX_DOES_NOT_IDENTIFY_THE_HELD_BINARY",
         "identityResolved": true,
         "identityResolvedFrom": "JDF-611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e) names it \"JDF 613 Order (just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
-        "reason": "JDF 613 is required by the route and its identity is established, but its binary is not here: the committed corpus index records it at LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf, sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545525 bytes, in custody nationwide_recovery_pool_2026_09_02, which this container does not mount. A source that does not bind may not be rendered and may not be substituted, so the component is absent and the participant is told so by form number in participant-instructions.md.",
-        "digestProvenance": "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted",
-        "cautionForWhoeverRendersIt": "The index filename calls JDF 613 the ORDER DENYING the request to seal. If that is right, the \"second order\" this route requires is the denial order tendered with the grant order rather than a second grant, and it must not be described to a participant as a second grant order until the JDF-613 bytes confirm it. This build could not confirm it: the custody is not mounted, and the guide's own list says only \"Order (just do §§ A-C)\".",
+        "reason": "JDF 613 is required by the route, its identity is established, and its binary is HELD: the committed corpus index records it at LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf, sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545525 bytes, in custody nationwide_recovery_pool_2026_09_02. What it does NOT record is which form that file is -- the entry carries formNumber null and assetClass null -- and resolveSources() binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it. So the source does not bind, and a source that does not bind may not be rendered and may not be substituted. The component is absent and the participant is told so by form number in participant-instructions.md.",
+        "digestProvenance": "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests.",
+        "indexIdentity": {
+          "path": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+          "formNumber": null,
+          "assetClass": null,
+          "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+          "byteLength": 545525,
+          "pageCount": 1,
+          "acroFieldCount": 13
+        },
+        "whatThisFormIs": "The order DENYING the request to seal, confirmed by lane FIX157 on 2026-09-10 from the bytes at the digest above. Page 1 is headed \"JDF 613  Order Denying Request to Seal Conviction Records\"; section 1 Decision reads \"After reviewing the request to seal the Defendant’s records, the Court finds:\" with the alternatives \"The motion, on its face, is insufficient\" and \"After review of matters outside the motion, the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710\", followed by \"The Court denies the motion because:\"; and the footer reads \"JDF 613 - Order Denying Request to Seal Conviction Records   R: August 7, 2024   Page 1 of 1\" -- the same revision as JDF 611. So the \"second order\" the guide lists is the denial order tendered alongside the JDF 615 grant order, not a second grant. FIX96 recorded this as an open caution because the custody was not mounted to it; it is closed, and the packet now tells the participant what the form is instead of asking them to check.",
         "disclosedToTheParticipant": true,
-        "whatWouldChangeThis": "mount nationwide_recovery_pool_2026_09_02 or promote the binary into the Master Library, then re-hash and render"
+        "whatWouldChangeThis": "a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries: record state, formNumber and assetClass FORM against this index row (or promote the binary into the Master Library under its naming), after which the source binds by digest and the component renders. Not a re-acquisition: the bytes are held at the recorded digest."
       }
     ]
   },

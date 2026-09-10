@@ -95,6 +95,195 @@ const ROUTE = Object.freeze({
   ]
 });
 
+const GROUNDING_RECORDS = Object.freeze({
+  packetSetManifest: "data/record-clearing/legal-design-packet-set-manifests.json"
+});
+
+/*
+ * THE OFFICIAL GUIDE, BOUND BY DIGEST AND READ AT BUILD TIME.
+ *
+ * JDF 491 is the Colorado Judicial Department's own step-by-step guide for this
+ * exact route, at the same revision as both bound forms. VF22 read it at base
+ * 8db74d6e5 and found that its step 2 names FOUR forms where this packet
+ * delivers two, and that nothing in this family recorded the difference: not
+ * the packet-set manifest, not the track registry, not one sentence of the
+ * delivered guide, which said flatly that the packet is "two Colorado Judicial
+ * Department forms, filed together".
+ *
+ * Unlike JDF 477 and JDF 478, this guide's text stream is NOT scrambled: its
+ * items concatenate to clean prose in stream order, and pdftotext agrees with
+ * the stream. So every sentence this packet takes from the guide is asserted
+ * here as a literal substring of the digest-bound stream, on the page it is
+ * declared for. A quotation that stops matching stops the build.
+ */
+const GUIDE = Object.freeze({
+  formNumber: "JDF-491",
+  title: "Guide to Sealing Non-Conviction Records (simplified process)",
+  sha256: "79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685"
+});
+
+const GUIDE_QUOTATIONS = Object.freeze({
+  fileTheRequest: {
+    page: 1,
+    text: "File these forms into your criminal case:  JDF 477 Motion • Be sure to list all agency addresses you "
+      + "found in Step 1.  JDF 492 Order (just do §§ A-C)  JDF 493 Notice (Just do §§ A-C)  JDF 478 Order "
+      + "(just do §§ A-C)"
+  },
+  sendACopy: { page: 1, text: "Mail a copy of your motion to the Prosecuting Attorney\u2019s office." }
+});
+
+/*
+ * The identity each undelivered component has in the guide's own list, keyed by
+ * the manifest's componentId. Nothing here is inferred: the manifest names the
+ * component and the guide names the form.
+ */
+const GUIDE_NAMES_THE_MISSING_COMPONENTS = Object.freeze({
+  "co_motion_seal_nonconviction-notice-3": { formNumber: "JDF 493", asTheGuideWritesIt: "JDF 493 Notice (Just do §§ A-C)" },
+  "co_motion_seal_nonconviction-second-order-4": { formNumber: "JDF 492", asTheGuideWritesIt: "JDF 492 Order (just do §§ A-C)" }
+});
+
+/*
+ * Where the two undelivered binaries are recorded in the committed corpus
+ * index, and why neither can be rendered. The two are NOT blocked by the same
+ * thing, and this build says which is which rather than treating "missing" as
+ * one condition.
+ *
+ * JDF 492 is blocked by IDENTITY. Its index entry carries formNumber null and
+ * assetClass null, and resolveSources() binds an official form by
+ * state + formNumber + assetClass "FORM" and only then hashes it -- so no build
+ * can bind a binary the index does not identify, and binding by file name would
+ * rest this packet's source claim on a file name.
+ *
+ * JDF 493 is blocked by the BYTES THEMSELVES. The copy the index holds is
+ * revision 2019-08 against a guide revised 2024-08-07, it carries zero AcroForm
+ * fields (structuralClassObserved flat_pdf), and it has no lettered sections at
+ * all where the 2024 guide says to complete "§§ A-C". An official_pdf_fill
+ * component cannot be filled from a flat PDF, and there is affirmative evidence
+ * on the document's own face that it is not the revision the guide names.
+ *
+ * Neither reason is a mount. Lane FIX157 measured that on 2026-09-10: the
+ * custody is declared in the index's own custodies array at root
+ * private/source-imports/Nationwide_Recovery_Pool_2026-09-02, it was mounted in
+ * the FIX157 lane worktree, and both binaries hashed there to exactly the
+ * digests below. This build reads only the COMMITTED INDEX, so its output is
+ * identical in a container that mounts the custody and one that does not.
+ */
+const RECOVERY_POOL = Object.freeze({
+  custody: "nationwide_recovery_pool_2026_09_02",
+  entries: Object.freeze([
+    Object.freeze({
+      formNumber: "JDF 493", componentId: "co_motion_seal_nonconviction-notice-3",
+      path: "LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf",
+      sha256: "fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c",
+      byteLength: 51649, pageCount: 1, acroFieldCount: 0,
+      blockedBy: "held_bytes_are_a_flat_pdf_at_a_superseded_revision"
+    }),
+    Object.freeze({
+      formNumber: "JDF 492", componentId: "co_motion_seal_nonconviction-second-order-4",
+      path: "LegalEase Colorado/JDF492.pdf",
+      sha256: "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
+      byteLength: 546426, pageCount: 1, acroFieldCount: 13,
+      blockedBy: "committed_index_does_not_identify_the_entry",
+      whatThisFormIs:
+        "The order DENYING the request to seal, confirmed by lane FIX157 on 2026-09-10 from the bytes at the digest "
+        + "above. Page 1 is headed \"JDF 492  Order Denying Request to Seal Non-Conviction Records\"; it carries "
+        + "lettered sections A. Court, B. Parties to the Case and C. Case Details -- the \"§§ A-C\" the guide tells a "
+        + "filer to complete -- and its footer reads \"JDF 492 - Order Denying Request to Seal Non-Conviction "
+        + "Records   R: August 7, 2024   Page 1 of 1\", the same revision as JDF 491. So the \"second order\" the "
+        + "guide lists is the denial order tendered alongside the JDF 478 grant order, not a second grant."
+    })
+  ])
+});
+
+/*
+ * Plain-English names for the manifest's component roles. A role the manifest
+ * introduces later prints as its own identifier rather than as a guess.
+ */
+const DOCUMENT_ROLE_NOUNS = Object.freeze({
+  primary_filing: "motion",
+  proposed_order: "order for the court to sign",
+  required_filing: "notice"
+});
+const missingComponentLabel = (row, delivered) => {
+  const noun = DOCUMENT_ROLE_NOUNS[row.role] ?? row.role;
+  return delivered.some((d) => d.role === row.role) ? `a second ${noun}` : `a ${noun}`;
+};
+
+/* Read a committed record, hash the bytes that were read, and keep both. */
+function readGroundingRecord(relative) {
+  const bytes = fs.readFileSync(path.join(ROOT, relative));
+  return {
+    path: relative,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    data: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/*
+ * What the authoritative manifest says this packet set is, and what it says is
+ * missing from it. Components this build renders are matched to the manifest by
+ * official form id; the rest are undelivered and each must state a
+ * sourceStatusBasis for the packet to disclose. If the manifest ever marks the
+ * set complete while a required component cannot be rendered, the build stops
+ * rather than printing a reassurance.
+ */
+function loadPacketSetGrounding(deliveredFormNumbers) {
+  const record = readGroundingRecord(GROUNDING_RECORDS.packetSetManifest);
+  const packetSet = (record.data.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  assert.ok(packetSet, `${GROUNDING_RECORDS.packetSetManifest} holds no packet set ${FAMILY_ID}`);
+
+  const required = (packetSet.components ?? []).filter((row) => row.requirement === "required");
+  assert.ok(required.length > 0, `${FAMILY_ID} declares no required components`);
+
+  const delivered = required.filter((row) => row.officialFormId
+    && deliveredFormNumbers.includes(String(row.officialFormId).replace(/\s+/g, "-")));
+  const undelivered = required.filter((row) => !delivered.includes(row));
+  const completeness = packetSet.packetSetCompleteness ?? null;
+
+  assert.ok(completeness && typeof completeness.state === "string",
+    `${FAMILY_ID} records no packetSetCompleteness.state`);
+  if (undelivered.length > 0) {
+    assert.notEqual(completeness.state, "complete",
+      `${FAMILY_ID} is marked complete while ${undelivered.length} required component(s) cannot be rendered`);
+    for (const row of undelivered) {
+      assert.ok(row.sourceStatusBasis,
+        `${FAMILY_ID} component ${row.componentId} is undelivered and states no sourceStatusBasis to disclose`);
+    }
+  }
+  const requiredBeforeFiling = (packetSet.requiredBeforeFiling ?? []).map((x) => String(x).trim()).filter(Boolean);
+  assert.ok(requiredBeforeFiling.length > 0,
+    `${FAMILY_ID} declares no requiredBeforeFiling items, and this packet may not claim to carry a list it does not have`);
+
+  return { record, packetSet, required, delivered, undelivered, completeness, requiredBeforeFiling };
+}
+
+/*
+ * The blocker for each undelivered component, proved from the committed index
+ * rather than from the disk. See the RECOVERY_POOL comment for why identity and
+ * revision, not the mount, are what this asserts.
+ */
+function assertRecoveryPoolEntriesAreRecordedAsExpected() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const measured = [];
+  for (const entry of RECOVERY_POOL.entries) {
+    const rows = (index.entries ?? []).filter((e) => e.path === entry.path && e.custody === RECOVERY_POOL.custody);
+    assert.equal(rows.length, 1,
+      `the committed corpus index carries ${rows.length} entries at ${entry.path} in custody ${RECOVERY_POOL.custody}`);
+    const row = rows[0];
+    assert.equal(row.sha256, entry.sha256, `${entry.path}: the committed index digest is not the one this build quotes`);
+    assert.equal(row.byteLength, entry.byteLength, `${entry.path}: the committed index byte length is not the one this build quotes`);
+    assert.equal(row.formNumber, null,
+      `${entry.path} now carries formNumber ${JSON.stringify(row.formNumber)}: this packet's account of why the component is undelivered is stale`);
+    assert.equal(row.acroFieldCount ?? 0, entry.acroFieldCount,
+      `${entry.path}: the committed index records ${row.acroFieldCount} AcroForm fields and this build quotes ${entry.acroFieldCount}`);
+    measured.push({ path: entry.path, formNumber: row.formNumber, assetClass: row.assetClass,
+      sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount ?? null,
+      acroFieldCount: row.acroFieldCount ?? null, structuralClassObserved: row.structuralClassObserved ?? null });
+  }
+  return measured;
+}
+
 function corpusRoot() {
   const configured = process.env.MASTER_LIBRARY_SOURCE_DIR
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
@@ -153,6 +342,12 @@ const FORM_FIELDS = {
     /* --- 2. Parties, and 5. My Information ------------------------------ */
     "∆": { section: "2. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
     "∆ DoB": { section: "5. My Information", label: "Birth Date", ...WRITE("participant.date_of_birth") },
+    /*
+     * The form's caption asks for city/state/zip on this one line and the
+     * packet writes the street alone; see the FIXTURES comment. The remainder
+     * is handed to the participant in participant-instructions.md rather than
+     * being left for them to notice.
+     */
     Address: { section: "5. My Information", label: "Current Mailing Address (with city/state/zip)", ...WRITE("participant.street_address") },
     Phone: { section: "5. My Information", label: "Phone", ...WRITE("participant.phone") },
     Email: { section: "5. My Information", label: "Email", ...WRITE("participant.email") },
@@ -239,7 +434,13 @@ const FORM_FIELDS = {
     Courtroom: { section: "C. Case Details", label: "Courtroom", ...PROTECT(COURT_OWNED, "assigned by the court; the box beside it is marked for court use") },
     "∆": { section: "B. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
     "∆ DoB": { section: "2. Defendant's Information", label: "Birth Date", ...WRITE("participant.date_of_birth") },
-    "∆ Street Address": { section: "2. Defendant's Information", label: "Mailing Address", ...WRITE("participant.street_address") },
+    /*
+     * Labelled by the widget's DECLARED PURPOSE, not by the printed caption
+     * beside it. Colorado's tooltip for this field is "Enter the Defendant's
+     * street address."; the caption reads "Mailing Address", and labelling the
+     * write from the caption is how a whole-address value read clean here.
+     */
+    "∆ Street Address": { section: "2. Defendant's Information", label: "Street Address", ...WRITE("participant.street_address") },
     "∆ City": { section: "2. Defendant's Information", label: "City", ...WRITE("participant.city") },
     "∆ State": { section: "2. Defendant's Information", label: "State", ...WRITE("participant.state") },
     "∆ Zip": { section: "2. Defendant's Information", label: "Zip Code", ...WRITE("participant.zip") },
@@ -327,11 +528,47 @@ const FORM_FIELDS = {
 };
 
 /* ---- fixtures ------------------------------------------------------------ */
+/*
+ * TWO CORRECTIONS VF22 FOUND HERE, BOTH INVISIBLE TO EVERY COUNTER.
+ *
+ * ONE. participant.street_address used to hold the WHOLE address --
+ * "412 Cherry Creek Way, Denver, CO 80202" -- because JDF 477's single line is
+ * captioned "Current Mailing Address: (with city/state/zip)". JDF 478 writes the
+ * same fact into a field Colorado names "∆ Street Address" and whose own tooltip
+ * says "Enter the Defendant's street address.", beside separate ∆ City, ∆ State
+ * and ∆ Zip boxes that this packet also fills. So delivered page 4 printed the
+ * town and the ZIP twice, and the street field carried something the widget's
+ * declared purpose says is not its. Every value was present, non-empty, inside
+ * its rect and equal to what was expected, so nothing measured it.
+ *
+ * The fact now holds the street alone, which is what the shared semantic
+ * registry declares participant.street_address to BE -- its descriptor at
+ * scripts/rcap-official-forms/rcap-field-semantics.mjs refuses a caption naming
+ * a city, a state or a ZIP -- and which is what this family's own municipal
+ * sibling has always held. JDF 477's line therefore carries the street and the
+ * participant completes it; the guide says so in its own section rather than
+ * leaving them to notice. Composing a combined value for that one line was not
+ * available: the finalizer refuses an explicit mapping that disagrees with the
+ * fact the shared registry derives from the field's own name
+ * (explicit_mapping_conflicts_with_field_name), so a composed-address fact would
+ * have to be added to a shared module, and a repair lane holding two families
+ * does not get to move every family that shares it.
+ *
+ * TWO. ∆ State declares "Enter the state (use two letter abbreviation)" and the
+ * boundary fixture held "Colorado". It fits the 33.1pt field and renders
+ * cleanly, so no geometry check sees it; it simply contradicts the field's own
+ * printed instruction. The fixture now holds "CO". This packet has no
+ * fact-transformation layer and should not grow one here: what it writes is what
+ * it holds, so a held value in a shape the issuer's field forbids is a defect at
+ * the fact, not at the write. That the shared finalizer enforces no per-field
+ * FORMAT is a real gap and is recorded in build-findings.json; it is not this
+ * lane's to close.
+ */
 const FIXTURES = {
   canonical: {
     "participant.full_legal_name": "Jordan Avery Reyes",
     "participant.date_of_birth": "1991-04-17",
-    "participant.street_address": "412 Cherry Creek Way, Denver, CO 80202",
+    "participant.street_address": "412 Cherry Creek Way",
     "participant.city": "Denver",
     "participant.state": "CO",
     "participant.zip": "80202",
@@ -343,9 +580,9 @@ const FIXTURES = {
   boundary: {
     "participant.full_legal_name": "Maria-Alejandra O’Shaughnessy-Whitfield",
     "participant.date_of_birth": "1968-12-31",
-    "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, Colorado 80921-2214",
+    "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
     "participant.city": "Colorado Springs",
-    "participant.state": "Colorado",
+    "participant.state": "CO",
     "participant.zip": "80921-2214",
     "participant.phone": "(719) 555-0199 ext. 4417",
     "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
@@ -382,6 +619,73 @@ function resolveSources() {
     });
   }
   return { resolved, failures };
+}
+
+/*
+ * Binds JDF 491 by exact SHA-256 and proves every phrase this build quotes is
+ * in those bytes, on the page it is declared for. A miss throws: the build does
+ * not go on to print a sentence it attributes to a document that does not carry
+ * it.
+ */
+async function resolveGuide() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const entry = (index.entries ?? []).find((e) => e.state === "CO"
+    && e.formNumber === GUIDE.formNumber && e.assetClass === "INSTRUCTIONS"
+    && e.custody === "master_library");
+  assert.ok(entry, `the committed corpus index carries no master_library INSTRUCTIONS entry for ${GUIDE.formNumber}`);
+  const abs = path.resolve(ROOT, corpusRoot(), entry.path);
+  assert.ok(fs.existsSync(abs), `${GUIDE.formNumber} is indexed at ${entry.path} and is not on disk there`);
+  const bytes = fs.readFileSync(abs);
+  const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+  assert.equal(sha256, GUIDE.sha256,
+    `${GUIDE.formNumber} SHA-256 drift: this build quotes ${GUIDE.sha256} and the mounted bytes are ${sha256}`);
+  assert.equal(sha256, String(entry.sha256 ?? ""),
+    `${GUIDE.formNumber}: the committed index and the mounted bytes disagree`);
+
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  const streamByPage = doc.getPages().map((pg) => extractTextItems(pg).map((it) => it.text).join(""));
+  const quoted = {};
+  for (const [key, q] of Object.entries(GUIDE_QUOTATIONS)) {
+    const stream = streamByPage[q.page - 1] ?? "";
+    assert.ok(stream.includes(q.text),
+      `${GUIDE.formNumber} page ${q.page} does not carry the quoted phrase ${JSON.stringify(key)}; `
+      + "the guide this build quotes is not the guide it bound");
+    quoted[key] = { ...q, foundInStream: true };
+  }
+  for (const [componentId, named] of Object.entries(GUIDE_NAMES_THE_MISSING_COMPONENTS)) {
+    assert.ok((streamByPage[0] ?? "").includes(named.asTheGuideWritesIt),
+      `${GUIDE.formNumber} page 1 does not name ${componentId} as ${JSON.stringify(named.asTheGuideWritesIt)}`);
+  }
+  /*
+   * THIS PACKET ALSO PRINTS THREE CLAIMED ABSENCES, AND AN ABSENCE IS A CLAIM.
+   *
+   * The manifest's requiredBeforeFiling list leaves the filing fee, the fee
+   * waiver and notarisation open, and the participant wording says JDF 491 does
+   * not mention them. That is exactly the sentence a later revision of the guide
+   * would falsify silently -- the quotations above would still match, and the
+   * packet would go on telling a participant that a guide says nothing about a
+   * fee waiver when it had grown a paragraph about one. So the absence is
+   * asserted against the bound bytes, in both pages of the stream, the same way
+   * a quotation is.
+   */
+  const wholeStream = streamByPage.join(" ");
+  for (const [what, pattern] of Object.entries({
+    "a filing fee": /fee/i, "a fee waiver": /waiv/i, "notarisation": /notar/i
+  })) {
+    assert.ok(!pattern.test(wholeStream),
+      `${GUIDE.formNumber} now mentions ${what}: this packet tells the participant the guide is silent on it, and `
+      + "that sentence is no longer true of the bound bytes");
+  }
+
+  return {
+    ...GUIDE, pathInArchive: entry.path, byteLength: bytes.length, pageCount: doc.getPageCount(),
+    revision: entry.revision ?? null, sha256, quoted,
+    claimedAbsencesAssertedAgainstTheseBytes: ["a filing fee", "a fee waiver", "notarisation"],
+    howItWasRead:
+      "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in "
+      + "stream order. Unlike JDF 477 and JDF 478 this document does not interleave its glyph runs; the stream is "
+      + "clean prose and pdftotext agrees with it."
+  };
 }
 
 /* ---- census --------------------------------------------------------------- */
@@ -831,7 +1135,59 @@ function selfHelpStops() {
   };
 }
 
-function participantInstructions(maps, rbf, fitRefusals = []) {
+/*
+ * The manifest's requiredBeforeFiling list, rendered for a participant.
+ *
+ * VF22 failed this family because four of the seven items in the controlling
+ * packet-set manifest reached the delivered guide neither verbatim nor in
+ * substance: the CBI criminal-history report, the check of "how did the case
+ * end?" against it, the notarization position and the fee-waiver position. The
+ * structural cause it named is real -- the municipal sibling ships a separate
+ * filing-instructions.md and carries these there, and this family ships only
+ * participant-instructions.md, so items that live in a filing guide had nowhere
+ * to go. They have somewhere now.
+ *
+ * Each item is printed WORD FOR WORD out of the manifest, so nothing on that
+ * list can quietly fail to reach a participant, and each gets a second column
+ * saying what it means for them. The gloss is the point of the second column:
+ * VF22 also failed this family's municipal sibling for publishing the raw
+ * operator sentence at a participant, and "the source review does not address a
+ * fee waiver" is an operator sentence. An item this build has no gloss for is a
+ * build failure rather than a silently unglossed row -- if the manifest grows an
+ * item, somebody has to decide how to say it.
+ */
+const REQUIRED_BEFORE_FILING_GLOSS = Object.freeze({
+  "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.":
+    "Ask the Colorado Bureau of Investigation for your own criminal-history report before you file, and attach it if "
+    + "the form asks for a history or an exhibit. The record marks this conditional for exactly that case. The "
+    + "platform holds no report for you and cannot request one on your behalf.",
+  "Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.":
+    "JDF 477 section 6 is where you say how the case ended — acquittal, dismissal, a completed diversion agreement, "
+    + "a completed deferred judgment, or a vacated conviction. Read your answer against the criminal-history report "
+    + "before you file, and if the two disagree, correct the packet rather than swearing to it.",
+  "Signature and date — JDF 477, signature block.":
+    "You sign and date JDF 477 yourself. Section 10 is a declaration under penalty of perjury and no part of it is "
+    + "filled in for you.",
+  "The movant signs their own motion.":
+    "The person asking for the sealing signs the motion. Nobody signs it for you, and the platform did not.",
+  "The source review does not state a notarization requirement.":
+    "No source this packet holds says the motion must be notarised, and none says it need not be. JDF 491, "
+    + "Colorado's own guide for this route, does not mention notarisation anywhere, and JDF 477 section 10 is a "
+    + "declaration under penalty of perjury rather than a notarised affidavit. It is a fair thing to ask the clerk "
+    + "when you file; this packet will not settle it for you by guessing.",
+  "The source review does not state a filing fee for the simplified motion.":
+    "Ask the clerk what fee applies, if any — see “Where you file this” above. C.R.S. § 24-72-705 is the "
+    + "simplified process and the fee position for it is not established in any source this packet holds, so it is "
+    + "not stated here.",
+  "The source review does not address a fee waiver.":
+    "No source this packet holds says whether the filing fee can be waived on this route, so this packet does not "
+    + "tell you either way. JDF 491 does not mention a fee or a waiver at all. If you cannot pay, say so to the "
+    + "clerk and ask what the court requires — and ask specifically whether its fee-waiver forms apply to this "
+    + "motion. This packet does not name those forms, because no source it holds names them for this route, and it "
+    + "will not name a form it has not read."
+});
+
+function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, guide = null) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   /*
@@ -852,20 +1208,107 @@ function participantInstructions(maps, rbf, fitRefusals = []) {
 
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
+  const undelivered = packetSet?.undelivered ?? [];
   out.push(
     "This packet is two Colorado Judicial Department forms, filed together:", "",
     "- **JDF 477**, _Motion to Seal Non-Conviction Records (Simplified Process)_ — what you file.",
-    "- **JDF 478**, _Order to Seal Non-Conviction Records_ — the order you give the court to sign.", "",
-    `Both are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, ""
+    "- **JDF 478**, _Order to Seal Non-Conviction Records_ — the order you give the court to sign.", ""
   );
+  if (undelivered.length > 0) {
+    out.push(
+      "**Two forms is not the whole filing.** Colorado's own guide for this route names four documents, and the "
+      + "section immediately below names the two that are not here and tells you how to get them. Read it before "
+      + "you file anything.", ""
+    );
+  }
+  out.push(`Both are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, "");
+  /*
+   * The second sentence sends the reader to a section that only exists when a
+   * value was refused for width, and after the street/city/state/zip repair no
+   * value is. A guide that says "check that section" when there is no such
+   * section is a defect a counter cannot see, so it is printed only when the
+   * section it names is printed.
+   */
   out.push(
     "The platform filled in what it holds about you and your case — your name, your date of birth, your address, your "
     + "phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for "
     + "it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is "
-    + "in. Where a value the platform holds did NOT fit, it is named in its own section further down rather than "
-    + "shrunk until it cannot be read or run off the end of the line: **check that section, because a blank there is "
-    + "a blank you have to fill even though the platform knows the answer.**", ""
+    + "in."
+    + (fitRefusals.length > 0
+      ? " Where a value the platform holds did NOT fit, it is named in its own section further down rather than "
+        + "shrunk until it cannot be read or run off the end of the line: **check that section, because a blank "
+        + "there is a blank you have to fill even though the platform knows the answer.**"
+      : ""), ""
   );
+
+  if (undelivered.length > 0) {
+    out.push("## This packet is not the whole filing — read this before you file", "");
+    out.push(
+      `**Colorado's own guide for this route requires ${packetSet.required.length} documents, and this packet `
+      + `contains ${packetSet.delivered.length} of them.** The authoritative packet-set record for this route says `
+      + `so in its own words: “${packetSet.completeness.basis}” It records the state of this packet set as `
+      + `**${packetSet.completeness.state}**.`, ""
+    );
+    out.push(
+      `The ${undelivered.length} documents this packet does not contain are named below, **and this packet knows `
+      + "their form numbers.** JDF 491, the Colorado Judicial Department's own guide for this route, lists all four "
+      + `documents by number under its heading “File the Request”: ${GUIDE_QUOTATIONS.fileTheRequest.text}`, ""
+    );
+    for (const row of undelivered) {
+      const named = GUIDE_NAMES_THE_MISSING_COMPONENTS[row.componentId] ?? null;
+      const pool = RECOVERY_POOL.entries.find((e) => e.componentId === row.componentId) ?? null;
+      let why = "It is not in this packet because the platform holds no copy of it.";
+      if (pool?.blockedBy === "committed_index_does_not_identify_the_entry") {
+        why = "It is not in this packet, and the reason is a filing-cabinet problem rather than a missing document. "
+          + "The platform's own source index lists this exact form, at a fixed digital fingerprint, in a storage "
+          + `area it calls “${RECOVERY_POOL.custody}” — but it lists it there WITHOUT recording which form `
+          + "it is. The platform only ever fills in a form it can identify by its official number in that index, so "
+          + "a file with no number recorded against it cannot be picked up and filled in, even when the file itself "
+          + "is right there. Nothing about your case is missing, and nothing about this form is in doubt.";
+      } else if (pool?.blockedBy === "held_bytes_are_a_flat_pdf_at_a_superseded_revision") {
+        why = "It is not in this packet, and here the platform's copy is the wrong one. The copy it holds is the "
+          + "**August 2019** version of this form, and the guide that tells you to file it was revised on "
+          + "**7 August 2024**. The guide says to complete “§§ A–C” on it and the 2019 copy has no lettered "
+          + "sections at all. That copy is also flat — it carries no fillable boxes at all — so the platform "
+          + "could not have typed anything into it even if it were the right version. Ask for the current one.";
+      }
+      out.push(
+        `- **${named ? named.formNumber : "(form number not established)"} — `
+        + `${missingComponentLabel(row, packetSet.delivered)}.** `
+        + (named ? `JDF 491 writes it “${named.asTheGuideWritesIt}”. ` : "")
+        + why
+      );
+    }
+    out.push("");
+    out.push(
+      "**Get both of them from Colorado, and do not file without them.** Ask the clerk of the court, or the Colorado "
+      + "Judicial Department's self-help centre, for the JDF 491 guide and for the two forms it lists that are not "
+      + "here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet "
+      + "are a complete filing, and do not assume the court will supply the missing two for you.", ""
+    );
+    const denial = RECOVERY_POOL.entries.find((e) => e.whatThisFormIs
+      && undelivered.some((r) => r.componentId === e.componentId)) ?? null;
+    if (denial) {
+      out.push(
+        `**What ${denial.formNumber} is, so it does not surprise you.** JDF 491 lists it simply as an order, and it `
+        + `is not a second order granting your request. ${denial.formNumber} is headed **“Order Denying Request `
+        + "to Seal Non-Conviction Records”**. Its body is a finding the court makes — that the motion is "
+        + "insufficient on its face, or that after looking beyond the motion you are not entitled to relief under "
+        + "C.R.S. §§ 24-72-705 or, for a conviction vacated through § 18-1-410.7(5)(b), § 24-72-707 — over a "
+        + "signature block for a judge or a magistrate. Colorado's own guide still tells you to file it, in the same "
+        + `list as the order to seal: “${GUIDE_QUOTATIONS.fileTheRequest.text}” So do not read it as a bad sign `
+        + "and do not leave it out because of what it says. No source this packet holds explains why the court is "
+        + "given both orders, so this packet does not explain it either; ask the clerk if you want to know. Complete "
+        + "only §§ A–C on it — the caption: the court, the county, your name and the case number. The guide says "
+        + `the same in its own words: “${GUIDE_NAMES_THE_MISSING_COMPONENTS[denial.componentId].asTheGuideWritesIt}”.`, ""
+      );
+    }
+    out.push(
+      "Everything else in this packet — both forms, every blank named below and every choice left to you — is "
+      + "prepared and is accurate for the two documents it does contain. The gap above is about what is missing from "
+      + "the set, not about what is in it.", ""
+    );
+  }
 
   if (fitRefusals.length > 0) {
     out.push("## One line the packet holds your answer for and still leaves blank", "");
@@ -904,6 +1347,25 @@ function participantInstructions(maps, rbf, fitRefusals = []) {
     + "is not established in any source this packet holds, so it is not stated here.", ""
   );
 
+  out.push("## One line on JDF 477 you must finish by hand", "");
+  out.push(
+    "JDF 477 section 5 asks for your **Current Mailing Address (with city/state/zip)** on a single printed line. The "
+    + "packet wrote your **street address** on that line and stopped there. It did not add the city, the state or "
+    + "the ZIP.", ""
+  );
+  out.push(
+    "That is deliberate. The order in this same packet, JDF 478 section 2c, has a box the Colorado Judicial "
+    + "Department labels as the defendant's **street address** and three more boxes beside it for city, state and "
+    + "ZIP. When one combined value was written into both forms, your town and your ZIP were printed twice on the "
+    + "order the judge signs. The packet now holds the street on its own, which is right for the order and leaves "
+    + "JDF 477's line one step short.", ""
+  );
+  out.push(
+    "**So finish that line before you file.** Add your city, your state and your ZIP after the street address on "
+    + "JDF 477 section 5. They are already printed on JDF 478 section 2c in this same packet, in their own boxes, if "
+    + "you want to copy them across.", ""
+  );
+
   out.push("## The Colorado Bureau of Investigation is not optional — and one box is yours to tick", "");
   out.push(
     "Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 "
@@ -930,7 +1392,29 @@ function participantInstructions(maps, rbf, fitRefusals = []) {
   out.push("4. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.");
   out.push("5. **Tick the Colorado Bureau of Investigation box in section 3 of JDF 478.** It is the one required agency and the packet left it blank — see the section above.");
   out.push("6. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.");
+  out.push("7. **Add the city, state and ZIP to JDF 477's mailing-address line** — see the section above.");
+  out.push("8. **Mail a copy of your motion to the Prosecuting Attorney's office.** JDF 491 § ③ Send a Copy says so in as many words: “" + GUIDE_QUOTATIONS.sendACopy.text + "” No held source states a deadline or a method for that mailing, so none is stated here.");
   out.push("");
+
+  if (packetSet?.requiredBeforeFiling?.length) {
+    out.push("## Everything the record says you must do before you file", "");
+    out.push(
+      "The authoritative packet-set record for this route carries its own list of what has to happen before this "
+      + "motion is filed. It is printed here word for word, so that nothing on that list can quietly fail to reach "
+      + "you, with what each line means for you beside it. Where a line records that a question is **open**, it is "
+      + "kept open: an unanswered question you can take to the clerk is worth more than a confident answer nobody "
+      + "checked.", ""
+    );
+    out.push("| What the record says, word for word | What that means for you |", "| --- | --- |");
+    for (const item of packetSet.requiredBeforeFiling) {
+      const gloss = REQUIRED_BEFORE_FILING_GLOSS[item];
+      assert.ok(gloss,
+        `the packet-set manifest carries a requiredBeforeFiling item this build has no participant wording for: `
+        + `${JSON.stringify(item)}`);
+      out.push(`| ${item.replace(/\|/g, "\\|")} | ${gloss.replace(/\|/g, "\\|")} |`);
+    }
+    out.push("");
+  }
 
   for (const [doc, items] of byDoc) {
     const title = ROUTE.documents.find((d) => d.formNumber === doc)?.title ?? doc;
@@ -1045,6 +1529,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
       overlayDirectoryTouched: false
     };
   }
+
+  /* What the authoritative manifest says the whole set is, measured against the
+   * documents this build can actually render from held sources. */
+  const packetSet = loadPacketSetGrounding(resolved.map((r) => r.formNumber));
+
+  /* And why the two it cannot render cannot be rendered, proved from the
+   * committed index rather than asserted. See the RECOVERY_POOL comment. */
+  const recoveryPoolIdentity = assertRecoveryPoolEntriesAreRecordedAsExpected();
+
+  /* The official guide, bound by digest, with every phrase this packet quotes
+   * proved present in its bytes. See GUIDE_QUOTATIONS. */
+  const guide = await resolveGuide();
 
   const censuses = [];
   for (const source of resolved) {
@@ -1188,8 +1684,58 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
   }
 
-  const instructionsText = participantInstructions(maps, rbf, fitRefusals);
+  const instructionsText = participantInstructions(maps, rbf, fitRefusals, packetSet, guide);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  writeJson(`${OUT}/component-set-delivery.json`, {
+    schemaVersion: "rcap-family-component-set-delivery/v1", familyId: FAMILY_ID,
+    countedFrom: `${GROUNDING_RECORDS.packetSetManifest} packetSets[packetSetId=${FAMILY_ID}].components`,
+    groundingRecordSha256: packetSet.record.sha256,
+    requiredByTheRoute: packetSet.required.length,
+    renderedHere: packetSet.delivered.length,
+    complete: false,
+    packetSetCompletenessState: packetSet.completeness.state,
+    packetSetCompletenessBasis: packetSet.completeness.basis,
+    guide: {
+      formNumber: guide.formNumber, title: guide.title, sha256: guide.sha256,
+      pathInArchive: guide.pathInArchive, revision: guide.revision,
+      fileTheRequest: guide.quoted.fileTheRequest.text, howItWasRead: guide.howItWasRead
+    },
+    undelivered: packetSet.undelivered.map((row) => {
+      const named = GUIDE_NAMES_THE_MISSING_COMPONENTS[row.componentId] ?? null;
+      const pool = RECOVERY_POOL.entries.find((e) => e.componentId === row.componentId) ?? null;
+      return {
+        componentId: row.componentId, role: row.role,
+        requiredOfficialFormId: row.requiredOfficialFormId ?? null,
+        identityResolvedFrom: named
+          ? `${guide.formNumber} (sha256 ${guide.sha256}) names it "${named.asTheGuideWritesIt}" in its own `
+            + "\"File the Request\" list, read from the guide's bytes at build time"
+          : null,
+        blockedBy: pool?.blockedBy ?? "no_held_source",
+        binaryRecordedInCommittedIndex: pool
+          ? {
+            custody: RECOVERY_POOL.custody, path: pool.path, sha256: pool.sha256,
+            byteLength: pool.byteLength, pageCount: pool.pageCount, acroFieldCount: pool.acroFieldCount,
+            indexIdentity: recoveryPoolIdentity.find((m) => m.path === pool.path) ?? null,
+            digestProvenance:
+              "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the "
+              + "same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both "
+              + "binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests."
+          }
+          : null,
+        whatThisFormIs: pool?.whatThisFormIs ?? null,
+        sourceStatus: row.sourceStatus ?? null,
+        sourceStatusBasis: row.sourceStatusBasis ?? null,
+        disclosedToTheParticipant: true
+      };
+    }),
+    whatThisBuildRefusedToDo:
+      "Substitute another form for either, and fill JDF 493 from the 2019-08 flat copy the index holds. A route "
+      + "sells only what a record proves it delivers.",
+    grantsNothing:
+      "Disclosing an absent component is not delivering it. This family remains COMPONENT_SET-incomplete and this "
+      + "record is the evidence of that, not a waiver of it."
+  });
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
@@ -1439,13 +1985,70 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "leaves empty that carries ink in the output is still a blocking finding."
       },
       {
-        severity: "advisory",
         finding:
-          "The boundary participant's full mailing address does not fit JDF 477's single Address line at the minimum "
-          + "readable font, so the finalizer refuses it rather than clipping it.",
+          "participant.street_address held the WHOLE address, and two forms in this packet want it two different "
+          + "ways. JDF 477's single line is captioned \"Current Mailing Address: (with city/state/zip)\"; JDF 478 "
+          + "section 2c has a field Colorado names \"∆ Street Address\", whose own tooltip reads \"Enter the "
+          + "Defendant's street address.\", beside separate ∆ City, ∆ State and ∆ Zip boxes this packet also fills. "
+          + "So the delivered order printed the town and the ZIP twice, and the street field carried something the "
+          + "widget's declared purpose says is not its. VF22 found it at base 8db74d6e5; no counter could, because "
+          + "every value was present, non-empty, inside its declared rect and equal to its expected value.",
         consequence:
-          "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the "
-          + "canonical fixture writes the address."
+          "The fact now holds the street alone -- which is what the shared semantic registry declares "
+          + "participant.street_address to be, and what this family's municipal sibling has always held -- so "
+          + "nothing is printed twice on the order. JDF 477's line is one step short of its own caption as a result, "
+          + "and participant-instructions.md carries a section telling the participant to add the city, state and "
+          + "ZIP to it and where to copy them from. Composing a combined value for that one line was not available: "
+          + "the shared finalizer refuses an explicit mapping that disagrees with the fact its registry derives from "
+          + "the field's own name, so a composed-address fact would have to be added to a shared module, and a "
+          + "repair lane holding two families does not get to move every family that shares it."
+      },
+      {
+        finding:
+          "JDF 478's ∆ State field declares \"Enter the state (use two letter abbreviation)\" and the boundary "
+          + "fixture held \"Colorado\". It fits the 33.1pt field and renders cleanly, so no geometry check sees it; "
+          + "it simply contradicts the field's own printed instruction.",
+        consequence:
+          "The fixture now holds \"CO\". THE UNDERLYING GAP IS NOT CLOSED AND IS NOT THIS LANE'S TO CLOSE: this "
+          + "packet has no fact-transformation layer and should not grow one, so what it writes is what it holds -- "
+          + "and nothing in this build or in the shared finalizer enforces a per-field FORMAT declared by a widget's "
+          + "own tooltip. Correcting the fixture removes the contradiction from the delivered bytes; a real "
+          + "participant record holding \"Colorado\" would reproduce it. Enforcing a declared field format belongs "
+          + "in scripts/rcap-official-forms/**, which every family shares.",
+        severity: "advisory"
+      },
+      {
+        finding:
+          "The packet-set manifest declared TWO components for this route and JDF 491, Colorado's own guide at the "
+          + "same revision as both bound forms, names FOUR: \"JDF 477 Motion\", \"JDF 492 Order (just do §§ A-C)\", "
+          + "\"JDF 493 Notice (Just do §§ A-C)\" and \"JDF 478 Order (just do §§ A-C)\". Nothing recorded the "
+          + "difference -- no component, no completeness state, no open source item, no sentence of the delivered "
+          + "guide, which said flatly that the packet is two forms filed together. VF22 found it at base 8db74d6e5 "
+          + "by reading JDF 491 itself.",
+        consequence:
+          "Lane FIX157 added both components to the manifest with a measured sourceStatusBasis each and recorded "
+          + "packetSetCompleteness incomplete; this build now reads that record, asserts the guide's own list "
+          + "against the guide's bytes, and discloses the gap to the participant by form number. THE OBLIGATION IS "
+          + "NOT SATISFIED: a truthful account of an absent component is honesty, not delivery, and this packet "
+          + "still delivers two of four. The two are blocked differently and the record says which is which -- "
+          + "JDF 492's index entry carries formNumber null and assetClass null so it cannot be bound by identity, "
+          + "while the JDF 493 the index holds is a 2019-08 flat PDF with zero form fields against a 2024-08-07 "
+          + "guide. Neither reason is a mount: FIX157 found the custody mounted, declared in the index's own "
+          + "custodies array, and holding both binaries at exactly the digests recorded."
+      },
+      {
+        finding:
+          "Four of the seven requiredBeforeFiling items in the controlling packet-set manifest reached the delivered "
+          + "guide neither verbatim nor in substance: the CBI criminal-history report, the check of the "
+          + "case-ending answer against it, the notarization position and the fee-waiver position. VF22 measured "
+          + "each by literal substring and then by keyword over the whole delivered file.",
+        consequence:
+          "participant-instructions.md now carries a section that prints every manifest requiredBeforeFiling item "
+          + "word for word with a participant wording beside it, and the build REFUSES on an item it has no wording "
+          + "for rather than printing an operator sentence at a participant or dropping it. The open items stay "
+          + "open: JDF 491 mentions no fee, no waiver and no notarisation anywhere in its bytes, so this packet "
+          + "carries all three as unsettled and names no form for a waiver on this route.",
+        severity: "advisory"
       },
       {
         severity: "advisory",

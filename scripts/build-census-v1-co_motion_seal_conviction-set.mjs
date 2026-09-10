@@ -185,14 +185,38 @@ const GUIDE_NAMES_THE_MISSING_COMPONENTS = Object.freeze({
 });
 
 /*
- * Where the two absent binaries are recorded, quoted from the committed corpus
- * index. NOT re-hashed by this build: that custody is not mounted in any
- * packet-factory container, and a digest copied from a record is a record, not
- * a measurement. Said that way on every surface that carries it.
+ * Where the two undelivered binaries are recorded, quoted from the committed
+ * corpus index.
+ *
+ * WHAT CHANGED, AND WHY IT IS NOT A MOUNT QUESTION. This block used to say the
+ * custody "is not mounted in any packet-factory container", and the packet said
+ * the same thing to the participant: that the machine which built it could not
+ * reach the file. Lane FIX157 measured that on 2026-09-10 and it is false of a
+ * container that has the custody. The index's own `custodies` array declares
+ * nationwide_recovery_pool_2026_09_02 at root
+ * private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo
+ * custodyRoot; it is mounted in the FIX157 lane worktree, and both binaries
+ * there hash to exactly the digests the committed index records.
+ * data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a
+ * lane can see it absent: private/ is gitignored and exists only where it was
+ * materialised, so its absence from a checkout proves nothing about custody.
+ *
+ * WHAT ACTUALLY BLOCKS THE RENDER is the index's identity fields, and that is
+ * true in every container, mounted or not: both entries carry formNumber null
+ * and assetClass null. resolveSources() binds an official form by
+ * state + formNumber + assetClass "FORM" and only then hashes it, so no build
+ * can bind a binary the index does not identify. Binding by file name instead
+ * would rest this packet's source claim on a file name.
+ *
+ * So this build states the blocker from the COMMITTED INDEX rather than from
+ * what happens to be on disk, and asserts it below. That keeps the delivered
+ * page identical in a container that mounts the custody and one that does not,
+ * which a mount-sensitive sentence would not.
  */
 const RECOVERY_POOL = Object.freeze({
   custody: "nationwide_recovery_pool_2026_09_02",
-  mountedHere: false,
+  /* Asserted from the committed index by assertRecoveryPoolEntriesAreUnidentified(). */
+  identifiedByTheCommittedIndex: false,
   entries: Object.freeze([
     Object.freeze({
       formNumber: "JDF 614", componentId: "co_motion_seal_conviction-notice-3",
@@ -205,12 +229,17 @@ const RECOVERY_POOL = Object.freeze({
       path: "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
       sha256: "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
       byteLength: 545525, pageCount: 1, acroFieldCount: 13,
-      cautionForWhoeverRendersIt:
-        "The index filename calls JDF 613 the ORDER DENYING the request to seal. If that is right, the \"second "
-        + "order\" this route requires is the denial order tendered with the grant order rather than a second grant, "
-        + "and it must not be described to a participant as a second grant order until the JDF-613 bytes confirm it. "
-        + "This build could not confirm it: the custody is not mounted, and the guide's own list says only "
-        + "\"Order (just do §§ A-C)\"."
+      whatThisFormIs:
+        "The order DENYING the request to seal, confirmed by lane FIX157 on 2026-09-10 from the bytes at the digest "
+        + "above. Page 1 is headed \"JDF 613  Order Denying Request to Seal Conviction Records\"; section 1 Decision "
+        + "reads \"After reviewing the request to seal the Defendant\u2019s records, the Court finds:\" with the "
+        + "alternatives \"The motion, on its face, is insufficient\" and \"After review of matters outside the motion, "
+        + "the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710\", followed by \"The Court denies "
+        + "the motion because:\"; and the footer reads \"JDF 613 - Order Denying Request to Seal Conviction Records   "
+        + "R: August 7, 2024   Page 1 of 1\" -- the same revision as JDF 611. So the \"second order\" the guide lists "
+        + "is the denial order tendered alongside the JDF 615 grant order, not a second grant. FIX96 recorded this as "
+        + "an open caution because the custody was not mounted to it; it is closed, and the packet now tells the "
+        + "participant what the form is instead of asking them to check."
     })
   ])
 });
@@ -232,6 +261,41 @@ function corpusRoot() {
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
   assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
   return configured;
+}
+
+/*
+ * The two undelivered components are blocked by IDENTITY, and this proves it
+ * from the committed index rather than from the disk.
+ *
+ * For each recovery-pool entry this packet names, the index must carry exactly
+ * one row at that path, at the digest and byte length recorded here, and it
+ * must carry formNumber null and assetClass null -- which is what makes it
+ * unbindable by resolveSources(). If the index ever identifies one of them the
+ * assertion fails, and it should: the reason this packet gives the participant
+ * would no longer be true, and the component would be renderable.
+ *
+ * Nothing here touches the mount. A container with the custody and a container
+ * without it read the same committed index and produce the same bytes.
+ */
+function assertRecoveryPoolEntriesAreUnidentified() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const measured = [];
+  for (const entry of RECOVERY_POOL.entries) {
+    const rows = (index.entries ?? []).filter((e) => e.path === entry.path && e.custody === RECOVERY_POOL.custody);
+    assert.equal(rows.length, 1,
+      `the committed corpus index carries ${rows.length} entries at ${entry.path} in custody ${RECOVERY_POOL.custody}`);
+    const row = rows[0];
+    assert.equal(row.sha256, entry.sha256, `${entry.path}: the committed index digest is not the one this build quotes`);
+    assert.equal(row.byteLength, entry.byteLength, `${entry.path}: the committed index byte length is not the one this build quotes`);
+    assert.equal(row.formNumber, null,
+      `${entry.path} now carries formNumber ${JSON.stringify(row.formNumber)}: this component is no longer blocked by identity and this packet's disclosure is stale`);
+    assert.equal(row.assetClass, null,
+      `${entry.path} now carries assetClass ${JSON.stringify(row.assetClass)}: this component is no longer blocked by identity and this packet's disclosure is stale`);
+    measured.push({ path: entry.path, formNumber: row.formNumber, assetClass: row.assetClass,
+      sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount ?? null,
+      acroFieldCount: row.acroFieldCount ?? null });
+  }
+  return measured;
 }
 
 /*
@@ -1071,9 +1135,12 @@ function participantInstructions(maps, rbf, packetSet, guide) {
         + `${missingComponentLabel(row, packetSet.delivered)}.** `
         + (named ? `JDF 611 writes it “${named.asTheGuideWritesIt}”. ` : "")
         + (pool
-          ? "It is not in this packet because the platform does not hold a copy it can verify: the file is listed in "
-            + `the platform's own source index under the storage area “${RECOVERY_POOL.custody}”, which the machine `
-            + "that built this packet cannot reach, so it could not be checked and could not be filled in."
+          ? "It is not in this packet, and the reason is a filing-cabinet problem rather than a missing document. The "
+            + "platform's own source index lists this exact form, at a fixed digital fingerprint, in a storage area "
+            + `it calls “${RECOVERY_POOL.custody}” — but it lists it there WITHOUT recording which form it `
+            + "is. The platform only ever fills in a form it can identify by its official number in that index, so a "
+            + "file with no number recorded against it cannot be picked up and filled in, even when the file itself "
+            + "is right there. Nothing about your case is missing, and nothing about this form is in doubt."
           : "It is not in this packet because the platform holds no copy of it.")
       );
     }
@@ -1084,14 +1151,20 @@ function participantInstructions(maps, rbf, packetSet, guide) {
       + "here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet "
       + "are a complete filing, and do not assume the court will supply the missing two for you.", ""
     );
-    const caution = RECOVERY_POOL.entries.find((e) => e.cautionForWhoeverRendersIt) ?? null;
-    if (caution) {
+    const denial = RECOVERY_POOL.entries.find((e) => e.whatThisFormIs) ?? null;
+    if (denial) {
       out.push(
-        `**One thing to check when you get ${caution.formNumber}.** The platform's own index describes that form as `
-        + "the order **denying** a request to seal, not a second order granting one. JDF 611 lists it simply as an "
-        + "order. The platform could not open the file to settle which it is, so it will not tell you. When the clerk "
-        + "hands it to you, read its title before you fill it in, and ask the clerk which of the two orders the court "
-        + "expects you to tender.", ""
+        `**What ${denial.formNumber} is, so it does not surprise you.** JDF 611 lists it simply as an order, and it `
+        + `is not a second order granting your request. ${denial.formNumber} is headed **“Order Denying Request `
+        + "to Seal Conviction Records”**. Its body is a finding the court makes — that the motion is "
+        + "insufficient on its face, or that after looking beyond the motion you are not entitled to relief under "
+        + "C.R.S. §§ 24-72-706 to 710 — over a signature block for a judge or a magistrate. Colorado's own guide "
+        + `still tells you to file it, in the same list as the order to seal: “${GUIDE_QUOTATIONS.fileTheRequest.text}” `
+        + "So do not read it as a bad sign and do not leave it out because of what it says. No source this packet "
+        + "holds explains why the court is given both orders, so this packet does not explain it either; ask the "
+        + "clerk if you want to know. Complete only §§ A–C on it, which is the caption — the court, the county, "
+        + "your name and the case number. The guide says the same in its own words: "
+        + `“${GUIDE_NAMES_THE_MISSING_COMPONENTS[denial.componentId].asTheGuideWritesIt}”.`, ""
       );
     }
     out.push(
@@ -1192,6 +1265,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
   /* What the authoritative manifest says the whole set is, measured against the
    * documents this build can actually render from held sources. */
   const packetSet = loadPacketSetGrounding(resolved.map((r) => r.formNumber));
+
+  /* And why the two it cannot render cannot be rendered, proved from the
+   * committed index rather than asserted. See the RECOVERY_POOL comment. */
+  const recoveryPoolIdentity = assertRecoveryPoolEntriesAreUnidentified();
 
   /* The official guide, bound by digest, with every phrase this packet quotes
    * proved present in its bytes. See GUIDE_QUOTATIONS. */
@@ -1364,13 +1441,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
           binaryHeldHere: false,
           binaryRecordedInCommittedIndex: pool
             ? {
-              custody: RECOVERY_POOL.custody, mountedHere: RECOVERY_POOL.mountedHere,
+              custody: RECOVERY_POOL.custody,
+              identifiedByTheCommittedIndex: RECOVERY_POOL.identifiedByTheCommittedIndex,
               path: pool.path, sha256: pool.sha256, byteLength: pool.byteLength,
               pageCount: pool.pageCount, acroFieldCount: pool.acroFieldCount,
+              indexIdentityMeasuredByThisBuild:
+                recoveryPoolIdentity.find((m) => m.path === pool.path) ?? null,
               digestProvenance:
-                "quoted from data/rcap-all50/local-source-corpus-index.json and NOT re-hashed by this build; that "
-                + "custody is not mounted in any packet-factory container, so this is a record and not a measurement",
-              cautionForWhoeverRendersIt: pool.cautionForWhoeverRendersIt ?? null
+                "quoted from data/rcap-all50/local-source-corpus-index.json and NOT re-hashed by this build. This "
+                + "build reads only the committed index, so that its output is the same in a container that mounts "
+                + "the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a "
+                + "worktree that DOES mount it and got these exact digests; that measurement is recorded in the "
+                + "packet-set manifest and in the FIX157 lane row, not here.",
+              whatThisFormIs: pool.whatThisFormIs ?? null
             }
             : null,
           sourceStatus: row.sourceStatus ?? null, sourceStatusBasis: row.sourceStatusBasis ?? null
@@ -1381,14 +1464,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
         "Not because their identities are unknown. JDF 611 names all four documents of this set by form number "
         + `-- ${GUIDE_QUOTATIONS.fileTheRequest.text} -- and this build read that list out of the guide's own bytes, `
         + `bound at sha256 ${GUIDE.sha256}. The notice is JDF 614 and the second order is JDF 613. They are not `
-        + "rendered because their BINARIES are not here: the committed corpus index records both in custody "
-        + `${RECOVERY_POOL.custody}, which no packet-factory container mounts, so neither can be bound by SHA-256 `
-        + "and nothing may be rendered from a source that does not bind. The gap is disclosed with the identities "
-        + "named, and it is not filled.",
+        + "rendered because the committed corpus index does not IDENTIFY the binaries it holds for them. Both are "
+        + `recorded in custody ${RECOVERY_POOL.custody} at fixed digests, and both index entries carry formNumber `
+        + "null and assetClass null. resolveSources() binds an official form by state + formNumber + assetClass "
+        + "\"FORM\" and only then hashes it, so neither can be bound, and binding by file name would rest the "
+        + "packet's source claim on a file name. The earlier account here -- that no packet-factory container mounts "
+        + "the custody -- was corrected by lane FIX157 on 2026-09-10, which found it mounted, declared in the index's "
+        + "own custodies array, and holding both binaries at the exact digests recorded. The gap is disclosed with "
+        + "the identities named, and it is not filled.",
       whatWouldCloseIt:
-        `Mount ${RECOVERY_POOL.custody} (or promote those two binaries into the Master Library), re-hash both `
-        + "against the digests the committed index records, and render the two components. This is a source-custody "
-        + "action, not a research task: the identities are established and no counsel question is open on them.",
+        `A source-identity determination over the ${RECOVERY_POOL.custody} entries: record state, formNumber and `
+        + "assetClass FORM against these two index rows (or promote the binaries into the Master Library under its "
+        + "naming), after which resolveSources() binds them by digest and the two components render. It is not a "
+        + "re-acquisition -- the bytes are held at the recorded digests -- and it is not a research task: the "
+        + "identities are established and no counsel question is open on them. It is also not this repair lane's to "
+        + "make: classifying a corpus entry is a source-conveyor act with its own governance, and a packet lane that "
+        + "wrote an identity into the index would be certifying a source in order to let its own family pass.",
       whatThisBuildRefusedToDo:
         "Substitute another form for either. A route sells only what a record proves it delivers, and a packet that "
         + "filled the notice slot with something else would be delivering an official identity it never bound."
@@ -1504,26 +1595,37 @@ export async function runFamily(argv = process.argv.slice(2)) {
           componentId: row.componentId, role: row.role,
           officialFormId: row.officialFormId ?? null,
           requiredOfficialFormId: row.requiredOfficialFormId ?? (named ? named.formNumber.replace(" ", "-") : null),
-          disposition: "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+          disposition: "NOT_RENDERED_COMMITTED_INDEX_DOES_NOT_IDENTIFY_THE_HELD_BINARY",
           identityResolved: Boolean(named),
           identityResolvedFrom: named
             ? `${guide.formNumber} (sha256 ${guide.sha256}) names it "${named.asTheGuideWritesIt}" in its own `
               + "\"File the Request\" list, read from the guide's bytes at build time"
             : null,
           reason: named && pool
-            ? `${named.formNumber} is required by the route and its identity is established, but its binary is not `
-              + `here: the committed corpus index records it at ${pool.path}, sha256 ${pool.sha256}, `
-              + `${pool.byteLength} bytes, in custody ${RECOVERY_POOL.custody}, which this container does not mount. `
-              + "A source that does not bind may not be rendered and may not be substituted, so the component is "
-              + "absent and the participant is told so by form number in participant-instructions.md."
+            ? `${named.formNumber} is required by the route, its identity is established, and its binary is HELD: `
+              + `the committed corpus index records it at ${pool.path}, sha256 ${pool.sha256}, `
+              + `${pool.byteLength} bytes, in custody ${RECOVERY_POOL.custody}. What it does NOT record is which `
+              + "form that file is -- the entry carries formNumber null and assetClass null -- and resolveSources() "
+              + "binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it. So the "
+              + "source does not bind, and a source that does not bind may not be rendered and may not be "
+              + "substituted. The component is absent and the participant is told so by form number in "
+              + "participant-instructions.md."
             : "the platform holds no source for this component and none is substituted",
           digestProvenance: pool
-            ? "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted"
+            ? "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the "
+              + "same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both "
+              + "binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests."
             : null,
-          cautionForWhoeverRendersIt: pool?.cautionForWhoeverRendersIt ?? null,
+          indexIdentity: pool
+            ? recoveryPoolIdentity.find((m) => m.path === pool.path) ?? null
+            : null,
+          whatThisFormIs: pool?.whatThisFormIs ?? null,
           disclosedToTheParticipant: true,
           whatWouldChangeThis:
-            `mount ${RECOVERY_POOL.custody} or promote the binary into the Master Library, then re-hash and render`
+            `a source-identity determination over the ${RECOVERY_POOL.custody} entries: record state, formNumber and `
+            + "assetClass FORM against this index row (or promote the binary into the Master Library under its "
+            + "naming), after which the source binds by digest and the component renders. Not a re-acquisition: the "
+            + "bytes are held at the recorded digest."
         };
       })
     },
@@ -1680,14 +1782,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         finding:
           "The MASTER_QUEUE row for this family names its two sources at paths in the nationwide recovery pool "
-          + "(LegalEase Colorado/forms/JDF-612__…, JDF-615__…), a custody this container does not mount.",
+          + "(LegalEase Colorado/forms/JDF-612__…, JDF-615__…), a custody whose entries the committed corpus index "
+          + "does not identify by form number.",
         consequence:
           "The build binds both forms from the Master Library instead, by exact form number and exact SHA-256 — "
           + "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e for JDF 612 and "
           + "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647 for JDF 615 — which are the same digests the "
           + "queue pins. The committed corpus index records both digests in the Master Library custody as well as in the "
-          + "recovery pool, so this is one binary held in two custodies, not a substituted source. The absent custody is "
-          + "stated rather than worked around, and the source receipt records the path actually read."
+          + "recovery pool, so this is one binary held in two custodies, not a substituted source. The custody that "
+          + "cannot be bound from is stated rather than worked around, and the source receipt records the path "
+          + "actually read. Corrected by lane FIX157 on 2026-09-10: the earlier wording called that custody one "
+          + "\"this container does not mount\", which is false of a container that has it — it is declared in the "
+          + "index's own custodies array and was mounted in the FIX157 lane worktree. What makes its entries "
+          + "unbindable is that they carry formNumber null and assetClass null."
       },
       {
         finding:

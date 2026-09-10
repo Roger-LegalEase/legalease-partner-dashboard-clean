@@ -5,25 +5,40 @@ This packet is two Colorado Judicial Department forms, filed together:
 - **JDF 477**, _Motion to Seal Non-Conviction Records (Simplified Process)_ — what you file.
 - **JDF 478**, _Order to Seal Non-Conviction Records_ — the order you give the court to sign.
 
+**Two forms is not the whole filing.** Colorado's own guide for this route names four documents, and the section immediately below names the two that are not here and tells you how to get them. Read it before you file anything.
+
 Both are prepared for **motion to seal non-conviction records, simplified backstop** under C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477 and JDF 478.
 
-The platform filled in what it holds about you and your case — your name, your date of birth, your address, your phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in. Where a value the platform holds did NOT fit, it is named in its own section further down rather than shrunk until it cannot be read or run off the end of the line: **check that section, because a blank there is a blank you have to fill even though the platform knows the answer.**
+The platform filled in what it holds about you and your case — your name, your date of birth, your address, your phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
-## One line the packet holds your answer for and still leaves blank
+## This packet is not the whole filing — read this before you file
 
-The platform refused one value on this packet, not because it does not hold them but because they do not fit the line the Colorado Judicial Department printed. The floor is 6 points: below that a filed document stops being readable, and text that runs past the end of its box is worse still. So the value is left off and handed to you, in writing, here:
+**Colorado's own guide for this route requires 4 documents, and this packet contains 2 of them.** The authoritative packet-set record for this route says so in its own words: “The official JDF 491 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 477 (Motion), JDF 492 (Order), JDF 493 (Notice) and JDF 478 (Order). The verified Master Library holds JDF-477 and JDF-478, and this packet delivers those two. JDF 492 and JDF 493 are NOT delivered. Until 2026-09-10 this manifest declared only the two delivered components, so no committed record said this route owes four documents, and the delivered participant guide stated without qualification that the packet is “two Colorado Judicial Department forms, filed together”. The two undelivered components are not owed the same thing: JDF 492's identity is established from its own printed face and its bytes are held at the digest the committed index records, blocked only because that index entry carries formNumber null and assetClass null; the JDF 493 the recovery pool holds is a 2019-08 flat PDF with zero form fields against a 2024-08-07 guide, so acquisition at the named revision is owed for it. The set is incomplete because two required documents are missing.” It records the state of this packet set as **incomplete**.
 
-| Form | Section | The line | What the platform holds | Why it is not printed |
-| --- | --- | --- | --- | --- |
-| JDF-477 | 5. My Information | Current Mailing Address (with city/state/zip) | 1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, Colorado 80921-2214 | The line is 242.67 points wide and this value needs 244.4 points at the 6-point minimum. |
+The 2 documents this packet does not contain are named below, **and this packet knows their form numbers.** JDF 491, the Colorado Judicial Department's own guide for this route, lists all four documents by number under its heading “File the Request”: File these forms into your criminal case:  JDF 477 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 492 Order (just do §§ A-C)  JDF 493 Notice (Just do §§ A-C)  JDF 478 Order (just do §§ A-C)
 
-**Write it on the line yourself, by hand or before you print.** If it will not fit legibly on one line, put what fits on the line and continue on an attached page that names the form, the section and the line it belongs to. Do not shrink it until it cannot be read. This applies to whichever of the two forms is named above and to that form only: the same fact may already be printed on the other one, where the form gives it more room or splits it across separate city, state and zip lines.
+- **JDF 493 — a notice.** JDF 491 writes it “JDF 493 Notice (Just do §§ A-C)”. It is not in this packet, and here the platform's copy is the wrong one. The copy it holds is the **August 2019** version of this form, and the guide that tells you to file it was revised on **7 August 2024**. The guide says to complete “§§ A–C” on it and the 2019 copy has no lettered sections at all. That copy is also flat — it carries no fillable boxes at all — so the platform could not have typed anything into it even if it were the right version. Ask for the current one.
+- **JDF 492 — a second order for the court to sign.** JDF 491 writes it “JDF 492 Order (just do §§ A-C)”. It is not in this packet, and the reason is a filing-cabinet problem rather than a missing document. The platform's own source index lists this exact form, at a fixed digital fingerprint, in a storage area it calls “nationwide_recovery_pool_2026_09_02” — but it lists it there WITHOUT recording which form it is. The platform only ever fills in a form it can identify by its official number in that index, so a file with no number recorded against it cannot be picked up and filled in, even when the file itself is right there. Nothing about your case is missing, and nothing about this form is in doubt.
+
+**Get both of them from Colorado, and do not file without them.** Ask the clerk of the court, or the Colorado Judicial Department's self-help centre, for the JDF 491 guide and for the two forms it lists that are not here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet are a complete filing, and do not assume the court will supply the missing two for you.
+
+**What JDF 492 is, so it does not surprise you.** JDF 491 lists it simply as an order, and it is not a second order granting your request. JDF 492 is headed **“Order Denying Request to Seal Non-Conviction Records”**. Its body is a finding the court makes — that the motion is insufficient on its face, or that after looking beyond the motion you are not entitled to relief under C.R.S. §§ 24-72-705 or, for a conviction vacated through § 18-1-410.7(5)(b), § 24-72-707 — over a signature block for a judge or a magistrate. Colorado's own guide still tells you to file it, in the same list as the order to seal: “File these forms into your criminal case:  JDF 477 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 492 Order (just do §§ A-C)  JDF 493 Notice (Just do §§ A-C)  JDF 478 Order (just do §§ A-C)” So do not read it as a bad sign and do not leave it out because of what it says. No source this packet holds explains why the court is given both orders, so this packet does not explain it either; ask the clerk if you want to know. Complete only §§ A–C on it — the caption: the court, the county, your name and the case number. The guide says the same in its own words: “JDF 492 Order (just do §§ A-C)”.
+
+Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared and is accurate for the two documents it does contain. The gap above is about what is missing from the set, not about what is in it.
 
 ## Where you file this
 
 File both forms with the **clerk of the Colorado court that handled the case** — the District Court or the County Court named in section 1 of the motion, in the county already filled in for you. The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
 
 **Ask the clerk what fee applies, if any.** C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here.
+
+## One line on JDF 477 you must finish by hand
+
+JDF 477 section 5 asks for your **Current Mailing Address (with city/state/zip)** on a single printed line. The packet wrote your **street address** on that line and stopped there. It did not add the city, the state or the ZIP.
+
+That is deliberate. The order in this same packet, JDF 478 section 2c, has a box the Colorado Judicial Department labels as the defendant's **street address** and three more boxes beside it for city, state and ZIP. When one combined value was written into both forms, your town and your ZIP were printed twice on the order the judge signs. The packet now holds the street on its own, which is right for the order and leaves JDF 477's line one step short.
+
+**So finish that line before you file.** Add your city, your state and your ZIP after the street address on JDF 477 section 5. They are already printed on JDF 478 section 2c in this same packet, in their own boxes, if you want to copy them across.
 
 ## The Colorado Bureau of Investigation is not optional — and one box is yours to tick
 
@@ -42,6 +57,22 @@ The reason the packet left it is worth one sentence, because it is not an oversi
 4. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.
 5. **Tick the Colorado Bureau of Investigation box in section 3 of JDF 478.** It is the one required agency and the packet left it blank — see the section above.
 6. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.
+7. **Add the city, state and ZIP to JDF 477's mailing-address line** — see the section above.
+8. **Mail a copy of your motion to the Prosecuting Attorney's office.** JDF 491 § ③ Send a Copy says so in as many words: “Mail a copy of your motion to the Prosecuting Attorney’s office.” No held source states a deadline or a method for that mailing, so none is stated here.
+
+## Everything the record says you must do before you file
+
+The authoritative packet-set record for this route carries its own list of what has to happen before this motion is filed. It is printed here word for word, so that nothing on that list can quietly fail to reach you, with what each line means for you beside it. Where a line records that a question is **open**, it is kept open: an unanswered question you can take to the clerk is worth more than a confident answer nobody checked.
+
+| What the record says, word for word | What that means for you |
+| --- | --- |
+| Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it. | Ask the Colorado Bureau of Investigation for your own criminal-history report before you file, and attach it if the form asks for a history or an exhibit. The record marks this conditional for exactly that case. The platform holds no report for you and cannot request one on your behalf. |
+| Check your answer to "How did the case end?" against Colorado criminal-history report, and correct the packet if they disagree. | JDF 477 section 6 is where you say how the case ended — acquittal, dismissal, a completed diversion agreement, a completed deferred judgment, or a vacated conviction. Read your answer against the criminal-history report before you file, and if the two disagree, correct the packet rather than swearing to it. |
+| Signature and date — JDF 477, signature block. | You sign and date JDF 477 yourself. Section 10 is a declaration under penalty of perjury and no part of it is filled in for you. |
+| The movant signs their own motion. | The person asking for the sealing signs the motion. Nobody signs it for you, and the platform did not. |
+| The source review does not state a notarization requirement. | No source this packet holds says the motion must be notarised, and none says it need not be. JDF 491, Colorado's own guide for this route, does not mention notarisation anywhere, and JDF 477 section 10 is a declaration under penalty of perjury rather than a notarised affidavit. It is a fair thing to ask the clerk when you file; this packet will not settle it for you by guessing. |
+| The source review does not state a filing fee for the simplified motion. | Ask the clerk what fee applies, if any — see “Where you file this” above. C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here. |
+| The source review does not address a fee waiver. | No source this packet holds says whether the filing fee can be waived on this route, so this packet does not tell you either way. JDF 491 does not mention a fee or a waiver at all. If you cannot pay, say so to the clerk and ask what the court requires — and ask specifically whether its fee-waiver forms apply to this motion. This packet does not name those forms, because no source it holds names them for this route, and it will not name a form it has not read. |
 
 ## JDF-477 — Motion to Seal Non-Conviction Records (Simplified Process): the items you must supply
 
