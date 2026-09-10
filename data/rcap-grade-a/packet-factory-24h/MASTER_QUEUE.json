@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d68cc77d9794be2111e90a3e448fe013a663df63",
+  "minimumCaptainSha": "570a0b47519d0eb0d741eff132b5066bb38646fc",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,20 +73,20 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 41,
+    "repairRequired": 39,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 201,
+    "COMPLETE_PACKET_PROVEN": 202,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 47,
+    "FAIL_REPAIR_REQUIRED": 45,
     "SOURCE_READY": 33,
+    "BUILT_RASTER_PENDING": 2,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -4312,9 +4312,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf56",
-        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json"
+        "lane": "vf63",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -4348,18 +4348,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
+        "ARTIFACTS",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
+          "obligation": "ARTIFACTS",
           "finding": null,
           "findingReadFrom": null,
           "evidence": null
         },
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
+          "obligation": "ROUTE_OPTIONS",
           "finding": null,
           "findingReadFrom": null,
           "evidence": null
@@ -4462,14 +4462,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf57",
-        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf63",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4498,34 +4496,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-felony-seal-set.mjs",
@@ -5467,26 +5442,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf53",
-        "verifiedAtBase": "bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf63",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
         "wave2DecisiveObligation": "correct official form or approved composer",
         "wave2LegalInputClass": "GENUINE_NARROW_LEGAL_QUESTION",
-        "wave2SendToLawrence": true
+        "wave2SendToLawrence": true,
+        "supersededBy": {
+          "lane": "vf63",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
@@ -5510,48 +5489,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAILS. vf02's finding STILL STANDS and this lane proved it in pixels rather than from the report. The canonical writes all 13 mapped values; the BOUNDARY writes only 12. The mapped 'Email Address' header on page 1 is refused by the finalizer as value_exceeds_widget_width_at_minimum_font, category unfittable, and reports/actual-writes.json records that write's textReadFromOutputBytes as null. MEASURED ON THE DELIVERED BYTES: rendering boundary page 1 and the pinned source page 1 at 200dpi grayscale to PGM P5 and counting pixels darker than gray 200 that the delivered page has and the source does not, the email-top rectangle (x 145.21, y 636.80, 251.2 x 11.2 pt; 21,638 px of area) carries EXACTLY 0 ADDED INK PIXELS. That zero is licensed by four positive controls in the same rectangle set, on the same page, in the same fixture, at the same threshold: filer-name 3,711 added px, mailing-address-top 3,244, city-state-zip-top 2,966, telephone-top 1,412 — and by the SAME rectangle on the CANONICAL fixture, which carries 1,977. Confirmed a second way without reference to any declared rectangle: a whole-page added-ink band scan of boundary page 1 returns EIGHT bands where canonical page 1 returns NINE, and the missing band is precisely the one at y 643.3-635.4pt. The petition therefore goes to the Superior Court clerk with the petitioner's email line blank on page 1 while the SAME email is printed in full in the page-2 declaration block (the box there is 427.2pt wide against 251.2pt), so the value is held, is writable, and is simply lost on the narrower line. WHAT WOULD SATISFY IT: write the value the form asks for on that line — by wrapping, by continuing onto the printed second line, or by an explicit measured abbreviation — or, if it genuinely cannot be fitted, refuse it VISIBLY and list it among the blanks the participant must complete by hand, which the guide currently does not do. Either way this moves delivered PDF bytes and costs the family a fresh central raster.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAILS. vf02's finding STILL STANDS, on bytes that have not moved. The packet-set manifest declares five requiredBeforeFiling actions. The guide covers three: the caption Case Number left blank for the court to assign (stated twice, with the reason that no charge was filed so no number exists yet), signing the petition, and — as a bonus — checking the arresting agency against the participant's own paperwork. It does NOT cover the manifest's FIRST action: 'Check your answer to \"How much marijuana, or how many plants, did the arrest involve?\" against Supporting exhibits: police report, lab report showing weight, DPS or FBI extract, and correct the packet if they disagree.' This lane searched participant-instructions.md for 'police report', 'lab report', 'DPS', 'FBI', 'How much marijuana' and 'how many plants': ZERO hits for every one. The single hits for 'quantity' and 'plant count' are inside the stop-conditions list, quoting the registry's stop wording, not a before-filing action. And the manifest's fifth action, 'none. Rule 36(a)(4) bars a filing fee', is not merely omitted but CONTRADICTED — see FEE_AND_WAIVER. A FURTHER WEAKNESS vf02 did not name: the registry and the manifest both record 'Petitioner signs under penalty of perjury', and the word 'perjury' appears NOWHERE in the guide, which says only 'Sign and date the petition yourself'. The participant is not told what they are attesting to. WHAT WOULD SATISFY IT: add the quantity/plant-count cross-check against the police report, lab report or DPS/FBI extract as a numbered before-filing step, and state that the declaration is signed under penalty of perjury. Guidance only; no PDF byte moves.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "FAILS, on a limb vf02 did not name. The guide identifies the right court: it quotes the form's own printed caption 'In the Superior Court of Arizona for ______ County' and says to file with the Superior Court clerk in the county the platform wrote there. What it drops are the two things the held record adds about THIS route in particular. The registry's rules.filing reads 'File in the superior court in the county of arrest. CONFIRM THE COUNTY-SPECIFIC INTAKE ROUTE BEFORE FILING', and its destination.detail reads 'Local intake varies. Maricopa County directs arrest-only petitions to a civil petition form and a civil case number.' Neither the instruction to confirm the county intake route nor the named Maricopa divergence appears anywhere in participant-instructions.md — this lane read the whole 'Where you file this' section. The omission is not incidental to this family: the Maricopa variation is expressly about ARREST-ONLY petitions, which is exactly this route, and Maricopa is Arizona's largest county, so the participants most likely to use this packet are the ones most likely to be sent to the wrong intake with the wrong case-number treatment. That also interacts with this route's own deliberate blank: the packet leaves the case number for the court to assign, while Maricopa assigns a CIVIL case number through a civil petition form. WHAT WOULD SATISFY IT: carry the registry's confirm-the-county-intake-route instruction and the Maricopa civil-petition detail in the 'Where you file this' section. Guidance only; no PDF byte moves.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAILS. vf02's finding STILL STANDS, verbatim, on guidance that has not moved. The committed track registry states rules.fees as 'none. Rule 36(a)(4) bars a filing fee' and rules.feeWaiver as 'none', and the packet-set manifest repeats the no-fee rule in its requiredBeforeFiling list. The guide instead prints, under a heading that introduces it as something the repository does not establish: 'The filing fee, and whether it can be waived. Ask the Superior Court clerk in the county above what the fee is for a petition to expunge marijuana records, and whether a fee-waiver or deferral application applies to you.' That is not a gap, it is contrary money guidance: the record says there is NO fee and NO waiver is needed, and the packet tells the participant there may be a fee and that they may need to apply for a waiver. The guide's own framing compounds it, presenting the answer as unestablished — 'not established in this repository and writing an unsourced figure into a filing instruction would be worse than leaving it out' — when the repository does establish it, by rule number. A participant who reads this may delay filing to arrange money they do not owe, or file a waiver application that does not exist for this route. WHAT WOULD SATISFY IT: state that Rule 36(a)(4) bars a filing fee on this route and that no waiver is needed, and delete the instruction to ask the clerk what the fee is. Guidance only; no PDF byte moves.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "FAILS. vf02's finding STILL STANDS, on guidance that has not moved. The registry states rules.service as 'none. Rule 36(b)(2) puts transmittal on the court' and rules.notice as 'The court sends the petition to the prosecuting agency within 10 days.' The guide instead prints, in the same 'not established in this repository' block as the fee: 'Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method.' The held answer is that the participant serves NOBODY and that the court transmits to the prosecuting agency within ten days. Sending a participant to ask a clerk who they must serve, on a route where the rule puts transmittal on the court, invites them to perform a service step that does not exist and to believe the filing is incomplete until they do. Compare this family's OWN sibling treatment in this factory: the WV and OH families in this same return both open the equivalent section with 'You serve nobody' where the record supports it. WHAT WOULD SATISFY IT: state that Rule 36(b)(2) puts transmittal on the court, that the court sends the petition to the prosecuting agency within 10 days, and that the participant serves no one. Guidance only; no PDF byte moves.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -20646,9 +20588,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf57",
-        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json"
+        "lane": "vf63",
+        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -20731,18 +20673,11 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ROUTE_IDENTITY",
-        "SOURCE_IDENTITY"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SOURCE_IDENTITY",
+          "obligation": "ARTIFACTS",
           "finding": null,
           "findingReadFrom": null,
           "evidence": null
