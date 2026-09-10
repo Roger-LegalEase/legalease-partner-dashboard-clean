@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8a46cd7b9a540d20cfb2c5d62cb1f8f6d6d040a2",
+  "generatedAtCommit": "a886765057d6f930f9522e6e6ce84816f434c94a",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1819,8 +1819,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-10T11:23:22.339Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T11:23:22.339Z"
     },
     {
       "subjectType": "packet-family",
@@ -5405,18 +5404,17 @@
     {
       "subjectType": "packet-family",
       "subjectId": "md_pardon_expungement-set",
-      "itemId": null,
       "familyId": "md_pardon_expungement-set",
+      "itemId": null,
       "familyIds": [
         "md_pardon_expungement-set"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-10T11:23:26.850Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "releasedAt": "2026-09-10T11:23:26.850Z"
     },
     {
       "subjectType": "packet-family",
@@ -5901,7 +5899,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T12:00:16.266Z"
@@ -14631,7 +14629,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "058bdaca2131b2e191ccc6548ca2cf3ccca4e536a16afcdb78bd0ad20b0db8fd",
+  "claimsDigest": "6262f136fe376ff95e4a2862dd80f5567e11c956fc7dc4a5006bc8567bbef80b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
