@@ -65,8 +65,33 @@ const FAMILY_CONFIG = {
     recordComparison: "Read the certified local record and identify which ONE of the printed Section III outcomes it actually shows, then check that box yourself. The record recognises these: \"Dismissed with prejudice, more than 90 days passed\"; \"No billed by a grand jury, more than 90 days passed\"; \"Found not guilty, more than 90 days passed\"; \"Nolle prossed without conditions, more than 90 days passed, not refiled\"; \"Indictment quashed and the limitations period for refiling has expired, or the prosecuting agency confirms the charges will not be refiled\". This packet checks none of them for you, because it does not hold which one your case was. Confirm the 90-day period from the disposition has run, confirm the charges have not been refiled, and stop if the certified record does not clearly show exactly one of these outcomes."
   },
   "al-misd-conviction-set": { selected: ["Check Box9.2", "Check Box9.3", "Check Box9.4", "Check Box9.5", "Check Box9.6", "Check Box9.7", "Check Box9.8"], routeSummary: "Qualifying misdemeanor, violation, traffic, municipal, or misdemeanor youthful-offender conviction after all seven Section II conditions." },
-  "al-misd-dwop-set": { selected: ["Check Box8.6"], routeSummary: "Misdemeanor or violation charge dismissed without prejudice more than one year ago, not refiled, with the form's two-year conviction-free condition." },
-  "al-pardoned-felony-set": { selected: ["Check Box10.6", "Check Box11.0", "Check Box11.1", "Check Box11.2", "Check Box11.3", "Check Box11.4", "Check Box11.5", "Check Box11.6"], routeSummary: "Pardoned felony route after the pardon and every Section V condition. Attach the certificate of pardon." }
+  "al-misd-dwop-set": { selected: ["Check Box8.6"], routeSummary: "Misdemeanor or violation charge dismissed without prejudice more than one year ago, not refiled, with the form's two-year conviction-free condition." }
+  /*
+   * FIX144: al-pardoned-felony-set is deliberately absent from this config.
+   *
+   * It used to sit here carrying `selected: ["Check Box10.6", "Check Box11.0"
+   * ... "Check Box11.6"]` -- all eight limbs of CR-65 Section V -- which is the
+   * exact configuration AL6-04 retired. Section V is a CONJUNCTIVE SWORN
+   * certification ("AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not
+   * checked all eight boxes, the conviction is not eligible for expungement"),
+   * six of the eight limbs assert facts AL.memo.json track al-pardoned-felony
+   * never holds and never asks for, and a seventh is the memo's own retained
+   * build_blocker AL-7. That family's live builder,
+   * scripts/build-census-v1-al-pardoned-felony-set.mjs, now runs on the shared
+   * host build-census-v1-al-diversion-set.mjs with `selected: []` and asserts
+   * that none of the eight is ever ticked again.
+   *
+   * buildAlabamaFamily() below asserts its own familyId, so the retired entry
+   * could not be driven from here -- but a retired ticking configuration for a
+   * repaired family, sitting in a live file, reads as the current design to the
+   * next person who opens it. The sibling host documents the same rule for the
+   * same reason: "leaving them in FAMILY_CONFIG would let a caller drive this
+   * module over a family it no longer owns and silently overwrite the repaired
+   * output of another lane."
+   *
+   * The four entries above are retained: each is the CURRENT configuration of a
+   * family built elsewhere, and this lane holds none of them.
+   */
 };
 
 const FIXTURES = {
