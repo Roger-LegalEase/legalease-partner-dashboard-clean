@@ -1,85 +1,97 @@
-# Two Indiana fixtures bind one case-type token to two different offence classes
+# Indiana case-type tokens: the question is settled, and my framing of it was wrong
 
-**For Roger. Nothing has been decided, and the record here cannot decide it.**
+**Status: RESOLVED by owner-supplied source findings, 2026-09-10. Superseded framing
+preserved below rather than deleted.**
 
-## The measurement
+## What the rules say
 
-Two boundary fixtures, two families, one token:
+Roger located the publication two lanes searched for and could not find:
 
-    in_conviction_d6-set      45C01-0812-FB-00000000000654321   "Class D felony", I.C. 35-38-9-3
-    in_conviction_felony-set  45C01-0812-FB-00000000000123456   "Class B felony", a different section
+- **Admin. Rule 8(B)(3)** — `FB` identifies **Class B felony**; `FD` identifies
+  **Class D felony**.
+- **Admin. Rule 1(B)(4)(a)(iii)** — the case category is assigned by the **most
+  serious charge**.
+- **QCSR Instructions, August 2026, page 9** — the category **remains** after amended
+  charges or a conviction of a lesser offence.
 
-`FB` is bound to **Class D** in one and **Class B** in the other. Five of the build's
-six fixtures pair the token to the class the same page states; this one does not.
+## The correction, stated plainly
 
-**That the pair is inconsistent needs no legal input. Which of the two is wrong does** —
-and no Indiana conviction case-type token table exists anywhere in this repository or in
-mounted custody. VF36 and FIX04 both searched, independently, and agree it is absent.
-The one case type the held Indiana review publishes is `XP` — the type of the
-*expungement* case this packet opens — and `MC`. Neither is a conviction token.
+**`FB` beside a final Class D conviction is not automatically contradictory.** A case
+charged at Class B and resolved by a Class D conviction keeps its `FB` category, by rule.
 
-## How it got here, told straight
+I recorded the d6/felony pairing as a contradiction needing legal input. That framing was
+wrong. What I had was a token and a final conviction class that differ — which the rules
+say is an ordinary and expected outcome, not a defect. Two lanes correctly refused to
+invent a convention; the failure was mine in reading the difference as a conflict.
 
-VF30 withdrew these three families from terminal, partly on the ground that one string
-was asserted as the cause number of two different convictions. FIX04 discharged exactly
-that: it moved the **serial digits** on the d6 boundary, `…123456` → `…654321`, so the
-two families no longer share a string.
+**No production rule may equate a case-type token with the final conviction class.**
+Nothing in this repository should reject or rewrite a real identifier merely because its
+token differs from the conviction. Doing so would corrupt exactly the cases the rules
+describe.
 
-FIX04 chose to move the sequence rather than the token deliberately, and its reasoning
-was sound as far as it went: with no published table, `FB` cannot be shown wrong, and
-no replacement could be shown right without asserting Indiana clerk practice as record
-fact. It said so, and declined to guess.
+## What the synthetic d6 fixture should carry
 
-**But discharging the collision did not discharge the contradiction**, and I did not
-notice that when I accepted the repair. VF36 then withdrew its own prior PASS on this
-obligation in terms worth quoting: *"I passed this last round on byte-identity alone. A
-repair that satisfied a counter without satisfying the finding."* Neither lane hid
-anything; the gap was between two true statements, and it was mine to see.
+The boundary fixture's metadata was checked before choosing, rather than assumed. It
+records:
 
-## What is actually at stake
+    matter.offense_level        "Class D felony under the pre-2014 sentencing scheme,
+                                 treated as a Level 6 felony conviction"
 
-This is fixture data on a **boundary** exemplar. No participant receives it today, and
-the family is not terminal. What it does reach is **counsel review and visual review**,
-which will read these fixtures as the specimen of what the route produces. A specimen
-whose cause number contradicts the offence it states on the same page is a bad specimen,
-and a reviewer who notices will not know whether the token, the class or the convention
-is wrong — which is exactly the position I am in.
+and carries **no original-charge, amended-charge or most-serious-charge field**. So the
+fixture does not model a higher original charge, and no history may be invented to give
+it one.
 
-## The options, and what each costs
+The intended scenario is therefore the simple one, and it is now documented in terms:
+**Class D was the most serious original charge and the conviction.** Under Rule 8(B)(3)
+that case is `FD`. The repair is to the token alone — the Class D offence, the
+I.C. 35-38-9-3 statutory route and the distinct serial all stay.
 
-1. **Change the d6 boundary token to one whose published meaning matches "Class D
-   felony."** Cheapest if such a token is published. Nobody has found the publication,
-   so today this means inventing a convention — which is the thing this factory refuses
-   to do, and I am not doing it on my own authority.
+## What must not change
 
-2. **Change the d6 boundary's stated offence class to match `FB`.** Rejected on sight:
-   it moves the *offence* to fit an identifier, which is backwards, and the offence
-   class is what routes the family to I.C. 35-38-9-3 in the first place.
+- **The intentionally long boundary input stays**, labelled as width-stress coverage. It
+  is not to be silently shortened, and it is not to be presented as a realistic docket
+  number. Any realistic synthetic specimen prepared for counsel must remain
+  distinguishable from it.
+- **Generated PDFs and approval records are not edited.** The fixture source and the
+  stale explanatory comments are what change; outputs are rebuilt from them.
+- The misd `CM` pairing stays unscored on the same reasoning.
 
-3. **Remove the case-type token from the fixture cause numbers entirely**, leaving court,
-   period and sequence. Asserts nothing unsourced, and costs the realism of the specimen.
-   It is the option a "do not guess where nothing is published" rule points at, and it
-   moves bytes on families that owe a fresh raster anyway.
+## What is owed
 
-4. **Obtain the Indiana case-type table** and settle it on the record rather than by
-   convention. The right answer if the publication exists; a source-acquisition task,
-   not a repair.
+Tests covering **both** scenarios — the simple Class-D-at-filing case, and a documented
+higher-charge case ending in a lesser conviction, which is the case the rules exist to
+describe and which nothing in the corpus currently exercises.
 
-**My recommendation is 4, with 3 as the interim** — take the token out of the fixtures
-now so no specimen asserts a convention nobody can source, and put the table on the
-acquisition list so the fixtures can be made realistic later on evidence.
+The official sources are to be retrieved through the established acquisition process
+(HTTPS, an approved official government host, jurisdiction and form number or official
+title on every entry) and the rule text confirmed against what is retrieved. **The rule
+statements above are as supplied and have not yet been read against a retrieved
+document**; that confirmation is part of the work, not a formality.
 
-I have not done either. Both move bytes on a family under repair, and option 3 in
-particular decides a question about what a fixture may assert, which is yours.
+Affected outputs rebuilt, actual digests recorded, and the raster and independent-review
+evidence obtained. **This research is not a packet approval and grants nothing.**
 
-## What I did do
+---
 
-- Recorded the contradiction rather than letting a discharged collision read as a
-  discharged finding.
-- Left `in_conviction_misd-set`'s `CM` / "Class A misdemeanor reduced from a Class D
-  felony" pairing **unscored**, as three lanes have now agreed: nothing in the record
-  settles it either.
-- Fabricated nothing, and let no lane fabricate: at every point where a token could have
-  been invented to make a counter go green, the lane said it could not source one and
-  stopped. That is the behaviour I want, and it is why this reached you as a question
-  rather than as a silent edit.
+## Superseded: how I framed it before the source was located
+
+Preserved because the reasoning was acted on, and because the record should show what
+changed and why rather than only the corrected conclusion.
+
+I recorded that two boundary fixtures bound one token to two offence classes —
+`45C01-0812-FB-…654321` beside "Class D felony" in d6, and `45C01-0812-FB-…123456` beside
+"Class B felony" in felony — and wrote that *"that the pair is inconsistent needs no legal
+input; which of the two is wrong does."*
+
+The first half was the error. The pairing is not inconsistent: under Rule 1(B)(4)(a)(iii)
+and the QCSR Instructions, two cases can carry `FB` and end in different conviction
+classes, and both are correctly recorded.
+
+I offered four options and recommended obtaining the table with removal of the token as an
+interim. **Removal would have been wrong** — it would have deleted correct information
+from a specimen to satisfy a rule that does not exist.
+
+What the lanes did remains right: FIX04 declined to move the token without a published
+table and said so; VF36 withdrew its own earlier pass rather than let a discharged
+collision read as a discharged finding. Neither invented a convention. The mechanism
+worked; my reading of what it had produced did not.
