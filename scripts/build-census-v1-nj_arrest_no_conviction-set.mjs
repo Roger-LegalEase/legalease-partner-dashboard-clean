@@ -2792,7 +2792,7 @@ Object.assign(FAMILY, {
 });
 
 /*
- * FIX175, NJ FAMILY REPAIR. CN-10557 is the same pinned source block for these
+ * FIXCXN1, responding to the FIX175 diagnosis. CN-10557 is the same pinned source block for these
  * three routes. Reuse the exact printed-caption table and owner treatment that
  * the already-repaired arrest family carries, while keeping the repair scoped
  * to FIX175's grant. The conviction row/declarations are applied to clean slate
@@ -5791,11 +5791,12 @@ async function buildOfficial(familyId, config) {
      * whose row cannot be written is withdrawn, correctly, and the fix is for
      * the map to say so. This guard is what makes those two records agree.
      *
-     * GATED, AND ON ITS OWN FLAG. Before FIX175, the indictment and ordinance
-     * families (and the disorderly family) withheld this row but still carried
+     * GATED, AND ON ITS OWN FLAG. Before this repair, the indictment and
+     * disorderly families withheld this row but still carried
      * the false measured-route declaration; clean slate was the opposite defect:
      * it omitted row withholding and therefore actually drew the guilty mark.
-     * FIX175 enables both flags on its three granted families so their maps and
+     * FIXCXN1 enables both flags on its three granted families (the ordinance
+     * family already enabled them) so their maps and
      * delivered marks agree. The disorderly family remains outside this lane's
      * grant and keeps its existing gate state.
      *
