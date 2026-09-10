@@ -282,7 +282,7 @@ async function fillDocument(source, fixtureName, fixture, config, { normalizeRec
    * Same two corners, spec-required storage order. No appearance stream, no
    * value and no election is touched.
    */
-  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(form) : [];
+  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(document, form) : [];
   if (normalizeRects) assert.equal(rectanglesNormalized.length, EXPECTED_INVERTED_RECTS[source.documentId],
     `${source.documentId}: expected ${EXPECTED_INVERTED_RECTS[source.documentId]} inverted widget rectangle(s), normalized ${rectanglesNormalized.length}`);
   const writes = [];

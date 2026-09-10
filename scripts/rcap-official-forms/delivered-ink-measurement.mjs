@@ -27,6 +27,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { extractTextItems } from "./rcap-pdf-anchor-capture.mjs";
+import { normalizeInvertedWidgetRectangles } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFName, PDFNumber, PDFArray, PDFRef, StandardFonts } = require("pdf-lib");
@@ -64,26 +65,22 @@ const { PDFDocument, PDFName, PDFNumber, PDFArray, PDFRef, StandardFonts } = req
  * election is touched, and the count of rectangles this moves is asserted so
  * the repair cannot quietly grow.
  *
- * Nothing is shared: this helper is local to this family's builder. The
- * identical inverted rectangle reaches every other family that binds CR-65, and
- * each of those builders needs its own copy of this call.
+ * THE NORMALIZER ITSELF IS NEITHER NEW NOR MINE. This repository already
+ * carries one -- `normalizeInvertedWidgetRectangles` in
+ * scripts/rcap-official-forms/rcap-active-content.mjs -- written for exactly
+ * this rectangle, citing the same clause, and already switched on by
+ * al-felony-nonconviction-90-set and al-pardoned-felony-set through their
+ * `normalizeInvertedWidgetRects` config flag. Shipping a second implementation
+ * of one repair is how two implementations drift, so this delegates to that
+ * one and keeps only the shape its callers want back.
+ *
+ * rcap-active-content.mjs is NOT modified. Its flag still defaults to false --
+ * deliberately, so that a repair lane holding one family cannot decide what
+ * another family's next rebuild produces -- and nothing here moves any bytes
+ * but this caller's.
  */
-export function normalizeWidgetRectangles(form) {
-  const normalized = [];
-  for (const field of form.getFields()) {
-    for (const widget of field.acroField.getWidgets()) {
-      const array = widget.dict.lookup(PDFName.of("Rect"), PDFArray);
-      const stored = [0, 1, 2, 3].map((i) => array.lookup(i, PDFNumber).asNumber());
-      const corrected = [
-        Math.min(stored[0], stored[2]), Math.min(stored[1], stored[3]),
-        Math.max(stored[0], stored[2]), Math.max(stored[1], stored[3])
-      ];
-      if (corrected.every((value, i) => value === stored[i])) continue;
-      widget.dict.set(PDFName.of("Rect"), widget.dict.context.obj(corrected));
-      normalized.push({ field: field.getName(), stored, corrected });
-    }
-  }
-  return normalized;
+export function normalizeWidgetRectangles(document, form) {
+  return normalizeInvertedWidgetRectangles(document, form).normalized;
 }
 
 /*
@@ -138,7 +135,7 @@ export async function baselineInk(source) {
   // The baseline must be the same paper as the fill, or the subtraction is
   // between two different geometries and every rectangle that moved reads as a
   // write. Normalized here for the same reason and by the same helper.
-  normalizeWidgetRectangles(form);
+  normalizeWidgetRectangles(document, form);
   form.updateFieldAppearances(font);
   form.flatten();
   pruneDanglingAnnots(document);

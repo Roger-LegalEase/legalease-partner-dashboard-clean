@@ -525,7 +525,7 @@ async function fillDocument(source, fixture, variant, { normalizeRects = true } 
   // normalizeWidgetRectangles above.
   assert.equal(document.getPageCount(), SOURCE_PAGE_COUNTS[source.documentId],
     `${source.documentId}: pinned page count ${SOURCE_PAGE_COUNTS[source.documentId]} does not match the loaded binary's ${document.getPageCount()}; the packet-to-source page map would be wrong`);
-  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(form) : [];
+  const rectanglesNormalized = normalizeRects ? normalizeWidgetRectangles(document, form) : [];
   if (normalizeRects) assert.equal(rectanglesNormalized.length, EXPECTED_INVERTED_RECTS[source.documentId],
     `${source.documentId}: expected ${EXPECTED_INVERTED_RECTS[source.documentId]} inverted widget rectangle(s), normalized ${rectanglesNormalized.length}`);
   const writes = [];
