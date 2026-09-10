@@ -1646,6 +1646,12 @@ function renderParticipantInstructions({ documents, censuses, requiredBeforeFili
 
 function auditSelectionDisclosure({ selectionDispositions, otherGroundBoxes, participantInstructions }) {
   const rows = Object.values(selectionDispositions).flat();
+  const markedWithoutDisposition = rows.filter((row) => row.marked === true
+    && row.disposition !== "selected_route_option");
+  if (markedWithoutDisposition.length) {
+    fail("a rendered route selection lacks its completeness disposition",
+      JSON.stringify(markedWithoutDisposition.slice(0, 4).map((row) => row.selectionId)));
+  }
   const unmarked = rows.filter((row) => !row.marked);
   const missingReason = unmarked.filter((row) => !String(row.reason ?? "").trim());
   if (missingReason.length) fail("a selection control is delivered empty without a printed-ground-specific reason", JSON.stringify(missingReason.slice(0, 4)));
@@ -1974,12 +1980,6 @@ async function build({ check = false } = {}) {
       JSON.stringify(blocking.slice(0, 4)));
   }
 
-  // ---- write the overlay directory ---------------------------------------
-  fs.mkdirSync(absFor(`${OUT}/fixtures`), { recursive: true });
-  fs.mkdirSync(absFor(`${OUT}/reports`), { recursive: true });
-  fs.writeFileSync(absFor(`${OUT}/fixtures/canonical.pdf`), canonical.bytes);
-  fs.writeFileSync(absFor(`${OUT}/fixtures/boundary.pdf`), boundary.bytes);
-
   const requiredBeforeFiling = [];
   const laterCompletion = [];
   const elections = [];
@@ -2016,16 +2016,21 @@ async function build({ check = false } = {}) {
 
   const recordActions = participantActionsFromTheControllingRecord();
 
-  fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({
-      documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows,
-      elections: electionRows, otherGroundBoxes, recordActions
-    }));
-  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`),
-    renderFilingInstructions({ documents, recordActions }));
-
-  const participantInstructions = fs.readFileSync(absFor(`${OUT}/participant-instructions.md`), "utf8");
+  const participantInstructions = renderParticipantInstructions({
+    documents, censuses, requiredBeforeFiling: supplyRows, laterCompletion: laterRows,
+    elections: electionRows, otherGroundBoxes, recordActions
+  });
+  const filingInstructions = renderFilingInstructions({ documents, recordActions });
   const selectionDisclosure = auditSelectionDisclosure({ selectionDispositions, otherGroundBoxes, participantInstructions });
+
+  // No final output is replaced until every selection disposition and every
+  // unused-ground disclosure has passed the ordinary production guard above.
+  fs.mkdirSync(absFor(`${OUT}/fixtures`), { recursive: true });
+  fs.mkdirSync(absFor(`${OUT}/reports`), { recursive: true });
+  fs.writeFileSync(absFor(`${OUT}/fixtures/canonical.pdf`), canonical.bytes);
+  fs.writeFileSync(absFor(`${OUT}/fixtures/boundary.pdf`), boundary.bytes);
+  fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`), participantInstructions);
+  fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), filingInstructions);
   writeJson(`${OUT}/reports/selection-disclosure.json`, selectionDisclosure);
 
   writeJson(`${OUT}/field-census.census-v1.json`, {

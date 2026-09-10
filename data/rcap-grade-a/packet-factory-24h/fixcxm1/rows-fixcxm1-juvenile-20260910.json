@@ -3,7 +3,7 @@
   "lane": "FIXCXM1",
   "laneKind": "complex-execution-repair",
   "isIndependentVerification": false,
-  "repairedAtBase": "abcfeebb0289853ff53c93cc388dfacb13b1df95",
+  "repairedAtBase": "40626a9ee9faf9513778dc50a4e7882f62680f33",
   "worktree": "/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxm1",
   "branch": "lane-fixcxm1-20260910",
   "laneComplete": true,
@@ -38,8 +38,10 @@
         "visualDefects": 0
       },
       "actualProductionCommand": "node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
-      "originalDefectCommand": "node data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/verify-repair.mjs --original",
+      "originalDefectCommand": "node data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/verify-repair.mjs (three isolated scratch mutations)",
       "originalDefectExit": 1,
+      "originalDefectMutationExits": [1, 1, 1],
+      "originalDefectFinalOutputInventoryPreserved": true,
       "validHarnessCommand": "node data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/verify-repair.mjs",
       "validHarnessExit": 0,
       "focusedCompleteness": "PASS_COMPLETE; all nine counters zero",
@@ -58,7 +60,8 @@
       "unusedGroundContract": "Ten unused EXP102 item-9 rows (box 1 and boxes 3-11) have distinct printed-ground-specific reasons, and all ten are named in participant-instructions.md.",
       "glyphAdvanceContract": "Unmeasurable ballot-box advance is null with glyphAdvanceMeasured:false and embedded-outline geometry retained; it is never published as zero.",
       "governanceContract": "Existing governance/history values are preserved by preserveGovernanceState/writeWiringChecked; FEE102 source tier exact_form_number remains unchanged; acceptance receipt history remains recorded.",
-      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/repair-measurements.json"
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/repair-measurements.json",
+      "productionGuardEvidence": "data/rcap-grade-a/packet-factory-24h/fixcxm1/juvenile-evidence/production-guard-proof.json"
     }
   ],
   "grantsNothing": "This repair issues no independent verdict, raster receipt, commercial authority, route promotion or live status.",
