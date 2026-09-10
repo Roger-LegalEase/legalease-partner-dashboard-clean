@@ -38,7 +38,9 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 ## Blanks you must fill in
 
 Each line names a blank on the paper that this packet did not fill because it
-does not hold that fact. Fill every one on the version you file before filing.
+does not hold that fact. Fill every one on the version you file before filing -
+except the lines that carry an "only if" condition, which belong to a box on
+page 6 you may not be ticking. The section below names that box.
 
 - The single charge or conviction you are asking the court to expunge
 - The criminal charge as it appears on your certified record (line 1)
@@ -49,8 +51,8 @@ does not hold that fact. Fill every one on the version you file before filing.
 - The agency or department that made the arrest (line 2)
 - Any agency that incarcerated or detained you on this charge (line 1)
 - Any agency that incarcerated or detained you on this charge (line 2)
-- County where any previous expungement was filed
-- Court case number of any previous expungement
+- County where any previous expungement was filed - only if you tick the SECOND box in item (3) on CR-65 page 6
+- Court case number of any previous expungement - only if you tick the SECOND box in item (3) on CR-65 page 6
 - Last four digits of your Social Security Number (CR-65 petition, page 1)
 - Your spouse's full name — only if you are married; the printed caption reads "(if married)"
 - Total number of people you support financially, including yourself
@@ -97,6 +99,67 @@ does not hold that fact. Fill every one on the version you file before filing.
 - Total assets
 - Monthly exceptional-expense subtotal (item 3d)
 - Total monthly expenses (item 3e)
+
+## Elections on CR-65 that this packet has not made
+
+This packet elects the statutory ground, and nothing else on CR-65. The form
+prints further choices that turn on facts this packet does not hold, and the
+list above does not name them, because the field map classifies them as
+elections rather than as blanks owed before filing. They are still choices the
+form makes you make. Every line quoted below was read back out of the delivered
+petition at build time, on the page named beside it.
+
+**Page 5 - what you attach.** The form prints:
+
+> Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)
+
+and three boxes under it:
+
+> [ ] (1) a certified record of arrest from the appropriate agency for the court record I seek to have
+>
+> [ ] (2) a certified record of disposition or a certified record of the case action summary from the
+>
+> [ ] (3) a certified official criminal record obtained from the Alabama Law Enforcement Agency (ALEA).
+
+All three are blank in this packet, on all four fixtures. Tick them yourself to
+match what you are actually attaching, following the rule the form prints above
+them. Steps 1 and 2 of "Do these before you file" are the documents these boxes
+certify.
+
+**Page 6 - the sworn select-one.** Under the printed line
+
+> I swear or affirm, under the penalty of perjury:
+
+the form prints
+
+> (3)(Select one of the following):
+
+and offers two boxes. The first reads:
+
+> [ ] that I have not previously applied for an expungement in this or any other jurisdiction.
+
+The second begins:
+
+> [ ] that I have previously filed for an expungement. My previous expungement was filed in
+
+and runs on into a blank for the county it was filed in, a blank for its court
+case number, and the printed pair
+
+> was [ ] granted [ ] denied.
+
+Both boxes are blank in this packet, on all four fixtures. Tick the one that is
+true of you. It sits under the perjury line, so tick it before you sign.
+
+The county, the case number and the granted-or-denied pair belong to the second
+box alone. If you tick the first box, leave all three of them empty - that is
+why they are listed above marked "only if you tick the SECOND box in item (3) on CR-65 page 6".
+
+**Page 6 - the pro se box.** Beside the signature line the form prints:
+
+> [ ] pro se (Not represented by an attorney)
+
+It is blank in this packet, and this packet writes nothing into the attorney
+block beside it, because it holds no representation fact for you.
 
 ## Facts this packet holds but could not print
 

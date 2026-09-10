@@ -59,16 +59,32 @@ At the foot of page 1 you state that you did it, tick **in hand** or **first cla
 - **Hearing:** the route record's words are _"A hearing is set."_ Whether to ASK for one is a box on page 1 and it is yours to tick.
 - **If the district attorney opposes:** _"Filing, service on the district attorney and any hearing follow generation. Hand off when the district attorney opposes or a hearing is set."_
 
+## Get this before you start
+
+The committed packet-set record for this packet marks the item below **required before filing**. It is not one of the blanks on the form and no part of this packet supplies it: you obtain it yourself, before you fill anything in. Quoted verbatim from `data/record-clearing/legal-design-packet-set-manifests.json`, packetSet `ma-expunge-k-set` (sha256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7):
+
+> Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.
+
+**Where from:** Massachusetts Department of Criminal Justice Information Services
+
+The same record pairs it with a check, also marked required before filing:
+
+> Check your answer to "What is the docket number?" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.
+
+That check is the reason to get it first. The docket number is the blank that points the petition at a file, and this packet holds no docket number to check yours against.
+
 ## What you must do, in order
 
-1. **Write in the docket number and the charges** from your own court papers or your CORI.
-2. **Tick the one court department that heard the case**, and write its division.
-3. **Tick the ground or grounds that fit your record**, from the table above.
-4. **Write your explanation** in the `Specifically` box — as much detail as you can give.
-5. **Decide whether to ask for a hearing**, and whether you are attaching documents.
-6. **Sign and date the petition.** The route record: _"Required."_ Page 1 prints `DATE:` and `PETITIONER'S SIGNATURE` on a rule at the foot — **that rule carries no fillable box at all**, on this form, so you sign and date it by hand on paper.
-7. **Give the district attorney's office a copy**, then tick the method and write the date on page 1.
-8. **File it at the clerk's office of the court where the case was heard.**
+1. **Get it before you write anything.** Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it. **Where from:** Massachusetts Department of Criminal Justice Information Services
+2. **Write in the docket number and the charges** from your own court papers or your CORI.
+3. **Check it against what you obtained.** Check your answer to "What is the docket number?" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.
+4. **Tick the one court department that heard the case**, and write its division.
+5. **Tick the ground or grounds that fit your record**, from the table above.
+6. **Write your explanation** in the `Specifically` box — as much detail as you can give.
+7. **Decide whether to ask for a hearing**, and whether you are attaching documents.
+8. **Sign and date the petition.** The route record: _"Required."_ Page 1 prints `DATE:` and `PETITIONER'S SIGNATURE` on a rule at the foot — **that rule carries no fillable box at all**, on this form, so you sign and date it by hand on paper.
+9. **Give the district attorney's office a copy**, then tick the method and write the date on page 1.
+10. **File it at the clerk's office of the court where the case was heard.**
 
 ## What this packet already filled in
 
