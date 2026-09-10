@@ -24,7 +24,7 @@
  "sharedManifestsTouched": "None. This lane wrote only data/rcap-grade-a/packet-factory-24h/vf56/. The claim ledger was written by --assert and --release only, through scripts/grade-a-packet-factory-24h/claim.mjs.",
  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, plus the private custody mount at /home/user/legalease-partner-dashboard-clean/private (symlinked into this worktree as private/), which is where ME CR-308 and the AR/MN sources live.",
  "howBytesWereMeasured": "sha256sum on the files on disk; pdfinfo/pdftotext -layout and -bbox (poppler) for page counts, page text and glyph geometry; pdftoppm -r 150 -gray writing binary P5 PGM (never -png, which emits RGB) with annotations drawn, read by a P5 parser written in this lane; pikepdf 10.x for source decryption, derived-source reproduction and appearance-stream decoding. Every raster figure below names its dpi, its ink threshold and its scope, and every zero is preceded by a positive control taken at the same settings.",
- "everyZeroHasAPositiveControl": "Yes, and the controls are recorded per family in rasterPixelCounts. No zero in this return is published without one.",
+ "everyZeroHasAPositiveControl": "Yes, per family, and the controls are recorded in each row's rasterPixelCounts. Maine: a synthetic control on the very page whose zero is claimed - one text operator drawing the name and DOB onto a copy of page 3 makes the same detector report 836 px. Arkansas: the geometric detector run against the exact pre-repair bytes VF05 read returns 10 overflows where the current bytes return 0, and the canonical fixtures carry 474 and 488 px on the pages where the boundary carries 0. Minnesota: the same per-rectangle scan that returns 0 inside all 40 protected boxes returns 76 px and 64 px inside the two elected checkboxes, and the containment test was re-run at a tighter tolerance to prove it is not saturated at 0.",
  "theCOMPLETENESSVERIFIERWASNOTTREATEDASEVIDENCE": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs was not used to establish any result here. FIX158 recorded that it returns exit 0, PASS_COMPLETE and all-zero counters against a tree where both of its dispatched defects were live, and it converts an unmeasured null into a printed visualDefects 0. Nothing in this return is transcribed from it.",
  "rows": [
   {
@@ -440,6 +440,219 @@
     "butTheFamilyFAILSSOTHERASTERISNOTTHENEXTSTEP": "Verify, then raster. This row is a FAIL, so the family does not enrol; the repair of KNOWN_PREFILLS and REQUIRED_BEFORE_FILING comes first, and if it moves bytes the raster is owed against whatever it produces."
    },
    "whatThisRowDoesNotGrant": "Nothing. It opens no route, issues no receipt and promotes no build status."
+  },
+  {
+   "familyId": "mn_petition_15218-set",
+   "itemId": "mn_petition_15218-set",
+   "jurisdiction": "MN",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+   "repairedBy": "FIX158 at commit 588a6165b, PROTECTED_FIELDS only, byte-free for every PDF.",
+   "theFIX158REPAIRHOLDS": true,
+   "theFAILURESARENOTFIX158S": "FIX158's dispatched obligation PASSES on this lane's own measurement and its every published count reproduces exactly. All four failures below are obligations measured freshly here, on bytes FIX158 did not move, and all four were scored PASS by VF20. This lane differs from VF20 on KNOWN_PREFILLS, ARTIFACTS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP, and says so plainly with the measurement behind each.",
+   "deliveredDigestsHashedByThisLane": {
+    "fixtures/canonical.pdf": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+    "fixtures/boundary.pdf": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+    "byteLength": {
+     "canonical": 909398
+    },
+    "pageCount": {
+     "canonical": 17,
+     "boundary": 17
+    },
+    "matchesFIX158AndReportsRenderedArtifactsJson": true
+   },
+   "sourceDigestsHashedByThisLane": {
+    "official-form:EXP102": {
+     "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+     "byteLength": 214814,
+     "pageCount": 6
+    },
+    "official-form:EXP104": {
+     "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+     "byteLength": 248691,
+     "pageCount": 2
+    },
+    "official-form:EXP106": {
+     "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+     "byteLength": 183351,
+     "pageCount": 3
+    },
+    "official-form:FEE102": {
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteLength": 268092,
+     "pageCount": 6
+    },
+    "note": "6 + 2 + 3 + 6 = 17, the delivered page count of both fixtures. None is encrypted. EXP102/104/106 resolve through the private custody mount; FEE102 through MASTER_LIBRARY_SOURCE_DIR."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "FAIL"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS"
+    },
+    "ARTIFACTS": {
+     "result": "FAIL"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS"
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS"
+    },
+    "SERVICE": {
+     "result": "PASS"
+    },
+    "SELF_HELP_STOP": {
+     "result": "FAIL"
+    }
+   },
+   "obligationFindings": {
+    "ROUTE_IDENTITY": "PASS. One route key, obligation:track-only:MN:mn_petition_15218, with routeSelectionId mn-exp102-152-18-discharge, consistent across product-wiring.json and production-field-map.json. The track record's legalName is 'Petition to Expunge a Controlled-Substance Discharge under Minn. Stat. § 152.18' and the delivered EXP102 item 9 box the packet marks is the § 152.18 discharge ground, read off the page. generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, paymentEligible false, createsFulfillmentRecord false.",
+    "SOURCE_IDENTITY": "PASS, fully measured. All four sources opened at their recorded paths and re-hashed here; every digest, byte length and page count matches source-receipt.json, and the four page counts sum to the delivered 17. RECORDED, NOT A FAILURE: product-wiring.json's sourceVersion gives FEE102 tier exact_form_number while the other three are exact_content_hash, yet the FEE102 entry carries the full digest b8415cdd.. and this lane confirmed the file at the pinned path hashes to exactly that. The tier UNDERSTATES the binding rather than overstating it, so it is a record-accuracy observation and not a source-identity defect. FIX158 warned that a rebuild flips this tier; this lane did not rebuild, so what is recorded here is the committed state.",
+    "COMPONENT_SET": "PASS. The packet-set manifest declares four components - primary_filing (EXP102, required), certificate_of_service (EXP104, required), proposed_order (EXP106, required) and fee_waiver (FEE102, conditional). All four are delivered, and each was proved from the bytes rather than from the manifest: every one of the 17 delivered pages was differenced against the source page its own page manifest claims and every one matched with 0 removed pixels. requiredComponentsMissing 0. participant-instructions.md lists all four with their revision dates and page counts and flags that FEE102 is marked CONFIDENTIAL on every page and should be handed to the administrator separately, which is a correct handling of a conditional confidential component.",
+    "KNOWN_PREFILLS": "FAIL, on the boundary fixture, and the delivered guidance states the opposite of what the bytes do. THE MEASUREMENT, taken from the raw page content streams rather than from the build report: on the boundary fixture the Court File Number '0123-45-2026-CR-900123.00-AB-CDE/2201' IS NOT DRAWN on EXP102 page 1, EXP104 page 1 or EXP106 page 1 - packet pages 1, 7 and 9. No drawn string on packet page 1 contains '0123' or 'CR-' at all. pdftotext confirms the caption reads 'Court File Number:' with nothing after it on all three, against 'Court File Number: 62-CR-20-1234' on the canonical. The same value IS written on FEE102 page 1 and on EXP102 page 5, where the measured rule is wider. reports/actual-writes.json records the three as written:false with an empty read - and with NO refusal reason, NO usable width, NO overflow figure and NO participant-facing sentence. Every one of the other 25 boundary writes and all 28 canonical writes was checked the same way and is present in full. WHAT MAKES THIS A FAIL RATHER THAN A SILENT OMISSION: filing-instructions.md, a delivered document, says in terms that the packet did what it did not do. 'The caption of every form in this packet names that county and that court file number' - false of three of the four forms on this fixture. And, of EXP104 specifically, 'This packet writes the county and the court file number onto it; the Judicial District line is blank and is yours to fill' - the packet writes the county and does not write the court file number. That is an affirmative false statement about the delivered ink, on the page that tells the participant what still needs doing, and it is exactly the shape of defect VF20 failed this family on under PROTECTED_FIELDS: a guide sentence contradicted by the packet's own behaviour. The proposed order the judge signs and the proof of service both go out with an unidentified case. WHAT WOULD SATISFY IT: either fit or refuse the value with a recorded reason and a participant-facing sentence, as the Arkansas family at least does internally, and generate the two filing-instructions sentences from the same write outcomes rather than asserting them.",
+    "REQUIRED_BEFORE_FILING": "FAIL. The packet-set manifest declares TEN requiredBeforeFiling entries. Measured against both delivered guides: 1 of 10 reaches them verbatim, and TWO of the ten reach them in no form at all, verbatim or paraphrased. (1) 'Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO...' - the strings 'criminal history', 'Bureau of Criminal Apprehension' and 'MCRO' occur 0 times in participant-instructions.md and 0 times in filing-instructions.md. The single most consequential preparatory step on this route is not mentioned. (2) 'Check your answer to \"What is the court file number?\" against Your own Minnesota criminal history...' - also absent; 'court file number' occurs 0 times in participant-instructions.md and twice in filing-instructions.md, and BOTH of those occurrences are the false assertion measured under KNOWN_PREFILLS. That is the check which, had it reached the participant, is the one that would have caught the blank caption. THE OTHER EIGHT ARE COVERED in substance and this lane does not fail them on the verbatim gap: signature (the Signing section), hearing date/time/courtroom/Zoom (the 'The court fills these in after you file' section), agency service addresses and proof-of-service dates (the Service section), the fee sentence (verbatim), and FEE102/FEE103. One is covered by NOT arising and was checked rather than assumed: 'Required where the form calls for a notarised signature' is absent from both guides, and no notary block exists on any of the 17 delivered pages - 'notary', 'subscribed and sworn' and 'before me' occur 0 times across the whole packet, and EXP102 closes with a Minn. Stat. § 358.116 declaration instead, which the guide names. Separately, the guide's own 12-row 'You must supply these before you file' list, built from the field map, is accurate as far as it goes and every row identifies its blank by a printed caption.",
+    "ROUTE_OPTIONS": "PASS, with a measured gap recorded rather than scored. The packet marks exactly two boxes and both are ROUTE_ELECTION_MADE: EXP102 page 4's § 152.18 discharge ground at item 9, and FEE102 item 2's 'including my pleadings' branch. Both were verified to carry ink - 76 px and 64 px added against the pinned source at 150 dpi, grey<128, identical on both fixtures - so the guide's 'This packet marks 2 boxes for you and no others' is true of the page and not merely of the record. Every other selection control is unmarked, measured: 0 added px across all 42 PARTICIPANT_ELECTION_GENUINE boxes and all 11 NOT_APPLICABLE_ON_THIS_ROUTE boxes on both fixtures. All 42 genuine elections are named in participant-instructions.md under 'Choices only you can make' - 42 of 42, matched by printed context. THE GAP: 0 of the 11 NOT_APPLICABLE_ON_THIS_ROUTE boxes is named there. Ten of them are the other statutory grounds printed at EXP102 item 9 - certification as an adult, a matter resolved in your favour, a completed diversion or stay of adjudication, and the petty/gross/felony conviction grounds - and the words 'resolved', 'diversion', 'petty misdemeanor', 'gross misdemeanor', 'certified' and '152.025' occur 0 times in the guide. The eleventh is FEE102's choose-one alternative, which IS explained, in the marks section. FIX158's return states that the narrower replacement sentence 'points to the existing Choices only you can make heading, which is where the guide already explains both classes, including the N/A ones'; THAT PARTICULAR CLAIM IS FALSE OF THE DELIVERED BYTES - the N/A ones are not there. This is scored PASS because what the obligation measures is satisfied: no option is pre-marked that should not be, none required is missing, and the guide states in terms that the packet is built for one statutory route and that 'If your case was not discharged under § 152.18, this is the wrong packet and you should not file it', which directs a reader away rather than toward the other ten. A later lane should decide whether the residual sweep 'Every other box in this packet is empty and is yours' needs narrowing over those ten; this lane records the measurement and does not manufacture a failure from it.",
+    "REPEATING_ROWS": "PASS with the reason that the obligation does not arise in the form it usually takes, which is still a measurement. The one repeating structure in this packet is EXP102 item 7's criminal-record table, and the packet writes NO row of it: production-field-map.json refuses the whole table and participant-instructions.md gives the reason in the record's own terms - 'item 7 — your FULL criminal record. The form requires every conviction and every charge, from Minnesota and from any other state, federal court or foreign country... LegalEase holds the one case you screened and not the rest, and a row filled in from that one case would read as a complete record when it is not, so the whole table is left for you.' Measured on the pixels: EXP102 page 3, which carries that table, has 0 added and 0 removed pixels on both fixtures. A table with no rows written has no incomplete row, and the refusal of the whole table rather than a partial fill is the correct handling of exactly the defect this obligation exists to catch. incompleteRows 0.",
+    "PROTECTED_FIELDS": "PASS, and this is the obligation FIX158 was dispatched on. EVERY COUNT FIX158 PUBLISHED REPRODUCES EXACTLY ON AN INDEPENDENT RECOUNT. Reading production-field-map.json in this lane: 188 raw objects carry isSelectionControl true, 93 in documents[].withheld and 95 in documents[].selectionControls; deduplicated by formNumber+selectionId that is 95 DISTINCT controls with 93 duplicate rows collapsed, and the two copies of every duplicated row agree on disposition and marked state. The 95 split 40 PROTECTED_FIELD, 42 PARTICIPANT_ELECTION_GENUINE, 11 NOT_APPLICABLE_ON_THIS_ROUTE, 2 ROUTE_ELECTION_MADE; 40 + 42 + 11 + 2 = 95. All 40 protected carry marked false. Their distribution is EXP102 page 1: 4, EXP106 page 1: 6, page 2: 25, page 3: 5 = 36 on EXP106, reproducing VF20's 36/4 split. FIX158's warning that a naive read double-reports 80 is exact: those 40 protected boxes appear in 80 raw rows. Their refusal reasons are the field map's own, 4 of 'the district court sets the hearing and states whether it is remote or in person' and 36 of 'a finding or an ordering box on the order the district court signs'. THE INK: differencing every delivered page against its pinned source at 150 dpi, grey<128, annotations drawn, added ink inside the 40 protected boxes is 0 px, on BOTH fixtures. protectedWrites 0, measured here. THE REPAIR ITSELF: VF20's exact sentence, 'Every other box on every form in this packet is empty, and every one of them is yours to decide', occurs 0 times at this base and was present at 588a6165b^ - checked in git. What replaced it is generated from the same dispositions that refuse the boxes: '40 more boxes in this packet are empty, and they are NOT yours to decide. They belong to the court', grouped as 'EXP102 page 1 — 4 boxes' and 'EXP106 pages 1, 2, 3 — 36 boxes' with the field map's own reason quoted against each, followed by the sentence that closes VF20's specific trap - that the participant writes the Judicial District on EXP106's caption and that on EXP106 the caption is the only thing that is theirs. The numbers the guide prints are the numbers this lane counted.",
+    "ARTIFACTS": "FAIL. Most of this obligation is sound and was checked: both digests and the canonical byte length recompute correctly, both page counts are 17 confirmed by pdfinfo, the page manifest's 17 source-page claims were each proved by differencing, and the four document-level addedGlyphsReadFromOutputBytes figures (262/42/52/42 canonical, 684/73/83/110 boundary) each equal an independent recount of the non-whitespace characters of the values actually written. WHAT FAILS IS A PUBLISHED MEASUREMENT THAT IS FALSE OF THE BYTES IT NAMES. reports/actual-writes.json declares proofSource 'final canonical and boundary PDF bytes' and derivedFromArtifactBytes, and for the boundary EXP102 charge write it publishes overlayTextReadFromFinalPdfBytes 'Fifth-degree possession of a controlled substance, aiding and abetting, continued for dismis' with glyphCountReadFromFinalPdfBytes 81. This lane read the raw page content stream of packet page 5 of the boundary fixture: the drawn string is 'Fifth-degree possession of a controlled substance, aiding and abetting, continued for dismissal' - 95 characters, 84 non-whitespace - and pdftotext -layout reads the same. The record is also internally inconsistent about it: the document-level total for boundary EXP102 is 684, which equals the sum of the expected values, while the sum of that document's own per-write glyphCountReadFromFinalPdfBytes is 681, exactly three short - the three glyphs of 'sal'. Two figures in the same record both claim to be readings of the output bytes and disagree, and the one that is wrong is the one quoted as the proof text. FIX158 found the same drift by running the unmodified builder as a determinism control, restored the committed value with git checkout to keep its commit bounded, and said in terms that a truncated glyph read published as a measurement should be dispatched to a lane that can change the reader. It is still live at this base, so it is scored here. It is a small number attached to a large claim: this is the artifact that is supposed to prove what reached the page.",
+    "PAGE_ORDER": "PASS, proved from the bytes. Packet pages 1-6 are EXP102 pages 1-6, 7-8 are EXP104 1-2, 9-11 are EXP106 1-3 and 12-17 are FEE102 1-6, and each of the 17 was differenced against the source page it claims with 0 removed pixels on both fixtures. That is the manifest's component order - primary filing, certificate of service, proposed order, fee waiver - and it is the order the petition, its proof of service and the order it proposes belong in.",
+    "CLIPPING_AND_OVERLAP": "PASS. Nothing on any delivered page is clipped, truncated or drawn over the form. REMOVAL: 0 removed pixels on all 34 measured pages across both fixtures, so no ink the Minnesota Judicial Branch prints has been erased. CONTAINMENT: 0 added pixels fall outside the union of the declared write rectangles and the two elected checkbox rectangles, at a 3 px tolerance at 150 dpi. At a 2 px tolerance the canonical shows 6 px outside, all on one raster row 0.3 px below the bottom edge of one write box on packet page 7 and all inside that box's x-range - the descenders of 'Example County'; that is my tolerance, not ink outside a write, and it is recorded rather than rounded away. TRUNCATION: every one of the 28 canonical and 25 written boundary values was checked against the raw page content stream and each is drawn in full, including the 94-character charge description that the family's own report misreads as truncated (scored under ARTIFACTS). The three boundary case-number values are ABSENT rather than clipped, which is why this obligation passes and KNOWN_PREFILLS does not. The positive control for all of the zeros is the same run: added ink of 1,991 to 8,167 px on the pages that carry writes, and 76 and 64 px inside the two elected checkboxes.",
+    "FILING_DESTINATION": "PASS. filing-instructions.md sends the packet to 'the district court administrator in the county where the case was decided', which is the committed record's venue ('The district court in the county where the case was decided.') and destination (kind clerk, 'District court administrator in the county of the case'). No courthouse address, division or e-filing instruction is invented. The false caption sentence that sits in the same paragraph is measured under KNOWN_PREFILLS; the destination itself is the record's.",
+    "FEE_AND_WAIVER": "PASS. The record's rules.fees - 'A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies.' - reaches filing-instructions.md VERBATIM, the only one of the ten manifest entries that does. The guide then refuses to state an amount and says why: 'This packet does not state the amount of the fee, because the amount is set by the court and the committed record for this route does not carry it. Ask the court administrator what the fee is, and whether the statutory waiver reaches your petition, before you pay it.' FEE102 is delivered as the conditional fee-waiver component and FEE103 is named as the follow-on the court may ask for and stated NOT to be in the packet. No dollar figure, eligibility threshold or waiver deadline is asserted anywhere.",
+    "SERVICE": "PASS, and it is the strongest section in this packet. The record says the participant serves the agencies and the prosecuting authority and files EXP104 as proof, and that the prosecuting authority and each agency holding records receive notice and may object. filing-instructions.md carries all of that and adds the reason the packet leaves EXP104 blank below its caption, in terms: 'EXP104 says, under penalty of perjury, that you HAVE served the parties you check at the addresses you list. Until you have actually put the envelopes in the mail, none of that is true. Complete EXP104 after you mail, not before.' Measured against the delivered ink: EXP104 page 2 has 0 added pixels on both fixtures, so the packet does exactly what it says. It also states that the committed record gives no service method, no service deadline and no filing deadline and therefore states none, which is an honest refusal rather than a fabricated rule.",
+    "SELF_HELP_STOP": "FAIL. The committed track record carries FOUR selfHelpStopConditions. Three reach the delivered guidance in substance: 'The prosecuting authority or an agency objects.' and 'The court sets a contested hearing.' are both carried by filing-instructions.md's 'If an agency or the prosecuting authority objects, the court sets a contested hearing. Automated assistance ends there and you need a lawyer.', and 'Whether the discharge was under § 152.18 is disputed.' is partly carried by participant-instructions.md's 'If your case was not discharged under § 152.18, this is the wrong packet and you should not file it' - which covers the case where the participant knows it was not, and not the case the record names, where the classification is contested. THE FOURTH IS ABSENT ENTIRELY: 'Predatory-offender registration is required.' The strings 'predatory' and 'registration' occur 0 times in participant-instructions.md and 0 times in filing-instructions.md. A participant subject to predatory-offender registration is in a materially different position on a Minnesota expungement, the record says self-help stops there, and neither delivered document says so in any words. None of the four reaches either guide verbatim; this lane does not fail the family on that, because this packet's convention is substance rather than quotation and quoting the record wholesale into participant copy is the defect VF22 failed Maine on. It fails on the one condition that reaches the participant in no form at all."
+   },
+   "theRASTERBINDINGWASVERIFIEDNOTASSUMED": {
+    "question": "FIX158 states that the existing RASTER_PASS still covers these bytes. Verified here rather than adopted.",
+    "howItWasVerified": "Four independent checks. (1) product-wiring.json carries acceptanceReceipt {RASTER_PASS, workflowRunId 34413372916, jobId 102673422663, artifactId 10128419544, boundToCanonicalSha256 cbdea2b8ed.., coversTheWholeFamily true} - but that summary names only the canonical, so it is not on its own proof that the boundary is covered. (2) The run's own record, data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_15218-set/mn_petition_15218-set.verdict.json, binds BOTH digests explicitly in hashesBound and documentsRendered: canonical cbdea2b8ed.. and boundary 9ef91d97.., which are exactly the two digests this lane hashed off disk. (3) It records pagesMeasured 34 and carries 34 measurements, 17 canonical and 17 boundary, matching the 17-page count of each fixture; every one is nonblank true and croppedToThePage true with calibrationResidualPx 0. (4) The receipt names packetCommitSha 0cb44ee92, and `git show 0cb44ee92:<fixture>` hashes to cbdea2b8ed.. and 9ef91d97.. - identical to the files on disk - and `git log 0cb44ee92..HEAD -- fixtures/` is EMPTY, so no commit has touched a fixture byte since the raster was taken.",
+    "conclusion": "THE BINDING HOLDS. No fresh raster is owed on account of byte movement, and FIX158's statement is correct. This lane rendered locally only to measure and deleted every image; it claims no receipt.",
+    "aLIMITATIONOFTHERECEIPTITSELF": "Recorded because it is part of what the receipt is worth, and it is not FIX158's doing. The run's own admission-proof.json says the PNG bodies were never read - 'artifact blob storage is unreachable from this session (CONNECT tunnel failed, 403)' - and that byte length and SHA-256 were cross-checked between the verdict and the inventory, two separately published records, with viewportDimensionsCheckedAgainstASecondSource false on every page. So the receipt binds the right bytes and attests that 34 pages rendered nonblank and correctly calibrated, but nobody in this repository has looked at the images. That is a property of the raster acceptance path, not of this family.",
+    "butTheFAILMEANSTHERASTERISNOTTHENEXTSTEP": "This row is a FAIL, so the family does not advance. If the KNOWN_PREFILLS repair moves a fixture byte, this receipt stops covering the family and a fresh raster becomes owed."
+   },
+   "iDIDNOTREBUILDANDSODIDNOTHAVETORESTOREANYTHING": "The lane brief warns that re-running the MN builder silently strips the central RASTER_PASS receipt from product-wiring.json and flips sourceIdentity back a tier. This lane ran no builder for any family. `git status --porcelain` was empty after every measurement except for data/rcap-grade-a/packet-factory-24h/claim-ledger.json, which --assert and --release wrote. product-wiring.json still carries the RASTER_PASS receipt and nothing was restored because nothing was disturbed. The hazard is real and unrepaired - it is the same shared-file ordering defect this return records for Maine, where the factory-owned generator strips keys the family builder writes - but it is not exercised by a read-only lane.",
+   "rasterPixelCounts": {
+    "parameters": "pdftoppm -r 150 -gray, binary P5 PGM, annotations drawn, ink threshold grey < 128 of 255, whole page, no masking. Each delivered page differenced against the pinned official source page its page manifest claims.",
+    "scope": "All 34 pages: 17 of canonical and 17 of boundary.",
+    "canonical": {
+     "totalAdded": 18811,
+     "totalRemoved": 0,
+     "addedOutsideDeclaredBoxesTol3px": 0,
+     "addedOutsideDeclaredBoxesTol2px": 6,
+     "perPacketPage": {
+      "1": 1991,
+      "2": 2793,
+      "3": 0,
+      "4": 76,
+      "5": 3583,
+      "6": 3931,
+      "7": 1999,
+      "8": 0,
+      "9": 2417,
+      "10": 0,
+      "11": 0,
+      "12": 2021,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0
+     }
+    },
+    "boundary": {
+     "totalAdded": 30396,
+     "totalRemoved": 0,
+     "addedOutsideDeclaredBoxesTol3px": 0,
+     "perPacketPage": {
+      "1": 2187,
+      "2": 8167,
+      "3": 0,
+      "4": 76,
+      "5": 5603,
+      "6": 6326,
+      "7": 2348,
+      "8": 0,
+      "9": 2777,
+      "10": 0,
+      "11": 0,
+      "12": 2912,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0
+     }
+    },
+    "addedPixelsInsideThe40ProtectedBoxes": {
+     "count": 0,
+     "acrossBothFixtures": true
+    },
+    "addedPixelsInsideThe42GenuineElectionsAndThe11NotApplicable": {
+     "count": 0,
+     "acrossBothFixtures": true
+    },
+    "addedPixelsInsideTheTwoElectedCheckboxes": {
+     "EXP102 p4-cb-y660-x90.4": 76,
+     "FEE102 p1-cb-y350-x108": 64,
+     "identicalOnBothFixtures": true
+    },
+    "pagesPixelIdenticalToTheirSource": "EXP102 page 3, EXP104 page 2, EXP106 pages 2 and 3, and FEE102 pages 2-6 - 0 added and 0 removed on both fixtures. This reproduces VF20's pixel-identity finding for EXP106 pages 2-3 and EXP104 page 2 from this lane's own render.",
+    "positiveControls": [
+     {
+      "kind": "natural",
+      "what": "The same detector at the same settings reports 1,991 to 8,167 px of added ink on the eight pages that carry writes, so a zero elsewhere is a measured zero."
+     },
+     {
+      "kind": "inside the very rectangles whose zeros matter",
+      "what": "The protected-box zero and the election zero are produced by the same per-rectangle scan that reports 76 px and 64 px inside the two ELECTED checkbox rectangles. The scan finds ink in a checkbox when there is ink in a checkbox."
+     },
+     {
+      "kind": "tolerance control",
+      "what": "Re-running the containment test at 2 px instead of 3 px surfaces 6 px, which were then located to one raster row 0.3 px below one box edge. The test is not saturated at 0."
+     }
+    ]
+   },
+   "areTheseTheBytesTheCentralRasterCarries": true,
+   "rasterState": {
+    "state": "RASTER_PASS receipt in force and verified against these exact bytes",
+    "freshCentralRasterOwed": false,
+    "why": "See theRASTERBINDINGWASVERIFIEDNOTASSUMED. Owed only if a repair moves a fixture byte."
+   },
+   "whatThisRowDoesNotGrant": "Nothing. It opens no route, issues no receipt and promotes no build status."
   }
- ]
+ ],
+ "whatWasRead": "The current non-superseded verifier return and the repair return behind each granted family, then the delivered bytes themselves. For me-seal-survivor-set: VF22 rows-vf22-20260910.json (base 8db74d6e5) and FIX159 rows-fix159-20260910.json, then both fixtures, both pinned sources, both pikepdf derivatives, all four family reports, product-wiring.json, build-status.json, source-receipt.json, both delivered guides, the packet-set manifest and the track registry. For ar-drug-court-set: VF05 rows.json (base 5de917b35) and FIX159's no-repair reading, then all four fixtures, all four pinned ACIC sources, the pre-repair boundary fixtures recovered from git at 26838a27b^, production-field-map.json, field-census.census-v1.json, all four reports and participant-instructions.md. For mn_petition_15218-set: VF20 rows.json (base a45cb2767) and FIX158 rows-fix158-20260910.json, then both fixtures, all four pinned sources, production-field-map.json, both delivered guides, the raster run's own verdict and admission-proof under raster-runs/admitted/, and the fixtures as they stood at the raster's packetCommit 0cb44ee92.",
+ "whereTHISLANEDIFFERSFROMANEARLIERLANE": [
+  "mn_petition_15218-set, four obligations. VF20 scored all fifteen and passed KNOWN_PREFILLS, ARTIFACTS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP. This lane fails all four, each on a measurement recorded in the row: three boundary Court File Number writes absent from the delivered ink while filing-instructions.md asserts they are present; a published overlayTextReadFromFinalPdfBytes that is three glyphs short of the string the page actually draws, contradicted by that record's own document total; two of the manifest's ten requiredBeforeFiling entries reaching neither guide in any form; and one of the record's four self-help stop conditions - predatory-offender registration - reaching neither guide in any form.",
+  "ar-drug-court-set, one obligation. VF05 passed KNOWN_PREFILLS on the ground that the obligation is measured against facts the family holds and all declared writes were found in the bytes. That was true of VF05's base; since then the CLIPPING_AND_OVERLAP repair turned ten of those writes into undisclosed refusals, so the same obligation now fails on bytes VF05 never saw.",
+  "Neither difference is a criticism of the repair lanes. FIX158 and FIX159 each repaired what they were dispatched on, each said in terms that it verifies nothing, and every count either of them published reproduced exactly on this lane's independent recount."
+ ],
+ "aCLASSTHATSHOWSUPINTWOOFTHETHREEFAMILIES": "A held fact that does not fit its printed blank is dropped, and no delivered document says so. Arkansas does it ten times across two boundary fixtures with an internal record that at least measures the overflow and composes a participant sentence nobody prints; Minnesota does it three times with no refusal record at all and two delivered sentences asserting the opposite. In both, every counter the factory has reads zero, because a value that was never drawn produces no ink outside a box, no overflow, no clipped glyph and no missing component. The only thing that sees it is comparing the boundary fixture against the canonical one, which is what boundary fixtures exist for. Maine, on the same return, shows the other outcome: its boundary values are SHRUNK to fit, every one renders in full, and the DOB reformat is disclosed on the write record. Three families, one question, and the family that fits its values is the one that passes."
 }
