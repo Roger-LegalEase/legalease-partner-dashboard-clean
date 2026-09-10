@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "cd6a77879fc4f0d791848dcd4cf2475aebb43452",
+  "generatedAtCommit": "8bffaa9d50615970d1e8627412d76b2db56902ac",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4623,9 +4623,9 @@
       "operation": "independent-verification",
       "lane": "VF50",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF36 returned earlier in this session; its rows are merged and the dispatch packer has since re-dealt this family to its label. No process holds it. Closed at its return boundary so a lane that has not already formed a view of the Indiana fixtures can read FIX150's repair."
+      "released": true,
+      "releasedAt": "2026-09-10T14:10:49.820Z",
+      "releaseReason": "VF50 finished and returned: PASS_COMPLETE_INDEPENDENT at fifteen of fifteen on in_conviction_misd-set, with five findings recorded and none repaired. Closed at its return boundary."
     },
     {
       "subjectType": "packet-family",
@@ -14751,7 +14751,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "2e11802b63e652d2cc5ec48f93047603a382c81ab9dcad32aa126384c7508b82",
+  "claimsDigest": "ca9b85c8e0a7586b7290e1b8ead1d14495373b9f6c01d0da226bfd115289a310",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37948,6 +37948,21 @@
       "closedAtReturnBoundary": true,
       "returnEvidence": {
         "namedReturnCommit": "d87b7a04567456e4112df42d197813ee29f7c334"
+      }
+    },
+    {
+      "lane": "VF50",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T14:10:49.820Z",
+      "reason": "VF50 finished and returned: PASS_COMPLETE_INDEPENDENT at fifteen of fifteen on in_conviction_misd-set, with five findings recorded and none repaired. Closed at its return boundary.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf50/rows-vf50-20260910.json",
+        "committedAt": "821cb6b4f64d42999e50b945d6f2e4a2714fe6de",
+        "rowFiles": 1
       }
     }
   ],
