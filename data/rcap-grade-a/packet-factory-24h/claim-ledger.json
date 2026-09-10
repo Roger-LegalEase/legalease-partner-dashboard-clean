@@ -2505,10 +2505,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF53",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T13:24:32.320Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
     },
     {
@@ -4296,10 +4296,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF53",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:23.845Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -4329,8 +4329,9 @@
       "operation": "rapid-repair",
       "lane": "FIX154",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T15:15:32.075Z",
+      "releaseReason": "FIX154 found no defect on current bytes; vf03's return predates FIX06's repair cb736b20a"
     },
     {
       "subjectType": "packet-family",
@@ -7088,8 +7089,9 @@
       "operation": "rapid-repair",
       "lane": "FIX154",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T15:15:32.232Z",
+      "releaseReason": "FIX154 stopped on a legal determination; four questions recorded in its row"
     },
     {
       "subjectType": "packet-family",
@@ -7426,10 +7428,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF30",
+      "lane": "VF53",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T22:41:28.685Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14748,9 +14750,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "itemId": null,
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "familyIds": [
+        "az_marijuana_expungement_arrest_no_charges-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF53",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "81f60e8db1623fc8bfecda2c2efc962243ce7e6140372a9000b1453f9f93b633",
+  "claimsDigest": "d81c91ca00bfe423a71b8840a7ff83e568f41ef089668aa4f5433e851ca9e7d4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38023,6 +38040,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T15:02:04.957Z",
       "reason": "VF52 returned at c7cfa6761; both FAIL_REPAIR_REQUIRED, integrated at 73b0aba89"
+    },
+    {
+      "lane": "FIX154",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T15:15:32.075Z",
+      "reason": "FIX154 found no defect on current bytes; vf03's return predates FIX06's repair cb736b20a"
+    },
+    {
+      "lane": "FIX154",
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T15:15:32.232Z",
+      "reason": "FIX154 stopped on a legal determination; four questions recorded in its row"
     }
   ],
   "reissues": [
@@ -57647,6 +57682,39 @@
       "previouslyReleasedAt": "2026-09-10T11:23:20.362Z",
       "transferredAt": "2026-09-10T15:05:46.802Z",
       "reason": "Prefill and required-before-filing pair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF53",
+      "previouslyReleasedAt": "2026-09-09T13:24:32.320Z",
+      "transferredAt": "2026-09-10T15:17:51.756Z",
+      "reason": "Re-verify against current bytes"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF53",
+      "previouslyReleasedAt": "2026-09-10T11:23:23.845Z",
+      "transferredAt": "2026-09-10T15:17:52.010Z",
+      "reason": "Re-verify against current bytes"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF30",
+      "toLane": "VF53",
+      "previouslyReleasedAt": "2026-09-02T22:41:28.685Z",
+      "transferredAt": "2026-09-10T15:17:52.507Z",
+      "reason": "Re-verify against current bytes"
     }
   ],
   "grants": [
@@ -58132,6 +58200,17 @@
       "grantedAt": "2026-09-10T12:56:03.143Z",
       "grantedBy": "Captain",
       "reason": "No independent-verification grant has ever existed for this family and FIX146 has just repaired it. Minted so a lane that did not build it can read it.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF53",
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-10T15:17:28.024Z",
+      "grantedBy": "Captain",
+      "reason": "Re-verify: the recorded FAIL verdict predates changes to this family's own delivered artifacts or builder",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
