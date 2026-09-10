@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e546a25e6289fb7f511451ec8227c6ffdc45034f` (or the newer dispatch base)
+**Minimum required ancestor:** `b95c5acc25013bd8d8fb6ebf316433dd6bbe1641` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'la-985-1-interim-expungement-set' \
   --codex-cloud \
-  --minimum-captain-sha e546a25e6289fb7f511451ec8227c6ffdc45034f
+  --minimum-captain-sha b95c5acc25013bd8d8fb6ebf316433dd6bbe1641
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,8 +40,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'la-985-1-interim-expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'al-trafficking-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'co_municipal_conviction_seal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ar-drug-court-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'fl-10yr-bridge-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'mn_petition_15218-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_veterans_reemployment-set'`
@@ -68,8 +68,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 6 families
 
 - `la-985-1-interim-expungement-set`
-- `al-trafficking-set`
-- `co_municipal_conviction_seal-set`
+- `ar-drug-court-set`
+- `fl-10yr-bridge-set`
 - `mn_petition_15218-set`
 - `sd_arrest_expungement-set`
 - `tx_nd_veterans_reemployment-set`
@@ -86,14 +86,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/**`
 - `scripts/build-census-v1-la-985-1-interim-expungement-set.mjs`
-- `scripts/build-census-v1-al-trafficking-set.mjs`
-- `scripts/build-census-v1-co_municipal_conviction_seal-set.mjs`
+- `scripts/build-census-v1-ar-drug-court-set.mjs`
+- `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
 - `scripts/build-census-v1-mn_petition_15218-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs`

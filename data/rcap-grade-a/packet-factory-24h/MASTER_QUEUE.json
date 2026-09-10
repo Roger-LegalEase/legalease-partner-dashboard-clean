@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e546a25e6289fb7f511451ec8227c6ffdc45034f",
+  "minimumCaptainSha": "b95c5acc25013bd8d8fb6ebf316433dd6bbe1641",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "5014b184312e947ba3c5cf64ef7851bfbbf1a4a823e1d51926efb98fafa06527",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ac8a9a733bce657cfc71377dc61cbf5820ebe394e3fbbbad1fb3e39bed458e0d",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 10,
+    "activeFamiliesExcluded": 8,
     "guidanceOnly": 0,
-    "remaining": 336,
+    "remaining": 338,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
@@ -77,16 +77,16 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 196,
+    "COMPLETE_PACKET_PROVEN": 197,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "FAIL_REPAIR_REQUIRED": 50,
     "SOURCE_READY": 33,
+    "BUILT_RASTER_PENDING": 2,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -114,8 +114,6 @@
       "al-pardoned-felony-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
-      "il-seal-3yr-set",
-      "il-seal-edu-set",
       "mi_setaside_trafficking-set",
       "mo-art-xiv-marijuana-set",
       "ri_decriminalized-set",
@@ -3605,14 +3603,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf55",
-        "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf59",
+        "verifiedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf59/rows-vf59-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -3641,20 +3637,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-trafficking-set.mjs",
@@ -19445,8 +19432,8 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "PASS_COMPLETE",
-      "allNineCountersZero": true,
+      "completenessStatus": "NOT_MEASURABLE_HERE",
+      "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -19456,7 +19443,7 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": null
       },
       "failingCounters": [],
       "failedObligationNames": [
@@ -19473,8 +19460,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX166",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -19485,8 +19472,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-edu-set",
@@ -19636,7 +19622,7 @@
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": null
       },
@@ -19683,8 +19669,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX166",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -19695,8 +19681,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-nonconv-set",
@@ -24586,14 +24571,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf55",
-        "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf59",
+        "verifiedAtBase": "5af59dc3e5500518e725605f7a6d2efa4dfbc59d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf59/rows-vf59-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24622,20 +24605,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-k-set.mjs",

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e546a25e6289fb7f511451ec8227c6ffdc45034f` (or the newer dispatch base)
+**Minimum required ancestor:** `b95c5acc25013bd8d8fb6ebf316433dd6bbe1641` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'ar-drug-court-set' \
+  --family 'ar-felony-seal-set' \
   --codex-cloud \
-  --minimum-captain-sha e546a25e6289fb7f511451ec8227c6ffdc45034f
+  --minimum-captain-sha b95c5acc25013bd8d8fb6ebf316433dd6bbe1641
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -39,8 +39,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 ## Claim before you read
 
 - Assert only these 4 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ar-drug-court-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'fl-10yr-bridge-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ar-felony-seal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'fl-early-juvenile-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ne-setaside-custodial-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_exp_acquittal-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
@@ -65,8 +65,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 4 families
 
-- `ar-drug-court-set`
-- `fl-10yr-bridge-set`
+- `ar-felony-seal-set`
+- `fl-early-juvenile-set`
 - `ne-setaside-custodial-set`
 - `tx_exp_acquittal-set`
 
@@ -81,12 +81,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `scripts/build-census-v1-ar-drug-court-set.mjs`
-- `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
+- `scripts/build-census-v1-ar-felony-seal-set.mjs`
+- `scripts/build-census-v1-fl-early-juvenile-set.mjs`
 - `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
 
 ## Never write here

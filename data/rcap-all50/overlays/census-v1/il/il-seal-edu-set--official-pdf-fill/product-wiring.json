@@ -69,19 +69,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34352802308",
-      "jobId": "102470875388",
-      "artifactId": "10104807202",
-      "boundToCanonicalSha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
-      "coversTheWholeFamily": true,
-      "stillBinds": false,
-      "wholeFamilyReRasterRequired": true,
-      "whyItNoLongerBinds": "FIX166 removed 91 synthesized check-box borders per fixture (the FIX118 repair both sibling families already carried), which MOVED BOTH FIXTURES. This receipt binds canonical 1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423, and the delivered canonical is now db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1; the boundary moved from c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518 to 601e2ca1935f260128b20014f91ca1d31c2194e5d628342e4fe740a2203909c3. binding.maintenanceRelationship.reRasterRequiredWhen states the rule this triggers: \"any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered\". A FRESH CENTRAL RASTER IS OWED ON BOTH ROLES and this family cannot return to proven until it lands. The receipt is kept rather than deleted, as history; it is marked so that nothing downstream reads it as binding bytes that are not on disk.",
-      "supersededByRepair": "FIX166, lane row data/rcap-grade-a/packet-factory-24h/fix166/rows-fix166-20260910.json",
-      "rasterDebtOpenedAt": "2026-09-10"
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf58",
@@ -95,7 +83,27 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "replacedByCanonicalSha256": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34352802308",
+          "jobId": "102470875388",
+          "artifactId": "10104807202",
+          "boundToCanonicalSha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+          "coversTheWholeFamily": true,
+          "stillBinds": false,
+          "wholeFamilyReRasterRequired": true,
+          "whyItNoLongerBinds": "FIX166 removed 91 synthesized check-box borders per fixture (the FIX118 repair both sibling families already carried), which MOVED BOTH FIXTURES. This receipt binds canonical 1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423, and the delivered canonical is now db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1; the boundary moved from c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518 to 601e2ca1935f260128b20014f91ca1d31c2194e5d628342e4fe740a2203909c3. binding.maintenanceRelationship.reRasterRequiredWhen states the rule this triggers: \"any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered\". A FRESH CENTRAL RASTER IS OWED ON BOTH ROLES and this family cannot return to proven until it lands. The receipt is kept rather than deleted, as history; it is marked so that nothing downstream reads it as binding bytes that are not on disk.",
+          "supersededByRepair": "FIX166, lane row data/rcap-grade-a/packet-factory-24h/fix166/rows-fix166-20260910.json",
+          "rasterDebtOpenedAt": "2026-09-10"
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -108,7 +116,7 @@
         "order": 1,
         "documentId": "EXP-AD Request",
         "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "sha256": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
         "requirement": "required"
       },
       {
@@ -117,7 +125,7 @@
         "order": 2,
         "documentId": "EXP-AD Case List",
         "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "sha256": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
         "requirement": "required"
       },
       {
@@ -126,7 +134,7 @@
         "order": 3,
         "documentId": "EXP-AD Order Granting",
         "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "sha256": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
         "requirement": "required"
       },
       {
@@ -135,7 +143,7 @@
         "order": 4,
         "documentId": "FW-CIV-APPLICATION",
         "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "sha256": "db4b8d8d0d5bba6514d17a09db3be92947f3574cee002a4aae3c2174e0c20cd1",
         "requirement": "required"
       }
     ]
