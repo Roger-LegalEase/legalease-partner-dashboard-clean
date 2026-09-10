@@ -4562,9 +4562,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidating: FIX03's own return said these three families share one defect class and one remedy and should be repaired by one lane, and VF36's evidence confirms it -- the caption form number is emitted by one function in three near-identical builders. Three lanes would fix it three times, possibly differently."
     },
     {
       "subjectType": "packet-family",
@@ -4607,9 +4609,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidating with in_conviction_d6-set and in_conviction_felony-set onto FIX04: one defect class, one remedy, one lane."
     },
     {
       "subjectType": "packet-family",
@@ -14507,7 +14511,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f7823562c29b2093911e8f7ac2853c2a700ab749f13d0e4e32a7bc346f817be1",
+  "claimsDigest": "c3cdf012fa06a452aa5b467abe7d2db3d0dcc285e336d52c852040008b0475fb",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35465,6 +35469,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T08:23:09.018Z",
       "reason": "VF25 returned. Its read of this family predates the caption/locator repair FIX130 applied to five siblings on a different host, and VF25 explicitly listed this family under notThisLanes and never ran the collision query against it. Released so a lane can read the defect FIX05 found and I reproduced."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T08:24:55.561Z",
+      "reason": "Consolidating: FIX03's own return said these three families share one defect class and one remedy and should be repaired by one lane, and VF36's evidence confirms it -- the caption form number is emitted by one function in three near-identical builders. Three lanes would fix it three times, possibly differently."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T08:24:55.671Z",
+      "reason": "Consolidating with in_conviction_d6-set and in_conviction_felony-set onto FIX04: one defect class, one remedy, one lane."
     }
   ],
   "reissues": [
@@ -53615,6 +53637,28 @@
       "previouslyReleasedAt": "2026-09-10T07:47:43.013Z",
       "transferredAt": "2026-09-10T07:54:24.437Z",
       "reason": "As in_conviction_d6-set: VF30 returned, FIX03 repaired, and the repaired bytes have no independent reader."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX04",
+      "previouslyReleasedAt": "2026-09-10T08:24:55.561Z",
+      "transferredAt": "2026-09-10T08:24:55.798Z",
+      "reason": "One lane repairs all three Indiana conviction families; FIX04 already holds d6."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX04",
+      "previouslyReleasedAt": "2026-09-10T08:24:55.671Z",
+      "transferredAt": "2026-09-10T08:24:55.943Z",
+      "reason": "One lane repairs all three Indiana conviction families; FIX04 already holds d6."
     }
   ],
   "grants": [
