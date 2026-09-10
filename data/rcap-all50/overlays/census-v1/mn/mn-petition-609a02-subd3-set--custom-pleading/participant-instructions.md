@@ -46,7 +46,9 @@ FEE102 is marked CONFIDENTIAL on every page. It is a financial affidavit sworn u
 
 You serve, and you serve BEFORE you file EXP104: "The participant serves the agencies and the prosecuting authority and files EXP104 as proof."
 
-The service list is EXP104's fifteen numbered boxes. Three of them are marked (Required) on the form itself and already carry their addresses printed: the MN Bureau of Criminal Apprehension, the Office of the MN Attorney General, and the MN Department of Human Services / Office of Inspector General. The rest are checked and completed only where they relate to your case.
+The service list is EXP104's fifteen numbered boxes. SIX of them are marked (Required) on the form itself and you serve all six: box 1 MN Bureau of Criminal Apprehension, box 2 Office of the MN Attorney General, box 3 MN Dept. of Corrections, box 4 ______ County Attorney's Office, box 5 ______ County Dept. of Corrections (Probation), and box 6 ______ County Sheriff's Office. Box 4 is the prosecuting authority, and the committed record requires it be served. Boxes 1, 2 and 3 already carry their addresses printed on the form; boxes 4, 5 and 6 are Required but print blank rules, so you write in the county and the address yourself.
+
+The other NINE boxes -- 7 ______ Police Dept., 8 ______ City Attorney's Office (Prosecutor), 9 MN Dept. of Human Services / Office of Inspector General, 10 MN Dept. of Health, 11 MN Dept. of Natural Resources, 12 MN Driver and Vehicle Services, 13 MN State Patrol, and the two unlabelled boxes 14 and 15 -- each print "(check box & use if related to your case)". Those you check and complete only where they hold records from your case. Note that the MN Department of Human Services / Office of Inspector General is box 9 and is one of these nine, not one of the six Required.
 
 The addresses that are NOT printed are yours to look up. The committed record makes this an instruction rather than a blocker: "Agency service addresses are looked up by the participant before service and inserted into the service list. An instruction, not a generation blocker."
 
@@ -108,14 +110,13 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Caption - County | the same county as the caption of the petition |
 | Caption - Judicial District | the same judicial district as the caption of the petition |
 | Caption - Court File Number | the same court file number as the caption of the petition |
-| Service list box 5 - ______ County Dept. of Corrections (Probation) name and address | the county whose Department of Corrections (Probation) holds records from your case, and its address, looked up before you serve |
-| Service list box 6 - ______ County Sheriff's Office name and address | the county sheriff's office that holds records from your case, and its address |
-| Service list box 7 - ______ Police Dept. name and address | the police department that holds records from your case, and its address |
-| Service list box 8 - ______ County Attorney's Office (Prosecutor) name and address | the county attorney's office that prosecuted the case, and its address. This is the prosecuting authority the committed record requires you to serve |
-| Service list box 8 - ______ City Attorney's Office name and address | the city attorney's office that prosecuted the case, if a city attorney rather than a county attorney did, and its address |
-| Service list box 13 - additional agency name and address | any further agency that holds records from your case, with its address; leave it empty if there is none |
-| Service list box 14 - additional agency name and address | any further agency that holds records from your case, with its address; leave it empty if there is none |
-| Service list box 15 - additional agency name and address | any further agency that holds records from your case, with its address; leave it empty if there is none |
+| Service list box 4 - ______ County Attorney's Office name and address | the county attorney's office that prosecuted the case, and its address. This is box 4, it is marked (Required) on the form, and it is the prosecuting authority the committed record requires you to serve |
+| Service list box 5 - ______ County Dept. of Corrections (Probation) name and address | the county whose Department of Corrections (Probation) holds records from your case, and its address, looked up before you serve. Box 5 is marked (Required) on the form |
+| Service list box 6 - ______ County Sheriff's Office name and address | the county sheriff's office that holds records from your case, and its address. Box 6 is marked (Required) on the form |
+| Service list box 7 - ______ Police Dept. name and address | the police department that holds records from your case, and its address. Box 7 is one of the conditional boxes -- "check box & use if related to your case" -- not one of the six marked (Required) |
+| Service list box 8 - ______ City Attorney's Office (Prosecutor) name and address | the city attorney's office that prosecuted the case, if a city attorney rather than a county attorney did, and its address. This is box 8 and it is one of the conditional boxes -- "check box & use if related to your case" -- not one of the six marked (Required) |
+| Service list box 14 - additional agency name and address | any further agency that holds records from your case, with its address; leave it empty if there is none. Boxes 14 and 15 are the only two boxes on the whole service list with no agency printed in them |
+| Service list box 15 - additional agency name and address | any further agency that holds records from your case, with its address; leave it empty if there is none. Boxes 14 and 15 are the only two boxes on the whole service list with no agency printed in them |
 
 ### mn_petition_609a02_subd3-proposed-order-3 — EXP105 — Order Concerning Sealing/Expunging of Records
 

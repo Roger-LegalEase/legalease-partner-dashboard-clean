@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "5f78f6f329313b96076a116371bdb61789b4f1b6",
+  "generatedAtCommit": "8b748df9103ac40f7c9cc61868bd2e48420718ca",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2490,7 +2490,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -4791,11 +4791,12 @@
         "la-977d-marijuana-first-offense-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF14",
+      "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
     },
     {
       "subjectType": "packet-family",
@@ -4806,12 +4807,11 @@
         "la-977d-marijuana-first-offense-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF14",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
       "released": false,
-      "releasedAt": null,
-      "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4837,9 +4837,9 @@
         "la-985-1-interim-expungement-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF14",
+      "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
     },
@@ -4852,9 +4852,9 @@
         "la-985-1-interim-expungement-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF14",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -5109,6 +5109,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ma-seal-court-set",
+      "familyId": "ma-seal-court-set",
+      "itemId": null,
+      "familyIds": [
+        "ma-seal-court-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ma-seal-decrim-set",
       "familyId": "ma-seal-decrim-set",
       "itemId": null,
@@ -5138,6 +5153,21 @@
       "released": false,
       "releasedAt": null,
       "releaseReason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_early-set",
+      "familyId": "md_10105_early-set",
+      "itemId": null,
+      "familyIds": [
+        "md_10105_early-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5638,11 +5668,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T22:10:56.596Z",
-      "releaseReason": "FIX01 returned this family COMPLETED with repairedByThisLane true and nine numeric zero counters. Releasing centrally so the repair is not stranded behind its own grant."
+      "releasedAt": "2026-09-09T22:10:56.596Z"
     },
     {
       "subjectType": "packet-family",
@@ -7223,7 +7252,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -7313,11 +7342,10 @@
         "rcap-in-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7328,10 +7356,11 @@
         "rcap-in-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9709,11 +9738,12 @@
         "wv_acc_treatment_job_readiness-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF23",
+      "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
     },
     {
       "subjectType": "packet-family",
@@ -9724,12 +9754,11 @@
         "wv_acc_treatment_job_readiness-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF23",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "laneKind": "repair",
       "released": false,
-      "releasedAt": null,
-      "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14198,7 +14227,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "914af21a28d51a602be5c224a89bc125ba998ac0b413022f7cb32388f843bd5d",
+  "claimsDigest": "bad9f02c8275ef7fc1adb0c6d68d274deb3beeea95a0ae7a62237ed3f25a3964",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -57108,6 +57137,38 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "withdrawnAt": "2026-09-09T23:40:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-09T23:49:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-in-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-09T23:49:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-09T23:51:45Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_acc_treatment_job_readiness-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-09T23:51:45Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

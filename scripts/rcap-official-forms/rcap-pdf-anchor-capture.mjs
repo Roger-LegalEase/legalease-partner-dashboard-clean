@@ -13,6 +13,8 @@
 // relative to them.
 import { createRequire } from "node:module";
 
+import { standard14Metrics, normalizeBaseFontName, isStandard14 } from "./rcap-standard-14-metrics.mjs";
+
 const require = createRequire(import.meta.url);
 const { PDFRawStream, PDFArray, PDFName, PDFDict, decodePDFRawStream } = require("pdf-lib");
 
@@ -98,10 +100,33 @@ function tokenize(src) {
   return tokens;
 }
 
-// Every font in this corpus carries an explicit /Widths array, so advances are
-// computed from the document's own metrics rather than estimated. A font that
-// does not (a Type0/Identity-H subset) is reported as inexact and its runs are
-// excluded from anchor placement.
+// --- Font metrics -----------------------------------------------------
+//
+// An advance comes from the font the page actually uses, in this order:
+//
+//   /Widths          a subset or embedded font carries its own metrics;
+//   /W + /DW         a Type0 font carries per-CID widths;
+//   AFM              a base-14 face carries NO /Widths, and the viewer supplies
+//                    Adobe metrics from the /BaseFont name -- so this reads
+//                    /BaseFont and /Encoding and loads the same AFM table;
+//   null             anything else is UNMEASURABLE and says so.
+//
+// The claim that used to stand here -- "every font in this corpus carries an
+// explicit /Widths array" -- was false, and expensively so. The delivered
+// census-v1 tree holds 117,495 base-14 font-resource occurrences with no
+// /Widths (73,641 Times-Roman, 42,140 Helvetica, 1,315 Helvetica-Bold, 329
+// ZapfDingbats, 38 Courier, 26 Times-Bold, 6 Symbol), and every one of them was
+// measured at a uniform 500/1000 half-em. That ruler is wrong in both
+// directions at once: on lowercase prose it reads up to 25% WIDE against
+// Times-Roman and manufactures an overflow that is not on the page, and on the
+// uppercase names and case numbers that fill a court caption it reads 20-66pt
+// NARROW at 10pt against Helvetica and hides an overflow that is. See
+// rcap-standard-14-metrics.mjs for the arithmetic.
+//
+// A font with no /Widths whose /BaseFont is not one of the fourteen produces a
+// null width and `widthIsUnmeasurable: true`, not a guess. A guess is
+// indistinguishable downstream from a measurement.
+
 // --- ToUnicode ---------------------------------------------------------
 //
 // A caption harvested without the font's ToUnicode map is not text, it is glyph
@@ -192,6 +217,29 @@ function loadFonts(res, ctx) {
     try { fd = ctx.lookup(ref, PDFDict); } catch { continue; }
     if (!fd) continue;
     const subtype = String(fd.get(PDFName.of("Subtype")) ?? "");
+    // LATENT TRAP, FLAGGED AND DELIBERATELY NOT FIXED HERE.
+    //
+    // `subtype` is a PDFName stringified, so it reads "/Type0" -- with the
+    // leading slash. Every `subtype === "Type0"` test in this module is
+    // therefore permanently false, which means `twoByte` is never set, the
+    // /W and /DW tables `type0Widths` builds are never consulted, and a Type0
+    // string is walked one JS character per glyph instead of two. The module
+    // already compensates downstream: `collapseUtf16BE` exists precisely
+    // because "NE DC-1-15 is 113 runs" of two-byte codes arriving through a
+    // font "this walker resolves as a single-byte one".
+    //
+    // Repairing it is a decoding change, not a measurement change: it alters
+    // the TEXT of every Type0 run and would land on all 208 importers of this
+    // module at once, including caption harvesting and field classification.
+    // That is not this lane's to make. What this lane does is refuse to launder
+    // it: because the CID widths genuinely are not read, a Type0 run's width is
+    // null and `metricsSource` says why, instead of the 500/1000 half-em the
+    // old code returned for every glyph of it.
+    //
+    // `subtypeName` below is used ONLY for labelling and for the `exact` guard.
+    // `twoByte` is left exactly as it was so no decoding behaviour moves.
+    const subtypeName = subtype.replace(/^\//, "");
+    const baseFont = normalizeBaseFontName(fd.get(PDFName.of("BaseFont")));
     const firstChar = Number(fd.get(PDFName.of("FirstChar"))?.asNumber?.() ?? 0);
     let widths = null;
     try {
@@ -211,24 +259,88 @@ function loadFonts(res, ctx) {
     } catch { /* a font without a usable ToUnicode decodes as raw codes */ }
     const twoByte = subtype === "Type0";
     const t0 = twoByte ? type0Widths(fd, ctx) : null;
+
+    // A base-14 face carries no /Widths and the viewer measures it from the
+    // /BaseFont name, so this reads the name and the encoding off the page's
+    // own font resource and loads the same AFM table the viewer will use.
+    // Only when the file supplies nothing itself: an explicit /Widths always
+    // wins, because that is what the file says about the font it embedded.
+    let afm = null;
+    if (!widths && !twoByte && baseFont && isStandard14(baseFont)) {
+      let encodingName = null;
+      let differences = null;
+      try {
+        const enc = fd.get(PDFName.of("Encoding"));
+        const resolved = enc ? ctx.lookup(enc) : null;
+        if (resolved instanceof PDFDict) {
+          encodingName = resolved.get(PDFName.of("BaseEncoding"))
+            ? String(resolved.get(PDFName.of("BaseEncoding"))) : null;
+          const diff = resolved.lookupMaybe(PDFName.of("Differences"), PDFArray);
+          if (diff) {
+            differences = diff.asArray().map((v) => {
+              const looked = ctx.lookup(v) ?? v;
+              const num = looked?.asNumber?.();
+              if (Number.isFinite(num)) return num;
+              return String(looked).replace(/^\//, "");
+            });
+          }
+        } else if (enc) {
+          encodingName = String(enc);
+        }
+      } catch { /* an unreadable /Encoding falls back to the face's built-in one */ }
+      afm = standard14Metrics(baseFont, { encoding: encodingName, differences });
+    }
+
     out.set(key.asString().replace(/^\//, ""), {
-      subtype, firstChar, widths, missingWidth, toUnicode, twoByte,
+      subtype, baseFont, firstChar, widths, missingWidth, toUnicode, twoByte,
       cidWidths: t0?.widths ?? null, defaultWidth: t0?.defaultWidth ?? null,
-      exact: Boolean(widths) && subtype !== "Type0"
+      afmWidths: afm?.widths ?? null, afmFace: afm?.face ?? null,
+      afmEncoding: afm?.encoding ?? null,
+      metricsSource: widths ? "font_widths_array"
+        : twoByte ? "type0_w_array"
+          : afm ? afm.source
+            : subtypeName === "Type0" ? "type0_cid_widths_not_read_by_this_walker"
+              : "unmeasurable_no_widths_and_not_a_standard_14_face",
+      // AFM metrics for a base-14 face are exactly as exact as a /Widths array:
+      // they are the metrics the viewer itself will use to lay the page out.
+      exact: (Boolean(widths) || Boolean(afm)) && subtypeName !== "Type0"
     });
   }
   return out;
 }
 
-function charAdvance(font, ch, size, charSpace, wordSpace, hScale) {
-  const code = ch.charCodeAt(0);
-  let w;
+/**
+ * Advance-width of one code in 1/1000 em, or null when nothing in the file or
+ * the standard metrics says what it is.
+ *
+ * Null is the point. The old code returned 500 here for every base-14 glyph on
+ * every page in the corpus, and a downstream overflow check could not tell that
+ * number apart from a measurement.
+ */
+function glyphMils(font, code) {
+  if (font?.twoByte) return font.cidWidths?.get(code) ?? font.defaultWidth ?? null;
   if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
-    w = font.widths[code - font.firstChar];
-  } else if (font?.missingWidth) w = font.missingWidth;
-  else w = 500;
-  return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
+    return font.widths[code - font.firstChar];
+  }
+  const afm = font?.afmWidths?.get(code);
+  if (afm !== undefined) return afm;
+  if (font?.missingWidth) return font.missingWidth;
+  return null;
 }
+
+/**
+ * The half-em the walker used to measure every base-14 glyph with.
+ *
+ * It survives in exactly one role: keeping the text cursor moving across a run
+ * whose metrics could not be resolved, so the glyphs AFTER it are not all
+ * stacked on one x. Any item whose advance came through here is returned with
+ * `width: null` and `widthIsUnmeasurable: true`, and its own x and every later
+ * x on the same text object carries `originEstimated: true`. It is never
+ * reported as a width.
+ */
+const UNMEASURABLE_CURSOR_MILS = 500;
+
+
 
 /**
  * Splits a shown string into glyphs and gives each its Unicode text.
@@ -273,31 +385,38 @@ function collapseUtf16BE(chars) {
   }
   const out = [];
   for (let i = 0; i < chars.length; i += 2) {
-    out.push({ c: chars[i + 1].c, x: chars[i].x, w: Number((chars[i].w + chars[i + 1].w).toFixed(2)) });
+    // An unmeasurable half makes the pair unmeasurable. Summing null as zero
+    // would report a half-width glyph box as if it had been measured.
+    const pairWidth = chars[i].w === null || chars[i + 1].w === null
+      ? null : Number((chars[i].w + chars[i + 1].w).toFixed(2));
+    out.push({
+      c: chars[i + 1].c, x: chars[i].x, w: pairWidth,
+      ...(pairWidth === null ? { widthIsUnmeasurable: true } : {})
+    });
   }
   return out;
 }
 
-/** The advance of one glyph code, in unscaled text-space units. */
+/**
+ * The advance of one glyph code, in unscaled text-space units.
+ *
+ * `measured` is false when nothing in the file or the standard metrics gave a
+ * width and the returned advance is only the cursor-keeping fallback.
+ */
 function codeAdvance(font, code, size, charSpace, wordSpace, hScale) {
-  let w;
-  if (font?.twoByte) {
-    w = font.cidWidths?.get(code) ?? font.defaultWidth ?? 1000;
-  } else if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
-    w = font.widths[code - font.firstChar];
-  } else if (font?.missingWidth) {
-    w = font.missingWidth;
-  } else {
-    w = 500;
-  }
-  return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
+  const mils = glyphMils(font, code);
+  const w = mils ?? UNMEASURABLE_CURSOR_MILS;
+  return {
+    advance: ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale,
+    measured: mils !== null
+  };
 }
 
-function advanceOf(font, text, size, charSpace, wordSpace, hScale) {
-  let total = 0;
-  for (const ch of text) total += charAdvance(font, ch, size, charSpace, wordSpace, hScale);
-  return total;
-}
+// `charAdvance` and `advanceOf` were removed with this change. Both measured a
+// string per JS character rather than per glyph code, both carried their own
+// copy of the half-em fallback, and nothing in the tree called either of them --
+// two dead rulers a later lane could have picked up and reintroduced the defect
+// with. `codeAdvance` is the one advance in this module.
 
 const mul = (a, b) => [
   a[0] * b[0] + a[1] * b[2], a[0] * b[1] + a[1] * b[3],
@@ -383,6 +502,10 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedF
   const stack = [];
   let tm = [1, 0, 0, 1, 0, 0], tlm = [1, 0, 0, 1, 0, 0];
   let fontSize = 0, leading = 0, charSpace = 0, wordSpace = 0, hScale = 1;
+  // Set once a run's advances could not be resolved: every later origin on this
+  // stream is downstream of a cursor that moved by a fallback rather than by a
+  // measurement, and says so rather than presenting an estimate as a position.
+  let originEstimated = false;
   const operands = [];
 
   const show = (text) => {
@@ -395,18 +518,37 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedF
     const chars = [];
     let cursor = 0;
     let decoded = "";
+    // A run is measured only if EVERY glyph in it was. One unresolved advance
+    // both mis-sizes the run and shifts every glyph after it, so the run's
+    // width is null rather than the sum of some real advances and some guesses.
+    let allMeasured = true;
     for (const glyph of glyphsOf(font, text)) {
       const a = codeAdvance(font, glyph.code, fontSize, charSpace, wordSpace, hScale);
-      chars.push({ c: glyph.text, x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2)) });
+      if (!a.measured) allMeasured = false;
+      chars.push({
+        c: glyph.text,
+        x: Number((m[4] + cursor * scale).toFixed(2)),
+        w: a.measured ? Number((a.advance * scale).toFixed(2)) : null,
+        ...(a.measured ? {} : { widthIsUnmeasurable: true })
+      });
       decoded += glyph.text;
-      cursor += a;
+      cursor += a.advance;
     }
+    // The cursor has already been advanced past this run whether or not it was
+    // measurable, so a later run in the same text object inherits the estimate.
+    const originWasEstimated = originEstimated;
+    if (!allMeasured) originEstimated = true;
     const collapsed = decoded.includes(NUL) ? collapseUtf16BE(chars) : null;
     items.push({
       text: collapsed ? collapsed.map((c) => c.c).join("") : decoded,
       x: m[4], y: m[5], size: Number(size.toFixed(2)),
-      width: Number((cursor * scale).toFixed(2)),
-      metricsExact: font?.exact === true || Boolean(font?.twoByte && font.cidWidths?.size),
+      width: allMeasured ? Number((cursor * scale).toFixed(2)) : null,
+      ...(allMeasured ? {} : { widthIsUnmeasurable: true }),
+      ...(originWasEstimated ? { originEstimated: true } : {}),
+      metricsExact: allMeasured
+        && (font?.exact === true || Boolean(font?.twoByte && font.cidWidths?.size)),
+      metricsSource: font?.metricsSource ?? "no_font_resource",
+      baseFont: font?.baseFont ?? null,
       decodedThroughToUnicode: Boolean(font?.toUnicode?.size),
       collapsedFromUtf16BE: Boolean(collapsed),
       chars: collapsed ?? chars
@@ -454,7 +596,12 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedF
         break;
       case "n": current = []; cursor = null; subpathStart = null; break;
       case "cm": ctm = mul([n(6), n(5), n(4), n(3), n(2), n(1)], ctm); break;
-      case "BT": tm = [1, 0, 0, 1, 0, 0]; tlm = tm.slice(); break;
+      // Every one of these resets `tm` from `tlm`, and `tlm` is never advanced
+      // by the show-text cursor -- so an unmeasurable advance contaminates only
+      // the shows that follow it inside the same positioning span, and the next
+      // absolute or line-relative move clears it. Latching the flag for the
+      // whole stream would mark half the corpus and mean nothing.
+      case "BT": tm = [1, 0, 0, 1, 0, 0]; tlm = tm.slice(); originEstimated = false; break;
       case "ET": break;
       case "Tf": {
         fontSize = n(1);
@@ -466,10 +613,10 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedF
       case "Tc": charSpace = n(1); break;
       case "Tw": wordSpace = n(1); break;
       case "Tz": hScale = n(1) / 100; break;
-      case "Td": tlm = mul([1, 0, 0, 1, n(2), n(1)], tlm); tm = tlm.slice(); break;
-      case "TD": leading = -n(1); tlm = mul([1, 0, 0, 1, n(2), n(1)], tlm); tm = tlm.slice(); break;
-      case "Tm": tlm = [n(6), n(5), n(4), n(3), n(2), n(1)]; tm = tlm.slice(); break;
-      case "T*": tlm = mul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice(); break;
+      case "Td": tlm = mul([1, 0, 0, 1, n(2), n(1)], tlm); tm = tlm.slice(); originEstimated = false; break;
+      case "TD": leading = -n(1); tlm = mul([1, 0, 0, 1, n(2), n(1)], tlm); tm = tlm.slice(); originEstimated = false; break;
+      case "Tm": tlm = [n(6), n(5), n(4), n(3), n(2), n(1)]; tm = tlm.slice(); originEstimated = false; break;
+      case "T*": tlm = mul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice(); originEstimated = false; break;
       case "Tj": show(operands[operands.length - 1]?.v); break;
       case "'": tlm = mul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice(); show(operands[operands.length - 1]?.v); break;
       case '"': tlm = mul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice(); show(operands[operands.length - 1]?.v); break;
@@ -534,8 +681,16 @@ export function groupIntoLines(items, yTolerance = 2.2) {
       size: sorted[0].size,
       text: sorted.map((i) => i.text).join("").replace(/\s+/g, " ").trim(),
       metricsExact: sorted.every((i) => i.metricsExact),
-      runs: sorted.map((i) => ({ text: i.text, x: Number(i.x.toFixed(1)),
-        x2: Number((i.x + (i.width ?? 0)).toFixed(1)), size: i.size, metricsExact: i.metricsExact })),
+      // `x2` is null on an unmeasurable run rather than `x + 0`. Coalescing a
+      // null width to zero collapses the run to a point, which reads as no
+      // overflow -- the direction that hides a clipped filing under a green
+      // counter, and the one nothing downstream can see.
+      runs: sorted.map((i) => ({
+        text: i.text, x: Number(i.x.toFixed(1)),
+        x2: i.width === null || i.width === undefined ? null : Number((i.x + i.width).toFixed(1)),
+        size: i.size, metricsExact: i.metricsExact,
+        ...(i.width === null || i.width === undefined ? { widthIsUnmeasurable: true } : {})
+      })),
       chars: sorted.flatMap((i) => i.chars ?? [])
     };
   }).filter((l) => l.text.length > 0);
@@ -744,7 +899,13 @@ export function captureWidgetContext(page, widgets, { precomputedLines = null, i
       for (const line of lines) {
         const gap = line.y - top;
         if (gap < 0 || gap > CAPTION_GAP_ABOVE) continue;
-        const lineX2 = Math.max(...line.runs.map((r) => r.x2));
+        // A line with no measurable run has no measurable extent, so it cannot
+        // be asked whether it overlaps the widget's column. Skipping it loses a
+        // caption; claiming an extent it does not have puts the wrong caption
+        // on a widget, which is what the name channel already got wrong.
+        const measuredEnds = line.runs.map((r) => r.x2).filter((v) => typeof v === "number");
+        if (measuredEnds.length === 0) continue;
+        const lineX2 = Math.max(...measuredEnds);
         if (!overlaps1d(line.x, lineX2, rect.x, rect.x + rect.width)) continue;
         if (!best || gap < best.gap) best = { text: line.text, gap, basis: "printed_directly_above_in_the_same_column" };
       }

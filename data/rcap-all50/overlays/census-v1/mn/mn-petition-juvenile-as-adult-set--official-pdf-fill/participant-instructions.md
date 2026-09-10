@@ -30,11 +30,36 @@ wrong packet and you should not file it.
 - **EXP102 page 2 — Item 5 list of other addresses lived at since the offence.** item 5 — every other address you have lived at since the date of the offence, with street, city and state, unless you check the box saying you have only lived at your current address.
 - **EXP102 page 3 — Item 7 criminal-record table cell.** item 7 — your FULL criminal record. The form requires every conviction and every charge, from Minnesota and from any other state, federal court or foreign country, whether it happened before or after this offence. LegalEase holds the one case you screened and not the rest, and a row filled in from that one case would read as a complete record when it is not, so the whole table is left for you.
 - **EXP102 page 3 — Item 8 list of earlier expungement, pardon or sealing requests.** item 8 — each earlier request you have made for an expungement, a pardon or a sealing of a criminal record, if you answered Yes.
+- **EXP102 page 5 — Item 10 type of the offence you want expunged.** item 10 — the offence you want expunged, named as the court file names it. This packet does not fill it in. The box this petition checks at item 9 is the second one, "You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile", so the offence you write here has to be the offence in the case you were certified or referenced into district court for under Minn. Stat. § 260B.125. If it is not that offence, this is the wrong packet and you should not file it.
+- **EXP102 page 5 — Item 10 date of the offence you want expunged.** item 10 — the date of that offence, taken from your own court records rather than from memory. This packet does not fill it in, because it holds no fact about how old you were when the offence happened. The box checked at item 9 states the crime was committed when you were a juvenile, and item 3 of this same petition states your date of birth. Read the two together before you sign: if the date you write here is on or after your eighteenth birthday, the petition contradicts itself and the box at item 9 is not your box.
 - **EXP102 page 5 — Item 11 list of identifiable victims.** item 11 — the names of any identifiable victims in this case, if you answered Yes.
 - **EXP106 page 1 — Judicial District of the court.** the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each.
 - **FEE102 page 1 — Judicial District of the court.** the judicial district number of the county where your case was decided. Minnesota has ten judicial districts and www.mncourts.gov lists which counties are in each.
 - **FEE102 page 1 — Plaintiff/Petitioner on the fee-waiver affidavit caption.** the plaintiff of the criminal case on the FEE102 caption. FEE102 is the general civil fee-waiver form and prints no party, while the three court forms in this packet all print State of Minnesota over Plaintiff on their own faces. Copy the plaintiff exactly as EXP102 prints it.
 - **FEE102 page 1 — Fee-waiver affidavit (FEE102) financial statement line.** your own financial details on the fee-waiver affidavit (FEE102) — household size, income, public assistance, property and monthly expenses. LegalEase does not hold and does not ask for your financial information, so every one of these lines is yours to complete before you file.
+
+## The record for this route also requires these before you file
+
+These are not blanks on the forms. They are the actions the committed legal-design record for
+this route requires of you before this packet is filed, and each one is printed here in that
+record's own words rather than in ours.
+
+- **obtain document** — Obtain Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO. Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them. Obtain it from: Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online.
+- **confirm answer** — Check your answer to "What is the court file number?" against Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO, and correct the packet if they disagree.
+- **complete field** — Petitioner signature — EXP102 signature block.
+- **complete field** — Hearing date, time, courtroom and Zoom credentials — EXP102 and EXP104 hearing blocks.
+- **complete field** — Agency service addresses — EXP104 service list.
+- **complete field** — Proof-of-service dates — EXP104.
+- **sign** — Required on the petition.
+- **notarize** — Required where the form calls for a notarised signature. Measured on the four forms in this packet, none of them calls for one. EXP102, EXP104 and FEE102 all close with a declaration under Minn. Stat. § 358.116, signed under penalty of perjury, and none of them prints a notarial certificate or a seal line. EXP106 is signed by the judge. Nothing in this packet has to be notarised.
+- **pay fee** — A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies.
+- **apply fee waiver** — FEE102 Affidavit to Request Fee Waiver, with FEE103 where the court requests further detail. A statutory fee waiver applies to certain petitions. (This one applies only if it applies to you.)
+
+The second of those bears directly on what this packet has already written for you. The court
+file number is prefilled on every form in this packet, and it was taken from what you told the
+screening, not from the court's own record. Check it against your MCRO case history and your BCA
+criminal history before you file, and correct it on every form if they disagree. LegalEase never
+collects, inspects or authenticates either of those records.
 
 ## The court fills these in after you file
 

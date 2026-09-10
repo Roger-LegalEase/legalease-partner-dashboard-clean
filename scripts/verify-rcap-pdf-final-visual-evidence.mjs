@@ -40,6 +40,7 @@ import { rasterizePdf } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
 import { auditPlacements, pagesRequiringRaster, rasterContract, reconcileWrittenAgainstDeclared, EVIDENCE_CONTRACT_VERSION }
   from "./rcap-official-forms/rcap-evidence-contract.mjs";
 import { extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { measureStandard14, normalizeBaseFontName } from "./rcap-official-forms/rcap-standard-14-metrics.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { CANONICAL } from "./implement-rcap-official-forms-d1.mjs";
 
@@ -261,40 +262,78 @@ function overlayPlacements(doc, page, split, writtenFields) {
 
 
 /**
- * Standard Helvetica advance widths, in 1/1000 em, for the printable ASCII the
- * overlay writes.
+ * Advance width of a string at a font size, measured with the metrics of the
+ * font the page ACTUALLY NAMES.
  *
- * The overlay's fonts are `/Subtype /Type1 /BaseFont /Helvetica` with
- * WinAnsiEncoding -- one of the fourteen standard faces, not an embedded subset.
- * So these are the widths the viewer will actually use, and the advance computed
- * from them is the real one rather than an estimate. Anything outside this table
- * falls back to the width of `n`, and a placement that relied on the fallback is
- * marked so a reader knows not to treat its extent as exact.
+ * WHAT THIS REPLACED, AND WHY IT MATTERED
+ *
+ * This function used to be `helveticaAdvance`, over a hardcoded Helvetica
+ * table, applied to every run on every page. Its own comment argued the case:
+ * "The overlay's fonts are `/Subtype /Type1 /BaseFont /Helvetica` ... So these
+ * are the widths the viewer will actually use." That was true of the overlay
+ * tree this verifier reads and it was never checked. The `/Tf` name was already
+ * parsed one line above the call and thrown away.
+ *
+ * A width measured with the wrong face is not approximately right, and it fails
+ * in both directions at once. Times-Roman is 10-12% narrower than Helvetica
+ * across lowercase (a 444 vs 556, e 444 vs 556, n 500 vs 556, s 389 vs 500):
+ * measuring a Times page with Helvetica metrics MANUFACTURES an overflow that
+ * is not on the page, and measuring a Helvetica page with Times metrics HIDES
+ * one that is and ships a clipped filing under a green counter. The delivered
+ * census-v1 tree draws 73,641 Times-Roman and 42,140 Helvetica base-14 font
+ * resources, so both faces are live in this corpus and the assumption is one
+ * composed family away from being false here too.
+ *
+ * So the face is read from the run's own `/Tf` through the page's font
+ * resources, and its metrics come from the Adobe AFM data in
+ * `@pdf-lib/standard-fonts` -- the same table pdf-lib uses when a builder DRAWS
+ * with a standard font, so the ruler that measures the page is the ruler that
+ * drew it. A font this cannot resolve returns null, which is a refusal to
+ * measure and not a width of zero: `clippingOf` below reports such a write as
+ * not measurable rather than as clear.
  */
-const HELVETICA_WIDTHS = {
-  " ": 278, "!": 278, '"': 355, "#": 556, $: 556, "%": 889, "&": 667, "'": 191,
-  "(": 333, ")": 333, "*": 389, "+": 584, ",": 278, "-": 333, ".": 278, "/": 278,
-  0: 556, 1: 556, 2: 556, 3: 556, 4: 556, 5: 556, 6: 556, 7: 556, 8: 556, 9: 556,
-  ":": 278, ";": 278, "<": 584, "=": 584, ">": 584, "?": 556, "@": 1015,
-  A: 667, B: 667, C: 722, D: 722, E: 667, F: 611, G: 778, H: 722, I: 278, J: 500,
-  K: 667, L: 556, M: 833, N: 722, O: 778, P: 667, Q: 778, R: 722, S: 667, T: 611,
-  U: 722, V: 667, W: 944, X: 667, Y: 667, Z: 611,
-  "[": 278, "\\": 278, "]": 278, "^": 469, _: 556, "`": 333,
-  a: 556, b: 556, c: 500, d: 556, e: 556, f: 278, g: 556, h: 556, i: 222, j: 222,
-  k: 500, l: 222, m: 833, n: 556, o: 556, p: 556, q: 556, r: 333, s: 500, t: 278,
-  u: 556, v: 500, w: 722, x: 500, y: 500, z: 500,
-  "{": 334, "|": 260, "}": 334, "~": 584
-};
+/** The AcroForm's default resource dictionary, where a flattened /Helv often lives. */
+function acroFormResources(doc) {
+  try {
+    const acro = doc.context.lookup(doc.catalog.get(PDFName.of("AcroForm")));
+    if (!(acro instanceof PDFDict)) return null;
+    const dr = doc.context.lookup(acro.get(PDFName.of("DR")));
+    return dr instanceof PDFDict ? dr : null;
+  } catch { return null; }
+}
 
-/** Advance width of a string at a font size, and whether every glyph was known. */
-function helveticaAdvance(text, size) {
-  let mils = 0;
-  let exact = true;
-  for (const ch of text) {
-    const w = HELVETICA_WIDTHS[ch];
-    if (w === undefined) { exact = false; mils += HELVETICA_WIDTHS.n; } else { mils += w; }
+function resolveFontFace(doc, resources, tfName) {
+  if (!tfName || !(resources instanceof PDFDict)) return null;
+  const fonts = doc.context.lookup(resources.get(PDFName.of("Font")));
+  if (!(fonts instanceof PDFDict)) return null;
+  const fd = doc.context.lookup(fonts.get(PDFName.of(tfName)));
+  if (!(fd instanceof PDFDict)) return null;
+  const base = normalizeBaseFontName(fd.get(PDFName.of("BaseFont")));
+  let encoding = null;
+  try {
+    const enc = fd.get(PDFName.of("Encoding"));
+    const resolved = enc ? doc.context.lookup(enc) : null;
+    encoding = resolved instanceof PDFDict
+      ? (resolved.get(PDFName.of("BaseEncoding")) ? String(resolved.get(PDFName.of("BaseEncoding"))) : null)
+      : (enc ? String(enc) : null);
+  } catch { /* an unreadable /Encoding falls back to the face's built-in one */ }
+  return { base, encoding };
+}
+
+function advanceOfRun(text, size, face) {
+  if (!face?.base) return { width: null, exact: false, face: null, why: "the run's /Tf names no resolvable font resource" };
+  const measured = measureStandard14(face.base, text, size, { encoding: face.encoding });
+  if (!measured) {
+    return { width: null, exact: false, face: face.base,
+      why: `${face.base} is not one of the fourteen standard faces and supplies no /Widths this reader can use` };
   }
-  return { width: round((mils / 1000) * size), exact };
+  return {
+    width: measured.width === null ? null : round(measured.width),
+    exact: measured.exact,
+    face: measured.face,
+    encoding: measured.encoding,
+    ...(measured.exact ? {} : { why: `codes ${measured.unmappedCodes.join(", ")} are not in the resolved encoding` })
+  };
 }
 
 /**
@@ -389,7 +428,14 @@ function overlayWrites(doc, page, split) {
     const innerTm = /([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+Tm/.exec(text);
     const innerSize = innerTf ? Number(innerTf[2]) : null;
     const joinedRuns = runs.join("");
-    const innerAdvance = innerSize === null || !joinedRuns ? null : helveticaAdvance(joinedRuns, innerSize);
+    // An appearance stream names its font in its OWN /Resources; the page's
+    // /Resources is the fallback, and the AcroForm /DR the last one. Reading the
+    // page first would resolve a different /Helv than the one this stream draws.
+    let innerRes = null;
+    try { innerRes = dict ? doc.context.lookup(dict.get(PDFName.of("Resources"))) : null; } catch { innerRes = null; }
+    const innerFace = resolveFontFace(doc, innerRes instanceof PDFDict ? innerRes : resources, innerTf ? innerTf[1] : null)
+      ?? resolveFontFace(doc, acroFormResources(doc), innerTf ? innerTf[1] : null);
+    const innerAdvance = innerSize === null || !joinedRuns ? null : advanceOfRun(joinedRuns, innerSize, innerFace);
     out.push({
       how: "flattened widget appearance",
       appearance: name,
@@ -416,12 +462,14 @@ function overlayWrites(doc, page, split) {
     const x = tm ? Number(tm[5]) : null;
     const y = tm ? Number(tm[6]) : null;
     const joined = show.join("");
-    const adv = size === null ? null : helveticaAdvance(joined, size);
+    const directFace = resolveFontFace(doc, resources, tf ? tf[1] : null)
+      ?? resolveFontFace(doc, acroFormResources(doc), tf ? tf[1] : null);
+    const adv = size === null ? null : advanceOfRun(joined, size, directFace);
     out.push({
       how: "text drawn directly by the overlay",
       appearance: tf ? tf[1] : null,
       at: x === null ? null : { x: round(x), y: round(y) },
-      box: x === null || adv === null ? null
+      box: x === null || adv === null || adv.width === null ? null
         : { x: round(x), y: round(y), width: adv.width, height: round(size * 1.25) },
       opaqueBox: false,
       fillGrey: fillGreyOf(body),
@@ -706,9 +754,13 @@ function declaredSlots(map) {
  *
  * Clipping is not a cosmetic complaint on a court filing: a county name that runs
  * past its rule and under the next printed cell is either unreadable or reads as
- * belonging to a field it does not belong to. The advance width here is computed
- * from the standard Helvetica metrics the overlay's own font dictionary names, so
- * the extent is the real one.
+ * belonging to a field it does not belong to. The advance width here comes from
+ * the metrics of the face the run's own /Tf resolves to, so the extent is the
+ * one the viewer will lay out -- not a Helvetica reading of a Times page.
+ *
+ * A width this reader could not measure returns a verdict of NOT MEASURABLE.
+ * It does not return `clipped: false`. An unmeasured extent that reads as clear
+ * is the hidden-overflow direction, and it is the one that ships.
  */
 function clippingOf(write, slots) {
   const value = write.textDrawn.join("");
@@ -720,11 +772,17 @@ function clippingOf(write, slots) {
     if (!write.clipBox || !write.textOrigin || !write.advance) {
       return { value, declaredSlot: null, verdict: "this appearance does not express a clip rectangle, a text origin and a font size together, so its extent is not measurable" };
     }
+    if (write.advance.width === null) {
+      return { value, declaredSlot: { from: "appearance clip rectangle", field: write.appearance, factId: null, box: write.clipBox },
+        advanceIsExact: false, widthIsUnmeasurable: true,
+        verdict: `the extent of this value is not measurable: ${write.advance.why ?? "its font supplies no metrics this reader holds"}` };
+    }
     const overhang = round(write.textOrigin.x + write.advance.width - (write.clipBox.x + write.clipBox.width));
     return {
       value,
       declaredSlot: { from: "appearance clip rectangle", field: write.appearance, factId: null, box: write.clipBox },
       drawnBox: { x: write.textOrigin.x, y: write.textOrigin.y, width: write.advance.width, height: round((write.fontSize ?? 0) * 1.25) },
+      measuredWithFace: write.advance.face ?? null,
       advanceIsExact: write.advance.exact,
       overhangPt: overhang,
       clipped: overhang > 0.5
@@ -734,11 +792,17 @@ function clippingOf(write, slots) {
   const slot = slots.find((s) => s.box && Math.abs(s.box.x - write.box.x) <= 1 && Math.abs(s.box.y - write.box.y) <= 1)
     ?? slots.find((s) => s.box && s.page === write.page);
   if (!slot?.box) return { value, declaredSlot: null, verdict: "no declared rectangle to measure against" };
+  if (write.advance && write.advance.width === null) {
+    return { value, declaredSlot: { from: slot.from, field: slot.field, factId: slot.factId, box: slot.box },
+      advanceIsExact: false, widthIsUnmeasurable: true,
+      verdict: `the extent of this value is not measurable: ${write.advance.why ?? "its font supplies no metrics this reader holds"}` };
+  }
   const overhang = round(write.box.x + write.box.width - (slot.box.x + slot.box.width));
   return {
     value,
     declaredSlot: { from: slot.from, field: slot.field, factId: slot.factId, box: slot.box },
     drawnBox: write.box,
+    measuredWithFace: write.advance?.face ?? null,
     advanceIsExact: write.advance?.exact ?? false,
     overhangPt: overhang,
     clipped: overhang > 0.5

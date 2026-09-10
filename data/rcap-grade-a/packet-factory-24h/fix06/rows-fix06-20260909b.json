@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260909b",
+  "worktree": "/home/user/v2mm-worktree",
+  "branch": "v2mm-fix-20260909b",
+  "baseSha": "a2b19c6cec35a5fd64f3ad5c3948f4fff16969e6",
+  "headSha": "a8a7817bc57124d1257ed29f88815b5f629e1a75",
+  "writtenAlongsideRatherThanOver": "data/rcap-grade-a/packet-factory-24h/fix06/ already holds rows.json, rows-fix06-20260909.json, rows-fable-fix06.json and two named returns. None was overwritten.",
+  "independence": "This lane repaired these bytes and does not read them independently. No verdict is set and no PASS is issued. Every family here owes a read by a lane that neither built nor repaired it.",
+  "measurementNote": "visualDefects is null on every completed row. A local render is measurement, not a receipt, and this lane is not an independent reader. rasterState is BUILT_RASTER_PENDING on both repaired families.",
+  "grantsAsserted": [
+    "CLAIM_OK FIX06 il-seal-2yr-set (repair, grant set 30a35aa1dbd2be73)",
+    "CLAIM_OK FIX06 nd-summary-marijuana-pardon-set (repair, grant set 30a35aa1dbd2be73)",
+    "NOT_GRANTED (exit 6): no repair lane holds ky_protective_order_record_expungement-set"
+  ],
+  "notTouchedThisShift": "rcap-hi-custom-pleading. FIX06 holds a live rapid-repair claim on it and was told not to work it this shift.",
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligationNamesAnswered": [
+        "ROUTE_OPTIONS"
+      ],
+      "verdictThisAnswers": {
+        "lane": "VF03",
+        "file": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 3,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersBeforeHowMeasured": "VF03's own nine, read independently from the delivered bytes at base b8a2495f4. scripts/rcap-packet-completeness/verify-packet-completeness.mjs also read this family at that base and returned requiredOptionsMissing 0: that tool reads the field map and never compares it against the registry track's declared dispositions, so its zero was not a measurement of the thing VF03 measured.",
+      "countersAfterHowMeasured": "Eight of the nine are verify-packet-completeness.mjs --family il-seal-2yr-set at commit a8a7817bc, which returns NOT_MEASURABLE_HERE with those eight at zero. requiredOptionsMissing was additionally recounted by VF03's own stated method -- take the registry track's five declared dispositions, map each to the printed two-year ground on Request page 5 that states it, and check that each is either ticked or named to the participant as this route's alternative -- which now returns 0, and the builder asserts that mapping on every run. visualDefects is null and not zero: this lane built these bytes and is not an independent reader. It is also what the verifier itself now returns, because the builder's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stopped publishing a zero it had never measured.",
+      "resultClassChanged": "verify-packet-completeness.mjs classed this family PASS_COMPLETE before this repair and NOT_MEASURABLE_HERE after, on visualDefects alone. That is not a regression in the packet. The builder used to publish nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a literal 0 without ever measuring geometry; it now publishes null, and the contract's own rule ('an unasked question must never mask one that was asked and answered') then classes the family NOT_MEASURABLE_HERE. 22 families already read that way. Flagged for Captain rather than reverted, because reverting means republishing a zero nobody took.",
+      "whatWasWrong": "The registry track declares five dispositions and Request page 5 prints all four two-year grounds that state them -- Section 16 supervision, Section 17 misdemeanor conviction, Section 18 qualified probation, Section 19.a unrevoked conditional discharge or probation. The builder ticked Section 17 unconditionally and refused the other three with 'A participant election or financial fact not determined by this packet route', which is untrue of this route because those three are its own other declared grounds. participant-instructions.md named none of them. A participant on four of the five declared dispositions received a Request stating a ground that was not theirs, verified under 735 ILCS 5/1-109.",
+      "whatWasDone": "No box is ticked that was not ticked before. The elected ground became a fixture fact, the shape the sibling il-seal-3yr-set already proves for its two Section 19 limbs: exactly one two-year ground per packet; the other three refused with a route-specific reason carrying isAlternativeToElectedGround true, the section, the authority, the registry disposition it states and how to swap; and a new guide section 'The two-year ground this packet ticked, and the three it did not' printing all four in the form's own words. The canonical fixture elects Section 17 and the boundary fixture Section 16, so the two delivered artifacts exercise different grounds. The Outcome cell now derives from the elected ground rather than from a route constant.",
+      "theOneLegalQuestionAndHowItWasSettled": "Request page 4's printed 'Outcome Abbreviations for Sealing' legend carries exactly MC, FC, CE and QP and prints NO abbreviation for a successfully completed supervision. 'S - Supervision Successfully Completed' is printed on page 2, in the Outcome Abbreviations for EXPUNGEMENT legend, and the sealing table's instruction sends the filer to the sealing legend only. So on a Section 16 packet the Outcome cell is refused as a required-before-filing blank naming the gap, and the participant is told to ask the circuit clerk or a lawyer. No abbreviation was invented. Section 17 is MC, Section 18 is QP, and Section 19.a sits under the Section 19 stem 'I received a felony conviction for an offense subject to sealing', which is FC.",
+      "reportedForTheRecordOwnerNotRepairedHere": "The registry track declares supervision_successfully_completed as one of this route's five dispositions, and the official form prints no sealing Outcome abbreviation for it. Correcting a controlling legal record is the record owner's act, not a repair lane's, and no registry file was edited.",
+      "readFromTheDeliveredBytesNotTheBuildReport": "Both fixtures rendered at 150 dpi and diffed per widget rectangle against the pinned blank EXP-AD Request. Canonical page 5: exactly one added mark, +36 px in the Section 17 box, and 0 added px in Sections 15, 16, 18, 19a, 19b, 19c, 20, 21 and 22. Boundary page 5: +36 px in the Section 16 box and 0 in every other section box, including Section 17. Boundary page 4 Outcome cell: 0 added px, where canonical carries +97 ('MC'). Item 12 carries +36 on the Yes widget and 0 on the No widget in both. Across all 13 pages and all 424 source widgets, every widget that gained ink is one the field map declares, and every declared write gained ink.",
+      "appearanceCountAccounting": "Boundary flattened inked appearances went 44 -> 43. The single lost mark is the sealing-table Outcome cell, which used to draw 'MC' and is now refused because Section 16 has no printed sealing abbreviation. The Section 17 tick did not disappear, it moved: Section 17 lost its +36 px mark and Section 16 gained the same +36 px. Canonical is unchanged at 44 and its bytes are byte-identical to the pre-repair artifact.",
+      "defectsNoCounterCanSeeChecked": [
+        {
+          "class": "map-honest-writes-not",
+          "result": "clean",
+          "how": "All 424 source widgets diffed per rectangle at 150 dpi on both fixtures. Nothing undeclared gained ink; every declared write drew ink. A build assertion now fails if any declared write draws no glyph."
+        },
+        {
+          "class": "a-participant-fact-written-into-a-field-about-someone-else",
+          "result": "clean",
+          "how": "Every one of the 44 declared bindings reviewed by role: participant identity, contact and matter facts only. The aliases field carries participant.other_names from the fixture, not a duplicated legal name. No victim, employer, judge or third-party column is written."
+        },
+        {
+          "class": "internal-record-text-printed-on-a-filing",
+          "result": "clean, and one instance removed from the GUIDE",
+          "how": "No registry prose appears on any of the 13 delivered pages. The new guide section initially printed the registry's machine disposition tokens (supervision_successfully_completed and the rest) to a participant; that was replaced with plain words and a self-test now fails the build if a machine token reaches participant-instructions.md. The tokens stay in the field map, which is a record."
+        },
+        {
+          "class": "a-published-zero-where-a-measurement-existed",
+          "result": "FOUND AND REPAIRED",
+          "how": "reports/actual-writes.json published addedGlyphsReadFromOutputBytes as a literal 0 and flattenedWidgetAppearancesReadFromOutputBytes as the finalizer's own write count. Both are now read from the saved bytes: 603 glyphs over 44 inked appearances canonical, 1263 over 43 boundary, agreeing exactly with the raster audit. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is null, not 0."
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+          "byteLength": 1726350,
+          "unchangedByThisRepair": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e",
+          "byteLength": 1727072,
+          "previousSha256": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553"
+        }
+      ],
+      "commit": "cb736b20a",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired family is a repaired family. It owes an independent read by a lane that neither built nor repaired it.",
+      "selfVerified": false
+    },
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligationNamesAnswered": [
+        "KNOWN_PREFILLS"
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersBeforeHowMeasured": "The dispatch record's own nine for this family, which read all nine at zero while the delivered boundary State box was blank. The failure was located by the reader, not by a counter: the field map declared six boundary writes and the delivered boundary fixture carried five.",
+      "countersAfterHowMeasured": "Eight of the nine are verify-packet-completeness.mjs --family nd-summary-marijuana-pardon-set at commit a8a7817bc, which returns PASS_COMPLETE with those eight at zero. visualDefects is null and not zero: this lane built these bytes and is not an independent reader. The tool's own zero for it derives from the builder's hardcoded nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which this builder has never measured -- see the finding below.",
+      "whatWasWrong": "The field map declared six boundary writes; the delivered boundary fixture carried five. The State box measured 0 added ink at 150 dpi against 182 in the same rectangle on the canonical. actual-writes.json recorded the cause under unfittable: participant.state held 'North Dakota', needing 35.5pt at the 6pt floor in a 34.32pt box. The refusal was right and stays right. What failed is that it reached no participant-facing record -- blanks-left-for-the-participant.json listed 26 blanks and State was not one, everyRequiredBeforeFilingItemIsDisclosed was the literal true, and the guide said the platform filled in the address. On a form whose printed rule is that an incomplete application is returned to the applicant.",
+      "rootCauseOfTheDeclaredVersusDeliveredGap": "mapFor ran for the canonical fixture only, and the map it returned declared 'boundaryWrites: canonicalWrites' -- the boundary's writes asserted by copying the canonical's, without ever asking the boundary fixture what it produced. Each fixture's map is now built from that fixture's own finalizer report, and the build asserts per fixture that the map's declaration equals the delivered bytes.",
+      "theOneLegalQuestionAndHowItWasSettled": "The form's own printed convention settles what goes in the State box, so the value is normalised rather than refused, and this is the evidence. (1) SFN 61663 page 1 prints the Department's own submission address as 'mail to P.O. Box 1898, Bismarck, ND 58502-1898' -- this form writing a North Dakota address in its own voice, with the state as the two-letter postal code. (2) The box is the State column of a printed City 163.2pt / State 34.32pt / ZIP Code 85.8pt row; it carries no /MaxLen and no comb, so the widget says nothing and the row says everything, and 34.32pt is a two-character box. (3) This family's canonical fixture has always drawn 'ND' there. The normalisation is bounded by that evidence and nothing else: it maps only the one state name this form abbreviates in its own printed text. No 50-row abbreviation table was authored, and a held state this form does not abbreviate is still refused and now disclosed.",
+      "theFiveRecordsReconciled": {
+        "plannedWrites": "production-field-map.json maps[0].canonicalWrites 6 and maps[0].boundaryWrites 6, the boundary's now measured from the boundary fixture's own finalizer report rather than copied from the canonical's.",
+        "actualWrites": "reports/actual-writes.json: canonical planned 6 delivered 6, boundary planned 6 delivered 6, every row matchesExpected true, unfittable empty on both.",
+        "refusals": "reports/blanks-left-for-the-participant.json refusedWritesByFixture is empty because no write was refused on either fixture, and valuesNormalisedToTheFormsOwnConvention carries the two State normalisations with the printed evidence, the box width and the width the full name would have needed.",
+        "requiredBlanks": "26 required-before-filing blanks, unchanged, and State is correctly not among them because it is filled. Under mutation it becomes 27 and State is among them.",
+        "participantGuide": "The 'platform filled in what it holds about you' sentence is generated from the writes actually made and now reads 'Applicant Name, Date of Birth, Applicant's Address, City, State and ZIP Code'. A new paragraph tells the participant the State box says ND, that the platform holds 'North Dakota', that this is the form's own convention with the printed address quoted as evidence, that the printed column is 34.32pt and the full name could not be printed there by any means, and to correct it by hand if it is wrong for them."
+      },
+      "disclosureMechanismRepaired": "A write the finalizer refused used to be filed with requiredBeforeFiling false, landing among protected blanks -- a list of things the packet is RIGHT to leave alone -- and never reaching the items table. It is now a required blank carrying its measurement and an instruction. blanks-left-for-the-participant.json carries refusedWritesByFixture for EVERY fixture rather than only the canonical one the guide is generated from. everyRequiredBeforeFilingItemIsDisclosed is computed against the guide's own bytes instead of being the literal true. The build asserts both directions: every box the guide calls blank is one the packet did not fill, and every box the packet did not fill is one the guide calls blank.",
+      "provedNonVacuousByMutation": "Holding 'Massachusetts' on the canonical fixture (40pt needed at the 6pt floor in a 34.32pt box) produces: planned 5 = delivered 5; a refusedWritesByFixture row carrying the value, the box width, the required width and the minimum font size; requiredBeforeFiling 26 -> 27; and the generated guide sentence 'The **State** box is blank: Write this in by hand. The platform holds \"Massachusetts\" for it, and that value needs 40pt at the smallest legible size in a box 34.32pt wide...'. Reverted after the test; the committed fixtures hold North Dakota.",
+      "readFromTheDeliveredBytesNotTheBuildReport": "Both fixtures rendered at 150 dpi and diffed against the pinned SFN 61663. Boundary State box: 0 added px before, +182 after, equal to the canonical's +182. Delivered boundary text now reads 'Grand Forks | ND | 58203-2214' across the City/State/ZIP row. Whole-page diff: canonical page 1 3288 added px, boundary page 1 6203, page 2 zero on both, and 0 added px outside the six declared write rectangles on either fixture. The three offence-table rows are entirely empty and the aliases, telephone and signature boxes carry no ink.",
+      "defectsNoCounterCanSeeChecked": [
+        {
+          "class": "a-participant-fact-written-into-a-field-about-someone-else",
+          "result": "clean",
+          "how": "This is the class PF21 found on the sibling nd-regular-pardon-set. The offence table's 'City or County' venue column, 'Case Number' column and 'Work Telephone Number' are refused by role in this family and the delivered rows are empty on the page, confirmed by reading both fixtures."
+        },
+        {
+          "class": "map-honest-writes-not",
+          "result": "clean, and now gated",
+          "how": "Every declared write is present in the delivered bytes with the value it declares, and no widget outside the six gained ink. The build now asserts the field map's per-fixture declaration against the delivered bytes, which is the gate whose absence made this family's own failure possible."
+        },
+        {
+          "class": "a-published-zero-where-a-measurement-existed",
+          "result": "FOUND, NOT REPAIRED, REPORTED",
+          "how": "The builder publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a literal 0 in every writeProof; it never measures geometry. addedGlyphsReadFromOutputBytes and flattenedWidgetAppearancesReadFromOutputBytes beside it ARE real byte readings, which is why this was left rather than nulled: nulling it flips the family to NOT_MEASURABLE_HERE the way il-seal-2yr-set now reads, and that is a dispatch decision. This lane measured the quantity externally instead: 0 non-source pixels outside the six declared write rectangles on both fixtures, both pages, at 150 dpi."
+        }
+      ],
+      "incidentalDriftRevertedNotCommitted": "Rebuilding in this container rewrote source-receipt.json's pathInArchive, boundFromCustody and custody from MASTER_LIBRARY_SOURCE_DIR / master_library to the repository's private/source-imports/rcap-d-source-packs-2026-08-12 copy. Both paths hold byte-identical bytes (sha256 c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f, 46054 bytes, verified with sha256sum against both). The receipt was reverted rather than committed: which custody a family is bound under is not this repair's to change.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+          "byteLength": 40720,
+          "unchangedByThisRepair": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8",
+          "byteLength": 40785,
+          "previousSha256": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf"
+        }
+      ],
+      "commit": "a8a7817bc",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired family is a repaired family. It owes an independent read by a lane that neither built nor repaired it.",
+      "selfVerified": false
+    },
+    {
+      "itemId": "ky_protective_order_record_expungement-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "obligationRepaired": [],
+      "obligationsThisRowWouldHaveAnswered": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "countersBefore": null,
+      "countersAfter": null,
+      "whyNoCounters": "No artifact of this family was read. Reporting a counter for it would mean reporting a measurement never taken.",
+      "theExactRefusal": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ky_protective_order_record_expungement-set' exits 6 with: NOT_GRANTED: no repair lane holds ky_protective_order_record_expungement-set",
+      "whatTheLedgerActuallySays": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json records exactly two claims on this family and neither is a repair claim: VF04 independent-verification, live; PF08 packet-build, live. FIX06 holds exactly three claims in the whole ledger -- il-seal-2yr-set, nd-summary-marijuana-pardon-set and rcap-hi-custom-pleading -- and none of them is this family. There is no released FIX06 claim on it either, so this is not a reissue case.",
+      "whyThePathClaimIsAlsoWrong": "ACTIVE_ASSIGNMENTS.json, assignment FIX06, ownedPaths lists seven paths: the fix06 return directory and the three families' overlay directories and builders. No Kentucky path is among them. Its claimRule reads 'Assert only these 3 exact families before reading or writing family content' and 'A non-zero exit is a full stop for that family: report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read none of its artifacts.' Its stopConditions read 'LANE STOP -- only the families and obligations handed to you.'",
+      "whatWasNotDone": "No file under any Kentucky overlay directory was opened, no Kentucky builder was read, and KY.memo.json was not read. The claim ledger and this lane's own assignment record were read, which are dispatch records rather than family content.",
+      "whatWouldUnblockIt": "A Captain-side grant or transfer of a rapid-repair claim on this family to a repair lane, recorded in the ledger, and the family's paths added to that lane's ownedPaths. The live PF08 packet-build claim should be settled at the same time: a repair lane and a build lane working the same family at once is what oneOwnerPerFamilyPerKind exists to prevent. The described defect is well located and worth dispatching -- the packet twice asserting that the committed record is silent on which of two blocks the participant occupies, while its own filing-instructions.md quotes the KY.memo.json node that answers it.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    }
+  ]
+}
