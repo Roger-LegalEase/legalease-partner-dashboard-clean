@@ -54,6 +54,7 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { disclosureLabelsFor, inReadingOrder, assertNoTwoBlanksShareALabel, describeRowNumberGroups } from "./rcap-official-forms/rcap-participant-blank-locator.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -672,7 +673,20 @@ async function censusOf(source) {
   const pages = doc.getPages();
   const pageText = pages.map((p, i) => ({
     page: i + 1,
-    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: String(l.text ?? "").trim(), chars: l.chars ?? [] })).filter((l) => l.text)
+    /*
+     * FIX130. `x` and `yExact` are carried alongside the rounded `y`.
+     *
+     * The rounded `y` is what the caption search and `captionReadAt` have
+     * always used, and it is left exactly as it was, so no committed caption
+     * coordinate moves. The row locator needs two things this line record did
+     * not keep: the run's LEFT EDGE, because a printed row number is
+     * recognised by sitting to the left of the blank it numbers, and the
+     * UNROUNDED baseline, because the locator tests that baseline against the
+     * widget's own rectangle and a rectangle is not an integer. `yExact` is the
+     * baseline at the precision the anchor capture reports it, one decimal
+     * place, not a claim of exactness beyond that.
+     */
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), yExact: l.y, x: l.x, text: String(l.text ?? "").trim(), chars: l.chars ?? [] })).filter((l) => l.text)
   }));
 
   // How many boxes each name carries, so a name that carries one keeps its own
@@ -1264,14 +1278,198 @@ function builderCounters(maps, actualWrites, instructionsText) {
   return { counters, findings, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
 }
 
-function requiredBeforeFilingItems(maps) {
+/*
+ * FIX130, 2026-09-10. The participant's item list: which blank, and in what
+ * order. Both defects here are invisible to all nine completeness counters,
+ * which read zero on this family before this repair and read zero after it.
+ * They are visible only by reading the delivered list against the printed page,
+ * which is how VF25 found them.
+ *
+ * (1) FIFTEEN CAPTIONS EACH NAMED MORE THAN ONE BLANK, across BOTH tables this
+ *     packet publishes -- 28 items on 200-00130 and 18 on 200-00132, 46 in all,
+ *     41 of them inside a colliding group. Three consecutive items all reading
+ *     "Description of Offense", three all "Year", three all
+ *     "Docket Number (If Any)" in the question-1 charge table of 200-00130
+ *     page 1; four groups of three in the new-charges table on the same page;
+ *     two pairs in the state-agency table on page 2; four groups of three and
+ *     two more pairs on 200-00132 page 1.
+ *
+ *     The prose what-to-write column carried an ordinal on many rows and
+ *     rescued seven of the fifteen. It did NOT rescue the other eight, covering
+ *     20 of the 46 rows, because in each of those the FIRST member carries no
+ *     ordinal at all while its siblings carry "second" and "third" -- "any new
+ *     offence since the offence in question 1" against "a second new offence"
+ *     and "a third new offence"; "the name of any other state agency" against
+ *     "a second agency"; "that agency's address" against "that second agency's
+ *     address". A participant reading "any new offence" cannot tell that it
+ *     means the top row of a three-row table rather than a general instruction
+ *     about the table.
+ *
+ *     The distinguisher already existed in this map and was thrown away at
+ *     render time: every entry carries its own measured /Rect, and for the nine
+ *     items in the question-1 charge table the form itself prints the row
+ *     number. Read from the pinned 200-00130
+ *     (ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed), that
+ *     table prints three lines whose whole text is "1.", "2." and "3.", all at
+ *     x=54.40, at baselines 534.20, 519.60 and 505.90 -- each inside the
+ *     vertical band of its own row's widgets ([531.08, 544.69], [516.17,
+ *     529.78], [503.15, 516.76]) and to the left of them. The other six groups
+ *     print no row numbers anywhere in their bands, on either form, and are
+ *     told so in those words rather than being given a number the paper does
+ *     not carry.
+ *
+ * (2) FOUR ROWS WERE EMITTED IN REVERSE READING ORDER. The old sort was
+ *     document, then page, then descending rect.y, with no tie-break on x. Two
+ *     blanks that share one printed line do not share an exact baseline, so the
+ *     right-hand blank sorted first whenever it happened to sit a hair higher.
+ *     On 200-00132 page 1 the state-agency table did exactly that, twice:
+ *     "Address ... | that agency's address" (34a, x=254.61 y=356.35) printed
+ *     ABOVE the row that names the agency (34, x=53.17 y=356.30), 0.05pt below
+ *     it, and again at 36 (y=341.28) above 35 (y=340.06). The demonstrative
+ *     "that agency" preceded its antecedent both times. The identical block on
+ *     200-00130 page 2 is 1.96pt apart and came out correct, which is why this
+ *     never showed up as a systemic ordering fault: it only bites inside about
+ *     a point.
+ *
+ * WHAT THIS IS NOT. Not a mis-mapping. Every one of the 46 items named the
+ * correct blank before this repair and names the same blank after it. No value
+ * changes, no policy changes, and NO PDF BYTE MOVES: `rbf` is computed after
+ * every fixture has been written and is not an input to any rendered page --
+ * the composed instruction pages are drawn from `composedBody`, which never
+ * receives it. It reaches production-field-map.json and
+ * participant-instructions.md and nothing else.
+ *
+ * WHERE THE REPAIR LIVES. In scripts/rcap-official-forms/rcap-participant-blank-locator.mjs,
+ * NOT in this file. The same defect was repaired by hand on the five seal
+ * families of build-census-v1-vt_seal_misdemeanor-set.mjs and again on the
+ * expungement families of build-census-v1-vt_exp_decriminalized-set.mjs, and
+ * THIS family was missed precisely because the first repair was scoped by an
+ * opt-in set inside one host. A third hand-written copy would set up the fourth
+ * miss. Nothing here is hand-typed: no literal row number, no literal label and
+ * no literal ordering appears in this file or in that module.
+ *
+ * The `printedContext` this list publishes is left exactly as the census
+ * measured it, including on 200-00132 fields 30 to 33, where the nearest-line
+ * caption heuristic picked the paragraph beneath the table rather than the
+ * column header. That is a separate latent defect in the committed map, it is
+ * recorded in build-findings.json, and this repair deliberately does not read
+ * it: the locator groups on `effectiveLabel`, which comes from the authored
+ * policy label, and finds row numbers by reading the pinned page directly.
+ */
+/*
+ * FIX130. The premise the participant's labels assert about the paper, pinned
+ * so that a repin refuses instead of quietly rewording the instruction.
+ *
+ * Nine of the 46 items are located by a row number the FORM prints; the other 37
+ * say in terms that the form prints none where they sit. Both statements are
+ * derived at build time from the pinned binaries, and both are honest about
+ * whatever page they are given -- which is the problem. If a revised 200-00130
+ * nudged the "1." "2." "3." column of the question-1 charge table two points out
+ * of its widget bands, this build would carry on and simply publish "first row
+ * (the form prints no row numbers here)" instead of "row 1 as printed on the
+ * form". That is a change to what a participant is told to look for, on a page
+ * that still prints the numbers, and no counter anywhere would move: both
+ * strings are well-formed, the item count is unchanged, the collision count is
+ * still zero and all nine completeness counters still read zero.
+ *
+ * So the SHAPE is pinned here and the CONTENT is still read off the page. This
+ * table declares which caption groups these three binaries were measured to
+ * number and which they were measured not to; the numbers themselves are never
+ * written down here and always come from the form. The build refuses if a group
+ * appears, disappears, changes size, or changes from numbered to unnumbered or
+ * back.
+ *
+ * Read from the pinned 200-00130 (ff914f49c2a7...): the question-1 charge table
+ * on page 1 prints "1.", "2." and "3." at x=54.40, baselines 534.20 / 519.60 /
+ * 505.90, each inside its own row's widget band and to its left. It is the only
+ * numbered table across all three binaries -- 3 numbered caption groups out of
+ * the 27 that carry more than one blank. The new-charges table lower on the same
+ * page, the state-agency table on page 2, every repeating table on 200-00132 and
+ * all twelve on the fee-waiver print no row numbers at all.
+ */
+const PRINTED_ROW_NUMBER_PREMISE = [
+  { formNumber: "200-00130", page: 1, label: "Description of Offense", size: 3, numbered: true },
+  { formNumber: "200-00130", page: 1, label: "Year", size: 3, numbered: true },
+  { formNumber: "200-00130", page: 1, label: "Docket Number (If Any)", size: 3, numbered: true },
+  { formNumber: "200-00130", page: 1, label: "Offense (new charges since)", size: 3, numbered: false },
+  { formNumber: "200-00130", page: 1, label: "Date of Offense (new charges since)", size: 3, numbered: false },
+  { formNumber: "200-00130", page: 1, label: "Date of Charge (new charges since)", size: 3, numbered: false },
+  { formNumber: "200-00130", page: 1, label: "Date of Conviction (new charges since)", size: 3, numbered: false },
+  { formNumber: "200-00130", page: 2, label: "State Agency (other state entities to notify)", size: 2, numbered: false },
+  { formNumber: "200-00130", page: 2, label: "Address (other state entities to notify)", size: 2, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "Description of Offense", size: 3, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "Date of Offense", size: 3, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "Incident Number", size: 3, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "Docket Number (if any)", size: 3, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "State Agency (other state entities to notify)", size: 2, numbered: false },
+  { formNumber: "200-00132", page: 1, label: "Address (other state entities to notify)", size: 2, numbered: false },
+  /*
+   * 600-00228 contributes NOTHING to the participant's list -- no fee is charged
+   * on this track, so every blank on the fee-waiver is refused as a component
+   * whose condition is not met, and none of them is requiredBeforeFiling. Its
+   * repeating tables are declared here anyway, because the locator is derived
+   * for every widget on every bound form and the premise is a statement about
+   * what these three binaries print, not about which of them reach a table.
+   *
+   * Declaring only the two forms that reach the list is what the first draft of
+   * this premise did, and flipping one flag to prove the guard fires is what
+   * exposed the other twelve. Recording the measurement in full is cheaper than
+   * remembering why it was partial.
+   */
+  { formNumber: "600-00228", page: 1, label: "Employer Name", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 1, label: "Employer Address", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Real Property Description", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Real Property FMV", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Real Property Mortgage", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Real Property Net Value", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Vehicles Make, Model", size: 4, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Vehicle Year / Fair Market Value", size: 4, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Vehicle Amount Owed", size: 4, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Vehicle Net Value", size: 4, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Other Assets Description", size: 2, numbered: false },
+  { formNumber: "600-00228", page: 2, label: "Other Assets FMV", size: 2, numbered: false }
+];
+
+function assertPrintedRowNumberPremise(censuses) {
+  const sig = (g) => `${g.formNumber}|p${g.page}|${g.label}|n=${g.size}|numbered=${g.numbered}`;
+  const measured = describeRowNumberGroups(censuses).map(sig).sort();
+  const declared = PRINTED_ROW_NUMBER_PREMISE.map(sig).sort();
+  const appeared = measured.filter((m) => !declared.includes(m));
+  const vanished = declared.filter((d) => !measured.includes(d));
+  assert.deepEqual({ appeared, vanished }, { appeared: [], vanished: [] },
+    `the printed-row-number premise no longer matches the pinned binaries. A caption group changed size, appeared, disappeared, or changed between numbered and unnumbered, which silently changes the words a participant is told to look for: ${JSON.stringify({ appeared, vanished }, null, 2)}`);
+}
+
+function requiredBeforeFilingItems(maps, censuses) {
+  assertPrintedRowNumberPremise(censuses);
+  const labels = disclosureLabelsFor(censuses);
   const order = Object.fromEntries(ORDER.map((f, i) => [f, i]));
-  return maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
-    document: m.formNumber, field: r.field, page: r.page, y: r.rect?.y ?? null,
-    printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
-    identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-  })))
-    .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
+  const documents = maps
+    .filter((m) => (m.canonicalRefusals ?? []).some((r) => r.requiredBeforeFiling === true))
+    .sort((a, b) => (order[a.formNumber] ?? 99) - (order[b.formNumber] ?? 99));
+  const out = [];
+  for (const m of documents) {
+    const items = m.canonicalRefusals.filter((r) => r.requiredBeforeFiling === true).map((r) => {
+      /*
+       * The order and the locator are both read off this rectangle. A missing
+       * one is an unmeasured position, not position zero, and coalescing it to
+       * zero would sort the blank to the bottom of the page and say nothing.
+       */
+      assert.ok(r.rect && Number.isFinite(r.rect.y) && Number.isFinite(r.rect.x),
+        `${m.formNumber} ${r.field}: no measured rectangle, so its place in the participant's reading order cannot be derived`);
+      const disclosureLabel = labels.get(`${m.formNumber}|${r.field}|${r.page}`);
+      assert.ok(typeof disclosureLabel === "string" && disclosureLabel.length > 0,
+        `${m.formNumber} ${r.field} p${r.page}: no disclosure label was derived for a blank the participant is asked to fill in`);
+      return {
+        document: m.formNumber, field: r.field, page: r.page, y: r.rect.y, x: r.rect.x,
+        printedContext: r.printedLabel, disclosureLabel,
+        identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+      };
+    });
+    out.push(...inReadingOrder(items, m.formNumber));
+  }
+  assertNoTwoBlanksShareALabel(out, "vt_seal_nonconviction-set");
+  return out;
 }
 
 function instructionsMarkdown(config, resolved, rbf, maps) {
@@ -1477,7 +1675,13 @@ function writeArtifacts(ctx) {
       { finding: "The participant does not serve the prosecutor with process.", consequence: "The court provides a filed petition to the prosecutor. For a stipulation, the participant takes or sends the form to the prosecuting office, and the prosecutor signs and files it with the court." },
       { finding: "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.", consequence: "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal." },
       { finding: "The packet-set manifest declares FIVE components for this family and the packet declared four. The fifth, vt_seal_nonconviction-interests-of-justice-prompts-4, is conditional on the Sec. 7603(g) ordinary petition route -- a route this packet expressly carries -- so its condition is met, and it was neither rendered nor dispositioned. No counter could see it: a component that was never built has no field-map row to count.", consequence: "It is now a composed component page of participant-facing prompts, appended after the guidance page so that no page of the three official forms and no page of the guidance moves. It carries questions only: no drafted statement, no example, no argument, because the manifest, the intake memo and the track registry all say the statement is participant-authored with prompts and never generated argument. Question 4 of 200-00130 is unchanged and still a participant supply. The build now reads the manifest at build time and refuses, per fixture, if any declared component neither reaches a page nor carries a componentRequirements disposition." },
-      { finding: "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.", consequence: "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched." }
+      { finding: "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.", consequence: "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched." },
+      { finding: "FIX130. Across BOTH tables of participant-instructions.md -- 28 items on 200-00130 and 18 on 200-00132, 46 in all -- 15 captions each named more than one blank on the same form and page, covering 41 of the 46 rows, and the naming column carried no disambiguator at all. The what-to-write column rescued 7 of the 15 with ordinals; the other 8, covering 20 of the 46 rows, stayed ambiguous reading all three columns, because in each of those the first member carries no ordinal while its siblings carry 'second' and 'third'.", consequence: "Every caption that names more than one blank now carries a locator derived from source geometry. Where the form prints a row-number column beside every blank in the group -- the '1.', '2.' and '3.' printed at x=54.40 inside each row's own widget band in the question-1 charge table of 200-00130 page 1 -- that printed number is the locator and the label says it is printed. Where the form prints none, which is every other group on both forms, the locator is the blank's position down the page and the label says in those words that the form prints no row numbers there, so no number the paper does not carry is ever implied. 15 colliding groups before, 0 after; 8 residually ambiguous groups before, 0 after. No item's mapping changed, no value changed, and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it." },
+      { finding: "FIX130. Four rows of the 200-00132 table were emitted in reverse reading order. The sort was document, page, descending rect.y with no tie-break on x, and two blanks that share one printed line do not share an exact baseline: 'Address ... | that agency's address' (field 34a, x=254.61 y=356.35) printed above the row naming the agency (field 34, x=53.17 y=356.30), 0.05pt below it, and again at field 36 (y=341.28) above field 35 (y=340.06). The demonstrative preceded its antecedent twice. The identical block on 200-00130 page 2 is 1.96pt apart and came out correct, so this was a tie-break fault rather than a systemic ordering fault.", consequence: "The list is emitted page, then down the page, then across the row, clustered into rows from each widget's own measured /Rect and ordered within a row by left edge. The band tolerance is checked against the geometry it is given rather than asserted: the build stops if two bands on a page ever come closer together than it, which is the property that decides whether a blank's row is derivable from its baseline at all. On this family the widest band is 1.96pt and the closest two bands are 13.02pt apart, so the 4pt tolerance sits with a wide margin on both sides. The companion spread check is unreachable as the clustering is written -- bands are seeded on a baseline that never moves, so spread is bounded by the tolerance by construction -- and it is documented as unreachable in the shared module rather than counted as a measurement. State Agency now precedes Address in all four pairs on both forms." },
+      { finding: "FIX130, recorded and NOT repaired, outside this lane's grant. On 200-00132 fields 30 to 33 -- the third offence row -- the committed map's printedContext is the paragraph beneath the table ('We further understand that the effect of this Order will be...') rather than the column header the other two rows carry. The nearest-printed-line heuristic that captionBasis advertises picked a semantically wrong line for that row.", consequence: "It is latent in the committed map and it does reach the participant artifact through the printedContext column of production-field-map.json, though not through the instruction table. This repair deliberately does not read it: the locator groups on effectiveLabel, which comes from the authored policy label rather than from the caption heuristic, and it finds row numbers by reading the pinned page directly. Left for a lane that holds the caption-basis grant." },
+      { finding: "FIX130. The locator's own premises are now asserted on every build rather than trusted. Both of the strings it can emit are honest about whatever page they are given, which is the problem: if a repinned 200-00130 nudged the '1.' '2.' '3.' column of the question-1 charge table two points out of its widget bands, the build would carry on and publish 'first row (the form prints no row numbers here)' where it now publishes 'row 1 as printed on the form'. That changes what a participant is told to look for on a page that still prints the numbers, and no counter would move: both strings are well formed, the item count is unchanged, the collision count is still zero and all nine completeness counters still read zero.", consequence: "Three premises are checked. (1) Row-number detection is all or nothing: a number found beside some but not all blanks of a caption group refuses the build, because falling back would state in print that the form prints no row numbers on a page that demonstrably prints some. (2) Numbers found beside every blank must also read as a COLUMN -- increasing down the page and at one left edge within 2pt -- or the build refuses rather than denying that the form numbers a table it does number. (3) The shape of the result is pinned per binary: all 27 caption groups that name more than one blank across the three bound forms are declared with their size and whether the form numbers them, and the build refuses if a group appears, disappears, changes size, or changes between numbered and unnumbered. The numbers themselves are never written down and always come from the page; only the shape is pinned. Since the sources already bind by exact SHA-256, this tripwire is what a deliberate repin has to walk past." },
+      { finding: "FIX130. The premise guards were proven to fire rather than assumed to. Deliberately nudging one row number out of its band, reversing the printed order, and moving one number off the column's left edge each refuse; a page printing no numbers at all still passes and falls back cleanly; and flipping one pinned entry from numbered to unnumbered refuses the build with the exact group named.", consequence: "Flipping that entry also exposed a defect in the guard itself, which is why it was flipped: the premise table as first written declared only the two forms that reach the participant's list and omitted twelve caption groups on the fee-waiver, and a second defect where assert.ok's message template -- evaluated whether the assertion holds or not -- dereferenced a null on the unnumbered path, which is 12 of this family's 15 groups and would have crashed every sound build. Both were found by testing the guard, not by reading it." },
+      { finding: "FIX130. The repair itself lives in scripts/rcap-official-forms/rcap-participant-blank-locator.mjs, not in this build host. The same defect had already been repaired by hand on the five seal families of build-census-v1-vt_seal_misdemeanor-set.mjs and again on the expungement families of build-census-v1-vt_exp_decriminalized-set.mjs, and THIS family was missed precisely because the first repair was scoped by an opt-in set inside one host.", consequence: "A third hand-written copy would have set up the fourth miss. The shared module additionally refuses a census whose printed-line records carry no left edge or no unrounded baseline, rather than silently publishing 'the form prints no row numbers here' for a form that prints them. The two hosts that carry hand-written copies are NOT rewired by this lane: that would change families this lane holds no grant for, and verifying it is not this lane's to do. It is recorded here so the captain can schedule it." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -1685,7 +1889,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  const rbf = requiredBeforeFilingItems(maps);
+  const rbf = requiredBeforeFilingItems(maps, censuses);
   const instructions = instructionsMarkdown(config, resolved, rbf, maps);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
