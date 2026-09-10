@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `3d118e55980a2bb48be50c1bcc1873ec0398bed2` (or the newer dispatch base)
+**Minimum required ancestor:** `b05db29a9e0705edec94694b2166d62fcef34bb0` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'al-trafficking-set' \
+  --family 'ar-drug-court-set' \
   --codex-cloud \
-  --minimum-captain-sha 3d118e55980a2bb48be50c1bcc1873ec0398bed2
+  --minimum-captain-sha b05db29a9e0705edec94694b2166d62fcef34bb0
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 12 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'al-trafficking-set'`
+- Assert only these 9 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ar-drug-court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ar-misdemeanor-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'co_petition_seal_arrest-set'`
@@ -48,8 +47,6 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ia-12347-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'md_pardon_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'me-seal-survivor-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nh_marijuana_annulment-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_veterans_reemployment-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ca-17b-reduction-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
@@ -71,9 +68,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 12 families
+## The 9 families
 
-- `al-trafficking-set`
 - `ar-drug-court-set`
 - `ar-misdemeanor-seal-set` — failing: unclassifiedBlanks
 - `co_petition_seal_arrest-set`
@@ -82,8 +78,6 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ia-12347-set`
 - `md_pardon_expungement-set`
 - `me-seal-survivor-set`
-- `nh_marijuana_annulment-set`
-- `tx_nd_veterans_reemployment-set`
 - `ca-17b-reduction-set`
 
 ## What you receive
@@ -97,7 +91,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/**`
@@ -106,10 +99,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-al-trafficking-set.mjs`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-ar-misdemeanor-seal-set.mjs`
 - `scripts/build-census-v1-co_petition_seal_arrest-set.mjs`
@@ -118,8 +108,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-ia-12347-set.mjs`
 - `scripts/build-census-v1-md_pardon_expungement-set.mjs`
 - `scripts/build-census-v1-me-seal-survivor-set.mjs`
-- `scripts/build-census-v1-nh_marijuana_annulment-set.mjs`
-- `scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 
 ## Never write here

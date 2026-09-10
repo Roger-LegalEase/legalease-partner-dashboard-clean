@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3d118e55980a2bb48be50c1bcc1873ec0398bed2",
+  "minimumCaptainSha": "b05db29a9e0705edec94694b2166d62fcef34bb0",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 22,
+    "activeFamiliesExcluded": 26,
     "guidanceOnly": 0,
-    "remaining": 324,
+    "remaining": 320,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 41,
+    "repairRequired": 37,
     "sumsToDenominator": true
   },
   "byState": {
@@ -111,17 +111,21 @@
     ],
     "families": [
       "al-felony-dwop-set",
-      "al-felony-nonconviction-90-set",
       "al-pardoned-felony-set",
       "ar-felony-seal-set",
       "ar-pardon-seal-set",
       "az_marijuana_expungement_arrest_no_charges-set",
       "co_multiple_conviction_seal-set",
+      "co_municipal_conviction_seal-set",
+      "il-seal-2yr-set",
       "in_arrest_no_charges-set",
       "in_infraction_nondisclosure-set",
       "in_section1_petition-set",
+      "la-976-arrest-no-conviction-set",
       "mi_setaside_trafficking-set",
+      "mo-art-xiv-marijuana-set",
       "ne-setaside-custodial-set",
+      "nh_marijuana_annulment-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
       "nj_ordinance-set",
@@ -2871,8 +2875,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX119",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -2883,8 +2887,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -3548,7 +3551,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX119",
+      "activeOwner": "FIX10",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
       "buildScriptExists": true,
@@ -9561,8 +9564,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX09",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -9573,7 +9576,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "co_pardoned_conviction_seal-set",
@@ -19331,8 +19335,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX10",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -19343,7 +19347,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "il-seal-3yr-set",
@@ -23574,8 +23579,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX09",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -23586,7 +23591,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "la-977-misdemeanor-conviction-set",
@@ -29010,8 +29016,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX09",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29022,7 +29028,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ms-diversion-set",
@@ -33522,8 +33529,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX09",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -33534,7 +33541,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -34405,7 +34413,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX121",
+      "activeOwner": "FIX10",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
@@ -34545,7 +34553,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX121",
+      "activeOwner": "FIX10",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
