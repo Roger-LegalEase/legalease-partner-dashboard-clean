@@ -17,10 +17,10 @@
   ],
   "familiesAudited": 294,
   "byResult": {
-    "PASS_COMPLETE": 259,
+    "PASS_COMPLETE": 257,
     "FAIL_MISSING_PREFILLS": 2,
     "NOT_MEASURABLE_HERE": 28,
-    "FAIL_ROUTE_SELECTION": 3,
+    "FAIL_ROUTE_SELECTION": 5,
     "FAIL_MISSING_REQUIRED_FACTS": 2
   },
   "counterTotals": {
@@ -28,7 +28,7 @@
     "requiredFactsNotCollected": 1,
     "unclassifiedBlanks": 15,
     "incompleteRows": 0,
-    "requiredOptionsMissing": 3,
+    "requiredOptionsMissing": 7,
     "requiredComponentsMissing": 0,
     "invisibleWrites": null,
     "protectedWrites": 0,
@@ -27271,36 +27271,56 @@
     {
       "familyId": "mn_petition_15218-set",
       "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
-      "result": "PASS_COMPLETE",
+      "result": "FAIL_ROUTE_SELECTION",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
+        "requiredOptionsMissing": 2,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [],
+      "failedCounters": [
+        "requiredOptionsMissing"
+      ],
       "totals": {
-        "terminalFields": 387,
+        "terminalFields": 482,
         "written": 30,
-        "blank": 357,
+        "blank": 452,
         "blanksByDisposition": {
           "REQUIRED_BEFORE_FILING": 169,
-          "PROTECTED_FIELD": 107,
-          "PARTICIPANT_ELECTION_GENUINE": 70,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 11
+          "PROTECTED_FIELD": 147,
+          "PARTICIPANT_ELECTION_GENUINE": 112,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 22,
+          "ROUTE_OPTION_NOT_SELECTED": 2
         },
         "rowsInspected": 9,
         "fieldMapSchema": "anchors-and-withheld"
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [],
+      "findings": [
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "p4-cb-y660-x90.4",
+          "label": "Route election — A criminal case against you for a possession of a controlled substance under Minn",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+          "reasonGiven": "This packet is built for one statutory route and the petition must state which. Item 9 box 1 is the § 152.18 discharge, and it is the only box on item 9 besides the juvenile-certification box that routes to EXP106, which is the proposed order this family binds."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "p1-cb-y350-x108",
+          "label": "Route election —  I am including my pleadings with this Affidavit (or I have already filed my pleadings but have",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+          "reasonGiven": "FEE102 item 2 prints \"Choose one:\" and asks whether the affidavit accompanies pleadings or asks only for copy fees to be waived. This packet contains the petition, the proof of service and the proposed order, so the answer is a fact about the packet rather than a choice the participant makes. The other branch of the same choose-one says the opposite and is left empty: marking both would swear to two contradictory statements on one affidavit under Minn. Stat. § 563.01. If you file this affidavit without the petition, asking only for copy fees to be waived, unmark this box and mark that one instead."
+        }
+      ],
       "findingsTruncated": 0
     },
     {
@@ -27342,36 +27362,56 @@
     {
       "familyId": "mn_petition_juvenile_as_adult-set",
       "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
-      "result": "PASS_COMPLETE",
+      "result": "FAIL_ROUTE_SELECTION",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
+        "requiredOptionsMissing": 2,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [],
+      "failedCounters": [
+        "requiredOptionsMissing"
+      ],
       "totals": {
-        "terminalFields": 385,
+        "terminalFields": 480,
         "written": 28,
-        "blank": 357,
+        "blank": 452,
         "blanksByDisposition": {
           "REQUIRED_BEFORE_FILING": 169,
-          "PROTECTED_FIELD": 107,
-          "PARTICIPANT_ELECTION_GENUINE": 71,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 10
+          "PROTECTED_FIELD": 147,
+          "PARTICIPANT_ELECTION_GENUINE": 114,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 20,
+          "ROUTE_OPTION_NOT_SELECTED": 2
         },
         "rowsInspected": 9,
         "fieldMapSchema": "anchors-and-withheld"
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [],
+      "findings": [
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "p4-cb-y572-x90.41",
+          "label": "Route election — You were certified or referenced for prosecution as an adult for a crime you",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+          "reasonGiven": "This packet is built for one statutory route and the petition must state which. Item 9 box 2 is the certification or reference for prosecution as an adult, and it is the only box on item 9 besides the § 152.18 discharge box that routes to EXP106, which is the proposed order this family binds."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "p1-cb-y350-x108",
+          "label": "Route election —  I am including my pleadings with this Affidavit (or I have already filed my pleadings but have",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+          "reasonGiven": "FEE102 item 2 asks whether the affidavit accompanies pleadings or asks only for copy fees to be waived. This packet contains the petition, the proof of service and the proposed order, so the answer is a fact about the packet rather than a choice the participant makes."
+        }
+      ],
       "findingsTruncated": 0
     },
     {

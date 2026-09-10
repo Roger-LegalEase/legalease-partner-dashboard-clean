@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d980a907027d8a4a9ccd602fd0d7de44b23bdcb5` (or the newer dispatch base)
+**Minimum required ancestor:** `d68cc77d9794be2111e90a3e448fe013a663df63` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ma-seal-court-set' \
   --codex-cloud \
-  --minimum-captain-sha d980a907027d8a4a9ccd602fd0d7de44b23bdcb5
+  --minimum-captain-sha d68cc77d9794be2111e90a3e448fe013a663df63
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -70,7 +70,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ma-seal-court-set`
 - `rcap-in-custom-pleading`
 - `co_municipal_conviction_seal-set`
-- `mn_petition_15218-set`
+- `mn_petition_15218-set` — failing: requiredOptionsMissing
 - `sd_arrest_expungement-set`
 - `tx_nd_veterans_reemployment-set`
 

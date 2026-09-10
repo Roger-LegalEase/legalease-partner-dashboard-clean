@@ -209,6 +209,36 @@ function readFieldRows(fieldMap) {
         shape = shape ?? "anchors-and-withheld";
         blanks.push(normalizeRow({ ...w, fieldId: w.blankId, label: w.printedCaption ?? w.label, reason: w.reason, refusalClass: declaredRefusalClass(w, w.category), page: w.page }, id));
       }
+      /*
+       * THIS BRANCH DID NOT READ selectionControls AT ALL.
+       *
+       * maps-with-canonical-and-boundary has read them since the contract was
+       * written; anchors-and-withheld never did, so on that shape every
+       * selection control was outside the audit entirely -- not classified, not
+       * counted, not capable of failing anything. FIX172 proved it by
+       * arithmetic on mn_petition_15218-set: the verifier reported 30/387
+       * written, its anchors are 19+3+4+4 = 30 and its withheld 118+34+62+143 =
+       * 357, and 30+357 = 387 exactly, so none of that family's 95 selection
+       * controls was in the audit.
+       *
+       * Two families in the corpus carry selection controls on this shape, and
+       * the second is worse than the one that found it: mn_petition_juvenile_as_adult-set
+       * is COMPLETE_PACKET_PROVEN with ten of its controls carrying a null
+       * reason -- the exact defect a verification lane refused its sibling for,
+       * standing in a family already counted terminal, because the reader did
+       * not look.
+       *
+       * The classification mirrors the maps branch deliberately: a disposition
+       * that starts "select" is a write, everything else is a blank carrying
+       * its own reason and refusal class. Living in the selectionControls array
+       * does not make a row an election.
+       */
+      for (const c of doc.selectionControls ?? []) {
+        shape = shape ?? "anchors-and-withheld";
+        const row = { ...c, fieldId: c.selectionId ?? c.blankId ?? c.field, label: `${c.field ?? c.printedCaption ?? c.selectionId} (selection)`, page: c.page };
+        if (String(c.disposition ?? "").toLowerCase().startsWith("select")) writes.push(normalizeRow({ fieldId: row.fieldId, label: c.field ?? row.label, page: c.page }, id));
+        else blanks.push(normalizeRow({ ...row, reason: c.reason, refusalClass: declaredRefusalClass(c, c.category, c.class, c.kind) }, id));
+      }
     }
     if (shape) return { writes, blanks, schema: shape };
   }
