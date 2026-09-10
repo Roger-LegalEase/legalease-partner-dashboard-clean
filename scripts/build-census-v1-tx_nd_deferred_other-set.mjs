@@ -1544,7 +1544,31 @@ async function renderDocument(source, census, fixtureName) {
      * and flattens them onto a document sworn under penalty of perjury.
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
-      `${FAMILY_ID}:${source.componentId}`)
+      `${FAMILY_ID}:${source.componentId}`),
+    /*
+     * FIX06, measured on this family's own delivered bytes against the pinned
+     * source. Every unwritten selection on the Statement of Inability carries the
+     * court's own `/AP /N /Off` appearance, and that appearance OPENS WITH AN
+     * OPAQUE WHITE FILL over the whole widget rect -- `1 g / 0 0 18 18 re / f` --
+     * before it strokes its own, LARGER, bevelled box. The form itself prints a
+     * SMALLER box underneath, and that fill is what hides it: on the official
+     * form the participant sees one box.
+     *
+     * The default background strip removed the fill, so the delivered page showed
+     * the court's printed box INSIDE the stamped appearance box -- two concentric
+     * frames at every check box. Rendering the pinned source and the delivered
+     * fixture at the same widget rect, both WITH annotations, 300 dpi, grey
+     * threshold < 200: the source draws one frame and the delivered packet draws
+     * two.
+     *
+     * This ink is the form's own, so the remedy RESTORES it rather than removing
+     * it. The flag is the shared finalizer's committed opt-in and touches only
+     * unwritten check boxes and radio groups whose disposition is already
+     * PRESERVE_SOURCE_APPEARANCE; `/MK /BG` is still cleared, so no background is
+     * ever requested that the source did not author. Same remedy, same three-form
+     * Texas structure, as tx_nd_conviction_no_supervision-set under FIX131.
+     */
+    preserveUnwrittenSelectionBackgrounds: true
   });
   return { bytes, report };
 }
