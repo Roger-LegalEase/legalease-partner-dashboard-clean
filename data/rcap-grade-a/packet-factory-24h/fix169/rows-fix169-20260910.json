@@ -1,0 +1,317 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX169",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "lane-fix169-20260910",
+  "repairedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+  "commits": [
+    {
+      "sha": "fc90d70495c7689cccae5b325a06f883fb59e3bf",
+      "familyId": "ar-felony-seal-set",
+      "subject": "ar-felony-seal-set reads the bytes it says it read"
+    },
+    {
+      "sha": "ae77aa093765a9a33033e9244164f8de42b1b9d6",
+      "familyId": "ar-drug-court-set",
+      "subject": "ar-drug-court-set counts what the bytes carry, and its gate stops agreeing with itself"
+    }
+  ],
+  "grantSet": "82f53fb72fdadfe7. One --can-assert call in the two-family form (2 assertable, 0 would refuse) and two --assert calls, all CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 409a7c835684f171d3b7ec5dfd21d3f7c542c0d7). Released at return, and that ledger edit is left UNCOMMITTED as the grant directed.",
+  "theHEADLINE": "NEITHER FAMILY REPRODUCED ANY OF THE FIVE DISPATCHED FINDINGS. All five were closed before this lane existed -- four by FIX165 at 6abfa62a1 and de1e451c6, the fifth by the Captain's shared-record sweep -- and each was re-derived here from the delivered bytes and the committed records at HEAD before anything was touched. No repair was manufactured for any of them. What this lane repaired instead is a defect it measured itself and holds the grant for: in BOTH families, figures published under names asserting a reading of the delivered bytes that were constants or restatements of build intent, and nine completeness counters that were nine literals.",
+  "actedOnReturns": [
+    "VF56 rows-vf56-20260910.json at 6483ce246, whose ar-drug-court-set row failed KNOWN_PREFILLS and REQUIRED_BEFORE_FILING. Both re-measured here and both closed. VF56's font-metrics trap ('a first pass reported 2 overflows that are NOT on the page ... the error was in the direction that MANUFACTURES an overflow') is carried into this lane's new geometry pass as the reason drawnWidthOf asks the embedded font wherever the walker's metrics are inexact.",
+    "VF57 rows-vf57-20260910.json at 6483ce246, whose ar-felony-seal-set row failed SOURCE_IDENTITY, ROUTE_OPTIONS and SELF_HELP_STOP. All three re-measured here and all three closed. VF57's independently read figure of 96 flattened appearance placements against a published 0 is what this lane's ARTIFACTS repair is measured against, and its warning that paragraph 10's mark is invisible to text extraction is why this lane added a counter for ink no glyph figure can see.",
+    "FIX165 at 6abfa62a1 and de1e451c6, which repaired both families. Its work was left untouched and re-measured, not re-done. One figure it did not reach in ar-drug-court-set -- flattenedWidgetAppearancesReadFromOutputBytes as artifact.written.length -- is repaired here.",
+    "FIX166 rows-fix166-20260910.json, whose il-seal-3yr-set ARTIFACTS repair is the reference implementation this lane's Form XObject walk and null-counter discipline follow.",
+    "The Captain's scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs sweep, whose ar-felony-seal-set refresh this lane re-derived independently rather than accepting."
+  ],
+  "builtAnything": true,
+  "repairsMade": 2,
+  "repairsMadeForADISPATCHEDFINDING": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesChanged": 0,
+  "verdictsSet": 0,
+  "receiptsIssued": 0,
+  "sharedManifestsTouched": "None. Nothing under data/rcap-grade-a/packet-factory-24h/ other than fix169/ is in either commit. RASTER_QUEUE.json was NOT edited. data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/product-wiring.json was NOT edited -- see rasterDebt below for why that is the correct answer here and not an omission.",
+  "corpusMountUsed": "None. Neither builder needs MASTER_LIBRARY_SOURCE_DIR; both resolve their sources from private/source-imports/rcap-d-source-packs-2026-08-12/D1 via RCAP_D_SOURCE_DIR, which was left at its default.",
+  "howBytesWereMeasured": {
+    "pixels": "pdftoppm -r 300 -gray writing binary P5 PGM, read by a P5 reader written for this lane; never -png. Ink threshold grey < 128 of 255. Per-control counts are added ink: a pixel is counted only where the delivered page is inked and the pinned source page at the same coordinate is not.",
+    "positiveControlBeforeEveryZero": "Every zero reported below was read in the SAME RUN as a positive control on the SAME page with the SAME detector. At paragraphs 9 and 10 the control is paragraphs 1, 2 and 8 on the same two pages, which read 1,927, 2,100 and 88 px while all four paragraph 9/10 boxes read 0.",
+    "glyphs": "Flattened widget Form XObjects located through each page's /XObject resource dictionary and decompressed with pdf-lib's decodePDFRawStream. An appearance counts as inked only when its stream carries a Tj/TJ operator AND its show-text operands hold at least one non-whitespace character.",
+    "nonGlyphInk": "Flattened widget appearances carrying a paint operator (S s f F f* B B* b b*) and NO Tj/TJ. Added because a check-box election on these ACIC forms flattens to a painted mark, not to text, and every glyph figure is structurally blind to it.",
+    "text": "pdftotext, run in -layout, -raw and default reading order, because the default order interleaves a two-column caption and the -raw order fuses a hyphenated line break. A quoted line counts as verified if it matches under any of the three; two apparent misquotes were extraction artefacts of a single mode and are recorded under whatDIDNOTREPRODUCE.",
+    "digests": "sha256sum on the files on disk, before and after every build.",
+    "recordAnchors": "JSON canonicalised as keys sorted recursively, no separators, UTF-8 WITHOUT ASCII escaping, then sha256. The escaping matters: Python's default ensure_ascii=True escapes the section sign in these records and produces a different digest from the JS mechanism, which is why this lane's first anchor comparison disagreed with the receipt before it was corrected."
+  },
+  "everyZeroHasAPositiveControl": true,
+  "whatDIDNOTREPRODUCE": {
+    "ar-drug-court-set/KNOWN_PREFILLS": {
+      "vf56Finding": "Ten held facts were withheld from the delivered pages for width and NOTHING DELIVERED SAID SO: 'does not fit', 'by hand', 'too long', 'truncat' and 'smallest readable' occurred 0 times on all 36 delivered pages, and 'Case No' 0 times in the guide.",
+      "reMeasuredAtHEAD": "CLOSED. Delivered packet page 1 of pre-adjudication-boundary and of post-adjudication-boundary each carries a section headed 'Blanks this packet left for you to fill in by hand (5)', followed by 5 items, each naming the packet page, the printed line it belongs to ('vs. Case No. _______________', 'WHEREFORE, the Defendant, _____________________, prays this', 'FURTHER, if applicable, the Defendant, ______________________,', 'Defendant, _______________________, to Dismiss the Case and Seal') and the value to write. Read off the delivered PDFs with pdftotext, not off the report.",
+      "theCOUNTISAREADINGNOTALITERAL": "reports/rendered-artifacts.json declares 5 widthRefusals on each boundary fixture and 0 on each canonical; the delivered page-1 heading says 5 on each boundary and the section is ABSENT on both canonicals. 5 refusals to 5 disclosures, 0 to 0, on all four fixtures.",
+      "closedBy": "FIX165 at 6abfa62a1, not by this lane."
+    },
+    "ar-drug-court-set/REQUIRED_BEFORE_FILING": {
+      "vf56Finding": "In EIGHT of the 66 required-before-filing rows the quoted printed line is not what the page prints, in three corruptions: four rows quoting 'the oense(s) of' where the page prints 'offense(s)'; two quoting 'A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor' where the page prints the words in a different order; two quoting 'in violationof A.C.A.§'.",
+      "reMeasuredAtHEAD": "CLOSED, re-derived independently. All 66 rows were parsed out of participant-instructions.md, every quoted string extracted (77 non-blank strings across the 66 rows), each resolved to its cited documentId and page, and each checked against poppler's own read of that page in the pinned source binary. 0 of 77 misquote. 66 of 66 items with requiredBeforeFiling true in production-field-map.json are named in the guide by an identifiedBy string present verbatim.",
+      "theThreeCorruptionsSpecifically": "(2) and (3) are gone: line 75 of the guide now reads 'A Class _____ [_] felony [_] misdemeanor in violation of A.C.A.§', which is the printed order, and no row quotes 'violationof'. (1) is DISCLOSED rather than quoted through: the four POST rows now carry '-- this quotation is incomplete: at least one character your printed form shows between \"o\" and \"ens\" could not be read from the form file (8 pt of ink at 14.04 pt type), so read the line on the paper'. This lane confirms the underlying claim independently: poppler makes the same ligature loss on the same word, so the disclosure is honest and the loss is not this family's to fix.",
+      "twoAPPARENTMISQUOTESTHATWERENOT": "A first pass of this lane's checker reported 4 misquotes. Two were 'IN THE ______________ COURT OF ________________, ARKANSAS', which poppler's default reading order splits across a caption block, and two were 'from _________ County ___________ Court pursuant to A.C.A.§16-98-', where poppler's -raw mode fuses the hyphenated line break into '16-98303.'. pdftotext -bbox on the pinned PRE petition page 3 shows 'A.C.A.§16-98-' ending at x=516.68 on the line at y=245.19 and '303.' beginning the next line, so the guide quotes the printed line exactly and the extractor was wrong. Recorded because the error was in the direction that MANUFACTURES a defect.",
+      "closedBy": "FIX165 at 6abfa62a1, not by this lane."
+    },
+    "ar-felony-seal-set/SOURCE_IDENTITY": {
+      "theQUESTIONTHEGRANTASKEDTHISLANETOSETTLE": "Whether the failure was a compiled-profile conflict or the shared-manifest whole-file pin. IT WAS THE SHARED-MANIFEST PIN, and it was never the profile. Settled by recomputation at HEAD, not by reading a summary: src/lib/rcap-engine/compiled/profiles/AR-arkansas.json hashes to exactly its declared 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 at 121,627 bytes. VF57's own finding text says the same in terms -- 'THERE IS NO COMPILED-PROFILE CONFLICT and there never was one' -- so the dispatch that called it a profile conflict was wrong about this family a second time.",
+      "reMeasuredAtHEAD": "CLOSED. All four pins recompute exact: petition 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b (178,947 bytes), order dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc (240,203), compiled profile 640152c6.. (121,627), and the shared record data/record-clearing/legal-design-packet-set-manifests.json b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c (3,708,050) which is now what the receipt declares.",
+      "theREFRESHWASNOTTAKENONTRUST": "The receipt carries an identityRefresh block claiming 2 anchors compared and 2 identical against the blob at 1784eec3da534eca557d2f6bae86204a9114cb9f. This lane recovered that blob (it hashes to exactly the declared old pin 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 at 3,694,688 bytes) and redid the comparison from scratch: 497 packetSet entries both sides, none added, none removed, and EXACTLY TWO moved -- co_motion_seal_conviction-set and co_motion_seal_nonconviction-set, FIX157's two Colorado families. This family's own entry canonicalises to f404469aae8b758f31e4b26e7891cfd7cc3abbc2b49b61fa3152774733cf777c on both sides and the record's global fields to eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead on both sides. BOTH DIGESTS REPRODUCE THE ONES THE RECEIPT RECORDS, EXACTLY. The refresh was honest and the pin binds.",
+      "theSIBLINGENTRYTOO": "ar-drug-court-set's entry canonicalises to 5419c3a04d2e5bee2bc12e28bd645cc8c9f5dd2a088968a40dd2be2362b6d491 on both sides, matching what VF57 published for it. That family pins no whole-file digest on this record at all, so it was never exposed to the drift.",
+      "closedBy": "The Captain's refresh sweep, not by this lane and not by FIX165."
+    },
+    "ar-felony-seal-set/ROUTE_OPTIONS": {
+      "vf57Finding": "The packet pre-marked five elections on a SWORN petition and two of them -- paragraph 9 (no pending felony charges) and paragraph 10 (IS NOT required to register as a sex offender) -- were authorised by nothing: the track's six generationRequirements ask about neither, so the platform holds neither fact.",
+      "reMeasuredAtHEAD": "CLOSED, measured twice by two independent instruments. PIXELS at 300 dpi, grey<128, inside each control's own declared rect, against the pinned ACIC petition: paragraph 9 'no pending' 0 px, paragraph 9 'one or more' 0 px, paragraph 10 IS 0 px, paragraph 10 IS NOT 0 px -- on BOTH fixtures. Positive control in the same run on the same two pages: paragraph 1 felony +1,927 px, paragraph 2 felony_2 +2,100 px, paragraph 8 first statement +88 px, and all four unselected complements of those three read 0.",
+      "theSECONDINSTRUMENT": "The new appearancesPaintingInkWithoutGlyphs reading, taken from the delivered bytes with no rasteriser involved, reads 2 on both fixtures. The only two painted-without-glyph appearances in this packet are the paragraph 1 and paragraph 2 check boxes. If paragraph 10 were still ticked it would read 3, and if paragraph 9 were too it would read 4. A byte-level count and a pixel count, taken by different mechanisms, agree.",
+      "theRECORDAGREESTOO": "production-field-map.json's routeSelectionsMade now carries paragraph 9 and paragraph 10 as 'NOT MARKED BY THIS PACKET' with determinedBy null, and both branches of each pair are quoted verbatim in participant-instructions.md under 'Paragraphs 9 and 10 are left blank on purpose -- you must mark them yourself', each with the consequence the form itself carries. Checked against the pinned petition page 2: the form prints 'Defendant has no pending felony charges in any state or federal court; or' and 'Defendant IS or IS NOT required to register as a sex offender under the Sex Offender Registration Act of 1997 (A.C.A.§ 12-12-901, Et. Seq.)', and the guide's two pairs are faithful to both.",
+      "closedBy": "FIX165 at de1e451c6, not by this lane."
+    },
+    "ar-felony-seal-set/SELF_HELP_STOP": {
+      "vf57Finding": "Six selfHelpStopConditions declared by the track record, 0 carried verbatim in any delivered document, no stop-and-get-help section of any kind, and the word 'lawyer' 0 times in either delivered document.",
+      "reMeasuredAtHEAD": "CLOSED, measured by LINE ANCHORING and not by substring presence, as the grant required. All six conditions are read out of data/record-clearing/legal-design-track-registry.json, track ar-felony-seal, and each is the FIRST content on its own line in participant-instructions.md -- lines 42, 43, 44, 45, 46 and 47, one to a line, each as the bolded lead of its own bullet with the explanation following on the same line. 6 of 6 line-anchored.",
+      "theHEADING": "'## Stop and get a lawyer if any of these is true', with the framing sentence 'Each one is a place where this packet stops being able to help you, not a warning about something that might happen later.' 'lawyer' occurs 8 times where it occurred 0.",
+      "theFOURTHATREACHEDNOBODY": "All four now do, and two are tied to the sworn paragraph they bear on: the violence condition to petition paragraph 6 and A.C.A. §5-4-501(d)(2), the interests-of-justice condition to petition paragraph 11 and A.C.A. §16-90-1415(b) with the packet's deliberate silence on the argument stated as the reason to get a lawyer. Immigration, licensing and firearm consequences are each named separately rather than collapsed.",
+      "closedBy": "FIX165 at de1e451c6, not by this lane."
+    }
+  },
+  "determinismControlBeforeEditing": {
+    "whenItWasRun": "FIRST, at b984a2f843e493e855442fd25d3a4e73d01a0686, before a single character was edited in either builder.",
+    "ar-drug-court-set": "node scripts/build-census-v1-ar-drug-court-set.mjs --no-raster, twice. All four fixtures reproduced BYTE-IDENTICAL to the committed tree (954fbaf9.., 2c4bf290.., 568c6ddf.., 8e96fb58..) and `git status --porcelain` was EMPTY after each run. This builder has NO side effects in this container.",
+    "ar-felony-seal-set": "node scripts/build-census-v1-ar-felony-seal-set.mjs --no-raster, twice. Both fixtures reproduced BYTE-IDENTICAL (5ba805c0.., 9d64a53d..). It has two side effects, both restored with git checkout after every build and neither in any commit.",
+    "theBuilderREFUSESTORUNWITHOUT--no-raster": "Both assert argv includes --no-raster on their first line of runFamily and exit otherwise. Recorded because a lane reading only the grant would run them bare and see an assertion, not a build.",
+    "theEFFECTIVELABELHAZARDDIDNOTOCCUR": "The grant warned that ar-drug-court-set has been observed to import ~20 effectiveLabel values from a shared-library commit on rebuild, and VF56 predicted 11. IT DID NOT HAPPEN on this container at this base: two unmodified rebuilds left field-census.census-v1.json and production-field-map.json byte-identical and git status empty. Either the shared library has since settled or the import is conditional on something not present here. Reported as not-observed, not as disproved."
+  },
+  "sideEffectsFound": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/product-wiring.json",
+      "what": "Every run drops the line \"acceptanceReceipt\": null. writeWiring builds the object with `acceptanceReceipt: undefined` to reserve the committed key order, and JSON.stringify omits an undefined value, so the key the committed tree carries as an explicit null cannot survive a rebuild. The committed tree is therefore not reproducible from the builder for this one file, by one line.",
+      "handling": "Restored with git checkout after every build. Not in either commit. Left for the Captain: it is the governance module's own key and this lane holds no grant over it."
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json",
+      "what": "A SHARED lane-row file belonging to another lane, rewritten on every run of the ar-felony-seal-set builder with the current digests. At HEAD that file still carries the PRE-FIX165 fixtures 483fe0c2.. and daec3853.. and fieldCensus written 40 / classifiedBlanks 56, against the 5ba805c0.. and 9d64a53d.. and 38 / 58 on disk. So PF13's committed row is stale relative to the family it describes, and any lane that runs this builder silently makes that edit.",
+      "handling": "Restored with git checkout after every build. Not in either commit. Reported, not fixed: it is another lane's row and this lane has no grant over it."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/source-receipt.json",
+      "what": "NOT a side effect of a successful build, but a real fragility this lane triggered and is recording. runFamily calls fs.rmSync on the whole output directory before rebuilding, and the identityRefresh evidence block is carried forward from the receipt it finds on disk. A build that CRASHES after the rmSync leaves no receipt, and the NEXT successful build then ships a receipt with the identity-refresh justification silently stripped -- a fresh-looking pin with the evidence removed. This is exactly the hazard VF57 named as its reason for not running the builder, reached by a different route. It happened once here during guard-break testing.",
+      "handling": "Restored from git and rebuilt; the block is carried forward correctly when the prior receipt is present, verified. Not in either commit. Reported for the Captain because it makes every crashed build a potential silent evidence loss across the corpus, not just here."
+    }
+  ],
+  "whatTHISLANEACTUALLYREPAIRED": "In both families: figures published under names asserting a reading of the delivered bytes that were not readings, and nine completeness counters that were nine literals with a tenth literal saying all nine were zero. This is the ARTIFACTS class FIX166 repaired on Illinois. It is not one of the five dispatched findings, it was measured by this lane in families this lane holds the grant for, and it moved no fixture byte.",
+  "rows": [
+    {
+      "itemId": "ar-felony-seal-set",
+      "familyId": "ar-felony-seal-set",
+      "jurisdiction": "AR",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+      "commit": "fc90d70495c7689cccae5b325a06f883fb59e3bf",
+      "dispatchedObligations": ["SOURCE_IDENTITY", "ROUTE_OPTIONS", "SELF_HELP_STOP"],
+      "dispatchedObligationsThatREPRODUCED": [],
+      "obligationRepairedOnThisLanesOwnMeasurement": "ARTIFACTS",
+      "headline": "reports/actual-writes.json published derivedFromArtifactBytes: true over four figures and not one was derived from an artifact byte. One of them was not merely unmeasured but FALSE: the delivered bytes carry 96 flattened widget Form XObjects, which VF57 read independently, against a published literal 0.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "5ba805c03c70078ae4cd5089e7dbebb66890709d7e1e77e769b49d01a73c7bf6",
+        "fixtures/boundary.pdf": "9d64a53d2c613b56eb526064abff364d72941de616bafe0fd8573c9735921a3c"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "5ba805c03c70078ae4cd5089e7dbebb66890709d7e1e77e769b49d01a73c7bf6",
+        "fixtures/boundary.pdf": "9d64a53d2c613b56eb526064abff364d72941de616bafe0fd8573c9735921a3c"
+      },
+      "whichRepairsMovedBytes": "NONE. Both fixture digests are identical before and after, hashed with sha256sum on the files on disk. The repair changes what the build REPORTS about the bytes, not the bytes.",
+      "filesChanged": [
+        "scripts/build-census-v1-ar-felony-seal-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/reports/completeness-counters.json"
+      ],
+      "countersBeforeAndAfter": {
+        "flattenedWidgetAppearancesReadFromOutputBytes": {
+          "before": 0,
+          "beforeWasA": "hardcoded literal",
+          "after": 36,
+          "afterIsA": "a reading: flattened widget Form XObjects in the delivered bytes whose decompressed appearance stream draws at least one non-whitespace glyph. 35 written values plus paragraph 8's boxed X. Identical on both fixtures.",
+          "whyTheBeforeWasFALSEANDNOTMERELYUNMEASURED": "VF57 opened these same fixtures and read 96 flattened appearance placements. A published 0 was not a gap, it was a wrong number."
+        },
+        "flattenedWidgetFormXObjectsInDeliveredBytes": {
+          "before": "not published",
+          "after": 96,
+          "afterIsA": "NEW. The total, blank widgets included, read from the delivered bytes. This is VF57's own independently measured 96, reproduced here.",
+          "provedAgainst": "officialWidgetsDeclaredByTheTwoPinnedForms, counted on each official form BEFORE flatten: 53 on the petition and 43 on the order, 96 together. Asserted equal, so the count is checked against the source rather than against a constant."
+        },
+        "addedGlyphsReadFromOutputBytes": {
+          "beforeCanonical": 300,
+          "beforeBoundary": 536,
+          "beforeWasA": "the finalizer's own intended string lengths, published under a name asserting a byte reading",
+          "afterCanonical": 301,
+          "afterBoundary": 537,
+          "afterIsA": "a reading: drawn text in the finished component pages differenced run by run against the bound source pages on text, position and size.",
+          "whyTheGAPISONE": "The one extra glyph is paragraph 8's boxed X, which the finalizer does not carry as a written value. The two check-box elections contribute NOTHING to this figure, which is the point of the counter below."
+        },
+        "appearancesPaintingInkWithoutGlyphs": {
+          "before": "not published",
+          "after": 2,
+          "afterIsA": "NEW. Flattened widget appearances that paint without drawing a glyph. On this family that is exactly the paragraph 1 and paragraph 2 check-box elections, which this lane also measured in pixels at 1,927 px and 2,100 px at 300 dpi -- ink that EVERY glyph figure in this report is structurally blind to.",
+          "whyItMatters": "VF57 recorded that paragraph 10's mark was invisible to pdftotext and that a lane measuring only text would have recorded that election as not made. Now a sworn election drawn as a mark cannot be missing from the report entirely, and this counter is a second, byte-level proof that paragraphs 9 and 10 are unticked."
+        },
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": {
+          "before": 0,
+          "beforeWasA": "hardcoded literal; the builder performed no geometry pass at all",
+          "after": 0,
+          "afterIsA": "a reading, over a non-empty set: every added-ink run tested against the declared boxes (written values' widget rectangles plus selected controls' widget rectangles), with widths taken from the embedded font wherever the content walker reports its metrics as inexact.",
+          "positiveControl": "The detector was made to fire in the same session by mis-recording one write's declared rectangle; it reported 2 runs outside every declared box. A detector that reads 2 on one arrangement and 0 on another is measuring the bytes."
+        },
+        "refusedFieldsWithInk": {
+          "before": "the constant []",
+          "after": "[] as a reading",
+          "afterIsA": "every field the finalizer neither wrote nor selected -- 58 of them, refusals and the unselected half of each sworn either/or alike -- tested for added ink overlapping its own widget rectangle.",
+          "positiveControl": "Injecting one entry made the guard refuse the build."
+        },
+        "invisibleWrites": {
+          "before": "asserted away, never counted",
+          "after": 0,
+          "afterIsA": "a count of declared writes whose text no delivered page draws, published and THEN asserted, so the published figure and the gate cannot drift apart.",
+          "positiveControl": "Made to read 25 of 25 on the petition component by breaking the text read-back."
+        },
+        "theNINECOMPLETENESSCOUNTERS": {
+          "before": "nine hardcoded literal zeros in two places in the source, plus allNineZero: true and allNineCountersZero: true and nineCountersZero: true, all three literals",
+          "after": "eight readings and one null",
+          "visualDefects": {
+            "before": 0,
+            "after": null,
+            "why": "This worker asserts --no-raster on its first line and rasters no page, so it has seen no rendered pixel and cannot have counted a visual defect. A counter you could not measure is null, never 0. Null here is not the downgrade of a passing figure -- there was no figure."
+          },
+          "theOTHEREIGHT": "knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0 (96 terminals minus 96 decided), incompleteRows 0, requiredOptionsMissing 0, requiredComponentsMissing 0, invisibleWrites 0, protectedWrites 0. Each carries a howEachWasTaken sentence naming what was counted.",
+          "aDESIGNDECISIONSTATEDRATHERTHANLEFTIMPLICIT": "requiredOptionsMissing counts only the THREE selection groups the route settles. Paragraph 9 and paragraph 10 are deliberately excluded and a comment in the source says why: the track collects neither fact, an unelected paragraph 9 is the CORRECT output, and listing it would turn the counter into standing pressure on a later edit to tick a sworn box."
+        }
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "The inked-appearance count cannot be 0. Broken by restoring the historical literal 0. FIRED: 'canonical: inked-appearance count is 0, which these fixtures cannot be'.",
+        "The inked-appearance count cannot equal the finalizer's write count. Broken by re-pointing it at artifact.actualWrites.length. FIRED: 'the inked-appearance count equals the finalizer's own write count, so it is intent, not a reading'.",
+        "The added-glyph reading cannot equal the finalizer's own string lengths. Broken by restoring the original expression. FIRED: 'the added-ink reading equals the finalizer's own string lengths, so it is intent, not a reading'.",
+        "The painted check-box marks must be counted. Broken by publishing appearancesPaintingInkWithoutGlyphs as 0. FIRED: 'the two check-box elections paint without drawing a glyph, so this cannot be 0'.",
+        "No added ink outside every declared box. Broken by mis-recording the Case No write's declared rectangle. FIRED: 'canonical: 2 added-ink runs fall outside every declared box'.",
+        "No declared write may draw nothing. Broken by making the delivered text unreadable. FIRED: 'ACIC-UNIFORM-PETITION-TO-SEAL/canonical: COUNT=25 of 25 written values not readable from output bytes'.",
+        "One flattened Form XObject per official widget. Broken by offsetting the comparison by one. FIRED: 'delivered bytes carry 53 flattened Form XObjects for 53 official widgets'."
+      ],
+      "everyGuardWasRESTOREDANDREPROVED": "After the last break the builder was restored and re-run; both fixture digests and both repaired report files reproduce exactly, and git status is clean apart from the two known side effects.",
+      "rasterState": "OWES A FRESH WHOLE-FAMILY RASTER, and owed it before this lane. product-wiring.json carries acceptanceReceipt null with acceptanceReceiptWithdrawn recording that FIX165's canonical move from 483fe0c2.. to 5ba805c0.. withdrew the RASTER_PASS receipt (workflowRunId 33923497915, jobId 101187692718). reports/independent-visual-review.json carries required true, granted false, reviewedBy null.",
+      "rasterDebt": {
+        "thisLaneAddedNONE": true,
+        "why": "No fixture moved on this repair, so the family's raster position is exactly what FIX165 left it. Writing stillBinds false and wholeFamilyReRasterRequired true into product-wiring.json now would be recording a debt this lane did not create, over a receipt that is already withdrawn. The correct entry was to make none.",
+        "RASTER_QUEUEjsonEdited": false
+      }
+    },
+    {
+      "itemId": "ar-drug-court-set",
+      "familyId": "ar-drug-court-set",
+      "jurisdiction": "AR",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "commit": "ae77aa093765a9a33033e9244164f8de42b1b9d6",
+      "dispatchedObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "dispatchedObligationsThatREPRODUCED": [],
+      "obligationRepairedOnThisLanesOwnMeasurement": "ARTIFACTS",
+      "headline": "FIX165 made two of this family's three byte figures real diffs. The third was left as the finalizer's own write count under a name saying the output bytes were inspected, which is why the four fixtures published 13/13, 8/8, 9/9 and 4/4: an identity, not a measurement. And checkOutputs() asserted nine literal zeros against nine literal zeros written by the same file.",
+      "fixtureDigestsBefore": {
+        "fixtures/pre-adjudication-canonical.pdf": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+        "fixtures/pre-adjudication-boundary.pdf": "2c4bf29088d5561ecb6f7b15ac0db242c39c02b32229423c48196b31ad865758",
+        "fixtures/post-adjudication-canonical.pdf": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+        "fixtures/post-adjudication-boundary.pdf": "8e96fb584f474149be2b557a762b535d4a141362df844bf665475bd0979c325e"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/pre-adjudication-canonical.pdf": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+        "fixtures/pre-adjudication-boundary.pdf": "2c4bf29088d5561ecb6f7b15ac0db242c39c02b32229423c48196b31ad865758",
+        "fixtures/post-adjudication-canonical.pdf": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+        "fixtures/post-adjudication-boundary.pdf": "8e96fb584f474149be2b557a762b535d4a141362df844bf665475bd0979c325e"
+      },
+      "whichRepairsMovedBytes": "NONE. All four fixture digests are identical before and after.",
+      "filesChanged": [
+        "scripts/build-census-v1-ar-drug-court-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/reports/rendered-artifacts.json"
+      ],
+      "countersBeforeAndAfter": {
+        "flattenedWidgetAppearancesReadFromOutputBytes": {
+          "before": [13, 8, 9, 4],
+          "beforeWasA": "artifact.written.length -- the finalizer's own write count, published under a name asserting a byte reading. The same defect FIX166 named on il-seal-3yr-set.",
+          "after": [13, 8, 9, 4],
+          "afterIsA": "a reading: flattened widget appearance streams decompressed out of the delivered component bytes and counted where they draw a non-whitespace glyph.",
+          "theNUMBERSWERERIGHTANDTHEPROVENANCEWASNOT": "Every mapped blank on these four ACIC forms is a text field and none of them carries a check-box election, so one write really does produce one inked appearance. That coincidence is exactly why the constant went unnoticed for so long. A tally cannot detect a value that flattens to nothing, an appearance nobody declared, or a lost widget, because it is not looking."
+        },
+        "flattenedWidgetFormXObjectsInDeliveredBytes": {
+          "before": "not published",
+          "after": [94, 94, 99, 99],
+          "afterIsA": "NEW, and the reading that could not have been guessed from any tally: 94 on the pre-adjudication pair and 99 on the post-adjudication pair, each asserted equal to the widget count its own official form declares before flatten."
+        },
+        "refusedFieldsWithInk": {
+          "before": "the constant []",
+          "after": "[] as a reading",
+          "afterIsA": "width refusals whose declared blank overlaps added ink. 5 refusals per boundary fixture were tested; none carries ink."
+        },
+        "theNINECOMPLETENESSCOUNTERS": {
+          "before": "nine hardcoded literal zeros plus allNineZero: true, gated by checkOutputs() asserting Object.values(counters.counters) deep-equals nine zeros -- a check proving the source agrees with itself, which no defect in a delivered byte could ever fail",
+          "after": "eight readings and one null, gated on the SHAPE a reading has to have",
+          "visualDefects": { "before": 0, "after": null, "why": "This worker rasters no page. A counter you could not measure is null, never 0." },
+          "requiredComponentsMissing": "0 as a reading over a non-empty set: the three required components are read off the shared packet-set manifest entry for this family (ar-drug-court-process-guidance-1, ar-drug-court-primary-filing-2, ar-drug-court-proposed-order-3) rather than from a list typed in the builder, so a manifest change that adds a component makes this counter rise instead of staying 0.",
+          "requiredOptionsMissing": "0 over an EMPTY set, and the file says so: these four forms declare no selection control at all. Written down so nobody later reads the 0 as an election that was found and passed."
+        }
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "One flattened Form XObject per official widget. Broken by publishing the total as artifact.written.length. FIRED: 'the delivered bytes must carry one flattened Form XObject per official widget'.",
+        "The inked-appearance count cannot be 0. Broken by publishing the literal 0. FIRED: 'inked-appearance count is 0, which these fixtures cannot be'.",
+        "Every declared write produced exactly one inked flattened appearance. Broken by dropping one row from the report so it under-declares a value the page drew. FIRED: 'pre-adjudication-canonical: 13 inked flattened appearances for 11 declared writes'.",
+        "refusedFieldsWithInk must be a reading. Broken by injecting an entry. FIRED: 'a value refused for width left ink in its blank: INJECTED:proof'.",
+        "visualDefects may not be published as a number by a worker that rasters nothing. Broken by restoring visualDefects: 0. FIRED via --self-test: 'eight of the nine counters must be readings'.",
+        "A component the manifest declares required must be delivered. Broken by injecting ar-drug-court-INJECTED-4 into the required list; requiredComponentsMissing read 1 and everyMeasuredCounterZero read false. FIRED via --self-test."
+      ],
+      "twoINEFFECTIVEBREAKSRECORDEDRATHERTHANQUIETLYRETRIED": [
+        "`{ ...fit, text: \"\" }` spread over the fitter's result left `lines` intact and changed NOTHING -- the fixture digests were byte-identical through the supposed break. This is precisely the ineffective-break failure the grant warned about, and crediting the guard on it would have credited a guard that never fired.",
+        "Naming a field the builder does not write ('DIVISION') did the same: the build succeeded and all four digests were unchanged.",
+        "Corrected to `{ ...fit, lines: [\"\"] }` on a field that IS written ('City'), the defect reached the page -- and was caught by the builder's PRE-EXISTING text read-back assertion, before the new equality guard could see it. So that break proves the OLD gate, not the new one. The new equality guard is credited only to the under-declaration break above, which nothing else catches."
+      ],
+      "rasterState": "OWES A FRESH WHOLE-FAMILY RASTER, and owed it long before this lane. product-wiring.json's acceptanceReceipt (RASTER_PASS, workflowRunId 33923497915, jobId 101187692725) binds canonical 954fbaf9.. only, carries coversTheWholeFamily false and wholeFamilyReRasterRequired true, and records TWO successive boundary moves -- the CLIPPING_AND_OVERLAP repair's, then FIX165's to 2c4bf290.. and 8e96fb58.. -- with a note that the first movedFixtures list is now stale history.",
+      "rasterDebt": {
+        "thisLaneAddedNONE": true,
+        "why": "No fixture moved on this repair. The debt recorded by FIX165 is accurate and current for the bytes on disk; adding to it would be recording a move that did not happen.",
+        "RASTER_QUEUEjsonEdited": false
+      }
+    }
+  ],
+  "theSHAREDCOMPLETENESSVERIFIERBEFOREANDAFTER": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "afterBothRepairs": "ar-drug-court-set PASS_COMPLETE 22/190 written, exit 0. ar-felony-seal-set PASS_COMPLETE 38/96 written, exit 0. Both report all nine counters 0, visualDefects included.",
+    "theBEFORE": "Identical. This lane restored ar-felony-seal-set's PRE-repair reports/actual-writes.json from the commit's parent and re-ran the tool: PASS_COMPLETE, visualDefects 0, exit 0 -- the same verdict, the same number.",
+    "whyTHATISTHEPOINTANDNOTAREASSURANCE": "The tool decides whether it can measure visualDefects from whether the family's artifacts publish nonWhitespaceGlyphsOutsideMeasuredWriteBoxes at all, not from whether that key was measured. Before this repair, ar-felony-seal-set's key existed with the value 0 because a human typed 0. The verifier read the literal, called it a measurement, and printed visualDefects 0. After the repair it reads the same 0 from a geometry pass over the delivered bytes. SAME WORD, DIFFERENT WORTH, and the corpus-wide tool cannot tell the two apart. That is the shape of defect this lane was asked to look for: counters green, and the thing under them not measured.",
+    "thisVERDICTISNOTEVIDENCEOFANYTHING": "It is reported because it was run, not because it establishes anything. It exits 0 on FAIL, it computes its own counters rather than reading the family's, and this lane built one of the two families it just scored."
+  },
+  "whatCouldNOTBeRepaired": [
+    "The ff-ligature decoding loss in ACIC-PETITION-DRUG-COURT-POST. Both this family's shared reader and poppler lose the same character, so the printed 'offense(s)' extracts as 'oense(s)'. This lane confirmed the loss is in the extractor and not in the page. Repairing it at cause is a change to shared text extraction that 309 builders depend on and no family grant reaches. FIX165's disclosure on the four affected rows is the right answer at family scope and it stands.",
+    "product-wiring.json's disappearing \"acceptanceReceipt\": null on ar-felony-seal-set. It is a one-line divergence between the committed tree and what the builder can produce, in the governance module's own key. Left for the Captain.",
+    "data/rcap-grade-a/packet-factory-24h/pf13/rows.json carrying pre-FIX165 digests. Another lane's row; this lane restored it after every build rather than editing it.",
+    "The rmSync-before-rebuild fragility that can silently strip an identityRefresh evidence block after a crashed build. It is in this family's builder but the pattern is corpus-wide, and repairing it properly means changing how every worker of this shape stages its output directory."
+  ],
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "ar-drug-court-set prints raw route keys to the participant. Delivered packet page 1 of every fixture ends 'Routes: obligation:unit:AR:ar-drug-court:ar-drug-court-stage-1 | ...stage-2', and participant-instructions.md prints internal field identifiers such as `ACIC-PETITION-DRUG-COURT-POST:Sex` in backticks on every one of its 66 rows. VF56 recorded this as the corpus-wide PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class and did not score it; it is still on the page at HEAD and this lane did not touch it either, but it should not be lost.",
+    "ar-drug-court-set's production-field-map.json still carries 2 effectiveLabel values that are degenerate underscore runs and 6 in the synthetic '<documentId> printed blank <name>' form. None of them reaches the participant -- 0 of the 66 identifiedBy strings contains 'printed blank', and the one occurrence of that phrase in the guide is ordinary English prose about a blank that is printed. Recorded because VF56 counted 5 and 27 and the numbers have moved.",
+    "ar-drug-court-set's product-wiring.json packetComponents names only the two PDF components, omitting ar-drug-court-process-guidance-1, which the packet-set manifest declares required and which every fixture delivers as packet page 1. VF56 called it a record-completeness disagreement rather than an absent component and this lane agrees; it is now also inconsistent with the requiredComponentsMissing counter's source, which reads all three off the manifest.",
+    "Neither family's lastIndependentVerification has moved: both still read FAIL_REPAIR_REQUIRED at 6483ce246, from VF56 and VF57, against bytes that FIX165 has since replaced in one family and left standing in the other. That is a ledger-currency matter for the Captain; this lane sets no verdict."
+  ],
+  "grantsNothing": [
+    "No route was opened, no receipt issued, no verdict set, no build status promoted, no shared record edited.",
+    "Both families remain generationAllowed false, runtimeSelectable false, paymentEligible false, commercialRoutesOpened 0, productionTouched false.",
+    "Eight of nine counters in each family are now readings taken BY THE BUILDER THAT PRODUCED THE BYTES. That is better than a literal and it is still not independent verification.",
+    "Both families owe a fresh whole-family raster, and owed it before this lane. Neither is terminal."
+  ],
+  "independentReVerificationOwed": "OWED ON BOTH FAMILIES, to a lane that is neither FIX169 nor the lane that found the defect. For ar-felony-seal-set that excludes FIX169 and VF57; for ar-drug-court-set that excludes FIX169 and VF56; and because the repairs port FIX166's method, a reviewer should be aware of that lineage. NOTHING THIS LANE REPAIRED IS SELF-VERIFIED. What is owed: confirm from the delivered bytes that the five new readings on ar-felony-seal-set and the three on ar-drug-court-set are what an independent reader gets (96 Form XObjects and 36 inked appearances and 2 painted-without-glyph on the felony family; 94/99 Form XObjects and 13/8/9/4 inked appearances on the drug-court family); confirm that visualDefects null is right rather than a dodge; and re-score the five dispatched obligations this lane found already closed, since a repair lane's read that a finding does not reproduce is not a verification that it passes.",
+  "grantsReleased": "Both released at return: ar-drug-court-set and ar-felony-seal-set. The ledger edit is left UNCOMMITTED."
+}
