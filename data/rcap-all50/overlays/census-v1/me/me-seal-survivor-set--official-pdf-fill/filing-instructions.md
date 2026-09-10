@@ -25,6 +25,24 @@ Section 2264(5) requires a hearing on a motion under the chapter, except that fo
 § 2262-B the court may grant the motion without a hearing where the State consents. CR-308's
 first ordering box is the no-hearing route.
 
+**Whether to take that route is not a choice this packet makes for you or recommends to you.**
+The committed record puts it on the list of things automated assistance stops at:
+
+> Any decision about whether to seek the State's consent so the motion can be granted without a hearing.
+
+Describing what the box is is not advice to ask for consent. Ask your lawyer or advocate.
+
+Where a hearing is set, you will need the hearing date, time and courtroom. The court gives you
+those; this packet does not know them and states none.
+
 If the State opposes, or the court sets a contested hearing, automated assistance ends and you
-need a lawyer.
+need a lawyer. That sentence is the record's, in full:
+
+> The State opposes, or the court sets a contested hearing.
+
+## If you have an immigration matter
+
+> Any immigration-adjacent case. The statute contemplates federal immigration certifications as supporting documentation, so many participants on this route have live immigration matters, and sealing does not bind federal authorities.
+
+Raise it with your lawyer or advocate before you file. This packet does not advise on it.
 

@@ -2,15 +2,20 @@
 
 ## Before you file
 
-1. Read the whole petition. Check the caption, the case number, the arrest date, the arresting agency, the
-   incident description, the offence and the conviction date against your own case record.
-2. Check the pardon date against your pardon document.
-3. Answer items 4 and 5 yourself: whether the case was transferred between courts, and whether it was appealed.
+1. Read the whole petition. Check the caption, the case number, the date in item 1, the agency named in item 1,
+   the incident description, the offence and the conviction date against your own case record.
+2. **Item 1 asks how your case began and the packet has not answered it.** The form says check one of the
+   following boxes: arrested, served with a summons, or served with a citation. Tick the one that is true. The
+   date, the agency and the place are already filled in and they read the same whichever box you tick; the box
+   itself is a fact about your own case that this platform never asked you for, and you are affirming the whole
+   petition under the penalties of perjury.
+3. Check the pardon date against your pardon document.
+4. Answer items 4 and 5 yourself: whether the case was transferred between courts, and whether it was appealed.
    The form says in terms that a transferred case must be filed in the court it was transferred to, and an
    appealed case in the appellate court. Those two answers decide where this petition goes.
-4. Look again at the other seven grounds in item 3. The form says check all that apply. If another ground is also
+5. Look again at the other seven grounds in item 3. The form says check all that apply. If another ground is also
    true of your record, tick it too.
-5. Sign and date the petition.
+6. Sign and date the petition.
 
 ## The filing fee, and asking for a waiver
 

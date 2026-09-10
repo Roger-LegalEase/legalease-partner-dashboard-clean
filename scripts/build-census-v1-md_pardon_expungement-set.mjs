@@ -287,15 +287,81 @@ const CHECK_ALL_THAT_APPLY_WHY =
   + "select-one, so a second ground may also be true of this record, and only the person filing knows their own "
   + "record well enough to say. The packet marks the ground the route is built on and leaves the rest to them";
 
+/*
+ * FIX01, ROUTE_OPTIONS. WHY ITEM 1 IS NO LONGER ANSWERED.
+ *
+ * Item 1 prints "(Check one of the following boxes) On or about ___, I was
+ * [ ] arrested, [ ] served with a summons, [ ] or served with a citation by an
+ * officer of the ___". This build used to tick "arrested" on the stated basis
+ * that "the held case fact is an arrest rather than a summons or a citation".
+ * VF01 measured at 7d6453f51 that the tick reached the delivered bytes with
+ * factId null and routeDetermined false, and that it was disclosed nowhere in
+ * either guide, on a petition affirmed under the penalties of perjury.
+ *
+ * The controlling record settles it. legal-design-track-registry.json track
+ * md_pardon_expungement lists NINE generationRequirements - the court and
+ * county, the case number, the charges in the incident, the disposition of
+ * each, pending charges, the pardon signature date, whether there was only one
+ * criminal act, whether the offence was a crime of violence, and whether a fee
+ * waiver is wanted. Not one of them asks how the case began, and the words
+ * arrest, summons and citation do not occur anywhere in that track record. The
+ * platform does not collect the fact, so it cannot know the answer, and a
+ * fixture fact named `case.arrest_date` is a fixture's name for a date and not
+ * a determination of the mode.
+ *
+ * A sworn election made from an inference is not cured by disclosing it. All
+ * three boxes are therefore left for the person who signs, and the guide says
+ * so. The date, the agency and the place stay written: the form's own sentence
+ * puts each of those blanks after all three alternatives ("by an officer of
+ * the ___"), so they assert nothing about which alternative is true. The label
+ * this build gives the agency blank was corrected to match.
+ */
+const HOW_THE_CASE_BEGAN_WHY =
+  "item 1 says \"check one of the following boxes\" and the answer is a fact about how your case began. The "
+  + "Maryland record for this route does not ask how the case began - none of its nine screening questions "
+  + "covers it - so the platform does not hold the answer and will not guess it on a petition you affirm "
+  + "under the penalties of perjury. Tick the one that is true: arrested, served with a summons, or served "
+  + "with a citation";
+
+/*
+ * FIX01, ROUTE_OPTIONS. WHY THE COURT BOX STAYS TICKED WHERE ITEM 1 DOES NOT.
+ *
+ * The two court boxes are a select-one, CIRCUIT COURT against DISTRICT COURT OF
+ * MARYLAND, and unlike item 1 this one IS answered by a fact the record asks
+ * for: legal-design-track-registry.json track md_pardon_expungement carries the
+ * generationRequirement `courtAndCounty`, "Which court heard the case, and in
+ * which county or Baltimore City?", marked required. The held answer is written
+ * into the caption's own chooser, whose option list is the form's, and every
+ * District Court option in that list carries the suffix "(DC)".
+ *
+ * So the election is proved from the held fact rather than inferred: this
+ * refuses to build unless the held court location actually carries that suffix,
+ * and the basis it returns names the fact and the suffix. A held location that
+ * is not a District Court location stops the build instead of silently ticking
+ * the wrong member of a select-one on a sworn petition.
+ */
+const DISTRICT_COURT_OPTION_SUFFIX = "(DC)";
+function districtCourtElectionBasis(facts) {
+  const location = String(facts["case.court_location"] ?? "");
+  if (!location.endsWith(DISTRICT_COURT_OPTION_SUFFIX)) {
+    throw new Error("the held court location is not a District Court option, so the select-one between CIRCUIT "
+      + `COURT and DISTRICT COURT OF MARYLAND is not determined by the held fact: ${JSON.stringify(location)}`);
+  }
+  return "the held case fact case.court_location is " + JSON.stringify(location) + ", an option of the caption's "
+    + "own chooser on this form whose \"" + DISTRICT_COURT_OPTION_SUFFIX + "\" suffix marks it a District Court "
+    + "location. The record asks for this fact by name (generationRequirement courtAndCounty, required)";
+}
+
 const ATTORNEY_REASON = "attorney-only field; no representation fact is held for this participant";
 const ATTORNEY_WHY = "this packet is drafted for a self-represented petitioner and never populates an attorney block";
 
 function petitionSpec(facts) {
   const w = (name, label, factId, size = 9, extra = {}) =>
     ({ name, label, factId, value: facts[factId], size, ...extra });
+  const courtBasis = districtCourtElectionBasis(facts);
   const writes = [
     { name: "Check Box33", kind: "checkbox", label: "DISTRICT COURT OF MARYLAND FOR the city or county shown",
-      basis: "the court of conviction held by this fixture is a District Court location" },
+      routeDetermined: true, factId: "case.court_location", basis: courtBasis },
     { name: "Court's City/County", kind: "dropdown", label: "Court's City/County",
       value: facts["case.court_location"], factId: "case.court_location",
       basis: "the court location held for the case this petition is filed under" },
@@ -303,9 +369,9 @@ function petitionSpec(facts) {
     w("Text24", "Defendant's name in the caption", "participant.full_legal_name", 9),
     w("Text25", "Defendant's date of birth", "participant.date_of_birth", 9),
     w("Text30", "Item 1: date of arrest, summons, or citation", "case.arrest_date", 9),
-    { name: "Check Box36", kind: "checkbox", label: "Item 1: I was arrested",
-      basis: "the held case fact is an arrest rather than a summons or a citation" },
-    w("Law Enforcement Agency", "Item 1: the law enforcement agency whose officer arrested me", "case.arresting_agency", 9),
+    w("Law Enforcement Agency",
+      "Item 1: the law enforcement agency whose officer arrested me, served the summons, or served the citation",
+      "case.arresting_agency", 9),
     w("Maryland as a result of the following incident", "Item 1: the city or town in Maryland where it happened", "case.arrest_city", 9),
     w("Text26", "Item 1: description of the incident, first line", "case.incident_line_1", 8),
     w("2 I was charged with the offense of", "Item 1: description of the incident, second line", "case.incident_line_2", 8),
@@ -342,16 +408,18 @@ function petitionSpec(facts) {
       requiredBeforeFiling: true, disposition: "REQUIRED_BEFORE_FILING", role: "participant",
       supply: "the tracking number from your own case record, if your record shows one",
       reason: "the participant supplies this before filing" },
+    { name: "Check Box36", isSelectionControl: true, label: "Item 1: I was arrested",
+      reason: `a participant election the route does not determine: ${HOW_THE_CASE_BEGAN_WHY}`,
+      refusalClass: ELECTION_CLASS, disposition: "PARTICIPANT_ELECTION_GENUINE", role: "participant",
+      why: "tick this one if you were arrested. See \"How your case began\" above" },
     { name: "Check Box37", isSelectionControl: true, label: "Item 1: I was served with a summons",
-      disposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
-      routeConditionThatMakesItInapplicable:
-        "item 1 says \"check one of the following boxes\" and the packet states the arrest alternative from the held case fact",
-      role: "participant", reason: "the packet states another member of this select-one" },
+      reason: `a participant election the route does not determine: ${HOW_THE_CASE_BEGAN_WHY}`,
+      refusalClass: ELECTION_CLASS, disposition: "PARTICIPANT_ELECTION_GENUINE", role: "participant",
+      why: "tick this one if you were served with a summons. See \"How your case began\" above" },
     { name: "Check Box38", isSelectionControl: true, label: "Item 1: I was served with a citation",
-      disposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
-      routeConditionThatMakesItInapplicable:
-        "item 1 says \"check one of the following boxes\" and the packet states the arrest alternative from the held case fact",
-      role: "participant", reason: "the packet states another member of this select-one" },
+      reason: `a participant election the route does not determine: ${HOW_THE_CASE_BEGAN_WHY}`,
+      refusalClass: ELECTION_CLASS, disposition: "PARTICIPANT_ELECTION_GENUINE", role: "participant",
+      why: "tick this one if you were served with a citation. See \"How your case began\" above" },
     { name: "The case began in one court and was transferred to another court other than juvenile court Note This petition must be filed in",
       isSelectionControl: true,
       label: "Item 4: the case began in one court and was transferred to another court other than juvenile court",
@@ -462,9 +530,11 @@ const SELF_REPORTED_WHY =
 
 function waiverSpec(facts) {
   const w = (name, label, factId, size = 9) => ({ name, label, factId, value: facts[factId], size });
+  const courtBasis = districtCourtElectionBasis(facts);
   const writes = [
     { name: "District Court check box", kind: "checkbox", label: "DISTRICT COURT OF MARYLAND FOR the city or county shown",
-      basis: "the same court the petition this waiver accompanies is filed in" },
+      routeDetermined: true, factId: "case.court_location",
+      basis: `${courtBasis}, and this waiver names the same court the petition it accompanies is filed in` },
     { name: "Court's City/County", kind: "dropdown", label: "Court's City/County",
       value: facts["case.court_location"], factId: "case.court_location",
       basis: "the same court location the petition states" },
@@ -496,10 +566,34 @@ function waiverSpec(facts) {
     refusalClass: ELECTION_CLASS, disposition: "PARTICIPANT_ELECTION_GENUINE", role: "participant",
     why: SELF_REPORTED_WHY
   });
+  /*
+   * FIX01, KNOWN_PREFILLS. WHAT ON PAGE 3 IS THE COURT'S, STATED EXACTLY.
+   *
+   * This reason used to read "page 3 of this form is the court's order on the
+   * request and every field on it belongs to the court", and the field map
+   * repeated it 18 times while the packet WROTE FIVE VALUES on that same page:
+   * the DISTRICT COURT OF MARYLAND caption box ticked, and the court's city or
+   * county, the case number, the petitioner and the respondent printed. VF01
+   * read all five off the rendered page at 7d6453f51. The refusals array even
+   * contradicted itself in place - its first page-3 entry refuses the CIRCUIT
+   * COURT box because "the packet states the other member of this select-one",
+   * which is the very tick the blanket sentence says does not exist.
+   *
+   * The caption is not the order. It identifies the court that will sign and
+   * the case it will be signed in, it is the same caption the petition carries,
+   * and filling it is the filer's job on every Maryland district-court filing.
+   * The ORDER is the court's: the findings, the granted / granted-in-part /
+   * denied election, the amount and date ordered, and the judge's signature and
+   * ID. So the geometry was right and the sentence was wrong, and it is the
+   * sentence that changed - here, in build-findings.json, and in the guide.
+   */
   const courtOwned = (name, label) => ({
     name, label, reason: "court, clerk, prosecutor, agency, or hearing field",
     refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court",
-    why: "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+    why: "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption "
+      + "at the head of that page - the court, its city or county, the case number and the two parties - is not "
+      + "part of the order: it identifies the case, it is the same caption the petition carries, and this packet "
+      + "fills it"
   });
 
   const blanks = [
@@ -1232,6 +1326,24 @@ async function assemble(filled, fixtureName) {
 function productionFieldMap(parts) {
   const writes = [];
   const refusals = [];
+  /*
+   * FIX01, ROUTE_OPTIONS. The disclosed list is DERIVED from the selections
+   * actually made, so the two cannot disagree again. Each row's own `basis` is
+   * the source support; a checkbox write that carries no basis stops the build
+   * rather than appearing in the packet undisclosed.
+   */
+  const selectionsMade = [];
+  for (const part of parts) {
+    for (const row of part.spec.writes) {
+      if (row.kind !== "checkbox") continue;
+      if (typeof row.basis !== "string" || row.basis.trim() === "") {
+        throw new Error(`${part.documentId}:${row.name} is ticked with no stated basis, so it cannot be disclosed`);
+      }
+      selectionsMade.push({ routeKey: ROUTE_KEY, documentId: part.documentId, field: row.name,
+        selection: `${part.documentId}: ${row.label}`, sourceSupport: row.basis,
+        routeDetermined: row.routeDetermined === true, factId: row.factId ?? null });
+    }
+  }
   for (const part of parts) {
     for (const row of part.spec.writes) {
       writes.push({
@@ -1285,22 +1397,27 @@ function productionFieldMap(parts) {
       + "the full and unconditional pardon under Criminal Procedure Article sec. 10-105(a)(8) - and writes the "
       + "pardon date beside it from the held screening fact. The other seven grounds are NOT declared inapplicable, "
       + "because a second ground may also be true of a given record; they are carried as genuine participant "
-      + "elections and disclosed. The court and arrest-mode boxes are select-ones stated from held case facts.",
-    routeSelectionsMade: [
-      { routeKey: ROUTE_KEY,
-        selection: "CC-DC-CR-072B item 3: one criminal act, not a crime of violence, followed by a full and unconditional pardon by the Governor",
-        sourceSupport: "the route this family is built for, and the only ground of item 3 that describes it" },
-      { routeKey: ROUTE_KEY,
-        selection: "CC-DC-089: I request a waiver of the prepaid costs",
-        sourceSupport: "the component IS the request for a waiver; a waiver form that requests nothing asks the court for nothing" }
-    ],
+      + "elections and disclosed. The caption's court box is a select-one stated from the held case fact the "
+      + "record asks for by name. Item 1's arrest / summons / citation select-one is NOT stated: the record asks "
+      + "no question about how a case began, so the packet leaves all three boxes for the person who signs. "
+      + "routeSelectionsMade is derived from the selections actually made and lists every one of them.",
+    /*
+     * FIX01, ROUTE_OPTIONS. EVERY SELECTION THE PACKET MAKES IS LISTED HERE.
+     *
+     * This array used to hold two entries while the delivered bytes carried
+     * four selections, and the two it omitted were the caption's court box and
+     * item 1's arrest mode. It is now generated from the writes themselves, so
+     * a selection the packet makes and does not list is not possible: any
+     * checkbox write with no matching entry stops the build below.
+     */
+    routeSelectionsMade: selectionsMade,
     dispositionVocabulary: [SIGNATURE_CLASS, ELECTION_CLASS],
     writes, refusals
   };
 }
 
 /* ---- the two participant-facing documents -------------------------------- */
-function participantInstructions(ledger) {
+function participantInstructions(ledger, selectionsMade) {
   const rbf = ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING");
   const elections = ledger.filter((x) => x.disposition === "PARTICIPANT_ELECTION_GENUINE");
   const lines = [
@@ -1311,15 +1428,33 @@ function participantInstructions(ledger) {
     "with form CC-DC-089, *Request for Waiver of Prepaid Costs*. It is a prepared draft. It is not legal advice, it",
     "is not signed, and it has not been filed.",
     "",
-    "## What the packet answered because the route answers it",
+    "## Every box this packet has ticked for you",
+    "",
+    "There are " + selectionsMade.length + ", and this is all of them. Nothing else on either form is marked.",
+    "",
+    ...selectionsMade.map((selection) => `- **${selection.selection}** - ${selection.sourceSupport}.`),
     "",
     "Item 3 of the petition lists eight grounds and tells you to check all that apply. The packet has marked the",
     "pardon ground - one criminal act, not a crime of violence, followed by a full and unconditional pardon by the",
     "Governor - and has written the pardon date you gave beside it.",
     "",
-    "**Check that date against your pardon document before you sign.** You are affirming the petition under the",
-    "penalties of perjury, and the ground you are relying on requires that not more than ten years have passed",
-    "since the Governor signed the pardon. Nothing in this packet proves you were pardoned.",
+    "**Check the pardon date against your pardon document before you sign.** You are affirming the petition under",
+    "the penalties of perjury, and the ground you are relying on requires that not more than ten years have",
+    "passed since the Governor signed the pardon. Nothing in this packet proves you were pardoned.",
+    "",
+    "The caption's court box is ticked on both forms because you told us which court heard the case and the",
+    "answer names a District Court location. If that is wrong, untick DISTRICT COURT OF MARYLAND, tick CIRCUIT",
+    "COURT, and correct the city or county beside it before you sign.",
+    "",
+    "## How your case began",
+    "",
+    "**Item 1 is a check-one and the packet has left all three boxes empty.** The form reads: on or about the",
+    "date shown, I was arrested, or served with a summons, or served with a citation, by an officer of the agency",
+    "named. The date, the agency and the place are filled in from your case facts and they read the same",
+    "whichever of the three is true - but which one it is is a fact about your own case that this platform never",
+    "asked you for. The Maryland record for this route sets nine screening questions and not one of them asks how",
+    "a case began, so nothing here knows the answer and nothing here will guess it on a petition you affirm under",
+    "the penalties of perjury. Tick the one that is true before you sign.",
     "",
     "## What you must obtain before you file",
     "",
@@ -1372,8 +1507,16 @@ function participantInstructions(ledger) {
     "## What is deliberately left blank",
     "",
     "Your signature and the date beside it are blank on both forms. Sign and date them yourself, after you have",
-    "read them. The attorney block on each form is blank because no lawyer is filing this for you. Page 3 of",
-    "CC-DC-089 is the court's order and every line on it belongs to the court.",
+    "read them. The attorney block on each form is blank because no lawyer is filing this for you.",
+    "",
+    "Page 3 of CC-DC-089 carries the court's order on your request. The order itself is the judge's and this",
+    "packet leaves all of it blank: the findings, the granted, granted-in-part or denied election, any amount and",
+    "date ordered, and the judge's signature and ID number.",
+    "",
+    "**The caption at the top of that page is not part of the order, and this packet has filled it** - the",
+    "DISTRICT COURT OF MARYLAND box, the court's city or county, the case number, and the two parties - because",
+    "it identifies your case and it is the same caption the rest of the form carries. Check it against your own",
+    "case record like any other caption in this packet.",
     "",
     "## Stop conditions",
     "",
@@ -1403,15 +1546,20 @@ function filingInstructions() {
 
 ## Before you file
 
-1. Read the whole petition. Check the caption, the case number, the arrest date, the arresting agency, the
-   incident description, the offence and the conviction date against your own case record.
-2. Check the pardon date against your pardon document.
-3. Answer items 4 and 5 yourself: whether the case was transferred between courts, and whether it was appealed.
+1. Read the whole petition. Check the caption, the case number, the date in item 1, the agency named in item 1,
+   the incident description, the offence and the conviction date against your own case record.
+2. **Item 1 asks how your case began and the packet has not answered it.** The form says check one of the
+   following boxes: arrested, served with a summons, or served with a citation. Tick the one that is true. The
+   date, the agency and the place are already filled in and they read the same whichever box you tick; the box
+   itself is a fact about your own case that this platform never asked you for, and you are affirming the whole
+   petition under the penalties of perjury.
+3. Check the pardon date against your pardon document.
+4. Answer items 4 and 5 yourself: whether the case was transferred between courts, and whether it was appealed.
    The form says in terms that a transferred case must be filed in the court it was transferred to, and an
    appealed case in the appellate court. Those two answers decide where this petition goes.
-4. Look again at the other seven grounds in item 3. The form says check all that apply. If another ground is also
+5. Look again at the other seven grounds in item 3. The form says check all that apply. If another ground is also
    true of your record, tick it too.
-5. Sign and date the petition.
+6. Sign and date the petition.
 
 ## The filing fee, and asking for a waiver
 
@@ -1487,7 +1635,7 @@ async function build() {
     refusedFieldsWithInk: []
   }));
   const preliminary = builderCounters(map, artifactCounters, "");
-  const instructions = participantInstructions(preliminary.ledger);
+  const instructions = participantInstructions(preliminary.ledger, map.routeSelectionsMade);
   const audit = builderCounters(map, artifactCounters, instructions);
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   if (!allZero) {
@@ -1612,8 +1760,8 @@ async function build() {
         consequence: "Neither is held by the platform. Both are carried as genuine participant elections, disclosed in the participant instructions and repeated in the filing instructions, because getting them wrong sends the petition to the wrong court." },
       { finding: "The whole affidavit of income on CC-DC-089 asks for facts this platform holds none of.",
         consequence: "Every income, property and debt line is left blank and disclosed. None is filled from an inference, and the participant is told that if they do not need a fee waiver they should leave the form out of what they file." },
-      { finding: "Page 3 of CC-DC-089 is the court's order on the request.",
-        consequence: "Every field on it is refused as court-owned, including the findings checkboxes, the granted/denied election, the amount and date ordered, and the judge's signature block." }
+      { finding: "Page 3 of CC-DC-089 carries the court's ORDER on the request, under the same caption the rest of the form carries.",
+        consequence: "The 18 fields of the order itself are refused as court-owned - the findings checkboxes, the granted / granted-in-part / denied election, the amount and date ordered, and the judge's signature and ID. The caption at the head of that page is NOT part of the order and IS filled by this packet: the DISTRICT COURT OF MARYLAND box is ticked and the court's city or county, the case number, the petitioner and the respondent are printed, from the same field map entries that fill the caption on pages 1 and 2. Corrected under FIX01: the refusal reason, this finding and the participant guide all used to say every field on that page belonged to the court, while the packet wrote five values there." }
     ]
   });
   writeJson(path.join(out, "approval-request.json"), {
