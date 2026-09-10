@@ -55,13 +55,11 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
-      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-      "verifiedAgainstCanonicalSha256": "2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb",
-      "appliesToTheCurrentBytes": false,
-      "note": "That FAIL was scored against the previous bytes and its two failing obligations, KNOWN_PREFILLS and ROUTE_OPTIONS, were repaired by FIX01 on 2026-09-09. The repair lane cannot verify its own work, so the current bytes carry NO independent verification and no verdict. A lane that neither built nor repaired this family must read them."
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -69,33 +67,8 @@
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
       "sharedBuildHost": null,
-      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered. It moved on 2026-09-09 and the receipt above is superseded.",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    },
-    "acceptanceReceipt": null,
-    "rasterState": "BUILT_RASTER_PENDING",
-    "supersededAcceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34413372916",
-      "jobId": "102673422690",
-      "artifactId": "10128275524",
-      "boundToCanonicalSha256": "2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb",
-      "coversTheWholeFamily": true,
-      "supersededBy": "FIX01 repair of KNOWN_PREFILLS and ROUTE_OPTIONS on 2026-09-09",
-      "why": "the receipt binds canonical 2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb and the repair changed the delivered bytes to 96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559. A receipt that binds exact hashes does not cover a packet nobody rendered, so it is recorded here as history and is NOT carried forward as a live receipt. The family must be re-rastered centrally against the digests below. Nothing in this lane produces a raster receipt.",
-      "stillTrueOfTheBytesItBound": "the raster was admitted against those bytes, and VF01 independently scored them FAIL_REPAIR_REQUIRED at the same time. Both were true of the same packet: the raster gate does not read a field map against the page."
-    },
-    "currentFixtureDigests": {
-      "canonical": {
-        "sha256": "96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559",
-        "byteLength": 1167329,
-        "pageCount": 4
-      },
-      "boundary": {
-        "sha256": "f8e335bc8e2f3c3cb78f3708d8147c837ec7eeb33d353f10d493bae1b4b57b68",
-        "byteLength": 1167775,
-        "pageCount": 4
-      }
     }
   },
   "proposedRepresentation": {

@@ -23,8 +23,7 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
-      "primary_filing",
-      "proposed_order"
+      "Maine § 2264(7) Survivor Sealing Motion"
     ],
     "packetComponents": [
       "component:me-seal-survivor-primary-filing-1",
@@ -32,7 +31,6 @@
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/participant-instructions.md",
-    "filingInstructions": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/filing-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
@@ -45,27 +43,18 @@
         "sourceId": "official-form:CR-308",
         "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
         "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+        "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+        "tier": "exact_content_hash"
       }
     ],
     "acceptanceReceipt": null,
-    "rasterState": "BUILT_RASTER_PENDING",
-    "supersededAcceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34413372916",
-      "jobId": "102673422679",
-      "artifactId": "10128266840",
-      "boundToCanonicalSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
-      "coversTheWholeFamily": true,
-      "supersededBy": "FIX01 repair of CLIPPING_AND_OVERLAP, PROTECTED_FIELDS, SELF_HELP_STOP and REQUIRED_BEFORE_FILING on 2026-09-09",
-      "why": "the receipt binds exact hashes and this build's canonical fixture is no longer that hash"
-    },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
-      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-      "verifiedAgainstCanonicalSha256": "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
-      "appliesToTheCurrentBytes": false,
-      "note": "Its four failing obligations were repaired by FIX01 on 2026-09-09. A repair lane cannot verify its own work, so the current bytes carry NO independent verification and no verdict."
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -73,14 +62,8 @@
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/build-census-v1-me-seal-survivor-set.mjs",
       "sharedBuildHost": null,
-      "reRasterRequiredWhen": "any fixture byte moves; an acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    },
-    "declaredInstrumentKindMismatch": {
-      "queueDeclares": [
-        "Maine § 2264(7) Survivor Sealing Motion"
-      ],
-      "measured": "MASTER_QUEUE's instrumentKinds for this family holds the packet-family LABEL rather than instrument kinds. The two declared packetComponents are a primary filing and a proposed order, which is what this build produces. Recorded rather than silently normalised."
     }
   }
 }

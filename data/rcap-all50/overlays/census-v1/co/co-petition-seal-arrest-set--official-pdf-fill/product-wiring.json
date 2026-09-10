@@ -57,14 +57,7 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34407406641",
-      "jobId": "102654459259",
-      "artifactId": "10126084998",
-      "boundToCanonicalSha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -78,7 +71,24 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "boundToCanonicalSha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+        "replacedByCanonicalSha256": "f15bde74dc5856e0f32dd5fc9dcbf0425c1c88c7a5140e58d50a8260bbb667b5",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459259",
+          "artifactId": "10126084998",
+          "boundToCanonicalSha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+          "coversTheWholeFamily": true
+        },
+        "withdrawnAt": "2026-09-10",
+        "withdrawnBy": "Captain, on merging the FIX01 repair",
+        "why": "The FIX01 repair moved this family's canonical bytes. The receipt above was still presented as current while describing bytes the repository no longer contains, which is a receipt relabelled as covering changed output. It is withdrawn and kept as history; it is neither deleted nor carried forward, and a fresh central raster over the new bytes is owed before this family is proven again."
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -91,7 +101,7 @@
         "order": 1,
         "documentId": "JDF-417",
         "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+        "sha256": "f15bde74dc5856e0f32dd5fc9dcbf0425c1c88c7a5140e58d50a8260bbb667b5",
         "requirement": "required"
       },
       {
@@ -100,7 +110,7 @@
         "order": 2,
         "documentId": "JDF-418",
         "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+        "sha256": "f15bde74dc5856e0f32dd5fc9dcbf0425c1c88c7a5140e58d50a8260bbb667b5",
         "requirement": "required"
       }
     ]

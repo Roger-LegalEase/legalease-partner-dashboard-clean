@@ -40006,7 +40006,8 @@
             "bytes": 123
           }
         ],
-        "why": "36 stroke-only appearance(s) match no /AP /N stream in this family's pinned sources, byte for byte. That ink is synthesized and the form does not print it."
+        "why": "36 stroke-only appearance(s) match no /AP /N stream in this family's pinned sources, byte for byte. That ink is synthesized and the form does not print it.",
+        "causeEstablishedOnTheBytes": "NOT_SYNTHESIZED_FROM_MK. All 36 unmatched streams are a source /AP stream minus its opaque background fill (FIX01, 2026-09-10). The defect is a stripped fill plus three appearances stamped 32% oversized, and the remedy restores rather than removes."
       }
     },
     {
@@ -48435,5 +48436,14 @@
     "whyTheTierMissedIt": "The tier is derived from the exposed widget's own field name in the official form. Group2 says nothing. A form that names its controls well gets tiered well; a form that names them Group2, Checkbox2 or 27 does not.",
     "soHowToUseTheTier": "As a way to start the queue, never as a claim about severity. A family tiered OTHER may carry the worst ink in the cohort, and this one does. The page decides, and the page is read during repair, which is an argument for reading pages sooner rather than for trusting the tier.",
     "whatWouldFixIt": "Tier by what the widget SITS ON rather than by what it is called: a notarial certificate, a jurat, a signature block and a disposition box are all findable from the printed text near the widget rect. That measurement has not been made, it is not needed to start, and it should not delay a batch."
+  },
+  "READ_THIS_BEFORE_ACTING_ON_A_SYNTHESIZED_INK_CONFIRMED_ROW": {
+    "recordedBy": "Captain, 2026-09-10, from the FIX01 measurement of co_petition_seal_arrest-set",
+    "theLabelIsWrongAboutCAUSE": "sourceAccounting.result SYNTHESIZED_INK_CONFIRMED, and its why sentence 'that ink is synthesized and the form does not print it', are UNSAFE to act on as written. They are true only of the byte comparison: the delivered stream is not byte-identical to any /AP /N stream in the pinned source. They are NOT a finding about where the ink came from.",
+    "whatFIX01MeasuredInstead": "On co_petition_seal_arrest-set the counts reproduce exactly -- 122 stroke-only, 86 matched, 36 unmatched -- and ALL 36 UNMATCHED STREAMS ARE A SOURCE /AP STREAM MINUS ITS OPAQUE BACKGROUND FILL. 36 of 36, nothing left over. The ink is the form's own appearance with one operator removed, so it fails a byte-for-byte match while being derived entirely from the source.",
+    "whyThereIsStillADefect": "Rendering the source three ways showed what stripping the fill costs: the form prints a small box, its /AP covers that box and strokes a LARGER one, and the delivered page therefore reveals the printed box AND stamps the appearance -- two frames at every check box on page 2. Separately, three controls carry an 18x18 appearance in a 13.68x13.68 rect and were stamped 32% oversized. So the family is defective; the defect is a stripped background fill and a scaling error, not a rectangle invented from /MK.",
+    "whyThisMatters": "The remedy differs. Ink invented from /MK is removed. Ink that IS the form's own appearance must be restored, not removed -- a lane trusting the label would have deleted the wrong ink, and the Colorado over-suppression already showed what that costs: a build that erased a 213.6 x 0.5pt rule the form itself draws.",
+    "soHowToUseTheRow": "Read strokeOnlyMatchingNothing as 'this many streams need a cause established', never as 'this many marks to delete'. Establish the cause on the family's own bytes before changing one: compare each unmatched stream against the source stream it most nearly is, and render the source to see what its /AP covers. Then repair what you demonstrated.",
+    "whatIsNotInDoubt": "The counts. Every figure this file publishes is a byte measurement and reproduces exactly -- FIX01 validated its own independent stream-digest comparison against the committed results for both Maryland (12 matched, 0 unmatched) and Colorado (122/86/36) before touching anything. The CONFIRMED_UNAFFECTED rows are also unaffected by this correction: zero stroke-only appearances is zero either way."
   }
 }
