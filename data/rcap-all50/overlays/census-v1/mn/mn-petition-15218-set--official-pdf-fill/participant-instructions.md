@@ -17,11 +17,27 @@ administrator separately from the petition rather than attaching it to the publi
 ## What this packet already says for you
 
 This packet marks 2 boxes for you and no others. They are
-listed below. Every other box on every form in this packet is empty, and every one of them is
-yours to decide.
+listed below.
 
 - **EXP102 page 4 — Route election — A criminal case against you for a possession of a controlled substance under Minn.** This packet is built for one statutory route and the petition must state which. Item 9 box 1 is the § 152.18 discharge, and it is the only box on item 9 besides the juvenile-certification box that routes to EXP106, which is the proposed order this family binds.
 - **FEE102 page 1 — Route election —  I am including my pleadings with this Affidavit (or I have already filed my pleadings but have.** FEE102 item 2 prints "Choose one:" and asks whether the affidavit accompanies pleadings or asks only for copy fees to be waived. This packet contains the petition, the proof of service and the proposed order, so the answer is a fact about the packet rather than a choice the participant makes. The other branch of the same choose-one says the opposite and is left empty: marking both would swear to two contradictory statements on one affidavit under Minn. Stat. § 563.01. If you file this affidavit without the petition, asking only for copy fees to be waived, unmark this box and mark that one instead.
+
+## Boxes that are empty because they are not yours
+
+40 more boxes in this packet are empty, and they are NOT yours to decide. They
+belong to the court. Marking one of them puts your answer where a judge's decision goes, on a
+paper you file under oath. Leave every one of them blank.
+
+- **EXP102 page 1 — 4 boxes.** the district court sets the hearing and states whether it is remote or in person
+- **EXP106 pages 1, 2, 3 — 36 boxes.** a finding or an ordering box on the order the district court signs
+
+EXP106 is the proposed order the judge signs. You are asked further down to write the Judicial
+District on its caption, and on EXP106 that caption is the only thing that is yours. Whether
+your petition is granted or denied, what the court finds, and how your record is sealed are
+decisions the judge makes after the hearing.
+
+Every other box in this packet is empty and is yours. The ones that ask you for a decision are
+listed under "Choices only you can make" below, with what each one means.
 
 If your case was not discharged under § 152.18, this is the wrong packet and you should not
 file it.

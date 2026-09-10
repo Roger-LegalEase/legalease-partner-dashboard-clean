@@ -1619,9 +1619,110 @@ function componentNote(fee, role) {
  * fidelity to everything the record says and drops only the one thing the same
  * record forbids this packet from saying.
  */
-const CURRENCY_FIGURE = /\$\s?[0-9][0-9,.]*/g;
+const ELISION_MARK = "[amount elided]";
+/* The figure ends on a digit. The expression this replaced ended [0-9,.]*,
+ * which ran past the amount and ate the sentence's own punctuation: the comma
+ * in "$487.25, payable to the clerk" was part of the match and vanished with
+ * the amount, which the fee section's promise that "Nothing else in any
+ * quotation is changed" does not permit. */
+const CURRENCY_FIGURE = /\$\s?[0-9](?:[0-9,]*[0-9])?(?:\.[0-9]{2})?/g;
 function withoutAmounts(document) {
-  return String(document).replace(CURRENCY_FIGURE, "[amount elided]");
+  return String(document).replace(CURRENCY_FIGURE, ELISION_MARK);
+}
+
+/*
+ * A CONTROL THAT CANNOT FAIL IS NOT A CONTROL.
+ *
+ * The delivered documents used to be checked for a price by scanning them with
+ * CURRENCY_FIGURE *after* withoutAmounts had already replaced every match of
+ * that same expression. The detector was the scrubber, so it read only the
+ * scrubber's output and was empty for every possible input. It passed on a
+ * fabricated price: "the filing fee for this petition is $487.25, payable to
+ * the clerk" injected into a delivered participant line raised nothing and
+ * shipped as "... is [amount elided] payable to the clerk", which the fee
+ * section then explained to the reader as a figure recorded against the general
+ * petition to annul a criminal record. An invented price was elided into the
+ * record's voice.
+ *
+ * What replaces it runs BEFORE the elision, on the composed text where the
+ * figures still exist, and asks the question the substitution cannot ask about
+ * itself: does every figure in this document come from a sentence the RECORD
+ * supplies? A figure this build composed has no record sentence behind it, and
+ * fails the build instead of being elided and attributed.
+ *
+ * A second reading looks at the DELIVERED text for money the elision is
+ * structurally unable to remove -- a currency sign spaced away from its figure,
+ * an amount written as a word, a USD prefix. None of those match
+ * CURRENCY_FIGURE, so none of them would be substituted, and a scan that shares
+ * the substitution's own expression could never have reported them.
+ */
+const MONEY_THE_ELISION_CANNOT_REMOVE = [
+  [/\$\s{2,}[0-9]/g, "a currency sign separated from its figure by more than the single space the elision spans"],
+  [/\b[0-9][0-9,]*(?:\.[0-9]{2})?\s+dollars?\b/gi, "an amount written as a number followed by the word dollars"],
+  [/\bUSD\s*[0-9]/gi, "an amount written with a USD prefix"]
+];
+
+/* Every string the RECORD supplies for this track that carries a figure. These
+ * are the only sentences in which an amount may legitimately appear, and
+ * therefore the only ones the elision is permitted to act on. */
+function amountBearingRecordSentences(...records) {
+  const found = [];
+  const walk = (value) => {
+    if (typeof value === "string") {
+      if (new RegExp(CURRENCY_FIGURE.source, "g").test(value)) found.push(value);
+      return;
+    }
+    if (Array.isArray(value)) { value.forEach(walk); return; }
+    if (value && typeof value === "object") for (const key of Object.keys(value)) walk(value[key]);
+  };
+  records.forEach(walk);
+  return [...new Set(found)].sort((a, b) => b.length - a.length);
+}
+
+function elideAmountsForDelivery(document, recordSentences, name) {
+  const text = String(document);
+  /* The fee section explains the mark to the reader by printing it, so the
+   * composed text carries occurrences of ELISION_MARK that are prose rather
+   * than elisions. Nothing in the composition path elides -- withoutAmounts is
+   * never called while these documents are assembled -- so every mark present
+   * here is explanatory, and the count is what makes the elision auditable:
+   * the delivered document must end with exactly those marks plus one per
+   * figure actually removed, and no others. */
+  const explanatoryMarks = text.split(ELISION_MARK).length - 1;
+
+  const figures = [];
+  const scan = new RegExp(CURRENCY_FIGURE.source, "g");
+  for (let hit = scan.exec(text); hit; hit = scan.exec(text)) figures.push({ figure: hit[0], index: hit.index });
+
+  for (const hit of figures) {
+    assert.ok(!/[.,]$/.test(hit.figure),
+      `${name}: the elision matched ${JSON.stringify(hit.figure)}, whose last character is punctuation belonging to `
+      + "the sentence rather than to the amount. Removing it would delete a mark from a quotation the fee section "
+      + "tells the reader is otherwise unchanged.");
+    const quoted = recordSentences.some((sentence) => {
+      if (!sentence.includes(hit.figure)) return false;
+      for (let at = text.indexOf(sentence); at !== -1; at = text.indexOf(sentence, at + 1)) {
+        if (hit.index >= at && hit.index + hit.figure.length <= at + sentence.length) return true;
+      }
+      return false;
+    });
+    assert.ok(quoted,
+      `${name} states a price this packet composed rather than quoted: ${JSON.stringify(hit.figure)} at character `
+      + `${hit.index} falls outside every amount-bearing sentence the record supplies. Eliding it would print `
+      + `${ELISION_MARK} over a figure of this build's own making and explain it on the page as a figure recorded `
+      + "against the general petition. The record says this packet must not state a price.");
+  }
+
+  const delivered = text.replace(new RegExp(CURRENCY_FIGURE.source, "g"), ELISION_MARK);
+  assert.equal(delivered.split(ELISION_MARK).length - 1, explanatoryMarks + figures.length,
+    `${name}: the delivered document carries a different number of ${ELISION_MARK} marks than the figures this `
+    + "elision removed plus the marks the fee section prints to explain it, so what was removed cannot be audited");
+  for (const [pattern, description] of MONEY_THE_ELISION_CANNOT_REMOVE) {
+    const residue = delivered.match(pattern) ?? [];
+    assert.deepEqual(residue, [],
+      `${name} still states money the elision cannot remove -- ${description} -- at ${residue.join(", ")}`);
+  }
+  return { delivered, figuresElided: figures.map((f) => f.figure) };
 }
 
 function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE, packetSet, openQuestions) {
@@ -1879,7 +1980,8 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
     + "the prosecutor for you, and does not take payment.", ""
   );
   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
-  return withoutAmounts(`${out.join("\n")}\n`);
+  return elideAmountsForDelivery(`${out.join("\n")}\n`,
+    amountBearingRecordSentences(fee.track, packetSet, openQuestions, stops), "participant-instructions.md").delivered;
 }
 
 /**
@@ -1921,7 +2023,8 @@ function filingInstructions(fee, SERVICE, packetSet, openQuestions) {
     + "the copy actually goes out.", ""
   );
   out.push(`_Built by ${BUILD_SCRIPT}. This packet is review evidence: it authorizes no fulfillment and opens no commercial route._`);
-  return withoutAmounts(`${out.join("\n")}\n`);
+  return elideAmountsForDelivery(`${out.join("\n")}\n`,
+    amountBearingRecordSentences(fee.track, packetSet, openQuestions), "filing-instructions.md").delivered;
 }
 
 /* Source-independent regression for refusal reporting, not a packet acceptance.
@@ -1987,20 +2090,57 @@ async function selfTest() {
   for (const r of required) assert.ok(instructions.includes(r.disclosureLabel));
 
   /*
-   * THIS PACKET MUST NOT STATE A PRICE, and the record says so in terms. The
-   * assertion is on the DELIVERED prose, with NO carve-out.
+   * THIS PACKET MUST NOT STATE A PRICE, and the record says so in terms.
    *
-   * This test used to strip every sentence quoted from the record before
-   * looking for a figure. Both amounts live inside exactly those sentences, so
-   * the test was scanning the one part of the document that could never carry
-   * the leak it was written to catch, and it passed on twelve printed figures
-   * across six delivered lines. A carve-out for the sentences most likely to
-   * hold the defect is not a test. The documents are now scanned whole.
+   * The gate is EXERCISED here, not described. Its predecessor scanned the
+   * delivered prose with the same expression the delivered prose had already
+   * been scrubbed with, so it was empty for every input and passed on a
+   * fabricated price. Each control below is a document the gate MUST reject. If
+   * any of them is accepted, the gate is not a gate and this build stops.
    */
+  const amountSentences = amountBearingRecordSentences(fee.track, packetSet, openQuestions, stops);
+  assert.ok(amountSentences.length > 0,
+    "the record supplies no amount-bearing sentence for this track, so the elision has nothing to be confined to "
+    + "and the price gate cannot be exercised; the gate must not be reported as holding when it was never run");
+  const quotedSentence = amountSentences[0];
+
+  for (const [control, document, expected] of [
+    ["a fabricated price composed by this build",
+      `${quotedSentence}\n\nthe filing fee for this petition is $487.25, payable to the clerk.\n`,
+      /composed rather than quoted/],
+    ["a currency sign spaced away from its figure",
+      `${quotedSentence}\n\nthe clerk will charge $  125 on filing.\n`,
+      /cannot remove/],
+    ["an amount written as a word",
+      `${quotedSentence}\n\nthe clerk will charge 125 dollars on filing.\n`,
+      /cannot remove/]
+  ]) {
+    assert.throws(() => elideAmountsForDelivery(document, amountSentences, "positive-control.md"), expected,
+      `the price gate did not fire on ${control}; a control that cannot fail is not a control`);
+  }
+
+  /* The negative control: the record's own sentence passes, and it passes
+   * because it is the record's -- having elided something, not having found
+   * nothing. A zero here would otherwise be indistinguishable from a gate that
+   * never looked. */
+  const negativeControl = elideAmountsForDelivery(`${quotedSentence}\n`, amountSentences, "negative-control.md");
+  assert.ok(negativeControl.figuresElided.length > 0,
+    "the negative control elided no figure, so it demonstrates nothing about the gate");
+  assert.equal(negativeControl.delivered.match(new RegExp(CURRENCY_FIGURE.source, "g")), null);
+  for (const figure of negativeControl.figuresElided) {
+    assert.ok(!/[.,]$/.test(figure), `the elision matched ${JSON.stringify(figure)}, which carries the sentence's punctuation`);
+  }
+
+  /* The delivered documents passed through that same gate on their way out of
+   * participantInstructions() and filingInstructions(). What is read here is
+   * the one thing the gate leaves for the output to answer: money in a shape
+   * the substitution could not have removed. */
   for (const [name, document] of [["participant-instructions.md", instructions], ["filing-instructions.md", filing]]) {
-    const figures = document.match(CURRENCY_FIGURE) ?? [];
-    assert.deepEqual(figures, [],
-      `${name} states a price (${figures.join(", ")}); the record says this packet must not state one`);
+    for (const [pattern, description] of MONEY_THE_ELISION_CANNOT_REMOVE) {
+      const residue = document.match(pattern) ?? [];
+      assert.deepEqual(residue, [],
+        `${name} states money the elision cannot remove -- ${description} -- at ${residue.join(", ")}`);
+    }
   }
 
   /* A quotation of nothing is a sentence the packet could not find, presented
@@ -2606,7 +2746,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "participant-instructions.md and filing-instructions.md: confirm NO dollar figure appears anywhere at all, "
         + "including inside a sentence quoted from the committed record. The record says this packet must not state a "
         + "price. Where a quoted record sentence carried an amount it now reads [amount elided], and the fee section "
-        + "says on the page that amounts and only amounts have been removed, and why."
+        + "says on the page that amounts and only amounts have been removed, and why. A reviewer should read that fee "
+        + "section against this: the page tells the reader the elided figure is one recorded against the GENERAL "
+        + "petition to annul a criminal record, and what makes that sentence true is the build refusing any figure "
+        + "that does not come from a record sentence -- not the elision, which cannot tell one figure's origin from "
+        + "another's."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
     rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, sha256: p.sha256, imageRetained: false }))
@@ -2672,10 +2816,21 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "boundary, and the fee section states on the page that amounts and only amounts were removed and why. That "
           + "repairs a leak this build previously shipped -- twelve figures across six delivered lines -- and two "
           + "sentences the guide printed about itself that the leak made false, that it states no price and that the "
-          + "schedule's figure is not repeated. The self-test now scans both delivered documents WHOLE for a currency "
-          + "figure. It used to strip every record-quoted sentence first, which is where both amounts lived, so it "
-          + "could not fail on the leak it was written to catch. The fee-waiver papers are still prepared, because the "
-          + "record names them for the case where a fee is charged."
+          + "schedule's figure is not repeated. THE CONTROL THAT ENFORCES THIS RUNS BEFORE THE ELISION, NOT AFTER IT. "
+          + "Two earlier versions of it could not fail: the first stripped every record-quoted sentence before looking "
+          + "for a figure, and both amounts live in exactly those sentences; the second scanned the delivered "
+          + "documents whole, but scanned them with the same expression they had already been scrubbed with, so its "
+          + "result was empty for every possible input. That second version passed on a fabricated price -- $487.25 "
+          + "injected into a delivered participant line was elided and shipped as [amount elided], explained on the "
+          + "page as a figure recorded against the general petition. The control now reads the COMPOSED text, where "
+          + "the figures still exist, and requires every figure in it to fall inside a sentence the record itself "
+          + "supplies; a figure this build composed fails the build instead of being elided into the record's voice. "
+          + "The delivered text is then read once more for money the elision is structurally unable to remove -- a "
+          + "currency sign spaced away from its figure, an amount written as a word, a USD prefix -- none of which "
+          + "the substitution would have touched. Three positive controls in the self-test assert that each of those "
+          + "rejections actually fires, and a negative control asserts the record's own sentence passes by having "
+          + "elided something rather than by nothing being looked at. The fee-waiver papers are still prepared, "
+          + "because the record names them for the case where a fee is charged."
       },
       {
         finding:

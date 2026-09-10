@@ -1381,7 +1381,7 @@ async function loadDocuments() {
 // ---------------------------------------------------------------------------
 // instructions
 // ---------------------------------------------------------------------------
-function renderParticipantInstructions({ documents, censuses, marks, requiredBeforeFiling, laterCompletion, elections }) {
+function renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling, laterCompletion, elections }) {
   const lines = [];
   lines.push("# Your Minnesota expungement packet");
   lines.push("");
@@ -1410,13 +1410,74 @@ function renderParticipantInstructions({ documents, censuses, marks, requiredBef
    * a second mark is added; a generated one cannot.
    */
   lines.push(`This packet marks ${marks.length} box${marks.length === 1 ? "" : "es"} for you and no others. They are`);
-  lines.push("listed below. Every other box on every form in this packet is empty, and every one of them is");
-  lines.push("yours to decide.");
+  lines.push("listed below.");
   lines.push("");
   for (const mark of marks) {
     lines.push(`- **${mark.form} page ${mark.page} — ${mark.effectiveLabel}.** ${mark.reason}`);
   }
   lines.push("");
+
+  /*
+   * THE BOXES THAT ARE NOT THE PARTICIPANT'S, READ FROM THE SAME CLASSIFICATION
+   * THAT REFUSES THEM.
+   *
+   * What stood here was a hand-written sentence: "Every other box on every form
+   * in this packet is empty, and every one of them is yours to decide." It was
+   * false of every box this build classifies PROTECTED_FIELD, and most of those
+   * are on EXP106 -- the PROPOSED ORDER, where the empty boxes are the judge's
+   * findings, the box granting or denying the petition, and the branch choosing
+   * how the record is sealed. The guide also tells the participant to write the
+   * Judicial District onto EXP106's caption, so it told them to write on that
+   * form and told them every empty box on it was theirs to decide.
+   *
+   * NO COUNTER COULD SEE THIS. Nothing is written to a protected field, so the
+   * protected-write count is a true zero and these pages are pixel-identical to
+   * their pinned sources. The defect was never in the ink; it was in what the
+   * participant was told about the boxes with no ink in them. The sentence is
+   * therefore generated from the classification, exactly as the mark disclosure
+   * above it is, so that it cannot go stale when a disposition changes.
+   */
+  const protectedByForm = [];
+  for (const box of protectedBoxes) {
+    const key = `${box.form}|${box.reason}`;
+    let group = protectedByForm.find((row) => row.key === key);
+    if (!group) {
+      group = { key, form: box.form, reason: box.reason, pages: new Set(), count: 0 };
+      protectedByForm.push(group);
+    }
+    group.pages.add(box.page);
+    group.count += 1;
+  }
+  if (protectedBoxes.length > 0) {
+    lines.push("## Boxes that are empty because they are not yours");
+    lines.push("");
+    lines.push(`${protectedBoxes.length} more boxes in this packet are empty, and they are NOT yours to decide. They`);
+    lines.push("belong to the court. Marking one of them puts your answer where a judge's decision goes, on a");
+    lines.push("paper you file under oath. Leave every one of them blank.");
+    lines.push("");
+    for (const group of protectedByForm) {
+      const pages = [...group.pages].sort((a, b) => a - b);
+      const where = `${group.form} page${pages.length === 1 ? "" : "s"} ${pages.join(", ")}`;
+      lines.push(`- **${where} — ${group.count} box${group.count === 1 ? "" : "es"}.** ${group.reason}`);
+    }
+    lines.push("");
+    if (protectedByForm.some((group) => group.form === "EXP106")) {
+      lines.push("EXP106 is the proposed order the judge signs. You are asked further down to write the Judicial");
+      lines.push("District on its caption, and on EXP106 that caption is the only thing that is yours. Whether");
+      lines.push("your petition is granted or denied, what the court finds, and how your record is sealed are");
+      lines.push("decisions the judge makes after the hearing.");
+      lines.push("");
+    }
+    /* Precise rather than sweeping: the boxes that are neither marked nor
+     * court-owned divide into ones this route genuinely leaves to the
+     * participant and ones another statutory route would use, and both are
+     * presented below under the heading that explains them. A blanket "yours to
+     * decide" over that mixture is the same shape of claim this section exists
+     * to remove. */
+    lines.push("Every other box in this packet is empty and is yours. The ones that ask you for a decision are");
+    lines.push("listed under \"Choices only you can make\" below, with what each one means.");
+    lines.push("");
+  }
   lines.push("If your case was not discharged under § 152.18, this is the wrong packet and you should not");
   lines.push("file it.");
   lines.push("");
@@ -1810,6 +1871,19 @@ async function build({ check = false } = {}) {
       marks.push({ form: document.formNumber, page: row.page, effectiveLabel: row.effectiveLabel, reason: row.reason });
     }
   }
+  /*
+   * Every empty box this build REFUSES because it belongs to the court, read
+   * from the same dispositions the field map publishes. The guide's statement
+   * about these is generated from this list rather than written beside it, for
+   * the same reason the mark disclosure above is.
+   */
+  const protectedBoxes = [];
+  for (const document of documents) {
+    for (const row of selectionDispositions[document.key]
+      .filter((row) => !row.marked && row.approvedDisposition === "PROTECTED_FIELD")) {
+      protectedBoxes.push({ form: document.formNumber, page: row.page, effectiveLabel: row.effectiveLabel, reason: row.reason });
+    }
+  }
   for (const document of documents) {
     const rows = [
       ...anchorSets[document.key].withheld,
@@ -1833,7 +1907,7 @@ async function build({ check = false } = {}) {
   const electionRows = dedupe(elections, (r) => `${r.form}|${r.effectiveLabel}`);
 
   fs.writeFileSync(absFor(`${OUT}/participant-instructions.md`),
-    renderParticipantInstructions({ documents, censuses, marks, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
+    renderParticipantInstructions({ documents, censuses, marks, protectedBoxes, requiredBeforeFiling: supplyRows, laterCompletion: laterRows, elections: electionRows }));
   fs.writeFileSync(absFor(`${OUT}/filing-instructions.md`), renderFilingInstructions({ documents }));
 
   writeJson(`${OUT}/field-census.census-v1.json`, {

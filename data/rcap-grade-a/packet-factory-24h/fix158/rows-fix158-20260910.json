@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "rcap-lane-return/v1",
+  "lane": "FIX158",
+  "laneKind": "repair",
+  "dispatch": "Two families dispatched as failing exactly one obligation each: nh_marijuana_annulment-set on ARTIFACTS (vf40) and mn_petition_15218-set on PROTECTED_FIELDS (vf20).",
+  "dispatchPremiseIsCorrectAndHowIKnow": "Read from VERIFIER_RETURNS.json at this base. nh_marijuana_annulment-set has two rows, vf02 (superseded:true) and vf40 (superseded:false, verifiedAtBase 80fd3eb51208da7455df654b4550afd0725f9117) failing ARTIFACTS alone. mn_petition_15218-set has three rows, vf02 and one vf20 marked superseded:true, and one vf20 (superseded:false, verifiedAtBase a45cb2767f70febb451503d7e4da2bb92676982d) failing PROTECTED_FIELDS alone. Both dispatched findings are the current, non-superseded rows. Both premises hold.",
+  "generatedAtBase": "7dbe69631c704176cc850b898ae5d71441a38553",
+  "worktree": "/home/user/v9b-worktree",
+  "branch": "lane-fix158-20260910",
+  "grantSet": "81f60e8db1623fc8",
+  "howTheSourceWasRendered": "NOT RENDERED. This lane rasterized nothing of its own and claims no pixel count, no page count read from an image, and no visual defect. Both findings were defects in PUBLISHED PROSE about bytes rather than in the bytes, and both were established by reading the build sources, the delivered documents and the committed field map, and by mutating the builder and observing whether its own control fired. The NH family builder rendered its own 14 raster pages through scripts/raster/pdf-page-raster.mjs during the rebuild and deleted them with its staging directory, as it does on every run; this lane retained none and read none.",
+  "everyZeroHasAPositiveControl": "Yes, for the one control this lane installed. The NH price gate is exercised by three positive controls that MUST throw (a fabricated price composed by the build, a currency sign spaced away from its figure, an amount written as the word dollars) and one negative control that must pass BY HAVING ELIDED SOMETHING rather than by nothing being found. The gate was also proved against the exact mutation VF40 used to disprove its predecessor: see mutationProof below. Counters this lane could not measure are published as null, never as 0.",
+  "sharedModuleChanges": "NONE. No file under scripts/rcap-official-forms/ or any other shared module was modified.",
+  "buildersChanged": "TWO, each its own family's builder and nothing else: scripts/build-census-v1-nh_marijuana_annulment-set.mjs and scripts/build-census-v1-mn_petition_15218-set.mjs.",
+  "packetBytesMoved": "NO FIXTURE BYTE MOVED IN EITHER FAMILY. All four canonical/boundary digests are identical before and after, re-hashed by this lane with sha256sum. One delivered markdown document moved, mn_petition_15218-set/participant-instructions.md, which is the MN repair itself.",
+  "centralArtifactsEdited": "NONE. The only file this lane wrote under data/rcap-grade-a/packet-factory-24h/ is its own fix158/ return. No shared manifest was edited. No --release was run, so no shared ledger write is pending.",
+  "packetsSelfVerified": "NONE. This lane repaired both families and therefore verifies neither. The completeness verifier was RUN and its real output is recorded below, but it is not a verification of this lane's work and is not offered as one: it returns the identical PASS_COMPLETE and the identical all-zero counters BEFORE the repair, which this lane measured by stashing its changes and re-running. Both families are handed to an independent reader.",
+  "verdictSet": "NONE.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesOwingAFreshCentralRasterFromTHISLane": [],
+  "whyNoFamilyOwesOneFromThisLane": "No fixture byte moved in either family, so the bytes any existing central raster covers are the bytes still on disk. NH: canonical 23390b7f.. and boundary 661ff004.. are unchanged, and VF40 recorded that the central RASTER_PASS still pins them. MN: canonical cbdea2b8.. and boundary 9ef91d97.. are unchanged, and product-wiring.json carries a RASTER_PASS acceptanceReceipt whose boundToCanonicalSha256 is cbdea2b8ed.., which this lane preserved (see determinismFindingsPreexisting). The MN repair changed a delivered markdown guide, which no raster covers.",
+  "rows": [
+    {
+      "familyId": "nh_marijuana_annulment-set",
+      "jurisdiction": "NH",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "obligation": "ARTIFACTS",
+      "status": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "currentRow": "vf40 at 80fd3eb51208da7455df654b4550afd0725f9117, FAIL_REPAIR_REQUIRED, ARTIFACTS alone.",
+      "whatTheFindingWas": "A DELIVERED ARTIFACT PUBLISHED A CONTROL THAT DOES NOT EXIST. build-findings.json stated as fact that the self-test now scans both delivered documents WHOLE for a currency figure. It does scan them whole, and the scan cannot fail: participantInstructions() and filingInstructions() each ended `return withoutAmounts(...)`, which replaces every match of CURRENCY_FIGURE with [amount elided], and the self-test then scanned those already-scrubbed return values with that same CURRENCY_FIGURE. The detector was the scrubber, so its result was empty for every possible input.",
+      "whatIMeasuredMyself": "Reproduced VF40's disproof rather than accepting it. (1) The committed builder hashes 4d58320daef98ec3ee5595cfddc6b6ac23e16451a102f2b8f84e51118b66dea1, matching what VF40 recorded it restored to. (2) Unmutated self-test: exit 0, SELF_TEST_PASS. (3) Injected VF40's exact line, 'FIX158 MUTATION PROBE: the filing fee for this petition is $487.25, payable to the clerk.', into a delivered participant line ahead of the scrub boundary: self-test STILL exit 0, still SELF_TEST_PASS. The control could not fail. (4) Confirmed the delivered form of that line under the old regex: 'the filing fee for this petition is [amount elided] payable to the clerk.' The match was \"$487.25,\" INCLUDING THE TRAILING COMMA, so the old expression's [0-9,.]* consumed a mark of punctuation belonging to the sentence, which the fee section's on-page promise that 'Nothing else in any quotation is changed' does not permit. (5) Builder restored and re-hashed to 4d58320d.. before any repair was written. (6) Enumerated every currency figure in the RAW pre-scrub text of both delivered documents by instrumenting withoutAmounts behind an env var and running --no-raster: exactly 6 per document, 12 across both, matching the 'twelve figures across six delivered lines' the build's own prose records, and every one of them lies inside one of two record-supplied strings (the track's rules.fees sentence, and the open question). Instrumentation and its artifacts were reverted.",
+      "whatIChanged": "Three things in the builder, and the two prose blocks that published the overstated claim. (a) CURRENCY_FIGURE tightened from /\\$\\s?[0-9][0-9,.]*/g to /\\$\\s?[0-9](?:[0-9,]*[0-9])?(?:\\.[0-9]{2})?/g so a match ends on a digit and cannot eat the sentence's punctuation. Verified byte-neutral: on the record's actual fees and feeWaiver sentences the old and new expressions produce identical scrubbed output. (b) A new gate, elideAmountsForDelivery(), runs at each delivery boundary BEFORE the elision, on the composed text where the figures still exist, and requires every figure to fall inside a sentence the record itself supplies; a figure the build composed throws instead of being elided into the record's voice. It also audits the [amount elided] count (delivered marks must equal the marks the fee section prints to explain itself, plus one per figure actually removed) and reads the delivered text for money the elision is STRUCTURALLY UNABLE to remove. (c) The self-test's tautology was replaced by three positive controls that must throw and one negative control that must pass by having elided something. (d) build-findings.json and reports/independent-visual-review.json now describe what is actually enforced, including that what makes the page's provenance sentence true is the build refusing a figure of foreign origin, not the elision, which cannot tell one figure's origin from another's.",
+      "mutationProof": "THE REPAIRED GATE FIRES ON THE EXACT MUTATION THAT DISPROVED ITS PREDECESSOR. Re-injecting the same $487.25 line into the repaired builder: self-test EXIT 1, AssertionError raised from elideAmountsForDelivery via participantInstructions -- 'participant-instructions.md states a price this packet composed rather than quoted: \"$487.25\" at character 19520 falls outside every amount-bearing sentence the record supplies.' It throws at the DELIVERY BOUNDARY, so a real build refuses too, not only the self-test. The mutation was then removed and the builder restored to the repaired file this lane committed.",
+      "whyThisIsNotAByteDefect": "It never was one, and establishing that was the point of the byte accounting. VF40 recorded that the artifact digests rehash correctly, page counts match at 7, and the central RASTER_PASS still pins the bytes. This lane re-hashed and agrees. The repair is therefore BYTE-FREE FOR EVERY PARTICIPANT-FACING DOCUMENT: both fixtures are unchanged AND participant-instructions.md and filing-instructions.md are unchanged, which the rebuild confirms by leaving them out of git status entirely. No raster is owed and none was spent.",
+      "canonicalSha256Before": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+      "canonicalSha256After": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+      "boundarySha256Before": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+      "boundarySha256After": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+      "fixtureBytesMoved": false,
+      "markdownMoved": "NONE. participant-instructions.md and filing-instructions.md are byte-identical before and after.",
+      "filesChanged": [
+        "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
+        "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/source-receipt.json"
+      ],
+      "rasterOwed": false,
+      "rasterState": "BUILT_RASTER_PENDING, unchanged. The existing central RASTER_PASS still covers these exact bytes.",
+      "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_marijuana_annulment-set -> EXIT 0, 'PASS_COMPLETE 18/140 written', counters all zero.",
+      "verifierRunMeansNothingHere": "MEASURED, not assumed: this lane stashed its changes, re-ran the same command against the committed pre-repair tree, and got the IDENTICAL exit 0, the identical PASS_COMPLETE 18/140 and the identical all-zero counters. The verifier was already green while the defect was live, so its exit 0 is not evidence of repair and is not offered as any.",
+      "counters": {
+        "figuresInRawParticipantInstructions": 6,
+        "figuresInRawFilingInstructions": 6,
+        "currencyFiguresInDeliveredParticipantInstructions": 0,
+        "currencyFiguresInDeliveredFilingInstructions": 0,
+        "positiveControlsThatMustThrow": 3,
+        "positiveControlsThatDidThrow": 3,
+        "pixelCounts": null,
+        "pixelCountsWhyNull": "This lane rendered nothing and read no raster, so it claims no pixel count."
+      },
+      "countersHowMeasured": "Figure counts by running the delivering regex over the RAW composed text captured from an instrumented withoutAmounts, and over the committed delivered .md bytes, with node. Control counts by running the self-test and reading its exit status. Digests by sha256sum. Nothing here is transcribed from a build report."
+    },
+    {
+      "familyId": "mn_petition_15218-set",
+      "jurisdiction": "MN",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "obligation": "PROTECTED_FIELDS",
+      "status": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "currentRow": "vf20 at a45cb2767f70febb451503d7e4da2bb92676982d, FAIL_REPAIR_REQUIRED, PROTECTED_FIELDS alone.",
+      "whatTheFindingWas": "No protected field carries ink -- protectedWrites is a true measured zero and the delivered pages are pixel-identical to their pinned sources -- but the delivered participant guide told the participant that the court's own boxes were theirs. participant-instructions.md, in the section whose whole subject is which boxes are already marked, said: 'This packet marks 2 boxes for you and no others. They are listed below. Every other box on every form in this packet is empty, and every one of them is yours to decide.' That is false of 40 empty boxes the family's own production-field-map.json classifies PROTECTED_FIELD, 36 of them on EXP106, which is the PROPOSED ORDER the judge signs.",
+      "whatIMeasuredMyself": "Counted the protected boxes from production-field-map.json rather than accepting VF20's 40. Deduplicated by formNumber+selectionId across the withheld and selectionControls arrays, because the same row appears in both and a naive count double-reports it as 80. Result: 95 distinct selection controls in the family, of which PROTECTED_FIELD 40, PARTICIPANT_ELECTION_GENUINE 42, NOT_APPLICABLE_ON_THIS_ROUTE 11, and MARKED 2. The 40 protected ones carry marked:false, i.e. every one is empty, and they distribute EXP102 page 1: 4, EXP106 page 1: 6, page 2: 25, page 3: 5 = 36. This reproduces VF20's count and its 36/4 split exactly. Their refusal reasons are the field map's own: 'a finding or an ordering box on the order the district court signs' for the 36, and 'the district court sets the hearing and states whether it is remote or in person' for the 4.",
+      "whatIChanged": "The false sentence is deleted and replaced by a section GENERATED FROM THE SAME CLASSIFICATION THAT REFUSES THE BOXES, exactly as the mark disclosure above it already was, so it cannot go stale when a disposition changes. The builder now collects protectedBoxes from selectionDispositions where !marked && approvedDisposition === PROTECTED_FIELD, groups them by form and refusal reason, and the guide states the count, names each group, and adds the sentence that closes VF20's specific trap: EXP106 is the proposed order the judge signs, the participant is asked to write the Judicial District on its caption, and on EXP106 that caption is the only thing that is theirs -- whether the petition is granted or denied, what the court finds, and how the record is sealed are the judge's decisions after the hearing.",
+      "theClosingSentenceIsNarrowerThanTheOneItReplaced": "Deliberately. Having removed one sweeping claim about every other box, this lane did not write another. Of the 53 boxes that are neither marked nor court-owned, 42 are genuine participant elections and 11 are NOT_APPLICABLE_ON_THIS_ROUTE, and a blanket 'yours to decide' over that mixture is the same shape of claim the section exists to remove. The delivered sentence therefore says every other box is empty and is theirs, and points to the existing 'Choices only you can make' heading, which is where the guide already explains both classes, including the N/A ones.",
+      "whyThisIsNotAByteDefect": "The ink was never wrong. protectedWrites is 0 before and after, no mark was added to or removed from any protected box, and both fixtures are byte-identical. The defect was entirely in what the participant was TOLD about boxes that have no ink in them, which is why every counter reads zero with it present -- and still does.",
+      "canonicalSha256Before": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+      "canonicalSha256After": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+      "boundarySha256Before": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+      "boundarySha256After": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+      "fixtureBytesMoved": false,
+      "markdownMoved": "YES, and it is the repair: participant-instructions.md only. filing-instructions.md is unchanged.",
+      "filesChanged": [
+        "scripts/build-census-v1-mn_petition_15218-set.mjs",
+        "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/participant-instructions.md"
+      ],
+      "rasterOwed": false,
+      "rasterState": "The RASTER_PASS acceptanceReceipt in product-wiring.json binds canonical cbdea2b8ed.., which is still the canonical on disk. No fixture byte moved, and no raster covers a markdown guide.",
+      "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set -> EXIT 0, 'PASS_COMPLETE 30/387 written', counters all zero including protectedWrites 0.",
+      "verifierRunMeansNothingHere": "MEASURED the same way as NH: stashed and re-run against the committed pre-repair tree, identical exit 0, identical PASS_COMPLETE 30/387, identical all-zero counters. VF20 said it in terms -- 'Every counter reads zero with this present' -- and that is still true after the repair, because the repair is prose. The verifier cannot see this obligation for this family in either direction.",
+      "counters": {
+        "distinctSelectionControls": 95,
+        "protectedEmptyBoxes": 40,
+        "protectedEmptyBoxesEXP102Page1": 4,
+        "protectedEmptyBoxesEXP106": 36,
+        "participantElectionGenuine": 42,
+        "notApplicableOnThisRoute": 11,
+        "boxesMarkedByThisPacket": 2,
+        "protectedWritesBefore": 0,
+        "protectedWritesAfter": 0,
+        "pixelCounts": null,
+        "pixelCountsWhyNull": "This lane rendered nothing and read no raster. VF20's pixel-identity finding for EXP106 pages 2 and 3 and EXP104 page 2 is VF20's measurement, not this lane's, and is not restated here as if it were."
+      },
+      "countersHowMeasured": "Read from the committed production-field-map.json with node, deduplicated by formNumber+selectionId, and cross-checked against the count the repaired builder emits into the delivered guide, which independently prints 40 as 4 + 36. protectedWrites read from the completeness verifier's own output before and after. Digests by sha256sum."
+    }
+  ],
+  "determinismFindingsPreexisting": [
+    {
+      "what": "The NH family's source-receipt.json pins a STALE digest of a shared record.",
+      "where": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/source-receipt.json, entry for data/record-clearing/legal-design-track-registry.json",
+      "detail": "Surfaced by running the UNMODIFIED committed builder as a determinism control before writing any repair, which is supposed to leave git status --porcelain empty and did not. The receipt records sha256 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc and byteLength 16778727. The file on disk, clean at HEAD, is b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 at 16781025 bytes -- and it was ALREADY b62ae691 at VF40's own verification base 80fd3eb5, so the receipt has carried a stale pin since before the current row was written. Commit fe7fd55f3 (FIX03, a different state) last moved the shared registry.",
+      "whatIDidAboutIt": "KEPT the builder's refreshed value, because it makes the receipt true of the bytes on disk and reverting would re-publish a digest this lane has measured to be wrong. This is OUTSIDE the dispatched ARTIFACTS grant and is flagged for an independent reader: it touches SOURCE_IDENTITY, which VF40 did not report as failing. The NH packet's own content does not depend on it -- both fixtures and both delivered guides rebuild byte-identically -- so only the whole-file digest of the shared registry changed."
+    },
+    {
+      "what": "Re-running the MN family builder DESTROYS a central RASTER_PASS acceptance receipt.",
+      "where": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/product-wiring.json",
+      "detail": "Also surfaced by the unmodified-builder determinism control, which dirtied three files. The committed product-wiring.json carries acceptanceReceipt {verdict RASTER_PASS, workflowRunId 34413372916, jobId 102673422663, artifactId 10128419544, boundToCanonicalSha256 cbdea2b8ed.., coversTheWholeFamily true}. The family builder does not know that key -- grep -c acceptanceReceipt over both family builders returns 0 -- because it is written by the factory-owned scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs. So any ordinary rebuild of this family silently strips a raster acceptance, and also flips sourceIdentity tier from exact_content_hash back to exact_form_number.",
+      "whatIDidAboutIt": "Restored product-wiring.json with git checkout after each rebuild, so the receipt is preserved and this lane's commit does not withdraw a raster acceptance it has no grant to withdraw. NOT REPAIRED: the ordering defect is in how the two generators share one file, which is a factory-owned question and not this lane's to settle."
+    },
+    {
+      "what": "Two MN measurement artifacts do not reproduce from the committed builder.",
+      "where": "field-census.census-v1.json and reports/actual-writes.json in the MN family directory",
+      "detail": "From the same unmodified-builder control. printedInkFractionOnTheRule moves 0.4 -> 0.23 and glyphAdvance 12 -> 0 across 96 changed lines of the census; and actual-writes.json's committed overlayTextReadFromFinalPdfBytes is TRUNCATED, '...continued for dismis' at glyphCountReadFromFinalPdfBytes 81, where the rebuild reads the full '...continued for dismissal' at 84. The committed artifacts were produced by a different state of some shared reader than the one in the tree now. The FIXTURE PDFs are unaffected and rebuild bit-identically, so this is a reporting drift, not a packet-byte drift.",
+      "whatIDidAboutIt": "Restored both with git checkout so this lane's commit stays bounded to the dispatched PROTECTED_FIELDS repair. NOT REPAIRED and NOT MINE: a truncated glyph read published as a measurement is exactly the class of defect this factory catalogues, and it should be dispatched to a lane that can change the reader."
+    }
+  ],
+  "defectsNoCounterCanSee": [
+    {
+      "what": "A control that reads its own output.",
+      "where": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs, the price self-test",
+      "detail": "The general shape, stated for the catalogue: when the DETECTOR and the SCRUBBER are the same expression, the detector is evaluated on text from which that expression has already been eliminated, so it returns empty for every input and reports a clean result forever. It is worse than the carve-out it replaced, because a carve-out is visible in the test's own text while this one looks like a whole-document scan. The tell is not in the test but in the function it calls: any assertion of the form `f(x).match(R)` where f is defined as `x.replace(R, ...)` is a tautology. The repair is to move the reading to BEFORE the transformation, where the thing being looked for still exists.",
+      "whatIDidAboutIt": "Repaired for this family and proved by mutation. Not swept for elsewhere -- this lane holds two families and did not read other builders."
+    },
+    {
+      "what": "An elision that cannot tell one figure's origin from another's, under a page that says it can.",
+      "where": "The NH fee section of participant-instructions.md",
+      "detail": "The delivered page tells the reader that what was removed is 'a figure recorded against the GENERAL petition to annul a criminal record, not a figure anyone has established you owe'. The substitution behind that sentence is origin-blind: any $-figure from anywhere, including a fabricated one, received the same [amount elided] and the same on-page explanation. The sentence was true of the bytes shipping that day and enforced by nothing. This is VF40's second consequence and it is now the thing the new gate actually enforces, which is why the delivered page did not have to change.",
+      "whatIDidAboutIt": "Repaired at the mechanism rather than by weakening the sentence, which is why the repair cost zero delivered bytes."
+    },
+    {
+      "what": "A true zero on a counter, beside a delivered sentence that contradicts it.",
+      "where": "The MN participant guide against its own field map",
+      "detail": "protectedWrites 0 is a correct measurement and the pages really are pixel-identical to their sources, and both facts were compatible with a guide telling the participant that a judge's findings, the grant-or-deny box and the sealing branch on a proposed order were theirs to decide. No write counter can see a defect whose whole content is a sentence about the boxes that were NOT written to. The general form: whenever a packet publishes a claim QUANTIFIED OVER the fields it did not touch, no counter over the fields it did touch can check it, and the claim has to be generated from the classification instead of written beside it.",
+      "whatIDidAboutIt": "Repaired by generating the claim from the same dispositions that refuse the boxes."
+    }
+  ],
+  "whatIcouldNotRepair": [
+    "The three determinism findings above, each for the reason recorded with it. All three are pre-existing at this base, all three were surfaced by running the unmodified builders before touching anything, and none is within the two dispatched obligations.",
+    "Neither family's verdict. This lane repaired both and verifies neither."
+  ],
+  "grantsNothing": "This return grants no route promotion, opens no commercial route, admits no raster and sets no verdict. Both families remain at their existing build status and both keep a FAIL_REPAIR_REQUIRED row until a lane that did not repair them says otherwise.",
+  "claim": "Two bounded repairs, both byte-free for every participant-facing PDF, made by a lane that verifies neither. Read the mutation proof for NH and the box arithmetic for MN before believing either."
+}
