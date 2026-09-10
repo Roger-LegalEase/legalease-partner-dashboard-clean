@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "mn152-vf01-delta-audit/v1",
+  "familyId": "mn_petition_15218-set",
+  "reviewerLane": "VF01",
+  "reviewBase": "36bd24614c5214a8877f863939f73701b8cac844",
+  "claimAssertion": "CLAIM_OK VF01 mn_petition_15218-set (independent-verification, grant set 25741572052f0be5)",
+  "supportedDelta": true,
+  "deltaBasis": {
+    "priorReturn": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json",
+    "priorVerifiedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+    "priorVerdict": "FAIL_REPAIR_REQUIRED",
+    "priorPassObligations": 14,
+    "priorFailedObligation": "ROUTE_OPTIONS",
+    "repairReturnsRead": [
+      "data/rcap-grade-a/packet-factory-24h/fix172/rows-fix172-20260910.json",
+      "data/rcap-grade-a/packet-factory-24h/fix176/rows-fix176-20260910.json",
+      "data/rcap-grade-a/packet-factory-24h/fixcxm1/rows-fixcxm1-20260910.json"
+    ],
+    "repairAuthorsExcludedFromReview": ["FIX172", "FIX176", "FIXCXM1"]
+  },
+  "exactInputComparison": {
+    "sourceInputs": {
+      "EXP102": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+      "EXP104": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+      "EXP106": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+      "FEE102": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8"
+    },
+    "sourceCustody": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; EXP102/104/106 opened from private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota; FEE102 opened from MASTER_LIBRARY_SOURCE_DIR",
+    "outputBytes": {
+      "canonical": {"sha256": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346", "bytes": 909398, "pages": 17},
+      "boundary": {"sha256": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda", "bytes": 909804, "pages": 17}
+    },
+    "changedSinceVF61Base": [
+      "participant-instructions.md: replaced the incorrect sweep sentence and added the eleven named route-ground explanations; self-help, filing, service and fee sections remain unchanged",
+      "production-field-map.json: added selected_route_option to the two marked controls and distinct reason/item9GroundKey metadata to the eleven not-applicable route controls; no facts, geometry, writes or source hashes changed",
+      "reports/blanks.json: recorded the eleven route-control reasons",
+      "reports/selection-disclosure.json: added the bounded selection audit",
+      "build-findings.json: recorded the route-control disclosure observation",
+      "product-wiring.json: retained the closed commercial state and the historical VF61 verification record"
+    ],
+    "unchangedSinceVF61Read": [
+      "fixtures/canonical.pdf",
+      "fixtures/boundary.pdf",
+      "source-receipt.json",
+      "field-census.census-v1.json",
+      "filing-instructions.md",
+      "reports/actual-writes.json",
+      "reports/caption-evidence.json",
+      "reports/rendered-artifacts.json",
+      "build-status.json",
+      "approval-request.json"
+    ],
+    "affectedObligations": ["ROUTE_OPTIONS"],
+    "unaffectedObligationsCarried": [
+      "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS", "PROTECTED_FIELDS",
+      "CLIPPING_AND_OVERLAP", "SELF_HELP_STOP", "FILING_DESTINATION", "SERVICE", "REQUIRED_BEFORE_FILING",
+      "ARTIFACTS", "PAGE_ORDER", "REPEATING_ROWS", "FEE_AND_WAIVER"
+    ]
+  },
+  "currentRouteAudit": {
+    "method": "Independent read of current production-field-map.json, reports/blanks.json, reports/selection-disclosure.json, participant-instructions.md, current fixture hashes and the controlling MN track and packet-set records; no repairer return was adopted as a measurement.",
+    "controls": 95,
+    "marked": 2,
+    "markedControls": ["EXP102 p4-cb-y660-x90.4", "FEE102 p1-cb-y350-x108"],
+    "markedDispositions": ["selected_route_option", "selected_route_option"],
+    "notApplicableOnThisRoute": 11,
+    "notApplicableWithReason": 11,
+    "distinctOtherGroundReasons": 11,
+    "guideNamesOtherGrounds": 11,
+    "oldSweepSentencePresent": false,
+    "newSweepDisclosurePresent": true,
+    "routeSelectionRecord": "obligation:track-only:MN:mn_petition_15218 / mn-exp102-152-18-discharge",
+    "routeConsequence": "The two route-determined marks identify the § 152.18 discharge and the accompanying-pleadings FEE102 branch. The eleven other EXP102/FEE102 controls are explicitly different grounds or the opposite fee branch; the guide tells the participant to leave them empty and obtain a different route packet when applicable.",
+    "currentCompletenessVerifier": "PASS_COMPLETE 32/482 written; all nine counters 0, but requiredOptionsMissing is structurally blind to selectionControls on this field-map shape and is not relied on for this route audit."
+  },
+  "rasterReceipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34413372916",
+    "requestedScale": 2.5,
+    "pagesMeasured": 34,
+    "coversWholeFamily": true,
+    "hashesMatchCurrentOutput": true,
+    "visualDefects": null,
+    "visualDefectsWhyNull": "The receipt binds the current PDF hashes but bodiesCommitted is 0; no reviewer read the PNG bodies. Visual defects therefore remain unmeasured rather than zero."
+  },
+  "unmeasured": {
+    "participantImpact": null,
+    "visualDefects": null,
+    "participantImpactWhyNull": "No participant received this closed internal packet; the route defect is assessed from the documents and records.",
+    "sourceFreshnessBeyondBoundHashes": null,
+    "sourceFreshnessWhyNull": "This review verifies the exact bound source binaries and does not make a new external-currency claim."
+  },
+  "noWrites": {
+    "buildersRun": false,
+    "repairsMade": 0,
+    "packetBytesModified": 0,
+    "overlayDirectoriesModified": 0,
+    "centralRecordsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fix172/rows-fix172-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fix176/rows-fix176-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fixcxm1/rows-fixcxm1-20260910.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/blanks.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/selection-disclosure.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_15218-set/mn_petition_15218-set.verdict.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+  ]
+}
