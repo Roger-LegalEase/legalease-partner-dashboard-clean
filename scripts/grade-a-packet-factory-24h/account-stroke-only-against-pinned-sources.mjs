@@ -58,11 +58,36 @@ const decode = (stream) => { try { return Buffer.from(decodePDFRawStream(stream)
  * bytes; only the leading fill is normalised away, and only a fill that sits at
  * the very start before any other painting.
  */
-const LEADING_FILL = /^\s*(?:[\d.]+\s+g|[\d.]+\s+[\d.]+\s+[\d.]+\s+rg|\/[A-Za-z0-9_.-]+\s+cs\s+[\d.\s]+scn)\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+\s+re\s+f\*?\s*/;
+/*
+ * TWO BUGS FIX131 FOUND IN THIS, AND NEITHER WAS THE FILL COLOUR.
+ *
+ * The regex matched `1 g` correctly and still reported 0 fill-stripped streams
+ * across five Texas families whose ink was 100% fill-stripped source ink.
+ *
+ * First, whitespace. `^\s*` sat BEFORE the fill, so a source stream skeletonised
+ * to text beginning at its next operator while the DELIVERED stream -- which had
+ * the fill excised in place -- still began with the newlines left where it stood.
+ * The two skeletons differed by two whitespace bytes and SHA-256 separated them.
+ * Whitespace is now collapsed on both sides after stripping.
+ *
+ * Second, the fill is not always first. The Texas order's /Off opens `q` before
+ * its fill, so the fill sat at no `^` at all and the pattern never fired. A
+ * non-painting preamble -- `q`, a `cm`, a `gs`, a `w` -- is now allowed to
+ * precede it, because none of those marks the page.
+ */
+const PREAMBLE = "(?:\\s*(?:q|Q|[-\\d.]+(?:\\s+[-\\d.]+){5}\\s+cm|\\/[A-Za-z0-9_.-]+\\s+gs|[-\\d.]+\\s+w|[-\\d.]+\\s+[JjMi]|\\[[^\\]]*\\]\\s*[-\\d.]+\\s+d))*";
+const LEADING_FILL = new RegExp(
+  "^" + PREAMBLE
+  + "\\s*(?:[\\d.]+\\s+g|[\\d.]+\\s+[\\d.]+\\s+[\\d.]+\\s+rg|\\/[A-Za-z0-9_.-]+\\s+cs\\s+[\\d.\\s]+scn)"
+  + "\\s+[-\\d.]+\\s+[-\\d.]+\\s+[-\\d.]+\\s+[-\\d.]+\\s+re\\s+f\\*?\\s*");
 const skeleton = (buffer) => {
   const text = buffer.toString("latin1");
   const stripped = text.replace(LEADING_FILL, "");
-  return { changed: stripped !== text, sha256: sha(Buffer.from(stripped, "latin1")) };
+  /* Collapse whitespace on BOTH sides after stripping. Excising a fill in place
+   * leaves the newlines that stood around it, and two streams that differ only
+   * by those bytes are the same drawing. */
+  const normalised = stripped.replace(/\s+/g, " ").trim();
+  return { changed: stripped !== text, sha256: sha(Buffer.from(normalised, "latin1")) };
 };
 
 /* Every appearance stream the pinned source itself ships, across every state of
