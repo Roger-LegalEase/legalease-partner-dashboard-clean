@@ -3664,10 +3664,55 @@ function assertNamedFactWritesLanded(familyId, item, fixture) {
   }
 }
 
+/*
+ * FIX171. WHAT A REFUSING BUILD MUST NOT HAVE ALREADY DESTROYED.
+ *
+ * Every file under fixtures/ and raster/ that exists when the build starts,
+ * by path, size, modification time and SHA-256. rasterPacket deletes the existing page-*.png before it renders
+ * replacements, so a build that throws between the delete and the write leaves
+ * the raster directory SHORT, not merely stale -- and the identityRefresh
+ * annotations such a directory carries in other families are not recreated by
+ * the next successful build. Comparing this fingerprint at the last gate is how
+ * a later edit that moves a write back above the gates is refused rather than
+ * discovered by a lane reading `git status` after a crash.
+ */
+function outputByteFingerprint(out) {
+  const entries = [];
+  const walk = (dir) => {
+    if (!fs.existsSync(dir)) return;
+    for (const name of fs.readdirSync(dir).sort()) {
+      const abs = path.join(dir, name);
+      const stat = fs.statSync(abs);
+      if (stat.isDirectory()) { walk(abs); continue; }
+      /* The modification time is part of the fingerprint deliberately. A write
+       * that happens to reproduce the same bytes is still a write, and a build
+       * that throws after it has already deleted and rewritten the raster
+       * directory has still passed through the window in which that directory
+       * is short. Hashing alone cannot see a rewrite; a first draft of this
+       * guard did not fire when the moved block was put back, because the
+       * bytes it rewrote were identical. */
+      entries.push(`${path.relative(rootDir, abs)}:${stat.size}:${stat.mtimeMs}:${sha256(fs.readFileSync(abs))}`);
+    }
+  };
+  for (const leaf of ["fixtures", "raster"]) walk(path.join(rootDir, out, leaf));
+  return entries.join("\n");
+}
+
+/** Refuses if any packet or raster byte moved before the gates that can refuse. */
+function assertNoOutputWrittenBeforeTheGates(familyId, out, fingerprintAtEntry) {
+  const now = outputByteFingerprint(out);
+  assert.equal(now, fingerprintAtEntry,
+    `${familyId}: a packet or raster byte was written before this build's refusing gates ran. `
+    + "A build that later throws would leave the committed tree modified and the raster directory short. "
+    + "Move the write below assertEveryDisclosedBlankIsNamed rather than relaxing this check.");
+}
+
 async function buildOfficial(familyId, config) {
   assertLocalRulesCheckIsTheMemos();
   assertComponentDispositionMatchesTheManifest(familyId, config);
   const out = outputRoot(familyId, config);
+  /* FIX171. Taken before a single byte is written, and checked at the last gate. */
+  const outputFingerprintAtEntry = outputByteFingerprint(out);
   const resolved = resolveSources(familyId, config);
   const blockedHashes = new Set(readJson(STALE_BLOCK).hashes ?? []);
   const byFixture = { canonical: [], boundary: [] };
@@ -3681,41 +3726,6 @@ async function buildOfficial(familyId, config) {
       console.log(`${familyId}/${fixture}/${source.formNumber}: writes=${rendered.report.written.length} refusals=${rendered.report.refused.length}`);
     }
     assertPlaintiffIsTheSourcesOwnCaption(familyId, config, byFixture[fixture]);
-  }
-
-  const artifacts = [];
-  for (const fixture of ["canonical", "boundary"]) {
-    const packet = await combinePacket(familyId, fixture, byFixture[fixture]);
-    /* FIX135b. Read from the assembled document, before it is written to disk. */
-    const assembledOrder = await assertAssembledPagesFollowTheManifest(familyId, config, packet.bytes, byFixture[fixture], fixture);
-    if (assembledOrder) console.log(`${familyId}/${fixture}: assembled order ${assembledOrder.deliveredOrder.join(" -> ")} matches the manifest`);
-    const rel = `${out}/fixtures/${fixture}.pdf`;
-    const abs = path.join(rootDir, rel);
-    fs.mkdirSync(path.dirname(abs), { recursive: true });
-    fs.writeFileSync(abs, packet.bytes);
-    const digest = sha256(packet.bytes);
-    if (blockedHashes.has(digest)) findings.push({ fixture, check: "combined_packet_matches_stale_blocked_hash", sha256: digest });
-    const rasterDir = `${out}/raster/${fixture}`;
-    const rasterResult = await rasterPacket(abs, rasterDir);
-    const rasterPages = rasterResult.pages;
-    if (rasterPages.length !== packet.pageManifest.length) findings.push({ fixture, check: "not_every_packet_page_was_rastered", expected: packet.pageManifest.length, actual: rasterPages.length });
-    for (const page of rasterPages) {
-      if (page.looksBlank || !page.croppedToPage) findings.push({ fixture, page: page.page, check: "raster_is_blank_or_not_cropped_to_page", looksBlank: page.looksBlank, croppedToPage: page.croppedToPage });
-    }
-    artifacts.push({
-      fixture,
-      file: rel,
-      sha256: digest,
-      byteLength: packet.bytes.length,
-      pageCount: packet.pageManifest.length,
-      pageManifest: packet.pageManifest,
-      activeContentScan: packet.activeContentScan,
-      rasterEngine: rasterResult.rasterProvenance.engine,
-      rasterEngineDiscoveryMode: rasterResult.rasterProvenance.discoveryMode,
-      rasterEngineVersion: rasterResult.rasterProvenance.version,
-      rasterDpi: RASTER_DPI,
-      rasterPages
-    });
   }
 
   const censusDocuments = byFixture.canonical.map((item) => ({
@@ -3854,6 +3864,71 @@ async function buildOfficial(familyId, config) {
   const withheldBlanks = withholdBlanksTheParticipantMayNotFill(maps);
   const requiredBeforeFiling = nameDisclosedBlanks(config, requiredBeforeFilingItems(maps));
   assertEveryDisclosedBlankIsNamed(familyId, config, requiredBeforeFiling);
+
+  /* FIX171. NOTHING IS WRITTEN UNTIL EVERY GATE THAT CAN REFUSE HAS RUN.
+   *
+   * This block used to sit here, ahead of the census and the disclosure
+   * naming: it wrote both fixtures and then called rasterPacket, which
+   * `fs.rmSync`s every existing page-*.png before regenerating them. The
+   * refusal that actually stops this family -- assertEveryDisclosedBlankIsNamed
+   * -- ran 161 lines later, so a build that refused had already replaced both
+   * committed packets on disk and deleted and rewritten six raster pages.
+   * VF42 measured exactly that: eight modified files after a throw, and a
+   * window between the rm and the write in which the raster directory is
+   * short rather than merely stale. A build that fails must leave the tree
+   * as it found it, because the annotations a wiped directory destroys are
+   * not recreated by the next successful build.
+   *
+   * The moved block reads only `byFixture`, `config` and `familyId`, all of
+   * which are final before it, and pushes nothing into `findings` that the
+   * census block also pushes, so the output does not move. Proved rather than
+   * asserted: the family was built both ways under one harness and all 22
+   * output files were compared. 21 were byte-identical; the 22nd,
+   * reports/actual-writes.json, moved only because of the addedGlyphs repair
+   * made in the same commit. See assertNoOutputWrittenBeforeTheGates, which
+   * refuses if a later edit moves a write back above the gates.
+   *
+   * This host is shared by the two West Virginia conviction families as well,
+   * which FIX135 measured as also failing to rebuild to their committed
+   * digests. They gain the same protection and nothing else changes for them.
+   */
+  assertNoOutputWrittenBeforeTheGates(familyId, out, outputFingerprintAtEntry);
+
+  const artifacts = [];
+  for (const fixture of ["canonical", "boundary"]) {
+    const packet = await combinePacket(familyId, fixture, byFixture[fixture]);
+    /* FIX135b. Read from the assembled document, before it is written to disk. */
+    const assembledOrder = await assertAssembledPagesFollowTheManifest(familyId, config, packet.bytes, byFixture[fixture], fixture);
+    if (assembledOrder) console.log(`${familyId}/${fixture}: assembled order ${assembledOrder.deliveredOrder.join(" -> ")} matches the manifest`);
+    const rel = `${out}/fixtures/${fixture}.pdf`;
+    const abs = path.join(rootDir, rel);
+    fs.mkdirSync(path.dirname(abs), { recursive: true });
+    fs.writeFileSync(abs, packet.bytes);
+    const digest = sha256(packet.bytes);
+    if (blockedHashes.has(digest)) findings.push({ fixture, check: "combined_packet_matches_stale_blocked_hash", sha256: digest });
+    const rasterDir = `${out}/raster/${fixture}`;
+    const rasterResult = await rasterPacket(abs, rasterDir);
+    const rasterPages = rasterResult.pages;
+    if (rasterPages.length !== packet.pageManifest.length) findings.push({ fixture, check: "not_every_packet_page_was_rastered", expected: packet.pageManifest.length, actual: rasterPages.length });
+    for (const page of rasterPages) {
+      if (page.looksBlank || !page.croppedToPage) findings.push({ fixture, page: page.page, check: "raster_is_blank_or_not_cropped_to_page", looksBlank: page.looksBlank, croppedToPage: page.croppedToPage });
+    }
+    artifacts.push({
+      fixture,
+      file: rel,
+      sha256: digest,
+      byteLength: packet.bytes.length,
+      pageCount: packet.pageManifest.length,
+      pageManifest: packet.pageManifest,
+      activeContentScan: packet.activeContentScan,
+      rasterEngine: rasterResult.rasterProvenance.engine,
+      rasterEngineDiscoveryMode: rasterResult.rasterProvenance.discoveryMode,
+      rasterEngineVersion: rasterResult.rasterProvenance.version,
+      rasterDpi: RASTER_DPI,
+      rasterPages
+    });
+  }
+
   const manifestRequiredBeforeFiling = manifestRequiredBeforeFilingFor(familyId);
   const actualWrites = [];
   for (const fixture of ["canonical", "boundary"]) {
@@ -3892,7 +3967,21 @@ async function buildOfficial(familyId, config) {
         } : {}),
         proofSummary: {
           appearancesRead: item.proof.appearancesRead ?? null,
-          addedGlyphs: item.proof.addedGlyphs ?? null,
+          /* FIX171, ARTIFACTS. VF42 read this key as null on SIX of this
+           * family's eight artifact entries -- CC-6-11, CC-6-11.2 and DC-1-15
+           * on both fixtures -- and was right: the acroform path never computes
+           * item.proof.addedGlyphs, so the byte-proof report published a name
+           * that reads as a reading beside no reading at all. FIX135b added the
+           * real one, addedGlyphsReadFromOutputBytes, into the SAME object and
+           * left this key null next to it, which is worse than either alone.
+           * It now carries the reading when one was taken, says which reading
+           * it is, and stays null -- never 0 -- when neither was available. */
+          addedGlyphs: item.proof.addedGlyphs ?? outputGlyphs?.addedGlyphsReadFromOutputBytes ?? null,
+          addedGlyphsBasis: item.proof.addedGlyphs !== undefined && item.proof.addedGlyphs !== null
+            ? "pinned-source geometry subtracted from the finalized artifact's geometry"
+            : outputGlyphs ? "every glyph the produced bytes' flattened widget appearances draw, read by "
+              + "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs from this document's own output"
+              : null,
           addedPaintedPaths: item.proof.addedPaintedPaths ?? null,
           remainingAcroFields: item.proof.remainingAcroFields ?? null,
           selectionControlsProtected: item.proof.protectedSelectionControls.length,
@@ -3900,6 +3989,18 @@ async function buildOfficial(familyId, config) {
         }
       });
     }
+  }
+
+  /* FIX171, ARTIFACTS. A family that declares it reads its own output bytes
+   * may not then publish "addedGlyphs": null for a document. Nothing is
+   * inferred from a green counter here: the check is that a NUMBER is present
+   * on every entry, with the name of the reading it came from beside it. */
+  if (config.emitOutputByteGlyphReadings) {
+    const unread = actualWrites.filter((entry) => typeof entry.proofSummary.addedGlyphs !== "number");
+    assert.ok(unread.length === 0,
+      `${familyId}: ${unread.length} artifact entr(ies) publish proofSummary.addedGlyphs without a reading: `
+      + `${unread.map((entry) => `${entry.fixture}/${entry.formNumber}`).join(", ")}. `
+      + "This family declares emitOutputByteGlyphReadings, so a reading was available and null is not an answer.");
   }
 
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, config, resolved));
