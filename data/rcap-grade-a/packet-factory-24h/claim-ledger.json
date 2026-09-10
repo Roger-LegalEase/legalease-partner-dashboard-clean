@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "865cff8a08bac30c1200ea02f74351956f1005fb",
+  "generatedAtCommit": "e30be2eb47de0e9210b0b8fb2fe97a06290da666",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4017,9 +4017,9 @@
       "operation": "rapid-repair",
       "lane": "FIX147",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+      "released": true,
+      "releasedAt": "2026-09-10T13:02:21.062Z",
+      "releaseReason": "FIX147 finished and returned at 5620acbf754eaf570a13d2e65ff541f225463347: both families repaired, rows at data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json. Closed at its return boundary; the independent read it asks for is dispatched separately."
     },
     {
       "subjectType": "packet-family",
@@ -4920,8 +4920,9 @@
       "operation": "rapid-repair",
       "lane": "FIX147",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T13:02:21.062Z",
+      "releaseReason": "FIX147 finished and returned at 5620acbf754eaf570a13d2e65ff541f225463347: both families repaired, rows at data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json. Closed at its return boundary; the independent read it asks for is dispatched separately."
     },
     {
       "subjectType": "packet-family",
@@ -4983,6 +4984,21 @@
       "released": true,
       "releasedAt": "2026-09-10T12:53:53.595Z",
       "releaseReason": "FIX146 finished and returned; its work is merged. It wrote no rows directory -- its return is the repair commit itself, named here -- so the gate correctly refused to close on committed rows and this names the commit instead. Two families repaired, three proven families measured and left untouched."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "itemId": null,
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "familyIds": [
+        "la-977d-marijuana-first-offense-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF47",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14691,24 +14707,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "la-977d-marijuana-first-offense-set",
-      "itemId": null,
-      "familyId": "la-977d-marijuana-first-offense-set",
-      "familyIds": [
-        "la-977d-marijuana-first-offense-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF47",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "6b047e5151e3f8439d90778738335215071c21a5b2621845a1b635ec7ebb660f",
+  "claimsDigest": "79553d43a6a2000eff2212f7e1672ace9b3d1ec1e2c557f0c3525a004a6a645b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37503,6 +37504,36 @@
       "closedAtReturnBoundary": true,
       "returnEvidence": {
         "namedReturnCommit": "26d539ea36fd58eacef56072c0edc4a51c4fe0c1"
+      }
+    },
+    {
+      "lane": "FIX147",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:02:21.062Z",
+      "reason": "FIX147 finished and returned at 5620acbf754eaf570a13d2e65ff541f225463347: both families repaired, rows at data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json",
+        "committedAt": "5620acbf754eaf570a13d2e65ff541f225463347",
+        "rowFiles": 1
+      }
+    },
+    {
+      "lane": "FIX147",
+      "subjectType": "packet-family",
+      "subjectId": "ky-expungement-certification-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T13:02:21.062Z",
+      "reason": "FIX147 finished and returned at 5620acbf754eaf570a13d2e65ff541f225463347: both families repaired, rows at data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json. Closed at its return boundary; the independent read it asks for is dispatched separately.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fix147/rows-fix147-20260910.json",
+        "committedAt": "5620acbf754eaf570a13d2e65ff541f225463347",
+        "rowFiles": 1
       }
     }
   ],
