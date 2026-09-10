@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-factory-finding/v1",
+  "finding": "Every raster receipt in the corpus says coversTheWholeFamily true, and 216 of 220 name a delivered fixture the gate did not render.",
+  "raisedBy": "VF54, 2026-09-10, while verifying four families it was told already carried a bound RASTER_PASS",
+  "confirmedBy": "captain, measured over all 220 receipts in RASTER_QUEUE.json at d93d1f195",
+  "measurement": {
+    "receiptsWithAVerdict": 220,
+    "coversTheWholeFamilyTrue": 220,
+    "namingAnUnrenderedFixtureBesideThatFlag": 216,
+    "mostCommonDocumentsCovered": "canonical.pdf, on 172 of them"
+  },
+  "theReceiptIsNotLying": "It defines its terms in its own words. coverageBasis reads 'the family ships one assembled packet, so rendering it covers every canonical page of the family', and whatCompleteMeansHere reads 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered'. So the flag is true under a stated, narrower definition.",
+  "whatIsWrongIsTheName": "coversTheWholeFamily reads as visual coverage of everything the family delivers, and it is not that. A boundary fixture is a delivered artifact: it is what a participant receives on the boundary route. It is bound by hash, so nobody can swap it silently, but no human and no detector has looked at a rendered page of it.",
+  "whyItMatters": "The terminal transition requires a complete-coverage RASTER_PASS bound to the current canonical and boundary hashes. The hash binding is real for both. The COVERAGE is canonical-only. Whether that satisfies 'complete coverage' is a definitional question about what the visual gate is for, and it is not the Captain's to settle: it decides whether 194 families now reading COMPLETE_PACKET_PROVEN are proven on the packet or on half of it.",
+  "hawaiiIsTheSharpestCase": "rcap-hi-custom-pleading ships twelve fixtures. Its receipt renders one. Its own reports/rendered-artifacts.json carries routeArtifactRasterPending true, so eleven of twelve are uncovered while the flag beside them says the family is whole.",
+  "thisIsTheSameGapTheNeWvReviewFound": "The R2 governance-preservation review recorded that the corrected checkers measure canonical AND boundary from bytes and then compare only canonical, while the builder's own retention rule requires both. That was one proposal on three families. This is the same asymmetry in the central gate, on 216.",
+  "aSecondDefectFoundInTheSamePass": {
+    "what": "raster-runs/admitted/ holds receipts that bind bytes no longer on disk, beside current receipts in RASTER_QUEUE.json that do bind them. Both say RASTER_PASS.",
+    "measuredCases": [
+      "md_10105_early-set: admitted/ binds canonical 4258591d9ca8a8b1 at packetCommit 0cb44ee92; FIX141 rewrote the canonical afterwards at 85ff27c08",
+      "rcap-hi-custom-pleading: admitted/ binds be5092838b9ac898 at 686a2f65e; FIX142 rewrote it afterwards at 82e88f98f",
+      "mi_setaside_trafficking-set: no admitted/ directory at all, though a current receipt exists"
+    ],
+    "risk": "A reader who opens admitted/ and stops is reading a pass over superseded bytes. The queue is the gate and the admitted directory is history, which this factory has already had to establish once."
+  },
+  "whatThisRecordDoesNot": "It withdraws nothing and changes no state. Every affected receipt binds its canonical by hash and every canonical was rendered; nothing here says a delivered page is wrong. It says the coverage claim is narrower than its name, and asks for the definition rather than assuming one.",
+  "forRoger": "Does a complete-coverage RASTER_PASS mean the canonical document, or every fixture a participant can receive? If the latter, 216 families owe boundary rasters and the flag is currently overstating them. If the former, the flag should be renamed to say so and the terminal rule should stop naming the boundary hash as though the gate had looked at it.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

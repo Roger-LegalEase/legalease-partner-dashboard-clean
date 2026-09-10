@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9f2e6166f223f40430d073648276e455807dbcb6",
+  "minimumCaptainSha": "7d0ea5b62c95d37ff02d23ee8e0b9c42c221af79",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,22 +72,22 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 6,
-    "repairRequired": 42,
+    "verifyPending": 2,
+    "repairRequired": 43,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 192,
+    "COMPLETE_PACKET_PROVEN": 194,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "BUILT_RASTER_PENDING": 1,
-    "FAIL_REPAIR_REQUIRED": 50,
+    "BUILT_RASTER_PENDING": 2,
+    "FAIL_REPAIR_REQUIRED": 51,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -4327,9 +4327,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "lane": "vf56",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -4363,21 +4363,21 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
         "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "All 66 items appear in the file, so a presence test passes. Reading them defeats it. ACIC-PETITION-DRUG-COURT-POST:Sex carries effectiveLabel 'Race', so the instructions print two consecutive rows both named 'Race' for that document, no row named 'Sex', and the sentence 'supply Race from the court, ACIC, program-completion, or case record' against the Sex field. A participant following it writes race into the sex box of a filed petition. Beyond that decisive one, 43 further required items are named by a mis-derived fragment of adjacent printed text rather than the field's caption - among them '1', '2', 'A', 'prays', 'IN TH', '_______ DI', '4.On', '____________________________' and 'A Class _____ [_] felony [_] misdemeanor in violationof A.C.' - which name nothing a participant can act on. 57 of the 66 have an effectiveLabel that differs from the field name.",
-          "findingReadFrom": "finding",
-          "evidence": "all 66 requiredBeforeFiling refusals in production-field-map.json checked one by one against participant-instructions.md, comparing each item's printed name to the field it actually addresses"
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         },
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Eight writes across the two boundary assemblies exceed their measured write box: pre-adjudication boundary overflows by 3.3, 34.0, 26.4 and 18.6 points and post-adjudication boundary by 15.2, 8.5, 43.5 and 37.6 points. The values that overflow are the ones that matter on a court filing - the case number '0123-45-2026-CR-900123.00-AB-CDE/2201' (118.05pt of text in a 104.85pt box) and the petitioner's full legal name (195.64pt in boxes of 154 to 189pt). Because an AcroForm appearance is clipped at its BBox, the rendered page shows a silently truncated case number and name; the text layer still carries the whole string, so a text-only check reports them present. Corroborating collisions with printed body text appear at pre-adjudication boundary p4 ('Fitzwilliam' and 'III' over the printed word 'prays') and p8 ('III' over 'to'), and post-adjudication boundary p4 and p8 ('Fitzwilliam' and 'III' over 'to' and 'Dismiss'). Both canonical assemblies are clean, which is why the canonical-only raster receipt did not catch this.",
-          "findingReadFrom": "finding",
-          "evidence": "every flattened widget appearance in all four fixtures decoded, its drawn string and font size read from the appearance stream, and the string width computed against the widget BBox; corroborated by pdftotext -bbox pairwise word overlap with printed rules excluded"
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -25334,10 +25334,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf44",
-        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf54",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -25372,7 +25372,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_10105_early-set.mjs",
@@ -26596,14 +26596,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf22",
-        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
+        "verdict": "PASS",
+        "lane": "vf56",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -26632,27 +26630,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Placement is right and format is wrong. PLACEMENT, which is the harder half here, is correct and was verified independently: CR-307's AcroForm field names are shifted by one against its printed labels, so the widget named 'Defendants DOB mmddyyyy' is in fact the caption's defendant-name box and the widget named 'MOTION TO SEAL CONVICTION FOR' is in fact the DOB box. The build bound every CR-307 write to the printed label the widget was measured to sit against rather than to its name, and reading the delivered page 1 with pdftotext -bbox confirms it: 'Jordan Avery Reyes' lands at x=32.96 pdfY 672.86-682.11, the defendant-name line above the centred 'Defendant' caption at x=242.28, and '1991-04-17' lands at x=204.44 pdfY 643.03-652.28, on the 'Defendant's DOB' line whose label word sits at x=98.46 pdfY 641.38-657.43. CR-308's names are correct and its geometry independently agrees with CR-307's. All 20 values across both fixtures match their declared expected value exactly. FORMAT is the failure: CR-307 prints its DOB blank as 'Defendant's DOB (mm/dd/yyyy):' and CR-308 names the same widget 'Defendants DOB mmddyyyy', and the packet writes '1991-04-17' on both, in ISO-8601, on both the canonical and the boundary fixture. The packet demonstrably knows the rule — participant-instructions.md tells the participant to supply the conviction date 'in mm/dd/yyyy' for the blank it declines to write — and does not apply it to the value it does write. Nothing in production-field-map.json, reports/blanks.json, build-findings.json or either guide records a decision to deviate, so it is an undisclosed deviation from the official form's own printed instruction on a motion the participant signs.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The quantity FIX01 repaired is confirmed and is not what fails. All 11 requiredBeforeFiling strings from the packet-set manifest reach the delivered guides as exact substrings, tested here by literal substring match, 11/11, against 0 before the repair. What fails is that two of the strings published are addressed to the operator of the service and are now printed to the participant under the heading 'You must supply these before you file', introduced by the sentence 'These are the blanks on the forms themselves that this packet leaves for you'. (1) participant-instructions.md line 114 reads in full: 'No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.' 'Do not promise a refund' is an instruction to LegalEase about what it may tell a participant, printed to the participant as something they must supply. The same fee fact is rendered correctly participant-facing in filing-instructions.md, which drops that clause and says 'This packet states no fee amount. Ask the clerk.' — so the packet contains both the right rendering and the raw record string, in two guides, for the same fact. (2) Under 'Documents to gather', the guide introduces a block with 'On documentation of victim status in particular, the record says:' and then quotes 'Frame the question so a no carries no implication, and never ask the participant to produce proof.' That sentence is a questionnaire-design instruction to the builder, quoted to the participant as the record speaking to them, and it refers to them in the third person. The section's own framing does not cover either instance: it discloses only that 'Some of its entries record that nothing is required rather than asking you for something', which explains the bare 'none.' and 'none expected, because no fee is expected.' entries but says nothing about operator-directed text. The guide proves elsewhere that it knows how to make this disclosure, and makes it for the self-help stop conditions 80 lines earlier. This is DEFECTS_NO_COUNTER_CAN_SEE 'internal record text printed on a filing' — present, non-empty, in its section, verbatim from a controlling record, and therefore invisible to every counter — and it was introduced by the repair, because before it these strings were absent from participant copy altogether.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-seal-survivor-set.mjs",
@@ -27155,12 +27137,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf42",
-        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf54",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27189,11 +27173,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
@@ -27328,9 +27328,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf20",
-        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+        "lane": "vf56",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -27364,13 +27364,34 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "PROTECTED_FIELDS"
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "No protected field carries ink - protectedWrites is a measured zero and EXP106 pages 2 and 3 and EXP104 page 2 are pixel-identical to their pinned sources - but the delivered participant copy tells the participant that the court's own fields are theirs. participant-instructions.md, in the section whose whole subject is which boxes are already marked, says: 'This packet marks 2 boxes for you and no others. They are listed below. Every other box on every form in this packet is empty, and every one of them is yours to decide.' That is false of 40 empty boxes on the delivered pages, all of which production-field-map.json itself classifies PROTECTED_FIELD. 36 of them are on EXP106, the proposed order: the Appearances boxes on page 1, the 'has / has not been given' service finding, the 'is / is not clear and convincing evidence' finding and the 'is / is not a nexus' finding on page 2, the granted and denied boxes on page 2, the whole agency-application checklist on page 2, and on page 3 item 5's box together with its two inner branches (whether the order seals the record under Minn. Stat. § 152.18 or finds a crime-victim nexus), item 6 and item 8. The other 4 are the hearing-notice boxes at the top of EXP102 page 1, which the same guide contradicts itself about two sections later by listing them under 'The court fills these in after you file'. Nothing anywhere in either delivered guide tells the participant that EXP106's boxes belong to the judge: the only sentence about EXP106's completion is 'EXP106 is signed by the judge, not by you', which is about the signature, and the guide separately instructs the participant to write the Judicial District onto EXP106's caption - so the participant is told to write on this form and told every empty box on it is theirs to decide. A participant who follows the guide can mark the judge's findings, the grant-or-deny box and the sealing branch on a proposed order before filing it. Every counter reads zero with this present.",
-          "findingReadFrom": "detail",
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
           "evidence": null
         }
       ],
@@ -28772,12 +28793,14 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf40",
-        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf54",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -28806,11 +28829,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
@@ -37674,10 +37706,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vf43",
-        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf54",
+        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37712,7 +37744,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
