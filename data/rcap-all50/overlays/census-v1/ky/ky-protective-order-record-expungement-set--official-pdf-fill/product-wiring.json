@@ -23,55 +23,15 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
-      "primary_filing"
-    ],
-    "instrumentKindsDeclaredByTheRecordButNotDeliveredHere": [
-      {
-        "role": "court_order",
-        "requirement": "conditional",
-        "outputStrategy": "process_guidance",
-        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
-        "conditionDescription": "Reference only. The court enters the order.",
-        "promisedInstrumentsNotDelivered": []
-      },
-      {
-        "role": "service_instructions",
-        "requirement": "required",
-        "outputStrategy": "process_guidance",
-        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
-        "conditionDescription": null,
-        "promisedInstrumentsNotDelivered": [
-          {
-            "instrument": "certificate of service",
-            "promisedBy": "components[2].notes",
-            "deliveredByThisBuild": false,
-            "whyNotDelivered": "No held source carries one. This family binds exactly one binary — AOC-275.18 Rev. 1-16, one page — and its extracted page text contains the word \"certificate\" nowhere; what it prints instead is the clerk's own distribution list (Copies to, Court file, Petitioner, Respondent) inside the NOTIFICATION OF EXPUNGEMENT HEARING block. Authoring one here would require three things this platform does not hold and this record does not supply: the petitioner's name and address, which is the third person this packet deliberately leaves blank throughout; the hearing date, which the record says the clerk sets after filing (\"The clerk completes the notification-of-hearing section on the form and creates the scheduled event.\"); and the date of mailing, which is after both. A certificate reciting facts nobody holds is a fabricated service record on a sworn filing, so this build refuses it and discloses the refusal instead."
-          }
-        ]
-      }
-    ],
-    "declaredComponentsNotDeliveredInFull": [
-      {
-        "componentIndex": 2,
-        "role": "service_instructions",
-        "requirement": "required",
-        "recordNotesVerbatim": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
-        "promisedInstrumentsNotDelivered": [
-          {
-            "instrument": "certificate of service",
-            "promisedBy": "components[2].notes",
-            "deliveredByThisBuild": false,
-            "whyNotDelivered": "No held source carries one. This family binds exactly one binary — AOC-275.18 Rev. 1-16, one page — and its extracted page text contains the word \"certificate\" nowhere; what it prints instead is the clerk's own distribution list (Copies to, Court file, Petitioner, Respondent) inside the NOTIFICATION OF EXPUNGEMENT HEARING block. Authoring one here would require three things this platform does not hold and this record does not supply: the petitioner's name and address, which is the third person this packet deliberately leaves blank throughout; the hearing date, which the record says the clerk sets after filing (\"The clerk completes the notification-of-hearing section on the form and creates the scheduled event.\"); and the date of mailing, which is after both. A certificate reciting facts nobody holds is a fabricated service record on a sworn filing, so this build refuses it and discloses the refusal instead."
-          }
-        ]
-      }
+      "court_order",
+      "primary_filing",
+      "service_instructions"
     ],
     "packetComponents": [
       "component:ky_protective_order_record_expungement-primary-filing-1"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md",
-    "filingInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
@@ -81,19 +41,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "declaredInstrumentKindsWithoutAComponent": {
-      "kinds": [
-        "court_order",
-        "service_instructions"
-      ],
-      "note": "MASTER_QUEUE.json still lists three instrument kinds for this family beside one packet component. That list is not authored here: generate.mjs derives it from routes[].participantFacingInstrument in the route-obligation candidate census, which is a shared Captain input this lane does not own and did not edit. This manifest — the one this family does own — now advertises only what it delivers. The court order for this motion is the clerk's own notification block printed on the face of AOC-275.18 and the record scopes it \"Reference only. The court enters the order.\"; the service_instructions component is delivered as guidance and is short one instrument, recorded above and in the participant's own guide rather than silently treated as delivered."
-    },
-    "controllingLegalRecord": {
-      "path": "data/record-clearing/legal-design-intake/KY.memo.json",
-      "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
-      "trackId": "ky_protective_order_record_expungement",
-      "tier": "exact_content_hash"
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf24",
