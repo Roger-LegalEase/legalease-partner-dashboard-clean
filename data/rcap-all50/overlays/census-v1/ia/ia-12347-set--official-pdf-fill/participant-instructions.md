@@ -7,19 +7,31 @@ is not legal advice, it is not signed, and it has not been filed.
 
 ## Read this first
 
-The application is drafted for the section 123.47(9) route only. Two statements
-on page 1 are already marked for you because they are the statutory elements of
-that route:
+The application is drafted for the section 123.47(9) route only, and that route
+is for a conviction under Iowa Code section 123.47(3) - possession of alcohol
+under the legal age - or under a similar local ordinance.
 
-- that you were convicted of violating Iowa Code section 123.47, possession of
-  alcohol under the legal age, or a similar local ordinance, on the date shown;
-- that you have had no criminal convictions in the two years after that
-  conviction other than local traffic violations or simple misdemeanor
-  violations under Iowa Code chapter 321.
+**Item 1 on page 1 is left unmarked on purpose, and it is yours to check.** It is
+the one statement of legal ground on this form that this packet does not make
+for you, and here is why. Item 1 is printed as a conviction "for a violation of
+Iowa Code section 123.47", which names the whole section.
+The ground this application runs on is narrower than that: it is subsection 3,
+or a similar local ordinance. A conviction under some other part of section
+123.47 is not covered by this route. So before you check item 1 and sign, look
+at your own court record and confirm that the conviction is under section
+123.47(3), or under a local ordinance like it. If it is under a different part
+of section 123.47, this is the wrong packet.
 
-Check both against your own court record before you sign. You are signing under
-penalty of perjury. If either is not true of your case, this is the wrong
-packet, and you should stop and talk to a lawyer.
+One statement on page 1 is already marked for you. That is item 2: that you have
+had no criminal convictions in the two years after that conviction other than
+local traffic violations or simple misdemeanor violations under Iowa Code
+chapter 321. It is marked from the answer you gave when this packet was
+prepared.
+
+Check item 2 against your own court record before you sign, and read item 1
+against it too. You are signing under penalty of perjury. If either statement is
+not true of your case, this is the wrong packet, and you should stop and talk to
+a lawyer.
 
 ## Stop and get help
 
@@ -57,13 +69,14 @@ reviewed as of 2026-07-30._
 
 ## What you must do yourself, and nothing here can do for you
 
+- **Item 1 on page 1: convicted of violating Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance.** this route is available only for a conviction under section 123.47(3), or a similar local ordinance, and the printed item cites section 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection against their own court record before checking it and signing
 - **I understand that I must provide a copy of this application to the county attorney.** the form prints "Please check each statement below after you have read it" above these boxes; reading is an act of the person filing and nothing here can perform it for them
 - **I understand that the records in a criminal case expunged under this section are confidential and exempt from public access.** the form prints "Please check each statement below after you have read it" above these boxes; reading is an act of the person filing and nothing here can perform it for them
 - **Check one: A if the defendant is self-represented, B if a lawyer is filing on the defendant's behalf.** the platform holds no representation fact; the self-represented block is drafted for review and the election itself stays with the person filing
 
-The two "Read Before Signing" boxes on page 1 are left empty on purpose. The
-form says to check each statement after you have read it. Read them, then check
-them.
+Separately from item 1, the two "Read Before Signing" boxes further down page 1
+are left empty on purpose as well. The form says to check each statement after
+you have read it. Read them, then check them.
 
 ## What you must supply before filing
 

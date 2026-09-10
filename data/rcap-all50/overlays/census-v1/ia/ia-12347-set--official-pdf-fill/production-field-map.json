@@ -9,7 +9,7 @@
   ],
   "structuralClass": "flat_overlay",
   "captionBasis": "this binary carries no AcroForm. Every coordinate is a measured text extent of the printed caption that names the slot, recorded per row in rectBasis, and every write is proved back out of the saved content streams.",
-  "routeSelectionNote": "This packet is built for the Iowa Code section 123.47(9) underage-alcohol expungement route. The two numbered statutory elements are stated by the packet. The reading acknowledgments, the A/B representation election and every field of the certification of service stay with the person filing.",
+  "routeSelectionNote": "This packet is built for the Iowa Code section 123.47(9) underage-alcohol expungement route. Numbered item two on page 1 is stated by the packet, because the route collects interveningConvictions as a required generation requirement and item two restates that fact exactly. Numbered item one is NOT stated by the packet: the legal-design record reserves it to the participant as a manual completion required before filing, because the printed statement cites section 123.47 generally where the eligible ground is subsection 3. The reading acknowledgments, the A/B representation election and every field of the certification of service also stay with the person filing.",
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
     "participant_sworn_narrative_or_legal_election"
@@ -77,27 +77,6 @@
       "kind": "flat_slot",
       "disposition": "written",
       "routeDetermined": false
-    },
-    {
-      "fieldId": "Rule 2.86 Form 4:eligible_conviction_selected",
-      "fieldName": "eligible_conviction_selected",
-      "field": "eligible_conviction_selected",
-      "effectiveLabel": "Convicted under Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
-      "printedLabel": "Convicted under Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
-      "sourceLabel": "Convicted under Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
-      "documentId": "Rule 2.86 Form 4",
-      "page": 1,
-      "factId": "route.ia_123_47_conviction",
-      "rect": {
-        "x": 91,
-        "y": 395,
-        "width": 8,
-        "height": 8
-      },
-      "rectBasis": "the printed 10-point box beside numbered item one, measured at x 90.0-100.0 and y 393.3-403.2",
-      "kind": "selection_control",
-      "disposition": "selected_by_route",
-      "routeDetermined": true
     },
     {
       "fieldId": "Rule 2.86 Form 4:conviction_month",
@@ -353,6 +332,31 @@
     }
   ],
   "refusals": [
+    {
+      "fieldId": "Rule 2.86 Form 4:eligible_conviction_selected",
+      "fieldName": "eligible_conviction_selected",
+      "field": "eligible_conviction_selected",
+      "effectiveLabel": "Item 1 on page 1: convicted of violating Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
+      "printedLabel": "Item 1 on page 1: convicted of violating Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
+      "documentId": "Rule 2.86 Form 4",
+      "page": 1,
+      "box": {
+        "x0": 90,
+        "y0": 393.3,
+        "x1": 100,
+        "y1": 403.2
+      },
+      "isSelectionControl": true,
+      "kind": "selection_control",
+      "reason": "a participant election the route does not determine: this route is available only for a conviction under section 123.47(3), or a similar local ordinance, and the printed item cites section 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection against their own court record before checking it and signing",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "factAvailable": false,
+      "why": "this route is available only for a conviction under section 123.47(3), or a similar local ordinance, and the printed item cites section 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection against their own court record before checking it and signing",
+      "role": "participant"
+    },
     {
       "fieldId": "Rule 2.86 Form 4:service_acknowledgment",
       "fieldName": "service_acknowledgment",

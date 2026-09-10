@@ -26,9 +26,17 @@
  *
  * WHAT THIS PACKET ANSWERS AND WHAT IT DOES NOT
  *
- * The two numbered items are the statutory elements of the section 123.47(9)
- * route this packet is built for, so the packet states them and writes the
+ * Numbered item two is the intervening-conviction element of the section
+ * 123.47(9) route this packet is built for, and the route collects that fact as
+ * a required generation requirement, so the packet states it and writes the
  * conviction date.
+ *
+ * Numbered item one is NOT stated by the packet, even though it is an element
+ * of the same route. The printed statement cites section 123.47 generally where
+ * the eligible ground is subsection 3, and the legal-design record reserves the
+ * confirmation to the participant in four places as a manual completion
+ * required before filing. It is carried as a genuine participant election, left
+ * unmarked, and the subsection the confirmation is about is said on the page.
  *
  * The two "Read Before Signing" boxes are NOT statutory elements. The form
  * prints "Please check each statement below after you have read it", which is
@@ -96,6 +104,53 @@ const SELF_HELP_STOP_CONDITIONS = Object.freeze([
   "A disputed intervening conviction inside the two-year window."
 ]);
 const COUNTY_ATTORNEY_RESPONSE = "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.";
+
+/*
+ * TWO MORE RECORD SENTENCES THE PACKET HAS TO CARRY, HELD THE SAME WAY.
+ *
+ * VF57 measured this family against all fifteen obligations -- the first time
+ * anyone had -- and found both of these missing from the delivered bytes.
+ *
+ * 1. The subsection confirmation. The registry names it in FOUR places for one
+ *    reason: packetSet.requiredBeforeFiling entry two, participantActionRequired
+ *    (complete_field, requiredBeforeFiling true), manualCompletionItems
+ *    (whereInPacket "Form 4, item 1"), and participantQuestions. The printed
+ *    item 1 cites section 123.47 as a whole where the eligible ground is
+ *    subsection 3, and the registry's exclusions list "Convictions under
+ *    § 123.47 generally rather than subsection 3 specifically." The strings
+ *    "123.47(3)" and "subsection" reached the participant zero times.
+ *
+ * 2. The court-debt position. Rule 2.83(3), carried as a packetInstruction and
+ *    again as a legalDesignLimitations packet_instruction, with the record's own
+ *    direction to surface it because it "matters most to participants least able
+ *    to pay". "court debt", "2.83" and "financial obligation" reached the
+ *    participant zero times.
+ *
+ * Held as literals and asserted verbatim against the registry at build time, on
+ * the same reasoning as the stop conditions above: a whole-file pin on a shared,
+ * frequently rewritten record says nothing about whether THESE sentences moved.
+ * The build additionally re-reads its own emitted markdown and fails if the
+ * participant-facing strings are not on the page, so a template edit cannot
+ * silently withdraw either disclosure again.
+ */
+const SUBSECTION_CONFIRMATION_ITEM = "Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.";
+const SUBSECTION_CONFIRMATION_WHY = "The form cites § 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection.";
+const SUBSECTION_CONFIRMATION_QUESTION = "Confirm the conviction is under § 123.47(3). Form 4 item 1 cites § 123.47 generally where the statutory ground is subsection 3.";
+const SUBSECTION_EXCLUSION = "Convictions under § 123.47 generally rather than subsection 3 specifically.";
+const COURT_DEBT_INSTRUCTION = "Court debt is not a precondition on this track. Rule 2.83(3) states that payment of court debt or other financial obligations is not required for expungement under this section. Surface it: this is the opposite of Tracks A and B and matters most to participants least able to pay.";
+
+/*
+ * The strings that must be readable in the delivered markdown once those two
+ * sentences are carried. Each is the exact token an independent lane greps for;
+ * a zero count on any of them is what VF57 measured as the defect.
+ */
+const REQUIRED_PARTICIPANT_DISCLOSURES = Object.freeze([
+  { needle: "123.47(3)", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "subsection 3", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "2.83(3)", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" },
+  { needle: "court debt", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" },
+  { needle: "financial obligations", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" }
+]);
 
 const SIGNATURE_CLASS = "signature_or_date_participant_completion";
 const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
@@ -173,12 +228,11 @@ const WRITES = [
   { id: "defendant_name", page: 1, label: "Defendant", factId: "participant.full_legal_name",
     rect: { x: 74, y: 583, width: 225, height: 12 },
     basis: "the printed sub-caption \"Defendant\" sits at x 72.0-130.7 directly beneath the rule this value is written on" },
-  { id: "eligible_conviction_selected", page: 1, isSelectionControl: true,
-    label: "Convicted under Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
-    factId: "route.ia_123_47_conviction",
-    rect: { x: 91, y: 395, width: 8, height: 8 },
-    box: { x0: 90.0, y0: 393.3, x1: 100.0, y1: 403.2 },
-    basis: "the printed 10-point box beside numbered item one, measured at x 90.0-100.0 and y 393.3-403.2" },
+  /*
+   * Numbered item one is NOT written here. It is the one election on this form
+   * that the controlling record reserves to the participant, and it is carried
+   * in ELECTIONS below. See the note on that entry.
+   */
   { id: "conviction_month", page: 1, label: "Month of the conviction", factId: "case.conviction_month",
     rect: { x: 110, y: 371, width: 74, height: 12 },
     basis: "the printed sub-caption \"Month\" sits at x 108.0-134.1 beneath this rule, which runs to the \"Day\" column at x 189" },
@@ -224,6 +278,50 @@ const WRITES = [
  * Every blank, and the reason it is blank.
  * ------------------------------------------------------------------ */
 const ELECTIONS = [
+  /*
+   * NUMBERED ITEM ONE ON PAGE 1, AND WHY THIS BUILD NO LONGER MARKS IT.
+   *
+   * Page 1 prints "Read, complete, and check each item if you agree." above two
+   * numbered sworn statements, under a preamble reading "Defendant acknowledges
+   * that the following statements are true and correct to the best of
+   * Defendant's knowledge". The application is then signed under penalty of
+   * perjury. Checking one of those items is an assertion made by the person
+   * signing.
+   *
+   * This build used to mark BOTH, as routeDetermined. Item two it may: the
+   * registry collects interveningConvictions as a required generation
+   * requirement and item two restates that fact exactly, so the platform holds
+   * what the mark asserts. Item one is different, and the registry draws the
+   * line itself in four places -- packetSet.requiredBeforeFiling entry two,
+   * participantActionRequired complete_field requiredBeforeFiling true,
+   * manualCompletionItems whereInPacket "Form 4, item 1", and
+   * participantQuestions -- for one stated reason: the printed statement cites
+   * section 123.47 generally where the eligible ground is subsection 3, so it is
+   * broader than the route. Marking it claimed the route had determined the one
+   * election the record reserves to the participant, and the record it would
+   * have to cite says the opposite.
+   *
+   * Disclosing the mark did not cure it. Accurate disclosure of an unauthorised
+   * election is not authority to make it.
+   *
+   * THIS COSTS BYTES, AND THE COST IS REAL. Withdrawing the mark changes the
+   * canonical and boundary content streams, so the RASTER_PASS admitted at
+   * packetCommit 4bf305425 (run 34352802308), which binds canonical
+   * d8bf1526... and boundary 33564a98..., stops covering the delivered bytes
+   * and this family owes a fresh raster. That receipt was worth less than the
+   * defect: its own admission-proof records independentSemanticApproval false,
+   * viewportDimensionsCheckedAgainstASecondSource false on all four pages, and
+   * imageBytesReadBy stating the admission "read the published inventory, not
+   * the PNG bytes". It binds bytes; it is not visual approval, and visualDefects
+   * was null before this change and is null after it. A raster is re-earnable
+   * through the queue. A sworn statement pre-answered on the participant's
+   * behalf is not curable by disclosure.
+   */
+  { id: "eligible_conviction_selected", document: FORM_ID, page: 1,
+    label: "Item 1 on page 1: convicted of violating Iowa Code section 123.47, possession of alcohol under the legal age, or a similar local ordinance",
+    box: { x0: 90.0, y0: 393.3, x1: 100.0, y1: 403.2 },
+    requiredBeforeFiling: true,
+    why: "this route is available only for a conviction under section 123.47(3), or a similar local ordinance, and the printed item cites section 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection against their own court record before checking it and signing" },
   { id: "service_acknowledgment", document: FORM_ID, page: 1,
     label: "I understand that I must provide a copy of this application to the county attorney",
     box: { x0: 72.0, y0: 241.6, x1: 82.0, y1: 251.6 },
@@ -344,8 +442,55 @@ function verifyStopConditions() {
     JSON.stringify(mTrack).includes(COUNTY_ATTORNEY_RESPONSE), true,
     `${STATE_MEMO}: the county-attorney response sentence this packet restates is not in the record`
   );
+
+  /*
+   * The subsection confirmation, asserted where the registry actually holds it.
+   * All four are checked rather than one: the packet's reason for leaving item
+   * one unmarked is that the record reserves it, and if the record stopped
+   * reserving it in any of these places the build should stop and be re-read
+   * rather than keep printing a reason that has gone stale.
+   */
+  assert.ok(
+    (rTrack.packetSet?.requiredBeforeFiling ?? []).includes(SUBSECTION_CONFIRMATION_ITEM),
+    `${TRACK_REGISTRY}: packetSet.requiredBeforeFiling no longer carries the subsection confirmation`
+  );
+  assert.ok(
+    (rTrack.packetSet?.participantActionRequired ?? []).some((a) =>
+      a.description === SUBSECTION_CONFIRMATION_ITEM && a.requiredBeforeFiling === true),
+    `${TRACK_REGISTRY}: participantActionRequired no longer carries the subsection confirmation as requiredBeforeFiling`
+  );
+  const manual = (rTrack.manualCompletionItems ?? []).find((m) => m.whereInPacket === "Form 4, item 1");
+  assert.ok(manual, `${TRACK_REGISTRY}: manualCompletionItems no longer reserves Form 4, item 1 to the participant`);
+  assert.equal(manual.why, SUBSECTION_CONFIRMATION_WHY,
+    `${TRACK_REGISTRY}: the recorded reason for reserving Form 4 item 1 is not the reason this packet prints`);
+  assert.ok((rTrack.participantQuestions ?? []).includes(SUBSECTION_CONFIRMATION_QUESTION),
+    `${TRACK_REGISTRY}: participantQuestions no longer carries the subsection confirmation`);
+  assert.ok((rTrack.exclusions ?? []).includes(SUBSECTION_EXCLUSION),
+    `${TRACK_REGISTRY}: exclusions no longer exclude convictions under § 123.47 generally rather than subsection 3`);
+
+  /* The court-debt position, in both places the registry carries it. */
+  assert.ok((rTrack.packetInstructions ?? []).includes(COURT_DEBT_INSTRUCTION),
+    `${TRACK_REGISTRY}: packetInstructions no longer carries the Rule 2.83(3) court-debt instruction`);
+  assert.ok((rTrack.legalDesignLimitations ?? []).some((l) =>
+    l.classification === "packet_instruction" && l.statement === COURT_DEBT_INSTRUCTION),
+    `${TRACK_REGISTRY}: legalDesignLimitations no longer carries the Rule 2.83(3) court-debt instruction`);
+  assert.equal(rTrack.rules?.fees,
+    "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+    `${TRACK_REGISTRY}: rules.fees is not the fee position this packet states`);
+
   return {
     conditions: [...SELF_HELP_STOP_CONDITIONS],
+    subsectionConfirmation: {
+      item: SUBSECTION_CONFIRMATION_ITEM,
+      why: SUBSECTION_CONFIRMATION_WHY,
+      reservedToTheParticipantIn: [
+        "packetSet.requiredBeforeFiling",
+        "packetSet.participantActionRequired",
+        "manualCompletionItems",
+        "participantQuestions"
+      ]
+    },
+    courtDebt: { instruction: COURT_DEBT_INSTRUCTION, carriedIn: ["packetInstructions", "legalDesignLimitations"] },
     verifiedVerbatimIn: [TRACK_REGISTRY, STATE_MEMO],
     trackId: TRACK_ID,
     reviewedAsOf: rTrack.reviewedAsOf ?? mTrack.reviewedAsOf ?? null,
@@ -496,7 +641,7 @@ function productionFieldMap(drawn) {
       documentId: row.document, page: row.page, box: row.box, isSelectionControl: true, kind: "selection_control",
       reason: `a participant election the route does not determine: ${row.why}`,
       refusalClass: ELECTION_CLASS, completenessDisposition: "PARTICIPANT_ELECTION_GENUINE",
-      requiredBeforeFiling: false, routeDetermined: false, factAvailable: false,
+      requiredBeforeFiling: row.requiredBeforeFiling === true, routeDetermined: false, factAvailable: false,
       why: row.why, role: "participant"
     })),
     ...PROTECTED.map((row) => ({
@@ -533,7 +678,7 @@ function productionFieldMap(drawn) {
     implementationStrategy: "official_pdf_fill", routeKeys: [ROUTE_KEY],
     structuralClass: "flat_overlay",
     captionBasis: "this binary carries no AcroForm. Every coordinate is a measured text extent of the printed caption that names the slot, recorded per row in rectBasis, and every write is proved back out of the saved content streams.",
-    routeSelectionNote: "This packet is built for the Iowa Code section 123.47(9) underage-alcohol expungement route. The two numbered statutory elements are stated by the packet. The reading acknowledgments, the A/B representation election and every field of the certification of service stay with the person filing.",
+    routeSelectionNote: "This packet is built for the Iowa Code section 123.47(9) underage-alcohol expungement route. Numbered item two on page 1 is stated by the packet, because the route collects interveningConvictions as a required generation requirement and item two restates that fact exactly. Numbered item one is NOT stated by the packet: the legal-design record reserves it to the participant as a manual completion required before filing, because the printed statement cites section 123.47 generally where the eligible ground is subsection 3. The reading acknowledgments, the A/B representation election and every field of the certification of service also stay with the person filing.",
     dispositionVocabulary: [SIGNATURE_CLASS, ELECTION_CLASS],
     writes, refusals
   };
@@ -620,19 +765,31 @@ is not legal advice, it is not signed, and it has not been filed.
 
 ## Read this first
 
-The application is drafted for the section 123.47(9) route only. Two statements
-on page 1 are already marked for you because they are the statutory elements of
-that route:
+The application is drafted for the section 123.47(9) route only, and that route
+is for a conviction under Iowa Code section 123.47(3) - possession of alcohol
+under the legal age - or under a similar local ordinance.
 
-- that you were convicted of violating Iowa Code section 123.47, possession of
-  alcohol under the legal age, or a similar local ordinance, on the date shown;
-- that you have had no criminal convictions in the two years after that
-  conviction other than local traffic violations or simple misdemeanor
-  violations under Iowa Code chapter 321.
+**Item 1 on page 1 is left unmarked on purpose, and it is yours to check.** It is
+the one statement of legal ground on this form that this packet does not make
+for you, and here is why. Item 1 is printed as a conviction "for a violation of
+Iowa Code section 123.47", which names the whole section.
+The ground this application runs on is narrower than that: it is subsection 3,
+or a similar local ordinance. A conviction under some other part of section
+123.47 is not covered by this route. So before you check item 1 and sign, look
+at your own court record and confirm that the conviction is under section
+123.47(3), or under a local ordinance like it. If it is under a different part
+of section 123.47, this is the wrong packet.
 
-Check both against your own court record before you sign. You are signing under
-penalty of perjury. If either is not true of your case, this is the wrong
-packet, and you should stop and talk to a lawyer.
+One statement on page 1 is already marked for you. That is item 2: that you have
+had no criminal convictions in the two years after that conviction other than
+local traffic violations or simple misdemeanor violations under Iowa Code
+chapter 321. It is marked from the answer you gave when this packet was
+prepared.
+
+Check item 2 against your own court record before you sign, and read item 1
+against it too. You are signing under penalty of perjury. If either statement is
+not true of your case, this is the wrong packet, and you should stop and talk to
+a lawyer.
 
 ## Stop and get help
 
@@ -662,9 +819,9 @@ ${wrap(`_The two conditions above are quoted from track \`${TRACK_ID}\` in \`${T
 
 ${elections.map((e) => `- **${e.label}.** ${e.why}`).join("\n")}
 
-The two "Read Before Signing" boxes on page 1 are left empty on purpose. The
-form says to check each statement after you have read it. Read them, then check
-them.
+Separately from item 1, the two "Read Before Signing" boxes further down page 1
+are left empty on purpose as well. The form says to check each statement after
+you have read it. Read them, then check them.
 
 ## What you must supply before filing
 
@@ -701,17 +858,24 @@ case number shown beside it. Check both against your court record.
 
 ## The order of the steps
 
-1. Read the whole application, including both "Read Before Signing" statements,
+1. Check your court record and confirm the conviction is under Iowa Code
+   section 123.47(3), possession of alcohol under the legal age, or under a
+   similar local ordinance. If it is, check item 1 on page 1. Item 1 is printed
+   citing section 123.47 as a whole, and this route only covers subsection 3 or
+   a similar local ordinance, so this box is left for you to check. If the
+   conviction is under some other part of section 123.47, stop here: this is the
+   wrong packet.
+2. Read the whole application, including both "Read Before Signing" statements,
    and check those two boxes.
-2. Check box A on page 2 if you are filing for yourself. Check box B instead
+3. Check box A on page 2 if you are filing for yourself. Check box B instead
    only if a lawyer is filing for you, in which case the lawyer completes that
    block.
-3. Correct anything in the drafted details that does not match your record.
-4. Sign and date the application.
-5. File it. If you can find your case on the Iowa Judicial Branch eFile System,
+4. Correct anything in the drafted details that does not match your record.
+5. Sign and date the application.
+6. File it. If you can find your case on the Iowa Judicial Branch eFile System,
    file it there; the system serves the county attorney for you and you do not
    need the certification of service.
-6. If you cannot find your case on eFile, file on paper at the clerk of court's
+7. If you cannot find your case on eFile, file on paper at the clerk of court's
    office for that county. Before or when you file, mail or hand deliver a copy
    of the application to the county attorney for that county. Then, and only
    then, complete and sign the certification of service on page 2 with the real
@@ -728,9 +892,19 @@ ${wrap("**A response is where this packet's help ends.** If the county attorney 
 
 ## Fees and orders
 
+**Unpaid court debt does not have to be paid first on this route.** Iowa Rule of
+Criminal Procedure 2.83(3) states that payment of court debt or other
+financial obligations is not required for expungement under this section. That
+is the opposite of the position on some other Iowa expungement routes, so do
+not assume you have to clear a balance before you apply, and do not let one
+stop you from applying.
+
 The held source establishes no filing fee for this application and carries no
 proposed order. Nothing in this packet states an amount, and nothing here asks
-the court to sign an order drafted by this packet.
+the court to sign an order drafted by this packet. No fee has been confirmed
+either way: the legal review behind this packet identified no filing fee for a
+Rule 2.86 application in any Iowa county, and records that question as still
+open rather than as settled.
 
 ## What this packet is not
 
@@ -738,6 +912,30 @@ This is a prepared set of the court's own form. It is not legal advice, it is
 not filed for you, and it does not decide whether the court will expunge your
 record.
 `;
+}
+
+/*
+ * The disclosure guard. The two record sentences above are checked against the
+ * REGISTRY when the build starts; this checks them against the BYTES the build
+ * is about to deliver. Both halves are needed: the registry assertion catches a
+ * record that moved, and this catches a template that stopped carrying it. VF57
+ * found this family's defect by grepping the delivered markdown, so the build
+ * greps the same strings out of the same text before it writes anything, and
+ * stops with nothing touched if any of them is missing.
+ *
+ * The match is deliberately made against the RAW delivered text, not against a
+ * whitespace-normalised copy. The delivered markdown is hard-wrapped, and an
+ * independent lane greps these strings out of the file as it sits on disk: a
+ * phrase broken across a line break reads as zero occurrences to that grep and
+ * the disclosure has not actually landed. This guard caught exactly that during
+ * the repair -- "financial obligations" had wrapped -- so the strictness is the
+ * point and must not be relaxed to a normalised compare.
+ */
+function undisclosedRecordSentences(participant, filing) {
+  const documents = { "participant-instructions.md": participant, "filing-instructions.md": filing };
+  return REQUIRED_PARTICIPANT_DISCLOSURES
+    .filter((d) => !documents[d.document].toLowerCase().includes(d.needle.toLowerCase()))
+    .map((d) => ({ ...d, occurrencesInDeliveredText: 0 }));
 }
 
 /* ---- build --------------------------------------------------------------- */
@@ -783,6 +981,12 @@ async function build(argv = process.argv.slice(2)) {
 
   const preliminary = builderCounters(map, artifactCounters, "");
   const instructions = participantInstructions(preliminary.ledger, STOP);
+  const filing = filingInstructions();
+  const undisclosed = undisclosedRecordSentences(instructions, filing);
+  if (undisclosed.length > 0) {
+    return { familyId: FAMILY_ID, status: "STOPPED", stopClass: "RECORD_SENTENCE_NOT_ON_THE_DELIVERED_PAGE",
+      undisclosed, overlayDirectoryTouched: false };
+  }
   const audit = builderCounters(map, artifactCounters, instructions);
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   if (!allZero) {
@@ -847,7 +1051,7 @@ async function build(argv = process.argv.slice(2)) {
     blanks: audit.ledger.map((b) => ({ field: b.fieldId, documentId: b.documentId, page: b.page, label: b.effectiveLabel, disposition: b.disposition, basis: b.basis, participantMustSupply: b.participantMustSupply ?? null }))
   });
   fs.writeFileSync(path.join(out, "participant-instructions.md"), instructions);
-  fs.writeFileSync(path.join(out, "filing-instructions.md"), filingInstructions());
+  fs.writeFileSync(path.join(out, "filing-instructions.md"), filing);
   writeJson(path.join(out, "build-status.json"), {
     schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID,
     buildStatus: "state_built", reviewStatus: "qa_review_pending",
