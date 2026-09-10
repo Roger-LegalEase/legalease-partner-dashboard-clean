@@ -98,16 +98,65 @@ const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 const TRACK_ID = "ar-cs-possession-seal";
 const ROUTE_KEY = "obligation:track-only:AR:ar-cs-possession-seal";
 
+/*
+ * WHAT IS ON DISK WHEN A REFUSAL FIRES, MEASURED RATHER THAN PROMISED.
+ *
+ * fail() used to end every refusal with the flat sentence "Nothing was
+ * written." On this builder that sentence was false for most of its refusals:
+ * the four fixture PDFs are written inside the document loop, and every guard
+ * that reads a FINISHED fixture -- the page-facts guard, the registry
+ * fingerprint guard, the prefill-refusal guard, and the two instruction
+ * consistency guards added below -- necessarily runs after them. A clean
+ * `git diff` cannot rescue the claim either: these outputs are deterministic,
+ * so a rewrite that reproduces the committed bytes leaves the tree clean
+ * whether or not this run wrote them.
+ *
+ * Two things are done about it here, and only for this builder.
+ *
+ * First, the guards were MOVED. Every check that does not need bytes on disk
+ * now runs before the first report is written, and participant-instructions.md
+ * is composed into a string, guarded, and only then written. Twelve files used
+ * to be on disk before the newest guards fired; four are now, and those four
+ * are the fixtures the guards must read.
+ *
+ * Second, the sentence is no longer a promise. Every write this build makes
+ * appends its path to filesWritten as it happens, and fail() prints that
+ * ledger. If it is empty the sentence "Nothing was written." is printed and is
+ * true; if it is not, the paths are named.
+ *
+ * The shape is not unique to this family. 24 builders in this factory print the
+ * stock sentence and in 14 at least one refusal sits after the first write; the
+ * measurement is data/rcap-grade-a/packet-factory-24h/REFUSAL_CLAIMS_NOTHING_WAS_WRITTEN.json.
+ * That record establishes that the guarantee is not one the code structure can
+ * keep -- not that any run has actually refused after writing. Only this
+ * builder is repaired here.
+ */
+const filesWritten = [];
+const noteWritten = (rel) => { filesWritten.push(rel); return rel; };
+
 const fail = (message, detail = null) => {
   console.error(`build-census-v1-${FAMILY_ID}: ${message}`);
   if (detail) console.error(`  ${detail}`);
-  console.error("  Nothing was written.");
+  if (!filesWritten.length) {
+    console.error("  Nothing was written.");
+  } else {
+    console.error(`  Nothing further will be written, but ${filesWritten.length} file(s) were already written to`
+      + " disk before this refusal and are still there. They are the partial output of a run that then refused,"
+      + " they are not a packet, and they are not to be read as one:");
+    for (const f of filesWritten) console.error(`    ${f}`);
+    console.error("  Each is rewritten from the pinned source bytes on the next successful run.");
+  }
   process.exit(1);
 };
 
 const DOCUMENTS = [
   {
     key: "petition",
+    // The word participant-instructions.md calls this document by. The instruction
+    // consistency guards use it to check that a disclosure about a blank names
+    // the document the blank is on, so it is defined here rather than derived
+    // from a substring test on documentId.
+    shortName: "petition",
     documentId: "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
     documentRole: "PETITION",
     officialTitle: "Petition to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013",
@@ -269,6 +318,11 @@ const DOCUMENTS = [
   },
   {
     key: "order",
+    // The word participant-instructions.md calls this document by. The instruction
+    // consistency guards use it to check that a disclosure about a blank names
+    // the document the blank is on, so it is defined here rather than derived
+    // from a substring test on documentId.
+    shortName: "order",
     documentId: "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
     documentRole: "PROPOSED_ORDER",
     officialTitle: "Order to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013",
@@ -402,6 +456,7 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "u
 const writeJson = (rel, value) => {
   fs.mkdirSync(path.dirname(path.join(rootDir, rel)), { recursive: true });
   fs.writeFileSync(path.join(rootDir, rel), `${JSON.stringify(value, null, 2)}\n`);
+  noteWritten(rel);
 };
 
 function fieldType(f) {
@@ -912,6 +967,185 @@ const PREFILL_WORDS = Object.freeze({
  * some fixture fills and another does not, so the qualification the
  * instructions print is measured rather than remembered.
  */
+/**
+ * The words the instructions use to REFER to each fillable blank, as opposed to
+ * PREFILL_WORDS, which is the phrase used to NAME it in a list.
+ *
+ * Every blank that can arrive empty must have an anchor here and the build
+ * fails if one does not, on the same footing as PREFILL_WORDS: a new refusable
+ * blank cannot appear in this packet without someone deciding how the prose
+ * refers to it, because the consistency guards below use these to find the
+ * sentences that talk about it.
+ */
+/*
+ * Each anchor is a LIST of patterns and a unit is about that blank only if it
+ * matches all of them. One pattern is not enough, and the reason is worth
+ * keeping: `First Middle and Last name` is the blank in the CAPTION, and the
+ * order also prints the participant's name in the Defendant blank inside its
+ * GRANTED decree, which is written in every fixture and is not refusable. A
+ * single /\bname\b/ anchor flagged the true sentence about the decree as a
+ * contradiction of the measured refusal in the caption. The conjunction is what
+ * makes the guard talk about a blank rather than about a word.
+ */
+const PREFILL_ANCHORS = Object.freeze({
+  "COURT OF": [/\bcaption\b|COURT OF/i, /\bcount(?:y|ies)\b|COURT OF/i],
+  "Case No": [/\bcase number\b/i],
+  "First Middle and Last name": [/\bname\b/i, /\bcaption\b/i],
+  "Comes the Petitioner": [/\bverification\b|Comes the Petitioner/i]
+});
+
+/*
+ * TWO GUARDS OVER THE FINISHED PROSE, RATHER THAN OVER THE SENTENCE THAT
+ * DERIVED IT.
+ *
+ * The guards this family already had assert the DERIVATION of individual
+ * sentences: petitionPageFacts() computes every page-level number the
+ * instructions print, and fingerprintRequirementFromRegistry() checks the
+ * quoted requirement against the registry on every build. Neither can see the
+ * document as a whole, and that is precisely the gap that admitted the defect
+ * VF31 found: a derived, correctly qualified paragraph said four blanks could
+ * arrive empty, and four hand-written sentences elsewhere in the same file said
+ * flatly that those blanks were already filled. Both stood, because nothing
+ * compared them.
+ *
+ * So these two read the RENDERED markdown -- the bytes the participant gets --
+ * and they are driven by the measured refusal set, not by a list of sentences.
+ * A blank that stops being refusable relaxes them; a blank that becomes
+ * refusable makes previously-fine sentences start failing.
+ *
+ *   noSentenceContradictsAMeasuredRefusal(): no unit of prose may assert a
+ *   measured-refusable blank is filled without stating the condition in the
+ *   same unit. This is the one that catches a hand-written sentence
+ *   contradicting a derived one.
+ *
+ *   everyMeasuredRefusalIsDisclosedOnItsOwnDocument(): every (document, blank)
+ *   pair in the measured refusal set must be disclosed by some unit that names
+ *   BOTH that document and that blank and states the condition. This is the one
+ *   that catches a whole document going uncovered -- the order's caption, here,
+ *   which the old instructions never mentioned at all while listing its blanks
+ *   inside a petition-scoped paragraph.
+ */
+
+// A "unit" is a sentence, a list item, a heading or a single table cell. Table
+// cells are split out because one of the four contradicting claims lived inside
+// a cell of the petition table rather than in a sentence of running prose.
+function prosaicUnits(markdown) {
+  return markdown
+    .split("\n")
+    .flatMap((line) => (line.trimStart().startsWith("|") ? line.split("|") : [line]))
+    .flatMap((chunk) => chunk.split(/(?<=[.!?])\s+(?=[A-Z*_"“(])/))
+    .map((u) => u.trim())
+    .filter(Boolean);
+}
+
+// An unconditional assertion that a blank already carries a value.
+const FILLED_CLAIM =
+  /\balready (?:written|filled)\b|\bis (?:already )?filled in\b|\bare filled in\b|\bfilled in for you\b|\bthe platform filled\b|\bis printed in the\b|\bis written in the\b/i;
+
+// The condition that makes such an assertion true: it holds only where the
+// value fitted the printed rule.
+const STATES_THE_CONDITION =
+  /\bunless\b|\btoo long\b|\barriv(?:ed|es|e) empty\b|\breach you empty\b|\bis empty\b|\bwas refused\b|\bwhen (?:it|each|they) fits?\b|\bwhere (?:it|each|the value) fit(?:s|ted)?\b|\bif the blank is empty\b|\bleft empty\b/i;
+
+/*
+ * captionFields is the list of blanks the build MEASURED as sitting in a page 1
+ * caption. A sentence that claims "the caption is already filled in", naming no
+ * blank, is a claim about every one of them at once -- and the old
+ * instructions carried exactly that sentence, twice. So for a refusable blank
+ * that sits in a caption, the bare word "caption" in a filled-claim counts as
+ * naming it. Which fields those are is read off the census, not typed here.
+ */
+function noSentenceContradictsAMeasuredRefusal(markdown, refusable, captionFields = []) {
+  const inACaption = new Set(captionFields);
+  const anchors = [...new Set(refusable.map((r) => r.field))].map((field) => {
+    if (!Object.hasOwn(PREFILL_ANCHORS, field)) {
+      fail("a blank that can arrive empty has no anchor for the consistency guard", field);
+    }
+    return { field, anchor: PREFILL_ANCHORS[field], caption: inACaption.has(field) };
+  });
+  const isAbout = (unit, a) =>
+    a.anchor.every((re) => re.test(unit)) || (a.caption && /\bcaption\b/i.test(unit));
+  const offending = [];
+  for (const unit of prosaicUnits(markdown)) {
+    if (!FILLED_CLAIM.test(unit)) continue;
+    const about = anchors.filter((a) => isAbout(unit, a)).map(({ field }) => field);
+    if (!about.length) continue;
+    if (STATES_THE_CONDITION.test(unit)) continue;
+    offending.push({ about, unit });
+  }
+  if (offending.length) {
+    for (const o of offending) console.error(`  contradicts [${o.about.join(", ")}]: ${o.unit}`);
+    fail(`${offending.length} sentence(s) in participant-instructions.md say a blank that this build MEASURED as`
+      + " refusable is already filled, without stating the condition",
+      "each is printed above; a blank that can arrive empty may not be described as filled without saying when");
+  }
+  return { unitsRead: prosaicUnits(markdown).length, claimsChecked: offending.length };
+}
+
+function everyMeasuredRefusalIsDisclosedOnItsOwnDocument(markdown, refusable) {
+  const units = prosaicUnits(markdown);
+  const undisclosed = [];
+  for (const r of refusable) {
+    const anchor = PREFILL_ANCHORS[r.field];
+    const names = new RegExp(`\\b${r.document}\\b`, "i");
+    const found = units.some((u) =>
+      names.test(u) && anchor.every((re) => re.test(u)) && STATES_THE_CONDITION.test(u));
+    if (!found) undisclosed.push(`${r.document} p${r.page} ${r.field}`);
+  }
+  if (undisclosed.length) {
+    fail(`${undisclosed.length} measured refusal(s) are never disclosed on the document they are on`,
+      undisclosed.join("; "));
+  }
+  return { pairsChecked: refusable.length };
+}
+
+/**
+ * The refusal set as the instructions must print it: grouped by document, in
+ * the order the documents are built, carrying the words for each blank.
+ *
+ * The collapse this replaces was `[...new Set(refusable.map((r) => r.words))]`.
+ * It threw the documentId away one line before the list reached the
+ * participant: seven measured refusals across two documents became four
+ * document-agnostic phrases, printed inside a paragraph that talks about the
+ * petition. The order's three were measured, carried through
+ * prefillsThatCanArriveEmpty() with their documentId attached, and then
+ * silently merged into the petition's.
+ */
+function groups2Prose(groups) {
+  const t = groups.map((g) => `on the **${g.document}** this covers ${andList(g.words)}`).join(", and ");
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+function refusableByDocument(refusable) {
+  return DOCUMENTS.map((doc) => {
+    const rows = refusable.filter((r) => r.documentId === doc.documentId);
+    return { document: doc.shortName, documentId: doc.documentId, rows, words: rows.map((r) => r.words) };
+  }).filter((g) => g.rows.length);
+}
+
+const andList = (items) => (items.length <= 1
+  ? (items[0] ?? "")
+  : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`);
+
+const COUNT_WORDS = ["none", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+const spellCount = (n) => COUNT_WORDS[n] ?? String(n);
+
+/*
+ * A hand-typed restatement of the measured set is the same defect one level
+ * down: it is true when written and drifts silently afterwards, and the
+ * consistency guard cannot catch it because it states the condition correctly
+ * while naming the wrong blanks. So every place the instructions ENUMERATE
+ * which blanks can arrive empty reads the measured set through these two
+ * helpers rather than spelling it out.
+ */
+const groupFor = (groups, document) => groups.find((g) => g.document === document)
+  ?? fail(`the instructions enumerate the ${document}'s refusable blanks and this build measured none`);
+
+function canArriveEmptySentence(groups) {
+  return groups.map((g) =>
+    `on the **${g.document}**, ${spellCount(g.rows.length)} of them — ${andList(g.words)}`).join("; ");
+}
+
 function prefillsThatCanArriveEmpty(documents) {
   const found = [];
   for (const { doc, census, fixtures } of documents) {
@@ -930,8 +1164,11 @@ function prefillsThatCanArriveEmpty(documents) {
       if (labels.every((l) => where.has(l))) continue;
       found.push({
         documentId: doc.documentId,
+        document: doc.shortName,
         field,
         page: census.fields.find((f) => f.name === field)?.widgets?.[0]?.page ?? null,
+        filledIn: [...where].sort(),
+        emptyIn: labels.filter((l) => !where.has(l)).sort(),
         words: PREFILL_WORDS[field]
       });
     }
@@ -1079,13 +1316,13 @@ function fingerprintRequirementFromRegistry() {
   return { sentence: SENTENCE, obtainedFrom: String(card.obtainedFrom).trim() };
 }
 
-function participantInstructionsMarkdown(facts, fingerprint, canArriveEmpty) {
+function participantInstructionsMarkdown(facts, fingerprint, refusalGroups) {
   return `# Filing instructions — Seal an Arkansas conviction for possession of a controlled or counterfeit substance
 
 This packet is two ACIC forms, filed together:
 
 - **Petition to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — what you file. It is **sworn**: page 4 is a VERIFICATION you sign in front of a notary.
-- **Order to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — the proposed order you hand the court to sign. Below its caption this packet fills exactly two blanks, both of which identify you rather than decide anything: **your legal name in the Defendant blank inside the GRANTED decree** — the sentence reads "the Petition of the Defendant, ______, to Seal the above referenced felony conviction(s) ... should be, and hereby is GRANTED" — and **your date of birth in the identification block** at the foot of the last page. Everything else below the caption is the court's alone and this packet writes nothing there: its thirteen recital paragraphs, its election boxes, the finding the decree pronounces, its direction to the clerk, the judge's signature and the date beside it.
+- **Order to Seal Conviction for Possession of Controlled Substance or Counterfeit Substance Under Act 1460 of 2013** — the proposed order you hand the court to sign. **Its caption takes the same ${spellCount(groupFor(refusalGroups, "order").rows.length)} facts as the petition’s** — ${andList(groupFor(refusalGroups, "order").words)} — and this packet writes each of them there only where it fits that form’s own printed rule, which is a different width from the petition’s; where it does not fit, the order’s blank is **left empty** and you write it in by hand. **The order’s caption is not filled in by the court and it is not carried over from the petition: check all ${spellCount(groupFor(refusalGroups, "order").rows.length)} of its blanks on the paper.** Below its caption this packet fills exactly two blanks, both of which identify you rather than decide anything: **your legal name in the Defendant blank inside the GRANTED decree** — the sentence reads "the Petition of the Defendant, ______, to Seal the above referenced felony conviction(s) ... should be, and hereby is GRANTED" — and **your date of birth in the identification block** at the foot of the last page. Everything else below the caption is the court's alone and this packet writes nothing there: its thirteen recital paragraphs, its election boxes, the finding the decree pronounces, its direction to the clerk, the judge's signature and the date beside it.
 
 The petition asks the court to seal a **felony** conviction — its own prayer on page 3 says "to seal the above referenced felony conviction(s) pursuant to A.C.A. § 16-90-1407".
 
@@ -1093,19 +1330,19 @@ The petition asks the court to seal a **felony** conviction — its own prayer o
 
 **There is something this packet cannot do, and you should know it before you start.** The petition's **numbered paragraphs do not extract from the PDF's own text** — not the paragraph below the title on page 1, with its date blanks and its two offense checkboxes, and not one of the paragraphs on page 2. Two independent extractors agree. So this packet **writes nothing below the printed title on page 1 and nothing at all on page 2**, and it does not tell you what any of those paragraphs says, because it cannot read them.
 
-**The two pages are not in the same position, though, and the difference decides what has already been filled in for you.** Measured on the pinned source form: page 1 yields ${facts.page1.extractedNonSpaceCharacters} non-space characters in ${facts.page1.extractedLines} lines, and every one of them is the **caption above the printed title**, the title itself, or the form's footer — between the bottom of the title and that footer, where the ${facts.page1.belowTitleWidgets.length} blanks and boxes of the page 1 paragraph sit, it yields nothing at all. Page 2 yields ${facts.page2.extractedNonSpaceCharacters} non-space characters in total: the same footer, and the bare paragraph number ${facts.page2.bodyLines.map((t) => `“${t}”`).join(", ")} with no sentence attached. Its ${facts.page2.widgets.length} boxes stand under text this packet cannot see.
+**The two pages are not in the same position, though, and the difference decides where this packet was able to write anything at all.** Measured on the pinned source form: page 1 yields ${facts.page1.extractedNonSpaceCharacters} non-space characters in ${facts.page1.extractedLines} lines, and every one of them is the **caption above the printed title**, the title itself, or the form's footer — between the bottom of the title and that footer, where the ${facts.page1.belowTitleWidgets.length} blanks and boxes of the page 1 paragraph sit, it yields nothing at all. Page 2 yields ${facts.page2.extractedNonSpaceCharacters} non-space characters in total: the same footer, and the bare paragraph number ${facts.page2.bodyLines.map((t) => `“${t}”`).join(", ")} with no sentence attached. Its ${facts.page2.widgets.length} boxes stand under text this packet cannot see.
 
-**So read the paragraph below the title on page 1, and the whole of page 2, on the paper, and complete every blank and box there yourself.** The caption at the top of page 1 is the part that is already filled in — check it rather than complete it. The proposed order recites the same thirteen paragraphs and its text *is* readable, so where the table below describes what a box is about, it quotes **the order's** parallel paragraph and says so. Check what you tick against the petition's own printed words, not against this description.
+**So read the paragraph below the title on page 1, and the whole of page 2, on the paper, and complete every blank and box there yourself.** The caption at the top of page 1 is the part this packet writes into — but **check it rather than assume it**, because each of its three blanks is written only where the value fits the printed rule and is otherwise **left empty**, and you complete by hand whatever arrived empty. The proposed order recites the same thirteen paragraphs and its text *is* readable, so where the table below describes what a box is about, it quotes **the order's** parallel paragraph and says so. Check what you tick against the petition's own printed words, not against this description.
 
-The platform filled what it holds about you and your case: the county in the caption, the case number, your name in the caption, in the page 3 prayer line and in the page 4 verification, your date of birth, your street address, city, state and ZIP code on page 3. Every other blank is deliberate, and every one is listed below.
+The platform wrote what it holds about you and your case, into each blank **where the value fitted that blank’s printed rule**: the county in the caption, the case number, your name in the caption, in the page 3 prayer line and in the page 4 verification, your date of birth, your street address, city, state and ZIP code on page 3. Every other blank is deliberate, and every one is listed below. Which of these can be **left empty** instead, and on which form, is the next paragraph.
 
-**One qualification, and it is about length rather than about you.** Several of these blanks are fixed-width printed rules, and a value too long to sit inside one at the smallest legible size is **refused and left empty** rather than shrunk past reading or drawn over the rule — this packet will not print your name over the form's own line. So ${canArriveEmpty.length} of the blanks listed above can reach you **empty**: ${canArriveEmpty.join(", ")}. A long county name, a long case number or a long legal name is what does it. **Check each of those on the paper before you file, and write in by hand any that arrived empty.** Nothing on the form marks a blank that was refused this way, so the only way to catch it is to look.
+**One qualification, and it is about length rather than about you.** Several of these blanks are fixed-width printed rules, and a value too long to sit inside one at the smallest legible size is **refused and left empty** rather than shrunk past reading or drawn over the rule — this packet will not print your name over the form's own line. So some of the blanks listed above can reach you **empty**, and **the list is not the same on the two forms**, because each form’s rules are its own width: ${canArriveEmptySentence(refusalGroups)}. A long county name, a long case number or a long legal name is what does it. **Check every one of those on the paper of the form it is on, before you file, and write in by hand any that arrived empty.** Nothing on the form marks a blank that was refused this way, so the only way to catch it is to look — and because all three of a caption’s blanks can be refused at once, **an entire caption can reach you looking exactly as it did before this packet filled anything in**. That is not a printing failure and it is not a sign that something went wrong; it means the values were too long for the rules, and the caption is yours to complete.
 
 ## Where you file this
 
 **File in the circuit court of the county where the offense was committed and where you were convicted.** That is what the committed route record for this packet says, in those words, and the committed packet-set manifest says the same: "Statewide Arkansas track; circuit court in the county where the offense was committed and the person was convicted."
 
-**The county is already written in the caption after "COURT OF".** It comes from what the platform holds for your matter. **Check it against where you were convicted**, and correct it before you file if they are not the same county.
+**The county belongs in the caption after "COURT OF" on both forms — on the petition and on the order — and this packet writes it there on each form only where it fits that form’s rule.** It comes from what the platform holds for your matter. **Look at that blank on each of the two forms in turn. If a county is printed there, check it against where you were convicted and correct it before you file if they are not the same county. If the blank is empty, the county was too long for that rule and nothing was written: write it in yourself, the same county on both forms.**
 
 **The court's own name is left blank, in the "IN THE ______ COURT OF" blank.** The route record names the circuit court, and this packet does not print a court name it cannot tie to your particular case. **Write "CIRCUIT" there if the circuit court of that county handled your case; if you are not sure, ask the circuit clerk's office of that county** — the clerk can tell you which court has your case, and the clerk's office is where the filing is received. Write the same answer on **both** forms so the petition and the order match. The DIVISION blank is also yours, only if that court has divisions; the same clerk can tell you.
 
@@ -1140,13 +1377,13 @@ After — and only after — you have actually served both, complete the Certifi
 7. **Sign the page 4 VERIFICATION in front of a notary.** The petition is sworn: page 4 reads "Comes the Petitioner, ______, under oath and states that the foregoing Petition is true and correct to the best of my knowledge and belief", and below it "Subscribed and sworn to before me on this ___ day of ______, 20__" with the notary's own signature and commission-expiry lines. **Your name is filled in the "Comes the Petitioner" line — unless it was too long for that blank, in which case it is empty and you write it in yourself; check it. The signature rule above the word "Petitioner" is yours to sign, in front of the notary and not before.** The county in "STATE OF ARKANSAS / COUNTY OF ______" is the county where you are sworn, which nobody can know in advance — you or the notary write it at the swearing. The jurat date and everything below it belong to the notary.
 8. **Sign and date the petition on page 3 as well.** That signature and its date are yours and are left blank.
 9. **Serve the prosecuting attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on page 5.
-10. **Leave the order alone below its caption, apart from the two blanks already filled for you.** Your legal name is printed in the Defendant blank inside the GRANTED decree, and your date of birth in the identification block on the last page — read both and correct them if either is wrong. The recitals, the election boxes, the finding the decree pronounces, the clerk's distribution direction, the judge's signature and the date beside it are the court's.
+10. **Complete the order’s caption, then leave the order alone below it apart from the two blanks already filled for you.** The order’s caption carries ${andList(groupFor(refusalGroups, "order").words)} — the same values as the petition’s caption — each written only where it fits the order’s own rule and **left empty** where it does not — **read all ${spellCount(groupFor(refusalGroups, "order").rows.length)} on the order, and write in by hand any that arrived empty, so that the order the judge signs carries the same caption as the petition you file.** An order whose caption is blank is an order that does not say which court, which case or which defendant it is about. The two blanks below it are a different matter and are always written: your legal name is printed in the Defendant blank inside the GRANTED decree, and your date of birth in the identification block on the last page — read both and correct them if either is wrong. The recitals, the election boxes, the finding the decree pronounces, the clerk's distribution direction, the judge's signature and the date beside it are the court's.
 
 ## Petition — the items you must supply
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | Caption — "IN THE ______ COURT OF" (the court's name; inside the PDF this blank is called \`IN THE\`) | the court the clerk tells you has your case — the route record names the circuit court of the county of conviction. The county is already filled in after "COURT OF" |
+| 1 | Caption — "IN THE ______ COURT OF" (the court's name; inside the PDF this blank is called \`IN THE\`) | the court the clerk tells you has your case — the route record names the circuit court of the county of conviction. The county goes in the blank after "COURT OF" and this packet writes it there where it fits; if that blank is empty, write the county in yourself |
 | 1 | Caption — "____________ DIVISION" (inside the PDF, \`DIVISION\`) | that court's division, only if it has divisions; otherwise leave blank |
 | 1 | The date blanks on page 1 (inside the PDF, \`DAY 1\`, \`MONTH 1\`, \`YEAR 1\`) | the date the paragraph asks for, read off the paper. This packet cannot read that paragraph; the order's parallel paragraph 1 recites an **arrest** date |
 | 1 | The two election boxes on page 1 (\`Check Box4\`, \`Check Box5\`) | tick the one that is true. The order's parallel paragraph 1 offers "[ ] Possession of Controlled Substance A.C.A. § 5-64-419; or [ ] Possession of Counterfeit Substance A.C.A. § 5-64-441" |
@@ -1179,12 +1416,13 @@ After — and only after — you have actually served both, complete the Certifi
 
 ## What the platform deliberately left blank
 
-- **Everything below the printed title on page 1 of the petition, and everything on page 2.** This packet cannot read a word of the paragraphs there and will not write into a blank whose sentence it cannot see. The **caption above the title on page 1 is the exception**: the county, the case number and your name are filled in there, unless a value was too long for its blank and was refused.
+- **Everything below the printed title on page 1 of the petition, and everything on page 2.** This packet cannot read a word of the paragraphs there and will not write into a blank whose sentence it cannot see. The **caption above the title on page 1 is the exception**: on the petition, the county, the case number and your name are written there, unless a value was too long for its blank and was refused, in which case that blank is left empty and is yours to complete.
 - **Your signature on page 3 and the date beside it**, and **your signature on the page 4 verification**. You make the statements, not the platform.
 - **The whole Certificate of Service** — name, signature, date. Service has not happened yet.
 - **The whole notary jurat**, including the county where you are sworn.
 - **Race, sex, ATN, SID and FBI number.** Identification facts the platform either does not hold or does not write.
 - **The court's name in both captions.** The platform holds no court fact tied to your case; the clerk answers it.
+- **Any caption blank whose value did not fit its printed rule, on either form.** ${groups2Prose(refusalGroups)}; each is written where it fits and **left empty** where it does not, on that form independently of the other. This packet leaves it blank rather than print your name across the form’s own line, and it makes no mark to say it did — see the qualification near the top of this page.
 - **Everything on the order below its caption** that belongs to the court.
 
 ## Where self-help ends
@@ -1277,6 +1515,7 @@ async function main() {
       const rel = `${OUT}/fixtures/${doc.key}-${label}-filled.pdf`;
       fs.mkdirSync(path.dirname(path.join(rootDir, rel)), { recursive: true });
       fs.writeFileSync(path.join(rootDir, rel), result.bytes);
+      noteWritten(rel);
       const hash = sha256(result.bytes);
       if (blocked.has(hash)) fail(`${doc.documentId}/${label}: rendered to a BLOCKED hash`, hash);
 
@@ -1310,6 +1549,40 @@ async function main() {
 
     documents.push({ doc, census, indexEntry, fixtures, sourceByteLength: bytes.length });
   }
+
+  // ---- everything that can refuse, before anything is written ------------------
+  //
+  // These used to sit at the very end, after twelve reports were already on
+  // disk. They read the finished fixtures, so they cannot run before the four
+  // fixture PDFs; they can and now do run before every report and before
+  // participant-instructions.md, which is composed into a string here, guarded,
+  // and written further down only if the guards pass. See the note on fail().
+  //
+  // The page-by-page claims in participant-instructions.md are measured from
+  // the petition's own extracted text and its finished fixtures' write reports,
+  // and the fingerprint requirement is carried through from the committed track
+  // registry. Both fail the build rather than drift. See petitionPageFacts().
+  const petitionBuilt = documents.find((d) => d.doc.documentRole === "PETITION")
+    ?? fail("no PETITION document was built; participant-instructions.md describes one");
+  const instructionFacts = petitionPageFacts(petitionBuilt);
+  const fingerprint = fingerprintRequirementFromRegistry();
+  const refusable = prefillsThatCanArriveEmpty(documents);
+  const refusalGroups = refusableByDocument(refusable);
+  console.log(`  instructions: prefills that can arrive empty — `
+    + refusable.map((r) => `${r.document} p${r.page} ${r.field} (empty in: ${r.emptyIn.join("+")})`).join("; "));
+  console.log(`  instructions: petition page 1 extracts ${instructionFacts.page1.extractedNonSpaceCharacters}`
+    + ` non-space chars, page 2 extracts ${instructionFacts.page2.extractedNonSpaceCharacters};`
+    + ` caption filled in every fixture: ${instructionFacts.page1.filledInEveryFixture.join(", ") || "(none)"};`
+    + ` refused in some fixture: ${instructionFacts.page1.refusedInSomeFixture.join(", ") || "(none)"}`);
+
+  const instructionsMarkdown =
+    participantInstructionsMarkdown(instructionFacts, fingerprint, refusalGroups);
+  const consistency = noSentenceContradictsAMeasuredRefusal(
+    instructionsMarkdown, refusable, instructionFacts.page1.captionWidgets);
+  const disclosure = everyMeasuredRefusalIsDisclosedOnItsOwnDocument(instructionsMarkdown, refusable);
+  console.log(`  instructions: ${consistency.unitsRead} units of prose read; no unit asserts any of the`
+    + ` ${disclosure.pairsChecked} measured refusals is filled without stating the condition, and each is`
+    + ` disclosed on the document it is on`);
 
   // ---- the records -------------------------------------------------------------
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1442,6 +1715,29 @@ async function main() {
     consistentWith: "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
     participantNameTokensSearchedFor: NAME_TOKENS,
     chargeBlanksExamined: chargeBlanks.length,
+    whatChargeBlanksExaminedCovers: (() => {
+      const byDocument = {};
+      for (const { doc } of documents) byDocument[doc.documentId] = 0;
+      for (const b of chargeBlanks) byDocument[b.document] += 1;
+      const empty = Object.entries(byDocument).filter(([, n]) => n === 0).map(([d]) => d);
+      return {
+        note:
+          "This counter is NOT a coverage measure of the family, and the number alone reads like one. It counts "
+          + "only those blanks whose field name or harvested caption uses the charge vocabulary, per document per "
+          + "fixture, and on this family every one of them is on a single document. The other document "
+          + "contributes zero -- not because it was cleared, but because it prints no blank this test recognises "
+          + "as a charge blank. A zero here is the absence of a candidate, never a pass.",
+        byDocumentAcrossAllFixtures: byDocument,
+        documentsContributingNothing: empty,
+        alsoNotToBeReadAsCoverage:
+          "guardProjection.fieldsScanned below counts every censused field of BOTH documents and is unrelated to "
+          + "this count; the two sit side by side and the larger number does not widen the smaller one's scope.",
+        widerScanDeclined:
+          "Widening the charge-vocabulary test to blanks that do not use that vocabulary was considered and NOT "
+          + "done here: it would change what the shared corpus guard means by an offending row, which is not this "
+          + "family's to redefine. Recorded rather than repaired."
+      };
+    })(),
     chargeBlanksCarryingAParticipantName: chargeBlanks.filter((b) => b.participantNameTokensFound.length).length,
     answer: chargeBlanks.some((b) => b.participantNameTokensFound.length)
       ? "YES — this build is defective"
@@ -1557,31 +1853,47 @@ async function main() {
     schemaVersion: "rcap-participant-blanks/v1",
     familyId: FAMILY_ID,
     note:
-      "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by "
-      + "widening the map: each is either the participant's to complete, the court's, or a value the platform "
-      + "does not hold.",
+      "Every blank this family does not fill IN ITS CANONICAL FIXTURE, and why. A blank here is not an omission "
+      + "to be closed later by widening the map: each is either the participant's to complete, the court's, or a "
+      + "value the platform does not hold.",
+    scopeCorrection:
+      "This file used to say 'Every blank this family does not fill, and why.' That was false by "
+      + `${refusable.length} on this family's own boundary fixture, and it did not merely omit them -- it `
+      + "asserted it did not. The list below is derived from the CANONICAL fixture alone, so a blank this "
+      + "family fills for a short value and refuses for a long one appears nowhere in it. Those are recorded in "
+      + "alsoArrivingEmptyWhenTheValueDoesNotFit below, which is measured across every fixture this family "
+      + "builds. Neither list is a statement about any real participant's values.",
     count: blanksLeft.length,
-    blanks: blanksLeft
+    blanks: blanksLeft,
+    alsoArrivingEmptyWhenTheValueDoesNotFit: {
+      question:
+        "Which blanks does this family FILL, and therefore leave out of the list above, yet leave empty when "
+        + "the value is too long for the printed rule it sits on?",
+      method:
+        "Read from each finished fixture's own write report: a blank written in one fixture and not in another "
+        + "is a blank whose filling depends on the length of the value. Nothing here is inferred from intent.",
+      count: refusable.length,
+      documentsAffected: [...new Set(refusable.map((r) => r.documentId))],
+      note:
+        "A refusal of this kind leaves no mark on the paper and no row above it. On the boundary fixture every "
+        + "one of these is empty, and on the PROPOSED_ORDER that is the whole of what this packet writes into "
+        + "its page 1 caption: the county, the case number and the defendant's name are all refused, and the "
+        + "court-name and division blanks of that same caption are ones this packet never fills at all, so the "
+        + "caption of the document the judge signs reaches the participant entirely blank. Measured on the "
+        + "delivered bytes: rendered at 150 dpi with a dark-pixel threshold of grey < 128 of 255, and WITH "
+        + "annotations, page 1 of order-boundary-filled.pdf carries 120,688 dark pixels and page 1 of the blank "
+        + "pinned source carries 120,688 -- 0 gained and 0 lost, pixel-identical -- while order-canonical-filled "
+        + "gains 2,427. petition-boundary-filled.pdf page 1 is pixel-identical to its own blank source on the "
+        + "same measurement. That the render draws annotation ink was checked first, on the pinned order source "
+        + "itself, which loses 606 dark pixels on page 1 and 2,263 on page 2 when its /Annots are emptied. "
+        + "participant-instructions.md discloses each of these on the document it is on, and two guards in the "
+        + "builder fail the build if it stops doing so.",
+      blanks: refusable
+    }
   });
 
-  // The page-by-page claims in participant-instructions.md are measured from
-  // the petition's own extracted text and its finished fixtures' write reports,
-  // and the fingerprint requirement is carried through from the committed track
-  // registry. Both fail the build rather than drift. See petitionPageFacts().
-  const petitionBuilt = documents.find((d) => d.doc.documentRole === "PETITION")
-    ?? fail("no PETITION document was built; participant-instructions.md describes one");
-  const instructionFacts = petitionPageFacts(petitionBuilt);
-  const fingerprint = fingerprintRequirementFromRegistry();
-  const refusable = prefillsThatCanArriveEmpty(documents);
-  const canArriveEmpty = [...new Set(refusable.map((r) => r.words))];
-  console.log(`  instructions: prefills that can arrive empty — `
-    + refusable.map((r) => `${r.documentId.includes("PETITION") ? "petition" : "order"} p${r.page} ${r.field}`).join("; "));
-  console.log(`  instructions: petition page 1 extracts ${instructionFacts.page1.extractedNonSpaceCharacters}`
-    + ` non-space chars, page 2 extracts ${instructionFacts.page2.extractedNonSpaceCharacters};`
-    + ` caption filled in every fixture: ${instructionFacts.page1.filledInEveryFixture.join(", ") || "(none)"};`
-    + ` refused in some fixture: ${instructionFacts.page1.refusedInSomeFixture.join(", ") || "(none)"}`);
-  fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`),
-    participantInstructionsMarkdown(instructionFacts, fingerprint, canArriveEmpty));
+  fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`), instructionsMarkdown);
+  noteWritten(`${OUT}/participant-instructions.md`);
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1",
