@@ -791,6 +791,79 @@ async function renderDocument(source, census, fixtureName) {
      * contradict each other is refused and counted, never repaired.
      */
     honorWidgetBorderStyle: true,
+    /*
+     * FIX01, CLIPPING_AND_OVERLAP. TWO FRAMES AT EVERY CHECK BOX ON PAGE 2.
+     *
+     * The dispatch asked whether the synthesized-outline defect class is present
+     * on this family and said absence was a real possible answer. It is present,
+     * it is visible, and its mechanism is NOT pdf-lib synthesis - which is why
+     * byte accounting reported it as ink the form itself ships.
+     *
+     * Measured three ways on the delivered bytes at 181ac2ece, before anything
+     * was changed:
+     *
+     *  1. 122 stroke-only flattened appearances across the two fixtures, 86
+     *     byte-identical to a pinned-source /AP stream and 36 matching none -
+     *     the cohort's own figures, reproduced here. All 36 then turned out to
+     *     be a source /AP stream with its OPAQUE BACKGROUND FILL removed: strip
+     *     the `<colour> g / ... re / f` run from the source stream and the
+     *     remainder is byte-identical to what was delivered, in 36 cases out
+     *     of 36. So no stream is invented.
+     *  2. Rendering the source page THREE ways settles what that costs. The
+     *     source's own page content prints a small box at each check position.
+     *     The source's /AP /N /Off appearance paints an opaque rectangle OVER
+     *     that printed box and strokes a slightly larger one of its own, so a
+     *     conforming viewer - and a printer - shows ONE box. The delivered page
+     *     stamps the same appearance with its fill stripped, so the printed box
+     *     is revealed AND the appearance's own box is stamped on top: TWO
+     *     concentric frames at every one of the five check boxes on packet
+     *     page 2.
+     *  3. A 150 dpi directional difference against the pinned source page finds
+     *     the added ink at exactly those five widget rectangles.
+     *
+     * The strip is right where it was written for - a white rectangle in a TEXT
+     * field's appearance would erase the printed words underneath it. It is
+     * wrong for a selection control whose fill is the thing that makes its
+     * appearance REPLACE the printed box instead of doubling it.
+     *
+     * preserveUnwrittenSelectionBackgrounds is the committed, opt-in remedy for
+     * exactly this symptom - its own note records it from Pennsylvania 490/790,
+     * "a white blank-state rectangle to cover a smaller printed box; stripping
+     * it reveals two frames". It preserves ONLY source-authored paint, only in
+     * an unwritten check box or radio widget, and only where the source ships
+     * the appearance itself. No mark is added, no box is ticked, /MK /BG is
+     * still removed and dynamic actions are still stripped. The shared module
+     * is not modified, so no other family's next rebuild is changed by this.
+     */
+    preserveUnwrittenSelectionBackgrounds: true,
+    /*
+     * FIX01, CLIPPING_AND_OVERLAP, the second half of the same obligation on
+     * the same form: THREE SELECTION CONTROLS STAMPED 32% LARGER THAN THE
+     * COURT'S FORM DRAWS THEM.
+     *
+     * Measured on the pinned JDF 417 itself, in its field tree rather than in
+     * its page /Annots, which is why a rect-keyed scan misses them:
+     *
+     *   /Rect 268.80 356.50 282.48 370.18   /AP /N BBox 0 0 18 18   (item 4B "No.")
+     *   /Rect 313.88 356.62 327.56 370.30   /AP /N BBox 0 0 18 18   (item 4B "Yes.")
+     *   /Rect 126.00 658.96 139.68 672.64   /AP /N BBox 0 0 18 18   (page 2, Prosecuting Attorney)
+     *
+     * Every one is a 13.68 by 13.68 widget carrying an 18 by 18 appearance.
+     * ISO 32000-1 12.5.5 requires the appearance BBox to be mapped onto the
+     * widget /Rect, so a conforming viewer draws each at 13.68 - a scale of
+     * 0.76. pdf-lib's flatten() applies no such mapping and stamps all three at
+     * 18, and a 150 dpi difference against the pinned source page shows it: 426
+     * and 409 added pixels at the two page-1 radios with 237 and 228 removed
+     * where the court's smaller ring was, and 222 added with 76 removed at the
+     * page-2 box. Rendered side by side the court draws a light 13.7pt ring and
+     * the packet drew a heavy 18pt one around it.
+     *
+     * fitAppearancesToRect applies the mapping the specification requires. It
+     * refuses a placement whose mapping is already the identity, so nothing
+     * that is currently right is rewritten, and it changes no stream's content
+     * -- only the matrix the flatten places it with.
+     */
+    fitAppearancesToRect: true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });

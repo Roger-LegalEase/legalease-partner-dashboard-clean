@@ -12,9 +12,10 @@
  ],
  "assignedFamiliesWorkedInThisReturn": [
   "me-seal-survivor-set",
-  "md_pardon_expungement-set"
+  "md_pardon_expungement-set",
+  "co_petition_seal_arrest-set"
  ],
- "claimsAsserted": "Asserted per family before any artifact of it was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>'. me-seal-survivor-set and md_pardon_expungement-set both returned CLAIM_OK (repair, grant set 914af21a28d51a60).",
+ "claimsAsserted": "Asserted per family before any artifact of it was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>'. All three returned CLAIM_OK (repair, grant set 914af21a28d51a60). None was refused.",
  "verdictsSet": "none. This lane repaired these bytes, so it cannot verify them. No PASS is issued here and no RASTER_PASS is claimed - that comes from the central workflow only.",
  "grantsNothing": "A repair proves a defect removed. It approves no output, promotes no route, closes no delivery gate and opens no commercial path.",
  "productionTouched": false,
@@ -451,6 +452,204 @@
    "claimReleased": false,
    "commit": "2059fd753",
    "toolsUsed": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs (committed, read-only) for appearance classification, and a SHA-256 comparison of each stroke-only stream against every /AP /N stream in the pinned sources. That comparison was validated against the committed cohort tool's own standing proof before it was relied on: run on the pre-repair md_pardon_expungement-set bytes it returns 6 matched / 0 unmatched per fixture, 12 / 0 across both, which is exactly what BORDER_COHORT_REMEDIATION.json records for that family. scripts/grade-a-packet-factory-24h/account-stroke-only-against-pinned-sources.mjs was NOT run: it rewrites data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json for every family in the cohort, which is a central manifest and not this lane's to write. Its already-committed results were read instead."
+  },
+  {
+   "itemId": "co_petition_seal_arrest-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "repair",
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationCoverage": "The dispatch asked whether the synthesized-outline defect class is present on this family, said absence was a real possible answer, and told me to repair only what I demonstrate. It IS present, in two shapes, and both are repaired. Nothing else on this family was touched.",
+   "theAnswerToTheQuestionAsked": "PRESENT, and byte accounting alone would have called it absent. The cohort ledger's figures for this family - 122 stroke-only appearances across the two fixtures, 86 matching a pinned-source stream and 36 matching none - are exactly reproduced here. But all 36 of the unmatched turned out to be a source /AP stream with its opaque background fill removed: strip the `<colour> g / ... re / f` run from the source stream and the remainder is byte-identical to what was delivered, in 36 cases out of 36, with 0 left over. So no stream was invented, and by that test the family looked clean. It was not. What the strip COSTS is only visible in a raster.",
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER_PASS - this repair changed the delivered bytes. rasterState is BUILT_RASTER_PENDING. The builder writes a local raster/ directory as a build byproduct; it is not committed, it is not a receipt, and no receipt is claimed.",
+    "Independent verification - this lane repaired and measured these bytes and cannot verify them. No verdict is set and no PASS is issued.",
+    "KNOWN_PREFILLS - NOT repaired here and not scored FAIL on this family by VF01, but a defect was found in passing and is recorded under recordsThatDisagree below: production-field-map.json publishes ONE rect per field and no widgets array, so a field with more than one widget has placements the map never discloses. Two writes are affected and both are real ink on the page.",
+    "The remaining 13 stroke-only appearances per fixture - accounted for below and deliberately left as they are."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set returns PASS_COMPLETE with all nine zero, before and after. It returned all nine zeros on bytes that drew a doubled frame at five check boxes and stamped three selection controls 32% oversized. Every counter in the set reads glyphs or fields; none of these defects draws a glyph or leaves a field unaccounted. This row rests on the control readings.",
+   "countersMeasuredBy": "the shared completeness verifier for all nine. The readings that decide this row are separate: a SHA-256 comparison of every stroke-only flattened stream against every /AP stream in the pinned sources, the same comparison allowing for a stripped background fill, and a 150 dpi directional raster read in both directions.",
+   "controlReadings": {
+    "toolsUsed": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs (committed, read-only) for classification, and a stream-digest comparison whose predicates are those of scripts/grade-a-packet-factory-24h/account-stroke-only-against-pinned-sources.mjs. That comparison was validated against the committed cohort ledger before it was relied on: it returns 12 matched / 0 unmatched on the pre-repair md_pardon_expungement-set bytes and 122 stroke-only / 86 matched / 36 unmatched on the pre-repair bytes of THIS family, both exactly what BORDER_COHORT_REMEDIATION.json records. The accounting tool itself was not run because it rewrites that ledger for every family in the cohort, which is a central manifest and not this lane's to write.",
+    "defectOne": {
+     "name": "TWO FRAMES AT EVERY CHECK BOX ON PACKET PAGE 2",
+     "howItWasFound": "not by byte accounting, which called all 36 unmatched streams accounted for, but by rendering the source page THREE ways. (1) The source's own page content, with /Annots deleted, PRINTS a small box at each check position. (2) The source's /AP /N /Off appearance paints an opaque rectangle OVER that printed box and strokes a slightly larger one of its own, so a conforming viewer and a printer show ONE box. (3) The delivered page stamped the same appearance with its fill stripped, so the printed box was revealed AND the appearance's own box was stamped on top.",
+     "measured": "five check boxes on packet page 2, on both fixtures. A 150 dpi difference against the pinned source page put the added ink at exactly those five widget rectangles.",
+     "whyTheStripIsRightWhereItWasWrittenFor": "a white rectangle inside a TEXT field's appearance would erase the printed words underneath it. It is wrong only for a selection control, whose fill is the thing that makes its appearance REPLACE the printed box instead of doubling it.",
+     "repair": "preserveUnwrittenSelectionBackgrounds: true - the committed, opt-in remedy whose own note in the shared module records it from Pennsylvania 490/790, 'a white blank-state rectangle to cover a smaller printed box; stripping it reveals two frames'. It preserves only source-authored paint, only in an unwritten check box or radio widget, and only where the source ships the appearance. No mark is added and /MK /BG is still removed.",
+     "effectMeasuredAlone": "added 0 pixels, removed 368, all five clusters on packet page 2 and every one inside a check-box widget rect. Pages 1, 3, 4 and 5 pixel-identical."
+    },
+    "defectTwo": {
+     "name": "THREE SELECTION CONTROLS STAMPED 32% LARGER THAN THE COURT DRAWS THEM",
+     "howItWasFound": "the raster still showed a heavy ring where the source draws a light one after defect one was repaired. Reading the pinned form's FIELD TREE rather than its page /Annots - which is why a rect-keyed scan misses them - three widgets carry /Rect 13.68 by 13.68 with an /AP /N appearance BBox of 0 0 18 18: item 4B's 'No.' at /Rect 268.80 356.50 282.48 370.18, item 4B's 'Yes.' at 313.88 356.62 327.56 370.30, and page 2's Prosecuting Attorney box at 126.00 658.96 139.68 672.64.",
+     "why": "ISO 32000-1 12.5.5 requires the appearance BBox to be mapped onto the widget /Rect, a scale of 0.76 here. pdf-lib's flatten applies no such mapping and stamps all three at 18pt.",
+     "measured": "426 and 409 added pixels at the two page-1 radios with 237 and 228 removed where the court's smaller ring was, and 222 added with 76 removed at the page-2 box. Side by side the court draws a light 13.7pt ring and the packet drew a heavy 18pt one around it.",
+     "repair": "fitAppearancesToRect: true. It refuses a placement whose mapping is already the identity, so nothing already right is rewritten, and it changes no stream content - only the matrix the flatten places it with."
+    },
+    "strokeOnlyAccountingBeforeAndAfter": {
+     "before": {
+      "perFixture": {
+       "flattenedFormXObjects": 90,
+       "strokeOnly": 61,
+       "matchingAPinnedSourceStream": 43,
+       "matchingNone": 18
+      },
+      "acrossBothFixtures": {
+       "strokeOnly": 122,
+       "matched": 86,
+       "unmatched": 36
+      },
+      "note": "identical to the cohort ledger's recorded figures for this family"
+     },
+     "after": {
+      "perFixture": {
+       "flattenedFormXObjects": 90,
+       "strokeOnly": 61,
+       "matchingAPinnedSourceStream": 48,
+       "matchingNone": 13
+      },
+      "acrossBothFixtures": {
+       "strokeOnly": 122,
+       "matched": 96,
+       "unmatched": 26
+      }
+     },
+     "whatEveryRemainingStrokeOnlyAppearanceIS": "96 of the 122 are byte-identical to an /AP /N stream the pinned source ships - the 86 that always were, plus the 10 check-box appearances (5 per fixture) that now match exactly because their background fill is preserved. The remaining 26 (13 per fixture) are each a source /AP stream with its opaque WHITE fill removed, and the test is exact: strip the fill run from the source stream and the remainder is byte-identical, 26 times out of 26, with 0 left over. Those 26 are the /Ch and /Tx writing rules on packet pages 2 and 3 - the nine 'Misdemeanor or Felony' cells of section 4a and the four sworn yes/no answers - whose stream draws a single bottom rule and no rectangle, so no doubling is possible and their white fill would erase the printed words under it. They stay stripped, which is FIX120's repair and not this lane's to undo. NOTHING in either fixture is unaccounted for."
+    },
+    "directionalRasterAgainstThePinnedSources": {
+     "method": "pdftoppm -r 150 -gray, each delivered page against the source page it claims, read in both directions with the removals read first. Added pixels split by whether they fall inside a rect production-field-map.json declares as a write, expanded 1pt.",
+     "before": {
+      "canonical": {
+       "addedInsideDeclaredWriteRects": 15392,
+       "addedOutsideEveryDeclaredWriteRect": 4045,
+       "removed": 768
+      },
+      "perPage": "p1 in=10348 out=835 rem=652 | p2 in=0 out=704 rem=116 | p3 in=0 out=1381 rem=0 | p4 in=5044 out=1125 rem=0 | p5 in=0 out=0 rem=0"
+     },
+     "after": {
+      "canonical": {
+       "addedInsideDeclaredWriteRects": 15392,
+       "addedOutsideEveryDeclaredWriteRect": 2506,
+       "removed": 93
+      },
+      "boundary": {
+       "addedInsideDeclaredWriteRects": 27845,
+       "addedOutsideEveryDeclaredWriteRect": 5636,
+       "removed": 93
+      },
+      "perPage": "p1 in=10348 out=0 rem=93 | p2 in=0 out=0 rem=0 | p3 in=0 out=1381 rem=0 | p4 in=5044 out=1125 rem=0 | p5 in=0 out=0 rem=0"
+     },
+     "addedInkInsideTheWriteRectsIsUNCHANGEDToThePixel": "15392 canonical and 27845 boundary before and after, so not one of the 17 values moved.",
+     "packetPages1And2NowAddNothingOutsideADeclaredWriteRectAtAll": "835 and 704 added pixels became 0 and 0.",
+     "overSuppressionCheck": {
+      "result": "NONE INTRODUCED. Removed pixels fell from 768 to 93.",
+      "whatTheRemaining93Are": "71 of them are a single one-pixel-wide vertical hairline at x 356.2 running y 593.3 to 626.9 on packet page 1, and the other 22 are one- and two-pixel specks at the right edge of write rects, which is antialiasing. The hairline is the vertical edge of a widget box that FIX120's honorWidgetBorderStyle deliberately replaced with the underline the widget's own /BS /S /U declares; it is present in the pre-repair bytes at exactly the same place and pixel count, so this repair neither caused it nor added to it.",
+      "nothingNearASignatureNotaryOrJurat": "no removed pixel on any page is inside or adjacent to a signature, date-of-signature, notary or jurat area. JDF-417's signature block on packet page 3 and JDF-418's judge signature on packet page 5 lose and gain nothing at all."
+     },
+     "negativeControl": {
+      "page": 5,
+      "whatItIs": "packet page 5 is JDF-418 page 2 and the packet writes nothing on it",
+      "expected": "gains nothing and loses nothing",
+      "measured": "0 added and 0 removed, on both fixtures, before and after the repair, against the pinned source page.",
+      "secondControl": "packet page 2 also carries no declared write, and after the repair it too adds 0 and removes 0 - which is the point of the repair, since before it that write-free page carried 704 added pixels."
+     },
+     "whatIsStillThereAndWhyItIsNotRepairedHere": "packet page 3 (1381 canonical / 3049 boundary) and packet page 4 (1125 / 2587) still add ink outside every DECLARED write rect. Both are the same thing and neither is ink the packet invented: page 3 prints the participant's name at 'Print Your Name' and page 4 prints it at 'a) Full Name', and reports/actual-writes.json records both as writes of field 1.1 and field delta. It is production-field-map.json that publishes ONE rect per field and no widgets array, so the second widget of a repeated field is a placement the map never discloses. That is a record defect of the same shape as Maryland's KNOWN_PREFILLS failure - a write the record does not disclose - and it is reported rather than repaired because VF01 did not score KNOWN_PREFILLS on this family and this dispatch did not name it."
+    }
+   },
+   "aFalseFindingICaughtBeforeReportingIt": {
+    "what": "Rebuilding this family produced fixtures 34% smaller than the committed ones, and a raster showed the word 'Petition' and the form number 'JDF 417' missing from the title of packet page 1 - the delivered filing reading 'to Seal Arrest and Criminal Records'. That is the exact defect FIX96 repaired, and under the coordinator's standing instruction it would have been a stop-and-do-not-ship finding.",
+    "whatItActuallyWas": "my own sparse checkout. data/rcap-all50/shared/ was not materialized, so loadAppearanceSemantics() found no registry, dispositionsForFamily() returned nothing, and the registry entry co_petition_seal_arrest-set:JDF-417.Title = preserve_source_appearance never reached the finalizer. `git sparse-checkout add data/rcap-all50/shared` fixed it.",
+    "proof": "with the registry materialized and no other change, the builder reproduces the committed fixtures BYTE FOR BYTE - canonical 1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1 and boundary a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50. There is no regression in the repository and none from the captain-branch merge. Every byte that moved afterwards is attributable to the two flags this row adds.",
+    "whyItIsRecorded": "because a lane that had not checked would have reported a title missing from a court filing, and the report would have been false."
+   },
+   "whatWasDone": {
+    "one": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs now passes preserveUnwrittenSelectionBackgrounds: true and fitAppearancesToRect: true to the shared finalizer, alongside the suppressSynthesizedWidgetBorders and honorWidgetBorderStyle it already passed. Both are existing committed opt-in flags. THE SHARED MODULE WAS NOT MODIFIED and no copy of it was made, so no other family's next rebuild is changed by this row.",
+    "notDone": "no value moved, no box was ticked, no selection was made or unmade, no source binding changed, no guide text changed, and the field map's write set is the same 17 entries it was."
+   },
+   "recordsThatDisagree": [
+    {
+     "about": "whether every stroke-only appearance that matches no pinned-source stream is synthesized ink",
+     "recordA": "BORDER_COHORT_REMEDIATION.json sourceAccounting for this family: SYNTHESIZED_INK_CONFIRMED, 36 stroke-only appearances 'match no /AP /N stream in this family's pinned sources, byte for byte. That ink is synthesized and the form does not print it.'",
+     "measuredHere": "the 36 are reproduced exactly, and all 36 are a source /AP stream with its opaque background fill removed - not invented ink. The ledger's own caveat is right that byte accounting cannot see over-suppression; this is the mirror case, where it cannot see UNDER-accounting either. The family did carry a real visual defect, but not the one the label named, and a lane that trusted the label would have removed the wrong ink."
+    },
+    {
+     "about": "where a repeated field's ink lands",
+     "recordA": "production-field-map.json publishes one rect per field and no widgets array; by it, packet pages 3 and 4 carry no writes",
+     "recordB": "reports/actual-writes.json records field 1.1 written on JDF-417 page 3 and field delta written twice on JDF-418 page 1",
+     "measuredHere": "the rendered pages print the participant's name at 'Print Your Name' on packet page 3 and at 'a) Full Name' on packet page 4. The byte proof is honest; the field map is the incomplete record. Reported, not repaired."
+    }
+   ],
+   "artifacts": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256BeforeRepair": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1",
+     "sha256": "f15bde74dc5856e0f32dd5fc9dcbf0425c1c88c7a5140e58d50a8260bbb667b5",
+     "byteLength": 1276618,
+     "pageCount": 5,
+     "addedGlyphsReadFromOutputBytes": 251,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256BeforeRepair": "a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50",
+     "sha256": "0183e844214ba22db3d13a72475d81c809d2a50e03f3653a2b0ea1d52541db50",
+     "byteLength": 1276944,
+     "pageCount": 5,
+     "addedGlyphsReadFromOutputBytes": 524,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    "glyphReadingBasis": "reports/actual-writes.json, summed over the two documents of each fixture: canonical JDF-417 154 + JDF-418 97, boundary JDF-417 324 + JDF-418 200. Both documents report nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures.",
+    "digestsTakenWith": "sha256sum on the committed files and the builder's own hash. Neither is transcribed.",
+    "boundSources": [
+     {
+      "sourceId": "official-form:JDF-417",
+      "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+      "byteLength": 1651354
+     },
+     {
+      "sourceId": "official-form:JDF-418",
+      "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+      "byteLength": 542987
+     }
+    ],
+    "determinism": "the builder reproduced the committed fixtures byte for byte before any edit (once the sparse checkout was complete), and reproduced its own output byte for byte after each edit. Every byte that moved is attributable to one of the two flags."
+   },
+   "filesChanged": [
+    "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
+    "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/ (regenerated: fixtures and reports)"
+   ],
+   "sharedArtifactsTouched": "none. No shared module, no central manifest, no cohort ledger, no other family's directory. The builder's local raster/ byproduct is left untracked and uncommitted.",
+   "verdictSet": null,
+   "packetsSelfVerified": 0,
+   "productionTouched": false,
+   "claimReleased": false,
+   "commit": null
   }
  ]
 }
