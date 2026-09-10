@@ -42,7 +42,14 @@ const refreshesIn = (doc) => {
     if (!n || typeof n !== "object") return;
     const key = PATH_KEYS.find((k) => typeof n[k] === "string");
     if (key && n.identityRefresh && typeof n.identityRefresh === "object") {
-      found.set(`${n[key]}::${n.identityRefresh.was?.sha256 ?? ""}`, { path: n[key], was: n.identityRefresh.was?.sha256 ?? null });
+      found.set(`${n[key]}::${n.identityRefresh.was?.sha256 ?? ""}`, {
+        path: n[key],
+        was: n.identityRefresh.was?.sha256 ?? null,
+        /* The pin the annotation sits beside: the identity the recorded move
+         * ENDS at. A later re-anchor's `was` is exactly this value, which is
+         * what lets a continued chain be told from an erasure. */
+        writtenAgainst: typeof n.sha256 === "string" ? n.sha256 : null
+      });
     }
     for (const v of Object.values(n)) walk(v);
   };
@@ -83,7 +90,31 @@ for (const rel of receipts) {
   try { now = JSON.parse(fs.readFileSync(absolute, "utf8")); }
   catch (e) { notMeasured.push({ rel, why: `present but unreadable (${e.message.slice(0, 60)}); this check cannot tell a truncated checkout from a rebuild` }); continue; }
   const after = refreshesIn(now);
-  const gone = [...before.keys()].filter((k) => !after.has(k));
+  /*
+   * A RE-ANCHOR IS NOT AN ERASURE, AND THIS USED TO REPORT IT AS ONE.
+   *
+   * The key is `path::was.sha256`, so the ONLY correct repair for a pin whose
+   * shared record drifted again -- re-do the anchor comparison and write a
+   * fresh annotation, which this module's own failure text asks for in as many
+   * words -- necessarily changes `was` and therefore changes the key. Two
+   * families re-anchored on 2026-09-10 were reported here as annotations
+   * ERASED BY A REBUILD when both carried a fresh annotation continuing the
+   * same chain. A check that fails the one repair it asks for teaches its
+   * readers to ignore it, which is the cost its own sparse-checkout comment
+   * names.
+   *
+   * So a dropped annotation is EXCUSED when the receipt still carries an
+   * annotation AT THE SAME PATH whose `was.sha256` is the identity the dropped
+   * annotation ended at -- the chain continues through it, and a human did the
+   * comparison across the second move. Nothing else is excused: a path left
+   * with no annotation, or one whose new annotation starts from somewhere else,
+   * is still reported.
+   */
+  const continues = (dropped) => {
+    if (!dropped.writtenAgainst) return false;
+    return [...after.values()].some((a) => a.path === dropped.path && a.was === dropped.writtenAgainst);
+  };
+  const gone = [...before.keys()].filter((k) => !after.has(k) && !continues(before.get(k)));
   if (gone.length) lost.push({ rel, why: `${gone.length} of ${before.size} identityRefresh annotation(s) dropped`, annotations: gone.map((k) => before.get(k)) });
 }
 
