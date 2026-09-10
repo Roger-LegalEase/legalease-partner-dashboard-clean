@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-lane-checkpoints/v1",
+  "lane": "VF23",
+  "laneKind": "independent-verification",
+  "baseSha": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+  "rowsFile": "data/rcap-grade-a/packet-factory-24h/vf23/rows-vf23-20260910.json",
+  "checkpoints": [
+    {
+      "at": "2026-09-10",
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "claim": "CLAIM_OK VF23 nd-summary-marijuana-pardon-set (independent-verification, grant set 405b193452815940)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "fifteenMeasured": true,
+      "failedObligationNames": [],
+      "canonicalSha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+      "boundarySha256": "c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8",
+      "pageCounts": { "canonical": 2, "boundary": 2 },
+      "priorFailureRepaired": "vf03 KNOWN_PREFILLS — boundary State box measured blank; now 220 added ink px, same as canonical",
+      "findingsCarried": [
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a published literal, not a measurement (value independently confirmed true)",
+        "the family's hash-bound RASTER_PASS acceptance receipt was deleted to null rather than recorded under acceptanceReceiptWithdrawn, and the canonical digest it bound had not moved",
+        "MASTER_QUEUE and RASTER_QUEUE still carry the pre-repair FAIL_REPAIR_REQUIRED state and the pre-repair boundary digest"
+      ],
+      "overlayDirectoryTouched": false,
+      "packetRepairedHere": false,
+      "commercialRoutesOpened": 0
+    }
+  ]
+}

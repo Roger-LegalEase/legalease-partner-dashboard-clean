@@ -1,0 +1,261 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF23",
+  "laneKind": "independent-verification",
+  "worker": "VF23-20260910",
+  "baseSha": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+  "branch": "pfa-vf-20260910",
+  "grantSet": "405b193452815940",
+  "measuredBy": "Every fixture PDF rendered at 150 dpi with pdftoppm and differenced pixel-for-pixel against the pinned source binary rendered the same way, so added ink is measured rather than reported; every declared write rectangle converted from PDF points to device pixels and the ink bounding box inside it measured for clipping and for adjacent-box overlap; delivered text read with pdftotext -layout from the fixture bytes; every artifact SHA-256 and byte length recomputed with sha256sum from the committed bytes; the pinned source SHA-256 recomputed from the corpus file under MASTER_LIBRARY_SOURCE_DIR; the source AcroForm enumerated first-hand with pdf-lib for field count, field names and /MaxLen; the nine counters reproduced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container and independently corroborated from the pixel diff.",
+  "independence": "This lane built and repaired nothing in this factory. Both families under read were repaired today by other lanes (FIX06, FIX02) and no repair author's report was accepted as evidence: every claim below was re-derived from the committed bytes.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "NOT_MEASURABLE_HERE": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": {
+        "repairedBy": "FIX06",
+        "repairCommit": "a8a7817bc57124d1257ed29f88815b5f629e1a75",
+        "integrationCommit": "68857636240b02c2c3551b301e53e578dbef9afc",
+        "obligationsRepaired": [
+          "KNOWN_PREFILLS"
+        ],
+        "priorVerdictUnderTest": "vf03 FAIL_REPAIR_REQUIRED at base b8a2495f4a84bff00aeb268c81deec6114dc581b: production-field-map.json maps[0].boundaryWrites declared six writes including State while the delivered boundary fixture carried five, the State box blank at zero added ink against 186 on the canonical.",
+        "priorFailureIsRepaired": true,
+        "howThatWasProvedHere": "The State rectangle (x 452.76, y 455.76, w 34.32, h 18.6) on the DELIVERED boundary fixture now carries 220 added ink pixels at 150 dpi against the pinned source, the same 220 the canonical carries, and pdftotext reads 'ND' in the State column of both. The boundary fixture bytes moved for this repair (98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf -> c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8); the canonical bytes did not.",
+        "repairAuthorClaimsTestedNotAccepted": [
+          {
+            "claim": "Each fixture's map is built from its own finalizer report, not by copying the canonical's.",
+            "testedHow": "Read the boundary's writes out of the BOUNDARY's own bytes and checked them against the BOUNDARY's own map entry, per fixture, without reading the builder's report. maps[0].boundaryWrites declares six writes; the boundary bytes deliver exactly six, at the six declared rects, carrying the six boundary persona values verbatim (Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31 / 1188 Upper Notch Crossing Road, Apartment 14B / Grand Forks / ND / 58203-2214). maps[0].boundaryWritesMeasuredFromTheBoundaryFixture is true and the bytes agree with it.",
+            "result": "CONFIRMED"
+          },
+          {
+            "claim": "The normalisation maps one state name and nothing else; no 50-row abbreviation table was authored.",
+            "testedHow": "Read the scope directly. scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs line 435, STATE_THE_FORM_ABBREVIATES_ITSELF, is an object literal with exactly ONE key, \"north dakota\". factsFor() looks up held.trim().toLowerCase() in it and normalises only on a hit, so no second state name is reachable by any input. This is not a table by another name.",
+            "result": "CONFIRMED"
+          },
+          {
+            "claim": "SFN 61663 writes a North Dakota address in its own voice with the two-letter code, in a 34.32pt State column with no /MaxLen and no comb.",
+            "testedHow": "pdftotext of the PINNED SOURCE page 1 prints 'Send completed information to one of the following: Pardon Advisory Board Clerk, fax 701-328-6780, mail to P.O. Box 1898, Bismarck, ND 58502-1898, or email pardonclerk@nd.gov.' The source AcroForm enumerated with pdf-lib shows the State text field carrying MaxLen=none, and the census /Rect read from the pinned binary gives width 34.32pt against City 163.2pt and ZIP Code 85.8pt on the same printed row. The form does abbreviate North Dakota in its own printed text, and the box is a two-character column.",
+            "result": "CONFIRMED"
+          },
+          {
+            "claim": "A whole-page diff shows 0 added pixels outside the six declared write rectangles on either fixture, both pages, with the offence table, aliases, telephone and signature boxes all empty.",
+            "testedHow": "Re-measured here rather than accepted. 150 dpi greyscale render of the pinned source page 1 and page 2 differenced against each fixture's corresponding page. Canonical page 1: 4532 added ink pixels, ALL inside the six declared rects (1311/678/1218/641/220/464), 0 outside. Boundary page 1: 8418 added, all inside (2922/722/2969/766/220/819), 0 outside. Canonical page 2 and boundary page 2: 0 added, 0 removed. Removed-ink count is 0 on every page, so nothing of the official form was overwritten.",
+            "result": "CONFIRMED"
+          },
+          {
+            "claim": "This builder still publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as a literal without measuring geometry.",
+            "testedHow": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs line 1101 assigns the key the integer literal 0 inside the object it writes to reports/actual-writes.json, beside addedGlyphsReadFromOutputBytes and flattenedWidgetAppearancesReadFromOutputBytes which ARE taken from the byte-proof reading. The report's own note says its numbers were 'Read back from the finalized PDF bytes ... not from the finalizer's own report', which is not true of this one key.",
+            "result": "CONFIRMED — and see recordHonestyFindings. The published number is correct in fact (I measured 0 outside the six rects on both fixtures and both pages), but it is published without measurement, which is the DEFECTS_NO_COUNTER_CAN_SEE entry a-published-zero-where-a-measurement-existed."
+          },
+          {
+            "claim": "A rebuild rewrote source-receipt.json's custody from master_library to a repository copy holding byte-identical bytes, and the receipt was reverted rather than committed.",
+            "testedHow": "git log over source-receipt.json shows its last change is 886dad29b (PF13), predating both FIX06's repair commit a8a7817bc and the integration commit; neither touched it. The committed receipt reads custody 'master_library', boundFromCustody 'MASTER_LIBRARY_SOURCE_DIR', sha256 c59cd5b8... and byteLength 46054, and the corpus file at that declared path recomputes to exactly that digest at exactly that length in this container.",
+            "result": "CONFIRMED — the revert holds in the committed tree and no custody change was made."
+          }
+        ]
+      },
+      "receiptCurrency": {
+        "bytesMovedToday": true,
+        "whichMoved": "boundary.pdf only; canonical.pdf is byte-identical to the bytes the RASTER_PASS was admitted against",
+        "canonicalSha256Recomputed": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+        "boundarySha256Recomputed": "c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8",
+        "productWiringAgrees": "proposedRepresentation.components[0].sha256 equals the recomputed canonical. product-wiring.json declares no boundary digest, so it neither binds nor contradicts the moved boundary.",
+        "rasterQueueRow": "RASTER_QUEUE.json historicalRasterRows[43]. Its canonicalPdfSha256 still binds (b305228a...). Its boundaryPdfSha256 and rasterReceipt.boundToBoundarySha256 are 98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf, which is NOT the boundary on disk. The row is honest about its own scope: historicalOnly true, currentGateAuthority false, coverage.notRenderedByThisGate ['boundary.pdf'], and movedToHistoryBecause states the receipt remains true only of the exact bytes and coverage it names. So the stale boundary digest is a superseded historical binding rather than a receipt relabelled as covering changed output.",
+        "wasTheWithdrawalRecordedProperly": "NO, and this is a finding. Integration commit 68857636240b02c2c3551b301e53e578dbef9afc set product-wiring.json binding.acceptanceReceipt to null, DELETING the receipt body — verdict RASTER_PASS, workflowRunId 34407406641, jobId 102654459281, artifactId 10126071863, boundToCanonicalSha256 b305228a..., coversTheWholeFamily true. That same commit's own message states the correct shape, built by FIX02 and preserved in scripts/rcap-packet-completeness/governance-preservation.mjs: carry the receipt while its bound digest still matches, and otherwise record it under acceptanceReceiptWithdrawn WITH BOTH DIGESTS so a receipt that stopped describing the bytes is withdrawn and kept as history rather than deleted. Neither branch was applied here. Worse, the deleted receipt bound only the CANONICAL digest, and the canonical digest did not move — so a receipt that still described the bytes it named was destroyed rather than carried. The old receipt is NOT being presented as current; it is gone from product-wiring.json, recoverable only from git history and from the RASTER_QUEUE historical row.",
+        "whoOwnsTheFix": "not this lane — product-wiring.json is the family's record and RASTER_QUEUE.json has one writer who is not this lane."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "The six facts the platform holds for this route (full legal name, date of birth, street address, city, state, ZIP) are each drawn on both fixtures — verified by reading the delivered text and by 150 dpi ink measurement inside each of the six declared rects, none of which is empty. No mapped fact is absent from the delivered bytes. 0.",
+        "requiredFactsNotCollected": "All 30 unwritten widgets of the 36 are accounted for: 26 declared requiredBeforeFiling, 2 genuine participant elections, 2 protected signature fields. Every one of the 26 disclosureLabels was string-searched in the bytes of participant-instructions.md and all 26 are present, so no required fact is left uncollected and unasked. 0.",
+        "unclassifiedBlanks": "36 AcroForm fields enumerated first-hand from the pinned source with pdf-lib; the census carries 36 and declares fieldCount 36 and corpusIndexDeclaresFieldCount 36. 6 written + 26 requiredBeforeFiling + 2 elections + 2 protected = 36 exactly. No widget is unaccounted for. 0.",
+        "incompleteRows": "Item 5 is a three-row, six-column offence table. Row membership resolved by GEOMETRY, not by AcroForm index: row 1 at y 238.20, row 2 at 210.72, row 3 at 183.24, descending in printed order, with the six columns at x 44.88 / 144.00 / 220.44 / 297.00 / 387.00 / 468.00 in every row. All eighteen cells carry zero added ink on both fixtures (they lie inside the 0-added-pixels-outside-declared-rects region of the whole-page diff), so no row is part-filled. 0.",
+        "requiredOptionsMissing": "The form's only selection controls are the two checkboxes of 'Check Applicable Response' — first-time applicant, or previously denied. Neither is determined by the route (they are facts about the participant's own history with the board), both are declared explicit_refusal with a reason, both are disclosed in the guide's 'The choices that are yours', and neither is ticked in either fixture (0 added ink at both 8.76pt rects). No route-determined option is left unmade. 0.",
+        "requiredComponentsMissing": "The route names one component, component:nd-summary-marijuana-pardon-primary-filing-1, delivered as SFN-61663. Both fixtures are 2 pages and both pages are SFN 61663 pages 1 and 2 from source c59cd5b8..., confirmed by rendering the pinned source and finding page 2 pixel-identical and page 1 identical apart from the six writes. 0.",
+        "invisibleWrites": "Every one of the six declared writes was measured as ink at 150 dpi inside its own rect on both fixtures — canonical 1311/678/1218/641/220/464 px, boundary 2922/722/2969/766/220/819 px. No declared write draws nothing. 0.",
+        "protectedWrites": "'Signature of Applicant' (x 44.88, y 144.84, w 421.56) and 'Date' (x 468.00, y 144.84, w 106.44) are policy=protect. Both lie outside the six declared write rects, and the whole-page diff measures 0 added ink outside those rects on both fixtures, so neither protected box carries ink. 0.",
+        "visualDefects": "Whole-page 150 dpi diff of both fixtures against the pinned source, both pages: 0 added ink pixels outside the six declared rects, 0 removed ink pixels anywhere. Per-write ink bounding boxes all sit strictly inside their rects with positive margins on all four sides and no adjacent-column intrusion. 0."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route, spelled identically in every record that carries it: obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief appears in product-wiring.json routeKey/routeKeys/binding.routeKeys, source-receipt.json routeKey, production-field-map.json routeKeys, MASTER_QUEUE families[225].routeKeys, and as the footer line of participant-instructions.md. routeSelectionId is nd-summary-marijuana-pardon-set-sfn-61663 in both the field map and the receipt. familyId is nd-summary-marijuana-pardon-set in all eleven committed JSON records in the directory. routeCount 1 and no second route is implied anywhere."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "sha256 recomputed in this container over MASTER_LIBRARY_SOURCE_DIR/STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf = c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f at 46054 bytes. That equals source-receipt.json documents[0].sha256 and byteLength, product-wiring.json binding.sourceVersion[0].sha256, MASTER_QUEUE sourceHashes[0].sha256, field-census.census-v1.json documents[0].sourceSha256, and every one of the four pageManifest sourceSha256 entries in reports/rendered-artifacts.json. The queue names the source by its printed form number SFN-61663 while the corpus index files it under the slug ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA and classes it SUPPORT; the receipt records both identifiers and binds by digest, so the two names are one document and the discrepancy is disclosed rather than resolved silently. SOURCE_READY_BUILDABILITY.json rows[54] agrees: EVERY_BOUND_SOURCE_IS_A_HELD_PDF, 1 named, 1 resolved."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One declared component, one delivered document. Both fixtures are exactly 2 pages of 612x792pt, and each page renders identical to the corresponding pinned source page apart from page 1's six writes (page 2: 0 added and 0 removed ink pixels on both fixtures). No component is missing and none is duplicated; the packet contains no second instrument and no cover sheet the route did not name."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the obligation vf03 failed and FIX06 repaired, re-measured per fixture from each fixture's own bytes. CANONICAL: six writes declared, six delivered — 'Jordan Avery Reyes', '1991-04-17', '412 Rosser Avenue', 'Bismarck', 'ND', '58501', each read from the delivered text at the declared rect and each carrying measured ink. BOUNDARY: six writes declared in maps[0].boundaryWrites, six delivered — 'Maria-Alejandra O'Shaughnessy-Whitfield', '1968-12-31', '1188 Upper Notch Crossing Road, Apartment 14B', 'Grand Forks', 'ND', '58203-2214', all six carrying ink, including the State box that vf03 measured blank. No value is truncated: each delivered string equals the persona value character for character. The State normalisation is bounded to one entry — the object literal has exactly one key, 'north dakota' — so it cannot reach a second state name and is not an abbreviation table. Its basis is the form's own printed text, which I read from the pinned source: 'mail to P.O. Box 1898, Bismarck, ND 58502-1898'. It is disclosed to the participant in its own paragraph of the guide, naming the held value, the drawn value, the printed evidence and the 34.32pt column width, and telling the reader to check and correct it by hand. No fact is written into a box that means something else: the guide's claim that the platform filled in 'Applicant Name, Date of Birth, Applicant's Address, City, State and ZIP Code' and nothing else is true of BOTH fixtures as delivered. The 'List of Former Names or Aliases' box — the shape of the map-honest-writes-not defect — carries zero ink and is disclosed with an explicit instruction not to repeat the name written above. OBSERVATION recorded, not a failure: both fixtures hold 'North Dakota', so the refusal branch for a state this form does not abbreviate is not exercised by any shipped artifact; FIX06's non-vacuity evidence is a mutation test it reverted, which I did not re-run because rerunning a builder is outside this lane."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two protected widgets, 'Signature of Applicant' and 'Date', both at y 144.84 on page 1. Neither is in the declared write set and the 150 dpi whole-page diff measures 0 added ink outside the six write rects on either fixture, so both are empty in the delivered bytes. The guide states plainly that neither is filled in and that the signature is what certifies items 1 to 4. Additionally, no government identifier of any kind is written: the Social Security Number, Place of Birth and Race boxes are all empty in both fixtures and all three are carried to the participant by name."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Ink bounding box measured inside each declared rect at 150 dpi with no padding. Every write sits strictly inside its own box with positive margins on all four sides, and no write intrudes on an adjacent column. Worst case is the boundary address, the longest delivered value: ink x[97,580] against a box of x[94,597] — 3.5px left, 16.8px right — while the City box begins at x 600, so the 44-character address does not touch the City column. Glyph heights measured 16-22px, i.e. roughly 7.7pt to 10.6pt, all above the 6pt minimum legible size. State 'ND' occupies x[947,977] in a box x[943,1015], comfortably inside the 34.32pt column. Nothing is clipped and nothing overlaps. FINDING recorded under recordHonestyFindings: the family's own reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as a source literal that no code measures; I measured the quantity independently and it is genuinely 0 on both fixtures and both pages, so the number is true but its provenance claim is not."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md carries a 'What this packet is not' section: it is a prepared copy of an official North Dakota form, it is not legal advice, it is not sent for you, and it does not decide whether the offence is eligible; and it repeats the form's own closing note that the form is informational and an attorney should be consulted. The guide also leads with the form's own capitalised warning that a pardon will not expunge a criminal history record, and with the public-record consequence — that the application becomes public on receipt and the hearing is minuted online — before any instruction on filling the form in. Nothing in the guide promises an outcome, asserts eligibility, or claims the platform files or serves anything."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide's 'Where to send it' gives three channels: fax 701-328-6780, post to P.O. Box 1898, Bismarck, ND 58502-1898, or e-mail pardonclerk@nd.gov, addressed to the Pardon Advisory Board Clerk. I read the same three channels verbatim from the PINNED SOURCE's own printed instructions on page 1. The guide says explicitly that these are the form's own words and that the packet adds nothing to them. No clerk practice, address or filing venue is invented; no court is named, correctly, because this route files to an agency board and not to a court."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured, and the answer is that this route has no service obligation to state. SFN 61663 is an application to the North Dakota Pardon Advisory Board; its printed text — which I read end to end from the pinned source — names one recipient, the Pardon Advisory Board Clerk, and prescribes no service on a prosecutor, an agency or any other party, no proof of service and no certificate. N.D.C.C. ch. 12-55.1, printed in full on page 2 of the delivered packet, is carried to the participant unaltered. The packet accordingly asserts no service rule, no deadline for service and no party to serve, which is the correct behaviour: the guide states where the completed application goes and that the packet does not send it. Nothing was fabricated to fill this obligation."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares requiredBeforeFilingCount 26 with 26 entries, and all 26 disclosureLabels were string-searched in the bytes of participant-instructions.md: 26 of 26 present, 0 missing. They are Date Denied; Social Security Number; Place of Birth; Race; Home, Work and Cellphone numbers; List of Former Names or Aliases; and all eighteen offence-table cells named per row and per column. Each carries a 'what to write' sentence in the guide's table. The three 'Judge' cells are declared under the case-determined exception with a per-row reason, because the shared completeness contract's COURT_ONLY class would otherwise excuse a widget captioned Judge as court-owned — on this form item 5 asks the APPLICANT to name the judge — and the exception is flagged in build-findings.json as the item most worth challenging rather than buried. Independently confirmed against the bytes: all 26 blanks carry zero ink in both fixtures."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every declared digest recomputed here and every one matches. canonical.pdf b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847 at 40720 bytes, 2 pages; boundary.pdf c98c75b4fa712dd7bf5a61367d0ffb47a9d9ecd11f9f62679b43283521466bb8 at 40785 bytes, 2 pages — both equal to reports/rendered-artifacts.json artifacts[].sha256 and byteLength and to reports/independent-visual-review.json. All four raster PNG digests match too: canonical p1 e3885f9b..., canonical p2 and boundary p2 both 599d5413... (identical because page 2 is untouched on both fixtures, which is itself corroboration), boundary p1 933d731b.... byteDerivedHashes is true and holds."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "pageManifest declares packet page 1 = SFN-61663 source page 1 and packet page 2 = source page 2, for both fixtures. Verified by rendering: delivered page 1 differs from source page 1 only by the six writes, and delivered page 2 is pixel-identical to source page 2 (0 added, 0 removed). Page 2 is the text of N.D.C.C. ch. 12-55.1 and carries no widgets, so the statute the board applies travels with the application in its printed order. No page is transposed, duplicated or dropped."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "routeDeterminedSelections is empty and the field map records why: the form carries no route election. Its only two selection controls ask whether this is a first application or a repeat after a denial, which is a fact about the participant's own history with the board, not a choice of statutory ground. I confirmed from the pinned source that the form prints no ground checklist and no relief-type election — items 1 to 4 are certifications the signature adopts, not options. Both checkboxes are declared explicit_refusal with a stated reason, are disclosed in the guide under 'The choices that are yours', and carry no ink in either fixture. The packet states the route it was built for in its own title, its footer and its authority line. No option the route determines is left unmade, and no option that belongs to the participant is made for them."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The obligation arises here — item 5 is a genuine three-row repeating table — and it is satisfied. Row membership was resolved by GEOMETRY against printed order rather than by AcroForm suffix, which is the acroform-index-is-not-the-printed-row trap: the unsuffixed row sits highest at y 238.20, _2 at 210.72 and _3 at 183.24, so index order and printed order agree on this form; the six columns hold the same x positions in all three rows and match the printed header order Judge / Prosecutor / Defense / City or County / Offense / Case Number read by x-position. All eighteen cells are empty in both fixtures and all eighteen are disclosed per row and per column in the guide. The build refuses to part-fill: build-findings.json records that the shared semantics would have bound participant.city into the 'City or County' column (the venue of the offence, not where the participant lives) and matter.case_number into 'Case Number' row 1, each refused by role and recorded under nearMissesRefusedByRole, and the byte proof confirms neither carries ink. A row with one cell filled and five empty would read as finished on a form whose own instructions say an incomplete application is returned."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the controlling source. I read the full printed text of the pinned SFN 61663 and grepped it for fee, waiver, cost, pay and a currency sign: there is no fee, no filing charge, no waiver form and no ability-to-pay provision anywhere on either page, including the statute text of N.D.C.C. ch. 12-55.1 on page 2. The same grep over participant-instructions.md returns nothing: the packet asserts no fee, quotes no amount and promises no waiver. That is the correct outcome — the obligation is satisfied by the packet declining to invent a fee or a waiver the controlling record does not establish, rather than by an amount being stated."
+        }
+      },
+      "crossChecks": {
+        "DEFECTS_NO_COUNTER_CAN_SEE": {
+          "map-honest-writes-not": "NOT PRESENT, and checked deliberately because this form carries the exact attractor. 'List of Former Names or Aliases' is a widget whose name contains 'Names'; it is refused, empty in both fixtures, and the guide instructs the participant not to repeat the name written above. The map declares six writes and the bytes carry those six and no others.",
+          "a-participant-fact-written-into-a-field-about-someone-else": "NOT PRESENT AND ACTIVELY DEFENDED. build-findings.json records three field names that would have taken a participant fact and meant something else — 'City or County' (offence venue, not residence), 'Case Number' (row 1 of the offence table), and the home/work telephone pair (one unqualified number into two boxes asking different questions). All refused by role, all recorded under nearMissesRefusedByRole, all confirmed inkless in the delivered bytes.",
+          "acroform-index-is-not-the-printed-row": "CHECKED AND CLEAR. Row order resolved by y-geometry; index order and printed order agree on this form. Moot in any case because no table cell is written.",
+          "extracted-line-order-is-not-column-order": "CHECKED BY X-POSITION. The printed row reads Applicant's Address / City / State / ZIP Code, and the widget x positions are 44.88 / 288.00 / 452.76 / 488.64 in that order. The delivered 'ND' lands at x[947,977] device px, i.e. between the City column and the ZIP column, so the state value is in the state column and not one column adrift.",
+          "internal-record-text-printed-on-a-filing": "NOT PRESENT. The delivered pages carry 0 added ink outside the six write rects, so no record prose, no analysis sentence and no machine vocabulary reaches the face of the filing. All reasoning lives in the guide and the JSON records.",
+          "a-published-zero-where-a-measurement-existed": "PRESENT AS A RECORD DEFECT. See recordHonestyFindings — nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a hardcoded literal. The value is true in fact by my own measurement, so no delivered page is wrong; the defect is that the family publishes it as a byte reading.",
+          "a-geometry-counter-with-no-teeth": "SPECIFICALLY GUARDED AGAINST HERE by not trusting that counter: I measured the whole page rather than the census rects, so stray ink drawing at a census widget's own rect would still have been counted. There is none.",
+          "two-families-one-filing": "NOT APPLICABLE. CLONED_FAMILY_PACKETS.json does not list this family in familiesDeliveringACloneOfAnother or in nearClones, and no other ND family in this repository delivers SFN 61663."
+        },
+        "recordsThatContradictEachOther": [
+          {
+            "what": "MASTER_QUEUE.json families[225] still carries state FAIL_REPAIR_REQUIRED, failedObligationNames ['KNOWN_PREFILLS'], selectedIndependentVerdict vf03 FAIL_REPAIR_REQUIRED at base b8a2495f..., and rasterEnrolmentRefusal 'the current failed obligations have not been repaired'; product-wiring.json binding.lastIndependentVerification says the same. The bytes those verdicts describe no longer exist: the boundary fixture moved in a8a7817bc and I measured the named defect repaired.",
+            "measuredAgainst": "the committed fixture bytes at 8db74d6e5, not the queue row",
+            "whoOwnsIt": "the queue and the family record have one writer each and neither is this lane"
+          },
+          {
+            "what": "RASTER_QUEUE.json notEligible[84] and historicalRasterRows[43].currentIneligibility both say 'the current failed obligations have not been repaired' while the same row publishes currentRasterState RASTER_PASS. Both statements were true when written; the first is now stale for the same reason as above.",
+            "measuredAgainst": "the fixture bytes",
+            "whoOwnsIt": "RASTER_QUEUE.json has one writer and it is not this lane"
+          },
+          {
+            "what": "Two blank classifications coexist and disagree in shape while agreeing in total. production-field-map.json / blanks-left-for-the-participant.json class the 30 unwritten widgets as 26 requiredBeforeFiling + 2 elections + 2 protected; reports/completeness-counters.json blankDispositions classes the same 30 as 23 REQUIRED_BEFORE_FILING + 5 PROTECTED_FIELD + 2 PARTICIPANT_ELECTION_GENUINE, because the shared contract reads three identifier-shaped captions as protected. Both sum to 30 and neither leaves a widget unclassified, so unclassifiedBlanks is 0 under either reading; recorded because a future reader comparing the two numbers will otherwise think one is wrong.",
+            "measuredAgainst": "both records, plus my own 36 = 6 + 30 enumeration from the pinned source AcroForm",
+            "whoOwnsIt": "no repair asked for; it is a vocabulary difference, not a missing disclosure"
+          }
+        ]
+      },
+      "recordHonestyFindings": [
+        {
+          "id": "published-literal-not-a-measurement",
+          "where": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs:1101, delivered into reports/actual-writes.json for both fixtures",
+          "what": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is assigned the integer literal 0. No code in this builder measures glyph geometry against the write boxes. The report it lands in carries the note 'Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report', which is accurate for addedGlyphsReadFromOutputBytes and flattenedWidgetAppearancesReadFromOutputBytes and is not accurate for this key.",
+          "isTheNumberWrong": "No. I measured the quantity independently — 150 dpi whole-page differential against the pinned source, both fixtures, both pages — and 0 added ink lies outside the six declared rects. The packet on the page is correct.",
+          "whyItStillMatters": "It is the DEFECTS_NO_COUNTER_CAN_SEE entry a-published-zero-where-a-measurement-existed. A literal that happens to be right today provides no protection tomorrow, and the family's build-time assertion at line 745 gates visualDefects on this same literal, so the guard can never fire.",
+          "recommendedFix": "measure it, or drop the key rather than publish it; not this lane's to make.",
+          "raisedByTheRepairAuthorToo": true
+        },
+        {
+          "id": "acceptance-receipt-deleted-rather-than-withdrawn",
+          "where": "product-wiring.json binding.acceptanceReceipt, set to null in 68857636240b02c2c3551b301e53e578dbef9afc",
+          "what": "A hash-bound RASTER_PASS receipt — workflowRunId 34407406641, jobId 102654459281, artifactId 10126071863, boundToCanonicalSha256 b305228a..., coversTheWholeFamily true — was replaced with null rather than moved to acceptanceReceiptWithdrawn with both digests, which is the shape the same commit's message describes as correct and which scripts/rcap-packet-completeness/governance-preservation.mjs exists to enforce.",
+          "aggravating": "The receipt bound the CANONICAL digest, and the canonical digest did not move in this repair. A receipt that still described the bytes it named was destroyed. Only the boundary moved, and the raster gate never rendered the boundary by design (coverage.notRenderedByThisGate ['boundary.pdf']).",
+          "recommendedFix": "restore it under acceptanceReceiptWithdrawn or acceptanceReceipt with both digests recorded; not this lane's to make."
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf (bytes, rendered)",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf (bytes, rendered)",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json",
+        "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs (read for the SCOPE of the state normalisation and the provenance of the published counters; no claim below rests on it alone)",
+        "MASTER_LIBRARY_SOURCE_DIR/STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf (the pinned source, rendered and text-extracted and its AcroForm enumerated)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[225]",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json historicalRasterRows[43], notEligible[84]",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json rows[54]",
+        "git show 68857636240b02c2c3551b301e53e578dbef9afc and a8a7817bc57124d1257ed29f88815b5f629e1a75"
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "This PASS proves the packet complete against its own controlling records at commit 8db74d6e5b5427548e30c2eed11a21b2bb1d9383. It approves no output, promotes no route, opens no commercial path, and does not restore the acceptance receipt this family lost. The boundary fixture's bytes moved after the family's RASTER_PASS was admitted and no central raster covers them; a fresh receipt is the raster lane's to produce and not this lane's to assert."
+    }
+  ]
+}
