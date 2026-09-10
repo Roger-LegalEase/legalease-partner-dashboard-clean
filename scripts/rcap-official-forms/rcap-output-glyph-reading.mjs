@@ -87,8 +87,15 @@ function tokenize(source) {
   return tokens;
 }
 
-/** The text a stream actually shows: every operand of every show-text operator. */
-function drawnTextOf(text) {
+/**
+ * The text a stream actually shows: every operand of every show-text operator.
+ *
+ * Exported (FIX168) so that a reader measuring ONE named election rectangle
+ * reads a mark by exactly the same semantics this module uses for the
+ * whole-artifact counters. Two readings of the same appearance that disagree
+ * because they tokenize differently would be worse than one reading.
+ */
+export function drawnTextOf(text) {
   const tokens = tokenize(text);
   let drawn = "";
   for (let i = 0; i < tokens.length; i += 1) {

@@ -5,6 +5,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  assertNoElectionIsMarked, readElectionMarks,
+} from "./rcap-official-forms/rcap-election-mark-reading.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const familyId = "nj_disorderly_persons-set";
 const out = "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill";
@@ -489,15 +493,143 @@ function assertFix13Repair() {
   }
 }
 
+/*
+ * FIX168, ROUTE_OPTIONS. THE ELECTION GUARD, AND WHY IT READS THE BYTES.
+ *
+ * VF11 failed this family on ROUTE_OPTIONS and the failure still reproduces:
+ * `guilty`, the one control this family's own field map calls a
+ * measured_route_selection, is unmade on both fixtures, so nothing on the
+ * delivered petition states which statutory route it is, and the delivered
+ * canonical is byte-identical to nj_indictable_conviction-set's and
+ * nj_ordinance-set's. FIX121 established -- and this lane re-derived
+ * independently, from the pinned binary and from the committed NJ intake -- that
+ * the election cannot be made: item (d) is one compound sworn sentence whose
+ * final sentence, incarceration-term type and fines-paid date are collected by
+ * NO question on ANY of the three tracks, and the term dropdown the court
+ * published offers only ["  ", "jail time", "prison time", "incarceration
+ * time"], with no "none". Marking the box would swear to a sentence and a
+ * custodial term this repository would have had to invent.
+ *
+ * So the withdrawal stays, and the counter stays at 1. What was missing is the
+ * guard. Every assertion above checks item (d)'s eight TEXT cells; not one
+ * checked the BOX. A later lane under pressure to move requiredOptionsMissing
+ * from 1 to 0 could mark it and this suite would still pass.
+ *
+ * The guard therefore reads the DELIVERED BYTES, not the build's own report of
+ * them, and covers EVERY election the pinned kit declares -- not only item (d),
+ * but the dismissal, acquittal, diversion, early-pathway and prior-expungement
+ * elections that belong to the participant's oath, and the four Form C
+ * elections on delivered pages 30 and 32 that belong to the judge. An
+ * appearance it cannot locate or decode is a refusal, never a pass.
+ */
+async function assertNoElectionIsMade() {
+  const receipt = readJson(`${out}/source-receipt.json`);
+  const document = receipt.documents.find((row) => row.documentId === "NJ-CN-10557");
+  assert.ok(document, "NJ-CN-10557 is absent from the source receipt");
+  const corpus = process.env.MASTER_LIBRARY_SOURCE_DIR;
+  assert.ok(corpus && fs.existsSync(corpus),
+    "MASTER_LIBRARY_SOURCE_DIR is required: the election guard measures against the pinned court binary, "
+    + "never against a field map");
+  const sourceBytes = fs.readFileSync(path.join(corpus, document.pathInArchive));
+  assert.equal(sha256(sourceBytes), document.sha256,
+    "NJ-CN-10557: the pinned source no longer hashes to its receipt; the election rectangles are not the court's");
+
+  const readings = {};
+  for (const fixture of ["canonical", "boundary"]) {
+    const file = `${out}/fixtures/cn-10557-${fixture}.pdf`;
+    const rows = await readElectionMarks(fs.readFileSync(abs(file)), { sourceBytes, pageOffset: 0 });
+    /* The kit declares 19 checkbox FIELDS but 22 checkbox WIDGETS, and the
+     * difference matters: `dismissPlea` is the Yes/No pair under "Was the
+     * dismissal a result of a plea bargain?" and is two widgets on delivered
+     * page 18, `contDismissPlea` is the same pair on page 20, and `contOwe` is
+     * placed twice, on pages 19 and 21. A guard counting fields would read 19
+     * and silently never look at three boxes. Pinning the widget count keeps a
+     * narrowed reading from passing as a clean one. */
+    assert.equal(rows.length, 22,
+      `${fixture}: expected the 22 election widgets CN-10557 declares, read ${rows.length}`);
+    assertNoElectionIsMarked(rows, `cn-10557-${fixture}.pdf`);
+    readings[fixture] = rows;
+  }
+  return readings;
+}
+
+/*
+ * FIX168. The determination, in the family's own record.
+ *
+ * FIX121's finding lived in a commit message and a lane row. A reader who opens
+ * this family sees a petition, a guide that discloses a withheld election, and
+ * no statement of what that withholding costs. This writes the readings the
+ * guard took and the determination they support into the family directory, so
+ * the block is visible where the family is read, and so the next lane does not
+ * re-litigate it -- or "fix" it by marking the box.
+ */
+function writeElectionDetermination(readings) {
+  const summarise = (rows) => rows.map((row) => ({
+    field: row.field,
+    deliveredPage: row.deliveredPage,
+    located: row.located,
+    nonWhitespaceGlyphs: row.nonWhitespaceGlyphs,
+  }));
+  writeJson(`${out}/reports/election-readings.json`, {
+    schemaVersion: "rcap-election-mark-readings/v1",
+    familyId,
+    measuredBy: "scripts/rcap-official-forms/rcap-election-mark-reading.mjs",
+    measuredOn: "the delivered fixture bytes, at the checkbox rectangles CN-10557 itself declares",
+    everyValueIsAReading: true,
+    whatANullMeans: "the appearance at that declared rectangle could not be located or decoded, so nothing was "
+      + "measured there. It is never written as 0, and the guard refuses on it.",
+    electionsRead: readings.canonical.length + readings.boundary.length,
+    /* A reading, summed over both fixtures, not a literal: if it were a literal
+     * it could never move when a mark appeared, and the guard above would be the
+     * only thing standing between this record and a false zero. */
+    electionsMarked: [...readings.canonical, ...readings.boundary]
+      .filter((row) => row.nonWhitespaceGlyphs > 0).length,
+    electionsUnreadable: [...readings.canonical, ...readings.boundary]
+      .filter((row) => !row.located).length,
+    fixtures: {
+      canonical: summarise(readings.canonical),
+      boundary: summarise(readings.boundary),
+    },
+    routeOptionsDetermination: {
+      obligation: "ROUTE_OPTIONS",
+      state: "FAILING, AND BLOCKED ON LEGAL AND INTAKE INPUT RATHER THAN ON BUILD CODE",
+      failedFirstBy: "VF11 at df524f2fd; re-derived at this base by FIX168 without relying on that row",
+      theDefect: "Nothing on the delivered petition states which statutory route it is. `guilty` is this family's "
+        + "only measured_route_selection and it is unmade on both fixtures, so the delivered canonical is "
+        + "byte-identical to nj_indictable_conviction-set's and nj_ordinance-set's.",
+      whyTheElectionIsNotMadeInstead: [
+        "Item (d) of Form A is one compound sworn sentence with nine blanks. Marking its box swears the whole "
+          + "sentence.",
+        "Three of those blanks are collected by no question on any of the three New Jersey conviction tracks: the "
+          + "final sentence (guiltyFinal1/guiltyFinal2), the jail/prison/incarceration term (guiltyTimeType), and "
+          + "the date the fines were paid (guiltyFineDt). The intake asks WHETHER every fine was paid, never WHEN.",
+        "guiltyTimeType is a dropdown whose options, read first-hand from the pinned binary, are exactly "
+          + "[\"  \", \"jail time\", \"prison time\", \"incarceration time\"]. There is no option for a route whose "
+          + "participants commonly served no custodial term.",
+        "So the row cannot be completed from anything this repository holds, and completing it would mean inventing "
+          + "a sentence and a custodial term into a verified petition.",
+      ],
+      whatWouldActuallyCureIt: "An intake and legal-design decision, not a build change: either the three "
+        + "uncollected facts are collected and the no-custodial-term case is given a truthful treatment, or "
+        + "CN-10557 Form A is found unable to serve this route as a self-help fill and the family moves to a "
+        + "different delivery. Either is outside a packet-build lane.",
+      whatThisRecordDoesNotClaim: "It does not cure ROUTE_OPTIONS, does not move requiredOptionsMissing off 1, "
+        + "and grants no route, no promotion and no commercial authority.",
+    },
+  });
+}
+
 const args = process.argv.slice(2);
 process.chdir(rootDir);
 if (args.includes("--assert-fix13")) {
   assertFix13Repair();
+  writeElectionDetermination(await assertNoElectionIsMade());
   console.log(`${familyId}: FIX13 focused assertions complete; independent verification pending`);
 } else if (args.includes("--check")) {
   const { runEastFamily } = await import("./build-census-v1-nj_arrest_no_conviction-set.mjs");
   await runEastFamily(familyId, ["--check"]);
   assertFix13Repair();
+  writeElectionDetermination(await assertNoElectionIsMade());
   console.log(`${familyId}: FIX13 focused assertions complete; independent verification pending`);
 } else {
   if (!args.includes("--repair-only")) {
@@ -507,5 +639,6 @@ if (args.includes("--assert-fix13")) {
   repairFieldMapAndWriteReport();
   repairInstructions();
   assertFix13Repair();
+  writeElectionDetermination(await assertNoElectionIsMade());
   console.log(`${familyId}: FIX13 participant-instruction repair built; PDF and raster receipts preserved; independent verification pending`);
 }
