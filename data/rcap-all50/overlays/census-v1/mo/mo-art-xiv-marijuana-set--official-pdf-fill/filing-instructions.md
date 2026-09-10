@@ -33,6 +33,14 @@ Highway Patrol at https://www.machs.mo.gov/ to see what the state repository sti
 
 The held sources establish no filing fee for this petition and this packet states no amount. Ask the clerk.
 
+**If you cannot pay what the clerk asks.** Missouri has a statewide form for asking the court to let you proceed
+without paying costs: Motion and Affidavit in Support of Request to Proceed As a Poor Person, form GN10, which
+cites Missouri Supreme Court Rule 77.03 and section 514.040 RSMo in its own footer. **This packet does not include
+GN10 and fills in no part of it.** Ask the clerk of the court you are filing in for the form, or for whatever that
+court uses instead - the record ties the statewide form to courts that accept it and does not establish that every
+court does. GN10 is sworn under penalty of perjury: fill it in yourself and sign it yourself. Nothing here says you
+will qualify or that the court will grant it.
+
 ## What this packet is not
 
 This is a prepared set of the court's own forms. It is not legal advice, it is not filed for you, and it does not

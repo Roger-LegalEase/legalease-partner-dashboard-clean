@@ -16,7 +16,7 @@ The destination is the Clerk of the court of conviction or arrest. Filed with th
 
 **Venue.** The court in which the person was convicted or arrested. That is broader than the general rule and lets an arrest-only participant file where the arrest occurred.
 
-**Fees.** Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
+**Fees.** Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
 
 **Waiver.** Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328, where a fee is charged.
 
@@ -38,7 +38,7 @@ The destination is the Clerk of the court of conviction or arrest. Filed with th
 - Furnishing the copy of the petition to the prosecutor's office — An envelope or delivery prepared alongside the petition.
 - Sworn signature on the petition.
 - None identified.
-- Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
+- Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
 - Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328, where a fee is charged.
 
 **The record's own packet instructions for this route:**
@@ -53,7 +53,7 @@ The destination is the Clerk of the court of conviction or arrest. Filed with th
 **Open questions the record has not settled, and which this packet does not answer:**
 
 - Whether the RSA 651:5, VI whole-record bar applies to an RSA 651:5-b petition. The section was read in the merged Chapter 651 text at gc.nh.gov on 2026-08-06 and does not on its face import paragraph VI. If it does not apply, this is a route that works for people whose records are otherwise frozen.
-- Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply to an RSA 651:5-b petition. The section contains no fee provision and no exemption, and the Circuit Court Filing Fees schedule names the general Petition to Annul Criminal Record without distinguishing this one.
+- Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply to an RSA 651:5-b petition. The section contains no fee provision and no exemption, and the Circuit Court Filing Fees schedule names the general Petition to Annul Criminal Record without distinguishing this one.
 - Whether the offence-date cutoff or the arrest date controls where the two straddle September 16, 2017.
 
 Do not complete the judge's order, the certificate of annulment, the date sent to the prosecutor, the sender's initials, the name of the prosecutor, the participant's signature, the signature date or the certificate of service in advance. Every one of them is delivered blank, and the certificate of service is signed on the day the copy actually goes out.

@@ -98,8 +98,8 @@ The petition's first item asks who the Petitioner is, and gives four choices. **
 - **Where:** The municipal court that heard the case. Municipal courts are not part of the state e-filing system, so local intake practice will vary.
 - **Filing:** File in the municipal court that heard the case. Municipal courts are not part of the state e-filing system, so local intake practice will vary.
 - **Your signature:** The petitioner signs their own petition.
-- **The fee:** Unconfirmed. The fee must be confirmed before building. This packet states no amount, because the record it is built from states none.
-- **Fee waiver:** The source review does not address a fee waiver.
+- **The fee:** The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what it is before you go.
+- **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.
 - **Service:** The source review does not state a service requirement. The form itself carries a certificate of service at item 14, addressed to the prosecuting attorney, so complete it after you serve.
 - **Notarization:** The source review does not state a notarization requirement.
 - **Objections:** Objection mechanics have not been confirmed.

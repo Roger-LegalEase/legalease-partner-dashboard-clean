@@ -47,6 +47,21 @@ drafted fact against your own court record on Case.net. You are signing under pe
 Race, ethnicity and sex on page 2 of the petition and on the filing sheets are left blank on purpose. They are
 self-identification, and nothing here will state them about you.
 
+## If you cannot pay what the clerk asks
+
+This packet states no filing fee, because no held source sets one for this route. If the clerk asks for money
+you cannot pay, Missouri has a statewide form for asking the court to let you go ahead without paying costs:
+**Motion and Affidavit in Support of Request to Proceed As a Poor Person**, form **GN10**, which cites Missouri
+Supreme Court Rule 77.03 and section 514.040 RSMo in its own footer.
+
+**This packet does not include GN10, and it fills in no part of it.** Ask the clerk of the court you are filing
+in for the form, or for whatever that court uses instead. The record ties the statewide form to courts that
+accept it, and does not establish that every Missouri court does, so the clerk is the one to ask.
+
+GN10 asks for your income, your expenses, your assets and your debts, and you swear to them under penalty of
+perjury. Fill it in yourself and sign it yourself. Nothing here says you will qualify, and nothing here says
+the court will grant it - that is the court's decision, not this packet's.
+
 ## What you must obtain before you file
 
 The Missouri record for this route marks the following as required before filing. Get it before you file, and

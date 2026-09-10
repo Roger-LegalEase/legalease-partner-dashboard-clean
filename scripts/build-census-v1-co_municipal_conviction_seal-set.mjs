@@ -1304,8 +1304,19 @@ function participantInstructions(record, maps, rbf, optional) {
   out.push(`- **Where:** ${track.destination.name}. ${track.destination.detail}`);
   out.push(`- **Filing:** ${track.rules.filing}`);
   out.push(`- **Your signature:** ${track.rules.participantSignature}`);
-  out.push(`- **The fee:** ${track.rules.fees} This packet states no amount, because the record it is built from states none.`);
-  out.push(`- **Fee waiver:** ${track.rules.feeWaiver}`);
+  /* The record's fee sentence is addressed to the people who BUILD this packet,
+   * not to the person filing it: "must be confirmed before building" is a build
+   * instruction, and "the source review" names an internal artefact. Printed
+   * unlabelled in a list of directions to the filer, it is the
+   * internal-record-text-on-a-participant-page defect that no counter sees --
+   * present, non-empty, verbatim from a controlling record. State what the
+   * record establishes in the filer's own vocabulary and give the action that
+   * follows from it. The record's own words stay in this guide above, quoted
+   * and labelled as record text, which is where they belong. The build asserts
+   * rules.fees still reads "unconfirmed", so this sentence cannot outlive the
+   * silence it describes. */
+  out.push("- **The fee:** The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what it is before you go.");
+  out.push("- **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.");
   out.push(`- **Service:** ${track.rules.service} The form itself carries a certificate of service at item 14, addressed to the prosecuting attorney, so complete it after you serve.`);
   out.push(`- **Notarization:** ${track.rules.notarization}`);
   out.push(`- **Objections:** ${track.rules.notice}`);
@@ -1392,7 +1403,14 @@ function filingInstructions(record, artifacts, maps) {
   out.push(`${track.destination.detail}`, "");
   out.push(`${track.rules.filing}`, "");
   out.push("## Fee", "");
-  out.push(`${track.rules.fees} **Fee waiver:** ${track.rules.feeWaiver}`, "");
+  /* This is the heading a filer reads specifically to learn what the filing
+   * costs. The record's fee sentence -- "The fee must be confirmed before
+   * building" -- is an instruction to the people who build this packet, in
+   * vocabulary that means nothing to a filer, and it was published here in
+   * full. Say instead what the record establishes and what the filer should do
+   * about it. No amount, no waiver eligibility and no waiver form is stated,
+   * because the record states none. */
+  out.push("The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what the filing costs before you go. **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.", "");
   out.push("## Service, notice and signature", "");
   out.push(`**Service:** ${track.rules.service}`, "");
   out.push(`**Notice and objections:** ${track.rules.notice}`, "");
