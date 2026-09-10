@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `821bb42ead4851961738047fe545c7ced8d9ebd3` (or the newer dispatch base)
+**Minimum required ancestor:** `9210c84f5eabaf46d4e9121fde15bda6e592a960` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'in_conviction_felony-set' \
+  --family 'la-976-arrest-no-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha 821bb42ead4851961738047fe545c7ced8d9ebd3
+  --minimum-captain-sha 9210c84f5eabaf46d4e9121fde15bda6e592a960
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'in_conviction_felony-set'`
+- Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'la-976-arrest-no-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'md_10105_early-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'mn_petition_609a02_subd3-set'`
@@ -64,9 +63,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 4 families
 
-- `in_conviction_felony-set`
 - `la-976-arrest-no-conviction-set`
 - `md_10105_early-set`
 - `mn_petition_609a02_subd3-set`
@@ -83,12 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
-- `data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
-- `scripts/build-census-v1-in_conviction_felony-set.mjs`
 - `scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs`
 - `scripts/build-census-v1-md_10105_early-set.mjs`
 - `scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs`

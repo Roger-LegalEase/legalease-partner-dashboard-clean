@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 159,
-    "rows": 1161,
+    "returnDirectories": 160,
+    "rows": 1162,
     "independentVerdicts": 292,
     "failRepairRequired": 67,
     "passIndependent": 203
@@ -141,7 +141,9 @@
   },
   "unactionableFailures": {
     "whatThisIs": "rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair",
-    "rows": []
+    "rows": [
+      "vf31/ar-cs-possession-seal-set"
+    ]
   },
   "rows": [
     {
@@ -2129,6 +2131,20 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf31",
       "isIndependentVerification": true,
+      "verifiedAtBase": "e1fbef6b8e57af79fcbbb87d11bb191ca93d3de2",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar-reread.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf31",
+      "isIndependentVerification": true,
       "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
       "failedObligations": [
         {
@@ -2145,7 +2161,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-cs-possession-seal-set",
