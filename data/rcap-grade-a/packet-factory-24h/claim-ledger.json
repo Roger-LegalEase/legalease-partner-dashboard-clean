@@ -1681,10 +1681,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF29",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T03:32:57.924Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF02 read at base bb0963c0d on the FIX80 bytes: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 143/143 both fixtures; packet page 4 pixel-identical to the pinned JDF-641; row in vf02/rows.json, lane commit 195e579f3"
     },
     {
@@ -6422,10 +6422,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF29",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T20:27:37.237Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF08 returned PASS_COMPLETE_INDEPENDENT at e2525d774 on the centrally rendered bytes; 15 of 15 obligations pass, nine counters zero"
     },
     {
@@ -14323,7 +14323,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7c88ef71a6c58e4a6409aa6842969cdeabc5f2502a3498976bb8aaf08df4c2f5",
+  "claimsDigest": "7af138b097153cc12a19a81be9d28834ffe47388612ae12a4b5c8b07564ce591",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -53041,6 +53041,28 @@
       "previouslyReleasedAt": "2026-09-09T11:48:41.876Z",
       "transferredAt": "2026-09-10T05:17:37.730Z",
       "reason": "Its sibling's live independent-verification grant is on VF01 and the two share a repair, a source pair and a defect; one reader should hold both"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF29",
+      "previouslyReleasedAt": "2026-09-06T03:32:57.924Z",
+      "transferredAt": "2026-09-10T05:24:17.493Z",
+      "reason": "Released grant reopened for the post-repair read; FIX135 authored the repair and may not approve it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF29",
+      "previouslyReleasedAt": "2026-09-06T20:27:37.237Z",
+      "transferredAt": "2026-09-10T05:24:17.575Z",
+      "reason": "Released grant reopened; its sibling's reader should also read the family FIX135 concluded needed nothing"
     }
   ],
   "grants": [
