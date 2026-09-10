@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4` (or the newer dispatch base)
+**Minimum required ancestor:** `ced10a44437ab73abd367668eb21b361918d3569` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'ks-21-6614-diversion-set' \
+  --family 'ky_expungement_certification-set' \
   --codex-cloud \
-  --minimum-captain-sha 7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4
+  --minimum-captain-sha ced10a44437ab73abd367668eb21b361918d3569
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ks-21-6614-diversion-set'`
+- Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ky_expungement_certification-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'fl-10yr-bridge-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nj_disorderly_persons-set'`
@@ -64,9 +63,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 4 families
 
-- `ks-21-6614-diversion-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks
 - `ky_expungement_certification-set`
 - `fl-10yr-bridge-set`
 - `nj_disorderly_persons-set` — failing: requiredOptionsMissing
@@ -83,12 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
-- `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ks-21-6614-diversion-set.mjs`
 - `scripts/build-census-v1-ky_expungement_certification-set.mjs`
 - `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
 - `scripts/build-census-v1-nj_disorderly_persons-set.mjs`

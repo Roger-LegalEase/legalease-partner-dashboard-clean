@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4",
+  "minimumCaptainSha": "ced10a44437ab73abd367668eb21b361918d3569",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "5855f6acbbad7051cc2d26e16610cb8e335bae6a20158227e4be633fd511a51d",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "29bbdfa32bfe5d278266908208cd102497ba5f9862526022f08a385468516c19",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -72,22 +72,21 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
-    "verifyPending": 1,
-    "repairRequired": 40,
+    "verifyPending": 0,
+    "repairRequired": 38,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 202,
+    "COMPLETE_PACKET_PROVEN": 203,
     "PRODUCT_PATH_PENDING": 18,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 46,
+    "FAIL_REPAIR_REQUIRED": 44,
     "SOURCE_READY": 33,
-    "BUILT_RASTER_PENDING": 4,
+    "BUILT_RASTER_PENDING": 6,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 9,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -20993,7 +20992,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf67",
+        "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json"
+      },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired",
         "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing"
@@ -21030,8 +21034,17 @@
         "unclassifiedBlanks",
         "requiredOptionsMissing"
       ],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -21213,9 +21226,13 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf67",
+        "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json"
+      },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
         "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
@@ -21253,7 +21270,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-diversion-set.mjs",
@@ -21432,9 +21449,13 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf67",
+        "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json"
+      },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
         "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
@@ -21472,7 +21493,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs",
@@ -27204,10 +27225,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf61",
-        "verifiedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "36bd24614c5214a8877f863939f73701b8cac844",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-mn152-20260910.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -27238,20 +27259,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
@@ -34042,8 +34054,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -34059,22 +34070,20 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
+      "completenessStatus": "NOT_MEASURABLE_HERE",
       "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 1,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": null,
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "ROUTE_OPTIONS"
       ],
