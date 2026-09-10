@@ -28,6 +28,7 @@ import {
 } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { checkboxCandidates, strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 /* FIX102. The same width basis and the same legibility floor the fitter used to
@@ -60,6 +61,7 @@ const {
   PDFOptionList,
   PDFRawStream,
   PDFName,
+  PDFArray,
   StandardFonts,
   decodePDFRawStream
 } = require("pdf-lib");
@@ -167,7 +169,23 @@ const FAMILY_CONFIGS = Object.freeze({
     assignmentOwnedPath: "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
     routeKeys: ["obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"],
     selectionId: "ne-custodial-cc-6-11-complete-set",
-    sourceIds: ["official-form:CC-6-11", "official-form:CC-6-11.2", "official-form:CC-6-11a", "official-form:DC-1-15"],
+    /*
+     * FIX135b, PAGE_ORDER. THE PACKET DELIVERED COMPONENTS 3 AND 4 THE WRONG
+     * WAY ROUND.
+     *
+     * `sourceIds` is the assembly order: combinePacket walks resolved.sources
+     * and appends each document's pages in this sequence. It used to read
+     * CC-6-11, CC-6-11.2, CC-6-11a, DC-1-15, so the packet delivered CC 6:11a
+     * on page 3 and DC 1:15 on pages 4 and 5. The committed packet-set manifest
+     * declares the opposite:
+     * ne-setaside-custodial-notice-and-certificate-of-service-3 (DC-1-15) at
+     * ORDER 3 and ne-setaside-custodial-instructions-4 (CC-6-11a) at ORDER 4.
+     * Nothing was missing, duplicated or misfiled -- the two were transposed
+     * against the only committed record that declares an assembly order, and
+     * nothing in the packet or the guide disclosed a reason for departing from
+     * it. The manifest is not this lane's to amend, so the packet follows it.
+     */
+    sourceIds: ["official-form:CC-6-11", "official-form:CC-6-11.2", "official-form:DC-1-15", "official-form:CC-6-11a"],
     chargeLabel: "Eligible Nebraska conviction",
     /* FIX102. Facts this family adds to the shared persona set, per family, so
      * no other family on this host gains a fact and no other family's bytes
@@ -274,10 +292,10 @@ const FAMILY_CONFIGS = Object.freeze({
         disposition: "delivered", where: "packet page 2 (CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020)" },
       { componentId: "ne-setaside-custodial-notice-and-certificate-of-service-3", role: "notice_and_certificate_of_service",
         requirement: "conditional", disposition: "delivered_conditional_and_explained",
-        where: "packet pages 4 and 5 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
+        where: "packet pages 3 and 4 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
         conditionStatedTo: "participant-instructions.md, \"Who must receive a copy, and how\": district court cases only; in county court the clerk schedules the hearing and mails the notice." },
       { componentId: "ne-setaside-custodial-instructions-4", role: "instructions", requirement: "required",
-        disposition: "delivered", where: "packet page 3 (CC 6:11a, Completing the Petition, Rev. 06/2024)" },
+        disposition: "delivered", where: "packet page 5 (CC 6:11a, Completing the Petition, Rev. 06/2024)" },
       { componentId: "ne-setaside-custodial-fee-waiver-5", role: "fee_waiver", requirement: "conditional",
         disposition: "not_generated_with_a_reason",
         where: null,
@@ -421,6 +439,38 @@ const FAMILY_CONFIGS = Object.freeze({
       choiceField: "TYPEOFCOURTDROPDOWN", displayField: "TYPEOFCOURTRESULTS", factId: "matter.court"
     }])),
     referenceOnlyDocuments: ["CC-6-11A"],
+    /*
+     * FIX135b, ARTIFACTS. THE TWO OUTPUT-BYTE GLYPH READINGS THIS FAMILY OWED
+     * AND SHIPPED NEITHER OF.
+     *
+     * reports/actual-writes.json published proofSummary.addedGlyphs as null on
+     * CC-6-11, CC-6-11.2 and DC-1-15, and
+     * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appeared nowhere in the
+     * family directory at all. Null is at least an honest value for a quantity
+     * nobody measured -- unlike Colorado's literal 0 -- but both numbers are
+     * readable from the produced bytes, and VF29 read them in minutes: 402 and
+     * 1,128 non-whitespace across the four documents.
+     *
+     * Read here through the shared FIX137 module
+     * scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, from the
+     * produced per-document bytes, with placement measured against that
+     * document's own pinned source. The module returns null -- never 0 -- for
+     * the second reading when no source is supplied to measure against.
+     *
+     * THIS IS A SHARED HOST. MASTER_QUEUE records exclusiveScript false for
+     * this builder and importedBy [ne-setaside-noncustodial-set,
+     * ne-trafficking-setaside-and-seal-set, wv_conv_multiple_misdemeanors-set,
+     * wv_conv_single_misdemeanor-set], two of which are terminal. So the reading
+     * is an opt-in declared by ONE family config, in the same shape as
+     * referenceOnlyDocuments, classifyNonFilingSourceControls and
+     * preservePrintedSourceButtons above: no sibling declares it, and no
+     * sibling's reports/actual-writes.json gains a key because this family does.
+     */
+    emitOutputByteGlyphReadings: true,
+    /* FIX135b, PAGE_ORDER. Read the assembled document, not the declaration
+     * table. Opt-in for the same reason: see
+     * assertAssembledPagesFollowTheManifest. */
+    assertAssembledOrderAgainstTheManifest: true,
     // The source marks these screen-only panel fields nonprinting. Its printed
     // output retains Button63.0 (Add next person), which is deliberately absent.
     nonprintingSourceControls: {
@@ -2930,6 +2980,40 @@ async function renderOneDocument(source, config, fixture) {
   }
   if (source.indexEntry.structuralClassObserved !== "flat_pdf") throw new Error(`${source.formNumber}: unsupported structural class ${source.indexEntry.structuralClassObserved}`);
   const census = await censusFlat(source);
+  /*
+   * FIX135b, ARTIFACTS. SIXTEEN CONTROLS THAT DO NOT EXIST.
+   *
+   * CC 6:11a is the Nebraska judiciary's flat instruction sheet. It carries
+   * ZERO AcroForm fields and there is nothing on it for anyone to fill or
+   * elect: this family writes nothing to it and refuses nothing on it, and the
+   * guide never lists a single one of these. But the geometric census reads
+   * painted-path boxes out of the illustration the sheet PRINTS -- the picture
+   * of the petition it is teaching the reader to complete -- and published 16
+   * of them into production-field-map.json as "selectionControls", each labelled
+   * with a prose fragment harvested off the page: "drop-down lists.", "case
+   * number.", "you are asking to", and one garbled "bnter the original", which
+   * is a corrupted label rather than a control.
+   *
+   * A record that describes sixteen controls a document does not have is wrong
+   * whether or not anything downstream reads it. This drops them at the census,
+   * before the policy, the field map, the role refusals and the census document
+   * ever see them, so what is not there is not described.
+   *
+   * Gated on `referenceOnlyDocuments`, which is declared by exactly one family
+   * config in this shared host -- ne-setaside-custodial-set, for CC-6-11A -- so
+   * no sibling on this host loses a control it really has. A document is
+   * reference-only precisely because nothing on it is a participant blank; a
+   * detected control there is a detection, not a control.
+   */
+  if (policy.referenceOnly && census.selectionControls.length) {
+    census.detectedControlsNotPublished = {
+      count: census.selectionControls.length,
+      why: "this document is declared reference-only: it carries no AcroForm field and no participant blank, so a "
+        + "geometrically detected box on it is the printed illustration and not a control. It is not published as one.",
+      labels: census.selectionControls.map((control) => control.label ?? control.selectionId)
+    };
+    census.selectionControls = [];
+  }
   const policyData = prepareFlatPolicy(census, policy);
   const result = await finalizeFlatOverlay({
     sourceBytes: source.bytes,
@@ -3349,6 +3433,107 @@ function assertComponentDispositionMatchesTheManifest(familyId, config) {
   });
 }
 
+/*
+ * FIX135b, PAGE_ORDER. THE ASSERTION THAT COULD NOT FAIL, AND THE ONE THAT CAN.
+ *
+ * assertComponentDispositionMatchesTheManifest above compares the DECLARATION
+ * table -- componentIds, roles and requirements -- against the manifest. The
+ * declaration table is written in manifest order by hand, so it agreed with the
+ * manifest while the assembled packet delivered components 3 and 4 the other way
+ * round for as long as it did. A check that reads the record and cannot see the
+ * artifact is not a gate on the artifact.
+ *
+ * This one reads the ASSEMBLED DOCUMENT. It loads the saved packet bytes back
+ * off the pipeline, recovers which pinned source each assembled page came from
+ * by comparing that page's own decompressed content stream against the per
+ * document rendered bytes, and compares the recovered sequence to the manifest's
+ * order for the components that have an official form. Reorder the assembly and
+ * it throws; reorder the declaration table alone and it still throws.
+ *
+ * Recovery is by CONTENT, not by the pageManifest the same loop wrote, because a
+ * manifest built beside the pages it describes agrees with them by construction.
+ */
+function decompressedPageContents(doc) {
+  return doc.getPages().map((page) => {
+    const contents = page.node.get(PDFName.of("Contents"));
+    const resolved = doc.context.lookup(contents);
+    const parts = [];
+    const push = (ref) => {
+      const stream = doc.context.lookup(ref);
+      if (!stream) return;
+      try { parts.push(Buffer.from(decodePDFRawStream(stream).decode())); } catch { parts.push(Buffer.alloc(0)); }
+    };
+    if (resolved instanceof PDFArray) for (const ref of resolved.asArray()) push(ref);
+    else push(contents);
+    return crypto.createHash("sha256").update(Buffer.concat(parts)).digest("hex");
+  });
+}
+
+async function assertAssembledPagesFollowTheManifest(familyId, config, packetBytes, rendered, fixture) {
+  /*
+   * OPT-IN, per family, for the reason every other flag on this host is opt-in:
+   * this builder builds five families and this lane holds one of them. The
+   * check below is correct in general -- it was written wrong first, collapsing
+   * only the delivered side, and it refused wv_conv_multiple_misdemeanors-set
+   * and wv_conv_single_misdemeanor-set, whose manifests name the SAME form
+   * SCA-C906 for three components each, so three declared rows are one
+   * delivered document. That is fixed. But a check this lane cannot exercise on
+   * the families it does not hold is a check this lane must not switch on for
+   * them: both WV families already fail their own build at this base, and a new
+   * assertion firing first would hide the failure they actually have.
+   */
+  if (!config.assertAssembledOrderAgainstTheManifest) return null;
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const rows = Array.isArray(manifests) ? manifests : (manifests.packetSets ?? Object.values(manifests));
+  const set = rows.find((row) => row.packetSetId === familyId);
+  if (!set) return null;
+  // Consecutive duplicates collapse on BOTH sides: a manifest that names one
+  // form for several components means one physical document serving several
+  // roles, and the packet delivers it once.
+  const declaredRows = [...set.components]
+    .filter((component) => component.officialFormId)
+    .sort((a, b) => a.order - b.order)
+    .map((component) => String(component.officialFormId).toUpperCase());
+  const declared = declaredRows.filter((form, index) => form !== declaredRows[index - 1]);
+  if (!declared.length) return null;
+
+  // Which pinned source each ASSEMBLED page came from, recovered from the page's
+  // own bytes.
+  const packet = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
+  const assembled = decompressedPageContents(packet);
+  const byDigest = new Map();
+  for (const item of rendered) {
+    const doc = await PDFDocument.load(item.bytes, { ignoreEncryption: true, updateMetadata: false });
+    decompressedPageContents(doc).forEach((digest, index) => {
+      byDigest.set(digest, { formNumber: item.source.formNumber, sourcePage: index + 1 });
+    });
+  }
+  const recovered = assembled.map((digest, index) => {
+    const found = byDigest.get(digest);
+    assert.ok(found, `${familyId}/${fixture}: assembled page ${index + 1} matches no rendered document's page content`);
+    return found;
+  });
+
+  const deliveredOrder = [];
+  for (const page of recovered) {
+    const form = page.formNumber.toUpperCase();
+    if (deliveredOrder[deliveredOrder.length - 1] !== form) deliveredOrder.push(form);
+  }
+  assert.deepEqual(deliveredOrder, declared,
+    `${familyId}/${fixture}: the assembled packet delivers ${deliveredOrder.join(", ")} and the committed packet-set `
+    + `manifest declares ${declared.join(", ")}. The pages are read from the assembled document, not from the `
+    + "declaration table.");
+  // A component's own pages must also stay in the form's own order.
+  recovered.forEach((page, index) => {
+    const previous = recovered[index - 1];
+    if (previous && previous.formNumber === page.formNumber) {
+      assert.equal(page.sourcePage, previous.sourcePage + 1,
+        `${familyId}/${fixture}: ${page.formNumber} pages are out of order in the assembled packet`);
+    }
+  });
+  return { deliveredOrder, declared, recovered };
+}
+
 /** The delivered guidance really carries the section, not just the config. */
 function assertGuidanceReachesTheDeliveredFile(familyId, config, markdown) {
   if (!config.participantGuidance?.localRulesCheck) return;
@@ -3501,6 +3686,9 @@ async function buildOfficial(familyId, config) {
   const artifacts = [];
   for (const fixture of ["canonical", "boundary"]) {
     const packet = await combinePacket(familyId, fixture, byFixture[fixture]);
+    /* FIX135b. Read from the assembled document, before it is written to disk. */
+    const assembledOrder = await assertAssembledPagesFollowTheManifest(familyId, config, packet.bytes, byFixture[fixture], fixture);
+    if (assembledOrder) console.log(`${familyId}/${fixture}: assembled order ${assembledOrder.deliveredOrder.join(" -> ")} matches the manifest`);
     const rel = `${out}/fixtures/${fixture}.pdf`;
     const abs = path.join(rootDir, rel);
     fs.mkdirSync(path.dirname(abs), { recursive: true });
@@ -3674,6 +3862,12 @@ async function buildOfficial(familyId, config) {
        * floor is a refusal with arithmetic behind it, and it is recorded here
        * beside the writes rather than nowhere. `written: false` on every row. */
       const unfittableWrites = await unfittableRecordsFor(item);
+      /* FIX135b. Both output-byte glyph readings, measured from the produced
+       * bytes of THIS document against THIS document's own pinned source.
+       * Opt-in per family config: see emitOutputByteGlyphReadings. */
+      const outputGlyphs = config.emitOutputByteGlyphReadings
+        ? await readOutputGlyphs(item.bytes, { sourceBytes: item.source.bytes, pageOffset: 0 })
+        : null;
       actualWrites.push({
         fixture,
         formNumber: item.source.formNumber,
@@ -3685,6 +3879,17 @@ async function buildOfficial(familyId, config) {
         unfittableWrites,
         protectedSelectionControls: item.proof.protectedSelectionControls,
         protectedWithheldInk: item.proof.protectedWithheldInk ?? [],
+        ...(outputGlyphs ? {
+          addedGlyphsReadFromOutputBytes: outputGlyphs.addedGlyphsReadFromOutputBytes,
+          nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: outputGlyphs.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+          outputByteGlyphReadingMethod:
+            "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, read from this document's produced bytes; "
+            + "placement measured against its own pinned source's widget rectangles. Neither number is a literal, and "
+            + "the second is null rather than 0 when placement could not be measured.",
+          flattenedWidgetAppearancesReadFromOutputBytes: outputGlyphs.flattenedWidgetAppearancesReadFromOutputBytes,
+          appearancesNotPlacedAtTheirOwnSourceWidget: outputGlyphs.appearancesNotPlacedAtTheirOwnSourceWidget,
+          placementMeasuredAgainstThePinnedSource: outputGlyphs.placementMeasuredAgainstThePinnedSource
+        } : {}),
         proofSummary: {
           appearancesRead: item.proof.appearancesRead ?? null,
           addedGlyphs: item.proof.addedGlyphs ?? null,
