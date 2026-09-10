@@ -12223,21 +12223,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -12275,7 +12274,7 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS01",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "8b748df9103ac40f7c9cc61868bd2e48420718ca",
       "requestedScale": 2.5,
       "supersededReceipts": [
@@ -12356,7 +12355,35 @@
           "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
           "workflowRunId": "33844904078"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34418960259",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49",
+        "jobId": "102690667465",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+        "boundToBoundarySha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856",
+        "documentsDigest": "834a80266231d6cb26d2343f33b4cee1f5699d23c68e9c230def0e5a3a0fd75d",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 22,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10130386216",
+          "name": "rcap-raster-al-felony-dwop-set-34418960259",
+          "zipSha256": "sha256:b1da6a9d746f912f993094e9215d3824158eee826ff348edc85b7aafe5912341"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/al-felony-dwop-set/al-felony-dwop-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/al-felony-dwop-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/boundary.pdf",
