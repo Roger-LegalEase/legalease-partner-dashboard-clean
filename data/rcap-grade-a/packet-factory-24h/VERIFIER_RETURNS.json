@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 160,
-    "rows": 1162,
+    "returnDirectories": 161,
+    "rows": 1163,
     "independentVerdicts": 292,
-    "failRepairRequired": 67,
-    "passIndependent": 203
+    "failRepairRequired": 68,
+    "passIndependent": 202
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -106,6 +106,7 @@
     "tx_nd_veterans_court-set",
     "tx_nd_veterans_reemployment-set",
     "vt_exp_decriminalized-set",
+    "vt_seal_nonconviction-set",
     "wi_exp_cr266-set",
     "wv_acc_treatment_job_readiness-set"
   ],
@@ -32596,6 +32597,29 @@
     },
     {
       "familyId": "vt_seal_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c569a2f75f5af3141904bc0f67633968c81ac71f",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910c-vtnc.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf25",
       "isIndependentVerification": true,
@@ -32606,7 +32630,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_nonconviction-set",
