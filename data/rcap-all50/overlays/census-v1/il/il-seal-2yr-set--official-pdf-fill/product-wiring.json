@@ -71,9 +71,9 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34407406641",
-      "jobId": "102654459256",
-      "artifactId": "10126197651",
+      "workflowRunId": "34513580220",
+      "jobId": "102994646388",
+      "artifactId": null,
       "boundToCanonicalSha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
       "coversTheWholeFamily": true
     },
@@ -90,7 +90,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "replacedByCanonicalSha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459256",
+          "artifactId": "10126197651",
+          "boundToCanonicalSha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
