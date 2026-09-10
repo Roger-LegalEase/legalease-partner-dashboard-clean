@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-shared-locator-not-yet-enforced/v1",
  "generatedBy": "Captain, reading every build-census-v1 host at the commit that merged the shared module",
  "generatedAt": "2026-09-10T09:14:58.729959Z",
- "atCommit": "21c7eebd23a23ff671b530940ea93bb941cc4094",
+ "atCommit": "5dc5479b67defb5f773983a43f218343d34969fb",
  "theModule": "scripts/rcap-official-forms/rcap-participant-blank-locator.mjs, extracted by FIX130",
  "whyItExists": "the same logic had already been hand-written twice -- the misdemeanor host, then FIX05's decriminalized host -- and vt_seal_nonconviction-set was missed PRECISELY because the first copy was scoped to one host. It went terminal carrying the defect and had to be withdrawn from terminal today. A third inline copy sets up the fourth miss.",
  "enforcementRightNow": {
@@ -21,5 +21,23 @@
  "whatSchedulingItMeans": "a lane holding grants on vt_exp_decriminalized-set and the five families built by the misdemeanor host, rewiring both to the shared module, with an independent read of each family afterwards because the rewire moves what those families publish.",
  "aGuardDefectFIX130FoundByBreakingItsOwnGuards": "assert.ok's message template is evaluated even when the assertion HOLDS, so a null dereference on the unnumbered path -- 12 of 15 groups -- would have crashed every sound build. Not visible by reading; found only by deliberately breaking the guard. The same shape may exist in other builders' assertions.",
  "anUnreachableAssertionKeptAndLabelled": "the band-SPREAD assertion cannot fail: bands are seeded on a baseline that never moves, so spread is bounded by the tolerance by construction. FIX130 measured it over 20,000 random layouts, max spread exactly 4.000, kept it because it would fail first if the seed ever became a running mean, and documented it as unreachable so no reader counts a pass there as a measurement. Both hand copies carry the same unreachable assertion.",
- "grantsNothing": "This records what the shared fix does and does not yet reach."
+ "grantsNothing": "This records what the shared fix does and does not yet reach.",
+ "sharpenedBy": "VF25, in the independent read that restored vt_seal_nonconviction-set to terminal",
+ "sharpenedAt": "2026-09-10T09:41:41.680590Z",
+ "importingTheModuleIsNotEnough": {
+  "finding": "Neither host carrying a hand copy carries a premise table -- no PRINTED_ROW_NUMBER_PREMISE and no assertPrintedRowNumberPremise. Counted: 4 references in the repaired host, 0 in each of the other two.",
+  "whyItMatters": "The module has a case its own guards cannot reach. A repin that moves the printed number column clear of EVERY band leaves found = 0, and the module then falls back silently to \"the form prints no row numbers here\" on a page that still prints them. Only the HOST's pinned premise table refuses that.",
+  "soTheMigrationIs": "import the module AND port a premise table for each host's own binaries. A rewire that only swaps the implementation would leave both hosts with the silent-fallback hole open and no guard against it."
+ },
+ "guardsVerifiedByRunningThemRatherThanReadingThem": {
+  "bandSeparation": "reachable and fires -- VF25 constructed the greedy-seeding case where a member 4pt below its seed is admitted while the next item 4.01pt below opens a band 0.01pt away; refused at 0.01pt and at 0.60pt",
+  "bandSpread": "unreachable, confirmed over 200,000 random layouts at max spread exactly 4.0000pt. Keeping it labelled unreachable is right.",
+  "others": "partial detection refuses; reversed order refuses; 3pt off-column refuses while 1.5pt correctly passes; an unnumbered page passes and falls back cleanly; missing line geometry refuses."
+ },
+ "independentGeometryAgreement": "Poppler puts the row-number column at x=54.36 against the build's 54.40, row-to-row deltas agreeing to 0.04pt. Scanning every widget of all three binaries: nine hits, all in the question-1 charge table; 200-00132 and 600-00228 print no standalone \"N.\" line anywhere.",
+ "aRelatedCaptionFaultUnderstatedInTheEarlierRecord": {
+  "finding": "35 of 46 requiredBeforeFiling rows carry a printedContext that is not their caption, not the four already named. Two more misleading instances: 200-00130 page 2 field 36, the interests-of-justice blank, carries question 5's text; and 200-00132 field 34g carries \"Email Address\" for a mailing-address line.",
+  "whyItIsNotAParticipantDefect": "effectiveLabel is correct on all 46, so nothing participant-facing is wrong. It is latent in the committed map.",
+  "status": "recorded, not repaired"
+ }
 }

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3bb6f1a2afa0aa4f4f521c4f2371f1711a6c8a5b",
+  "minimumCaptainSha": "5dc5479b67defb5f773983a43f218343d34969fb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 23,
+    "activeFamiliesExcluded": 22,
     "guidanceOnly": 0,
-    "remaining": 323,
+    "remaining": 324,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
@@ -77,11 +77,11 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 182,
+    "COMPLETE_PACKET_PROVEN": 183,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 65,
+    "FAIL_REPAIR_REQUIRED": 64,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
@@ -131,8 +131,7 @@
       "tx_exp_acquittal-set",
       "tx_nd_conviction_no_supervision-set",
       "tx_nd_dwi_deferred-set",
-      "tx_nd_probation_misdemeanor-set",
-      "vt_seal_nonconviction-set"
+      "tx_nd_probation_misdemeanor-set"
     ],
     "staleRosterFamilies": [
       {
@@ -46875,14 +46874,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf25",
-        "verifiedAtBase": "c569a2f75f5af3141904bc0f67633968c81ac71f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910c-vtnc.json"
+        "verifiedAtBase": "4cbc92633939c77d1f1afe485a0adf886922c8d6",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows-vf25-20260910d-vtnc-reread.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46911,22 +46908,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX130",
-      "activeOwnerLane": "rapid-repair",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46937,8 +46925,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_seal_pardon-set",
