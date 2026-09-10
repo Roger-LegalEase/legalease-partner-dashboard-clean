@@ -4,7 +4,7 @@
   "laneKind": "shared-host-repair",
   "status": "STOPPED",
   "isIndependentVerification": false,
-  "base": "ced10a44437ab73abd367668eb21b361918d3569",
+  "base": "43ff6bc5e9f90bc7b3be712d23fc8e34fc58600e",
   "branch": "lane-fixcxn1-publication-20260910",
   "grantState": "FIXCXN1 can-assert rerun against this checkout: 3 assertable, 0 would refuse; grant set 84f496c27afdcee8. Nothing was written and no grant was released.",
   "families": [
@@ -25,7 +25,14 @@
     "implementation": "The existing build body runs against a seeded sibling staging directory for exactly the three listed NJ families. It publishes by same-filesystem directory swap only after the body returns successfully; source, guard, or renderer failures discard staging and preserve the live directory.",
     "outputPrefixScope": "data/rcap-all50/overlays/census-v1/nj/",
     "otherFamiliesUseExistingPath": true,
-    "familyArtifactsLeftByteIdenticalAndUncommitted": true,
+    "allOtherArtifactsLeftByteIdenticalAndUncommitted": true,
+    "cleanSlateMapRetained": true,
+    "cleanSlateMapPreBuildSha256": "c310c7293b98d00ef7370373c6b7eed083e9317131f2361db1e3f442cf12a383",
+    "cleanSlateMapPostBuildSha256": "2f743e4d31ced460979b40b1fefc996f00820e7a45abe6ed2517808a57cbe52f",
+    "cleanSlateMapChangedFields": [
+      "orderHearMnth", "hearMnth", "hearYr", "DefSbiNum", "orderFinalMnth",
+      "orderFinalYr", "arrest3Statute", "arrest4Statute", "arrest5Statute", "mailPetition"
+    ],
     "validBuilds": {
       "exitCode": 0,
       "families": [
@@ -36,6 +43,7 @@
       "result": "Each plain wrapper reported BUILD PASS (2 PDFs; 86 page rasters).",
       "logs": [
         "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-clean-slate.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-clean-v3.log",
         "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-ordinance.log",
         "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-indictable.log"
       ]
@@ -63,6 +71,29 @@
         "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-after-guard-fault.sha256"
       ],
       "inventoryUnchanged": true
+    },
+    "publicationAndRollbackFailure": {
+      "exitCode": 1,
+      "scratchOnly": true,
+      "result": "Forced publication failure followed by forced rollback failure preserved the complete prior backup and reported its exact path; the scratch live output was absent.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-before.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-backup.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-backup.path"
+      ],
+      "backupPreserved": true,
+      "backupInventoryUnchanged": true
+    },
+    "freshOutputParent": {
+      "exitCode": 0,
+      "scratchOnly": true,
+      "result": "A clean-slate build created its previously absent output parent and emitted 98 fresh files.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-fresh-parent.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-fresh-parent.sha256"
+      ]
     }
   },
   "rows": [
@@ -85,7 +116,7 @@
       "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
       "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
       "stopClass": "PUBLICATION_SAFETY_ONLY",
-      "finding": "Publication safety is implemented and independently exercised through valid, source-identity-failure, and delivered-mark-guard-failure plain commands. This row makes no legal, visual, commercial, or terminal claim.",
+      "finding": "Publication safety is implemented and independently exercised through valid, source-identity-failure, delivered-mark-guard-failure, and scratch rollback-failure plain commands. The builder-retained map reconciliation is the only intended clean-slate artifact change; this row makes no legal, visual, commercial, or terminal claim.",
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
       "packetsSelfVerified": 0
     },
@@ -108,7 +139,7 @@
       "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
       "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
       "stopClass": "PUBLICATION_SAFETY_ONLY",
-      "finding": "The 15 known ordinance facts remain missing and no value was fabricated. Publication failure preservation is proven; no terminal, legal, visual, commercial, or route claim is made.",
+      "finding": "The 15 known ordinance facts remain missing and no value was fabricated; all other ordinance artifacts remain byte-identical. Publication failure preservation is proven; no terminal, legal, visual, commercial, or route claim is made.",
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
       "packetsSelfVerified": 0
     },
@@ -142,7 +173,8 @@
     "sourceBodiesCommitted": false,
     "siblingDirectoryChanges": false,
     "privateSymlinkPreserved": true,
-    "noFamilyArtifactsCommitted": true,
+    "cleanSlateMapOnlyCommitted": true,
+    "otherFamilyArtifactsCommitted": false,
     "nextGate": "STOPPED: publication-safety repair is recorded; no route promotion, admission, owner decision, or terminal acceptance is asserted."
   }
 }

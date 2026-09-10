@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-fixcxn1-publication-proof/v1",
   "lane": "FIXCXN1",
-  "base": "ced10a44437ab73abd367668eb21b361918d3569",
+  "base": "43ff6bc5e9f90bc7b3be712d23fc8e34fc58600e",
   "branch": "lane-fixcxn1-publication-20260910",
   "grantCheck": "claim.mjs --can-assert FIXCXN1 nj_clean_slate-set,nj_ordinance-set,nj_indictable_conviction-set -> 3 assertable, 0 would refuse; grant set 84f496c27afdcee8; nothing written",
   "targetFamilies": [
@@ -12,7 +12,7 @@
   "scope": {
     "redirectedPrefix": "data/rcap-all50/overlays/census-v1/nj/{nj-clean-slate-set,nj-ordinance-set,nj-indictable-conviction-set}--official-pdf-fill",
     "staging": "unique hidden sibling directory on the output filesystem",
-    "publication": "same-filesystem swap after successful build; rollback restores the prior directory if swap fails",
+    "publication": "two same-filesystem renames after successful build, with rollback; this is not a single atomic directory exchange",
     "otherFamilyBehavior": "unchanged",
     "sourceBytesModified": false
   },
@@ -27,10 +27,31 @@
     "exitCode": 0,
     "result": "All three wrappers reported BUILD PASS with 2 PDFs and 86 page rasters.",
     "logs": [
-      "publication-valid-clean-slate.log",
+      "publication-valid-clean-v3.log",
       "publication-valid-ordinance.log",
       "publication-valid-indictable.log"
     ]
+  },
+  "generatorReconciliation": {
+    "scope": "clean-slate production-field-map.json only",
+    "preBuildSha256": "c310c7293b98d00ef7370373c6b7eed083e9317131f2361db1e3f442cf12a383",
+    "postBuildSha256": "2f743e4d31ced460979b40b1fefc996f00820e7a45abe6ed2517808a57cbe52f",
+    "changedFields": [
+      "orderHearMnth",
+      "hearMnth",
+      "hearYr",
+      "DefSbiNum",
+      "orderFinalMnth",
+      "orderFinalYr",
+      "arrest3Statute",
+      "arrest4Statute",
+      "arrest5Statute",
+      "mailPetition"
+    ],
+    "otherCleanSlateFilesChanged": 0,
+    "otherTwoFamilyFilesChanged": 0,
+    "cause": "The existing FIX175 caption/classification table is applied by the current builder, while the committed clean-slate map predated that reconciliation. Staging changed no config or content semantics.",
+    "diffEvidence": "publication-clean-map-drift.log"
   },
   "failurePreservation": [
     {
@@ -52,11 +73,38 @@
       "afterInventory": "publication-after-guard-fault.sha256",
       "inventoryUnchanged": true,
       "mutationRestored": true
+    },
+    {
+      "class": "publication_and_rollback_failure",
+      "exitCode": 1,
+      "result": "Scratch-only forced publication failure followed by forced rollback failure preserved the complete prior backup and reported its exact path; the scratch live output was absent.",
+      "logs": [
+        "publication-rollback-fault.log",
+        "publication-rollback-fault.exit",
+        "publication-rollback-before.sha256",
+        "publication-rollback-backup.sha256",
+        "publication-rollback-backup.path"
+      ],
+      "backupPreserved": true,
+      "backupInventoryUnchanged": true
+    },
+    {
+      "class": "fresh_output_parent",
+      "exitCode": 0,
+      "result": "Scratch-only clean-slate build created the previously absent output parent and emitted 98 fresh files (no installed governance existed to seed).",
+      "logs": [
+        "publication-fresh-parent.log",
+        "publication-fresh-parent.sha256"
+      ]
     }
   ],
   "finalOutputInventories": {
     "fileCountPerFamily": 99,
-    "allFamilyArtifactsByteIdenticalToPreRun": true,
+    "allFamilyArtifactsByteIdenticalToPreRun": false,
+    "cleanSlateOnlyChangedFile": "production-field-map.json",
+    "cleanSlateMapRetained": true,
+    "allOtherArtifactsByteIdenticalToPreRun": true,
+    "ordinanceAndIndictableByteIdenticalToPreRun": true,
     "hashManifests": [
       "publication-final-nj-clean-slate-set.sha256",
       "publication-final-nj-ordinance-set.sha256",
@@ -64,9 +112,10 @@
     ]
   },
   "checks": {
-    "plainChecks": "PASS for all three wrappers; each reported 2 PDFs and 86 rasters",
+    "plainChecks": "PASS for all three wrappers before reconciliation retention; final clean-slate --check PASS after retaining its corrected map",
     "syntax": "PASS: node --check scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
     "diffCheck": "PASS: git diff --check",
     "consumerDisposition": "STOPPED; no terminal or route-promotion claim"
-  }
+  },
+  "actualAssert": "claim.mjs --assert FIXCXN1 each of the three target families -> CLAIM_OK; grants remain held for this lane"
 }

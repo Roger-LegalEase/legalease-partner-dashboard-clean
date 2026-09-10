@@ -6149,10 +6149,12 @@ async function buildOfficial(familyId, config) {
 
   const outputRelativePath = officialOut(familyId, config.jurisdiction);
   const liveOutput = path.join(rootDir, outputRelativePath);
-  // Keep staging beside the live directory so the final swap is atomic on the
-  // workspace filesystem. The directory is private, uniquely named, and
-  // removed on both success and failure.
+  // Keep staging beside the live directory so each rename stays on the
+  // workspace filesystem. This is a two-rename transaction with rollback,
+  // rather than a single atomic directory exchange. The staging directory is
+  // private, uniquely named, and removed on success and failure.
   const outputParent = path.dirname(liveOutput);
+  fs.mkdirSync(outputParent, { recursive: true });
   const stageParent = fs.mkdtempSync(path.join(outputParent, ".fixcxn1-publication-"));
   const stageRoot = path.join(stageParent, path.basename(liveOutput));
   if (fs.existsSync(liveOutput)) {
@@ -6171,10 +6173,17 @@ async function buildOfficial(familyId, config) {
   }
   publicationRedirect = null;
 
-  const backupParent = fs.mkdtempSync(path.join(outputParent, ".fixcxn1-publication-backup-"));
+  let backupParent;
+  try {
+    backupParent = fs.mkdtempSync(path.join(outputParent, ".fixcxn1-publication-backup-"));
+  } catch (error) {
+    fs.rmSync(stageParent, { recursive: true, force: true });
+    throw error;
+  }
   const backupOutput = path.join(backupParent, path.basename(liveOutput));
   let liveMoved = false;
   let stageMoved = false;
+  let preserveBackup = false;
   try {
     if (fs.existsSync(liveOutput)) {
       fs.renameSync(liveOutput, backupOutput);
@@ -6183,12 +6192,24 @@ async function buildOfficial(familyId, config) {
     fs.renameSync(stageRoot, liveOutput);
     stageMoved = true;
   } catch (error) {
-    if (stageMoved) fs.rmSync(liveOutput, { recursive: true, force: true });
-    if (liveMoved) fs.renameSync(backupOutput, liveOutput);
+    let rollbackError = null;
+    try {
+      if (stageMoved) fs.rmSync(liveOutput, { recursive: true, force: true });
+      if (liveMoved) fs.renameSync(backupOutput, liveOutput);
+    } catch (restoreError) {
+      rollbackError = restoreError;
+      preserveBackup = true;
+    }
+    if (rollbackError) {
+      error.message = `${error.message}; rollback failed: ${rollbackError.message}; `
+        + `prior output backup preserved at ${backupOutput}`;
+      error.rollbackBackupPath = backupOutput;
+      error.rollbackError = rollbackError;
+    }
     throw error;
   } finally {
-    fs.rmSync(backupParent, { recursive: true, force: true });
     fs.rmSync(stageParent, { recursive: true, force: true });
+    if (!preserveBackup) fs.rmSync(backupParent, { recursive: true, force: true });
   }
 }
 
