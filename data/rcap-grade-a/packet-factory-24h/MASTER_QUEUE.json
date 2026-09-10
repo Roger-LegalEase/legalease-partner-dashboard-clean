@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "6d06019cd4492d4b00526274eb843070ce8ffb3f",
+  "minimumCaptainSha": "d68862d4887a25197d1c5a1e0c4112dd2b8a1580",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,15 +73,15 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 42,
+    "repairRequired": 41,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 174,
+    "COMPLETE_PACKET_PROVEN": 175,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 73,
+    "FAIL_REPAIR_REQUIRED": 72,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
@@ -48940,14 +48940,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "d5c21a6a80e453c05d33d032920ba3a4bc7e67cf",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910b.json"
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910c-wv.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -48976,27 +48974,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "THREE SWORN YES/NO ANSWERS ARE UNMADE ON A VERIFIED PETITION AND THE GUIDE NEVER TELLS THE PARTICIPANT TO MAKE THEM. SCA-C907 page 2 item i asks two questions — 'Is there a current order for restitution, protection, restraining order or other no contact order prohibiting the petitioner from contacting victim(s)?' and 'Was there a prior order...?' — each with its own Yes and No box, and page 3 item m asks 'Has petitioner ever been granted expungement or similar relief regarding a criminal conviction by any court in this state, in any other state, or by any federal court?' with the same pair. All six boxes are blank in both fixtures. They appear in NEITHER of the two places the guide tells a participant to look: not in 'The items you must supply', the table the guide's own step 3 points at ('Fill in every blank listed below'), and not in 'Things the platform deliberately left blank'. A participant who follows this guide exactly files a petition, verified under oath before a notary, with three mandatory questions unanswered.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "A PUBLISHED ZERO THAT THE DELIVERED BYTES CONTRADICT, with a confident explanation attached to it. reports/actual-writes.json publishes, for both fixtures and both document rows, 'flattenedWidgetAppearancesReadFromOutputBytes': 0 with the note 'zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet, and a flat overlay draws into page content to begin with, so every mark this family makes is counted as a glyph in the column beside this one'. That is false of these bytes. The delivered canonical.pdf carries 70 XObjects named /FlatWidget-<digits>, each invoked by name from its own page's content stream as 'q <cm> /FlatWidget-... Do Q' — counted 70 XObjects and 70 invocations with pikepdf, and 70 flattened appearances independently by the factory's own classify-flattened-widget-appearances.mjs. The pinned source carries 0 such XObjects, 72 annotations and an /AcroForm; the delivered packet carries 70 such XObjects, 0 annotations and no /AcroForm. This build's own flatten created every one of them, and the count is not zero. This is the catalogued 'a-published-zero-where-a-measurement-existed' shape: a zero published beside a real reading, with a rationale that reads as proof.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
