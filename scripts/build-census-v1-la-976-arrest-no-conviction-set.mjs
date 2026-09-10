@@ -477,6 +477,53 @@ const FIXTURES = Object.freeze({
   }
 });
 
+/*
+ * FIX149. THE SPECIMEN DOCKET, GUARDED.
+ *
+ * VF47 recorded that both fixtures of both families print
+ * "TEST-2026-000001" on every filed caption, that reports/ asserts the docket
+ * READS BACK from the finalized bytes, and that nothing asserts what reads back
+ * is not a specimen -- so a build that shipped a specimen docket to a clerk
+ * would satisfy every counter.
+ *
+ * The value itself is right. These builders build FIXTURES and nothing else:
+ * every fact they draw from is a frozen literal in FIXTURES above, and no
+ * participant datum reaches them. So the hazard is not that this docket is a
+ * specimen -- it is that nothing MAKES it one, and nothing says so where a
+ * reader of the reports would look.
+ *
+ * This asserts the marker rather than the value: every fixture docket must
+ * carry it. A persona later edited to a real-looking docket -- the way a real
+ * case number would be typed in to "check something" -- stops the build instead
+ * of quietly producing filing-shaped bytes with a live docket on them.
+ *
+ * What it does NOT do, and cannot: guard the render path. A packet built for a
+ * real participant is composed elsewhere, from the render transaction's own
+ * facts. Nothing in this file is on that path, so this guard is a statement
+ * about fixtures only and is recorded as one.
+ */
+const SPECIMEN_DOCKET_MARKER = /^TEST-/;
+
+function assertEveryFixtureDocketIsASpecimen() {
+  const dockets = Object.entries(FIXTURES).map(([fixture, facts]) => [fixture, facts["case.docket_number"]]);
+  for (const [fixture, docket] of dockets) {
+    assert.match(String(docket ?? ""), SPECIMEN_DOCKET_MARKER,
+      `fixture "${fixture}" carries docket ${JSON.stringify(docket)}, which does not carry the specimen marker `
+      + `${SPECIMEN_DOCKET_MARKER}. These builders produce specimen bytes only: every filed caption they draw prints `
+      + `this docket, and a docket without the marker is indistinguishable from a live case number on a page shaped `
+      + `like a filing. If a real docket is wanted, it belongs on the render path, not in a fixture persona.`);
+  }
+  return {
+    everyFixtureDocketCarriesTheSpecimenMarker: true,
+    marker: String(SPECIMEN_DOCKET_MARKER),
+    dockets: Object.fromEntries(dockets),
+    whatThisEstablishes: "that the docket printed on every filed caption of these fixtures is a specimen, asserted "
+      + "at build time rather than left to be inferred from the value.",
+    whatThisDoesNotEstablish: "anything about the render path. A packet composed for a real participant is not built "
+      + "by this script and is not covered by this assertion."
+  };
+}
+
 /* ------------------------------------------------------- field-map rows */
 
 const base = (document, id, label, page) => ({
@@ -862,19 +909,32 @@ function sanitize(text) {
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
 /*
- * FIX146. `Assigned component identity` used to print here, so it appeared in
- * the caption of the Article 989 motion, the Article 991 order, the Article 992
- * order and the Article 988 fee-exemption motion -- four FILED pages, one of
- * which goes to a district attorney's office before filing. A component
- * identity is this factory's own identifier for a document; it is neither
- * statute text nor rule text, and Article 986 provides that the statutory forms
- * shall be used with no local variant. It is not deleted: the guide now carries
- * every component identity in a labelled internal-record-text section. The
- * parameter is gone rather than ignored so no caller can print it by habit.
+ * FIX146 removed `Assigned component identity` from this caption. FIX149
+ * removes the line that was sitting directly above it.
+ *
+ * `documentId` -- LA-CCRP-ART-989, -991, -992, -988 -- was emitted as the FIRST
+ * LINE of every caption, so it printed on four filed pages, one of which (the
+ * Article 988 fee exemption) goes to a district attorney's office before
+ * filing. It reads like a form number and it is not one. It is this build's own
+ * constant and the corpus library's indexedFormNumber: `pdftotext` over all
+ * five gated Louisiana sources returns ZERO occurrences of the string
+ * "LA-CCRP-ART", and the pinned Article 998 source prints "CCRP 998" and
+ * "Art. 998." where it names itself. Article 986 provides that the statutory
+ * forms shall be used with no local variant, so a build identifier on the face
+ * of one is a local variant the Legislature did not write.
+ *
+ * Nothing legible is lost. The Article is already stated twice below, in the
+ * document title on the next line and in the `La. C.Cr.P. art.` citation line
+ * of every document body.
+ *
+ * Not deleted from the packet: the guide's internal-record-text section now
+ * carries every document identifier alongside the component identities it
+ * already carried. BOTH PARAMETERS ARE GONE rather than ignored, so no caller
+ * can print either by habit -- which is the standard FIX146's own comment set
+ * for the component identity and did not meet for this one.
  */
-function captionBlock(facts, documentTitle, documentId) {
+function captionBlock(facts, documentTitle) {
   return block(
-    documentId,
     documentTitle.toUpperCase(),
     "",
     `${facts["case.court_name"]}, STATE OF LOUISIANA`,
@@ -917,7 +977,7 @@ function groundsBlock(memoTrack) {
 function motionBody(facts, binding) {
   const { memoTrack } = binding;
   return [
-    captionBlock(facts, TITLES[COMPONENT.motion], MOTION),
+    captionBlock(facts, TITLES[COMPONENT.motion]),
     block(
       "MOTION FOR EXPUNGEMENT OF A RECORD OF ARREST THAT DID NOT RESULT IN A CONVICTION",
       "La. C.Cr.P. art. 976, on the statutory Article 989 form.",
@@ -989,8 +1049,15 @@ function motionBody(facts, binding) {
       ""
     ),
     block(
+      /*
+       * FIX149. `MOTION` -- the string LA-CCRP-ART-989 -- printed here, under
+       * the SIGNATURE BLOCKS heading on filed page 3, which is the page the
+       * mover signs. FIX146 removed the component identity from this same block
+       * and left the document identity beneath it. Both are this build's own
+       * identifiers; neither is Louisiana form text. Removed here and carried
+       * into the guide's internal-record-text section with the other three.
+       */
       "SIGNATURE BLOCKS",
-      MOTION,
       "",
       "IF REPRESENTED BY COUNSEL - ATTORNEY BLOCK",
       `Attorney name in the represented-mover block: ${DOTS(28)}`,
@@ -1022,7 +1089,7 @@ function motionBody(facts, binding) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.order], ORDER),
+    captionBlock(facts, TITLES[COMPONENT.order]),
     block(
       "ORDER",
       "La. C.Cr.P. art. 991, on the statutory Article 991 form.",
@@ -1060,7 +1127,7 @@ function orderBody(facts) {
 
 function expungementOrderBody(facts) {
   return [
-    captionBlock(facts, TITLES[COMPONENT.expungementOrder], EXPUNGEMENT_ORDER),
+    captionBlock(facts, TITLES[COMPONENT.expungementOrder]),
     block(
       "ORDER OF EXPUNGEMENT OF ARREST RECORD",
       "La. C.Cr.P. art. 992, on the statutory Article 992 form.",
@@ -1158,7 +1225,7 @@ function feeExemptionBody(facts, binding) {
   assert.ok(String(feeComponent?.notes ?? "").trim().length > 0,
     "the committed memo no longer carries a note for the fee-waiver component; the guide prints it");
   return [
-    captionBlock(facts, TITLES[COMPONENT.feeExemption], FEE_EXEMPTION),
+    captionBlock(facts, TITLES[COMPONENT.feeExemption]),
     block(
       "MOTION FOR FEE EXEMPTION",
       "La. C.Cr.P. arts. 983(F) and 988, on the statutory Article 988 form.",
@@ -1201,7 +1268,23 @@ function feeExemptionBody(facts, binding) {
        * instruction. */
     ),
     block(
-      "PARTICIPANT-COMPLETED IDENTIFYING FIELDS",
+      /*
+       * FIX149. This heading read "PARTICIPANT-COMPLETED IDENTIFYING FIELDS".
+       * "Participant" is the platform's word for its customer. FIX146 deleted
+       * the sentence "LegalEase completes only the participant-owned
+       * identifying fields on this form" from this very page and left the
+       * heading that sentence sat under, so the vendor name went and the
+       * platform's actor word stayed -- promoted to a heading, on the one page
+       * in this packet that a district attorney reads and certifies.
+       *
+       * Every other line of all eight filed pages calls the same person "mover"
+       * or "defendant". Those are the court's words, and they are the words this
+       * form's own printed instruction uses two lines above: "To be completed by
+       * defendant and submitted to the District Attorney's Office prior to
+       * filing." The heading now says the same thing that instruction says, and
+       * it parallels the district attorney's own heading below it.
+       */
+      "FOR THE MOVER - IDENTIFYING FIELDS, COMPLETED BY THE DEFENDANT",
       `Mover full legal name: ${facts["participant.full_legal_name"]}`,
       `Mover date of birth: ${facts["participant.date_of_birth"]}`,
       `Last four digits of the Social Security number: ${DOTS(24)}`,
@@ -1348,7 +1431,22 @@ function participantInstructions(binding, rbf, name) {
     "",
     "The four documents you file - the Article 989 motion, the Article 991 order, the Article 992 order and the Article 988 fee-exemption motion - recite statute text, rule text and your own answers, and nothing else. This build's own identifiers and the committed record's own words are internal record text. They are set out here instead, in full, so that the pages a clerk stamps, a judge signs and a district attorney certifies carry only what the Legislature put on them. Nothing in this section has been shortened, and nothing that used to be on a filed page has been dropped from the packet.",
     "",
-    bullet(`**Component identities.** The Article 989 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\`, the Article 988 fee-exemption motion is \`${COMPONENT.feeExemption}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the five documents. They used to be printed in the caption of each of the four filed documents and again on the motion's signature-block page; they are printed on no filed page now.`),
+    /*
+     * FIX149. This bullet's last sentence used to read "they are printed on no
+     * filed page now", and it was written while FOUR document identifiers were
+     * still printing on five of the eight filed pages. It was true of the
+     * component identities and false of the document identifiers, and a
+     * participant reading it was told something about their own filed pages
+     * that those pages contradicted. Both classes are now off every filed page,
+     * both are carried here, and the sentence names both rather than one.
+     *
+     * The claim is asserted against the delivered bytes at the end of this
+     * build (see assertNoBuildIdentifierOnAFiledPage), so the sentence cannot
+     * go back to being false without stopping the build that prints it.
+     */
+    bullet(`**Component identities.** The Article 989 motion is \`${COMPONENT.motion}\`, the Article 991 order is \`${COMPONENT.order}\`, the Article 992 order is \`${COMPONENT.expungementOrder}\`, the Article 988 fee-exemption motion is \`${COMPONENT.feeExemption}\` and these instructions are \`${COMPONENT.guide}\`. Those are this factory's own identifiers for the five documents.`),
+    bullet(`**Document identifiers.** The Article 989 motion is also indexed as \`${MOTION}\`, the Article 991 order as \`${ORDER}\`, the Article 992 order as \`${EXPUNGEMENT_ORDER}\` and the Article 988 fee-exemption motion as \`${FEE_EXEMPTION}\`. Those look like form numbers and they are not: they are this build's index keys. Louisiana does not print them. The Article 989, 991, 992 and 988 forms name themselves by Article number alone, and the word "LA-CCRP-ART" appears nowhere in any Louisiana source this packet is built from. Each identifier used to be printed as the first line of its document's caption, and the motion's carried again on the signature-block page.`),
+    bullet(`**Where the identifiers used to print, and where they print now.** Between them the two classes above used to appear on five of the eight pages you file, including the Article 988 fee-exemption motion you hand to the district attorney. Neither class is printed on any page you file now. Each filed document names itself the way the Legislature names it: by its Article number, in its title and in its \`La. C.Cr.P. art.\` citation line.`),
     bullet("**Where the four statutory form texts come from.** All four are composed from the committed LA-STATUTORY-FORMS authority. Each filed document now cites only its own Article."),
     bullet("**Race and gender on the Article 989 motion.** The committed manual-completion record classifies both as manual completion items pending a data-protection review. That is why the packet prints them blank and the motion says only that you write them by hand."),
     bullet("**The Article 976(A) ground line.** The route this packet was built for fixes the ARTICLE, not the GROUND: the packet elects no Article 976(A) ground for you, because which ground a charge ended on is a legal conclusion you own. The motion now states the instruction and its reason without quoting the record."),
@@ -1678,10 +1776,66 @@ function measureInk(drawn) {
 
 /* --------------------------------------------------------- byte proof */
 
+/*
+ * FIX149. THE GUIDE MAKES A CLAIM ABOUT THE FILED PAGES; THIS MEASURES IT.
+ *
+ * Delivered page 11 tells the participant that this build's own identifiers are
+ * printed on no page they file, and that each filed document names itself the
+ * way the Legislature names it. FIX146 wrote a sentence of that shape while four
+ * document identifiers were still printing on five filed pages, and no counter
+ * saw it: all nine completeness counters read zero before and after, because
+ * the identifier is present, non-empty, inside its write box and correctly
+ * spelled. A claim about delivered bytes has to be measured on delivered bytes
+ * or it is only an intention.
+ *
+ * Three classes, all three of which the guide now names:
+ *
+ *   documentIdentifier  LA-CCRP-ART-nnn. This build's index key. It reads like a
+ *                       form number and is not one -- `pdftotext` over all five
+ *                       gated Louisiana sources returns zero occurrences of the
+ *                       string, and the pinned Article 998 names itself "CCRP
+ *                       998" and "Art. 998.".
+ *   componentIdentity   la-976-arrest-no-conviction-<role>-<n>. This factory's
+ *                       own identifier for a document. FIX146 removed these.
+ *   platformActor       the word "participant", this platform's word for its
+ *                       customer. The court's words are "mover" and
+ *                       "defendant", and they are what the forms use.
+ *
+ * The scope is the FILED pages only -- every page whose component is not the
+ * guide. The guide is where all three classes are supposed to be, so scanning
+ * it would make the guard unfailable in the other direction.
+ *
+ * This throws rather than counting. A counter that reads 5 and passes anyway is
+ * what let this ship twice.
+ */
+const BUILD_IDENTIFIER_CLASSES = Object.freeze([
+  { klass: "documentIdentifier", pattern: /LA-CCRP-ART-\d+/g },
+  { klass: "componentIdentity", pattern: /la-976-arrest-no-conviction-[a-z-]+-\d+/g },
+  { klass: "platformActor", pattern: /\bparticipants?\b/gi }
+]);
+
+function assertNoBuildIdentifierOnAFiledPage(pageText, pageManifest, fixture) {
+  const hits = [];
+  for (const [index, row] of pageManifest.entries()) {
+    if (row.component === COMPONENT.guide) continue;
+    for (const { klass, pattern } of BUILD_IDENTIFIER_CLASSES) {
+      for (const match of String(pageText[index] ?? "").matchAll(new RegExp(pattern.source, pattern.flags))) {
+        hits.push(`${fixture} filed page ${index + 1} (${row.component}): ${klass} "${match[0]}"`);
+      }
+    }
+  }
+  assert.equal(hits.length, 0,
+    "participant-instructions.md tells the participant that this build's identifiers are printed on no page they "
+    + "file and that the platform's own actor word is not used there. These filed pages contradict it, so either "
+    + "the pages or the sentence is wrong and this build will not ship both:\n  " + hits.join("\n  "));
+  return { filedPagesScanned: pageManifest.filter((row) => row.component !== COMPONENT.guide).length, hits: 0 };
+}
+
 async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixture) {
   const pdf = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
   assert.equal(pdf.getPageCount(), pageManifest.length, "the page manifest must describe every packet page");
   const pageText = pdf.getPages().map((page) => groupIntoLines(extractTextItems(page)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  const identifierScan = assertNoBuildIdentifierOnAFiledPage(pageText, pageManifest, fixture);
   const byDocument = new Map();
   for (const [index, row] of pageManifest.entries()) {
     byDocument.set(row.documentId, `${byDocument.get(row.documentId) ?? ""} ${pageText[index]}`.replace(/\s+/g, " "));
@@ -1702,7 +1856,7 @@ async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixt
       });
     }
   }
-  return { actualWrites, glyphs };
+  return { actualWrites, glyphs, identifierScan };
 }
 
 /* ------------------------------------------------------------ counters */
@@ -1808,6 +1962,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     assert.equal(noRaster, true, "no browser resolves in this container; invoke with --no-raster and let the raster gate run centrally");
   }
 
+  /* FIX149. Before any fixture is composed: a persona edited to a real-looking
+   * docket must stop the build BEFORE filing-shaped bytes exist on disk, not
+   * after. Measured while proving this guard can fail: called from the report
+   * writer it fired correctly and still left a moved canonical.pdf behind. */
+  const specimenDocketProof = assertEveryFixtureDocketIsASpecimen();
   const binding = loadAuthorityBinding();
   const sources = resolveHeldSources(binding.queueFamily);
   assert.equal(sources.absent.length, 0,
@@ -1879,9 +2038,23 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${OUT}/fixtures/${fixture}.pdf`;
-    fs.writeFileSync(path.join(ROOT, file), packetBytes);
 
+    /*
+     * FIX149. PROVE FIRST, THEN WRITE.
+     *
+     * The fixture used to be written to disk on the line above and proved on the
+     * line below. Every assertion in proveWritesFromBytes -- the write readback,
+     * and now the filed-page identifier scan -- therefore stopped the build with
+     * exit 1 while leaving the rejected bytes sitting in fixtures/ for whoever
+     * looked next. Measured while proving this guard can fail: all three
+     * mutations exited 1 AND moved the canonical fixture on disk.
+     *
+     * Proving in memory before writing costs nothing (the proof never read the
+     * file, only the buffer) and makes a failed assertion mean the packet was
+     * not delivered rather than merely complained about.
+     */
     const proof = await proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixture);
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
     const outsideBoxes = measureInk(drawnRows);
     proofs.push({
       fixture,
@@ -2154,6 +2327,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1",
+    specimenDocket: specimenDocketProof,
     familyId: FAMILY_ID,
     question: "Is the caption, the controlling authority, the eligibility recital and the prayer on this packet this family's own, or a sibling's?",
     whyItIsAsked: "Louisiana runs six expungement tracks off six articles that share the Article 989/991/992 instruments and a caption shape. A shared caption template would put a conviction recital on an arrest motion.",

@@ -40,6 +40,7 @@
     ],
     "packetComponents": [
       "component:la-976-arrest-no-conviction-fee-waiver-4",
+      "component:la-976-arrest-no-conviction-instructions-6",
       "component:la-976-arrest-no-conviction-primary-filing-1",
       "component:la-976-arrest-no-conviction-proposed-order-2",
       "component:la-976-arrest-no-conviction-proposed-order-3"
@@ -64,7 +65,10 @@
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf43",
-      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89"
+      "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
+      "coversTheCanonicalOnDiskNow": null,
+      "whyCoverageIsNull": "the returns ledger records the base commit a lane read at, not the canonical digest it read, so whether this verdict describes the bytes now on disk cannot be decided from this record. It is null rather than 0 or an assumed pass. Where acceptanceReceiptWithdrawn below reports replacedByIsStillTheCanonicalOnDisk false, the family's bytes have demonstrably moved since some earlier read, which is a reason to re-read and not a verdict.",
+      "canonicalOnDiskNow": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -87,9 +91,27 @@
           "artifactId": "10126309758",
           "boundToCanonicalSha256": "17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5",
           "coversTheWholeFamily": true
-        }
+        },
+        "canonicalOnDiskNow": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
+        "replacedByIsStillTheCanonicalOnDisk": false,
+        "readThePointerAsHistory": "replacedByCanonicalSha256 records the canonical this family produced at the moment the receipt was withdrawn, and it was true then. The bytes have moved again since, so it is history and not a description of what is on disk now. It is left as written rather than relabelled; canonicalOnDiskNow beside it is measured on every run. The withdrawn receipt's own workflow run and artifact ids are the ids of the superseded raster and are equally historical."
       }
-    ]
+    ],
+    "packetComponentsOnTheQueueRow": [
+      "component:la-976-arrest-no-conviction-fee-waiver-4",
+      "component:la-976-arrest-no-conviction-primary-filing-1",
+      "component:la-976-arrest-no-conviction-proposed-order-2",
+      "component:la-976-arrest-no-conviction-proposed-order-3"
+    ],
+    "packetComponentsProvenance": "measured from this family's own reports/rendered-artifacts.json page manifest -- the components the delivered bytes actually carry pages for -- rather than declared from the MASTER_QUEUE row. The queue row's list is kept above under its own name.",
+    "packetComponentsDisagreement": {
+      "theyDisagree": true,
+      "declaredByTheQueueRowButInNoDeliveredArtifact": [],
+      "deliveredButNotDeclaredByTheQueueRow": [
+        "component:la-976-arrest-no-conviction-instructions-6"
+      ],
+      "whyTheQueueRowIsNotEditedHere": "MASTER_QUEUE.json is generated centrally and is not edited by this generator. The disagreement is recorded rather than reconciled away."
+    }
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -102,7 +124,7 @@
         "order": 1,
         "documentId": "LA-CCRP-ART-989",
         "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "fbc0adbbc5d56e794376976c80640676e097d6e276c1bb1682c4648afd0bc7d7",
+        "sha256": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
         "requirement": "required"
       },
       {
@@ -111,7 +133,7 @@
         "order": 2,
         "documentId": "LA-CCRP-ART-991",
         "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "fbc0adbbc5d56e794376976c80640676e097d6e276c1bb1682c4648afd0bc7d7",
+        "sha256": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
         "requirement": "required"
       },
       {
@@ -120,7 +142,7 @@
         "order": 3,
         "documentId": "LA-CCRP-ART-992",
         "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "fbc0adbbc5d56e794376976c80640676e097d6e276c1bb1682c4648afd0bc7d7",
+        "sha256": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
         "requirement": "required"
       },
       {
@@ -129,7 +151,7 @@
         "order": 4,
         "documentId": "LA-CCRP-ART-988",
         "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "fbc0adbbc5d56e794376976c80640676e097d6e276c1bb1682c4648afd0bc7d7",
+        "sha256": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
         "requirement": "required"
       },
       {
@@ -138,7 +160,7 @@
         "order": 5,
         "documentId": "la-976-arrest-no-conviction-instructions-6",
         "file": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "fbc0adbbc5d56e794376976c80640676e097d6e276c1bb1682c4648afd0bc7d7",
+        "sha256": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
         "requirement": "required"
       }
     ]
