@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "lane": "FIX134",
+  "laneKind": "complex_execution_repair",
+  "date": "2026-09-10",
+  "base": "65a118c821e0abc43226b7795460c37ebe47ab90",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "fix134b-ri-20260910",
+  "rowsReturn": "data/rcap-grade-a/packet-factory-24h/fix134/rows-fix134b-ri-20260910.json",
+  "checkpoints": [
+    {
+      "n": 1,
+      "what": "Cut the branch from the Captain's tip and confirmed HEAD with git rev-parse rather than retyping a SHA from prose.",
+      "result": "fix134b-ri-20260910 at 65a118c821e0abc43226b7795460c37ebe47ab90."
+    },
+    {
+      "n": 2,
+      "what": "Claimed all three families before reading or writing any family content.",
+      "result": "CLAIM_OK FIX134 for ri_deferred_sentence-set, ri_first_offender_misdemeanor-set and ri_multiple_misdemeanors-set, all on repair grant set 97765282dc236416. No refusal, so no BLOCKED_BEFORE_CLAIM."
+    },
+    {
+      "n": 3,
+      "what": "Re-derived the sibling list from the host itself instead of from the dispatch, which said six families, and from the FIX134 return, which said the same.",
+      "result": "The host defines FIVE families, and `grep -l build-census-v1-ri_decriminalized-set.mjs scripts/*.mjs` returns exactly five entry points. ri_nonconviction_sealing-set is NOT on this host: its build script is three lines and imports runEastFamily from the New Jersey host. Holding three families leaves TWO siblings — ri_decriminalized-set and ri_first_offender_felony-set — not four."
+    },
+    {
+      "n": 4,
+      "what": "Materialized the three RI overlay directories the sparse checkout lacked, using `git sparse-checkout set` with a complete explicit list rather than `add`, and measured disk immediately after.",
+      "result": "df -h /home/user unchanged at 4.0 GB free. The five RI family directories total 6.9 MB."
+    },
+    {
+      "n": 5,
+      "what": "Confirmed both pinned sources resolve by content digest under MASTER_LIBRARY_SOURCE_DIR before building anything.",
+      "result": "Superior-55 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca and DC-33 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, both matching the pins the families' source-receipt.json declare. No BLOCKED_SOURCE."
+    },
+    {
+      "n": 6,
+      "what": "Established that the source render is not blind BEFORE trusting any zero from it: rendered each source page twice at 600 dpi, once normally and once with -hide-annotations, and differenced in both directions.",
+      "result": "On Superior-55 page 4 the annotation-free render loses 4938 dark pixels and reveals 2345; on DC-33 page 4 it loses 5078 and reveals 2500, in clusters exactly at the two radio boxes on each form. Pages 1-3 of both forms are silent in both directions. The measurement render therefore draws the /AP /N streams whose absence the difference is meant to detect."
+    },
+    {
+      "n": 7,
+      "what": "Rebuilt all five families at unmodified base with --no-raster, before touching a line, to establish that a rebuild reproduces committed bytes.",
+      "result": "Every one of the ten committed fixture PDFs reproduced byte-for-byte; git status listed no fixture. Two JSON files on ri_multiple_misdemeanors-set moved, traced to that family's committed build having been made WITH a local chromium raster while this lane builds --no-raster."
+    },
+    {
+      "n": 8,
+      "what": "Confirmed the ROUTE_IDENTITY defect on the delivered bytes rather than in the builder, with pdftotext -bbox-layout over the committed canonical.pdf of each family.",
+      "result": "ri_deferred_sentence-set: the trailer prints on packet pages 5, 8, 13 and 14, and on page 5 — page 1 of the composed proposed order — at yTop 659.0 to 697.9, x 72.0. ri_first_offender_misdemeanor-set: packet pages 6, 8, 13 and 15, and on page 6 the literal word 'Route:' is the FIRST line on the page at yTop 64.5, above the Court's findings and above the Justice/Judge block. Both reproduce the coordinates the dispatch named."
+    },
+    {
+      "n": 9,
+      "what": "Verified rather than assumed that ROUTE_IDENTITY is already settled on ri_multiple_misdemeanors-set, which opts into the remedy.",
+      "result": "Settled. Packet pages 5 and 6 — both pages of its composed proposed order — contain zero occurrences of 'Route:' or 'obligation:'. The keys appear on exactly three guidance pages (8, 14 and 15), each under the INTERNAL RECORD REFERENCE label. Its page 6 opens with ORDER_COURT_BLOCK_NOTICE where the unrepaired sibling opens with the trailer."
+    },
+    {
+      "n": 10,
+      "what": "Read the remedy's implementation before using it, as instructed, instead of taking the comment's word for it.",
+      "result": "machineRouteTrailer(route, surface) returns [] when surface is 'filing' and the flag is set, and the labelled line when surface is 'guidance'. The single 'filing' call site is inside proposedOrderBody; the three 'guidance' call sites are on pages that each state on their own face that they are not filings. routeOf spreads the family's FAMILIES entry into route, so the flag is strictly per-route."
+    },
+    {
+      "n": 11,
+      "what": "Applied the flag to ri_deferred_sentence-set, rebuilt, and confirmed the result on the delivered bytes.",
+      "result": "The three trailer lines are gone from packet page 5 of both fixtures. A page-5-and-6 text diff against the committed bytes shows those three lines removed and nothing else changed — the rule, ORDER_COURT_BLOCK_NOTICE, the Court's findings, GRANTED/DENIED, the relief marks, the further-terms lines, the signature block, the date of entry and the clerk's certification are character-identical. Page count 14 before and after."
+    },
+    {
+      "n": 12,
+      "what": "Measured the directional raster for ri_deferred_sentence-set on all four official pages of both fixtures, attributing added ink by mask to the family's own declared write and selection boxes.",
+      "result": "Removed dark pixels 0 on every page of both fixtures. Added ink 0 outside declared boxes on every page. Page 4 measures 0 added and 0 removed, which is the earlier preserveSourceAuthoredSelectionPaint repair still holding."
+    },
+    {
+      "n": 13,
+      "what": "Rebuilt the two siblings this lane must not move, AFTER the edit, rather than reasoning from the flag's default.",
+      "result": "ri_decriminalized-set and ri_first_offender_felony-set both reproduce to their exact committed digests f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc and ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3, which are the digests their live RASTER_PASS acceptance receipts bind. git status lists neither."
+    },
+    {
+      "n": 14,
+      "what": "Corrected the builder comment that claimed a measurement the FIX134 row honestly disclaimed, and the same comment's two factual errors about this host.",
+      "result": "The comment no longer says the siblings' byte-unaffectedness was 'measured rather than assumed' for that lane; it says the lane reasoned from the default, names why the reasoning holds, and records that FIX134b then rebuilt all five and measured it. It also no longer says four siblings or names ri_nonconviction_sealing-set as being on this host."
+    },
+    {
+      "n": 15,
+      "what": "Ran the governance carry-forward explicitly and then the repository verifier.",
+      "result": "This host never writes product-wiring.json, so no rebuild on it can erase governance; git status confirms the wiring unchanged after rebuilding all five. carryForwardGovernance over the committed binding with the new canonical digest carries all five non-receipt keys, loses nothing, withdraws nothing new because acceptanceReceipt is already null, and preserves the one historical withdrawal whole. `npm run rcap:verify-governance-preservation` exit 0, EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE with 248 records NOT MEASURED because they are not checked out here — a limit of this sparse worktree, not a pass over them."
+    },
+    {
+      "n": 16,
+      "what": "Applied the same flag to ri_first_offender_misdemeanor-set, rebuilt, and confirmed the result on the delivered bytes of both fixtures.",
+      "result": "The six trailer lines are gone from packet page 6. That page now OPENS with ORDER_COURT_BLOCK_NOTICE at yTop 64.5, which is the same first line the already-repaired sibling delivers on its own page 6. A page-5-and-6 text diff against the committed bytes shows those six lines removed and no other character changed. Page count 15 before and after."
+    },
+    {
+      "n": 17,
+      "what": "Measured the directional raster for ri_first_offender_misdemeanor-set on all four official pages of both fixtures.",
+      "result": "Removed dark pixels 0 on every page of both fixtures; added ink 0 outside declared boxes on every page; page 4 measures 0 added and 0 removed, where before the earlier preserveSourceAuthoredSelectionPaint repair it carried 1,025 added at the two DC-33 Group2 boxes."
+    },
+    {
+      "n": 18,
+      "what": "Caught and corrected one of my own coordinates before committing it: the builder comment first said GRANTED/DENIED sat at yTop 386.0 on page 6.",
+      "result": "pdftotext -bbox-layout on the committed bytes puts it at 325.5. The comment was corrected to 325.5 before the commit. Justice/Judge at 572.0 was checked the same way and was right."
+    },
+    {
+      "n": 19,
+      "what": "Measured the second defect on ri_multiple_misdemeanors-set BEFORE repairing anything, on that family own bytes, rather than carrying the diagnosis over from the siblings.",
+      "result": "Present. Packet page 4 carried 1,026 added dark pixels and 0 removed at 600 dpi, identically on canonical and boundary, and all 1,026 fell outside every declared write and selection box, in three clusters at the two DC-33 Group2 boxes inside the notarial certificate."
+    },
+    {
+      "n": 20,
+      "what": "Established the mechanism at byte level on this family own bytes, which decides whether the committed note calling it synthesis is stale.",
+      "result": "It is stale and nothing is synthesized. Delivered appearance 154 0 R (193 B) is source DC-33 157 0 R (219 B) with its 28-byte leading opaque fill normalised away, byte for byte, at an identical /BBox; delivered 155 0 R (190 B) is source 165 0 R (216 B) the same way. The court own appearance was being delivered with its mask removed, which is exactly what FIX134 diagnosed."
+    },
+    {
+      "n": 21,
+      "what": "Read the code to explain why suppressSynthesizedWidgetBorders had been inert, which the committed note observed without explaining.",
+      "result": "Confirms VF01. That flag only calls neutralizeSynthesizedBorderCharacteristics, which clears the /MK characteristics a viewer uses when it must construct an appearance itself. These widgets ship an /AP /N, so there is nothing to synthesize. stripWidgetBackground runs further down on the PRESERVE_SOURCE_APPEARANCE branch, where preserveUnwrittenSelectionBackgrounds is the only option that reaches it."
+    },
+    {
+      "n": 22,
+      "what": "Applied preserveSourceAuthoredSelectionPaint to ri_multiple_misdemeanors-set, rebuilt, and re-measured.",
+      "result": "Packet page 4 went from 1,026 added to 0 added, and removed stayed 0 on every page of both fixtures. The delivered appearances are now 219 and 216 bytes with sha256 a79c3a7b25a532ca and a2d80ac0efea6b86 -- byte-identical to the source streams. The remedy restored a mask and erased nothing."
+    },
+    {
+      "n": 23,
+      "what": "Re-confirmed ROUTE_IDENTITY is still settled on this family after the rebuild, rather than assuming the earlier check still held.",
+      "result": "0 occurrences of route or obligation text on packet pages 5 and 6 of both fixtures, and 3 labelled INTERNAL RECORD REFERENCE occurrences in each."
+    },
+    {
+      "n": 24,
+      "what": "Recorded a committed record this repair moves and did not quietly overwrite it.",
+      "result": "This family committed build-status.json carried rasterState RASTER_LOCAL_PENDING_CENTRAL with 30 local raster page hashes in rendered-artifacts.json, while no raster directory is committed for it. Building --no-raster, as instructed, moves it to BUILT_RASTER_PENDING and drops 30 hashes that bound bytes this repair replaced. Written up in the row."
+    },
+    {
+      "n": 25,
+      "what": "Ran the governance verifier a final time after the third family moved.",
+      "result": "npm run rcap:verify-governance-preservation exit 0, EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE and GOVERNANCE_PRESERVATION_OK over 16 checks -- with 248 of 295 product-wiring records NOT MEASURED because they are not checked out in this sparse worktree. That is a limit of the worktree and not a pass over those 248."
+    }
+  ],
+  "packetsSelfVerified": false,
+  "verdictSet": "none",
+  "commercialRoutesOpened": "none",
+  "productionTouched": "none"
+}

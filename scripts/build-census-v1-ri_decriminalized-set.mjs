@@ -1479,6 +1479,26 @@ const FAMILIES = {
      * fixtures. See the flag's reasoning and byte evidence at the finalizer call
      * in renderOfficialForm. */
     preserveSourceAuthoredSelectionPaint: true,
+    /* FIX134b, ROUTE_IDENTITY, and the worst placement of it on this host.
+     * Measured on this family's own delivered bytes at base 65a118c82: the
+     * machine route trailer is the FIRST TEXT ON PACKET PAGE 6, which is page 2
+     * of the composed proposed order. pdftotext -bbox-layout puts the word
+     * "Route:" at yTop 64.5, x 72.0 -- above ORDER_COURT_BLOCK_NOTICE at 195.0,
+     * above "The Court's findings:" at 253.0, above GRANTED/DENIED at 325.5 and
+     * above the Justice/Judge block at 572.0. A District Court justice picking
+     * up page 2 of the order reads this factory's obligation-census keys before
+     * reading anything the court is asked to decide.
+     *
+     * Same remedy as the two siblings that already carry it: nothing at all on
+     * the filing, and the same keys on the three guidance pages under a label
+     * saying what they are. The host comment at ri_multiple_misdemeanors-set
+     * describes exactly this page and this position; that family was repaired
+     * and this one was not.
+     *
+     * No counter and no raster reaches it. The counters read the field map, and
+     * the pinned DC-33 exists only for packet pages 1 to 4. It was found by
+     * reading the page. */
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
@@ -1496,19 +1516,26 @@ const FAMILIES = {
     trackId: "ri_multiple_misdemeanors", form: "DC-33", partId: "THREE_B", orderVariant: "DISTRICT_COURT",
     splitAffidavitComponent: false, singleGuidanceComponent: false,
     /*
-     * TWO REPAIRS THIS HOST APPLIES TO THIS FAMILY ONLY, AND WHY THEY ARE
-     * PER-ROUTE RATHER THAN HOST-WIDE.
+     * TWO REPAIRS, BOTH NOW APPLIED, AND WHY THEY ARE PER-ROUTE RATHER THAN
+     * HOST-WIDE.
      *
-     * Both defects are almost certainly present on all five families this host
-     * builds. Neither is repaired host-wide here, because two of the four
-     * siblings are LIVE on other lanes right now -- ri_first_offender_felony-set
-     * on FIX120 and ri_nonconviction_sealing-set on FIX99 -- and a repair lane
-     * holding one family does not get to move four other families' bytes, or
-     * invalidate a raster receipt bound to them, while their own lanes are
-     * mid-rebuild. This is the same opt-in reasoning the shared finalizer states
-     * for each of its ten flags. Every other family on this host is
-     * byte-unaffected, and the Captain can widen either flag once the siblings
-     * are free.
+     * Both defects are present on more than this family. Neither is set
+     * host-wide, because the flags are opt-in per route and a lane moves only
+     * the bytes it holds a grant for. As of FIX134b, three of the five families
+     * on this host carry machineRouteTrailerIsInternalRecordText and three carry
+     * preserveSourceAuthoredSelectionPaint; the two that carry neither --
+     * ri_decriminalized-set and ri_first_offender_felony-set -- each hold a live
+     * RASTER_PASS acceptance receipt bound to their exact current canonical
+     * digests, and moving them would withdraw a receipt this lane cannot replace.
+     * The Captain can widen either flag when those two are free.
+     *
+     * A CORRECTION TO AN EARLIER REVISION OF THIS PARAGRAPH. It said "two of the
+     * four siblings", and named ri_nonconviction_sealing-set on FIX99 as one of
+     * them. This host defines FIVE families, so a lane holding one has FOUR
+     * siblings and a lane holding two has three -- and ri_nonconviction_sealing-set
+     * is not on this host at all: its build script imports runEastFamily from the
+     * New Jersey host and never reaches this file. Derive the sibling list from
+     * FAMILIES, never from a comment.
      *
      * machineRouteTrailerIsInternalRecordText -- VF02 failed this family on
      * ROUTE_IDENTITY: the line "Route: obligation:unit:RI:..." prints on four
@@ -1521,26 +1548,50 @@ const FAMILIES = {
      * text. So on the filing it is dropped, and on the three guidance pages it
      * is kept and labelled.
      *
-     * MEASURED HERE AND DELIBERATELY NOT REPAIRED: the two synthesized
-     * appearances at the notary's own radio group Group2 on packet page 4,
-     * INSIDE the notarial certificate of a sworn affidavit. The border cohort
-     * accounting finds them matching no /AP /N stream DC-33 ships, and a 150 dpi
-     * directional raster against the pinned page 4 measures 129 added dark
-     * pixels and 0 removed, identically on both fixtures. At 600 dpi the mark is
-     * a black vertical bar standing inside the box interior with a black rule
-     * along its bottom -- an inset partial rectangle. The interior does NOT stay
-     * white.
+     * preserveSourceAuthoredSelectionPaint -- FIX134b. The paragraph that used
+     * to sit here called the two marks at the notary's own radio group Group2 on
+     * packet page 4 "synthesis rather than misplacement" and left them unrepaired
+     * pending "a reader who can name the shared step that generates that stream".
+     * THAT READING WAS WRONG, and nothing is synthesized. The bytes say so:
      *
-     * suppressSynthesizedWidgetBorders WAS TRIED on this route and was inert:
-     * stroke-only stayed at 2 per fixture and the raster stayed at 129 added and
-     * 0 removed, cluster for cluster. It is therefore NOT set here, because a
-     * flag that changed nothing must not sit in a route record implying that it
-     * did. fitAppearancesToRect is not the candidate either: that corrects the
-     * SCALE of a carried stream, and here the outer box is pixel-identical to
-     * the source while new ink appears inside it, which is synthesis rather than
-     * misplacement. Closing it needs a reader who can name the shared step that
-     * generates that stream. This lane measured it and did not guess.
-     */
+     *   DC-33 157 0 R  219 bytes, /BBox [0 0 12.2227 9.9118]
+     *   delivered      193 bytes, /BBox [0 0 12.2227 9.9118]
+     *   DC-33 165 0 R  216 bytes, /BBox [0 0 11.4524 9.5267]
+     *   delivered      190 bytes, /BBox [0 0 11.4524 9.5267]
+     *
+     * Each delivered stream is the SOURCE stream byte for byte once its leading
+     * `1 g / 0 0 <w> <h> re / f` -- 28 bytes -- is normalised away. Nothing is
+     * generated; the court's own appearance is delivered with its opaque mask
+     * removed. DC-33 both PRINTS a check box in its page content stream AND
+     * covers it with that mask before drawing its bevel, so stripping the mask
+     * lets the printed box show through beneath the beveled one. That is
+     * stripWidgetBackground in scripts/rcap-official-forms/rcap-active-content.mjs,
+     * which strips unconditionally unless the caller opts out.
+     *
+     * Measured on THIS family's own bytes at base 65a118c82, 600 dpi directional
+     * against the pinned DC-33 with annotations drawn: packet page 4 carries
+     * 1,026 added dark pixels and 0 removed, and all 1,026 fall OUTSIDE every
+     * write rect and selection box this family declares, in three clusters at
+     * the two Group2 boxes (74.4-81.6 x 516.1-522.0 pt, 226.4-227.3 x 516.1-521.6,
+     * 233.8-233.9 x 516.1-521.6). The old note's 129 at 150 dpi is the same
+     * defect at a quarter of the linear resolution.
+     *
+     * WHY suppressSynthesizedWidgetBorders WAS INERT, which the old note observed
+     * but could not explain. It never reaches the code that does this. In the
+     * walker in rcap-active-content.mjs it only calls
+     * neutralizeSynthesizedBorderCharacteristics(), which clears the /MK
+     * characteristics a viewer consults ONLY when it has to construct an
+     * appearance itself. These widgets ship an /AP /N, so there is nothing to
+     * synthesize and nothing for that flag to prevent. stripWidgetBackground runs
+     * further down, on the PRESERVE_SOURCE_APPEARANCE branch, and
+     * preserveUnwrittenSelectionBackgrounds is the only option on that branch.
+     * fitAppearancesToRect was never the candidate either: nothing is misscaled.
+     *
+     * The remedy RESTORES and never removes. Deleting the stroke would erase the
+     * court's own bevel and outline, which is the over-suppression that already
+     * cost Colorado a 213.6pt rule the form itself draws. /MK /BG is still
+     * stripped, so no background the form did not author is requested. */
+    preserveSourceAuthoredSelectionPaint: true,
     machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-1-bci-and-docket",
@@ -1621,6 +1672,23 @@ const FAMILIES = {
      * printed box show through beneath the beveled one. See the flag's full
      * reasoning and byte evidence at the finalizer call in renderOfficialForm. */
     preserveSourceAuthoredSelectionPaint: true,
+    /* FIX134b, ROUTE_IDENTITY. Measured on this family's own delivered bytes at
+     * base 65a118c82: the line "Route: obligation:unit:RI:ri_deferred_sentence:
+     * ..." prints on FOUR packet pages, and the decisive one is packet page 5 --
+     * page 1 of the composed proposed order -- where pdftotext -bbox-layout puts
+     * it at yTop 659.0 to 688.0, x 72.0, immediately under the "Composed by
+     * LegalEase" disclaimer and above the rule that opens the court's own block.
+     * Those are this factory's own obligation-census keys. They mean nothing to
+     * a Rhode Island Superior Court justice, and the recorded standard is exact:
+     * filings recite statute and rule text only. The remedy is the one this host
+     * already implements and ri_multiple_misdemeanors-set already uses -- nothing
+     * at all on the filing, and on the three guidance pages the same keys under a
+     * label saying what they are and that no court or clerk needs them.
+     *
+     * No counter and no raster reaches this. The counters read the field map,
+     * and the pinned source exists only for packet pages 1 to 4 while the
+     * trailer sits on a composed page. It was found by reading the page. */
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: [
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-2-court-motion-and-affidavit",
@@ -1960,13 +2028,28 @@ async function renderOfficialForm(source, census, facts, familyId) {
      * outline, which is the over-suppression that already cost Colorado a
      * 213.6pt rule the form itself draws.
      *
-     * PER ROUTE AND NOT HOST-WIDE, for the reason the sibling note at
-     * ri_multiple_misdemeanors-set states: the other four families on this host
-     * are live on FIX07, FIX08, FIX99 and FIX120 right now, their receipts bind
-     * their current bytes, and a lane holding two families does not move four
-     * others'. The defect is almost certainly on all five. Every family that
-     * does not set the flag is byte-unaffected, which this lane measured rather
-     * than assumed, and the Captain can widen it once the siblings are free. */
+     * PER ROUTE AND NOT HOST-WIDE. This host defines FIVE families, so a lane
+     * holding two has THREE siblings and not four -- an earlier revision of this
+     * comment said four, and named ri_nonconviction_sealing-set among them. That
+     * family is NOT on this host: scripts/build-census-v1-ri_nonconviction_
+     * sealing-set.mjs imports runEastFamily from the New Jersey host and never
+     * touches this file. Re-derive the sibling list from FAMILIES below, not
+     * from this paragraph. A sibling's committed receipt binds its current
+     * bytes, and a lane does not move bytes another lane's receipt covers.
+     *
+     * WHAT WAS ACTUALLY MEASURED, AND WHAT WAS NOT. An earlier revision claimed
+     * the byte-unaffectedness of every family that does not set the flag was
+     * "measured rather than assumed". That overstated it: the lane REASONED from
+     * the default, and its own return row said the siblings were not rebuilt.
+     * The reasoning is sound -- preserveUnwrittenSelectionBackgrounds defaults to
+     * false at every entry point (this call site, sanitizeAndFlatten, and the
+     * inner walker in rcap-active-content.mjs), so an explicit false is
+     * byte-equivalent to omission -- but reasoning is not measurement and this
+     * comment will not call it one. FIX134b did then rebuild all five families
+     * at unmodified base 65a118c82 and confirmed every one reproduces to its
+     * committed fixture digests, and re-proved the unmoved siblings after each
+     * edit. A comment that overstates its evidence is the same defect class as a
+     * published zero nobody measured. */
     preserveUnwrittenSelectionBackgrounds: FAMILIES[familyId]?.preserveSourceAuthoredSelectionPaint === true,
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${familyId}:${source.formNumber}`)
   });
