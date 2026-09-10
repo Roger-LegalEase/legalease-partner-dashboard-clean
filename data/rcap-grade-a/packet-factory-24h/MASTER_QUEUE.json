@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "37379463a3c477a849404775bc000481c4974e98",
+  "minimumCaptainSha": "3f589f6f96d5bb5b7f0b5f4578f599d36a1e9e92",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,15 +73,15 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 40,
+    "repairRequired": 39,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 207,
+    "COMPLETE_PACKET_PROVEN": 208,
     "PRODUCT_PATH_PENDING": 18,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 46,
+    "FAIL_REPAIR_REQUIRED": 45,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 9,
@@ -9417,14 +9417,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf40",
-        "verifiedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf40/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf67",
+        "verifiedAtBase": "df7371634115fce772fad285986dd4a99967bf67",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-co-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -9453,20 +9451,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SERVICE",
-          "finding": "THE DEFECT CLASS FIX09 REPAIRED SURVIVES TWO BULLETS BELOW THE BULLET IT REPAIRED. filing-instructions.md:40, under the heading '## Service, notice and signature' that a filer reads to learn whether they must serve anyone, states only: '**Service:** The source review does not state a service requirement.' 'The source review' is an internal build artefact, named to a filer, and the sentence gives no action. participant-instructions.md:103 carries the same sentence unlabelled in the very 'Where it goes' list of directions where FIX09 found and fixed the fee bullet, and participant-instructions.md:104 and filing-instructions.md:46 do it again for notarization. This is structurally identical to the '## Fee' defect just repaired one heading above — track.rules.* recited verbatim, unlabelled, on a participant surface — and it is unrepaired. VF40 records it and does not fix it.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
