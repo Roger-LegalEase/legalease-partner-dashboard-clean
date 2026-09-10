@@ -15,10 +15,10 @@ This packet set serves 1 route(s):
 
 - `in_conviction_felony-primary-filing-1` - Verified Petition for Expungement of Conviction Records (primary_filing, required). Composed for you from Indiana authority and prefilled with the facts you gave.
 - `in_conviction_felony-proposed-order-2` - Order on the Verified Petition for Expungement of Conviction Records (proposed_order, required). Composed for you from Indiana authority and prefilled with the facts you gave.
-- `in_conviction_felony-attachment-3` - CCA-XP-0220-7010, the conviction insert for this section, carrying the facts, findings and exhibit pages that the petition and the order both call for (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it, 3 page(s), SHA-256 b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b. It arrives blank.
-- `in_conviction_felony-attachment-4` - CCA-GF-0120-3016, the Appearance by Unrepresented Person in Expungement Matter, which also carries the certificate of service to the county prosecutor (attachment, conditional). Delivered exactly as Indiana Coalition for Court Access published it, 2 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
-- `in_conviction_felony-attachment-5` - CCA-XP-0120-7002 Form ACR, Form ACR, the Notice of Exclusion of Confidential Information from Public Access (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it, 1 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
-- `in_conviction_felony-attachment-6` - Confidential Information Form, the Confidential Information Form, which carries the full Social Security number and is filed as a confidential document (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it, 1 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- `in_conviction_felony-attachment-3` - CCA-XP-0220-7010, the conviction insert for this section, carrying the facts, findings and exhibit pages that the petition and the order both call for (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it, 3 page(s). The SHA-256 of that 3-page publication is b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b. It arrives blank.
+- `in_conviction_felony-attachment-4` - CCA-GF-0120-3016, the Appearance by Unrepresented Person in Expungement Matter, which also carries the certificate of service to the county prosecutor (attachment, conditional). Delivered exactly as Indiana Coalition for Court Access published it: 2 page(s), taken from page(s) 1, 2 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- `in_conviction_felony-attachment-5` - CCA-XP-0120-7002 Form ACR, Form ACR, the Notice of Exclusion of Confidential Information from Public Access (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it: 1 page(s), taken from page(s) 7 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
+- `in_conviction_felony-attachment-6` - Confidential Information Form, the Confidential Information Form, which carries the full Social Security number and is filed as a confidential document (attachment, required). Delivered exactly as Indiana Coalition for Court Access published it: 1 page(s), taken from page(s) 8 of the issuer's 15-page publication. The SHA-256 of that whole 15-page publication, not of the page(s) delivered here, is b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. It arrives blank.
 
 ## The blank official forms, and what this packet does not do to them
 
@@ -30,12 +30,12 @@ Check every prefilled fact against your own court record and your certified limi
 
 | Document | Blank on the document | What you must supply |
 | --- | --- | --- |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Petitioner mailing address | your current mailing address, written by hand, so the court and the prosecuting attorney can reach you |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Petitioner telephone number and email address | the telephone number and email address you want the court to use |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Last four digits of the Social Security number | the last four digits of your Social Security number, and only the last four - the full number goes on the Confidential Information Form |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Every Indiana conviction in any county, and whether each is eligible yet | the full list from your certified limited criminal history, county by county, with the eligibility date of each |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Whether the offense involved serious bodily injury | the answer, taken from your own court record and from legal advice if it is not obvious |
-| IN-CONVICTION-EXPUNGEMENT-PETITION | Additional information the petitioner wants the court to know | anything else you want the court to know, in your own words |
+| Verified Petition for Expungement of Conviction Records | Petitioner mailing address | your current mailing address, written by hand, so the court and the prosecuting attorney can reach you |
+| Verified Petition for Expungement of Conviction Records | Petitioner telephone number and email address | the telephone number and email address you want the court to use |
+| Verified Petition for Expungement of Conviction Records | Last four digits of the Social Security number | the last four digits of your Social Security number, and only the last four - the full number goes on the Confidential Information Form |
+| Verified Petition for Expungement of Conviction Records | Every Indiana conviction in any county, and whether each is eligible yet | the full list from your certified limited criminal history, county by county, with the eligibility date of each |
+| Verified Petition for Expungement of Conviction Records | Whether the offense involved serious bodily injury | the answer, taken from your own court record and from legal advice if it is not obvious |
+| Verified Petition for Expungement of Conviction Records | Additional information the petitioner wants the court to know | anything else you want the court to know, in your own words |
 
 ## What you must obtain or confirm before filing (15 item(s) held by the committed track registry)
 

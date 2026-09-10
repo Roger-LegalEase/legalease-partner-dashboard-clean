@@ -67,6 +67,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { PASS_COUNTERS, BLANK_DISPOSITIONS, classifyBlank, classifyField, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -338,7 +339,29 @@ const FIXTURES = Object.freeze({
     "participant.date_of_birth": "1968-12-31",
     "matter.court_name": "Lake Circuit Court sitting at Crown Point, Criminal Division",
     "matter.county": "County of Lake",
-    "matter.cause_number": "45C01-0812-FB-00000000000123456",
+    /* This boundary cause number was byte-identical to the boundary cause number
+     * of in_conviction_felony-set, where it sits beside "Class B felony under the
+     * pre-2014 sentencing scheme" while here it sits beside "Class D felony ...
+     * treated as a Level 6 felony conviction". One string asserted as the cause
+     * number of two different convictions in two families is the collision VF30
+     * withdrew these families on; FIX04 discharges it by moving the sequence.
+     *
+     * THE CASE-TYPE TOKEN IS DELIBERATELY NOT MOVED, AND NEITHER IS THE OFFENCE
+     * LEVEL. No Indiana conviction case-type token table exists in this
+     * repository or in mounted custody: the one Indiana case type the held
+     * source publishes is "XP (Admin. Rule 8(B)(3))", which is the type of the
+     * expungement case this packet opens, not of the underlying conviction. So
+     * "FB" cannot be shown wrong, and no replacement -- FD, F6 or any other --
+     * could be shown right without asserting clerk practice as record fact.
+     * (F6 would additionally be anachronistic on a 2008 cause number.) That
+     * leaves the token/offence-level pairing unsettled here on exactly the ground
+     * the factory already used to leave the misd boundary "CM" / "reduced from a
+     * Class D felony" pairing unsettled and unscored. The sequence carries no
+     * charge-level claim, so moving it discharges the collision and asserts
+     * nothing new. The 17-digit padded width is preserved because stressing that
+     * width is what makes this the boundary fixture.
+     */
+    "matter.cause_number": "45C01-0812-FB-00000000000654321",
     "matter.conviction_date": "2009-02-28",
     "matter.offense_description": "Offense exactly as it appears on the boundary fixture court record, including the full charging description carried by that record",
     "matter.offense_level": "Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction",
@@ -520,6 +543,12 @@ const requiredBeforeFilingFields = (maps) => maps.flatMap((map) => map.canonical
   .filter((row) => row.requiredBeforeFiling === true)
   .map((row) => ({
     document: map.formNumber,
+    /* What the participant sees. `document` above is the internal id, which is
+     * no longer printed on any page of the packet, so a guide that named blanks
+     * by it would send the reader looking for a page that does not identify
+     * itself that way. The title is what the document prints at the top of its
+     * own first page. FIX04, 2026-09-10. */
+    documentTitle: TITLES[map.componentId],
     component: map.componentId,
     field: row.field,
     page: row.page,
@@ -558,9 +587,27 @@ const ORDER_COURT_USE_BANNER =
 
 const block = (...lines) => ({ lines: lines.flat().filter((line) => line !== undefined) });
 
-function captionBlock(facts, documentId, heading) {
+/* THE CAPTION OPENS WITH THE DOCUMENT'S OWN TITLE.
+ *
+ * It used to open with the internal document id -- "IN-CONVICTION-EXPUNGEMENT-
+ * PETITION" or "-ORDER" -- printed above the title in the same face and size, so
+ * that the first printed line of every composed filed page read as the issuer's
+ * form number. That string appears in no source record and in no issuer
+ * publication; it exists only in this repository's own build scripts, and it is
+ * byte-identical across the three Indiana conviction families filing under
+ * I.C. 35-38-9-2, -9-3 and -9-4, so as an identifier it identifies nothing.
+ * VF36 measured it on the delivered page and FIX04 reproduced the measurement
+ * independently: 6,579 dark pixels at 300 dpi, grey cut 128, in the box
+ * x60.0-267.8, y53.0-62.2 (points from the top of the page).
+ *
+ * The id is not deleted -- it remains the key that binds a field map, a page
+ * manifest row and a report row to a document. It is simply not printed on a
+ * page a clerk will file. vt_seal_under_25-set already ships a composed caption
+ * of this shape: it opens with component.title.toUpperCase() and prints no form
+ * number.
+ */
+function captionBlock(facts, heading) {
   return block(
-    documentId,
     heading.toUpperCase(),
     "",
     "STATE OF INDIANA",
@@ -587,7 +634,7 @@ function matterBlock(facts) {
 
 function petitionBody(facts) {
   return [
-    captionBlock(facts, PETITION, TITLES[COMPONENT.petition]),
+    captionBlock(facts, TITLES[COMPONENT.petition]),
     block(
       "VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS",
       `Brought under ${STATUTE}, with the petition's contents fixed by I.C. 35-38-9-8 and the court's decision governed by I.C. 35-38-9-9. On this section the court shall grant if it finds the conditions.`,
@@ -638,7 +685,12 @@ function petitionBody(facts) {
     ),
     block(
       "VERIFICATION AND SIGNATURE",
-      PETITION,
+      /* The document id used to be printed here too -- a second print site the
+       * caption repair did not reach, and the worse of the two: it stood between
+       * the heading and the perjury affirmation, so the petitioner signed under
+       * penalties for perjury directly beneath an identifier that appears in no
+       * source record and in no issuer publication. Removed on the same ground as
+       * the caption. FIX04, 2026-09-10. */
       "",
       "VERIFICATION",
       "I affirm, under the penalties for perjury, that the foregoing representations are true.",
@@ -668,7 +720,7 @@ function petitionBody(facts) {
 
 function orderBody(facts) {
   return [
-    captionBlock(facts, ORDER, TITLES[COMPONENT.order]),
+    captionBlock(facts, TITLES[COMPONENT.order]),
     block(
       "ORDER ON THE VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS",
       `Tendered under ${STATUTE} and I.C. 35-38-9-9.`,
@@ -738,7 +790,15 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
   }
   for (const retained of retainedSummary) {
     const row = components.find((c) => c.componentId === retained.componentId);
-    lines.push(bullet(`\`${retained.componentId}\` - ${retained.documentId}, ${retained.whatItIs} (${row.role}, ${row.requirement}). Delivered exactly as ${retained.issuer} published it, ${retained.pageCount} page(s), SHA-256 ${retained.sourceSha256}. It arrives blank.`));
+    /* The digest is stated as a digest of what it is actually a digest of. Where
+     * the component is a slice of a larger publication, the guide says which
+     * pages of which publication, and how many pages that publication has, so a
+     * reader who hashes the file the digest names is not left comparing 15 pages
+     * against a printed "1 page(s)". */
+    const provenance = retained.sourcePageCount === retained.pageCount
+      ? `Delivered exactly as ${retained.issuer} published it, ${retained.pageCount} page(s). The SHA-256 of that ${retained.sourcePageCount}-page publication is ${retained.sourceSha256}.`
+      : `Delivered exactly as ${retained.issuer} published it: ${retained.pageCount} page(s), taken from page(s) ${retained.sourcePages.join(", ")} of the issuer's ${retained.sourcePageCount}-page publication. The SHA-256 of that whole ${retained.sourcePageCount}-page publication, not of the page(s) delivered here, is ${retained.sourceSha256}.`;
+    lines.push(bullet(`\`${retained.componentId}\` - ${retained.documentId}, ${retained.whatItIs} (${row.role}, ${row.requirement}). ${provenance} It arrives blank.`));
   }
   lines.push(
     "",
@@ -753,7 +813,7 @@ function participantInstructions(binding, rbf, retainedSummary, name, orderBlank
     "| Document | Blank on the document | What you must supply |",
     "| --- | --- | --- |"
   );
-  for (const item of rbf) lines.push(`| ${item.document} | ${item.disclosureLabel} | ${item.participantMustSupply} |`);
+  for (const item of rbf) lines.push(`| ${item.documentTitle} | ${item.disclosureLabel} | ${item.participantMustSupply} |`);
 
   lines.push("", `## What you must obtain or confirm before filing (${actions.length} item(s) held by the committed track registry)`, "");
   for (const action of actions) {
@@ -943,7 +1003,7 @@ async function loadRetainedDocuments(resolved) {
         }))
       });
     }
-    out.push({ spec, doc, source, selected, widgetCount: selected.reduce((sum, page) => sum + page.widgets.length, 0) });
+    out.push({ spec, doc, source, selected, sourcePageCount: pages.length, widgetCount: selected.reduce((sum, page) => sum + page.widgets.length, 0) });
   }
   return out;
 }
@@ -1207,6 +1267,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     sourceResolvedPath: row.source.resolvedPath,
     sourcePages: row.spec.pages,
     pageCount: row.spec.pages.length,
+    /* The page count of the issuer's publication that sourceSha256 is the digest
+     * OF -- read from the resolved bytes, not assumed. Three of these four
+     * components are pages taken out of one bundle, so sourceSha256 is a digest
+     * of a document with more pages than the component has, and a guide that
+     * prints the digest beside the component's own page count and says nothing
+     * else leaves a reader unable to verify by it. */
+    sourcePageCount: row.sourcePageCount,
     markerProvedOnEveryPage: row.spec.marker,
     widgetCount: row.widgetCount,
     filledByThisBuild: false,
@@ -1300,6 +1367,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const file = `${OUT}/fixtures/${fixture}.pdf`;
     fs.writeFileSync(path.join(ROOT, file), packetBytes);
 
+    /* NOT A LITERAL. This key used to be a hardcoded 0, and a hardcoded zero on a
+     * counter that gates invisibleWrites can never fire however the page looks.
+     * It is now read out of the bytes just written, by the factory's own reading
+     * of what a flattened widget appearance is (an XObject named /FlatWidget-N or
+     * /ExactFactOverlay-N invoked in a page content stream), so a builder's
+     * reading and an independent lane's reading of the same file are the same
+     * measurement. These families compose their filed pages as page content and
+     * flatten no widget, so the reading is expected to be 0 -- but it is now a
+     * reading of 0 rather than an assertion of 0.
+     *
+     * Only the flattened-appearance count is taken from that module. Placement is
+     * measured here by measureInk(drawnRows) against the composed page box,
+     * because these pages have no pinned source widget rectangles to measure
+     * against; the module would correctly return null for placement, and null is
+     * not the reading this family owes. */
+    const outputGlyphs = await readOutputGlyphs(packetBytes);
     const proof = await proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixture);
     const outsideBoxes = measureInk(drawnRows);
     proofs.push({
@@ -1307,7 +1390,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       proofMethod: "every declared write read back from the finalized packet bytes on the pages its document occupies; every retained official page proved to carry no fixture value",
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
+      flattenedWidgetAppearancesReadFromOutputBytes: outputGlyphs.flattenedWidgetAppearancesReadFromOutputBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: outsideBoxes,
       linesDrawn: drawnRows.length,
       retainedPagesProvedBlank: proof.retainedPagesProvedBlank,
