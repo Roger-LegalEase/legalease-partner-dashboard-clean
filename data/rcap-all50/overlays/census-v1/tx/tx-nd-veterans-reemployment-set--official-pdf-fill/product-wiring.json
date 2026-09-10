@@ -63,14 +63,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34052191592",
-      "jobId": "101538124656",
-      "artifactId": null,
-      "boundToCanonicalSha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
@@ -84,7 +77,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "replacedByCanonicalSha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34052191592",
+          "jobId": "101538124656",
+          "artifactId": null,
+          "boundToCanonicalSha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -97,7 +105,7 @@
         "order": 1,
         "documentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "sha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
         "requirement": "required"
       },
       {
@@ -106,7 +114,7 @@
         "order": 2,
         "documentId": "tx_nd_veterans_reemployment-petition-2",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "sha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
         "requirement": "required"
       },
       {
@@ -115,7 +123,7 @@
         "order": 3,
         "documentId": "tx_nd_veterans_reemployment-proposed-order-3",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "sha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
         "requirement": "required"
       },
       {
@@ -124,7 +132,7 @@
         "order": 4,
         "documentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "sha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
         "requirement": "required"
       },
       {
@@ -133,7 +141,7 @@
         "order": 5,
         "documentId": "tx_nd_veterans_reemployment-after-order-instructions-5",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "sha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f",
         "requirement": "required"
       }
     ]

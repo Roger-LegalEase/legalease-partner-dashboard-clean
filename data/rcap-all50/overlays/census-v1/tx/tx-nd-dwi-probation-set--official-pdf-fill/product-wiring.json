@@ -64,14 +64,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33950997948",
-      "jobId": 101266035749,
-      "artifactId": null,
-      "boundToCanonicalSha256": "cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
@@ -85,7 +78,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b",
+        "replacedByCanonicalSha256": "85a0b9c4fff2ec74bc25190c98f65bcdf0e71f2bc5407d3ce458ffff2b6a5b16",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33950997948",
+          "jobId": 101266035749,
+          "artifactId": null,
+          "boundToCanonicalSha256": "cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -98,7 +106,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b",
+        "sha256": "85a0b9c4fff2ec74bc25190c98f65bcdf0e71f2bc5407d3ce458ffff2b6a5b16",
         "requirement": "required"
       }
     ]
