@@ -33,7 +33,7 @@ File in the municipal court that heard the case. Municipal courts are not part o
 
 ## Fee
 
-Unconfirmed. The fee must be confirmed before building. **Fee waiver:** The source review does not address a fee waiver.
+The committed record does not confirm a filing fee for this route, so this packet states no amount. Ask the municipal court clerk what the filing costs before you go. **Fee waiver:** The committed record does not address a fee waiver for this route, so this packet states no waiver procedure, no waiver form and no eligibility test. Ask the same clerk what the court does about a filing fee somebody cannot pay.
 
 ## Service, notice and signature
 

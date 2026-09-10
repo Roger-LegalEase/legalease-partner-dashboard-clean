@@ -48,7 +48,7 @@ The committed packet-set manifest for this route names 9 steps that come before 
 - Furnishing the copy of the petition to the prosecutor's office — An envelope or delivery prepared alongside the petition.
 - Sworn signature on the petition.
 - None identified.
-- Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
+- Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.
 - Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328, where a fee is charged.
 
 ## Where you file this
@@ -75,9 +75,11 @@ The statute requires you to furnish the copy and does not prescribe how you prov
 
 ## What it costs
 
-**This packet does not state a price for this petition, and that is deliberate.** The record's own fee rule for this route says so: “Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.”
+**This packet does not state a price for this petition, and that is deliberate.** The record's own fee rule for this route says so: “Not addressed by RSA 651:5-b, which unlike RSA 651:5-a contains no fee exemption. Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply is recorded below as an open question, so the packet must not state a price.”
 
-The record does name a schedule among this route's sources — the Circuit Court Filing Fees schedule, read at https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-06/filing_fees.pdf on 2026-08-06 — but that schedule sets a fee for the GENERAL petition to annul a criminal record, and whether it reaches an RSA 651:5-b petition is one of the open questions below, not something this packet may decide. Its figure is deliberately not repeated here. **Ask the clerk what you will be charged before you pay.**
+**Where you see `[amount elided]` in a sentence quoted from the record on this page, an amount stood there and this packet has removed it.** Nothing else in any quotation is changed. The amounts are removed because the record's own fee rule — the sentence just above — says that whether they apply to this route is unsettled and that this packet must not state a price. What is elided is a figure recorded against the GENERAL petition to annul a criminal record, not a figure anyone has established you owe. Only the clerk of the court you file in can tell you what you will actually be charged.
+
+The record does name a schedule among this route's sources — the Circuit Court Filing Fees schedule, read at https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-06/filing_fees.pdf on 2026-08-06 — but that schedule sets a fee for the GENERAL petition to annul a criminal record, and whether it reaches an RSA 651:5-b petition is one of the open questions below, not something this packet may decide. Its figure is deliberately not adopted here — it is elided wherever the record's own sentences quote it. **Ask the clerk what you will be charged before you pay.**
 
 **If a fee is charged and you cannot pay it.** The record names the papers to file instead: “Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328, where a fee is charged.” Both are prepared in this packet.
 
@@ -88,7 +90,7 @@ The record does name a schedule among this route's sources — the Circuit Court
 The committed legal-design record for this route records 3 questions it read and could not resolve. This packet states them rather than answering them, in the record's own words, because an invented answer in a filing instruction is worse than an admitted gap:
 
 - Whether the RSA 651:5, VI whole-record bar applies to an RSA 651:5-b petition. The section was read in the merged Chapter 651 text at gc.nh.gov on 2026-08-06 and does not on its face import paragraph VI. If it does not apply, this is a route that works for people whose records are otherwise frozen.
-- Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply to an RSA 651:5-b petition. The section contains no fee provision and no exemption, and the Circuit Court Filing Fees schedule names the general Petition to Annul Criminal Record without distinguishing this one.
+- Whether the [amount elided] filing fee and the [amount elided] Department of Corrections investigation fee apply to an RSA 651:5-b petition. The section contains no fee provision and no exemption, and the Circuit Court Filing Fees schedule names the general Petition to Annul Criminal Record without distinguishing this one.
 - Whether the offence-date cutoff or the arrest date controls where the two straddle September 16, 2017.
 
 The second of those is why this packet prints no price. The others go to whether this route is open to you at all, which is a question for a lawyer licensed in New Hampshire and not for this packet.

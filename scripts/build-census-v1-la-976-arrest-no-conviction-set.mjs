@@ -1094,7 +1094,16 @@ function expungementOrderBody(facts) {
 }
 
 function feeExemptionBody(facts, binding) {
+  /* Read and asserted rather than printed, on the same ground as the memo note
+   * below: the component row's conditionDescription is a GENERATION condition,
+   * written to tell a builder when to produce this component, and it used to be
+   * quoted onto the face of this form. The row is still required to exist and
+   * to state its condition -- the binding loader asserts its wording -- and the
+   * condition still reaches the participant, in the guide's own words, in
+   * participant-instructions.md. */
   const feeRow = binding.components.find((c) => c.componentId === COMPONENT.feeExemption);
+  assert.ok(String(feeRow?.conditionDescription ?? "").trim().length > 0,
+    "the committed record no longer states a condition for the fee-exemption component; the guide states it to the participant");
   /* Read and asserted rather than printed: the memo's own note for this
    * component is record commentary in build vocabulary ("Track A", "the track
    * is not composed") and is carried into the guide, not onto the face of a
@@ -1109,9 +1118,41 @@ function feeExemptionBody(facts, binding) {
       "La. C.Cr.P. arts. 983(F) and 988, on the statutory Article 988 form composed from the committed LA-STATUTORY-FORMS authority.",
       "",
       "The form's own instruction, as the committed record records it: To be completed by defendant and submitted to the District Attorney's Office prior to filing. Append completed form to Motion of Expungement at filing only if eligible.",
-      "",
-      `Why this component is in this packet: the committed record makes it conditional and states the condition as "${feeRow.conditionDescription}" The committed fee rule states that the exemption is very often available on this track and must be screened before filing rather than after, and the committed legal-design record directs that every participant on this track is routed through Article 988 before filing.`,
       ""
+      /* REMOVED FROM THE FACE OF THIS FORM: a paragraph headed "Why this
+       * component is in this packet", which recited this build's own generation
+       * condition in quotation marks ("Generated wherever the participant may
+       * qualify for the Article 983(F) exemption, which on this track is
+       * common.") and then cited two internal build records by name -- "the
+       * committed fee rule" and "the committed legal-design record".
+       *
+       * None of that is statute text or rule text. It is the builder's
+       * justification for including the component, addressed to a reviewer, and
+       * the quoted sentence is an instruction telling a BUILDER when to generate
+       * a component. It was printed on a document the participant hands to a
+       * district attorney's office before filing and appends to the motion at
+       * filing. Article 986 provides that the statutory forms shall be used with
+       * no local variant, and Article 986(C) lets a clerk alter the form only to
+       * show the name of the court -- which this packet prints on its own page 1
+       * and then argued against here.
+       *
+       * This is the DEFECTS_NO_COUNTER_CAN_SEE class
+       * internal-record-text-printed-on-a-filing: present, non-empty, inside its
+       * write box and accurately quoted, so every counter passes it. The comment
+       * eight lines above already states the rule -- record commentary in build
+       * vocabulary belongs in the guide, not on the face of a form the
+       * participant hands to a district attorney -- and this block was the one
+       * place that broke it.
+       *
+       * Nothing is lost to the participant. participant-instructions.md already
+       * carries the reason and the condition in the guide's own words: "The
+       * Article 988 Motion for Fee Exemption is conditional on the record and is
+       * generated here because the condition the record states is met on this
+       * track: the record says the Article 983(F) exemption is common on this
+       * track and must be screened before filing rather than after." The
+       * condition also remains in the build reports. What stays on the form is
+       * what belongs on it: the statutory citation and the form's own printed
+       * instruction. */
     ),
     block(
       "PARTICIPANT-COMPLETED IDENTIFYING FIELDS",

@@ -1595,6 +1595,35 @@ function componentNote(fee, role) {
   return row.notes.trim();
 }
 
+/*
+ * NO CURRENCY FIGURE REACHES A PARTICIPANT SURFACE, INCLUDING INSIDE A QUOTATION.
+ *
+ * The record's fee rule for this route ends with an instruction about this
+ * packet: whether the filing fee and the Department of Corrections
+ * investigation fee apply "is recorded below as an open question, so the packet
+ * must not state a price." The build read that rule as forbidding a currency
+ * figure on a participant surface -- it names the fee schedule by title prefix
+ * and URL rather than by its title, precisely because the title carries an
+ * amount -- and then quoted the record's own fees sentence and open question in
+ * full, each of which carries both amounts. Six delivered lines, twelve
+ * figures. Two sentences the guide printed about itself were false on their
+ * face as a result: it said it does not state a price in the same paragraph
+ * that printed one, and it said the schedule's figure "is deliberately not
+ * repeated here" beside two repetitions of it.
+ *
+ * Elision is applied here, at the document boundary, rather than at each of the
+ * three quotation sites, so that a sentence added later cannot reintroduce a
+ * figure. Nothing else about the quotation changes: the record's words, its
+ * reasoning and its citation all survive, and the reader is told at the fee
+ * section that the amounts and only the amounts are elided. This keeps verbatim
+ * fidelity to everything the record says and drops only the one thing the same
+ * record forbids this packet from saying.
+ */
+const CURRENCY_FIGURE = /\$\s?[0-9][0-9,.]*/g;
+function withoutAmounts(document) {
+  return String(document).replace(CURRENCY_FIGURE, "[amount elided]");
+}
+
 function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE, packetSet, openQuestions) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
@@ -1710,6 +1739,20 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
     "**This packet does not state a price for this petition, and that is deliberate.** The record's own fee rule for "
     + `this route says so: “${fee.fees}”`, ""
   );
+  /* The sentence above is the record's, quoted in full except for its two
+   * amounts, which are elided because the same sentence forbids this packet
+   * from stating a price. Saying so here is what keeps the quotation honest: a
+   * reader can see that something was taken out, what kind of thing it was, and
+   * why -- rather than being handed a quotation silently edited, or a claim
+   * that no figure is printed printed next to one. */
+  out.push(
+    "**Where you see `[amount elided]` in a sentence quoted from the record on this page, an amount stood there and "
+    + "this packet has removed it.** Nothing else in any quotation is changed. The amounts are removed because the "
+    + "record's own fee rule — the sentence just above — says that whether they apply to this route is unsettled and "
+    + "that this packet must not state a price. What is elided is a figure recorded against the GENERAL petition to "
+    + "annul a criminal record, not a figure anyone has established you owe. Only the clerk of the court you file in "
+    + "can tell you what you will actually be charged.", ""
+  );
   /*
    * THE SCHEDULE IS NAMED AND ITS FIGURE IS NOT REPEATED.
    *
@@ -1725,8 +1768,8 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
     `The record does name a schedule among this route's sources — the ${FEE_SCHEDULE_TITLE_PREFIX} schedule, read at `
     + `${fee.schedule.url} on ${fee.schedule.retrievedOn} — but that schedule sets a fee for the GENERAL petition to `
     + "annul a criminal record, and whether it reaches an RSA 651:5-b petition is one of the open questions below, not "
-    + "something this packet may decide. Its figure is deliberately not repeated here. **Ask the clerk what you will "
-    + "be charged before you pay.**", ""
+    + "something this packet may decide. Its figure is deliberately not adopted here — it is elided wherever the "
+    + "record's own sentences quote it. **Ask the clerk what you will be charged before you pay.**", ""
   );
   out.push(
     `**If a fee is charged and you cannot pay it.** The record names the papers to file instead: “${fee.feeWaiver}” `
@@ -1836,7 +1879,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
     + "the prosecutor for you, and does not take payment.", ""
   );
   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
-  return `${out.join("\n")}\n`;
+  return withoutAmounts(`${out.join("\n")}\n`);
 }
 
 /**
@@ -1878,7 +1921,7 @@ function filingInstructions(fee, SERVICE, packetSet, openQuestions) {
     + "the copy actually goes out.", ""
   );
   out.push(`_Built by ${BUILD_SCRIPT}. This packet is review evidence: it authorizes no fulfillment and opens no commercial route._`);
-  return `${out.join("\n")}\n`;
+  return withoutAmounts(`${out.join("\n")}\n`);
 }
 
 /* Source-independent regression for refusal reporting, not a packet acceptance.
@@ -1945,17 +1988,19 @@ async function selfTest() {
 
   /*
    * THIS PACKET MUST NOT STATE A PRICE, and the record says so in terms. The
-   * assertion is on the DELIVERED prose: no dollar figure may appear in either
-   * instruction document except inside a sentence the record itself wrote.
+   * assertion is on the DELIVERED prose, with NO carve-out.
+   *
+   * This test used to strip every sentence quoted from the record before
+   * looking for a figure. Both amounts live inside exactly those sentences, so
+   * the test was scanning the one part of the document that could never carry
+   * the leak it was written to catch, and it passed on twelve printed figures
+   * across six delivered lines. A carve-out for the sentences most likely to
+   * hold the defect is not a test. The documents are now scanned whole.
    */
-  const recordSentences = [fee.fees, fee.feeWaiver, fee.sharedFee, fee.track.rules.filing,
-    ...packetSet.steps, ...openQuestions.releaseBlockers.map((q) => q.question)];
   for (const [name, document] of [["participant-instructions.md", instructions], ["filing-instructions.md", filing]]) {
-    let stripped = document;
-    for (const sentence of recordSentences) stripped = stripped.split(sentence).join(" ");
-    const figures = stripped.match(/\$\s?[0-9][0-9,.]*/g) ?? [];
+    const figures = document.match(CURRENCY_FIGURE) ?? [];
     assert.deepEqual(figures, [],
-      `${name} states a price of its own (${figures.join(", ")}); the record says this packet must not state one`);
+      `${name} states a price (${figures.join(", ")}); the record says this packet must not state one`);
   }
 
   /* A quotation of nothing is a sentence the packet could not find, presented
@@ -1967,19 +2012,30 @@ async function selfTest() {
   assert.ok(instructions.includes(manualCompletionReason(fee, /three quarters of an ounce/i)),
     "participant-instructions.md must carry the record's own reason for the three-quarters-of-an-ounce statement");
 
+  /* The record's sentences are still required in full, as delivered -- that is,
+   * with the amounts elided and nothing else changed. Comparing against the
+   * elided form is what makes the elision auditable: if any other word of the
+   * record's sentence were dropped or reworded, this still fails. */
   for (const [name, sentence] of [["fees", fee.fees], ["feeWaiver", fee.feeWaiver]]) {
-    assert.ok(instructions.includes(sentence), `participant-instructions.md must carry the record's ${name} sentence`);
-    assert.ok(filing.includes(sentence), `filing-instructions.md must carry the record's ${name} sentence`);
+    const delivered = withoutAmounts(sentence);
+    assert.ok(instructions.includes(delivered), `participant-instructions.md must carry the record's ${name} sentence`);
+    assert.ok(filing.includes(delivered), `filing-instructions.md must carry the record's ${name} sentence`);
   }
+  /* The elision is confined to amounts: the fees sentence must differ from the
+   * record's only in the figures, and must still carry the rest of it. */
+  assert.ok(withoutAmounts(fee.fees).includes("[amount elided]"),
+    "the record's fees sentence no longer carries an amount; the elision and the sentences describing it must be revisited");
+  assert.ok(withoutAmounts(fee.fees).includes("so the packet must not state a price"),
+    "the record's fees sentence no longer forbids stating a price; this packet's elision rests on that instruction");
   for (const step of packetSet.steps) {
-    assert.ok(instructions.includes(step), `participant-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
-    assert.ok(filing.includes(step), `filing-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
+    assert.ok(instructions.includes(withoutAmounts(step)), `participant-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
+    assert.ok(filing.includes(withoutAmounts(step)), `filing-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
   }
   for (const condition of stops.conditions) {
-    assert.ok(instructions.includes(condition), `participant-instructions.md must carry the stop condition: ${condition.slice(0, 60)}`);
+    assert.ok(instructions.includes(withoutAmounts(condition)), `participant-instructions.md must carry the stop condition: ${condition.slice(0, 60)}`);
   }
   for (const q of openQuestions.releaseBlockers) {
-    assert.ok(instructions.includes(q.question) && filing.includes(q.question),
+    assert.ok(instructions.includes(withoutAmounts(q.question)) && filing.includes(withoutAmounts(q.question)),
       `both instruction documents must state the open question: ${q.question.slice(0, 60)}`);
   }
   for (const instruction of packetSet.packetInstructions) {
@@ -2547,8 +2603,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "statement anywhere about the amount of marijuana. No check box anywhere carries a stroked square the source "
         + "does not print — the synthesized-appearance suppression is opted into and every widget whose /AS state has "
         + "no /AP /N stream is supplied an empty appearance rather than a drawn one.",
-      "participant-instructions.md and filing-instructions.md: confirm no dollar figure appears anywhere except "
-        + "inside a sentence quoted from the committed record. The record says this packet must not state a price."
+      "participant-instructions.md and filing-instructions.md: confirm NO dollar figure appears anywhere at all, "
+        + "including inside a sentence quoted from the committed record. The record says this packet must not state a "
+        + "price. Where a quoted record sentence carried an amount it now reads [amount elided], and the fee section "
+        + "says on the page that amounts and only amounts have been removed, and why."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
     rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, sha256: p.sha256, imageRetained: false }))
@@ -2609,10 +2667,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "assert it.",
         consequence:
           "The packet prints the record's own fees sentence and the record's own open question, names the schedule as "
-          + "a source without adopting its figure, and tells the participant to ask the clerk. The self-test enforces "
-          + "it on the delivered prose rather than on intent: every sentence quoted from the record is removed from "
-          + "both instruction documents and what remains must contain no currency figure at all. The fee-waiver papers "
-          + "are still prepared, because the record names them for the case where a fee is charged."
+          + "a source without adopting its figure, and tells the participant to ask the clerk. THE AMOUNTS THEMSELVES "
+          + "ARE ELIDED FROM THE QUOTATIONS: every currency figure is replaced with [amount elided] at the document "
+          + "boundary, and the fee section states on the page that amounts and only amounts were removed and why. That "
+          + "repairs a leak this build previously shipped -- twelve figures across six delivered lines -- and two "
+          + "sentences the guide printed about itself that the leak made false, that it states no price and that the "
+          + "schedule's figure is not repeated. The self-test now scans both delivered documents WHOLE for a currency "
+          + "figure. It used to strip every record-quoted sentence first, which is where both amounts lived, so it "
+          + "could not fail on the leak it was written to catch. The fee-waiver papers are still prepared, because the "
+          + "record names them for the case where a fee is charged."
       },
       {
         finding:
