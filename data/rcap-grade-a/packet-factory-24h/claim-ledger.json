@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3407e11914e32a58e57d27f18a0747ac5c762f58",
+  "generatedAtCommit": "759841b44b9bb1b4e3dfabb39e0c2603d1515f3c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -9817,6 +9817,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "wi_exp_cr266-set",
+      "itemId": null,
+      "familyId": "wi_exp_cr266-set",
+      "familyIds": [
+        "wi_exp_cr266-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF25",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "wi_nc_doj_challenge-set",
       "familyId": "wi_nc_doj_challenge-set",
       "itemId": null,
@@ -10042,6 +10057,21 @@
       "released": true,
       "releasedAt": "2026-09-05T17:24:32.801Z",
       "releaseReason": "Removed 22 stale committed page images under raster/ so the family directory matches reports/rendered-artifacts.json's rasterSkipped true / rasterPages []; no PDF byte moved (canonical d3fd5538.., boundary 776a7006.., 11 pages each, rebuilt byte-identically twice), nine counters zero before and after, independent verification and the WV owner re-review still owed; return at data/rcap-grade-a/packet-factory-24h/fix52/rows.json (Replayed by Captain from FIX52 commit 66963bea0.)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_nc_acquittal_dismissal-set",
+      "itemId": null,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "familyIds": [
+        "wv_nc_acquittal_dismissal-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF25",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14369,39 +14399,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_nc_acquittal_dismissal-set",
-      "itemId": null,
-      "familyId": "wv_nc_acquittal_dismissal-set",
-      "familyIds": [
-        "wv_nc_acquittal_dismissal-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF25",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wi_exp_cr266-set",
-      "itemId": null,
-      "familyId": "wi_exp_cr266-set",
-      "familyIds": [
-        "wi_exp_cr266-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF25",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "cb8e7d7a03867ab246ec897a86fbb421a536623f03a5ec04067223916ba21615",
+  "claimsDigest": "26f8666a03fab4fc74c432dd4df0184a765b9bc34e6c833ad4aeaa70ccaac3a5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

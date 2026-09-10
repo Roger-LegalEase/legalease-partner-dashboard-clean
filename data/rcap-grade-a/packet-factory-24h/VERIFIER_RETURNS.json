@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 152,
-    "rows": 1141,
+    "returnDirectories": 153,
+    "rows": 1143,
     "independentVerdicts": 291,
     "failRepairRequired": 72,
     "passIndependent": 197
@@ -5476,6 +5476,36 @@
     {
       "familyId": "co_multiple_conviction_seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Every WRITTEN text widget on both Colorado forms is delivered as a closed stroked black RECTANGLE where the pinned source prints a single writing RULE. Proved three independent ways. (1) On the page: at 600 dpi the source shows 'Colorado County: ______', 'Date of Birth: ______', 'Mailing Address: ______', 'City, State, & Zip: ______', 'Phone: ______' and 'Email: ______' as ruled lines; the delivered packet shows each value inside a four-sided box. (2) In the source bytes: the County widget's /AP /N is exactly '0 G\\n0 0.5 m\\n193.636 0.5 l\\ns\\n' - one bottom rule - and the widget declares /BS /S /U (underline style, ISO 32000-1 Table 168) with /BS /W 1 and /MK /BC [0 0 0]. All 16 written widgets declare /BS /S /U and all 16 ship a rule-only /AP /N. (3) In the delivered bytes: the flattened appearance for County is '0 0 0 RG 1 w [] 0 d 1 0 0 1 0.5 0.5 cm 0 0 m 0 11.24 l 192.636 11.24 l 192.636 0 l h S' - a closepath-stroke of all four sides. This is pdf-lib's unconditional rectangle synthesised from /MK /BC, drawn in place of the declared underline. Magnitude measured at 600 dpi as added dark pixels in the 2 pt bands along the three sides the source does not print: 277,805 per canonical fixture and 277,809 per boundary fixture, i.e. 58.8% of all added ink in the canonical packet (472,566 added dark pixels over pages 1, 5 and 6) is a frame the Colorado Judicial Department does not print. 9 widgets on JDF-641 (8 on packet page 1, 1 on packet page 5) and 7 on JDF-642 packet page 6. The shared module already carries the exact remedy - honorWidgetBorderStyle in scripts/rcap-official-forms/rcap-active-content.mjs, whose own comment reads 'a court's writing rule delivered as a boxed field is wrong wherever it occurs' - and scripts/build-census-v1-co_multiple_conviction_seal-set.mjs does not pass it. This lane repaired nothing and names the remedy without applying it. || I separately re-measured the two things the record says about this obligation on this family and both hold. (a) VF08's recorded CLIPPING_AND_OVERLAP FAIL - field 11.1 on JDF-641 page 5, an /AP /BBox 396 pt wide against a /Rect 392.4 pt wide - DOES NOT REPRODUCE at this base. I read the delivered placement matrices myself: 11.1 is placed at exactly [147.6 488.65 540 553.33], overhang 0.0 pt on all four sides, and every one of the 14 placements on packet page 5 sits inside its own source /Rect to within 0.001 pt. A full sweep of both fixtures finds 0 placements beyond the 612x792 MediaBox. (b) The doubled check-box outline FIX135 repaired is genuinely gone: packet page 2, which carries four of the nine repaired controls and nothing this packet writes, reads 0 added and 0 removed dark pixels against the source, and on packet page 1 I cropped the four service controls at 600 dpi and read one clean box at each in both the source and the delivered page. That repair is sound. The synthesized rectangle above is a DIFFERENT overlap on the same pages that the repair did not address, and it is why this obligation fails.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "This is the obligation MASTER_QUEUE records as failed on this family and it is NOT discharged at this base. Two independent grounds. (1) The delivered artifact carries 16 flattened widget appearances per fixture that match NO stream either pinned source ships - they are pdf-lib's own regenerated appearances, each drawing a synthesized closepath rectangle plus the written value, in place of a source /AP /N that draws one rule (full proof under CLIPPING_AND_OVERLAP). VF90's byte-accounting sweep, which is what recorded this obligation, counts only STROKE-ONLY appearances, so by construction it cannot see a synthesized rectangle drawn in the same stream as a written value; FIX135's post-repair figure of '134 stroke-only flattened appearances, 134 matched byte-identically, 0 unmatched' is true within that subset and silent about these 16. (2) reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as 0 on all four documents, and scripts/build-census-v1-co_multiple_conviction_seal-set.mjs line 904 emits that key as a LITERAL 0 that no code path computes, while line 713 gates the visualDefects counter on that same literal - so this family's visualDefects counter cannot become non-zero however the page looks. That is the recorded defect class 'a-published-zero-where-a-measurement-existed' plus 'a-geometry-counter-with-no-teeth', present together, in an artifact this family ships. I measured the true value myself and it is 0 (see countersHowMeasured), so the published number is right by coincidence of these bytes and not because anything measured it. Everything else about the artifact set is in order: 7 pages in both fixtures by pdfinfo, digests recompute, 14 raster page PNGs present, and reports/ carries actual-writes, blanks-left-for-the-participant, caption-evidence, completeness-counters, independent-visual-review and rendered-artifacts.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260910-cone.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -5496,7 +5526,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "co_municipal_conviction_seal-set",
@@ -16249,6 +16279,36 @@
     {
       "familyId": "ne-setaside-custodial-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The recorded ground for this obligation IS discharged, and a second one survives. WHAT IS DISCHARGED: VF90 recorded ARTIFACTS on this family because 2 stroke-only flattened appearances matched no /AP /N stream the pinned sources ship, and named its own clearing condition - 'a family whose unaccounted streams are all shown to be the form's own ink, correctly placed, is cleared without a byte moving'. I reproduced the classification independently, with my own parser and my own normaliser: 63 XObject placements per fixture, of which exactly 2 are painting and carry no glyph, and they are (a) CC-6-11 Check Box7's own /AP /N /Off stream with its leading opaque white fill '1 g 0 0 10.08 10.08 re f' removed, leaving the court's own stroke '0 G 0.5 0.5 9.08 9.08 re s' intact, and (b) Im0 on packet page 3, which is the CC-6-11a instruction sheet's own JPEG and not a widget appearance at all. Correctly placed, proved on the page: inside Check Box7's own /Rect with a 3 pt pad at 600 dpi the source with annotations, the delivered canonical and the delivered boundary each carry 8,548 dark pixels, added 0 and removed 0, while the page-content-only control of the same source carries 448, all of it neighbouring label text - Nebraska prints no box there. I cropped it and looked: source one clean check box, page-content control none at all, delivered one clean check box. The white mask was covering blank paper and FIX135's decision not to move a byte was right. WHAT SURVIVES: this family's delivered artifact set carries NEITHER required output-byte glyph reading on ANY document. reports/actual-writes.json publishes proofSummary.addedGlyphs as null for CC-6-11, CC-6-11.2 and DC-1-15, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears nowhere in the family directory at all. Null is the honest value for a quantity nobody measured, so this is a gap rather than a false zero - but both quantities are trivially readable from the produced bytes and I read them in minutes (see countersHowMeasured), so the artifact ships without a reading that exists. Corroborating, on the same artifact: production-field-map.json lists 16 'selectionControls' for CC-6-11a, a flat scanned sheet with zero AcroForm fields, whose field identifiers are prose fragments harvested off the page - 'drop-down lists.', 'case number.', 'you are asking to', and one garbled 'bnter the original'. None of them reaches the participant, because CC-6-11a has zero writes and zero refusals and the guide never lists them, but they are 16 phantom controls in a committed record. The remedy for the glyph readings is one emit in scripts/build-census-v1-ne-setaside-custodial-set.mjs, which MASTER_QUEUE records as exclusiveScript false with importedBy [ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, wv_conv_multiple_misdemeanors-set, wv_conv_single_misdemeanor-set] - four families this lane does not hold - so FIX135 was right to name it and not make it, and so am I.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The delivered packet does not follow the component order the committed manifest declares, and I measured it against the forms' own printed footers rather than against any report. pdftotext reads: packet page 1 'CC 6:11 Rev. 04/2024, Page 1 of 1'; page 2 'CC 6:11.2 Rev. 12/2020, Page 1 of 1'; page 3 'CC 6:11a Rev. 06/2024, Page 1 of 1'; page 4 'DC 1:15 NEW 08/19, Page 1 of 2'; page 5 'DC 1:15 NEW 08/19, Page 2 of 2'. data/record-clearing/legal-design-packet-set-manifests.json declares ne-setaside-custodial-notice-and-certificate-of-service-3 (DC-1-15) at order 3 and ne-setaside-custodial-instructions-4 (CC-6-11a) at order 4. The packet delivers them 4 then 3. Components 1 and 2 are in declared order; components 3 and 4 are transposed. Nothing is missing, duplicated or misfiled and every page is the right page of the right form - this is an ordering divergence from a controlling record and nothing more. It is undisclosed: neither participant-instructions.md nor product-wiring.json gives any reason for departing from the declared order, and product-wiring.json's componentDisposition simply records the delivered positions ('packet page 3 (CC 6:11a...)', 'packet pages 4 and 5 (DC 1:15...)') as though they agreed. WHY NO EXISTING CHECK CAUGHT IT, which is the part worth having: the builder asserts its componentDisposition table against the manifest at build time and its own comment says the rows 'must equal that manifest's six rows exactly, in order' - but the assertion compares componentIds, roles and requirements in the DECLARATION table, and the declaration table is in manifest order while the assembled pages are not. The check reads the record and cannot see the artifact. I record without deciding it that the source receipt lists its four documents in the DELIVERED order (CC-6-11, CC-6-11.2, CC-6-11A, DC-1-15), so a reader could reasonably conclude the remedy is to amend the manifest rather than to reorder the packet; that is a call for whoever owns the manifest, not for this lane. What I can say is that the only committed record that declares an assembly order declares one the packet does not follow, and that this family's sibling on this lane, co_multiple_conviction_seal-set, does follow its own manifest's order exactly.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260910-cone.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf90",
       "isIndependentVerification": true,
       "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
@@ -16269,7 +16329,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_conviction_standard-set",
