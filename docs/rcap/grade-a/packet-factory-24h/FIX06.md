@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `086232b11aa3143dfe2035c43b25be944340a08b` (or the newer dispatch base)
+**Minimum required ancestor:** `7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ks-21-6614-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha 086232b11aa3143dfe2035c43b25be944340a08b
+  --minimum-captain-sha 7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -42,8 +42,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ks-21-6614-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'nh_marijuana_annulment-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'co_municipal_conviction_seal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ne-setaside-custodial-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'tx_nd_dwi_deferred-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'nj_clean_slate-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'tx_nd_conviction_no_supervision-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -69,8 +69,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ks-21-6614-conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing
 - `nh_marijuana_annulment-set`
 - `co_municipal_conviction_seal-set`
-- `ne-setaside-custodial-set`
-- `tx_nd_dwi_deferred-set`
+- `nj_clean_slate-set`
+- `tx_nd_conviction_no_supervision-set`
 
 ## What you receive
 
@@ -86,12 +86,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ks-21-6614-conviction-set.mjs`
 - `scripts/build-census-v1-nh_marijuana_annulment-set.mjs`
 - `scripts/build-census-v1-co_municipal_conviction_seal-set.mjs`
-- `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
+- `scripts/build-census-v1-nj_clean_slate-set.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 

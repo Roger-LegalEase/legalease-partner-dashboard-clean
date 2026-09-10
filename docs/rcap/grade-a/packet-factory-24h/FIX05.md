@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `086232b11aa3143dfe2035c43b25be944340a08b` (or the newer dispatch base)
+**Minimum required ancestor:** `7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_discretionary_superior_court-set' \
   --codex-cloud \
-  --minimum-captain-sha 086232b11aa3143dfe2035c43b25be944340a08b
+  --minimum-captain-sha 7b5c3e8a676baa5e1692962b8d9b441cb8d4f1f4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,8 +43,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ky_protective_order_record_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'wv_acc_treatment_job_readiness-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'co_motion_seal_nonconviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'in_section1_petition-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_nd_deferred_other-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ne-setaside-custodial-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_exp_acquittal-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -71,8 +71,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ky_protective_order_record_expungement-set`
 - `wv_acc_treatment_job_readiness-set`
 - `co_motion_seal_nonconviction-set` — failing: requiredOptionsMissing
-- `in_section1_petition-set`
-- `tx_nd_deferred_other-set`
+- `ne-setaside-custodial-set`
+- `tx_exp_acquittal-set`
 
 ## What you receive
 
@@ -89,14 +89,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
 - `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
 - `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
 - `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
 - `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
-- `scripts/build-census-v1-in_section1_petition-set.mjs`
-- `scripts/build-census-v1-tx_nd_deferred_other-set.mjs`
+- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
 
 ## Never write here
 

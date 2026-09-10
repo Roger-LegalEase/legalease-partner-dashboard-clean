@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 194,
-    "rows": 1251,
+    "returnDirectories": 195,
+    "rows": 1253,
     "independentVerdicts": 292,
-    "failRepairRequired": 47,
-    "passIndependent": 223
+    "failRepairRequired": 46,
+    "passIndependent": 224
   },
   "failRepairRequiredFamilies": [
     "al-felony-nonconviction-90-set",
@@ -54,7 +54,6 @@
     "ct-cleanslate-petition-set",
     "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
-    "ia-12347-set",
     "il-seal-edu-set",
     "in_arrest_no_charges-set",
     "in_infraction_nondisclosure-set",
@@ -124,7 +123,8 @@
     "whatThisIs": "rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair",
     "rows": [
       "vf31/ar-cs-possession-seal-set",
-      "vf31/ar-cs-possession-seal-set"
+      "vf31/ar-cs-possession-seal-set",
+      "vf66/il-seal-edu-set"
     ]
   },
   "rows": [
@@ -10116,6 +10116,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ia-12347-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf66",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b6fd4797fb404d331f365ae87b5ccf99b317dbbf",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set",
       "superseded": false
     },
     {
@@ -11750,6 +11764,22 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf66",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b6fd4797fb404d331f365ae87b5ccf99b317dbbf",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
       "superseded": false
