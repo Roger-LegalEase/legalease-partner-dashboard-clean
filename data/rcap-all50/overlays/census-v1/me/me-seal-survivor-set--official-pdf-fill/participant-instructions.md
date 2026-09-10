@@ -98,21 +98,44 @@ These are the blanks on the forms themselves that this packet leaves for you:
 - **CR-307 — Item 1 list of the crimes to be sealed.** item 1 — the crime or crimes you are asking the court to seal. The box is printed under the sentence "This/these crime(s) are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and §2262-B", so writing there asserts those crimes are eligible under those two sections. That is a legal conclusion about your own record and the platform does not draw it for you.
 - **CR-308 — Location (Town).** the town the court sits in, as your case papers give it.
 
-And this is the packet-set record's own required-before-filing list, carried in full and
-unchanged. Some of its entries record that nothing is required rather than asking you for
-something; they are printed as the record has them so that nothing is quietly dropped:
+## The record's own required-before-filing list
+
+The list above is the blanks you fill in. This second list is a different thing, and it is
+printed separately so the two are not read as one. It is the packet-set record's own
+required-before-filing list, carried in full and unchanged, and it is not a list of things you
+must supply.
+
+It is written partly to the people who build and operate this service rather than to you, in
+the same way as the limits quoted at the top of this packet. Some entries record that nothing
+is required rather than asking for anything, and some repeat wording the record uses to
+instruct the service. Every entry is printed exactly as the record has it so that nothing is
+quietly dropped or quietly reworded, and each is followed by an indented line saying which
+step of the record it belongs to, and, where it applies, that it carries wording addressed to
+the service. Those indented lines are this packet's, not the record's.
 
 - Check your answer to "What crime were you convicted of, as it is named on the judgment?" against Certified copy of the judgment and docket record for each conviction, and correct the packet if they disagree.
+  Record step: confirm_answer.
 - The substance behind CR-307 paragraph 2 — the survivor's account and the causal connection between the trafficking or exploitation and the offence — CR-307, numbered paragraph 2, and any supporting material.
+  Record step: complete_field.
 - Paragraph 1's recital that the crimes are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and § 2262-B — CR-307, numbered paragraph 1.
+  Record step: complete_field.
 - Every checkbox, finding of fact, date and the judge or justice signature on CR-308 — CR-308, the outcome checkboxes, findings lines and signature block.
+  Record step: complete_field.
 - The hearing date, time and courtroom, where a hearing is set — Participant instructions, filing and hearing section.
+  Record step: complete_field.
 - The participant's signature and the date of signing — CR-307, signature block.
+  Record step: complete_field.
 - Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.
+  Record step: complete_field.
 - The person filing signs CR-307. LegalEase leaves the signature and date blank.
+  Record step: sign.
 - none. An affidavit from a professional under § 2264(4-A)(C)(2) is sworn by that professional, not by the participant, and is not prepared by LegalEase.
+  Record step: notarize.
 - No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.
+  Record step: pay_fee.
+  This entry repeats wording the record also uses to instruct the people who build and operate this service, so read it as a note about how the service must behave rather than as something asked of you. Shared with the record's own limitation: "confirm with the clerk"; "do not promise a refund".
 - none expected, because no fee is expected.
+  Record step: apply_fee_waiver.
 
 ## Documents to gather
 
@@ -130,7 +153,11 @@ The packet-set record names these, and each entry below is the record's own desc
 - Check your answer to "What crime were you convicted of, as it is named on the judgment?" against Certified copy of the judgment and docket record for each conviction, and correct the packet if they disagree.
   Recommended so the crime name, date and docket number on the motion match the court record.
 
-On documentation of victim status in particular, the record says:
+On documentation of victim status in particular, the record says this. It is a legal-design
+limitation, which is a rule the record sets for the people who build and operate this service,
+so parts of it are written about you rather than to you. It is quoted unchanged for the same
+reason as the limits at the top of this packet — so you can see the limits the service is
+under — and nothing in it asks you to produce anything:
 
 > Official documentation is not required by § 2264(4-A)(B). If presented it creates a presumption that participation in the offence was a substantial result of the trafficking or exploitation. Frame the question so a no carries no implication, and never ask the participant to produce proof.
 
@@ -139,12 +166,12 @@ decision for your lawyer or advocate and not one this packet makes or asks you t
 
 ## Choices only you can make
 
-- **CR-307 — Court for filing — Superior Court.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
-- **CR-307 — Court for filing — Unified Criminal Docket.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
-- **CR-307 — Court for filing — District Court.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
-- **CR-308 — Court for filing — Superior Court.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
-- **CR-308 — Court for filing — Unified Criminal Docket.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
-- **CR-308 — Court for filing — District Court.** CR-307 prints "'X' the court for filing" over three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-307 — Court for filing — Superior Court.** CR-307 prints "'X' the court for filing" above three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-307 — Court for filing — Unified Criminal Docket.** CR-307 prints "'X' the court for filing" above three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-307 — Court for filing — District Court.** CR-307 prints "'X' the court for filing" above three boxes: Superior Court, District Court and Unified Criminal Docket. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-308 — Court for filing — Superior Court.** CR-308 prints the same three boxes in its caption block — Superior Court, District Court and Unified Criminal Docket — with no caption above them. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-308 — Court for filing — Unified Criminal Docket.** CR-308 prints the same three boxes in its caption block — Superior Court, District Court and Unified Criminal Docket — with no caption above them. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
+- **CR-308 — Court for filing — District Court.** CR-308 prints the same three boxes in its caption block — Superior Court, District Court and Unified Criminal Docket — with no caption above them. The motion is filed in the court that entered the conviction, which your own case papers name, and this route reaches all three. Mark the one your conviction was entered in.
 
 ## The court fills these in
 

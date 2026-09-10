@@ -462,8 +462,40 @@ function labelIsPrintedNear(assertedLabel, runs) {
 // ---------------------------------------------------------------------------
 // what each field is
 // ---------------------------------------------------------------------------
-const WRITE = (factId, effectiveLabel, assertedPrintedLabel) =>
-  ({ writable: true, factId, effectiveLabel, assertedPrintedLabel: assertedPrintedLabel ?? effectiveLabel });
+const WRITE = (factId, effectiveLabel, assertedPrintedLabel, printedFormat) =>
+  ({ writable: true, factId, effectiveLabel, assertedPrintedLabel: assertedPrintedLabel ?? effectiveLabel,
+     printedFormat: printedFormat ?? null });
+
+/*
+ * FIX159, KNOWN_PREFILLS.
+ *
+ * Both Maine forms print their own instruction for how the date of birth is to
+ * be written. CR-307 prints the caption "Defendant's DOB (mm/dd/yyyy):" and
+ * CR-308 prints the same caption; the widget CR-308 names "Defendants DOB
+ * mmddyyyy" carries that instruction in its own field name. The platform holds
+ * the fact as an ISO-8601 date, and before this repair it drew the ISO string
+ * onto both forms, so a motion the participant signs read
+ * "Defendant's DOB (mm/dd/yyyy): 1991-04-17".
+ *
+ * VF22 measured that on the delivered bytes of both fixtures and refused it as
+ * an undisclosed deviation from the official form's own printed instruction.
+ * It is a deviation and not a typo: nothing in production-field-map.json,
+ * reports/blanks.json, build-findings.json or either guide recorded a decision
+ * to write ISO, and the same packet tells the participant to supply the
+ * conviction date "in mm/dd/yyyy" for the blank it declines to write.
+ *
+ * The internal representation is not changed. The value is reformatted at the
+ * moment it is drawn, against the format the form itself prints, and both the
+ * held value and the printed value are recorded on the write so the conversion
+ * is auditable rather than silent. A fact that does not parse as an ISO date is
+ * refused rather than guessed at.
+ */
+const PRINTED_FORMATS = Object.freeze({
+  "mm/dd/yyyy": (held) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(held).trim());
+    return m ? `${m[2]}/${m[3]}/${m[1]}` : null;
+  }
+});
 const SUPPLY = (effectiveLabel, what) => ({
   writable: false, approvedDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
   effectiveLabel, what
@@ -483,17 +515,33 @@ const OFF_ROUTE = (effectiveLabel, condition) => ({
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 
-const COURT_BOX_ELECTION = (which) => ELECTION(
+/*
+ * FIX159. WHAT EACH FORM ACTUALLY PRINTS ABOVE ITS COURT BOXES.
+ *
+ * This helper was shared by both forms and named CR-307 in its text, so the
+ * three CR-308 rows told the reader that CR-308 prints "'X' the court for
+ * filing" above its boxes. Read out of the delivered bytes with pdftotext, it
+ * does not: CR-307 page 1 prints the caption "\u201cX\u201d the court for filing:" above the
+ * three court names, and CR-308 page 1 prints the three court names with no
+ * such caption -- the string "the court for filing" occurs 0 times on that
+ * page. Both forms carry the same three boxes, and only the caption differs.
+ * Each row now describes the form it is actually on.
+ */
+const COURT_BOX_ELECTION = (form, which) => ELECTION(
   `Court for filing — ${which}`,
-  "CR-307 prints \"'X' the court for filing\" over three boxes: Superior Court, District Court and Unified "
-    + "Criminal Docket. The motion is filed in the court that entered the conviction, which your own case "
+  (form === "CR-307"
+    ? "CR-307 prints \"'X' the court for filing\" above three boxes: Superior Court, District Court and "
+      + "Unified Criminal Docket. "
+    : "CR-308 prints the same three boxes in its caption block — Superior Court, District Court and "
+      + "Unified Criminal Docket — with no caption above them. ")
+    + "The motion is filed in the court that entered the conviction, which your own case "
     + "papers name, and this route reaches all three. Mark the one your conviction was entered in.");
 
 const DECISIONS = Object.freeze({
   "CR-307": {
-    "Superior Court": COURT_BOX_ELECTION("Superior Court"),
-    "District Court": COURT_BOX_ELECTION("District Court"),
-    "Unified Criminal Docket": COURT_BOX_ELECTION("Unified Criminal Docket"),
+    "Superior Court": COURT_BOX_ELECTION("CR-307", "Superior Court"),
+    "District Court": COURT_BOX_ELECTION("CR-307", "District Court"),
+    "Unified Criminal Docket": COURT_BOX_ELECTION("CR-307", "Unified Criminal Docket"),
     // Measured: this widget sits against the printed "Defendant" caption.
     "Defendants DOB mmddyyyy": WRITE("participant.full_legal_name", "Defendant", "Defendant"),
     // Measured: this widget sits against the printed "County:" caption.
@@ -503,7 +551,9 @@ const DECISIONS = Object.freeze({
       "the town the court sits in, as your case papers give it. LegalEase holds the county of your case but "
       + "not the court's town"),
     // Measured: this widget sits against "Defendant's DOB (mm/dd/yyyy):".
-    "MOTION TO SEAL CONVICTION FOR": WRITE("participant.date_of_birth", "Defendant's DOB", "Defendant's DOB"),
+    "MOTION TO SEAL CONVICTION FOR": WRITE("participant.date_of_birth", "Defendant's DOB", "Defendant's DOB",
+      // CR-307 prints the caption "Defendant's DOB (mm/dd/yyyy):" against this widget.
+      "mm/dd/yyyy"),
     "Docket No": WRITE("matter.case_number", "Docket No.", "Docket No."),
     /*
      * REFUSED BY THE SHARED PROTECT RULES, ON ITS OWN CORRECT LABEL.
@@ -539,15 +589,17 @@ const DECISIONS = Object.freeze({
     "2_2": WRITE("participant.city_state_zip", "City, State, Zip", "Defendant's Mailing Address")
   },
   "CR-308": {
-    "Superior Court": COURT_BOX_ELECTION("Superior Court"),
-    "District Court": COURT_BOX_ELECTION("District Court"),
-    "Unified Criminal Docket": COURT_BOX_ELECTION("Unified Criminal Docket"),
+    "Superior Court": COURT_BOX_ELECTION("CR-308", "Superior Court"),
+    "District Court": COURT_BOX_ELECTION("CR-308", "District Court"),
+    "Unified Criminal Docket": COURT_BOX_ELECTION("CR-308", "Unified Criminal Docket"),
     "County": WRITE("matter.county", "County", "County:"),
     "Defendant": WRITE("participant.full_legal_name", "Defendant", "Defendant"),
     "Location Town": SUPPLY("Location (Town)",
       "the town the court sits in, as your case papers give it"),
     "Docket No": WRITE("matter.case_number", "Docket No.", "Docket No."),
-    "Defendants DOB mmddyyyy": WRITE("participant.date_of_birth", "Defendant's DOB", "Defendant's DOB"),
+    "Defendants DOB mmddyyyy": WRITE("participant.date_of_birth", "Defendant's DOB", "Defendant's DOB",
+      // CR-308 prints the same caption, and the widget's own name carries the instruction.
+      "mm/dd/yyyy"),
     "The representative for the State by and through": PROTECT(
       "Order election — the State consents and the motion is GRANTED without a hearing", COURT_OWNED,
       "an ordering box on the order the judge signs"),
@@ -644,12 +696,28 @@ async function renderForm({ document, census, facts }) {
       report.protectedFields.push({ field: field.name, category });
       continue;
     }
-    const value = facts[decision.factId];
-    if (typeof value !== "string" || value.trim() === "") {
+    const heldValue = facts[decision.factId];
+    if (typeof heldValue !== "string" || heldValue.trim() === "") {
       report.refused.push({ field: field.name, reason: "no_value_or_type_mismatch", factId: decision.factId });
       continue;
     }
-    overlayWrites.push({ field, decision, value });
+    let value = heldValue;
+    if (decision.printedFormat) {
+      const formatter = PRINTED_FORMATS[decision.printedFormat];
+      if (!formatter) {
+        throw new Error(`${field.name}: no formatter for printed format ${decision.printedFormat}`);
+      }
+      const formatted = formatter(heldValue);
+      if (formatted === null) {
+        /* The form prints a format this value cannot be rendered in. Refuse
+         * rather than draw a string the form's own caption contradicts. */
+        report.refused.push({ field: field.name, reason: "value_does_not_parse_for_printed_format",
+          factId: decision.factId, printedFormat: decision.printedFormat, heldValue });
+        continue;
+      }
+      value = formatted;
+    }
+    overlayWrites.push({ field, decision, value, heldValue });
   }
 
   /*
@@ -690,7 +758,7 @@ async function renderForm({ document, census, facts }) {
   const { clean, report: finalizerReport } = await sanitizeAndFlatten(pdf,
     { writtenFields: new Set(), suppressSynthesizedAppearances: true });
   const font = await clean.embedFont(StandardFonts.Helvetica);
-  for (const { field, decision, value } of overlayWrites) {
+  for (const { field, decision, value, heldValue } of overlayWrites) {
     const widget = field.widgets[0];
     const rect = widget.rect;
     const fit = fitTextToWidget({
@@ -710,6 +778,9 @@ async function renderForm({ document, census, facts }) {
       field: field.name, factId: decision.factId, kind: "overlay_text", value,
       page: widget.page, rect, rectBasis: "acroform_widget_rectangle",
       assertedPrintedLabel: decision.assertedPrintedLabel,
+      heldValue: heldValue ?? value,
+      printedFormat: decision.printedFormat ?? null,
+      reformattedForPrintedCaption: decision.printedFormat ? heldValue !== value : false,
       fontSize: fit.fontSize, outcome: fit.outcome
     });
   }
@@ -921,6 +992,76 @@ function readParticipantBoundaryRecord() {
 
   const requiredBeforeFiling = packetSet.requiredBeforeFiling ?? [];
   if (requiredBeforeFiling.length === 0) fail("the packet-set manifest carries no requiredBeforeFiling list");
+
+  /*
+   * FIX159, REQUIRED_BEFORE_FILING.
+   *
+   * VF22 confirmed that all 11 of these strings reach the delivered guides
+   * verbatim -- the quantity FIX01 repaired -- and refused the family anyway,
+   * because two of them are addressed to the people who build and operate the
+   * service and were printed to the participant under a heading saying these
+   * are things THEY must supply. That is DEFECTS_NO_COUNTER_CAN_SEE, "internal
+   * record text printed on a filing": present, non-empty, in its section and
+   * verbatim from a controlling record, so no counter can see it.
+   *
+   * The strings are not touched. Rewriting one to read better would drop it out
+   * of the exact-match the verifier scores this list with, and paraphrasing a
+   * record entry is exactly what the FIX152 precedent says not to do. Each
+   * verbatim line instead gains an indented continuation, and the section that
+   * carries them is separated from the participant's own blanks and framed for
+   * what it is.
+   *
+   * Two things are derived from the records rather than decided here:
+   *
+   *   stepKind      the record's own participantActionRequired.kind for the
+   *                 entry, matched on the description the record itself
+   *                 repeats into requiredBeforeFiling. This is what makes
+   *                 "none." and "none expected, because no fee is expected."
+   *                 readable standing alone.
+   *
+   *   sharedWithALimitation
+   *                 clauses this entry has in common with the track's
+   *                 legalDesignLimitations. A legal-design limitation is a
+   *                 record addressed to the builder, so an entry that repeats
+   *                 one of its clauses is carrying builder-directed wording.
+   *                 The test is a clause-level containment both ways, on
+   *                 lower-cased whitespace-normalised text, minimum clause
+   *                 length 18 characters. On this record it selects the fee
+   *                 entry and nothing else, which is the instance VF22 named.
+   *                 It reports what the two records share; it does not decide
+   *                 which clause is advice.
+   */
+  const normText = (value) => String(value).toLowerCase().replace(/\s+/g, " ").trim();
+  const clausesOf = (value) => normText(value)
+    .split(/[.,;:]\s+|\s+—\s+/)
+    .map((clause) => clause.trim().replace(/^and\s+/, ""))
+    .filter((clause) => clause.length >= 18);
+  const limitationStatements = (track.legalDesignLimitations ?? [])
+    .map((row) => String(row.statement ?? ""));
+  const sharedWithALimitation = (value) => {
+    const haystack = normText(value);
+    const shared = [];
+    for (const statement of limitationStatements) {
+      for (const clause of clausesOf(statement)) {
+        if (haystack.includes(clause) && !shared.includes(clause)) shared.push(clause);
+      }
+    }
+    return shared;
+  };
+  const stepKindOf = (entry) => {
+    const wanted = normText(entry);
+    const found = (packetSet.participantActionRequired ?? [])
+      .filter((row) => normText(row.description) === wanted);
+    return found.length === 1 ? found[0].kind : null;
+  };
+  const requiredBeforeFilingRows = requiredBeforeFiling.map((entry) => ({
+    text: entry, stepKind: stepKindOf(entry), sharedWithALimitation: sharedWithALimitation(entry)
+  }));
+  if (requiredBeforeFilingRows.some((row) => row.stepKind === null)) {
+    fail("a requiredBeforeFiling entry no longer matches exactly one participantActionRequired description, "
+      + "so its step kind cannot be named from the record",
+      JSON.stringify(requiredBeforeFilingRows.filter((row) => row.stepKind === null).map((row) => row.text)));
+  }
   const obtainDocuments = (packetSet.participantActionRequired ?? [])
     .filter((row) => row.kind === "obtain_document");
   const confirmAnswers = (packetSet.participantActionRequired ?? [])
@@ -930,7 +1071,7 @@ function readParticipantBoundaryRecord() {
   return {
     track, packetSet, stopConditions, scopeRestrictions,
     disseminationLimitation, durabilityLimitation, documentationLimitation,
-    requiredBeforeFiling, obtainDocuments, confirmAnswers,
+    requiredBeforeFiling, requiredBeforeFilingRows, obtainDocuments, confirmAnswers,
     digests: {
       trackRegistry: { path: TRACK_REGISTRY, sha256: sha256(registryBytes) },
       packetSetManifests: { path: PACKET_SET_MANIFESTS, sha256: sha256(manifestBytes) }
@@ -1031,11 +1172,31 @@ function renderParticipantInstructions({ documents, supplyRows, electionRows, pr
   lines.push("");
   for (const row of supplyRows) lines.push(`- **${row.form} — ${row.effectiveLabel}.** ${row.what}.`);
   lines.push("");
-  lines.push("And this is the packet-set record's own required-before-filing list, carried in full and");
-  lines.push("unchanged. Some of its entries record that nothing is required rather than asking you for");
-  lines.push("something; they are printed as the record has them so that nothing is quietly dropped:");
+  lines.push("## The record's own required-before-filing list");
   lines.push("");
-  for (const item of boundary.requiredBeforeFiling) lines.push(`- ${item}`);
+  lines.push("The list above is the blanks you fill in. This second list is a different thing, and it is");
+  lines.push("printed separately so the two are not read as one. It is the packet-set record's own");
+  lines.push("required-before-filing list, carried in full and unchanged, and it is not a list of things you");
+  lines.push("must supply.");
+  lines.push("");
+  lines.push("It is written partly to the people who build and operate this service rather than to you, in");
+  lines.push("the same way as the limits quoted at the top of this packet. Some entries record that nothing");
+  lines.push("is required rather than asking for anything, and some repeat wording the record uses to");
+  lines.push("instruct the service. Every entry is printed exactly as the record has it so that nothing is");
+  lines.push("quietly dropped or quietly reworded, and each is followed by an indented line saying which");
+  lines.push("step of the record it belongs to, and, where it applies, that it carries wording addressed to");
+  lines.push("the service. Those indented lines are this packet's, not the record's.");
+  lines.push("");
+  for (const row of boundary.requiredBeforeFilingRows) {
+    lines.push(`- ${row.text}`);
+    lines.push(`  Record step: ${row.stepKind}.`);
+    if (row.sharedWithALimitation.length > 0) {
+      lines.push("  This entry repeats wording the record also uses to instruct the people who build and "
+        + "operate this service, so read it as a note about how the service must behave rather than as "
+        + `something asked of you. Shared with the record's own limitation: ${
+          row.sharedWithALimitation.map((clause) => `"${clause}"`).join("; ")}.`);
+    }
+  }
   lines.push("");
   lines.push("## Documents to gather");
   lines.push("");
@@ -1051,7 +1212,11 @@ function renderParticipantInstructions({ documents, supplyRows, electionRows, pr
     if (action.conditionDescription) lines.push(`  ${action.conditionDescription}`);
   }
   lines.push("");
-  lines.push("On documentation of victim status in particular, the record says:");
+  lines.push("On documentation of victim status in particular, the record says this. It is a legal-design");
+  lines.push("limitation, which is a rule the record sets for the people who build and operate this service,");
+  lines.push("so parts of it are written about you rather than to you. It is quoted unchanged for the same");
+  lines.push("reason as the limits at the top of this packet — so you can see the limits the service is");
+  lines.push("under — and nothing in it asks you to produce anything:");
   lines.push("");
   lines.push(`> ${boundary.documentationLimitation.statement}`);
   lines.push("");
@@ -1642,6 +1807,67 @@ async function build({ check = false } = {}) {
     ]
   });
 
+  /*
+   * FIX159. GOVERNANCE STATE A REBUILD MUST NOT ERASE.
+   *
+   * Before this repair, every field below was a literal in this file, so a
+   * rebuild rewrote the family's governance record back to whatever was true on
+   * the day the literals were typed. Two of them were stale at HEAD:
+   *
+   *   - lastIndependentVerification named vf01 at base 7d6453f51. VF22 has since
+   *     read these bytes at base 8db74d6e5 and that reading is the controlling
+   *     one; a rebuild reverted it to the older lane and to an older base.
+   *   - the withdrawn raster receipt was carried as `supersededAcceptanceReceipt`,
+   *     a single object naming only the digest it was bound to. The committed
+   *     artifact carried the shape REBUILD_ERASES_GOVERNANCE_STATE asks for:
+   *     `acceptanceReceiptWithdrawn`, an append-only history recording BOTH the
+   *     digest the receipt was bound to and the digest that replaced it.
+   *
+   * This build moves the canonical bytes again (the DOB reformat above), so a
+   * third digest now exists and the history has to record it rather than
+   * overwrite the last entry. Nothing here issues a receipt or sets a verdict:
+   * only the central raster acceptance workflow issues a receipt.
+   */
+  const priorWiring = fs.existsSync(path.join(ROOT, OUT, "product-wiring.json"))
+    ? JSON.parse(fs.readFileSync(path.join(ROOT, OUT, "product-wiring.json"), "utf8"))
+    : null;
+  const priorBinding = priorWiring?.binding ?? {};
+  const canonicalSha256 = sha256(fixtures.canonical.bytes);
+
+  /* The newest independent reading survives a rebuild. It is never invented
+   * here and never upgraded: if the bytes have moved since it was taken, that
+   * is recorded against it rather than hidden. */
+  const carriedVerification = priorBinding.lastIndependentVerification ?? null;
+  const lastIndependentVerification = carriedVerification === null ? null : {
+    ...carriedVerification,
+    appliesToTheCurrentBytes:
+      typeof carriedVerification.verifiedAgainstCanonicalSha256 === "string"
+        ? carriedVerification.verifiedAgainstCanonicalSha256 === canonicalSha256
+        : false,
+    currentCanonicalSha256: canonicalSha256
+  };
+
+  /* Append-only. A receipt that no longer describes the bytes is withdrawn and
+   * kept as history, never carried forward as though it still applied and never
+   * deleted. */
+  const withdrawnHistory = Array.isArray(priorBinding.acceptanceReceiptWithdrawn)
+    ? [...priorBinding.acceptanceReceiptWithdrawn]
+    : priorBinding.supersededAcceptanceReceipt
+      ? [{
+          why: "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are "
+            + "not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as "
+            + "history rather than deleted, and it is not carried forward as though it still applied. Only "
+            + "the central raster acceptance workflow issues a receipt; nothing here issues one and nothing "
+            + "here sets a verdict.",
+          boundToCanonicalSha256: priorBinding.supersededAcceptanceReceipt.boundToCanonicalSha256 ?? null,
+          replacedByCanonicalSha256: null,
+          withdrawnReceipt: priorBinding.supersededAcceptanceReceipt
+        }]
+      : [];
+  for (const entry of withdrawnHistory) {
+    if (entry.replacedByCanonicalSha256 === null) entry.replacedByCanonicalSha256 = canonicalSha256;
+  }
+
   writeJson(`${OUT}/product-wiring.json`, {
     schemaVersion: "rcap-family-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     routeSelectionId: ROUTE_SELECTION_ID, implementationStrategy: "official_pdf_fill",
@@ -1664,32 +1890,14 @@ async function build({ check = false } = {}) {
       acceptanceReceipt: null,
       rasterState: "BUILT_RASTER_PENDING",
       /*
-       * A raster receipt that this build's own bytes make stale, recorded
-       * rather than quietly dropped. The receipt was admitted against a packet
-       * carrying nine synthesized check-box outlines, three of them on the
-       * judge's ordering boxes, because the raster gate does not difference a
-       * delivered page against its pinned source. Those bytes do not exist here
-       * any more; the family needs a fresh central raster against the digests
-       * in reports/rendered-artifacts.json, and nothing this build does is a
-       * receipt.
+       * The family owes a fresh central raster: this build moved the canonical
+       * bytes, and every receipt this family has ever held binds a digest that
+       * is no longer on disk. The history below is carried forward, never
+       * rewritten. Nothing here is a receipt.
        */
-      supersededAcceptanceReceipt: {
-        verdict: "RASTER_PASS", workflowRunId: "34413372916", jobId: "102673422679",
-        artifactId: "10128266840",
-        boundToCanonicalSha256: "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
-        coversTheWholeFamily: true,
-        supersededBy: "FIX01 repair of CLIPPING_AND_OVERLAP, PROTECTED_FIELDS, SELF_HELP_STOP and "
-          + "REQUIRED_BEFORE_FILING on 2026-09-09",
-        why: "the receipt binds exact hashes and this build's canonical fixture is no longer that hash"
-      },
-      lastIndependentVerification: {
-        verdict: "FAIL_REPAIR_REQUIRED", lane: "vf01",
-        verifiedAtBase: "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
-        verifiedAgainstCanonicalSha256: "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
-        appliesToTheCurrentBytes: false,
-        note: "Its four failing obligations were repaired by FIX01 on 2026-09-09. A repair lane cannot verify "
-          + "its own work, so the current bytes carry NO independent verification and no verdict."
-      },
+      acceptanceReceiptWithdrawn: withdrawnHistory,
+      currentCanonicalSha256: canonicalSha256,
+      lastIndependentVerification,
       paymentEligible: false,
       sponsorshipEligible: false,
       whyPaymentIsClosed: "Commercial authority comes from a Grade-A fulfillment record keyed to an exact "
