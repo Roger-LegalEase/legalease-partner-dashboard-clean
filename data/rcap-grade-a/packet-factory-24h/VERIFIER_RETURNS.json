@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 167,
-    "rows": 1175,
+    "returnDirectories": 168,
+    "rows": 1179,
     "independentVerdicts": 292,
-    "failRepairRequired": 66,
-    "passIndependent": 204
+    "failRepairRequired": 65,
+    "passIndependent": 205
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -79,7 +79,6 @@
     "me-seal-survivor-set",
     "mi_setaside_trafficking-set",
     "mn_petition_15218-set",
-    "mn_petition_609a02_subd3-set",
     "mo-art-xiv-marijuana-set",
     "ne-setaside-custodial-set",
     "nh_marijuana_annulment-set",
@@ -135,7 +134,9 @@
       "vf07/wv_conv_single_misdemeanor-set",
       "vf09/ny_160_59_petition-set",
       "vf12/oh_marijuana_expungement-set",
-      "vf12/pa_pardon_expungement-set"
+      "vf12/pa_pardon_expungement-set",
+      "vf41/al-trafficking-set",
+      "vf41/ma-expunge-k-set"
     ]
   },
   "unactionableFailures": {
@@ -1405,7 +1406,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1446,6 +1447,29 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "failedObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "THE NO-INK CLAIM IS ASSERTED, NOT MEASURED, FOR THIS FAMILY. scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 851 writes refusedFieldsWithInk: [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as literals into reports/actual-writes.json. verify-packet-completeness.mjs raises protectedWrites ONLY by iterating that array and visualDefects ONLY when that number exceeds zero, and scripts/rcap-packet-completeness/verify-absent-is-not-zero.test.mjs states the rule the literals defeat: absence of refusedFieldsWithInk is a real zero, not an unmeasured counter. So an empty array typed by the builder is indistinguishable to the verifier from an empty array it measured, and two of the nine counters are laundered from an assertion into a measured zero. Its al-trafficking sibling proves the measurement is available in this state and this form: scripts/build-census-v1-al-trafficking-set.mjs computes refusedFieldsWithInk per box (lines 723-805) and holds two positive controls that fire (lines 1493-1508). Worse, the same line writes flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, i.e. 30 — a positive count of flattened widget appearances in bytes that carry NO AcroForm and ZERO widget annotations (measured). The true value is null. Because verify-packet-completeness.mjs counts that field as one of the two real readings that license the invisibleWrites test, a literal 30 would satisfy that test on its own even if the genuine glyph reading were zero. VF41 measured 8 of this family 186 refusals directly (the CR-65 page-5 and page-6 elections, all blank); the other 178 are measured by nothing.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "PROTECTED_FIELDS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": false
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -1749,6 +1773,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
       "superseded": false
     },
@@ -13035,6 +13073,20 @@
       "superseded": false
     },
     {
+      "familyId": "ma-expunge-k-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
+      "superseded": false
+    },
+    {
       "familyId": "ma-expunge-mj-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
@@ -14151,6 +14203,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "verdict": "PASS",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "59b2133a843ffa629b0eb2f6fbd74e4266d1746f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set",
       "superseded": false
