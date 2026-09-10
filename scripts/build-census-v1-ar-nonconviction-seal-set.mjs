@@ -666,6 +666,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay, finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
 import { captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
@@ -1599,6 +1600,36 @@ export async function runFamily(argv = process.argv.slice(2)) {
             documentTextLines: census.documentTextLines,
             evaluateDeclaredMinimumSize: true,
             alignWidgetFontSizeToFit: true,
+            /*
+             * FIX137, measured on this family's own bytes on 2026-09-10.
+             *
+             * Both ACIC forms print a bracketed check box at each selection
+             * rectangle, and each of those widgets ships an /AP /N that opens
+             * `1 g 0 0 15.0756 14.0121 re f` -- an opaque white fill the size of
+             * the widget -- and then strokes its own thinner square inside it.
+             * A conforming viewer draws the fill, so the printed bracket is
+             * COVERED and the reader sees one clean box. The shared finalizer's
+             * default strips that leading fill, which is right where the fill
+             * covers blank paper and wrong here: with the fill gone the
+             * flattened square is stamped on top of the bracket the form still
+             * prints, and the participant is handed two concentric frames.
+             *
+             * Measured at 600 dpi, per widget, inside each widget's own /Rect,
+             * on all 18 affected controls (packet pages 1, 2, 5 and 6): the page
+             * art alone carries about 2,488 dark pixels at every one of them,
+             * and the delivered fixture exceeds the source-as-a-viewer-renders-it
+             * count by 977 to 2,488 pixels at each. The printed box is revealed
+             * and the appearance is still stamped. That is the Colorado shape,
+             * and the remedy RESTORES the fill rather than removing the ink.
+             *
+             * preserveUnwrittenSelectionBackgrounds is the committed, opt-in
+             * remedy. It is passed here, at this family's caller, and keeps the
+             * source's own blank-state paint on UNWRITTEN check box and radio
+             * widgets only. It requests no new background: /MK /BG is still
+             * cleared, written fields, text fields and every other field type
+             * are unchanged, and no family that does not pass it moves a byte.
+             */
+            preserveUnwrittenSelectionBackgrounds: true,
             title: `${SPEC.jurisdiction} ${b.doc.documentId}`
           });
           bytes = result.bytes;
@@ -1672,6 +1703,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
 
     const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName, drawnValues);
+    /*
+     * FIX137. flattenedWidgetAppearancesReadFromOutputBytes used to be the
+     * LITERAL 0 here, with a note asserting it was "zero by construction"
+     * because an AcroForm document is flattened into page content before it is
+     * copied into the packet. THE BYTES DISAGREE. pdf-lib's flatten does not
+     * inline the appearance: it emits a form XObject named /FlatWidget-<n> and
+     * invokes it with `Do` from page content, and those XObjects survive being
+     * copied into the assembled packet. Each fixture of this family carries 79
+     * of them, which is also the count BORDER_COHORT_REMEDIATION independently
+     * recorded for these same two files. A published zero that the file itself
+     * contradicts is exactly the defect class this factory has already recorded,
+     * so the number is now READ from the packet bytes after they are written.
+     */
+    const flattened = await readOutputGlyphs(packetBytes);
     // The ink audit is per OFFICIAL document and is the only channel that can
     // see ink outside a measured box, or ink sitting on a blank the map
     // refused. A composed page raises no such question: this build authored
@@ -1685,11 +1730,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "source document's own text so that only what this build added is measured",
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
+      flattenedWidgetAppearancesReadFromOutputBytes: flattened.flattenedWidgetAppearancesReadFromOutputBytes,
+      glyphsDrawnInsideThoseFlattenedAppearances: flattened.addedGlyphsReadFromOutputBytes,
       flattenedWidgetNote:
-        "zero by construction rather than by failure: an AcroForm document is flattened into page content "
-        + "before it is copied into the packet, and a flat overlay draws into page content to begin with, so "
-        + "every mark this family makes is counted as a glyph in the column beside this one",
+        "read from the saved packet bytes by scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, which "
+        + "counts /FlatWidget-<n> form XObjects actually invoked from page content. It is NOT a literal and it "
+        + "is not zero: pdf-lib's flatten emits an XObject and a `Do`, it does not inline the appearance into "
+        + "page content, and those XObjects survive the copy into the assembled packet. addedGlyphsReadFromOutputBytes "
+        + "beside this one is the broader reading -- every glyph this build added anywhere, measured by comparing "
+        + "the finished text against the pinned source's own -- and the two are different measurements, not a "
+        + "duplicate.",
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
         inkHere.reduce((n, a) => n + a.glyphsOutsideMeasuredWriteBoxes, 0),
       refusedFieldsWithInk: inkHere.flatMap((a) => a.refusedFieldsWithInk.map((r) => ({ ...r, documentId: a.documentId }))),
@@ -1700,6 +1750,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifacts.push({
       fixture: fixtureName, file, sha256,
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      // FIX137: the two output-byte glyph readings travel with the artifact
+      // record as well as with the write proof, so a reader of
+      // rendered-artifacts.json is not left to find them elsewhere. Both are
+      // read from these bytes after they are written; neither is a literal.
+      addedGlyphsReadFromOutputBytes: proof.glyphs,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
+        inkHere.reduce((n, a) => n + a.glyphsOutsideMeasuredWriteBoxes, 0),
+      flattenedWidgetAppearancesReadFromOutputBytes: flattened.flattenedWidgetAppearancesReadFromOutputBytes,
       documents, components: SPEC.components
     });
     pdfsDeclared.push({
