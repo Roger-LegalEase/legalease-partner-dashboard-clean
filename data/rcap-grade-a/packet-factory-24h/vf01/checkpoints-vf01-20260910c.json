@@ -1,0 +1,27 @@
+{
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "checkpoints": [
+    {
+      "at": "2026-09-10",
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+      "obligationsMeasured": 15,
+      "failed": [],
+      "postRepairReread": true,
+      "repairUnderReview": "FIX06 at a9cbe699c, merged and integrated at 03093a923. FIX06 set no verdict and issued no PASS; this lane is not that lane.",
+      "digests": {
+        "canonical": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+        "boundary": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+        "matchFix06Report": true,
+        "matchRasterReceiptBinding": true,
+        "conclusion": "Unmoved since the RASTER_PASS was admitted, so the existing raster receipt still binds the delivered bytes and no re-render is owed."
+      },
+      "headline": "Both repaired obligations re-measured against the delivered PDF and the delivered guide, not the repair report, and both hold. REQUIRED_BEFORE_FILING: all 47 disclosure labels and all 47 participantMustSupply sentences appear verbatim in participant-instructions.md, nothing the packet wrote is claimed as a blank, and the three sworn yes/no elections the prior VF01 row failed on are now disclosed twice over. ARTIFACTS: the measured 70 flattened appearances, 6 carrying text and 64 empty, reproduce exactly under two parsers that share no code, and 70 is structurally right - 72 AcroForm fields in the pinned source less the two push buttons flattening drops. FIX06's reasoning for summing invisibleWrites over the carrying-text subset is correct on these bytes, and I tested the complementary trap it does not mention: all six text-carrying appearances are black, at readable size, with no render mode 3 and no white fill, so none is an invisible write.",
+      "alsoRecorded": "A central record contradicts the delivered bytes. DOUBLED_WIDGET_PLACEMENT.json still names this family as the sole remaining blast radius of the doubled-checkbox defect, 'whose flattened checkbox XObjects carry NO /Matrix at all', at doubledAfterReadingMatrix 26. All 13 carry /Matrix [1 0 0 1 -Rect.x -Rect.y] in their raw object bytes, and a two-directional 150 dpi raster difference against the pinned source finds zero ink added outside the six write boxes and zero removed on pages 2, 3 and 4. The defect was real at 892fc4313, which I confirmed by extracting that blob; 6e1083a97 repaired it and the record was never updated. The VF08 FAIL on CLIPPING_AND_OVERLAP and ROUTE_OPTIONS is from those same pre-repair bytes and is already flagged superseded.",
+      "latentHazardCarriedForward": "The flatten does not normalize an inverted source /Rect. SCA-C907 field MulitipleFelonlySatisfiesDate carries /Rect [416.16, 95.04, 485.64, 77.76], negative height, and its appearance is placed 17.28 pt high. It marks nothing here and the field is off this route, so it is not a defect on this packet, but the same unnormalized placement would displace real ink on any source carrying an inverted rect.",
+      "row": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910c-wv.json"
+    }
+  ]
+}
