@@ -6108,12 +6108,22 @@ const OH_CLEAN_TRACK_ROUTE_RULES = {
  * is the participant paying for a phone call the packet could have saved.
  *
  * Kept in its OWN table rather than added to OH_CLEAN_TRACK_ROUTE_RULES above,
- * for two reasons that are both about blast radius. Membership of that table is
- * ALSO the switch that fixtureForOhioTrack reads to rewrite a track's charge,
- * disposition and eligibility strings, and rewriting them here would move this
- * family's pleading bytes and void its raster receipt for a defect no verifier
- * measured on it. And Sec. 2953.321 is a different section from Sec. 2953.32:
- * the sections are never read across, so this row is keyed to its own.
+ * because Sec. 2953.321 is a different section from Sec. 2953.32 and the
+ * sections are never read across, so this row is keyed to its own.
+ *
+ * FIX167 CORRECTION. This comment used to give a SECOND reason for the separate
+ * table: that membership of OH_CLEAN_TRACK_ROUTE_RULES is also the switch
+ * fixtureForOhioTrack reads to rewrite a track's charge, disposition and
+ * eligibility strings, and that rewriting them here would move this family's
+ * pleading bytes "for a defect no verifier measured on it". VF58 has now
+ * measured it on this family, on the delivered bytes, and failed it under
+ * KNOWN_PREFILLS. The reason has therefore expired, and it was never a legal
+ * reason in the first place -- it traded a defect in a signed pleading against
+ * the cost of a re-raster. fixtureForOhioTrack is now gated on
+ * OH_ROUTE_RULES_FOR_INSTRUCTIONS, which is exactly these two tables together,
+ * so this track receives the same marking every other Ohio track receives. The
+ * clean tracks are already members of the other table and their bytes do not
+ * move.
  *
  * Nothing is added beyond what those two records state. Neither record fixes a
  * local court fee for this section and neither states a participant service
@@ -6134,7 +6144,7 @@ const OH_SECTION_2953_321_ROUTE_RULES = {
  * exactly as they did. */
 const OH_ROUTE_RULES_FOR_INSTRUCTIONS = { ...OH_CLEAN_TRACK_ROUTE_RULES, ...OH_SECTION_2953_321_ROUTE_RULES };
 
-function fixtureForOhioTrack(trackId, baseFixture) {
+function fixtureForOhioTrackUnguarded(trackId, baseFixture) {
   const fixture = JSON.parse(JSON.stringify(baseFixture));
   /*
    * KNOWN_PREFILLS repair. Paragraphs 5, 7 and 8 printed a POINTER in the
@@ -6148,7 +6158,7 @@ function fixtureForOhioTrack(trackId, baseFixture) {
    * item on this paper is marked, and each is declared and disclosed as a
    * required-before-filing blank rather than reported as a written fact.
    */
-  if (OH_CLEAN_TRACK_ROUTE_RULES[trackId]) {
+  if (OH_ROUTE_RULES_FOR_INSTRUCTIONS[trackId]) {
     const long = baseFixture === customBoundaryFixture;
     fixture.chargeData.chargeDescription = long
       ? "[COMPLETE CHARGE DESCRIPTION, INCLUDING EVERY COUNT AND EVERY STATUTORY SUBSECTION, MUST BE COPIED WORD FOR WORD FROM THE CERTIFIED CHARGING DOCUMENT AND DISPOSITION]"
@@ -6178,6 +6188,66 @@ function fixtureForOhioTrack(trackId, baseFixture) {
     "Evidence that the qualifying conviction predates March 20, 2026 (participant must obtain)",
     "Unsigned proposed expungement order with judicial date and signature blank (included in this review artifact)",
   ];
+  return fixture;
+}
+
+/*
+ * FIX167 GUARD, oh_marijuana_expungement-set, obligation KNOWN_PREFILLS.
+ *
+ * The defect this refuses: a numbered paragraph of a pleading the applicant
+ * signs under a verification block printing a POINTER to a record, or this
+ * build's OWN disclaimer about itself, in the grammatical slot where the fact
+ * belongs -- and printing it UNMARKED, so a participant told to "transfer only
+ * reviewed content" transcribes it onto the court's application as if it were
+ * the charge, the disposition or the statutory eligibility basis. The three
+ * strings VF58 read off the delivered bytes were "Possession offense shown on
+ * the certified disposition", "Disposition shown on the certified disposition"
+ * and "Eligibility is not certified by this artifact ...", and on the boundary
+ * fixture the words "Boundary fixture only" inside a numbered eligibility
+ * allegation.
+ *
+ * The rule this enforces is the one the rest of the page already keeps: an
+ * unresolved item is either a fact, or it is marked untransferable in brackets.
+ * There is no third state in which it is prose. A slot whose whole value is a
+ * single bracketed marking passes; anything else may not carry a pointer or a
+ * self-referential disclaimer.
+ *
+ * This runs for EVERY Ohio track, not only this one, so the defect cannot
+ * return by way of a new track added outside both route-rule tables.
+ */
+const OH_POINTER_OR_DISCLAIMER_IN_A_FACT_SLOT = Object.freeze([
+  [/\bthis artifact\b/i, "names this build inside the pleading"],
+  [/\bboundary fixture\b/i, "names a build fixture inside the pleading"],
+  [/\bshown on the certified\b/i, "points at a record instead of stating the fact"],
+  [/\bmust be (?:copied|confirmed|obtained|reviewed)\b/i, "instructs instead of stating the fact"],
+  [/\bsource[- ]backed review\b/i, "states this build's review posture, not the fact"],
+  [/\b(?:is|are) not certified\b/i, "states this build's non-certification, not the fact"],
+  [/\brequire[sd]? (?:source review|local-court confirmation)\b/i, "states a build caveat, not the fact"],
+]);
+
+const OH_FULLY_MARKED_UNTRANSFERABLE = /^\[[^\[\]]+\]$/;
+
+function assertOhioFactSlotsCarryNoUnmarkedPointer(trackId, fixture) {
+  const slots = [
+    ["chargeData.chargeDescription", fixture?.chargeData?.chargeDescription],
+    ["chargeData.disposition", fixture?.chargeData?.disposition],
+    ["eligibilityData.eligibilityBasisLabel", fixture?.eligibilityData?.eligibilityBasisLabel],
+  ];
+  for (const [slot, rawValue] of slots) {
+    const value = String(rawValue ?? "").trim();
+    assert.ok(value.length > 0, `${trackId}: ${slot} is empty; a fact slot is a fact or a bracketed marking, never nothing`);
+    if (OH_FULLY_MARKED_UNTRANSFERABLE.test(value)) continue;
+    for (const [pattern, why] of OH_POINTER_OR_DISCLAIMER_IN_A_FACT_SLOT) {
+      assert.ok(!pattern.test(value),
+        `${trackId}: ${slot} ${why}, unmarked, in a paragraph the applicant signs under verification. `
+        + `A fact slot must hold the fact or a single bracketed untransferable marking. Read: ${JSON.stringify(value)}`);
+    }
+  }
+}
+
+function fixtureForOhioTrack(trackId, baseFixture) {
+  const fixture = fixtureForOhioTrackUnguarded(trackId, baseFixture);
+  assertOhioFactSlotsCarryNoUnmarkedPointer(trackId, fixture);
   return fixture;
 }
 
