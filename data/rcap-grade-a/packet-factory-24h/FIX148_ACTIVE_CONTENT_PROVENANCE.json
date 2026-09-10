@@ -1,0 +1,442 @@
+{
+ "schemaVersion": "rcap-active-content-provenance/v1",
+ "lane": "FIX148",
+ "generatedAt": "2026-09-10T00:00:00Z",
+ "atCommit": "0ed30046290ebeebf0956459bb89bfe4b71973e5",
+ "question": "Do the pinned Illinois sources ship the app.launchURL actions themselves, or does the build introduce them?",
+ "answer": "THE_ISSUER_SHIPS_THEM",
+ "answerConfidence": "Established by exact-hash custody of all five pinned sources plus a page-for-page, action-for-action reconciliation between source and delivered bytes. Nothing is inferred.",
+ "families": [
+  "il-exp-nonconv-set",
+  "il-seal-3yr-set",
+  "il-seal-nonconv-set",
+  "il-exp-supervision-set"
+ ],
+ "obligations": {
+  "deliveredActiveContentIsIssuerOrigin": "PASS",
+  "buildIntroducesNoActiveContent": "PASS",
+  "deliveredCarriesNoDocumentLevelAutoRunJavaScript": "PASS",
+  "deliveredLinkAnnotationsAreLive": "PASS",
+  "buildersCallSharedFinalizer": "FAIL",
+  "publishedOutputByteCountersAreMeasured": "FAIL"
+ },
+ "whyTheRawGrepSaidZero": "A byte grep of the pinned sources for /JavaScript and app.launchURL returns 0 on all five. The actions live inside compressed object streams. Every count in this record comes from a parsed object graph (pdf-lib), not from a byte grep.",
+ "custody": {
+  "note": "All five pinned sources ARE reachable from this worktree. Three under MASTER_LIBRARY_SOURCE_DIR; two under the 'LegalEase Illinois/' custody path, which resolves through the worktree's private/ symlink to private/source-imports/Nationwide_Recovery_Pool_2026-09-02/. The Captain worktree does not mount it; this one does.",
+  "allFivePinsMatchExactly": true
+ },
+ "sources": {
+  "EXP-AD Request": {
+   "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+   "root": "corpus-x",
+   "pages": 6,
+   "linkAnnots": 11,
+   "linkBorneJs": 11,
+   "appLaunchURL": 11,
+   "perSourcePage": {
+    "1": 2,
+    "3": 1,
+    "4": 1,
+    "5": 3,
+    "6": 4
+   },
+   "componentKind": "primary_filing",
+   "sha256Measured": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+   "byteLength": 1015247,
+   "sha256Pinned": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+   "pinMatches": true
+  },
+  "EXP-AD Case List": {
+   "path": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+   "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+   "pages": 1,
+   "linkAnnots": 1,
+   "linkBorneJs": 1,
+   "appLaunchURL": 1,
+   "perSourcePage": {
+    "1": 1
+   },
+   "componentKind": "attachment",
+   "sha256Measured": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+   "byteLength": 744328,
+   "sha256Pinned": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+   "pinMatches": true
+  },
+  "EXP-AD Additional Cases Expungement": {
+   "path": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+   "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+   "pages": 1,
+   "linkAnnots": 1,
+   "linkBorneJs": 1,
+   "appLaunchURL": 1,
+   "perSourcePage": {
+    "1": 1
+   },
+   "componentKind": "continuation",
+   "sha256Measured": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+   "byteLength": 821758,
+   "sha256Pinned": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+   "pinMatches": true
+  },
+  "EXP-AD Order Granting": {
+   "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+   "root": "corpus-x",
+   "pages": 2,
+   "linkAnnots": 1,
+   "linkBorneJs": 1,
+   "appLaunchURL": 1,
+   "perSourcePage": {
+    "1": 1
+   },
+   "componentKind": "proposed_order",
+   "sha256Measured": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+   "byteLength": 823679,
+   "sha256Pinned": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+   "pinMatches": true
+  },
+  "FW-CIV-APPLICATION": {
+   "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+   "root": "corpus-x",
+   "pages": 4,
+   "linkAnnots": 8,
+   "linkBorneJs": 7,
+   "appLaunchURL": 7,
+   "perSourcePage": {
+    "1": 1,
+    "2": 2,
+    "4": 4
+   },
+   "componentKind": "fee_waiver",
+   "sha256Measured": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+   "byteLength": 1051549,
+   "sha256Pinned": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+   "pinMatches": true
+  }
+ },
+ "delivered": {
+  "il-exp-nonconv-set": {
+   "pageCount": 14,
+   "linkAnnots": 22,
+   "linkDangling": 0,
+   "linkBorneJsActions": 21,
+   "appLaunchURL": 21,
+   "componentPageRanges": [
+    [
+     "EXP-AD Request",
+     "primary_filing",
+     "1-6",
+     11
+    ],
+    [
+     "EXP-AD Case List",
+     "attachment",
+     "7",
+     1
+    ],
+    [
+     "EXP-AD Additional Cases Expungement",
+     "continuation",
+     "8",
+     1
+    ],
+    [
+     "EXP-AD Order Granting",
+     "proposed_order",
+     "9-10",
+     1
+    ],
+    [
+     "FW-CIV-APPLICATION",
+     "fee_waiver",
+     "11-14",
+     7
+    ]
+   ],
+   "perPacketPage": {
+    "1": 2,
+    "3": 1,
+    "4": 1,
+    "5": 3,
+    "6": 4,
+    "7": 1,
+    "8": 1,
+    "9": 1,
+    "11": 1,
+    "12": 2,
+    "14": 4
+   },
+   "judgeSignaturePacketPage": 10,
+   "fixtureDigestsUnchanged": {
+    "canonical": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86",
+    "boundary": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa"
+   }
+  },
+  "il-seal-3yr-set": {
+   "pageCount": 13,
+   "linkAnnots": 21,
+   "linkDangling": 0,
+   "linkBorneJsActions": 20,
+   "appLaunchURL": 20,
+   "componentPageRanges": [
+    [
+     "EXP-AD Request",
+     "primary_filing",
+     "1-6",
+     11
+    ],
+    [
+     "EXP-AD Case List",
+     "attachment",
+     "7",
+     1
+    ],
+    [
+     "EXP-AD Order Granting",
+     "proposed_order",
+     "8-9",
+     1
+    ],
+    [
+     "FW-CIV-APPLICATION",
+     "fee_waiver",
+     "10-13",
+     7
+    ]
+   ],
+   "perPacketPage": {
+    "1": 2,
+    "3": 1,
+    "4": 1,
+    "5": 3,
+    "6": 4,
+    "7": 1,
+    "8": 1,
+    "10": 1,
+    "11": 2,
+    "13": 4
+   },
+   "judgeSignaturePacketPage": 9,
+   "fixtureDigestsUnchanged": {
+    "canonical": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+    "boundary": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb"
+   }
+  },
+  "il-seal-nonconv-set": {
+   "pageCount": 13,
+   "linkAnnots": 21,
+   "linkDangling": 0,
+   "linkBorneJsActions": 20,
+   "appLaunchURL": 20,
+   "componentPageRanges": [
+    [
+     "EXP-AD Request",
+     "primary_filing",
+     "1-6",
+     11
+    ],
+    [
+     "EXP-AD Case List",
+     "attachment",
+     "7",
+     1
+    ],
+    [
+     "EXP-AD Order Granting",
+     "proposed_order",
+     "8-9",
+     1
+    ],
+    [
+     "FW-CIV-APPLICATION",
+     "fee_waiver",
+     "10-13",
+     7
+    ]
+   ],
+   "perPacketPage": {
+    "1": 2,
+    "3": 1,
+    "4": 1,
+    "5": 3,
+    "6": 4,
+    "7": 1,
+    "8": 1,
+    "10": 1,
+    "11": 2,
+    "13": 4
+   },
+   "judgeSignaturePacketPage": 9,
+   "fixtureDigestsUnchanged": {
+    "canonical": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+    "boundary": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1"
+   }
+  },
+  "il-exp-supervision-set": {
+   "pageCount": 13,
+   "linkAnnots": 21,
+   "linkDangling": 0,
+   "linkBorneJsActions": 20,
+   "appLaunchURL": 20,
+   "componentPageRanges": [
+    [
+     "EXP-AD Request",
+     "primary_filing",
+     "1-6",
+     11
+    ],
+    [
+     "EXP-AD Case List",
+     "attachment",
+     "7",
+     1
+    ],
+    [
+     "EXP-AD Order Granting",
+     "proposed_order",
+     "8-9",
+     1
+    ],
+    [
+     "FW-CIV-APPLICATION",
+     "fee_waiver",
+     "10-13",
+     7
+    ]
+   ],
+   "perPacketPage": {
+    "1": 2,
+    "3": 1,
+    "4": 1,
+    "5": 3,
+    "6": 4,
+    "7": 1,
+    "8": 1,
+    "10": 1,
+    "11": 2,
+    "13": 4
+   },
+   "judgeSignaturePacketPage": 9,
+   "fixtureDigestsUnchanged": {
+    "canonical": "330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb",
+    "boundary": "df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2"
+   }
+  }
+ },
+ "reconciliation": {
+  "method": "Per-source Link-borne app.launchURL counts, summed across the components each family composes, compared to the delivered packet's count; then compared page by page using the packet's own component order from reports/rendered-artifacts.json.",
+  "il-exp-nonconv-set": {
+   "sourceSum": 21,
+   "deliveredCanonical": 21,
+   "deliveredBoundary": 21,
+   "pageForPageIdentical": true
+  },
+  "il-seal-3yr-set": {
+   "sourceSum": 20,
+   "deliveredCanonical": 20,
+   "deliveredBoundary": 20,
+   "pageForPageIdentical": true
+  },
+  "il-seal-nonconv-set": {
+   "sourceSum": 20,
+   "deliveredCanonical": 20,
+   "deliveredBoundary": 20,
+   "pageForPageIdentical": true
+  },
+  "il-exp-supervision-set": {
+   "sourceSum": 20,
+   "deliveredCanonical": 20,
+   "deliveredBoundary": 20,
+   "pageForPageIdentical": true
+  },
+  "distinctURLsInSources": 11,
+  "distinctURLsInDelivered": 11,
+  "urlsInDeliveredNotInAnySource": [],
+  "buildAddedActions": 0,
+  "buildRelocatedActions": 0,
+  "buildAddedLinkAnnotations": 0
+ },
+ "whatTheBuildActuallyDoesToActiveContent": {
+  "netEffect": "REMOVES, never adds.",
+  "detail": "The builders copy source pages with pdf-lib copyPages, which carries each page's /Annots including /Link annotations and their /A JavaScript actions. form.flatten() then destroys the WIDGET annotations, which is where the issuer's AFDate_FormatEx / AFDate_KeystrokeEx field handlers live. Those die. The /Link annotations are not widgets, so they and their launchURL actions survive.",
+  "exampleArithmetic": "il-exp-nonconv-set sources carry 153 JavaScript action dictionaries in total (21+3+17+7+105). The delivered packet carries 21 -- exactly the /Link-borne launchURL set. The other 132 are the issuer's field formatters, removed by flatten().",
+  "noBuilderAuthorsJavaScript": "grep across all four builders and the shared Illinois host: 0 occurrences of launchURL, 0 of JavaScript, 0 of any http(s) URL literal."
+ },
+ "whereTheActionsSit": {
+  "everyActionIsOnAFiledPage": true,
+  "thereAreNoGuidancePagesInThesePackets": "All 13 or 14 pages of every one of these packets are official AOIC court forms the clerk receives. There is no guidance or instruction section to absorb an action.",
+  "judgeSignatureFace": "CLEAN. The proposed order's signature page -- the face carrying 'ENTERED: ... Judge' -- carries ZERO actions in all four families. The single action on EXP-AD Order Granting is on its page 1, the caption face.",
+  "distributionForTheThreeThirteenPageFamilies": {
+   "primary_filing pages 1-6": 11,
+   "attachment page 7": 1,
+   "proposed_order page 8 (caption face)": 1,
+   "proposed_order page 9 (judge signs)": 0,
+   "fee_waiver pages 10-13": 7
+  }
+ },
+ "whatEachActionDoes": {
+  "triggerModel": "CLICK ONLY. No document-level /Names /JavaScript entry, no catalog /OpenAction, no catalog /AA, no page /AA in any of the eight delivered fixtures. Nothing runs on open. A reader must deliberately click a link.",
+  "hosts": [
+   {
+    "host": "www.illinoiscourts.gov",
+    "whose": "Illinois Courts (AOIC) official site",
+    "target": "the approved-forms index",
+    "assessment": "issuer's own website"
+   },
+   {
+    "host": "ilcourts.info",
+    "whose": "Illinois Courts public self-help site",
+    "target": "how-to-expunge-adult, clerks directory",
+    "assessment": "issuer's own website"
+   },
+   {
+    "host": "www.ilga.gov",
+    "whose": "Illinois General Assembly",
+    "target": "full text of the ILCS sections the form cites (5-6-3.4, 5-6-3.6, 5-105, Criminal Code of 2012)",
+    "assessment": "the statutes the form itself cites, on the legislature's own site"
+   },
+   {
+    "host": "ilcourtsaudio.blob.core.windows.net",
+    "whose": "Illinois Courts' own Antilles resource storage",
+    "target": "FW-CIV Instructions.pdf and Rule 298.pdf",
+    "assessment": "issuer's own document CDN"
+   },
+   {
+    "host": "bit.ly",
+    "whose": "third-party URL shortener",
+    "target": "bit.ly/1-109 -- by its slug, Illinois Supreme Court Rule 1-109 (certification under penalty of perjury), which is the rule the signature block invokes",
+    "assessment": "ISSUER'S OWN BYTE, BUT A REDIRECTOR. This is the one link that is not resolvable to a government host from the URL alone. It appears in the pinned EXP-AD Request and FW-CIV sources exactly as delivered. I did not resolve it -- no outbound fetch was made. Flagged for counsel, not repaired."
+   }
+  ],
+  "totalDistinctURLs": 11
+ },
+ "buildersRead": {
+  "finding": "None of the four call finalizeOfficialForm. Same shape FIX147 found on the siblings: they drive pdf-lib directly, form.updateFieldAppearances(font) then form.flatten(). The shared finalizer's scanBytesForActiveContent therefore never runs for them.",
+  "scripts": {
+   "il-exp-nonconv-set": "scripts/build-census-v1-il-exp-nonconv-set.mjs (703 lines, standalone; flatten at line 539)",
+   "il-seal-3yr-set": "scripts/build-census-v1-il-seal-3yr-set.mjs (813 lines, standalone; flatten at line 586, prunes dangling annots)",
+   "il-exp-supervision-set": "scripts/build-census-v1-il-exp-supervision-set.mjs (258 lines, standalone; flatten at line 177)",
+   "il-seal-nonconv-set": "scripts/build-census-v1-il-seal-nonconv-set.mjs (8 lines; delegates to the shared Illinois host scripts/build-census-v1-il-exp-pardon-set.mjs)"
+  },
+  "notRepaired": "Wiring these builders to the shared finalizer is NOT done here. The finalizer refuses active content, and this record establishes the active content is the issuer's. Making them call it would make them refuse the court's own bytes. That is a design question for the Captain, not a repair."
+ },
+ "separateDefectFound": {
+  "what": "Typed-literal output counters, the class the dispatch warned about.",
+  "affected": [
+   "il-exp-nonconv-set",
+   "il-seal-3yr-set",
+   "il-exp-supervision-set"
+  ],
+  "notAffected": [
+   "il-seal-nonconv-set"
+  ],
+  "why": "il-seal-nonconv-set delegates to the shared Illinois host, which was already corrected to publish null with an explanatory note. The three standalone builders were not.",
+  "publishedValues": "addedGlyphsReadFromOutputBytes: 0 (hardcoded), nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 (hardcoded), refusedFieldsWithInk: [] (typed literal), flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length (the builder's own write count republished as if it were a reading of the saved bytes -- 52, 44 and 45 respectively).",
+  "correctValue": "null, per the vocabulary rule. These name a reading of the output bytes that these builders never perform.",
+  "reportedNotRepaired": "Repairing this rebuilds the families and moves fixture bytes, which would owe four fresh central rasters. That cost is the Captain's call, not mine, and the dispatch scoped my repair authority to the active-content question only."
+ },
+ "bytesMoved": "NONE. No fixture, report, builder or shared module was modified. All eight delivered fixture digests are unchanged from the committed tree and match their rendered-artifacts.json entries.",
+ "rebuildUnchangedNotPerformed": "The unchanged-rebuild rule exists so that bytes moving afterwards are attributable to the lane's change. This lane makes no change to any built artifact, so there is nothing to attribute and no rebuild was run. Disk was also tight.",
+ "rasterEvidence": "NONE CLAIMED. No family's bytes moved, so no family owes a fresh central raster on account of FIX148. No render was performed.",
+ "grantsNothing": "This records a measurement and answers a question. It repairs nothing, promotes nothing and withdraws nothing.",
+ "recommendation": "Do not strip these. They are the Illinois AOIC's own bytes in the AOIC's own forms, click-only, pointing at the AOIC's own site, the AOIC's own document store, the Illinois General Assembly's statute text, and one shortener slug naming the certification rule the form invokes. Removing them would alter the court's document exactly as removing 'Submit forms to:' would have. The eleven-family sweep should be re-read in this light: the other six Illinois families in the outbound class draw on the same AOIC source set and are very likely the same fact, but I measured only my four and claim only my four."
+}
