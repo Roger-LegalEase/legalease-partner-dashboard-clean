@@ -1,0 +1,233 @@
+{
+ "schemaVersion": "rcap-verifier-rows/v2",
+ "lane": "FIX160",
+ "laneKind": "repair",
+ "worktree": "/home/user/ln2-worktree",
+ "branch": "lane-fix160-20260910",
+ "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+ "generatedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+ "grantSet": "35a8b61d7f3c002c",
+ "whatWasRead": "The two families' committed matrix rows, the derivation of requiredComponentsMissing in verify-packet-completeness.mjs, the MD conditional adapter, both packet-set manifest entries, both source receipts, both product-wiring records, and the raw per-fixture audit of all 43 fixtures run by this lane rather than read off any prior report.",
+ "builtAnything": false,
+ "packetsSelfVerified": false,
+ "repairsMade": 2,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "areTheseTheBytesTheCentralRasterCarries": null,
+ "whyNotTheBytesTheCentralRasterCarries": "Not asked by this lane and not claimed. No delivered byte changed, so whatever the raster record already binds it still binds. product-wiring.json for md_10110_conviction-set carries an acceptanceReceipt bound to exactly the canonical and boundary digests this lane hashed, but this lane did not verify that receipt and makes no claim on it.",
+ "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+ "howBytesWereMeasured": "sha256sum over the delivered canonical and boundary PDFs before and after. Determinism control: both builders re-run unmodified from this base into their real output directories, 43 PDFs and every report reproduced byte-for-byte with git status --porcelain empty after each run. No raster was rendered by this lane; none was needed.",
+ "everyZeroHasAPositiveControl": "Yes. The repaired counter reads 0 because auditPreparedInputs was run over all 43 fixtures and returned 0 with no component finding on every one, while the SAME code path returns real nonzero readings on the diagnostic fixtures (unclassifiedBlanks 1 on diagnostic/waiver-missing-financial, knownRequiredFieldsMissing 1 on diagnostic/missing-completion) -- so the zero is a measurement, not a silent path. Seven guards were broken deliberately and every one fired, with an unbroken control accepted first and the manifest restored byte-identical: a declared component no fixture delivers (both through an injected manifest and through the real file on disk), a delivered component neither declared nor recorded, a family absent from the manifest, a real failing counter on a prepared fixture, a nonzero counter smuggled under a PASS_COMPLETE, a null counter the classifier did not declare unmeasured, and an unrelated unexpected result class.",
+ "perWidgetAppearanceCounts": null,
+ "rasterPixelCounts": null,
+ "rasterPixelCountsWhyNull": "This lane rendered no raster. The repair is a measurement fix and cost zero bytes; visualDefects stays null for both families and only the central raster gate can settle it.",
+ "grantsNothing": "This lane repaired a measurement. It promotes no family, opens no commercial route, claims no raster, and its own PASS is not evidence -- independent re-verification is owed to a lane that is not this one.",
+ "conditionsOnApprovedForLive": "Both families carry an undeclared delivered component (MDJ-008). Neither may reach approved_for_live, a commercial route or a participant until the packet-set manifest and the delivered set agree, whichever way that is resolved.",
+ "outOfScopeObservedNotActedOn": [
+  "The identical exception sink exists verbatim in scripts/rcap-packet-completeness/ky-native-candidate.mjs:29-33 and scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs:60-66, for ky_nonconviction_expungement-set and md_10105_favorable-set. Not this lane's families; not touched.",
+  "The catch in the MD adapter still borrows requiredComponentsMissing to refuse an unaudited family, now labelled as a borrow rather than a component reading. Retiring it needs generate-raster-queue.mjs:823-828 to refuse an unaudited family directly. That rule currently treats a null nonvisual counter as passing, and 19 families queued today have a null invisibleWrites, so tightening it would un-enrol families this lane does not own.",
+  "NOT_MEASURABLE_HERE is a live return value at verify-packet-completeness.mjs:664 and is absent from RESULT_CLASSES in completeness-contract.mjs, so the matrix's own declared class list does not contain a class 27 of its rows now carry.",
+  "Regenerating the full matrix also picked up a 2-line drift on al-felony-dwop-set that exists at this base independently of this lane: REQUIRED_BEFORE_FILING 56 -> 55 and NOT_APPLICABLE_ON_THIS_ROUTE 7 -> 8 in blanksByDisposition. Its result is PASS_COMPLETE before and after. The verifier writes the whole file or nothing, so it could not be excluded; the Captain may drop it.",
+  "The sink was erasing the factory's aggregate readings, not only two rows: counterTotals went from six nulls to real numbers (knownRequiredFieldsMissing 0, requiredFactsNotCollected 1, unclassifiedBlanks 15, incompleteRows 0, requiredOptionsMissing 4, protectedWrites 0). Factory-wide requiredComponentsMissing is now 0, and every occurrence it ever had was this sink."
+ ],
+ "rows": [
+  {
+   "familyId": "md_10110_conviction-set",
+   "itemId": "FIX160-md_10110_conviction-set",
+   "verdict": "REPAIRED_MEASUREMENT_NOT_INDEPENDENTLY_VERIFIED",
+   "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+   "jurisdiction": "MD",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+   "whichOfTheThreeOutcomesHeld": "B, on the counter -- the component is delivered and the counter could not see it -- AND, separately and additionally, C on the manifest: a delivered component the manifest does not declare.",
+   "theCounterWasNotCountingComponents": {
+    "publishedValue": 1,
+    "publishedFinding": "Unexpected static outcome: canonical\n+ actual - expected\n\n+ 'NOT_MEASURABLE_HERE'\n- 'PASS_COMPLETE'\n",
+    "whatThatStringIs": "An assert.equal message from scripts/rcap-packet-completeness/md-conditional-native-candidates.mjs:143 comparing a RESULT CLASS, not a document. It names no component because no component was measured.",
+    "whereTheOneCameFrom": "auditMdConditionalCandidate's catch block relabelled every throw as requiredComponentsMissing:1 and overwrote the other eight measured counters with null.",
+    "honestValueMeasured": 0,
+    "howMeasured": "auditPreparedInputs run directly over all 25 prepared and diagnostic fixtures of this family. requiredComponentsMissing is 0 on every one, with zero component findings; the only null counter on any fixture is visualDefects.",
+    "whyTheRawResultWasNotAPass": "verify-packet-completeness.mjs:664 returns NOT_MEASURABLE_HERE as its LAST branch, over a would-be pass, when a counter could not be measured. visualDefects is null because no artifact record in reports/actual-writes.json carries nonWhitespaceGlyphsOutsideMeasuredWriteBoxes -- the geometry pass has not run over these bytes, and the central raster gate is what runs it."
+   },
+   "counterBeforeAfter": {
+    "requiredComponentsMissing": {
+     "before": 1,
+     "after": 0
+    },
+    "otherEightCounters": {
+     "before": "null (erased by the catch after being measured)",
+     "after": "measured; every one 0 except visualDefects, which stays null"
+    }
+   },
+   "resultBeforeAfter": {
+    "before": "FAIL_COMPONENT_SET",
+    "after": "NOT_MEASURABLE_HERE"
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "totalsAfter": {
+    "terminalFields": 2631,
+    "written": 936,
+    "blank": 1695,
+    "blanksByDisposition": {
+     "NOT_APPLICABLE_ON_THIS_ROUTE": 1122,
+     "PROTECTED_FIELD": 573
+    },
+    "rowsInspected": 0,
+    "fieldMapSchema": "native-md-source-specific-conditional-fixtures"
+   },
+   "deliveredDigestsHashedByThisLane": {
+    "canonical.pdf": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+    "boundary.pdf": "cda8eebad0799ed6924cb10846b1723a734f3929594eec0fc2d440c659f82297"
+   },
+   "canonicalAndBoundaryUnchangedByThisRepair": true,
+   "bytesWritten": 0,
+   "freshCentralRasterOwed": false,
+   "whyNoFreshRasterIsOwed": "No delivered byte changed. Both builders were re-run unmodified from this base with MASTER_LIBRARY_SOURCE_DIR set and reproduced all 25 fixture PDFs and every report byte-for-byte (git status --porcelain empty after each). The repair is entirely in the measurement.",
+   "wouldNowPassTheRasterGateEnrolmentCheck": true,
+   "howThatWasEstablished": "generate-raster-queue.mjs:822-828 replicated line for line against this family's MASTER_QUEUE state (BUILT_RASTER_PENDING) and its NEW matrix counters: nonVisual is empty and comp is present, so no eligibility reason is raised. RASTER_QUEUE.json's current notEligible entry for this family lists that counter as its ONLY reason, so every other precondition already passed. NOT run: MASTER_QUEUE.json and RASTER_QUEUE.json are shared manifests this lane is forbidden to write, and they still carry the old counters until the Captain regenerates them.",
+   "manifestVersusDelivered": {
+    "declaredByTheManifest": [
+     "CC-DC-CR-072B",
+     "CC-DC-089"
+    ],
+    "deliveredComponents": [
+     "CC-DC-089",
+     "CC-DC-CR-072B",
+     "MDJ-008"
+    ],
+    "undeclaredDelivered": [
+     "MDJ-008"
+    ],
+    "whatMDJ008Is": "Maryland Judiciary form MDJ-008, 'Notice Regarding Restricted Information Pursuant to Rule 20-201.1', edition 07/2026, read from the retained source face at reference/chat-parallel-2026-09-07/chat5/MDJ-008.pdf sha256 42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369.",
+    "howItReachesAParticipant": "Bound into the delivered PDF with role restricted_information_notice on every waiver fixture -- 11 of 25 fixtures, including boundary.pdf -- and named in that fixture's instructions.",
+    "whyNoCounterSeesIt": "requiredComponentsMissing compares this family's own field map and source receipt against the render. MDJ-008 is in both, so it reads zero, correctly. Nothing in the completeness contract opens the packet-set manifest.",
+    "whatTheRepoRecordsAboutIt": "source-receipt.json: conditionalComponent names it; globalRelationshipCorrection says 'A-owned; MDJ-008 conditional addition requested in comment5574693015'. session08/md-conviction-author-handoff.json lists 'A conditional MDJ-008 source relationship from comment5574693015' under pending. SOURCE_RELATIONSHIP_REGISTRY.json does not mention it. product-wiring.json lists it in binding.packetComponents but omits it from binding.sourceVersion.",
+    "notResolvedHere": "This lane did not add MDJ-008 to the packet-set manifest. Declaring a component is a legal-design decision the repo itself records as pending and A-owned, and authoring the declaration here would be fabricating one.",
+    "whatItBlocks": "Promotion. RASTER_PASS grants nothing and delivers nothing to a participant, so this does not block enrolment into the visual gate; it does block approved_for_live, any commercial route and any participant delivery until the manifest and the delivered set agree."
+   },
+   "verifierActualVerdict": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "printedBefore": "FAIL md_10110_conviction-set FAIL_COMPONENT_SET 0/0 written",
+    "printedAfter": "FAIL md_10110_conviction-set NOT_MEASURABLE_HERE 936/2631 written",
+    "exitStatusBefore": 0,
+    "exitStatusAfter": 0,
+    "theVerdictIsNotAPass": "NOT_MEASURABLE_HERE is not PASS_COMPLETE, and the verifier prints FAIL beside it for any result that is not PASS_COMPLETE. The exit status is 0 in both cases and proves nothing either way: this script exits nonzero only for an unmatched --family or a failed mutation suite, never for a failing row."
+   },
+   "whatMustBeRepairedBySomeoneElse": [
+    "The packet-set manifest and the delivered set disagree about MDJ-008 for this family. Either declare it as a conditional component of md_10110_conviction-set or stop delivering it.",
+    "visualDefects stays null. Only the central raster gate can settle it, which is what enrolment is for.",
+    "MDJ-008 is absent from data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json and from product-wiring.json binding.sourceVersion, though it is bound to an exact sha in source-receipt.json."
+   ]
+  },
+  {
+   "familyId": "md_cannabis_petition-set",
+   "itemId": "FIX160-md_cannabis_petition-set",
+   "verdict": "REPAIRED_MEASUREMENT_NOT_INDEPENDENTLY_VERIFIED",
+   "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+   "jurisdiction": "MD",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill",
+   "whichOfTheThreeOutcomesHeld": "B, on the counter -- the component is delivered and the counter could not see it -- AND, separately and additionally, C on the manifest: a delivered component the manifest does not declare.",
+   "theCounterWasNotCountingComponents": {
+    "publishedValue": 1,
+    "publishedFinding": "Unexpected static outcome: canonical\n+ actual - expected\n\n+ 'NOT_MEASURABLE_HERE'\n- 'PASS_COMPLETE'\n",
+    "whatThatStringIs": "An assert.equal message from scripts/rcap-packet-completeness/md-conditional-native-candidates.mjs:143 comparing a RESULT CLASS, not a document. It names no component because no component was measured.",
+    "whereTheOneCameFrom": "auditMdConditionalCandidate's catch block relabelled every throw as requiredComponentsMissing:1 and overwrote the other eight measured counters with null.",
+    "honestValueMeasured": 0,
+    "howMeasured": "auditPreparedInputs run directly over all 18 prepared and diagnostic fixtures of this family. requiredComponentsMissing is 0 on every one, with zero component findings; the only null counter on any fixture is visualDefects.",
+    "whyTheRawResultWasNotAPass": "verify-packet-completeness.mjs:664 returns NOT_MEASURABLE_HERE as its LAST branch, over a would-be pass, when a counter could not be measured. visualDefects is null because no artifact record in reports/actual-writes.json carries nonWhitespaceGlyphsOutsideMeasuredWriteBoxes -- the geometry pass has not run over these bytes, and the central raster gate is what runs it."
+   },
+   "counterBeforeAfter": {
+    "requiredComponentsMissing": {
+     "before": 1,
+     "after": 0
+    },
+    "otherEightCounters": {
+     "before": "null (erased by the catch after being measured)",
+     "after": "measured; every one 0 except visualDefects, which stays null"
+    }
+   },
+   "resultBeforeAfter": {
+    "before": "FAIL_COMPONENT_SET",
+    "after": "NOT_MEASURABLE_HERE"
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "totalsAfter": {
+    "terminalFields": 1269,
+    "written": 477,
+    "blank": 792,
+    "blanksByDisposition": {
+     "NOT_APPLICABLE_ON_THIS_ROUTE": 489,
+     "PROTECTED_FIELD": 303
+    },
+    "rowsInspected": 0,
+    "fieldMapSchema": "native-md-source-specific-conditional-fixtures"
+   },
+   "deliveredDigestsHashedByThisLane": {
+    "canonical.pdf": "f23b8e7f426430906318accf3fb77872d698633595f689e6c68e4ff37be6b014",
+    "boundary.pdf": "1451df58551922ba05ad860d71d463c1ecf82420a8390454d8257d1e01bd13de"
+   },
+   "canonicalAndBoundaryUnchangedByThisRepair": true,
+   "bytesWritten": 0,
+   "freshCentralRasterOwed": false,
+   "whyNoFreshRasterIsOwed": "No delivered byte changed. Both builders were re-run unmodified from this base with MASTER_LIBRARY_SOURCE_DIR set and reproduced all 18 fixture PDFs and every report byte-for-byte (git status --porcelain empty after each). The repair is entirely in the measurement.",
+   "wouldNowPassTheRasterGateEnrolmentCheck": true,
+   "howThatWasEstablished": "generate-raster-queue.mjs:822-828 replicated line for line against this family's MASTER_QUEUE state (BUILT_RASTER_PENDING) and its NEW matrix counters: nonVisual is empty and comp is present, so no eligibility reason is raised. RASTER_QUEUE.json's current notEligible entry for this family lists that counter as its ONLY reason, so every other precondition already passed. NOT run: MASTER_QUEUE.json and RASTER_QUEUE.json are shared manifests this lane is forbidden to write, and they still carry the old counters until the Captain regenerates them.",
+   "manifestVersusDelivered": {
+    "declaredByTheManifest": [
+     "CC-DC-CR-072D",
+     "CC-DC-089"
+    ],
+    "deliveredComponents": [
+     "CC-DC-089",
+     "CC-DC-CR-072D",
+     "MDJ-008"
+    ],
+    "undeclaredDelivered": [
+     "MDJ-008"
+    ],
+    "whatMDJ008Is": "Maryland Judiciary form MDJ-008, 'Notice Regarding Restricted Information Pursuant to Rule 20-201.1', edition 07/2026, read from the retained source face at reference/chat-parallel-2026-09-07/chat5/MDJ-008.pdf sha256 42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369.",
+    "howItReachesAParticipant": "Bound into the delivered PDF with role restricted_information_notice on every waiver fixture -- 6 of 18 fixtures, including boundary.pdf -- and named in that fixture's instructions.",
+    "whyNoCounterSeesIt": "requiredComponentsMissing compares this family's own field map and source receipt against the render. MDJ-008 is in both, so it reads zero, correctly. Nothing in the completeness contract opens the packet-set manifest.",
+    "whatTheRepoRecordsAboutIt": "source-receipt.json: conditionalComponent names it; globalRelationshipCorrection says 'A-owned; MDJ-008 conditional addition requested in comment5574693015'. session08/md-conviction-author-handoff.json lists 'A conditional MDJ-008 source relationship from comment5574693015' under pending. SOURCE_RELATIONSHIP_REGISTRY.json does not mention it. product-wiring.json lists it in binding.packetComponents but omits it from binding.sourceVersion.",
+    "notResolvedHere": "This lane did not add MDJ-008 to the packet-set manifest. Declaring a component is a legal-design decision the repo itself records as pending and A-owned, and authoring the declaration here would be fabricating one.",
+    "whatItBlocks": "Promotion. RASTER_PASS grants nothing and delivers nothing to a participant, so this does not block enrolment into the visual gate; it does block approved_for_live, any commercial route and any participant delivery until the manifest and the delivered set agree."
+   },
+   "verifierActualVerdict": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "printedBefore": "FAIL md_cannabis_petition-set FAIL_COMPONENT_SET 0/0 written",
+    "printedAfter": "FAIL md_cannabis_petition-set NOT_MEASURABLE_HERE 477/1269 written",
+    "exitStatusBefore": 0,
+    "exitStatusAfter": 0,
+    "theVerdictIsNotAPass": "NOT_MEASURABLE_HERE is not PASS_COMPLETE, and the verifier prints FAIL beside it for any result that is not PASS_COMPLETE. The exit status is 0 in both cases and proves nothing either way: this script exits nonzero only for an unmatched --family or a failed mutation suite, never for a failing row."
+   },
+   "whatMustBeRepairedBySomeoneElse": [
+    "The packet-set manifest and the delivered set disagree about MDJ-008 for this family. Either declare it as a conditional component of md_cannabis_petition-set or stop delivering it.",
+    "visualDefects stays null. Only the central raster gate can settle it, which is what enrolment is for.",
+    "MDJ-008 is absent from data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json and from product-wiring.json binding.sourceVersion, though it is bound to an exact sha in source-receipt.json."
+   ]
+  }
+ ],
+ "grantsReleased": [
+  "md_10110_conviction-set",
+  "md_cannabis_petition-set"
+ ]
+}

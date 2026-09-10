@@ -18,12 +18,44 @@ for(const familyId of MD_CONDITIONAL_FAMILIES){
   const family={familyId,directory,routeKeys:[config.routeKey]},initial=recordFor(familyId,config.routeKey);
   check(`${familyId}: actual classifier audits every prepared and diagnostic map`,()=>{
     const a=auditMdConditionalCandidate({root:process.cwd(),directory,familyId},inputs=>auditPreparedInputs(directory,familyId,inputs));
-    familyAudits.push(a);assert.equal(a.result,'PASS_COMPLETE',JSON.stringify(a.findings));assert.equal(a.preparedFixtures,config.positiveFixtures);
+    familyAudits.push(a);
+    /* An unmeasured counter is not a pass, and this expectation used to say it
+     * was. visualDefects is null for both families because no artifact write
+     * record carries nonWhitespaceGlyphsOutsideMeasuredWriteBoxes -- the
+     * geometry pass has not run over these bytes, and the central raster gate
+     * is what runs it. The adapter threw on the mismatch and the catch
+     * relabelled the throw as a missing packet component, which is how both
+     * families came to be refused enrolment into that very gate. The result is
+     * derived from what was measured, so when the geometry reading arrives
+     * unmeasuredCounters empties and this asserts PASS_COMPLETE on its own. */
+    assert.equal(a.result,a.unmeasuredCounters.length?'NOT_MEASURABLE_HERE':'PASS_COMPLETE',JSON.stringify(a.findings));
+    assert.deepEqual(a.unmeasuredCounters,['visualDefects'],'the only counter this adapter cannot measure is the visual one');
+    for(const [k,v] of Object.entries(a.counters))if(k!=='visualDefects')assert.equal(v,0,`counter ${k} is ${v}`);
+    /* The packet-set manifest is authoritative about what a packet contains and
+     * no counter in the completeness contract reads it. Both families deliver
+     * MDJ-008 on every waiver fixture and neither manifest entry declares it;
+     * the disagreement is pinned here so a change to either side is visible. */
+    assert.deepEqual(a.componentSetReconciliation.undeclaredDelivered,['MDJ-008'],'delivered-but-undeclared component set changed');
+    assert.deepEqual(a.componentSetReconciliation.declaredNotDelivered,[],'a declared component is not delivered');
+    assert.equal(a.findings.length,1);assert.equal(a.findings[0].component,'MDJ-008');assert.equal(a.findings[0].counter,null);
+    assert.equal(a.preparedFixtures,config.positiveFixtures);
     assert.equal(a.expectedDiagnosticFixtures,config.diagnosticFixtures);assert.equal(a.fixtureResults.length,config.fixtures.length);
     assert.equal(a.allFixtureTotals.terminalFields,familyId==='md_10110_conviction-set'?2880:1614);
     assert.equal(a.runtimeIntakeCounters,null);
-    for(const d of a.diagnosticResults){assert.equal(d.nativePreparationReady,false);assert.equal(d.selectionPermitted,false);assert.ok(d.missingInformation.length);assert.equal(d.result,config.fixtures.find(f=>f.fixture===d.fixture).expectedRawResult);}
-    if(familyId==='md_cannabis_petition-set'){const d=a.diagnosticResults.find(f=>f.fixture==='diagnostic/missing-contact');assert.equal(d.result,'PASS_COMPLETE');assert.equal(d.selectionPermitted,false);assert.equal(d.missingInformation.length,2);}
+    /* Same concession as the family result above, and no wider: a fixture the
+     * binding expects to pass may instead report that visualDefects could not
+     * be measured here. A diagnostic expecting a FAIL class still has to
+     * produce exactly that class -- a failing counter outranks an unmeasured
+     * one in the classifier, so an unmeasured visual reading can never hide a
+     * diagnostic's real finding. */
+    const staticOutcome=(d,expected)=>{
+      if(d.result===expected)return;
+      assert.equal(expected,'PASS_COMPLETE',`${d.fixture}: ${d.result} where ${expected} is pinned`);
+      assert.equal(d.result,'NOT_MEASURABLE_HERE',`${d.fixture}: ${d.result} where ${expected} is pinned`);
+      assert.equal(d.counters.visualDefects,null,`${d.fixture}: unmeasured for some counter other than the visual one`);
+    };
+    for(const d of a.diagnosticResults){assert.equal(d.nativePreparationReady,false);assert.equal(d.selectionPermitted,false);assert.ok(d.missingInformation.length);staticOutcome(d,config.fixtures.find(f=>f.fixture===d.fixture).expectedRawResult);}
+    if(familyId==='md_cannabis_petition-set'){const d=a.diagnosticResults.find(f=>f.fixture==='diagnostic/missing-contact');staticOutcome(d,'PASS_COMPLETE');assert.equal(d.selectionPermitted,false);assert.equal(d.missingInformation.length,2);}
   });
   check(`${familyId}: selected declaration includes all prepared outputs and conditional official components`,()=>{
     bound=bindDeclaredMdConditionalDelivery(initial,family);const b=bound.binding.conditionalDelivery;
