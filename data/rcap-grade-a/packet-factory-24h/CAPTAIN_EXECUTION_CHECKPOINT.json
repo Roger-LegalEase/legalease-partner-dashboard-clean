@@ -19,47 +19,15 @@
   "integrationRule": "Read every step's exit status. A refused write is not a checkpoint and a stale count is not a new result. Repair the actual failure rather than moving ownership or evidence to get green.",
   "activeOwners": [
     {
-      "lane": "VF01",
-      "kind": "independent-verification",
-      "worktree": "/home/user/pfa-worktree",
-      "branch": "vf01-wv-20260910",
-      "families": [
-        "wv_conv_nonviolent_felony-set"
-      ],
-      "why": "Repaired today by FIX06 with both digests UNCHANGED, so its committed RASTER_PASS still binds and a PASS takes it straight to terminal with no re-render owed. VF01 already held the live grant, which is why the read is VF01's."
-    },
-    {
-      "lane": "VF26",
-      "kind": "independent-verification",
+      "lane": "FIX132",
+      "kind": "repair",
       "worktree": "/home/user/pfc-worktree",
-      "branch": "vf26-in-20260910",
+      "branch": "fix132b-in-20260910",
       "families": [
         "in_arrest_no_charges-set",
         "in_section1_petition-set"
       ],
-      "why": "Repaired by FIX132; bytes MOVED on both, so a central re-raster is owed after the read, not before it."
-    },
-    {
-      "lane": "VF25",
-      "kind": "independent-verification",
-      "worktree": "/home/user/pfd-worktree",
-      "families": [
-        "vt_exp_decriminalized-set",
-        "vt_seal_18_to_21-set",
-        "vt_seal_felony-set",
-        "vt_seal_nonconviction-set",
-        "vt_seal_pardon-set"
-      ],
-      "why": "The five Vermont families FIX130 repaired. All five read EVERY_STROKE_IS_THE_FORMS_OWN with zero unmatched, unchanged by today's normaliser correction."
-    },
-    {
-      "lane": "VF08",
-      "kind": "independent-verification",
-      "worktree": "/home/user/pfe-worktree",
-      "families": [
-        "five Texas families"
-      ],
-      "why": "Three of its five were reclassified today; the lane has been told, with both readings and the instruction to report both rather than silently revise."
+      "why": "VF26 failed both. Its check-box restoration is confirmed sound; 27,981 dark pixels of the court's own ink are still missing, the LEA refusal is undisclosed, and the arrest family's guide states its sibling's waiting-period rule."
     },
     {
       "lane": "FIX134",
@@ -70,7 +38,7 @@
         "ri_deferred_sentence-set",
         "ri_first_offender_misdemeanor-set"
       ],
-      "why": "Recorded CLIPPING_AND_OVERLAP on both. Border ink still matches nothing their source ships, so there the remedy REMOVES."
+      "why": "CLIPPING_AND_OVERLAP on both; border ink still matches nothing their source ships, so there the remedy REMOVES."
     },
     {
       "lane": "FIX135",
@@ -81,23 +49,55 @@
         "co_multiple_conviction_seal-set",
         "ne-setaside-custodial-set"
       ],
-      "why": "Recorded CLIPPING_AND_OVERLAP on both. Border ink reclassified today as the form's own with its fill stripped, so there the remedy RESTORES. Split from FIX134 deliberately so one lane is never holding both directions."
+      "why": "CLIPPING_AND_OVERLAP on both; border ink reclassified today as the form's own with its fill stripped, so there the remedy RESTORES. Split from FIX134 so one lane never holds both directions."
+    },
+    {
+      "lane": "FIX130",
+      "kind": "repair",
+      "worktree": "/home/user/pfd-worktree",
+      "branch": "fix130b-vt-20260910",
+      "families": [
+        "vt_exp_decriminalized-set",
+        "vt_seal_18_to_21-set",
+        "vt_seal_felony-set",
+        "vt_seal_pardon-set"
+      ],
+      "why": "VF25 failed four of five. Eight participant-identity values written onto a fee-waiver form the packet says not to file, the docket among them on a perjury declaration's Printed Name line; and on the three seal families every disclosure label is the printed caption with the AcroForm field name appended."
+    },
+    {
+      "lane": "VF08",
+      "kind": "independent-verification",
+      "worktree": "/home/user/pfe-worktree",
+      "families": [
+        "five Texas families"
+      ],
+      "why": "Told twice today: three of its five were reclassified by the normaliser correction, and an annotation-free source render produces a false zero."
     }
   ],
   "unresolvedBlockers": [
     {
+      "what": "The raster gate reads an unmeasured counter as zero, and a fail-closed sentinel as a count",
+      "record": "docs/rcap/grade-a/owner-decisions/A_NULL_COUNTER_CLEARS_THE_RASTER_GATE.md",
+      "why": "Number(null) is 0, so a counter the audit declined to measure clears the counters-are-zero precondition. Eighteen queued families carry invisibleWrites: null with a completeness result of NOT_MEASURABLE_HERE, fifteen of them terminal. Not acted on: the terminal transition rests on the READER's nine measured counters, not the static auditor's, so none of the fifteen is impeached and the blunt fix would demote them inaccurately. Three options with a recommendation are in the record.",
+      "alsoThere": "The same confusion holds the only two BUILT_RASTER_PENDING conditional-delivery families behind requiredComponentsMissing: 1, which is a catch-all sentinel and not a count. Correcting it alone would PROMOTE them, because of the first defect, so the two must be decided together."
+    },
+    {
       "what": "pa_pardon_expungement-set COMPONENT_SET survives no rebuild",
-      "evidence": "FIX133 added component:pa_pardon_expungement-process-guidance-1 to the delivered binding; generate-product-wiring.mjs rebuilt packetComponents from the family record and dropped it. The authority is route-obligation-candidate.json, where BOTH of this family's routes carry a byte-identical requiredSourceIds naming the two petition components and both Rule 790 forms -- including pa_pardon_automatic_route, whose registry unit is outputStrategy process_guidance and on which NOTHING IS FILED. So the census requires a petition of a route that files nothing, and requires no component of the route that delivers guidance.",
-      "whyNotCorrected": "The registry declares compositionMode alternative with both units available. Which components this family owes is a product-composition question, not a data typo, and COMPONENT_NAME_SWEEP records that nothing anywhere renders this track's components -- so naming the guidance component required would move the family further from terminal, not closer. That may well be the honest answer and it is Roger's to take.",
-      "notFIX07sDiagnosis": "FIX07 proposed adding pa_pardon_automatic_route to the family's routes. The family already carries both routes."
+      "record": "commit 0c7d2254b",
+      "why": "Both routes carry a byte-identical requiredSourceIds naming the two petition components and both Rule 790 forms, including pa_pardon_automatic_route, whose registry unit is process_guidance and on which nothing is filed."
+    },
+    {
+      "what": "Seven proven families carry an observation nobody answered",
+      "record": "data/rcap-grade-a/packet-factory-24h/REFUSED_ROW_RECOVERY_QUEUE.json",
+      "why": "Refused rows whose readings were superseded but whose findings were never repeated or contradicted: three composed treatments on SELF_HELP_STOP and four Illinois families, including a Rule 298 fee-waiver application the instructions name that is not among the delivered components."
     },
     {
       "what": "Builders that erase governance keys or relabel receipts remain unwired",
-      "detail": "8 that erase wholesale and 6 that relabel without a digest test. Each is its owner's to wire before it overwrites a governed record. A shared fix is not fully enforced while affected callers are unwired."
+      "detail": "8 erase wholesale, 6 relabel without a digest test. Each is its owner's to wire."
     },
     {
       "what": "REPAIR_SUPPLY_QUEUE.json is stale",
-      "detail": "Its borderAccounting figures predate today's normaliser correction (it still shows Colorado 18 unmatched and Nebraska 2, both now 0), and it lists Vermont, Indiana and Pennsylvania as unowned though all three have since been repaired. Regenerate before dispatching from it again."
+      "detail": "Its borderAccounting predates the normaliser correction and it lists as unowned several families since repaired. Regenerate before dispatching from it."
     }
   ],
   "recurringFailureShapes": [
@@ -108,53 +108,70 @@
     "A published zero where no measurement was ever made."
   ],
   "nextExecutableAction": [
-    "Consume VF01, VF26, VF25, VF08 as they return; integrate each through npm run rcap:integrate-packet-factory and read every step's exit status.",
-    "Re-raster the families whose bytes moved once they pass an independent read: Indiana 2, Vermont 5, Texas 5, Kentucky, and pa_pardon_expungement-set.",
-    "Regenerate REPAIR_SUPPLY_QUEUE.json against the corrected border accounting before the next repair dispatch.",
-    "Remaining unowned FAIL clusters after FIX134 and FIX135: Arkansas 2 (SELF_HELP_STOP, and FILING_DESTINATION on the nonconviction set), Alabama, California, Missouri singles, five Texas families, and one composed West Virginia treatment.",
-    "Four families need a READ rather than a repair because no obligation was ever recorded against them: ar-misdemeanor-seal-set, tx_nd_deferred_other-set, tx_nd_veterans_court-set, tx_nd_veterans_reemployment-set."
+    "Read run 34439698619's receipt when it finishes; if RASTER_PASS binds vt_seal_nonconviction-set's current canonical, it becomes terminal on the next integration.",
+    "Consume FIX132, FIX134, FIX135, FIX130 and VF08 as they return; integrate each and read every step's exit status.",
+    "Assign an independent read to each repaired candidate, by a lane that did not author the repair.",
+    "Regenerate REPAIR_SUPPLY_QUEUE.json against the corrected border accounting.",
+    "Remaining unowned FAIL clusters: Arkansas 2 (SELF_HELP_STOP, plus FILING_DESTINATION on the nonconviction set), Alabama, California and Missouri singles, five Texas families, one composed West Virginia treatment.",
+    "Four families need a READ rather than a repair because no obligation was ever recorded: ar-misdemeanor-seal-set, tx_nd_deferred_other-set, tx_nd_veterans_court-set, tx_nd_veterans_reemployment-set."
   ],
   "grantsNothing": "This record opens no route, promotes nothing and approves no packet.",
   "lastUpdated": {
     "at": "2026-09-10",
-    "atCommit": "26a3551068c88c9b76fa2da13ad7aefb3f202465"
+    "atCommit": "18640d9d8fa4095a6af39a744449786f9ce42b8b"
   },
   "currentCounts": {
     "measuredBy": "MASTER_LIBRARY_SOURCE_DIR=... npm run rcap:integrate-packet-factory, every step exit 0",
-    "terminal": 191,
+    "terminal": 192,
     "of": 346,
-    "COMPLETE_PACKET_PROVEN": 174,
-    "FAIL_REPAIR_REQUIRED": 73,
+    "COMPLETE_PACKET_PROVEN": 175,
+    "FAIL_REPAIR_REQUIRED": 71,
     "SOURCE_READY": 33,
     "PRODUCT_PATH_PENDING": 21,
     "LEGAL_BLOCKED": 19,
     "SOURCE_BLOCKED": 6,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
-    "transitionsThisRun": 0,
-    "whyZero": "Both returns integrated since the last checkpoint were BUILD returns. A build return carries no verdict, so it cannot move a family to terminal. The four reads in flight are what convert them."
+    "movedThisSession": "191 -> 192: wv_conv_nonviolent_felony-set FAIL_REPAIR_REQUIRED -> COMPLETE_PACKET_PROVEN on a PASS whose digests had not moved, so its committed RASTER_PASS still bound and no re-render was owed."
   },
   "supplyQueue": "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json -- 75 failing, 50 with a live repair owner, 25 unowned and dispatchable after one grant each, 4 that need a READ rather than a repair because no obligation was ever recorded against them.",
   "settledSinceLastCheckpoint": [
     {
-      "what": "FIX06 West Virginia",
-      "commit": "03093a923",
-      "effect": "REQUIRED_BEFORE_FILING repaired in the Kentucky shape; a literal 0 for flattened widget appearances replaced with a measured 70 and a carrying-text subset of 6. Digests unchanged, so no re-render owed. Read now in flight as VF01."
+      "what": "VF01 West Virginia",
+      "commit": "039fc2bed",
+      "effect": "PASS on all fifteen with nine measured zeros. Terminal 191 -> 192. Also found DOUBLED_WIDGET_PLACEMENT stale in the family's favour: all thirteen checkbox XObjects carry /Matrix, the defect was real and 6e1083a97 fixed it, the record was never updated."
     },
     {
-      "what": "FIX133 judicial tier",
-      "commit": "0c7d2254b",
-      "effect": "pa_pardon_expungement-set repaired in BOTH directions -- five pdf-lib borders stamped over boxes the page prints, and two white masks hiding boxes the page draws. 0 added, 968 removed, negative control clean. mi_setaside_trafficking-set needed no repair and no byte moved. The dispatch premise was wrong: none of the nine unaccounted streams was at a judge field."
+      "what": "VF26 Indiana",
+      "commit": "06f2ca6c1",
+      "effect": "FAIL on both with named obligations. Established that FIX132's 'removed 0' was measured against an annotation-free render of an AcroForm source, which omits the /AP /N streams at issue. Rendering the pre-repair inserts gives identical removal counts."
+    },
+    {
+      "what": "VF25 Vermont",
+      "commit": "18640d9d8",
+      "effect": "One PASS, four FAILs, all fifteen measured on each. Proved its own source render draws widget ink by measuring the 9,341-pixel gap between annotations-on and annotations-hidden."
+    },
+    {
+      "what": "The annotation-free render hazard",
+      "commit": "bb6cacbd8",
+      "effect": "Recorded as the tenth defect no counter can see and added to both standing briefs. Every live lane was told directly."
     },
     {
       "what": "The fill normaliser",
       "commit": "346b2a23c",
-      "effect": "Eight families moved out of SYNTHESIZED_INK_CONFIRMED, whose remedy REMOVES, into the form's own ink with its fill stripped, whose remedy RESTORES. The bug was a consumed preamble, not the fill colour FIX133 named. Isolated with a same-bytes run of the old regex; nine tests now pin all three bugs this normaliser has carried."
+      "effect": "Eight families moved out of SYNTHESIZED_INK_CONFIRMED, whose remedy REMOVES, into the form's own ink with its fill stripped, whose remedy RESTORES."
     },
     {
-      "what": "Four released repair grants reopened",
-      "commit": "26a355106",
-      "effect": "Rhode Island, Colorado and Nebraska onto FIX134 and FIX135."
+      "what": "Delivered-binding verdict selection",
+      "commit": "1b0d98d2e",
+      "effect": "Eight bindings named a lane that never opened the packet as their last independent verification. Two of the eight had a substantive FAIL against them."
     }
-  ]
+  ],
+  "rasterInFlight": {
+    "runId": "34439698619",
+    "family": "vt_seal_nonconviction-set",
+    "commitSha": "18640d9d8fa4095a6af39a744449786f9ce42b8b",
+    "why": "VF25 passed it on all fifteen obligations; its bytes moved in repair so the old receipt does not bind. A RASTER_PASS over these bytes is the last of the four terminal conditions it lacks.",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml"
+  }
 }
