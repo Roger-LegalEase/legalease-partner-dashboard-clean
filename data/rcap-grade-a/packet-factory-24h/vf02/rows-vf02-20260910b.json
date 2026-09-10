@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "shift": "20260910b",
+  "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+  "independence": "VF02 built neither family, repaired neither, rastered neither, and released no grant of its own. Both grants were confirmed assertable in this worktree's own ledger (985 claims, generatedAtCommit d3946abfcfe611fda430491917088d09367c3bb0) with `--can-assert VF02` reading 2 assertable / 0 refused, then asserted and held.",
+  "measurementNote": "Every count below was measured in this container from the committed artifact bytes. Renders are pdftoppm -r <dpi> -gray, which emits P5 PGM: one byte per pixel, no colour-plane ambiguity. Annotations are ON in every render reported here; the one hidden-annotation comparison is labelled as a control where it appears. Digests are sha256sum / node:crypto output, never transcribed. Where a counter could not be measured it is null, never 0.",
+  "guardsProvedAbleToFail": [
+    "PROTECTED_FIELDS on md_pardon_expungement-set: the same measurement, run against a control flatten of the two court sources built in scratch with pdf-lib's default appearance provider and NO suppression, returns 1481 added dark px across 40 refused check-box rects. The delivered bytes return 0 at the same 115 rects. The zero is a measured zero.",
+    "CLIPPING_AND_OVERLAP on md_pardon_expungement-set: removing one declared write rect (CC-DC-CR-072B:Court's City/County) from the write-box mask moves 998 px from addedInsideWriteBoxes to addedOutsideWriteBoxes on page 1. The 0-outside result is not a guard that cannot fail.",
+    "Internal-vocabulary sweep on la-985-1-interim-expungement-set: the same ten regexes that return 0 hits on filed pages 1-5 of both fixtures return hits on guide pages 6-19 (component ids on pages 6,7,8,9,12,13; route key on page 6). The sweep fires."
+  ],
+  "counterProvenanceFinding": {
+    "what": "refusedFieldsWithInk is a typed literal in BOTH builders, and the protectedWrites counter is raised only by iterating it.",
+    "scripts/build-census-v1-md_pardon_expungement-set.mjs": "line 1635 `refusedFieldsWithInk: []`; line 1255 `for (const r of a.refusedFieldsWithInk ?? []) note(\"protectedWrites\", ...)`",
+    "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs": "line 1706 `refusedFieldsWithInk: []`; line 1598 `if ((proof.refusedFieldsWithInk ?? []).length > 0) note(\"protectedWrites\", ...)`",
+    "consequence": "protectedWrites: 0 on both queue rows is source-authored and cannot rise. It is not evidence. The PROTECTED_FIELDS readings below rest on this lane's own pixel and text measurements and on nothing either builder reported.",
+    "notRepairedHere": "VF02 is an independent-verification lane and repaired nothing."
+  },
+  "rows": [
+    {
+      "itemId": "md_pardon_expungement-set",
+      "familyId": "md_pardon_expungement-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "bytesRead": {
+        "canonical.pdf": "96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559",
+        "boundary.pdf": "f8e335bc8e2f3c3cb78f3708d8147c837ec7eeb33d353f10d493bae1b4b57b68",
+        "hashedWith": "sha256sum on the committed files at this base"
+      },
+      "rasterReceiptHonoured": {
+        "workflowRunId": "34471657204",
+        "verdict": "RASTER_PASS",
+        "pagesMeasured": 8,
+        "problems": 0,
+        "boundToCanonicalSha256": "96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559",
+        "boundToBoundarySha256": "f8e335bc8e2f3c3cb78f3708d8147c837ec7eeb33d353f10d493bae1b4b57b68",
+        "bothDigestsRecomputedHereAndAgree": true,
+        "whatItDidNotRender": ["boundary.pdf"],
+        "soThisLaneRenderedTheBoundaryFixtureItself": true
+      },
+      "owesAFreshCentralRaster": false,
+      "owesAFreshCentralRasterBecause": "no byte of this family moved in this read; the current receipt binds the exact canonical and boundary digests recomputed here.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route key, obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8, and it agrees across production-field-map.json, product-wiring.json, the MASTER_QUEUE row and route-obligation-candidate.json, where exactly one census row carries it and its packetSetId is md_pardon_expungement-set. The delivered participant-instructions.md prints the same key as its closing line."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared sources recompute exact. CC-DC-089 at STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf in the mounted Master Library hashes eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384, as declared. CC-DC-CR-072B is not in the Master Library (custody nationwide_recovery_pool_2026_09_02); the in-repo copy at reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072B.pdf hashes 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, as declared. The composition source data/record-clearing/legal-design-intake/MD.memo.json hashes 4e773ffb80e152ed18294aa19545e6ec2f27d3d239188b25340d63726b7a8faf, as declared."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared components are delivered: primary_filing (CC-DC-CR-072B page 1) and fee_waiver (CC-DC-089 pages 1-3). Coverage measured by enumerating every AcroForm field on the in-scope source pages and matching it to the field map: 146 fillable fields in scope, 146 declared (31 writes + 115 refusals), 0 in the source and not declared, 0 declared and not in the source. The two push buttons (Reset, Reset Button) are declared separately under viewerControlsRemoved and are the only source widgets not in that 146."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "37 write widgets on each fixture. For all 37 on both canonical and boundary: expected equals drawnText, insideDeclaredRect is true, runsWiderThanTheirOwnBox is empty, and every drawn string is present in the delivered PDF's own text layer on an independent pdftotext -layout extraction. VF01's FAIL is discharged: the blanket refusal reason that said page 3 of CC-DC-089 is the court's order and every field on it belongs to the court is gone, replaced by 20 per-field reasons; build-findings.json now states that the caption at the head of that page is NOT part of the order and IS filled; and participant-instructions.md says so in bold under 'What is deliberately left blank'. The geometry is unchanged, as FIX01 said it would be: 5 write widget rects still land on packet page 4."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This family has exactly the structure that broke its sibling md_10105_early-set: all 56 check-box widgets across the two sources (15 on CC-DC-CR-072B, 41 on CC-DC-089) hold ONLY their on state (/On or /Yes), none carries an /Off appearance, and every one sits at /AS /Off. Measured on the bytes, not inferred from the sibling. Directional darker-pixel diff, delivered page against its own source page, 150 dpi, PGM, annotations ON, 2 px rect pad: added dark px inside the rect of each of the 115 refused fields = 0 at threshold 128, 0 at 160 and 0 at 200 (three thresholds because a grey issuer fill is in scope on this form family - VF44's CR-180 trap). Negative control built in scratch from the same two court sources, flattened with pdf-lib updateFieldAppearances()+flatten() and NO suppression: 1481 added dark px at threshold 128 across 40 of those same refused rects, 58 px on CC-DC-CR-072B:Check Box32 alone. Delivered 0 / control 1481 at the same rects, same render, same threshold. Per-widget appearance count on the delivered bytes is null, not 0: the delivered canonical carries no AcroForm and 0 widget annotations."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Full-page ink accounting rather than a spot check. For each of the 4 packet pages, on BOTH fixtures, every pixel that is dark in the delivered page and not dark in its own source page was classified against a mask of the declared write rects. Canonical, threshold 128 / 150 dpi / 2 px pad: added inside declared write boxes 11006, 2693, 3344, 1905; added OUTSIDE any declared write box 0, 0, 0, 0. Same at threshold 160 (13063/3165/3872/2268 in, 0 out) and 200 (15487/3766/4646/2688 in, 0 out). Boundary fixture, which the central raster gate explicitly did not render, threshold 128: 15967/4136/6129/2722 in, 0 out. Ink the delivered page LOST relative to the source is 1390 px on page 1 and 1251 px on page 4 and nothing anywhere else; both localise to single rectangles at 275.5,18.7 to 347.0,36.5 pt and 305.8,69.6 to 377.3,88.3 pt, which are the /Rect of the CC-DC-CR-072B 'Reset' push button (275.34,18.47,72x18) and the CC-DC-089 'Reset Button' (305.74,69.13,72x19.17) - both declared under viewerControlsRemoved. No issuer print is lost."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "MD.memo.json's md_pardon_expungement track holds exactly 3 selfHelpStopConditions and all 3 are printed verbatim in participant-instructions.md under 'Stop conditions', introduced as 'the conditions the Maryland record for this route states, in its own words'. The guide adds that the State's Attorney objection can arise after filing and quotes rules.notice for it."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "filing-instructions.md 'Where it goes' names the clerk of the court shown in the caption - the court where the conviction was entered - and carries the two conditions the petition itself prints that displace it: a transferred case goes to the court it was transferred to, an appealed case to the appellate court. Items 4 and 5, which decide that, are correctly left as participant elections and are called out in both instruction files."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arises and is answered. The record's rules.notice reads 'The court serves the State's Attorney; 30-day objection period.' and that sentence appears verbatim in participant-instructions.md. No participant service step is owed and none is invented. filing-instructions.md 'After filing' carries the petition's own printed victim notice and the thirty-day period."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record marks exactly one supporting document requiredBeforeFiling - 'Copy of the signed gubernatorial pardon', obtainedFrom 'Maryland Governor's Office or DPSCS' - and participant-instructions.md carries it verbatim under its own heading 'What you must obtain before you file'. Every one of the 115 blanks is classified (38 PARTICIPANT_ELECTION_GENUINE, 34 REQUIRED_BEFORE_FILING, 26 PROTECTED_FIELD, 16 NOT_APPLICABLE_ON_THIS_ROUTE, 1 OPTIONAL_PARTICIPANT_CONTENT), none unclassified, and no REQUIRED_BEFORE_FILING blank lacks a participant instruction. Named gap, disclosed not silent: CC-DC-089 prints that form MDJ-008 must be filed with it and no MDJ-008 is bound to this family; the packet does not carry one and does not stand in for one, and says so in the source receipt, in participant-instructions.md and in filing-instructions.md. That is a source-acquisition obligation for whoever owns acquisition, and it bites only the fee-waiver path."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures exist, parse, and hash to the digests reports/rendered-artifacts.json declares and to the digests the current central RASTER_PASS (run 34471657204) binds. 4 pages each. product-wiring.json is CURRENT against the delivered bytes: its proposedRepresentation pins 96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559 on both components, which is the canonical digest on disk. No record in this family directory names bytes that are not here."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read off the delivered bytes rather than the manifest: packet page 1 carries the CC-DC-CR-072B (Rev. 10/01/2025-2) footer, and packet pages 2, 3 and 4 carry CC-DC-089 (Rev. 11/2025) with the form's own 'Page 1 of 3', 'Page 2 of 3', 'Page 3 of 3' in that order. Petition first, then the waiver in source order; no page duplicated, dropped or transposed. Agrees with reports/rendered-artifacts.json pageManifest."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "VF01's FAIL is discharged, and by the stronger of the two repairs available. The packet now ticks 4 controls and routeSelectionsMade lists all 4, each with its source support: the DISTRICT COURT caption box on the petition, the item-3 pardon ground, the DISTRICT COURT caption box on CC-DC-089, and the waiver request itself. All 4 are disclosed to the participant in participant-instructions.md lines 12-15, and line 26 tells them how to change the court box if the caption is wrong. Item 1 - arrested / summons / citation - is no longer inferred at all: all three boxes are refused as PARTICIPANT_ELECTION_GENUINE with the reason that the Maryland record's nine screening questions do not ask how the case began and the platform will not guess it on a petition affirmed under the penalties of perjury, and filing-instructions.md step 2 says in bold that the packet has not answered it. 5 flattened vector marks in the canonical bytes, which is exactly the 4 declared selections with CC-DC-089's District Court check box counted twice for its two widgets."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arises: CC-DC-089's affidavit carries repeating income, property and debt rows. Every row is enumerated individually in blanks-left-for-the-participant.json - each row's own check box as PARTICIPANT_ELECTION_GENUINE and each row's amount field as REQUIRED_BEFORE_FILING with its own participant instruction - and reproduced as a supply table in participant-instructions.md. No row is silently dropped, none is partially filled, and the packet writes nothing at all into the affidavit."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's rules.fees is '$30 (CC-DC-CR-072B).' and rules.feeWaiver is 'Request for Waiver of Prepaid Costs, CC-DC-089.'; both are printed verbatim in filing-instructions.md. The packet carries CC-DC-089 as its fee_waiver component and ticks its 'I request a waiver of the prepaid costs' box. The caveat is stated rather than buried: neither source binary prints any amount - the petition's only fee wording is 'Filing Fees Are Not Refundable' - so the figure is disclosed as coming from the memo and not from the form, and the participant is told to confirm it with the clerk."
+        }
+      }
+    },
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "familyId": "la-985-1-interim-expungement-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+      "bytesRead": {
+        "canonical.pdf": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "boundary.pdf": "c1180002d64c1959cd4e428af473fe311c6ad313893176b9e5e7fdf84bb10c9e",
+        "hashedWith": "sha256sum on the committed files at this base"
+      },
+      "rasterReceiptHonoured": {
+        "workflowRunId": "34476556218",
+        "verdict": "RASTER_PASS",
+        "pagesMeasured": 38,
+        "problems": 0,
+        "boundToCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "boundToBoundarySha256": "c1180002d64c1959cd4e428af473fe311c6ad313893176b9e5e7fdf84bb10c9e",
+        "bothDigestsRecomputedHereAndAgree": true,
+        "whatItDidNotRender": ["boundary.pdf"],
+        "soThisLaneRenderedTheBoundaryFixtureItself": true
+      },
+      "owesAFreshCentralRaster": false,
+      "owesAFreshCentralRasterBecause": "no byte of this family moved in this read; the current receipt binds the exact canonical and boundary digests recomputed here. The repairs this row calls for are to product-wiring.json and to the Article 995 order's PLEASE SERVE treatment; only the second touches packet bytes, and only that one would owe a re-raster when it is made.",
+      "failedObligationNames": ["PROTECTED_FIELDS", "ARTIFACTS"],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route key, obligation:track-pathway:LA:la-985-1-interim-expungement:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction, agreeing across production-field-map.json, packet-set-manifest.json, source-receipt.json, product-wiring.json, the MASTER_QUEUE row and route-obligation-candidate.json, where exactly one census row carries it under packetSetId la-985-1-interim-expungement-set. The delivered guide prints it on page 6."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both held source binaries recompute exact on disk: the Article 990 affidavit of response at 13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a and the Article 995 order at b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39. 12 of the 13 anchors the packet-set manifest asserts against the Article 995 source bytes are present in that source's text AND in the delivered order pages; the thirteenth, 'Art. 995. Order of interim expungement form to be used', is the article's catchline and is correctly absent from a proposed order a judge signs. The 7 record bindings were re-derived with the builder's own stable-key digest: 6 of 7 entry pins recompute exact (OWNER_DETERMINATIONS, route-obligation-candidate, LA.memo, track-registry, packet-set-manifests, track-source-relationships), and 6 of 7 whole-file pins too. The one drift is MASTER_QUEUE.json, whole-file and entry - which is the factory's own process ledger, regenerated as verdicts move, carries no legal text this packet composes from, and whose four asserted fields (implementationStrategy, sourceStatus, directory, buildScript) are all unchanged. Not a source defect."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 components declared, 3 generated - the Article 994 motion (packet pages 1-3), the Article 995 proposed order (4-5), the instructions (6-19) - and 1 conditionally not generated. The ungenerated one, la-985-1-interim-expungement-fee-waiver-3 / Article 988, is named on delivered page 8 with the record's own condition quoted. The record/bytes divergence it creates is handled correctly and in place: page 12 reproduces the record's action item verbatim, including its sentence 'The packet gives you the Article 988 form with your own fields filled in', and the very next bullet on the same delivered page says 'This packet does not give you the Article 988 form', gives the record-based reason, and tells the participant to ask the clerk or the district attorney for it. The participant is not left with the record's sentence uncorrected."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "19 declared values per fixture. All 19 on canonical and all 19 on boundary are present in an independent pdftotext -layout extraction of the delivered bytes; none is truncated or ellipsized, including the boundary fixture's 35-character docket and its 'Municipal and Traffic Court of New Orleans, Traffic Division'. The 3 Article 995 statutory paragraphs the packet claims to reproduce from the bound source (grant, further-ordered, both denial-reason boxes; 248, 205 and 86 chars) are present in the delivered order pages. The specimen-docket question VF43 left open: case.docket_number is a fact-keyed write through the same helper as name, DOB, parish and division - CAPTION_WRITES at line 591 of the build script - and its value differs between fixtures (TEST-2026-000001 vs TEST-BOUNDARY-2026-0000000000000001), so it is fixture data and not a builder constant. See ARTIFACTS for the limb of VF43's condition that cannot be discharged."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The packet writes into a line of the Article 995 proposed order that its own field map, four lines away, calls court-owned - and the contradiction is in the delivered record, in place. The statute's PLEASE SERVE block prints three identical rows, each a party role followed by a blank: '1. District Attorney ____', '2. Louisiana Bureau of Criminal Identification and Information ____', '3. Arresting Agency ____'. production-field-map.json refuses rows 1 and 2 as PROTECTED_FIELD with the reason 'Article 979 makes service the clerk's act; the serve list is completed by the clerk', and WRITES row 3 (LA-CCRP-ART-995.serve_arresting_agency, factId case.arresting_law_enforcement_agency). On delivered canonical page 5 that row reads '3. Arresting Agency Tangipahoa Parish Sheriff's Office' while rows 1 and 2 carry only dots. The stated reason for refusing rows 1 and 2 applies with equal force to row 3: if Article 979 makes the serve list the clerk's act, row 3 is the clerk's too. The same family's controlling boundary, reproduced verbatim on delivered guide page 17 and in judicialBoundaryOnTheOrder.statedByTheRecord, is 'LegalEase supplies the caption and the felony charge identifiers and nothing else.' This write is neither caption nor a felony charge identifier, so the delivered order carries a sixth write the delivered record says does not exist. The build script knows: its comment at lines 708-711 says the agency 'IS written, because the platform holds it and because the completeness contract refuses to let an agency name hide inside a court-owned refusal class'. That reasoning reaches no delivered record and no participant - a completeness counter is not a legal basis for writing on a proposed order. What the participant is told is narrower than what happened: participant-instructions.md line 175 says 'Leave the clerk's filed-on stamp, the clerk's certificate of service and the district attorney and Bureau lines of the PLEASE SERVE list blank', naming only rows 1 and 2 and never saying that the packet filled row 3 or why, while lines 130 and 157 of the same file tell the participant 'The participant does not serve anyone.' Actionable repair, for a lane that is not this one: settle the three rows the same way. Either refuse row 3 as court-owned like its two siblings, or write all three and restate the judicial boundary and the guide to match - but not one of each with opposite reasons on the same block of the same order.",
+          "evidence": "delivered canonical.pdf page 5 line '3. Arresting Agency Tangipahoa Parish Sheriff's Office'; production-field-map.json maps[LA-CCRP-ART-995].canonicalWrites[5] and canonicalRefusals[serve_district_attorney, serve_bureau]; participant-instructions.md lines 175, 130, 157, 213; scripts/build-census-v1-la-985-1-interim-expungement-set.mjs lines 700-742. Everything else on the order measures clean: the hearing-or-affidavits election, the granted-or-denied choice, both denial-reason boxes, the day, the month and year and the place all render as dots on both fixtures; the signature line carries the statute's own word JUDGE over a dotted rule with no ink and no label of this build's own; and the four felony-charge identifier lines are blank."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured on rendered ink, because the build's own guard cannot fail. Per-page ink bounding boxes at 300 dpi, PGM, threshold 128, annotations ON, all 19 pages of BOTH fixtures: the greatest rightward extent of ink anywhere in the family is 547.44 pt, on pages 10 and 11 of each fixture, against a declared text-box right edge of 552 pt (PAGE_WIDTH 612 - MARGIN 60). Smallest right gutter 64.56 pt. No page reaches 552. Left edge is 60.00 pt on every page but page 13, where it is 59.76 pt - one 300-dpi pixel of left-side bearing at the margin origin, 60 pt from the paper edge. Vertical: minimum baseline gap on any page of either fixture is exactly 13.25 pt against a 10.25 pt Times-Roman glyph box of 11.79 pt (0.9 ascent + 0.25 descent), 0 pairs closer than that, and all 608 text runs on each fixture start at x=60.00 at one size, so no two runs can overlap. THE GUARD THAT CANNOT FAIL, named because the brief asked whether the nine-script shared shape bears on this family: it does, and here is the measurement. The build wraps to WRAP_WIDTH = MAX_WIDTH - WRAP_SAFETY = 484 pt and then asserts `width <= MAX_WIDTH + 0.01` = 492 pt on the same advance sum the wrap just bounded, so the assertion is satisfied by construction for any WRAP_SAFETY >= 0 and can never fire. Measured on the delivered line text with the same font and size the build uses: 608 lines per fixture, widest advance sum 483.96 pt, 0 lines past WRAP_WIDTH, 0 lines past MAX_WIDTH - the assertion had 8.04 pt of slack on the widest line in the packet. What actually protects this family is WRAP_SAFETY, not the assertion: rendered ink runs about 3.5 pt past the advance sum on the widest lines, which is the ~0.6% overshoot FIX142 measured, and 8 pt of wrap safety absorbs it with 4.56 pt to spare. The five other Louisiana families that still overhang are another lane's work and are not touched here; this family's own bytes are inside their box, and the pass rests on this lane's pixels rather than on the build's assertion."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "LA.memo.json's la-985-1-interim-expungement track holds 5 selfHelpStopConditions and all 5 appear verbatim in the delivered packet AND in participant-instructions.md - unclear whether the misdemeanour conviction arose out of the original felony arrest; the rap sheet conflating more than one arrest event; an Article 990 affidavit of response objecting; a contradictory hearing under Article 980(D); and hard-labour custody barring filing under Article 975. Two of them are additionally printed on the face of the motion itself, which is where a stop condition does the most good."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The track registry's venue and destination are reproduced verbatim on delivered page 14: venue 'The court with trial jurisdiction over the misdemeanour conviction in the parish of arrest and conviction, under Article 972.1', destination kind clerk, name 'Clerk of court for the parish', with the registry's own detail sentence about filing the Article 994 motion with the proposed Article 995 order."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arises and is answered correctly on the substance. The record's rules.notice - the Article 980 sixty-day objection period, the Bureau on the same period since 1 August 2015, and the single Article 980(C) extension - is reproduced verbatim. Delivered page 13 states 'The participant does not serve anyone', that under Article 979 the clerk serves the district attorney, the Bureau and the arresting agency and files a certificate of service, and that under Article 982 the clerk serves the order and judgment if expungement is granted. The manual-completion item 'The clerk's service of the motion and of the order and judgment' is carried. The defect recorded under PROTECTED_FIELDS is about who fills the PLEASE SERVE blank, not about what the packet tells the participant service is."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's 15 before-filing items are all printed, and the packet says so and proves it: items numbered 'Item 1 of 15' through 'Item 15 of 15' all appear on both fixtures, with none missing and none repeated. All 5 supporting documents the record marks requiredBeforeFiling appear by name in the packet and in participant-instructions.md, as do all 6 manualCompletionItems, under a heading that claims exactly 6. The field map's separate requiredBeforeFiling list of 13 is field-level and is a different denominator from the record's 15 action items; no record item is dropped between them."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "product-wiring.json, inside this family's own owned directory, states a canonical SHA-256 that no file in the tree has. It pins 34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5 on all three proposedRepresentation components and on binding.acceptanceReceipt.boundToCanonicalSha256; the delivered canonical.pdf hashes bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c. It also carries the superseded raster run 34413372916 as its acceptance receipt while the current central RASTER_PASS is run 34476556218 bound to the bytes that are actually here, and lastIndependentVerification as vf06 FAIL_REPAIR_REQUIRED, which VF43 has since superseded. The record was last written at commit deead9f25, two repairs ago; FIX142's rebuild moved the bytes and did not move it. The factory's own tool agrees, read-only and with no writes to the tree: `node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family la-985-1-interim-expungement-set` reports '1 acceptance receipt(s) WITHDRAWN ... bound to 34cb3e8ea4b3, the family now produces bc8ac1038527' and '3 component digest(s) re-pinned to the bytes on disk'. This is not a queue-wide regeneration lag: the sibling family md_pardon_expungement-set's product-wiring.json is current against its own bytes. It matters because the record's own proposedRepresentation calls itself 'A specification for a later lane', and a specification naming bytes that do not exist is the exact failure ADMITTED_RECEIPT_BINDS_BYTES_NOT_ON_DISK exists to name; nothing in the repository tracks this instance. Everything else under this obligation is sound: both fixtures exist, parse, are 19 pages, and hash to what reports/rendered-artifacts.json and component-page-manifest.json declare and to what the current raster receipt binds; the 19 text-bearing content streams map one-to-one onto the 19 pages with no orphaned stream carrying invisible text. Actionable repair, for a lane that is not this one: rerun generate-product-wiring.mjs for this family. THE OTHER LIMB OF VF43'S CONDITION, and why it cannot be discharged here: VF43 accepted the unmarked specimen docket No.: TEST-2026-000001 on condition that any route rendering this family for a real participant takes the docket from the participant record and proves it on the delivered bytes. The first half holds and is measured under KNOWN_PREFILLS. The second half cannot be tested, because no such route exists: product-wiring.json is status DECLARED_NOT_INSTALLED with generationAllowed false, paymentEligible false, and its own explicitNonGrants say it adds nothing to compiled runtime. There is nothing rendering this family for a real participant to check. That is not a defect in these bytes and it is not scored as one; it is the reason VF43's condition stays open, and it can only be discharged by the lane that installs the route, on that route's own delivered bytes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "19 pages on both fixtures in one order: Article 994 motion 1-3, Article 995 proposed order 4-5, instructions 6-19. Verified from the delivered text rather than from the manifest - page 1 opens LA-CCRP-ART-994, page 4 opens LA-CCRP-ART-995, page 6 opens the instructions component - and it agrees with component-page-manifest.json, which carries the correct current digests for both fixtures. The filed instrument comes before its proposed order, and both come before the guide."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arises and is answered. One selection, ARTICLE_985_1_INTERIM_EXPUNGEMENT_OF_A_FELONY_ARREST, and the packet states it on its own face rather than only in a record: the motion is titled and prayed under Article 985.1 and the proposed order is the Article 995 order. One election is explicitly left to the participant - whether the misdemeanour conviction arose out of that felony arrest - with the reason that the route determines the article and the forms but not this case's facts, and that the record makes the unclear case a self-help stop. The packet also states, on the motion, on the order, in the filing instructions and three times in the guide, the boundary that most matters on this route: it clears only the original felony arrest and the misdemeanour conviction stays on the record unless separately cleared under Article 977."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arises. The Article 995 source prints exactly two 'La. R.S. ___ : ___ / Name of Offense ___' pairs and the delivered order reproduces exactly two, neither more nor fewer, both blank, disclosed on the same delivered page as the mover's own to complete before filing and refused in the field map as REQUIRED_BEFORE_FILING. The PLEASE SERVE list is a three-row repeat and all three rows are present in the correct order; how they are FILLED is the defect recorded under PROTECTED_FIELDS, but no row is dropped, duplicated or reordered."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's rules.fees - Article 985.1(C) applying the ordinary Article 983 provisions, the five-hundred-fifty-dollar cap, collected by the clerk at filing and non-refundable even if the motion is denied - and rules.feeWaiver - Article 983(F) through the Article 988 Motion for Fee Exemption where its grounds are met - both appear verbatim in the delivered packet and in participant-instructions.md. The waiver component is conditional and is not generated, and the packet does not pretend otherwise: it quotes the record's condition, states that Article 983(F)'s grounds are non-conviction grounds so nothing establishes the condition on this route, says in terms 'This packet does not give you the Article 988 form', and still tells the participant what to do if they believe the exemption reaches them and what filing without it costs."
+        }
+      }
+    }
+  ]
+}
