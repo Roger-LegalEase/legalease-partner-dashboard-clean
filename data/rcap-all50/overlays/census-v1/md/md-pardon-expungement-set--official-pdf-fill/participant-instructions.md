@@ -5,15 +5,36 @@ related offenses) (guilty disposition)*, drafted for a conviction the Governor l
 with form CC-DC-089, *Request for Waiver of Prepaid Costs*. It is a prepared draft. It is not legal advice, it
 is not signed, and it has not been filed.
 
-## What the packet answered because the route answers it
+## Every box this packet has ticked for you
+
+There are 4, and this is all of them. Nothing else on either form is marked.
+
+- **CC-DC-CR-072B: DISTRICT COURT OF MARYLAND FOR the city or county shown** - the held case fact case.court_location is "Baltimore County-Towson (DC)", an option of the caption's own chooser on this form whose "(DC)" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required).
+- **CC-DC-CR-072B: Item 3: one criminal act, which is not a crime of violence as defined in Criminal Law Article, sec. 14-101(a), and on or about the date shown I was granted a full and unconditional pardon by the Governor, with respect to that conviction. Not more than 10 years have passed since the Governor signed the pardon. I am not now a defendant in any pending criminal action** - this family is the pardoned-conviction route under Criminal Procedure Article sec. 10-105(a)(8). The route determines which ground of item 3 the petition proceeds on, so the packet states it.
+- **CC-DC-089: DISTRICT COURT OF MARYLAND FOR the city or county shown** - the held case fact case.court_location is "Baltimore County-Towson (DC)", an option of the caption's own chooser on this form whose "(DC)" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required), and this waiver names the same court the petition it accompanies is filed in.
+- **CC-DC-089: For these reasons: I request a waiver of the prepaid costs** - this component IS the request for a waiver of prepaid costs. A waiver form that does not request a waiver asks the court for nothing.
 
 Item 3 of the petition lists eight grounds and tells you to check all that apply. The packet has marked the
 pardon ground - one criminal act, not a crime of violence, followed by a full and unconditional pardon by the
 Governor - and has written the pardon date you gave beside it.
 
-**Check that date against your pardon document before you sign.** You are affirming the petition under the
-penalties of perjury, and the ground you are relying on requires that not more than ten years have passed
-since the Governor signed the pardon. Nothing in this packet proves you were pardoned.
+**Check the pardon date against your pardon document before you sign.** You are affirming the petition under
+the penalties of perjury, and the ground you are relying on requires that not more than ten years have
+passed since the Governor signed the pardon. Nothing in this packet proves you were pardoned.
+
+The caption's court box is ticked on both forms because you told us which court heard the case and the
+answer names a District Court location. If that is wrong, untick DISTRICT COURT OF MARYLAND, tick CIRCUIT
+COURT, and correct the city or county beside it before you sign.
+
+## How your case began
+
+**Item 1 is a check-one and the packet has left all three boxes empty.** The form reads: on or about the
+date shown, I was arrested, or served with a summons, or served with a citation, by an officer of the agency
+named. The date, the agency and the place are filled in from your case facts and they read the same
+whichever of the three is true - but which one it is is a fact about your own case that this platform never
+asked you for. The Maryland record for this route sets nine screening questions and not one of them asks how
+a case began, so nothing here knows the answer and nothing here will guess it on a petition you affirm under
+the penalties of perjury. Tick the one that is true before you sign.
 
 ## What you must obtain before you file
 
@@ -44,6 +65,9 @@ Judiciary before you file the fee-waiver request.
 
 ## What only you can decide, and nothing here can decide for you
 
+- **Item 1: I was arrested.** tick this one if you were arrested. See "How your case began" above
+- **Item 1: I was served with a summons.** tick this one if you were served with a summons. See "How your case began" above
+- **Item 1: I was served with a citation.** tick this one if you were served with a citation. See "How your case began" above
 - **Item 4: the case began in one court and was transferred to another court other than juvenile court.** the platform does not hold the transfer history of the case, and the answer changes where the petition is filed
 - **Item 5: the case was appealed to a court exercising appellate jurisdiction.** the platform does not hold the appellate history of the case, and the answer changes where the petition is filed
 - **Item 3: the charge/offense, but the conduct on which the charge/offense is based is no longer a crime.** item 3 says "check all that apply, making sure that each statement is true and correct". It is not a select-one, so a second ground may also be true of this record, and only the person filing knows their own record well enough to say. The packet marks the ground the route is built on and leaves the rest to them
@@ -126,8 +150,16 @@ household. If you do not need a fee waiver, leave that form out of what you file
 ## What is deliberately left blank
 
 Your signature and the date beside it are blank on both forms. Sign and date them yourself, after you have
-read them. The attorney block on each form is blank because no lawyer is filing this for you. Page 3 of
-CC-DC-089 is the court's order and every line on it belongs to the court.
+read them. The attorney block on each form is blank because no lawyer is filing this for you.
+
+Page 3 of CC-DC-089 carries the court's order on your request. The order itself is the judge's and this
+packet leaves all of it blank: the findings, the granted, granted-in-part or denied election, any amount and
+date ordered, and the judge's signature and ID number.
+
+**The caption at the top of that page is not part of the order, and this packet has filled it** - the
+DISTRICT COURT OF MARYLAND box, the court's city or county, the case number, and the two parties - because
+it identifies your case and it is the same caption the rest of the form carries. Check it against your own
+case record like any other caption in this packet.
 
 ## Stop conditions
 

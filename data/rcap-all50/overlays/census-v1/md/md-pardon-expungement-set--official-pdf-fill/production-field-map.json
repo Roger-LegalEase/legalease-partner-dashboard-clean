@@ -10,17 +10,43 @@
   "structuralClass": "flattened_acroform",
   "captionBasis": "every write box is the /Rect of the source's own AcroForm widget, read from the binary at build time.",
   "fieldNameWarning": "CC-DC-CR-072B's AcroForm names were generated from the printed line each field happened to sit near and several of them name the wrong thing. sourceFieldName carries the source's own name and effectiveLabel carries what the field is, read off the rendered page at the widget's measured /Rect.",
-  "routeSelectionNote": "Item 3 of the petition says \"check all that apply\". The packet marks the ground this family is built on - the full and unconditional pardon under Criminal Procedure Article sec. 10-105(a)(8) - and writes the pardon date beside it from the held screening fact. The other seven grounds are NOT declared inapplicable, because a second ground may also be true of a given record; they are carried as genuine participant elections and disclosed. The court and arrest-mode boxes are select-ones stated from held case facts.",
+  "routeSelectionNote": "Item 3 of the petition says \"check all that apply\". The packet marks the ground this family is built on - the full and unconditional pardon under Criminal Procedure Article sec. 10-105(a)(8) - and writes the pardon date beside it from the held screening fact. The other seven grounds are NOT declared inapplicable, because a second ground may also be true of a given record; they are carried as genuine participant elections and disclosed. The caption's court box is a select-one stated from the held case fact the record asks for by name. Item 1's arrest / summons / citation select-one is NOT stated: the record asks no question about how a case began, so the packet leaves all three boxes for the person who signs. routeSelectionsMade is derived from the selections actually made and lists every one of them.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
-      "selection": "CC-DC-CR-072B item 3: one criminal act, not a crime of violence, followed by a full and unconditional pardon by the Governor",
-      "sourceSupport": "the route this family is built for, and the only ground of item 3 that describes it"
+      "documentId": "CC-DC-CR-072B",
+      "field": "Check Box33",
+      "selection": "CC-DC-CR-072B: DISTRICT COURT OF MARYLAND FOR the city or county shown",
+      "sourceSupport": "the held case fact case.court_location is \"Baltimore County-Towson (DC)\", an option of the caption's own chooser on this form whose \"(DC)\" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required)",
+      "routeDetermined": true,
+      "factId": "case.court_location"
     },
     {
       "routeKey": "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
-      "selection": "CC-DC-089: I request a waiver of the prepaid costs",
-      "sourceSupport": "the component IS the request for a waiver; a waiver form that requests nothing asks the court for nothing"
+      "documentId": "CC-DC-CR-072B",
+      "field": "one criminal act which is not a crime of violence as defined in Criminal Law Article  14101a and on or about",
+      "selection": "CC-DC-CR-072B: Item 3: one criminal act, which is not a crime of violence as defined in Criminal Law Article, sec. 14-101(a), and on or about the date shown I was granted a full and unconditional pardon by the Governor, with respect to that conviction. Not more than 10 years have passed since the Governor signed the pardon. I am not now a defendant in any pending criminal action",
+      "sourceSupport": "this family is the pardoned-conviction route under Criminal Procedure Article sec. 10-105(a)(8). The route determines which ground of item 3 the petition proceeds on, so the packet states it",
+      "routeDetermined": true,
+      "factId": null
+    },
+    {
+      "routeKey": "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+      "documentId": "CC-DC-089",
+      "field": "District Court check box",
+      "selection": "CC-DC-089: DISTRICT COURT OF MARYLAND FOR the city or county shown",
+      "sourceSupport": "the held case fact case.court_location is \"Baltimore County-Towson (DC)\", an option of the caption's own chooser on this form whose \"(DC)\" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required), and this waiver names the same court the petition it accompanies is filed in",
+      "routeDetermined": true,
+      "factId": "case.court_location"
+    },
+    {
+      "routeKey": "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+      "documentId": "CC-DC-089",
+      "field": "Request a Waiver of the Prepaid Costs check box",
+      "selection": "CC-DC-089: For these reasons: I request a waiver of the prepaid costs",
+      "sourceSupport": "this component IS the request for a waiver of prepaid costs. A waiver form that does not request a waiver asks the court for nothing",
+      "routeDetermined": true,
+      "factId": null
     }
   ],
   "dispositionVocabulary": [
@@ -55,7 +81,7 @@
           }
         }
       ],
-      "factId": null,
+      "factId": "case.court_location",
       "rect": {
         "x": 190.309,
         "y": 750.967,
@@ -68,8 +94,8 @@
       "rectBasis": "the /Rect of the AcroForm widget named \"Check Box33\" on page 1 of the source binary",
       "kind": "selection_control",
       "disposition": "selected_by_route",
-      "routeDetermined": false,
-      "selectionBasis": "the court of conviction held by this fixture is a District Court location"
+      "routeDetermined": true,
+      "selectionBasis": "the held case fact case.court_location is \"Baltimore County-Towson (DC)\", an option of the caption's own chooser on this form whose \"(DC)\" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required)"
     },
     {
       "fieldId": "CC-DC-CR-072B:Court's City/County",
@@ -287,55 +313,12 @@
       "selectionBasis": null
     },
     {
-      "fieldId": "CC-DC-CR-072B:Check Box36",
-      "fieldName": "Check Box36",
-      "field": "Check Box36",
-      "effectiveLabel": "Item 1: I was arrested",
-      "printedLabel": "Item 1: I was arrested",
-      "sourceLabel": "Item 1: I was arrested",
-      "sourceFieldName": "Check Box36",
-      "documentId": "CC-DC-CR-072B",
-      "component": "primary_filing",
-      "page": 1,
-      "sourcePage": 1,
-      "widgetCount": 1,
-      "widgets": [
-        {
-          "page": 1,
-          "rect": {
-            "x": 349.99,
-            "y": 576.629,
-            "width": 7.92,
-            "height": 8.04,
-            "rawY": 576.629,
-            "rawX": 349.99,
-            "malformedInSource": false
-          }
-        }
-      ],
-      "factId": null,
-      "rect": {
-        "x": 349.99,
-        "y": 576.629,
-        "width": 7.92,
-        "height": 8.04,
-        "rawY": 576.629,
-        "rawX": 349.99,
-        "malformedInSource": false
-      },
-      "rectBasis": "the /Rect of the AcroForm widget named \"Check Box36\" on page 1 of the source binary",
-      "kind": "selection_control",
-      "disposition": "selected_by_route",
-      "routeDetermined": false,
-      "selectionBasis": "the held case fact is an arrest rather than a summons or a citation"
-    },
-    {
       "fieldId": "CC-DC-CR-072B:Law Enforcement Agency",
       "fieldName": "Law Enforcement Agency",
       "field": "Law Enforcement Agency",
-      "effectiveLabel": "Item 1: the law enforcement agency whose officer arrested me",
-      "printedLabel": "Item 1: the law enforcement agency whose officer arrested me",
-      "sourceLabel": "Item 1: the law enforcement agency whose officer arrested me",
+      "effectiveLabel": "Item 1: the law enforcement agency whose officer arrested me, served the summons, or served the citation",
+      "printedLabel": "Item 1: the law enforcement agency whose officer arrested me, served the summons, or served the citation",
+      "sourceLabel": "Item 1: the law enforcement agency whose officer arrested me, served the summons, or served the citation",
       "sourceFieldName": "Law Enforcement Agency",
       "documentId": "CC-DC-CR-072B",
       "component": "primary_filing",
@@ -927,7 +910,7 @@
           }
         }
       ],
-      "factId": null,
+      "factId": "case.court_location",
       "rect": {
         "x": 262.479,
         "y": 670.577,
@@ -940,8 +923,8 @@
       "rectBasis": "the /Rect of the AcroForm widget named \"District Court check box\" on page 3 of the source binary (this field has 2 widgets, one per page it repeats on, and every one is proved)",
       "kind": "selection_control",
       "disposition": "selected_by_route",
-      "routeDetermined": false,
-      "selectionBasis": "the same court the petition this waiver accompanies is filed in"
+      "routeDetermined": true,
+      "selectionBasis": "the held case fact case.court_location is \"Baltimore County-Towson (DC)\", an option of the caption's own chooser on this form whose \"(DC)\" suffix marks it a District Court location. The record asks for this fact by name (generationRequirement courtAndCounty, required), and this waiver names the same court the petition it accompanies is filed in"
     },
     {
       "fieldId": "CC-DC-089:Court's City/County",
@@ -1623,6 +1606,42 @@
       "why": "the participant supplies this before filing"
     },
     {
+      "fieldId": "CC-DC-CR-072B:Check Box36",
+      "fieldName": "Check Box36",
+      "field": "Check Box36",
+      "effectiveLabel": "Item 1: I was arrested",
+      "printedLabel": "Item 1: I was arrested",
+      "sourceFieldName": "Check Box36",
+      "documentId": "CC-DC-CR-072B",
+      "component": "primary_filing",
+      "page": 1,
+      "sourcePage": 1,
+      "rect": {
+        "x": 349.99,
+        "y": 576.629,
+        "width": 7.92,
+        "height": 8.04,
+        "rawY": 576.629,
+        "rawX": 349.99,
+        "malformedInSource": false
+      },
+      "printedSlot": false,
+      "isSelectionControl": true,
+      "kind": "selection_control",
+      "reason": "a participant election the route does not determine: item 1 says \"check one of the following boxes\" and the answer is a fact about how your case began. The Maryland record for this route does not ask how the case began - none of its nine screening questions covers it - so the platform does not hold the answer and will not guess it on a petition you affirm under the penalties of perjury. Tick the one that is true: arrested, served with a summons, or served with a citation",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "requiredBeforeFiling": false,
+      "routeDetermined": false,
+      "routeConditionThatMakesItInapplicable": null,
+      "factAvailable": false,
+      "factId": null,
+      "identity": "CC-DC-CR-072B field Check Box36",
+      "participantMustSupply": null,
+      "role": "participant",
+      "why": "tick this one if you were arrested. See \"How your case began\" above"
+    },
+    {
       "fieldId": "CC-DC-CR-072B:Check Box37",
       "fieldName": "Check Box37",
       "field": "Check Box37",
@@ -1645,18 +1664,18 @@
       "printedSlot": false,
       "isSelectionControl": true,
       "kind": "selection_control",
-      "reason": "the packet states another member of this select-one",
-      "refusalClass": null,
-      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "reason": "a participant election the route does not determine: item 1 says \"check one of the following boxes\" and the answer is a fact about how your case began. The Maryland record for this route does not ask how the case began - none of its nine screening questions covers it - so the platform does not hold the answer and will not guess it on a petition you affirm under the penalties of perjury. Tick the one that is true: arrested, served with a summons, or served with a citation",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
       "requiredBeforeFiling": false,
       "routeDetermined": false,
-      "routeConditionThatMakesItInapplicable": "item 1 says \"check one of the following boxes\" and the packet states the arrest alternative from the held case fact",
+      "routeConditionThatMakesItInapplicable": null,
       "factAvailable": false,
       "factId": null,
       "identity": "CC-DC-CR-072B field Check Box37",
       "participantMustSupply": null,
       "role": "participant",
-      "why": "the packet states another member of this select-one"
+      "why": "tick this one if you were served with a summons. See \"How your case began\" above"
     },
     {
       "fieldId": "CC-DC-CR-072B:Check Box38",
@@ -1681,18 +1700,18 @@
       "printedSlot": false,
       "isSelectionControl": true,
       "kind": "selection_control",
-      "reason": "the packet states another member of this select-one",
-      "refusalClass": null,
-      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "reason": "a participant election the route does not determine: item 1 says \"check one of the following boxes\" and the answer is a fact about how your case began. The Maryland record for this route does not ask how the case began - none of its nine screening questions covers it - so the platform does not hold the answer and will not guess it on a petition you affirm under the penalties of perjury. Tick the one that is true: arrested, served with a summons, or served with a citation",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
       "requiredBeforeFiling": false,
       "routeDetermined": false,
-      "routeConditionThatMakesItInapplicable": "item 1 says \"check one of the following boxes\" and the packet states the arrest alternative from the held case fact",
+      "routeConditionThatMakesItInapplicable": null,
       "factAvailable": false,
       "factId": null,
       "identity": "CC-DC-CR-072B field Check Box38",
       "participantMustSupply": null,
       "role": "participant",
-      "why": "the packet states another member of this select-one"
+      "why": "tick this one if you were served with a citation. See \"How your case began\" above"
     },
     {
       "fieldId": "CC-DC-CR-072B:The case began in one court and was transferred to another court other than juvenile court Note This petition must be filed in",
@@ -4968,7 +4987,7 @@
       "identity": "CC-DC-089 field Name of Party for Court Order",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Meets Financial Eligibility check box",
@@ -5004,7 +5023,7 @@
       "identity": "CC-DC-089 field Meets Financial Eligibility check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Does Not Meet Financial Eligibility check box",
@@ -5040,7 +5059,7 @@
       "identity": "CC-DC-089 field Does Not Meet Financial Eligibility check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Unable to Pay due to Poverty check box",
@@ -5076,7 +5095,7 @@
       "identity": "CC-DC-089 field Unable to Pay due to Poverty check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Not Unable to Pay due Poverty check box",
@@ -5112,7 +5131,7 @@
       "identity": "CC-DC-089 field Not Unable to Pay due Poverty check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Not Frivolous check box",
@@ -5148,7 +5167,7 @@
       "identity": "CC-DC-089 field Not Frivolous check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Frivolous check box",
@@ -5184,7 +5203,7 @@
       "identity": "CC-DC-089 field Frivolous check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Other Findings check box",
@@ -5220,7 +5239,7 @@
       "identity": "CC-DC-089 field Other Findings check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Description of Other Findings Line 1",
@@ -5256,7 +5275,7 @@
       "identity": "CC-DC-089 field Description of Other Findings Line 1",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Description of Other Findings Line 2",
@@ -5292,7 +5311,7 @@
       "identity": "CC-DC-089 field Description of Other Findings Line 2",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Granted check box",
@@ -5328,7 +5347,7 @@
       "identity": "CC-DC-089 field Granted check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Granted In Part check box",
@@ -5364,7 +5383,7 @@
       "identity": "CC-DC-089 field Granted In Part check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Ordered Fee to Prepay",
@@ -5400,7 +5419,7 @@
       "identity": "CC-DC-089 field Ordered Fee to Prepay",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Date to Prepay",
@@ -5436,7 +5455,7 @@
       "identity": "CC-DC-089 field Date to Prepay",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Denied check box",
@@ -5472,7 +5491,7 @@
       "identity": "CC-DC-089 field Denied check box",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Judge Signature",
@@ -5508,7 +5527,7 @@
       "identity": "CC-DC-089 field Judge Signature",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Date of Judge Signature",
@@ -5544,7 +5563,7 @@
       "identity": "CC-DC-089 field Date of Judge Signature",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     },
     {
       "fieldId": "CC-DC-089:Judge ID Number",
@@ -5580,7 +5599,7 @@
       "identity": "CC-DC-089 field Judge ID Number",
       "participantMustSupply": null,
       "role": "court",
-      "why": "page 3 of this form is the court's order on the request and every field on it belongs to the court"
+      "why": "this is a field of the ORDER on page 3 of this form, which the judge completes and signs. The caption at the head of that page - the court, its city or county, the case number and the two parties - is not part of the order: it identifies the case, it is the same caption the petition carries, and this packet fills it"
     }
   ],
   "viewerControlsRemoved": [

@@ -1661,6 +1661,35 @@ async function build({ check = false } = {}) {
       sourceReceipt: `${OUT}/source-receipt.json`,
       sourceVersion: SOURCES.map((source) => ({ sourceId: source.sourceId, sha256: source.sha256,
         tier: "exact_content_hash" })),
+      acceptanceReceipt: null,
+      rasterState: "BUILT_RASTER_PENDING",
+      /*
+       * A raster receipt that this build's own bytes make stale, recorded
+       * rather than quietly dropped. The receipt was admitted against a packet
+       * carrying nine synthesized check-box outlines, three of them on the
+       * judge's ordering boxes, because the raster gate does not difference a
+       * delivered page against its pinned source. Those bytes do not exist here
+       * any more; the family needs a fresh central raster against the digests
+       * in reports/rendered-artifacts.json, and nothing this build does is a
+       * receipt.
+       */
+      supersededAcceptanceReceipt: {
+        verdict: "RASTER_PASS", workflowRunId: "34413372916", jobId: "102673422679",
+        artifactId: "10128266840",
+        boundToCanonicalSha256: "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+        coversTheWholeFamily: true,
+        supersededBy: "FIX01 repair of CLIPPING_AND_OVERLAP, PROTECTED_FIELDS, SELF_HELP_STOP and "
+          + "REQUIRED_BEFORE_FILING on 2026-09-09",
+        why: "the receipt binds exact hashes and this build's canonical fixture is no longer that hash"
+      },
+      lastIndependentVerification: {
+        verdict: "FAIL_REPAIR_REQUIRED", lane: "vf01",
+        verifiedAtBase: "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        verifiedAgainstCanonicalSha256: "0ee66d971f1937ca7f57595ee5e8993357be605c3497b1cb21b06d5b73400c07",
+        appliesToTheCurrentBytes: false,
+        note: "Its four failing obligations were repaired by FIX01 on 2026-09-09. A repair lane cannot verify "
+          + "its own work, so the current bytes carry NO independent verification and no verdict."
+      },
       paymentEligible: false,
       sponsorshipEligible: false,
       whyPaymentIsClosed: "Commercial authority comes from a Grade-A fulfillment record keyed to an exact "

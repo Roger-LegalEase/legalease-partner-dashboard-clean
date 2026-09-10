@@ -11,9 +11,10 @@
   "co_petition_seal_arrest-set"
  ],
  "assignedFamiliesWorkedInThisReturn": [
-  "me-seal-survivor-set"
+  "me-seal-survivor-set",
+  "md_pardon_expungement-set"
  ],
- "claimsAsserted": "Asserted per family before any artifact of it was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>'. me-seal-survivor-set returned CLAIM_OK (repair, grant set 914af21a28d51a60).",
+ "claimsAsserted": "Asserted per family before any artifact of it was read: node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>'. me-seal-survivor-set and md_pardon_expungement-set both returned CLAIM_OK (repair, grant set 914af21a28d51a60).",
  "verdictsSet": "none. This lane repaired these bytes, so it cannot verify them. No PASS is issued here and no RASTER_PASS is claimed - that comes from the central workflow only.",
  "grantsNothing": "A repair proves a defect removed. It approves no output, promotes no route, closes no delivery gate and opens no commercial path.",
  "productionTouched": false,
@@ -171,7 +172,8 @@
     "three": "The durability conflict is stated rather than papered over. The guide gives the record's statutory rule (`There is no self-reporting duty on this track and a later conviction does not unseal a § 2262-B record`), then quotes CR-308's page-2 warning AS THE FORM'S OWN PRINTED WORDS - lifted at build time out of CR-308's printed word boxes, not transcribed - says in terms that the two do not agree and that the disagreement is recorded and unresolved, and names the open gate and both of its items. It does not repeat the warning as advice and does not tell the participant the form is wrong.",
     "four": "filing-instructions.md no longer points at the consent route without its boundary. The no-hearing sentence is followed by the record's own stop condition on seeking the State's consent, and the section says describing what the box is is not advice to ask for consent. A new section carries the immigration stop condition, and the hearing section names the hearing date, time and courtroom the manifest requires.",
     "five": "product-wiring.json regained paymentEligible false, sponsorshipEligible false, whyPaymentIsClosed and maintenanceRelationship, which existed in the committed record but were not emitted by the builder and would otherwise have been dropped by this rebuild. The stale acceptanceReceipt was NOT carried forward, deliberately: it binds canonical 0ee66d97..., which these bytes no longer are.",
-    "notDone": "Nothing VF01 found sound was touched. Source identity is unchanged - both bound digests are still the encrypted official binaries, CR-308 b2e78f24... at 162,514 bytes, and the receipt still records the pikepdf derivatives separately with their own digests. The build still reports that the recovered CR-308 does not satisfy the warning gate. The CR-308 findings-of-fact /AP /N dict without /Subtype is still left as the source's own and carried to the raster gate. No box is marked on either form; routeSelectionsMade is still 0."
+    "notDone": "Nothing VF01 found sound was touched. Source identity is unchanged - both bound digests are still the encrypted official binaries, CR-308 b2e78f24... at 162,514 bytes, and the receipt still records the pikepdf derivatives separately with their own digests. The build still reports that the recovered CR-308 does not satisfy the warning gate. The CR-308 findings-of-fact /AP /N dict without /Subtype is still left as the source's own and carried to the raster gate. No box is marked on either form; routeSelectionsMade is still 0.",
+    "six": "After the Maryland row was committed, the Maine builder was given the same honesty the Maryland record keeps: product-wiring.json now emits acceptanceReceipt null, rasterState BUILT_RASTER_PENDING, a supersededAcceptanceReceipt block recording the RASTER_PASS that bound canonical 0ee66d97... and why it no longer applies, and a lastIndependentVerification block recording VF01 FAIL_REPAIR_REQUIRED at 7d6453f51 with appliesToTheCurrentBytes false. The first Maine commit (0c432edc2) dropped those keys because the builder regenerates the whole file and did not carry them; this restores them as generated output so a rebuild keeps them. The fixture digests did not move: canonical 8c68fd47... and boundary b1f0e964... are the same bytes 0c432edc2 committed."
    },
    "recordsThatDisagree": [
     {
@@ -227,6 +229,150 @@
     "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/ (regenerated: fixtures, both guides, field census, field map, reports, findings, receipts, wiring, status)"
    ],
    "sharedArtifactsTouched": "none. scripts/rcap-official-forms/rcap-active-content.mjs was READ and CALLED but not modified, so no other family's next rebuild is changed by this row. No central manifest, no MASTER_QUEUE row, no claim ledger entry and no other family's directory was written.",
+   "verdictSet": null,
+   "packetsSelfVerified": 0,
+   "productionTouched": false,
+   "claimReleased": false,
+   "commit": "0c432edc2"
+  },
+  {
+   "itemId": "md_pardon_expungement-set",
+   "status": "COMPLETED",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "repairedByThisLane": true,
+   "laneKind": "repair",
+   "obligationsRepaired": [
+    "KNOWN_PREFILLS",
+    "ROUTE_OPTIONS"
+   ],
+   "obligationCoverage": "These are the two obligations VF01 scored FAIL on this family at 7d6453f51, and nothing else was touched. Both were contradictions between the delivered records and the delivered bytes rather than defects in the geometry: VF01 measured all 38 values correct, complete and inside their boxes, and this lane did not move a single one of them.",
+   "theMarksWereNotTouched": {
+    "why": "The brief said the outline repair on this family already holds and not to touch the marks. It does hold, and I proved it on the bytes at HEAD 181ac2ece before changing anything: 6 stroke-only flattened appearances in the delivered canonical fixture, and all 6 byte-identical by SHA-256 to an /AP /N ON-STATE stream in a pinned source - 2 in ccdccr072B.pdf (a 69-byte /Yes and an 81-byte /On) and 4 at 45 bytes each in the CC-DC-089 binary. 50 further flattened appearances were empty streams, which is the suppression working.",
+    "afterThisRepair": "5 stroke-only appearances, and all 5 still match a source /AP /N on-state stream byte for byte; empty streams 50 to 51. The one that went is item 1's arrest tick, and its widget now carries the same empty appearance every other unticked box on the form carries. No mark's stream, placement or rect changed."
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER_PASS - this repair changed the delivered bytes, so any raster receipt keyed to canonical 2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb no longer covers the packet. rasterState is BUILT_RASTER_PENDING and no page image was rendered here as a receipt.",
+    "Independent verification - this lane repaired and measured these bytes and cannot verify them. No verdict is set and no PASS is issued.",
+    "FEE_AND_WAIVER - VF01 did not score it FAIL in the row this repair answers, and an earlier FIX01 return recorded it as open on the ground that filing-instructions.md and MD.memo.json disagree about the $30 figure. NOT touched here: this lane holds no grant to resolve a fee figure, and the guide's current wording quotes the record's own words and tells the participant to confirm with the clerk.",
+    "SELF_HELP_STOP on Maryland - the same earlier return recorded that the State's Attorney objection does not reach participant copy by that name. NOT in this dispatch's scope for this family and not touched."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after - node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_pardon_expungement-set returns PASS_COMPLETE both times, 32/146 written before and 31/146 after, the one difference being the arrest tick this repair removed from the writes. NO COUNTER MOVES AND NONE COULD: both defects were contradictions between the packet's own records and its own bytes, and no counter in the set reads a record against the bytes. VF01 said the same thing in its own words and scored the family FAIL on nine zeros. This row rests on the control readings below, not on the counters. Recorded because it is the honest shape of the evidence: a green counter set was true of the defective packet too.",
+   "countersMeasuredBy": "the shared completeness verifier for all nine, run here on this tree. The two readings that actually decide this row - which selections the bytes carry, and where ink lands - were measured separately with pikepdf and pdftoppm, below.",
+   "controlReadings": {
+    "selectionsInTheBytesAgainstSelectionsDisclosed": {
+     "method": "pikepdf: every /Subtype /Form XObject flattened into a page, classified stroke-only when it carries a path-painting operator and no text-showing operator, each hashed and matched against every /AP /N stream in both pinned sources. Then the delivered production-field-map.json routeSelectionsMade array and the delivered participant-instructions.md read against that list.",
+     "before": "5 marks in the bytes standing for 4 selections (the CC-DC-089 court box has two widgets, on packet pages 2 and 4) plus item 1's arrest tick on page 1 = 6 stroke-only appearances. routeSelectionsMade listed TWO. participant-instructions.md disclosed two. The court box and the arrest mode appeared in neither.",
+     "after": "5 stroke-only appearances standing for 4 selections. routeSelectionsMade lists all four, each with its own source support, and it is now DERIVED from the writes rather than hand-listed - a checkbox write with no stated basis stops the build. participant-instructions.md opens with a section that names all four and says nothing else on either form is marked. The count of selections in the bytes and the count in the disclosure are the same number in the same file.",
+     "itemOneIsNoLongerAnswered": "The arrest tick is gone from the bytes. Its widget now carries the empty appearance every unticked box on the form carries, and all three of arrested / summons / citation are classified PARTICIPANT_ELECTION_GENUINE in the field map and disclosed in the guide under a section of their own."
+    },
+    "pixelDifferenceAgainstThePinnedSources": {
+     "method": "pdftoppm -r 150 -gray per page against the source page each packet page claims, added dark pixels split by whether they fall inside a declared write rect taken from the DELIVERED production-field-map.json (post-repair write set), expanded 1pt.",
+     "before": {
+      "canonical": {
+       "addedInside": 30244,
+       "addedOutsideEveryDeclaredWriteRect": 60,
+       "removed": 2943
+      },
+      "whereTheSixtyWere": "all 60 on packet page 1 around (352.3, 583.2) - item 1's arrest tick, which is outside the post-repair declared write set precisely because the repair stopped declaring it a write."
+     },
+     "after": {
+      "canonical": {
+       "addedInside": 30244,
+       "addedOutsideEveryDeclaredWriteRect": 0,
+       "removed": 2943
+      },
+      "boundary": {
+       "addedInside": 46011,
+       "addedOutsideEveryDeclaredWriteRect": 0,
+       "removed": 2943
+      }
+     },
+     "addedInkUnchanged": "addedInside is identical to the pixel before and after on every page, which is the check that not one of the 38 values moved.",
+     "removedPixels": "2,943 per fixture, 1,537 on packet page 1 and 1,406 on packet page 4, and they are the forms' two Reset viewer push-buttons - production-field-map.json declares both under viewerControlsRemoved as detached rather than deleted. VF01 cropped and looked at the same two regions and reached the same answer at 130 dpi (1,056 and 928). Removing a Reset button from a filing is correct, and this repair did not change it."
+    },
+    "recordsNowAgreeWithTheBytes": {
+     "method": "grep for the blanket sentence in all three places VF01 found it.",
+     "before": "production-field-map.json gave 18 page-4 refusals the reason 'page 3 of this form is the court's order on the request and every field on it belongs to the court'; build-findings.json said 'Every field on it is refused as court-owned'; participant-instructions.md told the participant 'Page 3 of CC-DC-089 is the court's order and every line on it belongs to the court' - while the packet ticked the DISTRICT COURT box and printed the court's city or county, the case number, the petitioner and the respondent on that page.",
+     "after": "zero occurrences of 'every field on it', 'every line on it' or 'belongs to the court' in any of the three files. All three now say the same thing: the 18 fields of the ORDER are the judge's, and the caption at the head of that page is not part of the order and is filled by this packet."
+    }
+   },
+   "whatWasWrong": {
+    "knownPrefills": "The packet said three times over that it wrote nothing on the court's order page while it wrote five things there, including ticking DISTRICT COURT OF MARYLAND in the order's own caption. The refusals array contradicted itself in place: its first page-4 entry refused the CIRCUIT COURT box because 'the packet states the other member of this select-one', which is the tick the blanket sentence says does not exist. The participant-facing consequence is the reason it is a FAIL rather than a note - a caption on a proposed order names the court that will sign it and the case it will be signed in, and the packet told the person filing that nothing on that page was theirs to check.",
+    "routeOptions": "Four selections were ticked and two disclosed. routeSelectionsMade listed two of four, and neither the caption's court box nor item 1's arrest mode appeared anywhere in either guide. Item 1 is the one that matters: the form prints '(Check one of the following boxes) On or about ___, I was [ ] arrested, [ ] served with a summons, [ ] or served with a citation', the packet answered that select-one with factId null and routeDetermined false, and the petition is affirmed under the penalties of perjury."
+   },
+   "whatWasDone": {
+    "knownPrefills": "The brief said to decide from the controlling record which of the two statements is true and make them agree. The record decides it: the caption is not the order. It identifies the court and the case, it is the same caption CC-DC-089 carries on pages 1 and 2, and it is filled from the same field map entries. The 18 fields the packet refuses are all fields of the order itself - the eight findings boxes and their two description lines, the granted / granted-in-part / denied election, the amount and date ordered, the party name in the order, and the judge's signature, date and ID. So the geometry was right and the sentence was wrong, and the sentence changed in all three places at once.",
+    "routeOptionsDisclosure": "routeSelectionsMade is no longer a hand-kept list. It is derived from the checkbox writes themselves, carries each row's own basis as its source support, and the build now REFUSES to produce a packet in which a ticked box has no stated basis. participant-instructions.md opens with a section that lists every one of them with its basis and says nothing else on either form is marked.",
+    "routeOptionsItemOne": "The brief said a sworn election made from an inference is not cured by disclosing it, and that if the record does not establish which of arrested / summons / citation is true the packet must not tick it. I checked the record: legal-design-track-registry.json track md_pardon_expungement carries NINE generationRequirements - court and county, case number, charges in the incident, disposition of each, pending charges, pardon signature date, only-one-criminal-act, crime-of-violence, and whether a fee waiver is wanted. None asks how the case began, and the words arrest, summons and citation occur ZERO times in the whole track record. The platform does not collect the fact. So the tick is removed, all three boxes are carried as genuine participant elections, and the guide has a section of its own telling the participant that the packet has left the check-one empty, why, and to tick the true one before signing. The date, the agency and the place stay written because the form's own sentence puts each of those blanks after all three alternatives ('by an officer of the ___'), so they assert nothing about the mode; the one label this build gave that DID presume an arrest - 'the law enforcement agency whose officer arrested me' - was corrected to the form's own construction.",
+    "theCourtBoxIsProvedRatherThanInferred": "The caption's court box stays ticked, and on a different footing from item 1: the same track record DOES ask for this fact by name - generationRequirement courtAndCounty, 'Which court heard the case, and in which county or Baltimore City?', marked required - and the held answer is written into the caption's own chooser, whose option list is the form's and whose District Court options all carry the suffix '(DC)'. The build now refuses to produce a packet unless the held location actually carries that suffix, so a held location that is not a District Court location stops the build instead of silently ticking the wrong member of a select-one on a sworn petition. The published basis names the fact, the suffix and the generationRequirement.",
+    "notDone": "No value moved. No mark's stream, placement or rect changed. The shared finalizer and the suppression helper were not modified. No source binding changed. The fee wording, the MDJ-008 warning, the stop conditions and the affidavit-of-income treatment are all as they were."
+   },
+   "artifacts": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256BeforeRepair": "2bd8059f5970eab1ee8bb677e8006cd1a8557eba96b074b2c3eeea0d959172eb",
+     "sha256": "96b99e1fcf5cc7e3ce940a18595d219d17134903e11aa460b8622880303f6559",
+     "byteLength": 1167329,
+     "pageCount": 4,
+     "addedGlyphsReadFromOutputBytes": 627,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedVectorMarksReadFromOutputBytes": 5
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256BeforeRepair": "a06f4ddabe754147bb8f2036d92583d5757d560aacbdd04b9deda6e55c68e3b4",
+     "sha256": "f8e335bc8e2f3c3cb78f3708d8147c837ec7eeb33d353f10d493bae1b4b57b68",
+     "byteLength": 1167775,
+     "pageCount": 4,
+     "addedGlyphsReadFromOutputBytes": 1007,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedVectorMarksReadFromOutputBytes": 5
+    },
+    "digestsTakenWith": "sha256sum on the committed files and the builder's own crypto.createHash. Neither is transcribed.",
+    "boundSources": [
+     {
+      "sourceId": "official-form:CC-DC-CR-072B",
+      "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+      "byteLength": 764936,
+      "resolvedAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf, re-hashed here and exact"
+     },
+     {
+      "sourceId": "official-form:CC-DC-089",
+      "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+      "byteLength": 1062198,
+      "resolvedAt": "the Master Library under MASTER_LIBRARY_SOURCE_DIR, re-hashed here and exact"
+     }
+    ],
+    "determinism": "the builder was run at HEAD before any edit and reproduced 2bd8059f... and a06f4dda... byte for byte, and every run after an edit reproduced the run before it. Every byte that moved is attributable to an edit made here."
+   },
+   "filesChanged": [
+    "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+    "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/ (regenerated: fixtures, field map, guides, findings, reports, status)"
+   ],
+   "sharedArtifactsTouched": "none. No shared module, no central manifest, no other family's directory and no claim-ledger entry was written.",
    "verdictSet": null,
    "packetsSelfVerified": 0,
    "productionTouched": false,
