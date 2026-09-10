@@ -26,7 +26,9 @@
  * uses to classify the same streams, so a builder's own reading and an
  * independent lane's reading of the same file are the same measurement.
  *
- * This module is imported by the two Arkansas ACIC builders and by nothing else.
+ * This module is imported by builders that owe these readings -- the two Arkansas
+ * ACIC builders, and the three Indiana conviction builders, which take only the
+ * flattened-appearance count from it (FIX04, 2026-09-10).
  * It reads PDFs and returns numbers: it writes no file, edits no manifest, sets
  * no verdict and grants nothing.
  */
