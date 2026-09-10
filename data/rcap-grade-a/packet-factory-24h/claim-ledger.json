@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1beb7183ab811b7ecc18a1f24f734ce1d4d053e4",
+  "generatedAtCommit": "8fe4fe6a0990585c35faa70d63d599dfa81cc03d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -935,11 +935,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX137",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T07:42:08.008Z",
-      "releaseReason": "FIX137 returned; the ARTIFACTS failure it left is the flattened-widget counter, whose module predicate was fixed at 462298a41, so the family is re-dispatched to a rebuild lane"
+      "releasedAt": "2026-09-10T07:42:08.008Z"
     },
     {
       "subjectType": "packet-family",
@@ -1470,7 +1469,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.688Z"
@@ -2502,7 +2501,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -4518,11 +4517,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:42.664Z",
-      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4565,11 +4562,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:42.904Z",
-      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4612,11 +4607,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T07:47:43.121Z",
-      "releaseReason": "FIX03 returned its repair of all three at commit 175f823dc20df0241e000e3f82831cd0fab86a8a and never released. Released so the repaired bytes can be independently read by a lane that is not FIX03."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5834,7 +5827,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T22:10:56.596Z"
@@ -9331,11 +9324,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX130",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T07:46:54.068Z",
-      "releaseReason": "FIX130 returned at the end of its Vermont shift, having repaired five siblings on this host and left this family unrepaired; the grant was never released. Re-dispatched to a fresh repair lane against VF25's independent FAIL."
+      "releasedAt": "2026-09-10T07:46:54.068Z"
     },
     {
       "subjectType": "packet-family",
@@ -14515,7 +14507,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b67119df651d7701d9d15e7b9b95ad4d86e4ac0def704cd63def2c13e1619eac",
+  "claimsDigest": "30039c374df75d2e44438eacf950a113ee9f0e73c43672de02d20669e4df5db8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44302,6 +44294,36 @@
       "previouslyReleasedAt": "2026-09-05T21:16:31.008Z",
       "reissuedAt": "2026-09-10T04:17:07.657Z",
       "reason": "Repaired today by FIX131; VF08 already owned all five and its grants are released, so the cohort stays with one reader"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_d6-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T07:52:04Z",
+      "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "dispatchNames": "FIX05",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T07:52:04Z",
+      "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_conviction_misd-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-10T07:52:04Z",
+      "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
