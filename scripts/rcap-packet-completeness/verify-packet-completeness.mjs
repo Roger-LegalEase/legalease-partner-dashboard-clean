@@ -29,6 +29,32 @@ const ARGS = process.argv.slice(2);
 const WRITE = ARGS.includes("--write");
 const MUTATIONS = ARGS.includes("--mutations");
 const ONLY = ARGS.includes("--family") ? ARGS[ARGS.indexOf("--family") + 1] : null;
+/*
+ * A BARE FAMILY NAME USED TO BE IGNORED IN SILENCE.
+ *
+ * `verify-packet-completeness.mjs il-seal-2yr-set` audited all 294 families and
+ * printed the whole-corpus report, with no error and no warning, because the
+ * only filter is `--family`. FIX161 ran it that way and got a corpus verdict
+ * that looks exactly like a family verdict. A lane reading it would believe it
+ * had measured the family it named.
+ *
+ * This script's output is evidence a lane acts on, so answering a question
+ * nobody asked is worse than refusing. Unrecognised arguments now stop it.
+ */
+const KNOWN_FLAGS = new Set(["--write", "--mutations", "--family"]);
+const familyValue = ARGS.includes("--family") ? ARGS[ARGS.indexOf("--family") + 1] : null;
+const stray = ARGS.filter((a, i) => a !== familyValue || ARGS[i - 1] !== "--family")
+  .filter((a) => !KNOWN_FLAGS.has(a));
+if (stray.length) {
+  console.error(`UNRECOGNISED_ARGUMENT: ${stray.map((a) => JSON.stringify(a)).join(" ")}. `
+    + `A single family is selected with --family <id>; a bare name is not a filter and this used to audit `
+    + `every family while looking like it had audited yours. Known flags: ${[...KNOWN_FLAGS].join(", ")}.`);
+  process.exit(2);
+}
+if (ARGS.includes("--family") && !ONLY) {
+  console.error("UNRECOGNISED_ARGUMENT: --family was given no family id.");
+  process.exit(2);
+}
 const OUT = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
 const OVERLAYS = "data/rcap-all50/overlays/census-v1";
 
