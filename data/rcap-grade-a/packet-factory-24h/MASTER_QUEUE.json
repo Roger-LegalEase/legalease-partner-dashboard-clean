@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "793963834d8dd2a7c6954f084de3d6227c0de124",
+  "minimumCaptainSha": "d980a907027d8a4a9ccd602fd0d7de44b23bdcb5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "0ac3733b444e00b263e7d269f42ffb3bf45370d6c65b4287bb68f8ea4e8a25ac",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "2a0f3b8406c05a15dff09e69af484b3233627c00a65b88414e9ed17e523bffb3",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,22 +66,22 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 9,
+    "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
-    "remaining": 337,
+    "remaining": 340,
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 39,
+    "repairRequired": 41,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 201,
+    "COMPLETE_PACKET_PROVEN": 202,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
-    "FAIL_REPAIR_REQUIRED": 48,
+    "FAIL_REPAIR_REQUIRED": 47,
     "SOURCE_READY": 33,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
@@ -113,10 +113,7 @@
       "al-pardoned-felony-set",
       "co_multiple_conviction_seal-set",
       "ct-cleanslate-petition-set",
-      "nj_ordinance-set",
-      "oh_marijuana_expungement-set",
       "ri_decriminalized-set",
-      "ri_nonconviction_sealing-set",
       "vt_exp_decriminalized-set"
     ],
     "staleRosterFamilies": [
@@ -19410,14 +19407,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf58",
-        "verifiedAtBase": "ee90b3c3a9296f41ccddda26b04f2992884b2518",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf61",
+        "verifiedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -19446,20 +19441,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "FAIL. The delivered PDFs themselves are sound - both re-hashed here and matching reports/rendered-artifacts.json and approval-request.json by digest, byte length and measured page count (a41c124a.../1,726,367/13pp and c8ca8931.../1,727,058/13pp), 443 flattened widget XObjects, 0 residual /Widget annotations, no AcroForm dictionary, 0 AcroForm fields, and 21 surviving /Link annotations which are exactly the 21 the four pinned sources carry. WHAT FAILS IS WHAT THE FAMILY PUBLISHES ABOUT THOSE BYTES. reports/actual-writes.json declares, for each fixture, addedGlyphsReadFromOutputBytes 0, flattenedWidgetAppearancesReadFromOutputBytes 44 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. Read from the builder rather than guessed at: scripts/build-census-v1-il-seal-3yr-set.mjs line 667 writes `addedGlyphsReadFromOutputBytes: 0` and `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0` as HARDCODED LITERALS and `flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length`, which is the finalizer's own intent. Not one of the three is a reading of the saved bytes, and two of them are false: this lane measured 579 added glyphs on the canonical and 1,170 on the boundary by a per-page character-multiset difference against the pinned sources with whitespace excluded, and 443 flattened widget appearances. THE HARM IS NOT COSMETIC AND IT IS NOT SPECULATIVE. scripts/rcap-packet-completeness/verify-packet-completeness.mjs derives invisibleWrites from the first two fields (line 669) and visualDefects from the third (line 670). Run at this base with --family, it prints for il-seal-3yr-set: 'ok il-seal-3yr-set PASS_COMPLETE 44/424 written', with 'invisibleWrites 0 · visualDefects 0'. That visualDefects 0 is the builder's hardcoded literal read back and printed as a measurement. Run against the two sibling families whose builders publish null honestly, the same tool prints NOT_MEASURABLE_HERE with 'visualDefects UNMEASURED'. So of the three Illinois families this lane holds, the ONLY one the completeness verifier calls PASS_COMPLETE is the one whose counters are fabricated. This is the repository's own recorded defect class: the sibling builder scripts/build-census-v1-il-seal-2yr-set.mjs carries the comment naming it - DEFECTS_NO_COUNTER_CAN_SEE, 'a-published-zero-where-a-measurement-existed' - and says 'this file used to publish addedGlyphsReadFromOutputBytes as the literal 0 and flattenedWidgetAppearancesReadFromOutputBytes as the finalizer's own write count. Neither had ever been read from the output.' il-seal-2yr-set was repaired. il-seal-3yr-set was not.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
@@ -27318,9 +27304,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf56",
-        "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json"
+        "lane": "vf61",
+        "verifiedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf61/rows-vf61-20260910.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -27354,32 +27340,11 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
+          "obligation": "ROUTE_OPTIONS",
           "finding": null,
           "findingReadFrom": null,
           "evidence": null
@@ -34308,7 +34273,7 @@
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "nonvisual completeness counters not zero: knownRequiredFieldsMissing"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -34324,21 +34289,21 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
+      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 0,
+        "knownRequiredFieldsMissing": 15,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 1,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": null,
         "protectedWrites": 0,
         "visualDefects": null
       },
       "failingCounters": [
-        "requiredOptionsMissing"
+        "knownRequiredFieldsMissing"
       ],
       "failedObligationNames": [
         "ROUTE_OPTIONS"
@@ -34354,8 +34319,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX167",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -34366,8 +34331,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nm_conviction-set",
@@ -35968,8 +35932,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX167",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -35980,8 +35944,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "or_contempt_setaside-set",
@@ -40557,8 +40520,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX167",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_nonconviction_sealing-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -40569,8 +40532,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "sc_17_22_950_summary-set",
