@@ -34,14 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 182,
-    "rows": 1218,
+    "returnDirectories": 183,
+    "rows": 1221,
     "independentVerdicts": 292,
-    "failRepairRequired": 54,
-    "passIndependent": 216
+    "failRepairRequired": 53,
+    "passIndependent": 217
   },
   "failRepairRequiredFamilies": [
-    "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
     "al-trafficking-set",
@@ -1268,6 +1267,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf52/rows-vf52-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf55",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
       "superseded": false
     },
     {
@@ -1857,6 +1870,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf52/rows-vf52-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf55",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
       "superseded": false
@@ -13676,6 +13712,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf55",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
       "superseded": false

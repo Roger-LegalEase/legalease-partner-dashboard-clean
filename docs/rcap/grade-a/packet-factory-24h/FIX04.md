@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `0b4525a52cf4ab01c979f4fff437ac27f807109c` (or the newer dispatch base)
+**Minimum required ancestor:** `981a2b664470bb2bf74ce6b366eedb0cc4d74162` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-misdemeanor-seal-set' \
   --codex-cloud \
-  --minimum-captain-sha 0b4525a52cf4ab01c979f4fff437ac27f807109c
+  --minimum-captain-sha 981a2b664470bb2bf74ce6b366eedb0cc4d74162
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,10 +40,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ar-misdemeanor-seal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ar-felony-seal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-2yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'nj_disorderly_persons-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'tx_nd_conviction_no_supervision-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'in_arrest_no_charges-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'nj_ordinance-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'tx_nd_dwi_probation-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -67,10 +67,10 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 5 families
 
 - `ar-misdemeanor-seal-set` — failing: unclassifiedBlanks
-- `ar-felony-seal-set`
-- `il-seal-2yr-set`
-- `nj_disorderly_persons-set` — failing: requiredOptionsMissing
-- `tx_nd_conviction_no_supervision-set`
+- `az_marijuana_expungement_arrest_no_charges-set`
+- `in_arrest_no_charges-set`
+- `nj_ordinance-set` — failing: requiredOptionsMissing
+- `tx_nd_dwi_probation-set`
 
 ## What you receive
 
@@ -84,15 +84,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-misdemeanor-seal-set.mjs`
-- `scripts/build-census-v1-ar-felony-seal-set.mjs`
-- `scripts/build-census-v1-il-seal-2yr-set.mjs`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
+- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
+- `scripts/build-census-v1-nj_ordinance-set.mjs`
+- `scripts/build-census-v1-tx_nd_dwi_probation-set.mjs`
 
 ## Never write here
 
