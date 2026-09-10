@@ -866,6 +866,43 @@ async function renderDocument(source, census, fixtureName) {
      * defect, not Vermont's; the option is default-off and no other family's
      * bytes move because this family passes it. */
     fitAppearancesToRect: true,
+    /*
+     * FIX130. THE SIX REMAINING STROKE-ONLY APPEARANCES ARE THE COURT'S OWN INK
+     * WITH ONE OPERATOR MISSING, AND THEY ARE RESTORED RATHER THAN REMOVED.
+     *
+     * Each delivered fixture carries six stroke-only flattened widget
+     * appearances, 24 across the four, all on 600-00228. VF90 recorded that none
+     * of them matches a pinned-source /AP /N stream byte for byte. That is a
+     * sound byte comparison and it is NOT a statement about where the ink came
+     * from, so cause was established on this family's own bytes:
+     *
+     *   delivered  /FlatWidget-7888911063   "0.5 0.5 13.4 13.4 re s"
+     *   source     600-00228 field 16 /N/Off
+     *              "1 g / 0 0 14.4 14.4 re / f / 0.5 0.5 13.4 13.4 re / s"
+     *
+     * Six of six are that /N /Off with its leading opaque background fill
+     * removed, with nothing left over. Unlike the 14 boxes on 200-00130 and
+     * 200-00132 that FIX50 dealt with -- which ship /N /Yes only and no /MK /BC,
+     * so their border really is invented -- these six carry /MK /BC [0] /BG [1]
+     * and ship their own /Off appearance. The stroke is the Judiciary's.
+     *
+     * WHY THE MISSING FILL IS THE DEFECT. 600-00228 prints its check boxes as
+     * text: `/C2_1 1 Tf <0706> Tj` at 11.04pt on the "Are you employed?" line of
+     * page 1, a ballot-box glyph, with the widget over it. The white fill is
+     * what makes the widget's appearance REPLACE the printed glyph instead of
+     * doubling it. Stripped, the printed box is revealed AND the appearance's
+     * box is stamped, so the delivered page carries two frames at every one of
+     * the six. A 600 dpi directional difference against the pinned source
+     * measures added ink at each of the six rects and zero removed.
+     *
+     * preserveUnwrittenSelectionBackgrounds is the committed, opt-in remedy for
+     * exactly this symptom. It preserves ONLY source-authored paint, only in an
+     * unwritten check box or radio widget, and only where the source ships the
+     * appearance itself. No mark is added, no box is ticked, /MK /BG is still
+     * removed, and the shared module is not modified, so no other family's next
+     * rebuild is changed by this.
+     */
+    preserveUnwrittenSelectionBackgrounds: true,
     title: FORMS[source.formNumber].title
   });
   if (process.env.VT_DEBUG_RENDER) {
