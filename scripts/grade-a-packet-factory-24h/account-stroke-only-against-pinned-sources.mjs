@@ -37,12 +37,41 @@ const PAINTING = /(^|[\s\]>)])(S|s|f|F|f\*|B|B\*|b|b\*|sh)(?=[\s[<(/%]|$)/;
 const sha = (buffer) => createHash("sha256").update(buffer).digest("hex");
 const decode = (stream) => { try { return Buffer.from(decodePDFRawStream(stream).decode()); } catch { return null; } };
 
+/*
+ * THE DISCRIMINATOR, NAMED ON THE BYTES BY VF22 AND FIX01 ON 2026-09-10.
+ *
+ * A delivered stream that matches no source stream is not automatically invented
+ * ink. On co_petition_seal_arrest-set all 36 unmatched streams were a source
+ * /AP stream minus its opaque background fill, and on
+ * co_motion_seal_nonconviction-set every fill-only appearance is byte-identical
+ * to a source /AP /N /Off stream whose /N differs from its /D only by a LEADING
+ * OPAQUE BACKGROUND FILL -- `0.749023 g ... re f`.
+ *
+ * That distinction decides the remedy and nothing else does. Ink the source does
+ * not ship is invented and is REMOVED. Ink that is the form's own appearance
+ * with its background fill stripped is the form's ink and the remedy RESTORES --
+ * a lane that removes it erases what the court prints, which has already
+ * happened once in this cohort and cost a 213.6pt rule.
+ *
+ * So an unmatched stream is compared a second time against every source stream
+ * with a leading fill removed from BOTH sides. The comparison stays SHA-256 of
+ * bytes; only the leading fill is normalised away, and only a fill that sits at
+ * the very start before any other painting.
+ */
+const LEADING_FILL = /^\s*(?:[\d.]+\s+g|[\d.]+\s+[\d.]+\s+[\d.]+\s+rg|\/[A-Za-z0-9_.-]+\s+cs\s+[\d.\s]+scn)\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+\s+re\s+f\*?\s*/;
+const skeleton = (buffer) => {
+  const text = buffer.toString("latin1");
+  const stripped = text.replace(LEADING_FILL, "");
+  return { changed: stripped !== text, sha256: sha(Buffer.from(stripped, "latin1")) };
+};
+
 /* Every appearance stream the pinned source itself ships, across every state of
  * every widget -- an /AP /N may be a stream or a dictionary of named states, and
  * an unticked box's correct mark can live under either. */
 async function sourceAppearanceDigests(pdfPath) {
   const doc = await PDFDocument.load(readFileSync(pdfPath), { updateMetadata: false, ignoreEncryption: true, throwOnInvalidObject: false });
   const digests = new Set();
+  const skeletons = new Set();
   const form = doc.catalog.lookup(PDFName.of("AcroForm"));
   const seen = new Set();
   const visit = (node, depth) => {
@@ -55,12 +84,12 @@ async function sourceAppearanceDigests(pdfPath) {
           for (const [, sub] of value.entries()) {
             const stream = doc.context.lookup(sub);
             const bytes = stream && stream.dict ? decode(stream) : null;
-            if (bytes) digests.add(sha(bytes));
+            if (bytes) { digests.add(sha(bytes)); skeletons.add(skeleton(bytes).sha256); }
           }
         }
         const stream = doc.context.lookup(entry);
         const bytes = stream && stream.dict ? decode(stream) : null;
-        if (bytes) digests.add(sha(bytes));
+        if (bytes) { digests.add(sha(bytes)); skeletons.add(skeleton(bytes).sha256); }
       }
     }
     const kids = node.lookup(PDFName.of("Kids"));
@@ -79,7 +108,7 @@ async function sourceAppearanceDigests(pdfPath) {
     const annots = page.node.lookup(PDFName.of("Annots"));
     if (annots && annots.asArray) for (const ref of annots.asArray()) visit(doc.context.lookup(ref), 0);
   }
-  return digests;
+  return { digests, skeletons };
 }
 
 async function strokeOnlyDigests(pdfPath) {
@@ -101,7 +130,7 @@ async function strokeOnlyDigests(pdfPath) {
       const drawn = [...text.matchAll(/\(((?:[^()\\]|\\.)*)\)\s*Tj/g)].map((m) => m[1]).join("")
         + [...text.matchAll(/<([0-9A-Fa-f\s]*)>\s*Tj/g)].map((m) => m[1].replace(/\s/g, "")).join("");
       if (drawn.replace(/\s/g, "").length > 0) continue;
-      found.push({ page: index + 1, name: key.asString(), sha256: sha(bytes), bytes: bytes.length });
+      found.push({ page: index + 1, name: key.asString(), sha256: sha(bytes), bytes: bytes.length, skeletonSha256: skeleton(bytes).sha256, hadLeadingFill: skeleton(bytes).changed });
     }
   }
   return found;
@@ -111,7 +140,7 @@ const ledger = JSON.parse(readFileSync(LEDGER, "utf8"));
 const cohort = JSON.parse(readFileSync(COHORT, "utf8"));
 const sourcesOf = new Map(cohort.cohort.map((f) => [f.familyId, (f.documents ?? []).map((d) => d.resolvedFrom).filter(Boolean)]));
 
-let synthesized = 0, formsOwn = 0, unmeasured = 0, nowClean = 0;
+let synthesized = 0, formsOwn = 0, unmeasured = 0, nowClean = 0, fillStripped = 0;
 
 for (const row of ledger.rows) {
   if (!row.confirmation?.startsWith("CONFIRMED_DEFECTIVE")) continue;
@@ -122,18 +151,20 @@ for (const row of ledger.rows) {
     continue;
   }
   let pool = new Set();
+  const skeletonPool = new Set();
   const unreadable = [];
   for (const source of sources) {
-    try { for (const digest of await sourceAppearanceDigests(source)) pool.add(digest); }
+    try { const r = await sourceAppearanceDigests(source); for (const d of r.digests) pool.add(d); for (const d of r.skeletons) skeletonPool.add(d); }
     catch (error) { unreadable.push({ source: path.basename(source), why: String(error.message).slice(0, 160) }); }
   }
   const fixtures = globSync(path.join(row.familyDirectory, "fixtures", "*.pdf")).sort();
-  let matched = 0; const unmatched = [];
+  let matched = 0; const unmatched = []; const derivedFromSource = [];
   let failed = null;
   for (const fixture of fixtures) {
     try {
       for (const appearance of await strokeOnlyDigests(fixture)) {
         if (pool.has(appearance.sha256)) matched += 1;
+        else if (skeletonPool.has(appearance.sha256) || pool.has(appearance.skeletonSha256) || skeletonPool.has(appearance.skeletonSha256)) derivedFromSource.push({ fixture: path.basename(fixture), ...appearance });
         else unmatched.push({ fixture: path.basename(fixture), ...appearance });
       }
     } catch (error) { failed = String(error.message).slice(0, 160); break; }
@@ -144,18 +175,33 @@ for (const row of ledger.rows) {
     continue;
   }
   row.sourceAccounting = {
-    result: unmatched.length > 0 ? "SYNTHESIZED_INK_CONFIRMED" : "EVERY_STROKE_IS_THE_FORMS_OWN",
+    result: unmatched.length > 0
+      ? "SYNTHESIZED_INK_CONFIRMED"
+      : derivedFromSource.length > 0
+        ? "EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED"
+        : "EVERY_STROKE_IS_THE_FORMS_OWN",
+    strokeOnlyThatIsASourceStreamMinusItsBackgroundFill: derivedFromSource.length,
+    derivedFromSourceDetail: derivedFromSource.slice(0, 40),
+    whatTheThreeClassesMean: {
+      matched: "byte-identical to a stream the pinned source ships. The form draws it. Correct.",
+      derivedFromSource: "byte-identical once a LEADING OPAQUE BACKGROUND FILL is removed from both sides -- 0.749023 g ... re f and its rg/scn equivalents. This is the form's own appearance with its background stripped, so the ink belongs on the page and the defect is the STRIPPING. The remedy RESTORES; removing it erases what the court prints.",
+      unmatched: "matches nothing the source ships, with or without that fill. Invented. The remedy REMOVES.",
+    },
     sourceAppearanceStreamsInPool: pool.size,
+    sourceStreamsWithTheirBackgroundFillNormalisedAway: skeletonPool.size,
     sourcesUnreadable: unreadable,
     strokeOnlyMatchingAPinnedSourceStream: matched,
     strokeOnlyMatchingNothing: unmatched.length,
     unmatchedDetail: unmatched.slice(0, 40),
     why: unmatched.length > 0
-      ? `${unmatched.length} stroke-only appearance(s) match no /AP /N stream in this family's pinned sources, byte for byte. That ink is synthesized and the form does not print it.`
-      : `all ${matched} stroke-only appearance(s) are byte-identical to an /AP /N stream the pinned source itself ships. The form draws them. Not a defect, and nothing to remediate.`,
+      ? `${unmatched.length} stroke-only appearance(s) match no source stream even with a leading background fill normalised away, so that ink is invented and the remedy removes it. A further ${derivedFromSource.length} are the form's own appearance minus its background fill, and those must be RESTORED rather than removed.`
+      : derivedFromSource.length > 0
+        ? `no invented ink. ${matched} appearance(s) are byte-identical to a source stream and ${derivedFromSource.length} are a source stream minus its leading opaque background fill. The ink belongs on the page; what is wrong is that the fill was stripped, and the remedy restores it.`
+        : `all ${matched} stroke-only appearance(s) are byte-identical to an /AP /N stream the pinned source itself ships. The form draws them. Not a defect, and nothing to remediate.`,
   };
   if (unreadable.length > 0) row.sourceAccounting.caveat = "One or more pinned sources could not be decoded here, so the pool is incomplete and an UNMATCHED result may be an artifact of the missing source rather than synthesized ink. Treat this family as UNMEASURED until its sources read.";
   if (unmatched.length > 0) synthesized += 1; else { formsOwn += 1; nowClean += 1; }
+  if (derivedFromSource.length > 0) fillStripped += 1;
 }
 
 ledger.sourceAccountingPass = {
@@ -166,6 +212,7 @@ ledger.sourceAccountingPass = {
   results: {
     SYNTHESIZED_INK_CONFIRMED: synthesized,
     EVERY_STROKE_IS_THE_FORMS_OWN: formsOwn,
+    familiesCarryingAtLeastOneBackgroundFillStrippedStream: fillStripped,
     UNMEASURED: unmeasured,
   },
   stillOwed: "This is byte accounting, not a raster. Over-suppression -- ink the official form itself draws that a remedy removed -- is invisible here and is caught only by a directional raster difference against a render of the pinned source, read in both directions. Every repair still owes that, and no repair author verifies their own repaired candidate.",
@@ -175,6 +222,7 @@ ledger.sourceAccountingPass = {
 writeFileSync(LEDGER, JSON.stringify(ledger, null, 2) + "\n");
 console.log(`synthesized ink confirmed:        ${synthesized}`);
 console.log(`every stroke is the form's own:   ${formsOwn}`);
+console.log(`carrying fill-stripped source ink: ${fillStripped}`);
 console.log(`unmeasured:                       ${unmeasured}`);
 for (const r of ledger.rows.filter((r) => r.sourceAccounting?.result === "SYNTHESIZED_INK_CONFIRMED")) {
   console.log(`  ${String(r.sourceAccounting.strokeOnlyMatchingNothing).padStart(5)} synth / ${String(r.sourceAccounting.strokeOnlyMatchingAPinnedSourceStream).padStart(4)} form  ${r.tier.padEnd(22)} ${String(r.currentState).padEnd(24)} ${r.familyId}`);
