@@ -44,14 +44,6 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692718",
-      "artifactId": "9956116597",
-      "boundToCanonicalSha256": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
-      "coversTheWholeFamily": true
-    },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf57",
@@ -65,6 +57,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+        "replacedByCanonicalSha256": "5ba805c03c70078ae4cd5089e7dbebb66890709d7e1e77e769b49d01a73c7bf6",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692718",
+          "artifactId": "9956116597",
+          "boundToCanonicalSha256": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }

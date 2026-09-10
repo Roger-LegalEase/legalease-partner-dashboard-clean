@@ -205,12 +205,121 @@ const PETITION_SELECTION_LABELS = Object.freeze({
   "IS NOT required to register as a sex offender under the": "Paragraph 10 — is not required to register as a sex offender"
 });
 
+/*
+ * WHAT THE PACKET MAY MARK ON A SWORN PETITION.
+ *
+ * Delivered page 3 is a VERIFICATION taken under oath before a notary, so every
+ * numbered paragraph of this petition is a statement the participant swears to.
+ * The packet may therefore pre-mark an election ONLY where the route or the
+ * official form family already settles it:
+ *
+ *   felony / felony_2 - paragraph 1 and 2 offence level. The route key
+ *     situation-c-felony-convictions binds the FELONY form family, so choosing
+ *     the felony form settles both.
+ *   8 - paragraph 8 first eligibility statement. sentenceComplete is a collected
+ *     generationRequirement and the track's packetInstructions say in terms
+ *     "Fill paragraph 8 per the approved convention."
+ *
+ * PARAGRAPHS 9 AND 10 ARE NOT MARKED, and this is deliberate.  The track's six
+ * generationRequirements are convictionDetails, convictionDate, sentenceComplete,
+ * violenceQuestion, sameEpisodeCount and interestsOfJusticeFacts.  NONE asks
+ * whether the participant has pending felony charges and NONE asks whether they
+ * are required to register as a sex offender, so the platform holds neither fact
+ * and no committed record authorises either election.  A fixture value is not
+ * authority: marking a sworn paragraph from a fixture fact swears the
+ * participant to something the route never determined.  Both branches of each
+ * are left blank for the participant and both printed statements are disclosed
+ * verbatim in participant-instructions.md.  See PARTICIPANT_ELECTED_PARAGRAPHS.
+ */
 const SELECTED_PETITION_CONTROLS = new Set([
   "felony",
   "felony_2",
-  "8",
+  "8"
+]);
+
+/* The paragraph 9 and 10 controls: neither branch is route-determined and
+ * neither branch is marked.  Their unselected reason must not claim to be the
+ * complement of an option the fixture established, because no branch was. */
+const PARTICIPANT_ELECTED_PARAGRAPHS = new Set([
   "9",
+  "undefined_3",
+  "IS or",
   "IS NOT required to register as a sex offender under the"
+]);
+
+/* Printed verbatim from the pinned ACIC petition, page 2, for disclosure in
+ * participant-instructions.md.  Each branch is quoted as the form prints it and
+ * carries only what the form itself says follows from choosing it. */
+/*
+ * THE ROUTE RECORD'S OWN STOP CONDITIONS.
+ *
+ * data/record-clearing/legal-design-track-registry.json, track ar-felony-seal,
+ * declares exactly these six selfHelpStopConditions.  They are quoted here so
+ * the delivered guidance carries the record's own words, and verifyStopConditions()
+ * re-reads the committed registry on every build and fails if the list has moved.
+ * The registry is deliberately NOT added to LEGAL_RECORDS: a whole-file digest on
+ * a record that moves several times a week manufactures a stale pin, and a
+ * content anchor on the exact six strings is the stronger check for this use.
+ * The verification is recorded in source-receipt.json under contentAnchoredRecords.
+ *
+ * `plainly` says, in ordinary words, what the participant should do when the
+ * condition is live.  It states no legal consequence the record does not carry;
+ * where the packet has nothing to say, it says that the packet has nothing to say.
+ */
+const TRACK_REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "ar-felony-seal";
+const SELF_HELP_STOP_CONDITIONS = Object.freeze([
+  { condition: "The prosecuting attorney objects within the 30-day window.",
+    plainly: "The prosecuting attorney has 30 days after service to object. If an objection is filed, stop here and get a lawyer; this packet does not answer an objection." },
+  { condition: "The court sets a contested hearing.",
+    plainly: "If the court sets a contested hearing, stop here and get a lawyer. Nothing in this packet prepares you to argue one." },
+  { condition: "Immigration, licensing or firearm consequences are in play.",
+    plainly: "If anything about your immigration status, a professional or occupational licence, or your right to possess a firearm turns on this record, stop and talk to a lawyer before you file. This packet does not tell you what sealing does or does not do for any of the three." },
+  { condition: "The violence determination is unclear.",
+    plainly: "Paragraph 6 of the petition swears that your conviction was not a felony involving violence under §5-4-501(d)(2), among other things. This service asks whether the offence involved violence but does not decide it, and the committed route record forbids deciding it for you. If you are not certain, stop and get a lawyer before you swear to paragraph 6." },
+  { condition: "The same-episode count is unclear.",
+    plainly: "This service asks how many offences arose from the same criminal episode, and the committed route record forbids deciding that count for you. If you are not certain how many offences your case counts as, stop and get a lawyer before filing." },
+  { condition: "The interests-of-justice showing needs individualized argument.",
+    plainly: "Paragraph 11 asks the court to find that you have been rehabilitated, and A.C.A. § 16-90-1415(b) is the interests-of-justice standard the court applies. This packet deliberately writes no argument for you. If your case needs that showing made, a lawyer has to make it — this packet's help stops at the printed form." }
+]);
+
+function verifyStopConditions() {
+  const registry = readJson(TRACK_REGISTRY_PATH);
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `${TRACK_REGISTRY_PATH}: track ${TRACK_ID} is absent`);
+  assert.deepEqual(track.selfHelpStopConditions, SELF_HELP_STOP_CONDITIONS.map((row) => row.condition),
+    `${TRACK_ID}: the committed selfHelpStopConditions no longer match the six this packet delivers`);
+  return { recordId: `track-registry:${TRACK_ID}`, path: TRACK_REGISTRY_PATH,
+    anchorKind: "content_anchor_no_whole_file_pin",
+    anchorStatementsVerified: SELF_HELP_STOP_CONDITIONS.length,
+    anchors: SELF_HELP_STOP_CONDITIONS.map((row) => row.condition),
+    whyNoWholeFilePin: "This record moves several times a week and this build binds only these six strings. "
+      + "A whole-file digest here would go stale without the bound content moving; the content anchor fails the build if it does." };
+}
+
+const PARTICIPANT_ELECTED_PARAGRAPH_TEXT = Object.freeze([
+  {
+    paragraph: "9",
+    branches: [
+      { control: "9",
+        printed: "Defendant has no pending felony charges in any state or federal court",
+        consequence: "Choosing this leaves the two lines under paragraph 9 blank." },
+      { control: "undefined_3",
+        printed: "Defendant has one or more pending felony charges in state or federal court and the status of that/those charges is/are as follows:",
+        consequence: "Choosing this requires writing the status of each pending charge on the two lines printed under paragraph 9." }
+    ]
+  },
+  {
+    paragraph: "10",
+    branches: [
+      { control: "IS or",
+        printed: "Defendant IS required to register as a sex offender under the Sex Offender Registration Act of 1997 (A.C.A.§ 12-12-901, Et. Seq.)",
+        consequence: null },
+      { control: "IS NOT required to register as a sex offender under the",
+        printed: "Defendant IS NOT required to register as a sex offender under the Sex Offender Registration Act of 1997 (A.C.A.§ 12-12-901, Et. Seq.)",
+        consequence: null }
+    ]
+  }
 ]);
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -382,7 +491,7 @@ function refusalFor(source, fields, field) {
     if (field === "federal court and the status of thatthose charges isare as follows"
       || field === "Defendant") return protectedRow(source, fields, field,
       `Conditional paragraph 9 narrative ${field === "Defendant" ? "line 2" : "line 1"}`,
-      "a sworn assertion or legal election the route does not determine; this conditional narrative is unused because the fixture selects no pending felony matters",
+      "a sworn assertion or legal election the route does not determine; this narrative belongs to the second branch of paragraph 9, and the packet marks neither branch of paragraph 9",
       "participant_sworn_narrative_or_legal_election");
 
     assert.fail(`${source.documentId}: no refusal classification for ${field}`);
@@ -430,7 +539,9 @@ function mapFor(source, fields) {
         selected, kind: "selection_control",
         reason: selected
           ? "selected from the bound felony route and the fixture's settled case facts"
-          : "a sworn assertion or legal election the route does not determine; this is the unselected complement to the option established by the fixture",
+          : PARTICIPANT_ELECTED_PARAGRAPHS.has(field.name)
+            ? "a sworn assertion the route does not determine and the track does not collect: no generationRequirement asks about pending felony charges or sex-offender registration, so neither branch of this paragraph is marked and the participant elects it on the printed form"
+            : "a sworn assertion or legal election the route does not determine; this is the unselected complement to the option established by the fixture",
         category: selected ? null : "participant_sworn_narrative_or_legal_election",
         class: selected ? null : "participant_sworn_narrative_or_legal_election",
         completenessClass: selected ? null : "participant_sworn_narrative_or_legal_election",
@@ -578,12 +689,24 @@ function requiredBeforeFiling(maps) {
 function participantInstructions(rbf) {
   return `# Participant instructions — Arkansas felony sealing\n\n`
     + `This packet is for the bound route \`${ROUTE_KEY}\`. It contains the official four-page ACIC felony petition followed by the matching three-page proposed order. Do not substitute an Arkansas misdemeanor, drug-possession, drug-court, arrest, non-conviction, pardon, or Act 346 form.\n\n`
-    + `The sample packet visibly fills every fact held for the fictional participant and case: venue, division, case number, name, arrest-date components, both offense descriptions, class, statute section, two address lines, city, state, ZIP, race, sex, and date of birth. It selects felony for both offense-level choices, the first paragraph 8 eligibility statement, no pending felony matters, and IS NOT required to register under paragraph 10. Those selections come from the route and the fixture's settled facts; a participant must use only selections that match the actual court and ACIC records.\n\n`
+    + `The sample packet visibly fills every fact held for the fictional participant and case: venue, division, case number, name, arrest-date components, both offense descriptions, class, statute section, two address lines, city, state, ZIP, race, sex, and date of birth. It marks three elections and only three: felony for both offense-level choices, because this route is bound to the felony form family, and the first paragraph 8 eligibility statement, because the route collects whether the sentence is complete. Check all three against the actual court and ACIC records before signing.\n\n`
+    + `## Paragraphs 9 and 10 are left blank on purpose — you must mark them yourself\n\n`
+    + `Page 3 of the petition is a VERIFICATION. You sign it under oath in front of a notary, and that oath covers every numbered paragraph on the earlier pages. This packet does not mark paragraph 9 or paragraph 10, because nothing this service asks you settles either one: it never asks whether you have pending felony charges, and it never asks whether you are required to register as a sex offender. Leaving them for you is not an omission — marking them for you would swear you to a statement nobody checked.\n\n`
+    + `Read both choices in each pair on the printed form and mark the one that is true of your record:\n\n`
+    + PARTICIPANT_ELECTED_PARAGRAPH_TEXT.map((item) =>
+        `**Paragraph ${item.paragraph}** — mark exactly one:\n\n`
+        + item.branches.map((branch) =>
+            `- “${branch.printed}”${branch.consequence ? ` — ${branch.consequence}` : ""}`).join("\n")).join("\n\n")
+    + `\n\nBoth boxes in each pair arrive empty. Mark exactly one box in each pair on the printed paper, and check that you have done so before you sign the verification.\n\n`
     + `## Before filing\n\n`
     + `Obtain a fingerprint card from a law-enforcement agency or authorised fingerprint vendor. Obtain the Arkansas criminal history through ACIC when the records step applies, and compare the court, county, case number, offense, class, statute section, disposition, sentence completion, costs, and restitution against the Judgment and Commitment Order and docket. Stop if they disagree.\n\n`
     + `Supply every item below on both official forms before filing:\n\n`
     + rbf.map((row) => `- **${row.label}** — \`${row.identity}\` (page ${row.page}): ${row.participantMustSupply}.`).join("\n")
-    + `\n\nThe FBI number stays blank unless known because each form labels it “if known.” Do not fill the conditional paragraph 9 narrative when “no pending felony matters” is selected.\n\n`
+    + `\n\nThe FBI number stays blank unless known because each form labels it “if known.” Fill the two lines printed under paragraph 9 only if you mark the second choice there; leave them blank if you mark the first.\n\n`
+    + `## Stop and get a lawyer if any of these is true\n\n`
+    + `The committed route record for this track names six points where self-help ends. Each one is a place where this packet stops being able to help you, not a warning about something that might happen later. If any is true of your case, stop and get a lawyer before you file.\n\n`
+    + SELF_HELP_STOP_CONDITIONS.map((row) => `- **${row.condition}** ${row.plainly}`).join("\n")
+    + `\n\nThis packet fills an official form. It does not give legal advice, does not decide whether you are eligible, and does not argue your case.\n\n`
     + `## Signatures, verification, service, and proposed order\n\n`
     + `Leave every participant signature and signature date blank until the participant signs. Complete the verification with the notary; the notary completes the jurat county, jurat date, notary signature, and commission-expiration fields. Complete and date the certificate of service only after service occurs.\n\n`
     + `The proposed order's findings, elections, judge signature, and judge date remain blank for the court. Caption and identification facts are prefilled only so the proposed order matches the petition.\n`;
@@ -709,6 +832,7 @@ function writeWiring(artifacts) {
 export async function runFamily(argv = process.argv.slice(2)) {
   assert.ok(argv.includes("--no-raster"), "this worker must be invoked with --no-raster");
   const legalRecords = verifyLegalRecords();
+  const stopConditionAnchor = verifyStopConditions();
   const held = verifySources();
 
   const fieldsByKey = new Map();
@@ -738,6 +862,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
   for (const row of rbf) {
     assert.ok(participantText.includes(row.identity), `${row.identity}: required-before-filing item not disclosed`);
   }
+  for (const row of SELF_HELP_STOP_CONDITIONS) {
+    assert.ok(participantText.includes(row.condition),
+      `self-help stop condition not carried verbatim: ${JSON.stringify(row.condition)}`);
+  }
+  for (const item of PARTICIPANT_ELECTED_PARAGRAPH_TEXT) {
+    for (const branch of item.branches) {
+      assert.ok(participantText.includes(branch.printed),
+        `paragraph ${item.paragraph} branch not disclosed verbatim: ${JSON.stringify(branch.printed)}`);
+    }
+  }
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), participantText);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingInstructions());
 
@@ -748,6 +882,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     allSourcesExact: true, acquisitionCommissioned: false, sourceBinaryCommitted: false,
     routeKeys: [ROUTE_KEY],
     committedLegalRecords: legalRecords,
+    contentAnchoredRecords: [stopConditionAnchor],
     documents: SOURCES.map((source) => ({ sourceIds: [source.sourceId], documentId: source.documentId,
       componentId: source.componentId, officialTitle: source.officialTitle, revision: source.revision,
       instrumentKind: source.role, pathInPack: source.pathInPack,
@@ -773,9 +908,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeSelectionsMade: [
       { selection: "official form family", value: "ACIC felony petition plus matching felony proposed order", determinedBy: ROUTE_KEY },
       { selection: "offense level", value: "felony", determinedBy: "the bound felony route and fixture offense level" },
-      { selection: "paragraph 8", value: "first eligibility statement", determinedBy: "fixture is a nonviolent Class D felony with sentence complete" },
-      { selection: "paragraph 9", value: "no pending felony matters", determinedBy: "fixture pending-cases fact" },
-      { selection: "paragraph 10", value: "IS NOT required to register", determinedBy: "fixture registration fact" }
+      { selection: "paragraph 8", value: "first eligibility statement", determinedBy: "fixture is a nonviolent Class D felony with sentence complete, and the track's packetInstructions direct filling paragraph 8 per the approved convention" },
+      { selection: "paragraph 9", value: "NOT MARKED BY THIS PACKET", determinedBy: null,
+        why: "The track's generationRequirements do not ask whether the participant has pending felony charges, so the route does not determine this sworn paragraph and the packet marks neither branch." },
+      { selection: "paragraph 10", value: "NOT MARKED BY THIS PACKET", determinedBy: null,
+        why: "The track's generationRequirements do not ask whether the participant is required to register as a sex offender, so the route does not determine this sworn paragraph and the packet marks neither branch." }
     ],
     componentSet: Object.values(COMPONENTS),
     componentRoutes: Object.fromEntries(Object.values(COMPONENTS).map((component) => [component, ROUTE_KEY])),
