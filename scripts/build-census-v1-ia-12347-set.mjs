@@ -145,8 +145,8 @@ const COURT_DEBT_INSTRUCTION = "Court debt is not a precondition on this track. 
  * a zero count on any of them is what VF57 measured as the defect.
  */
 const REQUIRED_PARTICIPANT_DISCLOSURES = Object.freeze([
-  { needle: "123.47(3)", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING" },
-  { needle: "subsection 3", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING" },
+  { needle: "123.47(3)", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING", scope: "participant-prose" },
+  { needle: "subsection 3", document: "participant-instructions.md", obligation: "REQUIRED_BEFORE_FILING", scope: "participant-prose" },
   { needle: "2.83(3)", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" },
   { needle: "court debt", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" },
   { needle: "financial obligations", document: "filing-instructions.md", obligation: "FEE_AND_WAIVER" }
@@ -933,8 +933,21 @@ record.
  */
 function undisclosedRecordSentences(participant, filing) {
   const documents = { "participant-instructions.md": participant, "filing-instructions.md": filing };
+  const participantProseStart = "## Read this first";
+  const participantProseEnd = "## Stop and get help";
+  const start = participant.indexOf(participantProseStart);
+  const end = participant.indexOf(participantProseEnd, start + participantProseStart.length);
+  assert.ok(start >= 0 && end > start,
+    "participant-instructions.md: required participant prose section markers are missing or out of order");
+  const scopedDocuments = {
+    ...documents,
+    "participant-prose": participant.slice(start, end)
+  };
   return REQUIRED_PARTICIPANT_DISCLOSURES
-    .filter((d) => !documents[d.document].toLowerCase().includes(d.needle.toLowerCase()))
+    .filter((d) => {
+      const haystack = d.scope ? scopedDocuments[d.scope] : documents[d.document];
+      return !haystack.toLowerCase().includes(d.needle.toLowerCase());
+    })
     .map((d) => ({ ...d, occurrencesInDeliveredText: 0 }));
 }
 

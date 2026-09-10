@@ -1,0 +1,15 @@
+{
+  "lane": "FIXCXI1",
+  "familyId": "ia-12347-set",
+  "baseSha": "f8c4eaa0604fb9bf56eac6a38a6835e467cc156e",
+  "claimAssert": "CLAIM_OK FIXCXI1 ia-12347-set (repair, grant set 66fe465475e9a055)",
+  "source": {
+    "masterLibrarySourceDir": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45"
+  },
+  "checks": [
+    {"name": "syntax", "command": "node --check scripts/build-census-v1-ia-12347-set.mjs", "exit": 0},
+    {"name": "valid-build", "exit": 0, "nineCountersZero": true, "canonicalSha256": "830d67c3d423b615ed01efbc9c32cdb6a5ca0f89917fc8c13201070bb5fa9b91", "boundarySha256": "a8685beb36fe2ed04c07663d20e3c62512f3b3642665555f2e663536233c3e9c"},
+    {"name": "vf66-prose-mutation", "exit": 0, "status": "STOPPED", "stopClass": "RECORD_SENTENCE_NOT_ON_THE_DELIVERED_PAGE", "needle": "123.47(3)", "scope": "participant-prose", "outputDirectoryTouched": false}
+  ]
+}
