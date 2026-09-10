@@ -7260,10 +7260,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T22:04:30.068Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7322,10 +7322,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T22:04:30.393Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7353,10 +7353,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIXCXN1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T22:04:30.231Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15044,7 +15044,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "10478ca1dede54e9700fa8241a5f99802460096b8e67141a4fd49675a9ed965e",
+  "claimsDigest": "84f496c27afdcee8db7aa8883ee9ac0be25f8cb5c72391c3708676fd3406881a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -59990,6 +59990,39 @@
       "previouslyReleasedAt": "2026-09-10T20:46:55.323Z",
       "transferredAt": "2026-09-10T21:41:21.799Z",
       "reason": "Released FIX175 repair now roster FIX01, confirmed stopped; consolidate exact known NJ shared-host correction under FIXCXN1."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_clean_slate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T22:04:30.068Z",
+      "transferredAt": "2026-09-10T22:11:05.256Z",
+      "reason": "Bounded follow-up after explicit STOPPED return: stage known NJ build before reset/write so source and guard failures preserve prior validated output; no artifact semantics change."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T22:04:30.231Z",
+      "transferredAt": "2026-09-10T22:11:05.412Z",
+      "reason": "Same exclusive three-config NJ staged-publication correction; preserve unresolved15facts and previous candidate bytes."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIXCXN1",
+      "previouslyReleasedAt": "2026-09-10T22:04:30.393Z",
+      "transferredAt": "2026-09-10T22:11:05.556Z",
+      "reason": "Same exclusive three-config NJ staged-publication correction; preserve existing PDF bytes and evidence holds."
     }
   ],
   "grants": [
