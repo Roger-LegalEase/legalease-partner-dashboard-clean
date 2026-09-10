@@ -42916,21 +42916,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -42968,7 +42967,7 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS03",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "8b748df9103ac40f7c9cc61868bd2e48420718ca",
       "requestedScale": 2.5,
       "supersededReceipts": [
@@ -43020,7 +43019,35 @@
           "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
           "workflowRunId": "34407406641"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34418960259",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49",
+        "jobId": "102690667448",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+        "boundToBoundarySha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+        "documentsDigest": "88cdd811bef6270afab98b1e0499c41dcd88c65335b208342853f3567241d200",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10130316935",
+          "name": "rcap-raster-wv_conv_nonviolent_felony-set-34418960259",
+          "zipSha256": "sha256:c76cec1bce889a7901dfa4c87e5ee7d95f82b8c0c9e303fff3c3f1dea8196305"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
