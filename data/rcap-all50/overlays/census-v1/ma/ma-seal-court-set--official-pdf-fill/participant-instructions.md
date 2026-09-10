@@ -71,6 +71,14 @@ Note the court's instruction above: if one of them is not relevant to you, **exp
 
 The route record names one required attachment: _"Disposition record"_ The form's own instruction on page 2 adds that you should attach any documents that support your petition.
 
+## Your CORI and docket check before filing
+
+The packet does not contain your criminal-record information. Before you sign or file, obtain your own CORI from DCJIS and use it to check the docket number and the other case details you supplied. LegalEase does not collect, inspect or authenticate your CORI.
+
+- Obtain Your own CORI from the Department of Criminal Justice Information Services. Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.
+- Check your answer to "What is the docket number?" against Your own CORI from the Department of Criminal Justice Information Services, and correct the packet if they disagree.
+If your court papers and your CORI disagree, stop and correct the packet from the records you hold before you sign it. LegalEase does not decide which record is correct.
+
 ## What happens after you file
 
 Printed on page 2, inside the court's own block: _"The court will hold a hearing on the petition on this date at this time (at least 7 days after the filing of the petition). The Clerk-Magistrate must give notice of the hearing to the Probation Service and to the appropriate prosecutors office, who should notify any victim(s) that they may attend and speak at the hearing. The Clerk-Magistrate must post a copy of this petition on a public bulletin board until the hearing."_
@@ -78,6 +86,15 @@ Printed on page 2, inside the court's own block: _"The court will hold a hearing
 So: **there will be a hearing**, no sooner than seven days after you file. The Clerk-Magistrate notifies the Probation Service and the prosecutor, the prosecutor should notify any victim, and **a copy of your petition is posted on a public bulletin board until the hearing**. The route record's own words: _"A hearing is set and the participant must attend."_
 
 If it is opposed: _"Filing, public posting and hearing attendance follow generation. Hand off when a hearing is actually set or the prosecutor opposes."_
+
+## Stop and get help before filing or continuing
+
+This packet cannot decide whether waiting, another sealing process, or advice about a hearing is better for you. Stop before filing or continuing and ask a Massachusetts lawyer or legal-aid advocate for help if any recorded condition below applies. These are stop points for help, not an eligibility decision and not a direction to wait:
+
+- **The prosecutor opposes.** Stop and get help before responding or proceeding.
+- **A hearing is set and the participant must attend.** Stop and get help before the hearing.
+- **The case is nearly old enough for the ministerial route, where waiting may be better advice.** Stop and ask for advice about that route before filing.
+- **The disposition may be one of the three automatic-sealing dispositions rather than a dismissal.** Stop and ask for advice before using this petition.
 
 ## Fees and service — what this packet does NOT tell you
 
