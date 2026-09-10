@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `66f0930b1ca43cac12f8dabf77a69cee52cfc6cc` (or the newer dispatch base)
+**Minimum required ancestor:** `b480f9dcf8ecd71cecf0d02839afa98671b4a15b` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_discretionary_superior_court-set' \
   --codex-cloud \
-  --minimum-captain-sha 66f0930b1ca43cac12f8dabf77a69cee52cfc6cc
+  --minimum-captain-sha b480f9dcf8ecd71cecf0d02839afa98671b4a15b
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,14 +38,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
+- Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'de_discretionary_superior_court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ky_protective_order_record_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'wv_acc_treatment_job_readiness-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ca-17b-reduction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'in_arrest_no_charges-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'nj_indictable_conviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_nd_deferred_other-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'co_motion_seal_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ne-setaside-custodial-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_exp_acquittal-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,15 +65,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 6 families
 
 - `de_discretionary_superior_court-set`
 - `ky_protective_order_record_expungement-set`
 - `wv_acc_treatment_job_readiness-set`
-- `ca-17b-reduction-set`
-- `in_arrest_no_charges-set`
-- `nj_indictable_conviction-set` — failing: requiredOptionsMissing
-- `tx_nd_deferred_other-set`
+- `co_motion_seal_nonconviction-set` — failing: requiredOptionsMissing
+- `ne-setaside-custodial-set`
+- `tx_exp_acquittal-set`
 
 ## What you receive
 
@@ -90,17 +88,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
 - `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
 - `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
 - `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
-- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
-- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
-- `scripts/build-census-v1-tx_nd_deferred_other-set.mjs`
+- `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
 
 ## Never write here
 
