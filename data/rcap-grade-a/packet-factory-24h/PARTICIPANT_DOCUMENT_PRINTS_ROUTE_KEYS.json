@@ -1,0 +1,482 @@
+{
+ "schemaVersion": "rcap-participant-document-prints-route-keys/v1",
+ "generatedBy": "Captain, measuring a leak I had previously reported at the wrong size",
+ "generatedAt": "2026-09-10T11:34:42.632Z",
+ "atCommit": "0db2447d1027279e573fa9f9cb5c7cc401479903",
+ "theFinding": "A participant-facing document ends with a line printing this build's internal route keys verbatim -- e.g. '_Route(s): obligation:track-only:AZ:az_certificate_second_chance_'. It addresses nobody who reads the document.",
+ "correctionToMyOwnEarlierNumber": {
+  "whatISaid": "180 of 299 families carry a trailing Route(s): line with bare obligation keys.",
+  "whatIsTrue": "63 families, 64 files -- 63 participant-instructions.md and one filing-instructions.md.",
+  "whyIWasWrong": "The earlier figure counted families carrying any route-key-shaped token anywhere in their markdown, and I carried it as the count for this specific trailing line. Same mistake in shape as the guidance-leak count I got wrong three times: measuring one thing and reporting it as another."
+ },
+ "measurement": {
+  "filesCarryingTheLine": 64,
+  "distinctFamilies": 63,
+  "byFamilyState": {
+   "COMPLETE_PACKET_PROVEN": 48,
+   "WRONG_DELIVERY_TYPE": 1,
+   "FAIL_REPAIR_REQUIRED": 5,
+   "LEGAL_BLOCKED": 5,
+   "GUIDANCE_READY": 1,
+   "PRODUCT_PATH_PENDING": 1,
+   "HANDOFF_READY": 2,
+   "OUT_OF_SCOPE": 1
+  },
+  "buildersEmittingIt": 54
+ },
+ "theCause": "Not a shared module. The same statement -- out.push(`_Route(s): ${SPEC.routes.map((r) => r.routeKey).join(\" · \")}_`) -- is copied into 54 separate builders. There is no one place to fix it.",
+ "nothingReadsIt": "No verifier, completeness module or factory script parses this line; the only matches in scripts/ are the 54 emitters. Removing it takes nothing away from any measurement.",
+ "whyItIsNotSweptHere": "Removing it moves the participant document of 63 families, several of them terminal, and terminal families' delivered content does not change without a read. Seven lanes are executing and some own builders in this set, so a Captain-side sweep across 54 builders would collide with work in flight. It is dispatched as its own lane when a worktree frees.",
+ "whatItDoesNotAffect": "Fixture PDFs. This line lives only in markdown, so no raster receipt is disturbed and no family owes a fresh raster because of it.",
+ "grantsNothing": "This records a measurement and a correction to my own earlier one.",
+ "files": [
+  {
+   "file": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:sc_17_22_950_summary",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request · obligation:decision-branch:SC:sc_17_22_950_summary:original_case_enforcement_motion_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-sc-custom-pleading",
+   "state": "WRONG_DELIVERY_TYPE",
+   "theLine": "_Route(s): obligation:track-only:SC:sc_aep · obligation:track-only:SC:sc_conditional_discharge_44_53_450 · obligation:track-only:SC:sc_tep · obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement · obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement · obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement · obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement · obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement · obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement · obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "de_discretionary_superior_court-set",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "theLine": "_Route(s): obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "de_pardon_expungement-set",
+   "state": "LEGAL_BLOCKED",
+   "theLine": "_Route(s): obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+   "state": "GUIDANCE_READY",
+   "theLine": "_Route(s): obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:MS:nonadjudication-under-99-15-26_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-ms-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief · obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement · obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-ks-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): Municipal conviction or diversion expungement - K.S.A. 12-4516 · Municipal arrest record expungement - K.S.A. 12-4516a_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-deaddocket-j3-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-deaddocket-j3_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:GA:youthful-first-offender-restriction-route_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-seal-m-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:GA:ga-seal-m:restriction-and-sealing-of-a-pardoned-felony · obligation:track-pathway:GA:ga-seal-m:sb-288-misdemeanor-conviction-restriction-and-sealing_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-ga-guidance-implementation",
+   "state": "PRODUCT_PATH_PENDING",
+   "theLine": "_Route(s): obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-fo-active-pre2026-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-fo-active-pre2026_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-fugitive-j5-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-fugitive-j5_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-vacated-j2-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-vacated-j2_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-fo-discharged-pre2026-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-fo-discharged-pre2026_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-felony-j1-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:GA:ga-felony-j1_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-pardon-j7-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ga-misd-j4-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:GA:ga-misd-j4:sb-288-misdemeanor-conviction-restriction-and-sealing_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "state": "LEGAL_BLOCKED",
+   "theLine": "_Route(s): obligation:runtime-only:OK:human-trafficking-survivor-relief_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-ok-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:OK:ok_identity_theft · obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement · obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement · obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement · obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor · obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement · obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement · obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement · obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement · obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement · obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed · obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed · obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement · obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement · obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c · obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:OK:juvenile-record-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "me-seal-gen-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "census-pending-family:ME:juvenile-sealing",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+   "state": "HANDOFF_READY",
+   "theLine": "_Route(s): obligation:runtime-only:SD:juvenile-trafficking-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:sd_sis_sealing",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request · obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-tn-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:TN:tn_arrest_no_court_record · obligation:track-only:TN:tn_illegal_voting · obligation:track-only:TN:tn_mistaken_identity · obligation:track-only:TN:tn_nonconviction_petition · obligation:track-only:TN:tn_post_pardon · obligation:track-only:TN:tn_pretrial_diversion · obligation:track-only:TN:tn_recovery_court · obligation:track-only:TN:tn_redaction · obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107 · obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313 · obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ak-mistaken-identity-set",
+   "state": "OUT_OF_SCOPE",
+   "theLine": "_Route(s): obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:unattached-decision-route:AK:ak-correct-record_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+   "state": "LEGAL_BLOCKED",
+   "theLine": "_Route(s): obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "az_wrongful_arrest_clearance-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "az_certificate_second_chance-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:AZ:az_certificate_second_chance_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "id_felony_reduction-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:ID:id_felony_reduction_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "id_set_aside_dismissal-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:ID:id_set_aside_dismissal_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "dc_yra_set_aside-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:DC:dc_yra_set_aside_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-wi-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:WI:wi_exp_certificate_of_discharge_followup_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+   "state": "HANDOFF_READY",
+   "theLine": "_Route(s): obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-nv-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:NV:nv_seal_decrim · obligation:track-only:NV:nv_seal_multi · obligation:track-only:NV:nv_seal_pardon · obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245 · obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing · obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ct-decriminalized-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:CT:ct-decriminalized_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "theLine": "_Route(s): obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-wv-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "wv_conv_nonviolent_felony-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+   "state": "LEGAL_BLOCKED",
+   "theLine": "_Route(s): obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-nd-custom-pleading",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:ND:nd-seal-felony-conviction · obligation:track-only:ND:nd-seal-misdemeanor-conviction · obligation:track-only:ND:nd-seal-pardoned-conviction · obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute · obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+   "state": "LEGAL_BLOCKED",
+   "theLine": "_Route(s): obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request · obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/filing-instructions.md",
+   "document": "filing-instructions.md",
+   "familyId": "rcap-hi-custom-pleading",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "theLine": "_Route(s): First-time drug offender expungement - HRS 706-622.5(4) · Marijuana three grams or less expungement - HRS 706-622.5(5) · Pre-July-2004 first-time drug offender expungement - HRS 706-622.8 · First-time property offender expungement - HRS 706-622.9 · DUI under 21 expungement - HRS 291E-64(e)_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-hi-custom-pleading",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "theLine": "_Route(s): First-time drug offender expungement - HRS 706-622.5(4) · Marijuana three grams or less expungement - HRS 706-622.5(5) · Pre-July-2004 first-time drug offender expungement - HRS 706-622.8 · First-time property offender expungement - HRS 706-622.9 · DUI under 21 expungement - HRS 291E-64(e)_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "nc_146_dismissal_petition-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:NC:nc_146_dismissal_petition_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "nc_145_5_misdemeanor-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:NC:nc_145_5_misdemeanor_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "nc_146_acquittal_petition-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "nc_145_5_felony-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "rcap-wa-custom-pleading-clean-tracks",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:WA:wa_vac_post_probation_9_95_240 · obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "mn_petition_609a02_subd3-set",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "theLine": "_Route(s): obligation:track-pathway:MN:mn_petition_609a02_subd3:petition-based-expungement-under-609a-02-03_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission_"
+  },
+  {
+   "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/participant-instructions.md",
+   "document": "participant-instructions.md",
+   "familyId": "ar-nonconviction-seal-set",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "theLine": "_Route(s): obligation:track-only:AR:ar-nonconviction-seal_"
+  }
+ ]
+}
