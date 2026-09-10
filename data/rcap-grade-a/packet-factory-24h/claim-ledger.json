@@ -9387,10 +9387,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF25",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T21:00:37.899Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 returned PASS_COMPLETE_INDEPENDENT at 7d2e1ba7b on the unchanged fixtures (c360eac4/21fa17be) with the live receipt; 15 of 15 pass, nine counters zero"
     },
     {
@@ -9450,10 +9450,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF25",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:17:07.860Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 161/161 both fixtures; row in vf05/rows.json, lane commit 120890f64"
     },
     {
@@ -14509,7 +14509,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "df454445d188df8a2764d0c2782cbd29066bfb955ee599663d5c725870b9dffa",
+  "claimsDigest": "d2a324d15baf4c5cfdb2aeba66e9dfaab301300b79066d3638e1b429e3b51612",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -53393,6 +53393,28 @@
       "previouslyReleasedAt": "2026-09-10T06:18:36.052Z",
       "transferredAt": "2026-09-10T06:18:36.142Z",
       "reason": "One reader for the three families FIX134 repaired together"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF25",
+      "previouslyReleasedAt": "2026-09-06T21:00:37.899Z",
+      "transferredAt": "2026-09-10T06:49:12.048Z",
+      "reason": "Released grant reopened onto the lane holding its five siblings; VF03's earlier PASS on these bytes sat on top of the Total Expenses caption defect and is exactly what this read must not repeat"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF25",
+      "previouslyReleasedAt": "2026-09-06T00:17:07.860Z",
+      "transferredAt": "2026-09-10T06:49:12.137Z",
+      "reason": "Released grant reopened onto the lane holding its five siblings; one host, one caption remedy, one reader"
     }
   ],
   "grants": [
