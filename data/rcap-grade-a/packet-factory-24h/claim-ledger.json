@@ -9325,9 +9325,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX130",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "No live worker on FIX04; the family shares one host builder and one shifted-caption defect with vt_seal_misdemeanor-set, which FIX130 holds, and two lanes editing one builder is a collision"
     },
     {
       "subjectType": "packet-family",
@@ -14369,7 +14371,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "97765282dc2364163e367ff1c798925d134c09e6c5b4a852dc0a3fc9213a3415",
+  "claimsDigest": "3fb76b09d4b5a039f1ba0f9d216d5c17bb59fcbadb3515fc49dc8e722fa0f716",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35192,6 +35194,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T05:45:34.614Z",
       "reason": "No live worker on FIX08; the family shares one host builder with the two FIX134 is about to repair, and two lanes editing one builder is a collision"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T05:55:09.382Z",
+      "reason": "No live worker on FIX04; the family shares one host builder and one shifted-caption defect with vt_seal_misdemeanor-set, which FIX130 holds, and two lanes editing one builder is a collision"
     }
   ],
   "reissues": [
@@ -53151,6 +53162,17 @@
       "previouslyReleasedAt": "2026-09-10T05:45:34.614Z",
       "transferredAt": "2026-09-10T05:45:45.117Z",
       "reason": "One lane must hold all three families on this host builder; VF01 measured that this sibling almost certainly carries the same uncovered-box defect FIX134 repaired on the other two"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX130",
+      "previouslyReleasedAt": "2026-09-10T05:55:09.382Z",
+      "transferredAt": "2026-09-10T05:55:09.477Z",
+      "reason": "One lane must hold both families still carrying the shifted-caption defect on 600-00228; FIX130 implemented the remedy and gated it by family id"
     }
   ],
   "grants": [
