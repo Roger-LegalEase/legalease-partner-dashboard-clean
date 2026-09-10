@@ -1699,8 +1699,9 @@
       "operation": "rapid-repair",
       "lane": "FIX157",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T15:55:35.678Z",
+      "releaseReason": "FIX157 returned at 84d036d7f; COMPONENT_SET still fails, blocked on corpus-index classification"
     },
     {
       "subjectType": "packet-family",
@@ -1745,8 +1746,9 @@
       "operation": "rapid-repair",
       "lane": "FIX157",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T15:55:35.804Z",
+      "releaseReason": "FIX157 returned at 84d036d7f; KNOWN_PREFILLS and REQUIRED_BEFORE_FILING repaired, bytes moved"
     },
     {
       "subjectType": "packet-family",
@@ -4372,10 +4374,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX161",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T15:15:32.075Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4418,10 +4420,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX148",
+      "lane": "FIX161",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T13:16:25.484Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX148 finished and returned: the provenance question is answered and no byte moved. Record at data/rcap-grade-a/packet-factory-24h/FIX148_ACTIVE_CONTENT_PROVENANCE.json. Closed at its return boundary."
     },
     {
@@ -4465,10 +4467,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX161",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T09:58:26.314Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7495,10 +7497,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX161",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:29.546Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14804,9 +14806,35 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_conviction-set",
+      "itemId": null,
+      "familyId": null,
+      "familyIds": [],
+      "sourceId": "co_motion_seal_conviction-set",
+      "operation": "source-reconciliation",
+      "lane": "SRC10",
+      "laneKind": "source-reconciliation",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "itemId": null,
+      "familyId": null,
+      "familyIds": [],
+      "sourceId": "co_motion_seal_nonconviction-set",
+      "operation": "source-reconciliation",
+      "lane": "SRC10",
+      "laneKind": "source-reconciliation",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "435a4b016b7c9227d043f5ccb5f0aba425efc76f505464c790811e0ea4166035",
+  "claimsDigest": "3fe402001547fb1ca9ad8b22bd11c6c853676f875a0202eb516e008d01768eff",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38469,6 +38497,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T15:52:47.841Z",
       "reason": "VF53 returned at 51b6098bc"
+    },
+    {
+      "lane": "FIX157",
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T15:55:35.678Z",
+      "reason": "FIX157 returned at 84d036d7f; COMPONENT_SET still fails, blocked on corpus-index classification"
+    },
+    {
+      "lane": "FIX157",
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T15:55:35.804Z",
+      "reason": "FIX157 returned at 84d036d7f; KNOWN_PREFILLS and REQUIRED_BEFORE_FILING repaired, bytes moved"
     }
   ],
   "reissues": [
@@ -58278,6 +58324,50 @@
       "previouslyReleasedAt": "2026-09-09T15:05:52.266Z",
       "transferredAt": "2026-09-10T15:36:54.118Z",
       "reason": "Verify current bytes; FIX145 repaired after vf03's base"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX161",
+      "previouslyReleasedAt": "2026-09-10T15:15:32.075Z",
+      "transferredAt": "2026-09-10T15:55:43.468Z",
+      "reason": "FEE_AND_WAIVER: a participant-facing money statement the registry carries and the packet does not"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX161",
+      "previouslyReleasedAt": "2026-09-10T11:23:29.546Z",
+      "transferredAt": "2026-09-10T15:55:43.602Z",
+      "reason": "FEE_AND_WAIVER: same class"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX148",
+      "toLane": "FIX161",
+      "previouslyReleasedAt": "2026-09-10T13:16:25.484Z",
+      "transferredAt": "2026-09-10T15:55:43.734Z",
+      "reason": "FEE_AND_WAIVER: VF53 established the Illinois statement spans three tracks"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX161",
+      "previouslyReleasedAt": "2026-09-09T09:58:26.314Z",
+      "transferredAt": "2026-09-10T15:55:43.869Z",
+      "reason": "FEE_AND_WAIVER: same Illinois statement"
     }
   ],
   "grants": [
@@ -58807,6 +58897,28 @@
       "grantedAt": "2026-09-10T15:36:54.423Z",
       "grantedBy": "Captain",
       "reason": "Verify current bytes; same shared-manifest pin, refreshed after vf06's base",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "SRC10",
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_conviction-set",
+      "operation": "source-reconciliation",
+      "laneKind": "source-reconciliation",
+      "grantedAt": "2026-09-10T15:55:44.002Z",
+      "grantedBy": "Captain",
+      "reason": "Corpus-index classification of JDF 613/614/492/493, which blocks COMPONENT_SET on both Colorado families",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "SRC10",
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "source-reconciliation",
+      "laneKind": "source-reconciliation",
+      "grantedAt": "2026-09-10T15:56:06.648Z",
+      "grantedBy": "Captain",
+      "reason": "Same four corpus-index rows block this family's COMPONENT_SET",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
