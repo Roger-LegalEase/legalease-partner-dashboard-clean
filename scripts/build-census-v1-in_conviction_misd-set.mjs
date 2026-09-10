@@ -368,8 +368,12 @@ const FIXTURES = Object.freeze({
      *      serious charge against the defendant. The case will remain in that
      *      category even if charges are later amended or if the defendant is
      *      convicted of a lesser offense."
-     *   The same page gives the descending order of seriousness, in which Class D
-     *   felony stands above Class A misdemeanor.
+     *   The descending order of seriousness, in which Class D felony stands
+     *   above Class A misdemeanor, is on the NEXT page: the sentence begins at
+     *   the foot of physical page 10 ("...includes the most serious charge of")
+     *   and completes at the head of physical page 11, printed folio 10. This
+     *   comment said "the same page" and was wrong; VF50 caught it, and the
+     *   Captain confirmed it by extracting both pages from the held binary.
      *
      * So the category was assigned from the Class D felony charge and REMAINS
      * "FD" after the conviction of the lesser offence. This fixture previously

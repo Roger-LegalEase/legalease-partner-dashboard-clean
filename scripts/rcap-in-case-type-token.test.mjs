@@ -34,8 +34,11 @@
  *        serious charge against the defendant. The case will remain in that
  *        category even if charges are later amended or if the defendant is
  *        convicted of a lesser offense."
- *   and, on the same page, the descending order of seriousness, in which Class D
- *   felony stands above Class A misdemeanor.
+ *   and the descending order of seriousness, in which Class D felony stands
+ *   above Class A misdemeanor -- which is on the NEXT page, not this one: the
+ *   sentence begins at the foot of physical page 10 ("...includes the most
+ *   serious charge of") and completes at the head of physical page 11, printed
+ *   folio 10. This header said "the same page" and was wrong; VF50 caught it.
  *
  * WHAT IS STILL NOT HELD, said here so no reader over-reads the above.
  * Administrative Rule 8(B)(3) and Rule 1(B)(4)(a) THEMSELVES, as published at
