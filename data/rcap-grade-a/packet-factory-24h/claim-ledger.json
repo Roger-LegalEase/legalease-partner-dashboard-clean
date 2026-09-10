@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f8c4eaa0604fb9bf56eac6a38a6835e467cc156e",
+  "generatedAtCommit": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6122,9 +6122,9 @@
       "operation": "rapid-repair",
       "lane": "FIXCXM1",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX176 confirmed stopped and committed diagnosis-only return c60fae635477889ad5d1f5d58c1826e0e4e64086; no repair applied"
+      "released": true,
+      "releasedAt": "2026-09-10T21:51:31.148Z",
+      "releaseReason": "Captain completed and stopped bounded map repair in FIXCXM1 checkout, commit abcfeebb0 consumed; both PDFs and guides unchanged, all nine completeness counters zero, independent delta acceptance remains owed. Juvenile grant retained."
     },
     {
       "subjectType": "packet-family",
@@ -7289,7 +7289,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.470Z"
@@ -7923,7 +7923,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8819,7 +8819,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:59:33.013Z"
@@ -8864,7 +8864,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.619Z"
@@ -8910,7 +8910,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.597Z"
@@ -8971,7 +8971,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.729Z"
@@ -9018,7 +9018,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.314Z"
@@ -9079,7 +9079,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:31.983Z"
@@ -9125,7 +9125,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.116Z"
@@ -9171,7 +9171,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:32.242Z"
@@ -9217,7 +9217,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T13:32:50.779Z"
@@ -9264,7 +9264,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T12:08:39.112Z"
@@ -15042,7 +15042,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "48bc3544786e16cc87acc46af5f51f800dd5c18f76bc1194a8859178da3fd0ed",
+  "claimsDigest": "86c2eaf05487bceb632bcd0634338ee6019689288d4e28adf00993ad7b34b303",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39395,6 +39395,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-10T21:41:21.342Z",
       "reason": "Captain first integration generated this live FIX07 reservation from released FIX175 grant; no FIX07 worker dispatched in this session. Reassigning to one explicit isolated NJ shared-host writer."
+    },
+    {
+      "lane": "FIXCXM1",
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T21:51:31.148Z",
+      "reason": "Captain completed and stopped bounded map repair in FIXCXM1 checkout, commit abcfeebb0 consumed; both PDFs and guides unchanged, all nine completeness counters zero, independent delta acceptance remains owed. Juvenile grant retained."
     }
   ],
   "reissues": [
