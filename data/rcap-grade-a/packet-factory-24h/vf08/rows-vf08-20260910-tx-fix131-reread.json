@@ -373,6 +373,159 @@
       ],
       "repairThatWouldClearThis": "Three narrow changes, none of which touches a byte of the official forms. (1) Move 'Month / Mes', 'Day / Dia' and 'Year / Ano' out of protectedBlanks into requiredBeforeFiling with the true reason - the shared-widget constraint on the month box - exactly as tx_nd_conviction_no_supervision-set already does; write the day and the year if the builder chooses to, but disclose the line either way. (2) Correct the instructions sentence that says the date of birth was filled on the Statement. (3) Carry the allegation limb of the registry's family-violence stop, in the sibling's words. The fixtures will move and the family will need a fresh central raster and a reader who did not make the repair.",
       "grantsNothing": "A FAIL records what this lane measured at this commit. It promotes nothing, demotes nothing, approves no output and opens no commercial path."
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "lane": "VF08",
+      "laneKind": "independent_verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "648d8cf381296faee39f53777d3ec0ad36558504",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "theRepairThisLaneWasAskedToCheckPASSED": "FIX131's restore is CONFIRMED FIXED here, in size and in direction. Size: 166 flattened widget appearances in the delivered canonical, 33 STROKE_ONLY, all 33 byte-identical to a named /AP /N /Off stream of a pinned source (pool 221 streams, 32 distinct); fill-stripped 0, matching nothing 0. VF90's 34-unaccounted does not reproduce. Direction: delivered page 13 and pinned Statement of Inability page 4 are PIXEL-IDENTICAL at 600 dpi (1,524,892 dark pixels each, ADDED 0, REMOVED 0), and the annotation-stripped render of the source shows the court's own thin printed box that the /AP's opaque white fill covers before stroking its larger bevelled box. One frame at every check box. The failure below is older and separate and FIX131 was not asked to touch it.",
+      "artifactsRead": {
+        "canonical": {
+          "sha256": "870b0c9a86ce6d38d515cd0757eaa47399e222668fef55f095d7cbda8f4f079f",
+          "pageCount": 24
+        },
+        "boundary": {
+          "sha256": "aa8097d8dbe8a6a3dac70afcdf6e1eeae230d0bfb69a5c2b2e38d3712231da69",
+          "pageCount": 24
+        },
+        "digestsHowRecorded": "sha256sum run here over the committed files; pdfinfo for page counts."
+      },
+      "rasterState": "No current RASTER_PASS covers these bytes; not scored as a defect. product-wiring.json carries acceptanceReceipt null and records the superseded receipt under acceptanceReceiptWithdrawn bound to c9937525... and replaced by 870b0c9a..., which equals the digest recomputed here. All six governance keys are present. No old receipt is presented as current.",
+      "whyItFails": {
+        "one": "THE OPTION 1 DATE-OF-BIRTH BOXES ARE REFUSED ON A REASON THAT IS TRUE OF A DIFFERENT FIELD, AND THE PACKET TELLS THE PARTICIPANT THE DATE OF BIRTH WAS FILLED. Identical in shape to the finding on tx_nd_probation_misdemeanor-set and found independently on these bytes. On delivered page 20 (Statement of Inability page 11 of 12, the Option 1 declaration under penalty of perjury) the packet writes the name and the address and leaves the three date-of-birth boxes empty, in BOTH fixtures. The same fact is written on delivered page 11. reports/blanks-left-for-the-participant.json puts 'Month / Mes', 'Day / Dia' and 'Year / Ano' in protectedBlanks labelled 'Date part of the sworn declaration' with why 'a date written before the Statement is actually sworn would be false'. That reason belongs to the SIGNING date, which on this same page is the separate widget 'Today' at [97.75,302.31,247.75,324.31], and to the notary's 'Year' on page 12 - both of which are in the same protectedBlanks list and are correctly refused on that ground. Because the three boxes sit in protectedBlanks they are in no requiredBeforeFiling entry and in no participant-facing list of items to supply, while the delivered instructions state 'Nothing on it is filled in for you except your own name, DATE OF BIRTH, address, telephone number and email.' A participant electing Option 1 signs a perjury declaration whose date-of-birth line is blank, having been told it was filled.",
+        "oneIsNotTheDisclosedDecision": "This is NOT the disclosed decision this lane was told not to score. The shared-widget constraint on the month box is real on this family's source too - 'Month / Mes' carries two widgets, Statement page 11 [79.7,495.6,128.8,515.5] and page 12 [135.2,265.2,316.1,285.1] - but this family neither states it nor discloses the blank. The sibling tx_nd_conviction_no_supervision-set, built from the same Statement by the same factory on the same day, classifies the same three boxes as requiredBeforeFiling, states the true cause, and tells the participant to copy the date across from page 2. The blank-disposition arithmetic isolates the difference: the sibling records 99 required / 25 protected on the Statement of Inability against 96 / 28 here."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 3,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "3 - the Statement of Inability fields 'Month / Mes', 'Day / Dia' and 'Year / Ano' on delivered page 20. Each must be completed before the Option 1 declaration is signed; the platform holds the fact and writes it on delivered page 11; none is written on page 20; none is in requiredBeforeFiling; the instructions say the date of birth was filled. Counted as 3 AcroForm fields so the repair has three exact targets.",
+        "requiredFactsNotCollected": "0. Every fact the packet needs that the platform does not hold is either a blank on the form or one of the 113 requiredBeforeFiling entries. The date of birth is not in this class - the platform holds it, which is why the defect is counted above instead.",
+        "unclassifiedBlanks": "0, closed by arithmetic. The three bound sources carry 15 + 14 + 132 = 161 AcroForm fields. Per document: petition 7 required + 4 protected + 4 written = 15; order 4 + 9 + 1 = 14; Statement 96 + 28 + 8 = 132. The composed proof-of-delivery page adds 6 + 2 = 8. 156 classified blanks + 13 writes = 169 = 161 source fields + 8 composed. Nothing is unaccounted.",
+        "incompleteRows": "0. The Statement's five repeating tables take zero writes - delivered pages 12, 14, 15, 16, 17 and 18 return 0 added pixels against their pinned source pages in both fixtures - so no row is part-filled.",
+        "requiredOptionsMissing": "0. Every election prints and none is pre-marked: the paragraph 6 fee election (Group5, two widgets, delivered page 5), the order's four court boxes (Check Box20-23, delivered page 6, ADDED 0 px), the legal-aid boxes, the public-benefits Yes/No and Option 1 versus Option 2.",
+        "requiredComponentsMissing": "0. Five declared components, all present, page-mapped from the delivered PDF: petition 1-5, proposed DWI order 6-8, proof of delivery 9, Statement of Inability 10-21, filing instructions 22-24, total 24 = pdfinfo. Both conditionals carry a stated condition.",
+        "invisibleWrites": "0. 13 values reported by the finalizer; 13 ink clusters found by the raster difference in canonical and 13 in boundary, one per value, each inside its own source widget rect.",
+        "protectedWrites": "0. 43 protected blanks, none carrying ink. The proposed DWI order is wholly unexecuted: delivered pages 7 and 8 return 0 added pixels against pinned order pages 2 and 3, and page 6 adds only the defendant's name inside the 'Defendant' rect. The source-authored '12/15/2022' on the Option 1 date line is REMOVED ink, not written ink.",
+        "visualDefects": "0. Directional dark-pixel difference at 150 dpi of all 20 source-backed delivered pages against their pinned source pages, on BOTH fixtures, both directions, every ADDED cluster tested for containment in a source widget rect, every REMOVED region identified by rendering the crop. Removed ink is 1,370 px in canonical, all source-authored defaults on editable fields: 524 px on page 1 (the /V 'is not' on Dropdown2 at [72.5,229.8,179.0,250.6] and Dropdown4 at [72.5,111.1,178.2,132.7] - both PDFDropdown, /Opt ['is','is not'], Ff 131074 Combo+Required, not read-only; the two removal bands land inside those rects and nowhere else), 93 px each on pages 16 and 17 (the '0' in Total Value of Property and Total Monthly Expenses), 660 px on page 20 (the '12/15/2022'). No rule, box, leader, line art or printed word of the court's own is removed anywhere; eleven pages return 0/0 and page 13 is pixel-identical at 600 dpi."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "REPAIRED SINCE VF02 AND RE-MEASURED HERE. VF02 failed this family because the delivered pages 9 and 24 printed obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure, a key the census did not carry, while product-wiring.json declared the track-only key. On these bytes both delivered pages print obligation:track-only:TX:tx_nd_dwi_deferred and so do product-wiring.json routeKey and routeKeys and source-receipt.json routeKeys. Checked against the canonical route universe by exact string: obligation:track-only:TX:tx_nd_dwi_deferred occurs 3 times; obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure occurs ZERO times and the only track-pathway DWI key there is tx_nd_dwi_PROBATION's, which belongs to a different family. Statutory identity agrees: Tex. Gov't Code 411.0726, DWI or BWI after deferred adjudication, and both binaries are the OCA models for that section."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "All three sources recomputed with sha256sum here and matched byte for byte: petition 0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d, DWI order c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06, Statement bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d. A RECORDS DISAGREEMENT WORTH NAMING: the MASTER_QUEUE row gives the DWI order's path as 'STATES/TX/02_PACKET_FORMS/...' with no custody prefix, resolvedBy custody_reconciliation - a bare path that resolves against no root and would read as missing to a resolver anchored at the repository root. source-receipt.json gives it custody master_library with the same tail, which is where the bytes actually are. The bytes are present and exact; the queue row's path is the defect, not the custody."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Five declared components, all present and page-mapped as above; both conditionals carry an explicit condition and both are restated on the participant-facing page."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "whatWasRead": "13 writes per fixture, every one read as ink from the rendered page and contained in its own source widget rect at 1.5 pt tolerance. Nothing is written into a field about a third party, nothing financial is written on the Statement, and no alcohol concentration, collision fact or interlock status is written anywhere - the petition's own printed assertions are left as the form prints them. The failure is the held date of birth, written on delivered page 11 and left blank on the Option 1 declaration on delivered page 20 while the instructions say it was filled. See whyItFails.one.",
+          "observationRecordedNotScored": "On delivered page 11 the date of birth is written as the raw ISO string '1994-04-17' (boundary '1972-12-31') into the single free-text field 'My date of birth / Mi fecha de nacimiento es', beneath which the form prints the positional caption 'Month Day Year / Mes Dia Ano'. VF10 scored that rendering a KNOWN_PREFILLS FAIL on rcap-tx-custom-pleading; VF04 read the identical string on a sibling and recorded it without scoring it. Both readings recorded; not decided here and not the ground of this FAIL."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "43 protected blanks, none carrying ink, measured from the pages. The proposed DWI order is wholly unexecuted: its four court boxes (Check Box20-23), its Judge Presiding and CourtCounty lines and all three of its dates are blank, and delivered pages 7 and 8 add zero pixels to the pinned order. Signature, notary and jurat areas carry no ink. Scored PASS because no protected field carries ink; the MIS-classification of the three date-of-birth boxes into this list is scored under KNOWN_PREFILLS and REQUIRED_BEFORE_FILING, where the harm lands."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Every ADDED dark-pixel cluster on every source-backed page of both fixtures clustered and tested for containment in that page's source widget rectangles: 13 clusters per fixture, all contained, none overlapping a rect it does not belong to, none outside the MediaBox, none touching a printed rule or caption. The boundary fixture's long stress values terminate inside their rects. No value is clipped or truncated. The route key is short enough to print unbroken on both pages that carry it, so no split arises; VF02's finding on this obligation was about the key's identity and is answered under ROUTE_IDENTITY.",
+          "observationRecordedNotScored": "The composed proof-of-delivery page (delivered 9) ends with the machine route key in body face at the body left margin below the participant's signature block - SCAN02 class c on a non-order page, which SCAN02 expressly records as an observation and does not count, the corpus convention not having been ruled on."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "The best of the five families read this shift. The committed track registry holds EIGHT conditions for trackId tx_nd_dwi_deferred and the delivered page quotes ALL EIGHT verbatim, labelled in terms as 'The committed track registry for this route records these as the points where self-help ends, in its own words', including the two DWI-specific ones - any accident allegation in the offence report, and any dispute about interlock, commercial licence status or alcohol concentration. It then adds five stops of its own drawn from the assertions the forms make, including the 0.15 alcohol-concentration assertion the petition prints and the revoked-supervision case. Nothing is narrowed: 'allegation' and 'Immigration consequences' both appear in the delivered bytes verbatim. This is the treatment the two nondisclosure siblings do not have."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Read off the delivered page: file with the clerk of the court that placed the participant on deferred adjudication, who forwards it to the court; Sec. 411.0745(a) filing modes stated. The caption blanks naming the court and county are inventoried. No clerk address, hours or portal is invented."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Under Sec. 411.0745(e) THE COURT gives the State notice and an opportunity for a hearing; the participant serves nobody and should not be charged. The competing OCA instruction is not suppressed - the proof-of-delivery page ships CONDITIONAL and tells the participant to ask the clerk. No service rule, deadline or manner is fabricated; the manner of delivery and the date received are blanks. The 45-day hearing rule is stated with both limbs."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "whatWasRead": "113 items are inventoried, everyRequiredBeforeFilingItemIsDisclosed reads true, and the 113 that are there are disclosed on the delivered instruction pages rather than only in the markdown. The inventory is incomplete: if the participant elects Option 1 on delivered page 20, the three date-of-birth boxes must be completed before that perjury declaration is signed, and none of the three appears in requiredBeforeFiling or in the participant's list of items to supply. The participant-facing list cannot close every required blank on the delivered form."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Two fixtures, both 24 pages, digests recomputed here. 166 flattened widget appearances classified by operator semantics: 33 stroke-only, 13 show-text-only, 120 marking nothing, 0 undecodable. All 33 stroke-only are byte-identical to a named pinned-source /AP /N /Off stream. VF90's ARTIFACTS failure does not reproduce."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "Each delivered page matched to its pinned source page by rendering both and differencing: 1-5 to petition 1-5, 6-8 to DWI order 1-3, 10-21 to Statement 1-12, in order and none transposed - every one of these pages returns either 0/0 or added ink confined to that page's own widget rects, which a transposition could not do. Filing first, proposed order next, conditional pages after, participant instructions last."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "The paragraph 6 fee election (Group5, two widgets on delivered page 5) is unmarked in both fixtures and explained on the instruction page. The order's four court boxes are refused as court-owned and unmarked. This section carries ONE waiting period rather than two, and the instructions say so - 'This section uses one period: file on or after the SECOND ANNIVERSARY of completing deferred adjudication and the court's discharge and dismissal' - so no branch election arises to be missed. Option 1 versus Option 2 on the Statement is unmarked and explained."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "The obligation arises - the Statement carries five repeating tables - and is measured. Zero cells are written into any of them, so no cell can land on another entry's line; none of the five prints a row number beside its rows, so the AcroForm-index-versus-printed-row class has no printed number to disagree with; each cell is inventoried under the source form's own field name rather than a derived index."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "whatWasRead": "No figure is published as though it were the fee. Sec. 411.0745(b) is read as setting the TYPE of fee and not an amount, the county schedule is named as governing, 'TYPICALLY ABOUT $280, VARYING BY COUNTY' is attributed to OCA instructions, and the clerk of the filing court is named as the authority. The $28 is named only to say it is not theirs and belongs to the no-petition route under Sec. 411.072(c). The Rule 145 Statement is shipped on the Misc. Docket No. 22-9090 form with the free-copy entitlement stated and nothing financial prefilled. This family additionally states, correctly for this section, that a court waiver of fines and costs does not disqualify the participant."
+        }
+      },
+      "crossChecks": {
+        "DEFECTS_NO_COUNTER_CAN_SEE": "All nine classes checked. map-honest-writes-not: absent. a-participant-fact-written-into-a-field-about-someone-else: absent. acroform-index-is-not-the-printed-row and extracted-line-order-is-not-column-order: no numbered table is written into; the option lists were read from the widgets' own /Opt arrays. internal-record-text-printed-on-a-filing: no analysis or builder-addressed text on any page - and note that where this packet quotes the committed track registry it does so on the INSTRUCTIONS page and labels it as the registry's own words, which is where DEFECTS_NO_COUNTER_CAN_SEE says record text belongs. a-published-zero-where-a-measurement-existed: reports/actual-writes.json again asserts nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 over two entries carrying no page and no rect, and declares flattenedWidgetAppearancesReadFromOutputBytes 15 where this lane counts 166; measured independently as 0 from the pixels instead. a-geometry-counter-with-no-teeth: not relied on. two-families-one-filing: CLONED_FAMILY_PACKETS.json names this family in no cloned, near-clone or shared-document group, and its petition and order binaries differ from both siblings'. an-inverted-widget-rectangle: no source widget rectangle in the three pinned sources is stored inverted.",
+        "recordsThatDisagree": [
+          "MASTER_QUEUE.json still carries this family at FAIL_REPAIR_REQUIRED and BORDER_COHORT_REMEDIATION.json still carries CONFIRMED_DEFECTIVE_PENDING_SOURCE_ACCOUNTING with 33 stroke-only appearances and sourceWidgetField null. Both are pre-repair snapshots; this lane measured the committed bytes.",
+          "The MASTER_QUEUE row gives the DWI order's path as a bare 'STATES/TX/...' with no custody root while source-receipt.json gives it custody master_library. Recorded under SOURCE_IDENTITY.",
+          "reports/blanks-left-for-the-participant.json asserts everyRequiredBeforeFilingItemIsDisclosed true while three blanks that must be completed before the Option 1 declaration is signed are absent from requiredBeforeFiling altogether."
+        ],
+        "governanceKeys": "CONTRADICTED on these bytes, as on both siblings. All six keys are present in product-wiring.json with acceptanceReceiptWithdrawn carrying the old receipt and both digests. The file is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, outside the builder."
+      },
+      "evidenceRead": [
+        "fixtures/canonical.pdf and fixtures/boundary.pdf, all 24 pages of each",
+        "the three pinned sources in custody, rendered page by page",
+        "source-receipt.json, build-status.json, product-wiring.json, participant-instructions.md",
+        "reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/completeness-counters.json, reports/rendered-artifacts.json",
+        "data/record-clearing/legal-design-track-registry.json trackId tx_nd_dwi_deferred selfHelpStopConditions",
+        "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json, for the exact-string route key test",
+        "MASTER_QUEUE.json, BORDER_COHORT_REMEDIATION.json, DEFECTS_NO_COUNTER_CAN_SEE.json, CLONED_FAMILY_PACKETS.json, scan02/hard-split-proven-measurement.json, fix131/rows.json, vf02/vf90 rows"
+      ],
+      "visualDefects": "None. No page carries a mark the pinned source does not, and no source mark is lost except four source-authored defaults on editable fields, each identified individually. The failure is not visible as a pixel, which is why it survived nine green counters and a raster.",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairThatWouldClearThis": "One narrow change, touching no byte of the official forms: move 'Month / Mes', 'Day / Dia' and 'Year / Ano' out of protectedBlanks into requiredBeforeFiling with the true reason - the shared-widget constraint on the month box - as tx_nd_conviction_no_supervision-set already does, and correct the instructions sentence that says the date of birth is filled on the Statement. The fixtures will move and the family will need a fresh central raster and a reader who did not make the repair.",
+      "grantsNothing": "A FAIL records what this lane measured at this commit. It promotes nothing, demotes nothing, approves no output and opens no commercial path."
     }
   ],
   "coordinatorMessageReceivedMidShift": {
