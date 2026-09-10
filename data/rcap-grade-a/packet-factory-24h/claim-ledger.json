@@ -553,10 +553,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF41",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T07:04:02.281Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF returned FAIL_REPAIR_REQUIRED on the current bytes at ef7bf8734"
     },
     {
@@ -5710,10 +5710,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF20",
+      "lane": "VF41",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:27.792Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -14578,7 +14578,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c783f21f7b3846466cd5ed85d97c73f23b04c7907cffec04648bff9dc8f36bf7",
+  "claimsDigest": "a0570fad77508fdb84b6179a69fd8085667842f56bba3d3aafc63cf4d852e4e5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -55672,6 +55672,28 @@
       "previouslyReleasedAt": "2026-09-09T15:13:26.789Z",
       "transferredAt": "2026-09-10T11:24:15.151Z",
       "reason": "Captain dispatch: the recorded lane returned and released this grant; it is handed to a newly dispatched lane so the family can be worked now. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-nonconviction-90-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF41",
+      "previouslyReleasedAt": "2026-09-09T07:04:02.281Z",
+      "transferredAt": "2026-09-10T11:32:18.548Z",
+      "reason": "Captain dispatch: the recorded verification lane returned and released this grant; it is handed to VF41 to read FIX02's repair. The transfer accepts, rejects and supersedes nothing."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF20",
+      "toLane": "VF41",
+      "previouslyReleasedAt": "2026-09-10T11:23:27.792Z",
+      "transferredAt": "2026-09-10T11:32:18.669Z",
+      "reason": "Captain dispatch: the recorded verification lane returned and released this grant; it is handed to VF41 to read FIX02's repair. The transfer accepts, rejects and supersedes nothing."
     }
   ],
   "grants": [
