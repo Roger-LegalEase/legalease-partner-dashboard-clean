@@ -264,6 +264,8 @@ for (const f of selectedFamilies) {
     try {
       let existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
       const before = JSON.stringify(existing);
+      let previousBinding = null;
+      let canonical = null;
       if (hasBespokeInstalledBinding(existing)) bespokeBindingsPreserved++;
       else {
         /*
@@ -286,9 +288,9 @@ for (const f of selectedFamilies) {
          * WITHDRAWN, with both digests, when it does not. Nothing here issues a
          * receipt or sets a verdict: only the central raster workflow does that.
          */
-        const previousBinding = existing.binding ?? null;
+        previousBinding = existing.binding ?? null;
         existing.binding = bindingFor(f);
-        const canonical = canonicalDigestsFor(f);
+        canonical = canonicalDigestsFor(f);
         const outcome = carryForwardGovernance(previousBinding, existing.binding, canonical
           ? { canonicalSha256: canonical }
           : { whyCanonicalIsNotMeasured: "this family declares no canonical fixture this generator can read, so this "
@@ -339,6 +341,41 @@ for (const f of selectedFamilies) {
           ?? lines.slice(0, 3).join(" | ");
         declaredDeliveryRefusals.push({ family: f.familyId, why: why.slice(0, 260) });
         continue;
+      }
+      /*
+       * PRESERVATION MUST HAVE THE LAST WORD, NOT THE FIRST.
+       *
+       * carryForwardGovernance ran above, and then alignDeclaredDelivery ran,
+       * and the declared-delivery binders unconditionally null the receipt
+       * before re-deriving it -- nc-declared-delivery.mjs, ky-declared-delivery
+       * .mjs and md-favorable-declared-delivery.mjs each carry a bare
+       * `result.binding.acceptanceReceipt = null;` and none of them imports the
+       * preservation module. So a receipt carried at line 292 was nulled again
+       * at line 330 and written out at line 344 with nothing between.
+       *
+       * That was measured, not inferred: of twelve receipts restored from
+       * history by the recovery lane, only six were carried by the guard. The
+       * other six survived because their binder THREW and the `continue` above
+       * skipped the write entirely -- they survived by refusal rather than by
+       * preservation, and the moment those assertions are fixed the null lands
+       * on them.
+       *
+       * Re-asserting here rather than editing each binder is deliberate: it
+       * fixes every binder that exists and every one written later, and it
+       * cannot be undone by a binder that does not know this module exists.
+       * Running it twice is free -- carrying an already-carried key is a
+       * no-op, and a withdrawal already recorded is not recorded twice.
+       */
+      const afterAlign = carryForwardGovernance(previousBinding, existing.binding, canonical
+        ? { canonicalSha256: canonical }
+        : { whyCanonicalIsNotMeasured: "this family declares no canonical fixture this generator can read, so this "
+            + "refresh measured no bytes and makes no statement about what the receipt covers" });
+      for (const w of afterAlign.withdrawn) {
+        if (receiptsWithdrawn.some((r) => r.family === f.familyId && r.was === w.boundToCanonicalSha256)) continue;
+        receiptsWithdrawn.push({ family: f.familyId, was: w.boundToCanonicalSha256, now: w.replacedByCanonicalSha256 });
+      }
+      if (afterAlign.carried.includes("acceptanceReceipt") && !governanceCarried.includes(f.familyId)) {
+        governanceCarried.push(f.familyId);
       }
       if (JSON.stringify(existing) !== before) {
         if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
