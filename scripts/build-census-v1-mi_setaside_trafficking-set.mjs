@@ -2138,103 +2138,20 @@ function readJson(rel) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 }
 
-function selfTest() {
-  assert.equal(FAMILY_ID, "mi_setaside_trafficking-set");
-  assert.equal(ROUTE.routeKey,
-    "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application");
-  assert.equal(ROUTE.documents.length, 1);
-  assert.equal(ROUTE.documents[0].formNumber, SOURCE_PIN.formNumber);
-  assert.equal(ROUTE.documents[0].instrumentKind, "primary_filing_and_proof_of_service");
-
-  const index = readJson(CORPUS_INDEX);
-  const entry = index.entries.find((row) => row.state === "MI"
-    && row.formNumber === SOURCE_PIN.formNumber && row.assetClass === "FORM");
-  assert.ok(entry, "the corpus index must carry the exact MC-227B source");
-  /* Compared limb by limb against the committed index. widgetAnnotationCount is
-   * NOT in the index - the index counts AcroForm fields - so it is not asserted
-   * here; it is asserted against the pinned binary itself, on every build, in
-   * mapSideFor. */
-  assert.deepEqual({
-    formNumber: entry.formNumber, revision: entry.revision, pathInArchive: entry.path,
-    sha256: entry.sha256, byteLength: entry.byteLength, pageCount: entry.pageCount,
-    acroFieldCount: entry.acroFieldCount
-  }, {
-    formNumber: SOURCE_PIN.formNumber, revision: SOURCE_PIN.revision,
-    pathInArchive: SOURCE_PIN.pathInArchive, sha256: SOURCE_PIN.sha256,
-    byteLength: SOURCE_PIN.byteLength, pageCount: SOURCE_PIN.pageCount,
-    acroFieldCount: SOURCE_PIN.acroFieldCount
-  });
-  assert.ok(SOURCE_PIN.widgetAnnotationCount > SOURCE_PIN.acroFieldCount,
-    "MC 227b carries more widget annotations than named fields; if that stops being true the unnamed header "
-    + "widgets have gone and the rows declaring them must go with them");
-
-  const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
-  assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
-    "the MC-227B field dictionary must cover every indexed AcroForm field");
-  const allowedPolicies = new Set([
-    "write", "supply", "election", "protect", "attorney", "compose", "row", "narrative", "settled_selection"
-  ]);
-  assert.ok(Object.values(spec).every((row) => allowedPolicies.has(row.policy)));
-  assert.ok(Object.values(spec).filter((row) => row.policy === "write")
-    .every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
-  /* A composed box may only name facts BOTH fixtures hold: the channel refuses
-   * a partial block, so a fact one fixture lacks is a box that ships blank in
-   * that fixture while the map says it is written. */
-  assert.ok(Object.values(spec).filter((row) => row.policy === "compose")
-    .every((row) => row.factIds.length >= 2
-      && Object.values(FIXTURES).every((fixture) => row.factIds.every((f) => String(fixture[f] ?? "").trim().length > 0))));
-  assert.deepEqual(spec.dinfo.factIds,
-    ["participant.full_legal_name", "participant.street_address", "participant.phone"],
-    "the Parties box carries the three facts its printed caption names, in the order it names them");
-  /* Every checkbox on the form carries the words printed beside it. The five
-   * that could not be transcribed as printed words would have to be identified
-   * by position, and exactly one is: `peoplecheck` carries none. */
-  const selections = Object.entries(spec).filter(([, row]) => row.selection === true);
-  assert.equal(selections.length, 14, "MC 227b carries fourteen checkboxes and every one must be declared");
-  /* Item 1's crime and case-number columns bind the shared repeating charge row;
-   * its charge-code column and its conviction-date column do not, and the
-   * comments on both say why. A change that quietly gives either of them a fact
-   * has to change this line too. */
-  assert.deepEqual(
-    CONVICTION_COLUMNS.map(([prefix, , fact]) => [prefix, fact]),
-    [["c", "matter.charge"], ["ch", null], ["cdate", null], ["cno", "matter.case_number"]]);
-  assert.equal(CONVICTION_ROWS.flatMap((n) => ["c", "cno"].map((k) => `${k}${n}`))
-    .filter((name) => spec[name]?.policy === "row").length, 8);
-  assert.equal(CONVICTION_ROWS.flatMap((n) => ["ch", "cdate"].map((k) => `${k}${n}`))
-    .filter((name) => spec[name]?.policy === "supply").length, 8);
-  assert.equal(["explain1", "explain2", "explain3", "Explain4", "Explain5"]
-    .filter((name) => spec[name]?.policy === "narrative"
-      && spec[name].fact === "matter.trafficking_nexus_statement").length, 5);
-  assert.equal(spec.multcaseno.policy, "settled_selection");
-  /* Both fixtures hold the item-1 convictions and the item-2 statement, or the
-   * family is claiming a repair it does not deliver in one of them. */
-  for (const [name, fixture] of Object.entries(FIXTURES)) {
-    assert.ok(Array.isArray(fixture["matter.charges"]) && fixture["matter.charges"].length > 0,
-      `${name} holds no conviction for item 1`);
-    assert.ok(fixture["matter.charges"].every((row) => row.charge && row.case_number),
-      `${name} holds a conviction row missing the crime or the case number`);
-    assert.equal(fixture["matter.charges"].some((row) => row.conviction_date), false,
-      `${name} holds a conviction date, which the shared protect vocabulary forbids this build from writing`);
-    assert.ok(typeof fixture["matter.trafficking_nexus_statement"] === "string"
-      && fixture["matter.trafficking_nexus_statement"].trim().length > 0,
-    `${name} holds no item 2 statement`);
-  }
-  for (const [name, row] of selections) {
-    assert.ok(typeof row.printedCaption === "string" && row.printedCaption.trim().length > 0,
-      `selection control ${name} carries no printed caption`);
-  }
-  /* Eight of the sixteen conviction-table cells are written from held
-   * convictions and eight stay participant-supplied. The stale form of this
-   * assertion required all sixteen to stay blank, which is the state the
-   * independent read failed this family for. */
-  assert.equal(CONVICTION_ROWS.flatMap((n) => CONVICTION_COLUMNS.map(([prefix]) => `${prefix}${n}`))
-    .filter((name) => spec[name]?.policy === "supply").length, 8,
-  "the charge-code and conviction-date columns stay participant-supplied");
-  for (const field of [
-    "posnoticecheck", "posofficialcheck", "posofficialdate", "posattygencheck",
-    "posattygendate", "posmspdate", "sigdate", "sig"
-  ]) assert.equal(spec[field]?.policy, "protect", `proof-of-service field ${field} must remain protected`);
-
+/*
+ * THE DELIVERED EVIDENCE, ASSERTED WHERE IT IS PRODUCED.
+ *
+ * FIX173. Every assertion below reads a file this build writes into OUT. They
+ * were written to protect repairs to the delivered packet and they lived in
+ * selfTest(), which is reachable only through `--self-test` -- a flag nothing
+ * in CI or the integration chain passes. VF61 measured the consequence on a
+ * sibling family: the exact defect a repair lane had just fixed went back in,
+ * a plain `node scripts/build-census-v1-<family>.mjs` exited 0, and the defect
+ * was written to disk. So they run at the end of every build, after the last
+ * write, and a build that produces a defective packet now refuses instead of
+ * delivering it. selfTest() still calls this, against the committed tree.
+ */
+function assertDeliveredEvidenceOnDisk({ rastersMustBeEmpty = false } = {}) {
   const receipt = readJson(`${OUT}/source-receipt.json`);
   assert.equal(receipt.routeKey, ROUTE.routeKey);
   assert.equal(receipt.documents.length, 1);
@@ -2407,9 +2324,15 @@ function selfTest() {
 
   const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
   assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
-  assert.equal(rendered.everyPageRastered, false);
-  assert.equal(rendered.rasterPages.length, 0);
   assert.equal(rendered.independentVerificationPending, true);
+  /* everyPageRastered/rasterPages are the only two readings here that a build
+   * legitimately moves: a host with a calibrated rasterizer rasters locally and
+   * a host without one does not. They stay a --self-test reading of the
+   * committed review state rather than a build-path invariant. */
+  if (rastersMustBeEmpty) {
+    assert.equal(rendered.everyPageRastered, false);
+    assert.equal(rendered.rasterPages.length, 0);
+  }
   for (const artifact of rendered.artifacts) {
     const expected = EXPECTED_ARTIFACTS[artifact.fixture];
     assert.ok(expected, `unexpected artifact fixture: ${artifact.fixture}`);
@@ -2438,6 +2361,106 @@ function selfTest() {
     assert.equal(JSON.stringify(payload).includes('"claimReleased"'), false,
       `${file} must not release the Captain-owned claim`);
   }
+}
+
+function selfTest() {
+  assert.equal(FAMILY_ID, "mi_setaside_trafficking-set");
+  assert.equal(ROUTE.routeKey,
+    "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application");
+  assert.equal(ROUTE.documents.length, 1);
+  assert.equal(ROUTE.documents[0].formNumber, SOURCE_PIN.formNumber);
+  assert.equal(ROUTE.documents[0].instrumentKind, "primary_filing_and_proof_of_service");
+
+  const index = readJson(CORPUS_INDEX);
+  const entry = index.entries.find((row) => row.state === "MI"
+    && row.formNumber === SOURCE_PIN.formNumber && row.assetClass === "FORM");
+  assert.ok(entry, "the corpus index must carry the exact MC-227B source");
+  /* Compared limb by limb against the committed index. widgetAnnotationCount is
+   * NOT in the index - the index counts AcroForm fields - so it is not asserted
+   * here; it is asserted against the pinned binary itself, on every build, in
+   * mapSideFor. */
+  assert.deepEqual({
+    formNumber: entry.formNumber, revision: entry.revision, pathInArchive: entry.path,
+    sha256: entry.sha256, byteLength: entry.byteLength, pageCount: entry.pageCount,
+    acroFieldCount: entry.acroFieldCount
+  }, {
+    formNumber: SOURCE_PIN.formNumber, revision: SOURCE_PIN.revision,
+    pathInArchive: SOURCE_PIN.pathInArchive, sha256: SOURCE_PIN.sha256,
+    byteLength: SOURCE_PIN.byteLength, pageCount: SOURCE_PIN.pageCount,
+    acroFieldCount: SOURCE_PIN.acroFieldCount
+  });
+  assert.ok(SOURCE_PIN.widgetAnnotationCount > SOURCE_PIN.acroFieldCount,
+    "MC 227b carries more widget annotations than named fields; if that stops being true the unnamed header "
+    + "widgets have gone and the rows declaring them must go with them");
+
+  const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
+  assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
+    "the MC-227B field dictionary must cover every indexed AcroForm field");
+  const allowedPolicies = new Set([
+    "write", "supply", "election", "protect", "attorney", "compose", "row", "narrative", "settled_selection"
+  ]);
+  assert.ok(Object.values(spec).every((row) => allowedPolicies.has(row.policy)));
+  assert.ok(Object.values(spec).filter((row) => row.policy === "write")
+    .every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
+  /* A composed box may only name facts BOTH fixtures hold: the channel refuses
+   * a partial block, so a fact one fixture lacks is a box that ships blank in
+   * that fixture while the map says it is written. */
+  assert.ok(Object.values(spec).filter((row) => row.policy === "compose")
+    .every((row) => row.factIds.length >= 2
+      && Object.values(FIXTURES).every((fixture) => row.factIds.every((f) => String(fixture[f] ?? "").trim().length > 0))));
+  assert.deepEqual(spec.dinfo.factIds,
+    ["participant.full_legal_name", "participant.street_address", "participant.phone"],
+    "the Parties box carries the three facts its printed caption names, in the order it names them");
+  /* Every checkbox on the form carries the words printed beside it. The five
+   * that could not be transcribed as printed words would have to be identified
+   * by position, and exactly one is: `peoplecheck` carries none. */
+  const selections = Object.entries(spec).filter(([, row]) => row.selection === true);
+  assert.equal(selections.length, 14, "MC 227b carries fourteen checkboxes and every one must be declared");
+  /* Item 1's crime and case-number columns bind the shared repeating charge row;
+   * its charge-code column and its conviction-date column do not, and the
+   * comments on both say why. A change that quietly gives either of them a fact
+   * has to change this line too. */
+  assert.deepEqual(
+    CONVICTION_COLUMNS.map(([prefix, , fact]) => [prefix, fact]),
+    [["c", "matter.charge"], ["ch", null], ["cdate", null], ["cno", "matter.case_number"]]);
+  assert.equal(CONVICTION_ROWS.flatMap((n) => ["c", "cno"].map((k) => `${k}${n}`))
+    .filter((name) => spec[name]?.policy === "row").length, 8);
+  assert.equal(CONVICTION_ROWS.flatMap((n) => ["ch", "cdate"].map((k) => `${k}${n}`))
+    .filter((name) => spec[name]?.policy === "supply").length, 8);
+  assert.equal(["explain1", "explain2", "explain3", "Explain4", "Explain5"]
+    .filter((name) => spec[name]?.policy === "narrative"
+      && spec[name].fact === "matter.trafficking_nexus_statement").length, 5);
+  assert.equal(spec.multcaseno.policy, "settled_selection");
+  /* Both fixtures hold the item-1 convictions and the item-2 statement, or the
+   * family is claiming a repair it does not deliver in one of them. */
+  for (const [name, fixture] of Object.entries(FIXTURES)) {
+    assert.ok(Array.isArray(fixture["matter.charges"]) && fixture["matter.charges"].length > 0,
+      `${name} holds no conviction for item 1`);
+    assert.ok(fixture["matter.charges"].every((row) => row.charge && row.case_number),
+      `${name} holds a conviction row missing the crime or the case number`);
+    assert.equal(fixture["matter.charges"].some((row) => row.conviction_date), false,
+      `${name} holds a conviction date, which the shared protect vocabulary forbids this build from writing`);
+    assert.ok(typeof fixture["matter.trafficking_nexus_statement"] === "string"
+      && fixture["matter.trafficking_nexus_statement"].trim().length > 0,
+    `${name} holds no item 2 statement`);
+  }
+  for (const [name, row] of selections) {
+    assert.ok(typeof row.printedCaption === "string" && row.printedCaption.trim().length > 0,
+      `selection control ${name} carries no printed caption`);
+  }
+  /* Eight of the sixteen conviction-table cells are written from held
+   * convictions and eight stay participant-supplied. The stale form of this
+   * assertion required all sixteen to stay blank, which is the state the
+   * independent read failed this family for. */
+  assert.equal(CONVICTION_ROWS.flatMap((n) => CONVICTION_COLUMNS.map(([prefix]) => `${prefix}${n}`))
+    .filter((name) => spec[name]?.policy === "supply").length, 8,
+  "the charge-code and conviction-date columns stay participant-supplied");
+  for (const field of [
+    "posnoticecheck", "posofficialcheck", "posofficialdate", "posattygencheck",
+    "posattygendate", "posmspdate", "sigdate", "sig"
+  ]) assert.equal(spec[field]?.policy, "protect", `proof-of-service field ${field} must remain protected`);
+
+  assertDeliveredEvidenceOnDisk({ rastersMustBeEmpty: true });
   console.log(`SELF_TEST_OK ${FAMILY_ID}`);
 }
 
@@ -3032,6 +3055,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "reports/blanks-left-for-the-participant.json \u2014 required court-record, history, nexus, and service facts remain participant-supplied or protected; confirm the instructions make those blanks legible to complete."
     ]
   });
+
+  /*
+   * FIX173. The last write has happened; now the delivered tree is read back
+   * and asserted before this build is allowed to report a result. A defect
+   * that reaches disk here is a refused build, not a delivered packet.
+   */
+  assertDeliveredEvidenceOnDisk();
 
   return {
     familyId: FAMILY_ID,
