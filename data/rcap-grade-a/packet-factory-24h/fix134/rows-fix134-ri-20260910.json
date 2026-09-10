@@ -191,6 +191,151 @@
         "againstDEFECTS_NO_COUNTER_CAN_SEE": "Neither family is named there. The two classes that could have bitten this repair were checked directly: addedGlyphsReadFromOutputBytes is a real reading from the output bytes here and not a hardcoded literal, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reading 0 is not relied on to clear this defect -- the defect was ink at a widget's OWN rect, which is exactly the case that ledger records as invisible to that counter, so the 600 dpi directional raster is the evidence instead."
       },
       "whatThisPacketStillDoesNotClaim": "No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was written, altered or inferred by this repair. No prose changed. The only page difference in the whole packet is that a check box the court draws is drawn once again instead of twice."
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX134 ri_first_offender_misdemeanor-set (repair, grant set 6cd30124b3679d3a)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "aDifferentLaneHoldsTheVERIFICATIONGrant": "VF01 holds a live independent-verification grant on this family, releasedAt null. That is a different kind of grant and did not block this repair. It does mean this lane set no verdict and issued no PASS on it, which it would not have done anyway.",
+      "pinnedSource": {
+        "sourceId": "official-form:DC-33",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "resolvedFrom": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+        "digestConfirmedWith": "sha256sum, first-hand, against the declared pin",
+        "pages": 4
+      },
+      "whatWasWrong": {
+        "class": "ink this packet UNCOVERED -- the court's own opaque mask stripped off its /AP",
+        "whereItLands": "INSIDE THE NOTARIAL CERTIFICATE of a sworn affidavit. Group2 on DC-33 page 4 is the notary's own election for how the person who appeared was identified -- personally known, or satisfactory evidence. This is the same control, on the same form, that the border ledger's own tier note records FIX08 finding on the sibling family, and the reason that note says a family tiered OTHER may carry the worst ink in the cohort.",
+        "widgets": [
+          "DC-33 Group2, packet page 4 = source page 4, appearance /FlatWidget-2015858073 placed at [72.409 267.91 84.631 277.822]",
+          "DC-33 Group2, packet page 4 = source page 4, appearance /FlatWidget-7845598753 placed at [224.544 268.295 235.996 277.822]"
+        ],
+        "cause": "Identical to the sibling family on this host. DC-33 both PRINTS a check box in its page content stream and covers it with the widget's own /Off appearance, which paints `1 g 0 0 W H re f` over the printed box and then strokes a beveled box of its own. stripOpaqueBackgroundPaint removed that leading white fill and the printed box reappeared inside the widget's box.",
+        "whatIsOnThePage": "Two overlapping outlines at each of the two notarial identification controls. Read at 600 dpi against the pinned page.",
+        "remedy": "RESTORE, never remove."
+      },
+      "byteEvidencePerStreamThatNothingWasInvented": [
+        {
+          "appearance": "/FlatWidget-2015858073",
+          "onFixtures": ["canonical.pdf", "boundary.pdf"],
+          "deliveredSha256Before": "6cb26ada17ea4de1af29bad0d700fe171988e075f0f94d442054214555a462ec",
+          "deliveredBytesBefore": 193,
+          "matchedRawBefore": null,
+          "skeletonSha256": "74b7527748d9f04f5fe7b9e900a819997fd84720584a8dbe5257810404190fb8",
+          "matchedSourceStreamAfterFillNormalisedAway": "DC-33 object 157 0 R, 219 bytes, /BBox [0 0 12.2227 9.9118] identical to the delivered /BBox",
+          "theOnlyDifference": "the source stream's leading `1 g / 0 0 12.2227 9.9118 re / f`. Everything after it is identical byte for byte.",
+          "deliveredSha256After": "a79c3a7b25a532ca1996663f3ba080758e843c1232e191210c672598078e3c0b",
+          "matchedRawAfter": "157 0 R"
+        },
+        {
+          "appearance": "/FlatWidget-7845598753",
+          "onFixtures": ["canonical.pdf", "boundary.pdf"],
+          "deliveredSha256Before": "277981825d66cae66c3e6c78ee875d8bf3ab2bdba4ded4f62aeeffdf39988d81",
+          "deliveredBytesBefore": 190,
+          "matchedRawBefore": null,
+          "skeletonSha256": "ca763714b0c629b1185f85c13ddeaf608b793385e797d5c7a6355b8d141de0de",
+          "matchedSourceStreamAfterFillNormalisedAway": "DC-33 object 165 0 R, 216 bytes, /BBox [0 0 11.4524 9.52667] identical to the delivered /BBox",
+          "theOnlyDifference": "the source stream's leading `1 g / 0 0 11.4524 9.5267 re / f`. Everything after it is identical byte for byte.",
+          "deliveredSha256After": "a2d80ac0efea6b8671d418f0b4ec12bf00e971dac11868faf5c42b5d3af4feaf",
+          "matchedRawAfter": "165 0 R"
+        }
+      ],
+      "streamsRemoved": "none. This lane removed no appearance stream, no path and no operator from any delivered artifact.",
+      "whatWasChanged": [
+        "scripts/build-census-v1-ri_decriminalized-set.mjs -- preserveSourceAuthoredSelectionPaint: true set on the ri_first_offender_misdemeanor-set route config only. The threading at the finalizer call landed with the sibling family's commit.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf -- rebuilt.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json -- rebuilt by the builder.",
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/product-wiring.json -- acceptance receipt withdrawn through the shared governance module."
+      ],
+      "sharedModuleChanges": "none.",
+      "blastRadius": {
+        "measuredRatherThanArgued": "This is the strong evidence for the whole per-route claim. After the host edit was in place and BEFORE this family's flag was set, this family was rebuilt and reproduced its committed digests EXACTLY -- bebf3cd93c08... and 90987141136b... -- leaving a completely clean working tree. The threading is therefore demonstrably inert for a family that does not opt in, which is the code path the other four RI families on this host take.",
+        "whyThatMatters": "The sibling family's row argues the non-effect from the flag's scope. This one measures it, on a real family, on this host, at this base."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "method": "pdftoppm -gray at 600 dpi, whole pages, per-pixel at threshold gray < 128, counted in BOTH directions. Packet pages 1-4 map 1:1 to DC-33 pages 1-4 per the family's own pageManifest.",
+        "howTheSOURCEWasRendered": "WITH annotations drawn. -hide-annotations was never passed. Proved on THIS source and not carried over from the sibling: suppressing annotations on DC-33 page 4 LOSES 4,065 dark pixels and REVEALS 3,535, so widget /AP /N ink is demonstrably in the render used for every diff on this family. Pages 1, 2 and 3 lose and reveal 0, so DC-33's only annotation-borne ink is at Group2 on page 4.",
+        "beforeRepair": "canonical -- page 1: 0/0. page 2: 18183 added / 0 removed. page 3: 15843 added / 0 removed. page 4: 1025 added / 0 removed, in one cluster at x 74.4-233.9pt, yTop 516.1-522.0pt, which is exactly the two Group2 widget rects. boundary -- page 1: 0/0. page 2: 30804/0. page 3: 28464/0. page 4: 1025 added / 0 removed, identical to canonical.",
+        "afterRepair": "canonical -- page 1: 0/0. page 2: 18183/0. page 3: 15843/0. page 4: 0 added / 0 REMOVED. boundary -- page 1: 0/0. page 2: 30804/0. page 3: 28464/0. page 4: 0 added / 0 removed.",
+        "removedPerPageNotAsATotal": {
+          "canonical": { "page1": 0, "page2": 0, "page3": 0, "page4": 0 },
+          "boundary": { "page1": 0, "page2": 0, "page3": 0, "page4": 0 },
+          "beforeTheRepairAlso": "0 on every page of both fixtures. The stripped operator was a WHITE fill and removing white ink removes no dark pixels, so this defect could only ever appear in the ADDED direction. Running both directions is what caught it and what proves nothing of the court's was lost."
+        },
+        "theClaimIsTheBROADOne": "Unconditional whole-page per-pixel difference. No widget mask, no rect filter, no 'accounted to a selection widget' narrowing. Removed ink falling outside every source widget rect is inside this measurement and is counted.",
+        "whatTheRemainingAddedPixelsAre": "Pages 2 and 3 only, and they are this packet's own participant writes and its route-selection marks. Identical before and after the repair, count for count."
+      },
+      "negativeControl": {
+        "againstThePinnedSource": "Packet page 1 reads 0 added and 0 removed at 600 dpi, identically before and after.",
+        "againstThePreRepairPacket": "Both repaired fixtures were differenced page for page against their committed pre-repair selves at 600 dpi across all 15 pages. Fourteen pages read 0 added and 0 removed on BOTH fixtures. Page 4 reads 0 added and 1,025 removed on both, at the cluster named above. The repair removed exactly the spurious ink and moved nothing else anywhere in the packet.",
+        "composedPagesUnchanged": "Packet pages 5-15 -- the proposed order, the notice package, the filing instructions and the certified-copy delivery checklist -- read 0 added and 0 removed against the pre-repair packet on both fixtures."
+      },
+      "clipping": {
+        "appearanceBBoxVersusPlacedRect": "Each restored appearance carries /Matrix [1 0 0 1 0 0] and a /BBox equal to the source /BBox exactly, so nothing is scaled and nothing is clipped at the BBox edge.",
+        "afterRepairResidual": "None. Page 4 reads 0 added and 0 removed against the pinned page at 600 dpi, which is pixel identity."
+      },
+      "obligationsRecordedAgainstThisFamily": {
+        "dispatched": "CLIPPING_AND_OVERLAP",
+        "recordedInMasterQueue": "failedObligationNames = [], failedObligations = []",
+        "recordedByTheLiveVerdict": "VF90, FAIL_REPAIR_REQUIRED, failedObligationNames = ['ARTIFACTS']",
+        "thisLaneSetsNoVerdict": "true"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "The builder's own count, recomputed by this rebuild and written to reports/completeness-counters.json. visualDefects is 0 as a measurement: the two defects this lane found on the page are gone, confirmed by 600 dpi pixel identity with the pinned page. No counter saw them while they were present.",
+      "artifacts": [
+        {
+          "fixture": "canonical.pdf",
+          "sha256": "32492ff6417e6f6412f7a7315444c72a744bb5ea8e24358f5f504ac18c7fe995",
+          "pages": 15,
+          "byteLength": 311562,
+          "addedGlyphsReadFromOutputBytes": 56,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary.pdf",
+          "sha256": "0ec618e95731dd78af08039076bc3cd930ddeccfe657dc3c5d78ef8354cca509",
+          "pages": 15,
+          "byteLength": 311738,
+          "addedGlyphsReadFromOutputBytes": 98,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum over the committed files, and pdfinfo for the page counts. Nothing transcribed by hand.",
+      "priorDigestsThisReplaces": {
+        "canonical": "bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206",
+        "boundary": "90987141136b5406403ff179368715c6071b43a1f170b81ddf773f5dbbda6c00"
+      },
+      "strokeOnlyBeforeAndAfter": {
+        "before": "2 per fixture, 4 across both. 0 matching raw; 4 matching after the leading fill was normalised away; 0 matching nothing.",
+        "after": "2 per fixture, 4 across both. 4 of 4 matching a pinned source stream RAW, byte for byte. 0 matching nothing.",
+        "whyTheCountDidNotFallToZero": "Because it should not. These are the court's own marks on a notarial certificate and they belong on the page."
+      },
+      "reproducibility": "Rebuilt twice. Before its flag was set it reproduced the committed digests exactly; after the flag it produced 32492ff6... and 0ec618e9... A second run of the repaired builder is what the governance verifier's byte-identical-wiring check exercises, and it passes.",
+      "governance": {
+        "whatWasStillOwed": "binding.acceptanceReceipt asserted RASTER_PASS, workflow run 34297296663, bound to canonical bebf3cd93c0834ab742c2a63805d0956f6c64f6db253d2a51d26ac6483382206. This repair moves the canonical to 32492ff6417e6f6412f7a7315444c72a744bb5ea8e24358f5f504ac18c7fe995.",
+        "whatWasDone": "Passed through carryForwardGovernance with the canonical digest measured from the file on disk. The five non-artifact-bound keys carried forward verbatim; the receipt WITHDRAWN under acceptanceReceiptWithdrawn, whole, carrying both digests, not deleted and not relabelled as covering the new output.",
+        "verification": "npm run rcap:verify-governance-preservation exits 0. GOVERNANCE_PRESERVATION_OK, 16 checks.",
+        "whatTheVerifierCouldNotSee": "251 product-wiring.json files were not measured because this worktree is a sparse checkout and they are not on disk. Reported, not counted as a pass.",
+        "receiptIssued": "none."
+      },
+      "clonesAndCrossFamilyChecks": {
+        "againstCLONED_FAMILY_PACKETS": "Not listed in clonedDeliverables, nearClones or sharedDocuments, and verified first-hand: normalised extracted text is 33,602 chars / 755f69986cf1ad286cf6f778043842ceafd56260bbc90af318322c33342d8742 against the sibling's 33,690 chars / 50fda0ff2bc18a7e7d99ad320ede666e683c4f65514c975b30a254093d22c2f0. Different form, different court, different page count.",
+        "againstDEFECTS_NO_COUNTER_CAN_SEE": "Not named there. addedGlyphsReadFromOutputBytes is a real reading and not a hardcoded literal; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reading 0 is NOT relied on to clear this defect, because the ink sat at a widget's own rect, which that ledger records as exactly the case that counter cannot see."
+      },
+      "whatThisPacketStillDoesNotClaim": "No filing fee, clerk's practice, service rule, deadline, signature, notarization or review approval was written, altered or inferred. Nothing was written into the notarial certificate: the two controls remain unmarked, for the notary or clerk who administers the oath to complete. The only page difference is that the court's box is drawn once instead of twice."
     }
   ],
   "packetsSelfVerified": 0,

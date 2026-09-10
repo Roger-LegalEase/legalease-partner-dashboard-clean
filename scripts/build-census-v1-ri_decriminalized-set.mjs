@@ -1470,6 +1470,15 @@ const FAMILIES = {
   "ri_first_offender_misdemeanor-set": {
     trackId: "ri_first_offender_misdemeanor", form: "DC-33", partId: "THREE_A", orderVariant: "DISTRICT_COURT",
     splitAffidavitComponent: false, singleGuidanceComponent: false,
+    /* FIX134. Keeps the opaque background the court's own /Off appearance paints
+     * at Group2 on DC-33 page 4, which is INSIDE THE NOTARIAL CERTIFICATE of a
+     * sworn affidavit -- the two boxes for how the notary identified the person
+     * who appeared. Stripping it uncovered the box DC-33 prints in its own page
+     * content stream and delivered two overlapping outlines at each control:
+     * 1,025 added dark pixels at 600 dpi, 0 removed, identically on both
+     * fixtures. See the flag's reasoning and byte evidence at the finalizer call
+     * in renderOfficialForm. */
+    preserveSourceAuthoredSelectionPaint: true,
     routeKeys: [
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-1-bci-and-docket",
       "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
