@@ -700,7 +700,54 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * SYNTHESIZED WIDGET BORDERS: 34 of this family's 90 stroke-only flattened
+     * appearances match no /AP /N stream in the pinned JDF-612 or JDF-615, byte
+     * for byte. That ink is pdf-lib's default appearance provider inventing a
+     * rectangle the size of a widget's /Rect from its /MK /BC, and the flatten
+     * stamping it. It draws no glyph, so every glyph counter reads zero while
+     * the page carries a doubled outline around a box the form already prints.
+     *
+     * The other 56 stroke-only appearances ARE the form's own, byte-identical
+     * to streams JDF-612 and JDF-615 ship, and they must survive. This flag is
+     * the right instrument for exactly that reason: it only neutralises the
+     * synthesized border characteristics of a field this run did not write, and
+     * it keeps a widget whose source appearance is silent rather than clearing
+     * it, so the form's own drawing is preserved instead of regenerated.
+     *
+     * Measured, not assumed, in both directions: BORDER_COHORT_REMEDIATION.json
+     * for the byte accounting, and a directional 150 dpi raster difference of
+     * the repaired fixtures against renders of both pinned sources for the ink.
+     * Over-suppression -- removing ink the form itself draws -- is the failure
+     * this repair could cause and is the thing the removed-pixel direction of
+     * that difference is read for.
+     */
+    suppressSynthesizedWidgetBorders: true,
+    /*
+     * The border flag alone did not clear them, and the measurement says why:
+     * of this family's stroke-only appearances, the synthesized ones carry the
+     * painting operators ["f","f"] -- two fills and no stroke. They are not
+     * /MK /BC borders. They are pdf-lib's default check-box provider drawing an
+     * appearance for a widget whose current /AS state has no entry in /AP /N,
+     * which is exactly the condition this second flag addresses: it installs an
+     * EMPTY appearance for the missing state instead, and leaves alone both a
+     * widget that ships its own /Off stream and a box this run actually ticked.
+     * Measured after adding it, not assumed; see the lane return.
+     */
+    suppressSynthesizedAppearances: true,
+    /*
+     * The two remaining marks are a PLACEMENT defect, not a synthesis one. On
+     * JDF-612 page 4 the two "b) Appeals - Yes./No." boxes are delivered about
+     * 1.4pt larger than the source draws them: a 150 dpi directional raster
+     * measures 139 added dark pixels and 80 REMOVED at those two rects, the
+     * removed pixels being the form's own box edge that the oversized stamp
+     * replaces. That is ISO 32000-1 12.5.5 -- an appearance whose transformed
+     * /BBox is not its /Rect, flattened without the fit -- which is exactly what
+     * this flag pre-composes. Measured after adding it; if it does not close
+     * the removed-pixel count it is reported open rather than certified.
+     */
+    fitAppearancesToRect: true
   });
   if (process.env.CO_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);

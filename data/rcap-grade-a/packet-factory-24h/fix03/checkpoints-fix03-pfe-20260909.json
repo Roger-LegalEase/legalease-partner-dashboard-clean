@@ -11,7 +11,7 @@
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set"
   ],
-  "whyOneWorkerHoldsBoth": "They are the two halves of one select-one pair. A change to one that is not mirrored in the other creates a contradiction across the pair, so both were read before either was changed.",
+  "whyOneWorkerHoldsBoth": "They are the two halves of one select-one pair. A change to one that is not mirrored in the other creates a contradiction across the pair, so both were read before either was changed. The fee-waiver correction is the case in point: it was made on the conviction half and deliberately NOT mirrored onto the non-conviction half, because JDF 611 states a waiver route and JDF 491 has no Filing Fees section at all.",
   "checkpoints": [
     {
       "familyId": "co_motion_seal_nonconviction-set",
@@ -35,6 +35,32 @@
       "verdict": null,
       "whyNoVerdict": "A repair worker sets no verdict and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
       "rowsFile": "data/rcap-grade-a/packet-factory-24h/fix03/rows-fix03-pfe-20260909-co-nonconviction.json"
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "claim": "CLAIM_OK FIX03 co_motion_seal_conviction-set (repair, grant set 914af21a28d51a60)",
+      "state": "PARTIALLY_REPAIRED_AND_RETURNED",
+      "status": "STOPPED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "FEE_AND_WAIVER (record half; the packet half was already repaired before this lane)"
+      ],
+      "obligationStillOpen": [
+        "COMPONENT_SET"
+      ],
+      "headlineResult": "THE PREVIOUS BUILD WAS OVER-SUPPRESSING. Removed dark pixels on JDF-612 page 4 fell from 525 to 0 across this repair, and 445 of that 525 was a horizontal rule 213.6 x 0.5 points at x 254.4, y 192.0 that the official form itself draws. The removed direction of the raster is what caught it, and it is the direction almost nobody reads.",
+      "borderCohort": "SYNTHESIZED_INK_CONFIRMED, 34 unmatched and 56 form-own. After the repair the classifier reads 28 stroke-only per fixture, 56 across the two: all 34 synthesized are gone and all 56 of the form's own survive.",
+      "directionalRaster": "150 dpi, both fixtures, both directions, against renders of the pinned JDF-612 and JDF-615. Removed dark pixels are now 0 on every one of the 8 pages of both fixtures. Added dark pixels fell by 913 per fixture (canonical 15176 to 14263, boundary 22024 to 21111) and rose on no page. Negative control pages 3 and 8 gained 0 and lost 0 before and after.",
+      "flagsUsed": "suppressSynthesizedWidgetBorders restored the rule; suppressSynthesizedAppearances cleared the 34; fitAppearancesToRect closed the last 80 removed px at the two 'b) Appeals - Yes./No.' boxes stamped about 1.4pt oversized. All three are per-builder opt-ins, no shared module was changed, and no other family is byte-affected.",
+      "artifactsUnchanged": false,
+      "canonicalSha256": "455f7387b715af77fc6b89a1c5ca9fb497f0dfb4c4d413376c572fa97bfad3da",
+      "boundarySha256": "66ca31e0c3ccd8181f3c67d085401ca0bd22a57b2ae8332d4733d1c287b1726d",
+      "previousCanonicalSha256": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+      "previousBoundarySha256": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556",
+      "whyStopped": "COMPONENT_SET stays open: the packet delivers 2 of the 4 documents the official JDF 611 guide requires, and delivering JDF 613 and JDF 614 is a build rather than a repair. The recorded reason for not delivering them is however FALSE in this container: the nationwide_recovery_pool_2026_09_02 custody IS mounted here and both binaries hash to the digests the committed index declares. Details, and the JDF-613 caution now resolved from its own bytes, are in the rows file.",
+      "verdict": null,
+      "whyNoVerdict": "A repair worker sets no verdict and issues no PASS. This family owes a read by a lane that neither built nor repaired it, and a central RASTER_PASS bound to the two new digests.",
+      "rowsFile": "data/rcap-grade-a/packet-factory-24h/fix03/rows-fix03-pfe-20260909-co-conviction.json"
     }
   ]
 }
