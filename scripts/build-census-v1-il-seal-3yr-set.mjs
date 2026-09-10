@@ -512,6 +512,97 @@ function preserveOfficialCheckBoxAppearances(document, form) {
 }
 
 /*
+ * FIX166, ARTIFACTS. The ink the DELIVERED bytes actually carry, read from them.
+ *
+ * DEFECTS_NO_COUNTER_CAN_SEE, "a-published-zero-where-a-measurement-existed".
+ * Ported from scripts/build-census-v1-il-seal-2yr-set.mjs, which fixed this
+ * class and named it. Until FIX166 this file published, in
+ * reports/actual-writes.json, addedGlyphsReadFromOutputBytes as the literal 0,
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as the literal 0, and
+ * flattenedWidgetAppearancesReadFromOutputBytes as packet.writes.length -- the
+ * finalizer's own build intent. Not one of the three had ever been read from the
+ * saved bytes, and two of them were false: lane VF58 measured 579 added glyphs
+ * on the canonical, 1,170 on the boundary, and 443 flattened widget appearances.
+ *
+ * The harm is downstream and it is not cosmetic.
+ * scripts/rcap-packet-completeness/verify-packet-completeness.mjs derives
+ * invisibleWrites from the first two fields and visualDefects from the third, so
+ * this family was the ONLY Illinois family the completeness verifier called
+ * PASS_COMPLETE, while its two siblings printed UNMEASURED because their
+ * builders publish null honestly. A fabricated zero read as a cleaner result
+ * than an honest null. A zero that was never measured is indistinguishable,
+ * downstream, from a zero that was.
+ *
+ * flatten() turns every widget -- written and blank alike -- into a Form
+ * XObject drawn on the page, and a BLANK widget's appearance stream still
+ * carries a font selection and an empty show-text operand. So an appearance is
+ * counted only when it draws at least one non-whitespace glyph, which is what
+ * "a write with no ink is not a write" is asking about.
+ *
+ * What this function does NOT measure: the geometry pass behind
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. That figure stays null, because
+ * this builder never performs that reading and null is what an unmeasured
+ * counter is.
+ */
+/*
+ * FIX166. The total count of flattened widget Form XObjects in the delivered
+ * bytes -- EVERY widget the four official forms declare, written and blank
+ * alike -- as distinct from the inked-appearance count below.
+ *
+ * The two are published side by side because the name
+ * "flattenedWidgetAppearancesReadFromOutputBytes" is ambiguous between them and
+ * the ambiguity has already cost a lane a reconciliation: lane VF58 read 443
+ * here (all flattened widget XObjects) against a published 44. 44 is the
+ * inked-appearance count and it is the figure the sibling il-seal-2yr-set
+ * publishes under that name; 443 is the total. Both are now read from the saved
+ * bytes and each is named for what it measures, so neither can be mistaken for
+ * the other or for a build intent.
+ */
+function countFlattenedWidgetXObjects(document) {
+  let total = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      total += 1;
+    }
+  }
+  return total;
+}
+
+function readFlattenedAppearanceInk(document) {
+  const SHOW_TEXT = /\((?:\\[\s\S]|[^\\()])*\)|<([0-9A-Fa-f\s]*)>/g;
+  let appearances = 0;
+  let glyphs = 0;
+  for (const page of document.getPages()) {
+    const xobjects = page.node.Resources()?.lookupMaybe(PDFName.of("XObject"), PDFDict);
+    if (!xobjects) continue;
+    for (const [, ref] of xobjects.entries()) {
+      const stream = document.context.lookup(ref);
+      if (!stream?.dict) continue;
+      if (String(stream.dict.get(PDFName.of("Subtype"))) !== "/Form") continue;
+      let body = "";
+      try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { continue; }
+      if (!/(?:^|\s)T[jJ](?=\s|$)/.test(body)) continue;
+      let drawn = 0;
+      for (const operand of body.match(SHOW_TEXT) ?? []) {
+        const text = operand.startsWith("<")
+          ? operand.slice(1, -1).replace(/\s/g, "")
+          : operand.slice(1, -1).replace(/\\(?:[0-7]{1,3}|[\s\S])/g, "x");
+        drawn += text.replace(/\s/g, "").length / (operand.startsWith("<") ? 2 : 1);
+      }
+      if (drawn <= 0) continue;
+      appearances += 1;
+      glyphs += Math.round(drawn);
+    }
+  }
+  return { appearances, glyphs };
+}
+
+/*
  * The negative control for the repair above, read from the delivered bytes.
  *
  * A flattened widget appearance that paints without drawing a glyph is ink no
@@ -541,6 +632,10 @@ async function fillDocument(source, fixtureName, fixture, elections) {
   const document = await PDFDocument.load(source.bytes);
   const form = document.getForm();
   const emptyOffAppearances = preserveOfficialCheckBoxAppearances(document, form);
+  // FIX166, ARTIFACTS. Counted on the OFFICIAL form before flatten, so the
+  // delivered flattened-appearance total below is checked against the source's
+  // own widget count rather than against a literal a later edit could drift from.
+  const officialWidgets = form.getFields().reduce((total, field) => total + field.acroField.getWidgets().length, 0);
   const pages = document.getPages();
   const font = await document.embedFont(StandardFonts.Helvetica);
   const writes = [];
@@ -602,7 +697,7 @@ async function fillDocument(source, fixtureName, fixture, elections) {
   document.setProducer("pdf-lib 1.17.1");
   document.setCreationDate(FIXED_DATE);
   document.setModificationDate(FIXED_DATE);
-  return { document, writes, refusals, emptyOffAppearances, danglingAnnotsPruned };
+  return { document, writes, refusals, emptyOffAppearances, officialWidgets, danglingAnnotsPruned };
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
@@ -643,7 +738,23 @@ async function buildPacket(sources, fixtureName, fixture) {
     `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
   const strayInk = inkWithoutGlyphs(reopened);
   assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
-  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
+  // FIX166, ARTIFACTS. Read from the saved bytes, not asserted by the finalizer
+  // that made them: "a write with no ink is not a write". Every declared write
+  // must draw at least one glyph in the delivered output.
+  const delivered = readFlattenedAppearanceInk(reopened);
+  delivered.formXObjects = countFlattenedWidgetXObjects(reopened);
+  // FIX166, ARTIFACTS. Two independent readings compared: the widget count the
+  // four official forms declare, and the Form XObject count the delivered bytes
+  // carry after flatten. flatten() turns every widget into exactly one Form
+  // XObject, so a mismatch means a widget was lost or an appearance invented.
+  const officialWidgets = filled.reduce((total, item) => total + item.officialWidgets, 0);
+  assert.equal(delivered.formXObjects, officialWidgets,
+    `the delivered bytes must carry one flattened Form XObject per official widget: ${delivered.formXObjects} for ${officialWidgets}`);
+  delivered.officialWidgets = officialWidgets;
+  const finalizerWrites = filled.reduce((total, item) => total + item.writes.length, 0);
+  assert.equal(delivered.appearances, finalizerWrites,
+    `every declared write must draw at least one glyph in the delivered bytes: ${delivered.appearances} inked appearances for ${finalizerWrites} writes`);
+  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, delivered, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
 async function build() {
@@ -664,7 +775,7 @@ async function build() {
   const routeSummary = `Sealing a felony conviction after the printed three-year period, 20 ILCS 2630/5.2(c)(2)(D), (E), (F) and (c)(3)(C). The Request answers item 12 Yes, records the outcome as FC -- the printed sealing abbreviation for a felony conviction -- and elects one limb of Section 19, which is where this route's statutory ground is printed. This packet elects ${electedGround}. Which of the two three-year limbs applies is your fact, not the route's: if your certified record instead shows ${alternativeGround}, tick that limb and untick the one this packet ticked.`;
   writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByTheFourPinnedForms: packet.delivered.officialWidgets, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, nonWhitespaceGlyphsOutsideMeasuredWriteBoxesWhyNull: "Null, not zero. This builder performs no geometry pass over the delivered glyph boxes, so it has not measured this. Counting it is an independent reader's job. It was published as the literal 0 until FIX166.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
@@ -718,6 +829,33 @@ async function build() {
 function selfTest() {
   const report = JSON.parse(fs.readFileSync(path.join(OUT, "reports/actual-writes.json"), "utf8"));
   const writes = report.documents.flatMap((document) => document.actualWrites);
+
+  // FIX166, ARTIFACTS. The regression guard for the defect this lane repaired.
+  // Until FIX166 the three fields below were published as the literal 0, the
+  // literal 0 and packet.writes.length, and none was a reading of the delivered
+  // bytes. verify-packet-completeness.mjs derives invisibleWrites from the first
+  // two and visualDefects from the third, so the fabrication made this the only
+  // Illinois family it called PASS_COMPLETE while its two honest siblings
+  // printed UNMEASURED. These asserts fail the build if a literal ever returns.
+  const byFixture = Object.fromEntries(report.artifacts.map((entry) => [entry.fixture, entry]));
+  assert.ok(byFixture.canonical && byFixture.boundary, "both fixtures must publish an artifacts record");
+  for (const [fixture, entry] of Object.entries(byFixture)) {
+    assert.ok(Number.isInteger(entry.addedGlyphsReadFromOutputBytes) && entry.addedGlyphsReadFromOutputBytes > 0,
+      `${fixture}: addedGlyphsReadFromOutputBytes must be a reading of the delivered bytes, not a literal: ${entry.addedGlyphsReadFromOutputBytes}`);
+    assert.equal(entry.flattenedWidgetAppearancesReadFromOutputBytes, entry.valuesReportedByFinalizer,
+      `${fixture}: every declared write must draw a glyph in the delivered bytes`);
+    assert.equal(entry.flattenedWidgetFormXObjectsInDeliveredBytes, entry.officialWidgetsDeclaredByTheFourPinnedForms,
+      `${fixture}: the delivered bytes must carry one flattened Form XObject per official widget: ${entry.flattenedWidgetFormXObjectsInDeliveredBytes}`);
+    // A counter this builder never measures is null, and NEVER zero. An
+    // unmeasured zero is indistinguishable downstream from a measured one.
+    assert.strictEqual(entry.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, null,
+      `${fixture}: this builder performs no geometry pass, so this counter must be null rather than a number: ${entry.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes}`);
+  }
+  // A constant cannot differ between two fixtures that write different values.
+  // The two fixtures elect different Section 19 limbs and carry different
+  // participant facts, so their delivered glyph counts must not be equal.
+  assert.notEqual(byFixture.canonical.addedGlyphsReadFromOutputBytes, byFixture.boundary.addedGlyphsReadFromOutputBytes,
+    "the two fixtures write different values, so an added-glyph count read from their bytes cannot be the same number");
   const requestWrites = writes.filter((row) => row.documentId === "EXP-AD Request");
   assert.equal(requestWrites.filter((row) => /List all charges/.test(row.fieldName) && row.factId === "matter.case_number").length, 0, "charge cells must never receive the case number");
   assert.equal(requestWrites.filter((row) => row.page === 2 && /(?:Arrest or case number|Arresting agency|List all charges|Date of arrest|Outcome)/i.test(row.fieldName)).length, 0, "the inactive expungement table must remain wholly blank");
