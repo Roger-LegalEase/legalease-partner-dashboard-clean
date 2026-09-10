@@ -906,9 +906,9 @@
       "operation": "independent-verification",
       "lane": "VF31",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+      "released": true,
+      "releasedAt": "2026-09-10T07:42:08.122Z",
+      "releaseReason": "VF31 returned its read; the family goes back to repair before it is read again"
     },
     {
       "subjectType": "packet-family",
@@ -937,8 +937,9 @@
       "operation": "rapid-repair",
       "lane": "FIX137",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:42:08.008Z",
+      "releaseReason": "FIX137 returned; the ARTIFACTS failure it left is the flattened-widget counter, whose module predicate was fixed at 462298a41, so the family is re-dispatched to a rebuild lane"
     },
     {
       "subjectType": "packet-family",
@@ -9297,9 +9298,9 @@
       "operation": "independent-verification",
       "lane": "VF25",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF10 returned PASS_COMPLETE_INDEPENDENT at c024be0f6: fifteen obligations measured, nine counters zero, the refreshed registry pin independently re-derived and the identityRefresh claims tested rather than accepted"
+      "released": true,
+      "releasedAt": "2026-09-10T07:46:54.179Z",
+      "releaseReason": "VF25 returned its independent read of all six Vermont families; this row is merged at 1beb7183a. The family goes back to repair before it is read again."
     },
     {
       "subjectType": "packet-family",
@@ -9328,8 +9329,9 @@
       "operation": "rapid-repair",
       "lane": "FIX130",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-10T07:46:54.068Z",
+      "releaseReason": "FIX130 returned at the end of its Vermont shift, having repaired five siblings on this host and left this family unrepaired; the grant was never released. Re-dispatched to a fresh repair lane against VF25's independent FAIL."
     },
     {
       "subjectType": "packet-family",
@@ -14509,7 +14511,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d2a324d15baf4c5cfdb2aeba66e9dfaab301300b79066d3638e1b429e3b51612",
+  "claimsDigest": "9c75a679c2f2413d3bdd24521fb8ee928070e5af0d7c78dd7595e7d193e1913a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35368,6 +35370,42 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-10T06:18:36.052Z",
       "reason": "No live worker; its two siblings' read is on VF01 and all three share one repair and one host"
+    },
+    {
+      "lane": "FIX137",
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T07:42:08.008Z",
+      "reason": "FIX137 returned; the ARTIFACTS failure it left is the flattened-widget counter, whose module predicate was fixed at 462298a41, so the family is re-dispatched to a rebuild lane"
+    },
+    {
+      "lane": "VF31",
+      "subjectType": "packet-family",
+      "subjectId": "ar-cs-possession-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T07:42:08.122Z",
+      "reason": "VF31 returned its read; the family goes back to repair before it is read again"
+    },
+    {
+      "lane": "FIX130",
+      "subjectType": "packet-family",
+      "subjectId": "vt_exp_decriminalized-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-10T07:46:54.068Z",
+      "reason": "FIX130 returned at the end of its Vermont shift, having repaired five siblings on this host and left this family unrepaired; the grant was never released. Re-dispatched to a fresh repair lane against VF25's independent FAIL."
+    },
+    {
+      "lane": "VF25",
+      "subjectType": "packet-family",
+      "subjectId": "vt_exp_decriminalized-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-10T07:46:54.179Z",
+      "reason": "VF25 returned its independent read of all six Vermont families; this row is merged at 1beb7183a. The family goes back to repair before it is read again."
     }
   ],
   "reissues": [
