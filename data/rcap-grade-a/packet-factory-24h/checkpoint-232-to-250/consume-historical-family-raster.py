@@ -112,7 +112,7 @@ for family in request['family_batch'].split(','):
     proofs.append(dict(familyId=family, jobId=job['id'], artifact=artifact, packetCommit=commit,
                        verdictPath=str(out / (slug + '.verdict.json')), pagesMeasured=v['pagesMeasured'],
                        verdict='RASTER_PASS', currentAndPinnedPdfHashesVerified=True,
-                       originalArtifactAndJobLogAgree=True, jobLogAgreementScope="family, document/page counts and zero problems only; historical runner did not emit structured verdict" if legacySummaryOnly else "full structured verdict", originalPngBytesVerified=True, pageHashProvenance="SHA256 computed from API-digest-verified original ZIP members; original historical verdict did not publish page hashes",
+                       originalArtifactAndJobLogAgree=True, jobLogAgreementScope="family, document/page counts and zero problems only; historical runner did not emit structured verdict" if legacySummaryOnly else "full structured verdict", originalPngBytesVerified=True, pageHashProvenance="SHA256 computed from API-digest-verified original ZIP members; original historical verdict did not publish page hashes" if any("pngSha256" not in m for m in v["measurements"]) else "Each original PNG matched its published verdict SHA256 and the entire ZIP matched the GitHub artifact digest",
                        archivePath=str(archive), archiveSha256=sha(body), jobLogSha256=sha(log)))
 save(out / 'ORIGINAL_EVIDENCE_VERIFIED.json', dict(runId=run_id, conclusion=run['conclusion'], inputs=request, families=proofs))
 print(json.dumps(dict(runId=run_id, conclusion=run['conclusion'], families=len(proofs), pages=sum(p['pagesMeasured'] for p in proofs))))
