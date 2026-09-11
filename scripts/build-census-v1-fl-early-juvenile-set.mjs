@@ -139,18 +139,27 @@ const WRITE_LAYOUT = Object.freeze([
     region: [306, 438.3, 666.15, 693.4], anchor: { text: "DOB (MM/DD/YYYY)", x: 308.425, y: 685.276, ruleY: 666.15 } },
   { id: "page2_phone", factId: "participant.phone", page: 2, x: 441, y: 670, width: 126,
     region: [438.3, 571.025, 666.15, 693.4], anchor: { text: "Phone", x: 440.725, y: 685.276, ruleY: 666.15 } },
-  { id: "page3_last_name", factId: "participant.last_name", page: 3, x: 75, y: 704, width: 139,
-    region: [71.96, 214.86, 687.425, 711], anchor: { text: "Name:", x: 41.4, y: 701.845, ruleY: 687.425 } },
-  { id: "page3_first_name", factId: "participant.first_name", page: 3, x: 217, y: 704, width: 150,
-    region: [214.86, 387.558, 687.425, 711], anchor: { text: "First", x: 221.328, y: 689.845, ruleY: 687.425 } },
-  { id: "page3_middle_name", factId: "participant.middle_name", page: 3, x: 375, y: 704, width: 187,
-    region: [367, 561.342, 687.425, 711], anchor: { text: "Middle", x: 390.672, y: 689.845, ruleY: 687.425 } },
-  { id: "page3_race", factId: "participant.race", page: 3, x: 79, y: 632, width: 60,
-    region: [75.84, 142.56, 615.425, 641.845], anchor: { text: "RACE:", x: 41.4, y: 617.845, ruleY: 615.425 } },
-  { id: "page3_sex", factId: "participant.sex", page: 3, x: 176, y: 632, width: 45,
-    region: [173.36, 198.38, 615.425, 641.845], anchor: { text: "SEX:", x: 147.24, y: 617.845, ruleY: 615.425 } },
-  { id: "page3_dob", factId: "participant.dob", page: 3, x: 231, y: 632, width: 70, preferred: 7.5,
-    region: [228.49, 281.31, 615.425, 641.845], anchor: { text: "DOB:", x: 200.16, y: 617.845, ruleY: 615.425 } }
+  /* The fingerprint-card rules are the writable spans. Keep each value on the
+   * same baseline row as its printed label and bound its region to the exact
+   * source rule, rather than the surrounding name/demographic block. */
+  { id: "page3_last_name", factId: "participant.last_name", page: 3, x: 66, y: 690, width: 147,
+    region: [64.74, 214.86, 687.425, 699.845], anchor: { text: "Last", x: 41.4, y: 689.845,
+      ruleY: 687.425, ruleX0: 64.74, ruleX1: 214.86, regionTop: 699.845 } },
+  { id: "page3_first_name", factId: "participant.first_name", page: 3, x: 247, y: 690, width: 139,
+    region: [245.778, 387.558, 687.425, 699.845], anchor: { text: "First", x: 221.328, y: 689.845,
+      ruleY: 687.425, ruleX0: 245.778, ruleX1: 387.558, regionTop: 699.845 } },
+  { id: "page3_middle_name", factId: "participant.middle_name", page: 3, x: 426.5, y: 690, width: 133,
+    region: [425.122, 561.342, 687.425, 699.845], anchor: { text: "Middle", x: 390.672, y: 689.845,
+      ruleY: 687.425, ruleX0: 425.122, ruleX1: 561.342, regionTop: 699.845 } },
+  { id: "page3_race", factId: "participant.race", page: 3, x: 77, y: 618, width: 64,
+    region: [75.84, 142.56, 615.425, 627.845], anchor: { text: "RACE:", x: 41.4, y: 617.845,
+      ruleY: 615.425, ruleX0: 75.84, ruleX1: 142.56, regionTop: 627.845 } },
+  { id: "page3_sex", factId: "participant.sex", page: 3, x: 174.5, y: 618, width: 22,
+    region: [173.36, 198.38, 615.425, 627.845], anchor: { text: "SEX:", x: 147.24, y: 617.845,
+      ruleY: 615.425, ruleX0: 173.36, ruleX1: 198.38, regionTop: 627.845 } },
+  { id: "page3_dob", factId: "participant.dob", page: 3, x: 230, y: 618, width: 50, preferred: 7.5,
+    region: [228.49, 281.31, 615.425, 627.845], anchor: { text: "DOB:", x: 200.16, y: 617.845,
+      ruleY: 615.425, ruleX0: 228.49, ruleX1: 281.31, regionTop: 627.845 } }
 ]);
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -410,9 +419,18 @@ function assertSourceAnchors(pages, layout) {
     assert.ok(label,
       `${placement.id}: named source anchor ${JSON.stringify(placement.anchor.text)} moved or disappeared`);
     if (placement.anchor.ruleY !== undefined) {
+      const hasExactRule = placement.anchor.ruleX0 !== undefined;
+      if (hasExactRule) {
+        const expectedRegion = [placement.anchor.ruleX0, placement.anchor.ruleX1,
+          placement.anchor.ruleY, placement.anchor.regionTop];
+        assert.ok(placement.region.every((value, index) => close(value, expectedRegion[index])),
+          `${placement.id}: allowed region must equal its measured source blank ${JSON.stringify(expectedRegion)}`);
+      }
       const rule = page.paths.find((item) => Math.abs(item.height) <= 0.5
         && close(item.y, placement.anchor.ruleY)
-        && item.x < placement.region[1] && item.x + item.width > placement.region[0]);
+        && (hasExactRule
+          ? close(item.x, placement.anchor.ruleX0) && close(item.x + item.width, placement.anchor.ruleX1)
+          : item.x < placement.region[1] && item.x + item.width > placement.region[0]));
       assert.ok(rule, `${placement.id}: source blank rule y=${placement.anchor.ruleY} moved or disappeared`);
     }
   }
