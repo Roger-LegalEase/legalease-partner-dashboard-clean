@@ -1,25 +1,27 @@
-# What you must do before you file — asking the Wyoming court that entered the conviction to vacate it under § 6-2-708
+# What you must do before you file — filing a Motion to Vacate Conviction in the original Wyoming criminal court and case under W.S. § 6-2-708(c)
 
-This packet is prepared for **Wyoming Trafficking-Victim Vacatur Petition under Wyo. Stat. § 6-2-708**.
+This packet is prepared for **Motion to Vacate Conviction under W.S. § 6-2-708(c)**.
 
-This packet is composed from committed repository records, not from an official form: no committed record names an official Wyoming participant form for this route.
+This packet is a composed Motion and participant declaration; no committed record names an official Wyoming participant form for this route.
 
-The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory.
+The canonical fixture demonstrates known original-court and original-case prefills with values explicitly marked synthetic. If either value is unavailable, the boundary fixture leaves a required labelled blank. In a participant packet, copy each from the court record and never infer it.
 
 ## What is in this packet
 
 | Component | What it is |
 | --- | --- |
-| `wy-6-2-708-vacatur-primary-filing-1` | the composed petition, on this route's own statutory ground |
-| `wy-6-2-708-vacatur-filing-instructions-2` | what this set is, where it goes, what it costs, who is notified, and when to stop |
+| `wy-6-2-708-vacatur-primary-filing-1` | the motion filed in the original criminal court and case |
+| `wy-6-2-708-vacatur-participant-declaration-2` | the participant's signed personal-knowledge declaration of trafficking-victim status and causal connection |
+| `wy-6-2-708-vacatur-filing-instructions-3` | where the Motion goes, how to handle sensitive material, whom to serve and when to stop |
 
 ## Where this is filed, what it costs, and who must be served
 
 | Question | What the repository establishes, or the authority that answers it |
 | --- | --- |
-| FILING_DESTINATION | **The repository establishes this one.** The compiled Wyoming profile records that "the court that entered the conviction may vacate it". That is the destination this packet states. The census records the route's own destination field as not recorded; the compiled profile answers it for this section. |
-| FEE_AND_WAIVER | The compiled Wyoming profile this packet binds carries a Route/Fee table, and this route has its own line in it: "Human-trafficking victim vacatur — Verify with clerk; statute is a motion route, not a standard expungement filing-fee route." So no amount is established for this route, and the reason no amount is established is recorded: this is a motion in the court that entered the conviction, not one of Wyoming's standard expungement filings. The other four lines of that table are keyed to other sections — W.S. 7-13-1401 at $0, 7-13-1501 at $100, 7-13-1502 at $300 and 14-6-241 at $0 — and none of them is this route, so this packet takes no figure from any of them. If a clerk quotes you the $300 felony-expungement fee, this petition is not a 7-13-1502 expungement. No committed record this packet binds states a fee waiver for this route. The office that answers both questions is the office of the clerk of the Wyoming court that entered the conviction. Ask before you go, because a filing you cannot pay for is a filing you cannot make. |
-| SERVICE | No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the clerk of the Wyoming court that entered the conviction. |
+| FILING_DESTINATION | File in the original Wyoming criminal court and case. Collect the exact court name and original case number from the participant's court record; do not infer them or treat the case number as a new assignment. |
+| FEE_AND_WAIVER | The compiled Wyoming profile says to verify the fee with the clerk because this is a motion route, not a standard expungement-fee route. No amount or waiver is established for this route. Ask the clerk of the original criminal court before filing and do not import a fee from another Wyoming route. |
+| SERVICE | Serve the State/prosecutor under W.R.Cr.P. 49. The authoritative decision establishes no statewide hearing deadline, service mode, or certificate requirement, and this packet invents none. |
+| SENSITIVE_MATERIAL_HANDLING | Before filing, review and redact public copies under applicable Wyoming rules and use the original criminal court's Wyoming restricted-filing procedure where applicable. Filing does not automatically seal the Motion, declaration, or attachments. |
 | SELF_HELP_STOP | **Stop and get help if:** **this is the first thing the committed record says about this route:** the compiled Wyoming profile's own handling rule is to ask only what is necessary and then "route to manual/legal review. Do not require graphic details."; **Stop and get help if:** the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you; **Stop and get help if:** your own safety is in question, now or once a filing becomes a public court record; **Stop and get help if:** there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect; **Stop and get help if:** any immigration question is involved. |
 
 ## What the committed record says you must know
@@ -40,31 +42,40 @@ Each of these is carried here in the words of the committed record it comes from
 
 Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.
 
-### wy-6-2-708-vacatur-primary-filing-1 — Petition - Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708
+### wy-6-2-708-vacatur-primary-filing-1 — Motion to Vacate Conviction under W.S. § 6-2-708(c)
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - exact conviction | Exact conviction — copied from the record itself, not from memory |
-| Item C2 - conviction date | Conviction date — copied from the record itself, not from memory |
-| Item C3 - trafficking period | Trafficking period — copied from the record itself, not from memory |
-| Item C4 - causal nexus | Causal nexus — copied from the record itself, not from memory |
-| Item C5 - official documentation if available | Official documentation if available — copied from the record itself, not from memory |
-| Item C6 - alternative evidence | Alternative evidence — copied from the record itself, not from memory |
-| Item C7 - other counts | Other counts — copied from the record itself, not from memory |
-| Item C8 - requested vacatur effect | Requested vacatur effect — copied from the record itself, not from memory |
+| Item C1 - exact conviction | Exact conviction — copied from the court record |
+| Item C2 - conviction date | Conviction date — copied from the court record |
+| Item C3 - other counts | Other counts in the original criminal matter — copied from the court record |
+| Item C4 - requested vacatur effect | Requested vacatur effect |
+| Original Wyoming criminal court that entered the conviction | The original Wyoming criminal court exactly as the court record names it |
+| Original criminal case number | The original criminal case number exactly as the court record prints it |
+
+### wy-6-2-708-vacatur-participant-declaration-2 — Participant Declaration in Support of Motion
+
+| The blank on the document | What to write |
+| --- | --- |
+| Declaration item 1 - trafficking-victim status and relevant period | Your trafficking-victim status and relevant period, stated briefly from personal knowledge without graphic details |
+| Declaration item 2 - causal connection | Brief non-graphic facts showing that participation in the offense resulted from trafficking victimization |
+| Declaration item 3 - official documentation if available, otherwise alternative evidence | Official victim documentation if available; otherwise the alternative evidence supporting status or causal connection |
+| Original Wyoming criminal court on the declaration | The same original Wyoming criminal court printed on the Motion |
+| Original criminal case number on the declaration | The same original criminal case number printed on the Motion |
 
 ## What you do, in order
 
-1. **Read the filing instructions page.** It says what this route is, who runs it, what the record establishes about cost and notice, and when to stop.
-2. **Fill every labelled item on the petition** from the record itself. Do not guess a date, an offence wording, a case number or an office name.
-3. **Obtain every document the filing instructions page lists**, and file them with the petition.
-4. **Sign and date the petition personally.** The platform never signs for you and never dates a signing line.
-5. **File it with the office of the clerk of the Wyoming court that entered the conviction**, and ask that office what it charges and how it accepts filings before you go.
+1. **Read the filing instructions page.** It states the original-case, declaration, service and sensitive-material steps bound by the current decision.
+2. **Check the original criminal court and case number against the court record.** If either is blank, copy it exactly before filing; never infer it.
+3. **Complete the Motion and declaration from the court record and personal knowledge.** Do not add graphic detail.
+4. **Sign and date both participant signature blocks personally.** The platform never signs or dates them.
+5. **Review and redact public copies and use the original court's Wyoming restricted-filing procedure where applicable.** Filing is not automatically sealed.
+6. **File in the original criminal court and serve the State/prosecutor under W.R.Cr.P. 49.** This packet states no statewide hearing deadline, service mode, or certificate requirement.
 
 ## Things the platform deliberately left blank
 
 - **Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.
-- **Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists.
+- **The original court and case number only when unavailable to the platform.** They are required participant record facts copied from the existing criminal case, never a future court-assigned number.
 
 ## When to stop and get help instead of filing
 
@@ -76,6 +87,6 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What this packet is not
 
-This is a composed petition on one Wyoming route. It is not an official Wyoming form — no committed record names one for this route — it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.
+This is a composed Motion and declaration on one Wyoming route. It is not an official Wyoming form, legal advice, an automatic sealed filing, or a court decision.
 
 _Route(s): obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708_
