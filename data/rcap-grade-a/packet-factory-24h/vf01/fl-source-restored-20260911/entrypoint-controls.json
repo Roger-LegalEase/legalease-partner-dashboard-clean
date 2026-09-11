@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-independent-entrypoint-controls/v1",
+  "familyId": "fl-10yr-bridge-set",
+  "verifiedAtBase": "7a7a484dced5c4033c518703aa683905a560c60b",
+  "builderSha256": "a0a6cb27bb32f2e4726693c2ba442426510276e3b2db830a05e1179a8e5ffe2e",
+  "scope": "Real --check source guard; isolated current service helper; no build/render/runtime eligibility claim",
+  "controls": [
+    {
+      "case": "valid-current-source-and-records",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "valid-current-service-helper",
+      "entrypoint": "serviceRequirement isolated derivative",
+      "exitCode": 0,
+      "stdout": "{\"sentence\":\"Certificate of service at the court stage.\",\"statedBy\":[\"data/record-clearing/legal-design-intake/FL.memo.json\",\"data/record-clearing/legal-design-track-registry.json\",\"data/record-clearing/legal-design-packet-set-manifests.json\"]}",
+      "error": ""
+    },
+    {
+      "case": "one-record-disagrees",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "one-record-disagrees",
+      "entrypoint": "serviceRequirement isolated derivative",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: the service requirement is stated differently by data/record-clearing/legal-design-track-registry.json (\"Certificate of service at the court stage.\") than by data/record-clearing/legal-design-intake/FL.memo.json (\"A changed requirement.\"); this build will not choose between them"
+    },
+    {
+      "case": "serve-party-no-longer-required",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "serve-party-no-longer-required",
+      "entrypoint": "serviceRequirement isolated derivative",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: the serve_party action on fl-10yr-bridge-set is no longer 'required' (optional); the participant page states that it is, so the page must be re-derived rather than reprinted"
+    },
+    {
+      "case": "service-now-names-recipient",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "service-now-names-recipient",
+      "entrypoint": "serviceRequirement isolated derivative",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: the service sentence now names a recipient or a method (\"Serve the prosecutor by mail.\"); the participant page states that the records name neither, so that sentence must be re-derived"
+    },
+    {
+      "case": "new-certificate-component",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "new-certificate-component",
+      "entrypoint": "serviceRequirement isolated derivative",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: the packet set now declares a certificate_of_service component; the participant page states that this packet contains none, so that statement must be re-derived"
+    },
+    {
+      "case": "delivered-instructions-missing",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "current-canonical-pdf-corrupt",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 0,
+      "stdout": "{\n  \"familyId\": \"fl-10yr-bridge-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"sourceSha256\": \"ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650\",\n  \"sourceByteLength\": 26602,\n  \"components\": [\n    \"FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION\",\n    \"FL-RULE-3.989-PETITION\",\n    \"FL-RULE-3.989-ORDER\"\n  ],\n  \"writes\": 44,\n  \"blanks\": 96\n}",
+      "error": ""
+    },
+    {
+      "case": "source-absent",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is absent at the read-only custody mount /tmp/fl-check-independent-wgqy6_si/missing.pdf"
+    },
+    {
+      "case": "same-length-source-corrupt",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION SHA-256 does not match the PF17 binding"
+    },
+    {
+      "case": "source-length-wrong",
+      "entrypoint": "unchanged real builder --check",
+      "exitCode": 1,
+      "stdout": "",
+      "error": "AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION length 26601 != 26602"
+    }
+  ],
+  "writesPreventedByPreload": true,
+  "repositoryInputsUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "interpretation": "--check validates only exact source bytes and returns static map counts before calling serviceRequirement or reading current artifacts. Its success is not service/artifact validation. The service helper itself refuses all four changed-record controls."
+}

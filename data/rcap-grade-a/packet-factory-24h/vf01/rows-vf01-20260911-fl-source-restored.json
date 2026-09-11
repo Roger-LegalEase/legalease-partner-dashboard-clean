@@ -1,0 +1,633 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "status": "COMPLETED",
+  "verifiedAtBase": "7a7a484dced5c4033c518703aa683905a560c60b",
+  "rows": [
+    {
+      "schemaVersion": "rcap-verifier-lane-return/v1",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "status": "COMPLETED",
+      "shift": "20260911",
+      "worker": "ky_current_independent",
+      "sessionIdentity": "/root/ky_current_independent",
+      "reviewer": {
+        "model": "Astra",
+        "reasoningEffort": "xhigh",
+        "packetRepairAuthor": false
+      },
+      "branch": "vf01-fl-bridge-source-restored-20260911",
+      "worktree": "/tmp/rcap-vf62-pa-final-20260911",
+      "verifiedAtBase": "7a7a484dced5c4033c518703aa683905a560c60b",
+      "claim": "CLAIM_OK VF01 fl-10yr-bridge-set (independent-verification, grant set e4be6a33e2c11a7f)",
+      "familyId": "fl-10yr-bridge-set",
+      "itemId": "fl-10yr-bridge-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "scope": "One full current acceptance after exact source recovery and service repair. Inspect actual source, all16 original PNGs, all140 declared terminals per fixture and current records/entrypoints; reuse only sufficient unchanged prior findings.",
+      "independence": "Reviewer authored neither packet nor repair. No build, PDF mutation, raster, legal/source acquisition, runtime action or central-state write occurred. Isolated controls used temporary copies; no actual participant data or approval was created.",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33923497915",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "The exact route agrees across current map, receipt, wiring, queue and canonical universe. Source page1 is explicitly Request Type: Expunge; the composed pages and instructions concern only the same-record ten-year bridge. No alternative route or commercial authority is introduced.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/ROUTE_IDENTITY",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "The exact restored six-page FDLE source independently hashes to ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650,26602bytes. All four composition-record hashes match the receipt, and their exact FL authority/track/packet anchors equal those at the prior review. Original source words survive at identical coordinates in both PDFs. FL-RULE-3989 authorizes composition of the petition/order; no separate official binary is demanded for them. Prior custody failure is closed.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior FAIL closed by exact current evidence."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "The existing four declared components are delivered: six-page official FDLE expunction application, composed petition page7, composed order page8, and participant-instructions.md. All four manifest roles and order remain unchanged. The omitted sworn court-stage completion is failed under REQUIRED_BEFORE_FILING; this structural count does not waive that action or invent a fifth component requirement.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/COMPONENT_SET",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "FAIL",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "All88 declared write values are present within their intended document components, but correct placement and complete source-specific identity are not proved by that test. FL-VF01-01 records displaced/colliding values; FL-VF01-02 records wrong name order on page2 in both fixtures and omitted held boundary middle name.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior generic PASS is superseded by the concrete current defect; unchanged bytes do not validate an insufficient measurement."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "FAIL",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "The four declared manual/later fields are named, and the two-stage FDLE-certificate wait is explicit. Full authoritative-action comparison nevertheless finds missing court-stage sworn-affidavit/notarization and certified-order verification instructions. FL-VF01-03. The prior four-blank check was insufficient.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior generic PASS is superseded by the concrete current defect; unchanged bytes do not validate an insufficient measurement."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "Expunge is printed on the exact source. Prosecutor eligibility/ineligibility choices on page2 and judicial GRANTED/DENIED choices on page8 remain protected and empty. They are decisions of the prosecutor/judge, not unmade participant route elections. The same-record ten-year stage is explicit.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/ROUTE_OPTIONS",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "The held single arrest date and charge completely occupy row1. Additional applicant rows2\u20138 are wholly unused. The eight-row certified-statement table remains wholly blank as required by its State Attorney ownership. No row combines a populated held cell with an unexplained required blank.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/REPEATING_ROWS",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "All70 declared protected blanks per fixture remain blank: six participant signature/date fields and64 court/prosecutor/notary/fingerprint-official acts. Page2 identity alone is prefilled above the source instruction assigning the remainder to the prosecutor. Original page inspection confirms no added signature, oath, prosecutor election, court decision or fingerprint act.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/PROTECTED_FIELDS",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "Both current PDFs exactly match prior bytes, rendered reports and original run33923497915: canonical705c4d23.../36014bytes and boundary23821507.../36249bytes,8pages each. Independently checked both original ZIP/API digests, original verdict, canary JSON, immutable packet-commit log line and all16 original PNG members. Historical queue prose claiming boundary unrendered is contradicted by original evidence and is not reused. --check is source-only; its passing status is not offered as artifact validation.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/ARTIFACTS",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "Current PDF counts and all16 original images confirm six official pages in source order followed by petition7 and order8 in both fixtures. The external required instructions are referenced by product wiring. No source page or composed page is omitted.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/PAGE_ORDER",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "FAIL",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "Fresh original-image review and independent Poppler word rectangles show ten distinct added-word locations colliding with source labels/parentheses across both fixtures, totaling18 source-word intersections. Fingerprint identity values also miss intended blank rows. FL-VF01-01 supersedes the previous automated visual PASS; successful raster transport does not erase visible defects.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior generic PASS is superseded by the concrete current defect; unchanged bytes do not validate an insufficient measurement."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "Unchanged adopted destination remains FDLE first, then the circuit/county court in the circuit of arrest. Preserved source page4 supplies FDLE Seal & Expunge Section,P.O.Box1489,Tallahassee FL32302-1489. Both court captions and stage2 clerk directions match the held fixture venue.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/FILING_DESTINATION",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_WITH_FRESH_CORROBORATION",
+          "detail": "Preserved source checklist gives the$75 nonrefundable FDLE processing fee, accepted payment forms and named payee; current instructions repeat the amount. Exact track records do not resolve a court fee waiver, and no waiver or borrowed sibling-route fee rule is asserted. Prior exact-track fee determination remains valid.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingReused": {
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+              "sha256": "f1fd37c20e48a038ab339392aa577b9d468280ee4b7beb3b843e4d654adea56d",
+              "byteLength": 2101567
+            },
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "pointer": "/rows/71/proofObligations/FEE_AND_WAIVER",
+            "basis": "Both PDFs, field map, required reports and exact authority anchors are unchanged; current observations corroborate this finding."
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "The actual repaired instructions quote the held court-stage certificate-of-service requirement, require preparation/filing of that certificate, disclose that none is included, and direct the participant to the circuit clerk for the recipient/method not settled by the records. The existing manifest declares four components and no certificate component. Current serviceRequirement helper independently passes baseline and refuses four altered-record cases. Prior omitted-requirement failure is closed; no extra recipient or method is invented.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior FAIL closed by exact current evidence."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "FAIL",
+          "reviewMode": "FRESH_INDEPENDENT_JUDGMENT",
+          "detail": "State objection, different prior relief, seal/timing/history problems and immigration are addressed, but Any hearing is a separate explicit exact-track stop and is absent. FL-VF01-04. Confirm hearing requirements with the clerk does not communicate the held attorney-review boundary.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "currentByteProof": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "priorFindingDisposition": "Prior generic PASS is superseded by the concrete current defect; unchanged bytes do not validate an insufficient measurement."
+        }
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "summary": {
+        "PASS": 11,
+        "FAIL": 4,
+        "NOT_MEASURABLE_HERE": 0,
+        "validPriorFindingsReused": 9,
+        "freshOrSupersedingJudgments": 6
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 10,
+        "allZero": false,
+        "measuredHere": true,
+        "countingRule": "One compound name field (boundary source page2) omits held required middle name. Ten unique added-word locations collide with preserved source words across both fixtures (18 intersections). Other counters measure the complete declared four-component/140-terminal inventories, including four disclosed later/manual facts and70 protected blanks per fixture; omitted process acts and hearing-stop instructions are separately failed obligations, not invented field counts. Misplaced fingerprint values without a source-word collision are recorded in the same visual defect group and are not double-counted.",
+        "rawCompletenessCliAllNineZero": true
+      },
+      "defects": [
+        {
+          "id": "FL-VF01-01",
+          "severity": "blocking",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "relatedObligations": [
+            "KNOWN_PREFILLS"
+          ],
+          "path": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+          "lines": [
+            419,
+            425,
+            445
+          ],
+          "problem": "Official overlay coordinates collide with source labels and miss intended blank regions in both current fixtures.",
+          "locations": [
+            {
+              "page": 1,
+              "fields": [
+                "page1_last_name",
+                "page1_first_name",
+                "page1_middle_name"
+              ],
+              "finding": "All three name values cross their cell bottom rule and intersect Alias labels below by3.392pt vertically."
+            },
+            {
+              "page": 1,
+              "fields": [
+                "page1_phone"
+              ],
+              "finding": "The complete hyphenated phone string is drawn through the source closing parenthesis; intersection4.329x7.182pt."
+            },
+            {
+              "page": 3,
+              "fields": [
+                "page3_last_name",
+                "page3_first_name",
+                "page3_middle_name",
+                "page3_race",
+                "page3_sex",
+                "page3_dob"
+              ],
+              "finding": "All six values sit about14\u201316pt above their intended rules. First/middle names begin before their blank starts. Surname intersects Name: by6.96x6.785pt."
+            }
+          ],
+          "measuredOccurrences": {
+            "fixtures": 2,
+            "uniqueAddedWordsCollidingWithSourceWords": 10,
+            "sourceWordIntersections": 18
+          },
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/word-geometry.json",
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json"
+          ],
+          "originalPngPages": [
+            "canonical/1",
+            "canonical/3",
+            "boundary/1",
+            "boundary/3"
+          ],
+          "requiredCorrection": "Re-measure the exact FDLE blank regions and position all affected values on their own rules, formatting the phone around source parentheses. Verify both fixtures against actual pixels and coordinates.",
+          "priorFindingDisposition": "Prior automated visual PASS did not measure these collisions. PDF bytes are unchanged; this is newly observed, not introduced by source recovery."
+        },
+        {
+          "id": "FL-VF01-02",
+          "severity": "blocking",
+          "obligation": "KNOWN_PREFILLS",
+          "path": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+          "lines": [
+            67,
+            256,
+            440
+          ],
+          "problem": "The written-certified-statement name ignores the required Last, First Middle order. Boundary identity also omits held middle name Isabel.",
+          "sourceDocumentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "sourcePage": 2,
+          "sourceFieldLabel": "Name (Last, First Middle)",
+          "field": "page2_name",
+          "observed": {
+            "sourcePage": 2,
+            "sourceLabel": "Name (Last, First Middle)",
+            "canonicalActual": "Jordan Avery Reyes",
+            "canonicalRequiredFromHeldParts": "Reyes, Jordan Avery",
+            "boundaryActual": "Maria-Alejandra O'Shaughnessy-Whitfield",
+            "boundaryRequiredFromHeldParts": "O'Shaughnessy-Whitfield, Maria-Alejandra Isabel",
+            "heldBoundaryMiddle": "Isabel",
+            "middleAbsentFromBoundaryPages": [
+              2,
+              7,
+              8
+            ]
+          },
+          "participantImplication": "The prosecutor receives a name contrary to the official field format; boundary identity omits data already printed on the application/fingerprint pages.",
+          "requiredCorrection": "Derive the source-specific name from held last/first/middle parts and reconcile boundary full_name with the held middle name across court documents.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/source-text.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/canonical-text.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/boundary-text.txt"
+          ],
+          "priorFindingDisposition": "The prior component-wide text-presence check missed source-required order and inconsistent boundary name parts."
+        },
+        {
+          "id": "FL-VF01-03",
+          "severity": "blocking",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md",
+          "relatedPaths": [
+            "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+            "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf"
+          ],
+          "problem": "Court-stage sworn-affidavit/notarization requirements are omitted. Certified-sealing-order verification directions are also incomplete.",
+          "heldRequirements": [
+            "Notarised signature on the FDLE application; sworn affidavit at the court stage.",
+            "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk.",
+            "Ask the clerk of the court that sealed the record for a certified copy of the order.",
+            "Check the sealing date against the certified order and correct the packet if they disagree."
+          ],
+          "observed": "Stage2 only says review/sign the petition. Page7 supplies an ordinary declaration/signature/date, with no oath/jurat and no separate affidavit or notary/deputy-clerk instruction. Obtain/attach the sealing order is stated, but the held obtain-from and date-comparison/correction actions are absent.",
+          "participantImplication": "Following the packet can omit required sworn court-stage completion and verification of the central ten-year date.",
+          "requiredCorrection": "Implement and disclose the already held sworn completion/notary-or-deputy-clerk requirement and the certified-order obtain/compare/correct actions. This does not require a separate Rule3.989 source PDF or impose an unrecorded additional component design.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/canonical-text.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/boundary-text.txt"
+          ],
+          "priorFindingDisposition": "Prior PASS matched four declared manual blanks but missed explicit manifest actions."
+        },
+        {
+          "id": "FL-VF01-04",
+          "severity": "blocking",
+          "obligation": "SELF_HELP_STOP",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md",
+          "problem": "The controlling Any hearing stop condition is omitted.",
+          "heldRequirement": "Any hearing.",
+          "observed": "Stage2 says to confirm hearing requirements with the clerk; the stop paragraph omits hearings.",
+          "participantImplication": "A participant may continue self-help through a hearing contrary to the adopted track boundary.",
+          "requiredCorrection": "State the existing hearing stop and direct attorney review when any hearing is required or set.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+          ],
+          "priorFindingDisposition": "The prior generic SELF_HELP_STOP PASS missed this unchanged explicit boundary."
+        }
+      ],
+      "closedPriorFailures": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+        }
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+      "evidenceBindings": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json",
+          "sha256": "730dbb271c04befffa813ccb2ded5aec83ecf9826e497daa25fe55021cd29577",
+          "byteLength": 17449
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/current-byte-measurements.json",
+          "sha256": "186bbac82184c94a8988f9e94258cd59702280d59517707e05a789dae2fb4582",
+          "byteLength": 38594
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/word-geometry.json",
+          "sha256": "f6fc8d68e3fc53d3371ee9074a898d71d44cb215c2492144e2cf6c79ae040d07",
+          "byteLength": 21717
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/entrypoint-controls.json",
+          "sha256": "e0a0b336bd3dbdf0767237fc236df1bc87217a96a659683808660ca8f4ea6afb",
+          "byteLength": 7613
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/probe-entrypoint.py",
+          "sha256": "896e56265ac92f9da164a22f27288b1f478dddb94c084299137afecc614c75f3",
+          "byteLength": 5617
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/source-text.txt",
+          "sha256": "0d0b88c22ed1e63ae0263a1542dd1b353731627f11cdfb82617b3820a4dbc9fa",
+          "byteLength": 18349
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/canonical-text.txt",
+          "sha256": "fd8791a0c9028d85701502949a44810dd88ec49a42d03edd94400030c44c22da",
+          "byteLength": 22614
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/boundary-text.txt",
+          "sha256": "0c726139243128406644dbe5a988d8657ca4a9bfceab8a806a29b17e8d7315cd",
+          "byteLength": 22845
+        }
+      ],
+      "sourceBindings": [
+        {
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
+          "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+          "byteLength": 26602,
+          "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+          "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+          "byteLength": 11095,
+          "receiptSha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+          "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+          "byteLength": 121810,
+          "receiptSha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025,
+          "receiptSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "byteLength": 3708050,
+          "receiptSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "matchesReceipt": true
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+          "byteLength": 36249,
+          "priorSha256": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+          "byteIdenticalToPrior": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+          "byteLength": 36014,
+          "priorSha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+          "byteIdenticalToPrior": true
+        }
+      ],
+      "rasterAcceptance": {
+        "workflowRunId": "33923497915",
+        "packetCommitSha": "d6f430105dfc942be321b64243a77b666992547a",
+        "verdict": "RASTER_PASS",
+        "documentsDigest": "5c014875fad696db540f29514b80923e00c9768cecad23879d7e39ecb07e0cd0",
+        "documents": 2,
+        "pages": 16,
+        "verdictBinding": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/33923497915/fl-10yr-bridge-set.verdict.json",
+          "sha256": "0f20e3f1e5cf06a8d2b98ab3eec9565fe5777db113e1edb0667271352d80c8c6",
+          "byteLength": 14195
+        },
+        "inventoryBinding": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/33923497915/fl-10yr-bridge-set.PAGE_IMAGES_SHA256.json",
+          "sha256": "14a46b8f57e0456bd9c46abcfd706abe3eeb925b56ffe666cddff35a90d4d628",
+          "byteLength": 5275
+        },
+        "canaryOriginalJsonVerified": true,
+        "negativeControls": {
+          "refused": 5,
+          "notExercised": 1,
+          "notExercisedId": "headless_shell_render_refused"
+        },
+        "noNewRender": true,
+        "queueCoverageProseNotUsedAsEvidence": true
+      },
+      "rasterHashBinding": {
+        "canonical": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "boundary": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511"
+      },
+      "checks": [
+        {
+          "command": "PF17_FL_FDLE_SOURCE=<checkout>/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-fl-10yr-bridge-set.mjs --check",
+          "exitCode": 0,
+          "result": "CHECK_ONLY; exact source;44 writes;96 blanks",
+          "scope": "Source-only; returns before serviceRequirement or artifact validation."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE;44/140 written;all9 reported counters0",
+          "scope": "Declared field-map coverage. Independent name/action/visual findings below override the raw report."
+        }
+      ],
+      "entrypointControlProof": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/entrypoint-controls.json",
+        "sha256": "e0a0b336bd3dbdf0767237fc236df1bc87217a96a659683808660ca8f4ea6afb",
+        "byteLength": 7613
+      },
+      "checkLimitations": "Real --check refuses absent/altered source but returns before service or artifact checks. It succeeds on six deliberately corrupted service/artifact cases. The service helper itself correctly refuses four record mutations. These scope limits are recorded; no unavailable runtime eligibility gate is claimed.",
+      "nonblockingMetadataObservations": [
+        "sourceBinaryCommitted:false in the receipt is stale now that exact recovery bytes are committed; custodyPath records the author checkout. Current custody is independently mapped by exact content hash.",
+        "No current source-currency or runtime fulfillment approval is inferred."
+      ],
+      "remainingBlockers": [
+        "FL-VF01-01",
+        "FL-VF01-02",
+        "FL-VF01-03",
+        "FL-VF01-04"
+      ],
+      "unmeasuredItems": {
+        "externalSourceCurrency": null,
+        "runtimeFulfillmentBehavior": null,
+        "participantImpactFrequency": null,
+        "reason": "No new source/legal research, runtime delivery or usage audit was authorized."
+      },
+      "reviewAfterRepair": "Reuse valid current source/legal findings. Correct all four groups together; any PDF changes require fresh original raster binding and a focused visual/field review of changed pages. No source repin or new law decision is implied.",
+      "packetsBuiltOrRepairedHere": 0,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsReleased": 0,
+      "grantsNothing": "Independent FAIL evidence only. No admission, participant delivery or commercial fulfillment authority is created; Captain alone integrates."
+    }
+  ]
+}
