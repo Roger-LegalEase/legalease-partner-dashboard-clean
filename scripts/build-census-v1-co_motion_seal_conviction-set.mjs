@@ -1564,6 +1564,33 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const instructionsText = participantInstructions(maps, rbf, packetSet, guide);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
+  writeJson(`${OUT}/component-set-delivery.json`, {
+    schemaVersion: "rcap-family-component-set-delivery/v1", familyId: FAMILY_ID,
+    countedFrom: `${packetSet.record.path} packetSets[packetSetId=${FAMILY_ID}].components`,
+    groundingRecordSha256: packetSet.record.sha256,
+    requiredByTheRoute: packetSet.required.length,
+    renderedHere: packetSet.delivered.length,
+    complete: packetSet.undelivered.length === 0,
+    packetSetCompletenessState: packetSet.completeness.state,
+    packetSetCompletenessBasis: packetSet.completeness.basis,
+    guide: {
+      formNumber: guide.formNumber, title: guide.title, sha256: guide.sha256,
+      pathInArchive: guide.pathInArchive, revision: guide.revision,
+      fileTheRequest: guide.quoted.fileTheRequest.text,
+      feeWaiverInstruction: guide.quoted.waiverForms.text,
+      howItWasRead: guide.howItWasRead
+    },
+    requiredComponentsRendered: ["JDF-612", "JDF-613", "JDF-614", "JDF-615"],
+    conditionalFeeWaiverPairRendered: ["JDF-205", "JDF-206"],
+    currentHeldJdf615Sha256: "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+    olderUploadedJdf615Used: false,
+    undelivered: [],
+    supersessionBasis:
+      "The historical incomplete packet and FAIL evidence remain preserved. This rebuilt set renders every form "
+      + "JDF 611 names from exact current source bytes, retains the newer held JDF 615, and includes the exact "
+      + "JDF 205/JDF 206 pair for the governed fee-waiver condition."
+  });
+
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
     jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
