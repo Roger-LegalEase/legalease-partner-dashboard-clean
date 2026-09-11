@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+  "minimumCaptainSha": "b6f442061b4f043f8d387341b3c29c5d5003baf1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -73,7 +73,7 @@
     "sourceBlocked": 6,
     "legalBlocked": 19,
     "verifyPending": 0,
-    "repairRequired": 26,
+    "repairRequired": 28,
     "sumsToDenominator": true
   },
   "byState": {
@@ -82,8 +82,7 @@
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 19,
     "SOURCE_READY": 33,
-    "FAIL_REPAIR_REQUIRED": 29,
-    "BUILT_RASTER_PENDING": 2,
+    "FAIL_REPAIR_REQUIRED": 31,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 11,
     "HANDOFF_READY": 2,
@@ -111,8 +110,8 @@
     ],
     "families": [
       "al-pardoned-felony-set",
-      "in_arrest_no_charges-set",
-      "in_section1_petition-set"
+      "az_record_sealing_arrest_no_charges-set",
+      "az_record_sealing_dismissal_not_guilty-set"
     ],
     "staleRosterFamilies": [
       {
@@ -5780,12 +5779,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "STOPPED",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf68",
-        "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-preraster.json"
+        "verifiedAtBase": "a676b40494d562ae1c080ac35cfb19ea7a44618e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-final.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -5833,13 +5834,24 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Seven petition fields are unconditionally REQUIRED_BEFORE_FILING and listed in participant instructions despite source route inapplicability: Defendant, EnteredOn, EnteredOn1, Check Box10, Check Box11, Check Box12, Check Box13. Page 1 uses the alternative In Re caption; selected no-charge page-3 option expressly skips Section II. The charged-result dates and skipped sentence controls cannot be mandatory on this route.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf68/az-arrest-final-evidence-20260911/required-before-filing-defect.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX132",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-az_record_sealing_arrest_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -5850,7 +5862,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "az_record_sealing_conviction-set",
@@ -6093,12 +6106,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "STOPPED",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf69",
-        "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-preraster.json"
+        "verifiedAtBase": "a676b40494d562ae1c080ac35cfb19ea7a44618e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -6146,13 +6161,28 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Generated map/instructions impose 42 unsupported unconditional field requirements (35 petition, 7 order). Decisive route contradictions: petition Plaintiff is only the no-charge In Re caption (p1); EnteredOn1 belongs only to the guilty-judgment situation (p3). Other conditional/optional/continuation fields are demanded without their source conditions. Preserve dismissal EnteredOn, charged-case numbers and the Section II Yes/No/N.A. responses; only the no-charge situation skips to Section III.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/source-conditioned-requirement-defects.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/source-1.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/source-2.txt",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
+            "scripts/lib/az-record-sealing-official-builder.mjs"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX132",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -6163,7 +6193,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "az_set_aside-set",
@@ -19826,8 +19857,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX132",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -19838,8 +19869,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "in_conviction_d6-set",
@@ -20746,8 +20776,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX132",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -20758,8 +20788,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ks-21-6614-conviction-set",
