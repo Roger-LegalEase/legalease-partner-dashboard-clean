@@ -6,9 +6,9 @@
   "reviewer": "/root/pending_readiness",
   "sessionIdentity": "/root/pending_readiness",
   "familyId": "az_record_sealing_dismissal_not_guilty-set",
-  "baseSha": "87830afeffb50b7e264dd429f9f3c74970768256",
-  "dispatchSha": "87830afeffb50b7e264dd429f9f3c74970768256",
-  "verifiedAtBase": "87830afeffb50b7e264dd429f9f3c74970768256",
+  "baseSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+  "dispatchSha": "42ff365bb327f3029b33512233f567b46bb2a185",
+  "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
   "verdict": "STOPPED",
   "scope": "Independent static nonvisual prereview of current AZ official-form bytes. No source, builder, output or raster edits. Fourteen nonvisual obligations are measured; visual/AP appearance remains explicitly unmeasured.",
   "rows": [
@@ -113,11 +113,11 @@
       },
       "currentArtifacts": {
         "canonical": {
-          "sha256": "91056f412bd6f30c7d06adfcbec23e27c72befde0d3f7e864cdbf6050ad249d8",
+          "sha256": "bdfbd09935c302041aeb746dc1fc6bae6bda34760fe162eda0c941ebd904a66c",
           "pages": 8
         },
         "boundary": {
-          "sha256": "779f868843e254cf7682a4c2894433a3a49898c910582cffa0381d69aa93438d",
+          "sha256": "bbb9aed7a73833af3552862e7e410767ecd468a5b6bf2235237c3610bcd2675d",
           "pages": 8
         }
       },
@@ -147,7 +147,19 @@
         "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
         "data/record-clearing/legal-design-track-registry.json",
         "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/az-native-audit.json"
-      ]
+      ],
+      "baseSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "metadataDeterminismReview": {
+        "test": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/az-assembly-determinism-test.log",
+        "differentClockEpochs": [
+          1700000000000,
+          1800000000000
+        ],
+        "identicalPdfPairs": 12,
+        "localRaster": false,
+        "assemblyContentLayoutComparison": "PASS: pdftotext -layout page-by-page comparison maps assembly pages 1-5 to petition pages 1-5 and pages 6-8 to order pages 1-3 for canonical and boundary fixtures; all text/layout mappings match; all PDFs letter 612x792."
+      }
     }
   ],
   "sharedWrites": {
