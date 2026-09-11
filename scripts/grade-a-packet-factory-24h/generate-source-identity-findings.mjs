@@ -23,6 +23,7 @@ import {
   applyUserSourceDeterminations,
   loadUserSourceAdoption,
   USER_SOURCE_ADOPTION_PATH,
+  AZ_ATTACHMENT_ADOPTION_PATH,
 } from "./user-source-adoption.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -159,7 +160,7 @@ const FINDINGS = [
     reclassifyTo: "TARGETED_ADDITIVE_SOURCE_RECONCILIATION",
     doNotDo: "Do not infer packet approval, route promotion, or a source result for any unlisted family.",
     verified: adoptedReconciliation.length === sourceUserAdoption.familyDeterminations.length
-      && adoptedReconciliation.every((row) => row.determinationInput === USER_SOURCE_ADOPTION_PATH)
+      && adoptedReconciliation.every((row) => [USER_SOURCE_ADOPTION_PATH, AZ_ATTACHMENT_ADOPTION_PATH].includes(row.determinationInput))
   }
 ];
 

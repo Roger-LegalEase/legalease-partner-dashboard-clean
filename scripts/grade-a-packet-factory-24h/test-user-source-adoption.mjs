@@ -178,11 +178,18 @@ if (process.argv.includes("--generated")) {
     .every((row) => row.type === "participant-case-document" && row.mustCollectActualCaseDocument === true));
 
   const az = byId.get("az_set_aside-set");
-  assert.equal(az.state, "SOURCE_BLOCKED");
-  assert.deepEqual(az.sourceReconciliation.unresolvedObligations, [
-    "official-form:R-26-0001 adopted Form 31(a)",
-    "official-form:R-26-0001 adopted Form 31(b)",
-  ]);
+  const effectiveAz = applyUserSourceDeterminations(repoRoot, currentHistorical).reconciliation42.families
+    .find((row) => row.familyId === "az_set_aside-set");
+  assert.equal(az.sourceReconciliation.disposition, effectiveAz.disposition);
+  assert.deepEqual(az.sourceReconciliation.unresolvedObligations, effectiveAz.unresolvedObligations);
+  if (effectiveAz.disposition === "SOURCE_BLOCKED") assert.equal(az.state, "SOURCE_BLOCKED");
+  else {
+    assert.equal(az.sourceReadiness.ready, true);
+    assert.equal(az.sourceReconciliation.determinationInput, effectiveAz.determinationInput);
+    const observed = assessPacketSourceAdoption(repoRoot, az.directory, effectiveAz);
+    assert.deepEqual(az.packetSourceAdoption, observed);
+    if (!observed.ready) assert.equal(az.state, "FAIL_REPAIR_REQUIRED");
+  }
   assert.deepEqual(az.sourceReconciliation.sourceReplacements,
     applyUserSourceDeterminations(repoRoot, currentHistorical).reconciliation42.families
       .find((row) => row.familyId === "az_set_aside-set").sourceReplacements);
@@ -197,7 +204,7 @@ if (process.argv.includes("--generated")) {
   for (const familyId of adoptedIds) {
     const family = byId.get(familyId);
     if (!terminal.has(family?.state)) continue;
-    assert.equal(family.selectedIndependentVerdict?.verdict, "PASS_COMPLETE",
+    assert.equal(family.selectedIndependentVerdict?.verdict, "PASS_COMPLETE_INDEPENDENT",
       "source custody alone cannot issue terminal authority; a current independent PASS is required");
     assert.equal(family.allNineCountersZero, true);
     const rasterRow = raster.rows.find((row) => row.familyId === familyId);

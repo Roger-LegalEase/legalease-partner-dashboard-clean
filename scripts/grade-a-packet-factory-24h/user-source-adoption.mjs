@@ -4,6 +4,8 @@ import path from "node:path";
 
 export const USER_SOURCE_ADOPTION_PATH =
   "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json";
+export const AZ_ATTACHMENT_ADOPTION_PATH =
+  "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json";
 
 const SCHEMA = "rcap-source-custody-adoption/v1";
 const ACCEPTED_RESULTS = new Set([
@@ -201,6 +203,12 @@ export function applyUserSourceDeterminations(root, historical, options = {}) {
   const evidencePath = options.recordPath ?? USER_SOURCE_ADOPTION_PATH;
   if (!effective.reconciliation42.acquisitionEvidencePaths.includes(evidencePath)) {
     effective.reconciliation42.acquisitionEvidencePaths.push(evidencePath);
+  }
+  // Apply later custody as a separate governed record. Preserve the original
+  // upload determination and its then-correct missing-attachment finding.
+  // Explicit records used by tests/tools remain isolated from this chain.
+  if (!options.recordPath && !options.adoption) {
+    return applyUserSourceDeterminations(root, effective, { recordPath: AZ_ATTACHMENT_ADOPTION_PATH });
   }
   return effective;
 }
