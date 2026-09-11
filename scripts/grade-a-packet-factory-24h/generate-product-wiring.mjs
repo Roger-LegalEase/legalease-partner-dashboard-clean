@@ -15,6 +15,7 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
 import { bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { bindDeclaredNdDelivery, ND_FAMILY } from "./nd-declared-binding.mjs";
 import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
 import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
@@ -361,6 +362,14 @@ const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-se
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
       raster: exactRasterFor(family.familyId)
     })
+  : family.familyId === ND_FAMILY
+  ? bindDeclaredNdDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      sourceReceipt: read(`${family.directory}/source-receipt.json`),
+      fieldMap: read(`${family.directory}/production-field-map.json`),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+      raster: exactRasterFor(family.familyId)
+    })
   : family.familyId !== DE_FAMILY ? record
   : bindDeclaredDeGuidance(record, family, {
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
@@ -555,7 +564,7 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      if ([DE_FAMILY, ND_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;

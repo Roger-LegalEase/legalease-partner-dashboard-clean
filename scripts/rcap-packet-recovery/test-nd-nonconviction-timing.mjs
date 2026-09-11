@@ -248,12 +248,16 @@ test("generated four-component maps carry collected case facts and preserve cour
   const approval = JSON.parse(fs.readFileSync(path.join(OUT, "approval-request.json"), "utf8"));
   assert.deepEqual(approval.counselQuestionsRaised, []);
   const wiring = JSON.parse(fs.readFileSync(path.join(OUT, "product-wiring.json"), "utf8"));
-  assert.equal(wiring.binding.acceptanceReceipt, null);
-  assert.equal(wiring.binding.lastIndependentVerification, null);
-  assert.match(wiring.binding.supersededAcceptanceReceipt.supersededBecause, /changed both fixture PDFs/);
-  assert.deepEqual(wiring.binding.packetComponents.map((row) => row.componentId), map.componentSet);
   const canonical = JSON.parse(fs.readFileSync(path.join(OUT, "reports/rendered-artifacts.json"), "utf8"))
     .artifacts.find((row) => row.fixture === "canonical");
+  assert.equal(wiring.binding.acceptanceReceipt.verdict, "RASTER_PASS");
+  assert.equal(wiring.binding.acceptanceReceipt.workflowRunId, "34628970364");
+  assert.equal(wiring.binding.acceptanceReceipt.boundToCanonicalSha256, canonical.sha256);
+  assert.equal(wiring.binding.acceptanceReceipt.coversTheWholeFamily, true);
+  assert.equal(wiring.binding.lastIndependentVerification, null);
+  assert.equal(wiring.binding.supersededIndependentVerification.lane, "vf09");
+  assert.match(wiring.binding.supersededAcceptanceReceipt.supersededBecause, /changed both fixture PDFs/);
+  assert.deepEqual(wiring.binding.packetComponents.map((row) => row.componentId), map.componentSet);
   assert.equal(wiring.proposedRepresentation.components[0].sha256, canonical.sha256);
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
   assert.match(instructions, /entry of the order/i);

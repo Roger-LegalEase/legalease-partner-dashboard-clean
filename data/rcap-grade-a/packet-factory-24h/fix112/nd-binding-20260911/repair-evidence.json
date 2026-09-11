@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-fix112-repair-evidence/v1",
+  "lane": "FIX112",
+  "generatedAt": "2026-09-11T18:32:46Z",
+  "baseSha": "ebb0a9221dd68a0ebabc6f9ea0765aca047817f5",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+  "reviewInput": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+  "regressionInput": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/binding-regression.diff",
+  "claim": "CLAIM_OK FIX112 composed-treatment:nd-nonconviction-auto-close-verify (repair, grant set 44b4b8cf4652dc16)",
+  "result": "REPAIR_COMPLETE_INDEPENDENT_RECHECK_PENDING",
+  "defectToFix": [
+    {
+      "defectId": "ND-VF01-01",
+      "finding": "The generator exposed VF09 at 7fcfb7d as a current independent verdict even though it read pre-repair PDFs and deleted the superseded-history fields.",
+      "repair": "The exact-family binder recognizes that exact stale verdict, stores it as supersededIndependentVerification with its byte-change reason, restores the old raster receipt as history, and leaves lastIndependentVerification null.",
+      "proof": "test-nd-declared-binding rejects an unrecognized verdict while the family carries its moved-since-verdict lapse; generated product-wiring has no current VF09 approval."
+    },
+    {
+      "defectId": "ND-VF01-02",
+      "finding": "Generic regeneration copied empty queue-row instrumentKinds and packetComponents over the four components measured in both current PDFs.",
+      "repair": "A family-only dispatch measures and binds clerk_correction_request, enforcement_motion, proposed_order and filing_instructions in delivery order, including the existing after-clerk and motion-only conditions.",
+      "proof": "The binder checks both 7-page manifests, source receipt, field map, routes and actual PDF hashes; mutation tests refuse component, route, page and byte disagreements."
+    },
+    {
+      "defectId": "ND-VF01-03",
+      "finding": "The focused timing suite still required acceptanceReceipt to be null after a valid current raster receipt was ingested.",
+      "repair": "The production-entrypoint test now requires RASTER_PASS workflow 34628970364, current canonical SHA-256 and whole-family coverage while continuing to require no current independent verdict.",
+      "proof": "Combined focused suite passes 13/13."
+    }
+  ],
+  "declaredDelivery": {
+    "components": [
+      { "componentId": "clerk_correction_request", "order": 1, "condition": null },
+      { "componentId": "enforcement_motion", "order": 2, "condition": "after the written clerk correction request, only if judicial action is required or the record is not corrected" },
+      { "componentId": "proposed_order", "order": 3, "condition": "with the enforcement motion only; court-owned decision, signature and date remain blank" },
+      { "componentId": "filing_instructions", "order": 4, "condition": null }
+    ],
+    "currentRasterReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34628970364",
+      "jobId": "103361882466",
+      "artifactId": "10276130128",
+      "boundToCanonicalSha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+      "coversTheWholeFamily": true
+    },
+    "currentIndependentVerification": null,
+    "historicalIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "currentByteApproval": false
+    }
+  },
+  "byteMeasurements": {
+    "canonical": { "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2", "byteLength": 17097, "pageCount": 7 },
+    "boundary": { "sha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d", "byteLength": 17490, "pageCount": 7 },
+    "sourceReceiptSha256": "f83b10479b3dde4e8108a314a815defa1deb116bbd8de5a30cc815998adb2365",
+    "participantInstructionsSha256": "2789054ff6ee3f99167f9eb74b6bd27f2237c22703ea7ea4fc14459fc514298f",
+    "productionFieldMapSha256": "af320f33b623e9f9e80d7a956508d2568a7046ce1c5b39f5f80842a09b1fd687",
+    "renderedArtifactsSha256": "65790b97f312538babc25b1e007cb839b1c81adf45c950eb1b95b6bb61ca9a9f",
+    "unchangedFromBase": true,
+    "pdfsRebuilt": false,
+    "rasterRunPerformed": false
+  },
+  "commands": [
+    { "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert FIX112 <family> && node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX112 <family>", "exit": 0, "result": "claim and write scope accepted" },
+    { "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family <family>", "exit": 0, "result": "1 exact-family wiring refreshed" },
+    { "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family <family>", "exit": 0, "result": "0 need creation, 0 need refresh, 1 unchanged" },
+    { "command": "node --test scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs", "exit": 0, "result": "13 passed, 0 failed; includes 17 binder corruption/refusal cases and production --check read-only proof" },
+    { "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs", "exit": 0, "result": "PASS; unselected-family bytes unchanged and 10 existing generator CLI checks passed" },
+    { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>", "exit": 0, "result": "PASS_COMPLETE; 42/49 written; all nine counters zero" },
+    { "command": "git diff --quiet <base> -- <PDF/source/guide/map/rendered paths>", "exit": 0, "result": "all protected packet/source/guide bytes unchanged" }
+  ],
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "notRun": [
+    "PDF build or local rendering, because the accepted packet bytes did not change",
+    "raster workflow, because original workflow 34628970364 remains bound to the unchanged PDFs",
+    "full repository test suite"
+  ],
+  "remainingGate": "A new independent reviewer must recheck the repaired current-byte binding; this repair author grants no approval, admission, deployment or commercial authority."
+}
