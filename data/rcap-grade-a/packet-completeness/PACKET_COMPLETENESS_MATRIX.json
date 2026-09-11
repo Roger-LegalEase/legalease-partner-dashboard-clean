@@ -15,18 +15,17 @@
     "FAIL_COMPONENT_SET",
     "FAIL_CURRENTNESS"
   ],
-  "familiesAudited": 301,
+  "familiesAudited": 302,
   "byResult": {
-    "PASS_COMPLETE": 262,
+    "PASS_COMPLETE": 265,
     "NOT_MEASURABLE_HERE": 31,
     "FAIL_ROUTE_SELECTION": 2,
-    "FAIL_MISSING_REQUIRED_FACTS": 5,
-    "FAIL_MISSING_PREFILLS": 1
+    "FAIL_MISSING_REQUIRED_FACTS": 4
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 24,
+    "knownRequiredFieldsMissing": 9,
     "requiredFactsNotCollected": 1,
-    "unclassifiedBlanks": 138,
+    "unclassifiedBlanks": 132,
     "incompleteRows": 0,
     "requiredOptionsMissing": 3,
     "requiredComponentsMissing": 0,
@@ -7371,6 +7370,40 @@
         "fieldMapSchema": "maps-with-canonical-and-boundary"
       },
       "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "ky_misdemeanor_expungement-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 66,
+        "written": 45,
+        "blank": 21,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 2,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+          "PROTECTED_FIELD": 11
+        },
+        "rowsInspected": 1,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "AUTHOR_CANDIDATE_RASTER_PENDING",
       "sourceCurrentness": "EXACT",
       "findings": [],
       "findingsTruncated": 0
@@ -29740,161 +29773,37 @@
     {
       "familyId": "nj_ordinance-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
-      "result": "FAIL_MISSING_REQUIRED_FACTS",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
-        "knownRequiredFieldsMissing": 15,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": null
+        "visualDefects": 0
       },
-      "failedCounters": [
-        "knownRequiredFieldsMissing"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 179,
         "written": 18,
         "blank": 161,
         "blanksByDisposition": {
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 16,
           "REQUIRED_BEFORE_FILING": 67,
           "PARTICIPANT_ELECTION_GENUINE": 28,
-          "KNOWN_FACT_NOT_WRITTEN": 15,
           "LATER_COMPLETION": 1,
-          "PROTECTED_FIELD": 48
+          "PROTECTED_FIELD": 49
         },
         "rowsInspected": 3,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "dismissOff1",
-          "label": "the charge(s) of (name of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "dismissPlea",
-          "label": "was/were dismissed by the (name of Court",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "acquitOff1",
-          "label": ", I was acquitted of (n ame of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "dismissPtiOff1",
-          "label": "the charge(s) of (name of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contDismissOff1",
-          "label": "the charge(s) of (name of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contDismissPlea",
-          "label": "was/were dismissed by the (name of Court)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contAcquitOff1",
-          "label": ", I was acquitted of  (name of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contAcquitCrt",
-          "label": "in the  (name of Court",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contDismissPtiOff1",
-          "label": "the charge(s) of (name of offense(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contDismissPtiCrt",
-          "label": "was/were dismissed by the (name of Court",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contGuiltyDt",
-          "label": "charge(s)",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contGuiltyStatute",
-          "label": "in violation of N.J.S.A. (statute(s))",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contGuiltyCrt",
-          "label": "by the (name of Court",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "contGuiltyProbDt",
-          "label": "probation on (dat",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a DISPOSITION_FACT field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        },
-        {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "ExpungeDocketNum",
-          "label": "Expungement Docket Number",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
-          "reasonGiven": "The field remains blank under its recorded participant, later-act, or protected-owner treatment."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
@@ -30284,87 +30193,35 @@
     {
       "familyId": "pa_6308_underage-set",
       "directory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
-      "result": "FAIL_MISSING_PREFILLS",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 6,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": null
+        "visualDefects": 0
       },
-      "failedCounters": [
-        "unclassifiedBlanks"
-      ],
+      "failedCounters": [],
       "totals": {
-        "terminalFields": 218,
+        "terminalFields": 217,
         "written": 43,
-        "blank": 175,
+        "blank": 174,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 116,
-          "PROTECTED_FIELD": 37,
-          "PARTICIPANT_ELECTION_GENUINE": 16,
-          "UNCLASSIFIED_BLANK": 6
+          "REQUIRED_BEFORE_FILING": 119,
+          "PROTECTED_FIELD": 39,
+          "PARTICIPANT_ELECTION_GENUINE": 16
         },
         "rowsInspected": 5,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Attorney for the Commonwealth name and office",
-          "label": "Attorney for the Commonwealth name and office",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Service address",
-          "label": "Service address",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Service method",
-          "label": "Service method",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Date service actually occurred",
-          "label": "Date service actually occurred",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Signature after service",
-          "label": "Signature after service",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "Date signed",
-          "label": "Date signed",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
-          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
